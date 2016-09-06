@@ -19,10 +19,12 @@ define('main/services', ['main/init'], function () {
 
     //数据请求
     function requestData($q, $http, $httpParamSerializer) {
-        return function (_url, _params) {
+        return function (_url, _params,method) {
             var defer = $q.defer();
+            //GET|POST
+            if(!method)method='GET';
             $http({
-                method: 'POST',
+                method: method,
                 url: _url,
                 data: _params || {},
                 transformRequest: function (data) {
@@ -37,7 +39,7 @@ define('main/services', ['main/init'], function () {
                     if (status == 200 && _data.code == 200) {
                         defer.resolve([_data.data, _data]);
                     } else {
-                        defer.reject(_data.message || '出错了');
+                        defer.reject(_data.msg || '出错了');
                     }
                 })
                 .error(function () {
@@ -74,6 +76,29 @@ define('main/services', ['main/init'], function () {
         };
     };
     dialogAlert.$inject = ['$rootScope', 'modal'];
+
+    //弹窗提示
+    function alertOk($rootScope, modal) {
+        return function (_text, _callBack) {
+            var _$scope = $rootScope.$new(false);
+            _$scope.confirmText = _text || '确定';
+            modal.openConfirm({
+                template: 'tpl/dialog-alert.html',
+                scope: _$scope
+            }).then(_callBack);
+        };
+    };
+    //弹窗提示
+    function alertError($rootScope, modal) {
+        return function (_text, _callBack) {
+            var _$scope = $rootScope.$new(false);
+            _$scope.confirmText = _text || '确定';
+            modal.openConfirm({
+                template: 'tpl/dialog-alert.html',
+                scope: _$scope
+            }).then(_callBack);
+        };
+    };
 
     //普通弹窗
     function dialog($rootScope, modal) {
@@ -112,6 +137,8 @@ define('main/services', ['main/init'], function () {
 
     angular.module('manageApp.main')
         .factory('redirectInterceptor', redirectInterceptor)
+        .service('alertOk', ['$rootScope', 'modal',alertOk])
+        .service('alertError', ['$rootScope', 'modal',alertError])
         .service('requestData', requestData)
         .service('dialogConfirm', dialogConfirm)
         .service('dialogAlert', dialogAlert)

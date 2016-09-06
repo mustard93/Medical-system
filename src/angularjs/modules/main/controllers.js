@@ -38,18 +38,11 @@ define('main/controllers', ['main/init'], function () {
     };
 
     /**
-     * 一个空控制器
-     */
-    function oneCtrl() {
-
-    }
-
-    /**
      * 侧边菜单
      */
     function sideNav($scope) {
     };
-    sideNav.$inject = ["$scope"];
+
 
     /**
      *
@@ -57,11 +50,9 @@ define('main/controllers', ['main/init'], function () {
     function pageCtrl($scope, modal) {
         modal.closeAll();
     };
-    pageCtrl.$inject = ["$scope", "modal"];
 
     angular.module('manageApp.main')
         .controller('mainCtrl',  ["$scope",mainCtrl])
-        .controller('oneCtrl',  ["$scope",oneCtrl])
         .controller('sideNav',  ["$scope",sideNav])
-        .controller('pageCtrl',  ["$scope",pageCtrl])
+        .controller('pageCtrl',  ["$scope","modal",pageCtrl])
 });

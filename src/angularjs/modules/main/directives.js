@@ -17,7 +17,7 @@ define('main/directives', ['main/init'], function () {
             }
         };
     };
-    ngView.$inject = ["$route", "$templateCache", "$routeParams"];
+
 
     /**
      * 转换日期
@@ -59,9 +59,29 @@ define('main/directives', ['main/init'], function () {
     convertToNumber.$inject = [];
 
     /**
-     * detailsInfo
+    必填参数：
+    attrs.ajaxUrl=""：请求数据参数
+    可选参数：
+    $attrs.ajaxUrlHandler :function(data) 指定回调方法
+    $attrs.params  //监听具体值
+    $attrs.scopeResponse ：返回数据Response是绑定到 $scope[$attrs.scopeResponse]
+      $attrs.scopeData ：返回数据Response.data是绑定到 $scope[$attrs.scopeData]
+      $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
+      $attrs.alertOk :是否提示请求成功提示。
+      $attrs.alertError :是否提示请求失败提示。
+
+          请求返回数据格式：
+            scopeResponse=  {
+                "code": 200,
+                "msg": "操作成功",
+                "data": {
+                  "id": "id1",
+                  "name": "帐号1"
+                }
+              }
+
      */
-    function detailsInfo(requestData) {
+    function ajaxUrl(requestData,alertOk,alertError) {
         return {
             restrict: 'AE',
             scope: true,
@@ -73,115 +93,188 @@ define('main/directives', ['main/init'], function () {
                     $element.append(clone);
                 });
 
-                $scope.detailsHandler = $scope.$eval($attrs.detailsHandler);
-
-                if ($attrs.detailsParams) {
-                    if ($attrs.detailsParams.indexOf("{") == 0) {
+                $scope.ajaxUrlHandler = $scope.$eval($attrs.ajaxUrlHandler);
+                // if($attrs.responseKey)$scope[$attrs.responseKey]={};
+                var _params={};
+                if ($attrs.params) {
+                    if ($attrs.params.indexOf("{") == 0) {
                         //监听具体值
-                        $attrs.$observe("detailsParams", function (value) {
-                            getData($scope.$eval(value));
+                        $attrs.$observe("params", function (value) {
+                          _params=$scope.$eval(value);
+                            getData(_params);
                         });
                     } else {
                         //监听对象
-                        $scope.$watch($attrs.detailsParams, function (value) {
-                            getData(value);
+                        $scope.$watch($attrs.params, function (value) {
+                            _params=value;
+                            getData(_params);
                         }, true);
                     }
                 } else {
-                    $attrs.$observe("detailsInfo", function (value) {
+                    $attrs.$observe("ajaxUrl", function (value) {
                         getData({});
                     });
                 }
 
                 function getData(params) {
                     $scope.isLoading = true;
-                    requestData($attrs.detailsInfo, params)
+                    requestData($attrs.ajaxUrl, params)
                         .then(function (results) {
-                            var data = results[0];
-                            $scope.detailsResponse = results[1];
                             $scope.isLoading = false;
-                            if ($scope.detailsHandler) {
-                                $scope.details = $scope.detailsHandler(data);
-                            }else if ($attrs.detailsKey) {//自定义空间：detailsInfo增加功能支持在单页面多次使用。
-								 $scope[$attrs.detailsKey]=data;
-							}else {
-                                $scope.details = data;
+                            var data = results[0];
+                            if ($scope.ajaxUrlHandler) {
+                                data = $scope.ajaxUrlHandler(data);
                             }
+
+                          if($attrs.scopeResponse)$scope[$attrs.scopeResponse] = results[1];
+                          if($attrs.scopeData)$scope[$attrs.scopeData] = data;
+                          else $scope.scopeData=data;
+                          if(angular.isDefined($attrs.alertOk))alertOk(results[1].msg);
+
                             //回调父级的处理事件;
                             $scope.listCallback && $scope.listCallback(results[1]);
                         })
-                        .catch(function () {
-                            $scope.details = {};
+                        .catch(function (msg) {
+                              if($attrs.scopeErrorMsg)$scope[$attrs.scopeErrorMsg]=(msg);
+                            if(angular.isDefined($attrs.alertError))alertError(msg);
+
                             $scope.isLoading = false;
+
                         });
                 }
 
-                $scope.$on("reloadDetails", function () {
-                    getData({});
+                $scope.$on("ajaxUrlReload", function () {
+                    getData(_detailsParams);
                 })
             }
         };
     };
-    detailsInfo.$inject = ["requestData"];
 
     /**
-     * 表单验证
+ 表单验证
+     必填参数：
+     attrs.formValidator：
+     attrs.action；请求数据参数
+     可选参数：
+     $attrs.ajaxUrlHandler :function(data) 指定回调方法
+     $attrs.params  //监听具体值
+     $attrs.scopeResponse ：返回数据Response是绑定到 $scope[$attrs.scopeResponse]
+       $attrs.scopeData ：返回数据Response.data是绑定到 $scope[$attrs.scopeData]
+       $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
+          $attrs.broadcast ：是否发送广播
+       $attrs.alertOk :是否提示请求成功提示。
+       $attrs.alertError :是否提示请求失败提示。
+  $attrs.autoCloseDialog：关闭弹出窗口
+
+  if($attrs.formSubmitAfter=="reset"){
+      DOMForm.reset(); //清空表格
+  }else   if($attrs.formSubmitAfter=="donothing"){
+      return;
+  }
+
+           请求返回数据格式：
+             scopeResponse=  {
+                 "code": 200,
+                 "msg": "操作成功",
+                 "data": {
+                   "id": "id1",
+                   "name": "帐号1"
+                 }
+               }
+
+
      */
-    function formValidator(requestData, modal, dialogAlert) {
-        return {
-            restrict: 'A',
-            scope: true,
-            link: function ($scope, $element, $attrs) {
-                var formStatus = $scope.formStatus = {
-                    submitted: false,
-                    submitting: false,
-                    submitInfo: ""
-                };
-                var DOMForm = angular.element($element)[0];
-                var scopeForm = $scope.$eval($attrs.name);
-                var dialogData = $scope.ngDialogData;
+      function formValidator(requestData, modal, alertOk,alertError) {
+          return {
+              restrict: 'A',
+              scope: true,
+              link: function ($scope, $element, $attrs) {
+                  var formStatus = $scope.formStatus = {
+                      submitted: false,
+                      submitting: false,
+                      submitInfo: ""
+                  };
+                  var DOMForm = angular.element($element)[0];
+                  var scopeForm = $scope.$eval($attrs.name);
+                  var dialogData = $scope.ngDialogData;
 
-                $scope.formData = angular.extend({}, $scope.formData);
+                  $scope.formData = angular.extend({}, $scope.formData);
 
-                $scope.$watch($attrs.source, function (value) {
-                    if (value && angular.isObject(value)) {
-                        angular.extend($scope.formData, value);
-                    }
-                });
+                  $scope.$watch($attrs.source, function (value) {
+                      if (value && angular.isObject(value)) {
+                          angular.extend($scope.formData, value);
+                      }
+                  });
 
-                $scope.reset = function () {
-                    DOMForm.reset();
-                };
+                  $scope.reset = function () {
+                      DOMForm.reset();
+                  };
 
-                $element.on("submit", function (e) {
-                    e.preventDefault();
-                    formStatus.submitting = true;
-                    requestData($attrs.action, $scope.formData)
-                        .then(function (results) {
-                            var data = results[0];
-                            formStatus.submitting = false;
-                            formStatus.submitInfo = "";
-                            if (angular.isFunction($scope.submitCallBack)) {
-                                $scope.submitCallBack.call($scope, dialogData, data);
-                            } else if (data && data.url) {
-                                window.location.assign(data.url);
-                                // dialogAlert(data.message || '提交成功', function () {
-                                //     window.location.assign(data.url);
-                                // })
-                            }
-                            //自动关闭弹窗
-                            angular.isDefined($attrs.autoCloseDialog) & modal.close();
-                        })
-                        .catch(function (error) {
-                            formStatus.submitting = false;
-                            formStatus.submitInfo = error || '提交失败。';
-                            angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
-                        });
-                })
-            }
-        }
-    };
-    formValidator.$inject = ["requestData", "modal", "dialogAlert"];
+                  $element.on("submit", function (e) {
+                      e.preventDefault();
+                      formStatus.submitting = true;
+                      requestData($attrs.action, $scope.formData,"POST")
+                          .then(function (results) {
+                              var data = results[0];
+                              var data1 = results[1];
+                              formStatus.submitting = false;
+                              formStatus.submitInfo = "";
+
+                              if($attrs.scopeResponse)$scope[$attrs.scopeResponse] = results[1];
+                              if($attrs.scopeData)$scope[$attrs.scopeData] = data;
+
+                               if(angular.isDefined($attrs.alertOk))alertOk(results[1].msg);
+
+                               //重置表单
+                               if($attrs.formSubmitAfter=="reset"){
+                                   DOMForm.reset();
+                               }
+                              if ($attrs.broadcast) {
+                                  $scope.$broadcast($attrs.broadcast);
+                                  $scope.$emit($attrs.broadcast);
+                                  if (angular.isDefined($attrs.autoCloseDialog)) {
+                                      modal.close();
+                                  }
+                                  return;
+                              }
+
+                              // 增加属性no-close-dialog设置不自动关闭模态框
+                              if (angular.isDefined($attrs.noCloseDialog)) {
+                                  return;
+                              }
+
+                              if (data1 && data1.url) {
+                                  window.location.assign(data1.url);
+                                  return;
+                              }
+
+                              if (angular.isFunction($scope.submitCallBack)) {
+                                  $scope.submitCallBack.call($scope, dialogData, data);
+                              } else if (data && data.url) {
+                                  window.location.assign(data.url);
+                                  // dialogAlert(data.message || '提交成功', function () {
+                                  //     window.location.assign(data.url);
+                                  // })
+                              } else {
+                                  $scope.$broadcast("reloadList");
+                              }
+                              //自动关闭弹窗
+                              angular.isDefined($attrs.autoCloseDialog) && modal.close();
+
+                          })
+                          .catch(function (error) {
+                              formStatus.submitting = false;
+                              formStatus.submitInfo = error || '提交失败。';
+                              alertError(error);
+                              //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
+                          });
+                  })
+              }
+          }
+      };
+
+
+
 
     /**
      * 表格
@@ -321,8 +414,8 @@ define('main/directives', ['main/init'], function () {
                                 }
 								//自定义 tableList 增加 $scope.resultsData = data
 								 $scope.resultsData = data;
-								 
-								 
+
+
                                 if (data.data && data.data.length > 0) {
                                     $scope.tbodyList = data.data;
                                 } else {
@@ -1113,13 +1206,13 @@ define('main/directives', ['main/init'], function () {
 
                 require(['echarts'], function (echarts) {
                     var myChart = echarts.init($element[0]);
-					
+
 					//公布echar对象。用于获取图片等特色操作
 					if ($scope.eChartKey) {
 						 if(!$scope.$parent.eChartMap)$scope.$parent.eChartMap={};
                          $scope.$parent.eChartMap[$scope.eChartKey]=myChart;
 					 }
-					 
+
                     function reSize() {
                         myChart.resize();
                     };
@@ -1130,10 +1223,10 @@ define('main/directives', ['main/init'], function () {
                     });
 
                     myChart.on("click", function (_data) {
-						
+
 						 console.log(_data);
 						  console.log($scope);
-						  
+
 						  	if(_data.data){
 								 if ($scope.clickToUrl) {
 								  ngModel && ngModel.$setViewValue(_data.data);
@@ -1142,21 +1235,21 @@ define('main/directives', ['main/init'], function () {
 									  ngModel && ngModel.$setViewValue(_data.data);
 									dialogChart($scope.$parent.mainConfig.viewsDir + $scope.clickToDialog);
 								}
-								
+
 							}else{
-								
+
 								 if ($scope.clickTopToUrl) {
-						
+
 								  ngModel && ngModel.$setViewValue(_data);
 								window.location.assign($scope.clickTopToUrl);
 									}else if ($scope.clickTopToDialog) {
 									 ngModel && ngModel.$setViewValue(_data);
 									dialogChart($scope.$parent.mainConfig.viewsDir + $scope.clickTopToDialog);
 									}
-								
+
 							}
-						  
-                      
+
+
                     });
 
                     if (angular.isDefined($attrs.chartParams)) {
@@ -1180,13 +1273,13 @@ define('main/directives', ['main/init'], function () {
                         requestData(_url, _params)
                             .then(function (results) {
                                 var _data = results[0];
-								
+
 								//js api 增加功能：eChart组件将data返回给$scope.$parent.eChartMapData[$scope.eChartKey] 用于显示数据。
 						if ($scope.eChartKey) {
 							 if(!$scope.$parent.eChartMapData)$scope.$parent.eChartMapData={};
 							 $scope.$parent.eChartMapData[$scope.eChartKey]=_data;
 						 }
-					 
+
                                 myChart.hideLoading();
                                 //解决百度图表雷达图 Tip 显示不正确的问题
                                 if (_data.polar) {
@@ -1761,11 +1854,12 @@ define('main/directives', ['main/init'], function () {
      * 加入项目
      */
     angular.module('manageApp.main')
-        .directive("ngView", ngView)
+        .directive("ngView", ["$route", "$templateCache", "$routeParams",ngView])
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
-        .directive("detailsInfo", detailsInfo)
-        .directive("formValidator", formValidator)
+        .directive("ajaxUrl", ["requestData","alertOk","alertError",ajaxUrl])
+        .directive("formValidator", ["requestData","modal","alertOk","alertError",formValidator])
+
         .directive("tableList", tableList)
         .directive("tableCell", tableCell)
         .directive("pagination", pagination)

@@ -19,11 +19,11 @@
 require.config({
     baseUrl: require.dir + 'modules',
     paths: {
-        'moment': '../libs/moment.min',
-        'echarts': '../libs/echarts.min',
-        'chosen': '../libs/chosen.jquery.min',
-        'jQuery': '../libs/jquery.min',
-        'angular': '../libs/angular.min'
+        'moment': '../../libs/moment.min',
+        'echarts': '../../libs/echarts.min',
+        'chosen': '../../libs/chosen.jquery.min',
+        'jQuery': '../../libs/jquery.min',
+        'angular': '../../libs/angular.min'
     },
     shim: {
         'jQuery': {
