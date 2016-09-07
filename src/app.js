@@ -1,29 +1,25 @@
 /**
- * Created by hao on 15/11/5.
+ *  盘谷医疗前端框架主入口文件
  */
 
-//load css files
+//get root url
 !(function () {
-
     var loaderScript=  document.getElementById('requirejs_baseUrlId');
     if(!loaderScript){
       var scripts = document.getElementsByTagName("script");
-
-      var loaderScript = scripts[scripts.length - 1];
+      loaderScript = scripts[scripts.length - 1];
     }
-
-    require.dir = loaderScript.src.match(/[^?#]*\//)[0];
+    require.dir = loaderScript.src.match(/[^?#]*\//)[0];    //http://localhost:3000/src/
 })();
-
 
 require.config({
     baseUrl: require.dir + 'modules',
     paths: {
-        'moment': '../../libs/moment.min',
-        'echarts': '../../libs/echarts.min',
-        'chosen': '../../libs/chosen.jquery.min',
-        'jQuery': '../../libs/jquery.min',
-        'angular': '../../libs/angular.min'
+        'moment': '../libs/moment.min',
+        'echarts': '../libs/echarts.min',
+        'chosen': '../libs/chosen.jquery.min',
+        'jQuery': '../libs/jquery.min',
+        'angular': '../libs/angular.min'
     },
     shim: {
         'jQuery': {
@@ -45,7 +41,7 @@ require.config({
 
 //@ifdef !production
 define('manageApp.template', ['angular'], function () {
-    angular.module('manageApp.template', [])
+    angular.module('manageApp.template', []);
 });
 //@endif
 
@@ -85,7 +81,9 @@ require(['manageApp'], function (app) {
                         var _url = (Config.viewsDir || '') + param.page;
                         delete param.page;
                         var _param = $.param(param);
+                        console.log(_url);
                         return _param ? _url + "?" + _param : _url;
+
                     },
                     resolve: {
                         load: function () {
@@ -106,7 +104,7 @@ require(['manageApp'], function (app) {
                         load: function () {
                         }
                     }
-                })
+                });
         }
 
         $templateRequestProvider.httpOptions({
