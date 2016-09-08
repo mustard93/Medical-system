@@ -73,7 +73,8 @@ define('manageApp', [
 });
 
 require(['manageApp'], function (app) {
-    app.config(['$routeProvider', '$templateRequestProvider', function ($routeProvider, $templateRequestProvider) {
+    app.config(['$routeProvider', '$templateRequestProvider',
+       function ($routeProvider, $templateRequestProvider) {
         if (window.Config) {
             $routeProvider
                 .when("/:page*", {
@@ -81,9 +82,7 @@ require(['manageApp'], function (app) {
                         var _url = (Config.viewsDir || '') + param.page;
                         delete param.page;
                         var _param = $.param(param);
-                        console.log(_url);
                         return _param ? _url + "?" + _param : _url;
-
                     },
                     resolve: {
                         load: function () {
