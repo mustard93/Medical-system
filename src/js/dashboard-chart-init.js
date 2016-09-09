@@ -15,7 +15,6 @@ Morris.Donut({
     formatter: function (x, data) { return data.formatted; }
 });
 
-
 $(function() {
 
     var d1 = [

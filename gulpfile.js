@@ -20,11 +20,11 @@ gulp.task('browser', function () {
   browserSync({
     port: 3000,
     open: true,
-    startPath: '/src/views',
+    startPath: '/',
     server: {
       directory: true,
       routes: {
-        '/': 'index.html'
+        '/': '/'
       },
       middleware: function (req, res, next) {
         console.log('middleWare.');
