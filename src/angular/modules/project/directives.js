@@ -1,12 +1,13 @@
 /**
- * Created by hao on 15/11/5.
+ * 项目自定义指令
  */
 
-define('project/directives', ['moment', 'project/init'], function (moment) {
+define('project/directives', ['project/init'], function () {
+  angular.module('manageApp.project', [])
   /**
-   * 滚动条美化
+   * [滚动条美化]
    */
-  function niceScroll () {
+  .directive('niceScroll', [function () {
     'use strict';
     return {
       restrict: 'A',
@@ -26,13 +27,11 @@ define('project/directives', ['moment', 'project/init'], function (moment) {
         }
       }
     };
-  }
-  niceScroll.$inject = [];
-
+  }])
   /**
-   * 左边栏子菜单点击事件
+   * [左边栏子菜单点击事件]
    */
-  function leftMenuCollapse () {
+  .directive('leftMenuCollapse', [function () {
     'use strict';
     return {
       restrict: 'A',
@@ -83,13 +82,11 @@ define('project/directives', ['moment', 'project/init'], function (moment) {
         });
       }
     };
-  }
-  leftMenuCollapse.$inject = [];
-
+  }])
   /**
-   * 点击展开隐藏左边栏
+   * [点击展开隐藏左边栏]
    */
-  function toggleLeftMenu () {
+  .directive('toggleLeftMenu', [function () {
     'use strict';
     return {
       restrict: 'A',
@@ -144,13 +141,11 @@ define('project/directives', ['moment', 'project/init'], function (moment) {
         }
       }
     };
-  }
-  toggleLeftMenu.$inject = [];
-
+  }])
   /**
-   * 面板点击收起、展开与关闭
+   * [面板点击收起、展开与关闭]
    */
-  function togglePanel () {
+  .directive('togglePanel', function () {
     'use strict';
     return {
       restrict: 'A',
@@ -171,15 +166,5 @@ define('project/directives', ['moment', 'project/init'], function (moment) {
         });
       }
     };
-  }
-  togglePanel.$inject = [];
-
-  /**
-   * 加入项目
-   */
-  angular.module('manageApp.project')
-         .directive("niceScroll", niceScroll)
-         .directive("leftMenuCollapse", leftMenuCollapse)
-         .directive("toggleLeftMenu", toggleLeftMenu)
-         .directive("togglePanel", togglePanel);
+  });
 });
