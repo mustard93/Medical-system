@@ -37,7 +37,7 @@ define('project/directives', ['project/init'], function () {
       restrict: 'A',
       link: function (scope, element, attrs) {
         $('.menu-list > a').on('click', function () {
-          var parent = jQuery(this).parent();
+          var parent = $(this).parent();
           var sub = parent.find('> ul');
 
           if(!$('body').hasClass('left-side-collapsed')) {
@@ -56,6 +56,15 @@ define('project/directives', ['project/init'], function () {
              }
           }
           return false;
+        });
+
+        $('.menu-list > ul > li > a').on('click', function () {
+          $.each($(this).parent().siblings(), function () {
+            if ($(this).hasClass('active')) {
+              $(this).removeClass('active');
+            }
+          });
+          $(this).parent().addClass('active');
         });
 
         function visibleSubMenuClose() {
@@ -120,25 +129,6 @@ define('project/directives', ['project/init'], function () {
             }
           }
         });
-
-        searchform_reposition();
-
-        $(window).resize(function(){
-           if($('body').css('position') == 'relative') {
-              $('body').removeClass('left-side-collapsed');
-           } else {
-              $('body').css({left: '', marginRight: ''});
-           }
-           searchform_reposition();
-        });
-
-        function searchform_reposition() {
-           if($('.searchform').css('position') == 'relative') {
-              $('.searchform').insertBefore('.left-side-inner .logged-user');
-           } else {
-              $('.searchform').insertBefore('.menu-right');
-           }
-        }
       }
     };
   }])
