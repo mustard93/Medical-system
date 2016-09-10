@@ -46,13 +46,13 @@ define('project/directives', ['moment', 'project/init'], function (moment) {
                 sub.slideUp(200, function(){
                    parent.removeClass('nav-active');
                    $('.main-content').css({height: ''});
-                   mainContentHeightAdjust();
+                   //mainContentHeightAdjust();
                 });
              } else {
                 visibleSubMenuClose();
                 parent.addClass('nav-active');
                 sub.slideDown(200, function(){
-                    mainContentHeightAdjust();
+                    //mainContentHeightAdjust();
                 });
              }
           }
