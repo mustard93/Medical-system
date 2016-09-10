@@ -570,7 +570,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: {row: "="},
             replace: true,
-            templateUrl: 'tpl/table-cell.html',
+            templateUrl: Config.tplPath + 'tpl/table-cell.html',
             link: function ($scope, $element, $attrs) {
                 $scope.cells = [];
                 if (angular.isString($scope.row) || angular.isNumber($scope.row)) {
@@ -598,7 +598,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: true,
             replace: true,
-            templateUrl: 'tpl/pagination.html',
+            templateUrl: Config.tplPath+'tpl/pagination.html',
             link: function ($scope, $element, $attrs) {
                 var maxSize = angular.isDefined($attrs.maxSize) ? $scope.$parent.$eval($attrs.maxSize) : 10,
                     rotate = angular.isDefined($attrs.rotate) ? $scope.$parent.$eval($attrs.rotate) : true;
@@ -712,7 +712,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: true,
             replace: true,
-            templateUrl: 'tpl/pagination2.html',
+            templateUrl: Config.tplPath+'tpl/pagination2.html',
             link: function ($scope, $element, $attrs) {
                 $scope.start = function () {
                     if ($scope.status.currentPage == 1) {
@@ -812,7 +812,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: {},
             require: "?^ngModel",
-            templateUrl: 'tpl/tree.html',
+            templateUrl: Config.tplPath+'tpl/tree.html',
             link: function ($scope, $element, $attrs, ngModel) {
                 var isFirstLoad = true;
                 $scope.status = {};
@@ -1327,7 +1327,7 @@ define('main/directives', ['main/init'], function () {
                 "ngDisabled": "=?"
             },
             require: "?^ngModel",
-            templateUrl: 'tpl/autocomplete.html',
+            templateUrl: Config.tplPath+'tpl/autocomplete.html',
             link: function ($scope, elem, attrs, ngModel) {
                 $scope.lastSearchTerm = null;
                 $scope.currentIndex = null;

@@ -10,6 +10,8 @@
       loaderScript = scripts[scripts.length - 1];
     }
     require.dir = loaderScript.src.match(/[^?#]*\//)[0];
+
+    if(!Config.tplPath)Config.tplPath="";
 })();
 
 require.config({

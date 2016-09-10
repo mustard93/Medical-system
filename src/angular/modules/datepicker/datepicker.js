@@ -115,7 +115,7 @@ define('datepicker/datepicker', ['moment', 'angular'], function (moment) {
     var Module = angular.module('datePicker', []);
 
     Module.constant('datePickerConfig', {
-        template: 'tpl/datepicker.html',
+        template: Config.tplPath + 'tpl/datepicker.html',
         view: 'month',
         views: ['year', 'month', 'date', 'hours', 'minutes'],
         momentNames: {
