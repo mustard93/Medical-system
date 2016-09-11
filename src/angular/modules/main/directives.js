@@ -1125,8 +1125,8 @@ define('main/directives', ['main/init'], function () {
                         ngModel && $element.val(ngModel.$viewValue);
                     });
             }
-        }
-    };
+        };
+    }
     selectAsync.$inject = ["requestData"];
 
     /**
@@ -1606,7 +1606,7 @@ define('main/directives', ['main/init'], function () {
                                 requestQueue && requestQueue.abort();
                                 requestQueue = $.ajax({
                                     url: $attrs.selectSource,
-                                    type: 'post',
+                                    type: 'get',
                                     data: {q: q},
                                     dataType: 'json',
                                     success: function (_data) {
