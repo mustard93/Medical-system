@@ -48,8 +48,7 @@ require.config({
             exports: '_'
         },
         'chosen': {
-            deps: ['jQuery'],
-            exports: 'chosen'
+            deps: ['jQuery']
         },
         'echarts': {
             exports: 'echarts'
@@ -117,41 +116,22 @@ require.config({
     urlArgs: ''
 });
 
-require(['bootstrap', 'jquery-ui', 'nicescroll', 'migrate', 'modernizr', 'easypiechart',
-         'sparkline', 'icheck', 'flot', 'flot-tooltip', 'flot-resize', 'morris', 'raphael', 'clndr'], function() {
-
-        // Morris.Donut({
-        //   element: 'graph-donut',
-        //   data: [
-        //       {value: 40, label: 'New Visit', formatted: 'at least 70%' },
-        //       {value: 30, label: 'Unique Visits', formatted: 'approx. 15%' },
-        //       {value: 20, label: 'Bounce Rate', formatted: 'approx. 10%' },
-        //       {value: 10, label: 'Up Time', formatted: 'at most 99.99%' }
-        //   ],
-        //   backgroundColor: false,
-        //   labelColor: '#fff',
-        //   colors: [
-        //       '#4acacb','#6a8bc0','#5ab6df','#fe8676'
-        //   ],
-        //   formatter: function (x, data) { return data.formatted; }
-        // });
+require(['bootstrap',
+         'jquery-ui',
+         'nicescroll',
+         'migrate',
+         'modernizr',
+         'easypiechart',
+         'sparkline',
+         'icheck',
+         'flot',
+         'flot-tooltip',
+         'flot-resize',
+         'morris',
+         'raphael',
+         'clndr'], function() {
 
   // dashboard-chart-init ----------------------------------------
-  // Morris.Donut({
-  //     element: 'graph-donut',
-  //     data: [
-  //         {value: 40, label: 'New Visit', formatted: 'at least 70%' },
-  //         {value: 30, label: 'Unique Visits', formatted: 'approx. 15%' },
-  //         {value: 20, label: 'Bounce Rate', formatted: 'approx. 10%' },
-  //         {value: 10, label: 'Up Time', formatted: 'at most 99.99%' }
-  //     ],
-  //     backgroundColor: false,
-  //     labelColor: '#fff',
-  //     colors: [
-  //         '#4acacb','#6a8bc0','#5ab6df','#fe8676'
-  //     ],
-  //     formatter: function (x, data) { return data.formatted; }
-  // });
   //
   // $(function() {
   //
@@ -261,7 +241,6 @@ define('manageApp.template', ['angular'], function () {
     angular.module('manageApp.template', []);
 });
 //@endif
-
 
 define('manageApp.main', ['main/init', 'main/services', 'main/controllers', 'main/directives', 'main/filters']);
 define('manageApp.project', ['project/init', 'project/services', 'project/controllers', 'project/directives', 'project/filters']);

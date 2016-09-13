@@ -12,19 +12,21 @@ define('project/directives', ['project/init'], function () {
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        // 主页面右侧滚动条
-        $('html').niceScroll({styler:"fb", cursorcolor:"#65cea7", cursorwidth: '6', cursorborderradius: '0px',
-          background: '#424f63', spacebarenabled:false, cursorborder: '0', zindex: '1000'
+        require(['nicescroll'], function () {
+          // 主页面右侧滚动条
+          $('html').niceScroll({styler:"fb", cursorcolor:"#65cea7", cursorwidth: '6', cursorborderradius: '0px',
+            background: '#424f63', spacebarenabled:false, cursorborder: '0', zindex: '1000'
+          });
+          // 侧边栏滚动条
+          $("#page-side").niceScroll({styler:"fb", cursorcolor:"#65cea7", cursorwidth: '3', cursorborderradius: '0px',
+            background: '#424f63', spacebarenabled:false, cursorborder: '0'
+          });
+          // 如果侧边栏被收起
+          $("#page-side").getNiceScroll();
+          if ($('body').hasClass('left-side-collapsed')) {
+              $("#page-side").getNiceScroll().hide();
+          }
         });
-        // 侧边栏滚动条
-        $("#page-side").niceScroll({styler:"fb", cursorcolor:"#65cea7", cursorwidth: '3', cursorborderradius: '0px',
-          background: '#424f63', spacebarenabled:false, cursorborder: '0'
-        });
-        // 如果侧边栏被收起
-        $("#page-side").getNiceScroll();
-        if ($('body').hasClass('left-side-collapsed')) {
-            $("#page-side").getNiceScroll().hide();
-        }
       }
     };
   }])
@@ -135,7 +137,7 @@ define('project/directives', ['project/init'], function () {
   /**
    * [面板点击收起、展开与关闭]
    */
-  .directive('togglePanel', [function () {
+  .directive('togglePanel', function () {
     'use strict';
     return {
       restrict: 'A',
@@ -156,5 +158,33 @@ define('project/directives', ['project/init'], function () {
         });
       }
     };
-  }]);
+  })
+  /**
+   *  morris图表展示
+   */
+  .directive('morris', function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        require(['morris'], function () {
+          Morris.Donut({
+            element: 'graph-donut',
+            data: [
+                {value: 40, label: '最新访问', formatted: 'at least 70%' },
+                {value: 30, label: '异常访问', formatted: 'approx. 15%' },
+                {value: 20, label: '跳出率', formatted: 'approx. 10%' },
+                {value: 10, label: '时间', formatted: 'at most 99.99%' }
+            ],
+            backgroundColor: false,
+            labelColor: '#fff',
+            colors: [
+                '#4acacb','#6a8bc0','#5ab6df','#fe8676'
+            ],
+            formatter: function (x, data) { return data.formatted; }
+          });
+        });
+      }
+    };
+  });
 });
