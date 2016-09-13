@@ -201,11 +201,14 @@ define('main/directives', ['main/init'], function () {
             $scope.reset = function () {
                 DOMForm.reset();
             };
+            var parameterBody=false;
+              if(angular.isDefined($attrs.parameterBody))parameterBody=true;
+
 
             $element.on("submit", function (e) {
                 e.preventDefault();
                 formStatus.submitting = true;
-                requestData($attrs.action, $scope.formData,"POST")
+                requestData($attrs.action, $scope.formData,"POST",parameterBody)
                     .then(function (results) {
                         var data = results[0];
                         var data1 = results[1];
