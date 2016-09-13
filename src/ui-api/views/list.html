@@ -1,0 +1,82 @@
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>列表</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li><a href="#">数据表格</a></li>
+        <li class="active"> 列表 </li>
+    </ul>
+</div>
+<!-- page heading end-->
+
+<!--body wrapper start-->
+<div class="wrapper">
+  <table-list list-data="../../data/table-list.json" list-params="listParams" ng-model="tableSelected">
+    <div class="loader" ng-if="status.isLoading">
+        <div class="loader-inner pacman">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div ng-if="!status.isLoading">
+      <div class="empty-wrap" ng-if="tbodyList.length==0">
+        <span>
+          <i class="fa fa-inbox"><em>什么也没有</em></i>
+        </span>
+      </div>
+      <div ng-if="tbodyList.length">
+        <div class="mg-m">
+          <div>
+              <button type="button" class="btn btn-default" ng-click="delSelected('../data/form.data')" ng-disabled="listSelected.length==0">
+                  <i class="iconfont icon-delete"></i> 删除
+              </button>
+              <button type="button" class="btn btn-primary" modal-right="400" modal-scope="this" modal-url="views/list-edit.html">
+                  <i class="iconfont icon-plus"></i> 新建
+              </button>
+          </div>
+        </div>
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                  <th><input type="checkbox" class="selectAll"></th>
+                  <th ng-repeat="th in theadList">{{th}}</th>
+                  <th></th>
+              </tr>
+            </thead>
+              <tbody>
+                <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
+                    <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                    <td>{{tr.name}}</td>
+                    <td>{{tr.col1}}</td>
+                    <td>{{tr.col2}}</td>
+                    <td>{{tr.col3}}</td>
+                    <td width="300">
+                        <div style="width:300px" class="text-nowrap overhide">{{tr.col4}}{{tr.col4}}</div>
+                    </td>
+                    <td>{{tr.col5}}</td>
+                    <td>{{tr.col6}}</td>
+                    <td>
+                        <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html"><i
+                                class="fa fa-folder-open-o"></i> 查看
+                        </button>
+                        <button type="button" class="btn btn-primary" modal-right="400" modal-scope="this" modal-url="views/list-edit.html"><i
+                                class="fa fa-edit"></i> 编辑
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-click="deleteThis('../data/form.data?id='+tr.id)"><i class="fa fa-trash-o"></i> 删除</button>
+                    </td>
+                </tr>
+              </tbody>
+          </table>
+          <div class="clearfix">
+              <div class="fr">
+                  <pagination status="status"></pagination>
+              </div>
+          </div>
+      </div>
+    </div>
+        </table-list>
+</div>
+<!--body wrapper end-->
