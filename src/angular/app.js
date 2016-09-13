@@ -11,7 +11,9 @@
     }
     require.dir = loaderScript.src.match(/[^?#]*\//)[0];
 
-    if(!Config.tplPath)Config.tplPath="";
+    if (!Config.tplPath) {
+      Config.tplPath = "";
+    }
 }());
 
 require.config({
@@ -115,20 +117,24 @@ require.config({
     urlArgs: ''
 });
 
-require(['bootstrap',
-         'jquery-ui',
-         'nicescroll',
-         'migrate',
-         'modernizr',
-         'easypiechart',
-         'sparkline',
-         'icheck',
-         'flot',
-         'flot-tooltip',
-         'flot-resize',
-         'morris',
-         'raphael',
-         'clndr'], function() {
+require(['bootstrap', 'jquery-ui', 'nicescroll', 'migrate', 'modernizr', 'easypiechart',
+         'sparkline', 'icheck', 'flot', 'flot-tooltip', 'flot-resize', 'morris', 'raphael', 'clndr'], function() {
+
+        // Morris.Donut({
+        //   element: 'graph-donut',
+        //   data: [
+        //       {value: 40, label: 'New Visit', formatted: 'at least 70%' },
+        //       {value: 30, label: 'Unique Visits', formatted: 'approx. 15%' },
+        //       {value: 20, label: 'Bounce Rate', formatted: 'approx. 10%' },
+        //       {value: 10, label: 'Up Time', formatted: 'at most 99.99%' }
+        //   ],
+        //   backgroundColor: false,
+        //   labelColor: '#fff',
+        //   colors: [
+        //       '#4acacb','#6a8bc0','#5ab6df','#fe8676'
+        //   ],
+        //   formatter: function (x, data) { return data.formatted; }
+        // });
 
   // dashboard-chart-init ----------------------------------------
   // Morris.Donut({

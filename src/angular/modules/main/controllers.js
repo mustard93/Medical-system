@@ -22,18 +22,14 @@ define('main/controllers', ['angular'], function () {
         window.location.assign(_url);
     };
 
-    console.log(window.Config);
-
     //获取主要信息
     if ($scope.mainConfig.getMainInfo) {
       // 获取用户主要信息请求地址
       var _url = $scope.mainConfig.getMainInfo;
 
       if (Config.serverPath) {
-        if(_url.indexOf("http://") === 0 || _url.indexOf("https://") === 0){
-
-        } else {
-            _url=$scope.mainConfig.serverPath+_url;
+        if (_url.indexOf("http://") !== 0 || _url.indexOf("https://") !== 0) {
+          _url = $scope.mainConfig.serverPath + _url;
         }
       }
 
