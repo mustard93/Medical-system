@@ -135,7 +135,7 @@ define('project/directives', ['project/init'], function () {
   /**
    * [面板点击收起、展开与关闭]
    */
-  .directive('togglePanel', function () {
+  .directive('togglePanel', [function () {
     'use strict';
     return {
       restrict: 'A',
@@ -156,5 +156,5 @@ define('project/directives', ['project/init'], function () {
         });
       }
     };
-  });
+  }]);
 });

@@ -46,7 +46,8 @@ require.config({
             exports: '_'
         },
         'chosen': {
-            deps: ['jQuery']
+            deps: ['jQuery'],
+            exports: 'chosen'
         },
         'echarts': {
             exports: 'echarts'
