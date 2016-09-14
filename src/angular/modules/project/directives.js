@@ -137,7 +137,7 @@ define('project/directives', ['project/init'], function () {
   /**
    * [面板点击收起、展开与关闭]
    */
-  .directive('togglePanel', function () {
+  .directive('togglePanel', [function () {
     'use strict';
     return {
       restrict: 'A',
@@ -158,11 +158,11 @@ define('project/directives', ['project/init'], function () {
         });
       }
     };
-  })
+  }])
   /**
    *  morris图表展示
    */
-  .directive('morris', function () {
+  .directive('morris', [function () {
     'use strict';
     return {
       restrict: 'A',
@@ -186,11 +186,11 @@ define('project/directives', ['project/init'], function () {
         });
       }
     };
-  })
+  }])
   /**
    *  iCheck
    */
-  .directive('icheck', function () {
+  .directive('icheck', [function () {
     'use strict';
     return {
       restrict: 'A',
@@ -251,5 +251,226 @@ define('project/directives', ['project/init'], function () {
         });
       }
     };
-  });
+  }])
+  /**
+   *  flot 线型图
+   */
+  .directive('flot', function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        require(['flot', 'flot-tooltip', 'flot-resize'], function () {
+          var d1 = [
+              [0, 501],
+              [1, 620],
+              [2, 437],
+              [3, 361],
+              [4, 549],
+              [5, 618],
+              [6, 570],
+              [7, 758],
+              [8, 658],
+              [9, 538],
+              [10, 488]
+          ];
+          var d2 = [
+              [0, 401],
+              [1, 520],
+              [2, 337],
+              [3, 261],
+              [4, 449],
+              [5, 518],
+              [6, 470],
+              [7, 658],
+              [8, 558],
+              [9, 438],
+              [10, 388]
+          ];
+          var data = ([{
+              label: "最新访问",
+              data: d1,
+              lines: {
+                  show: true,
+                  fill: true,
+                  fillColor: {
+                      colors: ["rgba(255,255,255,.4)", "rgba(183,236,240,.4)"]
+                  }
+              }
+          },
+              {
+                  label: "异常访问",
+                  data: d2,
+                  lines: {
+                      show: true,
+                      fill: true,
+                      fillColor: {
+                          colors: ["rgba(255,255,255,.0)", "rgba(253,96,91,.7)"]
+                      }
+                  }
+              }
+          ]);
+          var options = {
+              grid: {
+                  backgroundColor:
+                  {
+                      colors: ["#ffffff", "#f4f4f6"]
+                  },
+                  hoverable: true,
+                  clickable: true,
+                  tickColor: "#eeeeee",
+                  borderWidth: 1,
+                  borderColor: "#eeeeee"
+              },
+              // Tooltip
+              tooltip: true,
+              tooltipOpts: {
+                  content: "%s X: %x Y: %y",
+                  shifts: {
+                      x: -60,
+                      y: 25
+                  },
+                  defaultTheme: false
+              },
+              legend: {
+                  labelBoxBorderColor: "#000000",
+                  container: $("#main-chart-legend"), //remove to show in the chart
+                  noColumns: 0
+              },
+              series: {
+                  stack: true,
+                  shadowSize: 0,
+                  highlightColor: 'rgba(000,000,000,.2)'
+              },
+      //        lines: {
+      //            show: true,
+      //            fill: true
+      //
+      //        },
+              points: {
+                  show: true,
+                  radius: 3,
+                  symbol: "circle"
+              },
+              colors: ["#5abcdf", "#ff8673"]
+          };
+
+          var plot = $.plot($("#main-chart #main-chart-container"), data, options);
+        });
+      }
+    };
+  })
+  /**
+   *  sparkline 柱状图
+   */
+  .directive('sparkline', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        require(['sparkline'], function () {
+          $(".sparkline").each(function(){
+              var $data = $(this).data();
+
+              $data.valueSpots = {'0:': $data.spotColor};
+
+              $(this).sparkline( $data.data || "html", $data,
+                  {
+                      tooltipFormat: '<span style="display:block; padding:0px 10px 12px 0px;">' +
+                          '<span style="color: {{color}}">&#9679;</span> {{offset:names}} ({{percent.1}}%)</span>'
+                  });
+          });
+          $("#income").sparkline([5,6,7,5,9,6,4,9,8,5,6,7], {
+              type: 'bar',
+              height: '35',
+              barWidth: 5,
+              barSpacing: 2,
+              barColor: '#fc8675'
+          });
+
+          $("#expense").sparkline([3,2,5,8,4,7,5,8,4,6], {
+              type: 'bar',
+              height: '35',
+              barWidth: 5,
+              barSpacing: 2,
+              barColor: '#65cea7'
+          });
+
+
+          $("#expense2").sparkline([3,2,5,8,4,7,5,8,4,6], {
+              type: 'bar',
+              height: '35',
+              barWidth: 5,
+              barSpacing: 2,
+              barColor: '#65cea7'
+          });
+
+          $("#pro-refund").sparkline([3,2,5,8,4,7,5,8,4,6], {
+              type: 'bar',
+              height: '35',
+              barWidth: 5,
+              barSpacing: 2,
+              barColor: '#ffffff'
+          });
+
+          $("#p-lead-1").sparkline([7,5,9,6,4,9,8,5,6,7], {
+              type: 'bar',
+              height: '35',
+              barWidth: 5,
+              barSpacing: 2,
+              barColor: '#65cea7'
+          });
+
+          $("#p-lead-2").sparkline([3,2,5,8,4,7,5,8,4,6], {
+              type: 'bar',
+              height: '35',
+              barWidth: 5,
+              barSpacing: 2,
+              barColor: '#fc8675'
+          });
+
+          $("#p-lead-3").sparkline([3,2,5,8,4,7,5,8,4,6], {
+              type: 'bar',
+              height: '35',
+              barWidth: 5,
+              barSpacing: 2,
+              barColor: '#5ab5de'
+          });
+
+
+          $("#visit-1").sparkline([5,6,7,9,9,5,3,2,4,6,7,5,6,8,7,9,5 ], {
+              type: 'line',
+              width: '100',
+              height: '25',
+              lineColor: '#55accc',
+              fillColor: '#edf7f9'
+          });
+
+          $("#visit-2").sparkline([5,6,7,7,9,5,8,5,4,6,7,8,6,8,7,9,5 ], {
+              type: 'line',
+              width: '100',
+              height: '25',
+              lineColor: '#55accc',
+              fillColor: '#edf7f9'
+          });
+        });
+      }
+    };
+  }])
+  /**
+   *  easyPieChart 饼图
+   */
+  .directive('easypeichart', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        require(['easypiechart'], function () {
+          $('.chart').easyPieChart({
+            // 这里写配置信息
+          });
+        });
+      }
+    };
+  }]);
 });

@@ -268,10 +268,10 @@ define('main/directives', ['main/init'], function () {
                               alertError(error);
                               //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
                           });
-                  })
+                  });
               }
-          }
-      };
+          };
+      }
 
 
 
