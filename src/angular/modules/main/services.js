@@ -19,17 +19,29 @@ define('main/services', ['main/init'], function () {
 
     //数据请求
     function requestData($q, $http, $httpParamSerializer) {
-        return function (_url, _params,method) {
+        return function (_url, _params,method,parameterBody) {
             var defer = $q.defer();
             //GET|POST
             if(!method)method='GET';
+
+
+
+        var transformRequest=function (data) {
+            return $httpParamSerializer(data);
+        };
+
+
+        if(parameterBody){
+          transformRequest=function (data) {
+              return data;
+          };
+        }
+
             $http({
                 method: method,
                 url: _url,
                 data: _params || {},
-                transformRequest: function (data) {
-                    return $httpParamSerializer(data);
-                },
+                transformRequest: transformRequest,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'X-Requested-With': 'XMLHttpRequest'
