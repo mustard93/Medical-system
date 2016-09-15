@@ -137,7 +137,11 @@ define('project/directives', ['project/init'], function () {
   /**
    * [面板点击收起、展开与关闭]
    */
+<<<<<<< HEAD
   .directive('togglePanel', [function () {
+=======
+  .directive('togglePanel', function () {
+>>>>>>> 131c094fb42f0ae521b089da93162818f5b2c4ef
     'use strict';
     return {
       restrict: 'A',
@@ -158,6 +162,7 @@ define('project/directives', ['project/init'], function () {
         });
       }
     };
+<<<<<<< HEAD
   }])
   /**
    *  morris图表展示
@@ -364,10 +369,18 @@ define('project/directives', ['project/init'], function () {
    *  sparkline 柱状图
    */
   .directive('sparkline', [function () {
+=======
+  })
+  /**
+   *  morris图表展示
+   */
+  .directive('morris', function () {
+>>>>>>> 131c094fb42f0ae521b089da93162818f5b2c4ef
     'use strict';
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
+<<<<<<< HEAD
         require(['sparkline'], function () {
           $(".sparkline").each(function(){
               var $data = $(this).data();
@@ -468,9 +481,30 @@ define('project/directives', ['project/init'], function () {
         require(['easypiechart'], function () {
           $('.chart').easyPieChart({
             // 这里写配置信息
+=======
+        require(['morris'], function () {
+          Morris.Donut({
+            element: 'graph-donut',
+            data: [
+                {value: 40, label: '最新访问', formatted: 'at least 70%' },
+                {value: 30, label: '异常访问', formatted: 'approx. 15%' },
+                {value: 20, label: '跳出率', formatted: 'approx. 10%' },
+                {value: 10, label: '时间', formatted: 'at most 99.99%' }
+            ],
+            backgroundColor: false,
+            labelColor: '#fff',
+            colors: [
+                '#4acacb','#6a8bc0','#5ab6df','#fe8676'
+            ],
+            formatter: function (x, data) { return data.formatted; }
+>>>>>>> 131c094fb42f0ae521b089da93162818f5b2c4ef
           });
         });
       }
     };
+<<<<<<< HEAD
   }]);
+=======
+  });
+>>>>>>> 131c094fb42f0ae521b089da93162818f5b2c4ef
 });
