@@ -65,20 +65,20 @@ define('main/directives', ['main/init'], function () {
     $attrs.ajaxUrlHandler :function(data) 指定回调方法
     $attrs.params  //监听具体值
     $attrs.scopeResponse ：返回数据Response是绑定到 $scope[$attrs.scopeResponse]
-      $attrs.scopeData ：返回数据Response.data是绑定到 $scope[$attrs.scopeData]
-      $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
-      $attrs.alertOk :是否提示请求成功提示。
-      $attrs.alertError :是否提示请求失败提示。
+    $attrs.scopeData ：返回数据Response.data是绑定到 $scope[$attrs.scopeData]
+    $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
+    $attrs.alertOk :是否提示请求成功提示。
+    $attrs.alertError :是否提示请求失败提示。
 
-          请求返回数据格式：
-            scopeResponse=  {
-                "code": 200,
-                "msg": "操作成功",
-                "data": {
-                  "id": "id1",
-                  "name": "帐号1"
-                }
-              }
+    请求返回数据格式：
+      scopeResponse=  {
+          "code": 200,
+          "msg": "操作成功",
+          "data": {
+            "id": "id1",
+            "name": "帐号1"
+          }
+        }
 
      */
     function ajaxUrl(requestData,alertOk,alertError) {
@@ -159,28 +159,28 @@ define('main/directives', ['main/init'], function () {
      $attrs.ajaxUrlHandler :function(data) 指定回调方法
      $attrs.params  //监听具体值
      $attrs.scopeResponse ：返回数据Response是绑定到 $scope[$attrs.scopeResponse]
-       $attrs.scopeData ：返回数据Response.data是绑定到 $scope[$attrs.scopeData]
-       $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
-          $attrs.broadcast ：是否发送广播
-       $attrs.alertOk :是否提示请求成功提示。
-       $attrs.alertError :是否提示请求失败提示。
-  $attrs.autoCloseDialog：关闭弹出窗口
+     $attrs.scopeData ：返回数据Response.data是绑定到 $scope[$attrs.scopeData]
+     $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
+     $attrs.broadcast ：是否发送广播
+     $attrs.alertOk :是否提示请求成功提示。
+     $attrs.alertError :是否提示请求失败提示。
+     $attrs.autoCloseDialog：关闭弹出窗口
 
-  if($attrs.formSubmitAfter=="reset"){
-      DOMForm.reset(); //清空表格
-  }else   if($attrs.formSubmitAfter=="donothing"){
-      return;
-  }
+      if($attrs.formSubmitAfter=="reset"){
+          DOMForm.reset(); //清空表格
+      }else   if($attrs.formSubmitAfter=="donothing"){
+          return;
+      }
 
-           请求返回数据格式：
-             scopeResponse=  {
-                 "code": 200,
-                 "msg": "操作成功",
-                 "data": {
-                   "id": "id1",
-                   "name": "帐号1"
-                 }
-               }
+     请求返回数据格式：
+       scopeResponse=  {
+           "code": 200,
+           "msg": "操作成功",
+           "data": {
+             "id": "id1",
+             "name": "帐号1"
+           }
+         }
 
 
      */
@@ -213,7 +213,12 @@ define('main/directives', ['main/init'], function () {
                   $element.on("submit", function (e) {
                       e.preventDefault();
                       formStatus.submitting = true;
-                      requestData($attrs.action, $scope.formData,"POST")
+
+
+		            var parameterBody=false;
+              if(angular.isDefined($attrs.parameterBody))parameterBody=true;
+
+                      requestData($attrs.action, $scope.formData,"POST",parameterBody)
                           .then(function (results) {
                               var data = results[0];
                               var data1 = results[1];
@@ -268,10 +273,10 @@ define('main/directives', ['main/init'], function () {
                               alertError(error);
                               //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
                           });
-                  })
+                  });
               }
-          }
-      };
+          };
+      }
 
 
 
@@ -331,7 +336,7 @@ define('main/directives', ['main/init'], function () {
                         requestData(_url, {id: _tr.id})
                             .then(function () {
                                 $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
-                                if ($scope.tbodyList.length == 0) {
+                                if ($scope.tbodyList.length === 0) {
                                     $scope.$broadcast("reloadList");
                                 }
                             })
@@ -570,7 +575,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: {row: "="},
             replace: true,
-            templateUrl: 'tpl/table-cell.html',
+            templateUrl: Config.tplPath + 'tpl/table-cell.html',
             link: function ($scope, $element, $attrs) {
                 $scope.cells = [];
                 if (angular.isString($scope.row) || angular.isNumber($scope.row)) {
@@ -587,7 +592,7 @@ define('main/directives', ['main/init'], function () {
                     $scope.cells.push($scope.row);
                 }
             }
-        }
+        };
     }
 
     /**
@@ -598,7 +603,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: true,
             replace: true,
-            templateUrl: 'tpl/pagination.html',
+            templateUrl: Config.tplPath+'tpl/pagination.html',
             link: function ($scope, $element, $attrs) {
                 var maxSize = angular.isDefined($attrs.maxSize) ? $scope.$parent.$eval($attrs.maxSize) : 10,
                     rotate = angular.isDefined($attrs.rotate) ? $scope.$parent.$eval($attrs.rotate) : true;
@@ -701,7 +706,7 @@ define('main/directives', ['main/init'], function () {
                     return pages;
                 }
             }
-        }
+        };
     }
 
     /**
@@ -712,7 +717,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: true,
             replace: true,
-            templateUrl: 'tpl/pagination2.html',
+            templateUrl: Config.tplPath+'tpl/pagination2.html',
             link: function ($scope, $element, $attrs) {
                 $scope.start = function () {
                     if ($scope.status.currentPage == 1) {
@@ -743,7 +748,7 @@ define('main/directives', ['main/init'], function () {
                     $scope.getListData();
                 };
             }
-        }
+        };
     }
 
     /**
@@ -792,7 +797,7 @@ define('main/directives', ['main/init'], function () {
                             .then(function (results) {
                                 var _data = results[0];
                                 $scope.conditionList = _data;
-                            })
+                            });
                     })();
                 }
 
@@ -812,7 +817,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: {},
             require: "?^ngModel",
-            templateUrl: 'tpl/tree.html',
+            templateUrl: Config.tplPath+'tpl/tree.html',
             link: function ($scope, $element, $attrs, ngModel) {
                 var isFirstLoad = true;
                 $scope.status = {};
@@ -1125,8 +1130,8 @@ define('main/directives', ['main/init'], function () {
                         ngModel && $element.val(ngModel.$viewValue);
                     });
             }
-        }
-    };
+        };
+    }
     selectAsync.$inject = ["requestData"];
 
     /**
@@ -1193,11 +1198,11 @@ define('main/directives', ['main/init'], function () {
             scope: {
                 clickToUrl: "@",
                 clickToDialog: "@",
-				clickTopToUrl: "@",
-				clickTopToDialog: "@",
-				eChartKey:"@",
-				eChartMap:"=",
-				eChartMapData:"=",
+        				clickTopToUrl: "@",
+        				clickTopToDialog: "@",
+        				eChartKey:"@",
+        				eChartMap:"=",
+        				eChartMapData:"=",
                 chartParams: "="
             },
             require: "?^ngModel",
@@ -1207,15 +1212,15 @@ define('main/directives', ['main/init'], function () {
                 require(['echarts'], function (echarts) {
                     var myChart = echarts.init($element[0]);
 
-					//公布echar对象。用于获取图片等特色操作
-					if ($scope.eChartKey) {
-						 if(!$scope.$parent.eChartMap)$scope.$parent.eChartMap={};
-                         $scope.$parent.eChartMap[$scope.eChartKey]=myChart;
-					 }
+          					//公布echar对象。用于获取图片等特色操作
+          					if ($scope.eChartKey) {
+          						 if(!$scope.$parent.eChartMap)$scope.$parent.eChartMap={};
+                                   $scope.$parent.eChartMap[$scope.eChartKey]=myChart;
+          					 }
 
                     function reSize() {
                         myChart.resize();
-                    };
+                    }
                     $(window).on("resize", reSize);
                     $scope.$on('$destroy', function () {
                         $(window).off("resize", reSize);
@@ -1327,7 +1332,7 @@ define('main/directives', ['main/init'], function () {
                 "ngDisabled": "=?"
             },
             require: "?^ngModel",
-            templateUrl: 'tpl/autocomplete.html',
+            templateUrl: Config.tplPath+'tpl/autocomplete.html',
             link: function ($scope, elem, attrs, ngModel) {
                 $scope.lastSearchTerm = null;
                 $scope.currentIndex = null;
@@ -1606,7 +1611,7 @@ define('main/directives', ['main/init'], function () {
                                 requestQueue && requestQueue.abort();
                                 requestQueue = $.ajax({
                                     url: $attrs.selectSource,
-                                    type: 'post',
+                                    type: 'get',
                                     data: {q: q},
                                     dataType: 'json',
                                     success: function (_data) {

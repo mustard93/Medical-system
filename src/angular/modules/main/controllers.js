@@ -21,7 +21,16 @@ define('main/controllers', ['main/init'], function () {
 
         //获取主要信息
         if ($scope.mainConfig.getMainInfo) {
-            $.getJSON($scope.mainConfig.getMainInfo, function (_data) {
+            var _url=$scope.mainConfig.getMainInfo;
+          if(Config.serverPath){
+              if(_url.indexOf("http://")==0||_url.indexOf("https://")==0){
+
+              }else {
+                  _url=$scope.mainConfig.serverPath+_url;
+              }
+            }
+
+            $.getJSON(_url, function (_data) {
                     if (_data.code == 200) {
                         angular.extend($scope.mainStatus, _data.data);
                     }

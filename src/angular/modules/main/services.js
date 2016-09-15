@@ -19,17 +19,29 @@ define('main/services', ['main/init'], function () {
 
     //数据请求
     function requestData($q, $http, $httpParamSerializer) {
-        return function (_url, _params,method) {
+        return function (_url, _params,method,parameterBody) {
             var defer = $q.defer();
             //GET|POST
             if(!method)method='GET';
+
+
+
+        var transformRequest=function (data) {
+            return $httpParamSerializer(data);
+        };
+
+
+        if(parameterBody){
+          transformRequest=function (data) {
+              return data;
+          };
+        }
+
             $http({
                 method: method,
                 url: _url,
                 data: _params || {},
-                transformRequest: function (data) {
-                    return $httpParamSerializer(data);
-                },
+                transformRequest: transformRequest,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'X-Requested-With': 'XMLHttpRequest'
@@ -57,7 +69,7 @@ define('main/services', ['main/init'], function () {
             var _$scope = $rootScope.$new(false);
             _$scope.confirmText = _text || '确定删除?';
             modal.openConfirm({
-                template: 'tpl/dialog-confirm.html',
+                template: Config.tplPath+'tpl/dialog-confirm.html',
                 scope: _$scope
             }).then(_callBack);
         };
@@ -70,7 +82,7 @@ define('main/services', ['main/init'], function () {
             var _$scope = $rootScope.$new(false);
             _$scope.confirmText = _text || '确定';
             modal.openConfirm({
-                template: 'tpl/dialog-alert.html',
+                template: Config.tplPath+'tpl/dialog-alert.html',
                 scope: _$scope
             }).then(_callBack);
         };
@@ -83,7 +95,7 @@ define('main/services', ['main/init'], function () {
             var _$scope = $rootScope.$new(false);
             _$scope.confirmText = _text || '确定';
             modal.openConfirm({
-                template: 'tpl/dialog-alert.html',
+                template: Config.tplPath+'tpl/dialog-alert.html',
                 scope: _$scope
             }).then(_callBack);
         };
@@ -94,7 +106,7 @@ define('main/services', ['main/init'], function () {
             var _$scope = $rootScope.$new(false);
             _$scope.confirmText = _text || '确定';
             modal.openConfirm({
-                template: 'tpl/dialog-alert.html',
+                template: Config.tplPath+'tpl/dialog-alert.html',
                 scope: _$scope
             }).then(_callBack);
         };
@@ -106,7 +118,7 @@ define('main/services', ['main/init'], function () {
             var _$scope = $rootScope.$new(false);
             _$scope.content = _content;
             modal.openConfirm({
-                template: 'tpl/dialog-center.html',
+                template: Config.tplPath+'tpl/dialog-center.html',
                 scope: _$scope
             }).then(_callBack);
         };
@@ -128,7 +140,7 @@ define('main/services', ['main/init'], function () {
             _$scope.url = _url;
             _$scope.urlParams = _params;
             modal.open({
-                template: 'tpl/dialog-center.html',
+                template: Config.tplPath+'tpl/dialog-center.html',
                 scope: _$scope
             });
         };

@@ -15,7 +15,7 @@ define('upload/directives', ['upload/init'], function () {
                 height: "@"
             },
             replace: true,
-            templateUrl: 'tpl/uploader.html',
+            templateUrl: Config.tplPath+'tpl/uploader.html',
             link: function ($scope, $element, $attrs) {
                 var $fileIpt = $('<input type="file" multiple/>');
                 var fileType = $attrs.uploadType || "image";

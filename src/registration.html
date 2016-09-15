@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" ng-app="registrationApp">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,10 +10,8 @@
     <title>盘谷医疗</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/jquery-ui-1.10.3.css">
-    <link rel="stylesheet" href="fonts/css/font-awesome.min.css">
     <link href="css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/css/font-awesome.min.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -22,41 +20,33 @@
     <![endif]-->
 </head>
 
-<body class="login-body">
+<body class="login-body" ng-controller="registrationCtrl">
 
-<div class="container">
+<div ng-view>
 
+</div>
+
+<!-- <div class="container">
     <form class="form-signin" action="index.html">
         <div class="form-signin-heading text-center">
             <h1 class="sign-title"></h1>
             <img src="images/logo-pangu-350x78.png" alt=""/>
         </div>
 
-
         <div class="login-wrap">
-            <p>请填入您的信息以完成注册</p>
-            <input type="text" autofocus="" placeholder="您的手机号码" class="form-control">
-            <input type="text" autofocus="" placeholder="地址" class="form-control">
-            <input type="text" autofocus="" placeholder="Email" class="form-control">
-            <input type="text" autofocus="" placeholder="城市" class="form-control">
-            <div class="radios">
-                <label for="radio-01" class="label_radio col-lg-6 col-sm-6">
-                    <input type="radio" checked="" value="1" id="radio-01" name="sample-radio"> 男
-                </label>
-                <label for="radio-02" class="label_radio col-lg-6 col-sm-6">
-                    <input type="radio" value="1" id="radio-02" name="sample-radio"> 女
-                </label>
-            </div>
+            <input type="text" placeholder="您的手机号码" class="form-control" name="tel" ng-model="regData.phone">
+            <label class="col-md-6">
+              <input type="text" class="form-control" maxlength="6">
+            </label>
+            <label class="col-md-6">
+              <button type="button" class="btn btn-primary" ng-click="sendRegValideCode()">获取验证码</button>
+            </label>
 
-            <p> 请填入您的个人信息</p>
-            <input type="text" autofocus="" placeholder="用户名" class="form-control">
-            <input type="password" placeholder="密码" class="form-control">
-            <input type="password" placeholder="重复密码" class="form-control">
             <label class="checkbox">
                 <input type="checkbox" checked value="agree this condition"> 我同意服务和隐私政策的条款
             </label>
             <button type="submit" class="btn btn-lg btn-login btn-block">
-                <i class="fa fa-check"></i>
+                 下一步
             </button>
 
             <div class="registration">
@@ -65,21 +55,15 @@
                     登录
                 </a>
             </div>
-
         </div>
-
     </form>
-
-</div>
-
-
-
-<!-- Placed js at the end of the document so the pages load faster -->
+</div> -->
 
 <!-- Placed js at the end of the document so the pages load faster -->
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/modernizr.min.js"></script>
-
+<script src="angular/libs/angular.min.js"></script>
+<script src="angular/libs/angular-route.min.js"></script>
+<script src="angular/registration_app.js"></script>
 </body>
 </html>
