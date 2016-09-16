@@ -472,5 +472,35 @@ define('project/directives', ['project/init'], function () {
         });
       }
     };
+  }])
+  /**
+   *  tooltips
+   */
+  .directive('runTooltips', [function () {
+    'use strcit';
+    return {
+      restrict: 'A',
+      scope: {},
+      link: function (scope, element, attrs) {
+        if (element.hasClass('tooltips')) {
+          $(element).tooltip({});
+        }
+      }
+    };
+  }])
+  /**
+   *	popover
+   */
+  .directive('runPopovers', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      scope: {},
+      link: function (scope, element, attrs) {
+        if (element.hasClass('popovers')) {
+          $(element).popover({});
+        }
+      }
+    };
   }]);
 });
