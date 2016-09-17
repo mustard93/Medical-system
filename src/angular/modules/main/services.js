@@ -42,10 +42,10 @@ define('main/services', ['main/init'], function () {
             method: method,
             url: _url,
             data: _params || {},
-            
+             withCredentials: true,
             headers: {
-
-                'Content-Type': 'application/x-www-form-urlencoded',
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type' : 'application/json;charset=utf-8',
                 'X-Requested-With': 'XMLHttpRequest'
             }
         };
