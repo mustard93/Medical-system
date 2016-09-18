@@ -351,7 +351,9 @@ define('main/directives', ['main/init'], function () {
                     var _index = $scope.tbodyList.indexOf(_tr);
                     var $tr = $element.find("tbody tr");
                     $tr.removeClass("on").eq(_index).addClass("on");
-                    ngModel && ngModel.$setViewValue(angular.copy(_tr));
+                    if (ngModel) {
+                      ngModel.$setViewValue(angular.copy(_tr));
+                    }
                 };
                 //改变状态
                 $scope.changeStatus = function (_url, _text) {
@@ -396,7 +398,9 @@ define('main/directives', ['main/init'], function () {
                                 statusInfo.pageSize = $scope.listSource.options.pageSize || statusInfo.pageSize;
                                 statusInfo.totalPage = Math.ceil(statusInfo.totalCount / statusInfo.pageSize);
                             }
-                            _callback && _callback();
+                            if (_callback) {
+                              _callback();
+                            }
                         }
                         return;
                     }
@@ -408,10 +412,11 @@ define('main/directives', ['main/init'], function () {
                         .then(function (results) {
                             var data = results[1];
                             if (data.code == 200) {
-                                if (data.options) {
-                                    statusInfo.totalCount = data.options.totalCount || statusInfo.totalCount;
-                                    statusInfo.pageSize = data.options.pageSize || statusInfo.pageSize;
-                                    statusInfo.totalPage = Math.ceil(statusInfo.totalCount / statusInfo.pageSize);
+                                statusInfo.totalCount = data.totalCount;
+                                statusInfo.pageSize = data.pageSize;
+
+                                if (statusInfo.totalCount&&statusInfo.pageSize) {
+                                      statusInfo.totalPage = Math.ceil(statusInfo.totalCount / statusInfo.pageSize);
                                 }
 
                                 if (data.thead) {
@@ -433,14 +438,18 @@ define('main/directives', ['main/init'], function () {
                             }
                             statusInfo.isLoading = false;
                             $timeout(bindSelectOneEvent);
-                            _callback && _callback();
+                            if (_callback) {
+                              _callback();
+                            }
                         })
                         .catch(function () {
                             statusInfo.isLoading = false;
                             statusInfo.loadFailMsg = '加载出错';
-                            _callback && _callback();
-                        })
-                };
+                            if (_callback) {
+                              _callback();
+                            }
+                        });
+                }
 
                 //设置值
                 function setSelectedValue() {
@@ -459,10 +468,12 @@ define('main/directives', ['main/init'], function () {
                             if (ls.id == selected) {
                                 _selected.push(ls);
                             }
-                        })
+                        });
                     });
-                    ngModel && ngModel.$setViewValue(_selected);
-                };
+                    if (ngModel) {
+                      ngModel.$setViewValue(_selected);
+                    }
+                }
                 //删除值
                 $scope.$on("deleteSelected", function (event, selected) {
                     $(".selectOne[value=" + selected.id + "]", $element).prop("checked", false);
@@ -501,7 +512,9 @@ define('main/directives', ['main/init'], function () {
                     formData = angular.copy($scope.listParams);
                     getListData(setSelectedValue);
                     //清除选择框
-                    $(".selectAll", $element).length > 0 && ($(".selectAll", $element).prop("checked", false).get(0).indeterminate = false);
+                    if ($(".selectAll", $element).length > 0) {
+                      $(".selectAll", $element).prop("checked", false).get(0).indeterminate = false;
+                    }
                 }, true);
 
                 $attrs.$observe("listData", function (value) {
@@ -511,7 +524,9 @@ define('main/directives', ['main/init'], function () {
                     formData = angular.copy($scope.listParams);
                     getListData(setSelectedValue);
                     //清除选择框
-                    $(".selectAll", $element).length > 0 && ($(".selectAll", $element).prop("checked", false).get(0).indeterminate = false);
+                    if ($(".selectAll", $element).length > 0) {
+                      $(".selectAll", $element).prop("checked", false).get(0).indeterminate = false;
+                    }
                 });
 
                 //接受广播
@@ -522,7 +537,9 @@ define('main/directives', ['main/init'], function () {
                     formData = angular.copy($scope.listParams);
                     getListData(setSelectedValue);
                     //清除选择框
-                    $(".selectAll", $element).length > 0 && ($(".selectAll", $element).prop("checked", false).get(0).indeterminate = false);
+                    if ($(".selectAll", $element).length > 0) {
+                      $(".selectAll", $element).prop("checked", false).get(0).indeterminate = false;
+                    }
                 });
 
 
@@ -564,7 +581,7 @@ define('main/directives', ['main/init'], function () {
                 });
             }
         };
-    };
+    }
     tableList.$inject = ['requestData', 'modal', 'dialogConfirm', '$timeout'];
 
     /**
