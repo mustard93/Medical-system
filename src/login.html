@@ -88,13 +88,12 @@
             _paramsObj.phone = $('input[name="phone"]').val();
             _paramsObj.password = $('input[name="password"]').val();
             $.ajax({
-              // url: 'http://192.168.0.107:8080/dt/rest/index/authorize.json',
-                url: 'http://localhost:8080/dt/rest/index/authorize.json',
+              url: 'http://192.168.0.107:8080/dt/rest/index/authorize.json',
+                // url: 'http://localhost:8080/dt/rest/index/authorize.json',
               type: 'post',
               data: _paramsObj,
               xhrFields:{withCredentials: true},
               crossDomain:true,
-
               dataType: 'json',
               success: function (results) {
                 if (results.code == 200) {  //验证成功
