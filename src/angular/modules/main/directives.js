@@ -38,7 +38,6 @@ define('main/directives', ['main/init'], function () {
                 });
 
                 ngModel.$formatters.push(function () {
-                  console.log($attrs);
                   if ($attrs.timestamp) {
                     return new Date(ngModel.$modelValue).getTime();
                   } else {
@@ -340,10 +339,10 @@ define('main/directives', ['main/init'], function () {
                     });
                 };
                 //单个删除
-                $scope.deleteThis = function (_url) {
+                $scope.deleteThis = function (_url, _param) {
                     var _tr = this.tr;
                     dialogConfirm('确定删除?', function () {
-                        requestData(_url, {id: _tr.id})
+                        requestData(_url, {id: _param}, 'POST')
                             .then(function () {
                                 $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
                                 if ($scope.tbodyList.length === 0) {
