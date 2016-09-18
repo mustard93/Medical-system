@@ -30,10 +30,20 @@ define('main/directives', ['main/init'], function () {
                 var _format = $attrs.convertToDate ? $attrs.convertToDate : "yyyy-MM-dd";
 
                 ngModel.$parsers.push(function (val) {
+                  if ($attrs.timestamp) {
+                    return val.getTime();
+                  } else {
                     return dateFilter(val, _format);
+                  }
                 });
+
                 ngModel.$formatters.push(function () {
+                  console.log($attrs);
+                  if ($attrs.timestamp) {
+                    return new Date(ngModel.$modelValue).getTime();
+                  } else {
                     return new Date(ngModel.$modelValue);
+                  }
                 });
             }
         };
