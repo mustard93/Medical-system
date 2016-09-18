@@ -184,5 +184,5 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
 
 /* 本地服务,自动刷新 */
 gulp.task('server', ['bro', 'browser'], function () {
-  gulp.watch('./src/**', ['bro']);
+  gulp.watch('./src/**/*', ['bro']);
 });

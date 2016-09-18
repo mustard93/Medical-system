@@ -13,6 +13,7 @@ define('main/controllers', ['main/init'], function () {
             navigation: "",
             msgBubble: 0 //消息气泡
         };
+
         $scope.mainConfig = window.Config || {};
         //页面跳转
         $scope.pageTo = function (_url) {
@@ -21,19 +22,21 @@ define('main/controllers', ['main/init'], function () {
 
         //获取主要信息
         if ($scope.mainConfig.getMainInfo) {
-            var _url=$scope.mainConfig.getMainInfo;
+            var _url = $scope.mainConfig.getMainInfo;
 
-            if(Config.serverPath){
-              if(_url.indexOf("http://")!=0&&_url.indexOf("https://")!=0){
-                      _url=$scope.mainConfig.serverPath+_url;
+            if (Config.serverPath) {
+              if (_url.indexOf("http://") !== 0 && _url.indexOf("https://") !== 0) {
+                _url = $scope.mainConfig.serverPath + _url;
               }
+              // 定义服务器请求路径
+              $scope.mainStatus.requestPath = Config.serverPath;
             }
 
             $.ajax({
-                url: _url,
+              url: _url,
               type: 'get',
               xhrFields:{withCredentials: true},
-               crossDomain:true,
+              crossDomain:true,
               dataType: 'json',
               success: function (_data) {
                 if (_data.code == 200) {
@@ -77,7 +80,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope",mainCtrl])
+        .controller('mainCtrl',  ["$scope", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
-        .controller('pageCtrl',  ["$scope","modal",pageCtrl])
+        .controller('pageCtrl',  ["$scope","modal",pageCtrl]);
 });
