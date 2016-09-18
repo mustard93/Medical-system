@@ -19,30 +19,27 @@ define('main/services', ['main/init'], function () {
 
     //数据请求
     function requestData($q, $http, $httpParamSerializer) {
-        return function (_url, _params,method,parameterBody) {
-            var defer = $q.defer();
+        return function (_url, _params, method, parameterBody) {
+          var defer = $q.defer();
+          if (!method) {
+            method = 'GET';
+          }
 
-            if(!method)method='GET';
-
-
-
-        var transformRequest=function (data) {
-            return $httpParamSerializer(data);
-        };
-
+          var transformRequest=function (data) {
+              return $httpParamSerializer(data);
+          };
 
         if(Config.serverPath){
-          if(_url.indexOf("http://")!=0&&_url.indexOf("https://")!=0){
-                    _url=Config.serverPath+_url;
+          if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
+            _url=Config.serverPath+_url;
           }
         }
-
 
         var config={
             method: method,
             url: _url,
             data: _params || {},
-             withCredentials: true,
+            withCredentials: true,
             headers: {
                 // 'Content-Type': 'application/x-www-form-urlencoded',
                 'Content-Type' : 'application/json;charset=utf-8',
@@ -52,6 +49,12 @@ define('main/services', ['main/init'], function () {
           if(!parameterBody){
             config.transformRequest=function (data) {
                     return $httpParamSerializer(data);
+                };
+
+                config.headers= {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    // 'Content-Type' : 'application/json;charset=utf-8',
+                    'X-Requested-With': 'XMLHttpRequest'
                 };
           }
 
