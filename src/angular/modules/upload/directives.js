@@ -45,7 +45,7 @@ define('upload/directives', ['upload/init'], function () {
                     $scope.fileList = [];
                 };
 
-                var $uploadBtn = $(".uploadBtn", $element);
+                var $uploadBtn = $(".uploadBtn", $element)
                 $uploadBtn.on("click", function () {
                     $fileIpt.trigger("click");
                 });
@@ -80,7 +80,7 @@ define('upload/directives', ['upload/init'], function () {
                                 break;
                             case "image":
                                 if (/image/g.test(files[i].type)) {
-                                    _fileObj = {
+                                    var _fileObj = {
                                         status: 'uploading',
                                         file: files[i],
                                         progress: 0,
@@ -98,7 +98,7 @@ define('upload/directives', ['upload/init'], function () {
                                 break;
                             default:
                                 if (new RegExp(fileType).test(files[i].type)) {
-                                    _fileObj = {
+                                    var _fileObj = {
                                         status: 'uploading',
                                         file: files[i],
                                         progress: 0,
@@ -162,10 +162,12 @@ define('upload/directives', ['upload/init'], function () {
                     xhr.send(fd);
                 }
             }
-        };
-    }
+        }
+    };
+
     uploader.$inject = [];
 
+//
     angular.module('manageApp.upload')
-        .directive("uploader", uploader);
+        .directive("uploader", uploader)
 });

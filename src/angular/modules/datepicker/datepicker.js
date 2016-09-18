@@ -694,7 +694,7 @@ define('datepicker/datepicker', ['moment', 'angular'], function (moment) {
         };
     });
     /* global moment */
-    Module = angular.module('datePicker');
+    var Module = angular.module('datePicker');
 
     Module.directive('dateRange', ['$compile', 'datePickerUtils', 'dateTimeConfig', function ($compile, datePickerUtils, dateTimeConfig) {
         function getTemplate(attrs, id, model, min, max) {
@@ -781,7 +781,7 @@ define('datepicker/datepicker', ['moment', 'angular'], function (moment) {
     var PRISTINE_CLASS = 'ng-pristine',
         DIRTY_CLASS = 'ng-dirty';
 
-    Module = angular.module('datePicker');
+    var Module = angular.module('datePicker');
 
     Module.constant('dateTimeConfig', {
         template: function (attrs, id) {

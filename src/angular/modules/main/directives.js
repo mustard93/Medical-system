@@ -273,10 +273,10 @@ define('main/directives', ['main/init'], function () {
                               alertError(error);
                               //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
                           });
-                  });
+                  })
               }
-          };
-      }
+          }
+      };
 
 
 
@@ -1578,189 +1578,195 @@ define('main/directives', ['main/init'], function () {
     }
 
     /**
-     * 下拉
-     */
-    function chosen(requestData, $timeout) {
-        return {
-            restrict: 'A',
-            scope: {
-                chosen: '='
-            },
-            require: "?^ngModel",
-            link: function ($scope, $element, $attrs, ngModel) {
-                var chosenConfig = {
-                    no_results_text: "没有找到",
-                    display_selected_options: false
-                };
-                $attrs.width && (chosenConfig.width = $attrs.width);
+      * 下拉
+      */
+     function chosen(requestData, $timeout) {
+         return {
+             restrict: 'A',
+             scope: {
+                 chosen: '='
+             },
+             require: "?^ngModel",
+             link: function ($scope, $element, $attrs, ngModel) {
+                 var chosenConfig = {
+                     search_contains:true,
+                     no_results_text: "没有找到",
+                     display_selected_options: false
+                 };
+                 $attrs.width && (chosenConfig.width = $attrs.width);
 
-                require(['chosen'], function () {
-                    if ($attrs.selectSource) {
-                        if (angular.isDefined($attrs.chosenAjax)) {
-                            $element.chosen(chosenConfig);
+                 require(['chosen'], function () {
+                     if ($attrs.selectSource) {
+                         if (angular.isDefined($attrs.chosenAjax)) {
+                             $element.chosen(chosenConfig);
 
-                            var $chosenContainer = $element.next();
-                            var $input = $('input', $chosenContainer);
-                            var searchStr = "";
-                            var isChinessInput = false;
-                            var typing = false;
-                            var requestQueue;
+                             var $chosenContainer = $element.next();
+                             var $input = $('input', $chosenContainer);
+                             var searchStr = "";
+                             var isChinessInput = false;
+                             var typing = false;
+                             var requestQueue;
 
-                            function handleSearch(q) {
-                                var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
-                                requestQueue && requestQueue.abort();
-                                requestQueue = $.ajax({
-                                    url: $attrs.selectSource,
-                                    type: 'get',
-                                    data: {q: q},
-                                    dataType: 'json',
-                                    success: function (_data) {
-                                        if (_data.code == 200) {
-                                            var _options = '';
-                                            var _length = _data.data.length;
-                                            var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
-                                            for (var i = 0; i < _length; i++) {
-                                                if (_selected.indexOf(_data.data[i].value) == -1) {
-                                                    _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
-                                                }
-                                            }
-                                            $element.html(_options).prepend(selected);
-                                            $element.trigger("chosen:updated");
-                                            var keyRight = $.Event('keydown');
-                                            keyRight.which = 39;
-                                            $input.val(q).trigger(keyRight);
+                             function handleSearch(q) {
+                                 var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
+                                 requestQueue && requestQueue.abort();
+                                 requestQueue = $.ajax({
+                                     url: $attrs.selectSource,
+                                     type: 'post',
+                                     data: {q: q},
+                                     dataType: 'json',
+                                     success: function (_data) {
+                                         if (_data.code == 200) {
+                                             var _options = '';
+                                             var _length = _data.data.length;
+                                             var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
+                                             for (var i = 0; i < _length; i++) {
+                                                 if (_selected.indexOf(_data.data[i].value) == -1) {
+                                                     _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
+                                                 }
+                                             }
+                                             $element.html(_options).prepend(selected);
+                                             $element.trigger("chosen:updated");
+                                             var keyRight = $.Event('keydown');
+                                             keyRight.which = 39;
+                                             $input.val(q).trigger(keyRight);
 
-                                            if (_data.data.length > 0) {
-                                                $chosenContainer.find('.no-results').hide();
-                                            } else {
-                                                $chosenContainer.find('.no-results').show();
-                                            }
-                                        }
-                                    },
-                                    complete: function () {
-                                        $scope.$digest();
-                                    }
-                                });
+                                             if (_data.data.length > 0) {
+                                                 $chosenContainer.find('.no-results').hide();
+                                             } else {
+                                                 $chosenContainer.find('.no-results').show();
+                                             }
+                                         }
+                                     },
+                                     complete: function () {
+                                         $scope.$digest();
+                                     }
+                                 });
 
 
-                                //requestData($attrs.selectSource, {q: q})
-                                //    .then(function (results) {
-                                //        var data = results[0];
-                                //        var _options = '';
-                                //        var _length = data.length;
-                                //        var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
-                                //        for (var i = 0; i < _length; i++) {
-                                //            if (_selected.indexOf(data[i].value) == -1) {
-                                //                _options += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
-                                //            }
-                                //        }
-                                //        $element.html(_options).prepend(selected);
-                                //        $element.trigger("chosen:updated");
-                                //        var keyRight = $.Event('keydown');
-                                //        keyRight.which = 39;
-                                //        $input.val(q).trigger(keyRight);
-                                //
-                                //        if (data.length > 0) {
-                                //            $chosenContainer.find('.no-results').hide();
-                                //        } else {
-                                //            $chosenContainer.find('.no-results').show();
-                                //        }
-                                //    });
-                            };
+                                 //requestData($attrs.selectSource, {q: q})
+                                 //    .then(function (results) {
+                                 //        var data = results[0];
+                                 //        var _options = '';
+                                 //        var _length = data.length;
+                                 //        var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
+                                 //        for (var i = 0; i < _length; i++) {
+                                 //            if (_selected.indexOf(data[i].value) == -1) {
+                                 //                _options += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
+                                 //            }
+                                 //        }
+                                 //        $element.html(_options).prepend(selected);
+                                 //        $element.trigger("chosen:updated");
+                                 //        var keyRight = $.Event('keydown');
+                                 //        keyRight.which = 39;
+                                 //        $input.val(q).trigger(keyRight);
+                                 //
+                                 //        if (data.length > 0) {
+                                 //            $chosenContainer.find('.no-results').hide();
+                                 //        } else {
+                                 //            $chosenContainer.find('.no-results').show();
+                                 //        }
+                                 //    });
+                             };
 
-                            function processValue(e) {
-                                var field = $(this);
+                             function processValue(e) {
+                                 var field = $(this);
 
-                                //don't fire ajax if...
-                                if ((e.type === 'paste' && field.is(':not(:focus)')) ||
-                                    (e.keyCode && (
-                                        (e.keyCode === 9) ||//Tab
-                                        (e.keyCode === 13) ||//Enter
-                                        (e.keyCode === 16) ||//Shift
-                                        (e.keyCode === 17) ||//Ctrl
-                                        (e.keyCode === 18) ||//Alt
-                                        (e.keyCode === 19) ||//Pause, Break
-                                        (e.keyCode === 20) ||//CapsLock
-                                        (e.keyCode === 27) ||//Esc
-                                        (e.keyCode === 33) ||//Page Up
-                                        (e.keyCode === 34) ||//Page Down
-                                        (e.keyCode === 35) ||//End
-                                        (e.keyCode === 36) ||//Home
-                                        (e.keyCode === 37) ||//Left arrow
-                                        (e.keyCode === 38) ||//Up arrow
-                                        (e.keyCode === 39) ||//Right arrow
-                                        (e.keyCode === 40) ||//Down arrow
-                                        (e.keyCode === 44) ||//PrntScrn
-                                        (e.keyCode === 45) ||//Insert
-                                        (e.keyCode === 144) ||//NumLock
-                                        (e.keyCode === 145) ||//ScrollLock
-                                        (e.keyCode === 91) ||//WIN Key (Start)
-                                        (e.keyCode === 93) ||//WIN Menu
-                                        (e.keyCode === 224) ||//command key
-                                        (e.keyCode >= 112 && e.keyCode <= 123)//F1 to F12
-                                    ))) {
-                                    return false;
-                                }
+                                 //don't fire ajax if...
+                                 if ((e.type === 'paste' && field.is(':not(:focus)')) ||
+                                     (e.keyCode && (
+                                         (e.keyCode === 9) ||//Tab
+                                             (e.keyCode === 13) ||//Enter
+                                             (e.keyCode === 16) ||//Shift
+                                             (e.keyCode === 17) ||//Ctrl
+                                             (e.keyCode === 18) ||//Alt
+                                             (e.keyCode === 19) ||//Pause, Break
+                                             (e.keyCode === 20) ||//CapsLock
+                                             (e.keyCode === 27) ||//Esc
+                                             (e.keyCode === 33) ||//Page Up
+                                             (e.keyCode === 34) ||//Page Down
+                                             (e.keyCode === 35) ||//End
+                                             (e.keyCode === 36) ||//Home
+                                             (e.keyCode === 37) ||//Left arrow
+                                             (e.keyCode === 38) ||//Up arrow
+                                             (e.keyCode === 39) ||//Right arrow
+                                             (e.keyCode === 40) ||//Down arrow
+                                             (e.keyCode === 44) ||//PrntScrn
+                                             (e.keyCode === 45) ||//Insert
+                                             (e.keyCode === 144) ||//NumLock
+                                             (e.keyCode === 145) ||//ScrollLock
+                                             (e.keyCode === 91) ||//WIN Key (Start)
+                                             (e.keyCode === 93) ||//WIN Menu
+                                             (e.keyCode === 224) ||//command key
+                                             (e.keyCode >= 112 && e.keyCode <= 123)//F1 to F12
+                                         ))) {
+                                     return false;
+                                 }
 
-                                if (isChinessInput && (e.keyCode != 32 && (e.keyCode < 48 || e.keyCode > 57))) {
-                                    return false;
-                                }
+                                 if (isChinessInput && (e.keyCode != 32 && (e.keyCode < 48 || e.keyCode > 57))) {
+                                     return false;
+                                 }
 
-                                $chosenContainer.find('.no-results').hide();
+                                 $chosenContainer.find('.no-results').hide();
 
-                                var q = $.trim(field.val());
-                                if (!q && searchStr == q) {
-                                    return false;
-                                }
-                                searchStr = q;
+                                 var q = $.trim(field.val());
+                                 if (!q && searchStr == q) {
+                                     return false;
+                                 }
+                                 searchStr = q;
 
-                                typing = true;
+                                 typing = true;
 
-                                if ($scope.searchTimer) {
-                                    $timeout.cancel($scope.searchTimer);
-                                }
+                                 if ($scope.searchTimer) {
+                                     $timeout.cancel($scope.searchTimer);
+                                 }
 
-                                $scope.searchTimer = $timeout(function () {
-                                    typing = false;
-                                    handleSearch(q);
-                                }, 600);
-                            };
+                                 $scope.searchTimer = $timeout(function () {
+                                     typing = false;
+                                     handleSearch(q);
+                                 }, 600);
+                             };
 
-                            $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer).on('keyup', processValue).on('paste', function (e) {
-                                var that = this;
-                                setTimeout(function () {
-                                    processValue.call(that, e);
-                                }, 500);
-                            }).on('keydown', function (e) {
-                                if (e.keyCode == 229) {
-                                    isChinessInput = true;
-                                } else {
-                                    isChinessInput = false;
-                                }
-                            });
-                        } else {
-                            requestData($attrs.selectSource)
-                                .then(function (results) {
-                                    var data = results[0];
-                                    var _options = '';
-                                    var _length = data.length;
-                                    var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
-                                    for (var i = 0; i < _length; i++) {
-                                        _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
-                                    }
-                                    $element.html(_options);
-                                    $element.chosen($scope.chosen || chosenConfig);
-                                    ngModel.$setViewValue(_selected);
-                                });
-                        }
-                    } else {
-                        $element.chosen($scope.chosen || chosenConfig);
-                    }
-                })
-            }
-        }
-    };
-    chosen.$inject = ["requestData", "$timeout"];
+                             $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer).on('keyup', processValue).on('paste', function (e) {
+                                 var that = this;
+                                 setTimeout(function () {
+                                     processValue.call(that, e);
+                                 }, 500);
+                             }).on('keydown', function (e) {
+                                     if (e.keyCode == 229) {
+                                         isChinessInput = true;
+                                     } else {
+                                         isChinessInput = false;
+                                     }
+                                 });
+                         } else {
+                             requestData($attrs.selectSource)
+                                 .then(function (results) {
+                                     var data = results[0];
+                                     var _options = '';
+                                     var _length = data.length;
+                                     var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
+                                     for (var i = 0; i < _length; i++) {
+                                         _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
+                                     }
+                                     $element.html(_options);
+                                     $element.chosen($scope.chosen || chosenConfig);
+                                     ngModel.$setViewValue(_selected);
+                                 });
+                         }
+                     } else {
+
+                         //修复select 初始值为null，没有对应的option值时，angluarjs自动添加，空option 导致 chonsen控件，选择其他值后，不能选择最后一条bug。
+                         $element.append("<option value=''></option>");
+                         $element.chosen($scope.chosen || chosenConfig);
+
+
+                     }
+                 })
+             }
+         }
+     };
+     chosen.$inject = ["requestData", "$timeout"];
 
     /**
      * form-item
