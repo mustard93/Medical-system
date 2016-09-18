@@ -480,7 +480,6 @@ define('project/directives', ['project/init'], function () {
     'use strcit';
     return {
       restrict: 'A',
-      scope: {},
       link: function (scope, element, attrs) {
         if (element.hasClass('tooltips')) {
           $(element).tooltip({});
@@ -495,7 +494,6 @@ define('project/directives', ['project/init'], function () {
     'use strict';
     return {
       restrict: 'A',
-      scope: {},
       link: function (scope, element, attrs) {
         if (element.hasClass('popovers')) {
           $(element).popover({});
