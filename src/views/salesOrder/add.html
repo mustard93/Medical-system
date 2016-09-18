@@ -2,7 +2,7 @@
 <div class="api_demo" ng-controller="pageCtrl" >
   <div class="page-main">
           <div class="mgb-l"><span class="text-l">表单元素</span></div>
-          <form name="myForm" form-validator action="../data/formValidator.json" alert-error alert-ok scope-error-msg="errorMsg">
+          <form name="myForm" form-validator  parameter-body action="rest/authen/salesOrder/add.json" alert-error alert-ok scope-error-msg="errorMsg">
 
 
             <div class="form-tr">
@@ -20,7 +20,7 @@
               <div class="form-tr">
                   <div class="form-th">客户名</div>
                   <div class="form-td">
-                    <select class="select select-w" data-placeholder="选择一个..." chosen chosen-ajax ng-model="formData.customerId" select-source="rest/authen/customer/myCompanyOfSelect.json></select>
+                    <select class="select select-w" data-placeholder="选择一个..." chosen  ng-model="formData.customerId" select-source="rest/authen/customer/queryByDistributorIdForSelectOption.json"></select>
 
                   </div>
               </div>
@@ -29,8 +29,74 @@
                   <div class="form-td" ng-init="formData.inputUser.id='2016-01-16'">
                       <input type="text" class="ipt" ng-model="formData.inputUser.id" />
                   </div>
+                  <div class="form-th">收货地址 </div>
+                  <div class="form-td">
+                      <input type="text" class="ipt" ng-model="formData.address.address" />
+                  </div>
+                  <div class="form-th">收货人</div>
+                  <div class="form-td">
+                      <input type="text" class="ipt" ng-model="formData.address.name" />
+                  </div>
+                  <div class="form-th">收货电话 </div>
+                  <div class="form-td">
+                      <input type="text" class="ipt" ng-model="formData.address.tel" />
+                  </div>
+              </div>
+              <div class="form-tr">
+                  <div class="form-th">期望日期</div>
+                  <div class="form-td" ng-init="formData.expectDate='2016-01-16'">
+                      <input type="date" class="ipt" ng-model="formData.expectDate" />
+                  </div>
+              </div>
+              <div class="form-tr">
+                  <div class="form-th">备注</div>
+                  <div class="form-td" ng-init="formData.note=''">
+                    <textarea ng-model="formData.note"></textarea>
+                  </div>
               </div>
 
+
+              <div class="form-tr"  ng-init="formData.orderMedicalNos=[{relId:'1',quantity:50},{relId:'2',quantity:150}]">
+                  <div class="form-th">订单列表</div>
+
+                  <table class="table-list">
+                      <thead>
+                      <tr>
+                          <th><input type="checkbox" class="selectAll"></th>
+                          <th >药品</th>
+                          <th >牌子</th>
+                          <th>基准单位</th>
+                          <th>价格</th>
+                          <th>数量</th>
+                            <th>操作</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()">
+                          <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                          <td>
+                            <select class="select select-w" data-placeholder="选择一个..." chosen
+                            ng-model="formData.orderMedicalNos[$index].relId"
+                            select-source="rest/authen/medical/queryByMedicalIdForSelectOption.json"></select>
+                          </td>
+                          <td>{{tr.brand}}</td>
+                          <td>{{tr.unit}}</td>
+                          <td>{{tr.price}}</td>
+                          <td>
+  <input type="text" class="ipt" ng-model="tr.quantity" />
+                          </td>
+
+                          <td>
+                              <button type="button" class="btn btn-s btn-white" modal-right="400" modal-scope="this" modal-url="views/list-view.html"><i
+                                      class="iconfont icon-delete"></i> 查看
+                              </button>
+
+                              <button type="button" class="btn btn-s btn-orange" ng-click="formData.orderMedicalNos.splice($index,1)"><i class="iconfont icon-delete"></i> 删除</button>
+                          </td>
+                      </tr>
+                      </tbody>
+                  </table>
+              </div>
               <div class="form-tr">
                   <div class="form-th"></div>
                   <div class="form-td">

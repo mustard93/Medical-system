@@ -21,7 +21,7 @@ define('main/services', ['main/init'], function () {
     function requestData($q, $http, $httpParamSerializer) {
         return function (_url, _params,method,parameterBody) {
             var defer = $q.defer();
-            //GET|POST
+
             if(!method)method='GET';
 
 
@@ -31,22 +31,65 @@ define('main/services', ['main/init'], function () {
         };
 
 
-        if(parameterBody){
-          transformRequest=function (data) {
-              return data;
-          };
+        if(Config.serverPath){
+          if(_url.indexOf("http://")!=0&&_url.indexOf("https://")!=0){
+                    _url=Config.serverPath+_url;
+          }
         }
 
-            $http({
-                method: method,
-                url: _url,
-                data: _params || {},
-                transformRequest: transformRequest,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
+
+        var config={
+            method: method,
+            url: _url,
+            data: _params || {},
+             withCredentials: true,
+            headers: {
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type' : 'application/json;charset=utf-8',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        };
+          if(!parameterBody){
+            config.transformRequest=function (data) {
+                    return $httpParamSerializer(data);
+                };
+          }
+
+          //GET|POST
+
+          //
+          // if(method=='GET'){
+          //   config.data.q='11';
+          //   config.data.b='11';
+          //   $http.get(config.url,config.data)
+          //       .success(function (_data, status, headers, config) {
+          //           if (status == 200 && _data.code == 200) {
+          //               defer.resolve([_data.data, _data]);
+          //           } else {
+          //               defer.reject(_data.msg || '出错了');
+          //           }
+          //       })
+          //       .error(function () {
+          //           defer.reject("提交失败!");
+          //       });
+          // }else{
+          //   $http.post(config.url,config.data,{'Content-Type':'application/x-www-form-urlencoded'})
+          //       .success(function (_data, status, headers, config) {
+          //           if (status == 200 && _data.code == 200) {
+          //               defer.resolve([_data.data, _data]);
+          //           } else {
+          //               defer.reject(_data.msg || '出错了');
+          //           }
+          //       })
+          //       .error(function () {
+          //           defer.reject("提交失败!");
+          //       });
+          // }
+
+
+
+
+            $http(config)
                 .success(function (_data, status, headers, config) {
                     if (status == 200 && _data.code == 200) {
                         defer.resolve([_data.data, _data]);

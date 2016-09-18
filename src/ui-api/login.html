@@ -9,9 +9,9 @@
     <link rel="shortcut icon" href="#" type="image/png">
     <title>盘谷医疗 - 用户登录</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/css/font-awesome.min.css">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../fonts/css/font-awesome.min.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -25,7 +25,7 @@
         <form name="loginForm" class="form-signin" onsubmit="return false;">
             <div class="form-signin-heading text-center">
                 <h1 class="sign-title"></h1>
-                <img src="images/logo-pangu-350x78.png" alt="盘谷医疗" />
+                <img src="../images/logo-pangu-350x78.png" alt="盘谷医疗" />
             </div>
             <div class="login-wrap">
                 <input type="text" class="form-control" placeholder="您的手机号码" name="phone" required autofocus>
@@ -52,10 +52,10 @@
     </div>
 
     <!-- Placed js at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <script>
-    // eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('$(6(){$(\'p[1="l"]\').k(\'j\',6(){m 4={};a($(\'2[1="5"]\').3()&&$(\'2[1="7"]\').3()){4.5=$(\'2[1="5"]\').3();4.7=$(\'2[1="7"]\').3();$.o({n:\'f://d.i.0.g:h/e/C/b/D.9\',A:\'B\',H:4,G:\'9\',E:6(8){a(8.F==z){s.t.q="/r/b.c#/u.c"}x{y(8.v||\'w\')}}})}})});',44,44,'|name|input|val|_0|phone|function|password|results|json|if|index|html|192|dt|http|107|8080|168|submit|on|loginForm|var|url|ajax|form|href|src|window|location|main|msg|登录失败|else|alert|200|type|post|rest|authorize|success|code|dataType|data'.split('|'),0,{}))
+    eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('$(6(){$(\'p[1="l"]\').k(\'j\',6(){m 4={};a($(\'2[1="5"]\').3()&&$(\'2[1="7"]\').3()){4.5=$(\'2[1="5"]\').3();4.7=$(\'2[1="7"]\').3();$.o({n:\'f://d.i.0.g:h/e/C/b/D.9\',A:\'B\',H:4,G:\'9\',E:6(8){a(8.F==z){s.t.q="/r/b.c#/u.c"}x{y(8.v||\'w\')}}})}})});',44,44,'|name|input|val|_0|phone|function|password|results|json|if|index|html|192|dt|http|107|8080|168|submit|on|loginForm|var|url|ajax|form|href|src|window|location|main|msg|登录失败|else|alert|200|type|post|rest|authorize|success|code|dataType|data'.split('|'),0,{}))
 
       //=========登陆ajax请求源码，生产环境请删除下列代码============================================
       // $(function () {
@@ -80,34 +80,6 @@
       //     }
       //   });
       // });
-
-      $(function () {
-        $('form[name="loginForm"]').on('submit', function () {
-          var _paramsObj = {};
-          if ($('input[name="phone"]').val() && $('input[name="password"]').val()) {
-            _paramsObj.phone = $('input[name="phone"]').val();
-            _paramsObj.password = $('input[name="password"]').val();
-            $.ajax({
-              // url: 'http://192.168.0.107:8080/dt/rest/index/authorize.json',
-                url: 'http://localhost:8080/dt/rest/index/authorize.json',
-              type: 'post',
-              data: _paramsObj,
-              xhrFields:{withCredentials: true},
-              crossDomain:true,
-
-              dataType: 'json',
-              success: function (results) {
-                if (results.code == 200) {  //验证成功
-                    alert(results.msg || '登录失败');
-                  // window.location.href = "/src/index.html#/main.html";
-                } else {
-                  alert(results.msg || '登录失败');
-                }
-              }
-            });
-          }
-        });
-      });
     </script>
 </body>
 </html>
