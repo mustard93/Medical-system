@@ -37,7 +37,7 @@ gulp.task('browser', function () {
     //延迟刷新，默认为0
     reloadDelay: 1,
     //是否载入css修改，默认true
-    injectChanges: false
+    injectChanges: true
   });
 });
 
@@ -77,8 +77,8 @@ if(DEBUGGER) {
 
 /* 清理css文件 */
 gulp.task('clean-css', function () {
-  return gulp.src(paths.build + "css/*.css")
-             .pipe(clean());
+  gulp.src(paths.build + "css/*.css")
+      .pipe(clean());
 });
 
 /* 编译LESS */
@@ -105,6 +105,7 @@ gulp.task('runLess', ['clean-css'], function () {
 gulp.task('concatCss', ['clean-css'], function() {              //- 创建一个名为 concatCss 的 task
     gulp.src([paths.src + 'css/block_css/*.css'])               //- 需要处理的css文件，放到一个字符串数组里
         .pipe(concat('style.css'))                              //- 合并后的文件名
+        .pipe(gulp.dest('./src/css'))                           // 输出合并后但压缩的CSS文件
         .pipe(mincss())                                         //- 压缩处理成一行
         .pipe(rev())                                            //- 文件名加MD5后缀
         .pipe(gulp.dest(paths.build + 'css'))                   //- 输出文件本地
@@ -113,10 +114,12 @@ gulp.task('concatCss', ['clean-css'], function() {              //- 创建一个
 });
 
 /* 替换静态资源链接 */
-gulp.task('replaceCssLink', function() {
+gulp.task('replaceCssLink', ['concatCss'], function() {
     gulp.src(['rev/css/rev-manifest.json', 'src/*.html'])       //- 读取 rev-manifest.json 文件以及需要进行css名替换的文件
-        .pipe(revCollector())                                   //- 执行文件内css名的替换
-        .pipe(gulp.dest('./src/'));                             //- 替换后的文件输出的目录
+        .pipe(revCollector({                                    //- 执行文件内css名的替换
+           replaceReved: true
+        }))
+        .pipe(gulp.dest('./src'));                             //- 替换后的文件输出的目录
 });
 
 /* 监听HTML文件变化 */
@@ -170,6 +173,11 @@ gulp.task('browserify', function () {
         .pipe(reload({stream:true}));
 });
 
+/* 监控任务 */
+gulp.task('watch', function () {
+  gulp.watch('./src/css/block_css/*.css', ['concatCss', 'bro']);
+});
+
 /* 默认启动任务 */
 gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
   gulp.watch(['**/*.less', '**/*.css'], ['runLess']);
@@ -178,7 +186,7 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
 });
 
 /* 本地服务,自动刷新 */
-gulp.task('server', ['bro', 'browser', 'concatCss', 'replaceCssLink'], function () {
-  gulp.watch('./src/block_css/*.css', ['concatCss', 'replaceCssLink']);   //监控所有CSS文件，若有变化则重新合并打包并部署到HTML中
-  gulp.watch('./src/**/*', ['bro']);
+gulp.task('server', ['browser', 'concatCss', 'bro'], function () {
+  gulp.watch('./src/css/block_css/*.css', ['concatCss', 'bro']);   //监控所有CSS文件，若有变化则重新合并打包并部署到HTML中
+  gulp.watch('./src/css/block_css/*.css', ['bro']);
 });
