@@ -103,11 +103,11 @@ gulp.task('runLess', ['clean-css'], function () {
 
 /* 合并压缩CSS */
 gulp.task('handleCss', ['clean-css'], function () {
-  return gulp.src([paths.src + '**/style.css'])
+  return gulp.src([paths.src + 'css/block_css/*.css'])
              .pipe(concat('style.min.css'))             // 合并及设置生成后文件名
              .pipe(mincss())                            // 压缩css
              .pipe(rev())                               // 生成MD5文件名
-             .pipe(gulp.dest(paths.build + '/css'))     // 输出到目录
+             .pipe(gulp.dest(paths.build + 'css'))      // 输出到目录
              .pipe(rev.manifest())                      // 生成一个rev-manifest.json
              .pipe(gulp.dest('./rev/css'));             // 将rev-manifest.json 保存到rev目录内
 });
