@@ -1,8 +1,12 @@
 
-<div class="api_demo" ng-controller="pageCtrl" >
-  <div class="page-main">
+<div class="api_demo" ng-controller="salesOrderEditCtrl" >
+  <div class="page-main"    ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"  scope-data="formData" alert-error
+ >
           <div class="mgb-l"><span class="text-l">表单元素</span></div>
-          <form name="myForm" form-validator  parameter-body action="rest/authen/salesOrder/add.json" alert-error alert-ok scope-error-msg="errorMsg">
+          <form id="addSalesOrderForm"
+
+ form-validator  parameter-body action="rest/authen/salesOrder/save.json"
+           alert-error alert-ok scope-error-msg="errorMsg">
 
 
             <div class="form-tr">
@@ -26,7 +30,7 @@
               </div>
               <div class="form-tr">
                   <div class="form-th">联系人</div>
-                  <div class="form-td" ng-init="formData.inputUser.id='2016-01-16'">
+                  <div class="form-td" ng-init="formData.inputUser.id='123'">
                       <input type="text" class="ipt" ng-model="formData.inputUser.id" />
                   </div>
                   <div class="form-th">收货地址 </div>
@@ -44,8 +48,8 @@
               </div>
               <div class="form-tr">
                   <div class="form-th">期望日期</div>
-                  <div class="form-td" ng-init="formData.expectDate='2016-01-16'">
-                      <input type="date" class="ipt" ng-model="formData.expectDate" />
+                  <div class="form-td" ng-init="formData.expectDate=''">
+                      <input type="date" class="ipt" convert-to-date ng-model="formData.expectDate" />
                   </div>
               </div>
               <div class="form-tr">
@@ -56,6 +60,7 @@
               </div>
 
 
+              <!-- 订单列表 -->
               <div class="form-tr"  ng-init="formData.orderMedicalNos=[{relId:'1',quantity:50},{relId:'2',quantity:150}]">
                   <div class="form-th">订单列表</div>
 
@@ -75,15 +80,14 @@
                       <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()">
                           <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                           <td>
-                            <select class="select select-w" data-placeholder="选择一个..." chosen
-                            ng-model="formData.orderMedicalNos[$index].relId"
-                            select-source="rest/authen/medical/queryByMedicalIdForSelectOption.json"></select>
+
+                            {{tr.name}}
                           </td>
                           <td>{{tr.brand}}</td>
                           <td>{{tr.unit}}</td>
                           <td>{{tr.price}}</td>
                           <td>
-  <input type="text" class="ipt" ng-model="tr.quantity" />
+                              <input type="text" class="ipt" ng-model="tr.quantity" />
                           </td>
 
                           <td>
@@ -97,10 +101,58 @@
                       </tbody>
                   </table>
               </div>
+
+                  <!-- 订单列表 -->
+
+                  <!-- 添加订单 -->
+                  <div class="form-tr"  ng-init="addDataItem={}">
+
+                      <table class="table-list">
+                          <thead>
+                          <tr>
+                              <th >药名</th>
+                              <th >厂家</th>
+                              <th>规格</th>
+                                <th>单位</th>
+                              <th>参考价格</th>
+                              <th>购买数量</th>
+                                <th>操作</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr >
+                              <td>
+                                <select class="select select-w" data-placeholder="选择一个..." chosen select-call-back="selectRelIdCallBack"
+                                ng-model="formData.orderMedicalNos[$index].relId"
+                                select-source="rest/authen/medical/queryByDistributorIdForSelectOption.json"></select>
+                              </td>
+                              <td>{{addDataItem.brand}}</td>
+                              <td>规格</td>
+                              <td>{{addDataItem.unit}}</td>
+                              <td>{{addDataItem.price}}</td>
+                              <td>
+                                  <input type="text" class="ipt" ng-model="addDataItem.quantity" />
+                              </td>
+
+                              <td>
+                                  <button type="button" class="btn btn-s btn-white" modal-right="400"  ng-click="addDataItemClick()"><i
+                                          class="iconfont icon-add"></i> 添加
+                                  </button>
+
+                                  <button type="button" class="btn btn-s btn-orange"  modal-scope="this" modal-url="views/list-view.html"><i class="iconfont icon-delete"></i> 导入</button>
+                              </td>
+                          </tr>
+                          </tbody>
+                      </table>
+                  </div>
+
+                      <!-- 添加订单-->
               <div class="form-tr">
                   <div class="form-th"></div>
                   <div class="form-td">
-                      <button type="submit" class="btn btn-l">提交</button>
+                      <button type="button" class="btn btn-l"  ng-click="submitForm('addSalesOrderForm','save')">保存草稿</button>
+                        <button type="button" class="btn btn-l" ng-click="submitForm('addSalesOrderForm','submit')">生成订单</button>
+                          <button type="button" class="btn btn-l" ng-click="cancelForm()">取消</button>
                   </div>
               </div>
           </form>

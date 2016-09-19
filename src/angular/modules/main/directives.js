@@ -93,7 +93,7 @@ define('main/directives', ['main/init'], function () {
     function ajaxUrl(requestData,alertOk,alertError) {
         return {
             restrict: 'AE',
-            scope: true,
+            // scope: true,
             transclude: true,
             link: function ($scope, $element, $attrs, $ctrls, $transclude) {
                 $scope.isLoading = false;
@@ -142,6 +142,8 @@ define('main/directives', ['main/init'], function () {
 
                             //回调父级的处理事件;
                             $scope.listCallback && $scope.listCallback(results[1]);
+
+                              $scope.$apply();
                         })
                         .catch(function (msg) {
                               if($attrs.scopeErrorMsg)$scope[$attrs.scopeErrorMsg]=(msg);
@@ -196,7 +198,7 @@ define('main/directives', ['main/init'], function () {
       function formValidator(requestData, modal, alertOk,alertError) {
           return {
               restrict: 'A',
-              scope: true,
+              // scope: true,
               link: function ($scope, $element, $attrs) {
                   var formStatus = $scope.formStatus = {
                       submitted: false,
@@ -1157,6 +1159,7 @@ define('main/directives', ['main/init'], function () {
                     .then(function (results) {
                         var data = results[0];
                         var _options = '<option value="">请选择</option>';
+                        if(!data)data=[];
                         var _length = data.length;
                         for (var i = 0; i < _length; i++) {
                             _options += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
@@ -1200,6 +1203,7 @@ define('main/directives', ['main/init'], function () {
                         .then(function (results) {
                             var data = results[0];
                             var _options = isSelectFirst ? '' : '<option value="">请选择</option>';
+                                if(!data)data=[];
                             var _length = data.length;
                             var _value = "";
                             for (var i = 0; i < _length; i++) {
@@ -1614,13 +1618,15 @@ define('main/directives', ['main/init'], function () {
 
     /**
       * 下拉
+      回调方法
+      $attrs.selectCallBack
       */
      function chosen(requestData, $timeout) {
          return {
              restrict: 'A',
-             scope: {
-                 chosen: '='
-             },
+            //  scope: {
+            //      chosen: '='
+            //  },
              require: "?^ngModel",
              link: function ($scope, $element, $attrs, ngModel) {
                  var chosenConfig = {
@@ -1628,6 +1634,19 @@ define('main/directives', ['main/init'], function () {
                      no_results_text: "没有找到",
                      display_selected_options: false
                  };
+
+                    if ($attrs.selectCallBack) {
+                        $element.on("change", changeHandle);
+                          $element.on("update", function (e, _data) {
+                              getData(_data);
+                          });
+                          function changeHandle() {
+                              var _data = {};
+                              _data.value = $element.val();
+                             $scope[$attrs.selectCallBack](_data);
+                          }
+
+                    }
                  $attrs.width && (chosenConfig.width = $attrs.width);
 
                  require(['chosen'], function () {
@@ -1653,6 +1672,7 @@ define('main/directives', ['main/init'], function () {
                                      success: function (_data) {
                                          if (_data.code == 200) {
                                              var _options = '';
+                                            if(!_data.data)_data.data=[];
                                              var _length = _data.data.length;
                                              var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
                                              for (var i = 0; i < _length; i++) {
@@ -1779,6 +1799,7 @@ define('main/directives', ['main/init'], function () {
                                  .then(function (results) {
                                      var data = results[0];
                                      var _options = '';
+                                     if(!data)data=[];
                                      var _length = data.length;
                                      var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
                                      for (var i = 0; i < _length; i++) {

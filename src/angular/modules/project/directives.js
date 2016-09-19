@@ -3,7 +3,7 @@
  */
 
 define('project/directives', ['project/init'], function () {
-  angular.module('manageApp.project', [])
+  angular.module('manageApp.project')
   /**
    * [滚动条美化]
    */
