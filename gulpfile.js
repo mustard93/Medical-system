@@ -63,7 +63,7 @@ var paths = {
   scripts   :  "src/js/",
   img       :  "src/images/",
   html      :  "src/html/",
-  build     :  "build/",
+  build     :  "src/build/",
   src       :  'src/'
 };
 
@@ -75,9 +75,9 @@ if(DEBUGGER) {
     prefix = "http://localhost:3000/build";
 }
 
-/* 清理文件 */
+/* 清理css文件 */
 gulp.task('clean-css', function () {
-  return gulp.src(paths.build + "**/*.css")
+  return gulp.src(paths.build + "css/*.css")
              .pipe(clean());
 });
 
@@ -101,7 +101,7 @@ gulp.task('runLess', ['clean-css'], function () {
            .pipe(browserSync.reload({stream:true}));
 });
 
-/* 压缩CSS */
+/* 合并压缩CSS */
 gulp.task('handleCss', ['clean-css'], function () {
   return gulp.src([paths.src + '**/style.css'])
              .pipe(concat('style.min.css'))             // 合并及设置生成后文件名
@@ -183,6 +183,7 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
 });
 
 /* 本地服务,自动刷新 */
-gulp.task('server', ['bro', 'browser'], function () {
+gulp.task('server', ['bro', 'browser', 'handleCss'], function () {
+  gulp.watch('./src/css/*', ['handleCss']); //监控所有CSS文件，若有变化则重新合并打包并部署到HTML中
   gulp.watch('./src/**/*', ['bro']);
 });
