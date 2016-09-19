@@ -227,22 +227,29 @@ define('main/directives', ['main/init'], function () {
 		            var parameterBody=false;
               if(angular.isDefined($attrs.parameterBody))parameterBody=true;
 
-                      requestData($attrs.action, $scope.formData,"POST",parameterBody)
+                      requestData($attrs.action, $scope.formData, "POST", parameterBody)
                           .then(function (results) {
                               var data = results[0];
                               var data1 = results[1];
                               formStatus.submitting = false;
                               formStatus.submitInfo = "";
 
-                              if($attrs.scopeResponse)$scope[$attrs.scopeResponse] = results[1];
-                              if($attrs.scopeData)$scope[$attrs.scopeData] = data;
+                              if ($attrs.scopeResponse) {
+                                $scope[$attrs.scopeResponse] = results[1];
+                              }
+                              if ($attrs.scopeData) {
+                                $scope[$attrs.scopeData] = data;
+                              }
 
-                               if(angular.isDefined($attrs.alertOk))alertOk(results[1].msg);
+                               if (angular.isDefined($attrs.alertOk)) {
+                                 alertOk(results[1].msg);
+                               }
 
                                //重置表单
-                               if($attrs.formSubmitAfter=="reset"){
-                                   DOMForm.reset();
+                               if ($attrs.formSubmitAfter=="reset") {
+                                 DOMForm.reset();
                                }
+
                               if ($attrs.broadcast) {
                                   $scope.$broadcast($attrs.broadcast);
                                   $scope.$emit($attrs.broadcast);
@@ -273,7 +280,9 @@ define('main/directives', ['main/init'], function () {
                                   $scope.$broadcast("reloadList");
                               }
                               //自动关闭弹窗
-                              angular.isDefined($attrs.autoCloseDialog) && modal.close();
+                              if (angular.isDefined($attrs.autoCloseDialog)) {
+                                modal.close();
+                              }
 
                           })
                           .catch(function (error) {
