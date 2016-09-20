@@ -14,8 +14,8 @@
                 <div class="form-td">
 
                     <select class="select" ng-model="formData.type">
-                        <option value="1">普通订单</option>
-                        <option value="2">紧急订单</option>
+                        <option value="普通订单">普通订单</option>
+                        <option value="紧急订单">紧急订单</option>
                     </select>
 
                 </div>
@@ -24,27 +24,26 @@
               <div class="form-tr">
                   <div class="form-th">客户名</div>
                   <div class="form-td">
-                    <select class="select select-w" data-placeholder="选择一个..." chosen  ng-model="formData.customerId" select-source="rest/authen/customer/queryByDistributorIdForSelectOption.json"></select>
+                    <select class="select select-w" data-placeholder="选择一个..." chosen  ng-model="formData.customerId" select-source="rest/authen/customerAddress/queryByDistributorIdForSelectOption.json"></select>
 
                   </div>
               </div>
-              <div class="form-tr">
-                  <div class="form-th">联系人</div>
-                  <div class="form-td" ng-init="formData.inputUser.id='123'">
-                      <input type="text" class="ipt" ng-model="formData.inputUser.id" />
-                  </div>
-                  <div class="form-th">收货地址 </div>
-                  <div class="form-td">
-                      <input type="text" class="ipt" ng-model="formData.address.address" />
-                  </div>
-                  <div class="form-th">收货人</div>
-                  <div class="form-td">
-                      <input type="text" class="ipt" ng-model="formData.address.name" />
-                  </div>
-                  <div class="form-th">收货电话 </div>
-                  <div class="form-td">
-                      <input type="text" class="ipt" ng-model="formData.address.tel" />
-                  </div>
+
+              <div class="form-tr"  ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}" scope-data="customerAddress"  callback="formData.customerName=customerAddress.name;formData.address=customerAddress.contacts[0]">
+
+                  <div class="form-th">收货人信息</div>
+                  <ul ng-if="customerAddress&&customerAddress.contacts">
+
+                      <li>
+                        <label class="radio-inline" ng-repeat="item in customerAddress.contacts">
+                          <input name="display" type="radio" value="{{item}}" ng-model="formData.address" convert-json-to-object  ng-checked="item.id==formData.address.id" required>{{item.name}} {{item.address}} {{item.tel}}
+                        </label>
+                      </li>
+
+
+
+                  </ul>
+
               </div>
               <div class="form-tr">
                   <div class="form-th">期望日期</div>
@@ -61,7 +60,7 @@
 
 
               <!-- 订单列表 -->
-              <div class="form-tr"  ng-init="formData.orderMedicalNos=[{relId:'1',quantity:50},{relId:'2',quantity:150}]">
+              <div class="form-tr"  >
                   <div class="form-th">订单列表</div>
 
                   <table class="table-list">
@@ -120,10 +119,11 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr >
+                          <tr ajax-url="rest/authen/medical/get.json?id={{addDataItem.relId}}" scope-data="medical"
+                            callback="selectRelIdCallBack(medical)">
                               <td>
-                                <select class="select select-w" data-placeholder="选择一个..." chosen select-call-back="selectRelIdCallBack"
-                                ng-model="formData.orderMedicalNos[$index].relId"
+                                <select id="addDataItem_relId" class="select select-w" data-placeholder="选择一个..." chosen
+                                ng-model="addDataItem.relId"
                                 select-source="rest/authen/medical/queryByDistributorIdForSelectOption.json"></select>
                               </td>
                               <td>{{addDataItem.brand}}</td>
@@ -131,7 +131,7 @@
                               <td>{{addDataItem.unit}}</td>
                               <td>{{addDataItem.price}}</td>
                               <td>
-                                  <input type="text" class="ipt" ng-model="addDataItem.quantity" />
+                                  <input type="text" id="addDataItem_quantity" class="ipt" ng-model="addDataItem.quantity"  ng-keydown="$event.keyCode==13&&addDataItemClick()"/>
                               </td>
 
                               <td>

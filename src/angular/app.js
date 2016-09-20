@@ -24,7 +24,8 @@ require.config({
         'moment': '../libs/moment.min',                       //日历插件
         'echarts': '../libs/echarts.min',                     //图表插件
         'chosen': '../libs/chosen.jquery.min',                //下拉筛选插件
-        'angular': '../libs/angular.min',                     //Angular
+        'angular': '../libs/angular',                     //Angular
+        'ngRoute': '../libs/angular-route',
         'bootstrap': '../libs/bootstrap.min',                 //bootstrap
         'jquery-ui': '../libs/jquery-ui.min',
         'nicescroll': '../libs/jquery-nicescroll.min',        //滚动条美化
@@ -56,6 +57,10 @@ require.config({
         'angular': {
             deps: ['jQuery'],
             exports: 'angular'
+        },
+        'ngRoute': {
+                deps: ['angular'],   //依赖什么模块
+                exports: 'ngRoute'
         },
         'bootstrap': {
             deps: ['jQuery'],
@@ -163,7 +168,7 @@ define('manageApp', [
     ]);
 });
 
-require(['manageApp'], function (app) {
+require(['manageApp','ngRoute'], function (app) {
     app.config(['$routeProvider', '$templateRequestProvider',
        function ($routeProvider, $templateRequestProvider) {
         if (window.Config) {

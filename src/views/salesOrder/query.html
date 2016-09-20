@@ -1,15 +1,15 @@
 <!-- page heading start-->
 <div class="page-heading">
-    <h3>药械管理</h3>
+    <h3>订单管理</h3>
     <ul class="breadcrumb">
         <li><a href="#">主面板</a></li>
-        <li class="active"> 药械管理 </li>
+        <li class="active"> 订单管理 </li>
     </ul>
 </div>
 <!-- page heading end-->
 
 <!--body wrapper start-->
-<table-list list-data="{{mainStatus.requestPath}}rest/authen/medical/query" list-params="listParams">
+<table-list list-data="{{mainStatus.requestPath}}rest/authen/salesOrder/query.json" list-params="listParams">
   <div class="wrapper">
     <div class="loader" ng-if="status.isLoading">
         <div class="loader-inner pacman">
@@ -27,11 +27,9 @@
       <div ng-if="tbodyList.length">
         <div class="mg-m">
           <div>
-
-            <button type="button" class="btn btn-primary" modal-right="400" modal-scope="this" modal-url="views/medical/edit.html"><i
-                    class="fa fa-plus"></i> 新建
-            </button>
-
+              <a href="#/salesOrder/edit.html" data-toggle="modal" class="btn btn-success">
+                  <i class="fa fa-plus"></i> 新建
+              </a>
           </div>
 
         </div>
@@ -40,9 +38,8 @@
               <tr>
                   <th><input type="checkbox" class="selectAll"></th>
                   <th>序号</th>
-                  <th>名称</th>
-                  <th>单位</th>
-                  <th>价格</th>
+                  <th>类型</th>
+                  <th>客户名</th>
                   <th>创建时间</th>
                   <th>状态</th>
                   <th>操作</th>
@@ -53,20 +50,19 @@
                 <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
                     <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                     <td>{{$index + 1}}</td>
-                    <td>{{tr.name}}</td>
-                    <td>{{tr.unit}}</td>
-                    <td>{{tr.price}}</td>
+                    <td>{{tr.type}}</td>
+                    <td>{{tr.customerName}}</td>
                     <td>{{tr.createAt | date : 'yyyy-MM-dd hh:mm'}}</td>
                     <td>{{tr.status}}</td>
                     <td>
                         <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html"><i
                                 class="fa fa-folder-open-o"></i> 查看
                         </button>
-                        <button type="button" class="btn btn-primary" modal-right="400" modal-scope="this" modal-url="views/list-edit.html"><i
+                        <a  href="#/salesOrder/edit.html?id={{tr.id}}"><button type="button" class="btn btn-primary"><i
                                 class="fa fa-edit"></i> 编辑
-                        </button>
+                        </button></a>
                         <button type="button" class="btn btn-danger"
-                                ng-click="deleteThis('http://192.168.0.107:8080/dt/rest/authen/medical/delete', tr.id)">
+                                ng-click="deleteThis('rest/authen/salesOrder/delete.json', tr.id)">
                                 <i class="fa fa-trash-o"></i> 删除</button>
                     </td>
                 </tr>

@@ -42,6 +42,9 @@ define('main/controllers', ['main/init'], function () {
                 if (_data.code == 200) {
                     angular.extend($scope.mainStatus, _data.data);
                       $scope.$digest();
+                } else if (_data.code == 802){
+
+                        window.location.href = "login.html";;
                 }
                  else {
                   alert(_data.msg || '登录失败');
@@ -79,8 +82,16 @@ define('main/controllers', ['main/init'], function () {
         modal.closeAll();
     }
 
+    /**
+     *用于编辑
+     */
+    function editCtrl($scope, modal) {
+        modal.closeAll();
+    }
+
     angular.module('manageApp.main')
         .controller('mainCtrl',  ["$scope", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
+        .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal",pageCtrl]);
 });
