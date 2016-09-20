@@ -30,6 +30,7 @@ define('main/directives', ['main/init'], function () {
                 var _format = $attrs.convertToDate ? $attrs.convertToDate : "yyyy-MM-dd";
 
                 ngModel.$parsers.push(function (val) {
+                  if(!val)return;
                   if ($attrs.timestamp) {
                     return val.getTime();
                   } else {
@@ -38,6 +39,7 @@ define('main/directives', ['main/init'], function () {
                 });
 
                 ngModel.$formatters.push(function () {
+                  if(!ngModel.$modelValue)return null;
                   if ($attrs.timestamp) {
                     return new Date(ngModel.$modelValue).getTime();
                   } else {
@@ -97,6 +99,7 @@ define('main/directives', ['main/init'], function () {
     $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
     $attrs.alertOk :是否提示请求成功提示。
     $attrs.alertError :是否提示请求失败提示。
+    $attrs.ajaxIf :满足条件才异步请求  ajax-if="{{addDataItem.relId}}"
 
 $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope， callback="formData.courseId=details[0].value"
     请求返回数据格式：
@@ -146,6 +149,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 }
 
                 function getData(params) {
+                  //满足条件才异步请求
+                    if(angular.isDefined($attrs.ajaxIf)){
+                      alert($attrs.ajaxIf+",!$attrs.ajaxIf="+!$attrs.ajaxIf);
+                      if(!$attrs.ajaxIf)return;
+                    }
+
+
                     $scope.isLoading = true;
                     requestData($attrs.ajaxUrl, params)
                         .then(function (results) {
