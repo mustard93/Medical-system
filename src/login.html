@@ -27,10 +27,10 @@
       <div class="col-lg-12 col-sm-12">
         <p class="sys-login-title">盘谷医疗经销商平台</p>
       </div>
-      <div class="col-lg-12 col-sm-12 login-info-prompt">
+      <div class="col-lg-12 col-sm-12 login-info-prompt" style="display:none;">
         <div>
           <i class="fa fa-exclamation-triangle"></i>
-          <span>密码格式不正确，请重新输入</span>
+          <span></span>
         </div>
       </div>
       <div class="login-wrap col-lg-12">
@@ -56,7 +56,7 @@
             </span>
           </div>
           <div>
-            <button class="btn btn-lg btn-login btn-block outline" type="submit">登录</button>
+            <button class="btn btn-lg btn-login btn-block pr-btn" disabled type="submit">登 录</button>
           </div>
           <div class="registration">
             <a class="" href="registration.html">注册账号</a>
@@ -106,6 +106,7 @@
       // });
 
       $(function () {
+        // 绑定发送事件
         $('form[name="loginForm"]').on('submit', function () {
           var _paramsObj = {};
           if ($('input[name="phone"]').val() && $('input[name="password"]').val()) {
@@ -120,15 +121,27 @@
               crossDomain:true,
               dataType: 'json',
               success: function (results) {
-                if (results.code == 200) {  //验证成功
+                if (results.code === 200) {  //验证成功
                     // alert(results.msg || '登录失败');
                   window.location.href = "/src/index.html#/main.html";
                 } else {
-                  alert(results.msg || '登录失败');
+                  $('.login-info-prompt > div > span').text(results.msg);
+                  $('.login-info-prompt').fadeIn(500).delay(1500).fadeOut(100);
+                  // alert(results.msg || '登录失败');
                 }
               }
             });
           }
+        });
+        // 按钮可用与不可用
+        $('input[type!="checkbox"]').each(function () {
+          $(this).on('keyup', function () {
+            if ($('input[name="phone"]').val() && $('input[name="password"]').val()) {
+              $('.pr-btn').removeAttr('disabled');
+            } else {
+              $('.pr-btn').attr('disabled', 'disabled');
+            }
+          });
         });
       });
     </script>
