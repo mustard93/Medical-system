@@ -1798,7 +1798,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                      } else {
                                          isChinessInput = false;
                                      }
-                                 });
+                                 }).on('blur', function (e) {
+                                    //修复第一次输入后，直接回车没有取到值的bug
+                                    if(!ngModel.$viewValue){
+                                        try{
+                                           if(chosenObj[0]&&chosenObj[0][0]) ngModel.$setViewValue( chosenObj[0][0].value);
+                                        }catch(e){}
+                                    }
+                                });
                          } else {
                              requestData($attrs.selectSource)
                                  .then(function (results) {
@@ -1815,133 +1822,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                      ngModel.$setViewValue(_selected);
                                  });
 
-
-
-
-
-
-
-                                //支持自定义输入内容
-                                 if (angular.isDefined($attrs.selectCustompre)) {
-                                     $element.chosen(chosenConfig);
-
-                                     var $chosenContainer = $element.next();
-                                     var $input = $('input', $chosenContainer);
-                                     var searchStr = "";
-                                     var isChinessInput = false;
-                                     var typing = false;
-                                     var requestQueue;
-
-                                     function handleSearch(q) {
-                                         var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
-                                         requestQueue && requestQueue.abort();
-
-                                           var optionsArr = $('option', $element);
-                                           var _options = '';
-
-                                          _options += '<option value="' + $attrs.selectCustompre+q + '">' + q + '</option>';
-
-                                          for(var i = 0; i < optionsArr.length; i++) {
-                                            var tmpopt=optionsArr[i];
-                                               if(tmpopt[0].value.indexOf($attrs.selectCustompre)==-1){
-
-                                               }else if (_selected.indexOf(tmpopt.value) == -1&&tmpopt.text.indexOf(q)>-1) {
-                                                _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
-                                            }
-
-                                            $element.html(_options).prepend(selected);
-                                            $element.trigger("chosen:updated");
-                                            var keyRight = $.Event('keydown');
-                                            keyRight.which = 39;
-                                            $input.val(q).trigger(keyRight);
-
-                                            if (_data.data.length > 0) {
-                                                $chosenContainer.find('.no-results').hide();
-                                            } else {
-                                                $chosenContainer.find('.no-results').show();
-                                            }
-
-                                     };
-
-                                     function processValue(e) {
-                                         var field = $(this);
-
-                                         //don't fire ajax if...
-                                         if ((e.type === 'paste' && field.is(':not(:focus)')) ||
-                                             (e.keyCode && (
-                                                 (e.keyCode === 9) ||//Tab
-                                                     (e.keyCode === 13) ||//Enter
-                                                     (e.keyCode === 16) ||//Shift
-                                                     (e.keyCode === 17) ||//Ctrl
-                                                     (e.keyCode === 18) ||//Alt
-                                                     (e.keyCode === 19) ||//Pause, Break
-                                                     (e.keyCode === 20) ||//CapsLock
-                                                     (e.keyCode === 27) ||//Esc
-                                                     (e.keyCode === 33) ||//Page Up
-                                                     (e.keyCode === 34) ||//Page Down
-                                                     (e.keyCode === 35) ||//End
-                                                     (e.keyCode === 36) ||//Home
-                                                     (e.keyCode === 37) ||//Left arrow
-                                                     (e.keyCode === 38) ||//Up arrow
-                                                     (e.keyCode === 39) ||//Right arrow
-                                                     (e.keyCode === 40) ||//Down arrow
-                                                     (e.keyCode === 44) ||//PrntScrn
-                                                     (e.keyCode === 45) ||//Insert
-                                                     (e.keyCode === 144) ||//NumLock
-                                                     (e.keyCode === 145) ||//ScrollLock
-                                                     (e.keyCode === 91) ||//WIN Key (Start)
-                                                     (e.keyCode === 93) ||//WIN Menu
-                                                     (e.keyCode === 224) ||//command key
-                                                     (e.keyCode >= 112 && e.keyCode <= 123)//F1 to F12
-                                                 ))) {
-                                             return false;
-                                         }
-
-                                         if (isChinessInput && (e.keyCode != 32 && (e.keyCode < 48 || e.keyCode > 57))) {
-                                             return false;
-                                         }
-
-                                         $chosenContainer.find('.no-results').hide();
-
-                                         var q = $.trim(field.val());
-                                         if (!q && searchStr == q) {
-                                             return false;
-                                         }
-                                         searchStr = q;
-
-                                         typing = true;
-
-                                         if ($scope.searchTimer) {
-                                             $timeout.cancel($scope.searchTimer);
-                                         }
-
-                                         $scope.searchTimer = $timeout(function () {
-                                             typing = false;
-                                             handleSearch(q);
-                                         }, 600);
-                                     };
-
-                                     $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer).on('keyup', processValue).on('paste', function (e) {
-                                         var that = this;
-                                         setTimeout(function () {
-                                             processValue.call(that, e);
-                                         }, 500);
-                                     }).on('keydown', function (e) {
-                                             if (e.keyCode == 229) {
-                                                 isChinessInput = true;
-                                             } else {
-                                                 isChinessInput = false;
-                                             }
-                                         }).on('blur', function (e) {
-                                            //修复第一次输入后，直接回车没有取到值的bug
-                                            if(!ngModel.$viewValue){
-                                                try{
-                                                   if(chosenObj[0]&&chosenObj[0][0]) ngModel.$setViewValue( chosenObj[0][0].value);
-                                                }catch(e){}
-                                            }
-                                        });
-                                 }
-                                 //end 自定义
                          }
                      } else {
 
