@@ -82,8 +82,16 @@ define('main/controllers', ['main/init'], function () {
         modal.closeAll();
     }
 
+    /**
+     *用于编辑
+     */
+    function editCtrl($scope, modal) {
+        modal.closeAll();
+    }
+
     angular.module('manageApp.main')
         .controller('mainCtrl',  ["$scope", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
+        .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal",pageCtrl]);
 });
