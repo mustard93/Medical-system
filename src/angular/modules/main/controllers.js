@@ -42,6 +42,9 @@ define('main/controllers', ['main/init'], function () {
                 if (_data.code == 200) {
                     angular.extend($scope.mainStatus, _data.data);
                       $scope.$digest();
+                } else if (_data.code == 802){
+
+                        window.location.href = "login.html";;
                 }
                  else {
                   alert(_data.msg || '登录失败');

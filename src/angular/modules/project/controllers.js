@@ -17,30 +17,55 @@ define('project/controllers', ['project/init'], function () {
           $scope.addDataItem={};
 
 
-                    /**
-                    添加一条。并缓存数据。
-                    */
+                    // /**
+                    // 添加一条。并缓存数据。
+                    // */
                     $scope.selectRelIdCallBack=function(data){
-                        
-                        requestData("rest/authen/medical/get.json?id="+data.value)
-                            .then(function (results) {
-                                var data = results[0];
-                                if(data){
-                                  $scope.addDataItem.brand=data.brand;
-                                    $scope.addDataItem.unit=data.unit;
-                                      $scope.addDataItem.price=data.price;
-                                }
 
-                            });
+
+                      $scope.addDataItem.relId=data.id;
+                      $scope.addDataItem.name=data.name;
+                    $scope.addDataItem.brand=data.brand;
+                      $scope.addDataItem.unit=data.unit;
+                        $scope.addDataItem.price=data.price;
+                        // alert($('#addDataItem_quantity').length);
+                                    $('#addDataItem_quantity').trigger("focus");
+                        //addDataItem.relId=medical.id;addDataItem.relId=medical.id;addDataItem.name=medical.name;addDataItem.brand=medical.brand;addDataItem.unit=medical.unit;;addDataItem.price=medical.price;alert($('#addDataItem.quantity').length);$('#addDataItem.quantity').focus()
+                        // requestData("rest/authen/medical/get.json?id="+data.value)
+                        //     .then(function (results) {
+                        //         var data = results[0];
+                        //         if(data){
+                        //             $scope.addDataItem.relId=data.id;
+                        //             $scope.addDataItem.name=data.name;
+                        //           $scope.addDataItem.brand=data.brand;
+                        //             $scope.addDataItem.unit=data.unit;
+                        //               $scope.addDataItem.price=data.price;
+                        //
+                        //
+                        //               alert($('#addDataItem.quantity').length);
+                        //               $('#addDataItem.quantity').focus();
+                        //         }
+                        //
+                        //     });
                     }
           /**
           添加一条。并缓存数据。
           */
           $scope.addDataItemClick=function(){
 
+            if(!$scope.addDataItem.relId){
+
+              alert("请选择药品。");
+              return ;
+            }
             if(!$scope.formData.orderMedicalNos)  $scope.formData.orderMedicalNos=[];
+
               $scope.formData.orderMedicalNos.push($scope.addDataItem);
               $scope.addDataItem={};
+
+               $("input","#addDataItem_relId_chosen").trigger("focus");
+// $("#addDataItem_relId_chosen").trigger("click");
+
 
           }
           /**

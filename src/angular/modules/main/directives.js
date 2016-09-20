@@ -68,6 +68,25 @@ define('main/directives', ['main/init'], function () {
     convertToNumber.$inject = [];
 
     /**
+     * JSON转换为
+     */
+    function convertJsonToObject() {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                ngModel.$parsers.push(function (val) {
+                    if(!val)return null;
+                    return angular.fromJson(val);
+                });
+                ngModel.$formatters.push(function (val) {
+                    return angular.toJson(val);
+                });
+            }
+        };
+    }
+    convertJsonToObject.$inject = [];
+
+    /**
     必填参数：
     attrs.ajaxUrl=""：请求数据参数
     可选参数：
@@ -144,7 +163,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             //回调父级的处理事件;
                             $scope.listCallback && $scope.listCallback(results[1]);
 
-                              $scope.$apply();
+                              // $scope.$apply();
 
 
                             if($attrs.callback){
@@ -1696,29 +1715,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                  });
 
 
-                                 //requestData($attrs.selectSource, {q: q})
-                                 //    .then(function (results) {
-                                 //        var data = results[0];
-                                 //        var _options = '';
-                                 //        var _length = data.length;
-                                 //        var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
-                                 //        for (var i = 0; i < _length; i++) {
-                                 //            if (_selected.indexOf(data[i].value) == -1) {
-                                 //                _options += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
-                                 //            }
-                                 //        }
-                                 //        $element.html(_options).prepend(selected);
-                                 //        $element.trigger("chosen:updated");
-                                 //        var keyRight = $.Event('keydown');
-                                 //        keyRight.which = 39;
-                                 //        $input.val(q).trigger(keyRight);
-                                 //
-                                 //        if (data.length > 0) {
-                                 //            $chosenContainer.find('.no-results').hide();
-                                 //        } else {
-                                 //            $chosenContainer.find('.no-results').show();
-                                 //        }
-                                 //    });
                              };
 
                              function processValue(e) {
@@ -1813,7 +1809,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                      var _options = '';
                                      if(!data)data=[];
                                      var _length = data.length;
-                                     var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
+                                    //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
+
+                                    var _selected = ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
                                      for (var i = 0; i < _length; i++) {
                                          _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
                                      }
@@ -1937,6 +1935,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("ngView", ["$route", "$templateCache", "$routeParams",ngView])
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
+        .directive("convertJsonToObject", convertJsonToObject)
         .directive("ajaxUrl", ["requestData","alertOk","alertError",ajaxUrl])
         .directive("formValidator", ["requestData","modal","alertOk","alertError",formValidator])
         .directive("tableList", tableList)
