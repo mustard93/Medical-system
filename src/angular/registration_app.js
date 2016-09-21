@@ -7,6 +7,7 @@ angular.module('registrationApp', ['ngRoute'])
  *  路由
  */
 .config(['$routeProvider', function ($routeProvider) {
+  'use strict';
   $routeProvider
     .when('/verify_phone', {
       templateUrl: 'angular/tpl/registration/verify_phone.html',
@@ -28,18 +29,41 @@ angular.module('registrationApp', ['ngRoute'])
  *  注册模块控制器 - 点击发送验证码
  */
 .controller('registrationCtrl', ['$scope', 'requestData', function ($scope, requestData) {
-  $scope.regData = {
-    phone: ''
+  'use strict';
+  // 定义全局对象
+  $scope.globalData = {
+    requestUrlHead: 'http://192.168.0.107:8080/dt/'
   };
+
   // 发送验证码
   $scope.sendRegVerifyCode = function () {
     if ($scope.regData.phone) {
-      var _url = 'http://192.168.0.107:8080/dt/rest/sms/sendVerificationCode',
+      var _url = $scope.globalData.requestUrlHead + 'rest/sms/sendVerificationCode',
           _param = {tel : $scope.regData.phone},
           _method = 'GET';
       requestData(_url, _param, _method)
         .then(function (results) {
-          console.log(results);
+          var _data = results[0];
+          $scope.validCode = _data.code;
+        });
+    }
+  };
+
+  // 注册提交
+  $scope.regSubmit = function () {
+    if ($scope.regData) {
+      var _url = $scope.globalData.requestUrlHead + 'rest/index/register',
+          _params = $scope.regData,
+          _method = 'POST';
+      requestData(_url, _params, _method)
+        .then(function (results) {
+          var _data = results[1];
+          if (_data.code === 200 && _data.success === true) {
+            $('.reg-success-prompt').fadeIn(500).delay(1500).fadeOut(200);
+            setTimeout(function(){
+              window.location.href = '#/apply_bind';
+            }, 2000);
+          }
         });
     }
   };
@@ -92,8 +116,102 @@ angular.module('registrationApp', ['ngRoute'])
   // 这里定义多个静态值
 }])
 /**
- *  注册模块自定义指令
+ *  注册模块自定义指令 - 检查用户输入的手机号码
  */
-.directive('registrationDirective', [function () {
+.directive('regCheckPhone', ['$rootScope', 'requestData', function ($rootScope, requestData) {
+  'use strict';
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: function (scope, element, attrs, ngModel) {
+      if (!$rootScope.verifyResult) {
+        $rootScope.verifyResult = {};
+      }
+      // 绑定失去焦点事件
+      element.on('blur', function () {
+        // 格式校验
+        if (!(/^1(3|4|5|7|8)\d{9}$/.test(ngModel.$viewValue))) {
+          $rootScope.verifyResult.phone = false;
+          $rootScope.verifyResult.msg = '手机号码不能为空或格式不正确';
+          if ($('.reg-info-prompt').css('display') === 'none') {
+            $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
+            $(element).focus();
+          }
+        } else {
+          $rootScope.verifyResult.phone = ngModel.$viewValue;
+          // 有效性校验
+          var _validUrl = scope.globalData.requestUrlHead + 'rest/index/isExist?phone=' + ngModel.$viewValue;
+          requestData(_validUrl)
+            .then(function (results) {
+              var _data = results[1];
+              if (_data.code !== 200) {
+                $rootScope.verifyResult.phone = false;
+                $rootScope.verifyResult.msg = results.msg;
+                if ($('.reg-info-prompt').css('display') === 'none') {
+                  $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
+                  $(element).focus();
+                }
+              }
+            });
+        }
+      });
+    }
+  };
+}])
+/**
+ *  校验验证码
+ */
+.directive('regCheckVerifyCode', [function () {
+  'use strict';
+  return {};
+}])
+/**
+ *  校验密码
+ */
+.directive('regCheckPassword', ['$rootScope', function ($rootScope) {
+  'use strict';
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: function (scope, element, attrs, ngModel) {
+      if (!$rootScope.verifyResult) {
+        $rootScope.verifyResult = {};
+      }
+      element.on('blur', function () {
+        if (attrs.name === 'password') {    // 校验密码
+          if (!(/[A-Za-z0-9_]{6,32}/.test(ngModel.$viewValue))) {
+            $rootScope.verifyResult.password = false;
+            $rootScope.verifyResult.msg = '密码应在6~32位之间或含有特殊字符';
+            $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
+            $(element).focus();
+          }
+        }
 
+        if (attrs.name === 'repassword') {    // 校验重复密码
+          if (scope.regData.password !== scope.regData.repassword) {
+            $rootScope.verifyResult.repassword = false;
+            $rootScope.verifyResult.msg = '两次输入的密码不一致';
+            $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
+            $(element).focus();
+          }
+        }
+      });
+    }
+  };
+}])
+/**
+ *  查询经销商
+ */
+.directive('queryDistributorList', ['requestData', function (requestData) {
+  'use strict';
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      var _queryUrl = scope.globalData.requestUrlHead + 'rest/authen/distributor/queryForSelectOption';
+      requestData(_queryUrl)
+        .then(function (results) {
+          console.log(results);
+        });
+    }
+  };
 }]);
