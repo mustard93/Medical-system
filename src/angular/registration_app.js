@@ -182,8 +182,10 @@ angular.module('registrationApp', ['ngRoute'])
           if (!(/[A-Za-z0-9_]{6,32}/.test(ngModel.$viewValue))) {
             $rootScope.verifyResult.password = false;
             $rootScope.verifyResult.msg = '密码应在6~32位之间或含有特殊字符';
-            $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
-            $(element).focus();
+            if ($('.reg-info-prompt').css('display') === 'none') {
+              $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
+              $(element).focus();
+            }
           }
         }
 
@@ -191,8 +193,9 @@ angular.module('registrationApp', ['ngRoute'])
           if (scope.regData.password !== scope.regData.repassword) {
             $rootScope.verifyResult.repassword = false;
             $rootScope.verifyResult.msg = '两次输入的密码不一致';
-            $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
-            $(element).focus();
+            if ($('.reg-info-prompt').css('display') === 'none') {
+              $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
+            }
           }
         }
       });
