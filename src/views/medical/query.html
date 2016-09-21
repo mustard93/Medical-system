@@ -7,9 +7,18 @@
     </ul>
 </div>
 <!-- page heading end-->
+<div class="mg-m">
+  <div>
 
+    <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/medical/edit.html"><i
+            class="fa fa-plus"></i> 新建
+    </button>
+
+  </div>
+
+</div>
 <!--body wrapper start-->
-<table-list list-data="{{mainStatus.requestPath}}rest/authen/medical/query" list-params="listParams">
+<table-list list-data="{{mainStatus.requestPath}}rest/authen/medical/query.json" list-params="listParams">
   <div class="wrapper">
     <div class="loader" ng-if="status.isLoading">
         <div class="loader-inner pacman">
@@ -25,16 +34,7 @@
         <span><i class="fa fa-inbox"><em>什么也没有</em></i></span>
       </div>
       <div ng-if="tbodyList.length">
-        <div class="mg-m">
-          <div>
 
-            <button type="button" class="btn btn-primary" modal-right="400" modal-scope="this" modal-url="views/medical/edit.html"><i
-                    class="fa fa-plus"></i> 新建
-            </button>
-
-          </div>
-
-        </div>
         <table class="table table-hover table-striped">
             <thead>
               <tr>
@@ -62,11 +62,11 @@
                         <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html"><i
                                 class="fa fa-folder-open-o"></i> 查看
                         </button>
-                        <button type="button" class="btn btn-primary" modal-right="400" modal-scope="this" modal-url="views/list-edit.html"><i
+                        <button type="button" class="btn btn-primary"  modal-right="700" modal-scope="this" modal-url="views/medical/edit.html?id={{tr.id}}"><i
                                 class="fa fa-edit"></i> 编辑
                         </button>
                         <button type="button" class="btn btn-danger"
-                                ng-click="deleteThis('http://192.168.0.107:8080/dt/rest/authen/medical/delete', tr.id)">
+                                ng-click="deleteThis('rest/authen/medical/delete', tr.id)">
                                 <i class="fa fa-trash-o"></i> 删除</button>
                     </td>
                 </tr>
