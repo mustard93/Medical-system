@@ -25,7 +25,8 @@ require.config({
         'echarts': '../libs/echarts.min',                     //图表插件
         'chosen': '../libs/chosen.jquery.min',                //下拉筛选插件
         'angular': '../libs/angular',                     //Angular
-        'ngRoute': '../libs/angular-route',
+        'ngRoute': '../libs/angular-route',       //路由
+          'ngTagsInput': '../libs/ng-tags-input/ng-tags-input',    //自动补齐
         'bootstrap': '../libs/bootstrap.min',                 //bootstrap
         'jquery-ui': '../libs/jquery-ui.min',
         'nicescroll': '../libs/jquery-nicescroll.min',        //滚动条美化
@@ -61,6 +62,10 @@ require.config({
         'ngRoute': {
                 deps: ['angular'],   //依赖什么模块
                 exports: 'ngRoute'
+        },
+        'ngTagsInput': {
+                deps: ['angular'],   //依赖什么模块
+                exports: 'ngTagsInput'
         },
         'bootstrap': {
             deps: ['jQuery'],

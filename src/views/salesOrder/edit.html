@@ -29,7 +29,7 @@
                   </div>
               </div>
 
-              <div class="form-tr"  ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}" scope-data="customerAddress"  callback="formData.customerName=customerAddress.name;formData.address=customerAddress.contacts[0]">
+              <div class="form-tr" ajax-if="{{formData.customerId}}"  ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}" scope-data="customerAddress"  callback="formData.customerName=customerAddress.name;formData.address=customerAddress.contacts[0]">
 
                   <div class="form-th">收货人信息</div>
                   <ul ng-if="customerAddress&&customerAddress.contacts">
@@ -47,13 +47,13 @@
               </div>
               <div class="form-tr">
                   <div class="form-th">期望日期</div>
-                  <div class="form-td" ng-init="formData.expectDate=''">
+                  <div class="form-td" >
                       <input type="date" class="ipt" convert-to-date ng-model="formData.expectDate" />
                   </div>
               </div>
               <div class="form-tr">
                   <div class="form-th">备注</div>
-                  <div class="form-td" ng-init="formData.note=''">
+                  <div class="form-td" >
                     <textarea ng-model="formData.note"></textarea>
                   </div>
               </div>
@@ -119,7 +119,7 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr ajax-url="rest/authen/medical/get.json?id={{addDataItem.relId}}" scope-data="medical"
+                          <tr ajax-if="{{addDataItem.relId}}"  ajax-url="rest/authen/medical/get.json?id={{addDataItem.relId}}" scope-data="medical"
                             callback="selectRelIdCallBack(medical)">
                               <td>
                                 <select id="addDataItem_relId" class="select select-w" data-placeholder="选择一个..." chosen

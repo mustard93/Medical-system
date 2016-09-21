@@ -19,7 +19,8 @@
 .login-body .container .login-wrap {
 
 }
-.login-body .container .login-wrap form {
+.login-body .container .login-wrap form,
+.login-body .container .reg-wrap form {
   width: 422px;
   height: 131px;
   border: 1px solid #000;
@@ -29,33 +30,45 @@
   margin: 27px auto 0 auto;
   background-color: #fff;
 }
-.login-body .container .login-wrap form div {
+.login-body .container .login-wrap form > div,
+.login-body .container .reg-wrap form div {
   width: 380px;
   height: 64px;
   margin: 0 auto;
 }
-.login-body .container .login-wrap form div:nth-child(3) {
+.login-body .container .login-wrap form > div:nth-child(3) {
   width: 422px;
   height: 53px;
   line-height: 52px;
 }
-.login-body .container .login-wrap form div:nth-child(3) span label {
+.login-body .container .login-wrap form > div:nth-child(3) > div {
+  padding-left: 0;
+  padding-right: 0;
+}
+.login-body .container .login-wrap form > div:nth-child(3) > div a:hover {
+  color: #ff8500;
+}
+.login-body .container .login-wrap form > div:nth-child(3) span label {
   font-weight: normal;
   cursor: pointer;
   font-size: 14px;
   color: #c7a77b;
 }
-.login-body .container .login-wrap form div:nth-child(4) {
+.login-body .container .login-wrap form div:nth-child(4),
+.login-body .container .reg-wrap form > div:nth-child(3),
+.login-body .container .reg-wrap form div:nth-child(4) {
   width: 422px;
   height: 64px;
 }
-.login-body .container .login-wrap form div:first-child {
+.login-body .container .login-wrap form > div:first-child,
+.login-body .container .reg-wrap form div:first-child {
   border-bottom: 1px solid #000;
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: rgba(0, 0, 0, 0.1);
 }
-.login-body .container .login-wrap form div input {
+.login-body .container .login-wrap form div input,
+.login-body .container .reg-wrap form div input {
   position: relative;
   top: 18px;
   font-size: 18px;
@@ -71,7 +84,8 @@
   color: #ff8500;
   font-size: 14px;
 }
-.login-body .container .login-wrap form div button.btn-login {
+.login-body .container .login-wrap form div button.btn-login,
+.login-body .container .reg-wrap form div button.btn-reg {
   height: 64px;
 }
 .login-body .container .login-wrap form div.registration {
@@ -123,4 +137,20 @@
   background-repeat: no-repeat;
   background-position: -28px 9px;
   margin-left: 28px;
+}
+/* 重写iCheck样式，只适用于登陆界面 */
+.icheckbox_square {
+  display: inline-block;
+}
+.login-body .container .login-wrap form > div:nth-child(3)  div.square > div.checkbox {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.login-body .container .login-wrap form > div:nth-child(3)  div.square > div.checkbox > div.icheckbox_square {
+  display: inline-block;
+  top: 5px;
+  width: 23px;
+  margin-right: 1px;
+  background-image: url(../images/square-gold.png);
+  background-repeat: no-repeat;
 }

@@ -48,12 +48,18 @@
                    name="password" required>
           </div>
           <div>
-            <span class="pull-left col-lg-6">
-              <label><input type="checkbox" value=""> 记住电话号码</label>
-            </span>
-            <span class="col-lg-6">
-                <a class="pull-right" data-toggle="modal" href="#myModal"> 忘记密码 ?</a>
-            </span>
+            <div class="col-lg-6">
+              <!-- <label><input type="checkbox" value=""> 记住电话号码</label> -->
+              <div class="square single-row">
+                  <div class="checkbox ">
+                      <input type="checkbox" checked>
+                      <label class="color-custom-gold">记住电话号码</label>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+                <a class="pull-right color-custom-orange" data-toggle="modal" href="#myModal"> 忘记密码 ?</a>
+            </div>
           </div>
           <div>
             <button class="btn btn-lg btn-login btn-block pr-btn" disabled type="submit">登 录</button>
@@ -78,6 +84,7 @@
     <!-- Placed js at the end of the document so the pages load faster -->
     <script src="js/jquery-1.10.2.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/iCheck/jquery.icheck.min.js"></script>
     <script>
     // eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('$(6(){$(\'p[1="l"]\').k(\'j\',6(){m 4={};a($(\'2[1="5"]\').3()&&$(\'2[1="7"]\').3()){4.5=$(\'2[1="5"]\').3();4.7=$(\'2[1="7"]\').3();$.o({n:\'f://d.i.0.g:h/e/C/b/D.9\',A:\'B\',H:4,G:\'9\',E:6(8){a(8.F==z){s.t.q="/r/b.c#/u.c"}x{y(8.v||\'w\')}}})}})});',44,44,'|name|input|val|_0|phone|function|password|results|json|if|index|html|192|dt|http|107|8080|168|submit|on|loginForm|var|url|ajax|form|href|src|window|location|main|msg|登录失败|else|alert|200|type|post|rest|authorize|success|code|dataType|data'.split('|'),0,{}))
 
@@ -126,7 +133,7 @@
                   window.location.href = "index.html#/main.html";
                 } else {
                   $('.login-info-prompt > div > span').text(results.msg);
-                  $('.login-info-prompt').fadeIn(500).delay(1500).fadeOut(100);
+                  $('.login-info-prompt').fadeIn(500).delay(1500).fadeOut(200);
                   // alert(results.msg || '登录失败');
                 }
               }
@@ -142,6 +149,12 @@
               $('.pr-btn').attr('disabled', 'disabled');
             }
           });
+        });
+        // icheck
+        $('input[type="checkbox"]').iCheck({
+          checkboxClass: 'icheckbox_square',
+          radioClass: 'iradio_square',
+          increaseArea: '20%' // optional
         });
       });
     </script>

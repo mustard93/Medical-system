@@ -20,6 +20,11 @@ define('main/controllers', ['main/init'], function () {
             window.location.assign(_url);
         };
 
+        $scope.httpGet = function(url) {
+          return $http.get(url);
+        };
+
+
         //获取主要信息
         if ($scope.mainConfig.getMainInfo) {
             var _url = $scope.mainConfig.getMainInfo;
@@ -82,8 +87,16 @@ define('main/controllers', ['main/init'], function () {
         modal.closeAll();
     }
 
+    /**
+     *用于编辑
+     */
+    function editCtrl($scope, modal) {
+        modal.closeAll();
+    }
+
     angular.module('manageApp.main')
         .controller('mainCtrl',  ["$scope", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
+        .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal",pageCtrl]);
 });
