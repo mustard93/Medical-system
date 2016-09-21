@@ -151,7 +151,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 function getData(params) {
                   //满足条件才异步请求
                     if(angular.isDefined($attrs.ajaxIf)){
-                      alert($attrs.ajaxIf+",!$attrs.ajaxIf="+!$attrs.ajaxIf);
                       if(!$attrs.ajaxIf)return;
                     }
 
@@ -1821,7 +1820,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                      var _length = data.length;
                                     //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
 
-                                    var _selected = ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
+                                         var _selected="" ;
+                                      if(angular.isDefined($attrs.defaultEmpty  )){
+                                             _options += '<option value=""  >'+$attrs.defaultEmpty+'</option>';
+
+                                         _selected = ngModel.$viewValue ? ngModel.$viewValue :"";
+                                      }else{
+                                          _selected = ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
+                                      }
+
                                      for (var i = 0; i < _length; i++) {
                                          _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
                                      }
