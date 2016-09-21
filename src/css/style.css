@@ -805,6 +805,10 @@ html[xmlns] .clearfix {
   color: #ff8500;
 }
 
+.color-custom-gold {
+  color: #c7a77b;
+}
+
 
 /**/
 
@@ -1748,6 +1752,35 @@ body.ngdialog-open {
   display: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: 400;
+}
+
+address, cite, dfn, em, var {
+  font-style: normal;
+}
+
+code, kbd, pre, samp {
+  font-family: courier new, courier, monospace;
+}
+
+small {
+  font-size: 12px;
+}
+ul, ol {
+  list-style: none;
+}
+
 body {
     background-color: #424f63;
     font-family: 'Microsoft YaHei', '新宋体';
@@ -1761,12 +1794,12 @@ input, select, textarea, button {
     font-family: 'Microsoft YaHei', '新宋体';
     color: #767676;
     outline: none;
+    background-color: #fff;
 }
 
 a {
     cursor: pointer;
     white-space: nowrap;
-    color: #ff8500;
 }
 
 a:focus, a:active, a:hover {
@@ -1775,45 +1808,43 @@ a:focus, a:active, a:hover {
     -moz-transition: all 0.3s;
     transition: all 0.3s;
     text-decoration: none;
-    color: #ff8500;
 }
 
 h1, h2, h3, h4, h5 {
     font-family: 'Microsoft YaHei', '新宋体';
 }
 
-.mtop10 {
-    margin-top: 10px;
-}
-
 hr {
     border-color: #ddd;
 }
 
-.checkbox input[type=checkbox],
-.radio input[type=radio],
-input[type=checkbox],
-input[type=radio] {
+.checkbox input[type=checkbox], .radio input[type=radio], input[type=checkbox], input[type=radio] {
     outline: none;
 }
 
 .checkbox label, .radio label {
     padding-left: 0;
 }
+
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
-　color: #b2b2b2;
+    color: #b2b2b2;
 }
+
 input:-moz-placeholder, textarea:-moz-placeholder {
-  color:#b2b2b2;
+    color: #b2b2b2;
 }
+
 input::-moz-placeholder, textarea::-moz-placeholder {
-　color:#b2b2b2;
+    color: #b2b2b2;
 }
+
 input:-ms-input-placeholder, textarea:-ms-input-placeholder {
-　color:#b2b2b2;
+    color: #b2b2b2;
 }
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
-  background-color: red;
+    background-color: rgb(255, 255, 255);
+    background-image: none;
+    color: rgb(0, 0, 0);
 }
 
 /*! jQuery UI - v1.10.3 - 2013-11-20
@@ -3222,30 +3253,37 @@ h5.left-nav-title {
   margin: 27px auto 0 auto;
   background-color: #fff;
 }
-.login-body .container .login-wrap form div,
+.login-body .container .login-wrap form > div,
 .login-body .container .reg-wrap form div {
   width: 380px;
   height: 64px;
   margin: 0 auto;
 }
-.login-body .container .login-wrap form div:nth-child(3) {
+.login-body .container .login-wrap form > div:nth-child(3) {
   width: 422px;
   height: 53px;
   line-height: 52px;
 }
-.login-body .container .login-wrap form div:nth-child(3) span label {
+.login-body .container .login-wrap form > div:nth-child(3) > div {
+  padding-left: 0;
+  padding-right: 0;
+}
+.login-body .container .login-wrap form > div:nth-child(3) > div a:hover {
+  color: #ff8500;
+}
+.login-body .container .login-wrap form > div:nth-child(3) span label {
   font-weight: normal;
   cursor: pointer;
   font-size: 14px;
   color: #c7a77b;
 }
 .login-body .container .login-wrap form div:nth-child(4),
-.login-body .container .reg-wrap form div:nth-child(3),
+.login-body .container .reg-wrap form > div:nth-child(3),
 .login-body .container .reg-wrap form div:nth-child(4) {
   width: 422px;
   height: 64px;
 }
-.login-body .container .login-wrap form div:first-child,
+.login-body .container .login-wrap form > div:first-child,
 .login-body .container .reg-wrap form div:first-child {
   border-bottom: 1px solid #000;
   border-bottom-width: 1px;
@@ -3322,6 +3360,22 @@ h5.left-nav-title {
   background-repeat: no-repeat;
   background-position: -28px 9px;
   margin-left: 28px;
+}
+/* 重写iCheck样式，只适用于登陆界面 */
+.icheckbox_square {
+  display: inline-block;
+}
+.login-body .container .login-wrap form > div:nth-child(3)  div.square > div.checkbox {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.login-body .container .login-wrap form > div:nth-child(3)  div.square > div.checkbox > div.icheckbox_square {
+  display: inline-block;
+  top: 5px;
+  width: 23px;
+  margin-right: 1px;
+  background-image: url(../images/square-gold.png);
+  background-repeat: no-repeat;
 }
 
 /* iCheck plugin Minimal skin, black
