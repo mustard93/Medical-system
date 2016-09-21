@@ -9,34 +9,57 @@
       <span></span>
     </div>
     <div class="user-phone">
-      13500000018
+      {{verifyResult.phone}}
     </div>
-    <form name="regForm" class="form-signin enter-info-form" onsubmit="return false;">
+
+    <input type="hidden" name="phone" ng-init="regData.phone=verifyResult.phone" ng-model="regData.phone">
+
+    <div class="col-lg-12 col-sm-12 reg-info-prompt" style="display:none;">
       <div>
-        <input type="password" class="form-control" placeholder="输入登录密码"
-              name="password" ng-model="regData.password" required autofocus>
+        <i class="fa fa-exclamation-triangle"></i>
+        <span>{{verifyResult.msg}}</span>
       </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 reg-success-prompt" style="display:none;">
       <div>
-        <input type="password" class="form-control" placeholder="再次输入登录密码"
-              name="repassword" ng-model="regData.repassword" required>
+        <i class="fa fa-check"></i>
+        <span class="color-white">注册成功</span>
       </div>
-      <div style="width:380px;height:64px;">
-        <input type="text" class="form-control" placeholder="姓名"
-               name="name" ng-model="regData.name">
-      </div>
-      <div class="last-div">
-        <label>性别</label>
-        <label><input type="radio" name="inlineRadioOptions" value="0" ng-model="regData.sex"> 男</label>
-        <label><input type="radio" name="inlineRadioOptions" value="1" ng-model="regData.sex"> 女</label>
-      </div>
-      <div>
-        <a href="#/apply_bind">
-          <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn mgt-l">完 成</button>
-        </a>
-      </div>
-      <div class="col-lg-12 text-center">
-        <a href="login.html" class="color-custom-orange">取 消</a>
-      </div>
-    </form>
+    </div>
+
+    <div class="reg-wrap col-lg-12" ng-controller="registrationCtrl">
+      <form name="regForm" class="form-signin enter-info-form" onsubmit="return false;" novalidate>
+        <div>
+          <input type="password" class="form-control" placeholder="输入登录密码"
+                name="password" ng-model="regData.password" required autofocus reg-check-password>
+        </div>
+        <div>
+          <input type="password" class="form-control" placeholder="再次输入登录密码"
+                name="repassword" ng-model="regData.repassword" required reg-check-password>
+        </div>
+        <div style="width:380px;height:64px;">
+          <input type="text" class="form-control" placeholder="姓名"
+                 name="name" ng-model="regData.name" required>
+        </div>
+        <div class="last-div">
+          <label>性别</label>
+          <label><input type="radio" name="sex" value="男" ng-model="regData.sex" ng-checked="true"
+                  ng-init="regData.sex='男'"> 男</label>
+          <label><input type="radio" name="sex" value="女" ng-model="regData.sex"> 女</label>
+        </div>
+        <div>
+          <!-- <a href="#/apply_bind">
+            <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn mgt-l"
+                    ng-disabled="regForm.$invalid" ng-submit="regSubmit()">完 成</button>
+          </a> -->
+          <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn mgt-l"
+                  ng-disabled="regForm.$invalid" ng-click="regSubmit()">完 成</button>
+        </div>
+        <div class="col-lg-12 text-center">
+          <a href="login.html" class="color-custom-orange">取 消</a>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
