@@ -36,7 +36,7 @@ angular.module('registrationApp', ['ngRoute'])
     if ($scope.regData.phone) {
       var _url = 'http://192.168.0.107:8080/dt/rest/sms/sendVerificationCode',
           _param = {tel : $scope.regData.phone},
-          _method = 'POST';
+          _method = 'GET';
       requestData(_url, _param, _method)
         .then(function (results) {
           console.log(results);
