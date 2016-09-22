@@ -35,6 +35,10 @@ define('main/services', ['main/init'], function () {
           }
         }
 
+        if(_params&&method == 'GET'){
+          _url+=(_url.indexOf("?")==-1?"?":"&")+$httpParamSerializer(_params);
+
+        }
         var config={
             method: method,
             url: _url,
