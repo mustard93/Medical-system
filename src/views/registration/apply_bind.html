@@ -1,0 +1,45 @@
+<div class="container col-lg-6 col-lg-offset-3">
+  <div class="col-lg-12 col-sm-12 sys-reg-logo"></div>
+  <div class="col-lg-12 col-sm-12">
+    <p class="sys-reg-title">申请绑定</p>
+  </div>
+
+  <div class="bind-wrap col-lg-12" ng-controller="registrationCtrl" query-distributor-list>
+    <!-- 提示信息 -->
+    <div class="text-center bind-notice">
+      <span>请绑定公司名跟部门</span>
+    </div>
+    <form name="bindForm" class="form-signin" onsubmit="return false;">
+      <div>
+        <select relative-select relative-initload relative-to="#departmentList"
+                class="select chzn-select" ng-model="formData.DistributorId" name="distributorList" chosen
+                ng-options="item.value as item.text for item in distributorList">
+          <option value="">请选择</option>
+        </select>
+        <!-- <select relative-select relative-initload relative-to="#relativeSelect3"
+                class="chzn-select" ng-model="formData.select2" name="select2" chosen>
+          <option value="">请选择</option>
+          <option value="" ng-repeat="item in distributorList">{{item.text}}</option>
+        </select> -->
+        <select relative-select="rest/index/department/queryForSelectOption" class="select" ng-model="formData.department"
+        id="departmentList" name="departmentList" select-first>
+          <option value="">请选择</option>
+        </select>
+      </div>{{formData}}
+      <div>
+        <a href="/index.html#">
+          <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn mgt-l">完 成</button>
+        </a>
+      </div>
+      <div class="col-lg-12 text-center">
+        <a href="login.html" class="color-custom-orange">返回登陆</a>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="js/chosen-1.6.2.min.js"></script>
+<script>
+  $(function () {
+    $(".chzn-select").chosen();
+  });
+</script>

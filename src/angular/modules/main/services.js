@@ -58,40 +58,6 @@ define('main/services', ['main/init'], function () {
                 };
           }
 
-          //GET|POST
-
-          //
-          // if(method=='GET'){
-          //   config.data.q='11';
-          //   config.data.b='11';
-          //   $http.get(config.url,config.data)
-          //       .success(function (_data, status, headers, config) {
-          //           if (status == 200 && _data.code == 200) {
-          //               defer.resolve([_data.data, _data]);
-          //           } else {
-          //               defer.reject(_data.msg || '出错了');
-          //           }
-          //       })
-          //       .error(function () {
-          //           defer.reject("提交失败!");
-          //       });
-          // }else{
-          //   $http.post(config.url,config.data,{'Content-Type':'application/x-www-form-urlencoded'})
-          //       .success(function (_data, status, headers, config) {
-          //           if (status == 200 && _data.code == 200) {
-          //               defer.resolve([_data.data, _data]);
-          //           } else {
-          //               defer.reject(_data.msg || '出错了');
-          //           }
-          //       })
-          //       .error(function () {
-          //           defer.reject("提交失败!");
-          //       });
-          // }
-
-
-
-
             $http(config)
                 .success(function (_data, status, headers, config) {
                     if (status == 200 && _data.code == 200) {

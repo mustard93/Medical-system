@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" ng-app="registrationApp">
+<html lang="zh-CN" >
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,15 +37,24 @@
     </style>
 </head>
 
-<body class="login-body" ng-controller="registrationCtrl">
+<body class="login-body" ng-controller="mainCtrl">
 <div ng-view></div>
 
 <!-- Placed js at the end of the document so the pages load faster -->
-<script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="angular/libs/angular.min.js"></script>
-<script src="angular/libs/angular-route.min.js"></script>
-<script src="angular/registration_app.js"></script>
-<script src="angular/libs/chosen.jquery.min.js"></script>
+
+<script>
+  var Config = {
+      serverPath:"http://192.168.0.107:8080/dt/",    //系统api调用接口地址
+      //serverPath:"http://localhost:8080/dt/",    //系统api调用接口地址
+      // serverPath:"",
+      viewsDir: "views/",  //视图目录
+      // viewsDir: "ui-api/views/",  //视图目录
+      tplPath: "angular/",
+      indexPage: "main.html", //默认打开的地址
+      getMainInfo: "rest/authen/user/getCurrentUser.json" //获取主要的状态信息
+  }
+</script>
+<script id="requirejs_baseUrlId" data-main="angular/registration_app" src="angular/r.js" defer async="true"></script>
+
 </body>
 </html>
