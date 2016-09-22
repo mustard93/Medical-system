@@ -21,6 +21,10 @@ angular.module('registrationApp', ['ngRoute'])
       templateUrl: 'angular/tpl/registration/apply_bind.html',
       controller: 'registrationCtrl'
     })
+    .when('/bind_done', {
+      templateUrl: 'angular/tpl/registration/bind_done.html',
+      controller: 'registrationCtrl'
+    })
     .otherwise({redirectTo: '/verify_phone'});
 }])
 
