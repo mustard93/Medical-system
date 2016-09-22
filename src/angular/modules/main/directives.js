@@ -1692,12 +1692,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
 
                 }
+
+                  var chosenObj=null;
                 $attrs.width && (chosenConfig.width = $attrs.width);
 
                 require(['chosen'], function() {
                     if ($attrs.selectSource) {
                         if (angular.isDefined($attrs.chosenAjax)) {
-                            var chosenObj = $element.chosen(chosenConfig);
+                             chosenObj = $element.chosen(chosenConfig);
 
                             var $chosenContainer = $element.next();
                             var $input = $('input', $chosenContainer);
@@ -1834,6 +1836,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 }
                             });
                         } else {
+
+
+                          function getData(){
+                            //满足条件才异步请求
+                            if (angular.isDefined($attrs.ajaxIf)) {
+                                if (!$attrs.ajaxIf) return;
+                            }
+
+
                             requestData($attrs.selectSource)
                                 .then(function(results) {
                                     var data = results[0];
@@ -1855,9 +1866,19 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                         _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
                                     }
                                     $element.html(_options);
-                                    $element.chosen($scope.chosen || chosenConfig);
+                                    chosenObj=$element.chosen($scope.chosen || chosenConfig);
                                     ngModel.$setViewValue(_selected);
                                 });
+                          }
+                          //监听
+                          $attrs.$observe("selectSource", function(value) {
+                              ngModel.$setViewValue("");
+                              chosenObj&&chosenObj.data("chosen").single_set_selected_text();
+
+                              getData({});
+                          });
+
+                          getData();
 
                         }
                     } else {

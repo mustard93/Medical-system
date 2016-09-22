@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>API调用规范</title>
+<link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css"
+	rel="stylesheet">
+</head>
+<body style="padding: 20px 150px 50px 150px">
+
+	<h1>API调用规范</h1>
+
+	<ol>
+		<li><a href="#section_1">授权机制</a></li>
+		<li><a href="#section_2">授权返回样例</a></li>
+		<li><a href="#section_3">授权有效期</a></li>
+		<li><a href="#section_4">用户令牌验证请求说明</a></li>
+		<li><a href="#section_5">API标准返回格式</a></li>
+		<li><a href="#section_6">API常见错误码</a></li>
+	</ol>
+
+	<h3 id="section_1">1.授权机制</h3>
+	<p>MSS开放接口的调用，如发创建订单、查询等，都是需要获取用户身份认证的。目前MSS平台用户身份鉴权主要采用的是仿OAuth2.0模式。
+	</p>
+	<p>
+		关于OAuth2.0协议的授权流程可以参考下面的流程图，其中Client指第三方应用，Resource
+		Owner指用户，Authorization Server是我们的授权服务器，Resource Server是API服务器。 <img
+			style="border: 2px solid #F2F2F2; padding: 5px; max-width: 100%"
+			src="http://www.sinaimg.cn/blog/developer/wiki/oAuth2_01.gif">
+	</p>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>接口</th>
+				<th>说明</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>POST <a href="../api-docs/#!/%2Findex/authorize">/index/authorize</a></td>
+				<td>请求用户授权Token</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>GET <a
+					href="../api-docs/#!/%2Fauthen%2Fuser/getCurrentUser">/authen/user/getCurrentUser</a></td>
+				<td>获取授权过的Access Token对应的用户信息</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<h3 id="section_2">2.授权返回样例</h3>
+	<pre>
+	{
+   "code": 200,
+   "msg": "操作成功",
+   "data":    {
+      "id": "57cfa3d7240a699df4ee55ba",
+      "createAt": 1473225686881,
+      "updateAt": 1473225686881,
+      "status": "ACTIVE",
+      "phone": "13882217972",
+      "qq": null,
+      "email": null,
+      "name": "huxiao",
+      "birthday": null,
+      "password": "******",
+      "sex": null,
+      "nation": null,
+      "headUrl": null,
+      "loginName": null,
+      "accessToken": "28b429b0-31be-477a-bbfb-a9f1fe303d47"
+   }
+}</pre>
+
+	<p class="text-warning">其中返回的用户令牌为："accessToken":
+		"28b429b0-31be-477a-bbfb-a9f1fe303d47"</p>
+
+	<h3 id="section_3">3.授权有效期</h3>
+
+	<p>目前开发阶段，系统默认的授权有效期，<span class="text-warning">expire_timeout = 7 * 365</span> ，在不主动清除用户令牌的情况下为一周.每次使用TOKEN进行请求后，会自动刷新TOKEN的有效期.</p>
+
+	<h3 id="section_4">4.用户令牌验证请求说明</h3>
+
+	<p>目前支持三种方式使用令牌进行API访问</p>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>访问方式</th>
+				<th>说明</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>通过HEADER 参数</td>
+				<td>access_token:6b0c5dbc-133b-458b-b0d0-51004e60424b</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>在URL中附带参数</td>
+				<td>../rest/authen/***.json?access_token=6b0c5dbc-133b-458b-b0d0-51004e60424b</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>在cookie中 传递参数</td>
+				<td>access_token:6b0c5dbc-133b-458b-b0d0-51004e60424b</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="section_5">5.API标准返回格式</h3>
+	<pre>
+	{
+   "code": 200,
+   "msg": "操作成功",
+   "data":    {
+      "id": "57cfa3d7240a699df4ee55ba",
+      "t": null,
+      "n": "huxiao",
+      "p": "13882217972",
+      "i": null
+   }
+}
+</pre>
+<table class="table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>参数</th>
+				<th>说明</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>code</td>
+				<td>错误码，其中200为全局成功返回码</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>msg</td>
+				<td>错误信息</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>data</td>
+				<td>返回的数据实体data</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	<h3 id="section_6">6.API常见错误码(待补充...)</h3>
+	<p></p>
+<body>
+</html>

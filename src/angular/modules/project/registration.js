@@ -41,7 +41,7 @@ define('project/registration',['angular'], function () {
     'use strict';
     // 定义全局对象
     $scope.globalData = {
-      requestUrlHead: 'http://192.168.0.107:8080/dt/'
+      requestUrlHead: ''
     };
 
     // 发送验证码
@@ -101,68 +101,68 @@ define('project/registration',['angular'], function () {
   .filter('registrationFilter', [function () {
     // 这里定义多个过滤器
   }])
-  /**
-   *  注册模块服务 - 发送数据请求
-   */
-  .service('requestData', ['$q', '$http', '$httpParamSerializer', function ($q, $http, $httpParamSerializer) {
-    'use strict';
-
-        return function (_url, _params, method, parameterBody) {
-          var defer = $q.defer();
-          if (!method) {
-            method = 'GET';
-          }
-
-          var transformRequest=function (data) {
-              return $httpParamSerializer(data);
-          };
-
-        if(window.Config&&Config.serverPath){
-          if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
-            _url=Config.serverPath+_url;
-          }
-        }
-
-        var config={
-            method: method,
-            url: _url,
-            data: _params || {},
-            withCredentials: true,
-            headers: {
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Type' : 'application/json;charset=utf-8',
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        };
-          if(!parameterBody){
-            config.transformRequest=function (data) {
-                    return $httpParamSerializer(data);
-                };
-
-                config.headers= {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    // 'Content-Type' : 'application/json;charset=utf-8',
-                    'X-Requested-With': 'XMLHttpRequest'
-                };
-          }
-
-            $http(config)
-                .success(function (_data, status, headers, config) {
-                    if (status == 200 && _data.code == 200) {
-                        defer.resolve([_data.data, _data]);
-                    } else {
-                        defer.reject(_data.msg || '出错了');
-                    }
-                })
-                .error(function () {
-                    defer.reject("提交失败!");
-                });
-
-            return defer.promise;
-        };
-
-
-  }])
+  // /**
+  //  *  注册模块服务 - 发送数据请求
+  //  */
+  // .service('requestData', ['$q', '$http', '$httpParamSerializer', function ($q, $http, $httpParamSerializer) {
+  //   'use strict';
+  //
+  //       return function (_url, _params, method, parameterBody) {
+  //         var defer = $q.defer();
+  //         if (!method) {
+  //           method = 'GET';
+  //         }
+  //
+  //         var transformRequest=function (data) {
+  //             return $httpParamSerializer(data);
+  //         };
+  //
+  //       if(window.Config&&Config.serverPath){
+  //         if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
+  //           _url=Config.serverPath+_url;
+  //         }
+  //       }
+  //
+  //       var config={
+  //           method: method,
+  //           url: _url,
+  //           data: _params || {},
+  //           withCredentials: true,
+  //           headers: {
+  //               // 'Content-Type': 'application/x-www-form-urlencoded',
+  //               'Content-Type' : 'application/json;charset=utf-8',
+  //               'X-Requested-With': 'XMLHttpRequest'
+  //           }
+  //       };
+  //         if(!parameterBody){
+  //           config.transformRequest=function (data) {
+  //                   return $httpParamSerializer(data);
+  //               };
+  //
+  //               config.headers= {
+  //                   'Content-Type': 'application/x-www-form-urlencoded',
+  //                   // 'Content-Type' : 'application/json;charset=utf-8',
+  //                   'X-Requested-With': 'XMLHttpRequest'
+  //               };
+  //         }
+  //
+  //           $http(config)
+  //               .success(function (_data, status, headers, config) {
+  //                   if (status == 200 && _data.code == 200) {
+  //                       defer.resolve([_data.data, _data]);
+  //                   } else {
+  //                       defer.reject(_data.msg || '出错了');
+  //                   }
+  //               })
+  //               .error(function () {
+  //                   defer.reject("提交失败!");
+  //               });
+  //
+  //           return defer.promise;
+  //       };
+  //
+  //
+  // }])
   /**
    *  注册模块静态值服务
    */
