@@ -9,8 +9,8 @@
 <!-- page heading end-->
 
 <!--body wrapper start-->
-<table-list list-data="{{mainStatus.requestPath}}rest/authen/medical/query.json" list-params="listParams">
-  <div class="mg-m">
+<table-list list-data="{{mainStatus.requestPath}}rest/authen/medical/query.json" ng-init="listParams={pageSize:'3'}" list-params="listParams">
+  <div class="mg-m">{{formData}}
     <div>
 
       <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/medical/edit.html"><i
@@ -20,7 +20,7 @@
     </div>
 
   </div>
-  
+
   <div class="wrapper">
     <div class="loader" ng-if="status.isLoading">
         <div class="loader-inner pacman">

@@ -11,21 +11,21 @@
     </div>
     <form name="bindForm" class="form-signin" onsubmit="return false;">
       <div>
-        <select class="chzn-select" data-placeholder="请选择公司" tabindex="1">
-          <option value=""></option>
-          <option value="1">云南国药集团公司
-          <option value="2">云南国药集团公司器材研发公司
-          <option value="3">云南国药集团信息技术公司
+        <select relative-select relative-initload relative-to="#departmentList"
+                class="select chzn-select" ng-model="formData.DistributorId" name="distributorList" chosen
+                ng-options="item.value as item.text for item in distributorList">
+          <option value="">请选择</option>
         </select>
-      </div>
-      <div>
-        <select class="chzn-select" data-placeholder="请选择部门" tabindex="1">
-          <option value=""></option>
-          <option value="1">研发部
-          <option value="2">采购部
-          <option value="3">后勤部
+        <!-- <select relative-select relative-initload relative-to="#relativeSelect3"
+                class="chzn-select" ng-model="formData.select2" name="select2" chosen>
+          <option value="">请选择</option>
+          <option value="" ng-repeat="item in distributorList">{{item.text}}</option>
+        </select> -->
+        <select relative-select="rest/index/department/queryForSelectOption" class="select" ng-model="formData.department"
+        id="departmentList" name="departmentList" select-first>
+          <option value="">请选择</option>
         </select>
-      </div>
+      </div>{{formData}}
       <div>
         <a href="/index.html#">
           <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn mgt-l">完 成</button>

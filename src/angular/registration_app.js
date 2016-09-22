@@ -24,7 +24,6 @@ angular.module('registrationApp', ['ngRoute'])
     .otherwise({redirectTo: '/verify_phone'});
 }])
 
-
 /**
  *  注册模块控制器 - 点击发送验证码
  */
@@ -43,6 +42,7 @@ angular.module('registrationApp', ['ngRoute'])
           _method = 'GET';
       requestData(_url, _param, _method)
         .then(function (results) {
+          console.log(results);
           var _data = results[0];
           $scope.validCode = _data.code;
         });
@@ -58,11 +58,11 @@ angular.module('registrationApp', ['ngRoute'])
       requestData(_url, _params, _method)
         .then(function (results) {
           var _data = results[1];
-          if (_data.code === 200 && _data.success === true) {
-            $('.reg-success-prompt').fadeIn(500).delay(1500).fadeOut(200);
+          if (_data.code === 200) {
+            $('.reg-success-prompt').fadeIn(500);
             setTimeout(function(){
               window.location.href = '#/apply_bind';
-            }, 2000);
+            }, 1500);
           }
         });
     }
@@ -134,23 +134,31 @@ angular.module('registrationApp', ['ngRoute'])
           $rootScope.verifyResult.phone = false;
           $rootScope.verifyResult.msg = '手机号码不能为空或格式不正确';
           if ($('.reg-info-prompt').css('display') === 'none') {
-            $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
+            $('.reg-info-prompt').fadeIn(500);
             $(element).focus();
           }
         } else {
-          $rootScope.verifyResult.phone = ngModel.$viewValue;
           // 有效性校验
-          var _validUrl = scope.globalData.requestUrlHead + 'rest/index/isExist?phone=' + ngModel.$viewValue;
-          requestData(_validUrl)
+          var _validUrl = scope.globalData.requestUrlHead + 'rest/index/user/isExist?phone=' + ngModel.$viewValue;
+
+          requestData(_validUrl, {}, 'GET')
             .then(function (results) {
-              var _data = results[1];
-              if (_data.code !== 200) {
-                $rootScope.verifyResult.phone = false;
-                $rootScope.verifyResult.msg = results.msg;
-                if ($('.reg-info-prompt').css('display') === 'none') {
-                  $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
-                  $(element).focus();
+              if (results[1].code === 200) {
+                $rootScope.verifyResult.phone = true;
+                $rootScope.verifyResult.phoneNumber = ngModel.$viewValue;
+                if ($('.reg-info-prompt').css('display') !== 'none') {
+                  $('.reg-info-prompt').fadeOut(200);
                 }
+              }
+            })
+            .catch(function (msg) {
+              $rootScope.verifyResult.phone = false;
+              $rootScope.verifyResult.msg = msg;
+              if ($('.reg-info-prompt').css('display') !== 'none') {
+                $rootScope.verifyResult.msg = msg;
+              } else {
+                $('.reg-info-prompt').fadeIn(500);
+                $(element).focus();
               }
             });
         }
@@ -174,6 +182,7 @@ angular.module('registrationApp', ['ngRoute'])
     restrict: 'A',
     require: 'ngModel',
     link: function (scope, element, attrs, ngModel) {
+      // console.log($rootScope.verifyResult.msg);
       if (!$rootScope.verifyResult) {
         $rootScope.verifyResult = {};
       }
@@ -183,9 +192,14 @@ angular.module('registrationApp', ['ngRoute'])
             $rootScope.verifyResult.password = false;
             $rootScope.verifyResult.msg = '密码应在6~32位之间或含有特殊字符';
             if ($('.reg-info-prompt').css('display') === 'none') {
-              $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
+              $('.reg-info-prompt').fadeIn(500);
               $(element).focus();
             }
+          } else {
+            if ($('.reg-info-prompt').css('display') !== 'none') {
+              $('.reg-info-prompt').fadeOut(200);
+            }
+            $rootScope.verifyResult.password = true;
           }
         }
 
@@ -194,8 +208,13 @@ angular.module('registrationApp', ['ngRoute'])
             $rootScope.verifyResult.repassword = false;
             $rootScope.verifyResult.msg = '两次输入的密码不一致';
             if ($('.reg-info-prompt').css('display') === 'none') {
-              $('.reg-info-prompt').fadeIn(500).delay(2000).fadeOut(200);
+              $('.reg-info-prompt').fadeIn(500);
             }
+          } else {
+            if ($('.reg-info-prompt').css('display') !== 'none') {
+              $('.reg-info-prompt').fadeOut(200);
+            }
+            $rootScope.verifyResult.repassword = true;
           }
         }
       });
@@ -210,11 +229,72 @@ angular.module('registrationApp', ['ngRoute'])
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      var _queryUrl = scope.globalData.requestUrlHead + 'rest/authen/distributor/queryForSelectOption';
-      requestData(_queryUrl)
+      var _queryUrl = scope.globalData.requestUrlHead + 'rest/index/distributor/queryForSelectOption';
+      requestData(_queryUrl, {q: ''}, 'GET')
         .then(function (results) {
-          console.log(results);
+          if (results[1].code === 200) {
+            scope.distributorList = results[1].data;
+          }
+        })
+        .catch(function (msg) {
+          //console.log(msg);
         });
     }
+  };
+}])
+/**
+ *  级联下拉
+ */
+.directive('relativeSelect', ['requestData', '$timeout', function (requestData, $timeout) {
+  return {
+      restrict: 'A',
+      scope: {},
+      require: "?^ngModel",
+      link: function ($scope, $element, $attrs, ngModel) {
+          var _relativeTo = $attrs.relativeTo;
+          var _relativeSelect = $attrs.relativeSelect;
+          var isSelectFirst = angular.isDefined($attrs.selectFirst);
+          var relativeInitload = angular.isDefined($attrs.relativeInitload);
+
+          $element.on("change", changeHandle);
+
+          $element.on("update", function (e, _data) {
+              getData(_data);
+          });
+
+          function changeHandle() {
+              var _data = {};
+              _data[$element[0].name] = $element.val();
+              $(_relativeTo).trigger("update", _data);
+          }
+
+          function getData(_data) {
+              requestData(_relativeSelect, _data)
+                  .then(function (results) {
+                      var data = results[0];
+                      var _options = isSelectFirst ? '' : '<option value="">请选择</option>';
+                          if(!data)data=[];
+                      var _length = data.length;
+                      var _value = "";
+                      for (var i = 0; i < _length; i++) {
+                          if (data[i].selected || (isSelectFirst && i === 0)) {
+                              _value = data[i].value;
+                          }
+                          _options += '<option ' + (data[i].enabled === 0 ? ' class="text-muted"' : '') + ' value="' + data[i].value + '">' + data[i].text + '</option>';
+                      }
+                      $element.html(_options);
+                      //$element.trigger("change");
+                      $element.val(_value);
+                      if (ngModel) {
+                        ngModel.$setViewValue(_value);
+                      }
+                      changeHandle();
+                  });
+          }
+
+          if (relativeInitload) {
+              $timeout(changeHandle);
+          }
+      }
   };
 }]);
