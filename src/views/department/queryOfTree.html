@@ -1,0 +1,49 @@
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>部门管理</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active"> 部门管理</li>
+    </ul>
+</div>
+<!-- page heading end-->
+<ul>
+
+  <li><a href="#/department/query.html"><i class="fa fa-home "></i> <span>部门管理(列表展示)</span></a></li>
+    <li><a href="#/department/queryOfTree.html"><i class="fa fa-home active"></i> <span>部门管理(树形展示)</span></a></li>
+</ul>
+<!--body wrapper start-->
+
+
+  <div class="tree-org" tree-list2="rest/authen/department/query.json?pageSize=1000" pid-key="parentId">
+    <div class="mg-m">
+      <div>
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/department/edit.html"><i
+                class="fa fa-plus"></i> 新建
+        </button>
+      </div>
+    </div>
+
+    <script id="recursion" type="text/ng-template">
+
+        <li ng-repeat="tree in treeList_recursion" ng-init="isOpen=tree_index<2" class="{{isOpen?'fold':''}}">
+          <span class="name">
+              <span class="text-bold">{{tree.name}}  <span class="text-s text-muted text-italic label">{{tree.descript}}  </span> </span>
+                <span ng-if="tree_index>1&&tree.nodes.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
+                         <span class="operate">
+                               <i class="iconfont icon-plus" modal-right="800" modal-scope="this" modal-url="/department/edit.html?parentId={{::tree.id}}"></i>
+                                         <i class="iconfont icon-settings" modal-right="800" modal-scope="this" modal-url="/department/edit.html?id={{::tree.id}}"></i>
+                                      <i class="iconfont icon-delete" ng-click="deleteTree($event, 'department/delete?id='+tree.id)"></i>
+                                  </span>
+          </span>
+            <ul ng-if="tree.nodes.length" style="display: {{isOpen?'':'none'}}" ng-include="'recursion'"  ng-init="treeList_recursion=tree.nodes;tree_index=tree_index+1"></ul>
+        </li>
+
+    </script>
+
+  <ul ng-if="treeList.length"  ng-include="'recursion'"  ng-init="treeList_recursion=treeList;tree_index=1"></ul>
+
+      
+  </div>
+
+<!--body wrapper end-->

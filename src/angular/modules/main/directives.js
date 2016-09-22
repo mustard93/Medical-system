@@ -922,12 +922,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
                 };
 
-                function buildTree(data) {
+                function buildTree(data,pidKey) {
                     var pos = {};
                     var tree = [];
                     var i = 0;
+                      if(!pidKey)pidKey="pid";
                     while (data.length != 0) {
-                        if (data[i].pid == "0") {
+                        if (data[i][pidKey] == "0") {
                             var _obj = angular.copy(data[i]);
                             _obj.nodes = [];
                             tree.push(_obj);
@@ -935,7 +936,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             data.splice(i, 1);
                             i--;
                         } else {
-                            var posArr = pos[data[i].pid];
+                            var posArr = pos[data[i][pidKey]];
                             if (posArr != undefined) {
 
                                 var obj = tree[posArr[0]];
@@ -966,7 +967,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     requestData($attrs.treeList)
                         .then(function(results) {
                             var data = results[0];
-                            $scope.treeList = buildTree(data);
+                            $scope.treeList = buildTree(data,$attrs.pidKey);
                             $scope.status.isLoading = false;
                             if (isFirstLoad && angular.isDefined($attrs.selectFirst)) {
                                 isFirstLoad = false;
@@ -1068,12 +1069,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     });
                 };
 
-                function buildTree(data) {
+                function buildTree(data,pidKey) {
                     var pos = {};
                     var tree = [];
                     var i = 0;
+
+                    if(!pidKey)pidKey="pid";
+
+
                     while (data.length != 0) {
-                        if (data[i].pid == "0") {
+                        if (data[i][pidKey] == "0") {
                             var _obj = angular.copy(data[i]);
                             _obj.nodes = [];
                             tree.push(_obj);
@@ -1081,7 +1086,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             data.splice(i, 1);
                             i--;
                         } else {
-                            var posArr = pos[data[i].pid];
+                            var posArr = pos[data[i][pidKey]];
                             if (posArr != undefined) {
 
                                 var obj = tree[posArr[0]];
@@ -1112,7 +1117,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     requestData($attrs.treeList2)
                         .then(function(results) {
                             var data = results[0];
-                            $scope.treeList = buildTree(data);
+                            $scope.treeList = buildTree(data,$attrs.pidKey);
                             $scope.status.isLoading = false;
                         })
                         .catch(function() {
@@ -1875,7 +1880,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                               ngModel.$setViewValue("");
                               chosenObj&&chosenObj.data("chosen").single_set_selected_text();
 
-                              getData({});
+                              getData();
                           });
 
                           getData();
