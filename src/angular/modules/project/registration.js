@@ -47,11 +47,10 @@ define('project/registration',['angular'], function () {
     // 发送验证码
     $scope.sendRegVerifyCode = function () {
       if ($scope.regData.phone) {
-        var _url = $scope.globalData.requestUrlHead + 'rest/sms/sendVerificationCode.json?tel='+ $scope.regData.phone;
+        var _url = $scope.mainConfig.serverPath + 'rest/sms/sendVerificationCode.json?tel='+ $scope.regData.phone;
         var _param = {tel : $scope.regData.phone};
         requestData(_url, _param)
           .then(function (results) {
-            console.log(results);
             var _data = results[0];
             $scope.validCode = _data.code;
           }).catch(function (msg) {
@@ -70,7 +69,7 @@ define('project/registration',['angular'], function () {
     // 注册提交
     $scope.regSubmit = function () {
       if ($scope.regData) {
-        var _url = $scope.globalData.requestUrlHead + 'rest/index/register',
+        var _url = $scope.mainConfig.serverPath + 'rest/index/register',
             _params = $scope.regData,
             _method = 'POST';
         requestData(_url, _params, _method)
@@ -193,7 +192,7 @@ define('project/registration',['angular'], function () {
             }
           } else {
             // 有效性校验
-            var _validUrl = scope.globalData.requestUrlHead + 'rest/index/user/isExist?phone=' + ngModel.$viewValue;
+            var _validUrl = scope.mainConfig.serverPath + 'rest/index/user/isExist?phone=' + ngModel.$viewValue;
 
             requestData(_validUrl, {}, 'GET')
               .then(function (results) {
@@ -274,7 +273,5 @@ define('project/registration',['angular'], function () {
         });
       }
     };
-  }])
-
-
+  }]);
 });
