@@ -13,6 +13,8 @@ define('main/controllers', ['main/init'], function () {
             navigation: "",
             msgBubble: 0 //消息气泡
         };
+        //当前用户
+        $scope.curUser={};
 
         $scope.mainConfig = window.Config || {};
         //页面跳转
@@ -45,6 +47,7 @@ define('main/controllers', ['main/init'], function () {
               dataType: 'json',
               success: function (_data) {
                 if (_data.code == 200) {
+                  $scope.curUser=_data.data;
                     angular.extend($scope.mainStatus, _data.data);
                       $scope.$digest();
                 } else if (_data.code == 802){

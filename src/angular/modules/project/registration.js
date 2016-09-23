@@ -66,6 +66,13 @@ define('project/registration',['angular'], function () {
       }
     };
 
+        // 注册提交
+        $scope.bind_done = function () {
+            window.location.assign('#/bind_done');
+        }
+
+
+
     // 注册提交
     $scope.regSubmit = function () {
       if ($scope.regData) {

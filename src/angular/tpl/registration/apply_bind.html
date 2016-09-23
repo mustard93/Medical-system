@@ -9,11 +9,16 @@
     <div class="text-center bind-notice">
       <span>请绑定公司名跟部门</span>
     </div>
-    <form name="bindForm" class="form-signin" onsubmit="return false;">
+    <form  class="form-signin" onsubmit="return false;"
+form-validator
+     action= "rest/authen/distributor/addUserAndOrganization"
+
+      alert-error callback="bind_done();"
+      >
       <div>
 
           <select class="select select-w" data-placeholder="选择一个..." chosen
-            ng-model="formData.distributorId" select-source="rest/index/distributor/queryForSelectOption.json"></select>
+            ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption.json"></select>
 
         <!-- <select relative-select relative-initload relative-to="#relativeSelect3"
                 class="chzn-select" ng-model="formData.select2" name="select2" chosen>
@@ -22,15 +27,17 @@
         </select> -->
 
         <select class="select select-w" data-placeholder="选择一个..." chosen
-          ng-model="formData.departmentId"  ajax-if="{{formData.distributorId}}"
+          ng-model="formData.departmentIds"   ajax-if="{{formData.organizationId}}"
           default-empty
-          select-source="rest/index/department/queryForSelectOption.json?={{formData.distributorId}}"></select>
+          select-source="rest/index/department/queryForSelectOption.json?DistributorId={{formData.organizationId}}"></select>
 
       </div>
       <div>
-        <a href="#/bind_done">
+        <!-- <a href="#/bind_done"> -->
           <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l">完 成</button>
-        </a>
+        <!-- </a> -->
+
+
       </div>
       <div class="col-lg-12 text-center">
         <a href="login.html" class="color-custom-orange">返回登陆</a>

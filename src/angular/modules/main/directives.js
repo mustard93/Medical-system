@@ -281,6 +281,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             if ($attrs.formSubmitAfter == "reset") {
                                 DOMForm.reset();
                             }
+
+                            if ($attrs.callback) {
+                                $scope.$eval($attrs.callback);
+                            }
+
                             if ($attrs.broadcast) {
                                 $scope.$broadcast($attrs.broadcast);
                                 $scope.$emit($attrs.broadcast);
@@ -317,6 +322,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         .catch(function(error) {
                             formStatus.submitting = false;
                             formStatus.submitInfo = error || '提交失败。';
+
+                                                        
                             alertError(error);
                             //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
                         });
@@ -1776,15 +1783,28 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                     var _length = data.length;
                                     //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
 
-                                    var _selected = "";
+                                    var   _selected=null;
+                                    if(angular.isDefined($attrs.multiple)){
+
+                                        if (angular.isDefined($attrs.defaultEmpty)) {
+                                           _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
+                                        } else {
+                                            _selected= ngModel.$viewValue ? ngModel.$viewValue : [data[0].value];
+
+
+                                        }
+
+                                    }else{
+                                       if (angular.isDefined($attrs.defaultEmpty)) {
+                                        _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
+                                       } else {
+                                         _selected= ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
+
+                                       }
+                                    }
                                     if (angular.isDefined($attrs.defaultEmpty)) {
                                         _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
-
-                                        _selected = ngModel.$viewValue ? ngModel.$viewValue : "";
-                                    } else {
-                                        _selected = ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
                                     }
-
                                     for (var i = 0; i < _length; i++) {
                                         _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
                                     }
@@ -1795,8 +1815,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           }
                           //监听
                           $attrs.$observe("selectSource", function(value) {
-                              ngModel.$setViewValue("");
-                              chosenObj&&chosenObj.data("chosen").single_set_selected_text();
+                              ngModel.$setViewValue(null);
+                                chosenObj&&chosenObj.data("chosen").destroy();
+
+                              // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
 
                               getData();
                           });
