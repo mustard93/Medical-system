@@ -47,13 +47,11 @@ define('project/directives', ['project/init'], function () {
                 sub.slideUp(200, function(){
                    parent.removeClass('nav-active');
                    $('.main-content').css({height: ''});
-                   //mainContentHeightAdjust();
                 });
              } else {
                 visibleSubMenuClose();
                 parent.addClass('nav-active');
                 sub.slideDown(200, function(){
-                    //mainContentHeightAdjust();
                 });
              }
           }
