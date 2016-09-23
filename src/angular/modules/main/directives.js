@@ -101,6 +101,8 @@ define('main/directives', ['main/init'], function() {
     $attrs.alertError :是否提示请求失败提示。
     $attrs.ajaxIf :满足条件才异步请求  ajax-if="{{addDataItem.relId}}"
 
+    $attrs.callback:满足条件才异步请求 回调方法。比如 callback="formData={}"
+
 $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope， callback="formData.courseId=details[0].value"
     请求返回数据格式：
       scopeResponse=  {
@@ -891,7 +893,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     /**
      * 树状列表
      */
-    function treeList(requestData, $timeout) {
+    function treeList(buildTree,requestData, $timeout) {
         return {
             restrict: 'AE',
             scope: {},
@@ -922,45 +924,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
                 };
 
-                function buildTree(data,pidKey) {
-                    var pos = {};
-                    var tree = [];
-                    var i = 0;
-                      if(!pidKey)pidKey="pid";
-                    while (data.length != 0) {
-                        if (data[i][pidKey] == "0") {
-                            var _obj = angular.copy(data[i]);
-                            _obj.nodes = [];
-                            tree.push(_obj);
-                            pos[data[i].id] = [tree.length - 1];
-                            data.splice(i, 1);
-                            i--;
-                        } else {
-                            var posArr = pos[data[i][pidKey]];
-                            if (posArr != undefined) {
-
-                                var obj = tree[posArr[0]];
-                                for (var j = 1; j < posArr.length; j++) {
-                                    obj = obj.nodes[posArr[j]];
-                                }
-
-                                var _obj = angular.copy(data[i]);
-                                _obj.nodes = [];
-                                obj.nodes.push(_obj);
-
-                                pos[data[i].id] = posArr.concat([obj.nodes.length - 1]);
-                                data.splice(i, 1);
-                                i--;
-                            }
-                        }
-                        i++;
-                        if (i > data.length - 1) {
-                            i = 0;
-                        }
-                    }
-
-                    return tree;
-                }
 
                 function getTreeData() {
                     $scope.status.isLoading = true;
@@ -991,12 +954,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         }
     };
-    treeList.$inject = ["requestData", "$timeout"];
+    treeList.$inject = ["buildTree","requestData", "$timeout"];
 
     /**
      * 树状列表2
      */
-    function treeList2(requestData, modal, $timeout, dialogConfirm) {
+    function treeList2(buildTree,requestData, modal, $timeout, dialogConfirm) {
         return {
             restrict: 'AE',
             require: "?^ngModel",
@@ -1069,49 +1032,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     });
                 };
 
-                function buildTree(data,pidKey) {
-                    var pos = {};
-                    var tree = [];
-                    var i = 0;
-
-                    if(!pidKey)pidKey="pid";
-
-
-                    while (data.length != 0) {
-                        if (data[i][pidKey] == "0") {
-                            var _obj = angular.copy(data[i]);
-                            _obj.nodes = [];
-                            tree.push(_obj);
-                            pos[data[i].id] = [tree.length - 1];
-                            data.splice(i, 1);
-                            i--;
-                        } else {
-                            var posArr = pos[data[i][pidKey]];
-                            if (posArr != undefined) {
-
-                                var obj = tree[posArr[0]];
-                                for (var j = 1; j < posArr.length; j++) {
-                                    obj = obj.nodes[posArr[j]];
-                                }
-
-                                var _obj = angular.copy(data[i]);
-                                _obj.nodes = [];
-                                obj.nodes.push(_obj);
-
-                                pos[data[i].id] = posArr.concat([obj.nodes.length - 1]);
-                                data.splice(i, 1);
-                                i--;
-                            }
-                        }
-                        i++;
-                        if (i > data.length - 1) {
-                            i = 0;
-                        }
-                    }
-
-                    return tree;
-                }
-
                 function getTreeData() {
                     $scope.status.isLoading = true;
                     requestData($attrs.treeList2)
@@ -1130,14 +1050,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 //弹窗修改后的回调
                 $scope.submitCallBack = function(_curRow, _data) {
                     modal.closeAll();
-                    $timeout(function() {
-                        getTreeData();
-                    });
+                    getTreeData();
                 };
             }
         }
     };
-    treeList2.$inject = ["requestData", "modal", "$timeout", "dialogConfirm"];
+    treeList2.$inject = ["buildTree","requestData", "modal", "$timeout", "dialogConfirm"];
 
     /**
      * 导航列表
