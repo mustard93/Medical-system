@@ -323,7 +323,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             formStatus.submitting = false;
                             formStatus.submitInfo = error || '提交失败。';
 
-                                                        
+
                             alertError(error);
                             //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
                         });
@@ -464,6 +464,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         }
                         return;
                     }
+
+                    //满足条件才异步请求
+                    if (angular.isDefined($attrs.ajaxIf)) {
+                        if (!$attrs.ajaxIf) return;
+                    }
+
+
                     if (statusInfo.isLoading) {
                         return;
                     }
