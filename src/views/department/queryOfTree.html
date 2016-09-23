@@ -14,7 +14,6 @@
 </ul>
 <!--body wrapper start-->
 
-
   <div class="tree-org" tree-list2="rest/authen/department/query.json?pageSize=1000" pid-key="parentId">
     <div class="mg-m">
       <div>
@@ -26,24 +25,37 @@
 
     <script id="recursion" type="text/ng-template">
 
-        <li ng-repeat="tree in treeList_recursion" ng-init="isOpen=tree_index<2" class="{{isOpen?'fold':''}}">
+        <li ng-repeat="tr in treeList_recursion" ng-init="isOpen=tree_index<2" class="{{isOpen?'fold':''}}">
           <span class="name">
-              <span class="text-bold">{{tree.name}}  <span class="text-s text-muted text-italic label">{{tree.descript}}  </span> </span>
-                <span ng-if="tree_index>1&&tree.nodes.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
-                         <span class="operate">
-                               <i class="iconfont icon-plus" modal-right="800" modal-scope="this" modal-url="/department/edit.html?parentId={{::tree.id}}"></i>
-                                         <i class="iconfont icon-settings" modal-right="800" modal-scope="this" modal-url="/department/edit.html?id={{::tree.id}}"></i>
-                                      <i class="iconfont icon-delete" ng-click="deleteTree($event, 'department/delete?id='+tree.id)"></i>
-                                  </span>
+              <span class="text-bold" modal-right="800" modal-scope="this" modal-url="views/department/edit.html?id={{::tr.id}}">{{tr.name}}  <span class="text-s text-muted text-italic label">{{tr.descript}}  </span> </span>
+                <span ng-if="tree_index>0&&tr.nodes.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
+                 <span class="operate">
+                       <i class="iconfont icon-plus" modal-right="800" modal-scope="this" modal-url="views/department/edit.html?parentId={{::tr.id}}"></i>
+                                 <i class="iconfont icon-settings" modal-right="800" modal-scope="this" modal-url="views/department/edit.html?id={{::tr.id}}"></i>
+                              <i class="iconfont icon-delete" ng-click="deleteTree($event, 'department/delete?id='+tr.id)"></i>
+                          </span>
           </span>
-            <ul ng-if="tree.nodes.length" style="display: {{isOpen?'':'none'}}" ng-include="'recursion'"  ng-init="treeList_recursion=tree.nodes;tree_index=tree_index+1"></ul>
+            <ul ng-if="tr.nodes.length" style="display: {{isOpen?'':'none'}}" ng-include="'recursion'"  ng-init="treeList_recursion=tr.nodes;tree_index=tree_index+1"></ul>
         </li>
 
     </script>
+    <ul>
+    <li  class="isOpen">
+      <span class="name"  ajax-url="rest/authen/distributor/get.json?id={{curUser.additional.Organization.organizationId}}"  scope-data="formData">
 
-  <ul ng-if="treeList.length"  ng-include="'recursion'"  ng-init="treeList_recursion=treeList;tree_index=1"></ul>
 
-      
+          <span class="text-bold">{{formData.name?formData.name:"公司"}}  <span class="text-s text-muted text-italic label"></span> </span>
+            <span ng-if="tree.nodes.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
+                     <span class="operate">
+                           <i class="iconfont icon-plus" modal-right="800" modal-scope="this" modal-url="/department/edit.html?parentId="></i>
+
+                              </span>
+      </span>
+        <ul ng-if="treeList.length"  ng-include="'recursion'"  ng-init="treeList_recursion=treeList;tree_index=1"></ul>
+    </li>
+  </ul>
+
+
   </div>
 
 <!--body wrapper end-->
