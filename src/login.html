@@ -52,7 +52,7 @@
               <!-- <label><input type="checkbox" value=""> 记住电话号码</label> -->
               <div class="square single-row">
                   <div class="checkbox ">
-                      <input type="checkbox" checked>
+                      <input type="checkbox" name="remeberNumber" checked>
                       <label class="color-custom-gold">记住手机号码</label>
                   </div>
               </div>
@@ -133,12 +133,16 @@
               dataType: 'json',
               success: function (results) {
                 if (results.code === 200) {  //验证成功
-                    // alert(results.msg || '登录失败');
+                  // 记住电话号码
+                  if ($('input[name="remeberNumber"]').is(':checked')) {  //如果用户选择保存手机号码
+                    if (window.localStorage) {    //如果当前用户浏览器支持localstorage
+                      window.localStorage.setItem('remeberNumber', _paramsObj.phone);
+                    }
+                  }
                   window.location.href = "index.html#/main.html";
                 } else {
                   $('.login-info-prompt > div > span').text(results.msg);
-                  $('.login-info-prompt').fadeIn(500).delay(1500).fadeOut(200);
-                  // alert(results.msg || '登录失败');
+                  $('.login-info-prompt').fadeIn(500);
                 }
               },
               error:function(res){
@@ -149,21 +153,25 @@
           }
         });
         // 按钮可用与不可用
-        $('input[type!="checkbox"]').each(function () {
-          $(this).on('keyup', function () {
-            if ($('input[name="phone"]').val() && $('input[name="password"]').val()) {
-              $('.pr-btn').removeAttr('disabled');
-            } else {
-              $('.pr-btn').attr('disabled', 'disabled');
-            }
-          });
-        });
+        // $('input[type!="checkbox"]').each(function () {
+        //   $(this).on('keyup', function () {
+        //     if ($('input[name="phone"]').val() && $('input[name="password"]').val()) {
+        //       $('.pr-btn').removeAttr('disabled');
+        //     } else {
+        //       $('.pr-btn').attr('disabled', 'disabled');
+        //     }
+        //   });
+        // });
         // icheck
         $('input[type="checkbox"]').iCheck({
           checkboxClass: 'icheckbox_square',
           radioClass: 'iradio_square',
           increaseArea: '20%' // optional
         });
+        // 读取用户设置的手机号码
+        if (window.localStorage.remeberNumber) {
+          $('input[name="phone"]').val(window.localStorage.remeberNumber);
+        }
       });
     </script>
 </body>
