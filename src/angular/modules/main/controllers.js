@@ -48,13 +48,13 @@ define('main/controllers', ['main/init'], function () {
               success: function (_data) {
                 if (_data.code == 200) {
                   $scope.curUser=_data.data;
-                    angular.extend($scope.mainStatus, _data.data);
-                      $scope.$digest();
+                  angular.extend($scope.mainStatus, _data.data);
+                  $scope.$digest();
+                  console.log('abc');
                 } else if (_data.code == 802){
-
-                        window.location.href = "login.html";
-                }
-                 else {
+                  console.log('aa');
+                  window.location.href = "login.html";
+                } else {
                   alert(_data.msg || '登录失败');
                 }
               }
