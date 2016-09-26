@@ -48,8 +48,7 @@ define('project/registration',['angular'], function () {
     $scope.sendRegVerifyCode = function () {
       if ($scope.regData.phone) {
         var _url = $scope.mainConfig.serverPath + 'rest/sms/sendVerificationCode.json?tel='+ $scope.regData.phone;
-        var _param = {tel : $scope.regData.phone};
-        requestData(_url, _param)
+        requestData(_url, {})
           .then(function (results) {
             var _data = results[0];
             $scope.validCode = _data.code;
@@ -171,25 +170,42 @@ define('project/registration',['angular'], function () {
   /**
    *  校验验证码
    */
-  .directive('regCheckVerifyCode', [function () {
+  .directive('regCheckVerifyCode', ['requestData', '$rootScope', function (requestData, $rootScope) {
     'use strict';
     return {
       restrict: 'A',
       require: 'ngModel',
       link: function (scope, element, attrs, ngModel) {
-        //console.log(ngModel);
-        // element.on('keyup', function () {
-        //   console.log(scope.validCode);
-        //   var _val = ngModel.$viewValue.toString();
-        //   if (_val.length === 4) {
-        //
-        //     if (scope.validCode) {
-        //       if (scope.validCode !== _val) {
-        //
-        //       }
-        //     }
-        //   }
-        // });
+        element.on('keyup', function () {
+          var _val = ngModel.$viewValue.toString();
+          if (_val.length === 4) {
+            var _rUrl = scope.mainConfig.serverPath + 'rest/sms/verifySmsCodey.json',
+                _params = {
+                  tel: scope.regData.phone,
+                  code: scope.regData.verifyCode
+                };
+            requestData(_rUrl, _params, 'POST')
+              .then(function (results) {
+                if (results[1].code === 200) {
+                  $rootScope.verifyResult.verifyCode = true;
+                  $rootScope.verifyResult.phone = true;
+                  if ($('.reg-info-prompt').css('display') !== 'none') {
+                    $('.reg-info-prompt').fadeOut(200);
+                  }
+                }
+              })
+              .catch(function (msg) {
+                $rootScope.verifyResult.verifyCode = false;
+                $rootScope.verifyResult.msg = msg;
+                if ($('.reg-info-prompt').css('display') !== 'none') {
+                  $rootScope.verifyResult.msg = msg;
+                } else {
+                  $('.reg-info-prompt').fadeIn(500);
+                  $(element).focus();
+                }
+              });
+          }
+        });
       }
     };
   }])

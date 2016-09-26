@@ -1,0 +1,87 @@
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>订单管理</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active"> 订单管理 </li>
+    </ul>
+</div>
+<!-- page heading end-->
+
+<!--body wrapper start-->
+<table-list list-data="{{mainStatus.requestPath}}rest/authen/salesOrder/query.json" list-params="listParams">
+  <div class="mg-m">
+    <div>
+        <a href="#/salesOrder/edit.html" data-toggle="modal" class="btn btn-success">
+            <i class="fa fa-plus"></i> 新建
+        </a>
+    </div>
+
+  </div>
+  <div class="wrapper">
+    <div class="loader" ng-if="status.isLoading">
+        <div class="loader-inner pacman">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div ng-if="!status.isLoading">
+      <div class="empty-wrap" ng-if="tbodyList.length==0">
+        <span><i class="fa fa-inbox"><em>什么也没有</em></i></span>
+      </div>
+      <div ng-if="tbodyList.length">
+
+        <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                  <th><input type="checkbox" class="selectAll"></th>
+                  <th>序号</th>
+                  <th>类型</th>
+                  <th>客户名</th>
+                    <th>收货人</th>
+                    <th>联系电话</th>
+                    <th>收货地址</th>
+                  <th>创建时间</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                  <th></th>
+              </tr>
+            </thead>
+              <tbody>
+                <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
+                    <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                    <td>{{$index + 1}}</td>
+                    <td>{{tr.type}}</td>
+                    <td>{{tr.customerName}}</td>
+                      <td>{{tr.address.name}}</td>
+                        <td>{{tr.address.tel}}</td>
+                            <td>{{tr.address.address}}</td>
+                    <td>{{tr.createAt | date : 'yyyy-MM-dd hh:mm'}}</td>
+                    <td>{{tr.status}}</td>
+                    <td>
+                        <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html"><i
+                                class="fa fa-folder-open-o"></i> 查看
+                        </button>
+                        <a  href="#/salesOrder/edit.html?id={{tr.id}}"><button type="button" class="btn btn-primary"><i
+                                class="fa fa-edit"></i> 编辑
+                        </button></a>
+                        <button type="button" class="btn btn-danger"
+                                ng-click="deleteThis('rest/authen/salesOrder/delete.json', tr.id)">
+                                <i class="fa fa-trash-o"></i> 删除</button>
+                    </td>
+                </tr>
+              </tbody>
+          </table>
+        <div class="clearfix">
+            <div class="fr">
+                <pagination status="status"></pagination>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</table-list>
+<!--body wrapper end-->
