@@ -1,15 +1,17 @@
 <div class="content-wrapper">
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/salesOrder/query.json" list-params="listParams">
     <!-- 主内容头部 -->
-    <div class="content-wrapper-heading mgb-l row">
-      <div class="col-lg-2 order-create-btn">
-        <a href="#/salesOrder/save.html"><i></i><span>新建</span></a>
+    <div class="content-wrapper-heading mgb-l flex-column">
+      <div class="order-create-btn flex-item-2">
+        <a href="#/salesOrder/save.html" class="mgt"><i></i><span>新建订单</span></a>
       </div>
-      <div class="col-lg-10 order-status-btn">
+      <div class="order-status-btn flex-item-10">
         <div>
           <div class="btn btn-group">
             <button type="button" class="btn btn-default">全部</button>
-            <button type="button" class="btn btn-default"><span class="badge">5</span>待发货</button>
+            <button type="button" class="btn btn-default">待发货
+              <span class="pj-badge">3</span>
+            </button>
             <button type="button" class="btn btn-default">已发货</button>
             <button type="button" class="btn btn-default">已收货</button>
             <button type="button" class="btn btn-default">未收款</button>
@@ -22,14 +24,62 @@
             <button type="button" class="btn btn-default">异常订单</button>
           </div>
         </div>
-        <div class="col-lg-4 col-lg-offset-8">
-          <input type="text" class="form-control" placeholder="客户名/订单编号/负责人">
+        <div class="">
+          <input type="text" class="ipt" placeholder="客户名/订单编号/负责人">
         </div>
       </div>
     </div>
     <!-- 主内容区域 -->
-    <div class="content-wrapper-main row">
-      <div class="loader" ng-if="status.isLoading">
+    <div class="content-wrapper-main">
+
+      <ul>
+        <li class="mgb-l">
+          <div class="">
+            <div class="flex-column">
+              <span class="flex-item-6">已完成</span>
+              <span class="flex-item-6"><a href="#">查看详情</a></span>
+            </div>
+            <div class="">
+              普通订单
+            </div>
+            <div class="flex-column">
+              <span class="flex-item-6">
+                创建时间：<strong>2016-09-21 16:40</strong>
+              </span>
+              <span class="flex-item-6">
+                订单编号：<strong>1000000234</strong>
+              </span>
+            </div>
+          </div>
+          <div class="">
+            <div class="">
+              <h1>成都人民医院</h1>
+              <div class="flex-column">
+                <div class="flex-item-6">
+                  来源：<strong>李伟芳</strong>
+                </div>
+                <div class="felx-item-6">
+                  期望到货时间：2016-09-28
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <h1>发货信息</h1>
+              <p>关联发货：<em>F2016010101</em></p>
+              <p>物流状态：顺丰速递<em>2016092342304239048</em></p>
+            </div>
+          </div>
+          <div class="">
+            <p>总价：￥399.00</p>
+          </div>
+        </li>
+      </ul>
+
+
+
+
+
+      <!-- <div class="loader" ng-if="status.isLoading">
           <div class="loader-inner pacman">
               <div></div>
               <div></div>
@@ -85,6 +135,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </table-list>
 </div>
