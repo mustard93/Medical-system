@@ -1602,7 +1602,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       回调方法
       $attrs.selectCallBack
       */
-    function chosen(requestData, $timeout) {
+    function chosen(requestData, $timeout,alertError) {
         return {
             restrict: 'A',
             //  scope: {
@@ -1677,6 +1677,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                             } else {
                                                 $chosenContainer.find('.no-results').show();
                                             }
+                                        }else{
+                                          if(angular.isDefined($attrs.alertError)){
+                                              alet(_data.msg);
+
+                                          }
                                         }
                                     },
                                     complete: function() {
@@ -1818,6 +1823,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                     $element.html(_options);
                                     chosenObj=$element.chosen($scope.chosen || chosenConfig);
                                     ngModel.$setViewValue(_selected);
+                                }).catch(function(msg) {
+                                    if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                                    if (angular.isDefined($attrs.alertError)) alertError(msg);
+
+
                                 });
                           }
                           //监听
@@ -1845,7 +1855,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         }
     };
-    chosen.$inject = ["requestData", "$timeout"];
+    chosen.$inject = ["requestData", "$timeout","alertError"];
 
     /**
      * form-item
