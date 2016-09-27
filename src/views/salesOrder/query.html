@@ -31,110 +31,45 @@
     </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
-
       <ul>
-        <li class="mgb-l">
-          <div class="">
-            <div class="flex-column">
-              <span class="flex-item-6">已完成</span>
-              <span class="flex-item-6"><a href="#">查看详情</a></span>
+        <li class="mgb-l" ng-repeat="tr in tbodyList">
+          <div>
+            <div class="flex-column mgb-l">
+              <span class="flex-item-6">已完成<i class="circle-icon-yellow mgl-m"></i></span>
+              <span class="flex-item-6 text-right"><a href="#">查看详情</a></span>
             </div>
-            <div class="">
-              普通订单
-            </div>
-            <div class="flex-column">
+            <div class="text-s mgb-m">{{tr.type}}</div>
+            <div class="flex-column text-s color-6">
               <span class="flex-item-6">
-                创建时间：<strong>2016-09-21 16:40</strong>
+                创建时间：<strong class="color-9 text-normal">{{tr.createAt | date : 'yyyy-MM-dd hh:mm'}}</strong>
               </span>
-              <span class="flex-item-6">
-                订单编号：<strong>1000000234</strong>
+              <span class="flex-item-6 text-right">
+                订单编号：<strong class="color-9 text-normal">1000000234</strong>
               </span>
             </div>
           </div>
-          <div class="">
-            <div class="">
-              <h1>成都人民医院</h1>
-              <div class="flex-column">
+          <div>
+            <div class="bb-line">
+              <h1 class="mg-l text-center text-m color-6">{{tr.customerName || '未知单位'}}</h1>
+              <div class="flex-column mgb-l text-s color-6">
                 <div class="flex-item-6">
-                  来源：<strong>李伟芳</strong>
+                  来源：<strong class="text-normal color-9">{{tr.address.name}}</strong>
                 </div>
-                <div class="felx-item-6">
-                  期望到货时间：2016-09-28
+                <div class="flex-item-6 text-right">
+                  期望到货时间：<strong class="text-normal color-9">2016-09-28</strong>
                 </div>
               </div>
             </div>
-            <div class="">
-              <h1>发货信息</h1>
-              <p>关联发货：<em>F2016010101</em></p>
-              <p>物流状态：顺丰速递<em>2016092342304239048</em></p>
+            <div>
+              <h1 class="mgt-l mgb-l color-6 text-bold">发货信息</h1>
+              <p class="mgb-m text-s color-9">关联发货：<em class="pr-color">F2016010101</em></p>
+              <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p>
             </div>
           </div>
-          <div class="">
-            <p>总价：￥399.00</p>
+          <div>
+            <p class="text-right pdt-l pdb-l pdr-l text-m color-6">总价：￥399.00</p>
           </div>
         </li>
       </ul>
-
-
-
-
-
-      <!-- <div class="loader" ng-if="status.isLoading">
-          <div class="loader-inner pacman">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-          </div>
-      </div>
-      <div ng-if="!status.isLoading">
-        <div class="empty-wrap" ng-if="tbodyList.length==0">
-          <span><i class="fa fa-inbox"><em>什么也没有</em></i></span>
-        </div>
-        <div ng-if="tbodyList.length">
-          <ul>
-            <li class="col-lg-3 mgb-l" ng-repeat="tr in tbodyList">
-              <div>
-                <div class="order-heading col-lg-12">
-                  <div class="col-lg-9">
-                    <h2>普通订单</h2>
-                    <p>订单编号：1000000234</p>
-                    <p>创建日期：{{tr.createAt | date : 'yyyy-MM-dd hh:mm'}}</p>
-                  </div>
-                  <div class="col-lg-3">
-                    <span class="block text-center color-white text-s">订单状态</span>
-                    <span class="block text-center text-l">部分发货</span>
-                  </div>
-                </div>
-                <div class="order-content col-lg-12">
-                  <h1 class="pr-bg-white text-center pdt-l pdb-l text-l text-bold bt-line">四川大学华西医院</h1>
-                  <p class="clearfix bt-line pr-bg-white pdb-m pdt-m pdl pdr">
-                    <span class="fl">负责人：{{tr.customerName}}</span>
-                    <span class="fr">期望到货时间：2016-09-21</span>
-                  </p>
-                  <div class="pr-bg-white bt-line pd">
-                    <h2 class="pdb text-bold">发货信息：</h2>
-                    <p class="pdb">关联发货单：F20160921-1</p>
-                    <p class="pdb">物流状态：<span>圆通速递</span> 88272727272101</p>
-                  </div>
-                </div>
-                <div class="order-footer col-lg-12">
-                  <p class="clearfix pr-bg-white bt-line pdt pdb pdl pdr">
-                    <span class="fl"><a href="#" class="color-orange">查看详情</a></span>
-                    <span class="fr">总价：<strong class="text-l">￥5960.00</strong></span>
-                  </p>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <div class="clearfix">
-              <div class="fr">
-                  <pagination status="status"></pagination>
-              </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </table-list>
 </div>
