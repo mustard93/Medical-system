@@ -110,12 +110,18 @@ define('main/controllers', ['main/init'], function () {
     function sideNav($scope) {
     }
 
-
     /**
-     *
+     *  主页面控制器
      */
-    function pageCtrl($scope, modal) {
+    function pageCtrl($scope, modal, dialogConfirm, $timeout) {
         modal.closeAll();
+
+        $scope.cancelThis = function () {
+          dialogConfirm('您确定要取消？', function () {
+            
+          });
+
+        };
     }
 
     /**
@@ -129,5 +135,5 @@ define('main/controllers', ['main/init'], function () {
         .controller('mainCtrl',  ["$scope", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
-        .controller('pageCtrl',  ["$scope","modal",pageCtrl]);
+        .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
 });

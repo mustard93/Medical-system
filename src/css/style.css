@@ -1341,6 +1341,11 @@ body.ngdialog-open {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+  width: 480px;
+  height: 320px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgba(0,0,0,0.2);
 }
 .ngdialog.ngdialog-theme-default .ngdialog-close {
   border-radius: 5px;
@@ -1513,6 +1518,9 @@ body.ngdialog-open {
 .pr-bg-orange {
   background-color: #ffb82f;
 }
+.pr-bg-pink {
+  background-color: #fee7e7;
+}
 
 /* 颜色 */
 .pr-color {
@@ -1528,6 +1536,26 @@ body.ngdialog-open {
 }
 
 /* 按钮 */
+.pr-add-btn-whitebg {
+  border: 1px solid #c7a77b;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  text-align: center;
+  height: 100%;
+  display: inline-block;
+  background-color: #fff;
+}
+.pr-add-btn-glodbg {
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  text-align: center;
+  height: 100%;
+  display: inline-block;
+  background-color: #c7a77b;
+  width: 94px;
+  margin-left: 10px;
+  border: none;
+}
 
 /* 表单 */
 .pr-select {
@@ -1737,9 +1765,26 @@ body.ngdialog-open {
 .pr-table > thead > tr > th.w-150 {
   width: 150px;
 }
+.pr-table > thead > tr > td.w-94,
+.pr-table > thead > tr > th.w-94 {
+  width: 94px;
+}
 .pr-table > tbody > tr > td.has-border {
   border: 1px solid #e2e2e2;
   height: 118px;
+}
+/* 间隔层 */
+.pr-table > tbody > tr.tr-interval {
+  height: 20px;
+}
+/* 解决最后一个td边框会出现的问题 */
+.pr-table > tbody > tr > td.fix-td-border {
+  position: relative;
+  display: block;
+  background-color: #fff;
+  height: 127px;
+  top: 1px;
+  left: 0;
 }
 .pr-table select.pr-table-select {
   border: none;
@@ -1775,6 +1820,102 @@ body.ngdialog-open {
   -webkit-border-radius: 4px;
   border-radius: 4px;
   padding: 5px;
+}
+/* 收货人信息 */
+.content-wrapper .content-wrapper-main div.consignee-info ul li {
+  width: 320px;
+  padding: 10px 20px;
+  border: 1px solid #c7a77b;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+}
+.content-wrapper .content-wrapper-main div.consignee-info ul li > p:nth-child(2) {
+  line-height: 25px;
+}
+/* 收货人信息右上角标签 */
+.content-wrapper .content-wrapper-main div.consignee-info ul li > i.consignee-default-label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  color: #fff;
+  font-style: normal;
+}
+/* 收货人信息右下角标签 */
+.content-wrapper .content-wrapper-main div.consignee-info ul li > i.consignee-choise-label {
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 0px solid transparent;
+  border-right: 45px solid transparent;
+  border-bottom: 45px solid #c7a77b;
+  transform: rotate(-90deg);
+}
+.content-wrapper .content-wrapper-main div.consignee-info ul li > i.consignee-choise-label > em {
+  transform: rotate(90deg);
+  position: relative;
+  top: 20px;
+  left: 5px;
+}
+/* 收货人信息添加按钮 */
+.content-wrapper .content-wrapper-main div.consignee-info ul span > button {
+  height: 125px;
+  width: 90px;
+  position: absolute;
+  color: #c7a77b;
+  font-size: 30px;
+}
+/* 订购药品信息 */
+.content-wrapper .content-wrapper-main .order-details span.goods-thumbnail {
+  border: 1px solid #e2e2e2;
+  width: 85px;
+  height: 85px;
+}
+.content-wrapper .content-wrapper-main .order-details span.goods-thumbnail > img {
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  display: inline-block;
+  margin-top: 2px;
+  margin-left: 2px;
+}
+/* 订单商品数量选择 */
+.content-wrapper .content-wrapper-main span.order-goods-num {
+  display: inline-block;
+}
+.content-wrapper .content-wrapper-main span.order-goods-num > i {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  color: #fff;
+  text-align: center;
+  line-height: 18px;
+  background-color: #c7a77b;
+  font-style: normal;
+  cursor: pointer;
+  margin-right: 3px;
+}
+.content-wrapper .content-wrapper-main span.order-goods-num > input {
+  width: 55px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  margin-right: 3px;
+  position: relative;
+  top: -3px;
+  text-align: center;
 }
 
 .flex-column,
