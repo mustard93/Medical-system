@@ -48,7 +48,7 @@
                               <th><input type="checkbox" class="selectAll"></th>
                               <th>序号</th>
                               <th>用户</th>
-                                <!-- <th>经销商id</th> -->
+                                <th>电话</th>
                               <th>部门</th>
 
                               <th>创建时间</th>
@@ -62,6 +62,7 @@
                               <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                               <td>{{$index + 1}}</td>
                               <td>{{tr.user.n}}</td>
+                                <td>{{tr.user.p}}</td>
                               <!-- <td>{{tr.organizationId}}</td> -->
                               <td>{{tr.departmentName}}</td>
                               <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
@@ -78,6 +79,13 @@
                                   <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/medical/delete', tr.id)">
                                       <i class="fa fa-trash-o"></i>
                                       删除</button> -->
+                                      <button ng-if="tr.uaoStatus=='等待认证'" type="button" class="btn btn-primary" ng-click="dothing('rest/authen/distributor/auditUserApplyOrganization',{ id:tr.id,uaoStatus:'认证通过'},'确认认证通过')">
+                                          <i class="fa fa-trash-o"></i>
+                                          认证通过</button>
+
+                                <button ng-if="tr.uaoStatus=='等待认证'" type="button" class="btn btn-danger" ng-click="dothing('rest/authen/distributor/auditUserApplyOrganization',{ id:tr.id,uaoStatus:'认证驳回'},'确认认证驳回')">
+                                    <i class="fa fa-trash-o"></i>
+                                    认证驳回</button>
                               </td>
                           </tr>
                       </tbody>

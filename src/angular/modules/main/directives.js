@@ -403,6 +403,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             });
                     });
                 };
+                //单个操作
+                $scope.dothing = function(_url, _param,tip) {
+                    var _tr = this.tr;
+                    dialogConfirm(tip, function() {
+                        requestData(_url, _param, 'POST')
+                            .then(function() {
+                                $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
+                                if ($scope.tbodyList.length === 0) {
+                                    $scope.$broadcast("reloadList");
+                                }
+                            })
+                            .catch(function(error) {
+                                alert(error || '删除错误');
+                            });
+                    });
+                };
                 //选择当个
                 $scope.selectThis = function() {
                     var _tr = this.tr;
