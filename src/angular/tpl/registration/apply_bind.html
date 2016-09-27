@@ -11,13 +11,13 @@
     </div>
     <form  class="form-signin" onsubmit="return false;"
 form-validator
-     action= "rest/authen/distributor/addUserAndOrganization"
+     action= "rest/authen/distributor/userApplyOrganization.json"
 
       alert-error callback="bind_done();"
       >
       <div>
 
-          <select class="select select-w" data-placeholder="选择一个..." chosen
+          <select class="select select-w" data-placeholder="选择一个..." chosen alert-error
             ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption.json"></select>
 
         <!-- <select relative-select relative-initload relative-to="#relativeSelect3"
@@ -27,8 +27,8 @@ form-validator
         </select> -->
 
         <select class="select select-w" data-placeholder="选择一个..." chosen
-          ng-model="formData.departmentIds"   ajax-if="{{formData.organizationId}}"
-          default-empty
+          ng-model="formData.departmentId"   ajax-if="{{formData.organizationId}}"
+          default-empty   alert-error
           select-source="rest/index/department/queryForSelectOption.json?DistributorId={{formData.organizationId}}"></select>
 
       </div>

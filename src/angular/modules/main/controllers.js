@@ -26,6 +26,36 @@ define('main/controllers', ['main/init'], function () {
           return $http.get(url);
         };
 
+        $scope.logout = function(method) {
+
+            if (!Config.logoutUrl) {
+               alert("请设置注销接口");
+                return;
+            }
+
+            if (!method) {
+              method = 'POST';
+            }
+            if (Config.serverPath) {
+                var _url =Config.logoutUrl;
+                if (_url.indexOf("http://") !== 0 && _url.indexOf("https://") !== 0) {
+                  _url = $scope.mainConfig.serverPath + _url;
+                }
+            }
+            $.ajax({
+              url: _url,
+              type: method,
+              xhrFields:{withCredentials: true},
+              crossDomain:true,
+              dataType: 'json',
+              success: function (_data) {
+                  window.location.href = Config.loginHtmlUrl;
+                }
+            });
+
+        };
+
+
 
         //获取主要信息
         if ($scope.mainConfig.getMainInfo) {
@@ -50,24 +80,22 @@ define('main/controllers', ['main/init'], function () {
                   $scope.curUser=_data.data;
                   angular.extend($scope.mainStatus, _data.data);
                   $scope.$digest();
-                  console.log('abc');
                 } else if (_data.code == 802){
-                  console.log('aa');
-                  window.location.href = "login.html";
+                  window.location.href = Config.loginHtmlUrl;
                 } else {
                   alert(_data.msg || '登录失败');
                 }
               }
             });
-
-            $.getJSON(_url, function (_data) {
-                    if (_data.code == 200) {
-                        angular.extend($scope.mainStatus, _data.data);
-                    }
-                })
-                .complete(function () {
-
-                });
+            //
+            // $.getJSON(_url, function (_data) {
+            //         if (_data.code == 200) {
+            //             angular.extend($scope.mainStatus, _data.data);
+            //         }
+            //     })
+            //     .complete(function () {
+            //
+            //     });
         }
 
         //后退
