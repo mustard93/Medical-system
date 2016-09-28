@@ -10,11 +10,15 @@
           <div class="btn btn-group">
             <button type="button" class="btn btn-default">全部</button>
             <button type="button" class="btn btn-default">待发货
-              <span class="pj-badge">{{countByOrderStatus}}</span>
+              <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
             </button>
-            <button type="button" class="btn btn-default">已发货</button>
+            <button type="button" class="btn btn-default">已发货
+              <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
+            </button>
             <button type="button" class="btn btn-default">已收货</button>
-            <button type="button" class="btn btn-default">未收款</button>
+            <button type="button" class="btn btn-default">未收款
+              <span class="pj-badge" ng-if='countByOrderStatus["未收款"]'>{{countByOrderStatus["未收款"]}}</span>
+            </button>
             <button type="button" class="btn btn-default">已完成</button>
           </div>
           <div class="inline-block">
@@ -25,11 +29,12 @@
           </div>
         </div>
         <div class="">
-          <input type="text" class="ipt" placeholder="客户名/订单编号/负责人">
+          <input type="text" class="ipt" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
         </div>
       </div>
     </div>
     <!-- 主内容区域 -->
+
     <div class="content-wrapper-main">
       <ul>
         <li class="mgb-l" ng-repeat="tr in tbodyList">
@@ -56,7 +61,7 @@
                   来源：<strong class="text-normal color-9">{{tr.address.name}}</strong>
                 </div>
                 <div class="flex-item-6 text-right">
-                  期望到货时间：<strong class="text-normal color-9">2016-09-28</strong>
+                  期望到货时间：<strong class="text-normal color-9">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
                 </div>
               </div>
             </div>
