@@ -116,11 +116,11 @@ define('main/controllers', ['main/init'], function () {
     function pageCtrl($scope, modal, dialogConfirm, $timeout) {
         modal.closeAll();
 
-        $scope.cancelThis = function () {
-          dialogConfirm('您确定要取消？', function () {
-            
+        // 页面所有取消按钮事件操作
+        $scope.cancelThis = function (_text, _mode) {
+          dialogConfirm(_text, _mode, function () {
+            window.history.go(-1);
           });
-
         };
     }
 
