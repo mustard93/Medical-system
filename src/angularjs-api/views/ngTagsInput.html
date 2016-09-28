@@ -4,7 +4,11 @@
 <div ng-controller="MyCtrl">
 
   <p>Model: {{tags11}}</p>
-  <tags-input ng-model="tags11" key-property="id" display-property="text"  add-fom-autocomplete-only="true">
+<p ng-init="q='fff'">q: {{q}}</p>
+  <tags-input ng-model="tags11" key-property="id" display-property="text"  add-fom-autocomplete-only="true"
+  on-tag-adding="!tags11||tags11.length<1"
+  on-tag-added="q=$tag.text"
+  on-tag-removed="q=''">
       <auto-complete source="loadTags($query)" display-property="text" min-length="1"></auto-complete>
   </tags-input>
 
