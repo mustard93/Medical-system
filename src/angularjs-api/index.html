@@ -32,6 +32,10 @@
   <link rel="stylesheet" href="../fonts/css/font-awesome.min.css">
   <link href="../css/style.css" rel="stylesheet">
   <link href="../css/style-responsive.css" rel="stylesheet">
+  <link rel="stylesheet" href="../angular/libs/ng-tags-input/ng-tags-input.min.min.css">
+
+    <link rel="stylesheet" href="../angular/libs/ng-tags-input/ng-tags-input.bootstrap.min.css">
+
 
 
     <script>
@@ -39,7 +43,7 @@
     var Config = {
         viewsDir: "views/",  //视图目录
         tplPath:"angular/",
-        indexPage: "base.html", //默认打开的地址
+        indexPage: "main.html", //默认打开的地址
         getMainInfo: "../data/main-info.json" //获取主要的状态信息
     }
 
@@ -47,19 +51,30 @@
     <script id="requirejs_baseUrlId" src="../angular/r.js" defer async data-main="../angular/app.js"></script>
 </head>
 
-<body class="sticky-header"  ng-controller="mainCtrl">
-  <section>
-      <!-- 左侧功能菜单 start-->
-        <div ng-include="'views/navigation.html'"></div>
-      <!-- 侧边栏 end-->
-      <!-- 头部 section start-->
-      <div ng-include="'views/navigation.html'"></div>
+
+<body class="sticky-header min-w" ng-controller="mainCtrl" nice-scroll>
+  <section class="page-wrap">
+      <!-- 左侧公共导航 start -->
+      <ng-include src="'views/public/left-side.html'"></ng-include>
+      <!-- 左侧公共导航 end -->
 
       <!-- 主内容区域 start-->
-      <div class="main-content" >
-        <div ng-view autoscroll="true"></div>
-      </div>
+      <div class="page-main-wrap main-content" ng-controller="pageCtrl">
+        <!-- 主内容区域头部导航 start -->
+        <ng-include src="'views/public/main-header-section.html'"></ng-include>
+        <!-- 主内容区域头部导航 end -->
 
+        <!-- 主内容区 start -->
+        <div ng-view autoscroll="true"></div>
+
+
+        <!-- 主内容区 end -->
+
+        <!--footer section start-->
+        <!-- <ng-include src="'views/public/main-footer-section.html'"></ng-include> -->
+        <!--footer section end-->
+      </div>
+      <!-- 主内容区域 end-->
   </section>
 </body>
 </html>

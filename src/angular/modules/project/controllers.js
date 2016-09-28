@@ -3,6 +3,8 @@
  */
 
 define('project/controllers', ['project/init'], function() {
+
+
     /**
      *编辑、新建订单
      */
@@ -90,4 +92,17 @@ define('project/controllers', ['project/init'], function() {
     angular.module('manageApp.project')
         .controller('salesOrderEditCtrl', ["$scope", "modal", salesOrderEditCtrl]);
 
+
+        angular.module('manageApp.project', ['ngTagsInput'])
+                  .controller('MyCtrl', function($scope, $http) {
+                      $scope.tags = [
+                          { text: 'just' },
+                          { text: 'some' },
+                          { text: 'cool' },
+                          { text: 'tags' }
+                      ];
+                      $scope.loadTags = function(query) {
+                           return $http.get('data/autocomplete0.json?q=' + query);
+                      };
+                  });
 });

@@ -22,9 +22,9 @@ define('main/controllers', ['main/init'], function () {
             window.location.assign(_url);
         };
 
-        $scope.httpGet = function(url) {
-          return $http.get(url);
-        };
+        // $scope.httpGet = function(url) {
+        //   return $http.get(url);
+        // };
 
         $scope.logout = function(method) {
 
