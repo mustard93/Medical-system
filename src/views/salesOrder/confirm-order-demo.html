@@ -1,21 +1,21 @@
-<div class="content-wrapper"  ajax-url="rest/authen/salesOrder/previewConfirmSalesOrder.json?id={{mainStatus.pageParams.id}}"  scope-data="formData" alert-error>
+<div class="content-wrapper" >
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading">
     <h1 class="pr-title-color pr-font-24">确认订单</h1>
   </div>
   <!-- 主内容区域 -->
   <form name="createOrderForm" action="" form-validator>
-  <div class="content-wrapper-main pr-bg-white pr-border pr-fuzzy-boundary">
+  <div class="content-wrapper-main pr-bg-white pr-border">
     <!-- 用户信息 -->
     <div class="pd-c-xxxxl bb-line">
       <div class="mg-xl text-s color-9">
-        <p class="mgb-l"><span>源自订单：</span><span class="pr-color color-6">{{formData.orderNo}}</span></p>
-        <p class="mgb-l"><span>客户名：</span><span class="color-6">{{formData.customerName}}</span></p>
-        <p class="mgb-l"><span>收货人信息：</span><span class="color-6">{{formData.address.name}} {{formData.address.address}} {{formData.address.tel}}</span></p>
+        <p class="mgb-l"><span>源自订单：</span><span class="pr-color color-6">10000234</span></p>
+        <p class="mgb-l"><span>客户名：</span><span class="color-6">四川大学华西医院</span></p>
+        <p class="mgb-l"><span>收货人信息：</span><span class="color-6">肖大勇 四川省成都市武侯区国学巷37号 18285853124</span></p>
         <p>
           <span>负责人：</span><span class="color-6 mgr-xl">张曦</span>
-          <span>期望到货时间：</span><span class="color-6 mgr-xl">{{formData.expectDate| date : 'yyyy-MM-dd'}}</span>
-          <span>备注：</span><span class="color-6">{{formData.note}}</span>
+          <span>期望到货时间：</span><span class="color-6 mgr-xl">2016-10-15</span>
+          <span>备注：</span><span class="color-6"></span>
         </p>
       </div>
     </div>
@@ -23,7 +23,7 @@
     <div class="pd-c-xxxxl">
       <!-- 可发货 -->
       <div class="confirm-order bb-line pdb-l">
-        <h1 class="pdt-l color-6 text-m text-bold">{{formData.orderStatus}}</h1>
+        <h1 class="pdt-l color-6 text-m text-bold">可发货</h1>
         <table class="mgt-l pr-table">
           <thead>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
@@ -36,22 +36,22 @@
           </thead>
           <tbody>
             <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in formData.orderMedicalNos">
+            <tr>
               <td class="goods-name has-border pd-m">
                 <div class="relative">
                   <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
                   <span class="inline-block">
-                    <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                    <p class="pdl-l mgb color-9 text-n"><span>{{tr.brand}}</span></p>
-                    <p class="mgt-s color-9 text-n"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                    <p class="pdl-l mgb color-6 text-n text-bold"><span>阿莫西林酸钾片</span></p>
+                    <p class="pdl-l mgb color-9 text-n"><span>南充先森东院制药有限公司</span></p>
+                    <p class="mgt-s color-9 text-n"><span class="mgl-l">0.5g</span></p>
                   </span>
                 </div>
               </td>
-              <td class="has-border text-center">{{tr.unit}}</td>
-              <td class="has-border text-center">{{tr.isSameBatch}}</td>
-              <td class="has-border text-center">{{tr.batchNo}}</td>
-              <td class="has-border text-center">{{tr.quantity}}</td>
-              <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
+              <td class="has-border text-center">盒</td>
+              <td class="has-border text-center">是</td>
+              <td class="has-border text-center">20160105-0008</td>
+              <td class="has-border text-center">100</td>
+              <td class="has-border pr-bg-pink text-center">100</td>
               <td class="has-border text-center pdt-xxxxl" rowspan="2">待发货</td>
             </tr>
 

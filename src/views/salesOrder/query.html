@@ -5,7 +5,7 @@
       <!-- 新建按钮及状态按钮 -->
       <div class="flex-column">
         <div class="order-create-btn flex-item-2">
-          <a href="#/salesOrder/save.html" class="mgt"><i></i><span class="text-s">新建订单</span></a>
+          <a href="#/salesOrder/edit.html" class="mgt"><i></i><span class="text-s">新建订单</span></a>
         </div>
         <div class="order-status-btn flex-item-10 pdt-m relative text-right"
              ajax-url="rest/authen/salesOrder/countByOrderStatus.json"
@@ -14,6 +14,9 @@
             <div class=""></div>
             <div class="btn btn-group">
               <button type="button" class="btn pr-btn-transparentbg">全部</button>
+              <button type="button" class="btn pr-btn-transparentbg">未提交
+                <span class="pj-badge" ng-if='countByOrderStatus["未提交"]'>{{countByOrderStatus["未提交"]}}</span>
+              </button>
               <button type="button" class="btn pr-btn-transparentbg">待发货
                 <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
               </button>
@@ -80,6 +83,8 @@
             </div>
             <div>
               <p class="text-right pdt-l pdb-l pdr-l text-m color-6">总价：￥399.00</p>
+              <span  ng-if="tr.orderStatus='未提交'"><a  href="#/salesOrder/confirm-order.html?id={{tr.id}}">生成订单</a></span>
+              <span  ng-if="tr.orderStatus='未提交'"><a  href="#/salesOrder/edit.html?id={{tr.id}}">编辑</a></span>
             </div>
           </div>
         </li>

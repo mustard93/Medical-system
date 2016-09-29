@@ -126,9 +126,9 @@ define('main/controllers', ['main/init'], function () {
 
         // 页面所有取消按钮事件操作
         $scope.cancelThis = function (_text, _mode) {
-          dialogConfirm(_text, _mode, function () {
+          dialogConfirm(_text,  function () {
             window.history.go(-1);
-          });
+          },_mode);
         };
     }
 
