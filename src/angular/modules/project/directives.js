@@ -33,64 +33,81 @@ define('project/directives', ['project/init'], function () {
   /**
    * [左边栏子菜单点击事件]
    */
-  .directive('leftMenuCollapse', [function () {
+  .directive('leftMenuChange', [function () {
     'use strict';
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        $('.menu-list > a').on('click', function () {
-          var parent = $(this).parent();
-          var sub = parent.find('> ul');
-
-          if(!$('body').hasClass('left-side-collapsed')) {
-             if(sub.is(':visible')) {
-                sub.slideUp(200, function(){
-                   parent.removeClass('nav-active');
-                   $('.main-content').css({height: ''});
-                });
-             } else {
-                visibleSubMenuClose();
-                parent.addClass('nav-active');
-                sub.slideDown(200, function(){
-                });
-             }
-          }
-          return false;
-        });
-
-        $('.menu-list > ul > li > a').on('click', function () {
-          $.each($(this).parent().siblings(), function () {
-            if ($(this).hasClass('active')) {
-              $(this).removeClass('active');
-            }
+        element.on('click', function () {
+          $(this).addClass('active').parent().siblings().each(function () {
+            $(this).children().removeClass('active');
           });
-          $(this).parent().addClass('active');
-        });
-
-        function visibleSubMenuClose() {
-           $('.menu-list').each(function() {
-              var t = $(this);
-              if(t.hasClass('nav-active')) {
-                 t.find('> ul').slideUp(200, function(){
-                    t.removeClass('nav-active');
-                 });
-              }
-           });
-        }
-
-        function mainContentHeightAdjust() {
-           var docHeight = $(document).height();
-           if(docHeight > $('.main-content').height())
-              $('.main-content').height(docHeight);
-        }
-
-        $('.custom-nav > li').hover(function(){
-           $(this).addClass('nav-hover');
-        }, function(){
-           $(this).removeClass('nav-hover');
+          
         });
       }
     };
+  //   return {
+  //     restrict: 'A',
+  //     link: function (scope, element, attrs) {
+  //       $('.nav-stacked > li > a').on('click', function () {
+  //         $(this).addClass('left-side-active-style').parent().siblings().each(function () {
+  //           $(this).children().removeClass('left-side-active-style');
+  //         });
+  //       });
+  //
+  //       $('.menu-list > a').on('click', function () {
+  //         var parent = $(this).parent();
+  //         var sub = parent.find('> ul');
+  //
+  //         if(!$('body').hasClass('left-side-collapsed')) {
+  //            if(sub.is(':visible')) {
+  //               sub.slideUp(200, function(){
+  //                  parent.removeClass('nav-active');
+  //                  $('.main-content').css({height: ''});
+  //               });
+  //            } else {
+  //               visibleSubMenuClose();
+  //               parent.addClass('nav-active');
+  //               sub.slideDown(200, function(){
+  //               });
+  //            }
+  //         }
+  //         return false;
+  //       });
+  //
+  //       $('.menu-list > ul > li > a').on('click', function () {
+  //         $.each($(this).parent().siblings(), function () {
+  //           if ($(this).hasClass('active')) {
+  //             $(this).removeClass('active');
+  //           }
+  //         });
+  //         $(this).parent().addClass('active');
+  //       });
+  //
+  //       function visibleSubMenuClose() {
+  //          $('.menu-list').each(function() {
+  //             var t = $(this);
+  //             if(t.hasClass('nav-active')) {
+  //                t.find('> ul').slideUp(200, function(){
+  //                   t.removeClass('nav-active');
+  //                });
+  //             }
+  //          });
+  //       }
+  //
+  //       function mainContentHeightAdjust() {
+  //          var docHeight = $(document).height();
+  //          if(docHeight > $('.main-content').height())
+  //             $('.main-content').height(docHeight);
+  //       }
+  //
+  //       $('.custom-nav > li').hover(function(){
+  //          $(this).addClass('nav-hover');
+  //       }, function(){
+  //          $(this).removeClass('nav-hover');
+  //       });
+  //     }
+  //   };
   }])
   /**
    * [点击展开隐藏左边栏]

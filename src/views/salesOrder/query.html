@@ -1,44 +1,50 @@
 <div class="content-wrapper">
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/salesOrder/query.json" list-params="listParams">
     <!-- 主内容头部 -->
-    <div class="content-wrapper-heading mgb-l flex-column">
-      <div class="order-create-btn flex-item-2">
-        <a href="#/salesOrder/save.html" class="mgt"><i></i><span class="text-s">新建订单</span></a>
+    <div class="content-wrapper-heading mgb-l">
+      <!-- 新建按钮及状态按钮 -->
+      <div class="flex-column">
+        <div class="order-create-btn flex-item-2">
+          <a href="#/salesOrder/save.html" class="mgt"><i></i><span class="text-s">新建订单</span></a>
+        </div>
+        <div class="order-status-btn flex-item-10 pdt-m relative text-right"
+             ajax-url="rest/authen/salesOrder/countByOrderStatus.json"
+             scope-data="countByOrderStatus"
+             alert-error>
+            <div class=""></div>
+            <div class="btn btn-group">
+              <button type="button" class="btn pr-btn-transparentbg">全部</button>
+              <button type="button" class="btn pr-btn-transparentbg">待发货
+                <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
+              </button>
+              <button type="button" class="btn pr-btn-transparentbg">已发货
+                <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
+              </button>
+              <button type="button" class="btn pr-btn-transparentbg">已收货</button>
+              <button type="button" class="btn pr-btn-transparentbg">未收款
+                <span class="pj-badge" ng-if='countByOrderStatus["未收款"]'>{{countByOrderStatus["未收款"]}}</span>
+              </button>
+              <button type="button" class="btn pr-btn-transparentbg">已完成</button>
+            </div>
+            <div class="inline-block relative mgr-m">
+              <button type="button" class="btn pr-btn-transparentbg">预测订单</button>
+            </div>
+            <div class="inline-block relative">
+              <button type="button" class="btn pr-btn-transparentbg">异常订单</button>
+            </div>
+        </div>
       </div>
-      <div class="order-status-btn flex-item-10"  ajax-url="rest/authen/salesOrder/countByOrderStatus.json"  scope-data="countByOrderStatus" alert-error>
-        <div>
-          <div class="btn btn-group">
-            <button type="button" class="btn btn-default">全部</button>
-            <button type="button" class="btn btn-default">待发货
-              <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
-            </button>
-            <button type="button" class="btn btn-default">已发货
-              <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
-            </button>
-            <button type="button" class="btn btn-default">已收货</button>
-            <button type="button" class="btn btn-default">未收款
-              <span class="pj-badge" ng-if='countByOrderStatus["未收款"]'>{{countByOrderStatus["未收款"]}}</span>
-            </button>
-            <button type="button" class="btn btn-default">已完成</button>
-          </div>
-          <div class="inline-block">
-            <button type="button" class="btn btn-default">预测订单</button>
-          </div>
-          <div class="inline-block">
-            <button type="button" class="btn btn-default">异常订单</button>
-          </div>
-        </div>
-        <div class="">
-          <input type="text" class="ipt" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
-        </div>
+      <!-- 右侧搜索 -->
+      <div class="text-right order-list-search relative">
+        <input type="text" class="ipt" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
+        <i class="fa fa-search"></i>
       </div>
     </div>
     <!-- 主内容区域 -->
-
     <div class="content-wrapper-main">
       <ul class="flex-column">
-        <li class="flex-item-4" ng-repeat="tr in tbodyList">
-          <div class="mgr-m mgb-m">
+        <li class="flex-item-3" ng-repeat="tr in tbodyList">
+          <div class="mgr-m mgb-m pr-bg-white pr-fuzzy-boundary">
             <div>
               <div class="flex-column mgb-l">
                 <span class="flex-item-6">已完成<i class="circle-icon-yellow mgl-m"></i></span>
