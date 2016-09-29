@@ -125,10 +125,15 @@ define('main/controllers', ['main/init'], function () {
         modal.closeAll();
 
         // 页面所有取消按钮事件操作
+        // $scope.cancelThis = function (_text, _mode) {
+        //   dialogConfirm(_text,  function () {
+        //     window.history.go(-1);
+        //   },_mode);
+        // };
         $scope.cancelThis = function (_text, _mode) {
-          dialogConfirm(_text,  function () {
+          dialogConfirm(_text, function () {
             window.history.go(-1);
-          },_mode);
+          }, _mode);
         };
     }
 
@@ -139,9 +144,17 @@ define('main/controllers', ['main/init'], function () {
         modal.closeAll();
     }
 
+    /**
+     *  easypiechart饼图控制器
+     */
+    function easypiechartCtrl () {
+
+    }
+
     angular.module('manageApp.main')
         .controller('mainCtrl',  ["$scope","$http", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
-        .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
+        .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl])
+        .controller('easypiechartCtrl', ['$scope', 'easypiechart', easypiechartCtrl]);
 });
