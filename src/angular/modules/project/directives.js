@@ -42,72 +42,9 @@ define('project/directives', ['project/init'], function () {
           $(this).addClass('active').parent().siblings().each(function () {
             $(this).children().removeClass('active');
           });
-          
         });
       }
     };
-  //   return {
-  //     restrict: 'A',
-  //     link: function (scope, element, attrs) {
-  //       $('.nav-stacked > li > a').on('click', function () {
-  //         $(this).addClass('left-side-active-style').parent().siblings().each(function () {
-  //           $(this).children().removeClass('left-side-active-style');
-  //         });
-  //       });
-  //
-  //       $('.menu-list > a').on('click', function () {
-  //         var parent = $(this).parent();
-  //         var sub = parent.find('> ul');
-  //
-  //         if(!$('body').hasClass('left-side-collapsed')) {
-  //            if(sub.is(':visible')) {
-  //               sub.slideUp(200, function(){
-  //                  parent.removeClass('nav-active');
-  //                  $('.main-content').css({height: ''});
-  //               });
-  //            } else {
-  //               visibleSubMenuClose();
-  //               parent.addClass('nav-active');
-  //               sub.slideDown(200, function(){
-  //               });
-  //            }
-  //         }
-  //         return false;
-  //       });
-  //
-  //       $('.menu-list > ul > li > a').on('click', function () {
-  //         $.each($(this).parent().siblings(), function () {
-  //           if ($(this).hasClass('active')) {
-  //             $(this).removeClass('active');
-  //           }
-  //         });
-  //         $(this).parent().addClass('active');
-  //       });
-  //
-  //       function visibleSubMenuClose() {
-  //          $('.menu-list').each(function() {
-  //             var t = $(this);
-  //             if(t.hasClass('nav-active')) {
-  //                t.find('> ul').slideUp(200, function(){
-  //                   t.removeClass('nav-active');
-  //                });
-  //             }
-  //          });
-  //       }
-  //
-  //       function mainContentHeightAdjust() {
-  //          var docHeight = $(document).height();
-  //          if(docHeight > $('.main-content').height())
-  //             $('.main-content').height(docHeight);
-  //       }
-  //
-  //       $('.custom-nav > li').hover(function(){
-  //          $(this).addClass('nav-hover');
-  //       }, function(){
-  //          $(this).removeClass('nav-hover');
-  //       });
-  //     }
-  //   };
   }])
   /**
    * [点击展开隐藏左边栏]
@@ -480,10 +417,15 @@ define('project/directives', ['project/init'], function () {
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        require(['easypiechart'], function () {
-          $('.chart').easyPieChart({
-            // 这里写配置信息
-          });
+        $('.chart').easyPieChart({
+          animate:{
+            duration:1000,
+            enabled:true
+          },
+          barColor:'#f30',
+          scaleColor:false,
+          lineWidth:15,
+          lineCap:'circle'
         });
       }
     };
