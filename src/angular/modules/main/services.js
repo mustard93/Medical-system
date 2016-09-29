@@ -81,9 +81,14 @@ define('main/services', ['main/init'], function () {
 
     //弹窗确认
     function dialogConfirm($rootScope, modal) {
-        return function (_text, _template, _callBack) {
+        return function (_text,  _callBack,_template) {
             var _$scope = $rootScope.$new(false),
-                _templateUrl = _template === 'pr' ? 'tpl/pr-dialog-confirm.html' : 'tpl/dialog-confirm.html';
+
+                // _templateUrl = _template === 'pr' ? 'tpl/pr-dialog-confirm.html' : 'tpl/dialog-confirm.html';
+
+                  _templateUrl = 'tpl/pr-dialog-confirm.html';
+
+                  if(_template)_templateUrl=_template;
             _$scope.confirmText = _text || '确定删除?';
             modal.openConfirm({
                 template: Config.tplPath + _templateUrl,
@@ -119,6 +124,17 @@ define('main/services', ['main/init'], function () {
     }
     //弹窗提示
     function alertError($rootScope, modal) {
+        return function (_text, _callBack) {
+            var _$scope = $rootScope.$new(false);
+            _$scope.confirmText = _text || '确定';
+            modal.openConfirm({
+                template: Config.tplPath+'tpl/dialog-alert.html',
+                scope: _$scope
+            }).then(_callBack);
+        };
+    }
+    //弹窗提示
+    function alertWarn($rootScope, modal) {
         return function (_text, _callBack) {
             var _$scope = $rootScope.$new(false);
             _$scope.confirmText = _text || '确定';
@@ -210,6 +226,7 @@ list<Data{id,name,pid}> =>treeNode{id,name,nodes：[]}
         .factory('redirectInterceptor', redirectInterceptor)
         .service('alertOk', ['$rootScope', 'modal',alertOk])
         .service('alertError', ['$rootScope', 'modal',alertError])
+          .service('alertWarn', ['$rootScope', 'modal',alertError])
         .service('requestData', requestData)
         .service('dialogConfirm', dialogConfirm)
         .service('dialogAlert', dialogAlert)

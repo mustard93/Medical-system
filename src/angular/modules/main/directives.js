@@ -1660,15 +1660,25 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             var isChinessInput = false;
                             var typing = false;
                             var requestQueue;
+                            var _url=$attrs.selectSource;
+
+                            if(Config.serverPath){
+                              if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
+                                _url=Config.serverPath+_url;
+                              }
+                            }
 
                             function handleSearch(q) {
                                 var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
                                 requestQueue && requestQueue.abort();
                                 requestQueue = $.ajax({
-                                    url: $attrs.selectSource,
-                                    type: 'post',
+                                    url: _url,
+                                    type: 'GET',
+                                    xhrFields:{withCredentials: true},
+                                    crossDomain:true,
                                     data: {
-                                        q: q
+                                        q: q,
+                                        id:ngModel.$viewValue
                                     },
                                     dataType: 'json',
                                     success: function(_data) {
