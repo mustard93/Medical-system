@@ -81,14 +81,15 @@ define('main/services', ['main/init'], function () {
 
     //弹窗确认
     function dialogConfirm($rootScope, modal) {
-        return function (_text,  _callBack,_template) {
-            var _$scope = $rootScope.$new(false),
+        return function (_text, _callBack, _template) {
+            var _$scope = $rootScope.$new(false);
+            var _templateUrl = '';
+            if (_template && _template === 'pr') {
+              _templateUrl = 'tpl/pr-dialog-confirm.html';
+            } else {
+              _templateUrl = 'tpl/dialog-confirm.html';
+            }
 
-                // _templateUrl = _template === 'pr' ? 'tpl/pr-dialog-confirm.html' : 'tpl/dialog-confirm.html';
-
-                  _templateUrl = 'tpl/pr-dialog-confirm.html';
-
-                  if(_template)_templateUrl=_template;
             _$scope.confirmText = _text || '确定删除?';
             modal.openConfirm({
                 template: Config.tplPath + _templateUrl,
