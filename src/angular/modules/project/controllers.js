@@ -5,17 +5,25 @@
 define('project/controllers', ['project/init'], function() {
 
 
+
     /**
      *编辑、新建订单
      */
     function salesOrderEditCtrl($scope, modal,alertWarn) {
-        modal.closeAll();
+
         // $scope.formData={};
         $scope.addDataItem = {};
 
 
+        //用于编辑地址保存后,刷新地址回调方法.
+        $scope.reloadCustomerAddressGet=function (){
+              modal.closeAll();
+              $scope.refreshTime=new Date().getTime();
+           }
+
 
       $scope.getOfEditCallBack=function (formData){
+        if(!$scope.formData.orderMedicalNos)$scope.formData.orderMedicalNos=[];
         $scope.$watchGroup($scope.formData.orderMedicalNos, function (newVal,oldVal) {
             console.log("new:"+newVal,"old:"+oldVal);
             var s="";

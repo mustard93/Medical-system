@@ -1,0 +1,61 @@
+
+        <div class="modal-content" ng-controller="editCtrl"  >
+
+          <form class="add-customerAddress-form form-horizontal" ng-init="formData=ngDialogData?ngDialogData:tr"
+                action="rest/authen/customerAddress/contact/save"
+                alert-error callback="reloadCustomerAddressGet()"
+                form-validator>
+
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}客户</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">收货人</label>
+                <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">手机号码</label>*
+                <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.tel" />
+                </div>
+              </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">联系地址</label>*
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.address" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">区号</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.areaCode" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">email</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.email" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">传真</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.fax" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn btn-success" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>
