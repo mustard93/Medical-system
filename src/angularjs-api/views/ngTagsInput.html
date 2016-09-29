@@ -1,4 +1,16 @@
-<tags-input ng-init="tags=123" ng-model="tags" add-on-paste="true">
-     <auto-complete source="httpGet('data/getUserInfo.json')"></auto-complete>
-   </tags-input>
-   <p>Model: {{tags}}</p>
+
+
+
+<div ng-controller="MyCtrl">
+
+  <p>Model: {{tags11}}</p>
+<p ng-init="q='fff'">q: {{q}}</p>
+  <tags-input ng-model="tags11" key-property="id" display-property="text"  add-fom-autocomplete-only="true"
+  on-tag-adding="!tags11||tags11.length<1"
+  on-tag-added="q=$tag.text"
+  on-tag-removed="q=''">
+      <auto-complete source="loadTags($query)" display-property="text" min-length="1"></auto-complete>
+  </tags-input>
+
+
+</div>
