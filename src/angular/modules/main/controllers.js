@@ -7,7 +7,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope) {
+    function mainCtrl($scope,$http) {
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
@@ -22,9 +22,17 @@ define('main/controllers', ['main/init'], function () {
             window.location.assign(_url);
         };
 
-        // $scope.httpGet = function(url) {
-        //   return $http.get(url);
-        // };
+        $scope.httpGet = function(url) {
+
+          if (Config.serverPath) {
+
+              if (url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0) {
+                url = $scope.mainConfig.serverPath + url;
+              }
+          }
+
+          return $http.get(url);
+        };
 
         $scope.logout = function(method) {
 
@@ -132,7 +140,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$http", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
