@@ -47,6 +47,27 @@ define('project/directives', ['project/init'], function () {
     };
   }])
   /**
+   * 订单列表首页订单状态按钮切换样式
+   */
+  .directive('orderStatusChoise', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          $(this).addClass('pr-btn-bg-gold').siblings().each(function () {
+            $(this).removeClass('pr-btn-bg-gold');
+          });
+          $(this).parent().siblings().each(function () {
+            $(this).children().each(function () {
+              $(this).removeClass('pr-btn-bg-gold');
+            });
+          });
+        });
+      }
+    };
+  }])
+  /**
    * [点击展开隐藏左边栏]
    */
   .directive('toggleLeftMenu', [function () {
@@ -123,15 +144,14 @@ define('project/directives', ['project/init'], function () {
           Morris.Donut({
             element: 'graph-donut',
             data: [
-                {value: 40, label: '最新访问', formatted: 'at least 70%' },
-                {value: 30, label: '异常访问', formatted: 'approx. 15%' },
-                {value: 20, label: '跳出率', formatted: 'approx. 10%' },
-                {value: 10, label: '时间', formatted: 'at most 99.99%' }
+                {value: 40, label: '未处理', formatted: '昨日未处理订单. 40%' },
+                {value: 35, label: '未拆分', formatted: '昨日未拆分订单. 35%' },
+                {value: 25, label: '未提交', formatted: '昨日未提交订单. 25%' },
             ],
             backgroundColor: false,
-            labelColor: '#fff',
+            labelColor: '#666',
             colors: [
-                '#4acacb','#6a8bc0','#5ab6df','#fe8676'
+                '#ff5f39','#fe9302','#e39a27'
             ],
             formatter: function (x, data) { return data.formatted; }
           });
@@ -424,7 +444,7 @@ define('project/directives', ['project/init'], function () {
           },
           barColor:'#f30',
           scaleColor:false,
-          lineWidth:15,
+          lineWidth:10,
           lineCap:'circle'
         });
       }
