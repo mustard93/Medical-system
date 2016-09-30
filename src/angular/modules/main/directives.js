@@ -31,10 +31,13 @@ define('main/directives', ['main/init'], function() {
 
                 ngModel.$parsers.push(function(val) {
                     if (!val) return;
-                    if ($attrs.timestamp) {
-                        return val.getTime();
-                    } else {
+                  
+
+                    if ($attrs.format) {
                         return dateFilter(val, _format);
+                    } else {
+                        return val.getTime();
+
                     }
                 });
 
