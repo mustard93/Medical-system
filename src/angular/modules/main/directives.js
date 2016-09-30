@@ -231,7 +231,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
      */
-    function formValidator(requestData, modal, alertOk, alertError) {
+    function formValidator(requestData, modal, alertOk, alertError,dialogConfirm) {
         return {
             restrict: 'A',
             // scope: true,
@@ -257,76 +257,94 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     DOMForm.reset();
                 };
 
+
+
+                                    function ajax_submit(){
+                                      if(formStatus.submitting == true)return;
+                                      formStatus.submitting = true;
+
+                                      var parameterBody = false;
+                                      if (angular.isDefined($attrs.parameterBody)) parameterBody = true;
+
+                                      requestData($attrs.action, $scope.formData, "POST", parameterBody)
+                                          .then(function(results) {
+                                              var data = results[0];
+                                              var data1 = results[1];
+                                              formStatus.submitting = false;
+                                              formStatus.submitInfo = "";
+
+                                              if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                                              if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+
+                                              if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+
+                                              //重置表单
+                                              if ($attrs.formSubmitAfter == "reset") {
+                                                  DOMForm.reset();
+                                              }
+
+                                              if ($attrs.callback) {
+                                                  $scope.$eval($attrs.callback);
+                                              }
+
+                                              if ($attrs.broadcast) {
+                                                  $scope.$broadcast($attrs.broadcast);
+                                                  $scope.$emit($attrs.broadcast);
+                                                  if (angular.isDefined($attrs.autoCloseDialog)) {
+                                                      modal.close();
+                                                  }
+                                                  return;
+                                              }
+
+                                              // 增加属性no-close-dialog设置不自动关闭模态框
+                                              if (angular.isDefined($attrs.noCloseDialog)) {
+                                                  return;
+                                              }
+
+                                              if (data1 && data1.url) {
+                                                  window.location.assign(data1.url);
+                                                  return;
+                                              }
+
+                                              if (angular.isFunction($scope.submitCallBack)) {
+                                                  $scope.submitCallBack.call($scope, dialogData, data);
+                                              } else if (data && data.url) {
+                                                  window.location.assign(data.url);
+                                                  // dialogAlert(data.message || '提交成功', function () {
+                                                  //     window.location.assign(data.url);
+                                                  // })
+                                              } else {
+                                                  $scope.$broadcast("reloadList");
+                                              }
+                                              //自动关闭弹窗
+                                              angular.isDefined($attrs.autoCloseDialog) && modal.close();
+
+                                          })
+                                          .catch(function(error) {
+                                              formStatus.submitting = false;
+                                              formStatus.submitInfo = error || '提交失败。';
+
+
+                                              alertError(error);
+                                              //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
+                                          });
+                                    }//end ajax_submit
+
                 $element.on("submit", function(e) {
                     e.preventDefault();
-                    formStatus.submitting = true;
+
+                    if($attrs.beforeConfirmMsg){
+
+                      dialogConfirm($attrs.beforeConfirmMsg, function () {
+                        ajax_submit();
+                      }, null);
+                    }else{
+                        ajax_submit();
+                    }
 
 
-                    var parameterBody = false;
-                    if (angular.isDefined($attrs.parameterBody)) parameterBody = true;
-
-                    requestData($attrs.action, $scope.formData, "POST", parameterBody)
-                        .then(function(results) {
-                            var data = results[0];
-                            var data1 = results[1];
-                            formStatus.submitting = false;
-                            formStatus.submitInfo = "";
-
-                            if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                            if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
-
-                            if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
-
-                            //重置表单
-                            if ($attrs.formSubmitAfter == "reset") {
-                                DOMForm.reset();
-                            }
-
-                            if ($attrs.callback) {
-                                $scope.$eval($attrs.callback);
-                            }
-
-                            if ($attrs.broadcast) {
-                                $scope.$broadcast($attrs.broadcast);
-                                $scope.$emit($attrs.broadcast);
-                                if (angular.isDefined($attrs.autoCloseDialog)) {
-                                    modal.close();
-                                }
-                                return;
-                            }
-
-                            // 增加属性no-close-dialog设置不自动关闭模态框
-                            if (angular.isDefined($attrs.noCloseDialog)) {
-                                return;
-                            }
-
-                            if (data1 && data1.url) {
-                                window.location.assign(data1.url);
-                                return;
-                            }
-
-                            if (angular.isFunction($scope.submitCallBack)) {
-                                $scope.submitCallBack.call($scope, dialogData, data);
-                            } else if (data && data.url) {
-                                window.location.assign(data.url);
-                                // dialogAlert(data.message || '提交成功', function () {
-                                //     window.location.assign(data.url);
-                                // })
-                            } else {
-                                $scope.$broadcast("reloadList");
-                            }
-                            //自动关闭弹窗
-                            angular.isDefined($attrs.autoCloseDialog) && modal.close();
-
-                        })
-                        .catch(function(error) {
-                            formStatus.submitting = false;
-                            formStatus.submitInfo = error || '提交失败。';
 
 
-                            alertError(error);
-                            //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
-                        });
                 });
             }
         };
@@ -1985,7 +2003,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertToNumber", convertToNumber)
         .directive("convertJsonToObject", convertJsonToObject)
         .directive("ajaxUrl", ["requestData", "alertOk", "alertError", ajaxUrl])
-        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError", formValidator])
+        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", formValidator])
         .directive("tableList", tableList)
         .directive("tableCell", tableCell)
         .directive("pagination", pagination)

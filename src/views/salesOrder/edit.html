@@ -6,7 +6,9 @@
   </div>
   <!-- 主内容区域 -->
   <form name="editSalesOrderForm" form-validator  parameter-body action="rest/authen/salesOrder/save.json"
-            alert-error alert-ok scope-error-msg="errorMsg">
+            alert-error scope-error-msg="errorMsg" scope-data="formData"
+            callback="goTo('#/salesOrder/confirm-order.html?id='+formData.id)"
+            >
   <div class="content-wrapper-main pr-bg-white pr-border">
     <!-- 订单类型 -->
     <div class="flex-column mgt-l mgb-l pd-c-xxxxl pdt-l pdb-l bb-line">
@@ -203,8 +205,8 @@
     </div>
     <!-- 提交按钮 -->
     <div class="pd-c-xxxxl pdb-xxl text-right">
-      <span class="mgr-l"><button class="pr-btn-save-glodbg"    ng-click="submitForm('addSalesOrderForm','save')">保存</button></span>
-      <span class="mgr-l"><a href="#/salesOrder/confirm-order.html"><button class="pr-btn-create-glodbg">生成订单</button></a></span>
+      <span class="mgr-l"><button class="pr-btn-save-glodbg" type="submit">保存</button></span>
+      <span class="mgr-l"><button  type="submit" class="pr-btn-create-glodbg">生成订单</button></span>
       <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr')">取消</a></span>
     </div>
   </div>

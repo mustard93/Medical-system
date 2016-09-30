@@ -4,6 +4,8 @@
 
 define('main/controllers', ['main/init'], function () {
 
+
+
     /**
      * 主控
      */
@@ -21,6 +23,22 @@ define('main/controllers', ['main/init'], function () {
         $scope.pageTo = function (_url) {
             window.location.assign(_url);
         };
+
+
+        // 调整页面
+        $scope.goTo = function (url,confirmMsg) {
+
+            if(confirmMsg){
+              dialogConfirm(confirmMsg, function () {
+                window.location.assign(url);
+              }, null);
+            }else{
+                window.location.assign(url);
+            }
+        };
+
+
+
 
         $scope.httpGet = function(url) {
 

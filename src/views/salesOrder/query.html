@@ -51,7 +51,7 @@
             <div>
               <div class="flex-column mgb-l">
                 <span class="flex-item-6">{{tr.orderStatus}}<i class="circle-icon-yellow mgl-m"></i></span>
-                <span class="flex-item-6 text-right"><a href="#/salesOrder/confirm-order.html?id={{tr.id}}">查看详情</a></span>
+                <span class="flex-item-6 text-right"><a href="#/salesOrder/get.html?id={{tr.id}}">查看详情</a></span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
               <div class="flex-column text-s color-6">
@@ -106,8 +106,13 @@
               </div>
             </div>
             <div>
-              <p class="text-right pdt-l pdb-l pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</p>
-              <span  ng-if="tr.orderStatus=='未提交'"><a  href="#/salesOrder/edit.html?id={{tr.id}}">编辑</a></span>
+
+              <div class="pd-c-xxxxl pdb-xxl text-right">
+                  <span class="text-right pdt-l pdb-l pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
+                  <span  ng-if="tr.orderStatus=='未提交'"><a  href="#/salesOrder/edit.html?id={{tr.id}}"><button class="pr-btn-create-glodbg" >编辑</button></a></span>
+              </div>
+
+
             </div>
           </div>
         </li>
