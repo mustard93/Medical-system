@@ -1,5 +1,6 @@
 <div class="content-wrapper"  ajax-url="rest/authen/salesOrder/previewConfirmSalesOrder.json?id={{mainStatus.pageParams.id}}"  scope-data="showData"
 callback="formData={};formData.id=showData.salesOrder.id" alert-error>
+
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading">
     <h1 class="pr-title-color pr-font-24">确认订单</h1>
@@ -29,9 +30,9 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
     <!-- 商品列表 -->
     <div class="pd-c-xxxxl">
       <!-- 可发货 -->
-      <div class="confirm-order bb-line pdb-l">
-        <h1 class="pdt-l color-6 text-m text-bold">发货单-可发货</h1>
-        <table class="mgt-l pr-table">
+      <div class="confirm-order bb-line pdb-l"  ng-repeat="invoicesOrders_tr in showData.invoicesOrders">
+        <h1 class="pdt-l color-6 text-m text-bold" ng-if="invoicesOrders_tr.orderStatus!='暂不发货'">发货单-{{invoicesOrders_tr.orderStatus}}</h1>
+        <table class="mgt-l pr-table" ng-if="invoicesOrders_tr.orderStatus!='暂不发货'">
           <thead>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
             <th class="w-106 text-center">单位</th>
@@ -41,9 +42,10 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
             <th class="w-150 text-center">发货数量</th>
             <th class="w-94 text-center">状态</th>
           </thead>
+
           <tbody>
             <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in showData.invoices.orderMedicalNos">
+            <tr ng-repeat="tr in invoicesOrders_tr.orderMedicalNos">
               <td class="goods-name has-border pd-m">
                 <div class="relative">
                   <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
@@ -57,9 +59,9 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
               <td class="has-border text-center">{{tr.unit}}</td>
               <td class="has-border text-center">{{tr.isSameBatch}}</td>
               <td class="has-border text-center">{{tr.batchNo}}</td>
-              <td class="has-border text-center">{{tr.quantity}}</td>
+              <td class="has-border text-center"></td>
               <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
-              <td class="has-border text-center pdt-xxxxl" rowspan="{{showData.invoices.orderMedicalNos.length}}">待发货</td>
+              <td class="has-border text-center pdt-xxxxl" rowspan="{{showData.invoicesOrders.orderMedicalNos.length}}">待发货</td>
             </tr>
 <!--
             <tr>
@@ -81,11 +83,13 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
             </tr> -->
           </tbody>
         </table>
-      </div>
-      <!-- 不可发货 -->
-      <div class="confirm-order bb-line pdb-l">
-        <h1 class="pdt-l color-6 text-m text-bold">发货单-暂不可发货</h1>
-        <table class="mgt-l pr-table">
+    <!-- 不可发货 -->
+
+
+                <h1 class="pdt-l color-6 text-m text-bold" ng-if="invoicesOrders_tr.orderStatus=='暂不发货'">发货单-{{invoicesOrders_tr.orderStatus}}</h1>
+                <table class="mgt-l pr-table" ng-if="invoicesOrders_tr.orderStatus=='暂不发货'">
+
+
           <thead>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
             <th class="w-106 text-center">单位</th>
@@ -98,7 +102,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
           </thead>
           <tbody>
             <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in showData.purchaseOrder.orderMedicalNos">
+            <tr ng-repeat="tr in invoicesOrders_tr.orderMedicalNos">
               <td class="goods-name has-border pd-m">
                 <div class="relative">
                   <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
@@ -114,16 +118,18 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
               <td class="has-border text-center">{{tr.unit}}</td>
               <td class="has-border text-center">{{tr.isSameBatch}}</td>
               <td class="has-border text-center">{{tr.batchNo}}</td>
-              <td class="has-border text-center">{{tr.quantity}}</td>
+              <td class="has-border text-center"></td>
               <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
-              <td class="has-border text-center pdt-xxxxl"  ng-if="$index==1" rowspan="{{showData.purchaseOrder.orderMedicalNos.length}}">待发货</td>
+              <td class="has-border text-center pdt-xxxxl" >待发货</td>
 
               <td class="has-border text-center">库存不足，等待采购</td>
             </tr>
 
           </tbody>
         </table>
+            <!-- 不可发货 -->
       </div>
+
       <!-- 对应采购单 -->
       <div class="confirm-order bb-line pdb-l">
         <h1 class="pdt-l color-6 text-m text-bold">对应采购单</h1>
@@ -137,6 +143,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
             <th class="w-150 text-center">采购数量</th>
           </thead>
           <tbody>
+
             <tr class="tr-interval"><td colspan="9"></td></tr>
             <tr ng-repeat="tr in showData.purchaseOrder.orderMedicalNos">
               <td class="goods-name has-border pd-m">
