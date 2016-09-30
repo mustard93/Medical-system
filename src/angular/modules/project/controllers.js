@@ -14,9 +14,6 @@ define('project/controllers', ['project/init'], function() {
         modal.closeAll();
         // $scope.formData={};
         $scope.addDataItem = {};
-
-
-
         //需要重新家长地址方法。编辑新建后
         $scope.customerAddressReload=function (){
           $scope.reloadTime=new Date().getTime();
