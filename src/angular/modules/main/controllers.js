@@ -4,6 +4,8 @@
 
 define('main/controllers', ['main/init'], function () {
 
+
+
     /**
      * 主控
      */
@@ -21,6 +23,22 @@ define('main/controllers', ['main/init'], function () {
         $scope.pageTo = function (_url) {
             window.location.assign(_url);
         };
+
+
+        // 调整页面
+        $scope.goTo = function (url,confirmMsg) {
+
+            if(confirmMsg){
+              dialogConfirm(confirmMsg, function () {
+                window.location.assign(url);
+              }, null);
+            }else{
+                window.location.assign(url);
+            }
+        };
+
+
+
 
         $scope.httpGet = function(url) {
 
@@ -124,11 +142,10 @@ define('main/controllers', ['main/init'], function () {
     function pageCtrl($scope, modal, dialogConfirm, $timeout) {
         modal.closeAll();
 
-        // 页面所有取消按钮事件操作
         $scope.cancelThis = function (_text, _mode) {
-          dialogConfirm(_text,  function () {
+          dialogConfirm(_text, function () {
             window.history.go(-1);
-          },_mode);
+          }, _mode);
         };
     }
 

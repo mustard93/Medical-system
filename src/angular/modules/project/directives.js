@@ -42,72 +42,45 @@ define('project/directives', ['project/init'], function () {
           $(this).addClass('active').parent().siblings().each(function () {
             $(this).children().removeClass('active');
           });
-          
         });
       }
     };
-  //   return {
-  //     restrict: 'A',
-  //     link: function (scope, element, attrs) {
-  //       $('.nav-stacked > li > a').on('click', function () {
-  //         $(this).addClass('left-side-active-style').parent().siblings().each(function () {
-  //           $(this).children().removeClass('left-side-active-style');
-  //         });
-  //       });
-  //
-  //       $('.menu-list > a').on('click', function () {
-  //         var parent = $(this).parent();
-  //         var sub = parent.find('> ul');
-  //
-  //         if(!$('body').hasClass('left-side-collapsed')) {
-  //            if(sub.is(':visible')) {
-  //               sub.slideUp(200, function(){
-  //                  parent.removeClass('nav-active');
-  //                  $('.main-content').css({height: ''});
-  //               });
-  //            } else {
-  //               visibleSubMenuClose();
-  //               parent.addClass('nav-active');
-  //               sub.slideDown(200, function(){
-  //               });
-  //            }
-  //         }
-  //         return false;
-  //       });
-  //
-  //       $('.menu-list > ul > li > a').on('click', function () {
-  //         $.each($(this).parent().siblings(), function () {
-  //           if ($(this).hasClass('active')) {
-  //             $(this).removeClass('active');
-  //           }
-  //         });
-  //         $(this).parent().addClass('active');
-  //       });
-  //
-  //       function visibleSubMenuClose() {
-  //          $('.menu-list').each(function() {
-  //             var t = $(this);
-  //             if(t.hasClass('nav-active')) {
-  //                t.find('> ul').slideUp(200, function(){
-  //                   t.removeClass('nav-active');
-  //                });
-  //             }
-  //          });
-  //       }
-  //
-  //       function mainContentHeightAdjust() {
-  //          var docHeight = $(document).height();
-  //          if(docHeight > $('.main-content').height())
-  //             $('.main-content').height(docHeight);
-  //       }
-  //
-  //       $('.custom-nav > li').hover(function(){
-  //          $(this).addClass('nav-hover');
-  //       }, function(){
-  //          $(this).removeClass('nav-hover');
-  //       });
-  //     }
-  //   };
+  }])
+  /**
+   * 订单列表首页订单状态按钮切换样式
+   */
+  .directive('orderStatusChoise', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          $(this).addClass('pr-btn-bg-gold').siblings().each(function () {
+            $(this).removeClass('pr-btn-bg-gold');
+          });
+          $(this).parent().siblings().each(function () {
+            $(this).children().each(function () {
+              $(this).removeClass('pr-btn-bg-gold');
+            });
+          });
+        });
+      }
+    };
+  }])
+  .directive('orderListTips', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          $(this).hide();
+          $(this).siblings().show().on('click',function () {
+            $(this).hide();
+            $(element).show();
+          });
+        });
+      }
+    };
   }])
   /**
    * [点击展开隐藏左边栏]
@@ -184,18 +157,15 @@ define('project/directives', ['project/init'], function () {
       link: function (scope, element, attrs) {
         require(['morris'], function () {
           Morris.Donut({
-            element: 'graph-donut',
+            element: attrs.id,
             data: [
-                {value: 40, label: '最新访问', formatted: 'at least 70%' },
-                {value: 30, label: '异常访问', formatted: 'approx. 15%' },
-                {value: 20, label: '跳出率', formatted: 'approx. 10%' },
-                {value: 10, label: '时间', formatted: 'at most 99.99%' }
+                {value: 40, label: '未处理', formatted: '昨日未处理订单. 40%' },
+                {value: 35, label: '未拆分', formatted: '昨日未拆分订单. 35%' },
+                {value: 25, label: '未提交', formatted: '昨日未提交订单. 25%' }
             ],
             backgroundColor: false,
-            labelColor: '#fff',
-            colors: [
-                '#4acacb','#6a8bc0','#5ab6df','#fe8676'
-            ],
+            labelColor: '#666',
+            colors: ['#ff5f39','#fe9302','#e39a27'],
             formatter: function (x, data) { return data.formatted; }
           });
         });
@@ -480,10 +450,15 @@ define('project/directives', ['project/init'], function () {
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        require(['easypiechart'], function () {
-          $('.chart').easyPieChart({
-            // 这里写配置信息
-          });
+        $('.chart').easyPieChart({
+          animate:{
+            duration:1000,
+            enabled:true
+          },
+          barColor:'#f30',
+          scaleColor:false,
+          lineWidth:10,
+          lineCap:'circle'
         });
       }
     };

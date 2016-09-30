@@ -6,20 +6,19 @@ define('project/controllers', ['project/init'], function() {
 
 
 
+
     /**
      *编辑、新建订单
      */
     function salesOrderEditCtrl($scope, modal,alertWarn) {
-
+        modal.closeAll();
         // $scope.formData={};
         $scope.addDataItem = {};
-
-
-        //用于编辑地址保存后,刷新地址回调方法.
-        $scope.reloadCustomerAddressGet=function (){
-              modal.closeAll();
-              $scope.refreshTime=new Date().getTime();
-           }
+        //需要重新家长地址方法。编辑新建后
+        $scope.customerAddressReload=function (){
+          $scope.reloadTime=new Date().getTime();
+            modal.closeAll();
+        };
 
 
       $scope.getOfEditCallBack=function (formData){
@@ -67,6 +66,11 @@ define('project/controllers', ['project/init'], function() {
                 $scope.addDataItem.price = data.price;
                 $scope.addDataItem.isSameBatch = "否";
                 $scope.addDataItem.strike_price = data.price;
+                $scope.addDataItem.headUrl = data.headUrl;
+                $scope.addDataItem.specification = data.specification;
+
+
+
                 // alert($('#addDataItem_quantity').length);
                 // $('#addDataItem_quantity').trigger("focus");
                 $('#addDataItem_quantity').trigger("focus");
@@ -81,12 +85,16 @@ define('project/controllers', ['project/init'], function() {
                     return;
                 }
                 if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
+                      console.log($scope.addDataItem);
                 $scope.formData.orderMedicalNos.push($scope.addDataItem);
+
+
                 $scope.addDataItem = {};
 
                 $("input", "#addDataItem_relId_chosen").trigger("focus");
                 // $("#addDataItem_relId_chosen").trigger("click");
 
+                console.log($scope.formData.orderMedicalNos);
 
             }
             /**

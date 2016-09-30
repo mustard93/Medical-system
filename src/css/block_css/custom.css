@@ -69,7 +69,7 @@
 }
 
 .mg-l {
-    margin: 20px 0;
+    margin: 15px 0 10px;
 }
 
 .mg-xl {
@@ -89,7 +89,7 @@
 }
 
 .mgt-l {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .mgt-xl {
@@ -102,6 +102,10 @@
 
 .mgt-xxxl {
     margin-top: 50px;
+}
+
+.mgb-n {
+    margin-bottom: 0;
 }
 
 .mgb-s {
@@ -117,7 +121,7 @@
 }
 
 .mgb-l {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .mgb-xl {
@@ -138,6 +142,10 @@
 
 .mgr-m {
     margin-right: 15px;
+}
+.query-item .mgr-m {
+  margin-right: 0;
+  min-width: 360px;
 }
 
 .mgr-l {
@@ -174,20 +182,20 @@
 }
 
 /* 内边距 */
-.pd-l {
-    padding: 20px;
+.pd-s {
+    padding: 5px;
 }
-
-.pd-m {
-    padding: 15px;
-}
-
 .pd {
     padding: 10px;
 }
-
-.pd-s {
-    padding: 5px;
+.pd-m {
+    padding: 15px;
+}
+.pd-l {
+    padding: 20px;
+}
+.pd-xl {
+  padding: 25px;
 }
 
 .pd-v-s {
@@ -1036,6 +1044,15 @@ body.ngdialog-open {
 .pr-bg-glod {
   background-color: #c7a77b;
 }
+.pr-icon-bg-red {
+  background-color: #ff5f39;
+}
+.pr-icon-bg-orange {
+  background-color: #fe9302;
+}
+.pr-icon-bg-gold {
+  background-color: #e39a27;
+}
 
 /* 颜色 */
 .pr-color {
@@ -1167,7 +1184,7 @@ body.ngdialog-open {
 /* 与页面颜色一致的按钮 */
 .pr-btn-transparentbg {
   display: inline-block;
-  padding: 10px 15px;
+  padding: 5px 15px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
   border: 1px solid #c7a77b;
@@ -1178,6 +1195,11 @@ body.ngdialog-open {
 }
 .pr-btn-transparentbg:active, .pr-btn-transparentbg:visited, .pr-btn-transparentbg:focus {
   outline: none;
+}
+/* 纯底色按钮 */
+.pr-btn-bg-gold {
+  background-color: #c7a77b;
+  color: #fff!important;
 }
 /* 边界模糊 */
 .pr-fuzzy-boundary {
@@ -1294,15 +1316,12 @@ body.ngdialog-open {
 
 /* 住内容区域 */
 .content-wrapper {
-  margin: 25px 65px;
-}
-.content-wrapper .content-wrapper-heading {
-  padding: 0 0 20px 0;
+  margin: 0 65px;
 }
 .content-wrapper .content-wrapper-heading .order-create-btn a {
   display: inline-block;
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 60px;
   background-color: #c7a77b;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -1314,7 +1333,7 @@ body.ngdialog-open {
   background-image: url(../images/pr-sprites.png);
   background-repeat: no-repeat;
   background-size: 295px;
-  background-position: -38px -342px;
+  background-position: -38px -343px;
   width: 28px;
   height: 28px;
   margin: 8px auto 0 auto;
@@ -1323,7 +1342,7 @@ body.ngdialog-open {
   content: ' ';
   position: absolute;
   display: inline-block;
-  top: 112px;
+  top: 83px;
   left: 120px;
   width: 65px;
   height: 1px;
@@ -1333,7 +1352,7 @@ body.ngdialog-open {
   content: ' ';
   position: absolute;
   display: inline-block;
-  top: 112px;
+  top: 83px;
   width: inherit;
   height: 1px;
   border-top: 1px solid #c7a77b;
@@ -1341,10 +1360,10 @@ body.ngdialog-open {
 .content-wrapper .content-wrapper-heading .order-status-btn > div {
   text-align: right;
 }
-.content-wrapper .content-wrapper-heading .order-status-btn > div:first-child {
+/* .content-wrapper .content-wrapper-heading .order-status-btn > div:first-child {
   position: absolute;
   display: inline-block;
-  top: 42px;
+  top: 38px;
   left: 0;
   width: 100%;
   height: 1px;
@@ -1354,12 +1373,12 @@ body.ngdialog-open {
   content: ' ';
   position: absolute;
   display: inline-block;
-  top: 20px;
+  top: 16px;
   right: -65px;
   width: 65px;
   height: 1px;
   border-top: 1px solid #c7a77b;
-}
+} */
 .content-wrapper .content-wrapper-heading .order-list-search > i {
   position: absolute;
   right: 10px;
@@ -1368,13 +1387,15 @@ body.ngdialog-open {
 }
 .content-wrapper-main ul li {
   display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .content-wrapper-main ul li>div>div:nth-child(1) {
   width: 100%;
   border-left: 1px solid #e2e2e2;
   border-top: 1px solid #e2e2e2;
   border-right: 1px solid #e2e2e2;
-  padding: 25px 20px;
+  padding: 15px 20px 10px;
 }
 .content-wrapper-main ul li>div>div:nth-child(2) {
   width: 100%;
@@ -1617,6 +1638,28 @@ body.ngdialog-open {
   display: inline-block;
   width: 115px;
 }
+/* 订单列表提示tips */
+.content-wrapper .content-wrapper-main .order-list-tips-show {
+  display: none;
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background-color: rgba(254, 231, 231, 0.9);
+  cursor: pointer;
+}
+.content-wrapper .content-wrapper-main .order-list-tips-hide {
+  display: inline-block;
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  background-color: rgba(254, 231, 231, 0.9);
+  cursor: pointer;
+}
 /* 表格灰色填充 */
 .pr-table-greyfill {
   background-color: #e5e5e5;
@@ -1678,6 +1721,44 @@ body.ngdialog-open {
   background-position: -306px -227px;
   background-size: 388px;
   margin-right: 25px;
+  position: relative;
+  top: 10px;
+}
+/* 图表说明文字前的颜色提示 */
+.chart-tip-icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: none;
+  position: relative;
+  top: 3px;
+  margin-right: 5px;
+}
+/* 图表 */
+.pr-easypiechart {
+  position: relative;
+}
+.pr-easypiechart > div > span {
+  position: absolute;
+  top: 50px;
+  left: 52px;
+}
+.pr-easypiechart > div > span > h1 {
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+/* 跨整行的模块标题样式 */
+.pr-line-title {
+  width: 100%;
+  font-size: 28px;
+  margin: 30px 0 50px 0;
+}
+.pr-line-title > span:first-child, .pr-line-title > span:last-child {
+  display: inline-block;
+  height: 1px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: rgba(0, 0, 0, 0.1);
   position: relative;
   top: 10px;
 }

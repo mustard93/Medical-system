@@ -1,34 +1,38 @@
 
         <div class="modal-content" ng-controller="editCtrl"  >
 
-          <form class="add-customerAddress-form form-horizontal" ng-init="formData=dialogData.contact;formData.customerAddressId=dialogData.customerAddressId"
-                action="rest/authen/customerAddress/contact/save" callback="customerAddressReload()"
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/medical/save"
+                 ajax-url="rest/authen/role/getOfEdit.json?id={{tr.id}}"  scope-data="formData" alert-error
                 form-validator>
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}地址</h4>
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}角色</h4>
             </div>
             <div class="modal-body">
 
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">收货人</label>
+                  <label class="col-lg-2 col-sm-2 control-label">角色名称</label>
                   <div class="col-lg-10 col-sm-10">
                     <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">手机</label>
+                  <label class="col-lg-2 col-sm-2 control-label">角色类型</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.tel" />
+                    <select class="ipt pr-short-ipt" data-placeholder="选择角色类型" chosen  ng-model="formData.type" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_RoleType">
+                      <option value=""></option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">地址</label>
+                  <label class="col-lg-2 col-sm-2 control-label">权限集</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.address" />
+                    <select class="ipt pr-short-ipt" data-placeholder="选择角色类型" chosen default-empty="无" multiple ng-model="formData.authoritys" select-source="rest/index/queryAuthoritys">
+                      <option value=""></option>
+                    </select>
                   </div>
                 </div>
-
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label"></label>
                   <div class="col-lg-10 col-sm-10">

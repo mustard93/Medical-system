@@ -24,15 +24,15 @@ require.config({
         'moment': '../libs/moment.min',                       //日历插件
         'echarts': '../libs/echarts.min',                     //图表插件
         'chosen': '../libs/chosen.jquery.min',                //下拉筛选插件
-        'angular': '../libs/angular',                     //Angular
-        'ngRoute': '../libs/angular-route',       //路由
-          'ngTagsInput': '../libs/ng-tags-input/ng-tags-input',    //自动补齐
+        'angular': '../libs/angular',                           //Angular
+        'ngRoute': '../libs/angular-route',                     //路由
+        'ngTagsInput': '../libs/ng-tags-input/ng-tags-input',    //自动补齐
         'bootstrap': '../libs/bootstrap.min',                 //bootstrap
         'jquery-ui': '../libs/jquery-ui.min',
         'nicescroll': '../libs/jquery-nicescroll.min',        //滚动条美化
         'migrate': '../libs/jquery-migrate.min',              //jQuery版本兼容
         'modernizr': '../libs/modernizr.min',                 //检测当前浏览器对HTML5和CSS3的支持
-        'easypiechart': '../libs/easypiechart/jquery.easypiechart',    //jQuery饼图
+        'easypiechart': '../libs/easypiechart/jquery.easypiechart.min',    //jQuery饼图
         'sparkline': '../libs/jquery.sparkline.min',          //jQuery线状图
         'icheck': '../libs/jquery.icheck.min',                //checkbox美化
         'flot': '../libs/flot-chart/jquery.flot.min',                     //jQuery图表
