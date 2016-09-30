@@ -13,21 +13,21 @@
              alert-error>
             <div class=""></div>
             <div class="btn btn-group">
-              <button type="button" class="btn pr-btn-transparentbg">全部</button>
-              <button type="button" class="btn pr-btn-transparentbg">未提交
+              <button type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus=''">全部</button>
+              <button type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
                 <span class="pj-badge" ng-if='countByOrderStatus["未提交"]'>{{countByOrderStatus["未提交"]}}</span>
               </button>
-              <button type="button" class="btn pr-btn-transparentbg">待发货
+              <button type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发货'">待发货
                 <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
               </button>
-              <button type="button" class="btn pr-btn-transparentbg">已发货
+              <button type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">已发货
                 <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
               </button>
-              <button type="button" class="btn pr-btn-transparentbg">已收货</button>
-              <button type="button" class="btn pr-btn-transparentbg">未收款
-                <span class="pj-badge" ng-if='countByOrderStatus["未收款"]'>{{countByOrderStatus["未收款"]}}</span>
+              <button type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已收货</button>
+              <button type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未收款'">未收款
+                <span class="pj-badge" ng-if='countByOrderStatus["未收款"]' >{{countByOrderStatus["未收款"]}}</span>
               </button>
-              <button type="button" class="btn pr-btn-transparentbg">已完成</button>
+              <button type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已完成'">已完成</button>
             </div>
             <div class="inline-block relative mgr-m">
               <button type="button" class="btn pr-btn-transparentbg">预测订单</button>
@@ -50,8 +50,8 @@
           <div class="mgr-m mgb-m pr-bg-white pr-fuzzy-boundary">
             <div>
               <div class="flex-column mgb-l">
-                <span class="flex-item-6">已完成<i class="circle-icon-yellow mgl-m"></i></span>
-                <span class="flex-item-6 text-right"><a href="#">查看详情</a></span>
+                <span class="flex-item-6">{{tr.orderStatus}}<i class="circle-icon-yellow mgl-m"></i></span>
+                <span class="flex-item-6 text-right"><a href="#/salesOrder/confirm-order.html?id={{tr.id}}">查看详情</a></span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
               <div class="flex-column text-s color-6">
@@ -59,7 +59,7 @@
                   创建时间：<strong class="color-9 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
                 <span class="flex-item-6 text-right">
-                  订单编号：<strong class="color-9 text-normal">1000000234</strong>
+                  订单编号：<strong class="color-9 text-normal">{{tr.orderNo}}</strong>
                 </span>
               </div>
             </div>
@@ -75,16 +75,25 @@
                   </div>
                 </div>
               </div>
-              <div>
+              <div ng-if="listParams.orderStatus=='未提交'">
+
+                <p class="mgb-m text-s color-9">备注：{{tr.note}}</p>
+                <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
+              </div>
+              <div  ng-if="listParams.orderStatus!='未提交'">
                 <h1 class="mgt-l mgb-l color-6 text-bold">发货信息</h1>
-                <p class="mgb-m text-s color-9">关联发货：<em class="pr-color">F2016010101</em></p>
-                <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p>
+                <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.invoiceOrderIdsSet.join(",")}}</em></p>
+                <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
+              </div>
+              <div  ng-if="listParams.orderStatus!='未提交'">
+                <h1 class="mgt-l mgb-l color-6 text-bold">未发货信息</h1>
+                <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.noInvoiceOrderIdsSet.join(",")}}</em></p>
+                <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
             </div>
             <div>
-              <p class="text-right pdt-l pdb-l pdr-l text-m color-6">总价：￥399.00</p>
-              <span  ng-if="tr.orderStatus='未提交'"><a  href="#/salesOrder/confirm-order.html?id={{tr.id}}">生成订单</a></span>
-              <span  ng-if="tr.orderStatus='未提交'"><a  href="#/salesOrder/edit.html?id={{tr.id}}">编辑</a></span>
+              <p class="text-right pdt-l pdb-l pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</p>
+              <span  ng-if="tr.orderStatus=='未提交'"><a  href="#/salesOrder/edit.html?id={{tr.id}}">编辑</a></span>
             </div>
           </div>
         </li>
