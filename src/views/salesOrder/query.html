@@ -46,15 +46,15 @@
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <ul class="flex-column">
-        <li class="flex-item-3" ng-repeat="tr in tbodyList">
+        <li class="flex-item-3 query-item" ng-repeat="tr in tbodyList">
           <div class="mgr-m mgb-m pr-bg-white pr-fuzzy-boundary">
             <div>
-              <div class="flex-column mgb-l">
-                <span class="flex-item-6">{{tr.orderStatus}}<i class="circle-icon-yellow mgl-m"></i></span>
+              <div class="flex-column mgb-n">
+                <span class="flex-item-6 title-states">{{tr.orderStatus}}<i class="circle-icon-yellow mgl-m"></i></span>
                 <span class="flex-item-6 text-right"><a href="#/salesOrder/get.html?id={{tr.id}}">查看详情</a></span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
-              <div class="flex-column text-s color-6">
+              <div class="flex-column qurey text-s color-6">
                 <span class="flex-item-6">
                   创建时间：<strong class="color-9 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
@@ -66,7 +66,7 @@
             <div>
               <div class="bb-line">
                 <h1 class="mg-l text-center text-m color-6">{{tr.customerName || '未知单位'}}</h1>
-                <div class="flex-column mgb-l text-s color-6">
+                <div class="flex-column mgb-n query text-s color-6">
                   <div class="flex-item-6">
                     来源：<strong class="text-normal color-9">{{tr.address.name}}</strong>
                   </div>
@@ -93,7 +93,7 @@
             </div>
             <div>
 
-              <div class="pd-c-xxxxl pdb-xxl text-right">
+              <div class="pdb-xxl text-right">
                   <span class="text-right pdt-l pdb-l pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
                   <span  ng-if="tr.orderStatus=='未提交'"><a  href="#/salesOrder/edit.html?id={{tr.id}}"><button class="pr-btn-create-glodbg" >编辑</button></a></span>
               </div>
