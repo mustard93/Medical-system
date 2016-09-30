@@ -67,6 +67,21 @@ define('project/directives', ['project/init'], function () {
       }
     };
   }])
+  .directive('orderListTips', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          $(this).hide();
+          $(this).siblings().show().on('click',function () {
+            $(this).hide();
+            $(element).show();
+          });
+        });
+      }
+    };
+  }])
   /**
    * [点击展开隐藏左边栏]
    */
@@ -142,17 +157,15 @@ define('project/directives', ['project/init'], function () {
       link: function (scope, element, attrs) {
         require(['morris'], function () {
           Morris.Donut({
-            element: 'graph-donut',
+            element: attrs.id,
             data: [
                 {value: 40, label: '未处理', formatted: '昨日未处理订单. 40%' },
                 {value: 35, label: '未拆分', formatted: '昨日未拆分订单. 35%' },
-                {value: 25, label: '未提交', formatted: '昨日未提交订单. 25%' },
+                {value: 25, label: '未提交', formatted: '昨日未提交订单. 25%' }
             ],
             backgroundColor: false,
             labelColor: '#666',
-            colors: [
-                '#ff5f39','#fe9302','#e39a27'
-            ],
+            colors: ['#ff5f39','#fe9302','#e39a27'],
             formatter: function (x, data) { return data.formatted; }
           });
         });

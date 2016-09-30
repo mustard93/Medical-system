@@ -66,6 +66,7 @@ define('project/controllers', ['project/init'], function() {
                 $scope.addDataItem.price = data.price;
                 $scope.addDataItem.isSameBatch = "否";
                 $scope.addDataItem.strike_price = data.price;
+                $scope.addDataItem.headUrl = data.headUrl;
                 // alert($('#addDataItem_quantity').length);
                 // $('#addDataItem_quantity').trigger("focus");
                 $('#addDataItem_quantity').trigger("focus");
@@ -80,12 +81,14 @@ define('project/controllers', ['project/init'], function() {
                     return;
                 }
                 if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
+                      console.log($scope.addDataItem);
                 $scope.formData.orderMedicalNos.push($scope.addDataItem);
                 $scope.addDataItem = {};
 
                 $("input", "#addDataItem_relId_chosen").trigger("focus");
                 // $("#addDataItem_relId_chosen").trigger("click");
 
+                console.log($scope.formData.orderMedicalNos);
 
             }
             /**

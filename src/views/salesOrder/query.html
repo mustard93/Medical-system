@@ -51,7 +51,8 @@
             <div>
               <div class="flex-column mgb-n">
                 <span class="flex-item-6 title-states">{{tr.orderStatus}}<i class="circle-icon-yellow mgl-m"></i></span>
-                <span class="flex-item-6 text-right"><a href="#/salesOrder/get.html?id={{tr.id}}">查看详情</a></span>
+                <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-6 text-right"><a href="#/salesOrder/get.html?id={{tr.id}}">查看详情</a></span>
+                <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right"><a href="#/salesOrder/edit.html?id={{tr.id}}">编辑</a></span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
               <div class="flex-column qurey text-s color-6">
@@ -68,7 +69,7 @@
                 <h1 class="mg-l text-center text-m color-6">{{tr.customerName || '未知单位'}}</h1>
                 <div class="flex-column mgb-n query text-s color-6">
                   <div class="flex-item-6">
-                    来源：<strong class="text-normal color-9">{{tr.address.name}}</strong>
+                    销售人员：<strong class="text-normal color-9">{{tr.saleUser.n}}</strong>
                   </div>
                   <div class="flex-item-6 text-right">
                     期望到货时间：<strong class="text-normal color-9">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
