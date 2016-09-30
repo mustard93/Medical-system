@@ -43,15 +43,15 @@
     </div>
     <!-- 收货人信息 -->
     <div class="consignee-info pd-c-xxxxl pdt-l pdb-l bb-line"
-     ajax-if="{{formData.customerId}}"  ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}"
+     ajax-if="{{formData.customerId}}"  ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
      scope-data="customerAddress"  callback="customerAddressGetCallBack(formData,customerAddress)">
       <h1 class="color-6 text-n mgb-l">收货人信息</h1>
-      <ul ng-if="customerAddress&&customerAddress.contacts">
+      <ul ng-if="formData.customerId">
 
         <li class="mgr-m"  ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
           <p class="pdb">{{item.name}} </p>
           <p class="text-n color-6 mgb-s">{{item.address}} {{item.tel}}</p>
-          <p><a href="">修改</a></p>
+          <p><a href="javacript:;"  modal-right="700"  modal-right="700" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
 
           <i class="consignee-default-label"  ng-if="customerAddress.defaultContactId==item.id">默认</i>
           <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
@@ -62,8 +62,10 @@
           <p class="text-n color-6 mgb-s">四川省成都市武侯区武侯大道168号四川省第三人民医院会计部 18285851010</p>
           <p><a href="">修改</a></p>
         </li> -->
+
+
         <span>
-          <button class="pr-add-item-whitebg"><i class="fa fa-plus"></i></button>
+          <button class="pr-add-item-whitebg" modal-right="700" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html"><i class="fa fa-plus"></i></button>
         </span>
       </ul>
 

@@ -5,6 +5,8 @@
 define('project/controllers', ['project/init'], function() {
 
 
+
+
     /**
      *编辑、新建订单
      */
@@ -15,7 +17,15 @@ define('project/controllers', ['project/init'], function() {
 
 
 
+        //需要重新家长地址方法。编辑新建后
+        $scope.customerAddressReload=function (){
+          $scope.reloadTime=new Date().getTime();
+            modal.closeAll();
+        };
+
+
       $scope.getOfEditCallBack=function (formData){
+        if(!$scope.formData.orderMedicalNos)$scope.formData.orderMedicalNos=[];
         $scope.$watchGroup($scope.formData.orderMedicalNos, function (newVal,oldVal) {
             console.log("new:"+newVal,"old:"+oldVal);
             var s="";

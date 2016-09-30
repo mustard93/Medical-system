@@ -47,6 +47,27 @@ define('project/directives', ['project/init'], function () {
     };
   }])
   /**
+   * 订单列表首页订单状态按钮切换样式
+   */
+  .directive('orderStatusChoise', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          $(this).addClass('pr-btn-bg-gold').siblings().each(function () {
+            $(this).removeClass('pr-btn-bg-gold');
+          });
+          $(this).parent().siblings().each(function () {
+            $(this).children().each(function () {
+              $(this).removeClass('pr-btn-bg-gold');
+            });
+          });
+        });
+      }
+    };
+  }])
+  /**
    * [点击展开隐藏左边栏]
    */
   .directive('toggleLeftMenu', [function () {
