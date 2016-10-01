@@ -28,7 +28,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
       </div>
     </div>
     <!-- 商品列表 -->
-    <div class="pd-c-xxxxl">
+    <div class="pd-c-xxxxl" ng-init="orderMedicalNoIds=[]">
       <!-- 可发货 -->
       <div class="confirm-order bb-line pdb-l"  ng-repeat="invoicesOrders_tr in showData.invoicesOrders">
         <h1 class="pdt-l color-6 text-m text-bold" ng-if="invoicesOrders_tr.orderStatus!='暂不发货'">发货单-{{invoicesOrders_tr.orderStatus}}</h1>
@@ -45,10 +45,10 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
 
           <tbody>
             <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in invoicesOrders_tr.orderMedicalNos">
+            <tr ng-repeat="tr in invoicesOrders_tr.orderMedicalNos"  ng-init="orderMedicalNoIds.push(tr.relId)">
               <td class="goods-name has-border pd-m">
                 <div class="relative">
-                  <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
+                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
                   <span class="inline-block">
                     <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
                     <p class="pdl-l mgb color-9 text-n"><span>{{tr.brand}}</span></p>
@@ -59,7 +59,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
               <td class="has-border text-center">{{tr.unit}}</td>
               <td class="has-border text-center">{{tr.isSameBatch}}</td>
               <td class="has-border text-center">{{tr.batchNo}}</td>
-              <td class="has-border text-center"></td>
+              <td class="has-border text-center">{{medicalStockMap[tr.relId].quantity}}</td>
               <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
               <td class="has-border text-center pdt-xxxxl" rowspan="{{showData.invoicesOrders.orderMedicalNos.length}}">待发货</td>
             </tr>
@@ -67,7 +67,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
             <tr>
               <td class="goods-name has-border pd-m">
                 <div class="relative">
-                  <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
+                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
                   <span class="inline-block">
                     <p class="pdl-l mgb color-6 text-n text-bold"><span>阿莫西林酸钾片</span></p>
                     <p class="pdl-l mgb color-9 text-n"><span>南充先森东院制药有限公司</span></p>
@@ -83,6 +83,8 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
             </tr> -->
           </tbody>
         </table>
+
+
     <!-- 不可发货 -->
 
 
@@ -102,10 +104,10 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
           </thead>
           <tbody>
             <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in invoicesOrders_tr.orderMedicalNos">
+            <tr ng-repeat="tr in invoicesOrders_tr.orderMedicalNos"  ng-init="orderMedicalNoIds.push(tr.relId)">
               <td class="goods-name has-border pd-m">
                 <div class="relative">
-                  <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
+                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
                   <span class="inline-block">
                     <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
                     <p class="pdl-l mgb color-9 text-n"><span>{{tr.brand}}</span></p>
@@ -118,7 +120,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
               <td class="has-border text-center">{{tr.unit}}</td>
               <td class="has-border text-center">{{tr.isSameBatch}}</td>
               <td class="has-border text-center">{{tr.batchNo}}</td>
-              <td class="has-border text-center"></td>
+              <td class="has-border text-center">{{medicalStockMap[tr.relId].quantity}}</td>
               <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
               <td class="has-border text-center pdt-xxxxl" >待发货</td>
 
@@ -145,10 +147,10 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
           <tbody>
 
             <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in showData.purchaseOrder.orderMedicalNos">
+            <tr ng-repeat="tr in showData.purchaseOrder.orderMedicalNos"  ng-init="orderMedicalNoIds.push(tr.relId)">
               <td class="goods-name has-border pd-m">
                 <div class="relative">
-                  <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
+                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
                   <span class="inline-block">
                     <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
                     <p class="pdl-l mgb color-9 text-n"><span>{{tr.brand}}</span></p>
@@ -161,7 +163,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
               <td class="has-border text-center">{{tr.unit}}</td>
               <td class="has-border text-center">{{tr.isSameBatch}}</td>
               <td class="has-border text-center">{{tr.batchNo}}</td>
-              <td class="has-border text-center">{{tr.quantity}}</td>
+              <td class="has-border text-center">{{medicalStockMap[tr.relId].quantity}}</td>
               <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
 
             </tr>
@@ -182,4 +184,10 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
     </div>
   </div>
   </form>
+
+
+          <!-- 加载选中药械库存-->
+          <div   ajax-if="orderMedicalNoIds"
+          ajax-url="rest/authen/medicalStock/countStockByIds.json?ids={{orderMedicalNoIds.join(',')}}" scope-data="medicalStockMap" alert-error>
+        </div>
 </div>
