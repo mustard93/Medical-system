@@ -42,7 +42,6 @@ gulp.task('browser', function () {
 });
 
 gulp.task('bro', function () {
-  console.log('aa');
   gulp.src('./src/**')
   .pipe(browserSync.reload({
     stream: true
@@ -188,7 +187,7 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
 
 /* 本地服务,自动刷新 */
 gulp.task('server', ['browser', 'concatCss', 'bro'], function () {
-  // gulp.watch('./src/css/block_css/*.css', ['concatCss', 'bro']);   //监控所有CSS文件，若有变化则重新合并打包并部署到HTML中
-  // gulp.watch('./src/css/block_css/*.css', ['bro']);
+  gulp.watch('./src/css/block_css/*.css', ['concatCss', 'bro']);   //监控所有CSS文件，若有变化则重新合并打包并部署到HTML中
+  gulp.watch('./src/css/block_css/*.css', ['bro']);
   gulp.watch(['./src/**/**/*.html', './src/views/**/*.html'], ['bro']);
 });
