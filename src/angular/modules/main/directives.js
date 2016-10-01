@@ -31,7 +31,7 @@ define('main/directives', ['main/init'], function() {
 
                 ngModel.$parsers.push(function(val) {
                     if (!val) return;
-                  
+
 
                     if ($attrs.format) {
                         return dateFilter(val, _format);
@@ -1636,7 +1636,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
     /**
       * 下拉
-      回调方法
+  
+      $attrs.clearWatchScope:监听一个model 当一个model清空时,重置cosen
       $attrs.selectCallBack
       */
     function chosen(requestData, $timeout,alertError) {
@@ -1668,7 +1669,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 }
 
                   var chosenObj=null;
-                $attrs.width && (chosenConfig.width = $attrs.width);
+                  // 监听一个model 当一个model清空时,重置cosen
+                    if ($attrs.clearWatchScope) {
+                      $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
+
+
+                              if(chosenObj&&!newValue){
+                                        $timeout(function() {
+                                              chosenObj.data("chosen").form_field_jq.trigger("change");
+                                        }, 800);
+                              }
+                      });
+                    }
+
+
+                  $attrs.width && (chosenConfig.width = $attrs.width);
 
                 require(['chosen'], function() {
                     if ($attrs.selectSource) {
@@ -1886,6 +1901,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                               getData();
                           });
+
+
 
                           getData();
 

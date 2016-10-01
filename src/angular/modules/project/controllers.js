@@ -20,31 +20,6 @@ define('project/controllers', ['project/init'], function() {
             modal.closeAll();
         };
 
-
-      $scope.getOfEditCallBack=function (formData){
-        if(!$scope.formData.orderMedicalNos)$scope.formData.orderMedicalNos=[];
-        $scope.$watchGroup($scope.formData.orderMedicalNos, function (newVal,oldVal) {
-            console.log("new:"+newVal,"old:"+oldVal);
-            var s="";
-            var arr=$scope.formData.orderMedicalNos;
-            for(var i=0;i< arr.length;i++){
-
-                s+=arr[i].relId+",";
-            }
-
-                $scope.orderMedicalNosIdsString=s;
-            console.log("  $scope.orderMedicalNosIdsString:"+  $scope.orderMedicalNosIdsString);
-            //注意：newVal与oldVal都返回的是一个数组
-        });
-
-
-      }
-
-
-
-
-
-
                 // /**
                 // 医院地址加载后，回调方法
                 // */
@@ -53,6 +28,19 @@ define('project/controllers', ['project/init'], function() {
               if(!formData.contactsId){
                   formData.contactsId=customerAddress.defaultContactId;
               }
+            }
+
+            /*
+            *拆分药品数量
+            */
+            $scope.caifenQuantity = function(tr,num) {
+                 tr.quantity_noInvoice_show=true;
+                 if(!num)return;
+                 //点击拆分逻辑,不能发货数量为0,并且库存不足时,根据库存自动拆分数量.
+                 if(tr.quantity_noInvoice==0&&tr.quantity_Invoice>num){
+                   tr.quantity_noInvoice=tr.quantity_Invoice-num;
+                   tr.quantity_Invoice=num;
+                 }
 
             }
         // /**
@@ -80,7 +68,7 @@ define('project/controllers', ['project/init'], function() {
             添加一条。并缓存数据。
             */
         $scope.addDataItemClick = function() {
-                if (!$scope.addDataItem.relId) {
+                if (!($scope.addDataItem.relId&&$scope.addDataItem.name)) {
                     alertWarn("请选择药品。");
                     return;
                 }
