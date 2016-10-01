@@ -1,5 +1,5 @@
 
-<div class="content-wrapper"  ng-controller="salesOrderEditCtrl"  ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"  scope-data="formData" alert-error callback="getOfEditCallBack(formData)">
+<div class="content-wrapper"  ng-controller="salesOrderEditCtrl"  ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"  scope-data="formData" alert-error>
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading">
     <h1 class="pr-title-color pr-font-24">{{!formData.id?'新建':'编辑'}}订单</h1>
@@ -88,15 +88,14 @@
           <th class="w-150 text-center">购买数量</th>
           <th class="w-94 text-center">操作</th>
         </thead>
-        <tbody  ajax-if="orderMedicalNosIdsString"
-        ajax-url="rest/authen/medicalStock/countStockByIds.json?ids={{orderMedicalNosIdsString}}" scope-data="medicalStockMap" alert-error>
+        <tbody  ng-init="medicalStockMap={};orderMedicalNoIds=[]" >
           <tr class="tr-interval"><td colspan="9"></td></tr>
 
-          <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()">
+          <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()"  ng-init="orderMedicalNoIds.push(tr.relId)" >
 
-            <td class="goods-name has-border pd-m" ng-init="orderMedicalNosIds.push(tr.id)">
+            <td class="goods-name has-border pd-m">
               <div class="relative">
-                <span class="goods-thumbnail inline-block"><img ng-if="medicalStockMap[tr.relId].headUrl" src="{{medicalStockMap[tr.relId].headUrl}}" alt=""></span>
+                <span class="goods-thumbnail inline-block"><img  ng-src="{{tr.headUrl}}" alt=""></span>
                 <span class="inline-block">
                   <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
                   <p class="pdl-l mgb color-9 text-n"><span>{{tr.brand}}</span></p>
@@ -122,7 +121,8 @@
                 <i class="flex-item-1" ng-click="tr.quantity_Invoice=tr.quantity_Invoice+1">+</i>
               </span>
 
-              <span class="text-s pr-point-color" ng-hide="tr.quantity_noInvoice>0||tr.quantity_noInvoice_show" ng-if="medicalStockMap[tr.relId].quantity<tr.quantity_Invoice"><i class="fa fa-exclamation-triangle" ></i> 本批次库存不足，此条目将由销售拆分</span>
+              <span class="text-s pr-point-color" ng-hide="tr.quantity_noInvoice>0||tr.quantity_noInvoice_show"
+                 ng-if="medicalStockMap[tr.relId].quantity<tr.quantity_Invoice"><i class="fa fa-exclamation-triangle" ></i> 本批次库存不足，此条目将由销售拆分</span>
               <div ng-if="tr.quantity_noInvoice>0||tr.quantity_noInvoice_show" class="text-center">
 
                  <span class="text-s pr-point-color" >
@@ -133,7 +133,8 @@
               </div>
             </td>
             <td class="has-border text-center">
-              <span class="block mgb-s"><button type="button" class="pr-btn-table-glodbg" ng-click="tr.quantity_noInvoice_show=true">拆分</button></span>
+              <span class="block mgb-s"><button type="button" class="pr-btn-table-glodbg"
+                ng-click="caifenQuantity(tr,medicalStockMap[tr.relId].quantity);">拆分</button></span>
               <span class="block"  ng-click="formData.orderMedicalNos.splice($index,1)"><a href="javascript:;"><i class="fa fa-trash-o pr-color text-l"></i></a></span>
             </td>
           </tr>
@@ -143,17 +144,17 @@
             <td colspan="9" class="pd-v-l">添加药械</td>
           </tr>
 
-          <tr  ng-init="addDataItem={}"  ajax-if="{{addDataItem.relId}}"  ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}" scope-data="medical"
+          <tr  ng-init="addDataItem={}"  ajax-if="{{addDataItem&&addDataItem.relId}}"  ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}" scope-data="medical"
             callback="selectRelIdCallBack(medical)">
             <td class="has-border pd-l">
               <div class="relative">
-                <span class="goods-thumbnail flex-item-2"><img  ng-if="addDataItem.headUrl" src="{{addDataItem.headUrl}}" alt=""/></span>
+                <span class="goods-thumbnail flex-item-2"><img  ng-if="addDataItem.headUrl" ng-src="{{addDataItem.headUrl}}" alt=""/></span>
 
                 <span class="flex-item-10">
                   <p>
                     <!-- <input type="text" class="pr-table-input" placeholder="药械名"> -->
-                    <select id="addDataItem_relId" class="select select-w" data-placeholder="药械名" chosen  default-empty="药械名"
-                    ng-model="addDataItem.relId"
+                    <select id="addDataItem_relId" class="select select-w" data-placeholder="药械名" chosen
+                    ng-model="addDataItem.relId" clear-watch-scope="addDataItem.relId"
                     select-source="rest/authen/medicalStock/queryForSelectOption.json"></select>
                   </p>
                   <p>
@@ -201,12 +202,14 @@
           </tr>
         </tbody>
       </table>
+
+
       <p class="mgt-m mgb-l text-right"><a href="javascript:;">导入药械清单</a><i class=""></i></p>
     </div>
     <!-- 备注 -->
     <div class="pd-c-xxxxl bb-line">
       <h1 class="pd-v-l text-n color-6">备注</h1>
-      <textarea class="pr-textarea mgb-xxl" name=""></textarea>
+      <textarea class="pr-textarea mgb-xxl" ng-model="formData.note" ></textarea>
     </div>
     <!-- 总价 -->
     <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
@@ -221,4 +224,9 @@
     </div>
   </div>
   </form>
+
+  <!-- 加载选中药械库存-->
+  <div   ajax-if="orderMedicalNoIds"
+  ajax-url="rest/authen/medicalStock/countStockByIds.json?ids={{orderMedicalNoIds.join(',')}}" scope-data="medicalStockMap" alert-error>
+</div>
 </div>

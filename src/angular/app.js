@@ -35,9 +35,6 @@ require.config({
         'easypiechart': '../libs/easypiechart/jquery.easypiechart.min',    //jQuery饼图
         'sparkline': '../libs/jquery.sparkline.min',          //jQuery线状图
         'icheck': '../libs/jquery.icheck.min',                //checkbox美化
-        'flot': '../libs/flot-chart/jquery.flot.min',                     //jQuery图表
-        'flot-tooltip': '../libs/flot-chart/jquery.flot.tooltip.min',     //jQuery图表
-        'flot-resize': '../libs/flot-chart/jquery.flot.resize.min',       //jQuery图表
         'morris': '../libs/morris-chart/morris.min',                      //时序图
         'raphael': '../libs/morris-chart/raphael.min',                    //时序图
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
@@ -99,18 +96,6 @@ require.config({
             deps: ['jQuery'],
             exports: 'icheck'
         },
-        'flot': {
-            deps: ['jQuery'],
-            exports: 'flot'
-        },
-        'flot-tooltip': {
-            deps: ['jQuery'],
-            exports: 'flot-tooltip'
-        },
-        'flot-resize': {
-            deps: ['jQuery'],
-            exports: 'flot-resize'
-        },
         'morris': {
             deps: ['jQuery'],
             exports: 'morris'
@@ -134,9 +119,6 @@ require(['bootstrap',
          'easypiechart',
          'sparkline',
          'icheck',
-         'flot',
-         'flot-tooltip',
-         'flot-resize',
          'morris',
          'raphael',
          'clndr'], function() {});
