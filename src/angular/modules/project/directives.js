@@ -67,6 +67,9 @@ define('project/directives', ['project/init'], function () {
       }
     };
   }])
+  /**
+   *  订单页头导航按钮点击事件处理
+   */
   .directive('orderListTips', [function () {
     'use strict';
     return {
@@ -159,9 +162,9 @@ define('project/directives', ['project/init'], function () {
           Morris.Donut({
             element: attrs.id,
             data: [
-                {value: 40, label: '未处理', formatted: '昨日未处理订单. 40%' },
-                {value: 35, label: '未拆分', formatted: '昨日未拆分订单. 35%' },
-                {value: 25, label: '未提交', formatted: '昨日未提交订单. 25%' }
+                {value: 40, label: '未处理', formatted: '未处理：4' },
+                {value: 35, label: '未拆分', formatted: '未拆分：3' },
+                {value: 25, label: '未提交', formatted: '未提交：1' }
             ],
             backgroundColor: false,
             labelColor: '#666',
@@ -240,111 +243,111 @@ define('project/directives', ['project/init'], function () {
   /**
    *  flot 线型图
    */
-  .directive('flot', function () {
-    'use strict';
-    return {
-      restrict: 'A',
-      link: function (scope, element, attrs) {
-        require(['flot', 'flot-tooltip', 'flot-resize'], function () {
-          var d1 = [
-              [0, 501],
-              [1, 620],
-              [2, 437],
-              [3, 361],
-              [4, 549],
-              [5, 618],
-              [6, 570],
-              [7, 758],
-              [8, 658],
-              [9, 538],
-              [10, 488]
-          ];
-          var d2 = [
-              [0, 401],
-              [1, 520],
-              [2, 337],
-              [3, 261],
-              [4, 449],
-              [5, 518],
-              [6, 470],
-              [7, 658],
-              [8, 558],
-              [9, 438],
-              [10, 388]
-          ];
-          var data = ([{
-              label: "最新访问",
-              data: d1,
-              lines: {
-                  show: true,
-                  fill: true,
-                  fillColor: {
-                      colors: ["rgba(255,255,255,.4)", "rgba(183,236,240,.4)"]
-                  }
-              }
-          },
-              {
-                  label: "异常访问",
-                  data: d2,
-                  lines: {
-                      show: true,
-                      fill: true,
-                      fillColor: {
-                          colors: ["rgba(255,255,255,.0)", "rgba(253,96,91,.7)"]
-                      }
-                  }
-              }
-          ]);
-          var options = {
-              grid: {
-                  backgroundColor:
-                  {
-                      colors: ["#ffffff", "#f4f4f6"]
-                  },
-                  hoverable: true,
-                  clickable: true,
-                  tickColor: "#eeeeee",
-                  borderWidth: 1,
-                  borderColor: "#eeeeee"
-              },
-              // Tooltip
-              tooltip: true,
-              tooltipOpts: {
-                  content: "%s X: %x Y: %y",
-                  shifts: {
-                      x: -60,
-                      y: 25
-                  },
-                  defaultTheme: false
-              },
-              legend: {
-                  labelBoxBorderColor: "#000000",
-                  container: $("#main-chart-legend"), //remove to show in the chart
-                  noColumns: 0
-              },
-              series: {
-                  stack: true,
-                  shadowSize: 0,
-                  highlightColor: 'rgba(000,000,000,.2)'
-              },
-      //        lines: {
-      //            show: true,
-      //            fill: true
-      //
-      //        },
-              points: {
-                  show: true,
-                  radius: 3,
-                  symbol: "circle"
-              },
-              colors: ["#5abcdf", "#ff8673"]
-          };
-
-          var plot = $.plot($("#main-chart #main-chart-container"), data, options);
-        });
-      }
-    };
-  })
+  // .directive('flot', function () {
+  //   'use strict';
+  //   return {
+  //     restrict: 'A',
+  //     link: function (scope, element, attrs) {
+  //       require(['flot', 'flot-tooltip', 'flot-resize'], function () {
+  //         var d1 = [
+  //             [0, 501],
+  //             [1, 620],
+  //             [2, 437],
+  //             [3, 361],
+  //             [4, 549],
+  //             [5, 618],
+  //             [6, 570],
+  //             [7, 758],
+  //             [8, 658],
+  //             [9, 538],
+  //             [10, 488]
+  //         ];
+  //         var d2 = [
+  //             [0, 401],
+  //             [1, 520],
+  //             [2, 337],
+  //             [3, 261],
+  //             [4, 449],
+  //             [5, 518],
+  //             [6, 470],
+  //             [7, 658],
+  //             [8, 558],
+  //             [9, 438],
+  //             [10, 388]
+  //         ];
+  //         var data = ([{
+  //             label: "最新访问",
+  //             data: d1,
+  //             lines: {
+  //                 show: true,
+  //                 fill: true,
+  //                 fillColor: {
+  //                     colors: ["rgba(255,255,255,.4)", "rgba(183,236,240,.4)"]
+  //                 }
+  //             }
+  //         },
+  //             {
+  //                 label: "异常访问",
+  //                 data: d2,
+  //                 lines: {
+  //                     show: true,
+  //                     fill: true,
+  //                     fillColor: {
+  //                         colors: ["rgba(255,255,255,.0)", "rgba(253,96,91,.7)"]
+  //                     }
+  //                 }
+  //             }
+  //         ]);
+  //         var options = {
+  //             grid: {
+  //                 backgroundColor:
+  //                 {
+  //                     colors: ["#ffffff", "#f4f4f6"]
+  //                 },
+  //                 hoverable: true,
+  //                 clickable: true,
+  //                 tickColor: "#eeeeee",
+  //                 borderWidth: 1,
+  //                 borderColor: "#eeeeee"
+  //             },
+  //             // Tooltip
+  //             tooltip: true,
+  //             tooltipOpts: {
+  //                 content: "%s X: %x Y: %y",
+  //                 shifts: {
+  //                     x: -60,
+  //                     y: 25
+  //                 },
+  //                 defaultTheme: false
+  //             },
+  //             legend: {
+  //                 labelBoxBorderColor: "#000000",
+  //                 container: $("#main-chart-legend"), //remove to show in the chart
+  //                 noColumns: 0
+  //             },
+  //             series: {
+  //                 stack: true,
+  //                 shadowSize: 0,
+  //                 highlightColor: 'rgba(000,000,000,.2)'
+  //             },
+  //     //        lines: {
+  //     //            show: true,
+  //     //            fill: true
+  //     //
+  //     //        },
+  //             points: {
+  //                 show: true,
+  //                 radius: 3,
+  //                 symbol: "circle"
+  //             },
+  //             colors: ["#5abcdf", "#ff8673"]
+  //         };
+  //
+  //         var plot = $.plot($("#main-chart #main-chart-container"), data, options);
+  //       });
+  //     }
+  //   };
+  // })
   /**
    *  sparkline 柱状图
    */
