@@ -162,9 +162,9 @@ define('project/directives', ['project/init'], function () {
           Morris.Donut({
             element: attrs.id,
             data: [
-                {value: 40, label: '未处理', formatted: '昨日未处理订单. 40%' },
-                {value: 35, label: '未拆分', formatted: '昨日未拆分订单. 35%' },
-                {value: 25, label: '未提交', formatted: '昨日未提交订单. 25%' }
+                {value: 40, label: '未处理', formatted: '未处理：4' },
+                {value: 35, label: '未拆分', formatted: '未拆分：3' },
+                {value: 25, label: '未提交', formatted: '未提交：1' }
             ],
             backgroundColor: false,
             labelColor: '#666',

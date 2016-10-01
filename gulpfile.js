@@ -42,7 +42,7 @@ gulp.task('browser', function () {
 });
 
 gulp.task('bro', function () {
-  gulp.src('./src/**')
+  gulp.src('./src/*')
   .pipe(browserSync.reload({
     stream: true
   }));
@@ -101,8 +101,15 @@ gulp.task('runLess', ['clean-css'], function () {
            .pipe(browserSync.reload({stream:true}));
 });
 
+/* 合并css文件(不压缩) */
+gulp.task('concatCss', ['clean-css'], function () {
+  gulp.src([paths.src + 'css/block_css/*.css'])
+      .pipe(concat('style.css'))
+      .pipe(gulp.dest('.src/css'));
+});
+
 /* 合并压缩CSS */
-gulp.task('concatCss', ['clean-css'], function() {              //- 创建一个名为 concatCss 的 task
+gulp.task('handleCss', ['clean-css'], function() {              //- 创建一个名为 concatCss 的 task
     gulp.src([paths.src + 'css/block_css/*.css'])               //- 需要处理的css文件，放到一个字符串数组里
         .pipe(concat('style.css'))                              //- 合并后的文件名
         .pipe(gulp.dest('./src/css'))                           // 输出合并后但压缩的CSS文件
@@ -186,7 +193,7 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
 });
 
 /* 本地服务,自动刷新 */
-gulp.task('server', ['browser', 'concatCss', 'bro'], function () {
-  gulp.watch('./src/css/block_css/*.css', ['concatCss', 'bro']);   //监控所有CSS文件
-  gulp.watch(['./src/*.html', './src/views/*.html', './src/views/**/*.html'], ['concatCss', 'bro']);
+gulp.task('server', ['browser', 'handleCss', 'bro'], function () {
+  gulp.watch('./src/css/block_css/*.css', ['handleCss', 'bro']);   //监控所有CSS文件
+  gulp.watch(['./src/*.html', './src/views/*.html', './src/views/**/*.html'], ['bro']);
 });
