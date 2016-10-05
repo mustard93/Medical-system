@@ -19,30 +19,31 @@ define('main/services', ['main/init'], function () {
 
     //数据请求
     function requestData($q, $http, $httpParamSerializer) {
-        return function (_url, _params,method,parameterBody) {
-            var defer = $q.defer();
+        return function (_url, _params, method, parameterBody) {
+          var defer = $q.defer();
+          if (!method) {
+            method = 'GET';
+          }
 
-            if(!method)method='GET';
-
-
-
-        var transformRequest=function (data) {
-            return $httpParamSerializer(data);
-        };
-
+          var transformRequest=function (data) {
+              return $httpParamSerializer(data);
+          };
 
         if(Config.serverPath){
-          if(_url.indexOf("http://")!=0&&_url.indexOf("https://")!=0){
-                    _url=Config.serverPath+_url;
+          if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
+            _url=Config.serverPath+_url;
           }
         }
 
+        if(_params&&method == 'GET'){
+          _url+=(_url.indexOf("?")==-1?"?":"&")+$httpParamSerializer(_params);
 
+        }
         var config={
             method: method,
             url: _url,
             data: _params || {},
-             withCredentials: true,
+            withCredentials: true,
             headers: {
                 // 'Content-Type': 'application/x-www-form-urlencoded',
                 'Content-Type' : 'application/json;charset=utf-8',
@@ -53,41 +54,13 @@ define('main/services', ['main/init'], function () {
             config.transformRequest=function (data) {
                     return $httpParamSerializer(data);
                 };
+
+                config.headers= {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    // 'Content-Type' : 'application/json;charset=utf-8',
+                    'X-Requested-With': 'XMLHttpRequest'
+                };
           }
-
-          //GET|POST
-
-          //
-          // if(method=='GET'){
-          //   config.data.q='11';
-          //   config.data.b='11';
-          //   $http.get(config.url,config.data)
-          //       .success(function (_data, status, headers, config) {
-          //           if (status == 200 && _data.code == 200) {
-          //               defer.resolve([_data.data, _data]);
-          //           } else {
-          //               defer.reject(_data.msg || '出错了');
-          //           }
-          //       })
-          //       .error(function () {
-          //           defer.reject("提交失败!");
-          //       });
-          // }else{
-          //   $http.post(config.url,config.data,{'Content-Type':'application/x-www-form-urlencoded'})
-          //       .success(function (_data, status, headers, config) {
-          //           if (status == 200 && _data.code == 200) {
-          //               defer.resolve([_data.data, _data]);
-          //           } else {
-          //               defer.reject(_data.msg || '出错了');
-          //           }
-          //       })
-          //       .error(function () {
-          //           defer.reject("提交失败!");
-          //       });
-          // }
-
-
-
 
             $http(config)
                 .success(function (_data, status, headers, config) {
@@ -108,11 +81,18 @@ define('main/services', ['main/init'], function () {
 
     //弹窗确认
     function dialogConfirm($rootScope, modal) {
-        return function (_text, _callBack) {
+        return function (_text, _callBack, _template) {
             var _$scope = $rootScope.$new(false);
+            var _templateUrl = '';
+            if (_template && _template === 'pr') {
+              _templateUrl = 'tpl/pr-dialog-confirm.html';
+            } else {
+              _templateUrl = 'tpl/dialog-confirm.html';
+            }
+
             _$scope.confirmText = _text || '确定删除?';
             modal.openConfirm({
-                template: Config.tplPath+'tpl/dialog-confirm.html',
+                template: Config.tplPath + _templateUrl,
                 scope: _$scope
             }).then(_callBack);
         };
@@ -145,6 +125,17 @@ define('main/services', ['main/init'], function () {
     }
     //弹窗提示
     function alertError($rootScope, modal) {
+        return function (_text, _callBack) {
+            var _$scope = $rootScope.$new(false);
+            _$scope.confirmText = _text || '确定';
+            modal.openConfirm({
+                template: Config.tplPath+'tpl/dialog-alert.html',
+                scope: _$scope
+            }).then(_callBack);
+        };
+    }
+    //弹窗提示
+    function alertWarn($rootScope, modal) {
         return function (_text, _callBack) {
             var _$scope = $rootScope.$new(false);
             _$scope.confirmText = _text || '确定';
@@ -190,15 +181,59 @@ define('main/services', ['main/init'], function () {
     }
     dialogChart.$inject = ['$rootScope', 'modal', '$http'];
 
+
+
+/**
+列表数据转换为tree数据
+list<Data{id,name,pid}> =>treeNode{id,name,nodes：[]}
+*/
+      function buildTree(){
+         return function (data,pidKey){
+           if(!data||data.length==0)return [];
+           var pos = {};//Map<id,obj>
+           var tree = [];//
+           var i = 0;
+           if(!pidKey)pidKey="pid";
+
+            //组装map
+           for(var i=0;i<data.length;i++){
+             var obj=data[i];
+              obj.nodes = [];
+              pos[obj.id]=obj;
+
+           }
+
+          //设置父子关系
+          for(var i=0;i<data.length;i++){
+               var obj=data[i];
+             if(obj==null)continue;
+             if (!obj[pidKey]||obj[pidKey] == "0") {
+                 tree.push(obj);
+             }else{
+                var objParent = pos[obj[pidKey]];
+                if(objParent==null)tree.push(obj);   //无效父子关系的放到根节点
+                else {
+                  objParent.nodes.push(obj);
+                }
+             }
+
+           }
+
+           return tree;
+         }
+      }
+
     angular.module('manageApp.main')
         .factory('redirectInterceptor', redirectInterceptor)
         .service('alertOk', ['$rootScope', 'modal',alertOk])
         .service('alertError', ['$rootScope', 'modal',alertError])
+          .service('alertWarn', ['$rootScope', 'modal',alertError])
         .service('requestData', requestData)
         .service('dialogConfirm', dialogConfirm)
         .service('dialogAlert', dialogAlert)
         .service('dialog', dialog)
         .service('dialogChart', dialogChart)
+        .service('buildTree', buildTree)
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.interceptors.push('redirectInterceptor');
         }]);

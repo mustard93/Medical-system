@@ -2,7 +2,7 @@
  * Created by hao on 15/11/5.
  */
 
-define('main/directives', ['main/init'], function () {
+define('main/directives', ['main/init'], function() {
 
     /**
      * Clear ng-view template cache
@@ -11,7 +11,7 @@ define('main/directives', ['main/init'], function () {
         return {
             restrict: 'A',
             priority: -500,
-            link: function ($scope, $element) {
+            link: function($scope, $element) {
                 $templateCache.remove($route.current.loadedTemplateUrl);
                 $scope.mainStatus.pageParams = $routeParams;
             }
@@ -26,14 +26,28 @@ define('main/directives', ['main/init'], function () {
         var dateFilter = $filter('date');
         return {
             require: 'ngModel',
-            link: function ($scope, $element, $attrs, ngModel) {
+            link: function($scope, $element, $attrs, ngModel) {
                 var _format = $attrs.convertToDate ? $attrs.convertToDate : "yyyy-MM-dd";
 
-                ngModel.$parsers.push(function (val) {
-                    return dateFilter(val, _format);
+                ngModel.$parsers.push(function(val) {
+                    if (!val) return;
+
+
+                    if ($attrs.format) {
+                        return dateFilter(val, _format);
+                    } else {
+                        return val.getTime();
+
+                    }
                 });
-                ngModel.$formatters.push(function () {
-                    return new Date(ngModel.$modelValue);
+
+                ngModel.$formatters.push(function() {
+                    if (!ngModel.$modelValue) return null;
+                    if ($attrs.timestamp) {
+                        return new Date(ngModel.$modelValue).getTime();
+                    } else {
+                        return new Date(ngModel.$modelValue);
+                    }
                 });
             }
         };
@@ -46,17 +60,36 @@ define('main/directives', ['main/init'], function () {
     function convertToNumber() {
         return {
             require: 'ngModel',
-            link: function (scope, element, attrs, ngModel) {
-                ngModel.$parsers.push(function (val) {
+            link: function(scope, element, attrs, ngModel) {
+                ngModel.$parsers.push(function(val) {
                     return parseInt(val, 10);
                 });
-                ngModel.$formatters.push(function (val) {
+                ngModel.$formatters.push(function(val) {
                     return '' + val;
                 });
             }
         };
     }
     convertToNumber.$inject = [];
+
+    /**
+     * JSON转换为
+     */
+    function convertJsonToObject() {
+        return {
+            require: 'ngModel',
+            link: function(scope, element, attrs, ngModel) {
+                ngModel.$parsers.push(function(val) {
+                    if (!val) return null;
+                    return angular.fromJson(val);
+                });
+                ngModel.$formatters.push(function(val) {
+                    return angular.toJson(val);
+                });
+            }
+        };
+    }
+    convertJsonToObject.$inject = [];
 
     /**
     必填参数：
@@ -69,7 +102,11 @@ define('main/directives', ['main/init'], function () {
     $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
     $attrs.alertOk :是否提示请求成功提示。
     $attrs.alertError :是否提示请求失败提示。
+    $attrs.ajaxIf :满足条件才异步请求  ajax-if="{{addDataItem.relId}}"
 
+    $attrs.callback:满足条件才异步请求 回调方法。比如 callback="formData={}"
+
+$attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope， callback="formData.courseId=details[0].value"
     请求返回数据格式：
       scopeResponse=  {
           "code": 200,
@@ -81,69 +118,82 @@ define('main/directives', ['main/init'], function () {
         }
 
      */
-    function ajaxUrl(requestData,alertOk,alertError) {
+    function ajaxUrl(requestData, alertOk, alertError) {
         return {
             restrict: 'AE',
-            scope: true,
+            // scope: true,
             transclude: true,
-            link: function ($scope, $element, $attrs, $ctrls, $transclude) {
+            link: function($scope, $element, $attrs, $ctrls, $transclude) {
                 $scope.isLoading = false;
 
-                $transclude($scope, function (clone) {
+                $transclude($scope, function(clone) {
                     $element.append(clone);
                 });
 
                 $scope.ajaxUrlHandler = $scope.$eval($attrs.ajaxUrlHandler);
                 // if($attrs.responseKey)$scope[$attrs.responseKey]={};
-                var _params={};
+                var _params = {};
                 if ($attrs.params) {
                     if ($attrs.params.indexOf("{") === 0) {
                         //监听具体值
-                        $attrs.$observe("params", function (value) {
-                          _params=$scope.$eval(value);
+                        $attrs.$observe("params", function(value) {
+                            _params = $scope.$eval(value);
                             getData(_params);
                         });
                     } else {
                         //监听对象
-                        $scope.$watch($attrs.params, function (value) {
-                            _params=value;
+                        $scope.$watch($attrs.params, function(value) {
+                            _params = value;
                             getData(_params);
                         }, true);
                     }
                 } else {
-                    $attrs.$observe("ajaxUrl", function (value) {
+                    $attrs.$observe("ajaxUrl", function(value) {
                         getData({});
                     });
                 }
 
                 function getData(params) {
+                    //满足条件才异步请求
+                    if (angular.isDefined($attrs.ajaxIf)) {
+                        if (!$attrs.ajaxIf) return;
+                    }
+
+
                     $scope.isLoading = true;
                     requestData($attrs.ajaxUrl, params)
-                        .then(function (results) {
+                        .then(function(results) {
                             $scope.isLoading = false;
                             var data = results[0];
                             if ($scope.ajaxUrlHandler) {
                                 data = $scope.ajaxUrlHandler(data);
                             }
 
-                          if($attrs.scopeResponse)$scope[$attrs.scopeResponse] = results[1];
-                          if($attrs.scopeData)$scope[$attrs.scopeData] = data;
-                          else $scope.scopeData=data;
-                          if(angular.isDefined($attrs.alertOk))alertOk(results[1].msg);
+                            if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                            if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                            else $scope.scopeData = data;
+                            if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
                             //回调父级的处理事件;
                             $scope.listCallback && $scope.listCallback(results[1]);
+
+                            // $scope.$apply();
+
+
+                            if ($attrs.callback) {
+                                $scope.$eval($attrs.callback);
+                            }
                         })
-                        .catch(function (msg) {
-                              if($attrs.scopeErrorMsg)$scope[$attrs.scopeErrorMsg]=(msg);
-                            if(angular.isDefined($attrs.alertError))alertError(msg);
+                        .catch(function(msg) {
+                            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                            if (angular.isDefined($attrs.alertError)) alertError(msg);
 
                             $scope.isLoading = false;
 
                         });
                 }
 
-                $scope.$on("ajaxUrlReload", function () {
+                $scope.$on("ajaxUrlReload", function() {
                     getData(_detailsParams);
                 });
             }
@@ -184,99 +234,124 @@ define('main/directives', ['main/init'], function () {
 
 
      */
-      function formValidator(requestData, modal, alertOk,alertError) {
-          return {
-              restrict: 'A',
-              scope: true,
-              link: function ($scope, $element, $attrs) {
-                  var formStatus = $scope.formStatus = {
-                      submitted: false,
-                      submitting: false,
-                      submitInfo: ""
-                  };
-                  var DOMForm = angular.element($element)[0];
-                  var scopeForm = $scope.$eval($attrs.name);
-                  var dialogData = $scope.ngDialogData;
+    function formValidator(requestData, modal, alertOk, alertError,dialogConfirm) {
+        return {
+            restrict: 'A',
+            // scope: true,
+            link: function($scope, $element, $attrs) {
+                var formStatus = $scope.formStatus = {
+                    submitted: false,
+                    submitting: false,
+                    submitInfo: ""
+                };
+                var DOMForm = angular.element($element)[0];
+                var scopeForm = $scope.$eval($attrs.name);
+                var dialogData = $scope.ngDialogData;
 
-                  $scope.formData = angular.extend({}, $scope.formData);
+                $scope.formData = angular.extend({}, $scope.formData);
 
-                  $scope.$watch($attrs.source, function (value) {
-                      if (value && angular.isObject(value)) {
-                          angular.extend($scope.formData, value);
-                      }
-                  });
+                $scope.$watch($attrs.source, function(value) {
+                    if (value && angular.isObject(value)) {
+                        angular.extend($scope.formData, value);
+                    }
+                });
 
-                  $scope.reset = function () {
-                      DOMForm.reset();
-                  };
-
-                  $element.on("submit", function (e) {
-                      e.preventDefault();
-                      formStatus.submitting = true;
+                $scope.reset = function() {
+                    DOMForm.reset();
+                };
 
 
-		            var parameterBody=false;
-              if(angular.isDefined($attrs.parameterBody))parameterBody=true;
 
-                      requestData($attrs.action, $scope.formData,"POST",parameterBody)
-                          .then(function (results) {
-                              var data = results[0];
-                              var data1 = results[1];
-                              formStatus.submitting = false;
-                              formStatus.submitInfo = "";
+                                    function ajax_submit(){
+                                      if(formStatus.submitting == true)return;
+                                      formStatus.submitting = true;
 
-                              if($attrs.scopeResponse)$scope[$attrs.scopeResponse] = results[1];
-                              if($attrs.scopeData)$scope[$attrs.scopeData] = data;
+                                      var parameterBody = false;
+                                      if (angular.isDefined($attrs.parameterBody)) parameterBody = true;
 
-                               if(angular.isDefined($attrs.alertOk))alertOk(results[1].msg);
+                                      requestData($attrs.action, $scope.formData, "POST", parameterBody)
+                                          .then(function(results) {
+                                              var data = results[0];
+                                              var data1 = results[1];
+                                              formStatus.submitting = false;
+                                              formStatus.submitInfo = "";
 
-                               //重置表单
-                               if($attrs.formSubmitAfter=="reset"){
-                                   DOMForm.reset();
-                               }
-                              if ($attrs.broadcast) {
-                                  $scope.$broadcast($attrs.broadcast);
-                                  $scope.$emit($attrs.broadcast);
-                                  if (angular.isDefined($attrs.autoCloseDialog)) {
-                                      modal.close();
-                                  }
-                                  return;
-                              }
+                                              if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                                              if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
 
-                              // 增加属性no-close-dialog设置不自动关闭模态框
-                              if (angular.isDefined($attrs.noCloseDialog)) {
-                                  return;
-                              }
+                                              if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
-                              if (data1 && data1.url) {
-                                  window.location.assign(data1.url);
-                                  return;
-                              }
+                                              //重置表单
+                                              if ($attrs.formSubmitAfter == "reset") {
+                                                  DOMForm.reset();
+                                              }
 
-                              if (angular.isFunction($scope.submitCallBack)) {
-                                  $scope.submitCallBack.call($scope, dialogData, data);
-                              } else if (data && data.url) {
-                                  window.location.assign(data.url);
-                                  // dialogAlert(data.message || '提交成功', function () {
-                                  //     window.location.assign(data.url);
-                                  // })
-                              } else {
-                                  $scope.$broadcast("reloadList");
-                              }
-                              //自动关闭弹窗
-                              angular.isDefined($attrs.autoCloseDialog) && modal.close();
+                                              if ($attrs.callback) {
+                                                  $scope.$eval($attrs.callback);
+                                              }
 
-                          })
-                          .catch(function (error) {
-                              formStatus.submitting = false;
-                              formStatus.submitInfo = error || '提交失败。';
-                              alertError(error);
-                              //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
-                          });
-                  });
-              }
-          };
-      }
+                                              if ($attrs.broadcast) {
+                                                  $scope.$broadcast($attrs.broadcast);
+                                                  $scope.$emit($attrs.broadcast);
+                                                  if (angular.isDefined($attrs.autoCloseDialog)) {
+                                                      modal.close();
+                                                  }
+                                                  return;
+                                              }
+
+                                              // 增加属性no-close-dialog设置不自动关闭模态框
+                                              if (angular.isDefined($attrs.noCloseDialog)) {
+                                                  return;
+                                              }
+
+                                              if (data1 && data1.url) {
+                                                  window.location.assign(data1.url);
+                                                  return;
+                                              }
+
+                                              if (angular.isFunction($scope.submitCallBack)) {
+                                                  $scope.submitCallBack.call($scope, dialogData, data);
+                                              } else if (data && data.url) {
+                                                  window.location.assign(data.url);
+                                                  // dialogAlert(data.message || '提交成功', function () {
+                                                  //     window.location.assign(data.url);
+                                                  // })
+                                              } else {
+                                                  $scope.$broadcast("reloadList");
+                                              }
+                                              //自动关闭弹窗
+                                              angular.isDefined($attrs.autoCloseDialog) && modal.close();
+
+                                          })
+                                          .catch(function(error) {
+                                              formStatus.submitting = false;
+                                              formStatus.submitInfo = error || '提交失败。';
+
+
+                                              alertError(error);
+                                              //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
+                                          });
+                                    }//end ajax_submit
+
+                $element.on("submit", function(e) {
+                    e.preventDefault();
+
+                    if($attrs.beforeConfirmMsg){
+
+                      dialogConfirm($attrs.beforeConfirmMsg, function () {
+                        ajax_submit();
+                      }, null);
+                    }else{
+                        ajax_submit();
+                    }
+
+
+
+
+                });
+            }
+        };
+    }
 
 
 
@@ -294,7 +369,7 @@ define('main/directives', ['main/init'], function () {
             },
             transclude: true,
             require: "?^ngModel",
-            link: function ($scope, $element, $attrs, ngModel, $transclude) {
+            link: function($scope, $element, $attrs, ngModel, $transclude) {
                 var statusInfo = {
                     currentPage: 1,
                     totalCount: 0,
@@ -318,68 +393,92 @@ define('main/directives', ['main/init'], function () {
                 }
 
                 //批量删除
-                $scope.delSelected = function (_url) {
-                    dialogConfirm('确定删除这些?', function () {
-                        requestData(_url, {ids: $scope.listSelected.join(",")})
-                            .then(function () {
+                $scope.delSelected = function(_url) {
+                    dialogConfirm('确定删除这些?', function() {
+                        requestData(_url, {
+                                ids: $scope.listSelected.join(",")
+                            })
+                            .then(function() {
                                 $scope.$broadcast("reloadList");
                             })
-                            .catch(function (error) {
+                            .catch(function(error) {
                                 alert(error || '删除错误');
                             });
                     });
                 };
                 //单个删除
-                $scope.deleteThis = function (_url) {
+                $scope.deleteThis = function(_url, _param) {
                     var _tr = this.tr;
-                    dialogConfirm('确定删除?', function () {
-                        requestData(_url, {id: _tr.id})
-                            .then(function () {
+                    dialogConfirm('确定删除?', function() {
+                        requestData(_url, {
+                                id: _param
+                            }, 'POST')
+                            .then(function() {
                                 $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
                                 if ($scope.tbodyList.length === 0) {
                                     $scope.$broadcast("reloadList");
                                 }
                             })
-                            .catch(function (error) {
+                            .catch(function(error) {
+                                alert(error || '删除错误');
+                            });
+                    });
+                };
+                //单个操作
+                $scope.dothing = function(_url, _param,tip) {
+                    var _tr = this.tr;
+                    dialogConfirm(tip, function() {
+                        requestData(_url, _param, 'POST')
+                            .then(function() {
+                                $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
+                                if ($scope.tbodyList.length === 0) {
+                                    $scope.$broadcast("reloadList");
+                                }
+                            })
+                            .catch(function(error) {
                                 alert(error || '删除错误');
                             });
                     });
                 };
                 //选择当个
-                $scope.selectThis = function () {
+                $scope.selectThis = function() {
                     var _tr = this.tr;
                     var _index = $scope.tbodyList.indexOf(_tr);
                     var $tr = $element.find("tbody tr");
                     $tr.removeClass("on").eq(_index).addClass("on");
-                    ngModel && ngModel.$setViewValue(angular.copy(_tr));
+                    if (ngModel) {
+                        ngModel.$setViewValue(angular.copy(_tr));
+                    }
                 };
                 //改变状态
-                $scope.changeStatus = function (_url, _text) {
+                $scope.changeStatus = function(_url, _text) {
                     var _tr = this.tr;
-                    dialogConfirm(_text || '确定?', function () {
-                        requestData(_url, {id: _tr.id})
-                            .then(function (results) {
+                    dialogConfirm(_text || '确定?', function() {
+                        requestData(_url, {
+                                id: _tr.id
+                            })
+                            .then(function(results) {
                                 var _data = results[0];
                                 var _index = $scope.tbodyList.indexOf(_tr);
                                 $scope.tbodyList[_index] = _data;
                             })
-                            .catch(function (error) {
+                            .catch(function(error) {
                                 alert(error || '请求失败!');
                             });
                     });
                 };
 
                 //弹窗修改后的回调
-                $scope.submitCallBack = function (_curRow, _data) {
+                $scope.submitCallBack = function(_curRow, _data) {
                     modal.closeAll();
                     if (_data && _curRow) { //修改
-                        angular.forEach($scope.tbodyList, function (_row, _index) {
+                        angular.forEach($scope.tbodyList, function(_row, _index) {
                             if (_row.id == _curRow.id) {
                                 $scope.tbodyList[_index] = _data;
                             }
                         });
                     } else {
-                        $timeout(function () {
+                        $timeout(function() {
                             $scope.$broadcast("reloadList");
                         });
                     }
@@ -396,29 +495,41 @@ define('main/directives', ['main/init'], function () {
                                 statusInfo.pageSize = $scope.listSource.options.pageSize || statusInfo.pageSize;
                                 statusInfo.totalPage = Math.ceil(statusInfo.totalCount / statusInfo.pageSize);
                             }
-                            _callback && _callback();
+                            if (_callback) {
+                                _callback();
+                            }
                         }
                         return;
                     }
+
+                    //满足条件才异步请求
+                    if (angular.isDefined($attrs.ajaxIf)) {
+                        if (!$attrs.ajaxIf) return;
+                    }
+
+
                     if (statusInfo.isLoading) {
                         return;
                     }
                     statusInfo.isLoading = true;
-                    requestData($attrs.listData, angular.merge({}, formData, {page: statusInfo.currentPage}))
-                        .then(function (results) {
+                    requestData($attrs.listData, angular.merge({}, formData, {
+                            pageNo: statusInfo.currentPage
+                        }))
+                        .then(function(results) {
                             var data = results[1];
                             if (data.code == 200) {
-                                if (data.options) {
-                                    statusInfo.totalCount = data.options.totalCount || statusInfo.totalCount;
-                                    statusInfo.pageSize = data.options.pageSize || statusInfo.pageSize;
+                                statusInfo.totalCount = data.totalCount;
+                                statusInfo.pageSize = data.pageSize;
+
+                                if (statusInfo.totalCount && statusInfo.pageSize) {
                                     statusInfo.totalPage = Math.ceil(statusInfo.totalCount / statusInfo.pageSize);
                                 }
 
                                 if (data.thead) {
                                     $scope.theadList = data.thead;
                                 }
-								//自定义 tableList 增加 $scope.resultsData = data
-								 $scope.resultsData = data;
+                                //自定义 tableList 增加 $scope.resultsData = data
+                                $scope.resultsData = data;
 
 
                                 if (data.data && data.data.length > 0) {
@@ -433,38 +544,44 @@ define('main/directives', ['main/init'], function () {
                             }
                             statusInfo.isLoading = false;
                             $timeout(bindSelectOneEvent);
-                            _callback && _callback();
+                            if (_callback) {
+                                _callback();
+                            }
                         })
-                        .catch(function () {
+                        .catch(function() {
                             statusInfo.isLoading = false;
                             statusInfo.loadFailMsg = '加载出错';
-                            _callback && _callback();
-                        })
-                };
+                            if (_callback) {
+                                _callback();
+                            }
+                        });
+                }
 
                 //设置值
                 function setSelectedValue() {
                     //listSelected
                     var _checked = [];
                     $scope.listSelected.length = 0;
-                    $(".selectOne:checked", $element).each(function () {
+                    $(".selectOne:checked", $element).each(function() {
                         _checked.push(this.value);
                     });
                     [].unshift.apply($scope.listSelected, _checked);
 
                     //ngModel
                     var _selected = [];
-                    angular.forEach($scope.tbodyList, function (ls) {
-                        angular.forEach($scope.listSelected, function (selected) {
+                    angular.forEach($scope.tbodyList, function(ls) {
+                        angular.forEach($scope.listSelected, function(selected) {
                             if (ls.id == selected) {
                                 _selected.push(ls);
                             }
-                        })
+                        });
                     });
-                    ngModel && ngModel.$setViewValue(_selected);
-                };
+                    if (ngModel) {
+                        ngModel.$setViewValue(_selected);
+                    }
+                }
                 //删除值
-                $scope.$on("deleteSelected", function (event, selected) {
+                $scope.$on("deleteSelected", function(event, selected) {
                     $(".selectOne[value=" + selected.id + "]", $element).prop("checked", false);
 
                     var _selectCount = $(".selectOne", $element).length;
@@ -479,7 +596,7 @@ define('main/directives', ['main/init'], function () {
 
                     var _checked = [];
                     $scope.listSelected.length = 0;
-                    $(".selectOne:checked", $element).each(function () {
+                    $(".selectOne:checked", $element).each(function() {
                         _checked.push(this.value);
                     });
                     [].unshift.apply($scope.listSelected, _checked);
@@ -487,48 +604,54 @@ define('main/directives', ['main/init'], function () {
                 });
 
                 //直接来自源
-                $scope.$watchCollection("listSource", function (value) {
+                $scope.$watchCollection("listSource", function(value) {
                     if (value) {
                         getListData(setSelectedValue);
                     }
                 });
 
                 //
-                $scope.$watch("listParams", function () {
+                $scope.$watch("listParams", function() {
                     statusInfo.currentPage = 1;
                     statusInfo.isFinished = false;
                     $scope.tbodyList = [];
                     formData = angular.copy($scope.listParams);
                     getListData(setSelectedValue);
                     //清除选择框
-                    $(".selectAll", $element).length > 0 && ($(".selectAll", $element).prop("checked", false).get(0).indeterminate = false);
+                    if ($(".selectAll", $element).length > 0) {
+                        $(".selectAll", $element).prop("checked", false).get(0).indeterminate = false;
+                    }
                 }, true);
 
-                $attrs.$observe("listData", function (value) {
+                $attrs.$observe("listData", function(value) {
                     statusInfo.currentPage = 1;
                     statusInfo.isFinished = false;
                     $scope.tbodyList = [];
                     formData = angular.copy($scope.listParams);
                     getListData(setSelectedValue);
                     //清除选择框
-                    $(".selectAll", $element).length > 0 && ($(".selectAll", $element).prop("checked", false).get(0).indeterminate = false);
+                    if ($(".selectAll", $element).length > 0) {
+                        $(".selectAll", $element).prop("checked", false).get(0).indeterminate = false;
+                    }
                 });
 
                 //接受广播
-                $scope.$on("reloadList", function () {
+                $scope.$on("reloadList", function() {
                     statusInfo.currentPage = 1;
                     statusInfo.isFinished = false;
                     $scope.tbodyList = [];
                     formData = angular.copy($scope.listParams);
                     getListData(setSelectedValue);
                     //清除选择框
-                    $(".selectAll", $element).length > 0 && ($(".selectAll", $element).prop("checked", false).get(0).indeterminate = false);
+                    if ($(".selectAll", $element).length > 0) {
+                        $(".selectAll", $element).prop("checked", false).get(0).indeterminate = false;
+                    }
                 });
 
 
                 $($element)
-                //全选
-                    .on("click", ".selectAll", function () {
+                    //全选
+                    .on("click", ".selectAll", function() {
                         if (this.indeterminate) {
                             this.checked = false;
                             $(".selectOne", $element).prop("checked", false);
@@ -542,7 +665,7 @@ define('main/directives', ['main/init'], function () {
 
                 //选择单个
                 function bindSelectOneEvent() {
-                    $(".selectOne", $element).on("click", function (e) {
+                    $(".selectOne", $element).on("click", function(e) {
                         e.stopPropagation();
                         var _selectCount = $(".selectOne", $element).length;
                         var _checkedCount = $(".selectOne:checked", $element).length;
@@ -559,12 +682,12 @@ define('main/directives', ['main/init'], function () {
                     });
                 }
 
-                $transclude($scope, function (clone) {
+                $transclude($scope, function(clone) {
                     $element.append(clone);
                 });
             }
         };
-    };
+    }
     tableList.$inject = ['requestData', 'modal', 'dialogConfirm', '$timeout'];
 
     /**
@@ -573,19 +696,25 @@ define('main/directives', ['main/init'], function () {
     function tableCell() {
         return {
             restrict: 'AE',
-            scope: {row: "="},
+            scope: {
+                row: "="
+            },
             replace: true,
             templateUrl: Config.tplPath + 'tpl/table-cell.html',
-            link: function ($scope, $element, $attrs) {
+            link: function($scope, $element, $attrs) {
                 $scope.cells = [];
                 if (angular.isString($scope.row) || angular.isNumber($scope.row)) {
-                    $scope.cells.push({text: $scope.row});
+                    $scope.cells.push({
+                        text: $scope.row
+                    });
                 } else if (angular.isArray($scope.row)) {
-                    angular.forEach($scope.row, function (_value) {
+                    angular.forEach($scope.row, function(_value) {
                         if (angular.isObject(_value)) {
                             $scope.cells.push(_value);
                         } else {
-                            $scope.cells.push({text: _value});
+                            $scope.cells.push({
+                                text: _value
+                            });
                         }
                     });
                 } else {
@@ -603,48 +732,48 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: true,
             replace: true,
-            templateUrl: Config.tplPath+'tpl/pagination.html',
-            link: function ($scope, $element, $attrs) {
+            templateUrl: Config.tplPath + 'tpl/pagination.html',
+            link: function($scope, $element, $attrs) {
                 var maxSize = angular.isDefined($attrs.maxSize) ? $scope.$parent.$eval($attrs.maxSize) : 10,
                     rotate = angular.isDefined($attrs.rotate) ? $scope.$parent.$eval($attrs.rotate) : true;
 
-                $scope.start = function () {
+                $scope.start = function() {
                     if ($scope.status.currentPage == 1) {
                         return;
                     }
                     $scope.status.currentPage = 1;
                     $scope.getListData();
                 };
-                $scope.prev = function () {
+                $scope.prev = function() {
                     if ($scope.status.currentPage <= 1) {
                         return;
                     }
                     $scope.status.currentPage--;
                     $scope.getListData();
                 };
-                $scope.next = function () {
+                $scope.next = function() {
                     if ($scope.status.currentPage >= $scope.status.totalPage) {
                         return;
                     }
                     $scope.status.currentPage++;
                     $scope.getListData();
                 };
-                $scope.end = function () {
+                $scope.end = function() {
                     if ($scope.status.currentPage == $scope.status.totalPage) {
                         return;
                     }
                     $scope.status.currentPage = $scope.status.totalPage;
                     $scope.getListData();
                 };
-                $scope.goto = function (_page) {
+                $scope.goto = function(_page) {
                     $scope.status.currentPage = _page;
                     $scope.getListData();
                 };
 
-                $scope.$watch("status.totalPage", function () {
+                $scope.$watch("status.totalPage", function() {
                     $scope.pages = getPages($scope.status.currentPage, $scope.status.totalPage);
                 });
-                $scope.$watch("status.currentPage", function () {
+                $scope.$watch("status.currentPage", function() {
                     $scope.pages = getPages($scope.status.currentPage, $scope.status.totalPage);
                 });
 
@@ -660,7 +789,8 @@ define('main/directives', ['main/init'], function () {
                     var pages = [];
 
                     // Default page limits
-                    var startPage = 1, endPage = totalPages;
+                    var startPage = 1,
+                        endPage = totalPages;
                     var isMaxSized = angular.isDefined(maxSize) && maxSize < totalPages;
 
                     // recompute if maxSize
@@ -717,30 +847,30 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: true,
             replace: true,
-            templateUrl: Config.tplPath+'tpl/pagination2.html',
-            link: function ($scope, $element, $attrs) {
-                $scope.start = function () {
+            templateUrl: Config.tplPath + 'tpl/pagination2.html',
+            link: function($scope, $element, $attrs) {
+                $scope.start = function() {
                     if ($scope.status.currentPage == 1) {
                         return;
                     }
                     $scope.status.currentPage = 1;
                     $scope.getListData();
                 };
-                $scope.prev = function () {
+                $scope.prev = function() {
                     if ($scope.status.currentPage <= 1) {
                         return;
                     }
                     $scope.status.currentPage--;
                     $scope.getListData();
                 };
-                $scope.next = function () {
+                $scope.next = function() {
                     if ($scope.status.currentPage >= $scope.status.totalPage) {
                         return;
                     }
                     $scope.status.currentPage++;
                     $scope.getListData();
                 };
-                $scope.end = function () {
+                $scope.end = function() {
                     if ($scope.status.currentPage == $scope.status.totalPage) {
                         return;
                     }
@@ -759,22 +889,24 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: {},
             transclude: true,
-            link: function ($scope, $element, $attrs, $ctrls, $transclude) {
+            link: function($scope, $element, $attrs, $ctrls, $transclude) {
                 //筛选
                 //var listParams = $scope.$eval($attrs.ngModel);
                 $scope.filterParams = {};
-                $scope.filterConditions = {list: []};
+                $scope.filterConditions = {
+                    list: []
+                };
                 var filterConditions = $scope.filterConditions;
                 $scope.conditionList = {};
 
-                $scope.selectCondition = function (_name, _item) {
+                $scope.selectCondition = function(_name, _item) {
                     _item.type = _name;
                     filterConditions[_name] = _item;
                     filterConditions.list.push(_item);
                     updataListParams();
                 };
 
-                $scope.deleteCondition = function (_this) {
+                $scope.deleteCondition = function(_this) {
                     var _index = filterConditions.list.indexOf(_this);
                     filterConditions.list.splice(_index, 1);
                     delete filterConditions[_this.type];
@@ -784,7 +916,7 @@ define('main/directives', ['main/init'], function () {
                 //
                 function updataListParams() {
                     var _data = {};
-                    angular.forEach($scope.filterConditions.list, function (condition) {
+                    angular.forEach($scope.filterConditions.list, function(condition) {
                         _data[condition.type] = condition.id;
                     });
                     $scope.filterParams = _data;
@@ -792,16 +924,16 @@ define('main/directives', ['main/init'], function () {
 
                 //获取筛选条件
                 if ($attrs.filterConditions) {
-                    (function () {
+                    (function() {
                         requestData($attrs.filterConditions)
-                            .then(function (results) {
+                            .then(function(results) {
                                 var _data = results[0];
                                 $scope.conditionList = _data;
                             });
                     })();
                 }
 
-                $transclude($scope, function (clone) {
+                $transclude($scope, function(clone) {
                     $element.append(clone);
                 });
             }
@@ -812,20 +944,20 @@ define('main/directives', ['main/init'], function () {
     /**
      * 树状列表
      */
-    function treeList(requestData, $timeout) {
+    function treeList(buildTree,requestData, $timeout) {
         return {
             restrict: 'AE',
             scope: {},
             require: "?^ngModel",
-            templateUrl: Config.tplPath+'tpl/tree.html',
-            link: function ($scope, $element, $attrs, ngModel) {
+            templateUrl: Config.tplPath + 'tpl/tree.html',
+            link: function($scope, $element, $attrs, ngModel) {
                 var isFirstLoad = true;
                 $scope.status = {};
                 $scope.treeList = [];
                 $scope.curTree = {};
                 $scope.status.isLoading = true;
 
-                $scope.selectTree = function (tree, e) {
+                $scope.selectTree = function(tree, e) {
                     var $li = $element.find("li");
                     var $em = $(e.currentTarget);
                     var $parentLi = $em.parent("li");
@@ -843,55 +975,17 @@ define('main/directives', ['main/init'], function () {
                     }
                 };
 
-                function buildTree(data) {
-                    var pos = {};
-                    var tree = [];
-                    var i = 0;
-                    while (data.length != 0) {
-                        if (data[i].pid == "0") {
-                            var _obj = angular.copy(data[i]);
-                            _obj.nodes = [];
-                            tree.push(_obj);
-                            pos[data[i].id] = [tree.length - 1];
-                            data.splice(i, 1);
-                            i--;
-                        } else {
-                            var posArr = pos[data[i].pid];
-                            if (posArr != undefined) {
-
-                                var obj = tree[posArr[0]];
-                                for (var j = 1; j < posArr.length; j++) {
-                                    obj = obj.nodes[posArr[j]];
-                                }
-
-                                var _obj = angular.copy(data[i]);
-                                _obj.nodes = [];
-                                obj.nodes.push(_obj);
-
-                                pos[data[i].id] = posArr.concat([obj.nodes.length - 1]);
-                                data.splice(i, 1);
-                                i--;
-                            }
-                        }
-                        i++;
-                        if (i > data.length - 1) {
-                            i = 0;
-                        }
-                    }
-
-                    return tree;
-                }
 
                 function getTreeData() {
                     $scope.status.isLoading = true;
                     requestData($attrs.treeList)
-                        .then(function (results) {
+                        .then(function(results) {
                             var data = results[0];
-                            $scope.treeList = buildTree(data);
+                            $scope.treeList = buildTree(data,$attrs.pidKey);
                             $scope.status.isLoading = false;
                             if (isFirstLoad && angular.isDefined($attrs.selectFirst)) {
                                 isFirstLoad = false;
-                                $timeout(function () {
+                                $timeout(function() {
                                     var $em = $element.find("em");
                                     for (var i = 0, l = $em.length; i < l; i++) {
                                         $em.eq(i).trigger("click");
@@ -902,7 +996,7 @@ define('main/directives', ['main/init'], function () {
                                 })
                             }
                         })
-                        .catch(function () {
+                        .catch(function() {
                             $scope.status.isLoading = false;
                         });
                 }
@@ -911,23 +1005,23 @@ define('main/directives', ['main/init'], function () {
             }
         }
     };
-    treeList.$inject = ["requestData", "$timeout"];
+    treeList.$inject = ["buildTree","requestData", "$timeout"];
 
     /**
      * 树状列表2
      */
-    function treeList2(requestData, modal, $timeout, dialogConfirm) {
+    function treeList2(buildTree,requestData, modal, $timeout, dialogConfirm) {
         return {
             restrict: 'AE',
             require: "?^ngModel",
-            link: function ($scope, $element, $attrs, ngModel) {
+            link: function($scope, $element, $attrs, ngModel) {
                 var canSelectGroup = angular.isDefined($attrs.selectGroup);
                 $scope.status = {};
                 $scope.treeList = [];
                 $scope.curTree = {};
                 $scope.status.isLoading = true;
 
-                $scope.selectTree = function (tree, e) {
+                $scope.selectTree = function(tree, e) {
                     var $li = $element.find("li");
                     var $em = $(e.currentTarget);
                     var $parentLi = $em.parent("li");
@@ -946,7 +1040,7 @@ define('main/directives', ['main/init'], function () {
                     }
                 };
 
-                $scope.extendTree = function (e) {
+                $scope.extendTree = function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     var $this = $(e.currentTarget);
@@ -960,17 +1054,17 @@ define('main/directives', ['main/init'], function () {
                     }
                 };
 
-                $scope.deleteTree = function (e, _url) {
+                $scope.deleteTree = function(e, _url) {
                     e.preventDefault();
                     e.stopPropagation();
-                    dialogConfirm("是否删除?", function () {
-                        requestData(_url).then(function () {
+                    dialogConfirm("是否删除?", function() {
+                        requestData(_url).then(function() {
                             getTreeData();
                         });
                     });
                 };
 
-                $scope.addTree = function (e, _url) {
+                $scope.addTree = function(e, _url) {
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -983,60 +1077,21 @@ define('main/directives', ['main/init'], function () {
                         trapFocus: true,
                         overlay: false,
                         scope: $scope,
-                        controller: ["$scope", "$element", function ($scope, $element) {
+                        controller: ["$scope", "$element", function($scope, $element) {
                             $(".ngdialog-content", $element).width(400);
                         }]
                     });
                 };
 
-                function buildTree(data) {
-                    var pos = {};
-                    var tree = [];
-                    var i = 0;
-                    while (data.length != 0) {
-                        if (data[i].pid == "0") {
-                            var _obj = angular.copy(data[i]);
-                            _obj.nodes = [];
-                            tree.push(_obj);
-                            pos[data[i].id] = [tree.length - 1];
-                            data.splice(i, 1);
-                            i--;
-                        } else {
-                            var posArr = pos[data[i].pid];
-                            if (posArr != undefined) {
-
-                                var obj = tree[posArr[0]];
-                                for (var j = 1; j < posArr.length; j++) {
-                                    obj = obj.nodes[posArr[j]];
-                                }
-
-                                var _obj = angular.copy(data[i]);
-                                _obj.nodes = [];
-                                obj.nodes.push(_obj);
-
-                                pos[data[i].id] = posArr.concat([obj.nodes.length - 1]);
-                                data.splice(i, 1);
-                                i--;
-                            }
-                        }
-                        i++;
-                        if (i > data.length - 1) {
-                            i = 0;
-                        }
-                    }
-
-                    return tree;
-                }
-
                 function getTreeData() {
                     $scope.status.isLoading = true;
                     requestData($attrs.treeList2)
-                        .then(function (results) {
+                        .then(function(results) {
                             var data = results[0];
-                            $scope.treeList = buildTree(data);
+                            $scope.treeList = buildTree(data,$attrs.pidKey);
                             $scope.status.isLoading = false;
                         })
-                        .catch(function () {
+                        .catch(function() {
                             $scope.status.isLoading = false;
                         });
                 }
@@ -1044,16 +1099,14 @@ define('main/directives', ['main/init'], function () {
                 $attrs.$observe("treeList2", getTreeData);
 
                 //弹窗修改后的回调
-                $scope.submitCallBack = function (_curRow, _data) {
+                $scope.submitCallBack = function(_curRow, _data) {
                     modal.closeAll();
-                    $timeout(function () {
-                        getTreeData();
-                    });
+                    getTreeData();
                 };
             }
         }
     };
-    treeList2.$inject = ["requestData", "modal", "$timeout", "dialogConfirm"];
+    treeList2.$inject = ["buildTree","requestData", "modal", "$timeout", "dialogConfirm"];
 
     /**
      * 导航列表
@@ -1064,8 +1117,8 @@ define('main/directives', ['main/init'], function () {
             scope: true,
             transclude: true,
             require: "?^ngModel",
-            link: function ($scope, $element, $attrs, ngModel, $transclude) {
-                $transclude($scope, function (clone) {
+            link: function($scope, $element, $attrs, ngModel, $transclude) {
+                $transclude($scope, function(clone) {
                     $element.append(clone);
                 });
 
@@ -1077,7 +1130,7 @@ define('main/directives', ['main/init'], function () {
 
                 var formData = {};
 
-                $scope.select = function (_project) {
+                $scope.select = function(_project) {
                     $scope.currentSelect = _project;
                     ngModel && ngModel.$setViewValue(_project);
                 };
@@ -1091,13 +1144,13 @@ define('main/directives', ['main/init'], function () {
                     statusInfo.isLoading = true;
 
                     requestData($attrs.navList)
-                        .then(function (results) {
+                        .then(function(results) {
                             var data = results[0];
                             $scope.isLoading = false;
                             $scope.listData = data.data;
                             $scope.select($scope.listData[0]);
                         })
-                        .catch(function () {
+                        .catch(function() {
                             $scope.isLoading = false;
                         });
                 };
@@ -1116,12 +1169,13 @@ define('main/directives', ['main/init'], function () {
             restrict: 'A',
             scope: {},
             require: "?^ngModel",
-            link: function ($scope, $element, $attrs, ngModel) {
+            link: function($scope, $element, $attrs, ngModel) {
 
                 requestData($attrs.selectAsync)
-                    .then(function (results) {
+                    .then(function(results) {
                         var data = results[0];
                         var _options = '<option value="">请选择</option>';
+                        if (!data) data = [];
                         var _length = data.length;
                         for (var i = 0; i < _length; i++) {
                             _options += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
@@ -1142,7 +1196,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'A',
             scope: {},
             require: "?^ngModel",
-            link: function ($scope, $element, $attrs, ngModel) {
+            link: function($scope, $element, $attrs, ngModel) {
                 var _relativeTo = $attrs.relativeTo;
                 var _relativeSelect = $attrs.relativeSelect;
                 var isSelectFirst = angular.isDefined($attrs.selectFirst);
@@ -1150,7 +1204,7 @@ define('main/directives', ['main/init'], function () {
 
                 $element.on("change", changeHandle);
 
-                $element.on("update", function (e, _data) {
+                $element.on("update", function(e, _data) {
                     getData(_data);
                 });
 
@@ -1162,9 +1216,10 @@ define('main/directives', ['main/init'], function () {
 
                 function getData(_data) {
                     requestData(_relativeSelect, _data)
-                        .then(function (results) {
+                        .then(function(results) {
                             var data = results[0];
                             var _options = isSelectFirst ? '' : '<option value="">请选择</option>';
+                            if (!data) data = [];
                             var _length = data.length;
                             var _value = "";
                             for (var i = 0; i < _length; i++) {
@@ -1198,72 +1253,72 @@ define('main/directives', ['main/init'], function () {
             scope: {
                 clickToUrl: "@",
                 clickToDialog: "@",
-        				clickTopToUrl: "@",
-        				clickTopToDialog: "@",
-        				eChartKey:"@",
-        				eChartMap:"=",
-        				eChartMapData:"=",
+                clickTopToUrl: "@",
+                clickTopToDialog: "@",
+                eChartKey: "@",
+                eChartMap: "=",
+                eChartMapData: "=",
                 chartParams: "="
             },
             require: "?^ngModel",
-            link: function ($scope, $element, $attrs, ngModel) {
+            link: function($scope, $element, $attrs, ngModel) {
                 $scope.isLoading = false;
 
-                require(['echarts'], function (echarts) {
+                require(['echarts'], function(echarts) {
                     var myChart = echarts.init($element[0]);
 
-          					//公布echar对象。用于获取图片等特色操作
-          					if ($scope.eChartKey) {
-          						 if(!$scope.$parent.eChartMap)$scope.$parent.eChartMap={};
-                                   $scope.$parent.eChartMap[$scope.eChartKey]=myChart;
-          					 }
+                    //公布echar对象。用于获取图片等特色操作
+                    if ($scope.eChartKey) {
+                        if (!$scope.$parent.eChartMap) $scope.$parent.eChartMap = {};
+                        $scope.$parent.eChartMap[$scope.eChartKey] = myChart;
+                    }
 
                     function reSize() {
                         myChart.resize();
                     }
                     $(window).on("resize", reSize);
-                    $scope.$on('$destroy', function () {
+                    $scope.$on('$destroy', function() {
                         $(window).off("resize", reSize);
                         myChart.dispose();
                     });
 
-                    myChart.on("click", function (_data) {
+                    myChart.on("click", function(_data) {
 
-						 console.log(_data);
-						  console.log($scope);
+                        console.log(_data);
+                        console.log($scope);
 
-						  	if(_data.data){
-								 if ($scope.clickToUrl) {
-								  ngModel && ngModel.$setViewValue(_data.data);
-								window.location.assign($scope.clickToUrl);
-								} else if ($scope.clickToDialog) {
-									  ngModel && ngModel.$setViewValue(_data.data);
-									dialogChart($scope.$parent.mainConfig.viewsDir + $scope.clickToDialog);
-								}
+                        if (_data.data) {
+                            if ($scope.clickToUrl) {
+                                ngModel && ngModel.$setViewValue(_data.data);
+                                window.location.assign($scope.clickToUrl);
+                            } else if ($scope.clickToDialog) {
+                                ngModel && ngModel.$setViewValue(_data.data);
+                                dialogChart($scope.$parent.mainConfig.viewsDir + $scope.clickToDialog);
+                            }
 
-							}else{
+                        } else {
 
-								 if ($scope.clickTopToUrl) {
+                            if ($scope.clickTopToUrl) {
 
-								  ngModel && ngModel.$setViewValue(_data);
-								window.location.assign($scope.clickTopToUrl);
-									}else if ($scope.clickTopToDialog) {
-									 ngModel && ngModel.$setViewValue(_data);
-									dialogChart($scope.$parent.mainConfig.viewsDir + $scope.clickTopToDialog);
-									}
+                                ngModel && ngModel.$setViewValue(_data);
+                                window.location.assign($scope.clickTopToUrl);
+                            } else if ($scope.clickTopToDialog) {
+                                ngModel && ngModel.$setViewValue(_data);
+                                dialogChart($scope.$parent.mainConfig.viewsDir + $scope.clickTopToDialog);
+                            }
 
-							}
+                        }
 
 
                     });
 
                     if (angular.isDefined($attrs.chartParams)) {
                         //监听具体值
-                        $scope.$watch("chartParams", function (value) {
+                        $scope.$watch("chartParams", function(value) {
                             loadChart($attrs.chart, value);
                         }, true);
                     } else {
-                        $attrs.$observe("chart", function (value) {
+                        $attrs.$observe("chart", function(value) {
                             loadChart($attrs.chart);
                         });
                     }
@@ -1276,21 +1331,21 @@ define('main/directives', ['main/init'], function () {
                         $scope.isLoading = true;
                         myChart.showLoading();
                         requestData(_url, _params)
-                            .then(function (results) {
+                            .then(function(results) {
                                 var _data = results[0];
 
-								//js api 增加功能：eChart组件将data返回给$scope.$parent.eChartMapData[$scope.eChartKey] 用于显示数据。
-						if ($scope.eChartKey) {
-							 if(!$scope.$parent.eChartMapData)$scope.$parent.eChartMapData={};
-							 $scope.$parent.eChartMapData[$scope.eChartKey]=_data;
-						 }
+                                //js api 增加功能：eChart组件将data返回给$scope.$parent.eChartMapData[$scope.eChartKey] 用于显示数据。
+                                if ($scope.eChartKey) {
+                                    if (!$scope.$parent.eChartMapData) $scope.$parent.eChartMapData = {};
+                                    $scope.$parent.eChartMapData[$scope.eChartKey] = _data;
+                                }
 
                                 myChart.hideLoading();
                                 //解决百度图表雷达图 Tip 显示不正确的问题
                                 if (_data.polar) {
-                                    _data.tooltip.formatter = function (_items) {
+                                    _data.tooltip.formatter = function(_items) {
                                         var _str = _items[0].name;
-                                        angular.forEach(_items, function (_item) {
+                                        angular.forEach(_items, function(_item) {
                                             _str += '<br>' + _item.seriesName + ": " + _item.data;
                                         });
                                         return _str;
@@ -1303,7 +1358,7 @@ define('main/directives', ['main/init'], function () {
                                 myChart.setOption(_data);
                                 $scope.isLoading = false;
                             })
-                            .catch(function (_msg) {
+                            .catch(function(_msg) {
                                 $scope.isLoading = false;
                                 myChart.hideLoading();
                             });
@@ -1332,8 +1387,8 @@ define('main/directives', ['main/init'], function () {
                 "ngDisabled": "=?"
             },
             require: "?^ngModel",
-            templateUrl: Config.tplPath+'tpl/autocomplete.html',
-            link: function ($scope, elem, attrs, ngModel) {
+            templateUrl: Config.tplPath + 'tpl/autocomplete.html',
+            link: function($scope, elem, attrs, ngModel) {
                 $scope.lastSearchTerm = null;
                 $scope.currentIndex = null;
                 $scope.justChanged = false;
@@ -1344,11 +1399,11 @@ define('main/directives', ['main/init'], function () {
                 $scope.minLength = 1;
                 $scope.searchStr = null;
 
-                var isNewSearchNeeded = function (newTerm, oldTerm) {
+                var isNewSearchNeeded = function(newTerm, oldTerm) {
                     return newTerm.length >= $scope.minLength && newTerm != oldTerm
                 };
 
-                $scope.processResults = function (responseData, str) {
+                $scope.processResults = function(responseData, str) {
                     if (responseData && responseData.length > 0) {
                         $scope.results = [];
 
@@ -1394,7 +1449,7 @@ define('main/directives', ['main/init'], function () {
                     }
                 };
 
-                $scope.searchTimerComplete = function (str) {
+                $scope.searchTimerComplete = function(str) {
                     // Begin the search
 
                     if (str.length >= $scope.minLength) {
@@ -1419,13 +1474,15 @@ define('main/directives', ['main/init'], function () {
                             $scope.processResults(matches, str);
 
                         } else {
-                            requestData($scope.url, {q: str})
-                                .then(function (results) {
+                            requestData($scope.url, {
+                                    q: str
+                                })
+                                .then(function(results) {
                                     var data = results[0];
                                     $scope.searching = false;
                                     $scope.processResults(data, str);
                                 })
-                                .catch(function (error) {
+                                .catch(function(error) {
                                     $scope.searching = false;
                                     console.error(error);
                                 });
@@ -1433,23 +1490,23 @@ define('main/directives', ['main/init'], function () {
                     }
                 };
 
-                $scope.hideResults = function () {
-                    $scope.hideTimer = $timeout(function () {
+                $scope.hideResults = function() {
+                    $scope.hideTimer = $timeout(function() {
                         $scope.showDropdown = false;
                     }, $scope.pause);
                 };
 
-                $scope.resetHideResults = function () {
+                $scope.resetHideResults = function() {
                     if ($scope.hideTimer) {
                         $timeout.cancel($scope.hideTimer);
                     }
                 };
 
-                $scope.hoverRow = function (index) {
+                $scope.hoverRow = function(index) {
                     $scope.currentIndex = index;
                 };
 
-                $scope.keyPressed = function (event) {
+                $scope.keyPressed = function(event) {
                     if (!(event.which == 38 || event.which == 40 || event.which == 13)) {
                         if (!$scope.searchStr || $scope.searchStr == "") {
                             $scope.showDropdown = false;
@@ -1466,7 +1523,7 @@ define('main/directives', ['main/init'], function () {
 
                             $scope.searching = true;
 
-                            $scope.searchTimer = $timeout(function () {
+                            $scope.searchTimer = $timeout(function() {
                                 $scope.searchTimerComplete($scope.searchStr);
                             }, $scope.pause);
                         }
@@ -1475,7 +1532,7 @@ define('main/directives', ['main/init'], function () {
                     }
                 };
 
-                $scope.selectResult = function (result) {
+                $scope.selectResult = function(result) {
                     if ($scope.matchClass) {
                         result.title = result.title.toString().replace(/(<([^>]+)>)/ig, '');
                     }
@@ -1490,7 +1547,7 @@ define('main/directives', ['main/init'], function () {
 
                 inputField.on('keyup', $scope.keyPressed);
 
-                elem.on("keyup", function (event) {
+                elem.on("keyup", function(event) {
                     if (event.which === 40) {
                         if ($scope.results && ($scope.currentIndex + 1) < $scope.results.length) {
                             $scope.currentIndex++;
@@ -1545,7 +1602,7 @@ define('main/directives', ['main/init'], function () {
             scope: {
                 checkboxGroup: "="
             },
-            link: function ($scope, $elem, $attrs) {
+            link: function($scope, $elem, $attrs) {
                 if (!angular.isArray($scope.checkboxGroup)) $scope.checkboxGroup = [];
 
                 //if ($scope.checkboxGroup.indexOf($attrs.value) !== -1) {
@@ -1553,7 +1610,7 @@ define('main/directives', ['main/init'], function () {
                 //}
 
                 // Update array on click
-                $elem.on('click', function () {
+                $elem.on('click', function() {
                     var index = $scope.checkboxGroup.indexOf($attrs.value);
                     // Add if checked
                     if ($elem[0].checked) {
@@ -1566,7 +1623,7 @@ define('main/directives', ['main/init'], function () {
                     $scope.$apply();
                 });
 
-                $scope.$watchCollection("checkboxGroup", function (value) {
+                $scope.$watchCollection("checkboxGroup", function(value) {
                     if (value) {
                         if ($scope.checkboxGroup.indexOf($attrs.value) !== -1) {
                             $elem[0].checked = true;
@@ -1579,194 +1636,290 @@ define('main/directives', ['main/init'], function () {
 
     /**
       * 下拉
+  
+      $attrs.clearWatchScope:监听一个model 当一个model清空时,重置cosen
+      $attrs.selectCallBack
       */
-     function chosen(requestData, $timeout) {
-         return {
-             restrict: 'A',
-             scope: {
-                 chosen: '='
-             },
-             require: "?^ngModel",
-             link: function ($scope, $element, $attrs, ngModel) {
-                 var chosenConfig = {
-                     search_contains:true,
-                     no_results_text: "没有找到",
-                     display_selected_options: false
-                 };
-                 $attrs.width && (chosenConfig.width = $attrs.width);
+    function chosen(requestData, $timeout,alertError) {
+        return {
+            restrict: 'A',
+            //  scope: {
+            //      chosen: '='
+            //  },
+            require: "?^ngModel",
+            link: function($scope, $element, $attrs, ngModel) {
+                var chosenConfig = {
+                    search_contains: true,
+                    no_results_text: "没有找到",
+                    display_selected_options: false
+                };
 
-                 require(['chosen'], function () {
-                     if ($attrs.selectSource) {
-                         if (angular.isDefined($attrs.chosenAjax)) {
-                             $element.chosen(chosenConfig);
+                if ($attrs.selectCallBack) {
+                    $element.on("change", changeHandle);
+                    $element.on("update", function(e, _data) {
+                        getData(_data);
+                    });
 
-                             var $chosenContainer = $element.next();
-                             var $input = $('input', $chosenContainer);
-                             var searchStr = "";
-                             var isChinessInput = false;
-                             var typing = false;
-                             var requestQueue;
+                    function changeHandle() {
+                        var _data = {};
+                        _data.value = $element.val();
+                        $scope[$attrs.selectCallBack](_data);
+                    }
 
-                             function handleSearch(q) {
-                                 var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
-                                 requestQueue && requestQueue.abort();
-                                 requestQueue = $.ajax({
-                                     url: $attrs.selectSource,
-                                     type: 'post',
-                                     data: {q: q},
-                                     dataType: 'json',
-                                     success: function (_data) {
-                                         if (_data.code == 200) {
-                                             var _options = '';
-                                             var _length = _data.data.length;
-                                             var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
-                                             for (var i = 0; i < _length; i++) {
-                                                 if (_selected.indexOf(_data.data[i].value) == -1) {
-                                                     _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
-                                                 }
-                                             }
-                                             $element.html(_options).prepend(selected);
-                                             $element.trigger("chosen:updated");
-                                             var keyRight = $.Event('keydown');
-                                             keyRight.which = 39;
-                                             $input.val(q).trigger(keyRight);
+                }
 
-                                             if (_data.data.length > 0) {
-                                                 $chosenContainer.find('.no-results').hide();
-                                             } else {
-                                                 $chosenContainer.find('.no-results').show();
-                                             }
-                                         }
-                                     },
-                                     complete: function () {
-                                         $scope.$digest();
-                                     }
-                                 });
+                  var chosenObj=null;
+                  // 监听一个model 当一个model清空时,重置cosen
+                    if ($attrs.clearWatchScope) {
+                      $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
 
 
-                                 //requestData($attrs.selectSource, {q: q})
-                                 //    .then(function (results) {
-                                 //        var data = results[0];
-                                 //        var _options = '';
-                                 //        var _length = data.length;
-                                 //        var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
-                                 //        for (var i = 0; i < _length; i++) {
-                                 //            if (_selected.indexOf(data[i].value) == -1) {
-                                 //                _options += '<option value="' + data[i].value + '">' + data[i].text + '</option>';
-                                 //            }
-                                 //        }
-                                 //        $element.html(_options).prepend(selected);
-                                 //        $element.trigger("chosen:updated");
-                                 //        var keyRight = $.Event('keydown');
-                                 //        keyRight.which = 39;
-                                 //        $input.val(q).trigger(keyRight);
-                                 //
-                                 //        if (data.length > 0) {
-                                 //            $chosenContainer.find('.no-results').hide();
-                                 //        } else {
-                                 //            $chosenContainer.find('.no-results').show();
-                                 //        }
-                                 //    });
-                             };
-
-                             function processValue(e) {
-                                 var field = $(this);
-
-                                 //don't fire ajax if...
-                                 if ((e.type === 'paste' && field.is(':not(:focus)')) ||
-                                     (e.keyCode && (
-                                         (e.keyCode === 9) ||//Tab
-                                             (e.keyCode === 13) ||//Enter
-                                             (e.keyCode === 16) ||//Shift
-                                             (e.keyCode === 17) ||//Ctrl
-                                             (e.keyCode === 18) ||//Alt
-                                             (e.keyCode === 19) ||//Pause, Break
-                                             (e.keyCode === 20) ||//CapsLock
-                                             (e.keyCode === 27) ||//Esc
-                                             (e.keyCode === 33) ||//Page Up
-                                             (e.keyCode === 34) ||//Page Down
-                                             (e.keyCode === 35) ||//End
-                                             (e.keyCode === 36) ||//Home
-                                             (e.keyCode === 37) ||//Left arrow
-                                             (e.keyCode === 38) ||//Up arrow
-                                             (e.keyCode === 39) ||//Right arrow
-                                             (e.keyCode === 40) ||//Down arrow
-                                             (e.keyCode === 44) ||//PrntScrn
-                                             (e.keyCode === 45) ||//Insert
-                                             (e.keyCode === 144) ||//NumLock
-                                             (e.keyCode === 145) ||//ScrollLock
-                                             (e.keyCode === 91) ||//WIN Key (Start)
-                                             (e.keyCode === 93) ||//WIN Menu
-                                             (e.keyCode === 224) ||//command key
-                                             (e.keyCode >= 112 && e.keyCode <= 123)//F1 to F12
-                                         ))) {
-                                     return false;
-                                 }
-
-                                 if (isChinessInput && (e.keyCode != 32 && (e.keyCode < 48 || e.keyCode > 57))) {
-                                     return false;
-                                 }
-
-                                 $chosenContainer.find('.no-results').hide();
-
-                                 var q = $.trim(field.val());
-                                 if (!q && searchStr == q) {
-                                     return false;
-                                 }
-                                 searchStr = q;
-
-                                 typing = true;
-
-                                 if ($scope.searchTimer) {
-                                     $timeout.cancel($scope.searchTimer);
-                                 }
-
-                                 $scope.searchTimer = $timeout(function () {
-                                     typing = false;
-                                     handleSearch(q);
-                                 }, 600);
-                             };
-
-                             $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer).on('keyup', processValue).on('paste', function (e) {
-                                 var that = this;
-                                 setTimeout(function () {
-                                     processValue.call(that, e);
-                                 }, 500);
-                             }).on('keydown', function (e) {
-                                     if (e.keyCode == 229) {
-                                         isChinessInput = true;
-                                     } else {
-                                         isChinessInput = false;
-                                     }
-                                 });
-                         } else {
-                             requestData($attrs.selectSource)
-                                 .then(function (results) {
-                                     var data = results[0];
-                                     var _options = '';
-                                     var _length = data.length;
-                                     var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
-                                     for (var i = 0; i < _length; i++) {
-                                         _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
-                                     }
-                                     $element.html(_options);
-                                     $element.chosen($scope.chosen || chosenConfig);
-                                     ngModel.$setViewValue(_selected);
-                                 });
-                         }
-                     } else {
-
-                         //修复select 初始值为null，没有对应的option值时，angluarjs自动添加，空option 导致 chonsen控件，选择其他值后，不能选择最后一条bug。
-                         $element.append("<option value=''></option>");
-                         $element.chosen($scope.chosen || chosenConfig);
+                              if(chosenObj&&!newValue){
+                                        $timeout(function() {
+                                              chosenObj.data("chosen").form_field_jq.trigger("change");
+                                        }, 800);
+                              }
+                      });
+                    }
 
 
-                     }
-                 })
-             }
-         }
-     };
-     chosen.$inject = ["requestData", "$timeout"];
+                  $attrs.width && (chosenConfig.width = $attrs.width);
+
+                require(['chosen'], function() {
+                    if ($attrs.selectSource) {
+                        if (angular.isDefined($attrs.chosenAjax)) {
+                             chosenObj = $element.chosen(chosenConfig);
+
+                            var $chosenContainer = $element.next();
+                            var $input = $('input', $chosenContainer);
+                            var searchStr = "";
+                            var isChinessInput = false;
+                            var typing = false;
+                            var requestQueue;
+                            var _url=$attrs.selectSource;
+
+                            if(Config.serverPath){
+                              if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
+                                _url=Config.serverPath+_url;
+                              }
+                            }
+
+                            function handleSearch(q) {
+                                var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
+                                requestQueue && requestQueue.abort();
+                                requestQueue = $.ajax({
+                                    url: _url,
+                                    type: 'GET',
+                                    xhrFields:{withCredentials: true},
+                                    crossDomain:true,
+                                    data: {
+                                        q: q,
+                                        id:ngModel.$viewValue
+                                    },
+                                    dataType: 'json',
+                                    success: function(_data) {
+                                        if (_data.code == 200) {
+                                            var _options = '';
+                                            if (!_data.data) _data.data = [];
+                                            var _length = _data.data.length;
+                                            var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
+                                            for (var i = 0; i < _length; i++) {
+                                                if (_selected.indexOf(_data.data[i].value) == -1) {
+                                                    _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
+                                                }
+                                            }
+                                            $element.html(_options).prepend(selected);
+                                            $element.trigger("chosen:updated");
+                                            var keyRight = $.Event('keydown');
+                                            keyRight.which = 39;
+                                            $input.val(q).trigger(keyRight);
+
+                                            if (_data.data.length > 0) {
+                                                $chosenContainer.find('.no-results').hide();
+                                            } else {
+                                                $chosenContainer.find('.no-results').show();
+                                            }
+                                        }else{
+                                          if(angular.isDefined($attrs.alertError)){
+                                              alet(_data.msg);
+
+                                          }
+                                        }
+                                    },
+                                    complete: function() {
+                                        $scope.$digest();
+                                    }
+                                });
+
+
+                            };
+
+                            function processValue(e) {
+                                var field = $(this);
+                                if (e.keyCode && e.keyCode === 13) {
+                                    //修复第一次输入后，直接回车没有取到值的bug
+                                    if (!ngModel.$viewValue) {
+                                        try {
+                                            ngModel.$setViewValue(chosenObj[0][0].value);
+                                        } catch (e) {}
+                                    }
+
+                                }
+                                //don't fire ajax if...
+                                if ((e.type === 'paste' && field.is(':not(:focus)')) ||
+                                    (e.keyCode && (
+                                        (e.keyCode === 9) || //Tab
+                                        (e.keyCode === 13) || //Enter
+                                        (e.keyCode === 16) || //Shift
+                                        (e.keyCode === 17) || //Ctrl
+                                        (e.keyCode === 18) || //Alt
+                                        (e.keyCode === 19) || //Pause, Break
+                                        (e.keyCode === 20) || //CapsLock
+                                        (e.keyCode === 27) || //Esc
+                                        (e.keyCode === 33) || //Page Up
+                                        (e.keyCode === 34) || //Page Down
+                                        (e.keyCode === 35) || //End
+                                        (e.keyCode === 36) || //Home
+                                        (e.keyCode === 37) || //Left arrow
+                                        (e.keyCode === 38) || //Up arrow
+                                        (e.keyCode === 39) || //Right arrow
+                                        (e.keyCode === 40) || //Down arrow
+                                        (e.keyCode === 44) || //PrntScrn
+                                        (e.keyCode === 45) || //Insert
+                                        (e.keyCode === 144) || //NumLock
+                                        (e.keyCode === 145) || //ScrollLock
+                                        (e.keyCode === 91) || //WIN Key (Start)
+                                        (e.keyCode === 93) || //WIN Menu
+                                        (e.keyCode === 224) || //command key
+                                        (e.keyCode >= 112 && e.keyCode <= 123) //F1 to F12
+                                    ))) {
+                                    return false;
+                                }
+
+                                if (isChinessInput && (e.keyCode != 32 && (e.keyCode < 48 || e.keyCode > 57))) {
+                                    return false;
+                                }
+
+                                $chosenContainer.find('.no-results').hide();
+
+                                var q = $.trim(field.val());
+                                if (!q && searchStr == q) {
+                                    return false;
+                                }
+                                searchStr = q;
+
+                                typing = true;
+
+                                if ($scope.searchTimer) {
+                                    $timeout.cancel($scope.searchTimer);
+                                }
+
+                                $scope.searchTimer = $timeout(function() {
+                                    typing = false;
+                                    handleSearch(q);
+                                }, 600);
+                            };
+
+                            $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer).on('keyup', processValue).on('paste', function(e) {
+                                var that = this;
+                                setTimeout(function() {
+                                    processValue.call(that, e);
+                                }, 500);
+                            }).on('keydown', function(e) {
+                                if (e.keyCode == 229) {
+                                    isChinessInput = true;
+                                } else {
+                                    isChinessInput = false;
+                                }
+                            }).on('blur', function(e) {
+                                //修复第一次输入后，直接回车没有取到值的bug
+                                if (!ngModel.$viewValue) {
+                                    try {
+                                        if (chosenObj[0] && chosenObj[0][0]) ngModel.$setViewValue(chosenObj[0][0].value);
+                                    } catch (e) {}
+                                }
+                            });
+                        } else {
+
+
+                          function getData(){
+                            //满足条件才异步请求
+                            if (angular.isDefined($attrs.ajaxIf)) {
+                                if (!$attrs.ajaxIf) return;
+                            }
+
+
+                            requestData($attrs.selectSource)
+                                .then(function(results) {
+                                    var data = results[0];
+                                    var _options = '';
+                                    if (!data) data = [];
+                                    var _length = data.length;
+                                    //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
+
+                                    var   _selected=null;
+                                    if(angular.isDefined($attrs.multiple)){
+
+                                        if (angular.isDefined($attrs.defaultEmpty)) {
+                                           _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
+                                        } else {
+                                            _selected= ngModel.$viewValue ? ngModel.$viewValue : [data[0].value];
+
+
+                                        }
+
+                                    }else{
+                                       if (angular.isDefined($attrs.defaultEmpty)) {
+                                        _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
+                                       } else {
+                                         _selected= ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
+
+                                       }
+                                    }
+                                    if (angular.isDefined($attrs.defaultEmpty)) {
+                                        _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
+                                    }
+                                    for (var i = 0; i < _length; i++) {
+                                        _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
+                                    }
+                                    $element.html(_options);
+                                    chosenObj=$element.chosen($scope.chosen || chosenConfig);
+                                    ngModel.$setViewValue(_selected);
+                                }).catch(function(msg) {
+                                    if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                                    if (angular.isDefined($attrs.alertError)) alertError(msg);
+
+
+                                });
+                          }
+                          //监听
+                          $attrs.$observe("selectSource", function(value) {
+                              ngModel.$setViewValue(null);
+                                chosenObj&&chosenObj.data("chosen").destroy();
+
+                              // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
+
+                              getData();
+                          });
+
+
+
+                          getData();
+
+                        }
+                    } else {
+
+                        //修复select 初始值为null，没有对应的option值时，angluarjs自动添加，空option 导致 chonsen控件，选择其他值后，不能选择最后一条bug。
+                        $element.append("<option value=''></option>");
+                        $element.chosen($scope.chosen || chosenConfig);
+
+
+                    }
+                })
+            }
+        }
+    };
+    chosen.$inject = ["requestData", "$timeout","alertError"];
 
     /**
      * form-item
@@ -1776,7 +1929,7 @@ define('main/directives', ['main/init'], function () {
             restrict: 'AE',
             scope: true,
             replace: true,
-            link: function ($scope, $element, $attrs) {
+            link: function($scope, $element, $attrs) {
                 var _src = $scope.$eval($attrs.src);
                 var _item = "";
                 switch (_src.type) {
@@ -1791,7 +1944,7 @@ define('main/directives', ['main/init'], function () {
                         break;
                     case "checkbox":
                         _item = '<div class="form-ctrl" ng-init="formData[\'' + _src.key + '\']=[\'' + (_src.value || "") + '\']">';
-                        angular.forEach(_src.options, function (item) {
+                        angular.forEach(_src.options, function(item) {
                             _item += '<label class="label">' +
                                 '<input type="' + _src.type + '" name="' + _src.key + '" checkbox-group="formData[\'' + _src.key + '\']"  value="' + item + '" /> ' + item +
                                 '</label>';
@@ -1800,7 +1953,7 @@ define('main/directives', ['main/init'], function () {
                         break;
                     case "radio":
                         _item = '<div class="form-ctrl" ng-init="formData[\'' + _src.key + '\']=\'' + (_src.value || "") + '\'">';
-                        angular.forEach(_src.options, function (item) {
+                        angular.forEach(_src.options, function(item) {
                             _item += '<label class="label">' +
                                 '<input type="' + _src.type + '" name="' + _src.key + '" ng-model="formData[\'' + _src.key + '\']"  value="' + item + '" /> ' + item +
                                 '</label>';
@@ -1810,7 +1963,7 @@ define('main/directives', ['main/init'], function () {
                     case "select":
                         _item = '<select class="select select-w" name="' + _src.key + '" ng-init="formData[\'' + _src.key + '\']=\'' + (_src.value || "") + '\'" ng-model="formData[\'' + _src.key + '\']"  >';
                         _item += '<option value="" >请选择</option>';
-                        angular.forEach(_src.options, function (item) {
+                        angular.forEach(_src.options, function(item) {
                             _item += '<option value="' + item + '" >' + item + '</option>';
                         });
                         _item += '</select>';
@@ -1834,26 +1987,26 @@ define('main/directives', ['main/init'], function () {
             scope: true,
             transclude: true,
             require: "?^ngModel",
-            link: function ($scope, $element, $attrs, ngModel, $transclude) {
-                $timeout(function () {
+            link: function($scope, $element, $attrs, ngModel, $transclude) {
+                $timeout(function() {
                     ngModel && ($scope.dataList = ngModel.$viewValue || []);
                 });
 
-                $scope.$watchCollection("dataList", function (value) {
+                $scope.$watchCollection("dataList", function(value) {
                     if (value && ngModel) {
                         ngModel.$setViewValue(value);
                     }
                 });
 
-                $scope.addRow = function () {
+                $scope.addRow = function() {
                     $scope.dataList.push({});
                 };
 
-                $scope.delRow = function (n) {
+                $scope.delRow = function(n) {
                     $scope.dataList.splice(n, 1);
                 };
 
-                $transclude($scope, function (clone) {
+                $transclude($scope, function(clone) {
                     $element.append(clone);
                 });
             }
@@ -1865,11 +2018,12 @@ define('main/directives', ['main/init'], function () {
      * 加入项目
      */
     angular.module('manageApp.main')
-        .directive("ngView", ["$route", "$templateCache", "$routeParams",ngView])
+        .directive("ngView", ["$route", "$templateCache", "$routeParams", ngView])
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
-        .directive("ajaxUrl", ["requestData","alertOk","alertError",ajaxUrl])
-        .directive("formValidator", ["requestData","modal","alertOk","alertError",formValidator])
+        .directive("convertJsonToObject", convertJsonToObject)
+        .directive("ajaxUrl", ["requestData", "alertOk", "alertError", ajaxUrl])
+        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", formValidator])
         .directive("tableList", tableList)
         .directive("tableCell", tableCell)
         .directive("pagination", pagination)

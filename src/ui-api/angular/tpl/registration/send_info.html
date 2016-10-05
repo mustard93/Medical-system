@@ -1,26 +1,61 @@
-<div class="container">
-    <form class="form-signin" action="index.html">
-        <div class="form-signin-heading text-center">
-            <h1 class="sign-title"></h1>
-            <img src="images/logo-pangu-350x78.png" alt=""/>
+<div class="container col-lg-6 col-lg-offset-3">
+  <div class="col-lg-12 col-sm-12 sys-reg-logo"></div>
+  <div class="col-lg-12 col-sm-12">
+    <p class="sys-reg-title">注册 - 补充个人信息</p>
+  </div>
+
+  <div class="reg-wrap col-lg-12" ng-controller="registrationCtrl">
+    <div class="user-face">
+      <span></span>
+    </div>
+    <div class="user-phone">
+      {{verifyResult.phoneNumber}}
+    </div>
+
+    <input type="hidden" name="phone" ng-init="regData.phone=verifyResult.phoneNumber" ng-model="regData.phone">
+
+    <div class="col-lg-12 col-sm-12 reg-info-prompt" style="display:none;">
+      <div>
+        <i class="fa fa-exclamation-triangle"></i>
+        <span>{{verifyResult.msg}}</span>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 reg-success-prompt" style="display:none;">
+      <div>
+        <i class="fa fa-check"></i>
+        <span class="color-white">注册成功</span>
+      </div>
+    </div>
+
+    <div class="reg-wrap col-lg-12" ng-controller="registrationCtrl">
+      <form name="regForm" class="form-signin enter-info-form" onsubmit="return false;" novalidate>
+        <div>
+          <input type="password" class="form-control" placeholder="输入登录密码"
+                name="password" ng-model="regData.password" required autofocus reg-check-password>
         </div>
-
-        <div class="login-wrap">
-            <input type="text" placeholder="新密码" class="form-control" name="tel" ng-model="regData.password">
-            <input type="text" placeholder="确认密码" class="form-control" name="tel" ng-model="regData.repassword">
-            <input type="text" placeholder="姓名" class="form-control" name="tel" ng-model="regData.name">
-
-            <input type="radio" name="sex" ng-model="regData.sex"> 男
-            <input type="radio" name="sex" ng-model="regData.sex"> 女
-
-            <a href="#/apply_bind" class="btn btn-primary btn-block">完成</a>
-
-            <div class="registration">
-                已有账号 ?
-                <a href="login.html" class="">
-                    登录
-                </a>
-            </div>
+        <div>
+          <input type="password" class="form-control" placeholder="再次输入登录密码"
+                name="repassword" ng-model="regData.repassword" required reg-check-password>
         </div>
-    </form>
+        <div>
+          <input type="text" class="form-control" placeholder="姓名"
+                 name="name" ng-model="regData.name" required>
+        </div>
+        <div class="last-div">
+          <label>性别</label>
+          <label><input type="radio" name="sex" value="男" ng-model="regData.sex" ng-checked="true"
+                  ng-init="regData.sex='男'"> 男</label>
+          <label><input type="radio" name="sex" value="女" ng-model="regData.sex"> 女</label>
+        </div>
+        <div class="button-wrap">
+          <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
+                  ng-disabled="regForm.$invalid || !verifyResult.password || !verifyResult.repassword" ng-click="regSubmit()">完 成</button>
+        </div>
+        <div class="col-lg-12 text-center cancel">
+          <a href="login.html" class="color-custom-orange">取 消</a>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

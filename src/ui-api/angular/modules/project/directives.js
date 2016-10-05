@@ -3,7 +3,7 @@
  */
 
 define('project/directives', ['project/init'], function () {
-  angular.module('manageApp.project', [])
+  angular.module('manageApp.project')
   /**
    * [滚动条美化]
    */
@@ -33,63 +33,54 @@ define('project/directives', ['project/init'], function () {
   /**
    * [左边栏子菜单点击事件]
    */
-  .directive('leftMenuCollapse', [function () {
+  .directive('leftMenuChange', [function () {
     'use strict';
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        $('.menu-list > a').on('click', function () {
-          var parent = $(this).parent();
-          var sub = parent.find('> ul');
-
-          if(!$('body').hasClass('left-side-collapsed')) {
-             if(sub.is(':visible')) {
-                sub.slideUp(200, function(){
-                   parent.removeClass('nav-active');
-                   $('.main-content').css({height: ''});
-                   //mainContentHeightAdjust();
-                });
-             } else {
-                visibleSubMenuClose();
-                parent.addClass('nav-active');
-                sub.slideDown(200, function(){
-                    //mainContentHeightAdjust();
-                });
-             }
-          }
-          return false;
-        });
-
-        $('.menu-list > ul > li > a').on('click', function () {
-          $.each($(this).parent().siblings(), function () {
-            if ($(this).hasClass('active')) {
-              $(this).removeClass('active');
-            }
+        element.on('click', function () {
+          $(this).addClass('active').parent().siblings().each(function () {
+            $(this).children().removeClass('active');
           });
-          $(this).parent().addClass('active');
         });
-
-        function visibleSubMenuClose() {
-           $('.menu-list').each(function() {
-              var t = $(this);
-              if(t.hasClass('nav-active')) {
-                 t.find('> ul').slideUp(200, function(){
-                    t.removeClass('nav-active');
-                 });
-              }
-           });
-        }
-
-        function mainContentHeightAdjust() {
-           var docHeight = $(document).height();
-           if(docHeight > $('.main-content').height())
-              $('.main-content').height(docHeight);
-        }
-
-        $('.custom-nav > li').hover(function(){
-           $(this).addClass('nav-hover');
-        }, function(){
-           $(this).removeClass('nav-hover');
+      }
+    };
+  }])
+  /**
+   * 订单列表首页订单状态按钮切换样式
+   */
+  .directive('orderStatusChoise', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          $(this).addClass('pr-btn-bg-gold').siblings().each(function () {
+            $(this).removeClass('pr-btn-bg-gold');
+          });
+          $(this).parent().siblings().each(function () {
+            $(this).children().each(function () {
+              $(this).removeClass('pr-btn-bg-gold');
+            });
+          });
+        });
+      }
+    };
+  }])
+  /**
+   *  订单页头导航按钮点击事件处理
+   */
+  .directive('orderListTips', [function () {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          $(this).hide();
+          $(this).siblings().show().on('click',function () {
+            $(this).hide();
+            $(element).show();
+          });
         });
       }
     };
@@ -169,18 +160,15 @@ define('project/directives', ['project/init'], function () {
       link: function (scope, element, attrs) {
         require(['morris'], function () {
           Morris.Donut({
-            element: 'graph-donut',
+            element: attrs.id,
             data: [
-                {value: 40, label: '最新访问', formatted: 'at least 70%' },
-                {value: 30, label: '异常访问', formatted: 'approx. 15%' },
-                {value: 20, label: '跳出率', formatted: 'approx. 10%' },
-                {value: 10, label: '时间', formatted: 'at most 99.99%' }
+                {value: 40, label: '未处理', formatted: '未处理：4' },
+                {value: 35, label: '未拆分', formatted: '未拆分：3' },
+                {value: 25, label: '未提交', formatted: '未提交：1' }
             ],
             backgroundColor: false,
-            labelColor: '#fff',
-            colors: [
-                '#4acacb','#6a8bc0','#5ab6df','#fe8676'
-            ],
+            labelColor: '#666',
+            colors: ['#ff5f39','#fe9302','#e39a27'],
             formatter: function (x, data) { return data.formatted; }
           });
         });
@@ -255,111 +243,111 @@ define('project/directives', ['project/init'], function () {
   /**
    *  flot 线型图
    */
-  .directive('flot', function () {
-    'use strict';
-    return {
-      restrict: 'A',
-      link: function (scope, element, attrs) {
-        require(['flot', 'flot-tooltip', 'flot-resize'], function () {
-          var d1 = [
-              [0, 501],
-              [1, 620],
-              [2, 437],
-              [3, 361],
-              [4, 549],
-              [5, 618],
-              [6, 570],
-              [7, 758],
-              [8, 658],
-              [9, 538],
-              [10, 488]
-          ];
-          var d2 = [
-              [0, 401],
-              [1, 520],
-              [2, 337],
-              [3, 261],
-              [4, 449],
-              [5, 518],
-              [6, 470],
-              [7, 658],
-              [8, 558],
-              [9, 438],
-              [10, 388]
-          ];
-          var data = ([{
-              label: "最新访问",
-              data: d1,
-              lines: {
-                  show: true,
-                  fill: true,
-                  fillColor: {
-                      colors: ["rgba(255,255,255,.4)", "rgba(183,236,240,.4)"]
-                  }
-              }
-          },
-              {
-                  label: "异常访问",
-                  data: d2,
-                  lines: {
-                      show: true,
-                      fill: true,
-                      fillColor: {
-                          colors: ["rgba(255,255,255,.0)", "rgba(253,96,91,.7)"]
-                      }
-                  }
-              }
-          ]);
-          var options = {
-              grid: {
-                  backgroundColor:
-                  {
-                      colors: ["#ffffff", "#f4f4f6"]
-                  },
-                  hoverable: true,
-                  clickable: true,
-                  tickColor: "#eeeeee",
-                  borderWidth: 1,
-                  borderColor: "#eeeeee"
-              },
-              // Tooltip
-              tooltip: true,
-              tooltipOpts: {
-                  content: "%s X: %x Y: %y",
-                  shifts: {
-                      x: -60,
-                      y: 25
-                  },
-                  defaultTheme: false
-              },
-              legend: {
-                  labelBoxBorderColor: "#000000",
-                  container: $("#main-chart-legend"), //remove to show in the chart
-                  noColumns: 0
-              },
-              series: {
-                  stack: true,
-                  shadowSize: 0,
-                  highlightColor: 'rgba(000,000,000,.2)'
-              },
-      //        lines: {
-      //            show: true,
-      //            fill: true
-      //
-      //        },
-              points: {
-                  show: true,
-                  radius: 3,
-                  symbol: "circle"
-              },
-              colors: ["#5abcdf", "#ff8673"]
-          };
-
-          var plot = $.plot($("#main-chart #main-chart-container"), data, options);
-        });
-      }
-    };
-  })
+  // .directive('flot', function () {
+  //   'use strict';
+  //   return {
+  //     restrict: 'A',
+  //     link: function (scope, element, attrs) {
+  //       require(['flot', 'flot-tooltip', 'flot-resize'], function () {
+  //         var d1 = [
+  //             [0, 501],
+  //             [1, 620],
+  //             [2, 437],
+  //             [3, 361],
+  //             [4, 549],
+  //             [5, 618],
+  //             [6, 570],
+  //             [7, 758],
+  //             [8, 658],
+  //             [9, 538],
+  //             [10, 488]
+  //         ];
+  //         var d2 = [
+  //             [0, 401],
+  //             [1, 520],
+  //             [2, 337],
+  //             [3, 261],
+  //             [4, 449],
+  //             [5, 518],
+  //             [6, 470],
+  //             [7, 658],
+  //             [8, 558],
+  //             [9, 438],
+  //             [10, 388]
+  //         ];
+  //         var data = ([{
+  //             label: "最新访问",
+  //             data: d1,
+  //             lines: {
+  //                 show: true,
+  //                 fill: true,
+  //                 fillColor: {
+  //                     colors: ["rgba(255,255,255,.4)", "rgba(183,236,240,.4)"]
+  //                 }
+  //             }
+  //         },
+  //             {
+  //                 label: "异常访问",
+  //                 data: d2,
+  //                 lines: {
+  //                     show: true,
+  //                     fill: true,
+  //                     fillColor: {
+  //                         colors: ["rgba(255,255,255,.0)", "rgba(253,96,91,.7)"]
+  //                     }
+  //                 }
+  //             }
+  //         ]);
+  //         var options = {
+  //             grid: {
+  //                 backgroundColor:
+  //                 {
+  //                     colors: ["#ffffff", "#f4f4f6"]
+  //                 },
+  //                 hoverable: true,
+  //                 clickable: true,
+  //                 tickColor: "#eeeeee",
+  //                 borderWidth: 1,
+  //                 borderColor: "#eeeeee"
+  //             },
+  //             // Tooltip
+  //             tooltip: true,
+  //             tooltipOpts: {
+  //                 content: "%s X: %x Y: %y",
+  //                 shifts: {
+  //                     x: -60,
+  //                     y: 25
+  //                 },
+  //                 defaultTheme: false
+  //             },
+  //             legend: {
+  //                 labelBoxBorderColor: "#000000",
+  //                 container: $("#main-chart-legend"), //remove to show in the chart
+  //                 noColumns: 0
+  //             },
+  //             series: {
+  //                 stack: true,
+  //                 shadowSize: 0,
+  //                 highlightColor: 'rgba(000,000,000,.2)'
+  //             },
+  //     //        lines: {
+  //     //            show: true,
+  //     //            fill: true
+  //     //
+  //     //        },
+  //             points: {
+  //                 show: true,
+  //                 radius: 3,
+  //                 symbol: "circle"
+  //             },
+  //             colors: ["#5abcdf", "#ff8673"]
+  //         };
+  //
+  //         var plot = $.plot($("#main-chart #main-chart-container"), data, options);
+  //       });
+  //     }
+  //   };
+  // })
   /**
    *  sparkline 柱状图
    */
@@ -465,10 +453,15 @@ define('project/directives', ['project/init'], function () {
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        require(['easypiechart'], function () {
-          $('.chart').easyPieChart({
-            // 这里写配置信息
-          });
+        $('.chart').easyPieChart({
+          animate:{
+            duration:1000,
+            enabled:true
+          },
+          barColor:'#f30',
+          scaleColor:false,
+          lineWidth:10,
+          lineCap:'circle'
         });
       }
     };
