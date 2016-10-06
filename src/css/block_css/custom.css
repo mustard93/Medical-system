@@ -89,7 +89,7 @@
 }
 
 .mgt-l {
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .mgt-xl {
@@ -480,6 +480,9 @@
 
 .text-center {
     text-align: center;
+}
+.text-v-t {
+  vertical-align: top;
 }
 
 .text-nowrap {
@@ -1121,10 +1124,10 @@ body.ngdialog-open {
   text-align: center;
   height: 100%;
   display: inline-block;
-  background-color: #c7a77b;
-  width: 94px;
+  width: 60px;
   margin-left: 10px;
-  border: none;
+  border: 1px solid #c7a77b;
+  color: #c7a77b;
 }
 /* 保存按钮 */
 .pr-btn-save-glodbg {
@@ -1160,8 +1163,8 @@ body.ngdialog-open {
 }
 /* 表格内功能按钮 */
 .pr-btn-table-glodbg {
-  width: 64px;
-  height: 32px;
+  width: 38px;
+  height: 22px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
   border: none;
@@ -1239,9 +1242,15 @@ body.ngdialog-open {
 .pr-label {
   font-weight: normal;
 }
-/* 180px的输入框 */
+/* 150px的输入框 表格中输入框 */
 .pr-short-ipt {
-  width: 180px;
+  width: 150px;
+}
+.pr-short-ipt.in-table {
+  height: 21px;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid #b2b2b2;
 }
 
 /* 边框线 */
@@ -1406,7 +1415,6 @@ body.ngdialog-open {
   color: #999;
 }
 .content-wrapper-main {
-  padding: 20px 0 0;
   border-top: 1px solid rgba(0, 0, 0, .05);
 }
 .content-wrapper-main ul li {
@@ -1471,6 +1479,8 @@ body.ngdialog-open {
 .pr-table {
   width: 100%;
   max-width: 100%;
+  table-layout: fixed;
+  word-break: break-all;
 }
 .pr-table > thead {
   background-color: #eae4d1;
@@ -1482,9 +1492,25 @@ body.ngdialog-open {
 .pr-table > thead > tr > th {
   font-weight: normal;
 }
+.pr-table > thead > tr > td.w-70,
+.pr-table > thead > tr > th.w-70 {
+  width: 70px;
+}
+.pr-table > thead > tr > td.w-80,
+.pr-table > thead > tr > th.w-80 {
+  width: 80px;
+}
+.pr-table > thead > tr > td.w-90,
+.pr-table > thead > tr > th.w-90 {
+  width: 90px;
+}
 .pr-table > thead > tr > td.w-106,
 .pr-table > thead > tr > th.w-106 {
   width: 106px;
+}
+.pr-table > thead > tr > td.w-120,
+.pr-table > thead > tr > th.w-120 {
+  width: 120px;
 }
 .pr-table > thead > tr > td.w-186,
 .pr-table > thead > tr > th.w-186 {
@@ -1494,13 +1520,15 @@ body.ngdialog-open {
 .pr-table > thead > tr > th.w-150 {
   width: 150px;
 }
-.pr-table > thead > tr > td.w-94,
-.pr-table > thead > tr > th.w-94 {
-  width: 94px;
+.pr-table > thead > tr > td.w-84,
+.pr-table > thead > tr > th.w-84 {
+  width: 84px;
+}
+.pr-table > tbody > tr > td {
+  position: relative;
 }
 .pr-table > tbody > tr > td.has-border {
   border: 1px solid #e2e2e2;
-  height: 118px;
 }
 /* 首页表格 */
 .tabel-layout-fixed {
@@ -1515,27 +1543,33 @@ body.ngdialog-open {
   position: relative;
   display: block;
   background-color: #fff;
-  height: 129px;
+  height: 116px;
 }
 .pr-table select.pr-table-select {
+  height: 26px;
   border: none;
   border-bottom: 1px solid #b2b2b2;
   font-size: 12px;
-  width: 60%;
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 5px 0;
+  width: 100%;
+  padding: 0;
   cursor: pointer;
 }
 .pr-table input.pr-table-input {
   border: none;
   border-bottom: 1px solid #b2b2b2;
   font-size: 12px;
-  width: 60%;
-  margin-left: 25px;
-  margin-right: 25px;
-  padding: 5px 0;
+  width: 100%;
+  padding: 0;
   cursor: pointer;
+}
+.pr-table input.pr-table-input.price {
+  text-align: right;
+  padding: 0 0 0 10px;
+}
+.pr-table .pr-unit-inline {
+  display: inline-block;
+  position: absolute;
+  top: 16px;
 }
 .pr-table input.pr-table-checkbox {
   width: 16px;
@@ -1551,12 +1585,13 @@ body.ngdialog-open {
   -webkit-border-radius: 4px;
   border-radius: 4px;
   padding: 5px;
+  border: 1px solid #e5e5e5;
 }
 /* 收货人信息 */
 .content-wrapper .content-wrapper-main div.consignee-info ul li {
-  width: 320px;
+  width: 260px;
   padding: 10px 20px;
-  border: 1px solid #c7a77b;
+  border: 1px solid #e5e5e5;
   -webkit-border-radius: 4px;
   border-radius: 4px;
   position: relative;
@@ -1602,7 +1637,7 @@ body.ngdialog-open {
 }
 /* 收货人信息添加按钮 */
 .content-wrapper .content-wrapper-main div.consignee-info ul span > button {
-  height: 125px;
+  height: 102px;
   width: 90px;
   position: absolute;
   color: #c7a77b;
@@ -1620,12 +1655,12 @@ body.ngdialog-open {
 }
 .content-wrapper .content-wrapper-main .order-details span.goods-thumbnail + span,
 .content-wrapper .content-wrapper-main .confirm-order span.goods-thumbnail + span {
-  margin-left: 75px;
+  margin-left: 85px;
 }
-.content-wrapper .content-wrapper-main .order-details td.goods-name,
+/*.content-wrapper .content-wrapper-main .order-details td.goods-name,
 .content-wrapper .content-wrapper-main .confirm-order td.goods-name {
   width: 450px;
-}
+}*/
 .content-wrapper .content-wrapper-main .order-details span.goods-thumbnail > img,
 .content-wrapper .content-wrapper-main .confirm-order span.goods-thumbnail > img {
   width: 80px;
@@ -1635,12 +1670,16 @@ body.ngdialog-open {
   margin-top: 2px;
   margin-left: 2px;
 }
+.pr-table-td-m {
+  min-height: 85px;
+}
 /* 订单商品数量选择 */
 .content-wrapper .content-wrapper-main span.order-goods-num {
   display: inline-block;
 }
-.content-wrapper .content-wrapper-main span.order-goods-num > i {
-  display: inline-block;
+.content-wrapper .content-wrapper-main span.order-goods-num > i.left,
+.content-wrapper .content-wrapper-main span.order-goods-num > i.right {
+  position: absolute;
   width: 18px;
   height: 18px;
   -webkit-border-radius: 3px;
@@ -1651,16 +1690,21 @@ body.ngdialog-open {
   background-color: #c7a77b;
   font-style: normal;
   cursor: pointer;
-  margin-right: 3px;
+  z-index: 1;
+}
+.content-wrapper .content-wrapper-main span.order-goods-num > i.left {
+  left: 10px;
+}
+.content-wrapper .content-wrapper-main span.order-goods-num > i.right {
+  right: 10px;
 }
 .content-wrapper .content-wrapper-main span.order-goods-num > input {
   width: 55px;
   border: none;
-  border-bottom: 1px solid #ccc;
-  margin-right: 3px;
+  border-bottom: 1px solid #b2b2b2;
   position: relative;
-  top: -3px;
   text-align: center;
+  z-index: 0;
 }
 .content-wrapper .content-wrapper-main span.order-goods-num + span {
   display: inline-block;
