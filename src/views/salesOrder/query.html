@@ -1,7 +1,7 @@
 <div class="content-wrapper">
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/salesOrder/query.json" list-params="listParams">
     <!-- 主内容头部 -->
-    <div class="content-wrapper-heading mgb-l">
+    <div class="content-wrapper-heading mgb-s">
       <!-- 新建按钮及状态按钮 -->
       <div class="flex-column">
         <div class="order-create-btn flex-item-2">
@@ -46,7 +46,7 @@
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <ul class="flex-column">
-        <li class="flex-item-3 query-item" ng-repeat="tr in tbodyList">
+        <li class="flex-item-3 no-width query-item" ng-repeat="tr in tbodyList">
           <div class="mgr-m mgb-m pr-bg-white pr-fuzzy-boundary">
             <div>
               <div class="flex-column mgb-n">
@@ -82,25 +82,34 @@
                 <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
               <div  ng-if="listParams.orderStatus!='未提交'">
-                <h1 class="mgt-l mgb-l color-6 text-bold">发货信息</h1>
+                <h1 class="mgt-l mgb-s color-6 text-bold">发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.invoiceOrderIdsSet.join(",")}}</em></p>
                 <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
               <div  ng-if="listParams.orderStatus!='未提交'">
-                <h1 class="mgt-l mgb-l color-6 text-bold">未发货信息</h1>
+                <h1 class="mgt-l mgb-s color-6 text-bold">未发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.noInvoiceOrderIdsSet.join(",")}}</em></p>
                 <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
             </div>
             <div>
 
-              <div class="pdb-xxl text-right">
-                  <span class="text-right pdt-l pdb-l pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
+              <div class="pdb-m pdt-m text-right">
+                  <span class="text-right pdt-s pdb-s pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
               </div>
 
 
             </div>
           </div>
+        </li>
+        <li class="flex-item-3 no-width query-item ng-scope">
+          <div class="mgr-m mgb-m pr-bg-white pr-fuzzy-boundary"></div>
+        </li>
+        <li class="flex-item-3 no-width query-item ng-scope">
+          <div class="mgr-m mgb-m pr-bg-white pr-fuzzy-boundary"></div>
+        </li>
+        <li class="flex-item-3 no-width query-item ng-scope">
+          <div class="mgr-m mgb-m pr-bg-white pr-fuzzy-boundary"></div>
         </li>
       </ul>
   </table-list>
