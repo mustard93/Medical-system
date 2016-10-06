@@ -18,6 +18,7 @@
 
 require.config({
     baseUrl: require.dir + 'modules',
+      waitSeconds: 0,
     paths: {
         'jQuery': '../libs/jquery.min', //jQuery
         'underscore': '../libs/underscore/underscore-1.5.2.min',
