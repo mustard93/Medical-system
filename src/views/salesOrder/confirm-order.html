@@ -2,7 +2,7 @@
 callback="formData={};formData.id=showData.salesOrder.id" alert-error>
 
   <!-- 主内容头部 -->
-  <div class="content-wrapper-heading">
+  <div class="content-wrapper-heading mgt-m mgb-m">
     <h1 class="pr-title-color pr-font-24">确认订单</h1>
   </div>
   <!-- 主内容区域 -->
@@ -17,7 +17,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
     <!-- 用户信息 -->
     <div class="pd-c-xxxxl bb-line">
       <div class="mg-xl text-s color-9">
-        <p class="mgb-l"><span>源自订单：</span><span class="pr-color color-6">{{showData.salesOrder.orderNo}}</span></p>
+        <p class="mgb-l"><span>订单号：</span><span class="pr-color color-6">{{showData.salesOrder.orderNo}}</span></p>
         <p class="mgb-l"><span>客户名：</span><span class="color-6">{{showData.salesOrder.customerName}}</span></p>
         <p class="mgb-l"><span>收货人信息：</span><span class="color-6">{{showData.salesOrder.address.name}} {{showData.salesOrder.address.address}} {{showData.salesOrder.address.tel}}</span></p>
         <p>
@@ -35,12 +35,12 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
         <table class="mgt-l pr-table" ng-if="invoicesOrders_tr.orderStatus!='暂不发货'">
           <thead>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
-            <th class="w-106 text-center">单位</th>
-            <th class="w-106 text-center">同批次</th>
+            <th class="w-70 text-center">单位</th>
+            <th class="w-70 text-center">同批次</th>
             <th class="w-186 text-center">批次号</th>
-            <th class="w-106 text-center">库存</th>
-            <th class="w-150 text-center">发货数量</th>
-            <th class="w-94 text-center">状态</th>
+            <th class="w-90 text-center">库存</th>
+            <th class="w-120 text-center">发货数量</th>
+            <th class="w-80 text-center">状态</th>
           </thead>
 
           <tbody>
@@ -50,18 +50,18 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
                 <div class="relative">
                   <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
                   <span class="inline-block">
-                    <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                    <p class="pdl-l mgb color-9 text-n"><span>{{tr.brand}}</span></p>
-                    <p class="mgt-s color-9 text-n"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                    <p class="pdl-l mgb-s color-6 text-n text-bold"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb-s color-9 text-s"><span>{{tr.brand}}</span></p>
+                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
                   </span>
                 </div>
               </td>
-              <td class="has-border text-center">{{tr.unit}}</td>
-              <td class="has-border text-center">{{tr.isSameBatch}}</td>
-              <td class="has-border text-center">{{tr.batchNo}}</td>
-              <td class="has-border text-center">{{medicalStockMap[tr.relId].quantity}}</td>
-              <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
-              <td class="has-border text-center pdt-xxxxl" rowspan="{{showData.invoicesOrders.orderMedicalNos.length}}">待发货</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.isSameBatch}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m" rowspan="{{showData.invoicesOrders.orderMedicalNos.length}}">待发货</td>
             </tr>
 <!--
             <tr>
@@ -94,12 +94,12 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
 
           <thead>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
-            <th class="w-106 text-center">单位</th>
-            <th class="w-106 text-center">同批次</th>
+            <th class="w-70 text-center">单位</th>
+            <th class="w-70 text-center">同批次</th>
             <th class="w-186 text-center">批次号</th>
-            <th class="w-106 text-center">库存</th>
-            <th class="w-150 text-center">发货数量</th>
-            <th class="w-94 text-center">状态</th>
+            <th class="w-90 text-center">库存</th>
+            <th class="w-120 text-center">发货数量</th>
+            <th class="w-80 text-center">状态</th>
             <th class="w-186 text-center">原因</th>
           </thead>
           <tbody>
@@ -109,22 +109,22 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
                 <div class="relative">
                   <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
                   <span class="inline-block">
-                    <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                    <p class="pdl-l mgb color-9 text-n"><span>{{tr.brand}}</span></p>
-                    <p class="mgt-s color-9 text-n"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                    <p class="pdl-l mgb-s color-6 text-n text-bold"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb-s color-9 text-s"><span>{{tr.brand}}</span></p>
+                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
 
                   </span>
                 </div>
               </td>
 
-              <td class="has-border text-center">{{tr.unit}}</td>
-              <td class="has-border text-center">{{tr.isSameBatch}}</td>
-              <td class="has-border text-center">{{tr.batchNo}}</td>
-              <td class="has-border text-center">{{medicalStockMap[tr.relId].quantity}}</td>
-              <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
-              <td class="has-border text-center pdt-xxxxl" >待发货</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.isSameBatch}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td>
+              <td class="has-border pr-bg-pink text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m" >待发货</td>
 
-              <td class="has-border text-center">库存不足，等待采购</td>
+              <td class="has-border text-center text-v-t pd-m">库存不足，等待采购</td>
             </tr>
 
           </tbody>
