@@ -2,8 +2,8 @@
         <div class="modal-content" ng-controller="editCtrl"  >
 
           <form class="add-medical-form form-horizontal"
-                action="rest/authen/medical/save"
-                 ajax-url="rest/authen/role/getOfEdit.json?id={{tr.id}}"  scope-data="formData" alert-error
+                action="rest/authen/role/save"
+                 ajax-url="rest/authen/role/getOfEdit.json?id={{tr.id}}" parameter-body scope-data="formData" alert-error
                 form-validator>
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
@@ -21,16 +21,34 @@
                   <label class="col-lg-2 col-sm-2 control-label">角色类型</label>
                   <div class="col-lg-10 col-sm-10">
                     <select class="ipt pr-short-ipt" data-placeholder="选择角色类型" chosen  ng-model="formData.type" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_RoleType">
-                      <option value=""></option>
+
                     </select>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">权限集</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select class="ipt pr-short-ipt" data-placeholder="选择角色类型" chosen default-empty="无" multiple ng-model="formData.authoritys" select-source="rest/index/queryAuthoritys">
-                      <option value=""></option>
-                    </select>
+
+
+
+                    <div class="form-ctrl"
+                     ajax-url="rest/index/queryAuthoritys"  scope-data="authoritys" alert-error>
+
+                      <fieldset  class="fieldset">
+                          <legend>
+                              权限  <label class="">
+                                <input type="checkbox" onclick=" $('[name=authorityItem_name]').click();"/>
+                                反选</label>
+                          </legend>
+
+                            <label class="" ng-repeat="authorityItem in authoritys">
+                               <input type="checkbox" name="authorityItem_name" value="{{authorityItem.value}}"
+                             checkbox-group="formData.authoritys" /> {{authorityItem.text}}</label>
+                      </fieldset>
+
+                    </div>
+                    <!--end Authoritys -->
+
                   </div>
                 </div>
                 <div class="form-group">

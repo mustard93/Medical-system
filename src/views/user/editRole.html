@@ -1,5 +1,6 @@
 
-        <div class="modal-content" ng-controller="editCtrl"  >
+        <div class="modal-content" ng-controller="editCtrl"      ajax-url="rest/authen/role/getUserAndRole.json?userid={{tr.id}}"  scope-data="formData" alert-error
+       >
 
           <form class="add-medical-form form-horizontal"
                 action="rest/authen/role/updateRoleOfUser"
@@ -19,9 +20,27 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">角色集</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select class="ipt pr-short-ipt" data-placeholder="选择角色类型" chosen default-empty="无" multiple ng-model="formData.roleIds" select-source="rest/authen/role/queryForSelectOption">
-                      <option value=""></option>
-                    </select>
+
+
+                                        <div class="form-ctrl"
+                                         ajax-url="rest/authen/role/queryForSelectOption"  scope-data="roles" alert-error>
+
+                                          <fieldset  class="fieldset">
+                                              <legend>
+                                                  角色  <label class="">
+                                                    <input type="checkbox" onclick=" $('[name=roleItem_name]').click();"/>
+                                                    反选</label>
+                                              </legend>
+
+                                                <label class="" ng-repeat="roleItem in roles">
+                                                   <input type="checkbox" name="roleItem_name" value="{{roleItem.value}}"
+                                                 checkbox-group="formData.roleIds" /> {{roleItem.text}}</label>
+                                          </fieldset>
+
+                                        </div>
+                                        <!--end Authoritys -->
+
+
                   </div>
                 </div>
                 <div class="form-group">
