@@ -17,6 +17,7 @@
 }());
 
 require.config({
+    waitSeconds: 0,
     baseUrl: require.dir + 'modules',
     paths: {
         'jQuery': '../libs/jquery.min',                       //jQuery
