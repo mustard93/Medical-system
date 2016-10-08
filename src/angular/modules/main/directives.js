@@ -1603,7 +1603,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 checkboxGroup: "="
             },
             link: function($scope, $elem, $attrs) {
-                if (!angular.isArray($scope.checkboxGroup)) $scope.checkboxGroup = [];
+                if (!angular.isArray($scope.checkboxGroup)) {
+                  $scope.checkboxGroup = [];
+                }
 
                 //if ($scope.checkboxGroup.indexOf($attrs.value) !== -1) {
                 //    $elem[0].checked = true;
@@ -1611,7 +1613,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 // Update array on click
                 $elem.on('click', function() {
-                    var index = $scope.checkboxGroup.indexOf($attrs.value);
+                    var index =-1;
+                    if(angular.isArray($scope.checkboxGroup))
+                        index=$scope.checkboxGroup.indexOf($attrs.value);
                     // Add if checked
                     if ($elem[0].checked) {
                         if (index === -1) $scope.checkboxGroup.push($attrs.value);
@@ -1636,7 +1640,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
     /**
       * 下拉
-  
+
       $attrs.clearWatchScope:监听一个model 当一个model清空时,重置cosen
       $attrs.selectCallBack
       */
