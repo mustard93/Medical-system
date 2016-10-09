@@ -56,7 +56,7 @@ define('project/controllers', ['project/init'], function() {
                 $scope.addDataItem.strike_price = data.price;
                 $scope.addDataItem.headUrl = data.headUrl;
                 $scope.addDataItem.specification = data.specification;
-
+                $scope.addDataItem.manufacturer = data.manufacturer;
 
 
                 // alert($('#addDataItem_quantity').length);
