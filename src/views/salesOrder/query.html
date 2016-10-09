@@ -55,50 +55,46 @@
                 <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right"><a href="#/salesOrder/edit.html?id={{tr.id}}">编辑</a></span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
-              <div class="flex-column qurey text-s color-6">
+              <div class="flex-column qurey text-s color-9">
                 <span class="flex-item-6">
-                  创建时间：<strong class="color-9 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
+                  创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
                 <span class="flex-item-6 text-right">
-                  订单编号：<strong class="color-9 text-normal">{{tr.orderNo}}</strong>
+                  订单编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
                 </span>
               </div>
             </div>
             <div>
               <div class="bb-line">
                 <h1 class="mg-l text-center text-m color-6">{{tr.customerName || '未知单位'}}</h1>
-                <div class="flex-column mgb-n query text-s color-6">
+                <div class="flex-column mgb-n query text-s color-9">
                   <div class="flex-item-6">
-                    销售人员：<strong class="text-normal color-9">{{tr.saleUser.n}}</strong>
+                    销售人员：<strong class="text-normal color-6">{{tr.saleUser.n}}</strong>
                   </div>
                   <div class="flex-item-6 text-right">
-                    期望到货时间：<strong class="text-normal color-9">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
+                    期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
                   </div>
                 </div>
               </div>
-              <div ng-if="listParams.orderStatus=='未提交'">
-
+              <div ng-if="tr.orderStatus=='未提交'">
                 <p class="mgb-m text-s color-9">备注：{{tr.note}}</p>
                 <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
-              <div  ng-if="listParams.orderStatus!='未提交'">
-                <h1 class="mgt-l mgb-s color-6 text-bold">发货信息</h1>
+              <div  ng-if="tr.orderStatus!='未提交'">
+                <h1 class="mgt-l mgb-s color-6">发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.invoiceOrderIdsSet.join(",")}}</em></p>
                 <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
-              <div  ng-if="listParams.orderStatus!='未提交'">
-                <h1 class="mgt-l mgb-s color-6 text-bold">未发货信息</h1>
+              <div  ng-if="tr.orderStatus!='未提交'">
+                <h1 class="mgt-l mgb-s color-6">未发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.noInvoiceOrderIdsSet.join(",")}}</em></p>
                 <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
             </div>
             <div>
-
               <div class="pdb-m pdt-m text-right">
                   <span class="text-right pdt-s pdb-s pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
               </div>
-
-
             </div>
           </div>
         </li>
