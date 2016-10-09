@@ -159,16 +159,38 @@ define('project/directives', ['project/init'], function () {
       restrict: 'A',
       link: function (scope, element, attrs) {
         require(['morris'], function () {
+          //定义参数
+          var _id = attrs.id;
+          //构建data参数
+          var _data = [];
+          if (angular.isDefined(attrs.datavalue) && angular.isDefined(attrs.datalabel) && angular.isDefined(attrs.dataformatted)) {
+            var _tempObj = {}, i = 0;
+            var _value = attrs.datavalue.split(','),
+                _label = attrs.datalabel.split(','),
+                _formatted = attrs.dataformatted.split(',');
+            while (i < _value.length) {
+              _tempObj.value = _value[i];
+              _tempObj.label = _label[i];
+              _tempObj.formatted = _formatted[i];
+              _data.push(_tempObj);
+              _tempObj = {};
+              i++;
+            }
+          }
+          //构建backgroundColor参数,布尔值
+          var _backgroundColor = angular.isDefined(attrs.backgroundColor) ? attrs.backgroundColor : false;
+          //构建labelColor参数，字符串十六进制
+          var _labelColor = angular.isDefined(attrs.labelColor) ? attrs.labelColor : '#666';
+          //构建区块颜色参数，数组
+          var _colors = angular.isDefined(attrs.colors) ? attrs.colors.split(',') : ['#ff5f39','#fe9302','#e39a27'];
+
+          //初始化
           Morris.Donut({
-            element: attrs.id,
-            data: [
-                {value: 40, label: '未处理', formatted: '未处理：4' },
-                {value: 35, label: '未拆分', formatted: '未拆分：3' },
-                {value: 25, label: '未提交', formatted: '未提交：1' }
-            ],
-            backgroundColor: false,
-            labelColor: '#666',
-            colors: ['#ff5f39','#fe9302','#e39a27'],
+            element: _id,
+            data: _data,
+            backgroundColor: _backgroundColor,
+            labelColor: _labelColor,
+            colors: _colors,
             formatter: function (x, data) { return data.formatted; }
           });
         });
