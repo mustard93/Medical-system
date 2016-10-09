@@ -1,35 +1,37 @@
-<div class="content-wrapper">
+<div class="content-wrapper repertory-manager">
   <!-- 基本信息 -->
   <div class="index-base-info">
     <div class="mg-m flex-column">
       <p class="flex-item-2">今天是：2016-09-30</p>
     </div>
     <div class="flex-column">
-      <!-- 订单录入统计 -->
-      <div class="flex-item-5">
+      <div class="flex-item-1">
+        <ng-include src="'views/index-template/index-transport-status.html'"></ng-include>
+      </div>
+      <div class="flex-item-7">
         <div class="panel pr-panel mgr">
-          <h1 class="pd-m pr-color text-center bb-line">我的订单录入统计</h1>
+          <h1 class="pd-m pr-color text-center bb-line">我的出入库状态统计</h1>
           <div class="flex-column">
-            <div class="flex-item-4 br-dotted-line index-chart-fix-height">
+            <div class="flex-item-3 br-dotted-line index-chart-fix-height">
               <div class="mg-l">
-                <p class="text-center mgb-xxl">
-                  <em class="block text-s mgb-l">今日新订单</em>
+                <p class="text-center mgb-l">
+                  <em class="block text-s mgb-xxl">今日到货</em>
                   <span class="block text-xxxl pr-color text-large">11</span>
                 </p>
                 <p class="text-center">
-                  <em class="block text-s mgb-l">订单总数</em>
-                  <span class="block text-xxxl pr-color text-large">686</span>
+                  <em class="block text-s mgb-xxl">待验收</em>
+                  <span class="block text-xxxl pr-color text-large">8</span>
                 </p>
               </div>
             </div>
-            <div class="flex-item-4 br-dotted-line index-chart-fix-height pdt-l">
+            <div class="flex-item-3 br-dotted-line index-chart-fix-height pdt-l">
               <div class="flex-column text-center mgb-xl">
                 <div class="flex-item-6">
                   <p class="text-s">昨日新订单</p>
                   <p class="pr-color">8</p>
                 </div>
                 <div class="flex-item-6">
-                  <p class="text-s">今日新订单</p>
+                  <p class="text-s">完成发货数</p>
                   <p class="pr-color">8</p>
                 </div>
               </div>
@@ -42,14 +44,34 @@
                 </div>
               </div>
             </div>
-            <div class="flex-item-4 index-chart-fix-height pdt-l">
+            <div class="flex-item-3 br-dotted-line index-chart-fix-height pdt-l">
               <div class="flex-column text-center mgb-xl">
                 <div class="flex-item-6">
-                  <p class="text-s">本月新订单</p>
+                  <p class="text-s">上周订单数</p>
                   <p class="pr-color">8</p>
                 </div>
                 <div class="flex-item-6">
-                  <p class="text-s">已处理订单</p>
+                  <p class="text-s">完成发货数</p>
+                  <p class="pr-color">8</p>
+                </div>
+              </div>
+              <div easypeichart class="pr-easypiechart text-center">
+                <div class="chart" data-percent="100" data-bar-color="#ff6d29" data-size="120">
+                  <span>
+                    <h1 class="text-center">100%</h1>
+                    <p class="text-s">上周订单处理率</p>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-3 index-chart-fix-height pdt-l">
+              <div class="flex-column text-center mgb-xl">
+                <div class="flex-item-6">
+                  <p class="text-s">上月订单数</p>
+                  <p class="pr-color">8</p>
+                </div>
+                <div class="flex-item-6">
+                  <p class="text-s">完成发货数</p>
                   <p class="pr-color">8</p>
                 </div>
               </div>
@@ -65,106 +87,73 @@
           </div>
         </div>
       </div>
-      <div class="flex-item-4">
+      <div class="flex-item-2">
         <div class="panel pr-panel mgr">
-          <h1 class="pd-m pr-color text-center bb-line">我的昨日订单状态</h1>
+          <h1 class="pd-m pr-color text-center bb-line">我的订单收货统计</h1>
           <div class="flex-column">
-            <div class="flex-item-6 pdt-l pdb br-dotted-line">
-              <div class="text-s text-center mgb-xl">
-                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-red"></i>未处理</span>
-                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-orange"></i>未拆分</span>
-                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-gold"></i>未提交</span>
+            <div class="flex-item-12 br-dotted-line index-chart-fix-height pdt-l">
+              <div class="flex-column text-center mgb-xl">
+                <div class="flex-item-4">
+                  <p class="text-s">订单总数</p>
+                  <p class="pr-color">812</p>
+                </div>
+                <div class="flex-item-4">
+                  <p class="text-s">已发货</p>
+                  <p class="pr-color">791</p>
+                </div>
+                <div class="flex-item-4">
+                  <p class="text-s">未收货</p>
+                  <p class="pr-color">21</p>
+                </div>
               </div>
-              <div morris
-                   id="morris-order-status1"
-                   class="revenue-graph"
-                   datavalue="10,65,25"
-                   datalabel="未处理,未拆分,未提交"
-                   dataformatted="未处理:10,未拆分:65,未提交:25">
-              </div>
-            </div>
-            <div class="flex-item-6 pdt-l pdb">
-              <div class="text-s text-center mgb-xl flex-column">
-                <span class="flex-item-6 text-center"><i class="chart-tip-icon pr-icon-bg-red"></i>库存不足</span>
-                <span class="flex-item-6 text-center"><i class="chart-tip-icon pr-icon-bg-orange"></i>批次要求</span>
-              </div>
-              <div morris
-                   id="morris-order-status2"
-                   class="revenue-graph"
-                   datavalue="40,60"
-                   datalabel="库存不足,批次要求"
-                   dataformatted="库存不足:4,批次要求:6">
+              <div easypeichart class="pr-easypiechart text-center">
+                <div class="chart" data-percent="73" data-bar-color="#ff6d29" data-size="120">
+                  <span>
+                    <h1 class="text-center">73%</h1>
+                    <p class="text-s">昨日订单处理率</p>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="flex-item-3 fix-width">
+      <div class="flex-item-2">
         <div class="panel pr-panel">
-          <h1 class="pd-m pr-color text-center bb-line">库存统计</h1>
-          <div class="bb-line">
-            <div class="flex-column pd-v-s">
-              <div class="flex-item-4 text-center">
-                <span class="block text-s mgb-s">药品类型</span>
-                <span class="block text-xl pr-color">256</span>
+          <h1 class="pd-m pr-color text-center bb-line">我的订单收款统计</h1>
+          <div class="flex-column">
+            <div class="flex-item-12 br-dotted-line index-chart-fix-height pdt-l">
+              <div class="flex-column text-center mgb-xl">
+                <div class="flex-item-4">
+                  <p class="text-s">订单总数</p>
+                  <p class="pr-color">812</p>
+                </div>
+                <div class="flex-item-4">
+                  <p class="text-s">已收款</p>
+                  <p class="pr-color">791</p>
+                </div>
+                <div class="flex-item-4">
+                  <p class="text-s">未收款</p>
+                  <p class="pr-color">21</p>
+                </div>
               </div>
-              <div class="flex-item-4 text-center">
-                <span class="block text-s mgb-s">新增药品</span>
-                <span class="block text-xl pr-color">8</span>
-              </div>
-              <div class="flex-item-4 text-center">
-                <span class="block text-s mgb-s">库存过低</span>
-                <span class="block text-xl pr-color">4</span>
+              <div class="">
+                <table class="table text-s">
+                  <tr>
+                    <td>应收：</td>
+                    <td>￥592,312,000</td>
+                  </tr>
+                  <tr>
+                    <td>已收：</td>
+                    <td>￥591,312,000</td>
+                  </tr>
+                  <tr>
+                    <td>未收：</td>
+                    <td>￥12,000</td>
+                  </tr>
+                </table>
               </div>
             </div>
-          </div>
-          <div class="pd-c-l">
-            <table class="table tabel-layout-fixed">
-              <tr>
-                <td class="overhide w-space-nowrap">甲钴胺片</td>
-                <td>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar"
-                         aria-valuenow="10" aria-valuemin="0"
-                         aria-valuemax="100" style="width: 10%;">
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="overhide w-space-nowrap">尤卓尔(丁酸氢化松乳膏)</td>
-                <td>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar"
-                         aria-valuenow="25" aria-valuemin="0"
-                         aria-valuemax="100" style="width: 25%;">
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="overhide w-space-nowrap">胶体果胶秘胶囊</td>
-                <td>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar"
-                         aria-valuenow="95" aria-valuemin="0"
-                         aria-valuemax="100" style="width: 95%;">
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="overhide w-space-nowrap">一次性使用注射笔</td>
-                <td>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar"
-                         aria-valuenow="60" aria-valuemin="0"
-                         aria-valuemax="100" style="width: 60%;">
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </table>
           </div>
         </div>
       </div>
@@ -181,7 +170,7 @@
   <!-- 订单录入辅助信息 -->
   <div class="index-order-create">
     <div class="index-order-create-title pr-line-title">
-      <span class="">订单录入辅助信息</span>
+      <span class="">销售决策辅助信息</span>
     </div>
     <div class="flex-column mgb-l">
       <div class="flex-item-7">
@@ -205,7 +194,7 @@
     <div class="flex-column">
       <div class="flex-item-8">
         <div class="panel pr-panel mgr">
-          <h1 class="pd-m text-n pr-color text-center bb-line">小组订单录入统计</h1>
+          <h1 class="pd-m pr-color text-center bb-line">小组订单录入统计</h1>
           <div class="flex-column">
             <div class="flex-item-3 br-dotted-line index-chart-fix-height">
               <div class="mg-l">
@@ -282,35 +271,55 @@
           </div>
         </div>
       </div>
-      <div class="flex-item-4">
+      <div class="flex-item-2">
         <div class="panel pr-panel mgr">
-          <h1 class="pd-m text-n pr-color text-center bb-line">小组订单状态统计</h1>
+          <h1 class="pd-m pr-color text-center bb-line">未完成发货订单</h1>
+          <div class="mg-l">
+            <p class="text-center mgb-l">
+              <em class="block text-s mgb-xxl">未发货</em>
+              <span class="block text-xxxl pr-color text-large">123</span>
+            </p>
+            <p class="text-center">
+              <em class="block text-s mgb-xxl">部分发货</em>
+              <span class="block text-xxxl pr-color text-large">29</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="flex-item-2">
+        <div class="panel pr-panel mgr">
+          <h1 class="pd-m pr-color text-center bb-line">小组收款统计</h1>
           <div class="flex-column">
-            <div class="flex-item-6 pdt-l pdb br-dotted-line">
-              <div class="text-s text-center mgb-xl">
-                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-red"></i>未处理</span>
-                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-orange"></i>未拆分</span>
-                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-gold"></i>未提交</span>
+            <div class="flex-item-12 br-dotted-line index-chart-fix-height pdt-l">
+              <div class="flex-column text-center mgb-xl">
+                <div class="flex-item-4">
+                  <p class="text-s">订单总数</p>
+                  <p class="pr-color">812</p>
+                </div>
+                <div class="flex-item-4">
+                  <p class="text-s">已收款</p>
+                  <p class="pr-color">791</p>
+                </div>
+                <div class="flex-item-4">
+                  <p class="text-s">未收款</p>
+                  <p class="pr-color">21</p>
+                </div>
               </div>
-              <div morris
-                   id="morris-order-status3"
-                   class="revenue-graph"
-                   datavalue="10,65,25"
-                   datalabel="未处理,未拆分,未提交"
-                   dataformatted="未处理:10,未拆分:65,未提交:25">
-              </div>
-            </div>
-            <div class="flex-item-6 pdt-l pdb">
-              <div class="text-s text-center mgb-xl">
-                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-red"></i>库存不足</span>
-                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-orange"></i>批次要求</span>
-              </div>
-              <div morris
-                   id="morris-order-status4"
-                   class="revenue-graph"
-                   datavalue="40,60"
-                   datalabel="库存不足,批次要求"
-                   dataformatted="库存不足:4,批次要求:6">
+              <div class="">
+                <table class="table text-s">
+                  <tr>
+                    <td>应收：</td>
+                    <td>￥592,312,000</td>
+                  </tr>
+                  <tr>
+                    <td>已收：</td>
+                    <td>￥591,312,000</td>
+                  </tr>
+                  <tr>
+                    <td>未收：</td>
+                    <td>￥12,000</td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
