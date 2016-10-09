@@ -1,0 +1,234 @@
+
+<div class="content-wrapper"  ng-controller="salesOrderEditCtrl"  ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"  scope-data="formData" alert-error>
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading mgt-m mgb-m">
+    <h1 class="pr-title-color pr-font-24">{{!formData.id?'新建':'编辑'}}订单</h1>
+  </div>
+  <!-- 主内容区域 -->
+  <form name="editSalesOrderForm" form-validator  parameter-body action="rest/authen/salesOrder/save.json"
+            alert-error scope-error-msg="errorMsg" scope-data="formData"
+            callback="goTo('#/salesOrder/confirm-order.html?id='+formData.id)"
+            >
+  <div class="content-wrapper-main pr-bg-white pr-border">
+    <!-- 订单类型 -->
+    <div class="flex-column mgb-l pd-c-xl pdt-m pdb-m bb-line">
+      <div class="flex-item-2">
+        <select class="select pr-select" ng-model="formData.type">
+          <option value="普通订单">普通订单</option>
+          <option value="寄售订单">寄售订单</option>
+        </select>
+      </div>
+      <div class="flex-item-10 text-right text-s color-6 mgt">
+        <span class="mgr-xl">创建时间：{{formData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span>
+        <span class="mgr-xl">订单状态：{{formData.orderStatus}}</span>
+        <span>订单编号：{{formData.orderNo}}</span>
+      </div>
+    </div>
+    <!-- 用户信息 -->
+    <div class="pd-c-xl pdb-l bb-line" >
+      <span>
+        <label class="pr-label mgr-l">客户名</label>
+
+        <select ng-if="!(formData.id&&formData.customerName)"  class="ipt pr-short-ipt" data-placeholder="填写客户名" chosen  chosen-ajax ng-model="formData.customerId" select-source="rest/authen/customerAddress/queryForSelectOption.json"></select>
+          <input ng-if="formData.id&&formData.customerName" type="text" class="ipt pr-short-ipt"   ng-readonly="true" ng-model="formData.customerName">
+      </span>
+      <span>
+        <label class="pr-label mgr-l">负责人员</label>
+        <select class="ipt pr-short-ipt" data-placeholder="填写负责人员" chosen default-empty="无"  ng-model="formData.saleUserId" select-source="rest/authen/user/queryForSelectOption.json">
+          <option value=""></option>
+        </select>
+      </span>
+      <span>
+        <label class="pr-label mgr-l">期望到货时间</label>
+        <input type="date" class="ipt pr-short-ipt" placeholder="期望到货时间" convert-to-date ng-model="formData.expectDate">
+      </span>
+    </div>
+    <!-- 收货人信息 -->
+    <div class="consignee-info pd-c-xl pdt-l pdb-l bb-line"
+     ajax-if="{{formData.customerId}}"  ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
+     scope-data="customerAddress"  callback="customerAddressGetCallBack(formData,customerAddress)">
+      <h1 class="color-6 text-n mgb-l">收货人信息</h1>
+      <ul ng-if="formData.customerId">
+
+        <li class="mgr-m mgb-m"  ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
+          <p class="pdb">{{item.name}} </p>
+          <p class="text-n color-6 mgb-s">{{item.address}} {{item.tel}}</p>
+          <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
+
+          <i class="consignee-default-label"  ng-if="customerAddress.defaultContactId==item.id">默认</i>
+          <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+        </li>
+
+        <!-- <li class="mgr-m">
+          <p class="pdb">张大伟</p>
+          <p class="text-n color-6 mgb-s">四川省成都市武侯区武侯大道168号四川省第三人民医院会计部 18285851010</p>
+          <p><a href="">修改</a></p>
+        </li> -->
+
+
+        <span>
+          <button class="pr-add-item-whitebg" modal-right="700" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html"><i class="fa fa-plus"></i></button>
+        </span>
+      </ul>
+
+    </div>
+    <!-- 订单清单 -->
+
+    <div class="order-details pd-c-xl bb-line">
+      <h1 class="pdt-l color-6 text-n">订单清单</h1>
+      <table class="mgt-l pr-table">
+        <thead>
+          <th class="pr-indent-20">药械名称/生产厂家/规格</th>
+          <th class="w-70 text-center">销售单位</th>
+          <th class="w-80 text-center">参考单价</th>
+          <th class="w-80 text-center">成交价</th>
+          <th class="w-70 text-center">同批次</th>
+          <th class="w-186 text-center">批次号</th>
+          <th class="w-90 text-center">库存</th>
+          <th class="w-120 text-center">购买数量</th>
+          <th class="w-70 text-center">操作</th>
+        </thead>
+        <tbody  ng-init="medicalStockMap={};orderMedicalNoIds=[]" >
+          <tr class="tr-interval"><td colspan="9"></td></tr>
+
+          <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()"  ng-init="orderMedicalNoIds.push(tr.relId)" >
+
+            <td class="goods-name has-border pd-m">
+              <div class="pr-table-td-m relative">
+                <span class="goods-thumbnail inline-block"><img  ng-src="{{tr.headUrl}}" alt=""></span>
+                <span class="block">
+                  <p class="pdl-m mgb-s color-6 text-n text-bold"><span>{{tr.name}}药品名</span></p>
+                  <p class="pdl-m mgb-s color-9 text-s"><span>{{tr.brand}}生产厂家</span></p>
+                  <p class="mgl-m color-9 text-s"><span>{{tr.specification||"无规格"}}</span></p>
+                </span>
+              </div>
+            </td>
+            <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
+            <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td>
+            <td class="has-border text-center text-v-t pd-m" >
+              <span class="pr-unit-inline">￥</span>
+              <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="tr.strike_price" >
+            </td>
+            <td class="has-border text-center text-v-t pd-m">{{tr.isSameBatch}}</td>
+            <td class="has-border text-center text-v-t pd-m" >
+              <select ng-if="tr.isSameBatch=='是'"  class="ipt pr-short-ipt in-table" data-placeholder="批次选择"
+               ng-model="tr.batchNo"  >
+                <option value=""></option>
+              </select>
+            </td>
+            <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td>
+            <td class="has-border pr-bg-pink text-center text-v-t pd-m">
+              <span class="order-goods-num flex-column">
+                <i class="flex-item-1 left" ng-click="tr.quantity_Invoice=tr.quantity_Invoice-1">-</i>
+                <input type="text" class="flex-item-10 pr-bg-pink"  ng-model="tr.quantity_Invoice">
+                <i class="flex-item-1 right" ng-click="tr.quantity_Invoice=tr.quantity_Invoice+1">+</i>
+              </span>
+
+              <span class="text-s pr-point-color" ng-hide="tr.quantity_noInvoice>0||tr.quantity_noInvoice_show"
+                 ng-if="medicalStockMap[tr.relId].quantity<tr.quantity_Invoice"><i class="fa fa-exclamation-triangle" ></i> 本批次库存不足，此条目将由销售拆分</span>
+              <div ng-if="tr.quantity_noInvoice>0||tr.quantity_noInvoice_show" class="text-center">
+
+                 <span class="text-s pr-point-color" >
+                     <i class="fa fa-exclamation-triangle" ></i> 暂不可发货  </span>
+                  <div><span class="order-goods-num flex-column">
+                       <input type="text" class="flex-item-10 pr-bg-pink"  ng-model="tr.quantity_noInvoice">
+                    </span></div>
+              </div>
+            </td>
+            <td class="has-border text-center text-v-t pd-m">
+              <span class="block mgb-m"><button type="button" class="pr-btn-table-glodbg"
+                ng-click="caifenQuantity(tr,medicalStockMap[tr.relId].quantity);">拆分</button></span>
+              <span class="block"  ng-click="formData.orderMedicalNos.splice($index,1)"><a href="javascript:;"><i class="fa fa-trash-o pr-color text-l"></i></a></span>
+            </td>
+          </tr>
+
+
+          <tr>
+            <td colspan="9" class="pd-v-l">添加药械</td>
+          </tr>
+
+          <tr  ng-init="addDataItem={}"  ajax-if="{{addDataItem&&addDataItem.relId}}"  ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}" scope-data="medical"
+            callback="selectRelIdCallBack(medical)">
+            <td class="has-border text-v-t pd-m">
+              <div class="relative pr-table-td-m">
+                <span class="goods-thumbnail flex-item-2"><img  ng-if="addDataItem.headUrl" ng-src="{{addDataItem.headUrl}}" alt=""/></span>
+
+                <span class="block pdl-m">
+                  <p>
+                    <!-- <input type="text" class="pr-table-input" placeholder="药械名"> -->
+                    <select id="addDataItem_relId" class="select pr-table-select mgb-s" data-placeholder="药械名" chosen
+                    ng-model="addDataItem.relId" clear-watch-scope="addDataItem.relId"
+                    select-source="rest/authen/medicalStock/queryForSelectOption.json"></select>
+                  </p>
+                  <p>
+                    <input type="text" class="pr-table-input" placeholder="厂商名"   ng-readonly="true" ng-model="addDataItem.brand">
+                  </p>
+                  <p class="mgt-s">
+                    <span class="mgl-l">{{addDataItem.specification||"无规格"}}</span>
+                  </p>
+                </span>
+              </div>
+            </td>
+            <td class="has-border text-v-t pd-m">
+
+              {{addDataItem.unit}}
+              <!-- <select class="pr-table-select">
+                <option value="">单位</option>
+                <option value="">盒</option>
+              </select> -->
+            </td>
+            <td class="has-border text-center text-v-t pd-m">￥{{addDataItem.price}}</td>
+            <td class="has-border text-center text-v-t pd-m">
+              <span class="pr-unit-inline">￥</span>
+              <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="addDataItem.strike_price" >
+            </td>
+            <td class="has-border text-center text-v-t pd-m">
+
+                <input type="checkbox" class="pr-table-checkbox" ng-true-value="'是'" ng-false-value="'否'"   ng-model="addDataItem.isSameBatch" />
+            </td>
+            <td class="has-border text-center text-v-t pd-m">
+              <select ng-show="addDataItem.isSameBatch=='是'" class="pr-table-input" data-placeholder="批次选择"  ajax-if="medical.id"
+               ng-model="addDataItem.batchNo"  >
+                <option value=""></option>
+              </select>
+
+            </td>
+            <td class="has-border text-center text-v-t pd-m">
+              {{medical.quantity}}
+            </td>
+            <td class="has-border text-center text-v-t pd-m">
+              <input type="number" id="addDataItem_quantity" class="pr-table-input" ng-model="addDataItem.quantity_Invoice"  ng-keydown="$event.keyCode==13&&addDataItemClick()"/>
+            </td>
+            <td class="fix-td-border">
+              <button class="pr-add-item-glodbg color-white" type="button"  ng-click="addDataItemClick()"><i class="fa fa-plus"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <p class="mgt-m mgb-l text-right"><a href="javascript:;">导入药械清单</a><i class=""></i></p>
+    </div>
+    <!-- 备注 -->
+    <div class="pd-c-xl bb-line">
+      <textarea class="pr-textarea mgb-l mgt-l" ng-model="formData.note" ></textarea>
+    </div>
+    <!-- 总价 -->
+    <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
+      <span class="pr-font-24 color-9">总价：</span>
+      <span class="pr-font-24 color-6">￥{{formData.totalPrice}}</span>
+    </div>
+    <!-- 提交按钮 -->
+    <div class="pd-c-xl pdb-xxl text-right">
+      <span class="mgr-l"><button class="pr-btn-save-glodbg" type="submit">保存</button></span>
+      <span class="mgr-l"><button  type="submit" class="pr-btn-create-glodbg">生成订单</button></span>
+      <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr')">取消</a></span>
+    </div>
+  </div>
+  </form>
+
+  <!-- 加载选中药械库存-->
+  <div   ajax-if="orderMedicalNoIds"
+  ajax-url="rest/authen/medicalStock/countStockByIds.json?ids={{orderMedicalNoIds.join(',')}}" scope-data="medicalStockMap" alert-error>
+</div>
+</div>

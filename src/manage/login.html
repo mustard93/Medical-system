@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="#" type="image/png">
+    <title>盘谷医疗 - 用户登录</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../fonts/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="build/css/style-e49548a28c.css"> -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="login-body">
+    <div class="container col-lg-6 col-lg-offset-3">
+      <div class="col-lg-12 col-sm-12 sys-login-logo"></div>
+      <div class="col-lg-12 col-sm-12">
+        <p class="sys-login-title">盘谷医流综合服务平台-管理员平台</p>
+      </div>
+      <div class="col-lg-12 col-sm-12 login-info-prompt" style="display:none;">
+        <div>
+          <i class="fa fa-exclamation-triangle"></i>
+          <span></span>
+        </div>
+      </div>
+      <div class="login-wrap col-lg-12">
+        <form name="loginForm" class="form-signin" onsubmit="return false;" autocomplete="off">
+          <div>
+            <input type="text"
+                  class="form-control"
+                  placeholder="手机号码"
+                  name="phone" required autofocus>
+          </div>
+          <div>
+            <input type="password"
+                   class="form-control"
+                   placeholder="密码"
+                   name="password" required>
+          </div>
+          <div>
+            <div class="col-lg-6">
+              <!-- <label><input type="checkbox" value=""> 记住电话号码</label> -->
+              <div class="square single-row">
+                  <div class="checkbox ">
+                      <input type="checkbox" name="remeberNumber" checked>
+                      <label class="color-custom-gold">记住手机号码</label>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+                <a class="pull-right color-custom-orange" data-toggle="modal" href="#myModal"> 忘记密码 ?</a>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-lg btn-login btn-block pr-btn-login"  type="submit">登 录</button>
+          </div>
+          <div class="registration">
+            <a class="" href="registration.html">注册账号</a>
+          </div>
+          <!-- 快捷登录 -->
+          <div class="fast-login-choise">
+            <span></span>
+            <span>快捷登录</span>
+            <span></span>
+          </div>
+          <div class="fast-login-btn">
+            <span><a href="#"></a></span>
+            <span><a href="#"></a></span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Placed js at the end of the document so the pages load faster -->
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/iCheck/jquery.icheck.min.js"></script>
+    <script src="conf.js"></script>
+    <script>
+
+
+    // eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('$(6(){$(\'p[1="l"]\').k(\'j\',6(){m 4={};a($(\'2[1="5"]\').3()&&$(\'2[1="7"]\').3()){4.5=$(\'2[1="5"]\').3();4.7=$(\'2[1="7"]\').3();$.o({n:\'f://d.i.0.g:h/e/C/b/D.9\',A:\'B\',H:4,G:\'9\',E:6(8){a(8.F==z){s.t.q="/r/b.c#/u.c"}x{y(8.v||\'w\')}}})}})});',44,44,'|name|input|val|_0|phone|function|password|results|json|if|index|html|192|dt|http|107|8080|168|submit|on|loginForm|var|url|ajax|form|href|src|window|location|main|msg|登录失败|else|alert|200|type|post|rest|authorize|success|code|dataType|data'.split('|'),0,{}))
+
+      //=========登陆ajax请求源码，生产环境请删除下列代码============================================
+      // $(function () {
+      //   $('form[name="loginForm"]').on('submit', function () {
+      //     var _paramsObj = {};
+      //     if ($('input[name="phone"]').val() && $('input[name="password"]').val()) {
+      //       _paramsObj.phone = $('input[name="phone"]').val();
+      //       _paramsObj.password = $('input[name="password"]').val();
+      //       $.ajax({
+      //         url: 'http://192.168.0.107:8080/dt/rest/index/authorize.json',
+      //         type: 'post',
+      //         data: _paramsObj,
+      //         dataType: 'json',
+      //         success: function (results) {
+      //           if (results.code == 200) {  //验证成功
+      //             window.location.href = "/src/index.html#/main.html";
+      //           } else {
+      //             alert(results.msg || '登录失败');
+      //           }
+      //         }
+      //       });
+      //     }
+      //   });
+      // });
+
+      $(function () {
+        // 绑定发送事件
+        $('form[name="loginForm"]').on('submit', function () {
+          var _paramsObj = {};
+          if ($('input[name="phone"]').val() && $('input[name="password"]').val()) {
+            _paramsObj.phone = $('input[name="phone"]').val();
+            _paramsObj.password = $('input[name="password"]').val();
+            $.ajax({
+
+              url: conf.serverPath+'rest/index/authorize.json',
+                // url: 'http://localhost:8080/dt/rest/index/authorize.json',
+              type: 'post',
+              data: _paramsObj,
+              xhrFields:{withCredentials: true},
+              crossDomain:true,
+              dataType: 'json',
+              success: function (results) {
+                if (results.code === 200) {  //验证成功
+                  // 记住电话号码
+                  if ($('input[name="remeberNumber"]').is(':checked')) {  //如果用户选择保存手机号码
+                    if (window.localStorage) {    //如果当前用户浏览器支持localstorage
+                      window.localStorage.setItem('remeberNumber', _paramsObj.phone);
+                    }
+                  }
+                  window.location.href = "index.html#/main.html";
+                } else {
+                  $('.login-info-prompt > div > span').text(results.msg);
+                  $('.login-info-prompt').fadeIn(500);
+                }
+              },
+              error:function(res){
+                //{readyState: 0, responseText: "", status: 0, statusText: "error"}
+                  alert("服务器连接不上或内部异常："+res.responseText);
+              }
+            });
+          }
+        });
+        // 按钮可用与不可用
+        // $('input[type!="checkbox"]').each(function () {
+        //   $(this).on('keyup', function () {
+        //     if ($('input[name="phone"]').val() && $('input[name="password"]').val()) {
+        //       $('.pr-btn').removeAttr('disabled');
+        //     } else {
+        //       $('.pr-btn').attr('disabled', 'disabled');
+        //     }
+        //   });
+        // });
+        // icheck
+        $('input[type="checkbox"]').iCheck({
+          checkboxClass: 'icheckbox_square',
+          radioClass: 'iradio_square',
+          increaseArea: '20%' // optional
+        });
+        // 读取用户设置的手机号码
+        if (window.localStorage.remeberNumber) {
+          $('input[name="phone"]').val(window.localStorage.remeberNumber);
+        }
+      });
+    </script>
+</body>
+</html>
