@@ -293,10 +293,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                               if ($attrs.broadcast) {
                                                   $scope.$broadcast($attrs.broadcast);
                                                   $scope.$emit($attrs.broadcast);
-                                                  if (angular.isDefined($attrs.autoCloseDialog)) {
-                                                      modal.close();
-                                                  }
-                                                  return;
+                                                  // if (angular.isDefined($attrs.autoCloseDialog)) {
+                                                  //     modal.close();
+                                                  // }
+                                                  // return;
                                               }
 
                                               // 增加属性no-close-dialog设置不自动关闭模态框
@@ -2042,6 +2042,62 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     };
     customConfig.$inject = ["$timeout"];
 
+
+
+        /**
+         * 自动
+         */
+        function autocomplete() {
+            return {
+                restrict: 'AE',
+                scope: true,
+                transclude: true,
+                require: "?^ngModel",
+                link: function($scope, $element, $attrs, ngModel, $transclude) {
+                    var config = {
+                        parse: function(data){
+                          var parsed = [];
+                          if(!data||!data.data)return parsed;
+                          		var rows = data.data;
+                          		for (var i=0; i < rows.length; i++) {
+                          			var row1 = $.trim(rows[i]);
+                          			if (row1) {
+                          				row = row1.split("|");
+                          				parsed[parsed.length] = {
+                          					data: row1,
+                          					value: row[0],
+                          					result:row[0]
+                          				};
+                          			}
+                          		}
+                          		return parsed;
+
+
+                        },
+                        formatItem:function(item){return item},
+                        noRecord:"没匹配数据",
+                        dataType:"json"
+
+                    };
+                    require(['autocomplete'], function() {
+
+                        if ($attrs.autocomplete) {
+
+                          var _url=$attrs.autocomplete;
+
+                          if(Config.serverPath){
+                            if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
+                              _url=Config.serverPath+_url;
+                            }
+                          }
+
+                             var chosenObj = $element.autocomplete(_url,config);
+                        }
+
+                });
+            }
+        };
+      }
     /**
      * 加入项目
      */
@@ -2067,5 +2123,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("checkboxGroup", checkboxGroup)
         .directive("chosen", chosen)
         .directive("formItem", formItem)
+        .directive("autocomplete", autocomplete)
         .directive("customConfig", customConfig)
 });
