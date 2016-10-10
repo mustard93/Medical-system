@@ -1,42 +1,35 @@
-
-        <div class="modal-content" ng-controller="editCtrl"  >
-
-          <form class="add-customerAddress-form form-horizontal" ng-init="formData=dialogData.contact;formData.customerAddressId=dialogData.customerAddressId"
-                action="rest/authen/customerAddress/contact/save" callback="customerAddressReload()"
-                form-validator>
-            <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}地址</h4>
-            </div>
-            <div class="modal-body">
-
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">收货人</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">手机</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.tel" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">地址</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.address" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label"></label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="submit" class="btn btn-success" value="提交">
-                  </div>
-                </div>
-
-            </div>
-
-            </form>
+<div class="modal-content pr-modal-content" ng-controller="editCtrl">
+    <form class="add-customerAddress-form form-horizontal" ng-init="formData=dialogData.contact;formData.customerAddressId=dialogData.customerAddressId" action="rest/authen/customerAddress/contact/save" callback="customerAddressReload()" form-validator>
+        <div class="modal-header">
+            <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}地址</h4>
         </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label text-left">收货人</label>
+                <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="请填写收货人姓名" ng-model="formData.name"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">手机</label>
+                <div class="col-lg-10 col-sm-10">
+                    <input type="number" class="form-control" placeholder="请填写联系手机号码" ng-model="formData.tel"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">地址</label>
+                <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="请填写收货地址" ng-model="formData.address"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label"></label>
+                <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
