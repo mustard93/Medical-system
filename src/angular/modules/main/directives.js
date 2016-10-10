@@ -1643,6 +1643,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
       $attrs.clearWatchScope:监听一个model 当一个model清空时,重置cosen
       $attrs.selectCallBack
+      $attrs.pageSize:
+
+
+      queryForSelectOption.json?q=&id=&pageSize=
+      3个参数：q：关键词。
+      id：指定id，id！=null&&q==null 时，根据id查询，q不为空时根据q查询。
+      pageSize：指定返回数据条数
       */
     function chosen(requestData, $timeout,alertError) {
         return {
@@ -1706,6 +1713,23 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                               if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
                                 _url=Config.serverPath+_url;
                               }
+                            }
+                            //
+                            // if($attrs.watchName){
+                            //   $scope.$watch($attrs.watchName, function(n, o){
+                            //             console.log(n);
+                            //               console.log(o);
+                            //         if(n==o)return;
+                            //         $input.val(n);
+                            //     },true);
+
+                              // var tmp=  $scope.$eval($attrs.ngModelName);
+                              // console.log(tmp);
+                              // $input.val(tmp);
+                            // }
+                            //解决第二次编辑打开时，没有显示初始值bug。
+                            if(ngModel.$viewValue){
+                              handleSearch('');
                             }
 
                             function handleSearch(q) {
