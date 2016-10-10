@@ -63,14 +63,13 @@ define('project/controllers', ['project/init'], function() {
         * 添加一条。并缓存数据。
         */
         $scope.addDataItemClick = function() {
-            if (!($scope.addDataItem.relId&&$scope.addDataItem.name)) {
+            if (!($scope.addDataItem.relId && $scope.addDataItem.name)) {
                 alertWarn("请选择药品。");
                 return;
             }
             if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
                   console.log($scope.addDataItem);
             $scope.formData.orderMedicalNos.push($scope.addDataItem);
-
 
             $scope.addDataItem = {};
 
