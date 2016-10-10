@@ -1,13 +1,13 @@
-<div class="content-wrapper"  ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"  scope-data="showData"
-callback="formData={};formData.id=showData.id"
-alert-error>
+<div class="content-wrapper"
+     ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback="formData={};formData.id=showData.id"
+     alert-error>
   <!-- 主内容头部 -->
-  <div class="content-wrapper-heading">
+  <div class="content-wrapper-heading mgt-m mgb-m">
     <h1 class="pr-title-color pr-font-24">订单详细</h1>
   </div>
   <!-- 主内容区域 -->
-
-
   <div class="content-wrapper-main pr-bg-white pr-border pr-fuzzy-boundary">
     <!-- 用户信息 -->
     <div class="pd-c-xxxxl bb-line">
@@ -26,8 +26,8 @@ alert-error>
     <div class="pd-c-xxxxl">
       <!-- 可发货 -->
       <div class="confirm-order bb-line pdb-l">
-        <h1 class="pdt-l color-6 text-m text-bold">药械详细</h1>
-        <table class="mgt-l pr-table">
+        <h1 class="pdt-l color-6 text-m pr-fw-500">药械详细</h1>
+        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
           <thead>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
             <th class="w-106 text-center">单位</th>
@@ -44,9 +44,9 @@ alert-error>
                 <div class="relative">
                   <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
                   <span class="inline-block">
-                    <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                    <p class="pdl-l mgb color-9 text-n"><span>{{tr.manufacturer}}</span></p>
-                    <p class="mgt-s color-9 text-n"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                    <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb color-9 text-s"><span>{{tr.manufacturer}}</span></p>
+                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
                   </span>
                 </div>
               </td>
@@ -54,31 +54,11 @@ alert-error>
               <td class="has-border text-center">{{tr.isSameBatch}}</td>
               <td class="has-border text-center">{{tr.batchNo}}</td>
               <td class="has-border text-center">{{tr.quantity}}</td>
-              <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
-
+              <td class="has-border text-center">{{tr.quantity}}</td>
+              <td ng-if="$index=='0'" class="has-border text-center" rowspan="3">{{tr.orderStatus || '待发货'}}</td>
             </tr>
-<!--
-            <tr>
-              <td class="goods-name has-border pd-m">
-                <div class="relative">
-                  <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
-                  <span class="inline-block">
-                    <p class="pdl-l mgb color-6 text-n text-bold"><span>阿莫西林酸钾片</span></p>
-                    <p class="pdl-l mgb color-9 text-n"><span>南充先森东院制药有限公司</span></p>
-                    <p class="mgt-s color-9 text-n"><span class="mgl-l">0.5g</span></p>
-                  </span>
-                </div>
-              </td>
-              <td class="has-border text-center">盒</td>
-              <td class="has-border text-center">否</td>
-              <td class="has-border text-center pr-table-greyfill"></td>
-              <td class="has-border text-center">100</td>
-              <td class="has-border text-center">100</td>
-            </tr> -->
           </tbody>
         </table>
-      </div>
-
       </div>
     </div>
     <!-- 总价 -->
@@ -91,5 +71,4 @@ alert-error>
       <span><a href="javascript:window.history.back()">返回</a></span>
     </div>
   </div>
-  </form>
 </div>
