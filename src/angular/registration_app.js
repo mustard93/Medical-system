@@ -18,7 +18,7 @@
 
 require.config({
     baseUrl: require.dir + 'modules',
-      waitSeconds: 0,
+    waitSeconds: 0,
     paths: {
         'jQuery': '../libs/jquery.min', //jQuery
         'underscore': '../libs/underscore/underscore-1.5.2.min',
@@ -27,7 +27,7 @@ require.config({
         'chosen': '../libs/chosen.jquery.min', //下拉筛选插件
         'angular': '../libs/angular', //Angular
         'ngRoute': '../libs/angular-route', //路由
-        'ngTagsInput': '../libs/ng-tags-input/ng-tags-input', //自动补齐
+          'autocomplete': '../libs/jquery.autocomplete.min',      //自动补齐
         'bootstrap': '../libs/bootstrap.min', //bootstrap
     },
     shim: {
@@ -51,9 +51,9 @@ require.config({
             deps: ['angular'], //依赖什么模块
             exports: 'ngRoute'
         },
-        'ngTagsInput': {
-            deps: ['angular'], //依赖什么模块
-            exports: 'ngTagsInput'
+        'autocomplete': {
+                deps: ['jQuery'],   //依赖什么模块
+                exports: 'autocomplete'
         },
         'bootstrap': {
             deps: ['jQuery'],

@@ -2047,7 +2047,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         /**
          * 自动
          */
-        function autocomplete() {
+        function autoComplete() {
             return {
                 restrict: 'AE',
                 scope: true,
@@ -2123,6 +2123,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("checkboxGroup", checkboxGroup)
         .directive("chosen", chosen)
         .directive("formItem", formItem)
-        .directive("autocomplete", autocomplete)
+        .directive("autoComplete", autoComplete)
         .directive("customConfig", customConfig)
 });

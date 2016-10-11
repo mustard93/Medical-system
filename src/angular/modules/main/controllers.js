@@ -3,9 +3,6 @@
  */
 
 define('main/controllers', ['main/init'], function () {
-
-
-
     /**
      * 主控
      */
@@ -24,7 +21,6 @@ define('main/controllers', ['main/init'], function () {
             window.location.assign(_url);
         };
 
-
         // 调整页面
         $scope.goTo = function (url,confirmMsg) {
 
@@ -37,48 +33,44 @@ define('main/controllers', ['main/init'], function () {
             }
         };
 
-
-
-
         $scope.httpGet = function(url) {
-
           if (Config.serverPath) {
-
               if (url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0) {
                 url = $scope.mainConfig.serverPath + url;
               }
           }
-
           return $http.get(url);
         };
 
         $scope.logout = function(method) {
+          var _url = '';
 
-            if (!Config.logoutUrl) {
-               alert("请设置注销接口");
-                return;
-            }
+          if (!Config.logoutUrl) {
+            alert("请设置注销接口");
+            return;
+          }
 
-            if (!method) {
-              method = 'POST';
-            }
-            if (Config.serverPath) {
-                var _url =Config.logoutUrl;
-                if (_url.indexOf("http://") !== 0 && _url.indexOf("https://") !== 0) {
-                  _url = $scope.mainConfig.serverPath + _url;
-                }
-            }
-            $.ajax({
-              url: _url,
-              type: method,
-              xhrFields:{withCredentials: true},
-              crossDomain:true,
-              dataType: 'json',
-              success: function (_data) {
-                  window.location.href = Config.loginHtmlUrl;
-                }
-            });
+          if (!method) {
+            method = 'POST';
+          }
 
+          if (Config.serverPath) {
+            _url = Config.logoutUrl;
+            if (_url.indexOf("http://") !== 0 && _url.indexOf("https://") !== 0) {
+              _url = $scope.mainConfig.serverPath + _url;
+            }
+          }
+
+          $.ajax({
+            url: _url,
+            type: method,
+            xhrFields:{withCredentials: true},
+            crossDomain:true,
+            dataType: 'json',
+            success: function (_data) {
+              window.location.href = Config.loginHtmlUrl;
+            }
+          });
         };
 
         //全局权限控制器
