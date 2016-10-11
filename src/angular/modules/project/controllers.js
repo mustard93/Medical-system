@@ -68,14 +68,12 @@ define('project/controllers', ['project/init'], function() {
                 return;
             }
             if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
-                  console.log($scope.addDataItem);
             $scope.formData.orderMedicalNos.push($scope.addDataItem);
 
             $scope.addDataItem = {};
 
             $("input", "#addDataItem_relId_chosen").trigger("focus");
             // $("#addDataItem_relId_chosen").trigger("click");
-            console.log($scope.formData.orderMedicalNos);
         };
         /**
         *保存
