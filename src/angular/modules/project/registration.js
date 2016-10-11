@@ -128,8 +128,9 @@ define('project/registration',['angular'], function () {
         if (!$rootScope.verifyResult) {
           $rootScope.verifyResult = {};
         }
-        // 绑定失去焦点事件
-        element.on('blur', function () {
+
+        // 验证码输入框获取焦点后触发
+        $('input[name="verifyCode"]').on('focus', function () {
           // 格式校验
           if (!(/^1(3|4|5|7|8)\d{9}$/.test(ngModel.$viewValue))) {
             $rootScope.verifyResult.phone = false;
@@ -141,7 +142,6 @@ define('project/registration',['angular'], function () {
           } else {
             // 有效性校验
             var _validUrl = scope.mainConfig.serverPath + 'rest/index/user/isExist?phone=' + ngModel.$viewValue;
-
             requestData(_validUrl, {}, 'GET')
               .then(function (results) {
                 if (results[1].code === 200) {
@@ -164,6 +164,10 @@ define('project/registration',['angular'], function () {
               });
           }
         });
+        // // 绑定失去焦点事件
+        // element.on('blur', function () {
+        //
+        // });
       }
     };
   }])

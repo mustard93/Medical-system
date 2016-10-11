@@ -27,7 +27,7 @@ require.config({
         'chosen': '../libs/chosen.jquery.min', //下拉筛选插件
         'angular': '../libs/angular', //Angular
         'ngRoute': '../libs/angular-route', //路由
-          'autocomplete': '../libs/jquery.autocomplete.min',      //自动补齐
+        'autocomplete': '../libs/jquery.autocomplete.min',      //自动补齐
         'bootstrap': '../libs/bootstrap.min', //bootstrap
     },
     shim: {
@@ -48,11 +48,11 @@ require.config({
             exports: 'angular'
         },
         'ngRoute': {
-            deps: ['angular'], //依赖什么模块
+            deps: ['angular'], 
             exports: 'ngRoute'
         },
         'autocomplete': {
-                deps: ['jQuery'],   //依赖什么模块
+                deps: ['jQuery'],
                 exports: 'autocomplete'
         },
         'bootstrap': {
