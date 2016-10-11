@@ -129,45 +129,52 @@ define('project/registration',['angular'], function () {
           $rootScope.verifyResult = {};
         }
 
-        // 验证码输入框获取焦点后触发
-        $('input[name="verifyCode"]').on('focus', function () {
-          // 格式校验
-          if (!(/^1(3|4|5|7|8)\d{9}$/.test(ngModel.$viewValue))) {
-            $rootScope.verifyResult.phone = false;
-            $rootScope.verifyResult.msg = '手机号码不能为空或格式不正确';
-            if ($('.reg-info-prompt').css('display') === 'none') {
-              $('.reg-info-prompt').fadeIn(500);
-              $(element).focus();
+        element.on('keyup', function () {
+          if ($(element).val().length === 11) {
+            // 格式校验
+            if (!(/^1(3|4|5|7|8)\d{9}$/.test(ngModel.$viewValue))) {
+              $rootScope.verifyResult.phone = false;
+              $rootScope.verifyResult.msg = '手机号码不能为空或格式不正确';
+              if ($('.reg-info-prompt').css('display') === 'none') {
+                $('.reg-info-prompt').fadeIn(500);
+                $(element).focus();
+              }
+            } else {
+              // 有效性校验
+              var _validUrl = scope.mainConfig.serverPath + 'rest/index/user/isExist?phone=' + ngModel.$viewValue;
+              requestData(_validUrl, {}, 'GET')
+                .then(function (results) {
+                  if (results[1].code === 200) {
+                    $rootScope.verifyResult.phone = true;
+                    $rootScope.verifyResult.phoneNumber = ngModel.$viewValue;
+                    // 号码可注册清除提示信息
+                    if ($('.reg-info-prompt').css('display') !== 'none') {
+                      $('.reg-info-prompt').fadeOut(200);
+                    }
+                    // 获取验证码按钮可点击
+                    if ($('#getVerifyCodeBtn').attr('disabled') == 'disabled') {
+                      $('#getVerifyCodeBtn').removeAttr('disabled');
+                    }
+                  }
+                })
+                .catch(function (msg) {
+                  $rootScope.verifyResult.phone = false;
+                  $rootScope.verifyResult.msg = msg;
+                  if ($('.reg-info-prompt').css('display') !== 'none') {
+                    $rootScope.verifyResult.msg = msg;
+                  } else {
+                    $('.reg-info-prompt').fadeIn(500);
+                    $(element).focus();
+                  }
+                });
             }
           } else {
-            // 有效性校验
-            var _validUrl = scope.mainConfig.serverPath + 'rest/index/user/isExist?phone=' + ngModel.$viewValue;
-            requestData(_validUrl, {}, 'GET')
-              .then(function (results) {
-                if (results[1].code === 200) {
-                  $rootScope.verifyResult.phone = true;
-                  $rootScope.verifyResult.phoneNumber = ngModel.$viewValue;
-                  if ($('.reg-info-prompt').css('display') !== 'none') {
-                    $('.reg-info-prompt').fadeOut(200);
-                  }
-                }
-              })
-              .catch(function (msg) {
-                $rootScope.verifyResult.phone = false;
-                $rootScope.verifyResult.msg = msg;
-                if ($('.reg-info-prompt').css('display') !== 'none') {
-                  $rootScope.verifyResult.msg = msg;
-                } else {
-                  $('.reg-info-prompt').fadeIn(500);
-                  $(element).focus();
-                }
-              });
+            // 获取验证码不可点击
+            $('#getVerifyCodeBtn').attr('disabled', 'disabled');
+            // 下一步不可点击
+            $('button[type="submit"]').attr('disabled', 'disabled');
           }
         });
-        // // 绑定失去焦点事件
-        // element.on('blur', function () {
-        //
-        // });
       }
     };
   }])
