@@ -229,7 +229,6 @@ define('project/registration',['angular'], function () {
       restrict: 'A',
       require: 'ngModel',
       link: function (scope, element, attrs, ngModel) {
-        // console.log($rootScope.verifyResult.msg);
         if (!$rootScope.verifyResult) {
           $rootScope.verifyResult = {};
         }
@@ -263,6 +262,47 @@ define('project/registration',['angular'], function () {
               }
               $rootScope.verifyResult.repassword = true;
             }
+          }
+        });
+      }
+    };
+  }])
+  /**
+   *  校验用户名
+   */
+  .directive('regCheckName', ['$rootScope', function ($rootScope) {
+    'use strict';
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function (scope, element, attrs, ngModel) {
+        if (!$rootScope.verifyResult) {
+          $rootScope.verifyResult = {};
+        }
+
+        element.on('keyup', function () {
+          var _input = ngModel.$viewValue;
+          if (_input === undefined) {
+            $rootScope.verifyResult.name = false;
+            $rootScope.verifyResult.msg = '用户名为必填项';
+            if ($('.reg-info-prompt').css('display') === 'none') {
+              $('.reg-info-prompt').fadeIn(500);
+              $(element).focus();
+            }
+            return;
+          }
+          if (_input.length > 16) {
+            $rootScope.verifyResult.name = false;
+            $rootScope.verifyResult.msg = '用户名长度应在1~16位之间';
+            if ($('.reg-info-prompt').css('display') === 'none') {
+              $('.reg-info-prompt').fadeIn(500);
+              $(element).focus();
+            }
+            return;
+          }
+          $rootScope.verifyResult.name = true;
+          if ($('.reg-info-prompt').css('display') !== 'none') {
+            $('.reg-info-prompt').fadeOut(200);
           }
         });
       }

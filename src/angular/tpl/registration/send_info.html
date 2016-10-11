@@ -40,7 +40,7 @@
         </div>
         <div>
           <input type="text" class="form-control" placeholder="姓名"
-                 name="name" ng-model="regData.name" required>
+                 name="name" ng-model="regData.name" required reg-check-name>
         </div>
         <div class="last-div">
           <label>性别</label>
@@ -50,7 +50,11 @@
         </div>
         <div class="button-wrap">
           <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
-                  ng-disabled="regForm.$invalid || !verifyResult.password || !verifyResult.repassword" ng-click="regSubmit()">完 成</button>
+                  ng-disabled="regForm.$invalid ||
+                               !verifyResult.password ||
+                               !verifyResult.repassword ||
+                               !verifyResult.name"
+                               ng-click="regSubmit()">完 成</button>
         </div>
         <div class="col-lg-12 text-center cancel">
           <a href="login.html" class="color-custom-orange">取 消</a>
