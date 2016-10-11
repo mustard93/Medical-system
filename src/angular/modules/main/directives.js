@@ -1749,12 +1749,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                         if (_data.code == 200) {
                                             var _options = '';
                                             if (!_data.data) _data.data = [];
+                                            if(_data.data.length==0){
+                                              _data.data.push({value:"",text:""});
+                                            }
+
                                             var _length = _data.data.length;
                                             var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
+                                            var data= _data.data;
                                             for (var i = 0; i < _length; i++) {
-                                                if (_selected.indexOf(_data.data[i].value) == -1) {
-                                                    _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
-                                                }
+                                                // var data= _data.data;
+                                                // if (_selected.indexOf(_data.data[i].value) == -1) {
+                                                //     _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
+                                                // }
+
+                                                _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
+
                                             }
                                             $element.html(_options).prepend(selected);
                                             $element.trigger("chosen:updated");
