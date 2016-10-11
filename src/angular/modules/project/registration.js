@@ -128,8 +128,9 @@ define('project/registration',['angular'], function () {
         if (!$rootScope.verifyResult) {
           $rootScope.verifyResult = {};
         }
-        // 绑定失去焦点事件
-        element.on('blur', function () {
+
+        // 验证码输入框获取焦点后触发
+        $('input[name="verifyCode"]').on('focus', function () {
           // 格式校验
           if (!(/^1(3|4|5|7|8)\d{9}$/.test(ngModel.$viewValue))) {
             $rootScope.verifyResult.phone = false;
@@ -141,7 +142,6 @@ define('project/registration',['angular'], function () {
           } else {
             // 有效性校验
             var _validUrl = scope.mainConfig.serverPath + 'rest/index/user/isExist?phone=' + ngModel.$viewValue;
-
             requestData(_validUrl, {}, 'GET')
               .then(function (results) {
                 if (results[1].code === 200) {
@@ -164,6 +164,10 @@ define('project/registration',['angular'], function () {
               });
           }
         });
+        // // 绑定失去焦点事件
+        // element.on('blur', function () {
+        //
+        // });
       }
     };
   }])
@@ -224,9 +228,9 @@ define('project/registration',['angular'], function () {
         }
         element.on('blur', function () {
           if (attrs.name === 'password') {    // 校验密码
-            if (!(/[A-Za-z0-9_]{6,32}/.test(ngModel.$viewValue))) {
+            if (!(/[A-Za-z0-9_-]{6,32}/.test(ngModel.$viewValue))) {
               $rootScope.verifyResult.password = false;
-              $rootScope.verifyResult.msg = '密码应在6~32位之间或含有特殊字符';
+              $rootScope.verifyResult.msg = '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线';
               if ($('.reg-info-prompt').css('display') === 'none') {
                 $('.reg-info-prompt').fadeIn(500);
                 $(element).focus();
