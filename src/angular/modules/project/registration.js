@@ -228,9 +228,9 @@ define('project/registration',['angular'], function () {
         }
         element.on('blur', function () {
           if (attrs.name === 'password') {    // 校验密码
-            if (!(/[A-Za-z0-9_]{6,32}/.test(ngModel.$viewValue))) {
+            if (!(/[A-Za-z0-9_-]{6,32}/.test(ngModel.$viewValue))) {
               $rootScope.verifyResult.password = false;
-              $rootScope.verifyResult.msg = '密码应在6~32位之间或含有特殊字符';
+              $rootScope.verifyResult.msg = '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线';
               if ($('.reg-info-prompt').css('display') === 'none') {
                 $('.reg-info-prompt').fadeIn(500);
                 $(element).focus();
