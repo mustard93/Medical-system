@@ -133,13 +133,13 @@ gulp.task('handleJs', ['clean-js'], function () {
 });
 
 /* CSS生成文件hash编码并生成 rev-manifest.json文件名对照映射 */
-gulp.task('revCss', ['handleCss'], function(){
-    return gulp.src('./src/css/style.min.css')
-               .pipe(rev())
-               .pipe(gulp.dest(paths.src + 'build/css'))
-               .pipe(rev.manifest())
-               .pipe(gulp.dest(paths.src + 'rev/css'));
-});
+// gulp.task('revCss', ['handleCss'], function(){
+//     return gulp.src('./src/css/style.min.css')
+//                .pipe(rev())
+//                .pipe(gulp.dest(paths.src + 'build/css'))
+//                .pipe(rev.manifest())
+//                .pipe(gulp.dest(paths.src + 'rev/css'));
+// });
 
 /* js生成文件hash编码并生成 rev-manifest.json文件名对照映射 */
 // gulp.task('revJs', function(){

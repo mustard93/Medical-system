@@ -273,7 +273,7 @@ define('project/registration',['angular'], function () {
   .directive('regCheckName', ['$rootScope', function ($rootScope) {
     'use strict';
     return {
-      restrict: 'A', 
+      restrict: 'A',
       require: 'ngModel',
       link: function (scope, element, attrs, ngModel) {
         if (!$rootScope.verifyResult) {
