@@ -273,14 +273,14 @@ define('project/registration',['angular'], function () {
   .directive('regCheckName', ['$rootScope', function ($rootScope) {
     'use strict';
     return {
-      restrict: 'A',
+      restrict: 'A', 
       require: 'ngModel',
       link: function (scope, element, attrs, ngModel) {
         if (!$rootScope.verifyResult) {
           $rootScope.verifyResult = {};
         }
 
-        element.on('keyup', function () {
+        element.on('keydown', function () {
           var _input = ngModel.$viewValue;
           if (_input === undefined) {
             $rootScope.verifyResult.name = false;
