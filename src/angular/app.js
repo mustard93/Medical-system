@@ -37,7 +37,7 @@ require.config({
         // 'sparkline': '../libs/jquery.sparkline.min',            //jQuery线状图
         'icheck': '../libs/jquery.icheck.min',                  //checkbox美化
         'morris': '../libs/morris-chart/morris.min',                      //时序图
-        // 'raphael': '../libs/morris-chart/raphael.min',                    //时序图
+        'raphael': '../libs/morris-chart/raphael.min',                    //时序图
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
     shim: {
@@ -101,9 +101,9 @@ require.config({
             deps: ['jQuery'],
             exports: 'morris'
         },
-        // 'raphael': {
-        //     exports: 'raphael'
-        // },
+        'raphael': {
+            exports: 'raphael'
+        },
         'clndr': {
             deps: ['jQuery'],
             exports: 'clndr'
@@ -117,7 +117,8 @@ require(['bootstrap',
          'nicescroll',
          'easypiechart',
          'icheck',
-         'morris'], function() {});
+         'morris',
+         'raphael'], function() {});
 
 //@ifdef !production
 define('manageApp.template', ['angular'], function () {
