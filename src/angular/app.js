@@ -4,9 +4,9 @@
 
 //get root url
 (function () {
-    var loaderScript=  document.getElementById('requirejs_baseUrlId');
+  var loaderScript=  document.getElementById('requirejs_baseUrlId');
     if(!loaderScript){
-      var scripts = document.getElementsByTagName("script");
+      var scripts = document.getElementsByTagName('srcript');
       loaderScript = scripts[scripts.length - 1];
     }
     require.dir = loaderScript.src.match(/[^?#]*\//)[0];
@@ -20,11 +20,10 @@ require.config({
     waitSeconds: 0,
     baseUrl: require.dir + 'modules',
     paths: {
-        'jQuery': '../libs/jquery.min',                          //jQuery
+        'jQuery': '../libs/jquery.min',                         //jQuery
         'underscore': '../libs/underscore/underscore-1.5.2.min',
-        'moment': '../libs/moment.min',                          //日历插件
-        //'echarts': '../libs/echarts.min',                      //图表插件
-        'echarts': '../libs/echarts/echarts-3.2.3',
+        'moment': '../libs/moment.min',                         //日历插件
+        'echarts': '../libs/echarts/echarts-3.2.3.min',         // echars v3.2.3
         'chosen': '../libs/chosen.jquery.min',                  //下拉筛选插件
         'angular': '../libs/angular',                           //Angular
         'ngRoute': '../libs/angular-route',                     //路由
@@ -59,12 +58,12 @@ require.config({
             exports: 'angular'
         },
         'ngRoute': {
-                deps: ['angular'],   //依赖什么模块
-                exports: 'ngRoute'
+          deps: ['angular'],
+          exports: 'ngRoute'
         },
         'autocomplete': {
-                deps: ['jQuery'],   //依赖什么模块
-                exports: 'autocomplete'
+          deps: ['jQuery'],
+          exports: 'autocomplete'
         },
         'bootstrap': {
             deps: ['jQuery'],

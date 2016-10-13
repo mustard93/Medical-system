@@ -9,16 +9,18 @@
     <div class="text-center bind-notice">
       <span>请绑定公司名跟部门</span>
     </div>
-    <form  class="form-signin" onsubmit="return false;"
-form-validator
-     action= "rest/authen/distributor/userApplyOrganization.json"
-
-      alert-error callback="bind_done();"
-      >
+    <form class="form-signin"
+          onsubmit="return false;"
+          form-validator
+          action= "rest/authen/distributor/userApplyOrganization.json"
+          alert-error callback="bind_done();">
       <div>
-
-          <select class="select select-w" data-placeholder="选择一个..." chosen alert-error
-            ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption.json"></select>
+          <select class="select select-w"
+                  data-placeholder="选择一个..."
+                  chosen alert-error
+                  ng-model="formData.organizationId"
+                  select-source="rest/index/distributor/queryForSelectOption.json">
+          </select>
 
         <!-- <select relative-select relative-initload relative-to="#relativeSelect3"
                 class="chzn-select" ng-model="formData.select2" name="select2" chosen>
@@ -26,17 +28,22 @@ form-validator
           <option value="" ng-repeat="item in distributorList">{{item.text}}</option>
         </select> -->
 
-        <select class="select select-w" data-placeholder="选择一个..." chosen
-          ng-model="formData.departmentId"   ajax-if="{{formData.organizationId}}"
-          default-empty   alert-error
-          select-source="rest/index/department/queryForSelectOption.json?DistributorId={{formData.organizationId}}"></select>
-
+        <select class="select select-w"
+                data-placeholder="选择一个..."
+                chosen
+                ng-model="formData.departmentId"
+                ajax-if="{{formData.organizationId}}"
+                default-empty
+                alert-error
+                select-source="rest/index/department/queryForSelectOption.json?DistributorId={{formData.organizationId}}">
+        </select>
       </div>
       <div>
         <!-- <a href="#/bind_done"> -->
-          <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l">完 成</button>
+          <button type="submit"
+                  class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
+                  ng-disabled="!formData.organizationId || !formData.departmentId">完 成</button>
         <!-- </a> -->
-
 
       </div>
       <div class="col-lg-12 text-center">
@@ -45,9 +52,9 @@ form-validator
     </form>
   </div>
 </div>
-<script src="js/chosen-1.6.2.min.js"></script>
+<!-- <script src="js/chosen-1.6.2.min.js"></script>
 <script>
   $(function () {
     $(".chzn-select").chosen();
   });
-</script>
+</script> -->
