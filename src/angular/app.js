@@ -31,13 +31,13 @@ require.config({
         'bootstrap': '../libs/bootstrap.min',                   //bootstrap
         'jquery-ui': '../libs/jquery-ui.min',
         'nicescroll': '../libs/jquery-nicescroll.min',          //滚动条美化
-        'migrate': '../libs/jquery-migrate.min',                //jQuery版本兼容
-        'modernizr': '../libs/modernizr.min',                   //检测当前浏览器对HTML5和CSS3的支持
+        // 'migrate': '../libs/jquery-migrate.min',                //jQuery版本兼容
+        // 'modernizr': '../libs/modernizr.min',                   //检测当前浏览器对HTML5和CSS3的支持
         'easypiechart': '../libs/easypiechart/jquery.easypiechart.min',    //jQuery饼图
-        'sparkline': '../libs/jquery.sparkline.min',            //jQuery线状图
+        // 'sparkline': '../libs/jquery.sparkline.min',            //jQuery线状图
         'icheck': '../libs/jquery.icheck.min',                  //checkbox美化
         'morris': '../libs/morris-chart/morris.min',                      //时序图
-        'raphael': '../libs/morris-chart/raphael.min',                    //时序图
+        // 'raphael': '../libs/morris-chart/raphael.min',                    //时序图
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
     shim: {
@@ -77,22 +77,22 @@ require.config({
             deps: ['jQuery'],
             exports: 'nicescroll'
         },
-        'migrate': {
-            deps: ['jQuery'],
-            exports: 'migrate'
-        },
-        'modernizr': {
-            deps: ['jQuery'],
-            exports: 'modernizr'
-        },
+        // 'migrate': {
+        //     deps: ['jQuery'],
+        //     exports: 'migrate'
+        // },
+        // 'modernizr': {
+        //     deps: ['jQuery'],
+        //     exports: 'modernizr'
+        // },
         'easypiechart': {
             deps: ['jQuery'],
             exports: 'easypiechart'
         },
-        'sparkline': {
-            deps: ['jQuery'],
-            exports: 'sparkline'
-        },
+        // 'sparkline': {
+        //     deps: ['jQuery'],
+        //     exports: 'sparkline'
+        // },
         'icheck': {
             deps: ['jQuery'],
             exports: 'icheck'
@@ -101,9 +101,9 @@ require.config({
             deps: ['jQuery'],
             exports: 'morris'
         },
-        'raphael': {
-            exports: 'raphael'
-        },
+        // 'raphael': {
+        //     exports: 'raphael'
+        // },
         'clndr': {
             deps: ['jQuery'],
             exports: 'clndr'
@@ -115,14 +115,9 @@ require.config({
 require(['bootstrap',
          'jquery-ui',
          'nicescroll',
-         'migrate',
-         'modernizr',
          'easypiechart',
-         'sparkline',
          'icheck',
-         'morris',
-         'raphael',
-         'clndr'], function() {});
+         'morris'], function() {});
 
 //@ifdef !production
 define('manageApp.template', ['angular'], function () {
