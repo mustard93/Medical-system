@@ -46,9 +46,12 @@
     </div>
     <!-- 收货人信息 -->
     <div class="consignee-info pd-c-xl pdt-l pdb-l bb-line"
-     ajax-if="{{formData.customerId}}"  ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
-     scope-data="customerAddress"  callback="customerAddressGetCallBack(formData,customerAddress)">
-      <h1 class="color-6 text-n mgb-l">收货人信息</h1>
+         ajax-if="{{formData.customerId}}"
+         ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
+         scope-data="customerAddress"
+         callback="customerAddressGetCallBack(formData,customerAddress)"
+         ng-class="{'static': customerAddress.contacts}">
+      <h1 ng-if="!formData.customerId" class="color-6 text-n mgb-l">收货人信息</h1>
       <ul ng-if="formData.customerId">
         <li class="mgr-m mgb-m"  ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
           <p class="pdb">{{item.name}} </p>
@@ -58,7 +61,14 @@
           <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
         </li>
         <span>
-          <button class="pr-add-item-whitebg" modal-right="700" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html"><i class="fa fa-plus"></i></button>
+          <button class="pr-add-item-whitebg"
+                  modal-right="700"
+                  modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                  modal-scope="this"
+                  modal-url="views/customerAddress/contact/edit.html"
+                  ng-class="{'static':!customerAddress.contacts}">
+            <i class="fa fa-plus"></i>
+          </button>
         </span>
       </ul>
     </div>
@@ -94,7 +104,7 @@
             <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td>
             <td class="has-border text-center text-v-t pd-m" >
               <span class="pr-unit-inline">￥</span>
-              <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="tr.strike_price" >
+              <input type="number" class="pr-table-input price" placeholder="成交价" ng-model="tr.strike_price" >
             </td>
             <td class="has-border text-center text-v-t pd-m">{{tr.isSameBatch}}</td>
             <td class="has-border text-center text-v-t pd-m" >
@@ -104,15 +114,21 @@
               </select>
             </td>
             <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td>
-            <td class="has-border pr-bg-pink text-center text-v-t pd-m">
+            <td class="has-border text-center text-v-t pd-m" ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity_Invoice}">
               <span class="order-goods-num flex-column">
                 <i class="flex-item-1 left" ng-click="tr.quantity_Invoice=tr.quantity_Invoice-1">-</i>
-                <input type="text" class="flex-item-10 pr-bg-pink"  ng-model="tr.quantity_Invoice">
+                <input type="number"
+                       class="flex-item-10"
+                       ng-model="tr.quantity_Invoice"
+                       ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity_Invoice}">
                 <i class="flex-item-1 right" ng-click="tr.quantity_Invoice=tr.quantity_Invoice+1">+</i>
               </span>
 
-              <span class="text-s pr-point-color" ng-hide="tr.quantity_noInvoice>0||tr.quantity_noInvoice_show"
-                 ng-if="medicalStockMap[tr.relId].quantity<tr.quantity_Invoice"><i class="fa fa-exclamation-triangle" ></i> 本批次库存不足，此条目将由销售拆分</span>
+              <span class="text-s pr-point-color"
+                    ng-hide="tr.quantity_noInvoice>0||tr.quantity_noInvoice_show"
+                    ng-if="medicalStockMap[tr.relId].quantity<tr.quantity_Invoice">
+                    <i class="fa fa-exclamation-triangle" ></i> 本批次库存不足，此条目将由销售拆分
+              </span>
               <div ng-if="tr.quantity_noInvoice>0||tr.quantity_noInvoice_show" class="text-center">
 
                  <span class="text-s pr-point-color" >

@@ -273,7 +273,7 @@ define('project/registration',['angular'], function () {
   .directive('regCheckName', ['$rootScope', function ($rootScope) {
     'use strict';
     return {
-      restrict: 'A', 
+      restrict: 'A',
       require: 'ngModel',
       link: function (scope, element, attrs, ngModel) {
         if (!$rootScope.verifyResult) {
@@ -282,18 +282,9 @@ define('project/registration',['angular'], function () {
 
         element.on('keydown', function () {
           var _input = ngModel.$viewValue;
-          if (_input === undefined) {
+          if (_input !== undefined && _input.length > 16) {
             $rootScope.verifyResult.name = false;
-            $rootScope.verifyResult.msg = '用户名为必填项';
-            if ($('.reg-info-prompt').css('display') === 'none') {
-              $('.reg-info-prompt').fadeIn(500);
-              $(element).focus();
-            }
-            return;
-          }
-          if (_input.length > 16) {
-            $rootScope.verifyResult.name = false;
-            $rootScope.verifyResult.msg = '用户名长度应在1~16位之间';
+            $rootScope.verifyResult.msg = '用户名为必填项且长度应在1~16位之间';
             if ($('.reg-info-prompt').css('display') === 'none') {
               $('.reg-info-prompt').fadeIn(500);
               $(element).focus();
