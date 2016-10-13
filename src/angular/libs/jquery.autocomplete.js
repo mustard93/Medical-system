@@ -9,6 +9,8 @@
  *
  * With small modifications by Alfonso Gómez-Arzola.
  * See changelog for details.
+
+ 解决不出发angluarjs ng-model 得bug	$input.val(v).trigger("change");
  *
  */
 
@@ -246,7 +248,8 @@ $.Autocompleter = function(input, options) {
 			v += options.multipleSeparator;
 		}
 
-		$input.val(v);
+		$input.val(v).trigger("change");
+
 		hideResultsNow();
 		$input.trigger("result", [selected.data, selected.value]);
 		return true;
@@ -310,7 +313,7 @@ $.Autocompleter = function(input, options) {
 		// if the last user key pressed was backspace, don't autofill
 		if( options.autoFill && (lastWord($input.val()).toLowerCase() == q.toLowerCase()) && lastKeyPressCode != KEY.BACKSPACE ) {
 			// fill in the value (keep the case the user has typed)
-			$input.val($input.val() + sValue.substring(lastWord(previousValue).length));
+			$input.val($input.val() + sValue.substring(lastWord(previousValue).length)).trigger("change");;
 			// select the portion of the value not typed by the user (so the next character will erase)
 			$(input).selection(previousValue.length, previousValue.length + sValue.length);
 		}
@@ -334,7 +337,7 @@ $.Autocompleter = function(input, options) {
 					if( !result ) {
 						if (options.multiple) {
 							var words = trimWords($input.val()).slice(0, -1);
-							$input.val( words.join(options.multipleSeparator) + (words.length ? options.multipleSeparator : "") );
+							$input.val( words.join(options.multipleSeparator) + (words.length ? options.multipleSeparator : "") ).trigger("change");
 						}
 						else {
 							$input.val( "" );

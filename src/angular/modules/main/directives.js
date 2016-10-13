@@ -2084,23 +2084,39 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                         },
                         formatItem:function(item){return item},
+
                         noRecord:"没匹配数据",
                         dataType:"json"
 
                     };
+
+
+
                     require(['autocomplete'], function() {
 
-                        if ($attrs.autocomplete) {
-
-                          var _url=$attrs.autocomplete;
-
+                        if ($attrs.autoComplete) {
+                          var _url=$attrs.autoComplete;
                           if(Config.serverPath){
                             if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
                               _url=Config.serverPath+_url;
                             }
                           }
 
-                             var chosenObj = $element.autocomplete(_url,config);
+                          var tmpautocomplete=null;
+                          $element.focus(function(){
+                            if(tmpautocomplete!=null){
+                              return;
+                            }
+
+                            config.width=$element.css("width");//弹出窗口时才生效
+                            tmpautocomplete = $element.autocomplete(_url,config);
+
+                            tmpautocomplete.result(function(obj,text,val){
+                              console.log(text);
+                            });
+
+                          });
+
                         }
 
                 });
