@@ -1,5 +1,8 @@
-<div class="content-wrapper"  ajax-url="rest/authen/salesOrder/previewConfirmSalesOrder.json?id={{mainStatus.pageParams.id}}"  scope-data="showData"
-callback="formData={};formData.id=showData.salesOrder.id" alert-error>
+<div class="content-wrapper"
+     ajax-url="rest/authen/salesOrder/previewConfirmSalesOrder.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback="formData={};formData.id=showData.salesOrder.id"
+     alert-error>
 
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mgt-m mgb-m">
@@ -7,12 +10,12 @@ callback="formData={};formData.id=showData.salesOrder.id" alert-error>
   </div>
   <!-- 主内容区域 -->
 
-  <form name="createOrderForm" action="rest/authen/salesOrder/confirmSalesOrder" form-validator
-alert-error
-before-confirm-msg="确认提交"
+  <form name="createOrderForm"
+        action="rest/authen/salesOrder/confirmSalesOrder"
+        form-validator
+        alert-error
+        callback="goTo('#/salesOrder/order-done.html?id='+formData.id)">
 
-callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
-  >
   <div class="content-wrapper-main pr-bg-white pr-border pr-fuzzy-boundary">
     <!-- 用户信息 -->
     <div class="pd-c-xxxxl bb-line">
@@ -32,7 +35,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
       <!-- 可发货 -->
       <div class="confirm-order bb-line pdb-l"  ng-repeat="invoicesOrders_tr in showData.invoicesOrders">
         <h1 class="pdt-l color-6 text-m text-bold" ng-if="invoicesOrders_tr.orderStatus!='暂不发货'">{{invoicesOrders_tr.orderStatus}}</h1>
-        <table class="mgt-l pr-table" ng-if="invoicesOrders_tr.orderStatus!='暂不发货'">
+        <table class="mgt-l pr-table" ng-if="invoicesOrders_tr.orderStatus!='暂不发货'" style="width:100%;table-layout:auto;">
           <thead>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
             <th class="w-70 text-center">单位</th>
@@ -88,10 +91,8 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
     <!-- 不可发货 -->
 
 
-                <h1 class="pdt-l color-6 text-m text-bold" ng-if="invoicesOrders_tr.orderStatus=='暂不发货'">{{invoicesOrders_tr.orderStatus}}</h1>
-                <table class="mgt-l pr-table" ng-if="invoicesOrders_tr.orderStatus=='暂不发货'">
-
-
+        <h1 class="pdt-l color-6 text-m text-bold" ng-if="invoicesOrders_tr.orderStatus=='暂不发货'">{{invoicesOrders_tr.orderStatus}}</h1>
+        <table class="mgt-l pr-table" ng-if="invoicesOrders_tr.orderStatus=='暂不发货'" style="width:100%;table-layout:auto;">
           <thead>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
             <th class="w-70 text-center">单位</th>
@@ -135,7 +136,7 @@ callback="goTo('#/salesOrder/order-done.html?id='+formData.id)"
       <!-- 对应采购单 -->
       <div class="confirm-order bb-line pdb-l">
         <h1 class="pdt-l color-6 text-m text-bold">需采购药械</h1>
-        <table class="mgt-l pr-table">
+        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
           <thead>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
             <th class="w-106 text-center">单位</th>
