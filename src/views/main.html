@@ -12,7 +12,10 @@
         <a href="#/authorIndex/main-generalmanager.html">总经理演示</a>
       </p>
     </div>
-    <div class="flex-column">
+    <div class="flex-column"
+         ajax-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=true"
+         scope-data="count4Index"
+         alert-error>
       <!-- 订单录入统计 -->
       <div class="flex-item-5">
         <div class="panel pr-panel mgr">
@@ -22,11 +25,11 @@
               <div class="mg-l">
                 <p class="text-center mgb-xxl">
                   <em class="block text-s mgb-l">今日新订单</em>
-                  <span class="block text-xxxl pr-color text-large">11</span>
+                  <span class="block text-xxxl pr-color text-large">{{count4Index.todayCount}}</span>
                 </p>
                 <p class="text-center">
                   <em class="block text-s mgb-l">订单总数</em>
-                  <span class="block text-xxxl pr-color text-large">686</span>
+                  <span class="block text-xxxl pr-color text-large">{{count4Index.totalCount}}</span>
                 </p>
               </div>
             </div>
@@ -34,17 +37,17 @@
               <div class="flex-column text-center mgb-xl">
                 <div class="flex-item-6">
                   <p class="text-s">昨日新订单</p>
-                  <p class="pr-color">8</p>
+                  <p class="pr-color">{{count4Index.yesterdayTotal}}</p>
                 </div>
                 <div class="flex-item-6">
                   <p class="text-s">今日新订单</p>
-                  <p class="pr-color">8</p>
+                  <p class="pr-color">{{count4Index.todayCount}}</p>
                 </div>
               </div>
               <div easypeichart class="pr-easypiechart text-center">
                 <div class="chart" data-percent="73" data-bar-color="#ff6d29" data-size="120">
                   <span>
-                    <h1 class="text-center">73%</h1>
+                    <h1 class="text-center">{{count4Index.yesterdayAlready/count4Index.yesterdayTotal*100 | number:0}}%</h1>
                     <p class="text-s">昨日订单处理率</p>
                   </span>
                 </div>
@@ -54,17 +57,17 @@
               <div class="flex-column text-center mgb-xl">
                 <div class="flex-item-6">
                   <p class="text-s">本月新订单</p>
-                  <p class="pr-color">8</p>
+                  <p class="pr-color">{{count4Index.monthTotal}}</p>
                 </div>
                 <div class="flex-item-6">
                   <p class="text-s">已处理订单</p>
-                  <p class="pr-color">8</p>
+                  <p class="pr-color">{{count4Index.monthAlready}}</p>
                 </div>
               </div>
               <div easypeichart class="pr-easypiechart text-center">
                 <div class="chart" data-percent="85" data-bar-color="#ff6d29" data-size="120">
                   <span>
-                    <h1 class="text-center">85%</h1>
+                    <h1 class="text-center">{{count4Index.monthAlready/count4Index.monthTotal*100 | number:0}}%</h1>
                     <p class="text-s">本月订单处理率</p>
                   </span>
                 </div>
