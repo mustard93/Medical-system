@@ -110,16 +110,16 @@ define('main/controllers', ['main/init'], function () {
                   angular.extend($scope.mainStatus, _data.data);
                   $scope.$digest();
                   // 角色跳转主页面
-                  switch ($scope.mainStatus.phone) {
-                    case '13600000000':$scope.goTo('#/main.html');break;
-                    case '13600000100':$scope.goTo('#/authorIndex/main-salemanager.html');break;
-                    case '13600000101':$scope.goTo('#/authorIndex/main-servicemanager.html');break;
-                    case '13600000102':$scope.goTo('#/authorIndex/main-purchasemanager.html');break;
-                    case '13600000103':$scope.goTo('#/authorIndex/main-repertorymanager.html');break;
-                    case '13600000104':$scope.goTo('#/authorIndex/main-checkmanager.html');break;
-                    case '13600000105':$scope.goTo('#/authorIndex/main-generalmanager.html');break;
-                    default: $scope.goTo('#/main.html');
-                  }
+                  // switch ($scope.mainStatus.phone) {
+                  //   case '13600000000':$scope.goTo('#/main.html');break;
+                  //   case '13600000100':$scope.goTo('#/authorIndex/main-salemanager.html');break;
+                  //   case '13600000101':$scope.goTo('#/authorIndex/main-servicemanager.html');break;
+                  //   case '13600000102':$scope.goTo('#/authorIndex/main-purchasemanager.html');break;
+                  //   case '13600000103':$scope.goTo('#/authorIndex/main-repertorymanager.html');break;
+                  //   case '13600000104':$scope.goTo('#/authorIndex/main-checkmanager.html');break;
+                  //   case '13600000105':$scope.goTo('#/authorIndex/main-generalmanager.html');break;
+                  //   default: $scope.goTo('#/main.html');
+                  // }
                 } else if (_data.code == 802){
                   window.location.href = Config.loginHtmlUrl;
                 } else {
