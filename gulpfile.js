@@ -153,9 +153,17 @@ gulp.task('handleJs', ['clean-js'], function () {
 //Html替换css、js文件版本
 gulp.task('revHtml', function () {
     return gulp.src(['./rev/**/*.json', './src/*.html'])
-        .pipe(revCollector())
-        .pipe(gulp.dest('./src'));
+               .pipe(revCollector())
+               .pipe(gulp.dest('./src'));
 });
+
+// 处理manage目录中的链接替换
+gulp.task('revManageHtml', function () {
+  return gulp.src(['./rev/**/*.json', './src/manage/*.html'])
+             .pipe(revCollector())
+             .pipe(gulp.dest('./src/manage'));
+});
+
 
 /* 监听HTML文件变化 */
 gulp.task('html', function () {
@@ -226,12 +234,16 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
 /* 本地服务,自动刷新 */
 gulp.task('server', function (done) {
     condition = false;
-    runSequence(['browser'], ['handleCss'], ['handleJs'], ['revHtml'], ['bro'], done);
+    runSequence(['browser'], ['handleCss'], ['handleJs'], ['revHtml'], ['revManageHtml'], ['bro'], done);
     gulp.watch('./src/css/block_css/*.css', function () {     //监控所有CSS文件
-      runSequence(['handleCss'], ['revHtml'], ['bro'], done);
+      runSequence(['handleCss'], ['revHtml'], ['revManageHtml'], ['bro'], done);
     });
     gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], function () {     //监控所有JS文件
-      runSequence(['handleJs'], ['revHtml'], ['bro'], done);
+      runSequence(['handleJs'], ['revHtml'], ['revManageHtml'], ['bro'], done);
     });
-    gulp.watch(['./src/*.html', './src/views/*.html', './src/views/**/*.html'], ['bro']);
+    gulp.watch([
+      './src/*.html',
+      './src/views/*.html',
+      './src/views/**/*.html',
+      './src/manage/*.html'], ['bro']);
 });
