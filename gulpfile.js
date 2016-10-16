@@ -14,11 +14,11 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync'),
     rev = require('gulp-rev'),                          // 为静态资源文件替换带MD5的文件名
     revCollector = require('gulp-rev-collector'),       // 替换静态资源链接
-    runSequence = require('run-sequence');              // 顺序执行
+    runSequence = require('run-sequence');         // 顺序执行
 
 /* 自动刷新 start */
 gulp.task('browser', function () {
-  browserSync({
+  return browserSync({
     port: 3000,
     open: true,
     startPath: '/',
