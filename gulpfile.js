@@ -109,6 +109,13 @@ gulp.task('runLess', ['clean-css'], function () {
            .pipe(browserSync.reload({stream:true}));
 });
 
+/* 合并css */
+gulp.task('concatCss', ['clean-css'], function () {
+  return gulp.src([paths.src + 'css/block_css/*.css'])
+             .pipe(concat('style.min.css'))
+             .pipe(gulp.dest('./src/css'));
+});
+
 /* 合并、压缩CSS */
 gulp.task('handleCss', ['clean-css'], function () {
   return gulp.src([paths.src + 'css/block_css/*.css'])
@@ -231,8 +238,8 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
   gulp.watch('**/*.js', ['browserify']);
 });
 
-/* 本地服务,自动刷新 */
-gulp.task('server', function (done) {
+/* 生产模式静态文件打包任务，包含css、js的合并、压缩、版本号更新及链接替换 */
+gulp.task('pro-server', function (done) {
     condition = false;
     runSequence(['browser'], ['handleCss'], ['handleJs'], ['revHtml'], ['revManageHtml'], ['bro'], done);
     gulp.watch('./src/css/block_css/*.css', function () {     //监控所有CSS文件
@@ -246,4 +253,23 @@ gulp.task('server', function (done) {
       './src/views/*.html',
       './src/views/**/*.html',
       './src/manage/*.html'], ['bro']);
+});
+
+/* 开发模式静态文件打包任务，合并css，自动刷新浏览器 */
+gulp.task('dev-server', function (done) {
+  condition = false;
+  runSequence(['browser'], ['concatCss'], ['bro'], done);
+  //监控所有CSS文件
+  gulp.watch('./src/css/block_css/*.css', function () {
+    runSequence(['concatCss'], ['bro'], done);
+  });
+  //监控所有JS文件
+  gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], function () {
+    runSequence(['bro'], done);
+  });
+  gulp.watch([
+    './src/*.html',
+    './src/views/*.html',
+    './src/views/**/*.html',
+    './src/manage/*.html'], ['bro']);
 });
