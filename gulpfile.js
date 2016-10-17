@@ -79,7 +79,7 @@ if(DEBUGGER) {
 
 /* 清理css文件 */
 gulp.task('clean-css', function () {
-  return gulp.src([paths.build + "css/*.css", paths.src + "css/style.min.css"])
+  return gulp.src([paths.build + "css/*.css", paths.src + "css/style.min.css", paths.src + "css/dev/style.min.css"])
              .pipe(clean());
 });
 
@@ -256,15 +256,19 @@ gulp.task('pro-server', function (done) {
 });
 
 /* 开发模式静态文件打包任务，合并css，自动刷新浏览器 */
-gulp.task('dev-server', ['browser', 'concatCss', 'bro'], function (done) {
+gulp.task('dev-server', ['browser', 'concatCss', 'bro'], function () {
   //监控所有CSS文件
-  gulp.watch('./src/css/block_css/*.css', function () {
-    runSequence(['concatCss'], ['bro'], done);
+  // gulp.watch(['./src/css/block_css/*.css'], ['concatCss', 'bro']);
+  gulp.watch(['./src/css/block_css/*.css'], function (done) {
+    runSequence(
+      'concatCss',
+      'bro',
+      done
+    );
   });
   //监控所有JS文件
-  gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], function () {
-    runSequence(['bro'], done);
-  });
+  gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], ['bro']);
+  //监控所有的html文件
   gulp.watch([
     './src/*.html',
     './src/views/*.html',

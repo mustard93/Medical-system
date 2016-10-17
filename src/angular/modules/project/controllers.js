@@ -24,6 +24,18 @@ define('project/controllers', ['project/init'], function() {
           if(!formData.contactsId){
               formData.contactsId=customerAddress.defaultContactId;
           }
+
+          //判断当前地址列表是否包含，选中地址。不包含则设置为默认
+          var hasContactsId=false;
+          for(var i=0;i<customerAddress.contacts.length;i++){
+              if(formData.contactsId==customerAddress.contacts[i].id){
+                  hasContactsId=true;
+              }
+          }
+
+          if(!hasContactsId){
+              formData.contactsId=customerAddress.defaultContactId;
+          }
         };
 
         /**
