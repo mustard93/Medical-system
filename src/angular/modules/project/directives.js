@@ -414,10 +414,7 @@ define('project/directives', ['project/init'], function () {
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        if (element.hasClass('tooltips')) {
-          console.log('abc');
-          $(element).tooltip({});
-        }
+          $("[data-toggle='tooltip']").tooltip();
       }
     };
   }])
