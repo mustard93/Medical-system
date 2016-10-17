@@ -263,114 +263,6 @@ define('project/directives', ['project/init'], function () {
     };
   }])
   /**
-   *  flot 线型图
-   */
-  // .directive('flot', function () {
-  //   'use strict';
-  //   return {
-  //     restrict: 'A',
-  //     link: function (scope, element, attrs) {
-  //       require(['flot', 'flot-tooltip', 'flot-resize'], function () {
-  //         var d1 = [
-  //             [0, 501],
-  //             [1, 620],
-  //             [2, 437],
-  //             [3, 361],
-  //             [4, 549],
-  //             [5, 618],
-  //             [6, 570],
-  //             [7, 758],
-  //             [8, 658],
-  //             [9, 538],
-  //             [10, 488]
-  //         ];
-  //         var d2 = [
-  //             [0, 401],
-  //             [1, 520],
-  //             [2, 337],
-  //             [3, 261],
-  //             [4, 449],
-  //             [5, 518],
-  //             [6, 470],
-  //             [7, 658],
-  //             [8, 558],
-  //             [9, 438],
-  //             [10, 388]
-  //         ];
-  //         var data = ([{
-  //             label: "最新访问",
-  //             data: d1,
-  //             lines: {
-  //                 show: true,
-  //                 fill: true,
-  //                 fillColor: {
-  //                     colors: ["rgba(255,255,255,.4)", "rgba(183,236,240,.4)"]
-  //                 }
-  //             }
-  //         },
-  //             {
-  //                 label: "异常访问",
-  //                 data: d2,
-  //                 lines: {
-  //                     show: true,
-  //                     fill: true,
-  //                     fillColor: {
-  //                         colors: ["rgba(255,255,255,.0)", "rgba(253,96,91,.7)"]
-  //                     }
-  //                 }
-  //             }
-  //         ]);
-  //         var options = {
-  //             grid: {
-  //                 backgroundColor:
-  //                 {
-  //                     colors: ["#ffffff", "#f4f4f6"]
-  //                 },
-  //                 hoverable: true,
-  //                 clickable: true,
-  //                 tickColor: "#eeeeee",
-  //                 borderWidth: 1,
-  //                 borderColor: "#eeeeee"
-  //             },
-  //             // Tooltip
-  //             tooltip: true,
-  //             tooltipOpts: {
-  //                 content: "%s X: %x Y: %y",
-  //                 shifts: {
-  //                     x: -60,
-  //                     y: 25
-  //                 },
-  //                 defaultTheme: false
-  //             },
-  //             legend: {
-  //                 labelBoxBorderColor: "#000000",
-  //                 container: $("#main-chart-legend"), //remove to show in the chart
-  //                 noColumns: 0
-  //             },
-  //             series: {
-  //                 stack: true,
-  //                 shadowSize: 0,
-  //                 highlightColor: 'rgba(000,000,000,.2)'
-  //             },
-  //     //        lines: {
-  //     //            show: true,
-  //     //            fill: true
-  //     //
-  //     //        },
-  //             points: {
-  //                 show: true,
-  //                 radius: 3,
-  //                 symbol: "circle"
-  //             },
-  //             colors: ["#5abcdf", "#ff8673"]
-  //         };
-  //
-  //         var plot = $.plot($("#main-chart #main-chart-container"), data, options);
-  //       });
-  //     }
-  //   };
-  // })
-  /**
    *  sparkline 柱状图
    */
   .directive('sparkline', [function () {
@@ -470,20 +362,46 @@ define('project/directives', ['project/init'], function () {
   /**
    *  easyPieChart 饼图
    */
-  .directive('easypeichart', [function () {
+  .directive('easypiechart', ['$timeout', 'requestData', function ($timeout, requestData) {
     'use strict';
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        $('.chart').easyPieChart({
-          animate:{
-            duration:1000,
-            enabled:true
-          },
-          barColor:'#f30',
-          scaleColor:false,
-          lineWidth:10,
-          lineCap:'circle'
+        require(['easypiechart'], function () {
+          var _rUrl = '';
+          if (Config.serverPath) {
+            _rUrl = Config.serverPath + attrs.easypiechartUrl;
+          }
+
+          requestData(_rUrl, {}, 'GET')
+          .then(function (results) {
+            var _data = results[1];
+            if (_data.code === 200) {
+              scope.easyPieChartData = _data.data;
+              // 初始化数据
+              $('.chart').easyPieChart({
+                animate:{
+                  duration:1000,
+                  enabled:true
+                },
+                barColor:'#f30',
+                scaleColor:false,
+                lineWidth:8,
+                lineCap:'circle'
+              });
+
+              // 计算昨日订单处理比例并更新页面数据
+              scope.yesterdayOrderPercent = parseInt(scope.easyPieChartData.yesterdayAlready / scope.easyPieChartData.yesterdayTotal * 100);
+              $('#yesterdayOrderPercent').data('easyPieChart').update(scope.yesterdayOrderPercent);
+
+              // 计算昨日订单处理比例并更新页面数据
+              scope.monthOrderPercent = parseInt(scope.easyPieChartData.monthAlready / scope.easyPieChartData.monthTotal * 100);
+              $('#monthOrderPercent').data('easyPieChart').update(scope.monthOrderPercent);
+            }
+          })
+          .catch(function (error) {
+            // ...
+          });
         });
       }
     };

@@ -12,12 +12,11 @@
         <a href="#/authorIndex/main-generalmanager.html">总经理演示</a>
       </p>
     </div>
-    <div class="flex-column"
-         ajax-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=true"
-         scope-data="count4Index"
-         alert-error>
+    <div class="flex-column">
       <!-- 订单录入统计 -->
-      <div class="flex-item-5">
+      <div class="flex-item-5"
+           easypiechart
+           easypiechart-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=true">
         <div class="panel pr-panel mgr">
           <h1 class="pd-m pr-panel-title-color text-center bb-line">我的订单录入统计</h1>
           <div class="flex-column">
@@ -25,11 +24,11 @@
               <div class="mg-l">
                 <p class="text-center mgb-xxl">
                   <em class="block text-s mgb-l">今日新订单</em>
-                  <span class="block text-xxxl pr-color text-large">{{count4Index.todayCount}}</span>
+                  <span class="block text-xxxl pr-color text-large">{{easyPieChartData.todayCount}}</span>
                 </p>
                 <p class="text-center">
                   <em class="block text-s mgb-l">订单总数</em>
-                  <span class="block text-xxxl pr-color text-large">{{count4Index.totalCount}}</span>
+                  <span class="block text-xxxl pr-color text-large">{{easyPieChartData.totalCount}}</span>
                 </p>
               </div>
             </div>
@@ -37,17 +36,22 @@
               <div class="flex-column text-center mgb-xl">
                 <div class="flex-item-6">
                   <p class="text-s">昨日新订单</p>
-                  <p class="pr-color">{{count4Index.yesterdayTotal}}</p>
+                  <p class="pr-color">{{easyPieChartData.yesterdayTotal}}</p>
                 </div>
                 <div class="flex-item-6">
                   <p class="text-s">今日新订单</p>
-                  <p class="pr-color">{{count4Index.todayCount}}</p>
+                  <p class="pr-color">{{easyPieChartData.todayCount}}</p>
                 </div>
               </div>
-              <div easypeichart class="pr-easypiechart text-center">
-                <div class="chart" data-percent="73" data-bar-color="#ff6d29" data-size="120">
+              <div class="pr-easypiechart text-center">
+                <div id="yesterdayOrderPercent"
+                     class="chart"
+                     data-percent="0"
+                     data-bar-color="#ff6d29"
+                     data-size="120">
                   <span>
-                    <h1 class="text-center">{{count4Index.yesterdayAlready/count4Index.yesterdayTotal*100 | number:0}}%</h1>
+                    <h1 class="text-center" ng-if="easyPieChartData.yesterdayAlready==0">0%</h1>
+                    <h1 class="text-center" ng-if="easyPieChartData.yesterdayAlready!=0">{{easyPieChartData.yesterdayAlready/easyPieChartData.yesterdayTotal*100 | number:0}}%</h1>
                     <p class="text-s">昨日订单处理率</p>
                   </span>
                 </div>
@@ -57,17 +61,23 @@
               <div class="flex-column text-center mgb-xl">
                 <div class="flex-item-6">
                   <p class="text-s">本月新订单</p>
-                  <p class="pr-color">{{count4Index.monthTotal}}</p>
+                  <p class="pr-color">{{easyPieChartData.monthTotal}}</p>
                 </div>
                 <div class="flex-item-6">
                   <p class="text-s">已处理订单</p>
-                  <p class="pr-color">{{count4Index.monthAlready}}</p>
+                  <p class="pr-color">{{easyPieChartData.monthAlready}}</p>
                 </div>
               </div>
               <div easypeichart class="pr-easypiechart text-center">
-                <div class="chart" data-percent="85" data-bar-color="#ff6d29" data-size="120">
+                <div id="monthOrderPercent"
+                     easypeichart
+                     class="chart"
+                     data-percent="0"
+                     data-bar-color="#ff6d29"
+                     data-size="120">
                   <span>
-                    <h1 class="text-center">{{count4Index.monthAlready/count4Index.monthTotal*100 | number:0}}%</h1>
+                    <h1 class="text-center" ng-if="easyPieChartData.monthAlready==0">0%</h1>
+                    <h1 class="text-center" ng-if="easyPieChartData.monthAlready!=0">{{easyPieChartData.monthAlready/easyPieChartData.monthTotal*100 | number:0}}%</h1>
                     <p class="text-s">本月订单处理率</p>
                   </span>
                 </div>
@@ -81,12 +91,14 @@
           <h1 class="pd-m pr-panel-title-color text-center bb-line">我的昨日订单状态</h1>
           <div class="flex-column">
             <div class="flex-item-6 pdt-l pdb br-dotted-line">
-              <div class="text-s text-center mgb-xl">
+              <div chart="rest/authen/salesOrder/countByOrderStatus4Echarts?dateType=yesterday&isOnlyCurrentUser=true"
+                   style="height:180px;"></div>
+              <!-- <div class="text-s text-center mgb-xl">
                 <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-red"></i>未处理</span>
                 <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-orange"></i>未拆分</span>
                 <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-gold"></i>未提交</span>
-              </div>
-              <div chart="../data/pie-chart.json?id=1" style="height:180px;margin-top:-7px;margin-bottom:-10px;"></div>
+              </div> -->
+
               <!-- <div morris
                    id="morris-order-status"
                    class="revenue-graph"
@@ -96,11 +108,13 @@
               </div> -->
             </div>
             <div class="flex-item-6 pdt-l pdb">
-              <div class="text-s text-center mgb-xl flex-column">
+              <div chart="rest/authen/salesOrder/countByOrderStatus4Echarts?dateType=yesterday&isOnlyCurrentUser=true"
+                   style="height:180px;"></div>
+              <!-- <div class="text-s text-center mgb-xl flex-column">
                 <span class="flex-item-6 text-center"><i class="chart-tip-icon pr-icon-bg-red"></i>库存不足</span>
                 <span class="flex-item-6 text-center"><i class="chart-tip-icon pr-icon-bg-orange"></i>批次要求</span>
-              </div>
-              <div chart="../data/pie-chart.json?id=1" style="height:180px;margin-top:-7px;margin-bottom:-10px;"></div>
+              </div> -->
+
               <!-- <div morris
                    id="morris-order-status2"
                    class="revenue-graph"
@@ -136,8 +150,8 @@
               <tr>
                 <td class="overhide w-space-nowrap">甲钴胺片</td>
                 <td>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar"
+                  <div class="progress pr-progress" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">
+                    <div class="progress-bar pr-progress-bar" role="progressbar"
                          aria-valuenow="10" aria-valuemin="0"
                          aria-valuemax="100" style="width: 10%;">
                     </div>
@@ -147,8 +161,8 @@
               <tr>
                 <td class="overhide w-space-nowrap">尤卓尔(丁酸氢化松乳膏)</td>
                 <td>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar"
+                  <div class="progress pr-progress">
+                    <div class="progress-bar pr-progress-bar" role="progressbar"
                          aria-valuenow="25" aria-valuemin="0"
                          aria-valuemax="100" style="width: 25%;">
                     </div>
@@ -158,8 +172,8 @@
               <tr>
                 <td class="overhide w-space-nowrap">胶体果胶秘胶囊</td>
                 <td>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar"
+                  <div class="progress pr-progress">
+                    <div class="progress-bar pr-progress-bar" role="progressbar"
                          aria-valuenow="95" aria-valuemin="0"
                          aria-valuemax="100" style="width: 95%;">
                     </div>
@@ -169,8 +183,8 @@
               <tr>
                 <td class="overhide w-space-nowrap">一次性使用注射笔</td>
                 <td>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar"
+                  <div class="progress pr-progress">
+                    <div class="progress-bar pr-progress-bar" role="progressbar"
                          aria-valuenow="60" aria-valuemin="0"
                          aria-valuemax="100" style="width: 60%;">
                     </div>
