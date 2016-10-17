@@ -256,7 +256,7 @@ gulp.task('pro-server', function (done) {
 });
 
 /* 开发模式静态文件打包任务，合并css，自动刷新浏览器 */
-gulp.task('dev-server', ['browser', 'concatCss', 'bro'], function () {
+gulp.task('dev-server', ['browser', 'concatCss', 'bro'], function (done) {
   //监控所有CSS文件
   gulp.watch('./src/css/block_css/*.css', function () {
     runSequence(['concatCss'], ['bro'], done);
