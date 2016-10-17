@@ -415,6 +415,7 @@ define('project/directives', ['project/init'], function () {
       restrict: 'A',
       link: function (scope, element, attrs) {
         if (element.hasClass('tooltips')) {
+          console.log('abc');
           $(element).tooltip({});
         }
       }
