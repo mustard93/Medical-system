@@ -113,7 +113,7 @@ gulp.task('runLess', ['clean-css'], function () {
 gulp.task('concatCss', ['clean-css'], function () {
   return gulp.src([paths.src + 'css/block_css/*.css'])
              .pipe(concat('style.min.css'))
-             .pipe(gulp.dest('./src/css'));
+             .pipe(gulp.dest('./src/css/dev'));
 });
 
 /* 合并、压缩CSS */
@@ -256,9 +256,7 @@ gulp.task('pro-server', function (done) {
 });
 
 /* 开发模式静态文件打包任务，合并css，自动刷新浏览器 */
-gulp.task('dev-server', function (done) {
-  condition = false;
-  runSequence(['browser'], ['concatCss'], ['bro'], done);
+gulp.task('dev-server', ['browser', 'concatCss', 'bro'], function (done) {
   //监控所有CSS文件
   gulp.watch('./src/css/block_css/*.css', function () {
     runSequence(['concatCss'], ['bro'], done);
