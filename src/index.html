@@ -16,7 +16,10 @@
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="fonts/css/font-awesome.min.css">
-  <link rel="stylesheet" href="build/css/style.min.css?v=b2a9a25f19">
+  <!-- production mode -->
+  <!-- <link rel="stylesheet" href="build/css/style.min.css?v=40b2e22aeb"> -->
+  <!-- dev mode -->
+  <link rel="stylesheet" href="css/dev/style.min.css">
   <script src="conf.js"></script>
   <script>
     var Config = {
@@ -34,7 +37,10 @@
         getMainInfo: "rest/authen/user/getCurrentUser.json" //获取主要的状态信息
     };
   </script>
-  <script id="requirejs_baseUrlId" data-main="build/js/app.min.js?v=f4433b6507" src="angular/r.js" defer async="true"></script>
+  <!-- production mode -->
+  <!-- <script id="requirejs_baseUrlId" data-main="build/js/app.min.js?v=f4433b6507" src="angular/r.js" defer async="true"></script> -->
+  <!-- dev mode -->
+  <script id="requirejs_baseUrlId" data-main="angular/app.js" src="angular/r.js" defer async="true"></script>
 </head>
 
 <body class="sticky-header min-w" ng-controller="mainCtrl" nice-scroll>
@@ -52,10 +58,6 @@
         <!-- 主内容区 start -->
         <div ng-view autoscroll="true"></div>
         <!-- 主内容区 end -->
-
-        <!--footer section start-->
-        <!-- <ng-include src="'views/public/main-footer-section.html'"></ng-include> -->
-        <!--footer section end-->
       </div>
       <!-- 主内容区域 end-->
   </section>

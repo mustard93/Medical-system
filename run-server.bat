@@ -1,1 +1,1 @@
-gulp server
+gulp dev-server
