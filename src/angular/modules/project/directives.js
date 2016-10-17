@@ -377,7 +377,14 @@ define('project/directives', ['project/init'], function () {
           .then(function (results) {
             var _data = results[1];
             if (_data.code === 200) {
-              scope.easyPieChartData = _data.data;
+              var _strNote = attrs.easypiechartUrl.split('?')[1].split('=');
+              if (_strNote[0] === 'isOnlyCurrentUser' && _strNote[1] === 'true') {
+                scope.epcUserData = _data.data;
+              }
+              if (_strNote[0] === 'isOnlyCurrentUser' && _strNote[1] === 'false') {
+                scope.epcTeamData = _data.data;
+              }
+
               // 初始化数据
               $('.chart').easyPieChart({
                 animate:{
@@ -385,18 +392,31 @@ define('project/directives', ['project/init'], function () {
                   enabled:true
                 },
                 barColor:'#f30',
+                trackColor: '#ffe8ce',
                 scaleColor:false,
                 lineWidth:8,
                 lineCap:'circle'
               });
 
-              // 计算昨日订单处理比例并更新页面数据
-              scope.yesterdayOrderPercent = parseInt(scope.easyPieChartData.yesterdayAlready / scope.easyPieChartData.yesterdayTotal * 100);
-              $('#yesterdayOrderPercent').data('easyPieChart').update(scope.yesterdayOrderPercent);
+              // 当前登录用户昨日订单处理比例并更新页面数据
+              scope.userYesterdayOrderPercent = parseInt(scope.epcUserData.yesterdayAlready / scope.epcUserData.yesterdayTotal * 100);
+              $('#userYesterdayOrderPercent').data('easyPieChart').update(scope.userYesterdayOrderPercent);
 
-              // 计算昨日订单处理比例并更新页面数据
-              scope.monthOrderPercent = parseInt(scope.easyPieChartData.monthAlready / scope.easyPieChartData.monthTotal * 100);
-              $('#monthOrderPercent').data('easyPieChart').update(scope.monthOrderPercent);
+              // 当前登录用户上月订单处理比例并更新页面数据
+              scope.userMonthOrderPercent = parseInt(scope.epcUserData.monthAlready / scope.epcUserData.monthTotal * 100);
+              $('#userMonthOrderPercent').data('easyPieChart').update(scope.userMonthOrderPercent);
+
+              // 当前团队昨日订单处理比例并更新页面数据
+              scope.teamYesterdayOrderPercent = parseInt(scope.epcTeamData.yesterdayAlready / scope.epcTeamData.yesterdayTotal * 100);
+              $('#teamYesterdayOrderPercent').data('easyPieChart').update(scope.teamYesterdayOrderPercent);
+
+              // 当前团队上周订单处理比例并更新页面数据
+              scope.teamLastWeekOrderPercent = parseInt(scope.epcTeamData.lastWeekAlready / scope.epcTeamData.lastWeekTotal * 100);
+              $('#teamLastWeekOrderPercent').data('easyPieChart').update(scope.teamLastWeekOrderPercent);
+
+              // 当前团队上月订单处理比例并更新页面数据
+              scope.teamMonthOrderPercent = parseInt(scope.epcTeamData.monthAlready / scope.epcTeamData.monthTotal * 100);
+              $('#teamMonthOrderPercent').data('easyPieChart').update(scope.teamMonthOrderPercent);
             }
           })
           .catch(function (error) {
