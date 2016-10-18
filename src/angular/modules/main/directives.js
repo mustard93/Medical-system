@@ -1714,7 +1714,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       id：指定id，id！=null&&q==null 时，根据id查询，q不为空时根据q查询。
       pageSize：指定返回数据条数
       */
-    function chosen(requestData, $timeout, alertError) {
+    function chosen(requestData, $timeout, alertError, proLoading) {
         return {
             restrict: 'A',
             //  scope: {
@@ -1726,10 +1726,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   search_contains: true,
                   no_results_text: "没有找到",
                   display_selected_options: false
-              };
-
-              $scope.$parent.statusInfo = {
-                isLoading: false
               };
 
               if ($attrs.selectCallBack) {
@@ -1765,7 +1761,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 if ($attrs.selectSource) {
                   if (angular.isDefined($attrs.chosenAjax)) {
                     chosenObj = $element.chosen(chosenConfig);
-
                     var $chosenContainer = $element.next();
                     var $input = $('input', $chosenContainer);
                     var searchStr = "";
@@ -1821,6 +1816,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             dataType: 'json',
                             success: function(_data) {
                               if (_data.code == 200) {
+                                $scope.isLoading = false;
                                 var _options = '';
                                 if (!_data.data) _data.data = [];
                                 if(_data.data.length === 0){
@@ -1912,9 +1908,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       var q = $.trim(field.val());
 
                       if (!q && searchStr == q) {
-                          return false;
+                        return false;
+                      } else {
+                        // $('#test').show();
+                        var _loadHtml = '<div style="position:absolute;top:0;left:50%;"' +
+                        'class="pr-spinner"><div class="bar1"></div><div class="bar2"></div>' +
+                        '<div class="bar3"></div><div class="bar4"></div><div class="bar5"></div>' +
+                        '<div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
+                        '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
+                        '<div class="bar12"></div></div>';
+
+                        $element.parent().append(_loadHtml);
+                        $scope.isLoading = true;
+                        $scope.$watch($scope.isLoading, function () {
+                          $('.pr-spinner').remove();
+                        });
                       }
-                      searchStr = q;
 
                       typing = true;
 
@@ -1922,41 +1931,43 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           $timeout.cancel($scope.searchTimer);
                       }
 
-                      $scope.$parent.statusInfo.isLoading = true;
-
                       $scope.searchTimer = $timeout(function() {
                           typing = false;
                           handleSearch(q);
                       }, 500);
                     };
 
-                    $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer).on('keyup', processValue).on('paste', function(e) {
-                      var that = this;
-                      setTimeout(function() {
-                        processValue.call(that, e);
-                      }, 500);
-                    }).on('keydown', function(e) {
+                    $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer)
+                      .on('keyup', processValue)
+                      .on('paste', function(e) {
+                        var that = this;
+                        setTimeout(function() {
+                          processValue.call(that, e);
+                        }, 500);
+                      })
+                      .on('keydown', function(e) {
                         if (e.keyCode == 229) {
                             isChinessInput = true;
                         } else {
                             isChinessInput = false;
                         }
-                    }).on('blur', function(e) {
+                      })
+                      .on('blur', function(e) {
                         //修复第一次输入后，直接回车没有取到值的bug
                         if (!ngModel.$viewValue) {
-                            try {
-                                if (chosenObj[0] && chosenObj[0][0]) ngModel.$setViewValue(chosenObj[0][0].value);
-                            } catch (e) {}
+                          try {
+                            if (chosenObj[0] && chosenObj[0][0]) ngModel.$setViewValue(chosenObj[0][0].value);
+                          } catch (e) {}
                         }
-                    });
-                  } else {
-                    function getData(){
-                    //满足条件才异步请求
-                    if (angular.isDefined($attrs.ajaxIf)) {
-                        if (!$attrs.ajaxIf) return;
-                    }
+                      });
+                    } else {
+                      function getData(){
+                        //满足条件才异步请求
+                        if (angular.isDefined($attrs.ajaxIf)) {
+                            if (!$attrs.ajaxIf) return;
+                        }
 
-                    requestData($attrs.selectSource)
+                        requestData($attrs.selectSource)
                         .then(function(results) {
                             var data = results[0];
                             var _options = '';
@@ -2016,7 +2027,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         }
     };
-    chosen.$inject = ["requestData", "$timeout", "alertError"];
+    chosen.$inject = ["requestData", "$timeout", "alertError", "proLoading"];
 
     /**
      * form-item

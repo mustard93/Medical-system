@@ -261,8 +261,8 @@ gulp.task('dev-server', ['browser', 'concatCss', 'bro'], function () {
   // gulp.watch(['./src/css/block_css/*.css'], ['concatCss', 'bro']);
   gulp.watch(['./src/css/block_css/*.css'], function (done) {
     runSequence(
-      'concatCss',
-      'bro',
+      ['concatCss'],
+      ['bro'],
       done
     );
   });
