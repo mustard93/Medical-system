@@ -156,10 +156,24 @@ define('main/controllers', ['main/init'], function () {
     function pageCtrl($scope, modal, dialogConfirm, $timeout) {
         modal.closeAll();
 
+        // 取消返回
         $scope.cancelThis = function (_text, _mode) {
           dialogConfirm(_text, function () {
             window.history.go(-1);
           }, _mode);
+        };
+
+        // easypiechart 全局样式定义
+        $scope.easypiechart_options = {
+          animate:{
+            duration:1000,
+            enabled:true
+          },
+          barColor: '#f30',
+          trackColor: '#ffe8ce',
+          scaleColor: false,
+          lineWidth: 8,
+          lineCap: 'circle'
         };
     }
 

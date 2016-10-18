@@ -31,7 +31,7 @@ require.config({
         'bootstrap': '../libs/bootstrap.min',                   //bootstrap
         'jquery-ui': '../libs/jquery-ui.min',
         'nicescroll': '../libs/jquery-nicescroll.min',          //滚动条美化
-        'easypiechart': '../libs/easypiechart/jquery.easypiechart.min',    //jQuery饼图
+        'easypiechart': '../libs/easypiechart/angular.easypiechart',    //jQuery饼图
         'icheck': '../libs/jquery.icheck.min',                  //checkbox美化
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
@@ -107,13 +107,13 @@ define('manageApp.upload', ['upload/init', 'upload/directives']);
 define('datePicker', ['datepicker/datepicker']);
 
 define('manageApp', [
-    'angular',
-    'manageApp.template',
-    'manageApp.modal',
-    'manageApp.main',
-    'manageApp.project',
-    'manageApp.upload',
-    'datePicker'
+       'angular',
+       'manageApp.template',
+       'manageApp.modal',
+       'manageApp.main',
+       'manageApp.project',
+       'manageApp.upload',
+       'datePicker'
 ], function () {
     return angular.module('manageApp', [
         'ngRoute',
@@ -122,7 +122,8 @@ define('manageApp', [
         'manageApp.main',
         'manageApp.project',
         'manageApp.upload',
-        'datePicker'
+        'datePicker',
+        'easypiechart'
     ]);
 });
 

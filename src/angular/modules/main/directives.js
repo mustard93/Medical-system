@@ -1714,7 +1714,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       id：指定id，id！=null&&q==null 时，根据id查询，q不为空时根据q查询。
       pageSize：指定返回数据条数
       */
-    function chosen(requestData, $timeout,alertError) {
+    function chosen(requestData, $timeout, alertError) {
         return {
             restrict: 'A',
             //  scope: {
@@ -1722,304 +1722,301 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             //  },
             require: "?^ngModel",
             link: function($scope, $element, $attrs, ngModel) {
-                var chosenConfig = {
-                    search_contains: true,
-                    no_results_text: "没有找到",
-                    display_selected_options: false
-                };
+              var chosenConfig = {
+                  search_contains: true,
+                  no_results_text: "没有找到",
+                  display_selected_options: false
+              };
 
-                if ($attrs.selectCallBack) {
-                    $element.on("change", changeHandle);
-                    $element.on("update", function(e, _data) {
-                        getData(_data);
-                    });
+              $scope.$parent.statusInfo = {
+                isLoading: false
+              };
 
-                    function changeHandle() {
-                        var _data = {};
-                        _data.value = $element.val();
-                        $scope[$attrs.selectCallBack](_data);
+              if ($attrs.selectCallBack) {
+                $element.on("change", changeHandle);
+                $element.on("update", function(e, _data) {
+                    getData(_data);
+                });
+              }
+
+              function changeHandle() {
+                var _data = {};
+                _data.value = $element.val();
+                $scope[$attrs.selectCallBack](_data);
+              }
+
+              var chosenObj = null;
+              // 监听一个model 当一个model清空时,重置cosen
+              if ($attrs.clearWatchScope) {
+                $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
+                  if(chosenObj && !newValue){
+                    $timeout(function() {
+                      chosenObj.data("chosen").form_field_jq.trigger("change");
+                    }, 800);
+                  }
+                });
+              }
+
+              if ($attrs.width) {
+                chosenConfig.width = $attrs.width;
+              }
+
+              require(['chosen'], function() {
+                if ($attrs.selectSource) {
+                  if (angular.isDefined($attrs.chosenAjax)) {
+                    chosenObj = $element.chosen(chosenConfig);
+
+                    var $chosenContainer = $element.next();
+                    var $input = $('input', $chosenContainer);
+                    var searchStr = "";
+                    var isChinessInput = false;
+                    var typing = false;
+                    var requestQueue;
+                    var _url = $attrs.selectSource;
+
+                    if (Config.serverPath) {
+                      if (_url.indexOf("http://") !== 0 && _url.indexOf("https://") !== 0) {
+                        _url = Config.serverPath + _url;
+                      }
+                    }
+                    //
+                    // if($attrs.watchName){
+                    //   $scope.$watch($attrs.watchName, function(n, o){
+                    //             console.log(n);
+                    //               console.log(o);
+                    //         if(n==o)return;
+                    //         $input.val(n);
+                    //     },true);
+
+                      // var tmp=  $scope.$eval($attrs.ngModelName);
+                      // console.log(tmp);
+                      // $input.val(tmp);
+                    // }
+                    //解决第二次编辑打开时，没有显示初始值bug。
+                    if(ngModel.$viewValue){
+                      handleSearch('');
                     }
 
-                }
+                    // $('.chosen-search > input').on('keyup', function () {
+                    //   if ($.trim($(this).val()) !== '') {
+                    //     $rootScope.statusInfo.isLoading = true;
+                    //   }
+                    // });
 
-                  var chosenObj=null;
-                  // 监听一个model 当一个model清空时,重置cosen
-                    if ($attrs.clearWatchScope) {
-                      $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
-
-
-                              if(chosenObj&&!newValue){
-                                        $timeout(function() {
-                                              chosenObj.data("chosen").form_field_jq.trigger("change");
-                                        }, 800);
-                              }
-                      });
-                    }
-
-
-                  $attrs.width && (chosenConfig.width = $attrs.width);
-
-                require(['chosen'], function() {
-                    if ($attrs.selectSource) {
-                        if (angular.isDefined($attrs.chosenAjax)) {
-                             chosenObj = $element.chosen(chosenConfig);
-
-                            var $chosenContainer = $element.next();
-                            var $input = $('input', $chosenContainer);
-                            var searchStr = "";
-                            var isChinessInput = false;
-                            var typing = false;
-                            var requestQueue;
-                            var _url=$attrs.selectSource;
-
-                            if(Config.serverPath){
-                              if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
-                                _url=Config.serverPath+_url;
-                              }
-                            }
-                            //
-                            // if($attrs.watchName){
-                            //   $scope.$watch($attrs.watchName, function(n, o){
-                            //             console.log(n);
-                            //               console.log(o);
-                            //         if(n==o)return;
-                            //         $input.val(n);
-                            //     },true);
-
-                              // var tmp=  $scope.$eval($attrs.ngModelName);
-                              // console.log(tmp);
-                              // $input.val(tmp);
-                            // }
-                            //解决第二次编辑打开时，没有显示初始值bug。
-                            if(ngModel.$viewValue){
-                              handleSearch('');
-                            }
-
-                            function handleSearch(q) {
-                                var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
-                                requestQueue && requestQueue.abort();
-                                requestQueue = $.ajax({
-                                    url: _url,
-                                    type: 'GET',
-                                    xhrFields:{withCredentials: true},
-                                    crossDomain:true,
-                                    data: {
-                                        q: q,
-                                        id:ngModel.$viewValue
-                                    },
-                                    dataType: 'json',
-                                    success: function(_data) {
-                                        if (_data.code == 200) {
-                                            var _options = '';
-                                            if (!_data.data) _data.data = [];
-                                            if(_data.data.length==0){
-                                              _data.data.push({value:"",text:""});
-                                            }
-
-                                            var _length = _data.data.length;
-                                            var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
-                                            var data= _data.data;
-                                            for (var i = 0; i < _length; i++) {
-                                                // var data= _data.data;
-                                                // if (_selected.indexOf(_data.data[i].value) == -1) {
-                                                //     _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
-                                                // }
-
-                                                _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
-
-                                            }
-                                            $element.html(_options).prepend(selected);
-                                            $element.trigger("chosen:updated");
-                                            var keyRight = $.Event('keydown');
-                                            keyRight.which = 39;
-                                            $input.val(q).trigger(keyRight);
-
-                                            if (_data.data.length > 0) {
-                                                $chosenContainer.find('.no-results').hide();
-                                            } else {
-                                                $chosenContainer.find('.no-results').show();
-                                            }
-                                        }else{
-                                          if(angular.isDefined($attrs.alertError)){
-                                              alet(_data.msg);
-
-                                          }
-                                        }
-                                    },
-                                    complete: function() {
-                                        $scope.$digest();
-                                    }
-                                });
-
-
-                            };
-
-                            function processValue(e) {
-                                var field = $(this);
-                                if (e.keyCode && e.keyCode === 13) {
-                                    //修复第一次输入后，直接回车没有取到值的bug
-                                    if (!ngModel.$viewValue) {
-                                        try {
-                                            ngModel.$setViewValue(chosenObj[0][0].value);
-                                        } catch (e) {}
-                                    }
-
-                                }
-                                //don't fire ajax if...
-                                if ((e.type === 'paste' && field.is(':not(:focus)')) ||
-                                    (e.keyCode && (
-                                        (e.keyCode === 9) || //Tab
-                                        (e.keyCode === 13) || //Enter
-                                        (e.keyCode === 16) || //Shift
-                                        (e.keyCode === 17) || //Ctrl
-                                        (e.keyCode === 18) || //Alt
-                                        (e.keyCode === 19) || //Pause, Break
-                                        (e.keyCode === 20) || //CapsLock
-                                        (e.keyCode === 27) || //Esc
-                                        (e.keyCode === 33) || //Page Up
-                                        (e.keyCode === 34) || //Page Down
-                                        (e.keyCode === 35) || //End
-                                        (e.keyCode === 36) || //Home
-                                        (e.keyCode === 37) || //Left arrow
-                                        (e.keyCode === 38) || //Up arrow
-                                        (e.keyCode === 39) || //Right arrow
-                                        (e.keyCode === 40) || //Down arrow
-                                        (e.keyCode === 44) || //PrntScrn
-                                        (e.keyCode === 45) || //Insert
-                                        (e.keyCode === 144) || //NumLock
-                                        (e.keyCode === 145) || //ScrollLock
-                                        (e.keyCode === 91) || //WIN Key (Start)
-                                        (e.keyCode === 93) || //WIN Menu
-                                        (e.keyCode === 224) || //command key
-                                        (e.keyCode >= 112 && e.keyCode <= 123) //F1 to F12
-                                    ))) {
-                                    return false;
-                                }
-
-                                if (isChinessInput && (e.keyCode != 32 && (e.keyCode < 48 || e.keyCode > 57))) {
-                                    return false;
-                                }
-
-                                $chosenContainer.find('.no-results').hide();
-
-                                var q = $.trim(field.val());
-                                if (!q && searchStr == q) {
-                                    return false;
-                                }
-                                searchStr = q;
-
-                                typing = true;
-
-                                if ($scope.searchTimer) {
-                                    $timeout.cancel($scope.searchTimer);
-                                }
-
-                                $scope.searchTimer = $timeout(function() {
-                                    typing = false;
-                                    handleSearch(q);
-                                }, 600);
-                            };
-
-                            $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer).on('keyup', processValue).on('paste', function(e) {
-                                var that = this;
-                                setTimeout(function() {
-                                    processValue.call(that, e);
-                                }, 500);
-                            }).on('keydown', function(e) {
-                                if (e.keyCode == 229) {
-                                    isChinessInput = true;
-                                } else {
-                                    isChinessInput = false;
-                                }
-                            }).on('blur', function(e) {
-                                //修复第一次输入后，直接回车没有取到值的bug
-                                if (!ngModel.$viewValue) {
-                                    try {
-                                        if (chosenObj[0] && chosenObj[0][0]) ngModel.$setViewValue(chosenObj[0][0].value);
-                                    } catch (e) {}
-                                }
-                            });
-                        } else {
-
-
-                          function getData(){
-                            //满足条件才异步请求
-                            if (angular.isDefined($attrs.ajaxIf)) {
-                                if (!$attrs.ajaxIf) return;
-                            }
-
-
-                            requestData($attrs.selectSource)
-                                .then(function(results) {
-                                    var data = results[0];
-                                    var _options = '';
-                                    if (!data) data = [];
-                                    var _length = data.length;
-                                    //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
-
-                                    var   _selected=null;
-                                    if(angular.isDefined($attrs.multiple)){
-
-                                        if (angular.isDefined($attrs.defaultEmpty)) {
-                                           _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
-                                        } else {
-                                            _selected= ngModel.$viewValue ? ngModel.$viewValue : [data[0].value];
-
-
-                                        }
-
-                                    }else{
-                                       if (angular.isDefined($attrs.defaultEmpty)) {
-                                        _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
-                                       } else {
-                                         _selected= ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
-
-                                       }
-                                    }
-                                    if (angular.isDefined($attrs.defaultEmpty)) {
-                                        _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
-                                    }
-                                    for (var i = 0; i < _length; i++) {
-                                        _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
-                                    }
-                                    $element.html(_options);
-                                    chosenObj=$element.chosen($scope.chosen || chosenConfig);
-                                    ngModel.$setViewValue(_selected);
-                                }).catch(function(msg) {
-                                    if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                                    if (angular.isDefined($attrs.alertError)) alertError(msg);
-
-
-                                });
-                          }
-                          //监听
-                          $attrs.$observe("selectSource", function(value) {
-                              ngModel.$setViewValue(null);
-                                chosenObj&&chosenObj.data("chosen").destroy();
-
-                              // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
-
-                              getData();
-                          });
-
-
-
-                          getData();
-
+                    function handleSearch(q) {
+                        var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
+                        if (requestQueue) {
+                          requestQueue.abort();
                         }
-                    } else {
 
-                        //修复select 初始值为null，没有对应的option值时，angluarjs自动添加，空option 导致 chonsen控件，选择其他值后，不能选择最后一条bug。
-                        $element.append("<option value=''></option>");
-                        $element.chosen($scope.chosen || chosenConfig);
+                        requestQueue = $.ajax({
+                            url: _url,
+                            type: 'GET',
+                            xhrFields:{withCredentials: true},
+                            crossDomain:true,
+                            data: {
+                                q: q,
+                                id: ngModel.$viewValue
+                            },
+                            dataType: 'json',
+                            success: function(_data) {
+                              if (_data.code == 200) {
+                                var _options = '';
+                                if (!_data.data) _data.data = [];
+                                if(_data.data.length === 0){
+                                  _data.data.push({value:"",text:""});
+                                }
 
+                                var _length = _data.data.length;
+                                var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
+                                var data= _data.data;
+                                for (var i = 0; i < _length; i++) {
+                                    // var data= _data.data;
+                                    // if (_selected.indexOf(_data.data[i].value) == -1) {
+                                    //     _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
+                                    // }
 
+                                    _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
+
+                                }
+                                $element.html(_options).prepend(selected);
+                                $element.trigger("chosen:updated");
+                                var keyRight = $.Event('keydown');
+                                keyRight.which = 39;
+                                $input.val(q).trigger(keyRight);
+
+                                if (_data.data.length > 0) {
+                                    $chosenContainer.find('.no-results').hide();
+                                } else {
+                                    $chosenContainer.find('.no-results').show();
+                                }
+                              } else {
+                                if(angular.isDefined($attrs.alertError)){
+                                    alet(_data.msg);
+                                }
+                              }
+                            },
+                            complete: function() {
+                                $scope.$digest();
+                            }
+                        });
                     }
-                })
+
+                    function processValue(e) {
+                      var field = $(this);
+                      if (e.keyCode && e.keyCode === 13) {
+                        //修复第一次输入后，直接回车没有取到值的bug
+                        if (!ngModel.$viewValue) {
+                          try {
+                            ngModel.$setViewValue(chosenObj[0][0].value);
+                          } catch (e) {}
+                        }
+                      }
+                        //don't fire ajax if...
+                      if ((e.type === 'paste' && field.is(':not(:focus)')) ||
+                          (e.keyCode && (
+                              (e.keyCode === 9) || //Tab
+                              (e.keyCode === 13) || //Enter
+                              (e.keyCode === 16) || //Shift
+                              (e.keyCode === 17) || //Ctrl
+                              (e.keyCode === 18) || //Alt
+                              (e.keyCode === 19) || //Pause, Break
+                              (e.keyCode === 20) || //CapsLock
+                              (e.keyCode === 27) || //Esc
+                              (e.keyCode === 33) || //Page Up
+                              (e.keyCode === 34) || //Page Down
+                              (e.keyCode === 35) || //End
+                              (e.keyCode === 36) || //Home
+                              (e.keyCode === 37) || //Left arrow
+                              (e.keyCode === 38) || //Up arrow
+                              (e.keyCode === 39) || //Right arrow
+                              (e.keyCode === 40) || //Down arrow
+                              (e.keyCode === 44) || //PrntScrn
+                              (e.keyCode === 45) || //Insert
+                              (e.keyCode === 144) || //NumLock
+                              (e.keyCode === 145) || //ScrollLock
+                              (e.keyCode === 91) || //WIN Key (Start)
+                              (e.keyCode === 93) || //WIN Menu
+                              (e.keyCode === 224) || //command key
+                              (e.keyCode >= 112 && e.keyCode <= 123) //F1 to F12
+                          ))) {
+                          return false;
+                      }
+
+                      if (isChinessInput && (e.keyCode != 32 && (e.keyCode < 48 || e.keyCode > 57))) {
+                          return false;
+                      }
+
+                      $chosenContainer.find('.no-results').hide();
+
+                      var q = $.trim(field.val());
+
+                      if (!q && searchStr == q) {
+                          return false;
+                      }
+                      searchStr = q;
+
+                      typing = true;
+
+                      if ($scope.searchTimer) {
+                          $timeout.cancel($scope.searchTimer);
+                      }
+
+                      $scope.$parent.statusInfo.isLoading = true;
+
+                      $scope.searchTimer = $timeout(function() {
+                          typing = false;
+                          handleSearch(q);
+                      }, 500);
+                    };
+
+                    $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer).on('keyup', processValue).on('paste', function(e) {
+                      var that = this;
+                      setTimeout(function() {
+                        processValue.call(that, e);
+                      }, 500);
+                    }).on('keydown', function(e) {
+                        if (e.keyCode == 229) {
+                            isChinessInput = true;
+                        } else {
+                            isChinessInput = false;
+                        }
+                    }).on('blur', function(e) {
+                        //修复第一次输入后，直接回车没有取到值的bug
+                        if (!ngModel.$viewValue) {
+                            try {
+                                if (chosenObj[0] && chosenObj[0][0]) ngModel.$setViewValue(chosenObj[0][0].value);
+                            } catch (e) {}
+                        }
+                    });
+                  } else {
+                    function getData(){
+                    //满足条件才异步请求
+                    if (angular.isDefined($attrs.ajaxIf)) {
+                        if (!$attrs.ajaxIf) return;
+                    }
+
+                    requestData($attrs.selectSource)
+                        .then(function(results) {
+                            var data = results[0];
+                            var _options = '';
+                            if (!data) data = [];
+                            var _length = data.length;
+                            //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
+
+                            var _selected=null;
+                            if(angular.isDefined($attrs.multiple)){
+                                if (angular.isDefined($attrs.defaultEmpty)) {
+                                   _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
+                                } else {
+                                    _selected= ngModel.$viewValue ? ngModel.$viewValue : [data[0].value];
+                                }
+                            } else {
+                               if (angular.isDefined($attrs.defaultEmpty)) {
+                                _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
+                               } else {
+                                 _selected= ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
+
+                               }
+                            }
+                            if (angular.isDefined($attrs.defaultEmpty)) {
+                                _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
+                            }
+                            for (var i = 0; i < _length; i++) {
+                                _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
+                            }
+                            $element.html(_options);
+                            chosenObj=$element.chosen($scope.chosen || chosenConfig);
+                            ngModel.$setViewValue(_selected);
+                        }).catch(function(msg) {
+                            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                            if (angular.isDefined($attrs.alertError)) alertError(msg);
+
+
+                        });
+                  }
+
+                  //监听
+                  $attrs.$observe("selectSource", function(value) {
+                      ngModel.$setViewValue(null);
+                        chosenObj&&chosenObj.data("chosen").destroy();
+                      // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
+                      getData();
+                  });
+
+                  getData();
+
+                  }
+                } else {
+                //修复select 初始值为null，没有对应的option值时，angluarjs自动添加，空option 导致 chonsen控件，选择其他值后，不能选择最后一条bug。
+                $element.append("<option value=''></option>");
+                $element.chosen($scope.chosen || chosenConfig);
+                }
+              })
             }
         }
     };
-    chosen.$inject = ["requestData", "$timeout","alertError"];
+    chosen.$inject = ["requestData", "$timeout", "alertError"];
 
     /**
      * form-item
