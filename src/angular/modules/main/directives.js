@@ -1324,45 +1324,105 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
                     loadChart($attrs.chart, $scope.chartParams);
 
-                    function loadChart(_url, _params) {
-                        if ($scope.isLoading) {
-                            return;
+                  function loadChart(_url, _params){
+                    if ($scope.isLoading) {
+                        return;
+                    }
+                    $scope.isLoading = true;
+                    myChart.showLoading();
+
+                    $.ajax({
+                      url: _url,
+                      type: "GET",
+                      xhrFields:{withCredentials: true},
+                      crossDomain:true,
+                      dataType: 'text',//text,json
+                      success: function (text) {
+                        // var results=eval(text);
+                        //eavl 作用域设置为当前，支持执行echart提供方法。
+                        var results=  eval( "(" + text + ")" );
+
+
+                        if ( results.code != 200) {
+                            console.log(_data);
+                              alertError(_data.msg || '出错了');
+                            return ;
+
                         }
-                        $scope.isLoading = true;
-                        myChart.showLoading();
-                        requestData(_url, _params)
-                            .then(function(results) {
-                                var _data = results[0];
 
-                                //js api 增加功能：eChart组件将data返回给$scope.$parent.eChartMapData[$scope.eChartKey] 用于显示数据。
-                                if ($scope.eChartKey) {
-                                    if (!$scope.$parent.eChartMapData) $scope.$parent.eChartMapData = {};
-                                    $scope.$parent.eChartMapData[$scope.eChartKey] = _data;
-                                }
+                          var _data = results.data;
 
-                                myChart.hideLoading();
-                                //解决百度图表雷达图 Tip 显示不正确的问题
-                                if (_data.polar) {
-                                    _data.tooltip.formatter = function(_items) {
-                                        var _str = _items[0].name;
-                                        angular.forEach(_items, function(_item) {
-                                            _str += '<br>' + _item.seriesName + ": " + _item.data;
-                                        });
-                                        return _str;
-                                    }
-                                } else {
-                                    if (_data.tooltip.formatter && _data.tooltip.formatter.indexOf("function") == 0) {
-                                        _data.tooltip.formatter = eval("(" + _data.tooltip.formatter + ")");
-                                    }
-                                }
-                                myChart.setOption(_data);
-                                $scope.isLoading = false;
-                            })
-                            .catch(function(_msg) {
-                                $scope.isLoading = false;
-                                myChart.hideLoading();
-                            });
-                    };
+                        //js api 增加功能：eChart组件将data返回给$scope.$parent.eChartMapData[$scope.eChartKey] 用于显示数据。
+                        if ($scope.eChartKey) {
+                            if (!$scope.$parent.eChartMapData) $scope.$parent.eChartMapData = {};
+                            $scope.$parent.eChartMapData[$scope.eChartKey] = _data;
+                        }
+
+                        myChart.hideLoading();
+                        //解决百度图表雷达图 Tip 显示不正确的问题
+                        if (_data.polar) {
+                            _data.tooltip.formatter = function(_items) {
+                                var _str = _items[0].name;
+                                angular.forEach(_items, function(_item) {
+                                    _str += '<br>' + _item.seriesName + ": " + _item.data;
+                                });
+                                return _str;
+                            }
+                        } else {
+                            if (_data.tooltip.formatter && _data.tooltip.formatter.indexOf("function") == 0) {
+                                _data.tooltip.formatter = eval("(" + _data.tooltip.formatter + ")");
+                            }
+                        }
+                        myChart.setOption(_data);
+                        $scope.isLoading = false;
+                      },
+                      error:function(res){
+                        //{readyState: 0, responseText: "", status: 0, statusText: "error"}
+                          alert("服务器连接不上或内部异常："+res.responseText);
+                      }
+                    });
+
+                  }//end loadChart
+                    //
+                    // function loadChart2(_url, _params) {
+                    //     if ($scope.isLoading) {
+                    //         return;
+                    //     }
+                    //     $scope.isLoading = true;
+                    //     myChart.showLoading();
+                    //     requestData(_url, _params)
+                    //         .then(function(results) {
+                    //             var _data = results[0];
+                    //
+                    //             //js api 增加功能：eChart组件将data返回给$scope.$parent.eChartMapData[$scope.eChartKey] 用于显示数据。
+                    //             if ($scope.eChartKey) {
+                    //                 if (!$scope.$parent.eChartMapData) $scope.$parent.eChartMapData = {};
+                    //                 $scope.$parent.eChartMapData[$scope.eChartKey] = _data;
+                    //             }
+                    //
+                    //             myChart.hideLoading();
+                    //             //解决百度图表雷达图 Tip 显示不正确的问题
+                    //             if (_data.polar) {
+                    //                 _data.tooltip.formatter = function(_items) {
+                    //                     var _str = _items[0].name;
+                    //                     angular.forEach(_items, function(_item) {
+                    //                         _str += '<br>' + _item.seriesName + ": " + _item.data;
+                    //                     });
+                    //                     return _str;
+                    //                 }
+                    //             } else {
+                    //                 if (_data.tooltip.formatter && _data.tooltip.formatter.indexOf("function") == 0) {
+                    //                     _data.tooltip.formatter = eval("(" + _data.tooltip.formatter + ")");
+                    //                 }
+                    //             }
+                    //             myChart.setOption(_data);
+                    //             $scope.isLoading = false;
+                    //         })
+                    //         .catch(function(_msg) {
+                    //             $scope.isLoading = false;
+                    //             myChart.hideLoading();
+                    //         });
+                    // };
                 });
             }
         };

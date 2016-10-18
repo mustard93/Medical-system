@@ -27,11 +27,12 @@ require.config({
         'chosen': '../libs/chosen.jquery.min',                  //下拉筛选插件
         'angular': '../libs/angular',                           //Angular
         'ngRoute': '../libs/angular-route',                     //路由
+
         'autocomplete': '../libs/jquery.autocomplete.min',      //自动补齐
         'bootstrap': '../libs/bootstrap.min',                   //bootstrap
         'jquery-ui': '../libs/jquery-ui.min',
         'nicescroll': '../libs/jquery-nicescroll.min',          //滚动条美化
-        'easypiechart': '../libs/easypiechart/jquery.easypiechart.min',    //jQuery饼图
+        'easypiechart': '../libs/angular.easypiechart',    //jQuery饼图
         'icheck': '../libs/jquery.icheck.min',                  //checkbox美化
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
@@ -110,6 +111,7 @@ define('manageApp', [
     'angular',
     'manageApp.template',
     'manageApp.modal',
+
     'manageApp.main',
     'manageApp.project',
     'manageApp.upload',
@@ -119,6 +121,7 @@ define('manageApp', [
         'ngRoute',
         'manageApp.template',
         'manageApp.modal',
+          'easypiechart',
         'manageApp.main',
         'manageApp.project',
         'manageApp.upload',
