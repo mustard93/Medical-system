@@ -15,8 +15,9 @@
     <div class="flex-column">
       <!-- 订单录入统计 -->
       <div class="flex-item-5"
-
-           ajax-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=true" scope-data="epcUserData" callback="aa=55.555;aa2=">
+           ajax-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=true"
+           scope-data="epcUserData"
+           callback="useryesterdayorderpercent=epcUserData.yesterdayAlready/epcUserData.yesterdayTotal*100;usermonthorderpercent=epcUserData.monthAlready/epcUserData.monthTotal*100">
         <div class="panel pr-panel mgr">
           <h1 class="pd-m pr-panel-title-color text-center bb-line">我的订单录入统计</h1>
           <div class="flex-column">
@@ -44,23 +45,13 @@
                 </div>
               </div>
               <div class="pr-easypiechart text-center">
-
-
-               <div easypiechart options="easypiechart_options" percent="aa"></div>
-
-
-
-                <div id="userYesterdayOrderPercent"
-                     class="chart"
-                     data-percent="0"
-                     data-bar-color="#ff6d29"
-                     data-size="120">
-                  <span>
-                    <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">0%</h1>
-                    <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">{{epcUserData.yesterdayAlready/epcUserData.yesterdayTotal*100 | number:0}}%</h1>
-                    <p class="text-s">昨日订单处理率</p>
-                  </span>
-                </div>
+               <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+                 <span>
+                   <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">0%</h1>
+                   <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">{{epcUserData.yesterdayAlready/epcUserData.yesterdayTotal*100 | number:0}}%</h1>
+                   <p class="text-s">昨日订单处理率</p>
+                 </span>
+               </div>
               </div>
             </div>
             <div class="flex-item-4 index-chart-fix-height pdt-l">
@@ -75,16 +66,11 @@
                 </div>
               </div>
               <div easypeichart class="pr-easypiechart text-center">
-                <div id="userMonthOrderPercent"
-                     easypeichart
-                     class="chart"
-                     data-percent="0"
-                     data-bar-color="#ff6d29"
-                     data-size="120">
+                <div easypiechart options="easypiechart_options" percent="usermonthorderpercent">
                   <span>
-                    <h1 class="text-center" ng-if="easyPieChartData.monthAlready==0">0%</h1>
-                    <h1 class="text-center" ng-if="easyPieChartData.monthAlready!=0">{{epcUserData.monthAlready/epcUserData.monthTotal*100 | number:0}}%</h1>
-                    <p class="text-s">本月订单处理率</p>
+                    <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">0%</h1>
+                    <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">{{epcUserData.monthAlready/epcUserData.monthTotal*100 | number:0}}%</h1>
+                    <p class="text-s">昨日订单处理率</p>
                   </span>
                 </div>
               </div>
@@ -249,8 +235,11 @@
     </div>
     <div class="flex-column">
       <div class="flex-item-8"
-
-           easypiechart-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=false">
+           ajax-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=false"
+           scope-data="epcTeamData"
+           callback="teamyesterdayorderpercent=epcTeamData.yesterdayAlready/epcTeamData.yesterdayTotal*100;
+                     teamlastweekorderpercent=epcTeamData.lastWeekAlready/epcTeamData.lastWeekTotal*100;
+                     teammonthorderpercent=epcTeamData.monthAlready/epcTeamData.monthTotal*100">
         <div class="panel pr-panel mgr">
           <h1 class="pd-m text-n pr-panel-title-color text-center bb-line">小组订单录入统计</h1>
           <div class="flex-column">
@@ -278,11 +267,7 @@
                 </div>
               </div>
               <div class="pr-easypiechart text-center">
-                <div id="teamYesterdayOrderPercent"
-                     class="chart"
-                     data-percent="0"
-                     data-bar-color="#ff6d29"
-                     data-size="120">
+                <div easypiechart options="easypiechart_options" percent="teamyesterdayorderpercent">
                   <span>
                     <h1 class="text-center" ng-if="epcTeamData.yesterdayAlready==0">0%</h1>
                     <h1 class="text-center" ng-if="epcTeamData.yesterdayAlready!=0">{{epcTeamData.yesterdayAlready/epcTeamData.yesterdayTotal*100 | number:0}}%</h1>
@@ -303,11 +288,7 @@
                 </div>
               </div>
               <div class="pr-easypiechart text-center">
-                <div id="teamLastWeekOrderPercent"
-                     class="chart"
-                     data-percent="0"
-                     data-bar-color="#ff6d29"
-                     data-size="120">
+                <div easypiechart options="easypiechart_options" percent="teamlastweekorderpercent">
                   <span>
                     <h1 class="text-center" ng-if="epcTeamData.lastWeekAlready==0">0%</h1>
                     <h1 class="text-center" ng-if="epcTeamData.lastWeekAlready!=0">{{epcTeamData.lastWeekAlready/epcTeamData.lastWeekTotal*100 | number:0}}%</h1>
@@ -328,11 +309,7 @@
                 </div>
               </div>
               <div class="pr-easypiechart text-center">
-                <div id="teamMonthOrderPercent"
-                     class="chart"
-                     data-percent="0"
-                     data-bar-color="#ff6d29"
-                     data-size="120">
+                <div easypiechart options="easypiechart_options" percent="teammonthorderpercent">
                   <span>
                     <h1 class="text-center" ng-if="epcTeamData.monthAlready==0">0%</h1>
                     <h1 class="text-center" ng-if="epcTeamData.monthAlready!=0">{{epcTeamData.monthAlready/epcTeamData.monthTotal*100 | number:0}}%</h1>
