@@ -123,6 +123,7 @@ define('main/services', ['main/init'], function () {
             }).then(_callBack);
         };
     }
+
     //弹窗提示
     function alertError($rootScope, modal) {
         return function (_text, _callBack) {
@@ -134,6 +135,7 @@ define('main/services', ['main/init'], function () {
             }).then(_callBack);
         };
     }
+
     //弹窗提示
     function alertWarn($rootScope, modal) {
         return function (_text, _callBack) {
@@ -189,7 +191,7 @@ list<Data{id,name,pid}> =>treeNode{id,name,nodes：[]}
 */
       function buildTree(){
          return function (data,pidKey){
-           if(!data||data.length==0)return [];
+           if(!data||data.length===0)return [];
            var pos = {};//Map<id,obj>
            var tree = [];//
            var i = 0;
@@ -227,7 +229,7 @@ list<Data{id,name,pid}> =>treeNode{id,name,nodes：[]}
         .factory('redirectInterceptor', redirectInterceptor)
         .service('alertOk', ['$rootScope', 'modal',alertOk])
         .service('alertError', ['$rootScope', 'modal',alertError])
-          .service('alertWarn', ['$rootScope', 'modal',alertError])
+        .service('alertWarn', ['$rootScope', 'modal',alertError])
         .service('requestData', requestData)
         .service('dialogConfirm', dialogConfirm)
         .service('dialogAlert', dialogAlert)
