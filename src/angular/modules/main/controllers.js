@@ -15,6 +15,13 @@ define('main/controllers', ['main/init'], function () {
         //当前用户
         $scope.curUser={};
 
+        //当前日期
+        var getCurrentDate = function () {
+          var _t = new Date();
+          return _t.getFullYear() + '-' + (_t.getMonth() + 1) + '-' + _t.getDate();
+        };
+        $scope.currentDate = getCurrentDate();
+
         $scope.mainConfig = window.Config || {};
         //页面跳转
         $scope.pageTo = function (_url) {
