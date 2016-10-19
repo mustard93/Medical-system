@@ -174,7 +174,7 @@ define('main/controllers', ['main/init'], function () {
           scaleColor: false,
           lineWidth: 8,
           lineCap: 'circle',
-          size: 120
+          size: 125
         };
     }
 
