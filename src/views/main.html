@@ -17,7 +17,8 @@
       <div class="flex-item-5"
            ajax-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=true"
            scope-data="epcUserData"
-           callback="useryesterdayorderpercent=epcUserData.yesterdayAlready/epcUserData.yesterdayTotal*100;usermonthorderpercent=epcUserData.monthAlready/epcUserData.monthTotal*100">
+           callback="useryesterdayorderpercent=epcUserData.yesterdayAlready/epcUserData.yesterdayTotal*100;
+                     usermonthorderpercent=epcUserData.monthAlready/epcUserData.monthTotal*100">
         <div class="panel pr-panel mgr">
           <h1 class="pd-m pr-panel-title-color text-center bb-line">我的订单录入统计</h1>
           <div class="flex-column">
@@ -68,9 +69,9 @@
               <div easypeichart class="pr-easypiechart text-center">
                 <div easypiechart options="easypiechart_options" percent="usermonthorderpercent">
                   <span>
-                    <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">0%</h1>
-                    <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">{{epcUserData.monthAlready/epcUserData.monthTotal*100 | number:0}}%</h1>
-                    <p class="text-s">昨日订单处理率</p>
+                    <h1 class="text-center" ng-if="epcUserData.monthAlready==0">0%</h1>
+                    <h1 class="text-center" ng-if="epcUserData.monthAlready!=0">{{epcUserData.monthAlready/epcUserData.monthTotal*100 | number:0}}%</h1>
+                    <p class="text-s">本月订单处理率</p>
                   </span>
                 </div>
               </div>
