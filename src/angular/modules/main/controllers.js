@@ -180,7 +180,7 @@ define('main/controllers', ['main/init'], function () {
           trackColor: '#ffe8ce',
           scaleColor: false,
           lineWidth: 8,
-          lineCap: 'circle',
+          lineCap: 'round',
           size: 125
         };
     }
