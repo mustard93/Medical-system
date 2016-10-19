@@ -47,7 +47,7 @@ define('project/registration',['angular'], function () {
     // 发送验证码
     $scope.sendRegVerifyCode = function () {
       if ($scope.regData.phone) {
-        var _url = $scope.mainConfig.serverPath + 'rest/sms/sendVerificationCode.json?tel='+ $scope.regData.phone;
+        var _url = $scope.mainConfig.serverPath + 'rest/sms/sendVerificationCode.json?isNewUser=true&tel='+ $scope.regData.phone;
         requestData(_url, {})
           .then(function (results) {
             var _data = results[0];
