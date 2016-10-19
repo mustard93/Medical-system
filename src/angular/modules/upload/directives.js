@@ -198,17 +198,17 @@ define('upload/directives', ['upload/init'], function () {
 
 
 
-    function uploaderOne() {
+    function uploaderOne(alertError) {
           return {
               restrict: 'EA',
               scope: {
                   ngModel: "=",
+                  upFile:"=",
                   uploadSize: "@",
                   width: "@",
                   height: "@"
               },
-              replace: true,
-            templateUrl:  Config.tplPath +'tpl/uploaderOne.html',
+
               // templateUrl: 'tpl/uploader2.html',
               link: function ($scope, $element, $attrs) {
                   var $fileIpt = $('<input type="file"/>');
@@ -231,13 +231,7 @@ define('upload/directives', ['upload/init'], function () {
                   };
 
 
-
-                  $scope.uploadBtn_click= function () {
-                      $fileIpt.trigger("click");
-                  };
-  //
-                  var $uploadBtn = $(".uploadBtn", $element);
-                  $uploadBtn.on("click", function () {
+                  $element.on("click", function () {
                       $fileIpt.trigger("click");
                   });
                   $fileIpt.on("change", fileSelected);
@@ -262,6 +256,8 @@ define('upload/directives', ['upload/init'], function () {
                                       name: files[i].name,
                                       data: ""
                                   };
+
+                                  $scope.upFile=_fileObj;
                                   // $scope.fileList.push(_fileObj);
                                   uploadFile(_fileObj);
                                   break;
@@ -277,7 +273,8 @@ define('upload/directives', ['upload/init'], function () {
                                           imgSrc: window.URL.createObjectURL(new Blob([files[i]], {type: files[i].type}))
                                       };
                                       // $scope.fileList.push(_fileObj);
-                                      // $scope.$digest();
+                                        $scope.upFile=_fileObj;
+                                      $scope.$digest();
                                       uploadFile(_fileObj);
                                       //console.log($scope.fileList);
                                   } else {
@@ -293,8 +290,9 @@ define('upload/directives', ['upload/init'], function () {
                                           text: '上传中...',
                                           data: {}
                                       };
+                                        $scope.upFile=_fileObj;
                                       // $scope.fileList.push(_fileObj);
-                                      // $scope.$digest();
+                                      $scope.$digest();
                                       uploadFile(_fileObj);
                                   } else {
                                       alert('上传格式错误');
@@ -324,14 +322,22 @@ define('upload/directives', ['upload/init'], function () {
                           if(tmp==100)tmp=99;
                           _fileObj.progress=tmp;
                           //上传进度最多99%，防止id还没返回时，用户就提交后，附件丢失bug。返回id后更新为100%
-                          // $scope.$digest();
+                          $scope.$digest();
                       }, false);
                       xhr.addEventListener("load", function (evt) {
                           var _data = angular.fromJson(evt.target.responseText);
+
+                            if (!_data || _data.code != 200) {
+                                alertError(_data.msg || '出错了');
+                                return;
+                            }
+
+
                           _fileObj.progress = 100;
                           _fileObj.status = "finished";
                           _fileObj.text = '上传成功！';
                           _fileObj.data = _data.data;
+                          // _data.data="http://stimg3.tuicool.com/JNzQre.png";
                           $scope.ngModel=_data.data;
                           $scope.$apply();
 
@@ -366,6 +372,6 @@ define('upload/directives', ['upload/init'], function () {
 
 //
     angular.module('manageApp.upload')
-    .directive("uploaderOne", uploaderOne)
+    .directive("uploaderOne", ["alertError",uploaderOne])
         .directive("uploader", uploader)
 });
