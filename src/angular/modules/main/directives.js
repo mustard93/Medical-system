@@ -1779,6 +1779,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         _url = Config.serverPath + _url;
                       }
                     }
+
                     //
                     // if($attrs.watchName){
                     //   $scope.$watch($attrs.watchName, function(n, o){
@@ -1961,7 +1962,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         //修复第一次输入后，直接回车没有取到值的bug
                         if (!ngModel.$viewValue) {
                           try {
-                            if (chosenObj[0] && chosenObj[0][0]) ngModel.$setViewValue(chosenObj[0][0].value);
+                             chosenObj&&chosenObj.data("chosen").single_set_selected_text();
+                            // if (chosenObj[0] && chosenObj[0][0]) ngModel.$setViewValue(chosenObj[0][0].value);
                           } catch (e) {}
                         }
                       });
