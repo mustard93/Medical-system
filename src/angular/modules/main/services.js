@@ -224,15 +224,40 @@ define('main/services', ['main/init'], function () {
     }
 
     //Loading
-    function proLoading () {
-      return function (style, masklayer, message) {
-        var _style = style || 'circular-rota',
-            _masklayer = masklayer || true,
-            _message = message || 'Loading...';
-        
+    function proLoading ($rootScope) {
+      return function (element, id, params) {
+        //定义参数对象
+        var _params = {
+          _style: params.style || 'circular-rota',
+          _masklayer: params.masklayer || false,
+          _message: params.message || ''
+        };
+
+        //定义Loading的HTML
+        var _loadHtml = '<div style="position:absolute;top:20%;left:102%;"' +
+        'class="pr-spinner"><div class="bar1"></div><div class="bar2"></div>' +
+        '<div class="bar3"></div><div class="bar4"></div><div class="bar5"></div>' +
+        '<div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
+        '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
+        '<div class="bar12"></div></div>';
+
+        //定义目标元素对象
+        var _ele = element;
+        _ele.parent().append(_loadHtml);
+
+        //如果id已定义，则Loading会作用于此id元素之上，否则Loading会插入到目标元素的父元素中
+        if (id) {
+
+        } else {
+          // _ele.parent().append(_loadHtml);
+          // $scope.isLoading = true;
+          // $scope.$watch($scope.isLoading, function () {
+          //   $('.pr-spinner').remove();
+          // });
+        }
       };
     }
-    proLoading.$inject = [];
+    proLoading.$inject = ['$rootScope'];
 
     angular.module('manageApp.main')
       .factory('redirectInterceptor', redirectInterceptor)

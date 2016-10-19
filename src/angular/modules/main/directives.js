@@ -1916,19 +1916,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if (!q && searchStr == q) {
                         return false;
                       } else {
-                        // $('#test').show();
-                        var _loadHtml = '<div style="position:absolute;top:0;left:50%;"' +
-                        'class="pr-spinner"><div class="bar1"></div><div class="bar2"></div>' +
-                        '<div class="bar3"></div><div class="bar4"></div><div class="bar5"></div>' +
-                        '<div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
-                        '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
-                        '<div class="bar12"></div></div>';
+                        proLoading($element, false, {});
 
-                        $element.parent().append(_loadHtml);
-                        $scope.isLoading = true;
-                        $scope.$watch($scope.isLoading, function () {
-                          $('.pr-spinner').remove();
-                        });
+                        // $('#test').show();
+                        // var _loadHtml = '<div style="position:absolute;top:20%;left:102%;"' +
+                        // 'class="pr-spinner"><div class="bar1"></div><div class="bar2"></div>' +
+                        // '<div class="bar3"></div><div class="bar4"></div><div class="bar5"></div>' +
+                        // '<div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
+                        // '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
+                        // '<div class="bar12"></div></div>';
+                        //
+                        // $element.parent().append(_loadHtml);
+                        // $scope.isLoading = true;
+                        // $scope.$watch($scope.isLoading, function () {
+                        //   $('.pr-spinner').remove();
+                        // });
                       }
 
                       typing = true;
