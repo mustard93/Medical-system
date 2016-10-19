@@ -1719,7 +1719,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       id：指定id，id！=null&&q==null 时，根据id查询，q不为空时根据q查询。
       pageSize：指定返回数据条数
       */
-    function chosen(requestData, $timeout, alertError, proLoading) {
+    function chosen(requestData, $timeout, $rootScope, alertError, proLoading) {
         return {
             restrict: 'A',
             //  scope: {
@@ -1798,12 +1798,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       handleSearch('');
                     }
 
-                    // $('.chosen-search > input').on('keyup', function () {
-                    //   if ($.trim($(this).val()) !== '') {
-                    //     $rootScope.statusInfo.isLoading = true;
-                    //   }
-                    // });
-
                     function handleSearch(q) {
                         var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
                         if (requestQueue) {
@@ -1822,7 +1816,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             dataType: 'json',
                             success: function(_data) {
                               if (_data.code == 200) {
-                                $scope.isLoading = false;
+                                $rootScope.isLoading = false;
                                 var _options = '';
                                 if (!_data.data) _data.data = [];
                                 if(_data.data.length === 0){
@@ -1917,20 +1911,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         return false;
                       } else {
                         proLoading($element, false, {});
-
-                        // $('#test').show();
-                        // var _loadHtml = '<div style="position:absolute;top:20%;left:102%;"' +
-                        // 'class="pr-spinner"><div class="bar1"></div><div class="bar2"></div>' +
-                        // '<div class="bar3"></div><div class="bar4"></div><div class="bar5"></div>' +
-                        // '<div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
-                        // '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
-                        // '<div class="bar12"></div></div>';
-                        //
-                        // $element.parent().append(_loadHtml);
-                        // $scope.isLoading = true;
-                        // $scope.$watch($scope.isLoading, function () {
-                        //   $('.pr-spinner').remove();
-                        // });
                       }
 
                       typing = true;
@@ -2036,7 +2016,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         }
     };
-    chosen.$inject = ["requestData", "$timeout", "alertError", "proLoading"];
+    chosen.$inject = ["requestData", "$timeout", "$rootScope", "alertError", "proLoading"];
 
     /**
      * form-item
