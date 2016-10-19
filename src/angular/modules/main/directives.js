@@ -431,7 +431,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         requestData(_url, _param, 'POST')
                             .then(function() {
                                 $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
-                                if ($scope.tbodyList.length === 0) {
+                                if ($scope.tbodyList.length !== 0) {
                                     $scope.$broadcast("reloadList");
                                 }
                             })
