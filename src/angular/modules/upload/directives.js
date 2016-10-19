@@ -4,7 +4,7 @@
 
 define('upload/directives', ['upload/init'], function () {
 
-    function uploader() {
+  function uploader() {
         return {
             restrict: 'EA',
             scope: {
@@ -15,18 +15,23 @@ define('upload/directives', ['upload/init'], function () {
                 height: "@"
             },
             replace: true,
-            templateUrl: Config.tplPath+'tpl/uploader.html',
+          templateUrl:  Config.tplPath +'tpl/uploader.html',
+            // templateUrl: 'tpl/uploader2.html',
             link: function ($scope, $element, $attrs) {
                 var $fileIpt = $('<input type="file" multiple/>');
                 var fileType = $attrs.uploadType || "image";
                 var initFiles = angular.fromJson($attrs.files || []);
                 $scope.fileList = [];
                 $scope.delFile = delFile;
+
                 $scope.ngModel = $scope.ngModel || [];
                 $scope.uploadMax = $scope.uploadMax || 99;
-                $scope.uploadSize = $scope.uploadSize || 1000;
+                $scope.uploadSize = $scope.uploadSize || 10000;
                 $scope.width = $scope.width ? $scope.width : 120 + "px";
                 $scope.height = $scope.height ? $scope.height : 100 + "px";
+
+
+                $scope.styleName = $attrs.styleName ||'styleName';
 
                 //获取初始值
                 angular.forEach(initFiles, function (_file) {
@@ -45,8 +50,18 @@ define('upload/directives', ['upload/init'], function () {
                     $scope.fileList = [];
                 };
 
-                var $uploadBtn = $(".uploadBtn", $element)
+
+
+                $scope.uploadBtn_click= function () {
+
+
+                    $fileIpt.trigger("click");
+                };
+//
+                var $uploadBtn = $(".uploadBtn", $element);
                 $uploadBtn.on("click", function () {
+
+
                     $fileIpt.trigger("click");
                 });
                 $fileIpt.on("change", fileSelected);
@@ -56,10 +71,7 @@ define('upload/directives', ['upload/init'], function () {
                     //HTML5文件API操作
                     var files = $fileIpt[0].files;
                     for (var i = 0, l = files.length; i < l; i++) {
-                        if ($scope.fileList.length >= $scope.uploadMax) {
-                            alert("超过文件上传数");
-                            return;
-                        }
+
                         if (files[i].size / 1024 > $scope.uploadSize) {
                             alert("文件大小不能超过 " + $scope.uploadSize + " K");
                             return;
@@ -75,7 +87,6 @@ define('upload/directives', ['upload/init'], function () {
                                     data: {}
                                 };
                                 $scope.fileList.push(_fileObj);
-                                $scope.$digest();
                                 uploadFile(_fileObj);
                                 break;
                             case "image":
@@ -92,12 +103,13 @@ define('upload/directives', ['upload/init'], function () {
                                     $scope.fileList.push(_fileObj);
                                     $scope.$digest();
                                     uploadFile(_fileObj);
+                                    //console.log($scope.fileList);
                                 } else {
                                     alert('只能上传图片');
                                 }
                                 break;
                             default:
-                                if (new RegExp(fileType).test(files[i].type)) {
+                                if (!files[i].type||new RegExp(fileType).test(files[i].type)) {
                                     var _fileObj = {
                                         status: 'uploading',
                                         file: files[i],
@@ -117,6 +129,9 @@ define('upload/directives', ['upload/init'], function () {
 
                 //删除图片
                 function delFile(file) {
+
+
+
                     var _files = [];
                     var _index = $scope.fileList.indexOf(file);
                     if (_index > -1) {
@@ -137,7 +152,10 @@ define('upload/directives', ['upload/init'], function () {
 
                     //监听事件
                     xhr.upload.addEventListener("progress", function (evt) {
-                        _fileObj.progress = Math.round(evt.loaded * 100 / evt.total);
+                        var tmp = Math.round(evt.loaded * 100 / evt.total);
+                        if(tmp==100)tmp=99;
+                        _fileObj.progress=tmp;
+                        //上传进度最多99%，防止id还没返回时，用户就提交后，附件丢失bug。返回id后更新为100%
                         $scope.$digest();
                     }, false);
                     xhr.addEventListener("load", function (evt) {
@@ -148,6 +166,10 @@ define('upload/directives', ['upload/init'], function () {
                         _fileObj.data = _data.data;
                         $scope.ngModel.push(_data.data.id);
                         $scope.$apply();
+
+                        //解决文件上传成功后，删除文件，再上传相同文件失败
+                        $fileIpt.val("");
+
                     }, false);
                     xhr.addEventListener("loadend", function (evt) {
                         if (evt.target.status != 200) {
@@ -157,7 +179,16 @@ define('upload/directives', ['upload/init'], function () {
                         }
                     });
                     //发送文件和表单自定义参数
-                    xhr.open("POST", $attrs.uploader);
+                    var _url=$attrs.uploader;
+                    if(Config.serverPath){
+                      if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
+                        _url=Config.serverPath+_url;
+                      }
+                    }
+
+
+                    xhr.open("POST", _url);
+                    xhr.withCredentials = true;
                     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                     xhr.send(fd);
                 }
@@ -165,9 +196,176 @@ define('upload/directives', ['upload/init'], function () {
         }
     };
 
-    uploader.$inject = [];
+
+
+    function uploaderOne() {
+          return {
+              restrict: 'EA',
+              scope: {
+                  ngModel: "=",
+                  uploadSize: "@",
+                  width: "@",
+                  height: "@"
+              },
+              replace: true,
+            templateUrl:  Config.tplPath +'tpl/uploaderOne.html',
+              // templateUrl: 'tpl/uploader2.html',
+              link: function ($scope, $element, $attrs) {
+                  var $fileIpt = $('<input type="file"/>');
+                  var fileType = $attrs.uploadType || "image";
+
+                  $scope.delFile = delFile;
+
+                  $scope.ngModel = $scope.ngModel;
+                  $scope.uploadSize = $scope.uploadSize || 10000;
+                  $scope.width = $scope.width ? $scope.width : 120 + "px";
+                  $scope.height = $scope.height ? $scope.height : 100 + "px";
+
+
+                  $scope.styleName = $attrs.styleName ||'styleName';
+
+
+                  //对外提供方法
+                  $scope.$parent.resetPic = function () {
+                      $scope.ngModel = [];
+                  };
+
+
+
+                  $scope.uploadBtn_click= function () {
+                      $fileIpt.trigger("click");
+                  };
+  //
+                  var $uploadBtn = $(".uploadBtn", $element);
+                  $uploadBtn.on("click", function () {
+                      $fileIpt.trigger("click");
+                  });
+                  $fileIpt.on("change", fileSelected);
+
+                  //监听选择文件信息
+                  function fileSelected() {
+                      //HTML5文件API操作
+                      var files = $fileIpt[0].files;
+                      for (var i = 0, l = files.length; i < l; i++) {
+
+                          if (files[i].size / 1024 > $scope.uploadSize) {
+                              alert("文件大小不能超过 " + $scope.uploadSize + " K");
+                              return;
+                          }
+                          switch (fileType) {
+                              case "*":
+                                  var _fileObj = {
+                                      status: 'uploading',
+                                      file: files[i],
+                                      progress: 0,
+                                      text: '上传中...',
+                                      name: files[i].name,
+                                      data: ""
+                                  };
+                                  // $scope.fileList.push(_fileObj);
+                                  uploadFile(_fileObj);
+                                  break;
+                              case "image":
+                                  if (/image/g.test(files[i].type)) {
+                                      var _fileObj = {
+                                          status: 'uploading',
+                                          file: files[i],
+                                          progress: 0,
+                                          text: '上传中...',
+                                          name: files[i].name,
+                                          data: "",
+                                          imgSrc: window.URL.createObjectURL(new Blob([files[i]], {type: files[i].type}))
+                                      };
+                                      // $scope.fileList.push(_fileObj);
+                                      // $scope.$digest();
+                                      uploadFile(_fileObj);
+                                      //console.log($scope.fileList);
+                                  } else {
+                                      alert('只能上传图片');
+                                  }
+                                  break;
+                              default:
+                                  if (!files[i].type||new RegExp(fileType).test(files[i].type)) {
+                                      var _fileObj = {
+                                          status: 'uploading',
+                                          file: files[i],
+                                          progress: 0,
+                                          text: '上传中...',
+                                          data: {}
+                                      };
+                                      // $scope.fileList.push(_fileObj);
+                                      // $scope.$digest();
+                                      uploadFile(_fileObj);
+                                  } else {
+                                      alert('上传格式错误');
+                                  }
+                          }
+                      }
+                  }
+
+                  //删除图片
+                  function delFile(file) {
+
+                      $scope.ngModel = "";
+                  }
+
+                  //上传文件
+                  function uploadFile(_fileObj) {
+                      var xhr = new XMLHttpRequest();
+                      var fd = new FormData();
+                      //关联表单数据,可以是自定义参数
+                      fd.append("desc", "desc1");
+
+                      fd.append("fileData", _fileObj.file);
+
+                      //监听事件
+                      xhr.upload.addEventListener("progress", function (evt) {
+                          var tmp = Math.round(evt.loaded * 100 / evt.total);
+                          if(tmp==100)tmp=99;
+                          _fileObj.progress=tmp;
+                          //上传进度最多99%，防止id还没返回时，用户就提交后，附件丢失bug。返回id后更新为100%
+                          // $scope.$digest();
+                      }, false);
+                      xhr.addEventListener("load", function (evt) {
+                          var _data = angular.fromJson(evt.target.responseText);
+                          _fileObj.progress = 100;
+                          _fileObj.status = "finished";
+                          _fileObj.text = '上传成功！';
+                          _fileObj.data = _data.data;
+                          $scope.ngModel=_data.data;
+                          $scope.$apply();
+
+                          //解决文件上传成功后，删除文件，再上传相同文件失败
+                          $fileIpt.val("");
+
+                      }, false);
+                      xhr.addEventListener("loadend", function (evt) {
+                          if (evt.target.status != 200) {
+                              _fileObj.status = "error";
+                              _fileObj.text = '上传失败！';
+                              // $scope.$apply();
+                          }
+                      });
+                      //发送文件和表单自定义参数
+                      var _url=$attrs.uploaderOne;
+                      if(Config.serverPath){
+                        if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
+                          _url=Config.serverPath+_url;
+                        }
+                      }
+
+
+                      xhr.open("POST", _url);
+                      xhr.withCredentials = true;
+                      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                      xhr.send(fd);
+                  }
+              }
+          }
+      };
 
 //
     angular.module('manageApp.upload')
+    .directive("uploaderOne", uploaderOne)
         .directive("uploader", uploader)
 });
