@@ -51,7 +51,10 @@
           <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary">
             <div>
               <div class="flex-column mgb-n">
-                <span class="flex-item-6 title-states">{{tr.orderStatus}}<i class="circle-icon-yellow mgl-m"></i></span>
+                <span class="flex-item-6 title-states">{{tr.orderStatus}}
+                  <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
+                  <i ng-if="tr.orderStatus=='冷链异常'" class="circle-icon-red mgl-m"></i>
+                </span>
                 <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-6 text-right"><a href="#/salesOrder/get.html?id={{tr.id}}">查看详情</a></span>
                 <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right"><a href="#/salesOrder/edit.html?id={{tr.id}}">编辑</a></span>
               </div>
