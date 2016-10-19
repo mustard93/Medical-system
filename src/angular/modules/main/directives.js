@@ -616,6 +616,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     statusInfo.isFinished = false;
                     $scope.tbodyList = [];
                     formData = angular.copy($scope.listParams);
+
+                    if (formData.q) {
+                      formData.q = "(?i)" + formData.q;
+                    }
+
                     getListData(setSelectedValue);
                     //清除选择框
                     if ($(".selectAll", $element).length > 0) {
