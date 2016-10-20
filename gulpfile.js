@@ -238,6 +238,7 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
   gulp.watch('**/*.js', ['browserify']);
 });
 
+<<<<<<< HEAD
 /* 开发模式 */
 gulp.task('server', function (done) {
   condition = false;
@@ -247,8 +248,8 @@ gulp.task('server', function (done) {
     runSequence(['concatCss'], ['bro'], done);
   });
   //监控所有JS文件
-  gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], function () {
-    runSequence(['bro'], done);
+  gulp.watch(['./src/angular/**/**/*.js', './src/angular/*.js'], function () {
+    runSequence(['bro']);
   });
   gulp.watch([
     './src/*.html',
@@ -257,19 +258,21 @@ gulp.task('server', function (done) {
     './src/manage/*.html'], ['bro']);
 });
 
+=======
+>>>>>>> 76d57f9be83bc2322ef32a3ac6faab96151b56cd
 /* 生产模式静态文件打包任务，包含css、js的合并、压缩、版本号更新及链接替换 */
-gulp.task('pro-server', function (done) {
+gulp.task('server', function (done) {
     condition = false;
     runSequence(['browser'], ['handleCss'], ['handleJs'], ['revHtml'], ['revManageHtml'], ['bro'], done);
-    // gulp.watch('./src/css/block_css/*.css', function () {     //监控所有CSS文件
-    //   runSequence(['handleCss'], ['revHtml'], ['revManageHtml'], ['bro'], done);
-    // });
-    // gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], function () {     //监控所有JS文件
-    //   runSequence(['handleJs'], ['revHtml'], ['revManageHtml'], ['bro'], done);
-    // });
-    // gulp.watch([
-    //   './src/*.html',
-    //   './src/views/*.html',
-    //   './src/views/**/*.html',
-    //   './src/manage/*.html'], ['bro']);
+    gulp.watch('./src/css/block_css/*.css', function () {     //监控所有CSS文件
+      runSequence(['handleCss'], ['revHtml'], ['revManageHtml'], ['bro'], done);
+    });
+    gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], function () {     //监控所有JS文件
+      runSequence(['handleJs'], ['revHtml'], ['revManageHtml'], ['bro'], done);
+    });
+    gulp.watch([
+      './src/*.html',
+      './src/views/*.html',
+      './src/views/**/*.html',
+      './src/manage/*.html'], ['bro']);
 });
