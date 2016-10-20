@@ -224,13 +224,13 @@ define('main/services', ['main/init'], function () {
     }
 
     //Loading
-    function proLoading () {
-      return function (element, scope, target, params) {
+    function proLoading ($rootScope) {
+      return function (element, id, params) {
         //定义参数对象
         var _params = {
-          _style: params.style ? params.style : 'circular-rota',
-          _masklayer: params.masklayer ? params.masklayer : false,
-          _message: params.message ? params.message : ''
+          _style: params.style || 'circular-rota',
+          _masklayer: params.masklayer || false,
+          _message: params.message || ''
         };
 
         //定义Loading的HTML
@@ -253,9 +253,6 @@ define('main/services', ['main/init'], function () {
         //定义目标元素对象
         var _ele = element;
 
-        //当前作用域
-        var _scope = scope;
-
         //如果target已定义
         if (target) {
           var _target = $("." + target);
@@ -273,14 +270,14 @@ define('main/services', ['main/init'], function () {
           });
         } else {
           _ele.parent().append(_loadHtml);
-          _scope.isLoading = true;
-          _scope.$watch(_scope.isLoading, function () {
+          $rootScope.isLoading = true;
+          $rootScope.$watch($rootScope.isLoading, function () {
             $('.pr-spinner').remove();
           });
         }
       };
     }
-    proLoading.$inject = [];
+    proLoading.$inject = ['$rootScope'];
 
     angular.module('manageApp.main')
       .factory('redirectInterceptor', redirectInterceptor)
