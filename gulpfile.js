@@ -247,8 +247,8 @@ gulp.task('server', function (done) {
     runSequence(['concatCss'], ['bro'], done);
   });
   //监控所有JS文件
-  gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], function () {
-    runSequence(['bro'], done);
+  gulp.watch(['./src/angular/**/**/*.js', './src/angular/*.js'], function () {
+    runSequence(['bro']);
   });
   gulp.watch([
     './src/*.html',

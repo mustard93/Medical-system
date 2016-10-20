@@ -235,18 +235,20 @@ define('main/services', ['main/init'], function () {
 
         //定义Loading的HTML
         var _loadHtml = '<div style="position:absolute;top:20%;left:102%;"' +
-        'class="pr-spinner"><div class="bar1"></div><div class="bar2"></div>' +
-        '<div class="bar3"></div><div class="bar4"></div><div class="bar5"></div>' +
-        '<div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
-        '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
-        '<div class="bar12"></div></div>';
+        'class="pr-spinner"><div class="bar1 cblack"></div><div class="bar2 cblack"></div>' +
+        '<div class="bar3 cblack"></div><div class="bar4 cblack"></div><div class="bar5 cblack"></div>' +
+        '<div class="bar6 cblack"></div><div class="bar7 cblack"></div><div class="bar8 cblack"></div>' +
+        '<div class="bar9 cblack"></div><div class="bar10 cblack"></div><div class="bar11 cblack"></div>' +
+        '<div class="bar12 cblack"></div></div>';
 
-        var _loadHtml2 = '<div style="display:inline-block;position:absolute;bottom:-135px;top:initial;left:50%;"' +
-        'class="pr-spinner"><div class="bar1"></div><div class="bar2"></div>' +
-        '<div class="bar3"></div><div class="bar4"></div><div class="bar5"></div>' +
-        '<div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
-        '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
-        '<div class="bar12"></div></div>';
+
+        var _loadHtml2 = '<div class="pr-full-loading" style="width:80px;height:80px;position:fixed;_position:absolute;' +
+                         'top:50%;left:50%;z-index:100;border-radius:5px;opacity:0.3;filter:alpha(opacity=30);background-color:#000;">' +
+                         '<div style="position:absolute;top:50%;left:50%;transform:translateX(-40%) translateY(-40%);" class="pr-spinner">' +
+                         '<div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div>' +
+                         '<div class="bar5"></div><div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
+                         '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
+                         '<div class="bar12"></div></div></div>';
 
         //定义目标元素对象
         var _ele = element;
@@ -260,10 +262,14 @@ define('main/services', ['main/init'], function () {
           if (!_target.css('relative')) {
             _target.addClass('relative');
           }
-          _target.parent().append(_loadHtml2);
+
           _scope.isLoading = true;
+
+          _target.append(_loadHtml2);
+
           _scope.$watch(_scope.isLoading, function () {
-            // $('.pr-spinner').remove();
+            console.log('abc');
+            $('.pr-full-loading').fadeOut(2000);
           });
         } else {
           _ele.parent().append(_loadHtml);
