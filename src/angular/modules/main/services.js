@@ -243,17 +243,16 @@ define('main/services', ['main/init'], function () {
 
         //定义目标元素对象
         var _ele = element;
-        _ele.parent().append(_loadHtml);
 
         //如果id已定义，则Loading会作用于此id元素之上，否则Loading会插入到目标元素的父元素中
         if (id) {
 
         } else {
-          // _ele.parent().append(_loadHtml);
-          // $scope.isLoading = true;
-          // $scope.$watch($scope.isLoading, function () {
-          //   $('.pr-spinner').remove();
-          // });
+          _ele.parent().append(_loadHtml);
+          $rootScope.isLoading = true;
+          $rootScope.$watch($rootScope.isLoading, function () {
+            $('.pr-spinner').remove();
+          });
         }
       };
     }
