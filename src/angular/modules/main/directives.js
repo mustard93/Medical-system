@@ -118,7 +118,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }
 
      */
-    function ajaxUrl(requestData, alertOk, alertError) {
+    function ajaxUrl(requestData, alertOk, alertError, proLoading) {
         return {
             restrict: 'AE',
             // scope: true,
@@ -159,38 +159,42 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         if (!$attrs.ajaxIf) return;
                     }
 
-
                     $scope.isLoading = true;
+
+                    if ($attrs.showLoading) {
+                      proLoading($element, $scope, 'showLoading', {});
+                    }
+
                     requestData($attrs.ajaxUrl, params)
-                        .then(function(results) {
-                            $scope.isLoading = false;
-                            var data = results[0];
-                            if ($scope.ajaxUrlHandler) {
-                                data = $scope.ajaxUrlHandler(data);
-                            }
+                      .then(function(results) {
+                          // $scope.isLoading = false;
+                          var data = results[0];
+                          if ($scope.ajaxUrlHandler) {
+                              data = $scope.ajaxUrlHandler(data);
+                          }
 
-                            if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                            if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
-                            else $scope.scopeData = data;
-                            if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+                          if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                          if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                          else $scope.scopeData = data;
+                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
-                            //回调父级的处理事件;
-                            $scope.listCallback && $scope.listCallback(results[1]);
+                          //回调父级的处理事件;
+                          if ($scope.listCallback) {
+                            $scope.listCallback(results[1]);
+                          }
 
-                            // $scope.$apply();
+                          // $scope.$apply();
+                          if ($attrs.callback) {
+                              $scope.$eval($attrs.callback);
+                          }
+                      })
+                      .catch(function(msg) {
+                          if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                          if (angular.isDefined($attrs.alertError)) alertError(msg);
 
+                          $scope.isLoading = false;
 
-                            if ($attrs.callback) {
-                                $scope.$eval($attrs.callback);
-                            }
-                        })
-                        .catch(function(msg) {
-                            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                            if (angular.isDefined($attrs.alertError)) alertError(msg);
-
-                            $scope.isLoading = false;
-
-                        });
+                      });
                 }
 
                 $scope.$on("ajaxUrlReload", function() {
