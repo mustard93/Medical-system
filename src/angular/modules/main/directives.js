@@ -1957,43 +1957,41 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         }
 
                         requestData($attrs.selectSource)
-                        .then(function(results) {
-                            var data = results[0];
-                            var _options = '';
-                            if (!data) data = [];
-                            var _length = data.length;
-                            //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
+                          .then(function(results) {
+                              var data = results[0];
+                              var _options = '';
+                              if (!data) data = [];
+                              var _length = data.length;
+                              //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
 
-                            var _selected=null;
-                            if(angular.isDefined($attrs.multiple)){
-                                if (angular.isDefined($attrs.defaultEmpty)) {
-                                   _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
-                                } else {
-                                    _selected= ngModel.$viewValue ? ngModel.$viewValue : [data[0].value];
-                                }
-                            } else {
-                               if (angular.isDefined($attrs.defaultEmpty)) {
-                                _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
-                               } else {
-                                 _selected= ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
+                              var _selected=null;
+                              if(angular.isDefined($attrs.multiple)){
+                                  if (angular.isDefined($attrs.defaultEmpty)) {
+                                     _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
+                                  } else {
+                                      _selected= ngModel.$viewValue ? ngModel.$viewValue : [data[0].value];
+                                  }
+                              } else {
+                                 if (angular.isDefined($attrs.defaultEmpty)) {
+                                  _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
+                                 } else {
+                                   _selected= ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
 
-                               }
-                            }
-                            if (angular.isDefined($attrs.defaultEmpty)) {
-                                _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
-                            }
-                            for (var i = 0; i < _length; i++) {
-                                _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
-                            }
-                            $element.html(_options);
-                            chosenObj=$element.chosen($scope.chosen || chosenConfig);
-                            ngModel.$setViewValue(_selected);
-                        }).catch(function(msg) {
-                            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                            if (angular.isDefined($attrs.alertError)) alertError(msg);
-
-
-                        });
+                                 }
+                              }
+                              if (angular.isDefined($attrs.defaultEmpty)) {
+                                  _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
+                              }
+                              for (var i = 0; i < _length; i++) {
+                                  _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
+                              }
+                              $element.html(_options);
+                              chosenObj=$element.chosen($scope.chosen || chosenConfig);
+                              ngModel.$setViewValue(_selected);
+                          }).catch(function(msg) {
+                              if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                              if (angular.isDefined($attrs.alertError)) alertError(msg);
+                          });
                   }
 
                   //监听

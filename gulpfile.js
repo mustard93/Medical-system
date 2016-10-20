@@ -254,20 +254,3 @@ gulp.task('server', function (done) {
       './src/views/**/*.html',
       './src/manage/*.html'], ['bro']);
 });
-
-/* 开发模式静态文件打包任务，合并css，自动刷新浏览器 */
-// gulp.task('dev-server', ['browser', 'concatCss', 'bro'], function (done) {
-//   //监控所有CSS文件
-//   // gulp.watch(['./src/css/block_css/*.css'], ['concatCss', 'bro']);
-//   gulp.watch(['./src/css/block_css/*.css'], function () {
-//     runSequence(['concatCss'], ['bro'], done);
-//   });
-//   //监控所有JS文件
-//   gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], ['bro']);
-//   //监控所有的html文件
-//   gulp.watch([
-//     './src/*.html',
-//     './src/views/*.html',
-//     './src/views/**/*.html',
-//     './src/manage/*.html'], ['bro']);
-// });
