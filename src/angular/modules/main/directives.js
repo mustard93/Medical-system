@@ -170,9 +170,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                     if ($attrs.showLoading) {
                       proLoading($element, $scope, 'showLoading', {});
-                      $scope.$watch($scope.isLoading, function () {
-                        // $('.pr-full-loading').remove();
-                      });
+                      // $scope.$watch($scope.isLoading, function () {
+                      //   $('.pr-full-loading').remove();
+                      // });
                     }
 
                     requestData($attrs.ajaxUrl, params)
@@ -197,11 +197,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           if ($attrs.callback) {
                               $scope.$eval($attrs.callback);
                           }
+
+                          $('.pr-full-loading').remove();
+                          $scope.isLoading = false;
                       })
                       .catch(function(msg) {
                          if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
                          if (angular.isDefined($attrs.alertError)) alertError(msg);
-                         $scope.isLoading = false;
+                         $('.pr-full-loading').remove();
                       });
 
                  }
@@ -1936,7 +1939,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           typing = false;
                           handleSearch(q);
                       }, 500);
-                    };
+                    }
 
                     $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer)
                       .on('keyup', processValue)

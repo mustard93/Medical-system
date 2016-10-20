@@ -65,7 +65,6 @@ define('main/services', ['main/init'], function () {
             $http(config)
                 .success(function (_data, status, headers, config) {
                     if (status == 200 && _data.code == 200) {
-                      $('.pr-full-loading').remove();
                       defer.resolve([_data.data, _data]);
                     } else {
                       defer.reject(_data.msg || '出错了');
