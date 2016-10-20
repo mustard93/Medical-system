@@ -158,17 +158,15 @@
               <span class="block"  ng-click="formData.orderMedicalNos.splice($index,1)"><a href="javascript:;"><i class="fa fa-trash-o pr-color text-l"></i></a></span>
             </td>
           </tr>
-
-
           <tr>
             <td colspan="9" class="pd-v-l">添加药械</td>
           </tr>
-
           <tr ng-init="addDataItem={}"
               ajax-if="{{addDataItem&&addDataItem.relId}}"
               ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}"
               scope-data="medical"
-              callback="selectRelIdCallBack(medical)">
+              callback="selectRelIdCallBack(medical)"
+              show-loading="true" class="showLoading relative">
             <td class="has-border text-v-t pd-m">
               <div class="relative pr-table-td-m">
                 <span class="goods-thumbnail flex-item-2"><img ng-if="addDataItem.headUrl" ng-src="{{addDataItem.headUrl}}" alt=""/></span>
@@ -202,7 +200,6 @@
               <input type="number" class="pr-table-input price" placeholder="成交价" ng-model="addDataItem.strike_price" >
             </td>
             <td class="has-border text-center text-v-t pd-m">
-
                 <input type="checkbox" class="pr-table-checkbox" ng-true-value="'是'" ng-false-value="'否'"   ng-model="addDataItem.isSameBatch" />
             </td>
             <td class="has-border text-center text-v-t pd-m">
@@ -210,7 +207,6 @@
                ng-model="addDataItem.batchNo"  >
                 <option value=""></option>
               </select>
-
             </td>
             <td class="has-border text-center text-v-t pd-m">
               {{medical.quantity}}

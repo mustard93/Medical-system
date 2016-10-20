@@ -224,13 +224,13 @@ define('main/services', ['main/init'], function () {
     }
 
     //Loading
-    function proLoading ($rootScope) {
-      return function (element, id, params) {
+    function proLoading () {
+      return function (element, scope, target, params) {
         //定义参数对象
         var _params = {
-          _style: params.style || 'circular-rota',
-          _masklayer: params.masklayer || false,
-          _message: params.message || ''
+          _style: params.style ? params.style : 'circular-rota',
+          _masklayer: params.masklayer ? params.masklayer : false,
+          _message: params.message ? params.message : ''
         };
 
         //定义Loading的HTML
@@ -241,22 +241,40 @@ define('main/services', ['main/init'], function () {
         '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
         '<div class="bar12"></div></div>';
 
+        var _loadHtml2 = '<div style="display:inline-block;position:absolute;bottom:-135px;top:initial;left:50%;"' +
+        'class="pr-spinner"><div class="bar1"></div><div class="bar2"></div>' +
+        '<div class="bar3"></div><div class="bar4"></div><div class="bar5"></div>' +
+        '<div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
+        '<div class="bar9"></div><div class="bar10"></div><div class="bar11"></div>' +
+        '<div class="bar12"></div></div>';
+
         //定义目标元素对象
         var _ele = element;
 
-        //如果id已定义，则Loading会作用于此id元素之上，否则Loading会插入到目标元素的父元素中
-        if (id) {
+        //当前作用域
+        var _scope = scope;
 
+        //如果target已定义
+        if (target) {
+          var _target = $("." + target);
+          if (!_target.css('relative')) {
+            _target.addClass('relative');
+          }
+          _target.parent().append(_loadHtml2);
+          _scope.isLoading = true;
+          _scope.$watch(_scope.isLoading, function () {
+            // $('.pr-spinner').remove();
+          });
         } else {
           _ele.parent().append(_loadHtml);
-          $rootScope.isLoading = true;
-          $rootScope.$watch($rootScope.isLoading, function () {
+          _scope.isLoading = true;
+          _scope.$watch(_scope.isLoading, function () {
             $('.pr-spinner').remove();
           });
         }
       };
     }
-    proLoading.$inject = ['$rootScope'];
+    proLoading.$inject = [];
 
     angular.module('manageApp.main')
       .factory('redirectInterceptor', redirectInterceptor)
