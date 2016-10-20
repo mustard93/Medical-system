@@ -312,7 +312,11 @@ define('upload/directives', ['upload/init'], function () {
                       var xhr = new XMLHttpRequest();
                       var fd = new FormData();
                       //关联表单数据,可以是自定义参数
-                      fd.append("desc", "desc1");
+
+                      if($attrs.usege){
+                          fd.append("usege", $attrs.usege);
+                      }
+
 
                       fd.append("fileData", _fileObj.file);
 
@@ -326,7 +330,8 @@ define('upload/directives', ['upload/init'], function () {
                       }, false);
                       xhr.addEventListener("load", function (evt) {
                           var _data = angular.fromJson(evt.target.responseText);
-
+                          //解决文件上传成功后，删除文件，再上传相同文件失败
+                          $fileIpt.val("");
                             if (!_data || _data.code != 200) {
                                 alertError(_data.msg || '出错了');
                                 return;
@@ -341,8 +346,7 @@ define('upload/directives', ['upload/init'], function () {
                           $scope.ngModel=_data.data;
                           $scope.$apply();
 
-                          //解决文件上传成功后，删除文件，再上传相同文件失败
-                          $fileIpt.val("");
+
 
                       }, false);
                       xhr.addEventListener("loadend", function (evt) {
