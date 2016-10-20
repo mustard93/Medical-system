@@ -118,14 +118,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }
 
      */
-     function ajaxUrl(requestData, alertOk, alertError, proLoading) {
+     function ajaxUrl($timeout, requestData, alertOk, alertError, proLoading) {
          return {
              restrict: 'AE',
              // scope: true,
              transclude: true,
              link: function($scope, $element, $attrs, $ctrls, $transclude) {
-                 $scope.isLoading = false;
-
                  $transclude($scope, function(clone) {
                      $element.append(clone);
                  });
@@ -153,48 +151,59 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      });
                  }
 
+
+
+                //  if ($attrs.showLoading) {
+                //    proLoading($element, $scope, 'showLoading', {});
+                //    $scope.$watch($scope.isLoading, function () {
+                //      $('.pr-full-loading').remove();
+                //    });
+                //  }
+
                  function getData(params) {
-                     //满足条件才异步请求
-                     if (angular.isDefined($attrs.ajaxIf)) {
-                         if (!$attrs.ajaxIf) return;
-                     }
+                    //满足条件才异步请求
+                    if (angular.isDefined($attrs.ajaxIf)) {
+                      if (!$attrs.ajaxIf) return;
+                    }
 
-                     $scope.isLoading = true;
+                    $scope.isLoading = true;
 
-                     if ($attrs.showLoading) {
-                       proLoading($element, $scope, 'showLoading', {});
-                     }
+                    if ($attrs.showLoading) {
+                      proLoading($element, $scope, 'showLoading', {});
+                      $scope.$watch($scope.isLoading, function () {
+                        // $('.pr-full-loading').remove();
+                      });
+                    }
 
-                     requestData($attrs.ajaxUrl, params)
-                       .then(function(results) {
-                           // $scope.isLoading = false;
-                           var data = results[0];
-                           if ($scope.ajaxUrlHandler) {
-                               data = $scope.ajaxUrlHandler(data);
-                           }
+                    requestData($attrs.ajaxUrl, params)
+                      .then(function(results) {
+                          var data = results[0];
 
-                           if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                           if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
-                           else $scope.scopeData = data;
-                           if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+                          if ($scope.ajaxUrlHandler) {
+                              data = $scope.ajaxUrlHandler(data);
+                          }
 
-                           //回调父级的处理事件;
-                           if ($scope.listCallback) {
-                             $scope.listCallback(results[1]);
-                           }
+                          if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                          if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                          else $scope.scopeData = data;
+                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
-                           // $scope.$apply();
-                           if ($attrs.callback) {
-                               $scope.$eval($attrs.callback);
-                           }
-                       })
-                       .catch(function(msg) {
-                           if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                           if (angular.isDefined($attrs.alertError)) alertError(msg);
+                          //回调父级的处理事件;
+                          if ($scope.listCallback) {
+                            $scope.listCallback(results[1]);
+                          }
 
-                           $scope.isLoading = false;
+                          // $scope.$apply();
+                          if ($attrs.callback) {
+                              $scope.$eval($attrs.callback);
+                          }
+                      })
+                      .catch(function(msg) {
+                         if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                         if (angular.isDefined($attrs.alertError)) alertError(msg);
+                         $scope.isLoading = false;
+                      });
 
-                       });
                  }
 
                  $scope.$on("ajaxUrlReload", function() {
@@ -1914,7 +1923,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if (!q && searchStr == q) {
                         return false;
                       } else {
-                        proLoading($element, false, {});
+                        proLoading($element, $scope, false, {});
                       }
 
                       typing = true;
@@ -2356,7 +2365,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
         .directive("convertJsonToObject", convertJsonToObject)
-        .directive("ajaxUrl", ["requestData", "alertOk", "alertError", ajaxUrl])
+        .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
         .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", formValidator])
         .directive("tableList", tableList)
         .directive("tableCell", tableCell)
