@@ -118,7 +118,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }
 
      */
-    function ajaxUrl(requestData, alertOk, alertError, proLoading) {
+    function ajaxUrl(requestData, alertOk, alertError) {
         return {
             restrict: 'AE',
             // scope: true,
@@ -159,42 +159,38 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         if (!$attrs.ajaxIf) return;
                     }
 
+
                     $scope.isLoading = true;
-
-                    if ($attrs.showLoading) {
-                      proLoading($element, $scope, 'showLoading', {});
-                    }
-
                     requestData($attrs.ajaxUrl, params)
-                      .then(function(results) {
-                          // $scope.isLoading = false;
-                          var data = results[0];
-                          if ($scope.ajaxUrlHandler) {
-                              data = $scope.ajaxUrlHandler(data);
-                          }
+                        .then(function(results) {
+                            $scope.isLoading = false;
+                            var data = results[0];
+                            if ($scope.ajaxUrlHandler) {
+                                data = $scope.ajaxUrlHandler(data);
+                            }
 
-                          if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                          if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
-                          else $scope.scopeData = data;
-                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+                            if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                            if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                            else $scope.scopeData = data;
+                            if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
-                          //回调父级的处理事件;
-                          if ($scope.listCallback) {
-                            $scope.listCallback(results[1]);
-                          }
+                            //回调父级的处理事件;
+                            $scope.listCallback && $scope.listCallback(results[1]);
 
-                          // $scope.$apply();
-                          if ($attrs.callback) {
-                              $scope.$eval($attrs.callback);
-                          }
-                      })
-                      .catch(function(msg) {
-                          if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                          if (angular.isDefined($attrs.alertError)) alertError(msg);
+                            // $scope.$apply();
 
-                          $scope.isLoading = false;
 
-                      });
+                            if ($attrs.callback) {
+                                $scope.$eval($attrs.callback);
+                            }
+                        })
+                        .catch(function(msg) {
+                            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                            if (angular.isDefined($attrs.alertError)) alertError(msg);
+
+                            $scope.isLoading = false;
+
+                        });
                 }
 
                 $scope.$on("ajaxUrlReload", function() {
@@ -267,7 +263,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
                                     function ajax_submit(){
-                                      if(formStatus.submitting === true)return;
+                                      if(formStatus.submitting == true)return;
                                       formStatus.submitting = true;
 
                                       var parameterBody = false;
@@ -946,8 +942,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $element.append(clone);
                 });
             }
-        }
-    };
+        };
+    }
     filterConditions.$inject = ["requestData"];
 
     /**
@@ -971,10 +967,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     var $em = $(e.currentTarget);
                     var $parentLi = $em.parent("li");
                     var _tree = angular.copy(tree);
-                    if (_tree.nodes.length == 0) {
+                    if (_tree.nodes.length === 0) {
                         $li.removeClass("on");
                         $parentLi.addClass("on");
-                        ngModel && ngModel.$setViewValue(_tree);
+                        if (ngModel) {
+                          ngModel.$setViewValue(_tree);
+                        }
                     } else {
                         if ($parentLi.hasClass("fold")) {
                             $parentLi.removeClass("fold");
@@ -1002,7 +1000,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                             break;
                                         }
                                     }
-                                })
+                                });
                             }
                         })
                         .catch(function() {
@@ -1010,10 +1008,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         });
                 }
 
-                $attrs.$observe("treeList", getTreeData)
+                $attrs.$observe("treeList", getTreeData);
             }
-        }
-    };
+        };
+    }
     treeList.$inject = ["buildTree","requestData", "$timeout"];
 
     /**
@@ -1035,7 +1033,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     var $em = $(e.currentTarget);
                     var $parentLi = $em.parent("li");
                     var _tree = angular.copy(tree);
-                    if (_tree.nodes.length == 0 || canSelectGroup) {
+                    if (_tree.nodes.length === 0 || canSelectGroup) {
                         $li.removeClass("on");
                         $parentLi.addClass("on");
                         delete _tree.nodes;
@@ -1162,12 +1160,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         .catch(function() {
                             $scope.isLoading = false;
                         });
-                };
-
+                }
                 getListData();
             }
-        }
-    };
+        };
+    }
     navList.$inject = ["requestData"];
 
     /**
@@ -1249,8 +1246,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $timeout(changeHandle);
                 }
             }
-        }
-    };
+        };
+    }
     relativeSelect.$inject = ["requestData", "$timeout"];
 
     /**
@@ -1820,6 +1817,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             dataType: 'json',
                             success: function(_data) {
                               if (_data.code == 200) {
+                                $rootScope.isLoading = false;
                                 var _options = '';
                                 if (!_data.data) _data.data = [];
                                 if(_data.data.length === 0){
@@ -1913,7 +1911,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if (!q && searchStr == q) {
                         return false;
                       } else {
-                        proLoading($element, $scope, false, {});
+                        proLoading($element, false, {});
                       }
 
                       typing = true;
@@ -2355,7 +2353,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
         .directive("convertJsonToObject", convertJsonToObject)
-        .directive("ajaxUrl", ["requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
+        .directive("ajaxUrl", ["requestData", "alertOk", "alertError", ajaxUrl])
         .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", formValidator])
         .directive("tableList", tableList)
         .directive("tableCell", tableCell)

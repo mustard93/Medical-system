@@ -260,7 +260,7 @@ define('main/services', ['main/init'], function () {
           if (!_target.css('relative')) {
             _target.addClass('relative');
           }
-          _target.parent().append(_loadHtml2);
+          _target.append(_loadHtml2);
           _scope.isLoading = true;
           _scope.$watch(_scope.isLoading, function () {
             // $('.pr-spinner').remove();
