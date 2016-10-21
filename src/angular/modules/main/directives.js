@@ -375,7 +375,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     /**
      * 表格
      */
-    function tableList(requestData, modal, dialogConfirm, $timeout) {
+    function tableList(requestData, modal, dialogConfirm, $timeout, proLoading) {
         return {
             restrict: 'AE',
             scope: {
@@ -559,9 +559,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                     statusInfo.isFinished = true;
                                 }
                                 statusInfo.loadFailMsg = data.message;
+                                $('.pr-full-loading').remove();
                             } else {
                                 statusInfo.isFinished = true;
                                 statusInfo.loadFailMsg = data.message;
+                                $('.pr-full-loading').remove();
                             }
                             statusInfo.isLoading = false;
                             $scope.isLoading = false;
@@ -572,7 +574,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         })
                         .catch(function() {
                             statusInfo.isLoading = false;
-                            $scope.isLoading = false;
+                            $('.pr-full-loading').remove();
                             statusInfo.loadFailMsg = '加载出错';
                             if (_callback) {
                                 _callback();
@@ -716,7 +718,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         };
     }
-    tableList.$inject = ['requestData', 'modal', 'dialogConfirm', '$timeout'];
+    tableList.$inject = ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading'];
 
     /**
      * 表格 单元格
