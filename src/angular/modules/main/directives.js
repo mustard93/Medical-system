@@ -524,9 +524,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
                     statusInfo.isLoading = true;
 
-                    // proLoading($element, $scope, 'showLoading', {});
-                    //
-                    // return false;
+                    $scope.isLoading = statusInfo.isLoading;
+
+                    proLoading($element, $scope, 'showLoading', {});
 
                     requestData($attrs.listData, angular.merge({}, formData, {
                             pageNo: statusInfo.currentPage
@@ -559,6 +559,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 statusInfo.loadFailMsg = data.message;
                             }
                             statusInfo.isLoading = false;
+                            $scope.isLoading = false;
                             $timeout(bindSelectOneEvent);
                             if (_callback) {
                                 _callback();
@@ -566,6 +567,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         })
                         .catch(function() {
                             statusInfo.isLoading = false;
+                            $scope.isLoading = false;
                             statusInfo.loadFailMsg = '加载出错';
                             if (_callback) {
                                 _callback();
