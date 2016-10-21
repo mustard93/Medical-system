@@ -369,13 +369,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         };
     }
 
-
-
-
     /**
      * 表格
      */
-    function tableList(requestData, modal, dialogConfirm, $timeout) {
+    function tableList(requestData, modal, dialogConfirm, $timeout, proLoading) {
         return {
             restrict: 'AE',
             scope: {
@@ -456,7 +453,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             });
                     });
                 };
-                //选择当个
+                //选择单个
                 $scope.selectThis = function() {
                     var _tr = this.tr;
                     var _index = $scope.tbodyList.indexOf(_tr);
@@ -483,7 +480,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             });
                     });
                 };
-
                 //弹窗修改后的回调
                 $scope.submitCallBack = function(_curRow, _data) {
                     modal.closeAll();
@@ -523,11 +519,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         if (!$attrs.ajaxIf) return;
                     }
 
-
                     if (statusInfo.isLoading) {
                         return;
                     }
                     statusInfo.isLoading = true;
+
+                    // proLoading($element, $scope, 'showLoading', {});
+                    //
+                    // return false;
+
                     requestData($attrs.listData, angular.merge({}, formData, {
                             pageNo: statusInfo.currentPage
                         }))
@@ -618,15 +618,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     [].unshift.apply($scope.listSelected, _checked);
                     setSelectedValue();
                 });
-
                 //直接来自源
                 $scope.$watchCollection("listSource", function(value) {
                     if (value) {
                         getListData(setSelectedValue);
                     }
                 });
-
-                //
+                //监视参数变化
                 $scope.$watch("listParams", function() {
                     statusInfo.currentPage = 1;
                     statusInfo.isFinished = false;
@@ -643,7 +641,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         $(".selectAll", $element).prop("checked", false).get(0).indeterminate = false;
                     }
                 }, true);
-
+                //监视请求源地址变化
                 $attrs.$observe("listData", function(value) {
                     statusInfo.currentPage = 1;
                     statusInfo.isFinished = false;
@@ -655,7 +653,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         $(".selectAll", $element).prop("checked", false).get(0).indeterminate = false;
                     }
                 });
-
                 //接受广播
                 $scope.$on("reloadList", function() {
                     statusInfo.currentPage = 1;
@@ -668,7 +665,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         $(".selectAll", $element).prop("checked", false).get(0).indeterminate = false;
                     }
                 });
-
 
                 $($element)
                     //全选
@@ -709,7 +705,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         };
     }
-    tableList.$inject = ['requestData', 'modal', 'dialogConfirm', '$timeout'];
+    tableList.$inject = ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading'];
 
     /**
      * 表格 单元格
