@@ -65,9 +65,9 @@ define('main/services', ['main/init'], function () {
             $http(config)
                 .success(function (_data, status, headers, config) {
                     if (status == 200 && _data.code == 200) {
-                        defer.resolve([_data.data, _data]);
+                      defer.resolve([_data.data, _data]);
                     } else {
-                        defer.reject(_data.msg || '出错了');
+                      defer.reject(_data.msg || '出错了');
                     }
                 })
                 .error(function () {
@@ -224,26 +224,26 @@ define('main/services', ['main/init'], function () {
     }
 
     //Loading
-    function proLoading ($rootScope) {
-      return function (element, id, params) {
+    function proLoading () {
+      return function (element, scope, target, params) {
         //定义参数对象
         var _params = {
-          _style: params.style || 'circular-rota',
-          _masklayer: params.masklayer || false,
-          _message: params.message || ''
+          _style: params.style ? params.style : 'circular-rota',
+          _masklayer: params.masklayer ? params.masklayer : false,
+          _message: params.message ? params.message : ''
         };
 
         //定义Loading的HTML
-        var _loadHtml = '<div style="position:absolute;top:20%;left:102%;"' +
-        'class="pr-spinner"><div class="bar1 cblack"></div><div class="bar2 cblack"></div>' +
-        '<div class="bar3 cblack"></div><div class="bar4 cblack"></div><div class="bar5 cblack"></div>' +
-        '<div class="bar6 cblack"></div><div class="bar7 cblack"></div><div class="bar8 cblack"></div>' +
-        '<div class="bar9 cblack"></div><div class="bar10 cblack"></div><div class="bar11 cblack"></div>' +
-        '<div class="bar12 cblack"></div></div>';
+        var _loadHtml = '<div class="pr-spinner" style="position:absolute;top:20%;left:102%;">' +
+                        '<div class="bar1 cblack"></div><div class="bar2 cblack"></div>' +
+                        '<div class="bar3 cblack"></div><div class="bar4 cblack"></div><div class="bar5 cblack"></div>' +
+                        '<div class="bar6 cblack"></div><div class="bar7 cblack"></div><div class="bar8 cblack"></div>' +
+                        '<div class="bar9 cblack"></div><div class="bar10 cblack"></div><div class="bar11 cblack"></div>' +
+                        '<div class="bar12 cblack"></div></div>';
 
 
         var _loadHtml2 = '<div class="pr-full-loading" style="width:80px;height:80px;position:fixed;_position:absolute;' +
-                         'top:50%;left:50%;z-index:100;border-radius:5px;opacity:0.3;filter:alpha(opacity=30);background-color:#000;">' +
+                         'top:50%;left:50%;z-index:100;border-radius:5px;opacity:0.4;filter:alpha(opacity=30);background-color:#000;transform:translateX(-50%) translateY(-50%);">' +
                          '<div style="position:absolute;top:50%;left:50%;transform:translateX(-40%) translateY(-40%);" class="pr-spinner">' +
                          '<div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div>' +
                          '<div class="bar5"></div><div class="bar6"></div><div class="bar7"></div><div class="bar8"></div>' +
@@ -253,6 +253,9 @@ define('main/services', ['main/init'], function () {
         //定义目标元素对象
         var _ele = element;
 
+        //定义当前作用域
+        var _scope = scope;
+
         //如果target已定义
         if (target) {
           var _target = $("." + target);
@@ -260,24 +263,26 @@ define('main/services', ['main/init'], function () {
             _target.addClass('relative');
           }
 
-          _scope.isLoading = true;
+          if (_scope.isLoading) {
+            $('.sticky-header').append(_loadHtml2);
+          }
 
-          _target.append(_loadHtml2);
-
-          _scope.$watch(_scope.isLoading, function () {
-            console.log('abc');
-            $('.pr-full-loading').fadeOut(2000);
-          });
+          // _scope.$observe(_scope.isLoading, function () {
+          //   console.log('abc');
+          //   if (_scope.isLoading === false) {
+          //     $('.pr-full-loading').remove();
+          //   }
+          // });
         } else {
           _ele.parent().append(_loadHtml);
-          $rootScope.isLoading = true;
-          $rootScope.$watch($rootScope.isLoading, function () {
+          _scope.isLoading = true;
+          _scope.$watch(_scope.isLoading, function () {
             $('.pr-spinner').remove();
           });
         }
       };
     }
-    proLoading.$inject = ['$rootScope'];
+    proLoading.$inject = [];
 
     angular.module('manageApp.main')
       .factory('redirectInterceptor', redirectInterceptor)

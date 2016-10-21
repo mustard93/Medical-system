@@ -118,116 +118,103 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }
 
      */
-    function ajaxUrl(requestData, alertOk, alertError) {
-        return {
-            restrict: 'AE',
-            // scope: true,
-            transclude: true,
-            link: function($scope, $element, $attrs, $ctrls, $transclude) {
-                $scope.isLoading = false;
+     function ajaxUrl($timeout, requestData, alertOk, alertError, proLoading) {
+         return {
+             restrict: 'AE',
+             // scope: true,
+             transclude: true,
+             link: function($scope, $element, $attrs, $ctrls, $transclude) {
+                 $transclude($scope, function(clone) {
+                     $element.append(clone);
+                 });
 
-                $transclude($scope, function(clone) {
-                    $element.append(clone);
-                });
+                 $scope.ajaxUrlHandler = $scope.$eval($attrs.ajaxUrlHandler);
+                 // if($attrs.responseKey)$scope[$attrs.responseKey]={};
+                 var _params = {};
+                 if ($attrs.params) {
+                     if ($attrs.params.indexOf("{") === 0) {
+                         //监听具体值
+                         $attrs.$observe("params", function(value) {
+                             _params = $scope.$eval(value);
+                             getData(_params);
+                         });
+                     } else {
+                         //监听对象
+                         $scope.$watch($attrs.params, function(value) {
+                             _params = value;
+                             getData(_params);
+                         }, true);
+                     }
+                 } else {
+                     $attrs.$observe("ajaxUrl", function(value) {
+                         getData({});
+                     });
+                 }
 
-                $scope.ajaxUrlHandler = $scope.$eval($attrs.ajaxUrlHandler);
-                // if($attrs.responseKey)$scope[$attrs.responseKey]={};
-                var _params = {};
-                if ($attrs.params) {
-                    if ($attrs.params.indexOf("{") === 0) {
-                        //监听具体值
-                        $attrs.$observe("params", function(value) {
-                            _params = $scope.$eval(value);
-                            getData(_params);
-                        });
-                    } else {
-                        //监听对象
-                        $scope.$watch($attrs.params, function(value) {
-                            _params = value;
-                            getData(_params);
-                        }, true);
-                    }
-                } else {
-                    $attrs.$observe("ajaxUrl", function(value) {
-                        getData({});
-                    });
-                }
 
-                function getData(params) {
+
+                //  if ($attrs.showLoading) {
+                //    proLoading($element, $scope, 'showLoading', {});
+                //    $scope.$watch($scope.isLoading, function () {
+                //      $('.pr-full-loading').remove();
+                //    });
+                //  }
+
+                 function getData(params) {
                     //满足条件才异步请求
                     if (angular.isDefined($attrs.ajaxIf)) {
-                        if (!$attrs.ajaxIf) return;
+                      if (!$attrs.ajaxIf) return;
                     }
 
-
                     $scope.isLoading = true;
-                    requestData($attrs.ajaxUrl, params)
-                        .then(function(results) {
-                            $scope.isLoading = false;
-                            var data = results[0];
-                            if ($scope.ajaxUrlHandler) {
-                                data = $scope.ajaxUrlHandler(data);
-                            }
 
-                            if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                            if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
-                            else $scope.scopeData = data;
-                            if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+                    if ($attrs.showLoading) {
+                      proLoading($element, $scope, 'showLoading', {});
+                      // $scope.$watch($scope.isLoading, function () {
+                      //   $('.pr-full-loading').remove();
+                      // });
+                    }
 
-<<<<<<< HEAD
                     requestData($attrs.ajaxUrl, params)
                       .then(function(results) {
-                        $scope.isLoading = false;
-                        var data = results[0];
-                        if ($scope.ajaxUrlHandler) {
-                            data = $scope.ajaxUrlHandler(data);
-                        }
+                          var data = results[0];
 
-                        if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                        if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
-                        else $scope.scopeData = data;
-                        if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+                          if ($scope.ajaxUrlHandler) {
+                              data = $scope.ajaxUrlHandler(data);
+                          }
 
-                        //回调父级的处理事件;
-                        if ($scope.listCallback) {
-                          $scope.listCallback(results[1]);
-                        }
+                          if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                          if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                          else $scope.scopeData = data;
+                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
-                        // $scope.$apply();
-                        if ($attrs.callback) {
-                            $scope.$eval($attrs.callback);
-                        }
+                          //回调父级的处理事件;
+                          if ($scope.listCallback) {
+                            $scope.listCallback(results[1]);
+                          }
+
+                          // $scope.$apply();
+                          if ($attrs.callback) {
+                              $scope.$eval($attrs.callback);
+                          }
+
+                          $('.pr-full-loading').remove();
+                          $scope.isLoading = false;
                       })
                       .catch(function(msg) {
-                          if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                          if (angular.isDefined($attrs.alertError)) alertError(msg);
-=======
-                            //回调父级的处理事件;
-                            $scope.listCallback && $scope.listCallback(results[1]);
+                         if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                         if (angular.isDefined($attrs.alertError)) alertError(msg);
+                         $('.pr-full-loading').remove();
+                      });
 
-                            // $scope.$apply();
+                 }
 
-
-                            if ($attrs.callback) {
-                                $scope.$eval($attrs.callback);
-                            }
-                        })
-                        .catch(function(msg) {
-                            if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
-                            if (angular.isDefined($attrs.alertError)) alertError(msg);
->>>>>>> 76d57f9be83bc2322ef32a3ac6faab96151b56cd
-
-                            $scope.isLoading = false;
-
-                        });
-                }
-
-                $scope.$on("ajaxUrlReload", function() {
-                    getData(_detailsParams);
-                });
-            }
-        };
-    }
+                 $scope.$on("ajaxUrlReload", function() {
+                     getData(_detailsParams);
+                 });
+             }
+         };
+     }
 
     /**
  表单验证
@@ -971,8 +958,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $element.append(clone);
                 });
             }
-        };
-    }
+        }
+    };
     filterConditions.$inject = ["requestData"];
 
     /**
@@ -996,12 +983,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     var $em = $(e.currentTarget);
                     var $parentLi = $em.parent("li");
                     var _tree = angular.copy(tree);
-                    if (_tree.nodes.length === 0) {
+                    if (_tree.nodes.length == 0) {
                         $li.removeClass("on");
                         $parentLi.addClass("on");
-                        if (ngModel) {
-                          ngModel.$setViewValue(_tree);
-                        }
+                        ngModel && ngModel.$setViewValue(_tree);
                     } else {
                         if ($parentLi.hasClass("fold")) {
                             $parentLi.removeClass("fold");
@@ -1029,7 +1014,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                             break;
                                         }
                                     }
-                                });
+                                })
                             }
                         })
                         .catch(function() {
@@ -1037,10 +1022,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         });
                 }
 
-                $attrs.$observe("treeList", getTreeData);
+                $attrs.$observe("treeList", getTreeData)
             }
-        };
-    }
+        }
+    };
     treeList.$inject = ["buildTree","requestData", "$timeout"];
 
     /**
@@ -1062,7 +1047,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     var $em = $(e.currentTarget);
                     var $parentLi = $em.parent("li");
                     var _tree = angular.copy(tree);
-                    if (_tree.nodes.length === 0 || canSelectGroup) {
+                    if (_tree.nodes.length == 0 || canSelectGroup) {
                         $li.removeClass("on");
                         $parentLi.addClass("on");
                         delete _tree.nodes;
@@ -1189,11 +1174,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         .catch(function() {
                             $scope.isLoading = false;
                         });
-                }
+                };
+
                 getListData();
             }
-        };
-    }
+        }
+    };
     navList.$inject = ["requestData"];
 
     /**
@@ -1275,8 +1261,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $timeout(changeHandle);
                 }
             }
-        };
-    }
+        }
+    };
     relativeSelect.$inject = ["requestData", "$timeout"];
 
     /**
@@ -1940,7 +1926,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if (!q && searchStr == q) {
                         return false;
                       } else {
-                        proLoading($element, false, {});
+                        proLoading($element, $scope, false, {});
                       }
 
                       typing = true;
@@ -1953,7 +1939,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           typing = false;
                           handleSearch(q);
                       }, 500);
-                    };
+                    }
 
                     $('.chosen-search > input, .chosen-choices .search-field input', $chosenContainer)
                       .on('keyup', processValue)
@@ -2382,7 +2368,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
         .directive("convertJsonToObject", convertJsonToObject)
-        .directive("ajaxUrl", ["requestData", "alertOk", "alertError", ajaxUrl])
+        .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
         .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", formValidator])
         .directive("tableList", tableList)
         .directive("tableCell", tableCell)

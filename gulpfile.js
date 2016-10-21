@@ -238,7 +238,6 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
   gulp.watch('**/*.js', ['browserify']);
 });
 
-<<<<<<< HEAD
 /* 开发模式 */
 gulp.task('server', function (done) {
   condition = false;
@@ -258,10 +257,8 @@ gulp.task('server', function (done) {
     './src/manage/*.html'], ['bro']);
 });
 
-=======
->>>>>>> 76d57f9be83bc2322ef32a3ac6faab96151b56cd
 /* 生产模式静态文件打包任务，包含css、js的合并、压缩、版本号更新及链接替换 */
-gulp.task('server', function (done) {
+gulp.task('pro-server', function (done) {
     condition = false;
     runSequence(['browser'], ['handleCss'], ['handleJs'], ['revHtml'], ['revManageHtml'], ['bro'], done);
     gulp.watch('./src/css/block_css/*.css', function () {     //监控所有CSS文件
