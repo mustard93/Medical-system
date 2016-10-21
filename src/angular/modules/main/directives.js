@@ -301,11 +301,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       }
 
                       if ($attrs.callback) {
-                        proMessageTips('测试文字tips');
-                        $timeout(function () {
-
-                        }, 3000);
-                          // $scope.$eval($attrs.callback);
+                        // proMessageTips('测试文字tips');
+                        // $timeout(function () {
+                        //
+                        // }, 3000);
+                          $scope.$eval($attrs.callback);
                       }
 
                       if ($attrs.broadcast) {
