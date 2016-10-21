@@ -131,6 +131,8 @@ define('project/registration',['angular'], function () {
 
         element.on('keyup', function () {
           if ($(element).val().length === 11) {
+            //去掉空格
+            ngModel.$viewValue = $.trim(ngModel.$viewValue);
             // 格式校验
             if (!(/^1(3|4|5|7|8)\d{9}$/.test(ngModel.$viewValue))) {
               $rootScope.verifyResult.phone = false;
