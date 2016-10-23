@@ -167,16 +167,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
 
                     $scope.isLoading = true;
-
-                    if ($attrs.showLoading) {
-                      proLoading($element, $scope, 'showLoading', {});
-                      // $scope.$watch($scope.isLoading, function () {
-                      //   $('.pr-full-loading').remove();
-                      // });
+                    var maskObj=null;
+                    if (!$attrs.noshowLoading) {
+                      maskObj=proLoading($element);
+                      //  if(maskObj)maskObj.hide();
                     }
 
                     requestData($attrs.ajaxUrl, params)
                       .then(function(results) {
+                            if(maskObj)maskObj.hide();
                           var data = results[0];
 
                           if ($scope.ajaxUrlHandler) {
@@ -198,10 +197,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                               $scope.$eval($attrs.callback);
                           }
 
-                          $('.pr-full-loading').remove();
+
                           $scope.isLoading = false;
                       })
                       .catch(function(msg) {
+                            if(maskObj)maskObj.hide();
                          if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
                          if (angular.isDefined($attrs.alertError)) alertError(msg);
                          $('.pr-full-loading').remove();
@@ -528,12 +528,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                     $scope.isLoading = statusInfo.isLoading;
 
-                    proLoading($element, $scope, 'showLoading', {});
+                    var maskObj=null;
+                    if (!$attrs.noshowLoading) {
+                      maskObj=proLoading($element);
+                      //  if(maskObj)maskObj.hide();
+                    }
 
                     requestData($attrs.listData, angular.merge({}, formData, {
                             pageNo: statusInfo.currentPage
                         }))
                         .then(function(results) {
+                           if(maskObj)maskObj.hide();
                             var data = results[1];
                             if (data.code == 200) {
                                 statusInfo.totalCount = data.totalCount;
@@ -556,11 +561,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                     statusInfo.isFinished = true;
                                 }
                                 statusInfo.loadFailMsg = data.message;
-                                $('.pr-full-loading').remove();
+
                             } else {
                                 statusInfo.isFinished = true;
                                 statusInfo.loadFailMsg = data.message;
-                                $('.pr-full-loading').remove();
+
                             }
                             statusInfo.isLoading = false;
                             $scope.isLoading = false;
@@ -570,8 +575,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             }
                         })
                         .catch(function() {
+                           if(maskObj)maskObj.hide();
                             statusInfo.isLoading = false;
-                            $('.pr-full-loading').remove();
+
                             statusInfo.loadFailMsg = '加载出错';
                             if (_callback) {
                                 _callback();
@@ -1821,11 +1827,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
 
                     function handleSearch(q) {
+
+
+                            var maskObj=null;
                         var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
                         if (requestQueue) {
                           requestQueue.abort();
+                          if(maskObj)maskObj.hide();
                         }
-
+                         maskObj=  proLoading($element, "chosen");
                         requestQueue = $.ajax({
                             url: _url,
                             type: 'GET',
@@ -1837,6 +1847,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             },
                             dataType: 'json',
                             success: function(_data) {
+                                if(maskObj)maskObj.hide();
                               if (_data.code == 200) {
                                 $rootScope.isLoading = false;
                                 var _options = '';
@@ -1874,7 +1885,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 }
                               }
                             },
+                            error:function(res){
+                                if(maskObj)maskObj.hide();
+                            },
                             complete: function() {
+
                                 $scope.$digest();
                             }
                         });
@@ -1931,8 +1946,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                       if (!q && searchStr == q) {
                         return false;
-                      } else {
-                        proLoading($element, $scope, false, {});
                       }
 
                       typing = true;
