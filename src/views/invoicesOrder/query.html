@@ -1,11 +1,13 @@
-<div class="content-wrapper">
+<div class="content-wrapper invoices-order">
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/invoicesOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容头部 -->
-    <div class="content-wrapper-heading mgb-m mgt-m pdb-s line-b mgl-m mgr-m relative">
+    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl-m mgr-m relative">
       <!-- 新建按钮及状态按钮 -->
-      <div class="flex-column pos-abs full-width">
-
-        <div class="order-status-btn flex-item-10 relative text-right"
+      <div class="full-width">
+        <div class="pos-abs order-create-btn">
+          <!-- <a href="#/salesOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a> -->
+        </div>
+        <div class="order-status-btn pos-tr text-right"
              ajax-url="rest/authen/invoicesOrder/countByOrderStatus.json"
              scope-data="countByOrderStatus"
              alert-error>
@@ -22,18 +24,12 @@
                 <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
               </button>
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已收货</button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未收款'">未收款
-                <span class="pj-badge" ng-if='countByOrderStatus["未收款"]' >{{countByOrderStatus["未收款"]}}</span>
-              </button>
             </div>
-
             <div class="inline-block relative">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='异常'">异常发货单</button>
-
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg">异常发货单</button>
             </div>
-            <div class="inline-block relative mgr-m">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='异常'">异常发货单</button>
-
+            <div class="inline-block relative">
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg">作废发货单</button>
             </div>
         </div>
       </div>
@@ -52,8 +48,8 @@
             <div>
               <div class="flex-column mgb-n">
                 <span class="flex-item-6 title-states">{{tr.orderStatus}}
-                  <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
-                  <i ng-if="tr.orderStatus=='冷链异常'" class="circle-icon-red mgl-m"></i>
+                  <i ng-if="tr.orderStatus=='已收货'" class="circle-icon-green mgl-m"></i>
+                  <i ng-if="tr.orderStatus=='待发货'" class="circle-icon-red mgl-m"></i>
                 </span>
                 <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-6 text-right"><a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a></span>
                 <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right"><a href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a></span>
@@ -64,50 +60,34 @@
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
                 <span class="flex-item-6 text-right">
-                  发货单编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
+                  订单编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
                 </span>
                 <span class="flex-item-6">
                   销售人员：<strong class="color-6 text-normal">{{tr.saleUser.n}}</strong>
                 </span>
                 <span class="flex-item-6 text-right">
-                  电话：<strong class="color-6 text-normal">{{tr.saleUser.p}}</strong>
+                  电话：<strong class="color-6 text-normal">{{tr.address.tel}}</strong>
                 </span>
               </div>
             </div>
-            <div class="relative">
-              <div class="bb-line">
-
-                <div class="flex-column mgb-n query text-s color-9 mgb-s">
-                  <div class="flex-item-6">
-                    <div class="flex-item-12">
-                      发票：<strong class="text-normal color-6">{{tr.distributionInfo.invoiceNo||"暂无"}}</strong>
-                    </div>
-                    <div class="flex-item-12">
-                      备货位：<strong class="text-normal color-6">{{tr.distributionInfo.storageLocation||"暂无"}}</strong>
-                    </div>
-                    <div class="flex-item-12">
-                      出库单：<strong class="text-normal color-6">{{"暂无"}}</strong>
-                    </div>
-
-                  </div>
-                  <div class="flex-item-6">
-                      <h1 class="mg-l text-center text-m color-6">物流信息</h1>
-                    <div class="flex-item-12" ng-if="tr.kuaidi">
-                      {{tr.kuaidi.type.msg}}：<strong class="text-normal color-6">{{tr.kuaidi.nu}}</strong>
-                    </div>
-                    <div class="flex-item-12" ng-if="!tr.kuaidi">
-                      暂无
-                    </div>
-                  </div>
-
+            <div class="flex-column">
+              <div class="flex-item-6 br-line">
+                <p>发票：<em>{{tr.distributionInfo.invoiceNo}}</em></p>
+                <p>备货位：<em>{{tr.distributionInfo.storageLocation}}</em></p>
+                <p>出库单：<em>暂未出库</em></p>
+              </div>
+              <div class="flex-item-6">
+                <h1>物流信息</h1>
+                <div class="flex-column">
+                  <span class="flex-item-5 mgr-0">{{tr.kuaidi.type}}</span>
+                  <span class="flex-item-7">
+                    <p>{{tr.kuaidi.nu}}</p>
+                  </span>
                 </div>
               </div>
-
             </div>
-            <div>
-              <div class="pdb-m pdt-m text-right">
-                  <span class="text-right pdt-s pdb-s pdr-l text-m color-6"><button ng-disabled="tr.orderStatus=='已发货'">确认发货</button></span>
-              </div>
+            <div class="flex-column">
+              <a href="#" type="button" class="btn pr-btn-bg-gold">确认发货</a>
             </div>
           </div>
         </li>
