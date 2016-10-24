@@ -297,11 +297,13 @@ define('main/services', ['main/init'], function () {
             //   _message: params.message ? params.message : ''
             // };
 
-            var maskObj={};
-            maskObj.maskId="MaskId_"+new Date().getTime();
-            maskObj.hide=function(){
-                $('#'+maskObj.maskId).remove();
+            var maskObj={
+              maskId:"MaskId_"+new Date().getTime(),
+              hide:function(){
+                  $('#'+this.maskId).remove();
+              }
             };
+
 
 
             //定义Loading的HTML
