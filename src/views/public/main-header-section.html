@@ -18,14 +18,17 @@
         </li>
         <li>
           <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              <span class="header-user-face"></span> {{curUser.name}}
+              <span class="header-user-face"></span> {{curUser.name}}{{habbit.mainRole?"("+habbit.mainRole+")":""}}
           </a>
           <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-            <li style="border-left:none;"><a href="#">客服主管</a></li>
-            <li><a href="#">销售主管</a></li>
-            <li><a href="#">采购主管</a></li>
-            <li><a href="#">验收主管</a></li>
-            <li><a href="#">库存主管</a></li>
+
+            <li ng-if="hasAuthor('订单中心')" style="border-left:none;"><a  ng-click="goToMainRole('客服')" href="javascript:;">客服</a></li>
+            <li  ng-if="hasAuthor('订单中心')" ><a   ng-click="goToMainRole('销售')" href="javascript:;">销售</a></li>
+            <li ng-if="hasAuthor('采购中心')"><a ng-click="habbit.mainRole='采购'" href="#/authorIndex/main-purchasemanager.html">采购</a></li>
+            <li ng-if="hasAuthor('出入库单中心')"><a ng-click="habbit.mainRole='库管'" href="#/authorIndex/main-repertorymanager.html">库管</a></li>
+            <li  ng-if="hasAuthor('验单中心')"><a ng-click="habbit.mainRole='验收'" href="#/authorIndex/main-checkmanager.html">验收</a></li>
+            <li ng-if="hasAuthor('总经理')"><a ng-click="habbit.mainRole='客服'" href="#/authorIndex/main-generalmanager.html">总经理</a></li>
+
           </ul>
         </li>
         <li>

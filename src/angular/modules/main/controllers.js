@@ -114,19 +114,14 @@ define('main/controllers', ['main/init'], function () {
               success: function (_data) {
                 if (_data.code == 200) {
                   $scope.curUser=_data.data;
+
+                  $scope.habbit={mainRole:'客服'};
+
+                  $scope.goToMainRole($scope.habbit.mainRole);
                   angular.extend($scope.mainStatus, _data.data);
                   $scope.$digest();
                   // 角色跳转主页面
-                  // switch ($scope.mainStatus.phone) {
-                  //   case '13600000000':$scope.goTo('#/main.html');break;
-                  //   case '13600000100':$scope.goTo('#/authorIndex/main-salemanager.html');break;
-                  //   case '13600000101':$scope.goTo('#/authorIndex/main-servicemanager.html');break;
-                  //   case '13600000102':$scope.goTo('#/authorIndex/main-purchasemanager.html');break;
-                  //   case '13600000103':$scope.goTo('#/authorIndex/main-repertorymanager.html');break;
-                  //   case '13600000104':$scope.goTo('#/authorIndex/main-checkmanager.html');break;
-                  //   case '13600000105':$scope.goTo('#/authorIndex/main-generalmanager.html');break;
-                  //   default: $scope.goTo('#/main.html');
-                  // }
+
                 } else if (_data.code == 802){
                   window.location.href = Config.loginHtmlUrl;
                 } else {
@@ -149,6 +144,36 @@ define('main/controllers', ['main/init'], function () {
         $(document).on("click", ".top-nav-wrap .backBtn", function () {
             window.history.back();
         });
+        //根据角色跳转对应页面
+        $scope.goToMainRole = function (mainRole) {
+            if(!mainRole)mainRole='客服';
+            $scope.habbit.mainRole=mainRole;
+            switch (mainRole) {
+              case '客服':$scope.goTo('#/main.html');break;
+              case '销售':$scope.goTo('#/authorIndex/main-salemanager.html');break;
+              // case '采购':$scope.goTo('#/authorIndex/main-servicemanager.html');break;
+              case '采购':$scope.goTo('#/authorIndex/main-purchasemanager.html');break;
+              case '库管':$scope.goTo('#/authorIndex/main-repertorymanager.html');break;
+              case '验收':$scope.goTo('#/authorIndex/main-checkmanager.html');break;
+              case '客服':$scope.goTo('#/authorIndex/main-generalmanager.html');break;
+              default: $scope.goTo('#/main.html');
+            }
+          }
+
+            // $scope.localStorage = {
+            //     getItem:function(key){
+            //         if(!  window.localStorage)return;
+            //
+            //         window.localStorage.getItem(key);
+            //     },
+            //      remove : function(key){  if(!  window.localStorage)return; localStorage.removeItem(key),
+            //     set : function(key, value){
+            //         if(!  window.localStorage)return;
+            //           localStorage.setItem(key, value);
+            //       },
+            //        clear : function(){  if(!  window.localStorage)return; localStorage.clear(); }
+            // }
+
     }
 
     /**

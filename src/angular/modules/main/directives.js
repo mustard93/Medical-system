@@ -1868,7 +1868,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                     _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
 
                                 }
-                                $element.html(_options).prepend(selected);
+                                $element.html(_options);
+                                // .prepend(selected);
                                 $element.trigger("chosen:updated");
                                 var keyRight = $.Event('keydown');
                                 keyRight.which = 39;
