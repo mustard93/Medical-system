@@ -87,17 +87,24 @@ define('project/controllers', ['project/init'], function() {
             $("input", "#addDataItem_relId_chosen").trigger("focus");
             // $("#addDataItem_relId_chosen").trigger("click");
         };
+
+        /**
+        *保存
+        type:save-草稿,submit-提交订单。
+        */
+        $scope.submitFormAfter = function() {
+         if ($scope.submitForm_type == "submit") {
+            $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
+          }
+
+        };
+
         /**
         *保存
         type:save-草稿,submit-提交订单。
         */
         $scope.submitForm = function(fromId, type) {
-          if (type == "save") {
-              $scope.formData.orderStatus = "1";
-          } else if (type == "submit") {
-              $scope.formData.orderStatus = "2";
-          }
-
+           $scope.submitForm_type = type;
 
           $("#" + fromId).trigger("submit");
 
