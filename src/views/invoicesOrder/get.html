@@ -8,44 +8,44 @@
     <h1 class="pr-title-color pr-font-24">发货单</h1>
   </div>
   <!-- 主内容区域 -->
-  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
+  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
     <!-- 单据信息 -->
-    <div class="flex-column pd-c-xxxxl bb-line">
+    <div class="flex-column pd-c-xl pdt-l pdb-l bb-line">
       <div class="flex-item-10">
-        <span>发货单：234234234324</span>
-        <span>创建时间：{{showData.createAt | date: 'yyyy-MM-dd'}}</span>
-        <span>对应订单：2354234324324</span>
+        <span class="mgr-m">发货单：234234234324</span>
+        <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd MM:ss'}}</span>
+        <span class="mgr-m">对应订单：2354234324324</span>
         <span>对应出库单：4543534543</span>
       </div>
-      <div class="flex-item-2">
+      <div class="flex-item-2 text-right">
         <span>状态：{{showData.orderStatus}}</span>
       </div>
     </div>
     <!-- 用户信息 -->
-    <div class="">
-      <p class="flex-column">
+    <div class="pd-c-xl pdt-l pdb-l bb-line">
+      <p class="flex-column mgb">
         <span class="flex-item-6">客户名：{{showData.address.name}}</span>
-        <span class="flex-item-6">销售人员：{{showData.saleUser.n}} 期望到货时间：{{}}</span>
+        <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：2016-10-30</span>
       </p>
       <p>收货人信息：{{showData.address.name}} {{showData.address.address}} {{showData.address.tel}}</p>
     </div>
     <!-- 商品列表 -->
-    <div class="pd-c-xxxxl">
+    <div class="pd-c-xl">
       <!-- 可发货 -->
       <div class="confirm-order bb-line pdb-l">
         <h1 class="pdt-l color-6 text-m pr-fw-500">订购清单</h1>
         <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
           <thead>
-            <th class="pr-indent-20">货品编码/货位</th>
+            <th class="w-100 pr-indent-20">货品编码/货位</th>
             <th class="pr-indent-20">药品名称/生产厂家/规格</th>
-            <th class="">剂型</th>
+            <th class="w-90 text-center">剂型</th>
             <th class="w-106 text-center">单位</th>
-            <th class="w-150 text-center">数量</th>
+            <th class="w-90 text-center">数量</th>
             <th class="w-186 text-center">批次号</th>
             <th class="w-106 text-center">生产日期</th>
             <th class="w-150 text-center">有效期</th>
-            <th class="w-94 text-center">批准文号</th>
-            <th class="w-94 text-center">药械属性</th>
+            <th class="w-90 text-center">批准文号</th>
+            <th class="w-90 text-center">药械属性</th>
           </thead>
           <tbody>
             <tr class="tr-interval"><td colspan="9"></td></tr>
@@ -75,9 +75,85 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="pd-v-xl">
         <p>备注：</p>
       </div>
     </div>
-    <!-- 配送信息 -->
+  </div>
+
+  <!-- 配送信息 -->
+  <div class="panel pr-panel pr-fuzzy-boundary pd-l">
+    <h1 class="pdb-l">配送信息</h1>
+    <div class="flex-column bb-line">
+      <div class="flex-item-3">
+        <div class="form-group">
+          <label class="mgr">发货方式</label>
+          <select class="ipt pr-short-ipt">
+            <option value="">请选择..</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex-item-3">
+        <div class="form-group">
+          <label class="mgr">原件</label>
+          <input type="text" class="ipt pr-short-ipt">
+        </div>
+      </div>
+      <div class="flex-item-3">
+        <div class="form-group">
+          <label class="mgr">散件</label>
+          <input type="text" class="ipt pr-short-ipt">
+        </div>
+      </div>
+      <div class="flex-item-3">
+        <div class="form-group">
+          <label class="mgr">备货位</label>
+          <input type="text" class="ipt pr-short-ipt">
+        </div>
+      </div>
+    </div>
+    <h1 class="pdt-l pdb-l">附件</h1>
+    <div class="flex-column">
+      <div class="flex-item-7">
+        <div class="flex-column">
+          <div class="flex-item-6">
+            <div class="form-group">
+              <label class="mgr">发票</label>
+              <input type="text" class="ipt pr-short-ipt" id="" placeholder="">
+            </div>
+          </div>
+          <div class="flex-item-6">
+            <div class="form-group">
+              <label class="mgr">检测报告</label>
+              <input type="text" class="ipt pr-short-ipt mgr-s" id="" placeholder="">
+              <button class="btn btn-info">浏览..</button>
+            </div>
+          </div>
+        </div>
+        <div class="flex-column">
+          <div class="flex-item-12">
+            <div class="form-group">
+              <label class="mgr">备注</label>
+              <textarea class="pr-textarea"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-item-5">条形码</div>
+    </div>
+    <!-- 提交按钮 -->
+    <div class="pd-c-xl pdb-xxl text-right">
+      <span class="mgr-l">
+        <button class="pr-btn-save-glodbg"
+                type="submit">保存</button>
+      </span>
+      <span class="mgr-l">
+        <button type="submit"
+                class="pr-btn-create-glodbg"
+                ng-click="cancelThis('提交后,你将无法修改发货单,确认提交?', 'pr')">提交发货</button>
+      </span>
+      <span><a href="javascript:;" ng-click="cancelThis('有修改还未保存,是否保存?', 'pr-dialog-return.html')">返回</a></span>
+    </div>
   </div>
 </div>

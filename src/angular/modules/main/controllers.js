@@ -164,10 +164,10 @@ define('main/controllers', ['main/init'], function () {
         modal.closeAll();
 
         // 取消返回
-        $scope.cancelThis = function (_text, _mode) {
+        $scope.cancelThis = function (_text, _mode, _title) {
           dialogConfirm(_text, function () {
             window.history.go(-1);
-          }, _mode);
+          }, _mode, _title);
         };
 
         // easypiechart 全局样式定义
