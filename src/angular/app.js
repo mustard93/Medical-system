@@ -33,6 +33,8 @@ require.config({
         'nicescroll': '../libs/jquery-nicescroll.min',          //滚动条美化
         'easypiechart': '../libs/easypiechart/angular.easypiechart',    //jQuery饼图
         'icheck': '../libs/jquery.icheck.min',                  //checkbox美化
+          'morris': '../libs/morris-chart/morris.min',                         //日历插件
+            'raphael': '../libs/morris-chart/raphael.min',                         //日历插件
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
     shim: {
@@ -79,6 +81,10 @@ require.config({
         'icheck': {
             deps: ['jQuery'],
             exports: 'icheck'
+        },
+        'morris': {
+            deps: ['raphael'],
+            exports: 'morris'
         },
         'clndr': {
             deps: ['jQuery'],
