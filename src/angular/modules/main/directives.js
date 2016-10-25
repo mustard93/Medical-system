@@ -1273,14 +1273,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $timeout(changeHandle);
                 }
             }
-        }
-    };
+        };
+    }
     relativeSelect.$inject = ["requestData", "$timeout"];
 
     /**
      * 图表
      */
-    function eChart(requestData, dialogChart) {
+    function eChart(requestData, dialogChart, alertError) {
         return {
             restrict: 'A',
             scope: {
@@ -1322,21 +1322,32 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                         if (_data.data) {
                             if ($scope.clickToUrl) {
-                                ngModel && ngModel.$setViewValue(_data.data);
+                                // ngModel && ngModel.$setViewValue(_data.data);
+                                if (ngModel) {
+                                  ngModel.$setViewValue(_data.data);
+                                }
                                 window.location.assign($scope.clickToUrl);
                             } else if ($scope.clickToDialog) {
-                                ngModel && ngModel.$setViewValue(_data.data);
+                                // ngModel && ngModel.$setViewValue(_data.data);
+                                if (ngModel) {
+                                  ngModel.$setViewValue(_data.data);
+                                }
                                 dialogChart($scope.$parent.mainConfig.viewsDir + $scope.clickToDialog);
                             }
 
                         } else {
 
                             if ($scope.clickTopToUrl) {
-
-                                ngModel && ngModel.$setViewValue(_data);
+                                // ngModel && ngModel.$setViewValue(_data);
+                                if (ngModel) {
+                                  ngModel.$setViewValue(_data);
+                                }
                                 window.location.assign($scope.clickTopToUrl);
                             } else if ($scope.clickTopToDialog) {
-                                ngModel && ngModel.$setViewValue(_data);
+                                // ngModel && ngModel.$setViewValue(_data);
+                                if (ngModel) {
+                                  ngModel.$setViewValue(_data);
+                                }
                                 dialogChart($scope.$parent.mainConfig.viewsDir + $scope.clickTopToDialog);
                             }
 
@@ -1373,17 +1384,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       success: function (text) {
                         // var results=eval(text);
                         //eavl 作用域设置为当前，支持执行echart提供方法。
-                        var results=  eval( "(" + text + ")" );
+                        var results = eval( "(" + text + ")" );
 
 
                         if ( results.code != 200) {
-                            console.log(_data);
-                              alertError(_data.msg || '出错了');
+                            // console.log(_data);
+                              alertError(results.message || '出错了');
                             return ;
 
                         }
 
-                          var _data = results.data;
+                        var _data = results.data;
 
                         //js api 增加功能：eChart组件将data返回给$scope.$parent.eChartMapData[$scope.eChartKey] 用于显示数据。
                         if ($scope.eChartKey) {
@@ -1400,9 +1411,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                     _str += '<br>' + _item.seriesName + ": " + _item.data;
                                 });
                                 return _str;
-                            }
+                            };
                         } else {
-                            if (_data.tooltip.formatter && _data.tooltip.formatter.indexOf("function") == 0) {
+                            if (_data.tooltip.formatter && _data.tooltip.formatter.indexOf("function") === 0) {
                                 _data.tooltip.formatter = eval("(" + _data.tooltip.formatter + ")");
                             }
                         }
@@ -1459,8 +1470,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 });
             }
         };
-    };
-    eChart.$inject = ["requestData", "dialogChart"];
+    }
+    eChart.$inject = ["requestData", "dialogChart", "alertError"];
 
     /**
      * 自动补全
@@ -2046,10 +2057,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $element.append("<option value=''></option>");
                 $element.chosen($scope.chosen || chosenConfig);
                 }
-              })
+              });
             }
-        }
-    };
+        };
+    }
     chosen.$inject = ["requestData", "$timeout", "$rootScope", "alertError", "proLoading"];
 
     /**
@@ -2389,7 +2400,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertToNumber", convertToNumber)
         .directive("convertJsonToObject", convertJsonToObject)
         .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
-        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout", formValidator])
+        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout",, formValidator])
         .directive("tableList", tableList)
         .directive("tableCell", tableCell)
         .directive("pagination", pagination)
