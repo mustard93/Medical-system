@@ -188,6 +188,13 @@ define('main/controllers', ['main/init'], function () {
           }, _mode, _title);
         };
 
+        //..
+        $scope.handleThisSubmit = function (_text, _mode, _title) {
+          dialogConfirm(_text, function () {
+            
+          }, _mode, _title);
+        };
+
         // easypiechart 全局样式定义
         $scope.easypiechart_options = {
           animate:{
