@@ -1,0 +1,74 @@
+<div class="content-wrapper"
+     ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback="formData={};formData.id=showData.id"
+     alert-error>
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading mgt-m mgb-m">
+    <h1 class="pr-title-color pr-font-24">订单详情</h1>
+  </div>
+  <!-- 主内容区域 -->
+  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
+    <!-- 用户信息 -->
+    <div class="pd-c-xxxxl bb-line">
+      <div class="mg-xl text-s color-9">
+        <p class="mgb-l"><span>源自订单：</span><span class="pr-color color-6">{{showData.orderNo}}</span></p>
+        <p class="mgb-l"><span>客户名：</span><span class="color-6">{{showData.customerName}}</span></p>
+        <p class="mgb-l"><span>收货人信息：</span><span class="color-6">{{showData.address.name}} {{showData.address.address}} {{showData.address.tel}}</span></p>
+        <p>
+          <span>销售人员：</span><span class="color-6 mgr-xl">{{showData.saleUser.n}} </span>
+          <span>期望到货时间：</span><span class="color-6 mgr-xl">{{showData.expectDate| date : 'yyyy-MM-dd'}}</span>
+          <span>备注：</span><span class="color-6">{{showData.note}}</span>
+        </p>
+      </div>
+    </div>
+    <!-- 商品列表 -->
+    <div class="pd-c-xxxxl">
+      <!-- 可发货 -->
+      <div class="confirm-order bb-line pdb-l">
+        <h1 class="pdt-l color-6 text-m pr-fw-500">药械详细</h1>
+        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
+          <thead>
+            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
+            <th class="w-106 text-center">单位</th>
+            <th class="w-106 text-center">同批次</th>
+            <th class="w-186 text-center">批次号</th>
+            <th class="w-106 text-center">库存</th>
+            <th class="w-150 text-center">发货数量</th>
+            <th class="w-94 text-center">状态</th>
+          </thead>
+          <tbody>
+            <tr class="tr-interval"><td colspan="9"></td></tr>
+            <tr ng-repeat="tr in showData.orderMedicalNos">
+              <td class="goods-name has-border text-v-t pd-m">
+                <div class="relative">
+                  <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
+                  <span class="inline-block">
+                    <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb color-9 text-s"><span>{{tr.manufacturer}}</span></p>
+                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                  </span>
+                </div>
+              </td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.isSameBatch}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td ng-if="$index=='0'" class="has-border text-center text-v-t pd-m" rowspan="3">{{tr.orderStatus || '待发货'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- 总价 -->
+    <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
+      <span class="pr-font-24 color-9">总价：</span>
+      <span class="pr-font-24 color-6">￥{{showData.totalPrice|number :2}}</span>
+    </div>
+    <!-- 提交按钮 -->
+    <div class="pd-c-xxxxl pdb-xxl text-right">
+      <span><a href="javascript:window.history.back()">返回</a></span>
+    </div>
+  </div>
+</div>

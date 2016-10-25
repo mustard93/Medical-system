@@ -45,12 +45,13 @@ define('project/controllers', ['project/init'], function() {
              tr.quantity_noInvoice_show=true;
              if(!num)return;
              //点击拆分逻辑,不能发货数量为0,并且库存不足时,根据库存自动拆分数量.
-             if(tr.quantity_noInvoice===0&&tr.quantity_Invoice>num){
-               tr.quantity_noInvoice=tr.quantity_Invoice-num;
-               tr.quantity_Invoice=num;
+             if(tr.quantity_noInvoice===0&&tr.quantity>num){
+               tr.quantity_noInvoice=tr.quantity-num;
+               tr.quantity=num;
              }
 
         };
+
         /**
         * 添加一条。并缓存数据。
         */
@@ -65,6 +66,8 @@ define('project/controllers', ['project/init'], function() {
           $scope.addDataItem.headUrl = data.headUrl;
           $scope.addDataItem.specification = data.specification;
           $scope.addDataItem.manufacturer = data.manufacturer;
+          $scope.addDataItem.handleFlag =true;//默认添加到订单
+
 
 
           // alert($('#addDataItem_quantity').length);
