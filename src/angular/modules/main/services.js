@@ -347,6 +347,34 @@ define('main/services', ['main/init'], function () {
           };
         }
 
+
+
+        //Loading
+        function store () {
+            return  {
+                  get:function(key){
+                      if(!window.localStorage)return;
+                      return window.localStorage.getItem(key);
+                  },
+                remove : function(key){
+                   if(!window.localStorage)return; localStorage.removeItem(key)
+                 },
+                  set : function(key, value){
+                      if(!  window.localStorage)return;
+                        localStorage.setItem(key, value);
+                    },
+                clear : function(){
+                   if(!window.localStorage)return;
+                    localStorage.clear();
+                 }
+              }
+
+      };
+
+
+
+
+
     angular.module('manageApp.main')
       .factory('redirectInterceptor', redirectInterceptor)
       .service('alertOk', ['$rootScope', 'modal',alertOk])
@@ -358,6 +386,7 @@ define('main/services', ['main/init'], function () {
       .service('dialog', dialog)
       .service('dialogChart', dialogChart)
       .service('buildTree', buildTree)
+        .factory('store', store)
       .factory('proLoading', proLoading)
       .config(['$httpProvider', function ($httpProvider) {
           $httpProvider.interceptors.push('redirectInterceptor');
