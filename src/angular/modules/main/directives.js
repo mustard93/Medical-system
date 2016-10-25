@@ -250,7 +250,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
      */
-    function formValidator(requestData, modal, alertOk, alertError, dialogConfirm, $timeout, proMessageTips) {
+    function formValidator(requestData, modal, alertOk, alertError, dialogConfirm, $timeout) {
         return {
             restrict: 'A',
             // scope: true,
@@ -2389,7 +2389,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertToNumber", convertToNumber)
         .directive("convertJsonToObject", convertJsonToObject)
         .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
-        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout", "proMessageTips", formValidator])
+        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout", formValidator])
         .directive("tableList", tableList)
         .directive("tableCell", tableCell)
         .directive("pagination", pagination)
