@@ -82,94 +82,118 @@
     </div>
   </div>
   <!-- 配送信息 -->
-  <div class="panel pr-panel pr-fuzzy-boundary pd-l">
+  <form id="confirm-invoices-order"
+        form-validator
+        parameter-body
+        action="rest/authen/invoicesOrder/updateDistributionInfo.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter()">
+
+    <div class="panel pr-panel pr-fuzzy-boundary pd-l">
       <h1 class="pdb-l">配送信息</h1>
       <div class="flex-column bb-line text-s">
         <div class="flex-item-3">
           <div class="form-group">
-            <label class="mgr">发货方式</label>
-            <select class="ipt pr-short-ipt" ng-model="formData.type">
-              <option value="付费送货">付费送货</option>
-              <option value="定时到达">定时到达</option>
-              <option value="快速发送">快速发送</option>
-              <option value="拼车发送">拼车发送</option>
-            </select>
+            <label class="mgr">发货方式：</label>
+            <span>付费送货</span>
           </div>
         </div>
         <div class="flex-item-3">
           <div class="form-group">
-            <label class="mgr">原件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.originalParts">
+            <label class="mgr">原件：</label>
+            <span>10</span>
           </div>
         </div>
         <div class="flex-item-3">
           <div class="form-group">
-            <label class="mgr">散件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.spareParts">
+            <label class="mgr">散件：</label>
+            <span>5</span>
           </div>
         </div>
         <div class="flex-item-3">
           <div class="form-group">
-            <label class="mgr">备货位</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.storageLocation">
+            <label class="mgr">备货位：</label>
+            <span>A01</span>
           </div>
         </div>
       </div>
       <h1 class="pdt-l pdb-l">附件</h1>
       <div class="flex-column text-s">
         <div class="flex-item-7">
-          <div class="flex-column bb-line">
+          <div class="flex-column">
             <div class="flex-item-6">
               <div class="form-group">
-                <label class="mgr">发票</label>
-                <input type="text" class="ipt pr-short-ipt" ng-model="formData.invoiceNo">
+                <label class="mgr">发票：</label>
+                <span>3254208950928359203</span>
               </div>
             </div>
             <div class="flex-item-6">
               <div class="form-group">
-                <label class="mgr">检测报告</label>
-                <input type="text" class="ipt pr-short-ipt mgr-s">
-                <button class="btn btn-info">浏览..</button>
+                <label class="mgr">检测报告：</label>
+                <span>报告01.docx</span>
               </div>
             </div>
           </div>
-          <div class="flex-column mgt">
+          <div class="flex-column">
             <div class="flex-item-12">
               <div class="form-group">
                 <label class="mgr">备注</label>
-                <textarea class="pr-textarea" ng-model="formData.note"></textarea>
+                <span>备注信息在此显示</span>
               </div>
             </div>
           </div>
         </div>
-        <div class="flex-item-5" style="text-aligncenter;">
+        <div class="flex-item-5">
           <div>
             <img src="images/temp/tiaoxingma.jpg" alt="" style="height:135px;margin-left:100px;width:450px">
           </div>
         </div>
       </div>
+      <!-- 物流信息 -->
+      <div class="flex-column">
+        <h1>物流信息</h1>
+        <p>
+          <span>申通快递：ST001052345345</span>
+          <a href="#">编辑</a>
+          <a href="#">删除</a>
+        </p>
+      </div>
       <!-- 提交按钮 -->
-      <div class="pd-c-xl pdb-xxl text-right">
+      <!-- <div class="pd-c-xl pdb-xxl text-right">
         <span class="mgr-l">
           <button class="pr-btn-save-glodbg"
-                  type="button"
-                  click-send-request="rest/authen/invoicesOrder/updateDistributionInfo.json">保存
-          </button>
+                  type="submit">保存</button>
         </span>
         <span class="mgr-l">
-          <button type="button"
+          <button type="submit"
                   class="pr-btn-create-glodbg"
-                  handle-this-click
-                  dialog-title="确认提交发货单?"
-                  dialog-content="提交后,您将无法修改发货单,确认提交?"
-                  dialog-template="pr-dialog-submit.html"
-                  jump-url="#/invoicesOrder/confirm-invoices-order.html?id={{mainStatus.pageParams.id}}">提交发货</button>
+                  ng-click="handleThisSubmit('提交后,你将无法修改发货单,确认提交?', 'pr-dialog-submit.html', '确认提交发货单?')">提交发货</button>
         </span>
-        <span><a href="javascript:;"
-                 handle-this-click
-                 dialog-title="取消修改?"
-                 dialog-content="有修改还未保存,是否保存?"
-                 dialog-template="pr-dialog-return.html">返回</a></span>
+        <span><a href="javascript:;" ng-click="cancelThis('有修改还未保存,是否保存?', 'pr-dialog-return.html', '取消修改?')">返回</a></span>
+      </div> -->
+      <div class="pd-c-xl pdb-xxl text-right">
+        <span class="mgr-l">
+          <!-- <button class="pr-btn-save-glodbg"
+                  type="submit"
+                  ng-click="handleThisSubmit('确认通知库房发货?此操作会同时打印发货单',
+                                             'pr-dialog-submit.html',
+                                             '确认发货?',
+                                             '#/invoicesOrder/confirm-invoices-order.html?id='+showData.id)">确认发货</button> -->
+          <button class="pr-btn-save-glodbg"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认发货?"
+                  dialog-content="确认通知库房发货?此操作会同时打印发货单"
+                  dialog-template="pr-dialog-submit.html"
+                  request-url="rest/authen/invoicesOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&orderStatus=已发货"
+                  call-back="goTo('#/invoicesOrder/invoices-order-done.html')">确认发货</button>
+        </span>
+        <span class="mgr-l"><a href="#">驳回</a></span>
       </div>
     </div>
+
+  </form>
 </div>

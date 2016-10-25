@@ -189,10 +189,10 @@ define('main/controllers', ['main/init'], function () {
         };
 
         //..
-        $scope.handleThisSubmit = function (_text, _mode, _title) {
+        $scope.handleThisSubmit = function (_text, _mode, _title, _url) {
           dialogConfirm(_text, function () {
-            
-          }, _mode, _title);
+            $scope.pageTo(_url);
+          }, _mode, _title, _url);
         };
 
         // easypiechart 全局样式定义

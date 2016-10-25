@@ -43,10 +43,10 @@
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <ul class="">
-        <li class="pdr-m" ng-repeat="tr in tbodyList">
+        <li class="pdr-m relative" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary">
             <div>
-              <div class="flex-column mgb-n">
+              <div class="flex-column mgb">
                 <span class="flex-item-6 title-states">{{tr.orderStatus}}
                   <i ng-if="tr.orderStatus=='已收货'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='待发货'" class="circle-icon-red mgl-m"></i>
@@ -54,15 +54,15 @@
                 <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-6 text-right"><a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a></span>
                 <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right"><a href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a></span>
               </div>
-              <div class="text-s mgb-m">{{tr.type}}</div>
+              <!-- <div class="text-s mgb-m">{{tr.type}}</div> -->
               <div class="flex-column qurey text-s color-9">
-                <span class="flex-item-6">
+                <span class="flex-item-6 mgb">
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
                 <span class="flex-item-6 text-right">
                   订单编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
                 </span>
-                <span class="flex-item-6">
+                <span class="flex-item-6 mgb">
                   销售人员：<strong class="color-6 text-normal">{{tr.saleUser.n}}</strong>
                 </span>
                 <span class="flex-item-6 text-right">
@@ -70,24 +70,24 @@
                 </span>
               </div>
             </div>
-            <div class="flex-column">
-              <div class="flex-item-6 br-line">
-                <p>发票：<em>{{tr.distributionInfo.invoiceNo}}</em></p>
-                <p>备货位：<em>{{tr.distributionInfo.storageLocation}}</em></p>
-                <p>出库单：<em>暂未出库</em></p>
+            <div class="flex-column text-s">
+              <div class="flex-item-6 br-line" style="min-height:220px;">
+                <p class="mgt-m">发票：<em>{{tr.distributionInfo.invoiceNo || '暂无'}}</em></p>
+                <p class="mgt-m">备货位：<em>{{tr.distributionInfo.storageLocation || '暂无'}}</em></p>
+                <p class="mgt-m">出库单：<em>暂未出库</em></p>
               </div>
-              <div class="flex-item-6">
-                <h1>物流信息</h1>
-                <div class="flex-column">
-                  <span class="flex-item-5 mgr-0">{{tr.kuaidi.type}}</span>
+              <div class="flex-item-6 pd">
+                <h1 class="pd-v bb-line">物流信息</h1>
+                <div class="flex-column mgt">
+                  <span class="flex-item-5 mgr-0">{{tr.kuaidi.type || '暂无'}}</span>
                   <span class="flex-item-7">
-                    <p>{{tr.kuaidi.nu}}</p>
+                    <p class="pr-color">{{tr.kuaidi.nu}}</p>
                   </span>
                 </div>
               </div>
             </div>
-            <div class="flex-column">
-              <a href="#" type="button" class="btn pr-btn-bg-gold">确认发货</a>
+            <div ng-if="tr.orderStatus=='未提交' || tr.orderStatus=='待发货'" class="flex-column">
+              <div class="pdt pdb pd-c-m mgl-auto"><a href="#" type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">确认发货</a></div>
             </div>
           </div>
         </li>

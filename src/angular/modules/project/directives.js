@@ -384,5 +384,93 @@ define('project/directives', ['project/init'], function () {
         }
       }
     };
+  }])
+  /**
+   *	按钮点击发送ajax
+   */
+  .directive('clickSendRequest', ['requestData', 'alertOk', 'alertError', function (requestData, alertOk, alertError) {
+    'use strict';
+    return {
+      restrict: 'A',
+      // require: 'ngModel',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          if (Config.serverPath) {
+            if (attrs.clickSendRequest) {
+              var _rUrl = Config.serverPath + attrs.clickSendRequest;
+              requestData(_rUrl, scope.formData, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  if (_data.code === 200) {
+                    alertOk('操作成功');
+
+                    if (attrs.callBack) {
+                      scope.$eval(attrs.callBack);
+                    }
+
+                  } else {
+                    alertError('Error');
+                  }
+                });
+            } else {
+              throw('Request Url Error!');
+            }
+          } else {
+            throw('Server Path Info Error!');
+          }
+        });
+      }
+    };
+  }])
+  /**
+   * 带确认对话框的按钮点击事件
+   */
+  .directive('handleThisClick', ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', function ($window, dialogConfirm, requestData, alertOk, alertError) {
+    'use strict';
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          //对话框标题
+          var _dialogTitle = angular.isDefined(attrs.dialogTitle) ? attrs.dialogTitle : '询问对话框';
+          //对话框内容
+          var _dialogContent = angular.isDefined(attrs.dialogContent) ? attrs.dialogContent : '';
+          //对话框引用的模板
+          var _dialogTemplate = angular.isDefined(attrs.dialogTemplate) ? attrs.dialogTemplate : 'tpl/dialog-confirm.html';
+          //如果需要跳转地址
+          var _jumpUrl = angular.isDefined(attrs.jumpUrl) ? attrs.jumpUrl : '';
+          //如果发送请求的地址
+          var _requestUrl = angular.isDefined(attrs.requestUrl) ? attrs.requestUrl : '';
+
+          dialogConfirm(_dialogContent, function () {
+            //如果操作为点击后回退
+            if (!angular.isDefined(attrs.jumpUrl) && !angular.isDefined(attrs.requestUrl)) {
+              $window.history.go(-1);
+            }
+            //如果操作为点击后跳转地址
+            if (angular.isDefined(attrs.jumpUrl)) {
+              $window.location.assign(_jumpUrl);
+            }
+            //如果操作为点击后发送请求
+            if (angular.isDefined(attrs.requestUrl)) {
+              requestData(_requestUrl, {}, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  if (_data.code === 200) {
+                    alertOk(_data.message || '操作成功');
+                  }
+                  //执行回调
+                  if (attrs.callBack) {
+                    scope.$eval(attrs.callBack);
+                  }
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+            }
+          }, _dialogTemplate, _dialogTitle, _jumpUrl);
+        });
+      }
+    };
   }]);
 });
