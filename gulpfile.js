@@ -83,8 +83,14 @@ gulp.task('clean-css', function () {
              .pipe(clean());
 });
 
-/* 清理js文件 */
-gulp.task('clean-js', function () {
+/* 清理css文件(生产模式打包) */
+gulp.task('pro-clean-css', function () {
+  return gulp.src([paths.src + "build/css/*.css"])
+             .pipe(clean());
+});
+
+/* 清理js文件(生产模式打包) */
+gulp.task('pro-clean-js', function () {
   return gulp.src([paths.build + "js/*.js"])
              .pipe(clean());
 });
@@ -117,11 +123,10 @@ gulp.task('concatCss', ['clean-css'], function () {
 });
 
 /* 合并、压缩CSS */
-gulp.task('handleCss', ['clean-css'], function () {
+gulp.task('handleCss', ['pro-clean-css'], function () {
   return gulp.src([paths.src + 'css/block_css/*.css'])
              .pipe(concat('style.min.css'))
              .pipe(mincss())
-             .pipe(gulp.dest('./src/css'))
              .pipe(rev())
              .pipe(gulp.dest(paths.build + 'css'))
              .pipe(rev.manifest())
@@ -129,7 +134,7 @@ gulp.task('handleCss', ['clean-css'], function () {
 });
 
 /* 合并、压缩 JS */
-gulp.task('handleJs', ['clean-js'], function () {
+gulp.task('handleJs', ['pro-clean-js'], function () {
   return gulp.src([paths.src + 'angular/app.js', paths.src + 'angular/modules/**/*.js'])
              .pipe(concat('app.min.js'))
              .pipe(uglify())
@@ -261,11 +266,8 @@ gulp.task('server', function (done) {
 gulp.task('pro-server', function (done) {
     condition = false;
     runSequence(
-      ['browser'],
       ['handleCss'],
       ['handleJs'],
       ['revHtml'],
-      ['revManageHtml'],
-      ['bro'],
       done);
 });
