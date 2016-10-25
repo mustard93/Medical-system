@@ -77,9 +77,9 @@ if(DEBUGGER) {
     prefix = "http://localhost:3000/build";
 }
 
-/* 清理css文件 */
+/* 清理css文件(开发模式) */
 gulp.task('clean-css', function () {
-  return gulp.src([paths.build + "css/*.css", paths.src + "css/style.min.css", paths.src + "css/dev/style.min.css"])
+  return gulp.src([paths.src + "css/dev/style.css"])
              .pipe(clean());
 });
 
@@ -112,7 +112,7 @@ gulp.task('runLess', ['clean-css'], function () {
 /* 合并css */
 gulp.task('concatCss', ['clean-css'], function () {
   return gulp.src([paths.src + 'css/block_css/*.css'])
-             .pipe(concat('style.min.css'))
+             .pipe(concat('style.css'))
              .pipe(gulp.dest('./src/css/dev'));
 });
 
@@ -260,16 +260,12 @@ gulp.task('server', function (done) {
 /* 生产模式静态文件打包任务，包含css、js的合并、压缩、版本号更新及链接替换 */
 gulp.task('pro-server', function (done) {
     condition = false;
-    runSequence(['browser'], ['handleCss'], ['handleJs'], ['revHtml'], ['revManageHtml'], ['bro'], done);
-    gulp.watch('./src/css/block_css/*.css', function () {     //监控所有CSS文件
-      runSequence(['handleCss'], ['revHtml'], ['revManageHtml'], ['bro'], done);
-    });
-    gulp.watch(['./src/angular/**/*.js', './src/angular/*.js'], function () {     //监控所有JS文件
-      runSequence(['handleJs'], ['revHtml'], ['revManageHtml'], ['bro'], done);
-    });
-    gulp.watch([
-      './src/*.html',
-      './src/views/*.html',
-      './src/views/**/*.html',
-      './src/manage/*.html'], ['bro']);
+    runSequence(
+      ['browser'],
+      ['handleCss'],
+      ['handleJs'],
+      ['revHtml'],
+      ['revManageHtml'],
+      ['bro'],
+      done);
 });
