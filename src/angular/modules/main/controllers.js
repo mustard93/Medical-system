@@ -6,7 +6,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope,$http) {
+    function mainCtrl($scope,$http,store) {
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
@@ -115,7 +115,7 @@ define('main/controllers', ['main/init'], function () {
                 if (_data.code == 200) {
                   $scope.curUser=_data.data;
 
-                  $scope.habbit={mainRole:'客服'};
+                  $scope.habbit={mainRole:''};
 
                   $scope.goToMainRole($scope.habbit.mainRole);
                   angular.extend($scope.mainStatus, _data.data);
@@ -146,8 +146,13 @@ define('main/controllers', ['main/init'], function () {
         });
         //根据角色跳转对应页面
         $scope.goToMainRole = function (mainRole) {
+
+            if(!mainRole)mainRole=store.get('habbit.mainRole');
             if(!mainRole)mainRole='客服';
+            if(!$scope.habbit)   $scope.habbit={};
             $scope.habbit.mainRole=mainRole;
+
+            store.set('habbit.mainRole',mainRole);
             switch (mainRole) {
               case '客服':$scope.goTo('#/main.html');break;
               case '销售':$scope.goTo('#/authorIndex/main-salemanager.html');break;
@@ -160,19 +165,7 @@ define('main/controllers', ['main/init'], function () {
             }
           }
 
-            // $scope.localStorage = {
-            //     getItem:function(key){
-            //         if(!  window.localStorage)return;
-            //
-            //         window.localStorage.getItem(key);
-            //     },
-            //      remove : function(key){  if(!  window.localStorage)return; localStorage.removeItem(key),
-            //     set : function(key, value){
-            //         if(!  window.localStorage)return;
-            //           localStorage.setItem(key, value);
-            //       },
-            //        clear : function(){  if(!  window.localStorage)return; localStorage.clear(); }
-            // }
+
 
     }
 
@@ -218,7 +211,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$http", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$http","store", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
