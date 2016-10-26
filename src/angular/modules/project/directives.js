@@ -386,43 +386,6 @@ define('project/directives', ['project/init'], function () {
     };
   }])
   /**
-   *	按钮点击发送ajax
-   */
-  .directive('clickSendRequest', ['requestData', 'alertOk', 'alertError', function (requestData, alertOk, alertError) {
-    'use strict';
-    return {
-      restrict: 'A',
-      // require: 'ngModel',
-      link: function (scope, element, attrs) {
-        element.on('click', function () {
-          if (Config.serverPath) {
-            if (attrs.clickSendRequest) {
-              var _rUrl = Config.serverPath + attrs.clickSendRequest;
-              requestData(_rUrl, scope.formData, 'POST')
-                .then(function (results) {
-                  var _data = results[1];
-                  if (_data.code === 200) {
-                    alertOk('操作成功');
-
-                    if (attrs.callBack) {
-                      scope.$eval(attrs.callBack);
-                    }
-
-                  } else {
-                    alertError('Error');
-                  }
-                });
-            } else {
-              throw('Request Url Error!');
-            }
-          } else {
-            throw('Server Path Info Error!');
-          }
-        });
-      }
-    };
-  }])
-  /**
    * 带确认对话框的按钮点击事件
    */
   .directive('handleThisClick', ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', function ($window, dialogConfirm, requestData, alertOk, alertError) {
@@ -442,14 +405,40 @@ define('project/directives', ['project/init'], function () {
           //如果发送请求的地址
           var _requestUrl = angular.isDefined(attrs.requestUrl) ? attrs.requestUrl : '';
 
-          dialogConfirm(_dialogContent, function () {
-            //如果操作为点击后回退
-            if (!angular.isDefined(attrs.jumpUrl) && !angular.isDefined(attrs.requestUrl)) {
-              $window.history.go(-1);
+
+          if(_dialogTemplate=="pr-dialog-return.html"){//编辑页面，取消操作
+            if( !angular.isDefined(attrs.dialogTitle)) _dialogTitle = '取消修改?';
+            if( !angular.isDefined(attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';
+          }
+
+          dialogConfirm(_dialogContent, function (type) {
+
+            //type:nosave,save
+            //取消对话框操作
+            if(type=="nosave"){
+              //执行回调
+              if (attrs.nosaveCallback) {
+                scope.$eval(attrs.nosaveCallback);
+              }
+              return;
             }
+
+            if(type=="save"){
+              //执行回调
+              if (attrs.saveCallback) {
+                scope.$eval(attrs.saveCallback);
+              }
+              return;
+            }
+            //如果操作为点击后回退
+            // if (!angular.isDefined(attrs.jumpUrl) && !angular.isDefined(attrs.requestUrl)) {
+            //   $window.history.go(-1);
+            //   return;
+            // }
             //如果操作为点击后跳转地址
             if (angular.isDefined(attrs.jumpUrl)) {
               $window.location.assign(_jumpUrl);
+                return;
             }
             //如果操作为点击后发送请求
             if (angular.isDefined(attrs.requestUrl)) {
@@ -467,6 +456,12 @@ define('project/directives', ['project/init'], function () {
                 .catch(function (error) {
                   alertError(error || '出错');
                 });
+              return;
+            }
+
+            //执行回调
+            if (attrs.callBack) {
+              scope.$eval(attrs.callBack);
             }
           }, _dialogTemplate, _dialogTitle, _jumpUrl);
         });
