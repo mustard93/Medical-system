@@ -1,0 +1,35 @@
+<div class="modal-content pr-modal-content" ng-controller="editCtrl">
+  <form class="add-customerAddress-form form-horizontal"
+        ng-init="formData=dialogData.contact;formData.customerAddressId=dialogData.customerAddressId"
+        action="rest/authen/invoicesOrder/addKuaidi"
+        callback="customerAddressReload()"
+        form-validator>
+    <div class="modal-header">
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}收货人信息</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label text-left">快递公司</label>
+          <div class="col-lg-10 col-sm-10">
+            <select class="ipt pr-short-ipt" ng-model="formData.type"
+             chosen select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_KuaidiType">
+           </select>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">快递单号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="tel" class="form-control" placeholder="请填写联系手机号码" ng-model="formData.nu"/>
+          </div>
+      </div>
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="提交" ng-disabled="!formData.type || !formData.nu">
+          </div>
+      </div>
+    </div>
+  </form>
+</div>

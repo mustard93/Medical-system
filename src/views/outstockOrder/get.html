@@ -1,8 +1,7 @@
-<div   ng-controller="invoicesOrderCtrl"
-class="content-wrapper invoices-order"
+<div class="content-wrapper invoices-order"
      ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="formData=showData.distributionInfo;formData.id=showData.id"
+     callback="formData={};formData.id=showData.id"
      alert-error>
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mgt-m mgb-m">
@@ -15,8 +14,8 @@ class="content-wrapper invoices-order"
       <div class="flex-item-10">
         <span class="mgr-m">发货单：{{showData.orderNo}}</span>
         <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd MM:ss'}}</span>
-        <span class="mgr-m">对应订单：缺字段</span>
-        <span>对应出库单：缺字段</span>
+        <span class="mgr-m">对应订单：2354234324324</span>
+        <span>对应出库单：4543534543</span>
       </div>
       <div class="flex-item-2 text-right">
         <span>状态：{{showData.orderStatus}}</span>
@@ -26,9 +25,9 @@ class="content-wrapper invoices-order"
     <div class="pd-c-xl pdt-l pdb-l bb-line">
       <p class="flex-column mgb">
         <span class="flex-item-6">客户名：{{showData.address.name}}</span>
-        <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：{{showData.expectDate | date: 'yyyy-MM-dd'}}</span>
+        <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：2016-10-30</span>
       </p>
-      <p>收货人信息：{{showData.address.name}} {{item.prov}}{{item.city}}{{item.area}}{{showData.address.address}} {{showData.address.tel}}</p>
+      <p>收货人信息：{{showData.address.name}} {{showData.address.address}} {{showData.address.tel}}</p>
     </div>
     <!-- 商品列表 -->
     <div class="pd-c-xl">
@@ -52,12 +51,12 @@ class="content-wrapper invoices-order"
             <tr class="tr-interval"><td colspan="9"></td></tr>
             <tr ng-repeat="tr in showData.orderMedicalNos">
               <td class="has-border text-center">
-                <p>缺字段</p>
-                <p>缺字段</p>
+                <p>YF02428</p>
+                <p>34-49-OC</p>
               </td>
               <td class="goods-name has-border text-v-t pd-m">
                 <div class="relative">
-                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
+                  <span class="goods-thumbnail inline-block"><img src="{{tr.headUrl}}" alt=""></span>
                   <span class="inline-block">
                     <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>{{tr.name}}</span></p>
                     <p class="pdl-l mgb color-9 text-s"><span>{{tr.manufacturer}}</span></p>
@@ -65,14 +64,14 @@ class="content-wrapper invoices-order"
                   </span>
                 </div>
               </td>
-              <td class="has-border text-center text-v-t pd-m">缺字段</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{'片剂'}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.unit || '盒'}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{1000}}</td>
               <td class="has-border text-center text-v-t pd-m">{{tr.batchNo}}</td>
-              <td class="has-border text-center text-v-t pd-m"></td>
-              <td class="has-border text-center text-v-t pd-m"></td>
-              <td class="has-border text-center text-v-t pd-m">缺字段</td><!--批准文号 -->
-              <td class="has-border text-center text-v-t pd-m">缺字段</td><!--药械属性 -->
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">1234</td>
+              <td class="has-border text-center text-v-t pd-m">普通</td>
             </tr>
           </tbody>
         </table>
@@ -84,44 +83,35 @@ class="content-wrapper invoices-order"
   </div>
   <!-- 配送信息 -->
   <div class="panel pr-panel pr-fuzzy-boundary pd-l">
-
-    <form id="editForm" class="add-medical-form form-horizontal"
-          action="rest/authen/invoicesOrder/updateDistributionInfo.json"
-           alert-error
-           alert-ok
-          callback="submitFormAfter()"
-
-          form-validator>
-
-      <h1 class="pdb-l">配送信息</h1>
+      <h1 class="pdb-l">配送信息{{showData.distributionInfo.type}}</h1>
       <div class="flex-column bb-line text-s">
         <div class="flex-item-3">
           <div class="form-group">
             <label class="mgr">发货方式</label>
-            <select class="ipt pr-short-ipt" ng-model="formData.type"  chosen select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OrderDistributionType">
-              <!-- <option value="付费送货">付费送货</option>
-              <option value="定时到达">定时到达</option>
-              <option value="快速发送">快速发送</option>
-              <option value="拼车发送">拼车发送</option> -->
+            <select class="ipt pr-short-ipt" ng-model="formData.type">
+              <option value="付费送货" ng-selected="showData.distributionInfo.type=='付费送货'">付费送货</option>
+              <option value="定时到达" ng-selected="showData.distributionInfo.type=='定时到达'">定时到达</option>
+              <option value="快速发送" ng-selected="showData.distributionInfo.type=='快速发送'">快速发送</option>
+              <option value="拼车发送" ng-selected="showData.distributionInfo.type=='拼车发送'">拼车发送</option>
             </select>
           </div>
         </div>
         <div class="flex-item-3">
           <div class="form-group">
             <label class="mgr">原件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.originalParts">
+            <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.originalParts" ng-model="formData.originalParts">
           </div>
         </div>
         <div class="flex-item-3">
           <div class="form-group">
             <label class="mgr">散件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.spareParts">
+            <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.spareParts" ng-model="formData.spareParts">
           </div>
         </div>
         <div class="flex-item-3">
           <div class="form-group">
             <label class="mgr">备货位</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.storageLocation">
+            <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.storageLocation" ng-model="formData.storageLocation">
           </div>
         </div>
       </div>
@@ -132,23 +122,13 @@ class="content-wrapper invoices-order"
             <div class="flex-item-6">
               <div class="form-group">
                 <label class="mgr">发票</label>
-                <input type="text" class="ipt pr-short-ipt" ng-model="formData.invoiceNo">
+                <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.invoiceNo" ng-model="formData.invoiceNo">
               </div>
             </div>
             <div class="flex-item-6">
               <div class="form-group">
                 <label class="mgr">检测报告</label>
-                <a ng-if="formData.attachment" href="{{formData.attachment}}" >下载</a>
-
-                <button type="button" class="btn btn-default" ng-init="upFile={}"
-                                    uploader-one="rest/authen/fileUpload/upload.json" usege="检测报告"
-                                     up-file="upFile" ng-model="formData.attachment">
-
-                                        浏览{{upFile.progress<100?"("+upFile.progress+"%)":""}}
-                                    </button>
-
-
-
+                    <a ng-if="formData.attachment" href="{{formData.attachment}}" >下载</a>
               </div>
             </div>
           </div>
@@ -156,7 +136,7 @@ class="content-wrapper invoices-order"
             <div class="flex-item-12">
               <div class="form-group">
                 <label class="mgr">备注</label>
-                <textarea class="pr-textarea" ng-model="formData.note"></textarea>
+                {{formData.note}}
               </div>
             </div>
           </div>
@@ -167,35 +147,14 @@ class="content-wrapper invoices-order"
           </div>
         </div>
       </div>
+
+      <div class="panel pr-panel pr-fuzzy-boundary pd-l">
+          <h1 class="pdb-l">物流信息</h1>
+          <div>缺字段</div>
+      </div>
       <!-- 提交按钮 -->
       <div class="pd-c-xl pdb-xxl text-right">
-        <span class="mgr-l">
-          <button class="pr-btn-save-glodbg"
-                  type="submit">保存
-          </button>
-        </span>
-        <span class="mgr-l">
-
-
-          <button type="button"
-                  class="pr-btn-create-glodbg"
-                  handle-this-click
-                  dialog-title="确认提交发货单?"
-                  dialog-content="提交后,您将无法修改发货单,确认提交?"
-                  dialog-template="pr-dialog-submit.html"
-                  call-back="submitForm('editForm','submit')">提交发货</button>
-        </span>
-
-        <span><a href="javascript:;"
-                 handle-this-click
-
-                nosave-callback="goTo('#/invoicesOrder/query.html')"
-                  save-callback="submitForm('editForm','exit')"
-
-                 dialog-template="pr-dialog-return.html">返回</a></span>
+        <span class="mgr-l"><a href="#">返回发货中心</a></span>
       </div>
-
-
-    </form>
-    </div><!-- 配送信息 -->
+    </div>
 </div>
