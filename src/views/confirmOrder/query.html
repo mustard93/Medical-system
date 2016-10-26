@@ -1,21 +1,21 @@
 <div class="content-wrapper">
-  <table-list list-data="{{mainStatus.requestPath}}rest/authen/salesOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/confirmOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容头部 -->
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl-m mgr-m relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
         <div class="pos-abs order-create-btn">
-          <a href="#/salesOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a>
+          <a href="#/confirmOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a>
         </div>
         <div class="order-status-btn pos-tr text-right"
-             ajax-url="rest/authen/salesOrder/countByOrderStatus.json"
+             ajax-url="rest/authen/confirmOrder/countByOrderStatus.json"
              scope-data="countByOrderStatus"
              alert-error>
             <div class=""></div>
             <div class="btn btn-group">
               <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
-                <span class="pj-badge" ng-if='countByOrderStatus["未提交"]'>{{countByOrderStatus["未提交"]}}</span>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待审批'">待审批
+                <span class="pj-badge" ng-if='countByOrderStatus["待审批"]'>{{countByOrderStatus["待审批"]}}</span>
               </button>
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发货'">待发货
                 <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
@@ -55,8 +55,8 @@
                   <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='冷链异常'" class="circle-icon-red mgl-m"></i>
                 </span>
-                <span  ng-if="!(tr.orderStatus=='未提交'||tr.orderStatus=='待处理')" class="flex-item-6 text-right"><a href="#/salesOrder/get.html?id={{tr.id}}">查看详情</a></span>
-                <span  ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='待处理'" class="flex-item-6 text-right"><a href="#/salesOrder/edit.html?id={{tr.id}}">编辑</a></span>
+                <span  ng-if="!(tr.orderStatus=='待审批')" class="flex-item-6 text-right"><a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a></span>
+                <span class="flex-item-6 text-right"><a href="#/confirmOrder/confirm-order.html?id={{tr.id}}"><button class="pr-btn-create-glodbg" type="submit" >立即审批</button></a></span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
               <div class="flex-column qurey text-s color-9">
@@ -80,16 +80,16 @@
                   </div>
                 </div>
               </div>
-              <div ng-if="tr.orderStatus=='未提交'" class="pos-abs pdr-xl">
+              <div ng-if="tr.orderStatus=='待审批'" class="pos-abs pdr-xl">
                 <p class="mgb-m mgt-s text-s color-9">备注：{{tr.note}}</p>
                 <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
-              <div ng-if="tr.orderStatus!='未提交'">
+              <div ng-if="tr.orderStatus!='待审批'">
                 <h1 class="mgt-l mgb-s color-6">发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.invoiceOrderIdsSet.join(",")}}</em></p>
                 <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
-              <div  ng-if="tr.orderStatus!='未提交'">
+              <div  ng-if="tr.orderStatus!='待审批'">
                 <h1 class="mgt-l mgb-s color-6">未发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.noInvoiceOrderIdsSet.join(",")}}</em></p>
                 <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
