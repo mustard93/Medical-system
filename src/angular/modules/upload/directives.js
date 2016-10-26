@@ -212,7 +212,8 @@ define('upload/directives', ['upload/init'], function () {
               // templateUrl: 'tpl/uploader2.html',
               link: function ($scope, $element, $attrs) {
                   var $fileIpt = $('<input type="file"/>');
-                  var fileType = $attrs.uploadType || "image";
+                  //image,*.upload-type="image"
+                  var fileType = $attrs.uploadType || "*";
 
                   $scope.delFile = delFile;
 
@@ -312,7 +313,10 @@ define('upload/directives', ['upload/init'], function () {
                       var xhr = new XMLHttpRequest();
                       var fd = new FormData();
                       //关联表单数据,可以是自定义参数
-                      fd.append("desc", "desc1");
+
+                        if($attrs.usege){
+                            fd.append("usege", $attrs.usege);
+                        }
 
                       fd.append("fileData", _fileObj.file);
 
@@ -325,6 +329,10 @@ define('upload/directives', ['upload/init'], function () {
                           $scope.$digest();
                       }, false);
                       xhr.addEventListener("load", function (evt) {
+
+                        //解决文件上传成功后，删除文件，再上传相同文件失败
+                       $fileIpt.val("");
+
                           var _data = angular.fromJson(evt.target.responseText);
 
                             if (!_data || _data.code != 200) {
@@ -340,9 +348,6 @@ define('upload/directives', ['upload/init'], function () {
                           // _data.data="http://stimg3.tuicool.com/JNzQre.png";
                           $scope.ngModel=_data.data;
                           $scope.$apply();
-
-                          //解决文件上传成功后，删除文件，再上传相同文件失败
-                          $fileIpt.val("");
 
                       }, false);
                       xhr.addEventListener("loadend", function (evt) {

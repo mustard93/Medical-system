@@ -1,5 +1,5 @@
 <div class="content-wrapper"
-     ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
      alert-error>
@@ -67,8 +67,14 @@
       <span class="pr-font-24 color-6">￥{{showData.totalPrice|number :2}}</span>
     </div>
     <!-- 提交按钮 -->
-    <div class="pd-c-xxxxl pdb-xxl text-right">
-      <span><a href="javascript:window.history.back()">返回</a></span>
-    </div>
+
+      <button class="pr-btn-save-glodbg"
+              type="button"
+              handle-this-click
+              dialog-title="确认通过?"
+              dialog-content="审批通过后，订单生效，是否通过？"
+              dialog-template="pr-dialog-submit.html"
+              request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&orderStatus=已发货"
+              call-back="goTo('#/confirmOrder/order-done.html')">确认发货</button>
   </div>
 </div>

@@ -85,6 +85,9 @@ define('project/controllers', ['project/init'], function() {
             if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
             $scope.formData.orderMedicalNos.push($scope.addDataItem);
 
+            //计算价格
+            $scope.formData.totalPrice = $scope.addDataItem.strike_price * $scope.addDataItem.quantity;
+
             $scope.addDataItem = {};
 
             $("input", "#addDataItem_relId_chosen").trigger("focus");
@@ -96,7 +99,11 @@ define('project/controllers', ['project/init'], function() {
         type:save-草稿,submit-提交订单。
         */
         $scope.submitFormAfter = function() {
-         if ($scope.submitForm_type == "submit") {
+          if ($scope.submitForm_type == "exit") {
+            $scope.goTo('#/invoicesOrder/query.html');
+           return;
+         }
+          if ($scope.submitForm_type == "submit") {
             $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
           }
 
@@ -124,7 +131,104 @@ define('project/controllers', ['project/init'], function() {
 
     }
 
+
+
+
+    /**
+     *编辑订单
+     */
+    function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+      /**
+      *保存
+      type:save-草稿,submit-提交订单。
+      */
+      $scope.submitFormAfter = function() {
+
+        if ($scope.submitForm_type == "exit") {
+          $scope.goTo('#/invoicesOrder/query.html');
+         return;
+       }
+
+       if ($scope.submitForm_type == "submit") {
+         var url="rest/authen/confirmOrder/updateStatus"
+         var data= {id:$scope.formData.id,orderStatus:'待发货'};
+         requestData(url,data, 'POST')
+           .then(function (results) {
+             var _data = results[1];
+             alertOk(_data.message || '操作成功');
+             $scope.goTo('#/confirmOrder/confirm-order.html?id='+$scope.formData.id);
+
+           })
+           .catch(function (error) {
+             alertError(error || '出错');
+           });
+
+
+        }
+
+      };
+
+      /**
+      *保存
+      type:save-草稿,submit-提交订单。
+      */
+      $scope.submitForm = function(fromId, type) {
+         $scope.submitForm_type = type;
+        $("#" + fromId).trigger("submit");
+
+      };
+    }
+
+
+    /**
+     *出库单
+     */
+    function invoicesOrderCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+      /**
+      *保存
+      type:save-草稿,submit-提交订单。
+      */
+      $scope.submitFormAfter = function() {
+
+
+          if ($scope.submitForm_type == "exit") {
+            $scope.goTo('#/invoicesOrder/query.html');
+           return;
+         }
+
+
+       if ($scope.submitForm_type == "submit") {
+         var url="rest/authen/invoicesOrder/updateStatus"
+         var data= {id:$scope.formData.id,orderStatus:'待发货'};
+         requestData(url,data, 'POST')
+           .then(function (results) {
+             var _data = results[1];
+             alertOk(_data.message || '操作成功');
+             $scope.goTo('#/invoicesOrder/confirm-order.html?id='+$scope.formData.id);
+
+           })
+           .catch(function (error) {
+             alertError(error || '出错');
+           });
+
+
+        }
+
+      };
+
+      /**
+      *保存
+      type:save-草稿,submit-提交订单。
+      */
+      $scope.submitForm = function(fromId, type) {
+         $scope.submitForm_type = type;
+        $("#" + fromId).trigger("submit");
+
+      };
+    }
     angular.module('manageApp.project')
+    .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
+      .controller('confirmOrderEditCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", confirmOrderEditCtrl])
         .controller('salesOrderEditCtrl', ["$scope", "modal","alertWarn", salesOrderEditCtrl]);
 
         //

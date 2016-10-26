@@ -15,63 +15,61 @@
         form-validator
         alert-error
         callback="goTo('#/salesOrder/order-done.html?id='+formData.id)">
-
   <div class="content-wrapper-main pr-bg-white pr-border pr-fuzzy-boundary">
-
-
     <div class="pd-c-xxxxl bb-line">
-      <div class="mg-xl text-s color-9">
-        <p class="mgb-l">
-          <span>订单编号：</span><span class="pr-color color-6">{{showData.confirmOrder.orderNo}}</span>
-          <span>创建时间：</span><span class="pr-color color-6"></span>
-          <span>对应购需单：</span><span class="pr-color color-6">{{showData.salesOrder.orderNo}}</span>
-          <span>订单状态：</span><span class="pr-color color-6">{{showData.confirmOrder.orderStatus}}</span>
-
-        </p>
-
+      <div class="mg-xl text-s color-9 flex-column">
+        <div class="flex-item-8">
+          <span class="mgr-xl">订单编号：<em class="pr-color color-6">{{showData.confirmOrder.orderNo}}</em></span>
+          <span class="mgr-xl">创建时间：<em class="pr-color color-6"></em></span>
+          <span>对应购需单：<em class="pr-color color-6">{{showData.salesOrder.orderNo}}</em></span>
+        </div>
+        <div class="flex-item-4 text-right">
+          <span>订单状态：<em class="pr-color color-6">{{showData.confirmOrder.orderStatus}}</em></span>
+        </div>
       </div>
     </div>
-
     <!-- 用户信息 -->
     <div class="pd-c-xxxxl bb-line">
       <div class="mg-xl text-s color-9">
-
-        <p class="mgb-l">
-          <span>客户名：</span><span class="color-6">{{showData.salesOrder.customerName}}</span>
-          <span>负责人：</span><span class="color-6 mgr-xl">{{showData.salesOrder.saleUser.n}} </span>
-      <span>期望到货时间：</span><span class="color-6 mgr-xl">{{showData.salesOrder.expectDate| date : 'yyyy-MM-dd'}}</span>
+        <p class="mgb-l flex-column">
+          <span class="flex-item-4">
+            <em>客户名：<i class="color-6 text-normal">{{showData.salesOrder.customerName}}</i></em>
+          </span>
+          <span class="flex-item-8 text-right">
+            <em>负责人：<i class="color-6 mgr-xl text-normal">{{showData.salesOrder.saleUser.n}} </i></em>
+            <em>期望到货时间：<i class="color-6 mgr-xl text-normal">{{showData.salesOrder.expectDate| date : 'yyyy-MM-dd'}}</i></em>
+          </span>
         </p>
         <p class="mgb-l">
           <span>收货人信息：</span><span class="color-6">{{showData.salesOrder.address.name}} {{showData.salesOrder.address.address}} {{showData.salesOrder.address.tel}}</span></p>
-
       </div>
     </div>
     <!-- 商品列表 -->
     <div class="pd-c-xxxxl" ng-init="orderMedicalNoIds=[]">
       <!-- 可发货 -->
       <div class="confirm-order bb-line pdb-l" >
+        <!-- 标题 -->
         <h1 class="pdt-l color-6 text-m text-bold" >订购清单</h1>
+        <!-- 购买清单 -->
         <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
           <thead>
-              <th class="w-70 text-center">货品编码/货位</th>
+            <th class="text-center">货品编码/货位</th>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
-              <th class="w-70 text-center">剂型</th>
-            <th class="w-70 text-center">单位</th>
-              <th class="w-120 text-center">数量</th>
+            <th class="text-center">剂型</th>
+            <th class="text-center">单位</th>
+            <th class="text-center">数量</th>
             <!-- <th class="w-70 text-center">同批次</th> -->
-            <th class="w-186 text-center">批次号</th>
+            <th class="text-center">批次号</th>
             <!-- <th class="w-90 text-center">库存</th> -->
-              <th class="w-80 text-center">生产日期</th>
-                  <th class="w-80 text-center">有效期</th>
-            <th class="w-80 text-center">批准文号</th>
-                <th class="w-80 text-center">药械属性</th>
+            <th class="text-center">生产日期</th>
+            <th class="text-center">有效期</th>
+            <th class="text-center">批准文号</th>
+            <th class="text-center">药械属性</th>
           </thead>
-
           <tbody>
             <tr class="tr-interval"><td colspan="9"></td></tr>
             <tr ng-repeat="tr in showData.confirmOrder.orderMedicalNos"  ng-init="orderMedicalNoIds.push(tr.relId)">
-
-                  <td class="has-border text-center text-v-t pd-m"></td><!-- 货品编码/货位-->
+              <td class="has-border text-center text-v-t pd-m"></td><!-- 货品编码/货位-->
               <td class="goods-name has-border pd-m">
                 <div class="pr-table-td-m relative">
                   <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
@@ -82,64 +80,52 @@
                   </span>
                 </div>
               </td>
-              <td class="has-border text-center text-v-t pd-m"></td><!--剂型-->
+              <td class="has-border text-center text-v-t pd-m">片剂</td><!--剂型-->
               <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
-                  <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
               <!-- <td class="has-border text-center text-v-t pd-m">{{tr.isSameBatch}}</td> -->
-              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo || '暂无'}}</td>
               <!-- <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td> -->
-                  <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 生产日期-->
-                <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 有效期-->
-                    <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 批准文号-->
-                    <td class="has-border text-center text-v-t pd-m">普通</td><!-- 药械属性-->
-
+              <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 生产日期-->
+              <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 有效期-->
+              <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 批准文号-->
+              <td class="has-border text-center text-v-t pd-m">普通</td><!-- 药械属性-->
             </tr>
-
           </tbody>
         </table>
-        <div>
-
-          <p>
-
-            <span>备注：</span><span class="color-6">{{showData.salesOrder.note}}</span>
-          </p>
-
-            <!-- 总价 -->
-            <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
-              <span class="pr-font-24 color-9">总价：</span>
-              <span class="pr-font-24 color-6">￥{{showData.confirmOrder.totalPrice|number :2}}</span>
-            </div>
-            <!-- 提交按钮 -->
-            <div class="pd-c-xxxxl pdb-xxl text-right">
-              <span class="mgr-l"><button class="pr-btn-create-glodbg" type="submit" >确认订单&提交审批</button></span>
-            </div>
-
+        <!-- 备注 -->
+        <div class="bb-line pd-v-l">
+          <p>备注：<span class="color-6">{{showData.salesOrder.note}}</span></p>
         </div>
-    <!-- 不可发货 -->
+        <!-- 总价&提交 -->
+        <div class="text-right pd-v-xxl">
+          <span class="pr-font-24 color-9 mgr-l">总价：<i class="text-normal color-6">￥{{showData.confirmOrder.totalPrice || 21500 | number:2}}</i></span>
+          <span class="mgr-l"><button href="javascript:;" type="submit" class="btn btn-primary pr-btn-bg-gold">确认订单 & 提交审批</button></span>
+        </div>
+      </div>
 
-
+      <!-- 不可发货 -->
+      <div class="confirm-order">
         <h1 class="pdt-l color-6 text-m text-bold" >暂不可转入订单部分</h1>
         <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
           <thead>
-              <th class="w-70 text-center">货品编码/货位</th>
+            <th class="text-center">货品编码/货位</th>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
-              <th class="w-70 text-center">剂型</th>
-            <th class="w-70 text-center">单位</th>
-              <th class="w-120 text-center">数量</th>
+            <th class="text-center">剂型</th>
+            <th class="text-center">单位</th>
+            <th class="text-center">数量</th>
             <!-- <th class="w-70 text-center">同批次</th> -->
-            <th class="w-186 text-center">批次号</th>
+            <th class="text-center">批次号</th>
             <!-- <th class="w-90 text-center">库存</th> -->
-              <th class="w-80 text-center">生产日期</th>
-                  <th class="w-80 text-center">有效期</th>
-            <th class="w-80 text-center">批准文号</th>
-                <th class="w-80 text-center">药械属性</th>
+            <th class="text-center">生产日期</th>
+            <th class="text-center">有效期</th>
+            <th class="text-center">批准文号</th>
+            <th class="text-center">药械属性</th>
           </thead>
-
           <tbody>
             <tr class="tr-interval"><td colspan="9"></td></tr>
             <tr ng-repeat="tr in showData.salesOrder.orderMedicalNos"  ng-init="orderMedicalNoIds.push(tr.relId)">
-
-                  <td class="has-border text-center text-v-t pd-m"></td><!-- 货品编码/货位-->
+              <td class="has-border text-center text-v-t pd-m"></td><!-- 货品编码/货位-->
               <td class="goods-name has-border pd-m">
                 <div class="pr-table-td-m relative">
                   <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
@@ -150,11 +136,11 @@
                   </span>
                 </div>
               </td>
-              <td class="has-border text-center text-v-t pd-m"></td><!--剂型-->
+              <td class="has-border text-center text-v-t pd-m">片剂</td><!--剂型-->
               <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
                   <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
               <!-- <td class="has-border text-center text-v-t pd-m">{{tr.isSameBatch}}</td> -->
-              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo || '暂无'}}</td>
               <!-- <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td> -->
                   <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 生产日期-->
                 <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 有效期-->
@@ -165,12 +151,9 @@
 
           </tbody>
         </table>
-        <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
-          <span class="pr-font-24 color-custom-orange">请等待库存补足后，即可另外生成销售订单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态。</span>
-
+        <div class="text-right pdb-xxl pdt-xxl">
+          <span class="color-custom-orange">请等待库存补足后，即可另外生成销售订单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态</span>
         </div>
-
-            <!-- 不可发货 -->
       </div>
 
       <!-- 对应采购单 -->
@@ -213,9 +196,8 @@
         </table>
       </div>
     </div> -->
-
     <!-- 提交按钮 -->
-    <div class="pd-c-xxxxl pdb-xxl text-right">
+    <div class="pdb-xxl text-right">
       <span><a href="javascript:;" ng-click="goTo('#/salesOrder/edit.html?id='+formData.id)">返回修改</a></span>
     </div>
   </div>
