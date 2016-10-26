@@ -85,6 +85,9 @@ define('project/controllers', ['project/init'], function() {
             if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
             $scope.formData.orderMedicalNos.push($scope.addDataItem);
 
+            //计算价格
+            $scope.formData.totalPrice = $scope.addDataItem.strike_price * $scope.addDataItem.quantity;
+
             $scope.addDataItem = {};
 
             $("input", "#addDataItem_relId_chosen").trigger("focus");
