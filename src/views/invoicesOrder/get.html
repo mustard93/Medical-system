@@ -83,35 +83,35 @@
   </div>
   <!-- 配送信息 -->
   <div class="panel pr-panel pr-fuzzy-boundary pd-l">
-      <h1 class="pdb-l">配送信息</h1>
+      <h1 class="pdb-l">配送信息{{showData.distributionInfo.type}}</h1>
       <div class="flex-column bb-line text-s">
         <div class="flex-item-3">
           <div class="form-group">
             <label class="mgr">发货方式</label>
             <select class="ipt pr-short-ipt" ng-model="formData.type">
-              <option value="付费送货">付费送货</option>
-              <option value="定时到达">定时到达</option>
-              <option value="快速发送">快速发送</option>
-              <option value="拼车发送">拼车发送</option>
+              <option value="付费送货" ng-selected="showData.distributionInfo.type=='付费送货'">付费送货</option>
+              <option value="定时到达" ng-selected="showData.distributionInfo.type=='定时到达'">定时到达</option>
+              <option value="快速发送" ng-selected="showData.distributionInfo.type=='快速发送'">快速发送</option>
+              <option value="拼车发送" ng-selected="showData.distributionInfo.type=='拼车发送'">拼车发送</option>
             </select>
           </div>
         </div>
         <div class="flex-item-3">
           <div class="form-group">
             <label class="mgr">原件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.originalParts">
+            <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.originalParts" ng-model="formData.originalParts">
           </div>
         </div>
         <div class="flex-item-3">
           <div class="form-group">
             <label class="mgr">散件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.spareParts">
+            <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.spareParts" ng-model="formData.spareParts">
           </div>
         </div>
         <div class="flex-item-3">
           <div class="form-group">
             <label class="mgr">备货位</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.storageLocation">
+            <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.storageLocation" ng-model="formData.storageLocation">
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
             <div class="flex-item-6">
               <div class="form-group">
                 <label class="mgr">发票</label>
-                <input type="text" class="ipt pr-short-ipt" ng-model="formData.invoiceNo">
+                <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.invoiceNo" ng-model="formData.invoiceNo">
               </div>
             </div>
             <div class="flex-item-6">
@@ -137,7 +137,7 @@
             <div class="flex-item-12">
               <div class="form-group">
                 <label class="mgr">备注</label>
-                <textarea class="pr-textarea" ng-model="formData.note"></textarea>
+                <textarea class="pr-textarea" ng-value="showData.distributionInfo.note" ng-model="formData.note"></textarea>
               </div>
             </div>
           </div>
