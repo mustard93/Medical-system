@@ -3,6 +3,13 @@
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      alert-error>
+
+
+     <div class="content-wrapper create-new-order"
+
+          ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus"
+          scope-data="batchRequirementStatus"
+          alert-error>
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mgt-m mgb-m">
     <!-- <h1 class="pr-title-color pr-font-24">{{!formData.id?'新建':'编辑'}}订单</h1> -->
@@ -95,10 +102,15 @@
         <thead>
           <th class="text-center">货品编码/货位</th>
           <th class="pr-indent-20" style="min-width:120px">药械名称/生产厂家/规格</th>
+            <th class="text-center">剂型</th>
           <th class="w-70 text-center">单位</th>
           <th class="w-70 text-center">参考单价</th>
           <th class="w-100 text-center">成交价</th>
           <th class="text-center">批次号要求</th>
+
+          <th class="text-center">生产日期</th>
+          <th class="text-center">有效期</th>
+
           <th class="w-120 text-center">库存</th>
           <th class="w-160 text-center">购买数量</th>
           <th class="text-center">操作</th>
@@ -107,8 +119,8 @@
           <tr class="tr-interval"><td colspan="9"></td></tr>
           <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()"  ng-init="orderMedicalNoIds.push(tr.relId)" >
             <td class="has-border text-center text-s">
-              <p>{{tr.code}}</p>
-              <p>{{tr.storageLocation}}</p>
+              <p>{{tr.code||'无'}}</p>
+              <p>{{tr.storageLocation||'无'}}</p>
             </td>
             <td class="goods-name has-border pd-m">
               <div class="pr-table-td-m relative">
@@ -120,6 +132,7 @@
                 </span>
               </div>
             </td>
+                <td class="has-border text-center text-v-t pd-m">{{tr.dosageForms}}</td>
             <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
             <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td>
             <td class="has-border text-center text-v-t pd-m" >
@@ -127,10 +140,16 @@
               <input type="text"  class="pr-table-input price" placeholder="成交价" ng-model="tr.strike_price" >
             </td>
             <td class="has-border text-center text-v-t pd-m">
-              <select ng-if="tr.isSameBatch=='是'"  class="ipt pr-short-ipt in-table" data-placeholder="批次选择" ng-model="tr.batchNo">
-                <option value=""></option>
+
+              <select ng-if="batchRequirementStatus" class="ipt pr-short-ipt" data-placeholder="批次选择"   ng-model="tr.productionBatch" ng-options="item.value as item.text   for item in batchRequirementStatus"
+            >
+
               </select>
+
             </td>
+            <td class="has-border text-center text-v-t pd-m">{{tr.productionDate|date : 'yyyy-MM-dd'}}</td>
+            <td class="has-border text-center text-v-t pd-m">{{tr.guaranteePeriod}}</td>
+
             <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td>
             <td class="has-border text-center text-v-t pd-m" ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
               <span class="order-goods-num flex-column">
@@ -187,8 +206,8 @@
               show-loading = "true"
               class="showLoading relative">
             <td class="has-border text-center text-s">
-              <p>{{addDataItem.code}}</p>
-              <p>{{addDataItem.storageLocation}}</p>
+              <p>{{addDataItem.code||'无'}}</p>
+              <p>{{addDataItem.storageLocation||'无'}}</p>
             </td>
             <td class="has-border text-v-t pd-m">
               <div class="relative pr-table-td-m">
@@ -211,6 +230,7 @@
                 </span>
               </div>
             </td>
+                <td class="has-border text-center text-v-t pd-m">{{addDataItem.dosageForms}}</td>
             <td class="has-border text-center text-v-t pd-m">{{addDataItem.unit}}</td>
             <td class="has-border text-center text-v-t pd-m">￥{{addDataItem.price}}</td>
             <td class="has-border text-center text-v-t pd-m">
@@ -218,17 +238,22 @@
               <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="addDataItem.strike_price" >
             </td>
             <td class="has-border text-center text-v-t pd-m">
-              <select ng-show="addDataItem.isSameBatch=='是'" class="pr-table-input" data-placeholder="批次选择"  ajax-if="medical.id"
-               ng-model="addDataItem.batchNo"  >
-                <option value=""></option>
+
+              <select ng-if="batchRequirementStatus" class="ipt pr-short-ipt" data-placeholder="批次选择"   ng-model="addDataItem.productionBatch" ng-options="item.value as item.text   for item in batchRequirementStatus"
+            >
+
               </select>
+
+
             </td>
+            <td class="has-border text-center text-v-t pd-m">{{addDataItem.productionDate|date : 'yyyy-MM-dd'}}</td>
+            <td class="has-border text-center text-v-t pd-m">{{addDataItem.guaranteePeriod}}</td>
             <td class="has-border text-center text-v-t pd-m">{{medical.quantity}}</td>
             <td class="has-border text-center text-v-t pd-m">
               <input type="number" id="addDataItem_quantity" class="pr-table-input" ng-model="addDataItem.quantity"  ng-keydown="$event.keyCode==13&&addDataItemClick()"/>
             </td>
             <td class="fix-td-border">
-              <button class="pr-add-item-glodbg color-white pr-bg-glod" type="button"  ng-click="addDataItemClick()"><i class="fa fa-plus color-white"></i></button>
+              <button class="pr-add-item-glodbg color-white pr-bg-glod" type="button"  ng-click="addDataItemClick(addDataItem,medical)"><i class="fa fa-plus color-white"></i></button>
             </td>
           </tr>
         </tbody>
@@ -282,4 +307,6 @@
        scope-data="medicalStockMap"
        alert-error>
   </div>
+
+</div><!--end batchRequirementStatus-->
 </div>
