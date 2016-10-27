@@ -1,8 +1,8 @@
-<div   ng-controller="invoicesOrderCtrl"
+<div   ng-controller="invoicesOrderCtrl" ng-init="outstockOrderForm={}"
 class="content-wrapper invoices-order"
      ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="formData=showData.distributionInfo;formData.id=showData.id"
+     callback="formData=showData.distributionInfo;formData.id=showData.id;outstockOrderForm.invoicesId=showData.id"
      alert-error>
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mgt-m mgb-m">
@@ -12,12 +12,24 @@ class="content-wrapper invoices-order"
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
     <!-- 单据信息 -->
     <div class="flex-column pd-c-xl pdt-l pdb-l bb-line">
+      <form   form-validator
+            action="rest/authen/outstockOrder/save.json"
+             alert-error
+             form-data="outstockOrderForm"
+               scope-data="outstockOrder"
+            callback="goTo('#/outstockOrder/get.html?id='+outstockOrder.id)"
+          >
       <div class="flex-item-10">
         <span class="mgr-m">发货单：{{showData.orderNo}}</span>
         <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd MM:ss'}}</span>
         <span class="mgr-m">对应订单：缺字段</span>
-        <span>对应出库单：缺字段(暂未出库)<button   class="pr-btn-create-glodbg">生成出库单</button></span>
+        <span>对应出库单：缺字段(暂未出库)
+
+                <button class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
+            
+        </span>
       </div>
+        </form>
       <div class="flex-item-2 text-right">
         <span>状态：{{showData.orderStatus}}</span>
       </div>
@@ -37,7 +49,7 @@ class="content-wrapper invoices-order"
         <h1 class="pdt-l color-6 text-m pr-fw-500">订购清单</h1>
 
         <div order-medicals  ng-model="showData.orderMedicalNos"></div>
-            
+
       </div>
       <div class="pd-v-xl">
         <p>备注：{{showData.note}}</p>

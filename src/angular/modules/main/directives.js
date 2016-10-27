@@ -282,8 +282,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                   var parameterBody = false;
                   if (angular.isDefined($attrs.parameterBody)) parameterBody = true;
-
-                  requestData($attrs.action, $scope.formData, "POST", parameterBody)
+                  var data= $scope.formData;
+                  if($attrs.formData){
+                    data=$scope[$attrs.formData];
+                  }
+                  requestData($attrs.action,data, "POST", parameterBody)
                     .then(function(results) {
                       var data = results[0];
                       var data1 = results[1];
@@ -372,7 +375,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     /**
      * 表格
      */
-    function tableList(requestData, modal, dialogConfirm, $timeout, proLoading) {
+    function tableList(requestData, modal, dialogConfirm, $timeout, proLoading,alertError) {
         return {
             restrict: 'AE',
             scope: {
@@ -574,11 +577,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 _callback();
                             }
                         })
-                        .catch(function() {
+                        .catch(function(error) {
                            if(maskObj)maskObj.hide();
                             statusInfo.isLoading = false;
-
-                            statusInfo.loadFailMsg = '加载出错';
+                            alertError(error);
+                            statusInfo.loadFailMsg = error;
                             if (_callback) {
                                 _callback();
                             }
@@ -721,7 +724,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         };
     }
-    tableList.$inject = ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading'];
 
     /**
      * 表格 单元格
@@ -2401,7 +2403,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertJsonToObject", convertJsonToObject)
         .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
         .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout", formValidator])
-        .directive("tableList", tableList)
+        .directive("tableList",  ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading','alertError',tableList])
         .directive("tableCell", tableCell)
         .directive("pagination", pagination)
         .directive("pagination2", pagination2)

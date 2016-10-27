@@ -476,6 +476,9 @@ define('project/directives', ['project/init'], function () {
                   if (_data.code === 200) {
                     alertOk(_data.message || '操作成功');
                   }
+
+
+                if (attrs.scopeData) $scope[attrs.scopeData] = data;
                   //执行回调
                   if (attrs.callBack) {
                     scope.$eval(attrs.callBack);

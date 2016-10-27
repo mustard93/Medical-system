@@ -5,7 +5,7 @@
      alert-error>
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mgt-m mgb-m">
-    <h1 class="pr-title-color pr-font-24">订单详情</h1>
+    <h1 class="pr-title-color pr-font-24">订单详情{{showData.orderStatus}}</h1>
   </div>
   <!-- 主内容区域 -->
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
@@ -68,13 +68,34 @@
     </div>
     <!-- 提交按钮 -->
 
-      <button class="pr-btn-save-glodbg"
+      <button  ng-if="showData.orderStatus=='待审批'" class="pr-btn-save-glodbg"
               type="button"
               handle-this-click
               dialog-title="确认通过?"
               dialog-content="审批通过后，订单生效，是否通过？"
               dialog-template="pr-dialog-submit.html"
-              request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=待发货"
-              call-back="goTo('#/confirmOrder/order-done.html')">确认发货</button>
+              request-url="rest/authen/confirmOrder/updateStatus.json?id={{showData.id}}&status=已审批"
+              call-back="goTo('#/confirmOrder/order-done.html')">审批</button>
+
+              
+              <span class="mgr-l"   ng-if="showData.orderStatus=='待审批'" ><a href="javascript:;"
+                type="button"
+                handle-this-click
+                dialog-title="确认驳回发货单?"
+                dialog-content="驳回后，此发货单以及对应订单将作废.确认驳回?"
+                dialog-template="pr-dialog-submit.html"
+                request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&orderStatus=已作废"
+                call-back="goTo('#/invoicesOrder/get.html?id={{mainStatus.pageParams.id}}')"
+                >驳回</a></span>
+
+
+      <button  ng-if="showData.orderStatus=='已审批'" class="pr-btn-save-glodbg"
+              type="button"
+              handle-this-click
+              dialog-title="确认通过?"
+              dialog-content="审批通过后，订单生效，是否通过？"
+              dialog-template="pr-dialog-submit.html"
+              request-url="rest/authen/confirmOrder/updateStatus.json?id={{showData.id}}&status=待发货"
+              call-back="goTo('#/confirmOrder/order-done.html')">生成发货单</button>
   </div>
 </div>
