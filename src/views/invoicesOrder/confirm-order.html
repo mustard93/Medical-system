@@ -19,7 +19,7 @@ class="content-wrapper invoices-order"
         <span>对应出库单：缺字段</span>
       </div>
       <div class="flex-item-2 text-right">
-        <span>状态：{{showData.orderStatus}}</span>
+        <span>状态：{{showData.status}}</span>
       </div>
     </div>
     <!-- 用户信息 -->
@@ -156,7 +156,7 @@ class="content-wrapper invoices-order"
                   dialog-title="确认发货?"
                   dialog-content="确认通知库房发货?此操作会同时打印发货单"
                   dialog-template="pr-dialog-submit.html"
-                  request-url="rest/authen/invoicesOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&orderStatus=已发货"
+                  request-url="rest/authen/invoicesOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已发货"
                   call-back="goTo('#/invoicesOrder/order-done.html?id={{mainStatus.pageParams.id}}')">确认发货</button>
 
 
@@ -168,7 +168,7 @@ class="content-wrapper invoices-order"
           dialog-title="确认驳回发货单?"
           dialog-content="驳回后，此发货单以及对应订单将作废.确认驳回?"
           dialog-template="pr-dialog-submit.html"
-          request-url="rest/authen/invoicesOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&orderStatus=已作废"
+          request-url="rest/authen/invoicesOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已作废"
           call-back="goTo('#/invoicesOrder/get.html?id={{mainStatus.pageParams.id}}')"
           >驳回</a></span>
       </div>
