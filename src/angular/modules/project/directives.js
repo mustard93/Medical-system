@@ -3,7 +3,35 @@
  */
 
 define('project/directives', ['project/init'], function () {
+
+
+
+  /**
+    药械订单列表
+  */
+    function orderMedicals() {
+          return {
+              restrict: 'EA',
+              scope: {
+                  ngModel: "="
+              },
+              replace: true,
+            templateUrl:  Config.tplPath +'tpl/project/orderMedicalNos.html',
+
+              link: function ($scope, $element, $attrs) {
+
+
+              }
+          }
+      };
+
+
+
+
+
+
   angular.module('manageApp.project')
+      .directive("orderMedicals", orderMedicals)//药械订单列表
   /**
    * [滚动条美化]
    */
