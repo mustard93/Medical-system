@@ -52,7 +52,7 @@
       <ul class="flex-column">
         <li class="flex-item-3 no-width query-item mgr-m mgl-m" ng-repeat="tr in tbodyList">
           <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary">
-            <div>
+            <div class="relative">
               <div class="flex-column mgb-n card-title-height">
                 <span class="flex-item-6 title-states">{{tr.orderStatus}}
                   <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
@@ -94,40 +94,18 @@
               </div>
               <div ng-if="tr.orderStatus=='待审批'" class="pos-abs pdr-xl">
                 <p class="mgb-m mgt-s text-s color-9">备注：{{tr.note}}</p>
-                <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
               <div ng-if="tr.orderStatus!='待审批'">
                 <h1 class="mgt-l mgb-s color-6">发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.invoiceOrderIdsSet.join(",")}}</em></p>
-                <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
               <div  ng-if="tr.orderStatus!='待审批'">
                 <h1 class="mgt-l mgb-s color-6">未发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.noInvoiceOrderIdsSet.join(",")}}</em></p>
-                <!-- <p class="text-s color-9 pdb-l">物流状态：<em class="color-6">顺丰速递</em><em class="pr-color"> 2016092342304239048</em></p> -->
               </div>
-              <!-- 浮动层提示信息框 -->
-              <!-- <div ng-if="tr.noInvoiceOrderIdsSet!=''">
-                <div order-list-tips class="order-list-tips-hide pd-c-l flex-column">
-                  <span class="flex-item-6">暂不发货部分</span>
-                  <span class="flex-item-6 text-right"><i class="fa fa-chevron-up"></i></span>
-                </div>
-                <div class="order-list-tips-show pd-l">
-                  <div class="flex-column">
-                    <span class="flex-item-6">暂不发货部分</span>
-                    <span class="flex-item-6 text-right"><i class="fa fa-chevron-down"></i></span>
-                  </div>
-                  <div class="mgt-l text-s">
-                    <p>关联采购单：<span class="pr-color">{{tr.purchaseOrderIdsSet.join(",")}}</span></p>
-                    <p>采购状态：<span>采购中</span></p>
-                  </div>
-                </div>
-              </div> -->
             </div>
-            <div>
-              <div class="pdb-m pdt-m text-right">
-                  <span class="text-right pdt-s pdb-s pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
-              </div>
+            <div class="pdb-m pdt-m text-right">
+                <span class="text-right pdt-s pdb-s pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
             </div>
           </div>
         </li>
