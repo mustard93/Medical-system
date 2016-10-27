@@ -503,6 +503,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 var formData = {};
 
                 function getListData(_callback) {
+                  if(!$attrs.listData)return;
+                  
                     if ($attrs.listSource) {
                         if ($scope.listSource) {
                             $scope.tbodyList = angular.isArray($scope.listSource) ? $scope.listSource : $scope.listSource.list;
@@ -642,6 +644,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 });
 
                 //
+
+
                 $scope.$watch("listParams", function() {
                     statusInfo.currentPage = 1;
                     statusInfo.isFinished = false;

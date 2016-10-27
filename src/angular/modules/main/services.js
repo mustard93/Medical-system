@@ -121,13 +121,7 @@ function alertOk($rootScope, modal) {
 
 
       toastr.success(_text,"",  {timeOut: 3000,positionClass: 'toast-top-center'});
-      // var maskId="alertOk_"+new Date().getTime();
-      //
-      //  var _loadHtml='<div id="'+maskId+'" class="page-dialog-title alert alert-success">'+_text+'</div>'
-      //  $(document.body).append(_loadHtml);
-      //
-      //
-      //  setTimeout(function(){   $('#'+maskId).remove();},13000);
+  
     };
 }
     //弹窗提示
