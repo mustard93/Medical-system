@@ -4,9 +4,9 @@
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl-m mgr-m relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
-        <div class="pos-abs order-create-btn">
+        <!-- <div class="pos-abs order-create-btn">
           <a href="#/confirmOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a>
-        </div>
+        </div> -->
         <div class="order-status-btn pos-tr text-right"
              ajax-url="rest/authen/confirmOrder/countByOrderStatus.json"
              scope-data="countByOrderStatus"
@@ -58,7 +58,7 @@
                   <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='冷链异常'" class="circle-icon-red mgl-m"></i>
                 </span>
-                <span  ng-if="!(tr.orderStatus=='待审批')" class="flex-item-6 text-right"><a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a></span>
+                <!-- <span  ng-if="!(tr.orderStatus=='待审批')" class="flex-item-6 text-right"><a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a></span> -->
                 <span  ng-if="(tr.orderStatus=='待审批')" class="flex-item-6 text-right">
                   <a href="#/confirmOrder/confirm-order.html?id={{tr.id}}">
                     <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold" type="button" >立即审批</button>
@@ -92,17 +92,46 @@
                   </div>
                 </div>
               </div>
-              <div ng-if="tr.orderStatus=='待审批'" class="pos-abs pdr-xl">
+              <div ng-if="tr.orderStatus=='待审批' || tr.orderStatus=='未提交'" class="pos-abs pdr-xl">
                 <p class="mgb-m mgt-s text-s color-9">备注：{{tr.note}}</p>
               </div>
-              <div ng-if="tr.orderStatus!='待审批'">
+              <div ng-if="tr.orderStatus=='待发货' || tr.orderStatus=='已发货'" class="flex-column text-s">
+                <div class="flex-item-6 br-line pdt pdr-m" style="height:136px;">
+                  <h3 class="pdb bb-line">物流信息</h3>
+                  <div class="mgt-s">
+                    <ul>
+                      <li class="flex-column">
+                        <span class="flex-item-5">申通快递</span>
+                        <div class="flex-item-7">
+                          <p class="color-custom-orange">ST0123456789</p>
+                          <p class="color-custom-orange">ST0123456780</p>
+                        </div>
+                      </li>
+                      <li class="flex-column">
+                        <span class="flex-item-5">圆通快递</span>
+                        <div class="flex-item-7">
+                          <p class="color-custom-orange">YT0123456789</p>
+                          <p class="color-custom-orange">YT0123456780</p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="flex-item-6">
+                  <!-- <p>购需单：GX0123456789</p>
+                  <p>订单：D23423423423</p>
+                  <p>发货单：暂无</p>
+                  <p>出库单：暂无</p> -->
+                </div>
+              </div>
+              <!-- <div ng-if="tr.orderStatus!='待审批'">
                 <h1 class="mgt-l mgb-s color-6">发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.invoiceOrderIdsSet.join(",")}}</em></p>
               </div>
               <div  ng-if="tr.orderStatus!='待审批'">
                 <h1 class="mgt-l mgb-s color-6">未发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.noInvoiceOrderIdsSet.join(",")}}</em></p>
-              </div>
+              </div> -->
             </div>
             <div class="pdb-m pdt-m text-right">
                 <span class="text-right pdt-s pdb-s pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
