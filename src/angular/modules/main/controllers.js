@@ -123,6 +123,7 @@ define('main/controllers', ['main/init'], function () {
                   // 角色跳转主页面
 
                 } else if (_data.code == 802){
+                    alert(_data.msg || '登录失败');
                   window.location.href = Config.loginHtmlUrl;
                 } else {
                   alert(_data.msg || '登录失败');
@@ -146,7 +147,7 @@ define('main/controllers', ['main/init'], function () {
         });
         //根据角色跳转对应页面
         $scope.goToMainRole = function (mainRole) {
-          
+
             if(window.location.href.indexOf('#'+Config.indexPage)==-1){
                 return;
 

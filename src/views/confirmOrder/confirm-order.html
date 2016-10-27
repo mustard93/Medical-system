@@ -1,72 +1,170 @@
 <div class="content-wrapper"
-     ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
      alert-error>
+
   <!-- 主内容头部 -->
-  <div class="content-wrapper-heading mgt-m mgb-m">
-    <h1 class="pr-title-color pr-font-24">订单详情{{showData.orderStatus}}</h1>
+  <div class="content-wrapper-heading mgt-l mgb-xl">
+    <h1 class="pr-title-color pr-font-24">订单</h1>
   </div>
+
   <!-- 主内容区域 -->
-  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
-    <!-- 用户信息 -->
-    <div class="pd-c-xxxxl bb-line">
-      <div class="mg-xl text-s color-9">
-        <p class="mgb-l"><span>源自订单：</span><span class="pr-color color-6">{{showData.orderNo}}</span></p>
-        <p class="mgb-l"><span>客户名：</span><span class="color-6">{{showData.customerName}}</span></p>
-        <p class="mgb-l"><span>收货人信息：</span><span class="color-6">{{showData.address.name}} {{showData.address.address}} {{showData.address.tel}}</span></p>
-        <p>
-          <span>销售人员：</span><span class="color-6 mgr-xl">{{showData.saleUser.n}} </span>
-          <span>期望到货时间：</span><span class="color-6 mgr-xl">{{showData.expectDate| date : 'yyyy-MM-dd'}}</span>
-          <span>备注：</span><span class="color-6">{{showData.note}}</span>
-        </p>
+  <div class="content-wrapper-main">
+    <!-- 订单信息 -->
+    <div class="panel pr-panel pr-panel-height flex-column mgb">
+      <div class="flex-item-10">
+        <span class="mgr-xl">订单编号：<em>{{showData.orderNo}}</em></span>
+        <span class="mgr-xl">创建时间：<em>{{showData.createAt | date: 'yyyy-MM-dd HH:ss'}}</em></span>
+        <span class="mgr-xl">对应购需单：<em class="color-custom-orange">无字段</em></span>
+      </div>
+      <div class="flex-item-2 text-right">
+        <span>订单状态：<em>{{showData.orderStatus}}</em></span>
       </div>
     </div>
+    <!-- 用户信息 -->
+    <div class="panel pr-panel pr-panel-height mgb">
+      <div class="flex-column mgb">
+        <div class="flex-item-6">
+          <span class="color-9">客户名：<em class="color-6 font-normal">{{showData.customerName}}</em></span>
+        </div>
+        <div class="flex-item-6 text-right">
+          <span class="color-9 mgr-xl">负责人员：<em class="color-6 font-normal">{{showData.saleUser.n}}</em></span>
+          <span class="color-9">期望到货时间：<em class="color-6 font-normal">{{showData.expectDate | date: 'yyyy-MM-dd'}}</em></span>
+        </div>
+      </div>
+      <div class="">
+        <span class="color-9">收货人信息：<em class="color-6">{{showData.address.name}}&nbsp;&nbsp;&nbsp;{{showData.address.address}}&nbsp;&nbsp;&nbsp;{{showData.address.tel}}</em></span>
+      </div>
+    </div>
+
+    <!-- 订单清单 -->
+    <div class="panel pr-panel pr-panel-height mgb-n">
+      <h1 class="text-l">订购清单</h1>
+      <div class="confirm-order">
+        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
+          <thead>
+            <th class="text-center">货品编码/货位</th>
+            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
+            <th class="text-center">剂型</th>
+            <th class="text-center">单位</th>
+            <th class="text-center">数量</th>
+            <th class="text-center">批次号</th>
+            <th class="text-center">生产日期</th>
+            <th class="text-center">有效期</th>
+            <th class="text-center">批准文号</th>
+            <th class="text-center">药械属性</th>
+          </thead>
+          <tbody>
+            <tr class="tr-interval"><td colspan="9"></td></tr>
+            <tr ng-repeat="tr in showData.orderMedicalNos">
+              <td class="goods-name has-border text-v-t pd-m">无字段</td>
+              <td class="goods-name has-border text-v-t pd-m">
+                <div class="relative">
+                  <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
+                  <span class="inline-block">
+                    <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb color-9 text-s"><span>{{tr.manufacturer}}</span></p>
+                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                  </span>
+                </div>
+              </td>
+              <td class="has-border text-center text-v-t pd-m">片剂</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">暂无</td>
+              <td class="has-border text-center text-v-t pd-m">暂无</td>
+              <td class="has-border text-center text-v-t pd-m">暂无</td>
+              <td class="has-border text-center text-v-t pd-m">暂无</td>
+              <td class="has-border text-center text-v-t pd-m">普通</td>
+            </tr>
+          </tbody>
+        </table>
+
     <!-- 商品列表 -->
     <div class="pd-c-xxxxl">
       <!-- 可发货 -->
+      <!--
       <div class="confirm-order bb-line pdb-l">
         <h1 class="pdt-l color-6 text-m pr-fw-500">药械详细</h1>
+        <div order-medicals  ng-model="showData.orderMedicalNos"></div>
+      </div>
+      -->
+      <p class="pd-v-l">客服备注：{{showData.note}}</p>
+    </div>
 
-                <div order-medicals  ng-model="showData.orderMedicalNos"></div>
-
+    <!-- 总价 -->
+    <div class="panel pr-panel pr-panel-height text-right">
+      <span class="text-l text-right">总价：￥{{showData.totalPrice | number:2}}</span>
+      <!-- <button type="button" class="btn btn-primary pr-btn-bg-gold">生成发货单</button> -->
+    </div>
+    <!-- 暂不可转入订单部分 -->
+    <div class="panel pr-panel pr-bg-grey">
+      <h1 class="text-l">暂不可转入订单部分</h1>
+      <div class="confirm-order">
+        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
+          <thead>
+            <th class="text-center">货品编码/货位</th>
+            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
+            <th class="text-center">剂型</th>
+            <th class="text-center">单位</th>
+            <th class="text-center">数量</th>
+            <th class="text-center">批次号</th>
+            <th class="text-center">生产日期</th>
+            <th class="text-center">有效期</th>
+            <th class="text-center">批准文号</th>
+            <th class="text-center">药械属性</th>
+          </thead>
+          <tbody>
+            <tr class="tr-interval"><td colspan="9"></td></tr>
+            <tr ng-repeat="tr in showData.orderMedicalNos">
+              <td class="goods-name has-border text-v-t pd-m">无字段</td>
+              <td class="goods-name has-border text-v-t pd-m">
+                <div class="relative">
+                  <span class="goods-thumbnail inline-block"><img src="images/yaopin-1.jpg" alt=""></span>
+                  <span class="inline-block">
+                    <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb color-9 text-s"><span>{{tr.manufacturer}}</span></p>
+                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                  </span>
+                </div>
+              </td>
+              <td class="has-border text-center text-v-t pd-m">片剂</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">暂无</td>
+              <td class="has-border text-center text-v-t pd-m">暂无</td>
+              <td class="has-border text-center text-v-t pd-m">暂无</td>
+              <td class="has-border text-center text-v-t pd-m">暂无</td>
+              <td class="has-border text-center text-v-t pd-m">普通</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-right pdb-xxl pdt-xxl">
+        <span class="color-custom-orange">请等待库存补足后，即可另外生成销售订单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态</span>
       </div>
     </div>
-    <!-- 总价 -->
-    <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
-      <span class="pr-font-24 color-9">总价：</span>
-      <span class="pr-font-24 color-6">￥{{showData.totalPrice|number :2}}</span>
+    <!-- 按钮 -->
+    <div class="text-right mgb-l">
+      <span class="mgr-l">
+        <a href="javascript:;"
+           class="pr-btn-save-glodbg"
+           handle-this-click
+           dialog-title="确认驳回?"
+           dialog-content="驳回后,该订单将作废"
+           dialog-template="pr-dialog-order-reject.html"
+           request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已审批"
+           call-back="goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">驳回</a>
+      </span>
+      <button class="pr-btn-save-glodbg"
+              type="button"
+              handle-this-click
+              dialog-title="确认通过?"
+              dialog-content="审核通过后,订单将生效,是否通过?"
+              dialog-template="pr-dialog-submit.html"
+              request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已审批"
+              call-back="goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过</button>
     </div>
-    <!-- 提交按钮 -->
-
-      <button  ng-if="showData.orderStatus=='待审批'" class="pr-btn-save-glodbg"
-              type="button"
-              handle-this-click
-              dialog-title="确认通过?"
-              dialog-content="审批通过后，订单生效，是否通过？"
-              dialog-template="pr-dialog-submit.html"
-              request-url="rest/authen/confirmOrder/updateStatus.json?id={{showData.id}}&status=已审批"
-              call-back="goTo('#/confirmOrder/order-done.html')">审批</button>
-
-
-              <span class="mgr-l"   ng-if="showData.orderStatus=='待审批'" ><a href="javascript:;"
-                type="button"
-                handle-this-click
-                dialog-title="确认驳回发货单?"
-                dialog-content="驳回后，此发货单以及对应订单将作废.确认驳回?"
-                dialog-template="pr-dialog-submit.html"
-                request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已作废"
-                call-back="goTo('#/invoicesOrder/get.html?id={{mainStatus.pageParams.id}}')"
-                >驳回</a></span>
-
-
-      <button  ng-if="showData.orderStatus=='已审批'" class="pr-btn-save-glodbg"
-              type="button"
-              handle-this-click
-              dialog-title="确认通过?"
-              dialog-content="审批通过后，订单生效，是否通过？"
-              dialog-template="pr-dialog-submit.html"
-              request-url="rest/authen/confirmOrder/updateStatus.json?id={{showData.id}}&status=待发货"
-              call-back="goTo('#/confirmOrder/order-done.html')">生成发货单</button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-<div class="content-wrapper">
+<div class="content-wrapper order-center">
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/confirmOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容头部 -->
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl-m mgr-m relative">
@@ -49,11 +49,11 @@
     </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
-      <ul class="flex-column">
-        <li class="flex-item-3 no-width query-item mgr-m mgl-m" ng-repeat="tr in tbodyList">
-          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary">
+      <ul class="">
+        <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative">
             <div class="relative">
-              <div class="flex-column mgb-n card-title-height">
+              <div class="flex-column mgb-n card-title-height" style="height:24px;line-height:24px;">
                 <span class="flex-item-6 title-states">{{tr.orderStatus}}
                   <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='冷链异常'" class="circle-icon-red mgl-m"></i>
@@ -98,7 +98,10 @@
               <div ng-if="tr.orderStatus=='待发货' || tr.orderStatus=='已发货'" class="flex-column text-s">
                 <div class="flex-item-6 br-line pdt pdr-m" style="height:136px;">
                   <h3 class="pdb bb-line">物流信息</h3>
-                  <div class="mgt-s">
+                  <div ng-if="tr.orderStatus=='待发货'" class="mgt-s">
+                    暂无
+                  </div>
+                  <div ng-if="tr.orderStatus=='已发货'" class="mgt-s">
                     <ul>
                       <li class="flex-column">
                         <span class="flex-item-5">申通快递</span>
@@ -117,11 +120,11 @@
                     </ul>
                   </div>
                 </div>
-                <div class="flex-item-6">
-                  <!-- <p>购需单：GX0123456789</p>
-                  <p>订单：D23423423423</p>
-                  <p>发货单：暂无</p>
-                  <p>出库单：暂无</p> -->
+                <div class="flex-item-6 pd">
+                  <p class="mgb">购需单：<em class="color-custom-orange">GX0123456789</em></p>
+                  <p class="mgb">订单：D23423423423</p>
+                  <p class="mgb">发货单：<em class="color-custom-orange">暂无</em></p>
+                  <p>出库单：<em class="color-custom-orange">暂无</em></p>
                 </div>
               </div>
               <!-- <div ng-if="tr.orderStatus!='待审批'">
@@ -137,15 +140,6 @@
                 <span class="text-right pdt-s pdb-s pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
             </div>
           </div>
-        </li>
-        <li class="flex-item-3 no-width query-item mgr-m mgl-m ng-scope">
-          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary"></div>
-        </li>
-        <li class="flex-item-3 no-width query-item mgr-m mgl-m ng-scope">
-          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary"></div>
-        </li>
-        <li class="flex-item-3 no-width query-item mgr-m mgl-m ng-scope">
-          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary"></div>
         </li>
       </ul>
   </table-list>
