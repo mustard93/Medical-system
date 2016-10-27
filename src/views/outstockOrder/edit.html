@@ -1,6 +1,6 @@
 <div   ng-controller="invoicesOrderCtrl"
 class="content-wrapper invoices-order"
-     ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/outstockOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData=showData.distributionInfo;formData.id=showData.id"
      alert-error>
@@ -13,69 +13,22 @@ class="content-wrapper invoices-order"
     <!-- 单据信息 -->
     <div class="flex-column pd-c-xl pdt-l pdb-l bb-line">
       <div class="flex-item-10">
-        <span class="mgr-m">发货单：{{showData.orderNo}}</span>
+        <span class="mgr-m">出库单：{{showData.orderNo}}</span>
         <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
-        <span class="mgr-m">对应订单：2354234324324</span>
-        <span>对应出库单：4543534543</span>
+        <span class="mgr-m">对应订单：缺字段</span>
+
       </div>
       <div class="flex-item-2 text-right">
         <span>状态：{{showData.orderStatus}}</span>
       </div>
     </div>
-    <!-- 用户信息 -->
-    <div class="pd-c-xl pdt-l pdb-l bb-line">
-      <p class="flex-column mgb">
-        <span class="flex-item-6">客户名：{{showData.address.name}}</span>
-        <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：2016-10-30</span>
-      </p>
-      <p>收货人信息：{{showData.address.name}} {{showData.address.address}} {{showData.address.tel}}</p>
-    </div>
+
     <!-- 商品列表 -->
     <div class="pd-c-xl">
       <!-- 可发货 -->
       <div class="confirm-order bb-line pdb-l">
-        <h1 class="pdt-l color-6 text-m pr-fw-500">订购清单</h1>
-        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
-          <thead>
-            <th class="text-center">货品编码/货位</th>
-            <th class="">药品名称/生产厂家/规格</th>
-            <th class="text-center">剂型</th>
-            <th class="text-center">单位</th>
-            <th class="text-center">数量</th>
-            <th class="text-center">批次号</th>
-            <th class="text-center">生产日期</th>
-            <th class="text-center">有效期</th>
-            <th class="text-center">批准文号</th>
-            <th class="text-center">药械属性</th>
-          </thead>
-          <tbody>
-            <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in showData.orderMedicalNos">
-              <td class="has-border text-center">
-                <p>YF02428</p>
-                <p>34-49-OC</p>
-              </td>
-              <td class="goods-name has-border text-v-t pd-m">
-                <div class="relative">
-                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
-                  <span class="inline-block">
-                    <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>{{tr.name}}</span></p>
-                    <p class="pdl-l mgb color-9 text-s"><span>{{tr.manufacturer}}</span></p>
-                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
-                  </span>
-                </div>
-              </td>
-              <td class="has-border text-center text-v-t pd-m">{{'片剂'}}</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.unit || '盒'}}</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo}}</td>
-              <td class="has-border text-center text-v-t pd-m"></td>
-              <td class="has-border text-center text-v-t pd-m"></td>
-              <td class="has-border text-center text-v-t pd-m"></td>
-              <td class="has-border text-center text-v-t pd-m"></td>
-            </tr>
-          </tbody>
-        </table>
+        <div order-medicals  ng-model="showData.orderMedicalNos"></div>
+
       </div>
       <div class="pd-v-xl">
         <p>备注：{{showData.note}}</p>
@@ -85,117 +38,24 @@ class="content-wrapper invoices-order"
   <!-- 配送信息 -->
   <div class="panel pr-panel pr-fuzzy-boundary pd-l">
 
-    <form id="editForm" class="add-medical-form form-horizontal"
-          action="rest/authen/invoicesOrder/updateDistributionInfo.json"
-           alert-error
-           alert-ok
-          callback="submitFormAfter()"
 
-          form-validator>
-
-      <h1 class="pdb-l">配送信息</h1>
-      <div class="flex-column bb-line text-s">
-        <div class="flex-item-3">
-          <div class="form-group">
-            <label class="mgr">发货方式</label>
-            <select class="ipt pr-short-ipt" ng-model="formData.type"  chosen select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OrderDistributionType">
-              <!-- <option value="付费送货">付费送货</option>
-              <option value="定时到达">定时到达</option>
-              <option value="快速发送">快速发送</option>
-              <option value="拼车发送">拼车发送</option> -->
-            </select>
-          </div>
-        </div>
-        <div class="flex-item-3">
-          <div class="form-group">
-            <label class="mgr">原件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.originalParts">
-          </div>
-        </div>
-        <div class="flex-item-3">
-          <div class="form-group">
-            <label class="mgr">散件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.spareParts">
-          </div>
-        </div>
-        <div class="flex-item-3">
-          <div class="form-group">
-            <label class="mgr">备货位</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.storageLocation">
-          </div>
-        </div>
-      </div>
-      <h1 class="pdt-l pdb-l">附件</h1>
-      <div class="flex-column text-s">
-        <div class="flex-item-7">
-          <div class="flex-column bb-line">
-            <div class="flex-item-6">
-              <div class="form-group">
-                <label class="mgr">发票</label>
-                <input type="text" class="ipt pr-short-ipt" ng-model="formData.invoiceNo">
-              </div>
-            </div>
-            <div class="flex-item-6">
-              <div class="form-group">
-                <label class="mgr">检测报告</label>
-                <a ng-if="formData.attachment" href="{{formData.attachment}}" >下载</a>
-
-                <button type="button" class="btn btn-default" ng-init="upFile={}"
-                                    uploader-one="rest/authen/fileUpload/upload.json" usege="检测报告"
-                                     up-file="upFile" ng-model="formData.attachment">
-
-                                        浏览{{upFile.progress<100?"("+upFile.progress+"%)":""}}
-                                    </button>
-
-
-
-              </div>
-            </div>
-          </div>
-          <div class="flex-column mgt">
-            <div class="flex-item-12">
-              <div class="form-group">
-                <label class="mgr">备注</label>
-                <textarea class="pr-textarea" ng-model="formData.note"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flex-item-5" style="text-aligncenter;">
-          <div>
-            <img src="images/temp/tiaoxingma.jpg" alt="" style="height:135px;margin-left:100px;width:450px">
-          </div>
-        </div>
-      </div>
-      <!-- 提交按钮 -->
       <div class="pd-c-xl pdb-xxl text-right">
-        <span class="mgr-l">
+        <span class="mgr-l"  ng-if="showData.orderStatus=='未出库'">
+
           <button class="pr-btn-save-glodbg"
-                  type="submit">保存
-          </button>
-        </span>
-        <span class="mgr-l">
-
-
-          <button type="button"
-                  class="pr-btn-create-glodbg"
+                  type="button"
                   handle-this-click
-                  dialog-title="确认提交发货单?"
-                  dialog-content="提交后,您将无法修改发货单,确认提交?"
+                  dialog-title="确认发货?"
+                  dialog-content="确认通知库房发货?此操作会同时打印发货单"
                   dialog-template="pr-dialog-submit.html"
-                  call-back="submitForm('editForm','submit')">提交发货</button>
+                  request-url="rest/authen/outstockOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已出库"
+                  call-back="goTo('#/outstockOrder/order-done.html?id={{mainStatus.pageParams.id}}')">确认出库</button>
+
+
+
         </span>
-
-        <span><a href="javascript:;"
-                 handle-this-click
-
-                nosave-callback="goTo('#/invoicesOrder/query.html')"
-                  save-callback="submitForm('editForm','exit')"
-
-                 dialog-template="pr-dialog-return.html">返回</a></span>
+          <span class="mgr-l"><a href="#/outstockOrder/query.html">返回</a></span>
       </div>
+    </div>
 
-
-    </form>
-    </div><!-- 配送信息 -->
 </div>

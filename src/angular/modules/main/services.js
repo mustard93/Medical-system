@@ -113,6 +113,21 @@ define('main/services', ['main/init'], function () {
     }
     dialogAlert.$inject = ['$rootScope', 'modal'];
 
+
+
+//弹窗提示
+function alertOk2($rootScope, modal) {
+    return function (_text, _callBack) {
+
+      var maskId="alertOk_"+new Date().getTime();
+
+       var _loadHtml='<div id="'+maskId+'" class="page-dialog-title alert alert-success">'+_text+'</div>'
+       $(document.body).append(_loadHtml);
+
+
+       setTimeout(function(){   $('#'+maskId).remove();},13000);
+    };
+}
     //弹窗提示
     function alertOk($rootScope, modal) {
         return function (_text, _callBack) {
