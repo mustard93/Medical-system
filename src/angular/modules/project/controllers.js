@@ -43,9 +43,9 @@ define('project/controllers', ['project/init'], function() {
          */
         $scope.caifenQuantity = function(tr,num) {
              tr.quantity_noInvoice_show=true;
-             if(!num)return;
+             if(!num||tr.quantity<num)return;
              //点击拆分逻辑,不能发货数量为0,并且库存不足时,根据库存自动拆分数量.
-             if(tr.quantity_noInvoice===0&&tr.quantity>num){
+             if(!tr.quantity_noInvoice||tr.quantity_noInvoice==0){
                tr.quantity_noInvoice=tr.quantity-num;
                tr.quantity=num;
              }
@@ -61,14 +61,20 @@ define('project/controllers', ['project/init'], function() {
           $scope.addDataItem.brand = data.brand;
           $scope.addDataItem.unit = data.unit;
           $scope.addDataItem.price = data.price;
-          $scope.addDataItem.isSameBatch = "否";
+          // $scope.addDataItem.isSameBatch = "否";
           $scope.addDataItem.strike_price = data.price;
           $scope.addDataItem.headUrl = data.headUrl;
           $scope.addDataItem.specification = data.specification;
           $scope.addDataItem.manufacturer = data.manufacturer;
           $scope.addDataItem.handleFlag =true;//默认添加到订单
-
-
+          $scope.addDataItem.productionBatch = "无";
+          $scope.addDataItem.dosageForms = data.dosageForms;
+          $scope.addDataItem.code = data.code;
+          $scope.addDataItem.productionBatch = data.productionBatch;
+          $scope.addDataItem.productionDate = data.productionDate;
+          $scope.addDataItem.guaranteePeriod = data.guaranteePeriod;
+          $scope.addDataItem.licenseNumber = data.licenseNumber;
+          $scope.addDataItem.deliveryPlus = data.deliveryPlus;
 
           // alert($('#addDataItem_quantity').length);
           // $('#addDataItem_quantity').trigger("focus");
@@ -77,16 +83,26 @@ define('project/controllers', ['project/init'], function() {
         /**
         * 添加一条。并缓存数据。
         */
-        $scope.addDataItemClick = function() {
-            if (!($scope.addDataItem.relId && $scope.addDataItem.name)) {
+        $scope.addDataItemClick = function(addDataItem,medical) {
+            if (!(addDataItem.relId && addDataItem.name)) {
                 alertWarn("请选择药品。");
                 return;
             }
+            if (!addDataItem.quantity) {
+                alertWarn("输入正确的数量。");
+                return;
+            }
+
+            if(addDataItem.quantity>medical.quantity){//库存不足情况
+                addDataItem.handleFlag =false;//默认添加到订单
+            }
+
+
             if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
-            $scope.formData.orderMedicalNos.push($scope.addDataItem);
+            $scope.formData.orderMedicalNos.push(addDataItem);
 
             //计算价格
-            $scope.formData.totalPrice = $scope.addDataItem.strike_price * $scope.addDataItem.quantity;
+            $scope.formData.totalPrice = addDataItem.strike_price * addDataItem.quantity;
 
             $scope.addDataItem = {};
 
@@ -199,7 +215,7 @@ define('project/controllers', ['project/init'], function() {
 
        if ($scope.submitForm_type == "submit") {
          var url="rest/authen/invoicesOrder/updateStatus"
-         var data= {id:$scope.formData.id,orderStatus:'待发货'};
+         var data= {id:$scope.formData.id,status:'待发货'};
          requestData(url,data, 'POST')
            .then(function (results) {
              var _data = results[1];

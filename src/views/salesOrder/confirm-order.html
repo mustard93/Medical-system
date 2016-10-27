@@ -51,48 +51,9 @@
         <!-- 标题 -->
         <h1 class="pdt-l color-6 text-m text-bold" >订购清单</h1>
         <!-- 购买清单 -->
-        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
-          <thead>
-            <th class="text-center">货品编码/货位</th>
-            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
-            <th class="text-center">剂型</th>
-            <th class="text-center">单位</th>
-            <th class="text-center">数量</th>
-            <!-- <th class="w-70 text-center">同批次</th> -->
-            <th class="text-center">批次号</th>
-            <!-- <th class="w-90 text-center">库存</th> -->
-            <th class="text-center">生产日期</th>
-            <th class="text-center">有效期</th>
-            <th class="text-center">批准文号</th>
-            <th class="text-center">药械属性</th>
-          </thead>
-          <tbody>
-            <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in showData.confirmOrder.orderMedicalNos"  ng-init="orderMedicalNoIds.push(tr.relId)">
-              <td class="has-border text-center text-v-t pd-m"></td><!-- 货品编码/货位-->
-              <td class="goods-name has-border pd-m">
-                <div class="pr-table-td-m relative">
-                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
-                  <span class="block">
-                    <p class="pdl-l mgb-s color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                    <p class="pdl-l mgb-s color-9 text-s"><span>{{tr.manufacturer}}</span></p>
-                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
-                  </span>
-                </div>
-              </td>
-              <td class="has-border text-center text-v-t pd-m">片剂</td><!--剂型-->
-              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
-              <!-- <td class="has-border text-center text-v-t pd-m">{{tr.isSameBatch}}</td> -->
-              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo || '暂无'}}</td>
-              <!-- <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td> -->
-              <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 生产日期-->
-              <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 有效期-->
-              <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 批准文号-->
-              <td class="has-border text-center text-v-t pd-m">普通</td><!-- 药械属性-->
-            </tr>
-          </tbody>
-        </table>
+
+        <div order-medicals  ng-model="showData.confirmOrder.orderMedicalNos"></div>
+
         <!-- 备注 -->
         <div class="bb-line pd-v-l">
           <p>备注：<span class="color-6">{{showData.salesOrder.note}}</span></p>
@@ -107,50 +68,9 @@
       <!-- 不可发货 -->
       <div class="confirm-order">
         <h1 class="pdt-l color-6 text-m text-bold" >暂不可转入订单部分</h1>
-        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
-          <thead>
-            <th class="text-center">货品编码/货位</th>
-            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
-            <th class="text-center">剂型</th>
-            <th class="text-center">单位</th>
-            <th class="text-center">数量</th>
-            <!-- <th class="w-70 text-center">同批次</th> -->
-            <th class="text-center">批次号</th>
-            <!-- <th class="w-90 text-center">库存</th> -->
-            <th class="text-center">生产日期</th>
-            <th class="text-center">有效期</th>
-            <th class="text-center">批准文号</th>
-            <th class="text-center">药械属性</th>
-          </thead>
-          <tbody>
-            <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in showData.salesOrder.orderMedicalNos"  ng-init="orderMedicalNoIds.push(tr.relId)">
-              <td class="has-border text-center text-v-t pd-m"></td><!-- 货品编码/货位-->
-              <td class="goods-name has-border pd-m">
-                <div class="pr-table-td-m relative">
-                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
-                  <span class="block">
-                    <p class="pdl-l mgb-s color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                    <p class="pdl-l mgb-s color-9 text-s"><span>{{tr.manufacturer}}</span></p>
-                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
-                  </span>
-                </div>
-              </td>
-              <td class="has-border text-center text-v-t pd-m">片剂</td><!--剂型-->
-              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
-                  <td class="has-border text-center text-v-t pd-m">{{tr.quantity_noInvoice}}</td>
-              <!-- <td class="has-border text-center text-v-t pd-m">{{tr.isSameBatch}}</td> -->
-              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo || '暂无'}}</td>
-              <!-- <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td> -->
-                  <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 生产日期-->
-                <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 有效期-->
-                    <td class="has-border text-center text-v-t pd-m">暂无</td><!-- 批准文号-->
-                    <td class="has-border text-center text-v-t pd-m">普通</td><!-- 药械属性-->
 
-            </tr>
-
-          </tbody>
-        </table>
+          <div order-medicals  ng-model="showData.salesOrder.orderMedicalNos"></div>
+      
         <div class="text-right pdb-xxl pdt-xxl">
           <span class="color-custom-orange">请等待库存补足后，即可另外生成销售订单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态</span>
         </div>
