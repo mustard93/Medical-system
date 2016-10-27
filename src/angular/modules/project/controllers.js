@@ -204,7 +204,7 @@ define('project/controllers', ['project/init'], function() {
            .then(function (results) {
              var _data = results[1];
              alertOk(_data.message || '操作成功');
-             $scope.goTo('#/invoicesOrder/confirm-order.html?id='+$scope.formData.id);
+             $scope.goTo('#/invoicesOrder/order-done.html?id='+$scope.formData.id);
 
            })
            .catch(function (error) {

@@ -41,14 +41,23 @@
         <li class="flex-item-3 no-width query-item mgr-m mgl-m" ng-repeat="tr in tbodyList">
           <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary">
             <div>
-              <div class="flex-column mgb" style="height:30px;line-height:30px;">
+
+              <!-- <div class="flex-column mgb" style="height:30px;line-height:30px;"> -->
+
+              <div class="flex-column mgb card-title-height">
+
                 <span class="flex-item-6 title-states">{{tr.orderStatus}}
                   <!-- <i ng-if="tr.orderStatus!='已处理'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='已处理'" class="circle-icon-red mgl-m"></i> -->
                 </span>
-                <span  ng-if="tr.orderMedicalNos.length!='0'" class="flex-item-6 text-right">
+
+                <!-- <span  ng-if="tr.orderMedicalNos.length!='0'" class="flex-item-6 text-right">
                   <a ng-if="tr.iOrderMedicalNos[0].quantity_noInvoice!='0'" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary btn-sm pr-btn-bg-gold">立即处理</a>
-                  <a ng-if="tr.iOrderMedicalNos[0].quantity_noInvoice=='0'" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary btn-sm pr-btn-bg-gold">立即处理</a>
+                  <a ng-if="tr.iOrderMedicalNos[0].quantity_noInvoice=='0'" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary btn-sm pr-btn-bg-gold">立即处理</a> -->
+
+                <span  ng-if="tr.orderStatus=='待处理'" class="flex-item-6 text-right">
+                  <a href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a>
+
                 </span>
                 <!-- <span  ng-if="tr.orderStatus=='已处理'" class="flex-item-6 text-right">
                   <a href="#/salesOrder/edit.html?id={{tr.id}}" class="">查看详情</a>
@@ -84,8 +93,8 @@
               <div class="flex-column mgb-n query text-s color-9 mgb-s">
                 <div class="flex-item-6 br-line text-center" style="height:131px;">
                   <div class="">
-                    <p class="pd-v">购需药械品类数</p>
-                    <p class="text-xxxl pd-v-l">{{tr.itemCount}}</p>
+                    <p class="pdt-m pdb-s">购需药械品类数</p>
+                    <p class="text-xxxl pdb-xl pdt-s">{{tr.itemCount}}</p>
                   </div>
                   <div class="flex-column">
                     <span class="flex-item-6">
@@ -97,8 +106,8 @@
                   </div>
                 </div>
                 <div class="flex-item-6 text-center">
-                  <p class="pd-v-xl">购需转订单进度</p>
-                  <p><strong class="text-normal color-6">{{tr.progress}}%</strong></p>
+                  <p class="pd-v-m">购需转订单进度</p>
+                  <p class="text-m color-6">{{tr.progress}}%</p>
                   <div class="pd-c-xl">
                     <div class="progress pr-progress"
                          data-toggle="tooltip"

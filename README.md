@@ -7,4 +7,6 @@
 
 
 业务说明：
-salesOrder（客户购需单）-》confirmOrder（订单）-》invoicesOrder（发货单）-》出库单
+salesOrder（客户购需单）-》confirmOrder（订单）-》invoicesOrder（发货单）-》OutstockOrder（出库单）
+
+PurchaseOrder（采购单）

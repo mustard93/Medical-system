@@ -146,7 +146,11 @@ define('main/controllers', ['main/init'], function () {
         });
         //根据角色跳转对应页面
         $scope.goToMainRole = function (mainRole) {
+          
+            if(window.location.href.indexOf('#'+Config.indexPage)==-1){
+                return;
 
+            }
             if(!mainRole)mainRole=store.get('habbit.mainRole');
             if(!mainRole)mainRole='客服';
             if(!$scope.habbit)   $scope.habbit={};

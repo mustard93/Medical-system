@@ -1,0 +1,160 @@
+<div class="content-wrapper invoices-order"
+     ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback="formData={};formData.id=showData.id"
+     alert-error>
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading mgt-m mgb-m">
+    <h1 class="pr-title-color pr-font-24">发货单</h1>
+  </div>
+  <!-- 主内容区域 -->
+  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
+    <!-- 单据信息 -->
+    <div class="flex-column pd-c-xl pdt-l pdb-l bb-line">
+      <div class="flex-item-10">
+        <span class="mgr-m">发货单：{{showData.orderNo}}</span>
+        <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd MM:ss'}}</span>
+        <span class="mgr-m">对应订单：2354234324324</span>
+        <span>对应出库单：4543534543</span>
+      </div>
+      <div class="flex-item-2 text-right">
+        <span>状态：{{showData.orderStatus}}</span>
+      </div>
+    </div>
+    <!-- 用户信息 -->
+    <div class="pd-c-xl pdt-l pdb-l bb-line">
+      <p class="flex-column mgb">
+        <span class="flex-item-6">客户名：{{showData.address.name}}</span>
+        <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：2016-10-30</span>
+      </p>
+      <p>收货人信息：{{showData.address.name}} {{showData.address.address}} {{showData.address.tel}}</p>
+    </div>
+    <!-- 商品列表 -->
+    <div class="pd-c-xl">
+      <!-- 可发货 -->
+      <div class="confirm-order bb-line pdb-l">
+        <h1 class="pdt-l color-6 text-m pr-fw-500">订购清单</h1>
+        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
+          <thead>
+            <th class="text-center">货品编码/货位</th>
+            <th class="">药品名称/生产厂家/规格</th>
+            <th class="text-center">剂型</th>
+            <th class="text-center">单位</th>
+            <th class="text-center">数量</th>
+            <th class="text-center">批次号</th>
+            <th class="text-center">生产日期</th>
+            <th class="text-center">有效期</th>
+            <th class="text-center">批准文号</th>
+            <th class="text-center">药械属性</th>
+          </thead>
+          <tbody>
+            <tr class="tr-interval"><td colspan="9"></td></tr>
+            <tr ng-repeat="tr in showData.orderMedicalNos">
+              <td class="has-border text-center">
+                <p>YF02428</p>
+                <p>34-49-OC</p>
+              </td>
+              <td class="goods-name has-border text-v-t pd-m">
+                <div class="relative">
+                  <span class="goods-thumbnail inline-block"><img src="{{tr.headUrl}}" alt=""></span>
+                  <span class="inline-block">
+                    <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb color-9 text-s"><span>{{tr.manufacturer}}</span></p>
+                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                  </span>
+                </div>
+              </td>
+              <td class="has-border text-center text-v-t pd-m">{{'片剂'}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.unit || '盒'}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{1000}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.batchNo}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">1234</td>
+              <td class="has-border text-center text-v-t pd-m">普通</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pd-v-xl">
+        <p>备注：{{showData.note}}</p>
+      </div>
+    </div>
+  </div>
+  <!-- 配送信息 -->
+  <div class="panel pr-panel pr-fuzzy-boundary pd-l">
+      <h1 class="pdb-l">配送信息{{showData.distributionInfo.type}}</h1>
+      <div class="flex-column bb-line text-s">
+        <div class="flex-item-3">
+          <div class="form-group">
+            <label class="mgr">发货方式</label>
+            <select class="ipt pr-short-ipt" ng-model="formData.type">
+              <option value="付费送货" ng-selected="showData.distributionInfo.type=='付费送货'">付费送货</option>
+              <option value="定时到达" ng-selected="showData.distributionInfo.type=='定时到达'">定时到达</option>
+              <option value="快速发送" ng-selected="showData.distributionInfo.type=='快速发送'">快速发送</option>
+              <option value="拼车发送" ng-selected="showData.distributionInfo.type=='拼车发送'">拼车发送</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex-item-3">
+          <div class="form-group">
+            <label class="mgr">原件</label>
+            <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.originalParts" ng-model="formData.originalParts">
+          </div>
+        </div>
+        <div class="flex-item-3">
+          <div class="form-group">
+            <label class="mgr">散件</label>
+            <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.spareParts" ng-model="formData.spareParts">
+          </div>
+        </div>
+        <div class="flex-item-3">
+          <div class="form-group">
+            <label class="mgr">备货位</label>
+            <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.storageLocation" ng-model="formData.storageLocation">
+          </div>
+        </div>
+      </div>
+      <h1 class="pdt-l pdb-l">附件</h1>
+      <div class="flex-column text-s">
+        <div class="flex-item-7">
+          <div class="flex-column bb-line">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label class="mgr">发票</label>
+                <input type="text" class="ipt pr-short-ipt" ng-value="showData.distributionInfo.invoiceNo" ng-model="formData.invoiceNo">
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label class="mgr">检测报告</label>
+                    <a ng-if="formData.attachment" href="{{formData.attachment}}" >下载</a>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column mgt">
+            <div class="flex-item-12">
+              <div class="form-group">
+                <label class="mgr">备注</label>
+                {{formData.note}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-item-5" style="text-aligncenter;">
+          <div>
+            <img src="images/temp/tiaoxingma.jpg" alt="" style="height:135px;margin-left:100px;width:450px">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel pr-panel pr-fuzzy-boundary pd-l">
+          <h1 class="pdb-l">物流信息</h1>
+          <div>缺字段</div>
+      </div>
+      <!-- 提交按钮 -->
+      <div class="pd-c-xl pdb-xxl text-right">
+        <span class="mgr-l"><a href="#">返回发货中心</a></span>
+      </div>
+    </div>
+</div>

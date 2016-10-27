@@ -1,5 +1,5 @@
 <div class="content-wrapper invoices-order">
-  <table-list list-data="{{mainStatus.requestPath}}rest/authen/invoicesOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/outstockOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容头部 -->
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
       <!-- 新建按钮及状态按钮 -->
@@ -8,7 +8,7 @@
           <!-- <a href="#/salesOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a> -->
         </div>
         <div class="order-status-btn pos-tr text-right"
-             ajax-url="rest/authen/invoicesOrder/countByOrderStatus.json"
+             ajax-url="rest/authen/outstockOrder/countByOrderStatus.json"
              scope-data="countByOrderStatus"
              alert-error>
             <div class=""></div>
@@ -51,8 +51,8 @@
                   <i ng-if="tr.orderStatus=='已收货'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='待发货'" class="circle-icon-red mgl-m"></i>
                 </span>
-                <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-6 text-right"><a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a></span>
-                <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right"><a href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a></span>
+                <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-6 text-right"><a href="#/outstockOrder/get.html?id={{tr.id}}">查看详情</a></span>
+                <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right"><a href="#/outstockOrder/edit.html?id={{tr.id}}">编辑</a></span>
               </div>
               <!-- <div class="text-s mgb-m">{{tr.type}}</div> -->
               <div class="flex-column qurey text-s color-9">
@@ -60,7 +60,7 @@
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
                 <span class="flex-item-6 text-right">
-                  发货单编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
+                  订单编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
                 </span>
                 <span class="flex-item-6 mgb">
                   销售人员：<strong class="color-6 text-normal">{{tr.saleUser.n}}</strong>
@@ -74,7 +74,7 @@
               <div class="flex-item-6 br-line" style="min-height:220px;">
                 <p class="mgt-m">发票：<em>{{tr.distributionInfo.invoiceNo || '暂无'}}</em></p>
                 <p class="mgt-m">备货位：<em>{{tr.distributionInfo.storageLocation || '暂无'}}</em></p>
-                <p class="mgt-m">出库单：<em>暂未出库</em><button  ng-if="tr.orderStatus=='待发货'"   class="pr-btn-create-glodbg">出库</button></p>
+                <p class="mgt-m">出库单：<em>暂未出库</em></p>
               </div>
               <div class="flex-item-6 pd">
                 <h1 class="pd-v bb-line">物流信息</h1>
@@ -86,8 +86,8 @@
                 </div>
               </div>
             </div>
-            <div ng-if="tr.orderStatus=='待发货'" class="flex-column" style="position:absolute;top: 287px;left:0;background-color: #fff;">
-              <div class="pdt pdb pd-c-m mgl-auto"><a href="#/invoicesOrder/confirm-order.html?id={{tr.id}}" type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">确认发货</a></div>
+            <div ng-if="!tr.orderStatus=='未提交'" class="flex-column" style="position:absolute;top: 287px;left:0;background-color: #fff;">
+              <div class="pdt pdb pd-c-m mgl-auto"><a href="#/outstockOrder/confirm-order.html?id={{tr.id}}" type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">确认出库</a></div>
             </div>
           </div>
         </li>
