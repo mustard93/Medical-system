@@ -1,7 +1,7 @@
 /**
  * Created by hao on 15/11/18.
  */
-define('main/services', ['main/init'], function () {
+define('main/services', ['toastr','main/init'], function (toastr) {
     //请求拦截 用于登录超时
     function redirectInterceptor($q, $location) {
         return {
@@ -116,29 +116,31 @@ define('main/services', ['main/init'], function () {
 
 
 //弹窗提示
-function alertOk2($rootScope, modal) {
+function alertOk($rootScope, modal) {
     return function (_text, _callBack) {
 
-      var maskId="alertOk_"+new Date().getTime();
 
-       var _loadHtml='<div id="'+maskId+'" class="page-dialog-title alert alert-success">'+_text+'</div>'
-       $(document.body).append(_loadHtml);
-
-
-       setTimeout(function(){   $('#'+maskId).remove();},13000);
+      toastr.success(_text,"",  {timeOut: 3000,positionClass: 'toast-top-center'});
+      // var maskId="alertOk_"+new Date().getTime();
+      //
+      //  var _loadHtml='<div id="'+maskId+'" class="page-dialog-title alert alert-success">'+_text+'</div>'
+      //  $(document.body).append(_loadHtml);
+      //
+      //
+      //  setTimeout(function(){   $('#'+maskId).remove();},13000);
     };
 }
     //弹窗提示
-    function alertOk($rootScope, modal) {
-        return function (_text, _callBack) {
-            var _$scope = $rootScope.$new(false);
-            _$scope.confirmText = _text || '确定';
-            modal.openConfirm({
-                template: Config.tplPath+'tpl/dialog-alert.html',
-                scope: _$scope
-            }).then(_callBack);
-        };
-    }
+    // function alertOk2($rootScope, modal) {
+    //     return function (_text, _callBack) {
+    //         var _$scope = $rootScope.$new(false);
+    //         _$scope.confirmText = _text || '确定';
+    //         modal.openConfirm({
+    //             template: Config.tplPath+'tpl/dialog-alert.html',
+    //             scope: _$scope
+    //         }).then(_callBack);
+    //     };
+    // }
 
     //弹窗提示
     function alertError($rootScope, modal) {

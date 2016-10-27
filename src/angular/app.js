@@ -34,6 +34,7 @@ require.config({
         'easypiechart': '../libs/easypiechart/angular.easypiechart',    //jQuery饼图
         'icheck': '../libs/jquery.icheck.min',                  //checkbox美化
           'morris': '../libs/morris-chart/morris.min',                         //日历插件
+            'toastr': '../libs/toastr/toastr.min',   //提示窗口
             'raphael': '../libs/morris-chart/raphael.min',                         //日历插件
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
@@ -43,6 +44,9 @@ require.config({
         },
         'underscore': {
             exports: '_'
+        },
+        'toastr': {
+            deps: ['jQuery']
         },
         'chosen': {
             deps: ['jQuery']
