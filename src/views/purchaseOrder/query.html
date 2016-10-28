@@ -1,0 +1,150 @@
+<div class="content-wrapper">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/purchaseOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+    <!-- 主内容头部 -->
+    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl-m mgr-m relative">
+      <!-- 新建按钮及状态按钮 -->
+      <div class="full-width">
+        <div class="pos-abs order-create-btn">
+          <a href="#/purchaseOrder/edit.html" title="新建"><i></i><span class="text-s"></span></a>
+        </div>
+        <div class="order-status-btn pos-tr text-right"
+             ajax-url="rest/authen/purchaseOrder/countByOrderStatus.json"
+             scope-data="countByOrderStatus"
+             alert-error>
+            <div class=""></div>
+            <div class="btn btn-group">
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待处理'">待处理
+                <span class="pj-badge" ng-if='countByOrderStatus["待处理"]'>{{countByOrderStatus["待处理"]}}</span>
+              </button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已处理'">已处理
+                <span class="pj-badge" ng-if='countByOrderStatus["已处理"]'>{{countByOrderStatus["已处理"]}}</span>
+              </button>
+
+            </div>
+            <div class="inline-block relative">
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg">预测购需</button>
+            </div>
+
+        </div>
+      </div>
+      <!-- 右侧搜索 -->
+      <div class="text-right order-list-search pos-rb">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
+        <i class=""></i>
+      </div>
+
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <ul class="flex-column">
+        <li class="flex-item-3 no-width query-item mgr-m mgl-m" ng-repeat="tr in tbodyList">
+          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary">
+            <div>
+
+              <!-- <div class="flex-column mgb" style="height:30px;line-height:30px;"> -->
+
+              <div class="flex-column mgb card-title-height">
+
+                <span class="flex-item-6 title-states">{{tr.orderStatus}}
+                  <!-- <i ng-if="tr.orderStatus!='已处理'" class="circle-icon-green mgl-m"></i>
+                  <i ng-if="tr.orderStatus=='已处理'" class="circle-icon-red mgl-m"></i> -->
+                </span>
+
+                <span  ng-if="tr.orderMedicalNos.length!='0'" class="flex-item-6 text-right">
+                  <a ng-if="tr.iOrderMedicalNos[0].quantity_noInvoice!='0'" href="#/purchaseOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a>
+                  <a ng-if="tr.iOrderMedicalNos[0].quantity_noInvoice=='0'" href="#/purchaseOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a>
+
+                <!-- <span  ng-if="tr.orderStatus=='待处理'" class="flex-item-6 text-right">
+                  <a href="#/purchaseOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a> -->
+
+                </span>
+                <span  ng-if="tr.orderStatus=='已处理'" class="flex-item-6 text-right">
+                  <a href="#/purchaseOrder/edit.html?id={{tr.id}}" class="">查看详情</a>
+                </span>
+                <!-- <span  ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='待处理'" class="flex-item-6 text-right">
+                  <a href="#/purchaseOrder/edit.html?id={{tr.id}}">编辑</a>
+                </span> -->
+              </div>
+              <!-- <div class="text-s mgb-m">{{tr.type}}</div> -->
+              <div class="flex-column qurey text-s color-9">
+                <span class="flex-item-6">
+                  编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
+                </span>
+                <span class="flex-item-6 text-right">
+                  创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
+                </span>
+
+              </div>
+            </div>
+            <div class="relative">
+              <div class="bb-line">
+                <h1 class="mg-l text-center text-m color-6 text-ellips-s">{{tr.customerName || '未知单位'}}</h1>
+                <div class="flex-column mgb query text-s color-9 mgb-s">
+                  <div class="flex-item-6">
+                    销售人员：<strong class="text-normal color-6">{{tr.saleUser.n}}</strong>
+                  </div>
+                  <div class="flex-item-6 text-right">
+                    期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex-column mgb-n query text-s color-9 mgb-s">
+                <div class="flex-item-6 br-line text-center" style="height:131px;">
+                  <div class="">
+                    <p class="pdt-m pdb-s">购需药械品类数</p>
+                    <p class="text-xxxl pdb-xl pdt-s">{{tr.itemCount}}</p>
+                  </div>
+                  <div class="flex-column">
+                    <span class="flex-item-6">
+                      冷链药械： <strong class="text-normal color-6">{{tr.isNeedColdChain}}</strong>
+                    </span>
+                    <span class="flex-item-6">
+                      库存： <strong class="text-normal color-6">{{tr.stockStatus}}</strong>
+                    </span>
+                  </div>
+                </div>
+                <div class="flex-item-6 text-center">
+                  <p class="pd-v-m">购需转订单进度</p>
+                  <p class="text-m color-6">{{tr.progress}}%</p>
+                  <div class="pd-c-xl">
+                    <div class="progress pr-progress"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="10">
+                      <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar" role="progressbar"
+                           aria-valuenow="10" aria-valuemin="0"
+                           aria-valuemax="100" style="width:{{tr.progress}}%;background-color:#2ec600!important;">
+                      </div>
+                      <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
+                           aria-valuenow="10" aria-valuemin="0"
+                           aria-valuemax="100" style="width:{{tr.progress}}%;background-color:#ff8c00!important;">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <p><strong class="text-normal color-6">{{tr.progress}}%</strong></p> -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </li>
+        <!-- 列表占位版块，保证版块结构正常显示。请勿删除 -->
+        <li class="flex-item-3 no-width query-item mgr-m mgl-m">
+          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary"></div>
+        </li>
+        <li class="flex-item-3 no-width query-item mgr-m mgl-m">
+          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary"></div>
+        </li>
+        <li class="flex-item-3 no-width query-item mgr-m mgl-m">
+          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary"></div>
+        </li>
+        <li class="flex-item-3 no-width query-item mgr-m mgl-m">
+          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary"></div>
+        </li>
+      </ul>
+  </table-list>
+</div>
