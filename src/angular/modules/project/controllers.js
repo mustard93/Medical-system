@@ -242,10 +242,54 @@ define('project/controllers', ['project/init'], function() {
 
       };
     }
+
+
+
+
+        /**
+         *出库单
+         */
+        function noticeCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+          /**
+          *保存
+          type:save-草稿,submit-提交订单。
+          */
+          $scope.noticeClick = function(notice) {
+
+              requestRead(notice.id,notice);
+              
+              notice.readFlag=true;
+              if (!(notice.moduleType&&notice.relId)){
+                  alertOk(notice.subject);
+                  return;
+              }
+                  //相应跳转
+                $scope.goTo('#/'+notice.moduleType+'/get.html?id='+notice.relId);
+
+           }//noticeClick
+
+
+           //标记已经阅读。
+           requestRead = function(id,notice) {
+             var url="rest/authen/notice/read"
+             var data= {id:id};
+             requestData(url,data, 'POST')
+               .then(function (results) {
+
+               })
+               .catch(function (error) {
+
+               });
+           };//end $scope.requestRead
+
+         }//noticeCtrl
+
     angular.module('manageApp.project')
+    .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
     .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
-      .controller('confirmOrderEditCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", confirmOrderEditCtrl])
+      .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
         .controller('salesOrderEditCtrl', ["$scope", "modal","alertWarn", salesOrderEditCtrl]);
+
 
         //
         // angular.module('manageApp.project', ['ngTagsInput'])

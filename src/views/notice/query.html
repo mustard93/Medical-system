@@ -1,0 +1,72 @@
+<div class="page-main-content">
+  <!-- page heading start-->
+  <div class="page-heading">
+      <h3>消息中心</h3>
+      <ul class="breadcrumb">
+          <li><a href="#">主面板</a></li>
+          <li class="active">所有消息</li>
+      </ul>
+  </div>
+  <!-- page heading end-->
+
+  <!--body wrapper start-->
+  <table-list  list-data="{{mainStatus.requestPath}}rest/authen/notice/query.json" list-params="listParams">
+      <div class="mg-m col-lg-12 col-sm-12">
+
+        <div class="form-group col-lg-2">
+
+          <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
+        </div>
+      </div>
+
+      <div class="wrapper">
+          <div class="loader" ng-if="status.isLoading">
+              <div class="loader-inner pacman">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+              </div>
+          </div>
+          <div ng-if="!status.isLoading">
+              <div class="empty-wrap" ng-if="tbodyList.length==0">
+                  <span>
+                      <i class="fa fa-inbox">
+                          <em>什么也没有</em>
+                      </i>
+                  </span>
+              </div>
+              <div ng-if="tbodyList.length">
+
+                  <table class="table table-hover table-striped">
+                      <thead>
+                          <tr>
+                              <th><input type="checkbox" class="selectAll"></th>
+                                <th>序号</th>
+                              <th>消息</th>
+                              <th>创建时间</th>
+
+                          </tr>
+                      </thead>
+                      <tbody   ng-controller="noticeCtrl">
+                          <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" >
+                              <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                              <td>{{$index + 1}}</td>
+                              <td ><a href="javascript:void(0);"  ng-click="noticeClick(tr)">[{{tr.type}}]{{tr.subject}}</a></td>
+                              <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+
+                          </tr>
+                      </tbody>
+                  </table>
+                  <div class="clearfix">
+                      <div class="fr">
+                          <pagination status="status"></pagination>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </table-list>
+  <!--body wrapper end-->
+</div>
