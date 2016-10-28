@@ -81,7 +81,7 @@ define('main/services', ['toastr','main/init'], function (toastr) {
 
     //弹窗确认
     function dialogConfirm($rootScope, modal) {
-        return function (_text, _callBack, _template, _title) {
+        return function (_text, _callBack, _template, _title,extendOpt) {
             var _$scope = $rootScope.$new(false);
             var _templateUrl = _template ? 'tpl/' + _template : 'tpl/dialog-confirm.html';
             // if (_template && _template === 'pr') {
@@ -92,6 +92,7 @@ define('main/services', ['toastr','main/init'], function (toastr) {
 
             _$scope.confirmText = _text || '确定删除?';
             _$scope.confirmTitle = _title || '确认操作?';
+            _$scope.extendOpt = extendOpt;
             modal.openConfirm({
                 template: Config.tplPath + _templateUrl,
                 scope: _$scope
@@ -121,7 +122,7 @@ function alertOk($rootScope, modal) {
 
 
       toastr.success(_text,"",  {timeOut: 3000,positionClass: 'toast-top-center'});
-  
+
     };
 }
     //弹窗提示

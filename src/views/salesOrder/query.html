@@ -51,9 +51,9 @@
                   <i ng-if="tr.orderStatus=='已处理'" class="circle-icon-red mgl-m"></i> -->
                 </span>
 
-                <span  ng-if="tr.orderMedicalNos.length!='0'" class="flex-item-6 text-right">
-                  <a ng-if="tr.iOrderMedicalNos[0].quantity_noInvoice!='0'" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a>
-                  <a ng-if="tr.iOrderMedicalNos[0].quantity_noInvoice=='0'" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a>
+                <span   ng-if="tr.orderStatus!='已处理'" class="flex-item-6 text-right">
+                  <a ng-if="tr.progress==0" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a>
+                  <a ng-if="tr.progress>0" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a>
 
                 <!-- <span  ng-if="tr.orderStatus=='待处理'" class="flex-item-6 text-right">
                   <a href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a> -->

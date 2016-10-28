@@ -1,4 +1,4 @@
-<div class="pr-page-dialog-wrap">
+<div class="pr-page-dialog-wrap" ng-init="dialgForm=dialgForm|{}">
   <form class="confirmOrder-reject-form" action="" method="post">
   <div class="pr-page-dialog-title bb-line">
     <i></i><span>{{confirmTitle}}</span>
@@ -10,19 +10,19 @@
           驳回理由：
         </div>
         <div class="flex-item-10">
-          <p class="mgb">
-            <select class="select">
+          <p class="mgb" ng-if="extendOpt&&extendOpt.selectOptions">
+            <select class="select" ng-model="dialgForm.select" ng-options="item.value as item.text   for item in extendOpt.selectOptions">
               <option value="库存不足">库存不足</option>
             </select>
           </p>
           <p>
-            <textarea class="pr-textarea"></textarea>
+            <textarea class="pr-textarea" ng-model="dialgForm.note"></textarea>
           </p>
         </div>
       </div>
   </div>
   <div class="pr-page-dialog-footer text-center mg-m">
-    <button type="button" class="pr-btn-save-glodbg" ng-click="confirm()">{{confirmBtnTxt||'确定'}}</button>
+    <button type="button" class="pr-btn-save-glodbg" ng-click="confirm('ok',dialgForm)">{{confirmBtnTxt||'确定'}}</button>
     <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">{{cancelBtnTxt||'取消'}}</button>
   </div>
   </form>

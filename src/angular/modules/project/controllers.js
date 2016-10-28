@@ -3,6 +3,9 @@
  */
 
 define('project/controllers', ['project/init'], function() {
+
+
+
     /**
      *编辑、新建订单
      */
@@ -247,7 +250,7 @@ define('project/controllers', ['project/init'], function() {
 
 
         /**
-         *出库单
+         *站内消息
          */
         function noticeCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
           /**
@@ -257,7 +260,7 @@ define('project/controllers', ['project/init'], function() {
           $scope.noticeClick = function(notice) {
 
               requestRead(notice.id,notice);
-              
+
               notice.readFlag=true;
               if (!(notice.moduleType&&notice.relId)){
                   alertOk(notice.subject);
@@ -284,6 +287,34 @@ define('project/controllers', ['project/init'], function() {
 
          }//noticeCtrl
 
+
+
+         /**
+          *审核
+          */
+         function updateStatusCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+
+            //标记已经阅读。
+             $scope.updateStatus = function(url,id,status,data,callBack) {
+              data.id=id;
+              data.status=status;
+              requestData(url,data, 'POST')
+              .then(function (results) {
+                var _data = results[1];
+                if (_data.code === 200) {
+                  alertOk(_data.message || '操作成功');
+                }
+                //执行回调
+                if (callBack) {
+                  scope.$eval(callBack);
+                }
+              })
+              .catch(function (error) {
+                alertError(error || '出错');
+              });
+            };//end $scope.requestRead
+
+          }//noticeCtrl
     angular.module('manageApp.project')
     .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
     .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])

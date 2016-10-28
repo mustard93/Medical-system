@@ -439,7 +439,7 @@ define('project/directives', ['project/init'], function () {
             if( !angular.isDefined(attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';
           }
 
-          dialogConfirm(_dialogContent, function (type) {
+          dialogConfirm(_dialogContent, function (type,dialgForm) {
 
             //type:nosave,save
             //取消对话框操作
@@ -490,8 +490,14 @@ define('project/directives', ['project/init'], function () {
               return;
             }
 
+            if (angular.isDefined(attrs.callSubmit)) {
+                  scope.$eval(attrs.callBack);
+            }
+
+
             //执行回调
             if (attrs.callBack) {
+              scope.dialgForm=dialgForm;
               scope.$eval(attrs.callBack);
             }
           }, _dialogTemplate, _dialogTitle, _jumpUrl);
