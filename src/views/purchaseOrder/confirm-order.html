@@ -1,0 +1,131 @@
+<div class="content-wrapper"
+     ajax-url="rest/authen/salesOrder/previewConfirmSalesOrder.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback="formData={};formData.id=showData.salesOrder.id"
+     alert-error>
+
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading mgt-m mgb-m">
+    <h1 class="pr-title-color pr-font-24">订单</h1>
+  </div>
+  <!-- 主内容区域 -->
+
+  <form name="createOrderForm"
+        action="rest/authen/salesOrder/confirmSalesOrder"
+        form-validator
+        alert-error
+        callback="goTo('#/salesOrder/order-done.html?id='+formData.id)">
+  <div class="content-wrapper-main pr-bg-white pr-border pr-fuzzy-boundary">
+    <div class="pd-c-xxxxl bb-line">
+      <div class="mg-xl text-s color-9 flex-column">
+        <div class="flex-item-8">
+          <span class="mgr-xl">订单编号：<em class="pr-color color-6">{{showData.confirmOrder.orderNo}}</em></span>
+          <span class="mgr-xl">创建时间：<em class="pr-color color-6"></em></span>
+          <span>对应购需单：<em class="pr-color color-6">{{showData.salesOrder.orderNo}}</em></span>
+        </div>
+        <div class="flex-item-4 text-right">
+          <span>订单状态：<em class="pr-color color-6">{{showData.confirmOrder.orderStatus}}</em></span>
+        </div>
+      </div>
+    </div>
+    <!-- 用户信息 -->
+    <div class="pd-c-xxxxl bb-line">
+      <div class="mg-xl text-s color-9">
+        <p class="mgb-l flex-column">
+          <span class="flex-item-4">
+            <em>客户名：<i class="color-6 text-normal">{{showData.salesOrder.customerName}}</i></em>
+          </span>
+          <span class="flex-item-8 text-right">
+            <em>负责人：<i class="color-6 mgr-xl text-normal">{{showData.salesOrder.saleUser.n}} </i></em>
+            <em>期望到货时间：<i class="color-6 mgr-xl text-normal">{{showData.salesOrder.expectDate| date : 'yyyy-MM-dd'}}</i></em>
+          </span>
+        </p>
+        <p class="mgb-l">
+          <span>收货人信息：</span><span class="color-6">{{showData.salesOrder.address.name}} {{showData.salesOrder.address.address}} {{showData.salesOrder.address.tel}}</span></p>
+      </div>
+    </div>
+    <!-- 商品列表 -->
+    <div class="pd-c-xxxxl" ng-init="orderMedicalNoIds=[]">
+      <!-- 可发货 -->
+      <div class="confirm-order bb-line pdb-l" >
+        <!-- 标题 -->
+        <h1 class="pdt-l color-6 text-m text-bold" >订购清单</h1>
+        <!-- 购买清单 -->
+
+        <div order-medicals  ng-model="showData.confirmOrder.orderMedicalNos"></div>
+
+        <!-- 备注 -->
+        <div class="bb-line pd-v-l">
+          <p>备注：<span class="color-6">{{showData.salesOrder.note}}</span></p>
+        </div>
+        <!-- 总价&提交 -->
+        <div class="text-right pd-v-xxl">
+          <span class="pr-font-24 color-9 mgr-l">总价：<i class="text-normal color-6">￥{{showData.confirmOrder.totalPrice || 21500 | number:2}}</i></span>
+          <span class="mgr-l"><button href="javascript:;" type="submit" class="btn btn-primary pr-btn-bg-gold">确认订单 & 提交审批</button></span>
+        </div>
+      </div>
+
+      <!-- 不可发货 -->
+      <div class="confirm-order">
+        <h1 class="pdt-l color-6 text-m text-bold" >暂不可转入订单部分</h1>
+
+          <div order-medicals  ng-model="showData.salesOrder.orderMedicalNos"></div>
+      
+        <div class="text-right pdb-xxl pdt-xxl">
+          <span class="color-custom-orange">请等待库存补足后，即可另外生成销售订单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态</span>
+        </div>
+      </div>
+
+      <!-- 对应采购单 -->
+      <!-- <div class="confirm-order bb-line pdb-l">
+        <h1 class="pdt-l color-6 text-m text-bold">需采购药械</h1>
+        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
+          <thead>
+            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
+            <th class="w-106 text-center">单位</th>
+            <th class="w-106 text-center">同批次</th>
+            <th class="w-186 text-center">批次号</th>
+            <th class="w-106 text-center">库存</th>
+            <th class="w-150 text-center">采购数量</th>
+          </thead>
+          <tbody>
+
+            <tr class="tr-interval"><td colspan="9"></td></tr>
+            <tr ng-repeat="tr in showData.purchaseOrder.orderMedicalNos"  ng-init="orderMedicalNoIds.push(tr.relId)">
+              <td class="goods-name has-border pd-m">
+                <div class="relative">
+                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
+                  <span class="inline-block">
+                    <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb color-9 text-n"><span>{{tr.manufacturer}}</span></p>
+                    <p class="mgt-s color-9 text-n"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+
+                  </span>
+                </div>
+              </td>
+
+              <td class="has-border text-center">{{tr.unit}}</td>
+              <td class="has-border text-center">{{tr.isSameBatch}}</td>
+              <td class="has-border text-center">{{tr.batchNo}}</td>
+              <td class="has-border text-center">{{medicalStockMap[tr.relId].quantity}}</td>
+              <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div> -->
+    <!-- 提交按钮 -->
+    <div class="pdb-xxl text-right">
+      <span><a href="javascript:;" ng-click="goTo('#/salesOrder/edit.html?id='+formData.id)">返回修改</a></span>
+    </div>
+  </div>
+  </form>
+
+
+          <!-- 加载选中药械库存-->
+          <!-- <div   ajax-if="orderMedicalNoIds"
+          ajax-url="rest/authen/medicalStock/countStockByIds.json?ids={{orderMedicalNoIds.join(',')}}" scope-data="medicalStockMap" alert-error>
+        </div> -->
+</div>
