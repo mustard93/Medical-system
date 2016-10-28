@@ -1,8 +1,8 @@
 <div class="header-section" toggle-left-menu  ng-controller="noticeCtrl">
   <!--通知菜单 start -->
   <div class="menu-right"
-  ajax-url="rest/authen/notice/query.json"
-  scope-response="scopeResponse">
+       ajax-url="rest/authen/notice/query.json"
+       scope-response="scopeResponse">
 
     <ul class="notification-menu">
         <li>
@@ -10,18 +10,18 @@
               <i class="header-message"></i>
               <span class="badge">{{scopeResponse.totalCount}}</span>
           </a>
-
-
-
-
-          <div class="dropdown-menu dropdown-menu-head pull-right">
-
-          <ul class="dropdown-list user-list">
-              <li ng-repeat="tr in scopeResponse.data" class="new" style="border-left:none;" ng-if="!tr.readFlag"><a href="javascript:;"  ng-click="noticeClick(tr)">[{{tr.type}}]{{tr.subject}}({{tr.createAt | date : 'yyyy-MM-dd HH:mm'}})</a></li>
-              <li style="border-left:none;" ><a href="#/notice/query.html">  <button class="pr-btn-save-glodbg"
-                        type="button">所有消息 </button></a></li>
-
-          </ul>
+          <div class="dropdown-menu dropdown-menu-head pull-right" style="max-height:300px;overflow:auto;right:-19px;">
+            <ul class="dropdown-list user-list">
+                <li ng-repeat="tr in scopeResponse.data"
+                    class="new"
+                    style="border-left:none;"
+                    ng-if="!tr.readFlag">
+                    <a href="javascript:;" class="text-s" ng-click="noticeClick(tr)" style="white-space:inherit;">[{{tr.type}}]{{tr.subject}}({{tr.createAt | date : 'yyyy-MM-dd HH:mm'}})</a>
+                </li>
+            </ul>
+            <div style="border-left:none;">
+              <a href="#/notice/query.html" class="pd-v" style="display:block;text-align:center;border:1px solid #e2e2e2;border-top:none;">查看所有消息</a>
+            </div>
           <!--
               <ul class="dropdown-list user-list">
                   <li class="new" style="border-left:none;"><a href="#">你录入的订单已经开始拆分请及时处理</a></li>
@@ -35,15 +35,13 @@
           <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
               <span class="header-user-face"></span> {{curUser.name}}{{habbit.mainRole?"("+habbit.mainRole+")":""}}
           </a>
-          <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-
-            <li ng-if="hasAuthor('订单中心')" style="border-left:none;"><a  ng-click="goToMainRole('客服')" href="javascript:;">客服</a></li>
-            <li  ng-if="hasAuthor('订单中心')" ><a   ng-click="goToMainRole('销售')" href="javascript:;">销售</a></li>
-            <li ng-if="hasAuthor('采购中心')"><a ng-click="habbit.mainRole='采购'" href="#/authorIndex/main-purchasemanager.html">采购</a></li>
-            <li ng-if="hasAuthor('出入库单中心')"><a ng-click="habbit.mainRole='库管'" href="#/authorIndex/main-repertorymanager.html">库管</a></li>
-            <li  ng-if="hasAuthor('验单中心')"><a ng-click="habbit.mainRole='验收'" href="#/authorIndex/main-checkmanager.html">验收</a></li>
-            <li ng-if="hasAuthor('总经理')"><a ng-click="habbit.mainRole='客服'" href="#/authorIndex/main-generalmanager.html">总经理</a></li>
-
+          <ul class="dropdown-menu dropdown-menu-usermenu pull-right" style="padding:0;border:1px solid #e2e2e2;min-width:1px;">
+            <li ng-if="hasAuthor('订单中心')" style="border-left:none;"><a ng-click="goToMainRole('客服')" href="javascript:;" style="text-indent:0;width:102px;text-align:center;">客服</a></li>
+            <li ng-if="hasAuthor('订单中心')" ><a ng-click="goToMainRole('销售')" href="javascript:;" style="text-indent:0;width:102px;text-align:center;">销售</a></li>
+            <li ng-if="hasAuthor('采购中心')"><a ng-click="habbit.mainRole='采购'" href="#/authorIndex/main-purchasemanager.html" style="text-indent:0;width:102px;text-align:center;">采购</a></li>
+            <li ng-if="hasAuthor('出入库单中心')"><a ng-click="habbit.mainRole='库管'" href="#/authorIndex/main-repertorymanager.html" style="text-indent:0;width:102px;text-align:center;">库管</a></li>
+            <li ng-if="hasAuthor('验单中心')"><a ng-click="habbit.mainRole='验收'" href="#/authorIndex/main-checkmanager.html" style="text-indent:0;width:102px;text-align:center;">验收</a></li>
+            <li ng-if="hasAuthor('总经理')"><a ng-click="habbit.mainRole='客服'" href="#/authorIndex/main-generalmanager.html" style="text-indent:0;width:102px;text-align:center;">总经理</a></li>
           </ul>
         </li>
         <li>
