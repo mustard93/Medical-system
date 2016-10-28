@@ -1,0 +1,37 @@
+<div class="pr-page-dialog-wrap" >
+    <form class="confirmOrder-reject-form"
+          ng-init="formData=rejectObj.formData"
+          action="{{rejectObj.url}}"
+          callback="goTo('{{rejectObj.goUrl}}')"
+           auto-close-dialog
+          form-validator>
+  <div class="pr-page-dialog-title bb-line">
+    <i></i><span>确认驳回?</span>
+  </div>
+  <div class="pr-page-dialog-content bb-line">
+      <div class="mgb-l">驳回后,该订单将作废</div>
+      <div class="flex-column">
+        <div class="flex-item-2">
+          驳回理由：
+        </div>
+        <div class="flex-item-10" ng-if="rejectObj.typeCode">
+          <p class="mgb"
+          ajax-url="rest/baseData/queryForSelectOptionByType?typeCode={{rejectObj.typeCode}}"
+          scope-data="selectOptions"
+          >
+            <select ng-if="selectOptions" class="select" ng-model="formData.key" ng-options="item.value as item.text   for item in selectOptions">
+
+            </select>
+          </p>
+          <p>
+            <textarea class="pr-textarea" ng-model="formData.message"></textarea>
+          </p>
+        </div>
+      </div>
+  </div>
+  <div class="pr-page-dialog-footer text-center mg-m">
+    <button type="submit"  class="pr-btn-save-glodbg">确定</button>
+    <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">取消</button>
+  </div>
+  </form>
+</div>
