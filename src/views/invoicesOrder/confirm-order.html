@@ -111,45 +111,30 @@ class="content-wrapper invoices-order"
       <div class="pd-v-l bt-line bb-line mgb-l">
         <h1 class="pd-v">物流信息</h1>
         <div class="flex-column">
-          <div class="flex-item-8 text-s">
-            <span class="mgr">申通快递：ST001052345345(缺字段)</span>
-            <a href="#" class="mgr">编辑</a>
-            <a href="#">删除</a>
+          <div class="flex-item-8 text-s"  ng-repeat="item in showData.kuaidiSet" >
+            <span class="mgr">111{{item.type}}：{{item.nu}}</span>
+
+            <a href="javacript:;" lass="mgr"
+             modal-right="600" modal-data='{"invoicesOrderId":"{{formData.id}}","formData":{{item}}}'
+             modal-scope="this" modal-url="views/invoicesOrder/kuaidi/edit.html"
+             >编辑</a>
+
+            <a href="javacript:;" ng-click="deleteKuaidi(item,showData.id)" >删除</a>
           </div>
           <div class="flex-item-4 text-right text-s">
 
             <button class="pr-add-item-whitebg"
-                    modal-right="700"
-                    modal-data='{"nu":"{{formData.customerId}}","type":""}'
-                    modal-scope="this"
-                    modal-url="views/invoicesOrder/editKuaidi.html"
-                    ng-class="{'static':!customerAddress.contacts}">
+            modal-right="600" modal-data='{"invoicesOrderId":"{{formData.id}}","formData":{},"addFlag":true}'
+            modal-scope="this" modal-url="views/invoicesOrder/kuaidi/edit.html">
                       添加
             </button>
           </div>
         </div>
       </div>
-      <!-- 提交按钮 -->
-      <!-- <div class="pd-c-xl pdb-xxl text-right">
-        <span class="mgr-l">
-          <button class="pr-btn-save-glodbg"
-                  type="submit">保存</button>
-        </span>
-        <span class="mgr-l">
-          <button type="submit"
-                  class="pr-btn-create-glodbg"
-                  ng-click="handleThisSubmit('提交后,你将无法修改发货单,确认提交?', 'pr-dialog-submit.html', '确认提交发货单?')">提交发货</button>
-        </span>
-        <span><a href="javascript:;" ng-click="cancelThis('有修改还未保存,是否保存?', 'pr-dialog-return.html', '取消修改?')">返回</a></span>
-      </div> -->
+
       <div class="pd-c-xl pdb-xxl text-right">
         <span class="mgr-l">
-          <!-- <button class="pr-btn-save-glodbg"
-                  type="submit"
-                  ng-click="handleThisSubmit('确认通知库房发货?此操作会同时打印发货单',
-                                             'pr-dialog-submit.html',
-                                             '确认发货?',
-                                             '#/invoicesOrder/confirm-invoices-order.html?id='+showData.id)">确认发货</button> -->
+
           <button class="pr-btn-save-glodbg" ng-if="showData.orderStatus=='待发货'"
                   type="button"
                   handle-this-click
@@ -162,16 +147,6 @@ class="content-wrapper invoices-order"
 
 
         </span>
-        <!-- <span class="mgr-l"><a href="javascript:;"
-          type="button"
-          handle-this-click
-          dialog-title="确认驳回发货单?"
-          dialog-content="驳回后，此发货单以及对应订单将作废.确认驳回?"
-          dialog-template="pr-dialog-submit.html"
-          request-url="rest/authen/invoicesOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已作废"
-          call-back="goTo('#/invoicesOrder/get.html?id={{mainStatus.pageParams.id}}')"
-          >驳回</a></span> -->
-
           <span class="mgr-l"  ng-if="showData.orderStatus=='待发货'"
           ng-init="rejectObj={url:'rest/authen/invoicesOrder/updateStatus.json',typeCode:'采购单驳回理由',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/invoicesOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
             <a href="javascript:;"
