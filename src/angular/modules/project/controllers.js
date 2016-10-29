@@ -119,7 +119,7 @@ define('project/controllers', ['project/init'], function() {
         */
         $scope.submitFormAfter = function() {
           if ($scope.submitForm_type == "exit") {
-            $scope.goTo('#/invoicesOrder/query.html');
+            $scope.goTo('#/salesOrder/query.html');
            return;
          }
           if ($scope.submitForm_type == "submit") {
@@ -169,7 +169,7 @@ define('project/controllers', ['project/init'], function() {
        }
 
        if ($scope.submitForm_type == "submit") {
-         var url="rest/authen/confirmOrder/updateStatus"
+         var url="rest/authen/confirmOrder/updateStatus";
          var data= {id:$scope.formData.id,orderStatus:'待发货'};
          requestData(url,data, 'POST')
            .then(function (results) {
