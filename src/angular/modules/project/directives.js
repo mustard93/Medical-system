@@ -431,7 +431,6 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
         //如果发送请求的地址
         var _requestUrl = angular.isDefined(attrs.requestUrl) ? attrs.requestUrl : '';
 
-
         if(_dialogTemplate=="pr-dialog-return.html"){//编辑页面，取消操作
           if( !angular.isDefined(attrs.dialogTitle)) _dialogTitle = '取消修改?';
           if( !angular.isDefined(attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';

@@ -57,7 +57,7 @@
       <div class="order-details">
         <table class="mgt-l pr-table" style="width:100%;max-width:none;table-layout:auto;">
           <thead>
-            <th class="text-center">货品编码/货位</th>
+            <th>货品编码/货位</th>
             <th class="pr-indent-20" style="min-width:120px">药械名称/生产厂家/规格</th>
             <th class="text-center">剂型</th>
             <th class="text-center">单位</th>
@@ -65,7 +65,7 @@
             <th class="text-center">成交价</th>
             <th class="text-center">批次号要求</th>
             <th class="text-center">生产日期</th>
-            <th class="text-center">有效日期</th>
+            <th class="text-center">有效期</th>
             <th class="text-center">库存</th>
             <th class="text-center">购买数量</th>
             <th class="text-center">操作</th>
@@ -99,8 +99,8 @@
                   <option value=""></option>
                 </select> -->
               </td>
-              <td class="has-border text-center text-v-t pd-m">暂无</td>
-              <td class="has-border text-center text-v-t pd-m">暂无</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.productionDate|date : 'yyyy-MM-dd'}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.guaranteePeriod}}</td>
               <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td>
               <td class="has-border text-center text-v-t pd-m" ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
                 <span class="order-goods-num flex-column">
@@ -178,7 +178,13 @@
 
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
       <span>
-        <a href="javascript:;">返回购需中心</a>
+        <a href="javascript:;"
+           handle-this-click
+           dialog-title="确认取消?"
+           dialog-content="取消后无法回复原有数据,确认取消?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/salesOrder/query.html')"
+          save-callback="submitForm('editForm','exit')">返回购需中心</a>
 
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
 
