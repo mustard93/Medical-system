@@ -1,0 +1,61 @@
+<div class="content-wrapper purchase-order">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/purchaseOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+    <!-- 主内容头部 -->
+    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
+      <!-- 新建按钮及状态按钮 -->
+      <div class="full-width">
+        <div class="order-status-btn pos-tr text-right">
+            <div class=""></div>
+            <div class="btn btn-group"   scope-data="statusList">
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">未发送
+                <span class="pj-badge" ng-if='countByOrderStatus["未发送"]'>{{countByOrderStatus["未发送"]}}</span>
+              </button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">已发送
+                <span class="pj-badge" ng-if='countByOrderStatus["已发送"]'>{{countByOrderStatus["已发送"]}}</span>
+              </button>
+            </div>
+        </div>
+      </div>
+      <!-- 右侧搜索 -->
+      <div class="text-right order-list-search pos-rb">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
+        <i class=""></i>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <ul class="">
+        <!-- <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList"> -->
+        <li class="pdr-m relative confirm-order-list color-9" ng-repeat="tr in ['1','2']">
+          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative color-9">
+            <div class="">
+              <div class="flex-column mgb-m" style="height:22px;line-height:22px;">
+                <span class="flex-item-2 title-states">未发送</span>
+                <span class="flex-item-10 text-right">
+                  <a ng-if="tr.orderStatus=='未发送'" href="#" type="button" class="btn btn-primary btn-xs">立即发送</a>
+                  <a href="#/purchaseVoucher/get.html?id={{tr.id}}">查看详情</a>
+                </span>
+              </div>
+              <div class="flex-column text-s pd-v">
+                <span class="flex-item-6">凭证号：<em class="color-6">PZ16102323258010</em></span>
+                <span class="flex-item-6 text-right">日期：<em class="color-6">2016-10-10</em></span>
+              </div>
+            </div>
+            <div class="pr-ele-height-auto" style="padding-top:10px!important;padding-bottom:10px!important;">
+              <span>供应商：<em class="color-6">哈药集团</em></span>
+            </div>
+            <div class="text-s pd-c-l">
+              <p class="pd-v">订货单位：<em>国药集团云南医疗器械有限公司</em></p>
+              <p class="pdb">到货地址：<em>云南省昆明市高新技术开发区 产业基地A1-4地块新城基地标准工业厂房2号</em></p>
+              <p class="pdb">联系人：<em>朱晓明</em></p>
+              <p class="pdb">电话：<em>13800138000</em></p>
+            </div>
+            <div class="text-right text-s pd-c-l pdt pdb">
+              <a href="#">下载PDF文件</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+  </table-list>
+</div>
