@@ -28,6 +28,7 @@ require.config({
         'angular': '../libs/angular', //Angular
         'ngRoute': '../libs/angular-route', //路由
         'autocomplete': '../libs/jquery.autocomplete.min',      //自动补齐
+          'toastr': '../libs/toastr/toastr.min',   //提示窗口
         'bootstrap': '../libs/bootstrap.min', //bootstrap
     },
     shim: {
@@ -36,6 +37,9 @@ require.config({
         },
         'underscore': {
             exports: '_'
+        },
+        'toastr': {
+            deps: ['jQuery']
         },
         'chosen': {
             deps: ['jQuery']
@@ -48,7 +52,7 @@ require.config({
             exports: 'angular'
         },
         'ngRoute': {
-            deps: ['angular'], 
+            deps: ['angular'],
             exports: 'ngRoute'
         },
         'autocomplete': {
