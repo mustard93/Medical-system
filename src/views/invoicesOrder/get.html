@@ -14,23 +14,22 @@
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
     <!-- 单据信息 -->
     <div class="flex-column pd-c-xl pdt-l pdb-l bb-line">
-      <form   form-validator
+      <form form-validator
             action="rest/authen/outstockOrder/save.json"
-             alert-error
-             form-data="outstockOrderForm"
-               scope-data="outstockOrder"
+            alert-error
+            form-data="outstockOrderForm"
+            scope-data="outstockOrder"
             callback="goTo('#/outstockOrder/get.html?id='+outstockOrder.id)"
-          >
-      <div class="flex-item-10">
+            class="flex-item-10">
+      <div class="">
         <span class="mgr-m">发货单：{{showData.orderNo}}</span>
         <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
         <span class="mgr-m">对应订单：{{showData.confirmOrderNo}}</span>
         <span>对应出库单：{{showData.outStockOrderNo}}
-                <button ng-if="showData.orderStatus=='已发货'&&!showData.outStockOrderNo" class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
-
+          <button ng-if="showData.orderStatus=='已发货'&&!showData.outStockOrderNo" class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
         </span>
       </div>
-        </form>
+      </form>
       <div class="flex-item-2 text-right">
         <span>状态：{{showData.orderStatus}}</span>
       </div>
