@@ -1,11 +1,13 @@
 <div class="modal-content pr-modal-content" ng-controller="editCtrl">
+
   <form class="add-customerAddress-form form-horizontal"
-        ng-init="formData=dialogData.contact;formData.customerAddressId=dialogData.customerAddressId"
-        action="rest/authen/invoicesOrder/addKuaidi"
-        callback="customerAddressReload()"
+        ng-init="formData=dialogData.formData;formData.invoicesOrderId=dialogData.invoicesOrderId"
+        action="rest/authen/invoicesOrder/kuaidi/save"
+        scope-data="formData"
+        callback="kuaidiSaveAfter(formData)"
         form-validator>
     <div class="modal-header">
-        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}收货人信息</h4>
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}快递信息</h4>
     </div>
     <div class="modal-body">
       <div class="form-group">

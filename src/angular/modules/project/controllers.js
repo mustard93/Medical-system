@@ -208,7 +208,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.kuaidiSaveAfter = function(kuaidi) {
           modal.closeAll();
         if(!kuaidi)return;
-        if(!$scope.showData.kuaidiSet)showData.kuaidiSet=[];
+        if(!$scope.showData.kuaidiSet)$scope.showData.kuaidiSet=[];
         var arr=$scope.showData.kuaidiSet;
 
         for(var i=0;i<arr.length;i++){//有匹配就更新。
@@ -231,7 +231,7 @@ define('project/controllers', ['project/init'], function() {
          requestData(url,data, 'POST')
            .then(function (results) {
              var _data = results[1];
-             alertOk(_data.message || '操作成功');          
+             alertOk(_data.message || '操作成功');
              var arr=$scope.showData.kuaidiSet;
              for(var i=0;i<arr.length;i++){//有匹配就更新。
                 if(arr[i].id==kuaidi.id){
