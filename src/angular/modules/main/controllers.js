@@ -6,7 +6,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope,$http,store) {
+    function mainCtrl($scope,$rootScope,$http,store) {
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
@@ -23,10 +23,12 @@ define('main/controllers', ['main/init'], function () {
         $scope.currentDate = getCurrentDate();
 
         $scope.mainConfig = window.Config || {};
+
         //页面跳转
         $scope.pageTo = function (_url) {
             window.location.assign(_url);
         };
+
 
         // 调整页面
         $scope.goTo = function (url,confirmMsg) {
@@ -39,6 +41,7 @@ define('main/controllers', ['main/init'], function () {
                 window.location.assign(url);
             }
         };
+        $rootScope.goTo=$scope.goTo;
 
         $scope.httpGet = function(url) {
           if (Config.serverPath) {
@@ -223,7 +226,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$http","store", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$rootScope","$http","store", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);

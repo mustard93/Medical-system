@@ -198,9 +198,14 @@
             <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td> <!-- 数量 -->
             <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td> <!-- 单价 -->
             <td class="has-border text-center text-v-t pd-m">{{tr.quantity*tr.strike_price||''}}</td> <!-- 金额 -->
-            <td class="has-border text-center text-v-t pd-m">{{tr.originalParts}}</td> <!-- 证件数 -->
-            <td class="has-border text-center text-v-t pd-m">{{tr.spareParts}}</td> <!-- 散件数 -->
-            <td class="has-border text-center text-v-t pd-m">{{tr.drugAdministrationCode}}</td> <!-- 注册证号 -->
+            <td class="has-border text-center text-v-t pd-m">
+      <input type="text"  class="pr-table-input" ng-model="tr.originalParts" />
+              </td> <!-- 证件数 -->
+            <td class="has-border text-center text-v-t pd-m">
+                <input type="text"  class="pr-table-input" ng-model="tr.spareParts" /></td> <!-- 散件数 -->
+            <td class="has-border text-center text-v-t pd-m">
+      {{tr.drugAdministrationCode}}
+            </td> <!-- 注册证号 -->
             <td class="has-border text-center text-v-t pd-m">
 
                             <span class="block" ng-click="formData.orderMedicalNos.splice($index,1)">
@@ -252,9 +257,14 @@
               <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="addDataItem.strike_price" ></td> <!-- 单价 -->
 
             <td class="has-border text-center text-v-t pd-m">{{addDataItem.quantity*addDataItem.strike_price||''}}</td> <!-- 金额 -->
-            <td class="has-border text-center text-v-t pd-m">缺失</td> <!-- 证件数 -->
-            <td class="has-border text-center text-v-t pd-m">缺失</td> <!-- 散件数 -->
-            <td class="has-border text-center text-v-t pd-m">缺失</td> <!-- 注册证号 -->
+            <td class="has-border text-center text-v-t pd-m">
+    <input type="text"  class="pr-table-input" ng-model="addDataItem.originalParts" />
+              </td> <!-- 证件数 -->
+            <td class="has-border text-center text-v-t pd-m">
+                <input type="text"  class="pr-table-input" ng-model="addDataItem.spareParts" /></td> <!-- 散件数 -->
+            <td class="has-border text-center text-v-t pd-m">
+      {{addDataItem.drugAdministrationCode}}
+            </td> <!-- 注册证号 -->
             <td class="fix-td-border">
               <button class="pr-add-item-glodbg color-white pr-bg-glod" type="button"  ng-click="addDataItemClick(addDataItem,medical)"><i class="fa fa-plus color-white"></i></button>
             </td>
@@ -271,7 +281,7 @@
     <!-- 总价 -->
     <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
       <p class="pr-font-24 color-9 mgb">合计：<span class="pr-font-24 color-6">￥{{formData.totalPrice | number:2}}</span></p>
-      <p class="pr-font-24 color-9 mgb">税额：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.tax | number:2}}</span></p>
+      <p class="pr-font-24 color-9 mgb">税额：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.tax/100 | number:2}}</span></p>
       <p class="pr-font-24 color-9">预付款：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.payAndDelivery.prepaidRatio/100 | number:2}}</span></p>
     </div>
     <!-- 提交按钮 -->

@@ -6,11 +6,19 @@
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mgt-l mgb-xl flex-column">
     <h1 class="pr-title-color pr-font-24 flex-item-10">采购单</h1>
+    <!-- <a ng-if="showData.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="flex-item-2 block text-right">新建</a> -->
+
     <a href="#/purchaseOrder/query.html" class="flex-item-2 block text-right">返回采购单中心</a>
   </div>
 
   <!-- 主内容区域 -->
   <div class="content-wrapper-main" >
+
+    <!-- 作废原因： -->
+        <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
+              <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+        </div>
+
     <!-- 订单信息 -->
     <div class="panel pr-panel pr-panel-height flex-column mgb">
       <div class="flex-item-7">
@@ -29,10 +37,7 @@
       </div>
     </div>
 
-    <!-- 作废原因： -->
-        <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
-              <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
-        </div>
+
 
 
     <!-- 供货商信息 -->

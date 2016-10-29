@@ -335,7 +335,7 @@ define('project/controllers', ['project/init'], function() {
          /**
           *编辑、新建采购单
           */
-         function purchaseOrderEditCtrl($scope, modal,alertWarn,requestData) {
+         function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData) {
              modal.closeAll();
              // $scope.formData={};
              $scope.addDataItem = {};
@@ -474,7 +474,7 @@ define('project/controllers', ['project/init'], function() {
 
          }//end salesOrderEditCtrl
     angular.module('manageApp.project')
-      .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","requestData", purchaseOrderEditCtrl])
+      .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData", purchaseOrderEditCtrl])
     .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
     .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
       .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
