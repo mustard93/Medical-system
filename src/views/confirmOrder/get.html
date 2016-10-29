@@ -15,7 +15,7 @@
     <div class="panel pr-panel pr-panel-height flex-column mgb">
       <div class="flex-item-10">
         <span class="mgr-xl">订单编号：<em>{{showData.orderNo}}</em></span>
-        <span class="mgr-xl">创建时间：<em>{{showData.createAt | date: 'yyyy-MM-dd HH:ss'}}</em></span>
+        <span class="mgr-xl">创建时间：<em>{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
         <span class="mgr-xl">对应购需单：<em class="color-custom-orange">无字段</em></span>
       </div>
       <div class="flex-item-2 text-right">
@@ -81,20 +81,31 @@
         <span class="color-custom-orange">请等待库存补足后，即可另外生成销售订单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态</span>
       </div>
     </div>
-    <!-- 按钮 -->
-    <div  ng-if="showData.orderStatus=='待审批'"  class="text-right mgb-l">
-      <span class="mgr-l">
+    <!-- 按钮   ng-if="showData.orderStatus=='待审批'" -->
+    <div  class="text-right mgb-l">
+      <!-- <span class="mgr-l"    ng-controller="updateStatusCtrl">
         <a href="javascript:;"
            class="pr-btn-save-glodbg"
            handle-this-click
            dialog-title="确认驳回?"
            dialog-content="驳回后,该订单将作废"
            dialog-template="pr-dialog-order-reject.html"
-           request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已审批"
-           call-submit=""
+           call-submit="updateStatus('rest/authen/confirmOrder/updateStatus.json',mainStatus.pageParams.id,'已作废',{})"
            call-back="goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">驳回</a>
+      </span> -->
+
+      <span class="mgr-l" ng-if="showData.orderStatus=='待审批'"
+      ng-init="rejectObj={url:'rest/authen/confirmOrder/updateStatus.json',typeCode:'采购单驳回理由',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
+        <a href="javascript:;"
+           class="pr-btn-save-glodbg"
+           modal-center
+           modal-scope="this"
+
+           modal-url="views/public/dialog-check-reject.html">驳回</a>
       </span>
-      <button class="pr-btn-save-glodbg"
+
+
+      <button class="pr-btn-save-glodbg"  ng-if="showData.orderStatus=='待审批'"
               type="button"
               handle-this-click
               dialog-title="确认通过?"
