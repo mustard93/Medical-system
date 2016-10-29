@@ -22,10 +22,13 @@
         <span>订单状态：<em>{{showData.orderStatus}}</em></span>
       </div>
     </div>
-    <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
-          <span class="mgr-xl">作废原因：<em style="color:red">[{{showData.operationFlowSet[0].inputUser}}]{{showData.operationFlowSet[0].key}} {{showData.operationFlowSet[0].message}}</em></span>
-    </div>
 
+    <!-- 作废原因： -->
+        <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
+              <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+        </div>
+
+  
 
 
     <!-- 用户信息 -->

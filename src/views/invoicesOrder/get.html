@@ -34,6 +34,12 @@
         <span>状态：{{showData.orderStatus}}</span>
       </div>
     </div>
+
+<!-- 作废原因： -->
+    <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
+          <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+    </div>
+
     <!-- 用户信息 -->
     <div class="pd-c-xl pdt-l pdb-l bb-line">
       <p class="flex-column mgb">

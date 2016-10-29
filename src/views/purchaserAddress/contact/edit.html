@@ -1,0 +1,50 @@
+<div class="modal-content pr-modal-content" ng-controller="editCtrl">
+  <form class="add-customerAddress-form form-horizontal"
+        ng-init="formData=dialogData.contact;formData.purchaserAddressId=dialogData.customerAddressId"
+        action="rest/authen/purchaserAddress/contact/save"
+        callback="customerAddressReload()"
+        form-validator>
+    <div class="modal-header">
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}收货人信息</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label text-left">收货人</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="请填写收货人姓名" ng-model="formData.name"/>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">手机</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="tel" class="form-control" placeholder="请填写联系手机号码" ng-model="formData.tel"/>
+          </div>
+      </div>
+
+
+    <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">省/市/区</label>
+        <div class="col-lg-10 col-sm-10">
+          <input class="form-control"
+                 ng-init="province_city_area=formData.prov+' '+formData.city+' '+formData.area"
+                 select-address p="formData.prov" c="formData.city" a="formData.area" d="d" ng-model="province_city_area" placeholder="请选择省/市/区" type="text"
+                 required/>
+            </div>
+    </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">详细地址</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="建议您如实填写详细收货地址，例如街道名称，门牌号码，楼层和房间号等信息" ng-model="formData.address"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="提交" ng-disabled="!formData.name || !formData.tel || !formData.address || !province_city_area">
+          </div>
+      </div>
+    </div>
+  </form>
+</div>

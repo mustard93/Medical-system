@@ -29,7 +29,7 @@
       <div class="flex-item-2">
 
         <select class="select pr-select" ng-model="formData.type" style="max-width:180px;" chosen
-         select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
+         select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PurchaseOrderType">
         </select>
         <!--
         <select class="select pr-select" ng-model="formData.type" style="max-width:180px;">
@@ -77,7 +77,7 @@
                 chosen
                 chosen-ajax
                 ng-model="formData.customerId"
-                select-source="rest/authen/customerAddress/queryForSelectOption.json">
+                select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
         </select>
 
         <input type="text" class="ipt pr-only-btline" placeholder="供货商名">
@@ -85,34 +85,7 @@
       <span>发货人：肖大勇</span>
       <span>联系电话：13800138000</span>
     </div>
-    <!-- 发货人信息 -->
-    <!-- <div class="consignee-info pd-c-xl pdt-l pdb-l bb-line"
-         ajax-if="{{formData.customerId}}"
-         ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
-         scope-data="customerAddress"
-         callback="customerAddressGetCallBack(formData,customerAddress)"
-         ng-class="{'static': customerAddress.contacts}">
-      <h1 class="color-6 text-n mgb-l">发货人信息</h1>
-      <ul ng-if="formData.customerId">
-        <li class="mgr-m mgb-m"  ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
-          <p class="pdb">{{item.name}} </p>
-          <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
-          <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
-          <i class="consignee-default-label"  ng-if="customerAddress.defaultContactId==item.id">默认</i>
-          <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-        </li>
-        <span>
-          <button class="pr-add-item-whitebg"
-                  modal-right="700"
-                  modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                  modal-scope="this"
-                  modal-url="views/customerAddress/contact/edit.html"
-                  ng-class="{'static':!customerAddress.contacts}">
-            <i class="fa fa-plus"></i>
-          </button>
-        </span>
-      </ul>
-    </div> -->
+
     <!-- 采购方信息 -->
     <div class="pd-c-xl pdb-l bb-line" >
       <h1 class="pdb-l pdt-l">采购方信息</h1>
@@ -122,7 +95,7 @@
                 data-placeholder="采购方名称"
                 chosen
                 ng-model="formData.customerId"
-                select-source="rest/authen/customerAddress/queryForSelectOption.json">
+                select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
         </select>
 
         <!-- <input type="text" class="ipt pr-only-btline" placeholder="采购方名称"> -->
@@ -132,17 +105,17 @@
     <!-- 收货人信息 -->
     <div class="consignee-info pd-c-xl pdt-l pdb-l bb-line"
          ajax-if="{{formData.customerId}}"
-         ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
-         scope-data="customerAddress"
-         callback="customerAddressGetCallBack(formData,customerAddress)"
-         ng-class="{'static': customerAddress.contacts}">
+         ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
+         scope-data="purchaserAddress"
+         callback="customerAddressGetCallBack(formData,purchaserAddress)"
+         ng-class="{'static': purchaserAddress.contacts}">
       <h1 class="color-6 text-n mgb-l">收货人信息</h1>
       <ul ng-if="formData.customerId">
-        <li class="mgr-m mgb-m"  ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
+        <li class="mgr-m mgb-m"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
           <p class="pdb">{{item.name}} </p>
           <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
-          <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
-          <i class="consignee-default-label"  ng-if="customerAddress.defaultContactId==item.id">默认</i>
+          <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
+          <i class="consignee-default-label"  ng-if="purchaserAddress.defaultContactId==item.id">默认</i>
           <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
         </li>
         <span>
@@ -150,8 +123,8 @@
                   modal-right="700"
                   modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
                   modal-scope="this"
-                  modal-url="views/customerAddress/contact/edit.html"
-                  ng-class="{'static':!customerAddress.contacts}">
+                  modal-url="views/purchaserAddress/contact/edit.html"
+                  ng-class="{'static':!purchaserAddress.contacts}">
             <i class="fa fa-plus"></i>
           </button>
         </span>
