@@ -504,7 +504,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 function getListData(_callback) {
                   if(!$attrs.listData)return;
-                  
+
                     if ($attrs.listSource) {
                         if ($scope.listSource) {
                             $scope.tbodyList = angular.isArray($scope.listSource) ? $scope.listSource : $scope.listSource.list;
@@ -2032,6 +2032,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                                  }
                               }
+                              if(_selected==null)_selected="";
                               if (angular.isDefined($attrs.defaultEmpty)) {
                                   _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
                               }

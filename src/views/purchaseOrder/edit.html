@@ -54,36 +54,29 @@
       </div>
     </div>
     <!-- 供货商信息 -->
-    <div class="pd-c-xl pdb-l bb-line" >
+    <div class="pd-c-xl pdb-l bb-line"
+      ajax-if="{{formData.supplier.id}}"
+    ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
+    scope-data="supplier"
+    callback="formData.supplier=supplier"
+    alert-error
+    >
       <h1 class="pdb-l">供货商信息</h1>
-      <!-- <span class="relative">
-        <label class="pr-label">{{statusInfo.isLoading}}</label>
-        <div class="relative inline-block">
-          <select ng-if="formData.createAt"
-                  class="ipt pr-short-ipt"
-                  data-placeholder="供货商类型"
-                  chosen
-                  chosen-ajax
-                  ng-model="formData.customerId"
-                  select-source="rest/authen/customerAddress/queryForSelectOption.json">
-          </select>
-        </div>
-      </span> -->
-      <span>
+
+      <span     chosen-ajax>
 
         <select ng-if="formData.createAt"
                 class="ipt pr-short-ipt"
-                data-placeholder="填写客户名"
+                data-placeholder="供货商名"
                 chosen
-                chosen-ajax
-                ng-model="formData.customerId"
-                select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
+                ng-model="formData.supplier.id"
+                select-source="rest/authen/supplier/queryForSelectOption.json">
         </select>
 
-        <input type="text" class="ipt pr-only-btline" placeholder="供货商名">
+
       </span>
-      <span>发货人：肖大勇</span>
-      <span>联系电话：13800138000</span>
+      <span>发货人：{{formData.supplier.shipperName}}</span>
+      <span>联系电话：{{formData.supplier.tel}}</span>
     </div>
 
     <!-- 采购方信息 -->
@@ -205,9 +198,9 @@
             <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td> <!-- 数量 -->
             <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td> <!-- 单价 -->
             <td class="has-border text-center text-v-t pd-m">{{tr.quantity*tr.strike_price||''}}</td> <!-- 金额 -->
-            <td class="has-border text-center text-v-t pd-m"></td> <!-- 证件数 -->
-            <td class="has-border text-center text-v-t pd-m"></td> <!-- 散件数 -->
-            <td class="has-border text-center text-v-t pd-m"></td> <!-- 注册证号 -->
+            <td class="has-border text-center text-v-t pd-m">{{tr.originalParts}}</td> <!-- 证件数 -->
+            <td class="has-border text-center text-v-t pd-m">{{tr.spareParts}}</td> <!-- 散件数 -->
+            <td class="has-border text-center text-v-t pd-m">{{tr.drugAdministrationCode}}</td> <!-- 注册证号 -->
             <td class="has-border text-center text-v-t pd-m">
 
                             <span class="block" ng-click="formData.orderMedicalNos.splice($index,1)">
