@@ -203,6 +203,48 @@ define('project/controllers', ['project/init'], function() {
      *出库单
      */
     function invoicesOrderCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+
+      //快递保存后
+      $scope.kuaidiSaveAfter = function(kuaidi) {
+          modal.closeAll();
+        if(!kuaidi)return;
+        if(!$scope.showData.kuaidiSet)showData.kuaidiSet=[];
+        var arr=$scope.showData.kuaidiSet;
+
+        for(var i=0;i<arr.length;i++){//有匹配就更新。
+           if(arr[i].id==kuaidi.id){
+             arr[i]=kuaidi;
+             return;
+           }
+        }
+       arr.push(kuaidi);//新建
+       }//kuaidiSaveAfter
+
+
+       /**
+       *保存
+       type:save-草稿,submit-提交订单。
+       */
+       $scope.deleteKuaidi = function(kuaidi,invoicesOrderId) {
+         var url="rest/authen/invoicesOrder/kuaidi/delete"
+         var data= {kuaidiId:kuaidi.id,invoicesOrderId:invoicesOrderId};
+         requestData(url,data, 'POST')
+           .then(function (results) {
+             var _data = results[1];
+             alertOk(_data.message || '操作成功');          
+             var arr=$scope.showData.kuaidiSet;
+             for(var i=0;i<arr.length;i++){//有匹配就更新。
+                if(arr[i].id==kuaidi.id){
+                  arr.splice(i,1);
+                  return;
+                }
+             }
+
+           })
+           .catch(function (error) {
+             alertError(error || '出错');
+           });
+         }//deleteKuaidi
       /**
       *保存
       type:save-草稿,submit-提交订单。
@@ -262,12 +304,14 @@ define('project/controllers', ['project/init'], function() {
               requestRead(notice.id,notice);
 
               notice.readFlag=true;
+            if($scope.scopeResponse&&$scope.scopeResponse.totalCount)$scope.scopeResponse.totalCount--;
               if (!(notice.moduleType&&notice.relId)){
                   alertOk(notice.subject);
                   return;
               }
                   //相应跳转
-                $scope.goTo('#/'+notice.moduleType+'/get.html?id='+notice.relId);
+                window.location.assign('#/'+notice.moduleType+'/get.html?id='+notice.relId);
+
 
            }//noticeClick
 
