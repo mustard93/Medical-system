@@ -22,6 +22,12 @@
         <span>订单状态：<em>{{showData.orderStatus}}</em></span>
       </div>
     </div>
+    <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
+          <span class="mgr-xl">作废原因：<em style="color:red">[{{showData.operationFlowSet[0].inputUser}}]{{showData.operationFlowSet[0].key}} {{showData.operationFlowSet[0].message}}</em></span>
+    </div>
+
+
+
     <!-- 用户信息 -->
     <div class="panel pr-panel pr-panel-height mgb">
       <div class="flex-column mgb">
@@ -71,7 +77,7 @@
     </div>
 
     <!-- 暂不可转入订单部分 -->
-    <div  ng-if="scopeData.salesOrder&&showData.orderStatus=='已作废'" class="panel pr-panel pr-bg-grey">
+    <div  ng-if="scopeData.salesOrder&&showData.confirmOrder.orderStatus=='已作废'" class="panel pr-panel pr-bg-grey">
       <h1 class="text-l">暂不可转入订单部分</h1>
       <div ng-if="scopeData.salesOrder" class="confirm-order">
         <div order-medicals  ng-model="scopeData.salesOrder.orderMedicalNos"></div>

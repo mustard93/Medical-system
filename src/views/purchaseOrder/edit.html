@@ -1,5 +1,5 @@
 <div class="create-new-order"
-     ng-controller="salesOrderEditCtrl"
+     ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      alert-error>
@@ -11,7 +11,7 @@
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mg-l">
     <!-- <h1 class="pr-title-color pr-font-24">{{!formData.id?'新建':'编辑'}}订单</h1> -->
-    <h1 class="pr-title-color pr-font-24">新建采购单</h1>
+    <h1 class="pr-title-color pr-font-24">{{!formData.id?'新建':'编辑'}}采购单</h1>
   </div>
   <!-- 主内容区域 -->
   <form id="editForm"
@@ -27,19 +27,30 @@
     <!-- 订单类型 -->
     <div class="flex-column mgb-l pd-c-xl pdt-m pdb-m bb-line">
       <div class="flex-item-2">
+
+        <select class="select pr-select" ng-model="formData.type" style="max-width:180px;" chosen
+         select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
+        </select>
+        <!--
         <select class="select pr-select" ng-model="formData.type" style="max-width:180px;">
           <option value="普通订单">普通订单</option>
           <option value="寄售订单">寄售订单</option>
-        </select>
+        </select> -->
       </div>
       <div class="flex-item-10 text-right text-s color-6 mgt">
         <span class="mgr-xl">采购员：
-          <select class="select pr-select" style="max-width:120px;">
-            <option value="刘丽">刘丽</option>
+
+          <select  class="select pr-select" style="max-width:120px;" data-placeholder="采购员:"
+          chosen default-empty="无"  ng-model="formData.saleUserId" select-source="rest/authen/user/queryForSelectOption.json">
+            <option value=""></option>
           </select>
+
+          <!-- <select class="select pr-select" style="max-width:120px;">
+            <option value="刘丽">刘丽</option>
+          </select> -->
         </span>
         <span class="mgr-xl">审批人：暂无</span>
-        <span class="mgr-xl">状态：未提交</span>
+        <span class="mgr-xl">状态：{{formData.orderStatus}}</span>
       </div>
     </div>
     <!-- 供货商信息 -->
@@ -59,6 +70,16 @@
         </div>
       </span> -->
       <span>
+
+        <select ng-if="formData.createAt"
+                class="ipt pr-short-ipt"
+                data-placeholder="填写客户名"
+                chosen
+                chosen-ajax
+                ng-model="formData.customerId"
+                select-source="rest/authen/customerAddress/queryForSelectOption.json">
+        </select>
+
         <input type="text" class="ipt pr-only-btline" placeholder="供货商名">
       </span>
       <span>发货人：肖大勇</span>
@@ -95,7 +116,18 @@
     <!-- 采购方信息 -->
     <div class="pd-c-xl pdb-l bb-line" >
       <h1 class="pdb-l pdt-l">采购方信息</h1>
-      <span><input type="text" class="ipt pr-only-btline" placeholder="采购方名称"></span>
+      <span>
+        <select ng-if="formData.createAt"
+                class="ipt pr-short-ipt"
+                data-placeholder="采购方名称"
+                chosen
+                ng-model="formData.customerId"
+                select-source="rest/authen/customerAddress/queryForSelectOption.json">
+        </select>
+
+        <!-- <input type="text" class="ipt pr-only-btline" placeholder="采购方名称"> -->
+
+      </span>
     </div>
     <!-- 收货人信息 -->
     <div class="consignee-info pd-c-xl pdt-l pdb-l bb-line"
@@ -130,15 +162,39 @@
       <h1 class="pdb-l">付款及货运要求</h1>
       <div class="flex-column">
         <div class="flex-item-7">
-          <select class="select pr-select pr-short-ipt mgr-l"><option value="付款方式">付款方式</option></select>
-          <select class="select pr-select pr-short-ipt mgr-l"><option value="结算方式">结算方式</option></select>
-          <select class="select pr-select pr-short-ipt mgr-l"><option value="账期要求">账期要求</option></select>
-          <select class="select pr-select pr-short-ipt"><option value="预付款">预付款</option></select>
+
+
+
+          <select class="select pr-select pr-short-ipt mgr-l"
+          ng-model="formData.payAndDelivery.payType"  chosen
+          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PayType"
+          >
+
+          </select><!--付款方式-->
+          <select class="select pr-select pr-short-ipt mgr-l"
+          ng-model="formData.payAndDelivery.cashType"  chosen
+          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_CashType"
+          ></select><!--结算方式-->
+          <select class="select pr-select pr-short-ipt mgr-l"
+          ng-model="formData.payAndDelivery.payPeriodType"  chosen
+          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PayPeriodType"
+          ></select><!--账期要求-->
+
+          <input type="text" class="ipt pr-only-btline"   ng-model="formData.payAndDelivery.prepaidRatio"  placeholder="预付款比例">%
         </div>
         <div class="flex-item-5">
-          <select class="select pr-select pr-short-ipt mgr-l"><option value="运输方式">运输方式</option></select>
-          <select class="select pr-select pr-short-ipt mgr-l"><option value="承运单位">承运单位</option></select>
-          <select class="select pr-select pr-short-ipt"><option value="期望到货时间">期望到货时间</option></select>
+          <select class="select pr-select pr-short-ipt mgr-l"
+          ng-model="formData.payAndDelivery.transportType"  chosen
+          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_TransportType"
+          ></select><!--运输方式-->
+
+          <select class="select pr-select pr-short-ipt mgr-l"
+          ng-model="formData.payAndDelivery.KuaidiType"  chosen
+          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_KuaidiType"
+          ></select><!--承运单位-->
+
+            <input type="date" class="ipt pr-short-ipt" placeholder="期望到货时间" convert-to-date ng-model="formData.expectDate">
+
         </div>
       </div>
     </div>
@@ -173,13 +229,18 @@
               </div>
             </td>
             <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td> <!-- 单位 -->
-            <td class="has-border text-center text-v-t pd-m"></td> <!-- 数量 -->
+            <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td> <!-- 数量 -->
             <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td> <!-- 单价 -->
-            <td class="has-border text-center text-v-t pd-m"></td> <!-- 金额 -->
-            <td class="has-border text-center text-v-t pd-m">12</td> <!-- 证件数 -->
-            <td class="has-border text-center text-v-t pd-m">12</td> <!-- 散件数 -->
-            <td class="has-border text-center text-v-t pd-m">1234455676</td> <!-- 注册证号 -->
-            <td class="has-border text-center text-v-t pd-m"></td>
+            <td class="has-border text-center text-v-t pd-m">{{tr.quantity*tr.strike_price||''}}</td> <!-- 金额 -->
+            <td class="has-border text-center text-v-t pd-m"></td> <!-- 证件数 -->
+            <td class="has-border text-center text-v-t pd-m"></td> <!-- 散件数 -->
+            <td class="has-border text-center text-v-t pd-m"></td> <!-- 注册证号 -->
+            <td class="has-border text-center text-v-t pd-m">
+
+                            <span class="block" ng-click="formData.orderMedicalNos.splice($index,1)">
+                              <a href="javascript:;"><i class="fa fa-trash-o pr-color text-l"></i></a>
+                            </span>
+            </td>
           </tr>
 
           <tr>
@@ -195,22 +256,39 @@
               class="showLoading relative">
             <td class="has-border text-center text-s"></td> <!-- 器械编号 -->
             <td class="goods-name has-border pd-m"> <!-- 名称/厂家/规格 -->
-              <div class="pr-table-td-m relative">
-                <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
-                <span class="block">
-                  <p class="pdl-m mgb-s color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                  <p class="pdl-m mgb-s color-9 text-s"><span>{{tr.manufacturer}}</span></p>
-                  <p class="mgl-m color-9 text-s"><span>{{tr.specification||"无规格"}}</span></p>
+              <div class="relative pr-table-td-m">
+                <span class="goods-thumbnail flex-item-2"><img ng-if="addDataItem.headUrl" ng-src="{{addDataItem.headUrl}}" alt=""/></span>
+                <span class="block pdl-m">
+                  <p>
+                    <!-- <input type="text" class="pr-table-input" placeholder="药械名"> -->
+                    <select id="addDataItem_relId"
+                            chosen
+                            class="select pr-table-select mgb-s"
+                            data-placeholder="药械名"
+                            ng-model="addDataItem.relId"
+                            clear-watch-scope="addDataItem.relId"
+                            select-source="rest/authen/medicalStock/queryForSelectOption.json"></select>
+                  </p>
+                  <p class="mgt-s">
+                    <input type="text" class="pr-table-input" placeholder="厂商名" ng-readonly="true" ng-model="addDataItem.manufacturer" style="border-bottom:none;">
+                  </p>
+                  <p class="mgt-s"><span class="text-s">{{addDataItem.specification||"无规格"}}</span></p>
                 </span>
               </div>
             </td>
-            <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td> <!-- 单位 -->
-            <td class="has-border text-center text-v-t pd-m"></td> <!-- 数量 -->
-            <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td> <!-- 单价 -->
-            <td class="has-border text-center text-v-t pd-m"></td> <!-- 金额 -->
-            <td class="has-border text-center text-v-t pd-m">12</td> <!-- 证件数 -->
-            <td class="has-border text-center text-v-t pd-m">12</td> <!-- 散件数 -->
-            <td class="has-border text-center text-v-t pd-m">1234455676</td> <!-- 注册证号 -->
+            <td class="has-border text-center text-v-t pd-m">{{addDataItem.unit}}</td> <!-- 单位 -->
+            <td class="has-border text-center text-v-t pd-m">
+              <input type="number" id="addDataItem_quantity" class="pr-table-input" ng-model="addDataItem.quantity" />
+
+            </td> <!-- 数量 -->
+            <td class="has-border text-center text-v-t pd-m">
+               <span class="pr-unit-inline">￥</span>
+              <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="addDataItem.strike_price" ></td> <!-- 单价 -->
+
+            <td class="has-border text-center text-v-t pd-m">{{addDataItem.quantity*addDataItem.strike_price||''}}</td> <!-- 金额 -->
+            <td class="has-border text-center text-v-t pd-m">缺失</td> <!-- 证件数 -->
+            <td class="has-border text-center text-v-t pd-m">缺失</td> <!-- 散件数 -->
+            <td class="has-border text-center text-v-t pd-m">缺失</td> <!-- 注册证号 -->
             <td class="fix-td-border">
               <button class="pr-add-item-glodbg color-white pr-bg-glod" type="button"  ng-click="addDataItemClick(addDataItem,medical)"><i class="fa fa-plus color-white"></i></button>
             </td>
@@ -227,8 +305,8 @@
     <!-- 总价 -->
     <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
       <p class="pr-font-24 color-9 mgb">合计：<span class="pr-font-24 color-6">￥{{formData.totalPrice | number:2}}</span></p>
-      <p class="pr-font-24 color-9 mgb">税额：<span class="pr-font-24 color-6">￥{{formData.totalPrice | number:2}}</span></p>
-      <p class="pr-font-24 color-9">预付款：<span class="pr-font-24 color-6">￥{{formData.totalPrice | number:2}}</span></p>
+      <p class="pr-font-24 color-9 mgb">税额：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.tax | number:2}}</span></p>
+      <p class="pr-font-24 color-9">预付款：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.payAndDelivery.prepaidRatio/100 | number:2}}</span></p>
     </div>
     <!-- 提交按钮 -->
     <div class="pd-c-xl pdb-xxl text-right">
