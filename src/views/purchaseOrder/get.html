@@ -1,7 +1,6 @@
 <div class="content-wrapper"
-     ajax-url="rest/authen/confirmOrder/getThisAndSalesOrder.json?id={{mainStatus.pageParams.id}}"
-     scope-data="scopeData"
-     callback="showData=scopeData.confirmOrder"
+     ajax-url="rest/authen/purchaseOrder/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
      alert-error>
 
   <!-- 主内容头部 -->
@@ -11,54 +10,66 @@
   </div>
 
   <!-- 主内容区域 -->
-  <div class="content-wrapper-main">
+  <div class="content-wrapper-main" >
     <!-- 订单信息 -->
     <div class="panel pr-panel pr-panel-height flex-column mgb">
       <div class="flex-item-7">
         <span class="mgr-xl">普通采购单</span>
-        <span class="mgr-xl">采购单编号：<em>C000123456</em></span>
-        <span class="mgr-xl">创建时间：<em>2016-10-10 15:30</em></span>
+        <span class="mgr-xl">采购单编号：<em>{{showData.orderNo}}</em></span>
+        <span class="mgr-xl">创建时间：<em>{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+
       </div>
       <div class="flex-item-5 text-right">
-        <span>采购员：<em>刘丽</em></span>
-        <span>审批人：<em>刘甜甜</em></span>
-        <span>状态：<em>待审批</em></span>
+        <span>采购员：<em>{{showData.saleUser.n}}</em></span>
+        <span>审批人：<em
+          ng-if="showData.orderStatus&&showData.orderStatus!='未提交'"
+          ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]"
+          >{{operItem.inputUser}}</em></span>
+        <span>状态：<em>{{showData.orderStatus}}</em></span>
       </div>
     </div>
+
+    <!-- 作废原因： -->
+        <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
+              <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+        </div>
+
+
     <!-- 供货商信息 -->
     <div class="panel pr-panel pr-panel-height mgb">
       <h1 class="mgb-l">供货商信息</h1>
       <div class="flex-column mgb">
         <span class="color-9 mgr-xl">供货商类型：<em class="color-6 font-normal">厂家</em></span>
-        <span class="color-9">供货商名：<em class="color-6 font-normal">哈药集团</em></span>
+        <span class="color-9">供货商名：<em class="color-6 font-normal">{{formData.supplier.name}}</em></span>
       </div>
     </div>
     <!-- 采购方信息 -->
     <div class="panel pr-panel pr-panel-height mgb">
       <h1 class="mgb-l">采购方信息</h1>
       <div class="mgb-l color-6">
-        <span class="block mgb-m">采购方：<em class="color-9">国药集团云南医疗器械有限责任公司</em></span>
+        <span class="block mgb-m">采购方：<em class="color-9">{{showData.customerName}}</em></span>
         <span class="block">收货人信息：
-          <em class="color-9">肖大勇</em>
-          <em class="color-9">云南省昆明市高新技术开发区 产业基地A1-4块地</em>
-          <em class="color-9">13800138000</em>
+          <em class="color-9">{{showData.address.name}} </em>
+          <em class="color-9">{{item.prov}}{{item.city}}{{item.area}}{{showData.address.address}}</em>
+          <em class="color-9">{{showData.address.tel}}</em>
         </span>
       </div>
     </div>
+
     <!-- 付款及货运 -->
     <div class="panel pr-panel pr-panel-height mgb">
       <h1 class="mgb-l">付款及货运要求</h1>
       <div class="flex-column">
         <div class="flex-item-7 flex-column">
-          <span class="color-9 flex-item-3">付款方式：<em class="color-6">货到付款</em></span>
-          <span class="color-9 flex-item-3">结算方式：<em class="color-6">现金</em></span>
-          <span class="color-9 flex-item-3">账期要求：<em class="color-6">三个月</em></span>
-          <span class="color-9 flex-item-3">预付款：<em class="color-6">50%</em></span>
+          <span class="color-9 flex-item-3">付款方式：<em class="color-6">{{showData.payAndDelivery.payType}}</em></span>
+          <span class="color-9 flex-item-3">结算方式：<em class="color-6">{{showData.payAndDelivery.cashType}}</em></span>
+          <span class="color-9 flex-item-3">账期要求：<em class="color-6">{{showData.payAndDelivery.payPeriodType}}</em></span>
+          <span class="color-9 flex-item-3">预付款：<em class="color-6">{{showData.payAndDelivery.prepaidRatio}}%</em></span>
         </div>
         <div class="flex-item-5 flex-column">
-          <span class="color-9 flex-item-4">运输方式：<em class="color-6">汽车运输</em></span>
-          <span class="color-9 flex-item-4">承运单位：<em class="color-6">顺丰速递</em></span>
-          <span class="color-9 flex-item-4">期望到货时间：<em class="color-6">2016-10-31</em></span>
+          <span class="color-9 flex-item-4">运输方式：<em class="color-6">{{showData.payAndDelivery.transportType}}</em></span>
+          <span class="color-9 flex-item-4">承运单位：<em class="color-6">{{showData.payAndDelivery.KuaidiType}}</em></span>
+          <span class="color-9 flex-item-4">期望到货时间：<em class="color-6">{{showData.expectDate | date: 'yyyy-MM-dd'}}</em></span>
         </div>
       </div>
     </div>
@@ -66,46 +77,8 @@
     <div class="panel pr-panel pr-panel-height mgb-n">
       <h1 class="text-l">订购清单</h1>
       <div class="confirm-order">
-        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
-          <thead>
-            <th class="text-center">药械编号</th>
-            <th class="">药品名称/生产厂家/规格</th>
-            <th class="text-center">单位</th>
-            <th class="text-center">数量</th>
-            <th class="text-center">单价</th>
-            <th class="text-center">金额</th>
-            <th class="text-center">证件数</th>
-            <th class="text-center">散件数</th>
-            <th class="text-center">注册证号</th>
-          </thead>
-          <tbody>
-            <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr>
-              <td class="has-border text-center text-v-t pd-m">YF02048</td>
-              <td class="goods-name has-border text-v-t pd-m">
-                <div class="relative">
-                  <span class="goods-thumbnail inline-block">
-                    <!-- <img ng-src="{{tr.headUrl}}" alt=""> -->
-                    <img src="http://img.km1818.com/product/upload/product/13653/15271/20140929100752040461_15271_1.jpg" alt="">
-                  </span>
-                  <span class="inline-block">
-                    <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>阿莫西林胶囊</span></p>
-                    <p class="pdl-l mgb color-9 text-s"><span>南京xx制药有限公司</span></p>
-                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
-                  </span>
-                </div>
-              </td>
-              <td class="has-border text-center text-v-t pd-m">盒</td>
-              <td class="has-border text-center text-v-t pd-m">1000</td>
-              <td class="has-border text-center text-v-t pd-m">￥3.20</td>
-              <td class="has-border text-center text-v-t pd-m">￥3200.00</td>
-              <td class="has-border text-center text-v-t pd-m">10</td>
-              <td class="has-border text-center text-v-t pd-m">0</td>
-              <td class="has-border text-center text-v-t pd-m">国食药监械(准)字2008第20161004</td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- <div order-medicals  ng-model="showData.orderMedicalNos"></div> -->
+        <div  order-medicals-purchase  ng-model="showData.orderMedicalNos"></div>
+
       </div>
     <!-- 备注 -->
     <div class="bb-line mgb-l">
@@ -114,8 +87,32 @@
     <!-- 总价 -->
     <div class="text-right">
       <div class="text-l text-right mgb">合计：￥{{showData.totalPrice | number:2}}</div>
-      <div class="text-l text-right mgb">税额：￥{{showData.totalPrice | number:2}}</div>
-      <div class="text-l text-right mgb">预付款：￥{{showData.totalPrice | number:2}}</div>
+      <div class="text-l text-right mgb">税额：￥{{showData.totalPrice*showData.tax | number:2}}</div>
+      <div class="text-l text-right mgb">预付款：￥{{showData.prepaidPrice | number:2}}</div>
+    </div>
+
+
+
+      <div  class="text-right mgb-l" ng-if="showData.orderStatus=='待审批'">
+      <span class="mgr-l"
+      ng-init="rejectObj={url:'rest/authen/purchaseOrder/updateStatus.json',typeCode:'订单驳回理由',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/purchaseOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
+        <a href="javascript:;"
+           class="pr-btn-save-glodbg"
+           modal-center
+           modal-scope="this"
+           modal-url="views/public/dialog-check-reject.html">驳回</a>
+      </span>
+
+      <button class="pr-btn-save-glodbg"
+              type="button"
+              handle-this-click
+              dialog-title="确认通过?"
+              dialog-content="审核通过后,订单将生效,是否通过?"
+              dialog-template="pr-dialog-submit.html"
+              request-url="rest/authen/purchaseOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=待采购"
+              call-back="goTo('#/purchaseOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过</button>
     </div>
   </div>
+
+
 </div>

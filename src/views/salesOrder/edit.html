@@ -114,10 +114,10 @@
         <tbody  ng-init="medicalStockMap={};orderMedicalNoIds=[]" >
           <tr class="tr-interval"><td colspan="9"></td></tr>
           <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()"  ng-init="orderMedicalNoIds.push(tr.relId)" >
-            <!-- <td class="has-border text-center text-s">
+            <td class="has-border text-center text-s">
               <p>{{tr.code||'无'}}</p>
               <p>{{tr.storageLocation||'无'}}</p>
-            </td> -->
+            </td>
             <td class="goods-name has-border pd-m">
               <div class="pr-table-td-m relative">
                 <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
@@ -145,7 +145,6 @@
             </td>
             <td class="has-border text-center text-v-t pd-m">{{tr.productionDate|date : 'yyyy-MM-dd'}}</td>
             <td class="has-border text-center text-v-t pd-m">{{tr.guaranteePeriod}}</td>
-
             <td class="has-border text-center text-v-t pd-m">{{medicalStockMap[tr.relId].quantity}}</td>
             <td class="has-border text-center text-v-t pd-m" ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
               <span class="order-goods-num flex-column">
@@ -230,16 +229,16 @@
             <td class="has-border text-center text-v-t pd-m">￥{{addDataItem.price}}</td>
             <td class="has-border text-center text-v-t pd-m">
               <span class="pr-unit-inline">￥</span>
-              <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="addDataItem.strike_price" >
+              <input type="text" class="pr-table-input price" placeholder="成交价" style="width:50px;" ng-model="addDataItem.strike_price" >
             </td>
             <td class="has-border text-center text-v-t pd-m">
-
-              <select ng-if="batchRequirementStatus" class="ipt pr-short-ipt" data-placeholder="批次选择"   ng-model="addDataItem.productionBatch" ng-options="item.value as item.text   for item in batchRequirementStatus"
-            >
-
-              </select>
-
-
+              <select ng-if="batchRequirementStatus"
+                      class="ipt pr-short-ipt"
+                      style="width:100px;"
+                      data-placeholder="批次选择"
+                      ng-model="addDataItem.productionBatch"
+                      autofocus=""
+                      ng-options="item.value as item.text for item in batchRequirementStatus"></select>
             </td>
             <td class="has-border text-center text-v-t pd-m">{{addDataItem.productionDate|date : 'yyyy-MM-dd'}}</td>
             <td class="has-border text-center text-v-t pd-m">{{addDataItem.guaranteePeriod}}</td>
@@ -288,7 +287,9 @@
            handle-this-click
            dialog-title="确认取消?"
            dialog-content="取消后无法回复原有数据,确认取消?"
-           dialog-template="pr-dialog-return.html">取消</a>
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/salesOrder/query.html')"
+          save-callback="submitForm('editForm','exit')">取消</a>
 
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
 

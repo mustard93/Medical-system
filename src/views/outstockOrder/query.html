@@ -1,34 +1,22 @@
 <div class="content-wrapper invoices-order" ng-init="listParams={}">
-
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/outstockOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容头部 -->
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
-        <div class="pos-abs order-create-btn">
-          <!-- <a href="#/salesOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a> -->
-        </div>
+        <!-- <div class="pos-abs order-create-btn">
+          <a href="#/salesOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a>
+        </div> -->
         <div class="order-status-btn pos-tr text-right" ng-init="countByOrderStatus={}"
              ajax-url="rest/authen/outstockOrder/countByOrderStatus.json"
              scope-data="countByOrderStatus"
              alert-error>
             <div class=""></div>
-            <div class="btn btn-group"  ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OutstockOrderStatus"  scope-data="statusList"
-            >
+            <div class="btn btn-group"  ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OutstockOrderStatus"  scope-data="statusList">
               <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-
-
-                <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-repeat="tr in statusList" ng-click="listParams.orderStatus=tr.value">{{tr.value}}
-                  <span class="pj-badge" ng-if='countByOrderStatus[tr.value]'>{{countByOrderStatus[tr.value]}}</span>
-
-                </button>
-
-            </div>
-            <div class="inline-block relative">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg">异常发货单</button>
-            </div>
-            <div class="inline-block relative">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg">作废发货单</button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-repeat="tr in statusList" ng-click="listParams.orderStatus=tr.value">{{tr.value}}
+                <span class="pj-badge" ng-if='countByOrderStatus[tr.value]'>{{countByOrderStatus[tr.value]}}</span>
+              </button>
             </div>
         </div>
       </div>
@@ -45,48 +33,36 @@
         <li class="pdr-m relative" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative">
             <div>
-              <div class="flex-column mgb">
-                <span class="flex-item-6 title-states">{{tr.orderStatus}}
-                  <i ng-if="tr.orderStatus=='已收货'" class="circle-icon-green mgl-m"></i>
-                  <i ng-if="tr.orderStatus=='待发货'" class="circle-icon-red mgl-m"></i>
+              <div class="flex-column mgb-l" style="height:30px;line-height:30px;">
+                <span class="flex-item-3 title-states">{{tr.orderStatus}}</span>
+                <span class="flex-item-9 text-right">
+                  <a href="#/outstockOrder/get.html?id={{tr.id}}" class="mgr">查看详情</a>
+                  <a ng-if="tr.orderStatus=='未出库'" href="#" class="btn pr-btn-respoinsive text-s">立即出库</a>
                 </span>
-                <span  class="flex-item-6 text-right"><a href="#/outstockOrder/get.html?id={{tr.id}}">查看详情</a></span>
-
               </div>
               <!-- <div class="text-s mgb-m">{{tr.type}}</div> -->
-              <div class="flex-column qurey text-s color-9">
+              <div class="flex-column qurey color-9">
                 <span class="flex-item-6 mgb">
-                  创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
+                  出库单号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
                 </span>
                 <span class="flex-item-6 text-right">
-                  订单编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
-                </span>
-                <span class="flex-item-6 mgb">
-                  销售人员：<strong class="color-6 text-normal">{{tr.saleUser.n}}</strong>
-                </span>
-                <span class="flex-item-6 text-right">
-                  电话：<strong class="color-6 text-normal">{{tr.address.tel}}</strong>
+                  创建时间：<strong class="color-6 text-normal">{{tr.createAt | date: 'yyyy-MM-dd HH:ss'}}</strong>
                 </span>
               </div>
             </div>
-            <div class="flex-column text-s">
-              <div class="flex-item-6 br-line" style="min-height:220px;">
-                <p class="mgt-m">发票：<em>{{tr.distributionInfo.invoiceNo || '暂无'}}</em></p>
-                <p class="mgt-m">备货位：<em>{{tr.distributionInfo.storageLocation || '暂无'}}</em></p>
-                <p class="mgt-m">出库单：<em>暂未出库</em></p>
+            <div class="flex-column">
+              <div class="flex-item-6 br-line" style="min-height:218px;">
+                <div class="bb-line">
+                  <p class="text-center pd-v-xl">药械品类数</p>
+                  <p class="text-center pr-font-24 pdb-l">{{tr.orderMedicalNos.length}}</p>
+                </div>
+                <div class="text-center pdt-xxl">冷链药械：<em class="color-6">无</em></div>
               </div>
               <div class="flex-item-6 pd">
-                <h1 class="pd-v bb-line">物流信息</h1>
-                <div class="flex-column mgt">
-                  <span class="flex-item-5 mgr-0">{{tr.kuaidi.type || '暂无'}}</span>
-                  <span class="flex-item-7">
-                    <p class="pr-color">{{tr.kuaidi.nu}}</p>
-                  </span>
-                </div>
+                <p class="pdt pdb">对应订单：<em class="color-custom-orange">{{tr.confirmOrderNo}}</em></p>
+                <p class="pdb">对应发货单：<em class="color-custom-orange">{{tr.relOrderNo}}</em></p>
+                <p class="pdb">销售人员：<em class="color-custom-orange">{{tr.saleUser.n}}</em></p>
               </div>
-            </div>
-            <div ng-if="!tr.orderStatus=='未提交'" class="flex-column" style="position:absolute;top: 287px;left:0;background-color: #fff;">
-              <div class="pdt pdb pd-c-m mgl-auto"><a href="#/outstockOrder/confirm-order.html?id={{tr.id}}" type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">确认出库</a></div>
             </div>
           </div>
         </li>

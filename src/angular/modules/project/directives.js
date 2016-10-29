@@ -12,10 +12,22 @@ function orderMedicals() {
         ngModel: "="
     },
     replace: true,
-    templateUrl:  Config.tplPath +'tpl/project/orderMedicalNos.html',
-    link: function ($scope, $element, $attrs) {
-      //...
-    }
+    templateUrl:  Config.tplPath +'tpl/project/orderMedicalNos.html'
+
+  };
+}
+
+/**
+  药械订单列表-采购
+*/
+function orderMedicalsPurchase() {
+  return {
+    restrict: 'EA',
+    scope: {
+        ngModel: "="
+    },
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/orderMedicalNosOfPurchaseOrder.html'
   };
 }
 /**
@@ -419,7 +431,6 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
         //如果发送请求的地址
         var _requestUrl = angular.isDefined(attrs.requestUrl) ? attrs.requestUrl : '';
 
-
         if(_dialogTemplate=="pr-dialog-return.html"){//编辑页面，取消操作
           if( !angular.isDefined(attrs.dialogTitle)) _dialogTitle = '取消修改?';
           if( !angular.isDefined(attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';
@@ -493,6 +504,8 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
 }
 
 angular.module('manageApp.project')
+
+.directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
     .directive("orderMedicals", orderMedicals)//药械订单列表
     .directive("niceScroll", niceScroll) //滚动条美化
     .directive("leftMenuChange", leftMenuChange) //左边栏子菜单点击事件
