@@ -2397,7 +2397,114 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         };
     };
-    selectAddress.$inject = ["$http", "$q", "$compile"];
+
+
+    /**
+    /**
+    必填参数：
+    attrs.ajaxUrl=""：请求数据参数
+    可选参数：
+    $attrs.ajaxUrlHandler :function(data) 指定回调方法
+    $attrs.params  //监听具体值
+    $attrs.scopeResponse ：返回数据Response是绑定到 $scope[$attrs.scopeResponse]
+    $attrs.scopeData ：返回数据Response.data是绑定到 $scope[$attrs.scopeData]
+    $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
+    $attrs.alertOk :是否提示请求成功提示。
+    $attrs.alertError :是否提示请求失败提示。
+    $attrs.ajaxIf :满足条件才异步请求  ajax-if="{{addDataItem.relId}}"
+
+    $attrs.callback:满足条件才异步请求 回调方法。比如 callback="formData={}"
+
+    $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope， callback="formData.courseId=details[0].value"
+
+    */
+    function ajaxUrlSubmit($timeout, requestData, alertOk, alertError, proLoading) {
+        return {
+            restrict: 'AE',
+            // scope: true,
+            transclude: true,
+            link: function($scope, $element, $attrs, $ctrls, $transclude) {
+                $transclude($scope, function(clone) {
+                    $element.append(clone);
+                });
+
+                $scope.ajaxUrlHandler = $scope.$eval($attrs.ajaxUrlHandler);
+
+
+
+                var _params = {};
+                if ($attrs.params) {
+                    if ($attrs.params.indexOf("{") === 0) {
+                        //监听具体值
+                        $attrs.$observe("params", function(value) {
+                            _params = $scope.$eval(value);
+
+                        });
+                    } else {
+                        //监听对象
+                        $scope.$watch($attrs.params, function(value) {
+                            _params = value;
+
+                        }, true);
+                    }
+                }
+
+                function getData(params) {
+                   //满足条件才异步请求
+                   if (angular.isDefined($attrs.ajaxIf)) {
+                     if (!$attrs.ajaxIf) return;
+                   }
+
+                   $scope.isLoading = true;
+                   var maskObj=null;
+                   if (!$attrs.noshowLoading) {
+                     maskObj=proLoading($element);
+                     //  if(maskObj)maskObj.hide();
+                   }
+
+                   requestData($attrs.ajaxUrlSubmit, params,"POST")
+                     .then(function(results) {
+                           if(maskObj)maskObj.hide();
+                         var data = results[0];
+
+                         if ($scope.ajaxUrlHandler) {
+                             data = $scope.ajaxUrlHandler(data);
+                         }
+
+                         if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                         if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                         else $scope.scopeData = data;
+                         if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
+
+                         //回调父级的处理事件;
+                         if ($scope.listCallback) {
+                           $scope.listCallback(results[1]);
+                         }
+
+                         // $scope.$apply();
+                         if ($attrs.callback) {
+                             $scope.$eval($attrs.callback);
+                         }
+
+
+                         $scope.isLoading = false;
+                     })
+                     .catch(function(msg) {
+                           if(maskObj)maskObj.hide();
+                        if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                        if (angular.isDefined($attrs.alertError)) alertError(msg);
+                        $('.pr-full-loading').remove();
+                     });
+
+                }
+
+                $element.on("click", function () {
+                      getData(_params);
+                });
+
+            }
+        };
+    }
     /**
      * 加入项目
      */
@@ -2406,6 +2513,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
         .directive("convertJsonToObject", convertJsonToObject)
+        .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrlSubmit])
         .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
         .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout", formValidator])
         .directive("tableList",  ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading','alertError',tableList])

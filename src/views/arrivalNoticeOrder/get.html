@@ -1,0 +1,128 @@
+<div class="content-wrapper"
+
+
+ajax-url="rest/authen/arrivalNoticeOrder/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
+scope-data="showData"
+
+     alert-error>
+
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading mgt-l mgb-xl">
+    <h1 class="pr-title-color pr-font-24">来货通知单</h1>
+  </div>
+
+  <!-- 主内容区域 -->
+  <div class="content-wrapper-main">
+    <!-- 通知单信息 -->
+    <div class="panel pr-panel pr-panel-height flex-column mgb color-9">
+      <div class="flex-item-7">
+        <span class="mgr">通知单号：<em class="color-6">{{showData.orderNo}}</em></span>
+        <span class="mgr">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+        <span>对应采购单号：<em class="color-custom-orange">{{showData.relOrderNo}}</em></span>
+      </div>
+      <div class="flex-item-5 text-right">
+        <span class="mgr">采购员：<em class="color-6">{{showData.saleUser.n}}</em></span>
+        <span class="mgr">电话：<em class="color-6">{{showData.saleUser.p}}</em></span>
+
+
+
+        <span class="mgr">审批人：<em class="color-6">{{showData.operationFlowSet[showData.operationFlowSet.length-1].inputUser}}</em></span>
+        <span class="mgr">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
+      </div>
+    </div>
+    <!-- 供货商信息 -->
+    <div class="panel pr-panel pr-panel-height flex-column mgb color-9">
+      <div class="flex-item-6">
+        <span class="mgr">供货商类型：<em class="color-6">厂家</em></span>
+        <span class="mgr">供货商名：<em class="color-6">{{showData.supplier.name}}</em></span>
+      </div>
+      <div class="flex-item-6 text-right">
+        <span class="mgr">期望到货时间：<em class="color-6">{{showData.expectDate | date: 'yyyy-MM-dd'}}</em></span>
+      </div>
+    </div>
+    <!-- 采购清单 -->
+    <div class="panel pr-panel pr-panel-height mgb">
+      <!-- 清单 -->
+      <div class="order-details">
+        <h1>采购清单</h1>
+        <table class="mgt-l pr-table" style="width:100%;max-width:none;">
+          <thead>
+            <th class="w-70 text-center">货品编号</th>
+            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
+            <th class="w-70 text-center">单位</th>
+            <th class="w-80 text-center">数量</th>
+            <th class="w-80 text-center">批号</th>
+            <th class="w-70 text-center">灭菌批号</th>
+            <th class="w-186 text-center">注册证号</th>
+            <th class="w-80 text-center">生产日期</th>
+            <th class="w-80 text-center">有效期</th>
+            <th class="w-90 text-center">库类型</th>
+            <th class="w-120 text-center">入库状态</th>
+          </thead>
+          <tbody>
+            <tr class="tr-interval"><td colspan="9"></td></tr>
+            <tr>
+              <td class="has-border text-center text-v-t pd-m">{{tr.code}}</td>
+              <td class="goods-name has-border pd-m">
+                <div class="relative">
+                  <span class="goods-thumbnail inline-block">
+                    <!-- <img ng-src="{{tr.headUrl}}" alt=""> -->
+                    <img ng-src="{{tr.headUrl}}" alt="药械图片" width="80px" height="80px" />
+                  </span>
+                  <span class="inline-block">
+                    <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb color-9 text-s"><span>{{tr.manufacturer}}</span></p>
+                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                  </span>
+                </div>
+              </td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.productionBatch}}</td>
+              <td class="has-border text-center text-v-t pd-m"></td><!--灭菌批号-->
+              <td class="has-border text-center text-v-t pd-m">{{tr.drugAdministrationCode}}</td>
+              <td class="has-border text-center text-v-t pd-m"></td>
+              <td class="has-border text-center text-v-t pd-m"></td>
+              <td class="has-border text-center text-v-t pd-m">正常库</td>
+              <td class="has-border text-center text-v-t pd-m">暂无</td>
+          </tbody>
+        </table>
+      </div>
+      <!-- 备注 -->
+      <div class="pd-v bb-line">
+        备注：
+      </div>
+      <!-- 价格 -->
+      <div class="text-right pr-font-16">
+        <p class="pdt pdb">合计：￥{{showData.totalPrice | number:2}}</p>
+        <p class="pdb">税额：￥{{showData.totalPrice*showData.tax | number:2}}</p>
+        <!-- <p class="pdb">预付款：￥{{showData.prepaidPrice | number:2}}</p> -->
+      </div>
+    </div>
+    <!-- 操作 -->
+    <div class="text-right pd-v">
+
+
+      <button class="pr-btn-save-glodbg"  ng-if="showData.orderStatus=='未提交'"
+              type="button"
+              handle-this-click
+              dialog-title="确认提交?"
+              dialog-content="提交后，将无法修改，确认提交?"
+              dialog-template="pr-dialog-submit.html"
+              request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=待入库"
+              call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管</button>
+
+
+                    <button class="pr-btn-save-glodbg"  ng-if="showData.orderStatus=='待入库'"
+                            type="button"
+                            handle-this-click
+                            dialog-title="确认提交?"
+                            dialog-content="提交后，数据同步到库存?"
+                            dialog-template="pr-dialog-submit.html"
+                            request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=已完成"
+                            call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=2')">确认入库</button>
+
+      <a href="#/arrivalNoticeOrder/query.html">返回来货通知单中心</a>
+    </div>
+  </div>
+</div>
