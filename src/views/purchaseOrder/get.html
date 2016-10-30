@@ -12,20 +12,22 @@
   </div>
 
   <!-- 主内容区域 -->
-  <div class="content-wrapper-main" >
+  <div class="content-wrapper-main">
 
     <!-- 作废原因： -->
-        <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
-              <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
-        </div>
+    <div class="panel pr-panel pr-panel-height flex-column mgb"
+         ng-if="showData.orderStatus=='已作废'"
+         ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+    </div>
 
     <!-- 订单信息 -->
-    <div class="panel pr-panel pr-panel-height flex-column mgb">
+    <div class="panel pr-panel pr-panel-height flex-column mgb"
+         ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <div class="flex-item-7">
         <span class="mgr-xl">普通采购单</span>
         <span class="mgr-xl">采购单编号：<em>{{showData.orderNo}}</em></span>
         <span class="mgr-xl">创建时间：<em>{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
-
       </div>
       <div class="flex-item-5 text-right">
         <span>采购员：<em>{{showData.saleUser.n}}</em></span>
@@ -37,19 +39,17 @@
       </div>
     </div>
 
-
-
-
     <!-- 供货商信息 -->
-    <div class="panel pr-panel pr-panel-height mgb">
+    <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="mgb-l">供货商信息</h1>
       <div class="flex-column mgb">
         <span class="color-9 mgr-xl">供货商类型：<em class="color-6 font-normal">厂家</em></span>
         <span class="color-9">供货商名：<em class="color-6 font-normal">{{formData.supplier.name}}</em></span>
       </div>
     </div>
+
     <!-- 采购方信息 -->
-    <div class="panel pr-panel pr-panel-height mgb">
+    <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="mgb-l">采购方信息</h1>
       <div class="mgb-l color-6">
         <span class="block mgb-m">采购方：<em class="color-9">{{showData.customerName}}</em></span>
@@ -62,7 +62,7 @@
     </div>
 
     <!-- 付款及货运 -->
-    <div class="panel pr-panel pr-panel-height mgb">
+    <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="mgb-l">付款及货运要求</h1>
       <div class="flex-column">
         <div class="flex-item-7 flex-column">
@@ -78,8 +78,9 @@
         </div>
       </div>
     </div>
+
     <!-- 订单清单 -->
-    <div class="panel pr-panel pr-panel-height mgb-n">
+    <div class="panel pr-panel pr-panel-height mgb-n" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="text-l">订购清单</h1>
       <div class="confirm-order">
         <div  order-medicals-purchase  ng-model="showData.orderMedicalNos"></div>
