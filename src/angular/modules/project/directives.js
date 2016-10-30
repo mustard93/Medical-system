@@ -46,9 +46,9 @@ function niceScroll () {
           background: '#424f63', spacebarenabled:false, cursorborder: '0'
         });
         //
-        $('.data-table').niceScroll({styler:"fb", cursorcolor:"#65cea7", cursorwidth: '6', cursorborderradius: '0px',
-          background: '#424f63', spacebarenabled:false, cursorborder: '0', zindex: '1000'
-        });
+        // $('.data-table').niceScroll({styler:"fb", cursorcolor:"#65cea7", cursorwidth: '6', cursorborderradius: '0px',
+        //   background: '#424f63', spacebarenabled:false, cursorborder: '0', zindex: '1'
+        // });
         // 如果侧边栏被收起
         $("#page-side").getNiceScroll();
         if ($('body').hasClass('left-side-collapsed')) {
