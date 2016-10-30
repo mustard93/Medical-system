@@ -47,9 +47,20 @@
                 <span class="flex-item-2 title-states">{{tr.orderStatus}}</span>
                 <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right">
                   <a href="#/arrivalNoticeOrder/get.html?id={{tr.id}}">查看详情</a>
-                  <a ng-if="tr.orderStatus=='未提交'" href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}" type="button" class="btn btn-primary btn-xs">立即提交</a>
+
+
+                  <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"  ng-if="tr.orderStatus=='未提交'"
+                          type="button"
+                          handle-this-click
+                          dialog-title="确认提交?"
+                          dialog-content="提交后，将无法修改，确认提交?"
+                          dialog-template="pr-dialog-submit.html"
+                          request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{tr.id}}&status=待入库"
+                          call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{tr.id}}&t=1')">立即提交</button>
+
+
                 </span>
-                <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right"><a href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}">查看详情</a></span>
+                <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right"><a href="#/arrivalNoticeOrder/get.html?id={{tr.id}}">查看详情</a></span>
               </div>
               <div class="flex-column qurey text-s color-9">
                 <div class="flex-item-6 mgb">
@@ -65,13 +76,13 @@
             </div>
             <div class="flex-column text-s">
               <div class="flex-item-6 br-line pd-l" style="min-height:145px;">
-                <p class="mgb">对应采购单：<em class=" color-custom-orange">C00123456</em></p>
-                <p class="mgb">采购员：<em class="color-custom-orange">刘丽</em></p>
-                <p>审批人：<em class="color-custom-orange">刘甜甜</em></p>
+                <p class="mgb">对应采购单：<em class=" color-custom-orange">  <a href="#/purchaseOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a></em></p>
+                <p class="mgb">采购员：<em class="color-custom-orange">{{tr.saleUser.n}}</em></p>
+                <p>审批人：<em class="color-custom-orange">{{tr.operationFlowSet[showData.operationFlowSet.length-1].inputUser}}</em></p>
               </div>
               <div class="flex-item-6 pd">
                 <p class="pd-v-m text-center">入库状态</p>
-                <p class="text-m color-6 text-center">{{tr.progress}}%</p>
+                <p class="text-m color-6 text-center">{{tr.progress||"0"}}%</p>
                 <div class="pd-c-xl">
                   <div class="progress pr-progress"
                        data-toggle="tooltip"
@@ -95,13 +106,13 @@
             <div class="pd-m color-9">
               <div class="flex-column mgb">
                 <div class="flex-item-6">
-                  预付款：<em class="">￥4560.00</em>
+                  预付款：<em class="">￥{{showData.totalPrice | number:2}}</em>
                 </div>
                 <div class="flex-item-6 text-right">
-                  合计：<em class="">￥17200.00</em>
+                  合计：<em class="">￥{{showData.totalPrice | number:2}}</em>
                 </div>
               </div>
-              <div class="text-right">税额：<em class="">￥1520.00</em></div>
+              <div class="text-right">税额：<em class="">￥{{showData.totalPrice*showData.tax | number:2}}</em></div>
             </div>
           </div>
         </li>
