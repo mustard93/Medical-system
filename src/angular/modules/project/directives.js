@@ -13,10 +13,8 @@ function orderMedicals() {
     },
     replace: true,
     templateUrl:  Config.tplPath +'tpl/project/orderMedicalNos.html'
-
   };
 }
-
 /**
   药械订单列表-采购
 */
@@ -46,6 +44,10 @@ function niceScroll () {
         // 侧边栏滚动条
         $("#page-side").niceScroll({styler:"fb", cursorcolor:"#65cea7", cursorwidth: '3', cursorborderradius: '0px',
           background: '#424f63', spacebarenabled:false, cursorborder: '0'
+        });
+        //
+        $('.data-table').niceScroll({styler:"fb", cursorcolor:"#65cea7", cursorwidth: '6', cursorborderradius: '0px',
+          background: '#424f63', spacebarenabled:false, cursorborder: '0', zindex: '1000'
         });
         // 如果侧边栏被收起
         $("#page-side").getNiceScroll();
