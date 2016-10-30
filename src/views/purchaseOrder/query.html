@@ -77,23 +77,40 @@
               <div class="flex-column" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states">{{tr.orderStatus}}</span>
                 <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right">
-                  <a ng-if="tr.orderStatus=='待采购'" href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}" type="button" class="btn btn-primary btn-xs">生成来往货通知</a>
-                  <a ng-if="tr.orderStatus=='待采购'" href="#/purchaseVoucher/edit.html?id={{tr.id}}" type="button" class="btn btn-primary btn-xs">生成采购凭证</a>
+
+                    <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" >来往货通知</a>
+
+                  <button class="pr-btn-save-glodbg" ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='待审批'&&tr.orderStatus!='未提交'&&!tr.arrivalNoticeOrderId"
+                          type="button"
+                         ajax-url-submit="rest/authen/arrivalNoticeOrder/save?purchaserId={{tr.id}}"
+                         alert-error
+                          callback="$root.goTo('#/arrivalNoticeOrder/get.html?relId={{tr.id}}')">生成来往货通知</button>
+
+
+                        <button ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='未提交'&&tr.orderStatus!='待审批'&&!tr.purchaseVoucherNo" class="pr-btn-save-glodbg"
+                                type="button"
+                               ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{tr.id}}"
+                               alert-error
+                                callback="$root.goTo('#/purchaseVoucher/get.html?relId={{tr.id}}')">生成采购凭证</button>
+
+
                   <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgr-l">新建</a>
                   <a href="#/purchaseOrder/get.html?id={{tr.id}}">查看详情</a>
                 </span>
+
+
                 <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right"><a href="#/purchaseOrder/edit.html?id={{tr.id}}">编辑</a></span>
               </div>
               <div class="text-s mgb-s">{{tr.type}}</div>
               <div class="flex-column qurey text-s color-9">
                 <div class="flex-item-6 mgb">
-                  <p class="mgb-s">采购单编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong></p>
+                  <p class="mgb-s">采购单编号：<strong class="color-6 text-normal">  <a href="#/purchaseOrder/get.html?id={{tr.id}}">{{tr.orderNo}}</a></strong></p>
                   <p class="mgb-s">采购员：<span class="color-custom-orange">{{tr.saleUser.n}}</span></p>
                   <p>审批人：暂无</p>
                 </div>
                 <div class="flex-item-6">
-                  <p class="mgb-s">采购凭证：暂无</p>
-                  <p class="mgb-s">创建时间：{{tr.createAt | date: 'yyyy-MM-dd'}}</p>
+                  <p class="mgb-s">采购凭证：  <a href="#/purchaseVoucher/get.html?relId={{tr.id}}">{{tr.purchaseVoucherNo}}</a></p>
+                  <p class="mgb-s">创建时间：{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</p>
                   <p>期望到货：{{tr.expectDate | date: 'yyyy-MM-dd'}}</p>
                 </div>
               </div>
