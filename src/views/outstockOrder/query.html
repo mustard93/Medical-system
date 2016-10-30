@@ -43,7 +43,10 @@
               <!-- <div class="text-s mgb-m">{{tr.type}}</div> -->
               <div class="flex-column qurey color-9">
                 <span class="flex-item-6 mgb">
-                  出库单号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
+                  出库单号：<strong class="color-6 text-normal">
+                    <a  href="#/outstockOrder/get.html?id={{tr.id}}"> {{tr.orderNo}}</a>
+
+                    </strong>
                 </span>
                 <span class="flex-item-6 text-right">
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date: 'yyyy-MM-dd HH:ss'}}</strong>
@@ -59,8 +62,12 @@
                 <div class="text-center pdt-xxl">冷链药械：<em class="color-6">无</em></div>
               </div>
               <div class="flex-item-6 pd">
-                <p class="pdt pdb">对应订单：<em class="color-custom-orange">{{tr.confirmOrderNo}}</em></p>
-                <p class="pdb">对应发货单：<em class="color-custom-orange">{{tr.relOrderNo}}</em></p>
+                <p class="pdt pdb">对应订单：<em class="color-custom-orange">
+                      <a href="#/confirmOrder/get.html?id={{tr.confirmOrderId}}">   {{tr.confirmOrderNo}}</a>
+
+                </em></p>
+                <p class="pdb">对应发货单：<em class="color-custom-orange"><a  href="#/invoicesOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a>
+                  </em></p>
                 <p class="pdb">销售人员：<em class="color-custom-orange">{{tr.saleUser.n}}</em></p>
               </div>
             </div>
