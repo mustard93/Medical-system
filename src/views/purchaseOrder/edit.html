@@ -1,6 +1,6 @@
 <div class="create-new-order"
      ng-controller="purchaseOrderEditCtrl"
-     ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      alert-error>
 
@@ -199,10 +199,10 @@
             <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td> <!-- 单价 -->
             <td class="has-border text-center text-v-t pd-m">{{tr.quantity*tr.strike_price||''}}</td> <!-- 金额 -->
             <td class="has-border text-center text-v-t pd-m">
-      <input type="text"  class="pr-table-input" ng-model="tr.originalParts" />
+      <input type="number"  class="pr-table-input" ng-model="tr.originalParts" />
               </td> <!-- 证件数 -->
             <td class="has-border text-center text-v-t pd-m">
-                <input type="text"  class="pr-table-input" ng-model="tr.spareParts" /></td> <!-- 散件数 -->
+                <input type="number"  class="pr-table-input" ng-model="tr.spareParts" /></td> <!-- 散件数 -->
             <td class="has-border text-center text-v-t pd-m">
       {{tr.drugAdministrationCode}}
             </td> <!-- 注册证号 -->
@@ -258,10 +258,10 @@
 
             <td class="has-border text-center text-v-t pd-m">{{addDataItem.quantity*addDataItem.strike_price||''}}</td> <!-- 金额 -->
             <td class="has-border text-center text-v-t pd-m">
-    <input type="text"  class="pr-table-input" ng-model="addDataItem.originalParts" />
+    <input type="number"  class="pr-table-input" ng-model="addDataItem.originalParts" />
               </td> <!-- 证件数 -->
             <td class="has-border text-center text-v-t pd-m">
-                <input type="text"  class="pr-table-input" ng-model="addDataItem.spareParts" /></td> <!-- 散件数 -->
+                <input type="number"  class="pr-table-input" ng-model="addDataItem.spareParts" /></td> <!-- 散件数 -->
             <td class="has-border text-center text-v-t pd-m">
       {{addDataItem.drugAdministrationCode}}
             </td> <!-- 注册证号 -->

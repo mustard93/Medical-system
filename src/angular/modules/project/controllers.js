@@ -172,9 +172,9 @@ define('project/controllers', ['project/init'], function() {
          var url="rest/authen/confirmOrder/updateStatus";
          var data= {id:$scope.formData.id,orderStatus:'待发货'};
          requestData(url,data, 'POST')
-           .then(function (results) {
+           .then(function (results) { 
              var _data = results[1];
-             alertOk(_data.message || '操作成功');
+            //  alertOk(_data.message || '操作成功');
              $scope.goTo('#/confirmOrder/confirm-order.html?id='+$scope.formData.id);
 
            })
@@ -437,11 +437,11 @@ define('project/controllers', ['project/init'], function() {
               }
                if ($scope.submitForm_type == "submit") {
                  var url="rest/authen/purchaseOrder/updateStatus"
-                 var data= {id:$scope.formData.id,orderStatus:'待审批'};
+                 var data= {id:$scope.formData.id,status:'待审批'};
                  requestData(url,data, 'POST')
                    .then(function (results) {
                      var _data = results[1];
-                     alertOk(_data.message || '操作成功');
+                    //  alertOk(_data.message || '操作成功');
                      $scope.goTo('#/purchaseOrder/confirm-order-done.html?id='+$scope.formData.id);
 
                    })
