@@ -73,7 +73,7 @@
     <!-- 总价 -->
     <div class="panel pr-panel pr-panel-height text-right">
       <span class="text-l text-right">总价：￥{{showData.totalPrice | number:2}}</span>
-      <button  ng-if="showData.orderStatus=='已审批'" class="pr-btn-save-glodbg"
+      <button  ng-if="showData.orderStatus=='待发单'" class="pr-btn-save-glodbg"
               type="button"
               handle-this-click
               dialog-title="确认生成发货单?"
@@ -124,7 +124,7 @@
               dialog-title="确认通过?"
               dialog-content="审核通过后,订单将生效,是否通过?"
               dialog-template="pr-dialog-submit.html"
-              request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已审批"
+              request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=待发单"
               call-back="$root.goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过</button>
     </div>
 

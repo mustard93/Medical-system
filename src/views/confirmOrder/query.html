@@ -17,8 +17,8 @@
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待审批'">待审批
                 <span class="pj-badge" ng-if='countByOrderStatus["待审批"]'>{{countByOrderStatus["待审批"]}}</span>
               </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已审批'">已审批
-                <span class="pj-badge" ng-if='countByOrderStatus["已审批"]'>{{countByOrderStatus["已审批"]}}</span>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发单'">待发单
+                <span class="pj-badge" ng-if='countByOrderStatus["待发单"]'>{{countByOrderStatus["待发单"]}}</span>
               </button>
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发货'">待发货
                 <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
@@ -58,17 +58,19 @@
                   <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='冷链异常'" class="circle-icon-red mgl-m"></i>
                 </span>
-                <span  ng-if="!(tr.orderStatus=='待审批'||tr.orderStatus=='已审批')" class="flex-item-6 text-right">
+
+                <span  ng-if="!(tr.orderStatus=='待审批'||tr.orderStatus=='待发单')" class="flex-item-6 text-right">
 
                   <a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a></span>
+                      </span>
                 <span  ng-if="(tr.orderStatus=='待审批')" class="flex-item-6 text-right">
                   <a href="#/confirmOrder/get.html?id={{tr.id}}">
                     <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold" type="button" >立即审批</button>
                   </a>
                 </span>
-                <span  ng-if="(tr.orderStatus=='已审批')" class="flex-item-6 text-right">
+                <span  ng-if="(tr.orderStatus=='待发单')" class="flex-item-6 text-right">
 
-                  <button  ng-if="tr.orderStatus=='已审批'"  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                  <button  ng-if="tr.orderStatus=='待发单'"  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                           type="button"
                           handle-this-click
                           dialog-title="确认生成发货单?"
