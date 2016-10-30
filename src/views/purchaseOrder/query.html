@@ -79,13 +79,13 @@
                 <span class="flex-item-2 title-states">{{tr.orderStatus}}</span>
                 <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right">
 
-                    <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" >来往货通知</a>
+                    <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" >查看来货通知</a>
 
                   <button class="pr-btn-save-glodbg" ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='待审批'&&tr.orderStatus!='未提交'&&!tr.arrivalNoticeOrderId"
                           type="button"
                          ajax-url-submit="rest/authen/arrivalNoticeOrder/save?purchaserId={{tr.id}}"
                          alert-error
-                          callback="$root.goTo('#/arrivalNoticeOrder/get.html?relId={{tr.id}}')">生成来往货通知</button>
+                          callback="$root.goTo('#/arrivalNoticeOrder/get.html?relId={{tr.id}}')">生成来货通知</button>
 
 
                         <button ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='未提交'&&tr.orderStatus!='待审批'&&!tr.purchaseVoucherNo" class="pr-btn-save-glodbg"
