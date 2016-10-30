@@ -86,7 +86,10 @@
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
                 <span class="flex-item-6 text-right">
-                  订单编号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong>
+                  订单编号：<strong class="color-6 text-normal">
+
+                    <a href="#/confirmOrder/get.html?id={{tr.id}}">  {{tr.orderNo}}</a>
+</strong>
                 </span>
               </div>
             </div>
@@ -117,7 +120,15 @@
                 </div>
                 <div class="flex-item-6 pd">
                   <div class="flex-column mgt"  ng-repeat="order in tr.orderSet">
-                  <p class="mgb">{{order.type}}：<em class="color-custom-orange">{{order.orderNo}}</em></p>
+
+
+
+
+                  <p class="mgb">{{order.type}}：<em class="color-custom-orange">
+                    <a ng-if="order.type=='发货单'" href="#/invoicesOrder/get.html?id={{order.orderId}}">  {{order.orderNo}}</a>
+                    <a ng-if="order.type=='出库单'" href="#/outstockOrder/get.html?id={{order.orderId}}">  {{order.orderNo}}</a>
+
+                  </em></p>
                 </div>
                 </div>
               </div>
