@@ -335,7 +335,7 @@ define('project/controllers', ['project/init'], function() {
          /**
           *编辑、新建采购单
           */
-         function purchaseOrderEditCtrl($scope, modal,alertWarn) {
+         function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData) {
              modal.closeAll();
              // $scope.formData={};
              $scope.addDataItem = {};
@@ -436,7 +436,18 @@ define('project/controllers', ['project/init'], function() {
                 return;
               }
                if ($scope.submitForm_type == "submit") {
-                 $scope.goTo('#/purchaseOrder/confirm-order.html?id='+$scope.formData.id);
+                 var url="rest/authen/purchaseOrder/updateStatus"
+                 var data= {id:$scope.formData.id,orderStatus:'待审批'};
+                 requestData(url,data, 'POST')
+                   .then(function (results) {
+                     var _data = results[1];
+                     alertOk(_data.message || '操作成功');
+                     $scope.goTo('#/purchaseOrder/confirm-order-done.html?id='+$scope.formData.id);
+
+                   })
+                   .catch(function (error) {
+                     alertError(error || '出错');
+                   });
                }
 
              };
@@ -463,7 +474,7 @@ define('project/controllers', ['project/init'], function() {
 
          }//end salesOrderEditCtrl
     angular.module('manageApp.project')
-      .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn", salesOrderEditCtrl])
+      .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData", purchaseOrderEditCtrl])
     .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
     .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
       .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
