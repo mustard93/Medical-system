@@ -51,14 +51,30 @@
         <li class="pdr-m relative" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative">
             <div>
+              <form   form-validator  ng-init="outstockOrderForm={invoicesId:tr.id}"
+                    action="rest/authen/outstockOrder/save.json"
+                     alert-error
+                     form-data="outstockOrderForm"
+                     scope-data="outstockOrder"
+                     no-close-dialog
+                      alert-ok
+                    callback="$root.goTo('#/outstockOrder/get.html?id='+outstockOrder.id)"
+                  >
               <div class="flex-column mgb">
                 <span class="flex-item-6 title-states">{{tr.orderStatus}}
                   <i ng-if="tr.orderStatus=='已收货'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='待发货'" class="circle-icon-red mgl-m"></i>
                 </span>
-                <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-6 text-right"><a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a></span>
-                <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-6 text-right"><a href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a></span>
+
+                <span class="flex-item-3 text-right">
+                  <button  ng-if="!tr.outStockOrderId&&tr.orderStatus=='已发货'"   type="submit"   class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">出库</button>
+                </span>
+
+
+                <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-3 text-right"><a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a></span>
+                <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-3 text-right"><a href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a></span>
               </div>
+                  </form>
               <!-- <div class="text-s mgb-m">{{tr.type}}</div> -->
               <div class="flex-column qurey text-s color-9">
                 <span class="flex-item-6 mgb">
@@ -82,20 +98,7 @@
                 <p  ng-if="tr.outStockOrderId" class="mgt-m">出库单：<em>
                    <a href="#/outstockOrder/get.html?id={{tr.outStockOrderId}}" >{{tr.outStockOrderNo|| '无'}}</a></em>
                   </p>
-                  <p ng-if="!tr.outStockOrderId"  class="mgt-m">
-                  <form  ng-if="tr.orderStatus=='已发货'&&!tr.outStockOrderNo"   form-validator  ng-init="outstockOrderForm={invoicesId:tr.id}"
-                        action="rest/authen/outstockOrder/save.json"
-                         alert-error
-                         form-data="outstockOrderForm"
-                         scope-data="outstockOrder"
-                         no-close-dialog
-                          alert-ok
-                        callback="$root.goTo('#/outstockOrder/get.html?id='+outstockOrder.id)"
-                      >
 
-                出库单：  <button   type="submit"  class="pr-btn-table-glodbg">出库</button>
-                </form>
-                </p>
               </div>
               <div class="flex-item-6 pd">
                 <h1 class="pd-v bb-line">物流信息</h1>
@@ -107,9 +110,7 @@
                 </div>
               </div>
             </div>
-            <div ng-if="tr.orderStatus=='待发货'" class="flex-column" style="position:absolute;top: 287px;left:0;background-color: #fff;">
-              <div class="pdt pdb pd-c-m mgl-auto"><a href="#/invoicesOrder/confirm-order.html?id={{tr.id}}" type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">确认发货</a></div>
-            </div>
+
           </div>
         </li>
       </ul>

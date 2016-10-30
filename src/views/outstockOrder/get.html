@@ -15,7 +15,9 @@ class="content-wrapper invoices-order"
       <div class="flex-item-10">
         <span class="mgr-m">出库单：{{showData.orderNo}}</span>
         <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
-        <span class="mgr-m">对应订单：{{showData.confirmOrderNo}}</span>
+        <span class="mgr-m">对应订单：
+  <a href="#/confirmOrder/get.html?id={{showData.confirmOrderId}}">{{showData.confirmOrderNo}}</a>
+    </span>
 
       </div>
       <div class="flex-item-2 text-right">
@@ -45,16 +47,17 @@ class="content-wrapper invoices-order"
           <button class="pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
-                  dialog-title="确认发货?"
-                  dialog-content="确认通知库房发货?此操作会同时打印发货单"
+                  dialog-title="确认出库?"
+                  dialog-content="出库以后，将会从库存中扣除。确认出库？"
                   dialog-template="pr-dialog-submit.html"
                   request-url="rest/authen/outstockOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已出库"
-                  call-back="goTo('#/outstockOrder/order-done.html?id={{mainStatus.pageParams.id}}')">确认出库</button>
+                  call-back="goTo('#/outstockOrder/get.html?id={{mainStatus.pageParams.id}}&t=1')">确认出库</button>
 
 
 
         </span>
-          <span class="mgr-l"><a href="#/outstockOrder/query.html">返回</a></span>
+          <span class="mgr-l"><a href="#/invoicesOrder/get.html?id={{showData.relId}}">返回发货单</a>
+             <a href="#/outstockOrder/query.html">返回出库中心</a></span>
       </div>
     </div>
 
