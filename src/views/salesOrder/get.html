@@ -53,11 +53,14 @@
   <div  ng-repeat="showData in tbodyList"><!--tbodyList -->
   <div class="flex-column text-s">
     <div class="flex-item-8">
-      <span class="mgr-l">订单编号：<em class="text-normal">{{showData.orderNo}}</em></span>
+      <span class="mgr-l">订单编号：<em class="text-normal">
+        <a href="#/confirmOrder/get.html?id={{showData.id}}">
+        {{showData.orderNo}}</a></em></span>
       <span>创建时间：<em class="text-normal">{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</em></span>
     </div>
     <div class="flex-item-4 text-right">
-      <span>订单状态：<em>{{showData.orderStatus}}</em></span>
+      <span ng-if="showData.orderStatus!='已作废'">订单状态：<em>{{showData.orderStatus}}</em></span>
+        <span ng-if="showData.orderStatus=='已作废'">订单状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
     </div>
   </div>
   <!-- 已发货部分列表 -->

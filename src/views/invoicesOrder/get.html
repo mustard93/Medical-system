@@ -2,7 +2,7 @@
      ng-init="outstockOrderForm={}"
      ng-app=""
      class="content-wrapper invoices-order"
-     ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}"
      scope-data="showData"
      callback="formData=showData.distributionInfo;formData.id=showData.id;outstockOrderForm.invoicesId=showData.id"
      alert-error>
@@ -24,9 +24,14 @@
       <div class="">
         <span class="mgr-m">发货单：{{showData.orderNo}}</span>
         <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
-        <span class="mgr-m">对应订单：{{showData.confirmOrderNo}}</span>
-        <span>对应出库单：{{showData.outStockOrderNo}}
-          <button ng-if="showData.orderStatus=='已发货'&&!showData.outStockOrderNo" class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
+
+        <span class="mgr-m">对应订单：
+          <a href="#/confirmOrder/get.html?id={{showData.confirmOrderId}}">{{showData.confirmOrderNo}}</a>
+        </span>
+        <span>对应出库单：
+  <a href="#/outstockOrder/get.html?id={{showData.outStockOrderId}}">  {{showData.outStockOrderNo}}</a>
+
+          <button ng-if="!showData.outStockOrderNo" ng-disabled="showData.orderStatus=='待发货'" class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
         </span>
       </div>
       </form>
@@ -63,7 +68,12 @@
     </div>
   </div>
   <!-- 配送信息 -->
+
+
+  <!-- 配送信息 -->
   <div class="panel pr-panel pr-fuzzy-boundary pd-l">
+
+
       <h1 class="pdb-l">配送信息</h1>
       <div class="flex-column bb-line text-s">
         <div class="flex-item-3">
@@ -118,18 +128,67 @@
             </div>
           </div>
         </div>
-        <div class="flex-item-5" style="text-aligncenter;">
+        <div class="flex-item-5">
           <div>
-            <img src="images/temp/tiaoxingma.jpg" alt="" style="height:135px;margin-left:100px;width:450px">
+            <img src="images/temp/tiaoxingma.jpg" alt="" style="height:105px;margin-left:100px;width:350px">
           </div>
         </div>
       </div>
-      <!-- 提交按钮 -->
-      <div class="pd-c-xl pdb-xxl text-right">
-        <button   class="pr-btn-create-glodbg">打印</button>
-        <span class="mgr-l"><a href="#/invoicesOrder/query.html">返回发货中心</a></span>
-        <span class="mgr-l"><a href="#/confirmOrder/query.html">返回订单列表</a></span>
+      <!-- 物流信息 -->
+
+      <div class="pd-v-l bt-line bb-line mgb-l" >
+
+        <h1 class="pd-v">物流信息</h1>
+        <div class="flex-column">
+          <div class="flex-item-8 text-s"  ng-repeat="item in showData.kuaidiSet" >
+            <span class="mgr">{{item.type}}：{{item.nu}}</span>
+
+            <a  ng-if="showData.orderStatus=='待发货'" href="javacript:;" lass="mgr"
+             modal-right="600" modal-data='{"invoicesOrderId":"{{formData.id}}","formData":{{item}}}'
+             modal-scope="this" modal-url="views/invoicesOrder/kuaidi/edit.html"
+             >编辑</a>
+
+            <a  ng-if="showData.orderStatus=='待发货'" href="javacript:;" ng-click="deleteKuaidi(item,showData.id)" >删除</a>
+          </div>
+          <div  ng-if="showData.orderStatus=='待发货'" class="flex-item-4 text-right text-s">
+
+            <button class="pr-add-item-whitebg"
+            modal-right="600" modal-data='{"invoicesOrderId":"{{formData.id}}","formData":{},"addFlag":true}'
+            modal-scope="this" modal-url="views/invoicesOrder/kuaidi/edit.html">
+                      添加...
+            </button>
+          </div>
+        </div>
       </div>
 
+      <div class="pd-c-xl pdb-xxl text-right">
+        <span class="mgr-l">
+          <span class="mgr-l"  ng-if="showData.orderStatus=='待发货'"
+          ng-init="rejectObj={url:'rest/authen/invoicesOrder/updateStatus.json',typeCode:'发货单驳回理由',formData:{id:showData.id,status:'已作废',key:'缺货'},goUrl:'#/invoicesOrder/get.html?t=1&id='+showData.id}">
+            <a href="javascript:;"
+
+               modal-center
+               modal-scope="this"
+
+               modal-url="views/public/dialog-check-reject.html">驳回</a>
+          </span>
+          <button class="pr-btn-save-glodbg" ng-if="showData.orderStatus=='待发货'"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认发货?"
+                  dialog-content="确认通知库房发货?此操作会同时打印发货单"
+                  dialog-template="pr-dialog-submit.html"
+                  request-url="rest/authen/invoicesOrder/updateStatus.json?id={{showData.id}}&status=已发货"
+                  call-back="goTo('#/invoicesOrder/get.html?id={{showData.id}}&t=1')">确认发货</button>
+
+
+
+        </span>
+
+
+      </div>
     </div><!-- 配送信息 -->
+
+
+
 </div>

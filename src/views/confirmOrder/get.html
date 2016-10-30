@@ -16,10 +16,13 @@
       <div class="flex-item-10">
         <span class="mgr-xl">订单编号：<em>{{showData.orderNo}}</em></span>
         <span class="mgr-xl">创建时间：<em>{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
-        <span class="mgr-xl">对应购需单：<em class="color-custom-orange">{{showData.relOrderNo}}</em></span>
+        <span class="mgr-xl">对应购需单：<em class="color-custom-orange">
+          <a href="#/salesOrder/get.html?id={{showData.relId}}">{{showData.relOrderNo}}</a>
+         </em></span>
       </div>
       <div class="flex-item-2 text-right">
-        <span>订单状态：<em>{{showData.orderStatus}}</em></span>
+          <span ng-if="showData.orderStatus!='已作废'">订单状态：<em>{{showData.orderStatus}}</em></span>
+            <span ng-if="showData.orderStatus=='已作废'">订单状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
       </div>
     </div>
 
@@ -43,7 +46,8 @@
         </div>
       </div>
       <div class="">
-        <span class="color-9">收货人信息：<em class="color-6">{{showData.address.name}}&nbsp;&nbsp;&nbsp;{{showData.address.address}}&nbsp;&nbsp;&nbsp;{{showData.address.tel}}</em></span>
+        <span class="color-9">收货人信息：<em class="color-6">{{showData.address.name}}&nbsp;&nbsp;&nbsp;
+          {{showData.address.prov}}{{showData.address.city}}{{showData.address.area}}{{showData.address.address}}&nbsp;&nbsp;&nbsp;{{showData.address.tel}}</em></span>
       </div>
     </div>
 
@@ -76,7 +80,7 @@
               dialog-content="是否生成发货单?"
               dialog-template="pr-dialog-submit.html"
               request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=待发货"
-              call-back="goTo('#/confirmOrder/get.html?id={{mainStatus.pageParams.id}}&t=1')">生成发货单</button>
+              call-back="$root.goTo('#/invoicesOrder/get.html?confirmOrderId={{mainStatus.pageParams.id}}')">生成发货单</button>
     </div>
 
     <!-- 暂不可转入订单部分 -->
@@ -106,7 +110,7 @@
       <span class="mgr-l" ng-if="showData.orderStatus=='待审批'"
       ng-init="rejectObj={url:'rest/authen/confirmOrder/updateStatus.json',typeCode:'订单驳回理由',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
         <a href="javascript:;"
-           class="pr-btn-save-glodbg"
+
            modal-center
            modal-scope="this"
 

@@ -61,7 +61,7 @@
         <!-- 总价&提交 -->
         <div class="text-right pd-v-xxl">
           <span class="pr-font-24 color-9 mgr-l">总价：<i class="text-normal color-6">￥{{showData.confirmOrder.totalPrice || 21500 | number:2}}</i></span>
-          <span class="mgr-l"><button href="javascript:;" type="submit" class="btn btn-primary pr-btn-bg-gold">确认订单 & 提交审批</button></span>
+          <span class="mgr-l"><button href="javascript:;" type="submit" class="btn btn-primary pr-btn-bg-gold" style="  width: 116px;">提交审批</button></span>
         </div>
       </div>
 
@@ -71,51 +71,11 @@
 
           <div order-medicals  ng-model="showData.salesOrder.orderMedicalNos"></div>
 
-        <div class="text-right pdb-xxl pdt-xxl">
+        <div class="text-right pdb-xxl pdt-xxl" ng-if="showData.salesOrder.orderMedicalNos.length>0">
           <span class="color-custom-orange">请等待库存补足后，即可另外生成销售订单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态</span>
         </div>
       </div>
 
-      <!-- 对应采购单 -->
-      <!-- <div class="confirm-order bb-line pdb-l">
-        <h1 class="pdt-l color-6 text-m text-bold">需采购药械</h1>
-        <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
-          <thead>
-            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
-            <th class="w-106 text-center">单位</th>
-            <th class="w-106 text-center">同批次</th>
-            <th class="w-186 text-center">批次号</th>
-            <th class="w-106 text-center">库存</th>
-            <th class="w-150 text-center">采购数量</th>
-          </thead>
-          <tbody>
-
-            <tr class="tr-interval"><td colspan="9"></td></tr>
-            <tr ng-repeat="tr in showData.purchaseOrder.orderMedicalNos"  ng-init="orderMedicalNoIds.push(tr.relId)">
-              <td class="goods-name has-border pd-m">
-                <div class="relative">
-                  <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
-                  <span class="inline-block">
-                    <p class="pdl-l mgb color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                    <p class="pdl-l mgb color-9 text-n"><span>{{tr.manufacturer}}</span></p>
-                    <p class="mgt-s color-9 text-n"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
-
-                  </span>
-                </div>
-              </td>
-
-              <td class="has-border text-center">{{tr.unit}}</td>
-              <td class="has-border text-center">{{tr.isSameBatch}}</td>
-              <td class="has-border text-center">{{tr.batchNo}}</td>
-              <td class="has-border text-center">{{medicalStockMap[tr.relId].quantity}}</td>
-              <td class="has-border pr-bg-pink text-center">{{tr.quantity}}</td>
-
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-    </div> -->
     <!-- 提交按钮 -->
     <div class="pdb-xxl text-right">
       <span><a href="javascript:;" ng-click="goTo('#/salesOrder/edit.html?id='+formData.id)">返回修改</a></span>
