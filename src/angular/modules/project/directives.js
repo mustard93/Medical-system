@@ -13,10 +13,8 @@ function orderMedicals() {
     },
     replace: true,
     templateUrl:  Config.tplPath +'tpl/project/orderMedicalNos.html'
-
   };
 }
-
 /**
   药械订单列表-采购
 */
