@@ -264,7 +264,7 @@ define('project/controllers', ['project/init'], function() {
          requestData(url,data, 'POST')
            .then(function (results) {
              var _data = results[1];
-        
+
              $scope.goTo('#/invoicesOrder/order-done.html?id='+$scope.formData.id);
 
            })
@@ -477,7 +477,6 @@ define('project/controllers', ['project/init'], function() {
       .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData", purchaseOrderEditCtrl])
     .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
     .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
-      .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
         .controller('salesOrderEditCtrl', ["$scope", "modal","alertWarn", salesOrderEditCtrl]);
 
 
