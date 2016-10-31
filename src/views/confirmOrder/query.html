@@ -58,18 +58,15 @@
                   <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='冷链异常'" class="circle-icon-red mgl-m"></i>
                 </span>
-
                 <span  ng-if="!(tr.orderStatus=='待审批'||tr.orderStatus=='待发单')" class="flex-item-6 text-right">
-
-                  <a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a></span>
-                      </span>
+                  <a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a>
+                </span>
                 <span  ng-if="(tr.orderStatus=='待审批')" class="flex-item-6 text-right">
                   <a href="#/confirmOrder/get.html?id={{tr.id}}">
                     <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold" type="button" >立即审批</button>
                   </a>
                 </span>
                 <span  ng-if="(tr.orderStatus=='待发单')" class="flex-item-6 text-right">
-
                   <button  ng-if="tr.orderStatus=='待发单'"  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                           type="button"
                           handle-this-click
@@ -78,8 +75,6 @@
                           dialog-template="pr-dialog-submit.html"
                           request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发货"
                           call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{tr.id}}')">生成发货单</button>
-
-
                 </span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
@@ -87,11 +82,8 @@
                 <span class="flex-item-6">
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
-                <span class="flex-item-6 text-right">
-                  订单编号：<strong class="color-6 text-normal">
-
-                    <a href="#/confirmOrder/get.html?id={{tr.id}}">  {{tr.orderNo}}</a>
-</strong>
+                <span class="flex-item-6 text-right">订单编号：
+                  <strong class="color-6 text-normal"><a href="#/confirmOrder/get.html?id={{tr.id}}">{{tr.orderNo}}</a></strong>
                 </span>
               </div>
             </div>
@@ -99,16 +91,12 @@
               <div class="bb-line">
                 <h1 class="mg-m text-center text-m color-6 text-ellips-s">{{tr.customerName || '未知单位'}}</h1>
                 <div class="flex-column query text-s color-9 pd-m">
-                  <div class="flex-item-6">
-                    销售人员：<strong class="text-normal color-6">{{tr.saleUser.n}}</strong>
-                  </div>
-                  <div class="flex-item-6 text-right">
-                    期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
-                  </div>
+                  <div class="flex-item-6">销售人员：<strong class="text-normal color-6">{{tr.saleUser.n}}</strong></div>
+                  <div class="flex-item-6 text-right">期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date:'yyyy-MM-dd')||'无'}}</strong></div>
                 </div>
               </div>
-              <div ng-if="tr.orderStatus=='待审批' || tr.orderStatus=='未提交'" class="pos-abs pdr-xl">
-                <p class="mgb-m mgt-s text-s color-9">备注：{{tr.note}}</p>
+              <div ng-if="tr.orderStatus=='待审批' || tr.orderStatus=='未提交'" class="pdr-xl" style="min-height:136px;">
+                <p class="pd-c-m pdt text-s color-9">备注：{{tr.note}}</p>
               </div>
               <div ng-if="tr.orderStatus=='待发货' || tr.orderStatus=='已发货'" class="flex-column text-s">
                 <div class="flex-item-6 br-line pd-m" style="height:136px;">
