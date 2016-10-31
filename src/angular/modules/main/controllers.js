@@ -30,7 +30,7 @@ define('main/controllers', ['main/init'], function () {
         };
 
 
-        // 调整页面
+        // 调转页面
         $scope.goTo = function (url,confirmMsg) {
 
             if(confirmMsg){
@@ -42,6 +42,17 @@ define('main/controllers', ['main/init'], function () {
             }
         };
         $rootScope.goTo=$scope.goTo;
+
+
+        //遍历数组，返回满足属性值等于val的。
+        $rootScope.getObjectByKeyOfArr = function (arr,key,val) {
+
+            if(!angular.isArray(arr))return null;
+            for(var i=0;i<arr.length;i++){
+              if(arr[i][key]==val)return arr[i];
+            }
+            return null;
+        };
 
         $scope.httpGet = function(url) {
           if (Config.serverPath) {
