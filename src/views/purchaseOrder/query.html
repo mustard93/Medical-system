@@ -4,7 +4,7 @@
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
-        <div class="pos-abs order-create-btn">
+        <div ng-if="$root.hasAuthor('采购单编辑')" class="pos-abs order-create-btn">
           <a href="#/purchaseOrder/edit.html" title="新建采购单"><i></i><span class="text-s"></span></a>
         </div>
        <div class="order-status-btn pos-tr text-right"
@@ -78,17 +78,16 @@
               <div class="flex-column" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states">{{tr.orderStatus}}</span>
                 <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right">
-
-                    <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" >查看来货通知</a>
-
-                  <button class="pr-btn-save-glodbg" ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='待审批'&&tr.orderStatus!='未提交'&&!tr.arrivalNoticeOrderId"
+                  <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" >查看来货通知</a>
+                  <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                          ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='待审批'&&tr.orderStatus!='未提交'&&!tr.arrivalNoticeOrderId&&$root.hasAuthor('来货通知单编辑')"
                           type="button"
-                         ajax-url-submit="rest/authen/arrivalNoticeOrder/save?purchaserId={{tr.id}}"
-                         alert-error
+                          ajax-url-submit="rest/authen/arrivalNoticeOrder/save?purchaserId={{tr.id}}"
+                          alert-error
                           callback="$root.goTo('#/arrivalNoticeOrder/get.html?relId={{tr.id}}')">生成来货通知</button>
 
 
-                        <button ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='未提交'&&tr.orderStatus!='待审批'&&!tr.purchaseVoucherNo"
+                        <button ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='未提交'&&tr.orderStatus!='待审批'&&!tr.purchaseVoucherNo&&$root.hasAuthor('采购凭证编辑')"
                                 class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr mgl"
                                 type="button"
                                 ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{tr.id}}"
