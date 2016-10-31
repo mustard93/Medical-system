@@ -61,10 +61,23 @@
                 <span  ng-if="!(tr.orderStatus=='待审批'||tr.orderStatus=='待发单')" class="flex-item-6 text-right">
                   <a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a>
                 </span>
+
+
+
+
+
+
                 <span  ng-if="(tr.orderStatus=='待审批')" class="flex-item-6 text-right">
-                  <a href="#/confirmOrder/get.html?id={{tr.id}}">
-                    <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold" type="button" >立即审批</button>
-                  </a>
+
+                  <button  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"   ng-if="tr.orderStatus=='待审批'"
+                          type="button"
+                          handle-this-click
+                          dialog-title="确认通过?"
+                          dialog-content="审批通过后，销售单将生效。确认通过?"
+                          dialog-template="pr-dialog-submit.html"
+                          request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发单"
+                          call-back="listParams.refreshId=tr.id">审批通过</button>
+
                 </span>
                 <span  ng-if="(tr.orderStatus=='待发单')" class="flex-item-6 text-right">
                   <button  ng-if="tr.orderStatus=='待发单'"  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"

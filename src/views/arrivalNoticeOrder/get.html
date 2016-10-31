@@ -146,7 +146,7 @@ scope-data="showData"
 
 
             <span class="mgr-l"  ng-if="showData.orderStatus=='待审批'"
-            ng-init="rejectObj={url:'rest/authen/arrivalNoticeOrder/updateStatus.json',typeCode:'来货通知单驳回理由',formData:{id:showData.id,status:'已作废',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
+            ng-init="rejectObj={url:'rest/authen/arrivalNoticeOrder/updateStatus.json',typeCode:'来货通知单驳回理由',msg:'驳回后，该来货通知单将作废。确认驳回?',formData:{id:showData.id,status:'已作废',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
               <a href="javascript:;"
                  modal-center
                  modal-scope="this"
@@ -160,7 +160,7 @@ scope-data="showData"
                   dialog-content="通过后，该来货通知单将生效。确认通过?"
                   dialog-template="pr-dialog-submit.html"
                   request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=待入库"
-                  call-back="$root.goTo('#/arrivalNoticeOrder/query.html?id={{showData.id}}&t=1')">审批通过</button>
+                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=2')">审批通过</button>
 
           <button class="pr-btn-save-glodbg"  ng-if="showData.orderStatus=='待入库'"
                   type="button"
@@ -169,7 +169,7 @@ scope-data="showData"
                   dialog-content="提交后，数据同步到库存?"
                   dialog-template="pr-dialog-submit.html"
                   request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=已完成"
-                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=2')">确认入库</button>
+                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=3')">确认入库</button>
 
 
           </div>  <!-- 操作 -->
