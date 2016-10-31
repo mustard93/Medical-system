@@ -4,7 +4,7 @@
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
-        <div class="pos-abs order-create-btn">
+        <div class="pos-abs order-create-btn"  ng-if="hasAuthor('采购单编辑')">
           <a href="#/purchaseOrder/edit.html" title="新建采购单"><i></i><span class="text-s"></span></a>
         </div>
        <div class="order-status-btn pos-tr text-right"
@@ -78,9 +78,9 @@
               <div class="flex-column" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states">{{tr.orderStatus}}</span>
                 <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right">
-                  <a ng-if="tr.orderStatus=='待采购'" href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}" type="button" class="btn btn-primary btn-xs">生成来往货通知</a>
-                  <a ng-if="tr.orderStatus=='待采购'" href="#/purchaseVoucher/edit.html?id={{tr.id}}" type="button" class="btn btn-primary btn-xs">生成采购凭证</a>
-                  <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgr-l">新建</a>
+                  <a ng-if="tr.orderStatus=='待采购'&&hasAuthor('来货通知单编辑')" href="#/arrivalNoticeOrder/edit.html?id={{tr.id}}" type="button" class="btn btn-primary btn-xs">生成来往货通知</a>
+                  <a ng-if="tr.orderStatus=='待采购'&&hasAuthor('采购凭证编辑')" href="#/purchaseVoucher/edit.html?id={{tr.id}}" type="button" class="btn btn-primary btn-xs">生成采购凭证</a>
+                  <a ng-if="tr.orderStatus=='已作废'&&hasAuthor('采购单编辑')"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgr-l">新建</a>
                   <a href="#/purchaseOrder/get.html?id={{tr.id}}">查看详情</a>
                 </span>
                 <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right"><a href="#/purchaseOrder/edit.html?id={{tr.id}}">编辑</a></span>

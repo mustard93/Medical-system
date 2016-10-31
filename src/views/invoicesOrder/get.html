@@ -31,7 +31,7 @@
         <span>对应出库单：
   <a href="#/outstockOrder/get.html?id={{showData.outStockOrderId}}">  {{showData.outStockOrderNo}}</a>
 
-          <button ng-if="!showData.outStockOrderNo" ng-disabled="showData.orderStatus=='待发货'" class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
+          <button ng-if="!showData.outStockOrderNo&&hasAuthor('出库单编辑')" ng-disabled="showData.orderStatus=='待发货'" class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
         </span>
       </div>
       </form>
@@ -172,7 +172,7 @@
 
                modal-url="views/public/dialog-check-reject.html">驳回</a>
           </span>
-          <button class="pr-btn-save-glodbg" ng-if="showData.orderStatus=='待发货'"
+          <button class="pr-btn-save-glodbg" ng-if="showData.orderStatus=='待发货'&&hasAuthor('发货单确认')"
                   type="button"
                   handle-this-click
                   dialog-title="确认发货?"
