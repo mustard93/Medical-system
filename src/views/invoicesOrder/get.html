@@ -161,9 +161,12 @@
             <a ng-if="showData.orderStatus=='待发货'" href="javacript:;" ng-click="deleteKuaidi(item,showData.id)" >删除</a>
           </div>
           <div ng-if="showData.orderStatus=='待发货'" class="flex-item-4 text-right text-s">
-            <button class="pr-add-item-whitebg"
-            modal-right="600" modal-data='{"invoicesOrderId":"{{formData.id}}","formData":{},"addFlag":true}'
-            modal-scope="this" modal-url="views/invoicesOrder/kuaidi/edit.html">添加...
+            <button ng-if="$root.hasAuthor('发货单确认')"
+                    class="pr-add-item-whitebg"
+                    modal-right="600"
+                    modal-data='{"invoicesOrderId":"{{formData.id}}","formData":{},"addFlag":true}'
+                    modal-scope="this"
+                    modal-url="views/invoicesOrder/kuaidi/edit.html">添加...
             </button>
           </div>
         </div>
@@ -171,16 +174,16 @@
 
       <div class="pd-c-xl pdb-xxl text-right">
         <span class="mgr-l">
-          <span class="mgr-l"  ng-if="showData.orderStatus=='待发货'"
-          ng-init="rejectObj={url:'rest/authen/invoicesOrder/updateStatus.json',typeCode:'发货单驳回理由',formData:{id:showData.id,status:'已作废',key:'缺货'},goUrl:'#/invoicesOrder/get.html?t=1&id='+showData.id}">
+          <span class="mgr-l"
+                ng-if="showData.orderStatus=='待发货' && $root.hasAuthor('发货单确认')"
+                ng-init="rejectObj={url:'rest/authen/invoicesOrder/updateStatus.json',typeCode:'发货单驳回理由',formData:{id:showData.id,status:'已作废',key:'缺货'},goUrl:'#/invoicesOrder/get.html?t=1&id='+showData.id}">
             <a href="javascript:;"
-
                modal-center
                modal-scope="this"
-
                modal-url="views/public/dialog-check-reject.html">驳回</a>
           </span>
-          <button class="pr-btn-save-glodbg" ng-if="showData.orderStatus=='待发货'&&$root.hasAuthor('发货单确认')"
+          <button class="pr-btn-save-glodbg"
+                  ng-if="showData.orderStatus=='待发货' && $root.hasAuthor('发货单确认')"
                   type="button"
                   handle-this-click
                   dialog-title="确认发货?"
@@ -188,12 +191,7 @@
                   dialog-template="pr-dialog-submit.html"
                   request-url="rest/authen/invoicesOrder/updateStatus.json?id={{showData.id}}&status=已发货"
                   call-back="goTo('#/invoicesOrder/get.html?id={{showData.id}}&t=1')">确认发货</button>
-
-
-
         </span>
-
-
       </div>
     </div><!-- 配送信息 -->
 
