@@ -16,7 +16,10 @@
             <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
               <span class="pj-badge" ng-if='countByOrderStatus["未提交"]'>{{countByOrderStatus["未提交"]}}</span>
             </button>
-            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">待入库
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待审批'">待审批
+              <span class="pj-badge" ng-if='countByOrderStatus["待审批"]'>{{countByOrderStatus["待审批"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待入库'">待入库
               <span class="pj-badge" ng-if='countByOrderStatus["待入库"]'>{{countByOrderStatus["待入库"]}}</span>
             </button>
             <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">入库中
@@ -45,7 +48,7 @@
             <div class="">
               <div class="flex-column mgb" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states">{{tr.orderStatus}}</span>
-                <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right">
+                <span  class="flex-item-10 text-right">
                   <a href="#/arrivalNoticeOrder/get.html?id={{tr.id}}">查看详情</a>
 
 
@@ -55,12 +58,21 @@
                           dialog-title="确认提交?"
                           dialog-content="提交后，将无法修改，确认提交?"
                           dialog-template="pr-dialog-submit.html"
-                          request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{tr.id}}&status=待入库"
-                          call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{tr.id}}&t=1')">立即提交</button>
+                          request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{tr.id}}&status=待审批"
+                          call-back="listParams.refreshId=tr.id">立即提交</button>
+
+
+                          <button  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"   ng-if="tr.orderStatus=='待审批'"
+                                  type="button"
+                                  handle-this-click
+                                  dialog-title="确认通过?"
+                                  dialog-content="通过后，该来货通知单将生效。确认通过?"
+                                  dialog-template="pr-dialog-submit.html"
+                                  request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{tr.id}}&status=待入库"
+                                  call-back="listParams.refreshId=tr.id">审批通过</button>
 
 
                 </span>
-                <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right"><a href="#/arrivalNoticeOrder/get.html?id={{tr.id}}">查看详情</a></span>
               </div>
               <div class="flex-column qurey text-s color-9">
                 <div class="flex-item-6 mgb">
