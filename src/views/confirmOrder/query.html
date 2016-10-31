@@ -113,6 +113,7 @@
               <div ng-if="tr.orderStatus=='待发货' || tr.orderStatus=='已发货'" class="flex-column text-s">
                 <div class="flex-item-6 br-line pdt pdr-m" style="height:136px;">
                   <h3 class="pdb bb-line">物流信息</h3>
+                  <div ng-if="!tr.kuaidiSet">暂无</div>
                   <div class="flex-column mgt"  ng-repeat="kuaidi in tr.kuaidiSet">
                     <span class="flex-item-5 mgr-0">{{kuaidi.type}}</span>
                     <span class="flex-item-7">
@@ -122,14 +123,9 @@
                 </div>
                 <div class="flex-item-6 pd">
                   <div class="flex-column mgt"  ng-repeat="order in tr.orderSet">
-
-
-
-
                   <p class="mgb">{{order.type}}：<em class="color-custom-orange">
                     <a ng-if="order.type=='发货单'" href="#/invoicesOrder/get.html?id={{order.orderId}}">  {{order.orderNo}}</a>
                     <a ng-if="order.type=='出库单'" href="#/outstockOrder/get.html?id={{order.orderId}}">  {{order.orderNo}}</a>
-
                   </em></p>
                 </div>
                 </div>
