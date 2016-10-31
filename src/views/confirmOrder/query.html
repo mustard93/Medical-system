@@ -96,16 +96,12 @@
                 </div>
               </div>
 
-              <div ng-if="tr.orderStatus=='待审批' ||
-                          tr.orderStatus=='已审批' ||
-                          tr.orderStatus=='未提交' ||
-                          tr.orderStatus=='待发单' ||
-                          tr.orderStatus=='已作废'" class="pdr-xl" style="min-height:136px;">
+              <div style="min-height:136px;">
 
               <!-- <div ng-if="tr.orderStatus=='待审批' || tr.orderStatus=='已审批' || tr.orderStatus=='未提交'" class="pdr-xl" style="min-height:136px;">
                 <p class="pd-c-m pdt text-s color-9">备注：{{tr.note}}</p>
               </div> -->
-              <div  class="flex-column text-s">
+              <div  class="flex-column text-s bb-line">
                 <div class="flex-item-6 br-line pd-m" style="height:136px;">
                   <h3 class="pdb bb-line">物流信息</h3>
                   <div ng-if="!tr.kuaidiSet">暂无</div>
@@ -118,32 +114,15 @@
                 </div>
 
                 <div class="flex-item-6 pd">
-
-                  <div class="flex-column mgt" >
-                  <p class="mgb">购需单：<em class="color-custom-orange">
-                    <a  href="#/salesOrder/get.html?id={{tr.relId}}">  {{tr.relOrderNo}}</a>
-
-                  </em></p>
+                  <p class="mgb-s">购需单：<a href="#/salesOrder/get.html?id={{tr.relId}}" class="color-custom-orange">{{tr.relOrderNo}}</a></p>
+                  <p class="mgb-s">订&nbsp; &nbsp;单：{{tr.orderNo}}</p>
+                  <p class="mgb-s" ng-init="order1=$root.getObjectByKeyOfArr(tr.orderSet,'type','发货单')">发货单：
+                    <a href="#/invoicesOrder/get.html?id={{order1.orderId}}" class="color-custom-orange">{{order1.orderNo}}</a>
+                  </p>
+                  <p ng-init="order2=$root.getObjectByKeyOfArr(tr.orderSet,'type','出库单')">出库单：
+                    <a  href="#/outstockOrder/get.html?id={{order2.orderId}}" class="color-custom-orange">{{order2.orderNo}}</a>
+                  </p>
                 </div>
-                <div class="flex-column mgt" >
-                <p class="mgb">订&nbsp; &nbsp;单：
-                    {{tr.orderNo}}
-                </p>
-              </div>
-
-              <div class="flex-column mgt"  ng-init="order1=$root.getObjectByKeyOfArr(tr.orderSet,'type','发货单')">
-              <p class="mgb">发货单：<em class="color-custom-orange">
-                <a  href="#/invoicesOrder/get.html?id={{order1.orderId}}">  {{order1.orderNo}}</a>
-
-              </em></p>
-            </div>
-            <div class="flex-column mgt"  ng-init="order2=$root.getObjectByKeyOfArr(tr.orderSet,'type','出库单')">
-            <p class="mgb">出库单：<em class="color-custom-orange">
-              <a  href="#/outstockOrder/get.html?id={{order2.orderId}}">  {{order2.orderNo}}</a>
-
-            </em></p>
-          </div>
-              </div>
               <!-- <div ng-if="tr.orderStatus!='待审批'">
                 <h1 class="mgt-l mgb-s color-6">发货信息</h1>
                 <p class="mgb-m text-s color-9">发货单号：<em class="pr-color">{{tr.invoiceOrderIdsSet.join(",")}}</em></p>
