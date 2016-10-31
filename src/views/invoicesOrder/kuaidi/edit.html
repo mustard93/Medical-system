@@ -1,7 +1,6 @@
 <div class="modal-content pr-modal-content" ng-controller="editCtrl">
-
   <form class="add-customerAddress-form form-horizontal"
-        ng-init="formData=dialogData.formData;formData.invoicesOrderId=dialogData.invoicesOrderId"
+        ng-init="formData.type=dialogData.type;formData.nu=dialogData.nu;formData.invoicesOrderId=dialogData.invoicesOrderId"
         action="rest/authen/invoicesOrder/kuaidi/save"
         scope-data="formData"
         callback="kuaidiSaveAfter(formData)"
@@ -13,8 +12,10 @@
       <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label text-left">快递公司</label>
           <div class="col-lg-10 col-sm-10">
-            <select class="ipt pr-short-ipt" ng-model="formData.type"
-             chosen select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_KuaidiType">
+            <select class="ipt pr-short-ipt"
+                    ng-model="formData.type"
+                    chosen
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_KuaidiType">
            </select>
           </div>
       </div>

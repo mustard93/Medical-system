@@ -95,7 +95,11 @@
                   <div class="flex-item-6 text-right">期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date:'yyyy-MM-dd')||'无'}}</strong></div>
                 </div>
               </div>
-              <div ng-if="tr.orderStatus=='待审批' || tr.orderStatus=='已审批' || tr.orderStatus=='未提交'" class="pdr-xl" style="min-height:136px;">
+              <div ng-if="tr.orderStatus=='待审批' ||
+                          tr.orderStatus=='已审批' ||
+                          tr.orderStatus=='未提交' ||
+                          tr.orderStatus=='待发单' ||
+                          tr.orderStatus=='已作废'" class="pdr-xl" style="min-height:136px;">
                 <p class="pd-c-m pdt text-s color-9">备注：{{tr.note}}</p>
               </div>
               <div ng-if="tr.orderStatus=='待发货' || tr.orderStatus=='已发货'" class="flex-column text-s">

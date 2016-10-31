@@ -86,7 +86,7 @@ define('main/controllers', ['main/init'], function () {
         //全局权限控制器
         $scope.hasAuthor = function (author) {
             // var arr=TestAuthor["A_"+$scope.curUser.phone];
-             if(!$scope.curUser||!$scope.curUser.additional||!$scope.curUser.additional.Authoritys)return false;
+            if(!$scope.curUser||!$scope.curUser.additional||!$scope.curUser.additional.Authoritys)return false;
             var arr=$scope.curUser.additional.Authoritys;
 
             if ($.inArray(author, arr) == -1) {
@@ -95,6 +95,9 @@ define('main/controllers', ['main/init'], function () {
                 return true;
             }
         };
+
+        $rootScope.hasAuthor = $scope.hasAuthor;
+
 
         //获取主要信息
         if ($scope.mainConfig.getMainInfo) {

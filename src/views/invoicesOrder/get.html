@@ -31,7 +31,7 @@
         <span>对应出库单：
   <a href="#/outstockOrder/get.html?id={{showData.outStockOrderId}}">  {{showData.outStockOrderNo}}</a>
 
-          <button ng-if="!showData.outStockOrderNo&&hasAuthor('出库单编辑')" ng-disabled="showData.orderStatus=='待发货'" class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
+          <button ng-if="!showData.outStockOrderNo&&$root.hasAuthor('出库单编辑')" ng-disabled="showData.orderStatus=='待发货'" class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
         </span>
       </div>
       </form>
@@ -142,20 +142,28 @@
         <div class="flex-column">
           <div class="flex-item-8 text-s"  ng-repeat="item in showData.kuaidiSet" >
             <span class="mgr">{{item.type}}：{{item.nu}}</span>
+            <!-- <a ng-if="showData.orderStatus=='待发货'"
+               href="javacript:;"
+               class="mgr"
+               modal-right="600"
+               modal-data='{"invoicesOrderId":"{{formData.id}}","formData.type":"item.type","formData.nu":"item.nu"}'
+               modal-scope="this"
+               modal-url="views/invoicesOrder/kuaidi/edit.html">编辑</a> -->
 
-            <a  ng-if="showData.orderStatus=='待发货'" href="javacript:;" lass="mgr"
-             modal-right="600" modal-data='{"invoicesOrderId":"{{formData.id}}","formData":{{item}}}'
-             modal-scope="this" modal-url="views/invoicesOrder/kuaidi/edit.html"
-             >编辑</a>
+              <a ng-if="showData.orderStatus=='待发货'"
+                 href="javacript:;"
+                 class="mgr"
+                 modal-right="600"
+                 modal-data='{"invoicesOrderId":"{{formData.id}}","type":"{{item.type}}","nu":"{{item.nu}}"}'
+                 modal-scope="this"
+                 modal-url="views/invoicesOrder/kuaidi/edit.html">编辑</a>
 
-            <a  ng-if="showData.orderStatus=='待发货'" href="javacript:;" ng-click="deleteKuaidi(item,showData.id)" >删除</a>
+            <a ng-if="showData.orderStatus=='待发货'" href="javacript:;" ng-click="deleteKuaidi(item,showData.id)" >删除</a>
           </div>
-          <div  ng-if="showData.orderStatus=='待发货'" class="flex-item-4 text-right text-s">
-
+          <div ng-if="showData.orderStatus=='待发货'" class="flex-item-4 text-right text-s">
             <button class="pr-add-item-whitebg"
             modal-right="600" modal-data='{"invoicesOrderId":"{{formData.id}}","formData":{},"addFlag":true}'
-            modal-scope="this" modal-url="views/invoicesOrder/kuaidi/edit.html">
-                      添加...
+            modal-scope="this" modal-url="views/invoicesOrder/kuaidi/edit.html">添加...
             </button>
           </div>
         </div>
@@ -172,7 +180,7 @@
 
                modal-url="views/public/dialog-check-reject.html">驳回</a>
           </span>
-          <button class="pr-btn-save-glodbg" ng-if="showData.orderStatus=='待发货'&&hasAuthor('发货单确认')"
+          <button class="pr-btn-save-glodbg" ng-if="showData.orderStatus=='待发货'&&$root.hasAuthor('发货单确认')"
                   type="button"
                   handle-this-click
                   dialog-title="确认发货?"
