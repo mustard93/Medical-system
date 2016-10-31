@@ -1,0 +1,128 @@
+<div class="content-wrapper arrivalNotaice-order">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/arrivalNoticeOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+    <!-- 主内容头部 -->
+    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
+      <!-- 新建按钮及状态按钮 -->
+      <div class="full-width">
+        <!-- <div class="pos-abs order-create-btn">
+          <a href="#/purchaseOrder/edit.html" title="新建采购单"><i></i><span class="text-s"></span></a>
+        </div> -->
+        <div class="order-status-btn pos-tr text-right"
+             ajax-url="rest/authen/purchaseOrder/countByOrderStatus.json"
+             scope-data="countByOrderStatus"
+             alert-error>
+          <div class="btn btn-group"   scope-data="statusList">
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
+              <span class="pj-badge" ng-if='countByOrderStatus["未提交"]'>{{countByOrderStatus["未提交"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">待入库
+              <span class="pj-badge" ng-if='countByOrderStatus["待入库"]'>{{countByOrderStatus["待入库"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">入库中
+              <span class="pj-badge" ng-if='countByOrderStatus["入库中"]'>{{countByOrderStatus["入库中"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发货'">已完成
+              <span class="pj-badge" ng-if='countByOrderStatus["已完成"]'>{{countByOrderStatus["已完成"]}}</span>
+            </button>
+          </div>
+          <div class="inline-block relative">
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg">已作废</button>
+          </div>
+        </div>
+      </div>
+      <!-- 右侧搜索 -->
+      <div class="text-right order-list-search pos-rb">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
+        <i class=""></i>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <ul class="">
+        <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+            <div class="">
+              <div class="flex-column mgb" style="height:22px;line-height:22px;">
+                <span class="flex-item-2 title-states">{{tr.orderStatus}}</span>
+                <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right">
+                  <a href="#/arrivalNoticeOrder/get.html?id={{tr.id}}">查看详情</a>
+
+
+                  <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"  ng-if="tr.orderStatus=='未提交'"
+                          type="button"
+                          handle-this-click
+                          dialog-title="确认提交?"
+                          dialog-content="提交后，将无法修改，确认提交?"
+                          dialog-template="pr-dialog-submit.html"
+                          request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{tr.id}}&status=待入库"
+                          call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{tr.id}}&t=1')">立即提交</button>
+
+
+                </span>
+                <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right"><a href="#/arrivalNoticeOrder/get.html?id={{tr.id}}">查看详情</a></span>
+              </div>
+              <div class="flex-column qurey text-s color-9">
+                <div class="flex-item-6 mgb">
+                  <p class="mgb-s">通知单号：<strong class="color-6 text-normal">{{tr.orderNo}}</strong></p>
+                </div>
+                <div class="flex-item-6 text-right">
+                  <p class="mgb-s">创建时间：<strong class="color-6 text-normal">{{tr.createAt | date:'yyyy-MM-dd HH:ss'}}</strong></p>
+                </div>
+              </div>
+            </div>
+            <div class="color-9 pr-ele-height-auto" style="padding-top:10px!important;padding-bottom:10px!important;">
+              供应商：<span class="color-6">{{tr.supplierName}}</span>
+            </div>
+            <div class="flex-column text-s">
+              <div class="flex-item-6 br-line pd-l" style="min-height:145px;">
+                <p class="mgb">对应采购单：<em class=" color-custom-orange">  <a href="#/purchaseOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a></em></p>
+                <p class="mgb">采购员：<em class="color-custom-orange">{{tr.saleUser.n}}</em></p>
+                <p>审批人：<em class="color-custom-orange">{{tr.operationFlowSet[tr.operationFlowSet.length-1].inputUser}}</em></p>
+              </div>
+              <div class="flex-item-6 pd">
+                <p class="pd-v-m text-center">入库状态</p>
+                <p class="text-m color-6 text-center">{{tr.progress||"0"}}%</p>
+                <div class="pd-c-xl">
+                  <div class="progress pr-progress"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       title="10">
+                    <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar" role="progressbar"
+                         aria-valuenow="10" aria-valuemin="0"
+                         aria-valuemax="100" style="width:{{tr.progress}}%;background-color:#2ec600!important;">
+                    </div>
+                    <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
+                         aria-valuenow="10" aria-valuemin="0"
+                         aria-valuemax="100" style="width:{{tr.progress}}%;background-color:#ff8c00!important;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pd-m color-9">
+              备注：<span class="color-6">{{tr.note}}</span>
+            </div>
+            <div class="pd-m color-9">
+              <div class="flex-column mgb">
+                <div class="flex-item-6">
+                  预付款：<em class="">￥{{tr.prepaidPrice | number:2}}</em>
+                </div>
+                <div class="flex-item-6 text-right">
+                  合计：<em class="">￥{{tr.totalPrice | number:2}}</em>
+                </div>
+              </div>
+              <div class="text-right">税额：<em class="">￥{{tr.totalPrice*tr.tax | number:2}}</em></div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>
