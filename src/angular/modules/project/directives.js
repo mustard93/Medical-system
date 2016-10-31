@@ -482,6 +482,10 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                 if (attrs.callBack) {
                   scope.$eval(attrs.callBack);
                 }
+
+                if (attrs.callback) {
+                  scope.$eval(attrs.callback);
+                }
               })
               .catch(function (error) {
                 alertError(error || '出错');
@@ -489,15 +493,17 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
             return;
           }
 
-          if (angular.isDefined(attrs.callSubmit)) {
-                scope.$eval(attrs.callBack);
-          }
 
 
           //执行回调
           if (attrs.callBack) {
             scope.dialgForm=dialgForm;
             scope.$eval(attrs.callBack);
+          }
+          //执行回调
+          if (attrs.callback) {
+            scope.dialgForm=dialgForm;
+            scope.$eval(attrs.callback);
           }
         }, _dialogTemplate, _dialogTitle, _jumpUrl);
       });

@@ -101,7 +101,7 @@
 
       <div  class="text-right mgb-l" ng-if="showData.orderStatus=='待审批'">
       <span class="mgr-l"
-      ng-init="rejectObj={url:'rest/authen/purchaseOrder/updateStatus.json',typeCode:'订单驳回理由',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/purchaseOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
+      ng-init="rejectObj={url:'rest/authen/purchaseOrder/updateStatus.json',typeCode:'订单驳回理由',msg:'驳回后，该采购单将作废。确认驳回?',formData:{id:showData.id,status:'已作废',key:'缺货'},goUrl:'#/purchaseOrder/get.html?t=1&id='+showData.id}">
         <a href="javascript:;"
 
            modal-center
@@ -113,10 +113,10 @@
               type="button"
               handle-this-click
               dialog-title="确认通过?"
-              dialog-content="审核通过后,订单将生效,是否通过?"
+              dialog-content="审核通过后,销售单将生效,是否通过?"
               dialog-template="pr-dialog-submit.html"
-              request-url="rest/authen/purchaseOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=待采购"
-              call-back="goTo('#/purchaseOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过</button>
+              request-url="rest/authen/purchaseOrder/updateStatus.json?id={{showData.id}}&status=待采购"
+              call-back="goTo('#/purchaseOrder/get.html?t=审核通过&id={{showData.id}}')">审核通过</button>
     </div>
   </div>
 

@@ -287,20 +287,39 @@
     <!-- 提交按钮 -->
     <div class="pd-c-xl pdb-xxl text-right">
       <span class="mgr-l">
-        <button class="pr-btn-save-glodbg" type="submit">保存</button>
+        <button
+        ng-disabled="!formData.orderMedicalNos.length ||
+                     !formData.customerId ||
+                     !formData.saleUserId"
+         class="pr-btn-save-glodbg" type="submit">保存</button>
       </span>
       <span class="mgr-l">
-        <button ng-click="submitForm('editForm','submit')" class="pr-btn-create-glodbg">提交审批</button>
+
+
+               <button   class="pr-btn-create-glodbg"
+
+               ng-disabled="!formData.orderMedicalNos.length ||
+                            !formData.customerId ||
+                            !formData.saleUserId"
+                       type="button"
+                       handle-this-click
+                       dialog-title="确认提交?"
+                       dialog-content="提交后，将无法修改。确认提交?"
+                       dialog-template="pr-dialog-submit.html"
+                       callback="submitForm('editForm','submit')">提交审批</button>
+
       </span>
 
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
       <span>
-        <a href="javascript:;"
-           handle-this-click
-           dialog-title="确认取消?"
-           dialog-content="取消后无法回复原有数据,确认取消?"
-           dialog-template="pr-dialog-confirm.html">返回采购单中心</a>
 
+           <a href="javascript:;"
+              handle-this-click
+              dialog-title="确认返回?"
+              dialog-content="有修改数据还未保存，是否保存?"
+              dialog-template="pr-dialog-return.html"
+              nosave-callback="goTo('#/purchaseOrder/query.html')"
+              save-callback="submitForm('editForm','exit')">返回采购单中心</a>
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
 
     </div>
@@ -308,11 +327,11 @@
   </form>
 
   <!-- 加载选中药械库存-->
-  <div ajax-if="orderMedicalNoIds"
+  <!-- <div ajax-if="orderMedicalNoIds"
        ajax-url="rest/authen/medicalStock/countStockByIds.json?ids={{orderMedicalNoIds.join(',')}}"
        scope-data="medicalStockMap"
        alert-error>
-  </div>
+  </div> -->
 
 </div><!--end batchRequirementStatus-->
 </div>
