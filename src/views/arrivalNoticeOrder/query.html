@@ -62,15 +62,15 @@
                           call-back="listParams.refreshId=tr.id">提交到库管</button>
 
 
-                          <button  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"   ng-if="tr.orderStatus=='待审批'"
-                                  type="button"
-                                  handle-this-click
-                                  dialog-title="确认通过?"
-                                  dialog-content="通过后，该来货通知单将生效。确认通过?"
-                                  dialog-template="pr-dialog-submit.html"
-                                  request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{tr.id}}&status=待入库"
-                                  call-back="listParams.refreshId=tr.id">审批通过</button>
-
+                  <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                          type="button"
+                          handle-this-click
+                          dialog-title="确认通过?"
+                          dialog-content="通过后，该来货通知单将生效。确认通过?"
+                          dialog-template="pr-dialog-submit.html"
+                          request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{tr.id}}&status=待入库"
+                          call-back="listParams.refreshId=tr.id">审批通过</button>
 
                 </span>
               </div>

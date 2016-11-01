@@ -137,30 +137,29 @@ class="content-wrapper invoices-order"
       </div>
       <!-- 提交按钮 -->
       <div class="pd-c-xl pdb-xxl text-right">
-        <span class="mgr-l">
+        <span ng-if="$root.hasAuthor('发货单编辑')" class="mgr-l">
           <button class="pr-btn-save-glodbg"
                   type="submit">保存
           </button>
         </span>
         <span class="mgr-l">
 
-
-          <button type="button"
-                  class="pr-btn-create-glodbg"
-                  handle-this-click
-                  dialog-title="确认提交发货单?"
-                  dialog-content="提交后,您将无法修改发货单,确认提交?"
-                  dialog-template="pr-dialog-submit.html"
-                  call-back="submitForm('editForm','submit')">提交发货</button>
+        <button ng-if="$root.hasAuthor('发货单编辑')"
+                type="button"
+                class="pr-btn-create-glodbg"
+                handle-this-click
+                dialog-title="确认提交发货单?"
+                dialog-content="提交后,您将无法修改发货单,确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                call-back="submitForm('editForm','submit')">提交发货</button>
         </span>
 
         <span><a href="javascript:;"
                  handle-this-click
-
-                nosave-callback="goTo('#/invoicesOrder/query.html')"
-                  save-callback="submitForm('editForm','exit')"
-
-                 dialog-template="pr-dialog-return.html">返回</a></span>
+                 nosave-callback="goTo('#/invoicesOrder/query.html')"
+                 save-callback="submitForm('editForm','exit')"
+                 dialog-template="pr-dialog-return.html">返回</a>
+        </span>
       </div>
 
 
