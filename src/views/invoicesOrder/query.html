@@ -50,25 +50,25 @@
         <li class="pdr-m relative" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
             <div class="pd-m">
-              <form   form-validator  ng-init="outstockOrderForm={invoicesId:tr.id}"
+              <form form-validator ng-init="outstockOrderForm={invoicesId:tr.id}"
                     action="rest/authen/outstockOrder/save.json"
-                     alert-error
-                     form-data="outstockOrderForm"
-                     scope-data="outstockOrder"
-                     no-close-dialog
-                      alert-ok
-                    callback="$root.goTo('#/outstockOrder/get.html?id='+outstockOrder.id)"
-                  >
-              <div class="flex-column mgb-m">
+                    alert-error
+                    form-data="outstockOrderForm"
+                    scope-data="outstockOrder"
+                    no-close-dialog
+                    alert-ok
+                    callback="$root.goTo('#/outstockOrder/get.html?id='+outstockOrder.id)">
+              <div class="flex-column mgb-m" style="height:24px;line-height:24px;">
                 <span class="flex-item-6 title-states">{{tr.orderStatus}}
                   <i ng-if="tr.orderStatus=='已收货'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='待发货'" class="circle-icon-red mgl-m"></i>
                 </span>
 
                 <span class="flex-item-3 text-right">
-                  <button  ng-if="!tr.outStockOrderId&&tr.orderStatus=='已发货'"   type="submit"   class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">生成出库单</button>
+                  <button ng-if="!tr.outStockOrderId&&tr.orderStatus=='已发货' && $root.hasAuthor('出库单编辑')"
+                          type="submit"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">生成出库单</button>
                 </span>
-
 
                 <span  ng-if="tr.orderStatus!='未提交'" class="flex-item-3 text-right"><a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a></span>
                 <span  ng-if="tr.orderStatus=='未提交'" class="flex-item-3 text-right"><a href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a></span>
