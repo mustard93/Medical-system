@@ -3,6 +3,12 @@
  */
 define('project/services', ['project/init'], function () {
   /**
+   *  获取当前Url详细信息
+   */
+  function getUrlInfo () {
+    
+  }
+  /**
    *  项目自定义顶部fixed消息提示tips
    *  Mode: 1.success 2.error 3.prompt(提示)
    */
@@ -14,8 +20,8 @@ define('project/services', ['project/init'], function () {
       $(html).append(_html);
     };
   }
-  proMessageTips.$inject = [];
 
   angular.module('manageApp.project')
-    .factory('proMessageTips', proMessageTips);
+    .factory('proMessageTips', [proMessageTips])
+    .factory('getUrlInfo', [getUrlInfo]);
 });
