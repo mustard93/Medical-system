@@ -4,14 +4,17 @@
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
-        <div class="order-status-btn pos-tr text-right">
+        <div class="order-status-btn pos-tr text-right"
+             ajax-url="rest/authen/purchaseVoucher/countByOrderStatus.json"
+             scope-data="countByOrderStatus"
+             alert-error>
             <div class=""></div>
             <div class="btn btn-group"   scope-data="statusList">
               <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">未发送
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未发送'">未发送
                 <span class="pj-badge" ng-if='countByOrderStatus["未发送"]'>{{countByOrderStatus["未发送"]}}</span>
               </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">已发送
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发送'">已发送
                 <span class="pj-badge" ng-if='countByOrderStatus["已发送"]'>{{countByOrderStatus["已发送"]}}</span>
               </button>
             </div>
@@ -28,11 +31,11 @@
       <ul class="">
         <li class="pdr-m relative confirm-order-list color-9" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative color-9">
-            <div class="">
-              <div class="flex-column mgb-m" style="height:22px;line-height:22px;">
+            <div class="pd-c-l">
+              <div class="flex-column pd-v mgb" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states">{{tr.orderStatus}}</span>
                 <span class="flex-item-10 text-right">
-                  <a ng-if="tr.orderStatus=='未发送'" href="#" type="button" class="btn btn-primary btn-xs">立即发送</a>
+                  <a ng-if="tr.orderStatus=='未发送'" href="#" type="button" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr">立即发送</a>
                   <a href="#/purchaseVoucher/get.html?id={{tr.id}}">查看详情</a>
                 </span>
               </div>
@@ -51,7 +54,7 @@
               <p class="pdb">电话：<em>{{tr.address.tel}}</em></p>
             </div>
             <div class="text-right text-s pd-c-l pdt pdb">
-              <a href="#">下载PDF文件</a>
+              <a href="{{tr.voucherUrl}}">下载PDF文件</a>
             </div>
           </div>
         </li>

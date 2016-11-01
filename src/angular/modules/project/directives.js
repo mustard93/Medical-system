@@ -66,7 +66,9 @@ function leftMenuChange () {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      element.on('click', function () {
+      element.on('click', function (e) {
+        e.stopPropagation();  // 阻止事件冒泡
+
         $(this).addClass('active').parent().siblings().each(function () {
           $(this).children().removeClass('active');
         });

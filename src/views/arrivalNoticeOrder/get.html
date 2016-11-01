@@ -132,7 +132,8 @@ scope-data="showData"
             </span>
 
 
-            <button class="pr-btn-save-glodbg"  ng-if="showData.orderStatus=='未提交'"
+            <button ng-if="showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
+                    class="pr-btn-save-glodbg"
                     type="button"
                     handle-this-click
                     dialog-title="确认提交?"
@@ -141,19 +142,17 @@ scope-data="showData"
                     request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=待审批"
                     call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管</button>
 
-
-
-
-
-            <span class="mgr-l"  ng-if="showData.orderStatus=='待审批'"
-            ng-init="rejectObj={url:'rest/authen/arrivalNoticeOrder/updateStatus.json',typeCode:'来货通知单驳回理由',msg:'驳回后，该来货通知单将作废。确认驳回?',formData:{id:showData.id,status:'已作废',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
-              <a href="javascript:;"
-                 modal-center
-                 modal-scope="this"
-                 modal-url="views/public/dialog-check-reject.html">驳回</a>
+            <span class="mgr-l"
+                  ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+                  ng-init="rejectObj={url:'rest/authen/arrivalNoticeOrder/updateStatus.json',typeCode:'来货通知单驳回理由',msg:'驳回后，该来货通知单将作废。确认驳回?',formData:{id:showData.id,status:'已作废',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
+                  <a href="javascript:;"
+                     modal-center
+                     modal-scope="this"
+                     modal-url="views/public/dialog-check-reject.html">驳回</a>
             </span>
 
-          <button  class="pr-btn-save-glodbg"   ng-if="showData.orderStatus=='待审批'"
+          <button ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+                  class="pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认通过?"
@@ -162,7 +161,7 @@ scope-data="showData"
                   request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=待入库"
                   call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=2')">审批通过</button>
 
-          <button ng-if="showData.orderStatus=='待入库' && $root.hasAuthor('来货通知单入库')"
+          <button ng-if="showData.orderStatus=='待入库' && $root.hasAuthor('确认入库')"
                   class="pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
