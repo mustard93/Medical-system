@@ -162,7 +162,8 @@ scope-data="showData"
                   request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=待入库"
                   call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=2')">审批通过</button>
 
-          <button class="pr-btn-save-glodbg"  ng-if="showData.orderStatus=='待入库'"
+          <button ng-if="showData.orderStatus=='待入库' && $root.hasAuthor('来货通知单入库')"
+                  class="pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交?"
