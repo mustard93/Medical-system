@@ -61,18 +61,31 @@ function niceScroll () {
 /**
  * [左边栏子菜单点击事件]
  */
-function leftMenuChange () {
+function leftMenuChange ($location) {
   'use strict';
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
+      //获取当前Url模块名
+      var _moduleName = $location.path().split('/')[1];
+
+      if (attrs.leftMenuChange) {
+        if (attrs.leftMenuChange === _moduleName) {
+          changeStyle(element);
+        }
+      }
+
       element.on('click', function (e) {
         e.stopPropagation();  // 阻止事件冒泡
+        changeStyle(element);
+      });
 
-        $(this).addClass('active').parent().siblings().each(function () {
+      function changeStyle (ele) {
+        var _this = $(ele);
+        _this.addClass('active').parent().siblings().each(function () {
           $(this).children().removeClass('active');
         });
-      });
+      }
     }
   };
 }
@@ -518,7 +531,7 @@ angular.module('manageApp.project')
 .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
     .directive("orderMedicals", orderMedicals)//药械订单列表
     .directive("niceScroll", niceScroll) //滚动条美化
-    .directive("leftMenuChange", leftMenuChange) //左边栏子菜单点击事件
+    .directive("leftMenuChange", ['$location', leftMenuChange]) //左边栏子菜单点击事件
     .directive("orderStatusChoise", orderStatusChoise) //订单列表首页订单状态按钮切换样式
     .directive("orderListTips", orderListTips) //订单页头导航按钮点击事件处理
     .directive("toggleLeftMenu", toggleLeftMenu) //点击展开隐藏左边栏
