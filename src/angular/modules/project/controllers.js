@@ -294,7 +294,7 @@ define('project/controllers', ['project/init'], function() {
         /**
          *站内消息
          */
-        function noticeCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+        function noticeCtrl($scope, modal,alertWarn,requestData,alertOk,alertError,$rootScope,$interval) {
           /**
           *保存
           type:save-草稿,submit-提交订单。
@@ -315,6 +315,14 @@ define('project/controllers', ['project/init'], function() {
 
            }//noticeClick
 
+           //启动消息定时获取
+           $rootScope.startGetMsg = function(){
+               if($rootScope.startGetMsgObj)return;
+                 $rootScope.startGetMsgObj=$interval(function(){
+                    $rootScope.noticeRefreshTime=new Date().getTime();
+                 },10000)
+             };
+              $rootScope.startGetMsg();
 
            //标记已经阅读。
            requestRead = function(id,notice) {
@@ -475,7 +483,7 @@ define('project/controllers', ['project/init'], function() {
          }//end salesOrderEditCtrl
     angular.module('manageApp.project')
       .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData", purchaseOrderEditCtrl])
-    .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", noticeCtrl])
+    .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", noticeCtrl])
     .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
         .controller('salesOrderEditCtrl', ["$scope", "modal","alertWarn", salesOrderEditCtrl]);
 
