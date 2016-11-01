@@ -1,5 +1,5 @@
 <div class="content-wrapper queryUserApplyCurDepartment">
-  <table-list list-data="{{mainStatus.requestPath}}rest/authen/invoicesOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/distributor/queryUserApplyOrganization.json?uaoStatus=等待认证" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容头部 -->
     <div class="content-wrapper-heading line-b mgr-m mgb-l relative flex-column" style="height:75px;line-height:75px;">
       <!-- 区块标题 -->
@@ -21,29 +21,40 @@
         <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative pd-m">
             <!-- 选择checkbox -->
-            <div class="border-none">
+            <div icheck class="square border-none">
               <input type="checkbox">
             </div>
             <!-- 用户基本信息 -->
             <div class="border-none text-center pr-font-16">
               <!-- <p><img src="http://www.qdaily.com/images/missing_face.png" alt="" /></p> -->
               <p class="mgb-m"><span class="default-user-face"></span></p>
-              <p class="mgb-m"><span class="mgr-l">李晓川</span><span>男</span></p>
-              <p>13800138000</p>
+              <p class="mgb-m"><span class="mgr-l">{{tr.user.n}}</span><span>男</span></p>
+              <p class="pdb-m bb-line">{{tr.user.p}}</p>
             </div>
             <!-- 部门职能 -->
-            <div class="">
-              <p>部门：<span>库管部</span></p>
-              <p>职能：
-                <label><input type="checkbox">库管</label>
-                <label><input type="checkbox">检验</label>
-                <label><input type="checkbox">组长</label>
+            <div class="border-none pd-v-m color-9">
+              <p class="mgb">部门：<span class="color-6">{{tr.departmentName}}</span></p>
+              <p class="">职能：
+                <label class="pr-label color-6 mgr cur-pot">
+                  <span icheck class="square" style="position:relative;top:4px;"><input type="checkbox"></span>
+                  <span class="">库管</span>
+                </label>
+                <label class="pr-label color-6 mgr cur-pot">
+                  <span icheck class="square" style="position:relative;top:4px;"><input type="checkbox"></span>
+                  <span class="">检验</span>
+                </label>
+                <label class="pr-label color-6 cur-pot">
+                  <span icheck class="square" style="position:relative;top:4px;"><input type="checkbox"></span>
+                  <span class="">组长</span>
+                </label>
               </p>
             </div>
             <!-- 操作 -->
-            <div class="">
-              <a href="#" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color">拒绝</a>
-              <a href="#" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color">通过</a>
+            <div class="border-none">
+              <div class="bt-line text-center pdt">
+                <a href="#" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color">拒绝</a>
+                <a href="#" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color">通过</a>
+              </div>
             </div>
           </div>
         </li>
