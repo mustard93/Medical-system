@@ -188,8 +188,9 @@ define('main/controllers', ['main/init'], function () {
           }
 
 
+                  
 
-    }
+    }//end mainCtrl
 
     /**
      * 侧边菜单
