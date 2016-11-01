@@ -1,0 +1,55 @@
+<div class="content-wrapper queryUserApplyCurDepartment">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/invoicesOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+    <!-- 主内容头部 -->
+    <div class="content-wrapper-heading line-b mgr-m mgb-l relative flex-column" style="height:75px;line-height:75px;">
+      <!-- 区块标题 -->
+      <div class="flex-item-4">
+        <span class="pr-font-20">待审核账号</span>
+      </div>
+      <!-- 右侧功能按钮及搜索 -->
+      <div class="text-right order-list-search flex-item-8 relative">
+        <span><a href="#">全选</a></span>
+        <span><a href="#" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl">批量通过</a></span>
+        <span><a href="#" class="btn btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl mgr">批量拒绝</a></span>
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
+        <i class="" style="top:30px;"></i>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <ul class="">
+        <li class="pdr-m relative" ng-repeat="tr in tbodyList">
+          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative">
+            <!-- 选择checkbox -->
+            <div class="">
+              <input type="checkbox">
+            </div>
+            <!-- 用户基本信息 -->
+            <div class="">
+              <p><img src="" alt="" /></p>
+              <p><span>李晓川</span><span>男</span></p>
+              <p>13800138000</p>
+            </div>
+            <!-- 部门职能 -->
+            <div class="">
+              <p>部门：<span>库管部</span></p>
+              <p>职能：
+                <span><input type="checkbox">库管</span>
+                <span><input type="checkbox">检验</span>
+                <span><input type="checkbox">组长</span>
+              </p>
+            </div>
+            <!-- 操作 -->
+            <div class=""></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>
