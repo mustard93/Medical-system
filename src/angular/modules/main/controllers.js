@@ -132,9 +132,14 @@ define('main/controllers', ['main/init'], function () {
                 if (_data.code == 200) {
                   $scope.curUser=_data.data;
 
-                  $scope.habbit={mainRole:''};
+                  $scope.habbit={mainRole:'客服'};
 
-                  $scope.goToMainRole($scope.habbit.mainRole);
+
+
+                  if(window.location.href.indexOf('#'+Config.indexPage)>-1){
+                          $scope.goToMainRole($scope.habbit.mainRole);
+                  }
+
                   angular.extend($scope.mainStatus, _data.data);
                   $scope.$digest();
                   // 角色跳转主页面
@@ -165,10 +170,7 @@ define('main/controllers', ['main/init'], function () {
         //根据角色跳转对应页面
         $scope.goToMainRole = function (mainRole) {
 
-            if(window.location.href.indexOf('#'+Config.indexPage)==-1){
-                return;
 
-            }
             if(!mainRole)mainRole=store.get('habbit.mainRole');
             if(!mainRole)mainRole='客服';
             if(!$scope.habbit)   $scope.habbit={};
@@ -188,7 +190,7 @@ define('main/controllers', ['main/init'], function () {
           }
 
 
-                  
+
 
     }//end mainCtrl
 
