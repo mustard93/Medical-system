@@ -38,6 +38,11 @@
             <div class="inline-block relative">
               <button order-status-choise type="button" class="btn pr-btn-transparentbg">异常订单</button>
             </div>
+
+            <div class="inline-block relative">
+              <span class="pj-badge" ng-if='countByOrderStatus["已作废"]'>{{countByOrderStatus["已作废"]}}</span>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已作废'">已作废</button>
+            </div>
         </div>
       </div>
       <!-- 右侧搜索 -->
@@ -72,7 +77,7 @@
                        dialog-template="pr-dialog-submit.html"
                        request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发单"
                        call-back="listParams.refreshId=tr.id">审批通过</button>
-                       
+
                 </span>
                 <span ng-if="tr.orderStatus=='待发单' && $root.hasAuthor('发货单编辑')" class="flex-item-6 text-right">
                   <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"

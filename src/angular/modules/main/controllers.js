@@ -180,11 +180,11 @@ define('main/controllers', ['main/init'], function () {
             switch (mainRole) {
               case '客服':$scope.goTo('#/main.html');break;
               case '销售':$scope.goTo('#/authorIndex/main-salemanager.html');break;
-              // case '采购':$scope.goTo('#/authorIndex/main-servicemanager.html');break;
+              case '总经理':$scope.goTo('#/authorIndex/main-generalmanager.html');break;
               case '采购':$scope.goTo('#/authorIndex/main-purchasemanager.html');break;
               case '库管':$scope.goTo('#/authorIndex/main-repertorymanager.html');break;
               case '验收':$scope.goTo('#/authorIndex/main-checkmanager.html');break;
-              case '客服':$scope.goTo('#/authorIndex/main-generalmanager.html');break;
+            
               default: $scope.goTo('#/main.html');
             }
           }
