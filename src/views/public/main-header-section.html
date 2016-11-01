@@ -1,7 +1,7 @@
 <div class="header-section" toggle-left-menu  ng-controller="noticeCtrl">
   <!--通知菜单 start -->
   <div class="menu-right"
-       ajax-url="rest/authen/notice/query.json?t={{$root.noticeRefreshTime}}"
+       ajax-url="rest/authen/notice/getUnRead.json?t={{$root.noticeRefreshTime}}"
        noshow-loading="true"
        scope-response="scopeResponse">
 
@@ -9,7 +9,7 @@
         <li>
           <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
               <i class="header-message mgt-s"></i>
-              <span ng-if="scopeResponse.totalCount>0" class="badge">{{scopeResponse.totalCount}}</span>
+              <span ng-if="scopeResponse.data && scopeResponse.data.length > 0" class="badge">{{scopeResponse.data.length}}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-head pull-right" style="max-height:300px;overflow:auto;right:-19px;">
             <ul class="dropdown-list user-list">
