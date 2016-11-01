@@ -58,24 +58,19 @@
                   <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='冷链异常'" class="circle-icon-red mgl-m"></i>
                 </span>
-                <span  ng-if="!(tr.orderStatus=='待审批'||tr.orderStatus=='待发单')" class="flex-item-6 text-right">
-                  <a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a>
-                </span>
-                <span  ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('订单审核')" class="flex-item-6 text-right">
-
-
-                  <button  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"   ng-if="tr.orderStatus=='待审批'"
-                       type="button"
-                       handle-this-click
-                       dialog-title="确认通过?"
-                       dialog-content="审批通过后，销售单将生效。确认通过?"
-                       dialog-template="pr-dialog-submit.html"
-                       request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发单"
-                       call-back="listParams.refreshId=tr.id">审批通过</button>
-                       
-                </span>
-                <span ng-if="tr.orderStatus=='待发单' && $root.hasAuthor('发货单编辑')" class="flex-item-6 text-right">
-                  <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                <!-- <span  ng-if="!(tr.orderStatus=='待审批'||tr.orderStatus=='待发单')" class="flex-item-6 text-right"> -->
+                <span class="flex-item-6 text-right">
+                  <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr"
+                          ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('订单审核')"
+                          type="button"
+                          handle-this-click
+                          dialog-title="确认通过?"
+                          dialog-content="审批通过后，销售单将生效。确认通过?"
+                          dialog-template="pr-dialog-submit.html"
+                          request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发单"
+                          call-back="listParams.refreshId=tr.id">审批通过</button>
+                  <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr"
+                          ng-if="tr.orderStatus=='待发单' && $root.hasAuthor('发货单编辑')"
                           type="button"
                           handle-this-click
                           dialog-title="确认生成发货单?"
@@ -83,6 +78,8 @@
                           dialog-template="pr-dialog-submit.html"
                           request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发货"
                           call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{tr.id}}')">生成发货单</button>
+
+                  <a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a>
                 </span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
