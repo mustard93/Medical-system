@@ -208,7 +208,8 @@
         <span>创建时间：<em class="text-normal">{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</em></span>
       </div>
       <div class="flex-item-4 text-right">
-        <span>订单状态：<em>{{showData.orderStatus}}</em></span>
+        <span ng-if="showData.orderStatus!='已作废'">订单状态：<em>{{showData.orderStatus}}</em></span>
+          <span ng-if="showData.orderStatus=='已作废'">订单状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
       </div>
     </div>
     <!-- 已发货部分列表 -->
