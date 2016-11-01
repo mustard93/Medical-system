@@ -5,8 +5,13 @@ define('project/services', ['project/init'], function () {
   /**
    *  获取当前Url详细信息
    */
-  function getUrlInfo () {
-    
+  function getUrlInfo ($location) {
+    return function () {
+      var urlInfo = {};
+      urlInfo.absUrl = $location.absUrl();  //完整的Url
+      urlInfo.host = $location.host();  //主机名称
+      urlInfo.port = $location.prot();  //端口
+    };
   }
   /**
    *  项目自定义顶部fixed消息提示tips
@@ -23,5 +28,5 @@ define('project/services', ['project/init'], function () {
 
   angular.module('manageApp.project')
     .factory('proMessageTips', [proMessageTips])
-    .factory('getUrlInfo', [getUrlInfo]);
+    .factory('getUrlInfo', ['$location', getUrlInfo]);
 });
