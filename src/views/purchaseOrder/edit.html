@@ -168,7 +168,7 @@
     </div>
     <!-- 订单清单 -->
     <div class="order-details pd-c-xl bb-line">
-      <h1 class="pdt-l color-6 text-n">购需清单</h1>
+      <h1 class="pdt-l color-6 text-n">采购清单</h1>
       <table class="mgt-l pr-table" style="width:100%;max-width:none;table-layout:auto;">
         <thead>
           <th>器械编号</th>
@@ -185,7 +185,7 @@
         <tbody  ng-init="medicalStockMap={};orderMedicalNoIds=[]" >
           <tr class="tr-interval"><td colspan="9"></td></tr>
           <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()"  ng-init="orderMedicalNoIds.push(tr.relId)" >
-            <td class="has-border text-center text-s"></td> <!-- 器械编号 -->
+            <td class="has-border text-center text-s">{{tr.code || '暂无'}}</td> <!-- 器械编号 -->
             <td class="goods-name has-border pd-m"> <!-- 名称/厂家/规格 -->
               <div class="pr-table-td-m relative">
                 <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
@@ -201,18 +201,16 @@
             <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td> <!-- 单价 -->
             <td class="has-border text-center text-v-t pd-m">{{tr.quantity*tr.strike_price||''}}</td> <!-- 金额 -->
             <td class="has-border text-center text-v-t pd-m">
-      <input type="number"  class="pr-table-input" ng-model="tr.originalParts" />
-              </td> <!-- 证件数 -->
+              <input type="number"  class="pr-table-input" ng-model="tr.originalParts" />
+            </td> <!-- 证件数 -->
             <td class="has-border text-center text-v-t pd-m">
-                <input type="number"  class="pr-table-input" ng-model="tr.spareParts" /></td> <!-- 散件数 -->
+                <input type="number"  class="pr-table-input" ng-model="tr.spareParts" />
+            </td> <!-- 散件数 -->
+            <td class="has-border text-center text-v-t pd-m">{{tr.drugAdministrationCode}}</td> <!-- 注册证号 -->
             <td class="has-border text-center text-v-t pd-m">
-      {{tr.drugAdministrationCode}}
-            </td> <!-- 注册证号 -->
-            <td class="has-border text-center text-v-t pd-m">
-
-                            <span class="block" ng-click="formData.orderMedicalNos.splice($index,1)">
-                              <a href="javascript:;"><i class="fa fa-trash-o pr-color text-l"></i></a>
-                            </span>
+              <span class="block" ng-click="formData.orderMedicalNos.splice($index,1)">
+                <a href="javascript:;"><i class="fa fa-trash-o pr-color text-l"></i></a>
+              </span>
             </td>
           </tr>
 
@@ -227,7 +225,7 @@
               callback="selectRelIdCallBack(medical)"
               show-loading = "true"
               class="showLoading relative">
-            <td class="has-border text-center text-s"></td> <!-- 器械编号 -->
+            <td class="has-border text-center text-s">{{tr.code || '暂无'}}</td> <!-- 器械编号 -->
             <td class="goods-name has-border pd-m"> <!-- 名称/厂家/规格 -->
               <div class="relative pr-table-td-m">
                 <span class="goods-thumbnail flex-item-2"><img ng-if="addDataItem.headUrl" ng-src="{{addDataItem.headUrl}}" alt=""/></span>
@@ -252,21 +250,19 @@
             <td class="has-border text-center text-v-t pd-m">{{addDataItem.unit}}</td> <!-- 单位 -->
             <td class="has-border text-center text-v-t pd-m">
               <input type="number" id="addDataItem_quantity" class="pr-table-input" ng-model="addDataItem.quantity" />
-
             </td> <!-- 数量 -->
             <td class="has-border text-center text-v-t pd-m">
-               <span class="pr-unit-inline">￥</span>
-              <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="addDataItem.strike_price" ></td> <!-- 单价 -->
-
+              <span class="pr-unit-inline">￥</span>
+              <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="addDataItem.strike_price" >
+            </td> <!-- 单价 -->
             <td class="has-border text-center text-v-t pd-m">{{addDataItem.quantity*addDataItem.strike_price||''}}</td> <!-- 金额 -->
             <td class="has-border text-center text-v-t pd-m">
-    <input type="number"  class="pr-table-input" ng-model="addDataItem.originalParts" />
-              </td> <!-- 证件数 -->
+              <input type="number"  class="pr-table-input" ng-model="addDataItem.originalParts" />
+            </td> <!-- 证件数 -->
             <td class="has-border text-center text-v-t pd-m">
-                <input type="number"  class="pr-table-input" ng-model="addDataItem.spareParts" /></td> <!-- 散件数 -->
-            <td class="has-border text-center text-v-t pd-m">
-      {{addDataItem.drugAdministrationCode}}
-            </td> <!-- 注册证号 -->
+              <input type="number"  class="pr-table-input" ng-model="addDataItem.spareParts" />
+            </td> <!-- 散件数 -->
+            <td class="has-border text-center text-v-t pd-m">{{addDataItem.drugAdministrationCode}}</td> <!-- 注册证号 -->
             <td class="fix-td-border">
               <button class="pr-add-item-glodbg color-white pr-bg-glod" type="button"  ng-click="addDataItemClick(addDataItem,medical)"><i class="fa fa-plus color-white"></i></button>
             </td>

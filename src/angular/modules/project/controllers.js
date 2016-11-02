@@ -426,7 +426,7 @@ define('project/controllers', ['project/init'], function() {
                  $scope.formData.orderMedicalNos.push(addDataItem);
 
                  //计算价格
-                 $scope.formData.totalPrice = addDataItem.strike_price * addDataItem.quantity;
+                 $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
 
                  $scope.addDataItem = {};
 
