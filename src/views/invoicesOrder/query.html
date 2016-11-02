@@ -63,8 +63,8 @@
                     callback="$root.goTo('#/outstockOrder/get.html?id='+outstockOrder.id)">
               <div class="flex-column mgb-m" style="height:24px;line-height:24px;">
                 <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}
-                  <i ng-if="tr.orderStatus=='已收货'" class="circle-icon-green mgl-m"></i>
-                  <i ng-if="tr.orderStatus=='待发货'" class="circle-icon-red mgl-m"></i>
+                  <!-- <i ng-if="tr.orderStatus=='已收货'" class="circle-icon-green mgl-m"></i>
+                  <i ng-if="tr.orderStatus=='待发货'" class="circle-icon-red mgl-m"></i> -->
                 </span>
 
                 <span class="flex-item-3 text-right">
@@ -82,10 +82,10 @@
                 <span class="flex-item-6">
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
-                <span class="flex-item-6 text-right">
-                  发货单编号：<strong class="color-6 text-normal">
-
-                    <a href="#/invoicesOrder/get.html?id={{tr.id}}">{{tr.orderNo}}</a></strong>
+                <span class="flex-item-6 text-right">发货单编号：
+                  <strong class="color-6 text-normal">{{tr.orderNo}}
+                    <!-- <a href="#/invoicesOrder/get.html?id={{tr.id}}">{{tr.orderNo}}</a> -->
+                  </strong>
                 </span>
                 <span class="flex-item-6">
                   销售人员：<strong class="color-6 text-normal">{{tr.saleUser.n}}</strong>
@@ -106,7 +106,7 @@
               </div>
               <div class="flex-item-6 pd">
                 <h1 class="pd-v bb-line">物流信息</h1>
-                <div ng-if="tr.kuaidiSet" class="flex-column mgt"  ng-repeat="kuaidi in tr.kuaidiSet">
+                <div ng-if="tr.kuaidiSet" class="flex-column mgt"  ng-repeat="kuaidi in tr.kuaidiSet | limitTo:3">
                   <span class="flex-item-5 mgr-0">{{kuaidi.type}}</span>
                   <span class="flex-item-7"><p class="pr-color">{{kuaidi.nu}}</p></span>
                 </div>

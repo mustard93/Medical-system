@@ -36,7 +36,7 @@
               <p class="mgb">部门：<span class="color-6">{{tr.departmentName}}</span></p>
               <p class="">职能：
                 <label class="pr-label color-6 mgr cur-pot">
-                  <span icheck class="square" style="position:relative;top:5px;"><input type="checkbox"></span>
+                  <span icheck class="square" style="position:relative;top:5px;"><input value="库管" type="checkbox"></span>
                   <span class="">库管</span>
                 </label>
                 <label class="pr-label color-6 mgr cur-pot">
@@ -53,7 +53,19 @@
             <div class="border-none">
               <div class="bt-line text-center pdt">
                 <a href="#" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color">拒绝</a>
-                <a href="#" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color">通过</a>
+
+
+                <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                        ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='待审批'&&tr.orderStatus!='未提交'&&!tr.arrivalNoticeOrderId&&$root.hasAuthor('来货通知单编辑')"
+                        type="button"
+                      
+                        alert-error
+                        callback="$root.goTo('#/arrivalNoticeOrder/get.html?relId={{tr.id}}')">生成来货通知</button>
+
+                <a href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color"
+                  ajax-url-submit="rest/authen/arrivalNoticeOrder/save?purchaserId={{tr.id}}"
+
+                >通过</a>
               </div>
             </div>
           </div>
