@@ -46,7 +46,7 @@
       </div>
       <!-- 右侧搜索 -->
       <div class="text-right order-list-search pos-rb">
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/销售人员" ng-model="listParams.q">
         <i class=""></i>
       </div>
 
@@ -58,7 +58,7 @@
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
             <div class="relative pd-m">
               <div class="flex-column mgb-n card-title-height" style="height:24px;line-height:24px;">
-                <span class="flex-item-6 title-states">{{tr.orderStatus}}
+                <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}
                   <i ng-if="tr.orderStatus=='已完成'" class="circle-icon-green mgl-m"></i>
                   <i ng-if="tr.orderStatus=='冷链异常'" class="circle-icon-red mgl-m"></i>
                 </span>
@@ -99,7 +99,7 @@
             <div class="relative">
               <div class="bb-line">
                 <h1 class="mg-m text-center text-m color-6 text-ellips-s">{{tr.customerName || '未知单位'}}</h1>
-                <div class="flex-column query text-s color-9 pd-m">
+                <div class="flex-column query text-s color-9 pdb-m pdr-m pdl-m">
                   <div class="flex-item-6">销售人员：<strong class="text-normal color-6">{{tr.saleUser.n}}</strong></div>
                   <div class="flex-item-6 text-right">期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date:'yyyy-MM-dd')||'无'}}</strong></div>
                 </div>
@@ -142,7 +142,7 @@
               </div> -->
             </div>
             <div class="pdb-m pdt-m text-right">
-                <span class="text-right pdt-s pdb-s pdr-l text-m color-6">总价：￥{{tr.totalPrice|number : 2}}</span>
+                <span class="text-right pdt-s pdb-s pdr-l text-m color-6">合计：￥{{tr.totalPrice|number : 2}}</span>
             </div>
           </div>
         </li>

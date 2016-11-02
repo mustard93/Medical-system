@@ -11,8 +11,8 @@
             <div class=""></div>
             <div class="btn btn-group"   scope-data="statusList">
               <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未发送'">未发送
-                <span class="pj-badge" ng-if='countByOrderStatus["未发送"]'>{{countByOrderStatus["未发送"]}}</span>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未发送'">待发送
+                <span class="pj-badge" ng-if='countByOrderStatus["待发送"]'>{{countByOrderStatus["待发送"]}}</span>
               </button>
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发送'">已发送
                 <span class="pj-badge" ng-if='countByOrderStatus["已发送"]'>{{countByOrderStatus["已发送"]}}</span>
@@ -22,7 +22,7 @@
       </div>
       <!-- 右侧搜索 -->
       <div class="text-right order-list-search pos-rb">
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/销售人员" ng-model="listParams.q">
         <i class=""></i>
       </div>
     </div>
@@ -33,7 +33,7 @@
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative color-9">
             <div class="pd-c-l">
               <div class="flex-column pd-v mgb" style="height:22px;line-height:22px;">
-                <span class="flex-item-2 title-states">{{tr.orderStatus}}</span>
+                <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
                 <span class="flex-item-10 text-right">
                   <a ng-if="tr.orderStatus=='未发送'" href="#" type="button" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr">立即发送</a>
                   <a href="#/purchaseVoucher/get.html?id={{tr.id}}">查看详情</a>

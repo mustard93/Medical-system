@@ -1278,6 +1278,14 @@ html[xmlns] .clearfix {
   right: 0;
   bottom: 0;
 }
+.pos-b {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.pos-fixed-b {
+  position: fixed;
+}
 .fieldset {
     border-radius: 3px;
     border: 1px solid #CCC;
@@ -2106,6 +2114,18 @@ body.ngdialog-open {
 .pr-indent-35 {
   text-indent: 35px;
 }
+/* 背景颜色 */
+.bg-white {
+  background: rgba(255, 255, 255, .9);
+}
+/* 板块显示方式 */
+.disp-b {
+  display: block;
+}
+/* 文字对齐 */
+.al-c {
+  text-align: center;
+}
 /* 鼠标指针变化 */
 .cur-pot {
   cursor: pointer;
@@ -2280,6 +2300,12 @@ body.ngdialog-open {
   -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
   box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
 }
+.pr-fuzzy-boundary-top {
+  -webkit-box-shadow: 0 -1px 5px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0 -1px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 -1px 5px rgba(0,0,0,0.2);
+}
+
 .pr-chart-container {
   padding-bottom: 1px;
 }
@@ -2397,7 +2423,7 @@ body.ngdialog-open {
   z-index: 99;
   top: -8px;
   right: 0px;
-  box-shadow: 1px 1px 5px #ccc;
+  box-shadow: 0 0 6px rgba(255, 0, 0, .75);
   padding: 0 5px;
 }
 
@@ -2480,6 +2506,7 @@ body.ngdialog-open {
 .content-wrapper .content-wrapper-heading .order-status-btn > div {
   text-align: right;
   padding: 0;
+  z-index: 0;
 }
 /* .content-wrapper .content-wrapper-heading .order-status-btn > div:first-child {
   position: absolute;
@@ -2636,6 +2663,10 @@ body.ngdialog-open {
 .pr-table > thead > tr > td.w-120,
 .pr-table > thead > tr > th.w-120 {
   width: 120px;
+}
+.pr-table > thead > tr > td.w-140,
+.pr-table > thead > tr > th.w-140 {
+  width: 140px;
 }
 .pr-table > thead > tr > td.w-186,
 .pr-table > thead > tr > th.w-186 {
@@ -3152,9 +3183,18 @@ ul.pagination li {
   background-repeat: no-repeat;
   background-position: -565px -153px;
 }
+/* icheck下选择框位置的优化 */
+label.checkbox_label > div {
+  top: 5px;
+}
 .pr-date {
   height: 38px;
   line-height: 38px;
+}
+/* 日历控件 */
+.date-picker-block {
+  min-width: 200px !important;
+  padding: 0 0 1px !important;
 }
 
 /* datepicker */
@@ -3511,7 +3551,9 @@ ul.pagination li {
   float: left;
   width: 50%;
 }
-.flex-item-6.title-states {
+.flex-item-6.title-states,
+.flex-item-3.title-states,
+.flex-item-2.title-states  {
   /*font-weight: bold;*/
   font-size: 14px;
   color: #666;
@@ -3781,7 +3823,7 @@ body {
     color: #7a7676;
     line-height: 20px;
     overflow-x: hidden;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 input, select, textarea, button {
@@ -3845,8 +3887,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .header-section {
-    background-color: rgba(54, 48, 44, .9);
-    border-bottom: 1px solid #715f50;
+    background-color: rgba(239, 235, 227, .9);
+    border-bottom: 1px solid rgba(226, 222, 202, .9);
 }
 
 .header-section::after {
@@ -3924,20 +3966,29 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .notification-menu .dropdown-toggle {
-    padding: 9px 20px;
+    padding: 0 20px;
     background-color: transparent;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0;
     border: none;
+    line-height: 39px;
 }
 
-.notification-menu .dropdown-toggle:hover, .notification-menu .dropdown-toggle:focus, .notification-menu .dropdown-toggle:active, .notification-menu .dropdown-toggle.active, .notification-menu .open .dropdown-toggle.dropdown-toggle {
-    /*background: #424f63;
-    color: #65cea7;*/
+.notification-menu .dropdown-toggle:hover,
+.notification-menu .dropdown-toggle:focus,
+.notification-menu .dropdown-toggle:active,
+.notification-menu .dropdown-toggle.active,
+.notification-menu .open .dropdown-toggle.dropdown-toggle {
+    background: transparent;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+.notification-menu .dropdown-toggle:active > i,
+.notification-menu .dropdown-toggle.active > i,
+.notification-menu .open .dropdown-toggle.dropdown-toggle > i {
+  background-position: -189px -556px;
 }
 
 .notification-menu .dropdown-toggle img {
@@ -3966,12 +4017,12 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .notification-menu .dropdown-menu:after {
-    border-bottom: 6px solid #fff;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
+    border-bottom: 10px solid #fff;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
     content: "";
     display: inline-block;
-    right: 17px;
+    right: 14px;
     position: absolute;
     top: -6px;
 }
@@ -3981,7 +4032,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     margin: 0;
     float: none;
     background: none;
-    padding: 15px；
+    padding: 15px;
+    border-bottom: 1px dashed rgba(0, 0, 0, .15);
 }
 
 .notification-menu .dropdown-menu-usermenu li {
@@ -4012,7 +4064,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
 .notification-menu .dropdown-menu-head {
     padding: 0;
-    min-width: 300px;
+    width: 300px;
+    background: rgba(255, 255, 255, .9);
 }
 
 .notification-menu .info-number {
@@ -4036,9 +4089,10 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .notification-menu .dropdown-menu-head ul {
-    border: 1px solid #ddd;
-    border-top: 0;
-    padding: 0;
+    height: 300px;
+    overflow: auto;
+    border: none;
+    padding-bottom: 41px;
 }
 
 .notification-menu .dropdown-menu-head li a {
@@ -4161,7 +4215,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     position: absolute;
     right: 9px;
     top: 5px;
-    box-shadow: 1px 1px 5px #ccc;
+    box-shadow: 0 0 6px rgba(255, 0, 0, .75);
 }
 .notification-menu .dropdown-menu .dropdown-list > li > a:before {
   content: '';
@@ -5230,12 +5284,11 @@ label.error { background: url('../images/alert.png') no-repeat 0 5px; color: #DE
 
 .logo a>i {
   display: block;
-  width: 7.9em;
   height: 2.5em;
   background-image: url(../../images/pr-sprites.png);
   background-repeat: no-repeat;
   margin: 0 auto;
-  background-position: -428px 4px;
+  background-position: -423px 5px;
 }
 
 .sticky-header .logo {
@@ -5838,13 +5891,13 @@ h5.left-nav-title {
 .login-body .container .fast-login-btn span:first-child a {
   background-image: url(../../images/pr-sprites.png);
   background-repeat: no-repeat;
-  background-position: -162px -59px;
+  background-position: -367px 5px;
   float: right;
 }
 .login-body .container .fast-login-btn span:last-child a {
   background-image: url(../../images/pr-sprites.png);
   background-repeat: no-repeat;
-  background-position: -162px -11px;;
+  background-position: -367px -57px;;
   margin-left: 28px;
 }
 /* 重写iCheck样式，只适用于登陆界面 */

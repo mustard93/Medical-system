@@ -1,7 +1,7 @@
 <div class="header-section" toggle-left-menu  ng-controller="noticeCtrl">
   <!--通知菜单 start -->
   <div class="menu-right"
-       ajax-url="rest/authen/notice/query.json?t={{$root.noticeRefreshTime}}"
+       ajax-url="rest/authen/notice/getUnRead.json?t={{$root.noticeRefreshTime}}"
        noshow-loading="true"
        scope-response="scopeResponse">
 
@@ -9,10 +9,10 @@
         <li>
           <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
               <i class="header-message mgt-s"></i>
-              <span ng-if="scopeResponse.totalCount>0" class="badge">{{scopeResponse.totalCount}}</span>
+              <span ng-if="scopeResponse.data && scopeResponse.data.length > 0" class="badge">{{scopeResponse.data.length}}</span>
           </a>
-          <div class="dropdown-menu dropdown-menu-head pull-right" style="max-height:300px;overflow:auto;right:-19px;">
-            <ul class="dropdown-list user-list">
+          <div class="dropdown-menu dropdown-menu-head pull-right">
+            <ul class="dropdown-list user-list pr-fuzzy-boundary" style="height:300px;overflow:auto;">
                 <li ng-repeat="tr in scopeResponse.data"
                     class="new"
                     style="border-left:none;"
@@ -20,8 +20,10 @@
                     <a href="javascript:;" class="text-s" ng-click="noticeClick(tr)" style="white-space:inherit;">[{{tr.type}}]{{tr.subject}}({{tr.createAt | date : 'yyyy-MM-dd HH:mm'}})</a>
                 </li>
             </ul>
-            <div style="border-left:none;">
-              <a href="#/notice/query.html" class="pd-v" style="display:block;text-align:center;border:1px solid #e2e2e2;border-top:none;">查看所有消息</a>
+            <div class="pos-b full-width pdt-s overhide">
+              <div class="full-width bg-white pr-fuzzy-boundary-top">
+                <a href="#/notice/query.html" class="pd-v disp-b al-c text-s">查看所有消息</a>
+              </div>
             </div>
           <!--
               <ul class="dropdown-list user-list">
@@ -33,7 +35,7 @@
           </div>
         </li>
         <li>
-          <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <a href="#" class="btn btn-default dropdown-toggle text-s" data-toggle="dropdown">
               <span class="header-user-face"></span> {{curUser.name}}{{habbit.mainRole?"("+habbit.mainRole+")":""}}
           </a>
           <ul class="dropdown-menu dropdown-menu-usermenu pull-right" style="padding:0;border:1px solid #e2e2e2;min-width:1px;">
@@ -46,7 +48,7 @@
           </ul>
         </li>
         <li>
-          <a href="javascript:;" class="btn btn-default dropdown-toggle info-number color-orange" ng-click="logout()">退出</a>
+          <a href="javascript:;" class="btn btn-default dropdown-toggle color-orange text-s" ng-click="logout()">退出</a>
         </li>
     </ul>
   </div>

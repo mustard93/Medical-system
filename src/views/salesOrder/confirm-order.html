@@ -13,8 +13,7 @@
   <form name="createOrderForm"
         action="rest/authen/salesOrder/confirmSalesOrder"
         form-validator
-
-           scope-data="showData"
+        scope-data="showData"
         alert-error
         callback="goTo('#/salesOrder/order-done.html?id='+showData.confirmOrder.id)">
   <div class="content-wrapper-main pr-bg-white pr-border pr-fuzzy-boundary">
@@ -36,12 +35,12 @@
             <em>客户名：<i class="color-6 text-normal">{{showData.salesOrder.customerName}}</i></em>
           </span>
           <span class="flex-item-8 text-right">
-            <em>负责人：<i class="color-6 mgr-xl text-normal">{{showData.salesOrder.saleUser.n}} </i></em>
+            <em>销售人员：<i class="color-6 mgr-xl text-normal">{{showData.salesOrder.saleUser.n}} </i></em>
             <em>期望到货时间：<i class="color-6 mgr-xl text-normal">{{showData.salesOrder.expectDate| date : 'yyyy-MM-dd'}}</i></em>
           </span>
         </p>
         <p class="mgb-l">
-          <span>收货人信息：</span><span class="color-6">{{showData.salesOrder.address.name}} {{showData.salesOrder.address.address}} {{showData.salesOrder.address.tel}}</span></p>
+          <span>收货人信息：</span><span class="color-6">{{showData.confirmOrder.address.prov}} {{showData.confirmOrder.address.city}} {{showData.confirmOrder.address.area}} {{showData.salesOrder.address.address}} {{showData.salesOrder.address.name}} {{showData.salesOrder.address.tel}}</span></p>
       </div>
     </div>
     <!-- 商品列表 -->
@@ -60,7 +59,7 @@
         </div>
         <!-- 总价&提交 -->
         <div class="text-right pd-v-xxl">
-          <span class="pr-font-24 color-9 mgr-l">总价：<i class="text-normal color-6">￥{{showData.confirmOrder.totalPrice || 21500 | number:2}}</i></span>
+          <span class="pr-font-24 color-9 mgr-l">合计：<i class="text-normal color-6">￥{{showData.confirmOrder.totalPrice || 21500 | number:2}}</i></span>
           <span class="mgr-l"><button href="javascript:;" type="submit" class="btn btn-primary pr-btn-bg-gold" style="  width: 116px;">提交审批</button></span>
         </div>
       </div>
