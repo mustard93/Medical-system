@@ -35,12 +35,24 @@
               <div class="flex-column pd-v mgb" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
                 <span class="flex-item-10 text-right">
-                  <a ng-if="tr.orderStatus=='未发送'" href="#" type="button" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr">立即发送</a>
+                  <a ng-if="tr.orderStatus=='待发送'"
+                     href="javascript:;"
+                     type="button"
+                     class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr"
+                     ng-init="showData.id=tr.id"
+                     modal-center="400"
+                     modal-scope="this"
+                     modal-url="views/purchaseVoucher/sendEmail.html">立即发送
+                  </a>
                   <a href="#/purchaseVoucher/get.html?id={{tr.id}}">查看详情</a>
                 </span>
               </div>
               <div class="flex-column text-s pd-v">
-                <span class="flex-item-6">凭证号：<em class="color-6">    <a href="#/purchaseVoucher/get.html?id={{tr.id}}">{{tr.orderNo}}</a></em></span>
+                <span class="flex-item-6">凭证号：
+                  <em class="color-6">{{tr.orderNo}}
+                    <!-- <a href="#/purchaseVoucher/get.html?id={{tr.id}}">{{tr.orderNo}}</a> -->
+                  </em>
+                </span>
                 <span class="flex-item-6 text-right">日期：<em class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
               </div>
             </div>

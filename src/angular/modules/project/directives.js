@@ -176,7 +176,9 @@ function togglePanel () {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      $('.panel .tools .fa').on('click', function () {
+      $(element).on('click', function (e) {
+        e.stopPropagation();
+
         if (!$(this).hasClass('fa-times')) {    //展开与收起
           var el = $(this).parents(".panel").children(".panel-body");
           if ($(this).hasClass("fa-chevron-down")) {

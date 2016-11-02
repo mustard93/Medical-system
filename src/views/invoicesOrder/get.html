@@ -31,7 +31,11 @@
         <span>对应出库单：
   <a href="#/outstockOrder/get.html?id={{showData.outStockOrderId}}">  {{showData.outStockOrderNo}}</a>
 
-          <button ng-if="!showData.outStockOrderNo&&$root.hasAuthor('出库单编辑')" ng-disabled="showData.orderStatus=='待发货'" class="pr-btn-save-glodbg"   type="submit">生成出库单</button>
+          <button ng-if="!showData.outStockOrderNo&&showData.orderStatus!='已作废'&&$root.hasAuthor('出库单编辑')"
+                  ng-disabled="showData.orderStatus=='待发货'"
+                  class="pr-btn-save-glodbg"
+                  type="submit">生成出库单
+          </button>
         </span>
       </div>
       </form>
