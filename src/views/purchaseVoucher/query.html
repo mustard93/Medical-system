@@ -35,7 +35,15 @@
               <div class="flex-column pd-v mgb" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
                 <span class="flex-item-10 text-right">
-                  <a ng-if="tr.orderStatus=='未发送'" href="#" type="button" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr">立即发送</a>
+                  <a ng-if="tr.orderStatus=='待发送'"
+                     href="javascript:;"
+                     type="button"
+                     class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr"
+                     ng-init="showData.id=tr.id"
+                     modal-center="400"
+                     modal-scope="this"
+                     modal-url="views/purchaseVoucher/sendEmail.html">立即发送
+                  </a>
                   <a href="#/purchaseVoucher/get.html?id={{tr.id}}">查看详情</a>
                 </span>
               </div>
