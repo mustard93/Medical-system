@@ -95,13 +95,24 @@ define('project/controllers', ['project/init'], function() {
                 alertWarn("请输入大于0的数量。");
                 return;
             }
-
             if(addDataItem.quantity>medical.quantity){//库存不足情况
                 addDataItem.handleFlag =false;//默认添加到订单
             }
-
-
-            if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
+            if (!$scope.formData.orderMedicalNos) {
+              $scope.formData.orderMedicalNos = [];
+            }
+            // 如果已添加
+            if ($scope.formData.orderMedicalNos.length !== 0) {
+              var _len = $scope.formData.orderMedicalNos.length;
+              // 未使用forEach方法，因为IE不兼容
+              for (var i=0; i<_len; i++) {
+                if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+                  alertWarn('此药械已添加到列表');
+                  return;
+                }
+              }
+            }
+            //添加到列表
             $scope.formData.orderMedicalNos.push(addDataItem);
 
             //计算价格
