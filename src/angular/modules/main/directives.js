@@ -2463,8 +2463,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      maskObj=proLoading($element);
                      //  if(maskObj)maskObj.hide();
                    }
-
-                   requestData($attrs.ajaxUrlSubmit, params,"POST")
+                   var parameterBody = false;
+                   if (angular.isDefined($attrs.parameterBody)) parameterBody = true;
+                   requestData($attrs.ajaxUrlSubmit, params,"POST",parameterBody)
                      .then(function(results) {
                            if(maskObj)maskObj.hide();
                          var data = results[0];
@@ -2500,7 +2501,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 }
 
-                $element.on("click", function () {
+                $element.on("click", function (aa) {
                       getData(_params);
                 });
 

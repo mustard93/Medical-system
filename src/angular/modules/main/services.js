@@ -70,9 +70,12 @@ define('main/services', ['toastr','main/init'], function (toastr) {
                       defer.reject(_data.msg || '出错了');
                     }
                 })
-                .error(function () {
-                    defer.reject("提交失败!");
+                .error(function (msg,code) {
+                  if(!msg)msg="提交失败!";
+                  msg="错误码："+code+"，"+msg;
+                    defer.reject(msg);
                 });
+
 
             return defer.promise;
         };

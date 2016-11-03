@@ -1,5 +1,6 @@
-<div class="content-wrapper queryUserApplyCurDepartment">
-  <table-list list-data="{{mainStatus.requestPath}}rest/authen/distributor/queryUserApplyOrganization.json?uaoStatus=等待认证" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+<div class="content-wrapper queryUserApplyCurDepartment" ng-init="formDataArr=[];">
+
+  <table-list list-data="rest/authen/distributor/queryUserApplyCurDepartment.json?uaoStatus=等待认证" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容头部 -->
     <div class="content-wrapper-heading line-b mgr-m mgb-l relative flex-column" style="height:75px;line-height:75px;">
       <!-- 区块标题 -->
@@ -8,22 +9,42 @@
       </div>
       <!-- 右侧功能按钮及搜索 -->
       <div class="text-right order-list-search flex-item-8 relative">
-        <span><a href="#">全选</a></span>
-        <span><a href="#" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl">批量通过</a></span>
-        <span><a href="#" class="btn btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl mgr">批量拒绝</a></span>
+
+
+
+        <span><a href="javascript:;"    >全选</a></span>
+
+        <span><a  href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl"
+          alert-error alert-ok
+        ng-click="formData.status='认证驳回'"
+        params='formDataArr'
+        parameter-body
+        ajax-url-submit="rest/authen/distributor/batchAuditUserApplyOrganization"
+          >批量通过</a></span>
+        <span><a  href="javascript:;" class="btn btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl mgr"
+          alert-error alert-ok
+        ng-click="formData.status='认证驳回'"
+        params='formDataArr'
+        parameter-body
+        ajax-url-submit="rest/authen/distributor/batchAuditUserApplyOrganization"
+          >批量拒绝</a></span>
         <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/销售人员" ng-model="listParams.q">
         <i class="" style="top:30px;"></i>
       </div>
     </div>
     <!-- 主内容区域 -->
-    <div class="content-wrapper-main">
+    <div class="content-wrapper-main" >
       <ul class="">
         <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
-          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative pd-m">
+          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative pd-m"
+           ng-init='formData={"id":tr.id,"status":"认证通过"}'
+          >
             <!-- 选择checkbox -->
-            <div icheck class="square border-none">
-              <input type="checkbox">
-            </div>
+            <!-- <div icheck class="square border-none">
+
+            </div> -->
+
+              <input type="checkbox" value="{{tr.id}}"  ng-checked="selectAll"  name="tmp" checkbox-group="formDataArr"/>
             <!-- 用户基本信息 -->
             <div class="border-none text-center pr-font-16">
               <!-- <p><img src="http://www.qdaily.com/images/missing_face.png" alt="" /></p> -->
@@ -32,38 +53,46 @@
               <p class="pdb-m bb-line">{{tr.user.p}}</p>
             </div>
             <!-- 部门职能 -->
-            <div class="border-none pd-v-m color-9">
+            <div class="border-none pd-v-m color-9"
+
+            >
               <p class="mgb">部门：<span class="color-6">{{tr.departmentName}}</span></p>
-              <p class="">职能：
-                <label class="pr-label color-6 mgr cur-pot">
-                  <span icheck class="square" style="position:relative;top:5px;"><input value="库管" type="checkbox"></span>
-                  <span class="">库管</span>
+              <p class="">角色：
+                <label class="pr-label color-6 mgr cur-pot"  ng-repeat="item in tr.roles">
+                  <!-- <span icheck class="square" style="position:relative;top:5px;"> -->
+                    <input value="{{item.value}}" type="checkbox" checkbox-group="formData.roleIdsArr">
+                  <span class="">{{item.text}}</span>
                 </label>
-                <label class="pr-label color-6 mgr cur-pot">
-                  <span icheck class="square" style="position:relative;top:5px;"><input type="checkbox"></span>
+                <!-- <label class="pr-label color-6 mgr cur-pot">
+
+                    <input type="checkbox"   value="检验"   checkbox-group="formData.roleIdsArr"></span>
                   <span class="">检验</span>
                 </label>
                 <label class="pr-label color-6 cur-pot">
                   <span icheck class="square" style="position:relative;top:5px;"><input type="checkbox"></span>
                   <span class="">组长</span>
-                </label>
+                </label> -->
+
               </p>
+
             </div>
             <!-- 操作 -->
-            <div class="border-none">
+            <div class="border-none"  >
               <div class="bt-line text-center pdt">
-                <a href="#" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color">拒绝</a>
-
-
-                <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
-                        ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='待审批'&&tr.orderStatus!='未提交'&&!tr.arrivalNoticeOrderId&&$root.hasAuthor('来货通知单编辑')"
-                        type="button"
-                      
-                        alert-error
-                        callback="$root.goTo('#/arrivalNoticeOrder/get.html?relId={{tr.id}}')">生成来货通知</button>
+                <a href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color"
+                  alert-error alert-ok
+                ng-click="formData.status='认证驳回'"
+                params='formData'
+                parameter-body
+                ajax-url-submit="rest/authen/distributor/auditUserApplyOrganization2"
+                >拒绝</a>
 
                 <a href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color"
-                  ajax-url-submit="rest/authen/arrivalNoticeOrder/save?purchaserId={{tr.id}}"
+                alert-error alert-ok
+                  ng-click="formData.status='认证通过'"
+                  params='formData'
+                  parameter-body
+                  ajax-url-submit="rest/authen/distributor/auditUserApplyOrganization2"
 
                 >通过</a>
               </div>
