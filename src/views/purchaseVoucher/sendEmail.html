@@ -8,10 +8,16 @@
       <span>输入接收方email</span>
     </div>
     <div class="pr-page-dialog-content bb-line">
-        <input type="text" ng-model="formData.toEmail" class="ipt">
+        <input type="text"
+               ng-model="formData.toEmail"
+               class="ipt"
+               ng-pattern="/^[0-9a-z][_.0-9a-z-]{0,31}@([0-9a-z][0-9a-z-]{0,30}[0-9a-z]\.){1,4}[a-z]{2,4}$/">
     </div>
     <div class="pr-page-dialog-footer text-center mg-m">
-      <button type="submit" class="pr-btn-save-glodbg" ng-click="confirm()">发送</button>
+      <button type="submit"
+              class="pr-btn-save-glodbg"
+              ng-click="confirm()"
+              ng-disabled="!formData.toEmail">发送</button>
       <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">取消</button>
     </div>
   </form>

@@ -4,7 +4,7 @@
               search-mode="noCaseSensitive"
               search-param="q">
     <!-- 主内容头部 -->
-    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl-m mgr-m relative">
+    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl mgr relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
         <div class="pos-abs order-create-btn" ng-if="$root.hasAuthor('购需单编辑')">
@@ -41,40 +41,39 @@
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <ul class="flex-column">
-        <li class="flex-item-3 no-width query-item mgr-m mgl-m" ng-repeat="tr in tbodyList">
-          <div class="mgr-m mgb-xl pr-bg-white pr-fuzzy-boundary">
+        <li class="flex-item-3 no-width query-item mgr mgl" ng-repeat="tr in tbodyList">
+          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary">
             <div class="pd-m">
               <div class="flex-column mgb card-title-height">
                 <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}</span>
                 <span class="flex-item-6 text-right">
                   <a href="#/salesOrder/get.html?id={{tr.id}}" class="">查看详情</a>
-                  <a ng-if="tr.progress==0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a>
-                  <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即处理</a>
+                  <a ng-if="tr.progress==0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
+                  <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
                 </span>
               </div>
               <div class="flex-column qurey text-s color-9">
-                <span class="flex-item-6">
+                <span class="flex-item-6 mgb-s">
                   购需单编号：<strong class="color-6 text-normal">{{tr.orderNo}}
                     <!-- <a href="#/salesOrder/get.html?id={{tr.id}}" class="">  {{tr.orderNo}}</a> -->
                   </strong>
                 </span>
-                <span class="flex-item-6 text-right">
+                <span class="flex-item-6 pdl mgb-s">
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
-
+              </div>
+              <div class="flex-column qurey text-s color-9">
+                <span class="flex-item-6">
+                  销售人员：<strong class="text-normal color-6">{{tr.saleUser.n}}</strong>
+                </span>
+                <span class="flex-item-6 pdl">
+                  期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
+                </span>
               </div>
             </div>
             <div class="relative">
               <div class="bb-line">
                 <h1 class="mg-m text-center text-m color-6 text-ellips-s">{{tr.customerName || '未知单位'}}</h1>
-                <div class="flex-column pdb-m pdr-m pdl-m query text-s color-9">
-                  <div class="flex-item-6">
-                    销售人员：<strong class="text-normal color-6">{{tr.saleUser.n}}</strong>
-                  </div>
-                  <div class="flex-item-6 text-right">
-                    期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
-                  </div>
-                </div>
               </div>
               <div class="flex-column mgb-n query text-s color-9">
                 <div class="flex-item-6 br-line text-center" style="height:131px;">
