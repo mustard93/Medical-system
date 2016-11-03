@@ -37,16 +37,37 @@ define('project/registration',['angular'], function () {
   /**
    *  注册模块控制器 - 点击发送验证码
    */
-  .controller('registrationCtrl', ['$scope', 'requestData', function ($scope, requestData) {
+  .controller('registrationCtrl', ['$scope', 'requestData', '$interval', '$rootScope', function ($scope, requestData, $interval, $rootScope) {
     'use strict';
     // 定义全局对象
     $scope.globalData = {
       requestUrlHead: ''
     };
 
+    // 定义验证码发送状态
+    $scope.sendVerifyCodeStatus = false;
+
+    $scope.countdown = function (second) {
+      $scope.second = second;
+        $interval(function () {
+          if ($scope.second >= 1) {
+            $scope.second -= 1;
+          } else {
+            clearInterval();
+            $scope.sendVerifyCodeStatus = false;
+            $rootScope.verifyResult.phone = true;
+          }
+        }, 1000);
+    };
+
     // 发送验证码
     $scope.sendRegVerifyCode = function () {
       if ($scope.regData.phone) {
+        // 状态改变
+        $scope.sendVerifyCodeStatus = true;
+        // 执行倒计时
+        $scope.countdown(60);
+        // 请求验证码
         var _url = $scope.mainConfig.serverPath + 'rest/sms/sendVerificationCode.json?isNewUser=true&tel='+ $scope.regData.phone;
         requestData(_url, {})
           .then(function (results) {

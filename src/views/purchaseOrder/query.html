@@ -84,18 +84,28 @@
                           type="button"
                           ajax-url-submit="rest/authen/arrivalNoticeOrder/save?purchaserId={{tr.id}}"
                           alert-error
-                          callback="$root.goTo('#/arrivalNoticeOrder/get.html?relId={{tr.id}}')">生成来货通知</button>
+                          callback="$root.goTo('#/arrivalNoticeOrder/get.html?relId={{tr.id}}')">生成来货通知
+                  </button>
 
-
-                        <button ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='未提交'&&tr.orderStatus!='待审批'&&!tr.purchaseVoucherNo&&$root.hasAuthor('采购凭证编辑')"
-                                class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr mgl"
-                                type="button"
-                                ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{tr.id}}"
-                                alert-error
-                                callback="$root.goTo('#/purchaseVoucher/get.html?relId={{tr.id}}')">生成采购凭证</button>
-
+                  <button ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='未提交'&&tr.orderStatus!='待审批'&&!tr.purchaseVoucherNo&&$root.hasAuthor('采购凭证编辑')"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr mgl"
+                          type="button"
+                          ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{tr.id}}"
+                          alert-error
+                          callback="$root.goTo('#/purchaseVoucher/get.html?relId={{tr.id}}')">生成采购凭证
+                  </button>
 
                   <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgr-l">新建</a>
+
+                  <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('采购单审批')"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr mgl"
+                          handle-this-click
+                          dialog-title="确认通过?"
+                          dialog-content="审核通过后,采购单将生效,是否通过?"
+                          dialog-template="pr-dialog-submit.html"
+                          request-url="rest/authen/purchaseOrder/updateStatus.json?id={{tr.id}}&status=待采购">立即审批
+                  </button>
+
                   <a href="#/purchaseOrder/get.html?id={{tr.id}}">查看详情</a>
                 </span>
 
@@ -111,7 +121,7 @@
                     </strong>
                   </p>
                   <p class="mgb-s">采购员：<span class="color-custom-orange">{{tr.saleUser.n}}</span></p>
-                  <p>审批人：暂无</p>
+                  <p>审批人：{{tr.approverBy || '暂无'}}</p>
                 </div>
                 <div class="flex-item-6">
                   <p class="mgb-s">创建时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</span></p>
@@ -135,11 +145,14 @@
               </div>
               <div class="flex-item-6 pd">
                 <h1 class="pd-v-s bb-line">物流信息</h1>
-                <div class="flex-column mgt"  ng-repeat="kuaidi in tr.kuaidiSet">
+                <div ng-if="tr.kuaidiSet" class="flex-column mgt"  ng-repeat="kuaidi in tr.kuaidiSet">
                   <span class="flex-item-5 mgr-0">{{kuaidi.type}}</span>
                   <span class="flex-item-7">
                     <p class="pr-color">{{kuaidi.nu}}</p>
                   </span>
+                </div>
+                <div ng-if="!tr.kuaidiSet" class="mgt">
+                  暂无
                 </div>
               </div>
             </div>
