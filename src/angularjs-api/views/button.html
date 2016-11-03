@@ -67,6 +67,45 @@
             </div>
           </div>
         </li>
+
+
+
+
+
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-up" toggle-panel> 弹出框，并传值</a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+              <span
+                    class="mgr-l"
+                    ng-init="rejectObj={url:'rest/authen/confirmOrder/updateStatus.json',typeCode:'订单驳回理由',msg:'驳回后，该销售单将作废。确认驳回?',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
+                <a href="javascript:;"
+                   modal-center
+                   modal-scope="this"
+                   modal-url="views/public/dialog-check-reject.html"
+
+                   >驳回</a>
+              </span>
+            </div>
+            <div class="panel-body" style="display:none;">
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                <span ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('订单审核')"
+                      class="mgr-l"
+                      ng-init="rejectObj={url:'rest/authen/confirmOrder/updateStatus.json',typeCode:'订单驳回理由',msg:'驳回后，该销售单将作废。确认驳回?',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
+                  <a href="javascript:;"
+                     modal-center
+                     modal-scope="this"
+                     modal-url="views/public/dialog-check-reject.html">驳回</a>
+                </span>
+              </textarea>
+            </div>
+          </div>
+        </li>
+
+
       </ul>
     </div>
 </div>

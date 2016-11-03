@@ -1,0 +1,44 @@
+<div class="pr-page-dialog-wrap" >
+
+  <div class="pr-page-dialog-title bb-line">
+    <i></i><span>审核确认</span>
+  </div>
+  <div class="pr-page-dialog-content bb-line">
+      <div class="mgb-l">拒绝通过以下帐号的审核申请？</div>
+      <div class="flex-column">
+          <span >1. {{tr.user.n}}</span>
+      </div>
+
+      <div class="flex-column">
+        <div class="flex-item-2">
+          拒绝理由：
+        </div>
+        <div class="flex-item-10">
+          <p class="mgb"
+          ajax-url="rest/baseData/queryForSelectOptionByType?type=审核帐号驳回理由"
+          scope-data="selectOptions"
+          >
+            <select ng-if="selectOptions" class="select" ng-model="formData.key" ng-options="item.text as item.text   for item in selectOptions">
+            </select>
+          </p>
+          <p>
+            <textarea class="pr-textarea" ng-model="formData.message"></textarea>
+          </p>
+        </div>
+      </div>
+  </div>
+  <div class="pr-page-dialog-footer text-center mg-m">
+
+    <button type="button"
+    alert-error alert-ok
+      ng-click="formData.status='认证驳回'"
+      params='formData'
+      parameter-body
+      auto-close-dialog
+      broadcast="reloadList"
+      ajax-url-submit="rest/authen/distributor/auditUserApplyOrganization2"
+    class="pr-btn-save-glodbg">驳回</button>
+    <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">取消</button>
+  </div>
+
+</div>
