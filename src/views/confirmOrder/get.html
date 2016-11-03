@@ -111,7 +111,7 @@
             class="mgr-l"
             ng-init="rejectObj={url:'rest/authen/confirmOrder/updateStatus.json',typeCode:'订单驳回理由',msg:'驳回后，该销售单将作废。确认驳回?',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
         <a href="javascript:;"
-           modal-center
+           modal-center="490"
            modal-scope="this"
            modal-url="views/public/dialog-check-reject.html">驳回</a>
       </span>
@@ -124,7 +124,10 @@
               dialog-content="审核通过后,销售单将生效,是否通过?"
               dialog-template="pr-dialog-submit.html"
               request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=待发单"
-              call-back="$root.goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过</button>
+              call-back="$root.goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过
+      </button>
+
+      <a href="javascript:;" class="mgl-l" ng-click="$root.goTo('#/confirmOrder/query.html')">返回销售单中心</a>
     </div>
 
 

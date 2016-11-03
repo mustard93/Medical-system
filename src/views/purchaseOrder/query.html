@@ -104,7 +104,7 @@
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
               <div class="flex-column qurey text-s color-9">
-                <div class="flex-item-6 mgb">
+                <div class="flex-item-6">
                   <p class="mgb-s">采购单编号：
                     <strong class="color-6 text-normal">{{tr.orderNo}}
                       <!-- <a href="#/purchaseOrder/get.html?id={{tr.id}}">{{tr.orderNo}}</a> -->
@@ -114,9 +114,9 @@
                   <p>审批人：暂无</p>
                 </div>
                 <div class="flex-item-6">
-                  <p class="mgb-s">采购凭证：  <a href="#/purchaseVoucher/get.html?relId={{tr.id}}">{{tr.purchaseVoucherNo}}</a></p>
-                  <p class="mgb-s">创建时间：{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</p>
-                  <p>期望到货：{{tr.expectDate | date: 'yyyy-MM-dd'}}</p>
+                  <p class="mgb-s">创建时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</span></p>
+                  <p class="mgb-s">采购凭证：<a href="#/purchaseVoucher/get.html?relId={{tr.id}}">{{tr.purchaseVoucherNo}}</a></p>
+                  <p>期望到货时间：<span class="color-6">{{tr.expectDate | date: 'yyyy-MM-dd'}}</span></p>
                 </div>
               </div>
             </div>
@@ -124,8 +124,8 @@
               供应商：<span class="color-6">{{tr.supplier.name}}</span>
             </div>
             <div class="flex-column text-s">
-              <div class="flex-item-6 br-line" style="min-height:145px;">
-                <div class="text-center bb-line pd-v-l">
+              <div class="flex-item-6 br-line" style="min-height:135px;">
+                <div class="text-center pd-v">
                   <p class="pdb-l">采购药械品类数</p>
                   <p class="text-xxxl">{{tr.itemCount}}</p>
                 </div>
@@ -134,7 +134,7 @@
                 </div>
               </div>
               <div class="flex-item-6 pd">
-                <h1 class="pd-v bb-line">物流信息</h1>
+                <h1 class="pd-v-s bb-line">物流信息</h1>
                 <div class="flex-column mgt"  ng-repeat="kuaidi in tr.kuaidiSet">
                   <span class="flex-item-5 mgr-0">{{kuaidi.type}}</span>
                   <span class="flex-item-7">
@@ -143,14 +143,14 @@
                 </div>
               </div>
             </div>
-            <div class="pd-m color-9">
+            <div class="pdl-m pdr-m pd-v color-9">
               备注：<span class="color-6">{{tr.note}}</span>
             </div>
             <div class="pd-m color-9 flex-column">
               <div class="flex-item-6">
                 付款方式：<span class="color-6">{{tr.payAndDelivery.payType}}</span>
               </div>
-              <div class="flex-item-6 text-right">
+              <div class="flex-item-6 text-right text-m">
                 合计：<span class="color-6">￥{{tr.totalPrice | number:2}}</span>
               </div>
             </div>

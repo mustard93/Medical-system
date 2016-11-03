@@ -95,13 +95,24 @@ define('project/controllers', ['project/init'], function() {
                 alertWarn("请输入大于0的数量。");
                 return;
             }
-
             if(addDataItem.quantity>medical.quantity){//库存不足情况
                 addDataItem.handleFlag =false;//默认添加到订单
             }
-
-
-            if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
+            if (!$scope.formData.orderMedicalNos) {
+              $scope.formData.orderMedicalNos = [];
+            }
+            // 如果已添加
+            if ($scope.formData.orderMedicalNos.length !== 0) {
+              var _len = $scope.formData.orderMedicalNos.length;
+              // 未使用forEach方法，因为IE不兼容
+              for (var i=0; i<_len; i++) {
+                if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+                  alertWarn('此药械已添加到列表');
+                  return;
+                }
+              }
+            }
+            //添加到列表
             $scope.formData.orderMedicalNos.push(addDataItem);
 
             //计算价格
@@ -481,7 +492,100 @@ define('project/controllers', ['project/init'], function() {
              };
 
          }//end salesOrderEditCtrl
+
+
+
+         /**
+          *用户审核
+          */
+         function auditUserApplyOrganizationCtrl($scope, modal,alertWarn,requestData,alertOk,alertError,$rootScope,proLoading) {
+
+           /**
+           获取选择的用户对象，用于显示人名
+           */
+           $scope.getCheckUserApplyArr = function(arr,ids) {
+
+             //
+             var data=[];
+              if(!ids||ids.length==0){
+                return data;
+              }
+              for(var i=0;i<arr.length;i++){
+                if(ids.indexOf(arr[i].id)>-1&&arr[i].formData){
+                          data.push(arr[i]);
+                }
+              }
+                return data;
+            }
+           /**
+           *保存
+           type:save-草稿,submit-提交订单。
+           */
+           $scope.batchAuditUserApplyOrganization = function(arr,ids,status,message) {
+              if(!ids||ids.length==0){
+                alertWarn("请先勾选");
+                return;
+              }
+              //
+              var data=[];
+              for(var i=0;i<arr.length;i++){
+
+                if(ids.indexOf(arr[i].id)>-1&&arr[i].formData){
+                          arr[i].formData.status=status;
+                          data.push(arr[i].formData);
+                }
+              }
+
+
+              var url="rest/authen/distributor/batchAuditUserApplyOrganization"
+
+
+              var  maskObj=proLoading();
+
+              requestData(url,data, 'POST',true)
+                .then(function (results) {
+                         if(maskObj)maskObj.hide();
+                          alertOk(results[1].msg);
+                        $scope.$broadcast("reloadList");
+                          modal.close();
+
+                })
+                .catch(function (error) {
+                  if(maskObj)maskObj.hide();
+                    modal.close();
+                   alertWarn(error);
+
+
+                });
+
+            }//batchAuditUserApplyOrganization
+
+            //启动消息定时获取
+            $rootScope.startGetMsg = function(){
+                if($rootScope.startGetMsgObj)return;
+                  $rootScope.startGetMsgObj=$interval(function(){
+                     $rootScope.noticeRefreshTime=new Date().getTime();
+                  },10000)
+              };
+               $rootScope.startGetMsg();
+
+            //标记已经阅读。
+            requestRead = function(id,notice) {
+              var url="rest/authen/notice/read"
+              var data= {id:id};
+              requestData(url,data, 'POST')
+                .then(function (results) {
+
+                })
+                .catch(function (error) {
+
+                });
+            };//end $scope.requestRead
+
+          }//auditUserApplyOrganizationCtrl
     angular.module('manageApp.project')
+
+  .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])
       .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData", purchaseOrderEditCtrl])
     .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", noticeCtrl])
     .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
