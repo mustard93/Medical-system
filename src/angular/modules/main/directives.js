@@ -2420,7 +2420,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope， callback="formData.courseId=details[0].value"
 
     */
-    function ajaxUrlSubmit($timeout, requestData, alertOk, alertError, proLoading) {
+    function ajaxUrlSubmit($timeout, requestData, alertOk, alertError, proLoading,modal) {
         return {
             restrict: 'AE',
             // scope: true,
@@ -2468,6 +2468,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    requestData($attrs.ajaxUrlSubmit, params,"POST",parameterBody)
                      .then(function(results) {
                            if(maskObj)maskObj.hide();
+
+                          $scope.isLoading = false;
                          var data = results[0];
 
                          if ($scope.ajaxUrlHandler) {
@@ -2490,7 +2492,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                          }
 
 
-                         $scope.isLoading = false;
+                         if ($attrs.broadcast) {
+                             $scope.$broadcast($attrs.broadcast);
+                             $scope.$emit($attrs.broadcast);
+                             // if (angular.isDefined($attrs.autoCloseDialog)) {
+                             //     modal.close();
+                             // }
+                             // return;
+                         }
+
+
+                         //自动关闭弹窗
+                         if (angular.isDefined($attrs.autoCloseDialog)) {
+                           modal.close();
+                         }
+
                      })
                      .catch(function(msg) {
                            if(maskObj)maskObj.hide();
@@ -2516,7 +2532,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
         .directive("convertJsonToObject", convertJsonToObject)
-        .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrlSubmit])
+        .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","modal", ajaxUrlSubmit])
         .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
         .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout", formValidator])
         .directive("tableList",  ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading','alertError',tableList])

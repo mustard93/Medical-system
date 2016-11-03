@@ -1,6 +1,8 @@
-<div class="content-wrapper queryUserApplyCurDepartment" ng-init="formDataArr=[];">
+<div class="content-wrapper "
 
-  <table-list list-data="rest/authen/distributor/queryUserApplyCurDepartment.json?uaoStatus=等待认证" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+ng-init="listSelected=[];listParams.uaoStatus='等待认证'">
+
+  <table-list list-data="rest/authen/distributor/queryUserApplyCurDepartment.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容头部 -->
     <div class="content-wrapper-heading line-b mgr-m mgb-l relative flex-column" style="height:75px;line-height:75px;">
       <!-- 区块标题 -->
@@ -11,22 +13,26 @@
       <div class="text-right order-list-search flex-item-8 relative">
 
 
+        <label>  <input type="checkbox" class="selectAll">全选</label>
 
-        <span><a href="javascript:;"    >全选</a></span>
 
-        <span><a  href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl"
-          alert-error alert-ok
-        ng-click="formData.status='认证驳回'"
-        params='formDataArr'
-        parameter-body
-        ajax-url-submit="rest/authen/distributor/batchAuditUserApplyOrganization"
+        <span  ng-if="listSelected.length==0"> <a ng-disabled="listSelected.length==0" href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl"
+
           >批量通过</a></span>
-        <span><a  href="javascript:;" class="btn btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl mgr"
-          alert-error alert-ok
-        ng-click="formData.status='认证驳回'"
-        params='formDataArr'
-        parameter-body
-        ajax-url-submit="rest/authen/distributor/batchAuditUserApplyOrganization"
+        <span ng-if="listSelected.length==0"> <a ng-disabled="listSelected.length==0"  href="javascript:;" class="btn btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl mgr"
+
+          >批量拒绝</a></span>
+
+        <span  ng-if="listSelected.length>0"> <a href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl"
+          modal-center
+          modal-scope="this"
+          modal-url="views/distributor/dialog-check-ok-batch.html"
+          >批量通过</a></span>
+        <span ng-if="listSelected.length>0"> <a   href="javascript:;" class="btn btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl mgr"
+          modal-center
+          modal-scope="this"
+          modal-url="views/distributor/dialog-check-reject-batch.html"
+
           >批量拒绝</a></span>
         <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/销售人员" ng-model="listParams.q">
         <i class="" style="top:30px;"></i>
@@ -37,14 +43,14 @@
       <ul class="">
         <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative pd-m"
-           ng-init='formData={"id":tr.id,"status":"认证通过"}'
+           ng-init='formData={"id":tr.id,"status":"认证通过"};tr.formData=formData'
           >
             <!-- 选择checkbox -->
-            <!-- <div icheck class="square border-none">
+            <!-- <div  class="square border-none">
 
             </div> -->
 
-              <input type="checkbox" value="{{tr.id}}"  ng-checked="selectAll"  name="tmp" checkbox-group="formDataArr"/>
+              <input ng-if="tr.uaoStatus=='等待认证'" type="checkbox" value="{{tr.id}}"  class="selectOne"  checkbox-group="formDataArr"/>
             <!-- 用户基本信息 -->
             <div class="border-none text-center pr-font-16">
               <!-- <p><img src="http://www.qdaily.com/images/missing_face.png" alt="" /></p> -->
@@ -59,8 +65,8 @@
               <p class="mgb">部门：<span class="color-6">{{tr.departmentName}}</span></p>
               <p class="">角色：
                 <label class="pr-label color-6 mgr cur-pot"  ng-repeat="item in tr.roles">
-                  <!-- <span icheck class="square" style="position:relative;top:5px;"> -->
-                    <input value="{{item.value}}" type="checkbox" checkbox-group="formData.roleIdsArr">
+                  <span  class="square" style="position:relative;top:5px;">
+                    <input value="{{item.value}}" type="checkbox" checkbox-group="formData.roleIds"></span>
                   <span class="">{{item.text}}</span>
                 </label>
                 <!-- <label class="pr-label color-6 mgr cur-pot">
@@ -69,7 +75,7 @@
                   <span class="">检验</span>
                 </label>
                 <label class="pr-label color-6 cur-pot">
-                  <span icheck class="square" style="position:relative;top:5px;"><input type="checkbox"></span>
+                  <span  class="square" style="position:relative;top:5px;"><input type="checkbox"></span>
                   <span class="">组长</span>
                 </label> -->
 
@@ -80,19 +86,15 @@
             <div class="border-none"  >
               <div class="bt-line text-center pdt">
                 <a href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color"
-                  alert-error alert-ok
-                ng-click="formData.status='认证驳回'"
-                params='formData'
-                parameter-body
-                ajax-url-submit="rest/authen/distributor/auditUserApplyOrganization2"
+                modal-center
+                modal-scope="this"
+                modal-url="views/distributor/dialog-check-reject.html"
                 >拒绝</a>
 
                 <a href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color"
-                alert-error alert-ok
-                  ng-click="formData.status='认证通过'"
-                  params='formData'
-                  parameter-body
-                  ajax-url-submit="rest/authen/distributor/auditUserApplyOrganization2"
+                modal-center
+                modal-scope="this"
+                modal-url="views/distributor/dialog-check-ok.html"
 
                 >通过</a>
               </div>

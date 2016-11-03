@@ -67,7 +67,12 @@ define('main/services', ['toastr','main/init'], function (toastr) {
                     if (status == 200 && _data.code == 200) {
                       defer.resolve([_data.data, _data]);
                     } else {
-                      defer.reject(_data.msg || '出错了');
+                      msg=_data.msg;
+                      if(!msg){
+                            msg=_url+"\n错误信息："+angular.toJson(_data);
+                      }
+
+                      defer.reject(msg);
                     }
                 })
                 .error(function (msg,code) {
@@ -320,7 +325,7 @@ function alertOk($rootScope, modal) {
               }
             };
 
-
+            if(!element)element=$("body");
 
             //定义Loading的HTML
             var _loadHtml = '<div id="'+maskObj.maskId+'" class="pr-spinner" style="position:absolute;top:20%;left:102%;" >' +
