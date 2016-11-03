@@ -1052,6 +1052,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     function treeList2(buildTree,requestData, modal, $timeout, dialogConfirm) {
         return {
             restrict: 'AE',
+          
             require: "?^ngModel",
             link: function($scope, $element, $attrs, ngModel) {
                 var canSelectGroup = angular.isDefined($attrs.selectGroup);
@@ -1059,7 +1060,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.treeList = [];
                 $scope.curTree = {};
                 $scope.status.isLoading = true;
+                if (!angular.isDefined($scope.listParams)) {
+                   $scope.listParams = {};
+               }
 
+                 var formData = {};
                 $scope.selectTree = function(tree, e) {
                     var $li = $element.find("li");
                     var $em = $(e.currentTarget);
@@ -1124,7 +1129,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 function getTreeData() {
                     $scope.status.isLoading = true;
-                    requestData($attrs.treeList2)
+                    requestData($attrs.treeList2,formData)
                         .then(function(results) {
                             var data = results[0];
                             $scope.treeList = buildTree(data,$attrs.pidKey);
@@ -1134,6 +1139,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             $scope.status.isLoading = false;
                         });
                 }
+
+                $scope.$watch("listParams", function() {
+
+                   formData = angular.copy($scope.listParams);
+
+                    getTreeData();
+                }, true);
 
                 $attrs.$observe("treeList2", getTreeData);
 
