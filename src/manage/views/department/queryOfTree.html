@@ -1,4 +1,6 @@
 <!-- page heading start-->
+
+<div ng-init="listParams={pageSize:10000}">
 <div class="page-heading">
     <h3>部门管理</h3>
     <ul class="breadcrumb">
@@ -28,12 +30,10 @@
       </select>
     </div>
   </div>
-  <div class="form-group col-lg-2">
-    <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
-  </div>
+  
 </div>
 
-<div class="tree-org" tree-list2="rest/authen/department/query.json?pageSize=1000" pid-key="parentId" style="margin-top:75px">
+<div class="tree-org" tree-list2="rest/authen/department/query.json" list-params="listParams" pid-key="parentId" style="margin-top:75px">
   <!-- <div class="mg-m">
     <div>
       <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/department/edit.html"><i
@@ -76,3 +76,4 @@
 </div>
 
 <!--body wrapper end-->
+</div>
