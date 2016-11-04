@@ -149,7 +149,7 @@ define('project/registration',['angular'], function () {
     // 重置密码提交
     $scope.resetPwdSubmit = function () {
       if ($scope.regData) {
-        var _url = $scope.mainConfig.serverPath + 'rest/authen/user/forgetPassword',
+        var _url = $scope.mainConfig.serverPath + 'rest/index/forgetPassword',
             _params = $scope.regData,
             _method = 'POST';
         requestData(_url, _params, _method)
@@ -158,7 +158,7 @@ define('project/registration',['angular'], function () {
             if (_data.code === 200) {
               $('.reg-success-prompt').fadeIn(500);
               setTimeout(function(){
-                window.location.href = 'index.html';
+                $scope.pageTo('login.html');
               }, 1500);
             }
         }).catch(function (msg) {
