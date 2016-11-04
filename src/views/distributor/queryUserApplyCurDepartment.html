@@ -51,8 +51,12 @@
             <!-- 用户基本信息 -->
             <div class="border-none text-center pr-font-16">
               <!-- <p><img src="http://www.qdaily.com/images/missing_face.png" alt="" /></p> -->
-              <p class="mgb-m"><span class="default-user-face"></span></p>
-              <p class="mgb-m"><span class="mgr-l">{{tr.user.n}}</span><span>男</span></p>
+              <!-- <p class="mgb-m"><span class="default-user-face"></span></p> -->
+              <p class="mgb-m">
+                <img ng-if="!tr.user.i" src="http://www.qdaily.com/images/missing_face.png" alt="" style="width:120px;height:120px;" />
+                <img ng-if="tr.user.i" src="{{tr.user.i}}" alt="" style="width:120px;height:120px;" />
+              </p>
+              <p class="mgb-m"><span class="mgr-l">{{tr.user.n}}</span><span>{{tr.user.s || '男'}}</span></p>
               <p class="pdb-m bb-line">{{tr.user.p}}</p>
             </div>
             <!-- 部门职能 -->
