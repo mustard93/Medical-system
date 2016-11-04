@@ -123,11 +123,14 @@
                 <div class="flex-item-6 pd-m">
                   <h3 class="pdb bb-line mgb-s">物流信息</h3>
                   <div ng-if="!tr.kuaidiSet">暂无</div>
-                  <div class="flex-column"  ng-repeat="kuaidi in tr.kuaidiSet">
+                  <div class="flex-column"  ng-repeat="kuaidi in tr.kuaidiSet | limitTo:3">
                     <span class="flex-item-5 mgr-0">{{kuaidi.type}}</span>
                     <span class="flex-item-7">
                       <a>{{kuaidi.nu}}</a>
                     </span>
+                  </div>
+                  <div ng-if="tr.kuaidiSet.length > 3">
+                    ......
                   </div>
                 </div>
               <!-- <div ng-if="tr.orderStatus!='待审批'">
