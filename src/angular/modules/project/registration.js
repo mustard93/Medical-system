@@ -31,13 +31,21 @@ define('project/registration',['angular'], function () {
         templateUrl: 'angular/tpl/registration/bind_done.html',
         controller: 'registrationCtrl'
       })
+      .when('/retrievepwd', {
+        templateUrl: 'angular/tpl/retrieve-pwd/retrievepwd.html',
+        controller: 'registrationCtrl'
+      })
+      .when('/resetpwd', {
+        templateUrl: 'angular/tpl/retrieve-pwd/resetpwd.html',
+        controller: 'registrationCtrl'
+      })
       .otherwise({redirectTo: '/verify_phone'});
   }])
 
   /**
    *  注册模块控制器 - 点击发送验证码
    */
-  .controller('registrationCtrl', ['$scope', 'requestData', '$interval', '$rootScope', function ($scope, requestData, $interval, $rootScope) {
+  .controller('registrationCtrl', ['$scope', 'requestData', '$interval', '$rootScope', '$location', function ($scope, requestData, $interval, $rootScope, $location) {
     'use strict';
     // 定义全局对象
     $scope.globalData = {
@@ -67,22 +75,41 @@ define('project/registration',['angular'], function () {
         $scope.sendVerifyCodeStatus = true;
         // 执行倒计时
         $scope.countdown(60);
-        // 请求验证码
-        var _url = $scope.mainConfig.serverPath + 'rest/sms/sendVerificationCode.json?isNewUser=true&tel='+ $scope.regData.phone;
-        requestData(_url, {})
-          .then(function (results) {
-            var _data = results[0];
-            $scope.validCode = _data.code;
-          }).catch(function (msg) {
-            $scope.verifyResult.phone = false;
-            $scope.verifyResult.msg = msg;
-            if ($('.reg-info-prompt').css('display') !== 'none') {
+        // 请求验证码，区分是否是新用户(注册与其他场景应用)
+        var _url = '';
+        if ($location.path() === '/verify_phone') {     // 新用户注册
+          _url = $scope.mainConfig.serverPath + 'rest/sms/sendVerificationCode.json?isNewUser=true&tel='+ $scope.regData.phone;
+          requestData(_url, {})
+            .then(function (results) {
+              var _data = results[0];
+              $scope.validCode = _data.code;
+            }).catch(function (msg) {
+              $scope.verifyResult.phone = false;
               $scope.verifyResult.msg = msg;
-            } else {
-              $('.reg-info-prompt').fadeIn(500);
-
-            }
-          });
+              if ($('.reg-info-prompt').css('display') !== 'none') {
+                $scope.verifyResult.msg = msg;
+              } else {
+                $('.reg-info-prompt').fadeIn(500);
+              }
+            });
+        }
+        if ($location.path() === '/retrievepwd') {      // 用户找回密码
+          _url = $scope.mainConfig.serverPath + 'rest/sms/sendVerificationCode.json?isNewUser=false&tel='+ $scope.regData.phone;
+          requestData(_url, {})
+            .then(function (results) {
+              var _data = results[0];
+              $scope.validCode = _data.code;
+            })
+            .catch(function (msg) {
+              $scope.verifyResult.phone = false;
+              $scope.verifyResult.msg = msg;
+              if ($('.reg-info-prompt').css('display') !== 'none') {
+                $scope.verifyResult.msg = msg;
+              } else {
+                $('.reg-info-prompt').fadeIn(500);
+              }
+            });
+        }
       }
     };
 
@@ -106,16 +133,44 @@ define('project/registration',['angular'], function () {
                 window.location.href = '#/apply_bind';
               }, 1500);
             }
-          }).catch(function (msg) {
-            $scope.verifyResult.phone = false;
+        }).catch(function (msg) {
+          $scope.verifyResult.phone = false;
+          $scope.verifyResult.msg = msg;
+          if ($('.reg-info-prompt').css('display') !== 'none') {
             $scope.verifyResult.msg = msg;
-            if ($('.reg-info-prompt').css('display') !== 'none') {
-              $scope.verifyResult.msg = msg;
-            } else {
-              $('.reg-info-prompt').fadeIn(500);
+          } else {
+            $('.reg-info-prompt').fadeIn(500);
 
+          }
+        });
+      }
+    };
+
+    // 重置密码提交
+    $scope.resetPwdSubmit = function () {
+      if ($scope.regData) {
+        var _url = $scope.mainConfig.serverPath + 'rest/authen/user/forgetPassword',
+            _params = $scope.regData,
+            _method = 'POST';
+        requestData(_url, _params, _method)
+          .then(function (results) {
+            var _data = results[1];
+            if (_data.code === 200) {
+              $('.reg-success-prompt').fadeIn(500);
+              setTimeout(function(){
+                window.location.href = 'index.html';
+              }, 1500);
             }
-          });
+        }).catch(function (msg) {
+          $scope.verifyResult.phone = false;
+          $scope.verifyResult.msg = msg;
+          if ($('.reg-info-prompt').css('display') !== 'none') {
+            $scope.verifyResult.msg = msg;
+          } else {
+            $('.reg-info-prompt').fadeIn(500);
+
+          }
+        });
       }
     };
   }])
@@ -317,6 +372,74 @@ define('project/registration',['angular'], function () {
           $rootScope.verifyResult.name = true;
           if ($('.reg-info-prompt').css('display') !== 'none') {
             $('.reg-info-prompt').fadeOut(200);
+          }
+        });
+      }
+    };
+  }])
+  /**
+   *  找回密码功能手机号码校验
+   */
+  .directive('repwdCheckPhone', ['$rootScope', 'requestData', function ($rootScope, requestData) {
+    'use strict';
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function (scope, element, attrs, ngModel) {
+        if (!$rootScope.verifyResult) {
+          $rootScope.verifyResult = {};
+        }
+
+        element.on('keyup', function () {
+          if ($(element).val().length === 11) {
+            //去掉空格
+            ngModel.$viewValue = $.trim(ngModel.$viewValue);
+            // 格式校验
+            if (!(/^1(3|4|5|7|8)\d{9}$/.test(ngModel.$viewValue))) {
+              $rootScope.verifyResult.phone = false;
+              $rootScope.verifyResult.msg = '手机号码不能为空或格式不正确';
+              if ($('.reg-info-prompt').css('display') === 'none') {
+                $('.reg-info-prompt').fadeIn(500);
+                $(element).focus();
+              }
+            } else {
+              // 有效性校验
+              var _validUrl = scope.mainConfig.serverPath + 'rest/index/user/isExist?phone=' + ngModel.$viewValue;
+              requestData(_validUrl, {}, 'GET')
+                .then(function (results) {
+                  if (results[1].code === 200) {      //未注册的手机号码
+                    $rootScope.verifyResult.phone = false;
+                    $rootScope.verifyResult.msg = '该手机号码未注册';
+                    if ($('.reg-info-prompt').css('display') === 'none') {
+                      $('.reg-info-prompt').fadeIn(200);
+                    }
+                  }
+                })
+                .catch(function (msg) {
+                  $rootScope.verifyResult.phone = true;
+                  $rootScope.verifyResult.msg = '';
+                  $rootScope.verifyResult.phoneNumber = ngModel.$viewValue;
+                  if ($('.reg-info-prompt').css('display') !== 'none') {
+                    $('.reg-info-prompt').hide();
+                  }
+                  // 获取验证码按钮可点击
+                  if ($('#getVerifyCodeBtn').attr('disabled') == 'disabled') {
+                    $('#getVerifyCodeBtn').removeAttr('disabled');
+                  }
+
+                  // if ($('.reg-info-prompt').css('display') !== 'none') {
+                  //   $rootScope.verifyResult.msg = msg;
+                  // } else {
+                  //   $('.reg-info-prompt').fadeIn(500);
+                  //   $(element).focus();
+                  // }
+                });
+            }
+          } else {
+            // 获取验证码不可点击
+            $('#getVerifyCodeBtn').attr('disabled', 'disabled');
+            // 下一步不可点击
+            $('button[type="submit"]').attr('disabled', 'disabled');
           }
         });
       }

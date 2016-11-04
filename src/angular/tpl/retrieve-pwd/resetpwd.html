@@ -1,0 +1,65 @@
+<div class="container col-lg-6 col-lg-offset-3">
+  <div class="col-lg-12 col-sm-12 sys-reg-logo"></div>
+  <div class="col-lg-12 col-sm-12">
+    <p class="sys-reg-title">用户 - 重置密码</p>
+  </div>
+
+  <div class="reg-wrap col-lg-12" ng-controller="registrationCtrl">
+    <div class="user-face">
+      <span></span>
+    </div>
+    <div class="user-phone">
+      {{verifyResult.phoneNumber}}
+    </div>
+
+    <input type="hidden" name="phone" ng-init="regData.phone=verifyResult.phoneNumber" ng-model="regData.phone">
+
+    <div class="col-lg-12 col-sm-12 reg-info-prompt" style="display:none;">
+      <div>
+        <i class="fa fa-exclamation-triangle"></i>
+        <span>{{verifyResult.msg}}</span>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 reg-success-prompt" style="display:none;">
+      <div>
+        <i class="fa fa-check"></i>
+        <span class="color-white">修改密码成功</span>
+      </div>
+    </div>
+
+    <div class="reg-wrap col-lg-12" ng-controller="registrationCtrl">
+      <form name="regForm" class="form-signin" onsubmit="return false;" novalidate="novalidate">
+        <div>
+          <input type="password" class="form-control" placeholder="输入新密码"
+                name="password" ng-model="regData.password" required autofocus reg-check-password>
+        </div>
+        <div>
+          <input type="password" class="form-control" placeholder="再次输入新密码"
+                name="repassword" ng-model="regData.repassword" required reg-check-password>
+        </div>
+        <!-- <div>
+          <input type="text" class="form-control" placeholder="姓名"
+                 name="name" ng-model="regData.name" required maxlength="16">
+        </div> -->
+        <!-- <div class="last-div">
+          <label>性别</label>
+          <label><input type="radio" name="sex" value="男" ng-model="regData.sex" ng-checked="true"
+                  ng-init="regData.sex='男'"> 男</label>
+          <label><input type="radio" name="sex" value="女" ng-model="regData.sex"> 女</label>
+        </div> -->
+        <div class="button-wrap">
+          <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
+                  ng-disabled="regForm.$invalid ||
+                               !regData.password ||
+                               !regData.repassword ||
+                               regData.password!=regData.repassword"
+                               ng-click="resetPwdSubmit()">完 成</button>
+        </div>
+        <div class="col-lg-12 text-center cancel">
+          <a href="login.html" class="color-custom-orange">取 消</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
