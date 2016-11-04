@@ -78,11 +78,19 @@ scope-data="showData"
     </div>
     <div class="flex-item-10 text-right">
       <span ng-if="$root.hasAuthor('采购凭证编辑')" class="mgr">
-        <a href="javascript:;"
+        <a ng-if="showData.orderStatus=='待发送'"
+           href="javascript:;"
            class="btn btn-primary pr-btn-respoinsive pr-btn-respoinsiv-m"
            modal-center="490"
            modal-scope="this"
            modal-url="views/purchaseVoucher/sendEmail.html">发送至厂家
+        </a>
+        <a ng-if="showData.orderStatus=='已发送'"
+           href="javascript:;"
+           class="btn btn-primary pr-btn-respoinsive pr-btn-respoinsiv-m"
+           modal-center="490"
+           modal-scope="this"
+           modal-url="views/purchaseVoucher/sendEmail.html">再次发送
         </a>
       </span>
       <span><a href="#/purchaseVoucher/query.html">返回采购凭证中心</a></span>

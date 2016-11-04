@@ -500,16 +500,17 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                 if (_data.code === 200) {
                   alertOk(_data.message || '操作成功');
                 }
-
-
-              if (attrs.scopeData) $scope[attrs.scopeData] = data;
+                if (attrs.scopeData) $scope[attrs.scopeData] = data;
                 //执行回调
                 if (attrs.callBack) {
                   scope.$eval(attrs.callBack);
                 }
-
                 if (attrs.callback) {
                   scope.$eval(attrs.callback);
+                }
+                //...
+                if (attrs.emitted) {
+                  scope.$emit(attrs.emitted);
                 }
               })
               .catch(function (error) {

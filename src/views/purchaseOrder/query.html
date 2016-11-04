@@ -103,6 +103,7 @@
                           dialog-title="确认通过?"
                           dialog-content="审核通过后,采购单将生效,是否通过?"
                           dialog-template="pr-dialog-submit.html"
+                          emitted="reloadList"
                           request-url="rest/authen/purchaseOrder/updateStatus.json?id={{tr.id}}&status=待采购">立即审批
                   </button>
 
@@ -157,7 +158,9 @@
               </div>
             </div>
             <div class="pdl-m pdr-m pd-v color-9">
-              备注：<span class="color-6">{{tr.note}}</span>
+              <p class="purchase-order-details-note">
+                <span>备注：</span><span class="color-6">{{tr.note}}</span>
+              </p>
             </div>
             <div class="pd-m color-9 flex-column">
               <div class="flex-item-6">
