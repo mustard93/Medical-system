@@ -1,0 +1,75 @@
+<div class="modal-content" ng-controller="editCtrl"  >
+
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/user/update"
+                 ajax-url="rest/authen/user/getOfEdit"  scope-data="formData" alert-error alert-ok
+                form-validator>
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}用户</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">名称</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.name"
+                     auto-complete="rest/data/autocomplete.json?a=1"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">头像</label>
+                  <div class="col-lg-10 col-sm-10">
+                      <img ng-src="{{formData.headUrl}}"  ng-style="{width:80,height:80}">
+
+
+                        <button type="button" class="btn btn-default" ng-init="upFile={}" upload-type="image"
+                                            uploader-one="rest/authen/fileUpload/uploadPicture.json" usege="药械"
+                                             up-file="upFile" ng-model="formData.headUrl">
+
+                                                上传图片{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                                            </button>
+                    <!-- <input type="text" class="form-control" placeholder="" ng-model="formData.headUrl" /> -->
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">民族</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.nation" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">性别</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.sex" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">电话号码</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.phone" disabled="true"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">QQ</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.qq" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">邮箱</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.email" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn btn-success" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>
