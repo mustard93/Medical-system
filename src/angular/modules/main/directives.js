@@ -165,7 +165,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     if (angular.isDefined($attrs.ajaxIf)) {
                       if (!$attrs.ajaxIf) return;
                     }
-
+                    if (angular.isDefined($attrs.ajaxIfEval)) {
+                        var tmp=$scope.$eval($attrs.ajaxIfEval);
+                      if (!tmp) return;
+                    }
                     $scope.isLoading = true;
                     var maskObj=null;
                     if (!$attrs.noshowLoading) {
@@ -524,7 +527,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     if (angular.isDefined($attrs.ajaxIf)) {
                         if (!$attrs.ajaxIf) return;
                     }
-
+                    if (angular.isDefined($attrs.ajaxIfEval)) {
+                        var tmp=$scope.$eval($attrs.ajaxIfEval);
+                      if (!tmp) return;
+                    }
 
                     if (statusInfo.isLoading) {
                         return;
@@ -1052,7 +1058,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     function treeList2(buildTree,requestData, modal, $timeout, dialogConfirm) {
         return {
             restrict: 'AE',
-          
+
             require: "?^ngModel",
             link: function($scope, $element, $attrs, ngModel) {
                 var canSelectGroup = angular.isDefined($attrs.selectGroup);
@@ -2020,7 +2026,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         if (angular.isDefined($attrs.ajaxIf)) {
                             if (!$attrs.ajaxIf) return;
                         }
-
+                        if (angular.isDefined($attrs.ajaxIfEval)) {
+                            var tmp=$scope.$eval($attrs.ajaxIfEval);
+                          if (!tmp) return;
+                        }
                         requestData($attrs.selectSource)
                           .then(function(results) {
                               var data = results[0];
@@ -2468,7 +2477,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    if (angular.isDefined($attrs.ajaxIf)) {
                      if (!$attrs.ajaxIf) return;
                    }
-
+                   if (angular.isDefined($attrs.ajaxIfEval)) {
+                       var tmp=$scope.$eval($attrs.ajaxIfEval);
+                     if (!tmp) return;
+                   }
                    $scope.isLoading = true;
                    var maskObj=null;
                    if (!$attrs.noshowLoading) {
