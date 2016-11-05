@@ -8,7 +8,7 @@ define('project/directives', ['project/init'], function () {
 function orderMedicals() {
   return {
     restrict: 'EA',
-    $scope: {
+    scope: {
         ngModel: "="
     },
     replace: true,
@@ -21,7 +21,7 @@ function orderMedicals() {
 function orderMedicalsPurchase() {
   return {
     restrict: 'EA',
-    $scope: {
+    scope: {
         ngModel: "="
     },
     replace: true,
