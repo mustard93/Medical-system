@@ -29,6 +29,32 @@
           </div>
         </li>
 
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+            IE11中不能在直接url后面跟url
+            </div>
+            <div class="panel-body" style="display:none;">
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                <button ng-if="$root.hasAuthor('采购单审批')"
+                        class="pr-btn-save-glodbg"
+                        type="button"
+                        handle-this-click
+                        dialog-title="确认通过?"
+                        dialog-content="审核通过后,销售单将生效,是否通过?"
+                        dialog-template="pr-dialog-submit.html"
+                        params='{"id":showData.id,"status":"待采购"}'
+                        request-url="rest/authen/purchaseOrder/updateStatus.json"
+                        call-back="goTo('#/purchaseOrder/get.html?t=审核通过&id={{showData.id}}')">审核通过</button>
+
+              </textarea>
+            </div>
+          </div>
+        </li>
 
       </ul>
     </div>
