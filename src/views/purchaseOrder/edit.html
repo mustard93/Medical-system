@@ -58,7 +58,8 @@
     </div>
     <!-- 供货商信息 -->
     <div class="pd-c-xl pdb-l bb-line"
-      ajax-if="{{formData.supplier.id}}"
+
+         ajax-if-eval="formData.supplier.id"
     ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
     scope-data="supplier"
     callback="formData.supplier=supplier"
@@ -100,7 +101,7 @@
     </div>
     <!-- 收货人信息 -->
     <div class="consignee-info pd-c-xl pdt-l pdb-l bb-line"
-         ajax-if="{{formData.customerId}}"
+         ajax-if-eval="formData.customerId"
          ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
          scope-data="purchaserAddress"
          callback="customerAddressGetCallBack(formData,purchaserAddress)"
@@ -220,7 +221,7 @@
           </tr>
 
           <tr ng-init="addDataItem={}"
-              ajax-if="{{addDataItem&&addDataItem.relId}}"
+              ajax-if-eval="addDataItem&&addDataItem.relId"
               ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}"
               scope-data="medical"
               callback="selectRelIdCallBack(medical)"

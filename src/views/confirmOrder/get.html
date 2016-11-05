@@ -79,7 +79,8 @@
               dialog-title="确认生成发货单?"
               dialog-content="是否生成发货单?"
               dialog-template="pr-dialog-submit.html"
-              request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=待发货"
+              params='{"id":showData.id,"status":"待发货"}'
+              request-url="rest/authen/confirmOrder/updateStatus.json"
               call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{mainStatus.pageParams.id}}')">生成发货单</button>
     </div>
 
@@ -96,16 +97,6 @@
     </div>
     <!-- 按钮   ng-if="showData.orderStatus=='待审批'" -->
     <div  class="text-right mgb-l">
-      <!-- <span class="mgr-l"    ng-controller="updateStatusCtrl">
-        <a href="javascript:;"
-           class="pr-btn-save-glodbg"
-           handle-this-click
-           dialog-title="确认驳回?"
-           dialog-content="驳回后,该订单将作废"
-           dialog-template="pr-dialog-order-reject.html"
-           call-submit="updateStatus('rest/authen/confirmOrder/updateStatus.json',mainStatus.pageParams.id,'已作废',{})"
-           call-back="goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">驳回</a>
-      </span> -->
 
       <span ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('订单审核')"
             class="mgr-l"
@@ -123,7 +114,8 @@
               dialog-title="确认通过?"
               dialog-content="审核通过后,销售单将生效,是否通过?"
               dialog-template="pr-dialog-submit.html"
-              request-url="rest/authen/confirmOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=待发单"
+              params='{"id":showData.id,"status":"待发单"}'
+              request-url="rest/authen/confirmOrder/updateStatus.json"
               call-back="$root.goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过
       </button>
 

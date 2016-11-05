@@ -48,8 +48,9 @@ class="content-wrapper invoices-order"
                   dialog-title="确认发货?"
                   dialog-content="确认通知库房发货?此操作会同时打印发货单"
                   dialog-template="pr-dialog-submit.html"
-                  request-url="rest/authen/outstockOrder/updateStatus.json?id={{mainStatus.pageParams.id}}&status=已出库"
-                  call-back="goTo('#/outstockOrder/order-done.html?id={{mainStatus.pageParams.id}}')">确认出库</button>
+                  params='{"id":showData.id,"status":"已出库"}'
+                  request-url="rest/authen/outstockOrder/updateStatus.json"
+                  call-back="goTo('#/outstockOrder/order-done.html?id={{showData.id}}')">确认出库</button>
 
 
 

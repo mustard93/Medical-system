@@ -138,7 +138,8 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改，确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=待审批"
+                  params='{"id":showData.id,"status":"待审批"}'
+                  request-url="rest/authen/arrivalNoticeOrder/updateStatus.json"
                   call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管</button>
 
           <span class="mgr-l"
@@ -156,7 +157,8 @@
                   dialog-title="确认通过?"
                   dialog-content="通过后，该来货通知单将生效。确认通过?"
                   dialog-template="pr-dialog-submit.html"
-                  request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=待入库"
+                    params='{"id":showData.id,"status":"待入库"}'
+                  request-url="rest/authen/arrivalNoticeOrder/updateStatus.json"
                   call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=2')">审批通过
         </button>
         <button ng-if="showData.orderStatus=='待入库' && $root.hasAuthor('确认入库')"
@@ -166,7 +168,8 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，数据同步到库存?"
                   dialog-template="pr-dialog-submit.html"
-                  request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{showData.id}}&status=已完成"
+                    params='{"id":showData.id,"status":"已完成"}'
+                  request-url="rest/authen/arrivalNoticeOrder/updateStatus.json"
                   call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=3')">确认入库
         </button>
       </div>  <!-- 操作 -->

@@ -25,6 +25,18 @@
                       request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发单"
                       call-back="listParams.refreshId=tr.id">审批通过
               </button>
+
+              <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('采购单审批')"
+                      class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr mgl"
+                      handle-this-click
+                      dialog-title="确认通过?"
+                      dialog-content="审核通过后,采购单将生效,是否通过?"
+                      dialog-template="pr-dialog-submit.html"
+                      emitted="reloadList"
+                      params='{"id":tr.id,"status":"待采购"}'
+                      request-url="rest/authen/purchaseOrder/updateStatus.json">立即审批
+              </button>
+
             </div>
             <div class="panel-body" style="display:none;">
               <textarea class="form-control" style="min-height:200px;" readonly="true">
@@ -37,6 +49,19 @@
                         request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发单"
                         call-back="listParams.refreshId=tr.id">审批通过
                 </button>
+
+                  request-url 在IE中不能待中文。建议用下面得：
+                              <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('采购单审批')"
+                                      class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr mgl"
+                                      handle-this-click
+                                      dialog-title="确认通过?"
+                                      dialog-content="审核通过后,采购单将生效,是否通过?"
+                                      dialog-template="pr-dialog-submit.html"
+                                      emitted="reloadList"
+                                      params='{"id":tr.id,"status":"待采购"}'
+                                      request-url="rest/authen/purchaseOrder/updateStatus.json">立即审批
+                              </button>
+
               </textarea>
             </div>
           </div>
