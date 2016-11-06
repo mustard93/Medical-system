@@ -95,6 +95,11 @@ define('project/controllers', ['project/init'], function() {
                 alertWarn("请输入大于0的数量。");
                 return;
             }
+            if (!addDataItem.strike_price) {
+                alertWarn("请输入成交价格。");
+                
+                return;
+            }
             if(addDataItem.quantity>medical.quantity){//库存不足情况
                 addDataItem.handleFlag =false;//默认添加到订单
             }
