@@ -160,10 +160,12 @@
               success: function (results) {
                 if (results.code === 200) {  //验证成功
                   // 记住电话号码
+                  var remeberNumber="";
                   if ($('input[name="remeberNumber"]').is(':checked')) {  //如果用户选择保存手机号码
-                    if (window.localStorage) {    //如果当前用户浏览器支持localstorage
-                      window.localStorage.setItem('remeberNumber', _paramsObj.phone);
-                    }
+                      remeberNumber= _paramsObj.phone;
+                  }
+                  if (window.localStorage) {    //如果当前用户浏览器支持localstorage
+                    window.localStorage.setItem('remeberNumber', remeberNumber);
                   }
                   window.location.href = "index.html#/main.html";
                 } else {
@@ -195,9 +197,14 @@
           increaseArea: '20%' // optional
         });
         // 读取用户设置的手机号码
-        if (window.localStorage.remeberNumber) {
-          $('input[name="phone"]').val(window.localStorage.remeberNumber);
+
+        if(window.localStorage){
+            var remeberNumber=   window.localStorage.getItem("remeberNumber");
+            if(!remeberNumber)remeberNumber=" ";
+              $('input[name="phone"]').val(remeberNumber);
         }
+
+
       });
     </script>
 </body>
