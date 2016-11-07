@@ -282,41 +282,41 @@
       <h1 class="mgt-m text-bold">备注</h1>
       <textarea class="pr-textarea mgb-l mgt" ng-model="formData.note" maxlength="240" style="height:92px;" placeholder="请填写备注信息"></textarea>
     </div>
-    <!-- 总价 -->
-    <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
-      <span class="pr-font-24 color-9">合计：</span>
-      <span class="pr-font-24 color-6">￥{{formData.totalPrice | number: 2}}</span>
-    </div>
-    <!-- 提交按钮 -->
-    <div class="pd-c-xl pdb-xxl text-right">
-      <span class="mgr">
-        <button class="pr-btn-save-glodbg"
-                type="submit"
-                ng-disabled="!formData.orderMedicalNos.length ||
-                             !formData.customerId ||
-                             !formData.saleUserId">保存</button>
-      </span>
-      <span class="mgr">
-        <button ng-click="submitForm('editForm','submit')"
-                class="pr-btn-create-glodbg"
-                ng-disabled="!formData.orderMedicalNos.length ||
-                             !formData.customerId ||
-                             !formData.saleUserId">预览销售单</button>
-      </span>
+  </div>
+  <!-- 总价 -->
+  <div class="text-right pdb-l pdt-xxl">
+    <span class="pr-font-24 color-9">合计：</span>
+    <span class="pr-font-24 color-6">￥{{formData.totalPrice | number: 2}}</span>
+  </div>
+  <!-- 提交按钮 -->
+  <div class="pdb-xxl text-right">
+    <span class="mgr">
+      <button class="pr-btn-save-glodbg"
+              type="submit"
+              ng-disabled="!formData.orderMedicalNos.length ||
+                           !formData.customerId ||
+                           !formData.saleUserId">保存</button>
+    </span>
+    <span class="mgr">
+      <button ng-click="submitForm('editForm','submit')"
+              class="pr-btn-create-glodbg"
+              ng-disabled="!formData.orderMedicalNos.length ||
+                           !formData.customerId ||
+                           !formData.saleUserId">预览销售单</button>
+    </span>
 
-      <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
-      <span>
-        <a href="javascript:;"
-           handle-this-click
-           dialog-title="确认返回?"
-           dialog-content="该购需单存在未保存数据，是否保存?"
-           dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/salesOrder/query.html')"
-           save-callback="submitForm('editForm','exit')">返回购需中心</a>
+    <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
+    <span>
+      <a href="javascript:;"
+         handle-this-click
+         dialog-title="确认返回?"
+         dialog-content="该购需单存在未保存数据，是否保存?"
+         dialog-template="pr-dialog-return.html"
+         nosave-callback="goTo('#/salesOrder/query.html')"
+         save-callback="submitForm('editForm','exit')">返回购需中心</a>
 
-      <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
+    <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
 
-    </div>
   </div>
   </form>
 
