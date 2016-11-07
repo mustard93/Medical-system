@@ -97,7 +97,7 @@ define('project/controllers', ['project/init'], function() {
             }
             if (!addDataItem.strike_price) {
                 alertWarn("请输入成交价格。");
-                
+
                 return;
             }
             if(addDataItem.quantity>medical.quantity){//库存不足情况
@@ -121,7 +121,7 @@ define('project/controllers', ['project/init'], function() {
             $scope.formData.orderMedicalNos.push(addDataItem);
 
             //计算价格
-            $scope.formData.totalPrice = addDataItem.strike_price * addDataItem.quantity;
+            $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
 
             $scope.addDataItem = {};
 

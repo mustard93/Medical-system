@@ -15,7 +15,7 @@
     <div class="panel pr-panel pr-panel-height flex-column mgb color-9">
       <div class="flex-item-7">
         <span class="mgr">通知单号：<em class="color-6">{{showData.orderNo}}</em></span>
-        <span class="mgr">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+        <span class="mgr">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:ss'}}</em></span>
         <span>对应采购单号：<em class="color-custom-orange"> <a href="#/purchaseOrder/get.html?id={{showData.relId}}">{{showData.relOrderNo}}</a></em></span>
       </div>
       <div class="flex-item-5 text-right">
@@ -87,25 +87,11 @@
         </table>
       </div>
       <!-- 备注 -->
-      <div class="pd-v bb-line">
-        备注：{{showData.note}}
+      <div class="mgt pd-v bt-line">
+        <div>
+          <span>备注：</span><textarea class="pr-textarea mgt" ng-value="showData.note" ng-model="formData.note"></textarea>
+        </div>
       </div>
-
-      <!-- 备注 -->
-      <!-- <div class="pd-c-xl bb-line">
-        <h1 class="mgt-l">备注</h1>
-        <textarea ng-disabled="showData.orderStatus!='未提交'"
-                  class="pr-textarea mgb-l mgt-l"
-                  ng-model="formData.note"
-                  maxlength="240"
-                  style="height:92px;"
-                  placeholder="请填写备注信息">
-        </textarea>
-      </div> -->
-
-      <!-- <div class="pd-v bb-line">
-        备注：
-      </div> -->
 
       <!-- 价格 -->
       <!-- <div class="text-right pr-font-16">
@@ -122,14 +108,14 @@
       <div class="flex-item-8 text-right">
           <span class="mgr-l" ng-if="showData.orderStatus=='未提交'">
             <button class="pr-btn-save-glodbg"
-            type="button"
-           ajax-url-submit="rest/authen/arrivalNoticeOrder/updateNote"
-           params="formData"
-           alert-error
-           callback="showData.note=formData.note"
-            ng-disabled="!formData.id||formData.note==showData.note">保存</button>
+                    type="button"
+                    ajax-url-submit="rest/authen/arrivalNoticeOrder/updateNote"
+                    params="formData"
+                    alert-error
+                    callback="showData.note=formData.note"
+                    ng-disabled="!formData.id||formData.note==showData.note">保存
+            </button>
           </span>
-
 
           <button ng-if="showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
                   class="pr-btn-save-glodbg"
