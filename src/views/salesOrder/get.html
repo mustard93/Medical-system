@@ -12,20 +12,20 @@
   <!-- 单据信息 -->
   <div class="flex-column pd-c-xl pdt pdb bb-line">
     <div class="flex-item-4">
-      <span class="mgr-m">购需单编号：{{showData.orderNo}}</span>
+      <span class="mgr-m color-9">购需单编号：<span class="color-6">{{showData.orderNo}}</span></span>
     </div>
     <div class="flex-item-8 text-right">
-      <span class="mgr-xl">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
-      <span>状态：{{showData.orderStatus}}</span>
+      <span class="mgr-xl color-9">创建时间：<span class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span></span>
+      <span class="color-9">状态：<span class="color-6">{{showData.orderStatus}}</span></span>
     </div>
   </div>
   <!-- 用户信息 -->
-  <div class="pd-c-xl pdt-l pdb-l bb-line">
+  <div class="pd-c-xl pdt pdb bb-line">
     <p class="flex-column mgb">
-      <span class="flex-item-6">客户名：{{showData.customerName}}</span>
-      <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：{{showData.expectDate | date: 'yyyy-MM-dd'}}</span>
+      <span class="flex-item-6 color-9">客户名：<span class="color-6">{{showData.customerName}}</span></span>
+      <span class="flex-item-6 text-right color-9"><em class="mgr-m">销售人员：<span class="color-6">{{showData.saleUser.n}}</span></em> 期望到货时间：<span class="color-6">{{showData.expectDate | date: 'yyyy-MM-dd'}}</span></span>
     </p>
-    <p>收货人信息：{{showData.address.prov}} {{showData.address.city}} {{showData.address.area}} {{showData.address.address}} {{showData.address.name}} {{showData.address.tel}}</p>
+    <p class="color-9">收货人信息：<span class="color-6">{{showData.address.prov}} {{showData.address.city}} {{showData.address.area}} {{showData.address.address}} {{showData.address.name}} {{showData.address.tel}}</span></p>
   </div>
   <!-- 商品列表 -->
   <div class="pd-c-xl">
@@ -52,14 +52,13 @@
   <h1  class="pdb-m text-m">已生成订单部分</h1>
   <div  ng-repeat="showData in tbodyList"><!--tbodyList -->
   <div class="flex-column text-s">
-    <div class="flex-item-8">
-      <span class="mgr-l">订单编号：<em class="text-normal">
-        <a href="#/confirmOrder/get.html?id={{showData.id}}">
-        {{showData.orderNo}}</a></em></span>
-      <span>创建时间：<em class="text-normal">{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</em></span>
+    <div class="flex-item-8 color-9">
+      <span class="mgr-l">订单编号：<em class="text-normal"><a href="#/confirmOrder/get.html?id={{showData.id}}"><span class="color-6">{{showData.orderNo}}</span></a>
+        </em></span>
+      <span>创建时间：<em class="text-normal"><span class="color-6">{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span></em></span>
     </div>
-    <div class="flex-item-4 text-right">
-      <span ng-if="showData.orderStatus!='已作废'">订单状态：<em>{{showData.orderStatus}}</em></span>
+    <div class="flex-item-4 text-right color-9">
+      <span ng-if="showData.orderStatus!='已作废'">订单状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
         <span ng-if="showData.orderStatus=='已作废'">订单状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
     </div>
   </div>
