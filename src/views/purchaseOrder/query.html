@@ -102,9 +102,10 @@
                           handle-this-click
                           dialog-title="确认通过?"
                           dialog-content="审核通过后,采购单将生效,是否通过?"
-                          dialog-template="pr-dialog-submit.html"
+                          dialog-template="pr-dialog-confirm.html"
                           emitted="reloadList"
-                          request-url="rest/authen/purchaseOrder/updateStatus.json?id={{tr.id}}&status=待采购">立即审批
+                          params='{"id":tr.id,"status":"待采购"}'
+                          request-url="rest/authen/purchaseOrder/updateStatus.json">审批通过
                   </button>
 
                   <a href="#/purchaseOrder/get.html?id={{tr.id}}">查看详情</a>
@@ -132,7 +133,7 @@
               </div>
             </div>
             <div class="color-9 pr-ele-height-auto pd-c-m" style="padding-top:10px!important;padding-bottom:10px!important;min-height:1px;">
-              供应商：<span class="color-6">{{tr.supplier.name}}</span>
+              供货商：<span class="color-6">{{tr.supplier.name}}</span>
             </div>
             <div class="flex-column text-s">
               <div class="flex-item-6 br-line" style="min-height:135px;">

@@ -131,10 +131,7 @@ define('main/controllers', ['main/init'], function () {
               success: function (_data) {
                 if (_data.code == 200) {
                   $scope.curUser=_data.data;
-
-                  $scope.habbit={mainRole:'客服'};
-
-
+                  $scope.habbit={mainRole:$scope.getMainRole()};
 
                   if(window.location.href.indexOf('#'+Config.indexPage)>-1){
                           $scope.goToMainRole($scope.habbit.mainRole);
@@ -171,7 +168,7 @@ define('main/controllers', ['main/init'], function () {
         $scope.goToMainRole = function (mainRole) {
 
 
-            if(!mainRole)mainRole=store.get('habbit.mainRole');
+
             if(!mainRole)mainRole='客服';
             if(!$scope.habbit)   $scope.habbit={};
             $scope.habbit.mainRole=mainRole;
@@ -184,10 +181,37 @@ define('main/controllers', ['main/init'], function () {
               case '采购':$scope.goTo('#/authorIndex/main-purchasemanager.html');break;
               case '库管':$scope.goTo('#/authorIndex/main-repertorymanager.html');break;
               case '验收':$scope.goTo('#/authorIndex/main-checkmanager.html');break;
-            
+
               default: $scope.goTo('#/main.html');
             }
           }
+          //获取主页角色
+          $scope.getMainRole = function () {
+              var mainRole=store.get('habbit.mainRole');
+
+              var tmp='';
+               if($rootScope.hasAuthor('总经理')){
+                tmp='总经理';
+                if(mainRole==tmp)return tmp;
+              }else if($rootScope.hasAuthor('销售单查询')){
+                tmp='销售';
+                  if(mainRole==tmp)return tmp;
+              }
+              else if($rootScope.hasAuthor('采购单查询')){
+                tmp='采购';
+                  if(mainRole==tmp)return tmp;
+              }else if($rootScope.hasAuthor('出入库单中心')){
+                tmp='库管';
+                  if(mainRole==tmp)return tmp;
+              }else if($rootScope.hasAuthor('验单中心')){
+                tmp='验收';
+                  if(mainRole==tmp)return tmp;
+              } else if($rootScope.hasAuthor('购需单查询')){
+                tmp='客服';
+                  if(mainRole==tmp)return tmp;
+              }
+            return tmp;
+        }
 
 
 

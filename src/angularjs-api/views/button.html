@@ -25,18 +25,42 @@
                       request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发单"
                       call-back="listParams.refreshId=tr.id">审批通过
               </button>
+
+              <button
+                      class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr mgl"
+                      handle-this-click
+                      dialog-title="确认通过?"
+                      dialog-content="审核通过后,采购单将生效,是否通过?"
+                      dialog-template="pr-dialog-submit.html"
+                      emitted="reloadList"
+                      params='{"id":tr.id,"status":"待采购"}'
+                      request-url="rest/authen/purchaseOrder/updateStatus.json">立即审批
+              </button>
+
             </div>
             <div class="panel-body" style="display:none;">
               <textarea class="form-control" style="min-height:200px;" readonly="true">
-                <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr"
-                        type="button"
-                        handle-this-click
-                        dialog-title="确认通过?"
-                        dialog-content="审批通过后，销售单将生效。确认通过?"
-                        dialog-template="pr-dialog-submit.html"
-                        request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发单"
-                        call-back="listParams.refreshId=tr.id">审批通过
-                </button>
+                                request-url 在IE中不能待中文。建议用：
+                              <button
+                                      class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr mgl"
+                                      handle-this-click
+                                      dialog-title="确认通过?"
+                                      dialog-content="审核通过后,采购单将生效,是否通过?"
+                                      dialog-template="pr-dialog-submit.html"
+                                      emitted="reloadList"
+                                      params='{"id":tr.id,"status":"待采购"}'
+                                      request-url="rest/authen/purchaseOrder/updateStatus.json">立即审批
+                              </button>
+                              不推荐：
+                              <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr"
+                                      type="button"
+                                      handle-this-click
+                                      dialog-title="确认通过?"
+                                      dialog-content="审批通过后，销售单将生效。确认通过?"
+                                      dialog-template="pr-dialog-submit.html"
+                                      request-url="rest/authen/confirmOrder/updateStatus.json?id={{tr.id}}&status=待发单"
+                                      call-back="listParams.refreshId=tr.id">审批通过
+                              </button>
               </textarea>
             </div>
           </div>
@@ -105,7 +129,28 @@
           </div>
         </li>
 
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+              <select class="ipt pr-short-ipt" data-placeholder="选择规格" chosen default-empty="无" ng-model="formData.specification" select-source="rest/baseData/queryForSelectOptionByType?type=规格">
+                改成
+                <select class="ipt pr-short-ipt" data-placeholder="选择规格" chosen default-empty="无" ng-model="formData.specification" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"规格"}'>
 
+            </div>
+            <div class="panel-body" style="display:none;">
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                <select class="ipt pr-short-ipt" data-placeholder="选择规格" chosen default-empty="无" ng-model="formData.specification" select-source="rest/baseData/queryForSelectOptionByType?type=规格">
+                  改成
+                  <select class="ipt pr-short-ipt" data-placeholder="选择规格" chosen default-empty="无" ng-model="formData.specification" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"规格"}'>
+
+              </textarea>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
 </div>

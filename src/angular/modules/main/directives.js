@@ -165,7 +165,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     if (angular.isDefined($attrs.ajaxIf)) {
                       if (!$attrs.ajaxIf) return;
                     }
-
+                    if (angular.isDefined($attrs.ajaxIfEval)) {
+                        var tmp=$scope.$eval($attrs.ajaxIfEval);
+                      if (!tmp) return;
+                    }
                     $scope.isLoading = true;
                     var maskObj=null;
                     if (!$attrs.noshowLoading) {
@@ -524,7 +527,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     if (angular.isDefined($attrs.ajaxIf)) {
                         if (!$attrs.ajaxIf) return;
                     }
-
+                    if (angular.isDefined($attrs.ajaxIfEval)) {
+                        var tmp=$scope.$eval($attrs.ajaxIfEval);
+                      if (!tmp) return;
+                    }
 
                     if (statusInfo.isLoading) {
                         return;
@@ -1052,7 +1058,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     function treeList2(buildTree,requestData, modal, $timeout, dialogConfirm) {
         return {
             restrict: 'AE',
-          
+
             require: "?^ngModel",
             link: function($scope, $element, $attrs, ngModel) {
                 var canSelectGroup = angular.isDefined($attrs.selectGroup);
@@ -1821,6 +1827,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
               require(['chosen'], function() {
                 if ($attrs.selectSource) {
+
+                  var _params={};
+                  if ($attrs.params) {
+                      if ($attrs.params.indexOf("{") === 0) {
+                            _params = $scope.$eval($attrs.params);
+                      }
+                  }
+
+
                   if (angular.isDefined($attrs.chosenAjax)) {
                     chosenObj = $element.chosen(chosenConfig);
                     var $chosenContainer = $element.next();
@@ -1865,15 +1880,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           if(maskObj)maskObj.hide();
                         }
                          maskObj=  proLoading($element, "chosen");
+
+                         _params.q=q;
+                         _params.id=ngModel.$viewValue;
                         requestQueue = $.ajax({
                             url: _url,
                             type: 'GET',
                             xhrFields:{withCredentials: true},
                             crossDomain:true,
-                            data: {
-                                q: q,
-                                id: ngModel.$viewValue
-                            },
+                            data: _params,
                             dataType: 'json',
                             success: function(_data) {
                                 if(maskObj)maskObj.hide();
@@ -2020,8 +2035,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         if (angular.isDefined($attrs.ajaxIf)) {
                             if (!$attrs.ajaxIf) return;
                         }
+                        if (angular.isDefined($attrs.ajaxIfEval)) {
+                            var tmp=$scope.$eval($attrs.ajaxIfEval);
+                          if (!tmp) return;
+                        }
 
-                        requestData($attrs.selectSource)
+                        requestData($attrs.selectSource,_params)
                           .then(function(results) {
                               var data = results[0];
                               var _options = '';
@@ -2468,7 +2487,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    if (angular.isDefined($attrs.ajaxIf)) {
                      if (!$attrs.ajaxIf) return;
                    }
-
+                   if (angular.isDefined($attrs.ajaxIfEval)) {
+                       var tmp=$scope.$eval($attrs.ajaxIfEval);
+                     if (!tmp) return;
+                   }
                    $scope.isLoading = true;
                    var maskObj=null;
                    if (!$attrs.noshowLoading) {
