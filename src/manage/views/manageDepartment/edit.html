@@ -1,0 +1,82 @@
+
+        <div class="modal-content pr-modal-content" ng-controller="editCtrl"
+
+           ajax-url="rest/authen/manageDepartment/getOfEdit.json?id={{tr.id}}"  scope-data="formData" callback="" alert-error >
+
+          <form class="add-department-form form-horizontal"
+                action="rest/authen/manageDepartment/save"
+                alert-error
+                form-validator>
+            <div class="modal-header">
+                <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}部门</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">所属机构</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" ng-if="formData.organizationId">
+                <label class="col-lg-2 col-sm-2 control-label">上级部门</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select class="select select-w" data-placeholder="选择一个..." chosen default-empty="无"  ng-model="formData.customerId" select-source="rest/index/department/queryForSelectOption?DistributorId={{formData.organizationId}}"></select>
+
+                </div>
+              </div>
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">部门名</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+                  </div>
+                </div>
+
+
+                                <div class="form-group" ng-if="formData.organizationId">
+                                  <label class="col-lg-2 col-sm-2 control-label">部门负责人</label>
+                                  <div class="col-lg-10 col-sm-10">
+                                    <select class="select select-w" data-placeholder="选择一个..." chosen  multiple ng-model="formData.headUserIds" select-source="rest/authen/manageUser/queryForSelectOption?organizationId={{formData.organizationId}}">
+                                      <option value=""></option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="form-group" ng-if="formData.organizationId">
+                                  <label class="col-lg-2 col-sm-2 control-label">角色集</label>
+                                  <div class="col-lg-10 col-sm-10">
+
+
+                                                        <div class="form-ctrl"
+                                                         ajax-url="rest/authen/manageRole/queryForSelectOption?organizationId={{formData.organizationId}}"  scope-data="roles" alert-error>
+
+                                                          <fieldset  class="fieldset">
+                                                              <legend>
+                                                                  角色  <label class="">
+                                                                    <input type="checkbox" onclick=" $('[name=roleItem_name]').click();"/>
+                                                                    反选</label>
+                                                              </legend>
+
+                                                                <label class="" ng-repeat="roleItem in roles">
+                                                                   <input type="checkbox" name="roleItem_name" value="{{roleItem.value}}"
+                                                                 checkbox-group="formData.roleIds" /> {{roleItem.text}}</label>
+                                                          </fieldset>
+
+                                                        </div>
+
+
+                                  </div>
+                                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>
