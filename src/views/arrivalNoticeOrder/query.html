@@ -60,7 +60,8 @@
                           dialog-title="确认提交?"
                           dialog-content="提交后，将无法修改，确认提交?"
                           dialog-template="pr-dialog-submit.html"
-                          request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{tr.id}}&status=待审批"
+                            params='{"id":tr.id,"status":"待审批"}'
+                          request-url="rest/authen/arrivalNoticeOrder/updateStatus.json"
                           call-back="listParams.refreshId=tr.id">提交到库管</button>
 
                   <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
@@ -70,7 +71,8 @@
                           dialog-title="确认通过?"
                           dialog-content="通过后，该来货通知单将生效。确认通过?"
                           dialog-template="pr-dialog-submit.html"
-                          request-url="rest/authen/arrivalNoticeOrder/updateStatus.json?id={{tr.id}}&status=待入库"
+                          params='{"id":tr.id,"status":"待入库"}'
+                          request-url="rest/authen/arrivalNoticeOrder/updateStatus.json"
                           call-back="listParams.refreshId=tr.id">审批通过</button>
                 </span>
               </div>
@@ -86,7 +88,7 @@
               </div>
             </div>
             <div class="color-9 pr-ele-height-auto pd-c-l" style="padding-top:10px!important;padding-bottom:10px!important;min-height:1px;">
-              供应商：<span class="color-6">{{tr.supplier.name}}</span>
+              供货商：<span class="color-6">{{tr.supplier.name}}</span>
             </div>
             <div class="flex-column text-s">
               <div class="flex-item-6 br-line pd-l" style="min-height:145px;">

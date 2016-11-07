@@ -38,6 +38,30 @@
                 select-source="rest/index/department/queryForSelectOption.json?DistributorId={{formData.organizationId}}">
         </select>
       </div>
+      <span>请勾选申请角色</span>
+      <p  ajax-if="{{formData.departmentId}}"
+      ajax-url="rest/index/queryRolesForSelectOptionByDepartmentId"
+      params="formData"
+       scope-data="roles"
+       alert-error
+      >
+        <label class="pr-label color-6 mgr cur-pot"  ng-repeat="item in roles">
+          <span  class="square" style="position:relative;top:5px;">
+            <input value="{{item.value}}" type="checkbox" checkbox-group="formData.applyRoleIds"></span>
+          <span class="">{{item.text}}</span>
+        </label>
+
+        <!-- <label class="pr-label color-6 mgr cur-pot">
+
+            <input type="checkbox"   value="检验"   checkbox-group="formData.roleIdsArr"></span>
+          <span class="">检验</span>
+        </label>
+        <label class="pr-label color-6 cur-pot">
+          <span  class="square" style="position:relative;top:5px;"><input type="checkbox"></span>
+          <span class="">组长</span>
+        </label> -->
+
+      </p>
       <div>
         <!-- <a href="#/bind_done"> -->
           <button type="submit"

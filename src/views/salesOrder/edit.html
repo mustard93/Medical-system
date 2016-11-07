@@ -55,7 +55,7 @@
       </span>
       <span>
         <label class="pr-label mgr-l">销售人员</label>
-        <select class="ipt pr-short-ipt" data-placeholder="填写销售人员" chosen default-empty="无"  ng-model="formData.saleUserId" select-source="rest/authen/user/queryForSelectOption.json">
+        <select class="ipt pr-short-ipt" data-placeholder="填写销售人员" chosen  ng-model="formData.saleUserId" select-source="rest/authen/user/queryForSelectOption.json">
           <option value=""></option>
         </select>
       </span>
@@ -66,7 +66,7 @@
     </div>
     <!-- 收货人信息 -->
     <div class="consignee-info pd-c-xl pdt-l pdb-l bb-line"
-         ajax-if="{{formData.customerId}}"
+         ajax-if-eval="formData.customerId"
          ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
          scope-data="customerAddress"
          callback="customerAddressGetCallBack(formData,customerAddress)"
@@ -215,7 +215,7 @@
               <td colspan="12" class="pd-v">添加药械</td>
             </tr>
             <tr ng-init="addDataItem={}"
-                ajax-if="{{addDataItem&&addDataItem.relId}}"
+                ajax-if-eval="addDataItem&&addDataItem.relId"
                 ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}"
                 scope-data="medical"
                 callback="selectRelIdCallBack(medical)"
@@ -321,7 +321,7 @@
   </form>
 
   <!-- 加载选中药械库存-->
-  <div ajax-if="orderMedicalNoIds"
+  <div ajax-if-eval="orderMedicalNoIds.length>0"
        ajax-url="rest/authen/medicalStock/countStockByIds.json?ids={{orderMedicalNoIds.join(',')}}"
        scope-data="medicalStockMap"
        alert-error>

@@ -35,7 +35,7 @@ function niceScroll () {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       require(['nicescroll'], function () {
         // 主页面右侧滚动条
         $('html').niceScroll({styler:"fb", cursorcolor:"#65cea7", cursorwidth: '6', cursorborderradius: '0px',
@@ -65,12 +65,12 @@ function leftMenuChange ($location) {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       //获取当前Url模块名
       var _moduleName = $location.path().split('/')[1];
 
-      if (attrs.leftMenuChange) {
-        if (attrs.leftMenuChange === _moduleName) {
+      if ($attrs.leftMenuChange) {
+        if ($attrs.leftMenuChange === _moduleName) {
           changeStyle(element);
         }
       }
@@ -96,7 +96,7 @@ function orderStatusChoise () {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       element.on('click', function () {
         $(this).addClass('pr-btn-bg-gold').siblings().each(function () {
           $(this).removeClass('pr-btn-bg-gold');
@@ -117,7 +117,7 @@ function orderListTips () {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       element.on('click', function () {
         $(this).hide();
         $(this).siblings().show().on('click',function () {
@@ -135,7 +135,7 @@ function toggleLeftMenu () {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       $('.toggle-btn').on('click', function () {
         $(".left-side").getNiceScroll().hide();
 
@@ -175,7 +175,7 @@ function togglePanel () {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       $(element).on('click', function (e) {
         e.stopPropagation();
 
@@ -202,17 +202,17 @@ function morris () {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       require(['morris'], function () {
         //定义参数
-        var _id = attrs.id;
+        var _id = $attrs.id;
         //构建data参数
         var _data = [];
-        if (angular.isDefined(attrs.datavalue) && angular.isDefined(attrs.datalabel) && angular.isDefined(attrs.dataformatted)) {
+        if (angular.isDefined($attrs.datavalue) && angular.isDefined($attrs.datalabel) && angular.isDefined($attrs.dataformatted)) {
           var _tempObj = {}, i = 0;
-          var _value = attrs.datavalue.split(','),
-              _label = attrs.datalabel.split(','),
-              _formatted = attrs.dataformatted.split(',');
+          var _value = $attrs.datavalue.split(','),
+              _label = $attrs.datalabel.split(','),
+              _formatted = $attrs.dataformatted.split(',');
           while (i < _value.length) {
             _tempObj.value = _value[i];
             _tempObj.label = _label[i];
@@ -223,11 +223,11 @@ function morris () {
           }
         }
         //构建backgroundColor参数,布尔值
-        var _backgroundColor = angular.isDefined(attrs.backgroundColor) ? attrs.backgroundColor : false;
+        var _backgroundColor = angular.isDefined($attrs.backgroundColor) ? $attrs.backgroundColor : false;
         //构建labelColor参数，字符串十六进制
-        var _labelColor = angular.isDefined(attrs.labelColor) ? attrs.labelColor : '#666';
+        var _labelColor = angular.isDefined($attrs.labelColor) ? $attrs.labelColor : '#666';
         //构建区块颜色参数，数组
-        var _colors = angular.isDefined(attrs.colors) ? attrs.colors.split(',') : ['#ff5f39','#fe9302','#e39a27'];
+        var _colors = angular.isDefined($attrs.colors) ? $attrs.colors.split(',') : ['#ff5f39','#fe9302','#e39a27'];
 
         //初始化
         Morris.Donut({
@@ -249,7 +249,7 @@ function icheck () {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       require(['icheck'], function () {
 
         $(element).children().iCheck({
@@ -260,7 +260,7 @@ function icheck () {
 
 
         // // 获取元素样式字符
-        // var _currenStyleStr = attrs.class,
+        // var _currenStyleStr = $attrs.class,
         //     i = 0,
         //     _styleNameArr = ['minimal',
         //                      'minimal-red',
@@ -322,7 +322,7 @@ function sparkline () {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       require(['sparkline'], function () {
         $(".sparkline").each(function(){
             var $data = $(this).data();
@@ -419,7 +419,7 @@ function runTooltips () {
   'use strcit';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
         $("[data-toggle='tooltip']").tooltip();
     }
   };
@@ -431,7 +431,7 @@ function runPopovers () {
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       if (element.hasClass('popovers')) {
         $(element).popover({});
       }
@@ -445,22 +445,22 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
   'use strict';
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, $attrs) {
       element.on('click', function () {
         //对话框标题
-        var _dialogTitle = angular.isDefined(attrs.dialogTitle) ? attrs.dialogTitle : '询问对话框';
+        var _dialogTitle = angular.isDefined($attrs.dialogTitle) ? $attrs.dialogTitle : '询问对话框';
         //对话框内容
-        var _dialogContent = angular.isDefined(attrs.dialogContent) ? attrs.dialogContent : '';
+        var _dialogContent = angular.isDefined($attrs.dialogContent) ? $attrs.dialogContent : '';
         //对话框引用的模板
-        var _dialogTemplate = angular.isDefined(attrs.dialogTemplate) ? attrs.dialogTemplate : 'tpl/dialog-confirm.html';
+        var _dialogTemplate = angular.isDefined($attrs.dialogTemplate) ? $attrs.dialogTemplate : 'tpl/dialog-confirm.html';
         //如果需要跳转地址
-        var _jumpUrl = angular.isDefined(attrs.jumpUrl) ? attrs.jumpUrl : '';
+        var _jumpUrl = angular.isDefined($attrs.jumpUrl) ? $attrs.jumpUrl : '';
         //如果发送请求的地址
-        var _requestUrl = angular.isDefined(attrs.requestUrl) ? attrs.requestUrl : '';
+        var _requestUrl = angular.isDefined($attrs.requestUrl) ? $attrs.requestUrl : '';
 
         if(_dialogTemplate=="pr-dialog-return.html"){//编辑页面，取消操作
-          if( !angular.isDefined(attrs.dialogTitle)) _dialogTitle = '取消修改?';
-          if( !angular.isDefined(attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';
+          if( !angular.isDefined($attrs.dialogTitle)) _dialogTitle = '取消修改?';
+          if( !angular.isDefined($attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';
         }
 
         dialogConfirm(_dialogContent, function (type,dialgForm) {
@@ -469,48 +469,56 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           //取消对话框操作
           if(type=="nosave"){
             //执行回调
-            if (attrs.nosaveCallback) {
-              scope.$eval(attrs.nosaveCallback);
+            if ($attrs.nosaveCallback) {
+              $scope.$eval($attrs.nosaveCallback);
             }
             return;
           }
 
           if(type=="save"){
             //执行回调
-            if (attrs.saveCallback) {
-              scope.$eval(attrs.saveCallback);
+            if ($attrs.saveCallback) {
+              $scope.$eval($attrs.saveCallback);
             }
             return;
           }
           //如果操作为点击后回退
-          // if (!angular.isDefined(attrs.jumpUrl) && !angular.isDefined(attrs.requestUrl)) {
+          // if (!angular.isDefined($attrs.jumpUrl) && !angular.isDefined($attrs.requestUrl)) {
           //   $window.history.go(-1);
           //   return;
           // }
           //如果操作为点击后跳转地址
-          if (angular.isDefined(attrs.jumpUrl)) {
+          if (angular.isDefined($attrs.jumpUrl)) {
             $window.location.assign(_jumpUrl);
               return;
           }
+
+          var _params={};
+          if ($attrs.params) {
+              if ($attrs.params.indexOf("{") === 0) {
+                    _params = $scope.$eval($attrs.params);
+              }
+          }
+
           //如果操作为点击后发送请求
-          if (angular.isDefined(attrs.requestUrl)) {
-            requestData(_requestUrl, {}, 'POST')
+          if (angular.isDefined($attrs.requestUrl)) {
+            requestData(_requestUrl, _params, 'POST')
               .then(function (results) {
                 var _data = results[1];
                 if (_data.code === 200) {
                   alertOk(_data.message || '操作成功');
                 }
-                if (attrs.scopeData) $scope[attrs.scopeData] = data;
+                if ($attrs.$scopeData) $scope[$attrs.$scopeData] = data;
                 //执行回调
-                if (attrs.callBack) {
-                  scope.$eval(attrs.callBack);
+                if ($attrs.callBack) {
+                  $scope.$eval($attrs.callBack);
                 }
-                if (attrs.callback) {
-                  scope.$eval(attrs.callback);
+                if ($attrs.callback) {
+                  $scope.$eval($attrs.callback);
                 }
                 //...
-                if (attrs.emitted) {
-                  scope.$emit(attrs.emitted);
+                if ($attrs.emitted) {
+                  $scope.$emit($attrs.emitted);
                 }
               })
               .catch(function (error) {
@@ -522,14 +530,14 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
 
 
           //执行回调
-          if (attrs.callBack) {
-            scope.dialgForm=dialgForm;
-            scope.$eval(attrs.callBack);
+          if ($attrs.callBack) {
+            $scope.dialgForm=dialgForm;
+            $scope.$eval($attrs.callBack);
           }
           //执行回调
-          if (attrs.callback) {
-            scope.dialgForm=dialgForm;
-            scope.$eval(attrs.callback);
+          if ($attrs.callback) {
+            $scope.dialgForm=dialgForm;
+            $scope.$eval($attrs.callback);
           }
         }, _dialogTemplate, _dialogTitle, _jumpUrl);
       });
