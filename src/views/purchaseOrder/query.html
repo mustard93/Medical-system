@@ -112,7 +112,19 @@
                 </span>
 
 
-                <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right"><a href="#/purchaseOrder/edit.html?id={{tr.id}}">编辑</a></span>
+                <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right">
+                  <a href="#/purchaseOrder/edit.html?id={{tr.id}}" class="mgr">编辑</a>
+                  <!-- <a href="#/purchaseOrder/edit.html?id={{tr.id}}">删除</a> -->
+                  <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
+                     href="javascript:;"
+                     class="pr-color-red"
+                     handle-this-click
+                     dialog-title="确认删除 ?"
+                     dialog-content="您确认删除这条采购单吗?"
+                     dialog-template="dialog-confirm.html"
+                     request-url="rest/authen/purchaseOrder/delete?id={{tr.id}}"
+                     emitted="reloadList">删除</a>
+                </span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
               <div class="flex-column qurey text-s color-9">
@@ -122,7 +134,7 @@
                       <!-- <a href="#/purchaseOrder/get.html?id={{tr.id}}">{{tr.orderNo}}</a> -->
                     </strong>
                   </p>
-                  <p class="mgb-s">采购员：<span class="color-custom-orange">{{tr.saleUser.n}}</span></p>
+                  <p class="mgb-s">采购员：<span run-popovers class="color-custom-orange">{{tr.saleUser.n}}</span></p>
                   <p>审批人：{{tr.approverBy || '暂无'}}</p>
                 </div>
                 <div class="flex-item-6">
