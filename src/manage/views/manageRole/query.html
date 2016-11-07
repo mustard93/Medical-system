@@ -9,10 +9,10 @@
 <!-- page heading end-->
 
 <!--body wrapper start-->
-<table-list list-data="rest/authen/role/query.json" list-params="listParams">
+<table-list list-data="rest/authen/manageRole/query.json" list-params="listParams">
     <div class="mg-m col-lg-12 col-sm-12">
       <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/role/edit.html">
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/manageRole/edit.html">
             <i class="fa fa-plus"></i>新建
         </button>
       </div>
@@ -20,6 +20,14 @@
         <label class="col-lg-2 col-sm-2 control-label">类型</label>
         <div class="col-lg-10 col-sm-10">
           <select class="ipt pr-short-ipt" data-placeholder="选择类型" chosen default-empty="无" ng-model="listParams.type" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_RoleType">
+
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-lg-2">
+        <label class="col-lg-2 col-sm-2 control-label">机构</label>
+        <div class="col-lg-10 col-sm-10">
+          <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="listParams.organizationId" select-source="rest/index/distributor/queryForSelectOption">
 
           </select>
         </div>
@@ -70,11 +78,11 @@
                             <td>{{tr.authoritys}}</td>
                             <td>
 
-                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/role/edit.html?id={{tr.id}}">
+                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/manageRole/edit.html?id={{tr.id}}">
                                     <i class="fa fa-edit"></i>
                                     编辑
                                 </button>
-                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/role/delete', tr.id)">
+                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/manageRole/delete', tr.id)">
                                     <i class="fa fa-trash-o"></i>
                                     删除</button>
                             </td>

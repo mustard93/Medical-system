@@ -1,0 +1,96 @@
+
+        <div class="modal-content" ng-controller="editCtrl" ajax-url="rest/authen/manageUser/getOfEdit.json?id={{tr.id}}" scope-data="formData" alert-error>
+
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/manageUser/save" alert-ok
+                parameter-body
+                form-validator>
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}用户</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">机构</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select class="select select-w"
+                          data-placeholder="选择机构"
+                          chosen
+                          ng-model="formData.organizationId"
+                          default-empty="无"
+                          alert-error
+                          select-source="rest/index/distributor/queryForSelectOption.json">
+                  </select>
+                </div>
+            </div>
+              <div class="form-group" ng-if="formData.organizationId">
+                <label class="col-lg-2 col-sm-2 control-label">部门</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select class="select select-w"
+                          data-placeholder="选择部门"
+                          chosen
+                          ng-model="formData.departmentId"
+                          default-empty="无"
+                          alert-error
+                          select-source="rest/index/department/queryForSelectOption?DistributorId={{formData.organizationId}}">
+                  </select>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">手机号</label>
+              <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control pd-n" name="phone" ng-model="formData.phone" reg-check-phone>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">姓名</label>
+              <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">性别</label>
+              <div class="col-lg-2 col-sm-2 control-label">
+                <label><input type="radio" name="sex" value="男" ng-model="formData.sex" ng-checked="true"
+                        ng-init="formData.sex='男'"> 男</label>
+                <label><input type="radio" name="sex" value="女" ng-model="formData.sex"> 女</label>
+              </div>
+            </div>
+
+                <!-- <div class="form-group" ng-if="formData.departmentId">
+                  <label class="col-lg-2 col-sm-2 control-label">角色集</label>
+                  <div class="col-lg-10 col-sm-10">
+
+
+                                        <div class="form-ctrl"
+                                         ajax-url="rest/index/role/queryForSelectOption?departmentId={{formData.departmentId}}&&organizationId={{formData.organizationId}}"  scope-data="roles" alert-error>
+
+                                          <fieldset  class="fieldset">
+                                              <legend>
+                                                  角色  <label class="">
+                                                    <input type="checkbox" onclick=" $('[name=roleItem_name]').click();"/>
+                                                    反选</label>
+                                              </legend>
+
+                                                <label class="" ng-repeat="roleItem in roles">
+                                                   <input type="checkbox" name="roleItem_name" value="{{roleItem.value}}"
+                                                 checkbox-group="formData.roleIds" /> {{roleItem.text}}</label>
+                                          </fieldset>
+
+                                        </div>
+
+
+                  </div>
+                </div> -->
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn btn-success" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>

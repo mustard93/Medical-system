@@ -43,7 +43,9 @@
                   data-placeholder="采购员"
                   chosen
                   ng-model="formData.saleUserId"
-                  select-source="rest/authen/user/queryForSelectOption.json">
+                  select-source="rest/authen/organizationAndUser/queryForSelectOption.json"
+                    params='{"authority":"采购人员"}'
+                  >
           </select>
 
           <!-- <select class="select pr-select" style="max-width:120px;">
@@ -229,11 +231,14 @@
                   <p>
                     <!-- <input type="text" class="pr-table-input" placeholder="药械名"> -->
                     <select id="addDataItem_relId"
+                        ajax-if="{{formData.supplier.id}}"
                             chosen
+
                             class="select pr-table-select mgb-s"
                             data-placeholder="药械名"
                             ng-model="addDataItem.relId"
                             clear-watch-scope="addDataItem.relId"
+                             params='{"supplierId":"{{formData.supplier.id}}"}'
                             select-source="rest/authen/medicalStock/queryForSelectOption.json"></select>
                   </p>
                   <p class="mgt-s">

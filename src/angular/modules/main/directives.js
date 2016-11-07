@@ -1826,16 +1826,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               }
 
               require(['chosen'], function() {
+
+
+                //销毁组件
+                function destroyChosen(chosenObj){
+                  try{
+                      chosenObj&&chosenObj.data("chosen").destroy();
+                  }catch(e){}
+                }
+
                 if ($attrs.selectSource) {
 
                   var _params={};
-                  if ($attrs.params) {
-                      if ($attrs.params.indexOf("{") === 0) {
-                            _params = $scope.$eval($attrs.params);
-                      }
-                  }
-
-
                   if (angular.isDefined($attrs.chosenAjax)) {
                     chosenObj = $element.chosen(chosenConfig);
                     var $chosenContainer = $element.next();
@@ -1872,7 +1874,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                     function handleSearch(q) {
 
-
+                      if ($attrs.params) {
+                          if ($attrs.params.indexOf("{") === 0) {
+                                _params = $scope.$eval($attrs.params);
+                          }
+                      }
                             var maskObj=null;
                         var selected = $('option:selected', $element).not(':empty').clone().attr('selected', true);
                         if (requestQueue) {
@@ -2030,6 +2036,39 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         }
                       });
                     } else {
+
+                      if ($attrs.params) {
+                          if ($attrs.params.indexOf("{") === 0) {
+                              //监听具体值
+                              $attrs.$observe("params", function(value) {
+                                  _params = $scope.$eval(value);
+                                  if(firstSelectSource==value)return;
+                                    ngModel.$setViewValue(null);
+
+                                  getData(_params);
+                              });
+                          } else {
+                              //监听对象
+                              $scope.$watch($attrs.params, function(value) {
+                                  _params = value;
+                                  if(firstSelectSource==value)return;
+                                    ngModel.$setViewValue(null);
+
+
+                                  getData(_params);
+                              }, true);
+                          }
+                      } else {
+                        $attrs.$observe("selectSource", function(value) {
+                            //修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
+                            if(firstSelectSource==value)return;
+                              ngModel.$setViewValue(null);
+
+                            // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
+                            getData();
+                        });
+                      }
+
                       function getData(){
                         //满足条件才异步请求
                         if (angular.isDefined($attrs.ajaxIf)) {
@@ -2039,7 +2078,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             var tmp=$scope.$eval($attrs.ajaxIfEval);
                           if (!tmp) return;
                         }
-
+                          destroyChosen(chosenObj);
                         requestData($attrs.selectSource,_params)
                           .then(function(results) {
                               var data = results[0];
@@ -2049,17 +2088,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                               //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
 
                               var _selected=null;
+                              var data0Val=data[0]?data[0].value:null;
                               if(angular.isDefined($attrs.multiple)){
                                   if (angular.isDefined($attrs.defaultEmpty)) {
                                      _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
                                   } else {
-                                      _selected= ngModel.$viewValue ? ngModel.$viewValue : [data[0].value];
+                                      _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
                                   }
                               } else {
                                  if (angular.isDefined($attrs.defaultEmpty)) {
                                   _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
                                  } else {
-                                   _selected= ngModel.$viewValue ? ngModel.$viewValue : data[0].value;
+                                   _selected= ngModel.$viewValue ? ngModel.$viewValue : data0Val;
 
                                  }
                               }
@@ -2080,14 +2120,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
 
                   var firstSelectSource=$attrs.selectSource;
-                  $attrs.$observe("selectSource", function(value) {
-                      //修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
-                      if(firstSelectSource==value)return;
-                      ngModel.$setViewValue(null);
-                        chosenObj&&chosenObj.data("chosen").destroy();
-                      // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
-                      getData();
-                  });
+
+
+
+
 
                   getData();
 

@@ -1,0 +1,57 @@
+
+        <div class="modal-content" ng-controller="editCtrl"      ajax-url="rest/authen/role/getUserAndRole.json?userid={{tr.id}}"  scope-data="formData" alert-error
+       >
+
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/role/updateRoleOfUser"
+                 ajax-url="rest/authen/role/getUserAndRole.json?userid={{tr.id}}"  scope-data="formData" alert-error
+                form-validator>
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">编辑关联角色</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">用户名</label>
+                <div class="col-lg-10 col-sm-10">
+                  {{tr.name}}
+                  <!-- <input type="text" class="form-control" placeholder="" ng-model="formData.userid" /> -->
+                </div>
+              </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">角色集</label>
+                  <div class="col-lg-10 col-sm-10">
+
+
+                                        <div class="form-ctrl"
+                                         ajax-url="rest/index/role/queryForSelectOption?departmentId={{tr.departmentId}}&&organizationId={{tr.organizationId}}"  scope-data="roles" alert-error>
+
+                                          <fieldset  class="fieldset">
+                                              <legend>
+                                                  角色  <label class="">
+                                                    <input type="checkbox" onclick=" $('[name=roleItem_name]').click();"/>
+                                                    反选</label>
+                                              </legend>
+
+                                                <label class="" ng-repeat="roleItem in roles">
+                                                   <input type="checkbox" name="roleItem_name" value="{{roleItem.value}}"
+                                                 checkbox-group="formData.roleIds" /> {{roleItem.text}}</label>
+                                          </fieldset>
+
+                                        </div>
+                                        <!--end Authoritys -->
+
+
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn btn-success" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>
