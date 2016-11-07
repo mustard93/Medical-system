@@ -419,7 +419,7 @@ function runTooltips () {
   'use strcit';
   return {
     restrict: 'A',
-    link: function ($scope, element, $attrs) {
+    link: function (scope, element, attrs) {
         $("[data-toggle='tooltip']").tooltip();
     }
   };
@@ -431,10 +431,15 @@ function runPopovers () {
   'use strict';
   return {
     restrict: 'A',
-    link: function ($scope, element, $attrs) {
-      if (element.hasClass('popovers')) {
-        $(element).popover({});
-      }
+    link: function (scope, element, attrs) {
+      require(['bootstrap'], function () {
+        $(element).on('click', function () {
+          $(this).popover({});
+        });
+        // $(element).popover({
+        //   delay: 3
+        // });
+      });
     }
   };
 }
