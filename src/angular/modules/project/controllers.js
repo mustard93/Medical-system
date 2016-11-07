@@ -97,7 +97,6 @@ define('project/controllers', ['project/init'], function() {
             }
             if (!addDataItem.strike_price) {
                 alertWarn("请输入成交价格。");
-                
                 return;
             }
             if(addDataItem.quantity>medical.quantity){//库存不足情况
@@ -109,6 +108,7 @@ define('project/controllers', ['project/init'], function() {
             // 如果已添加
             if ($scope.formData.orderMedicalNos.length !== 0) {
               var _len = $scope.formData.orderMedicalNos.length;
+              console.log(_len);
               // 未使用forEach方法，因为IE不兼容
               for (var i=0; i<_len; i++) {
                 if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
@@ -121,7 +121,7 @@ define('project/controllers', ['project/init'], function() {
             $scope.formData.orderMedicalNos.push(addDataItem);
 
             //计算价格
-            $scope.formData.totalPrice = addDataItem.strike_price * addDataItem.quantity;
+            $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
 
             $scope.addDataItem = {};
 
@@ -437,6 +437,17 @@ define('project/controllers', ['project/init'], function() {
                      addDataItem.handleFlag =false;//默认添加到订单
                  }
 
+                 // 如果已添加
+                  if ($scope.formData.orderMedicalNos.length > 0) {
+                    var _len = $scope.formData.orderMedicalNos.length;
+                    // 未使用forEach方法，因为IE不兼容
+                    for (var i=0; i<_len; i++) {
+                      if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+                        alertWarn('此药械已添加到列表');
+                        return;
+                      }
+                    }
+                  }
 
                  if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
                  $scope.formData.orderMedicalNos.push(addDataItem);

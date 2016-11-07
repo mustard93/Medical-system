@@ -43,7 +43,9 @@
                   data-placeholder="采购员"
                   chosen
                   ng-model="formData.saleUserId"
-                  select-source="rest/authen/user/queryForSelectOption.json">
+                  select-source="rest/authen/organizationAndUser/queryForSelectOption.json"
+                    params='{"authority":"采购人员"}'
+                  >
           </select>
 
           <!-- <select class="select pr-select" style="max-width:120px;">
@@ -57,17 +59,14 @@
     </div>
     <!-- 供货商信息 -->
     <div class="pd-c-xl pdb-l bb-line"
-
          ajax-if-eval="formData.supplier.id"
-    ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
-    scope-data="supplier"
-    callback="formData.supplier=supplier"
-    alert-error
-    >
+         ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
+         scope-data="supplier"
+         callback="formData.supplier=supplier"
+         alert-error>
+
       <h1 class="pdb-l">供货商信息</h1>
-
-      <span     chosen-ajax>
-
+      <span chosen-ajax>
         <select ng-if="formData.createAt"
                 class="ipt pr-short-ipt"
                 data-placeholder="供货商名"
@@ -75,8 +74,6 @@
                 ng-model="formData.supplier.id"
                 select-source="rest/authen/supplier/queryForSelectOption.json">
         </select>
-
-
       </span>
       <span>发货人：{{formData.supplier.shipperName}}</span>
       <span>联系电话：{{formData.supplier.tel}}</span>
@@ -234,11 +231,14 @@
                   <p>
                     <!-- <input type="text" class="pr-table-input" placeholder="药械名"> -->
                     <select id="addDataItem_relId"
+                        ajax-if="{{formData.supplier.id}}"
                             chosen
+
                             class="select pr-table-select mgb-s"
                             data-placeholder="药械名"
                             ng-model="addDataItem.relId"
                             clear-watch-scope="addDataItem.relId"
+                             params='{"supplierId":"{{formData.supplier.id}}"}'
                             select-source="rest/authen/medicalStock/queryForSelectOption.json"></select>
                   </p>
                   <p class="mgt-s">
@@ -281,45 +281,56 @@
     <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
       <p class="pr-font-24 color-9 mgb">合计：<span class="pr-font-24 color-6">￥{{formData.totalPrice | number:2}}</span></p>
       <p class="pr-font-24 color-9 mgb">税额：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.tax/100 | number:2}}</span></p>
-      <p class="pr-font-24 color-9">预付款：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.payAndDelivery.prepaidRatio/100 | number:2}}</span></p>
+      <p class="pr-font-24 color-9">预付款：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.payAndDelivery.prepaidRatio/100 || '0.00' | number:2}}</span></p>
     </div>
     <!-- 提交按钮 -->
     <div class="pd-c-xl pdb-xxl text-right">
       <span class="mgr-l">
-        <button
-        ng-disabled="!formData.orderMedicalNos.length ||
-                     !formData.customerId ||
-                     !formData.saleUserId"
-         class="pr-btn-save-glodbg" type="submit">保存</button>
+        <button class="pr-btn-save-glodbg"
+                type="submit"
+                ng-disabled="!formData.orderMedicalNos.length ||
+                             !formData.customerId ||
+                             !formData.saleUserId">保存
+        </button>
       </span>
       <span class="mgr-l">
-
-
-               <button   class="pr-btn-create-glodbg"
-
-               ng-disabled="!formData.orderMedicalNos.length ||
-                            !formData.customerId ||
-                            !formData.saleUserId"
-                       type="button"
-                       handle-this-click
-                       dialog-title="确认提交?"
-                       dialog-content="提交后，将无法修改。确认提交?"
-                       dialog-template="pr-dialog-submit.html"
-                       callback="submitForm('editForm','submit')">提交审批</button>
-
+        <button class="pr-btn-create-glodbg"
+                type="button"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="submitForm('editForm','submit')"
+                ng-disabled="!formData.orderMedicalNos.length ||
+                             !formData.customerId ||
+                             !formData.saleUserId">提交审批
+        </button>
       </span>
-
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
       <span>
-
-           <a href="javascript:;"
-              handle-this-click
-              dialog-title="确认返回?"
-              dialog-content="有修改数据还未保存，是否保存?"
-              dialog-template="pr-dialog-return.html"
-              nosave-callback="goTo('#/purchaseOrder/query.html')"
-              save-callback="submitForm('editForm','exit')">返回采购单中心</a>
+        <a href="javascript:;"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="有修改数据还未保存，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/purchaseOrder/query.html')"
+           save-callback="submitForm('editForm','exit')">返回采购单中心
+        </a>
+      </span>
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
+
+      <span class="mgl">
+        <a ng-if="formData.inputUserId==mainStatus.id"
+           href="javascript:;"
+           handle-this-click
+           class="pr-color-red"
+           dialog-title="确认删除 ?"
+           dialog-content="您确认删除这条采购单吗?"
+           dialog-template="dialog-confirm.html"
+           request-url="rest/authen/purchaseOrder/delete?id={{formData.id}}"
+           call-back="goTo('#/purchaseOrder/query.html')">删除
+        </a>
+      </span>
 
     </div>
   </div>
