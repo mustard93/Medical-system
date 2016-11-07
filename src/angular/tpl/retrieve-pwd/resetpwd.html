@@ -32,11 +32,11 @@
       <form name="regForm" class="form-signin" onsubmit="return false;" novalidate="novalidate">
         <div>
           <input type="password" class="form-control" placeholder="输入新密码"
-                name="password" ng-model="regData.password" required autofocus reg-check-password>
+                name="password" ng-model="regData.password" maxlength="32" required autofocus reg-check-password>
         </div>
         <div>
           <input type="password" class="form-control" placeholder="再次输入新密码"
-                name="repassword" ng-model="regData.repassword" required reg-check-password>
+                name="repassword" ng-model="regData.repassword" maxlength="32" required reg-check-password>
         </div>
         <!-- <div>
           <input type="text" class="form-control" placeholder="姓名"
@@ -51,8 +51,8 @@
         <div class="button-wrap">
           <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
                   ng-disabled="regForm.$invalid ||
-                               !regData.password ||
-                               !regData.repassword ||
+                               !verifyResult.password ||
+                               !verifyResult.repassword ||
                                regData.password!=regData.repassword"
                                ng-click="resetPwdSubmit()">完 成</button>
         </div>
