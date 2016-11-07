@@ -427,19 +427,55 @@ function runTooltips () {
 /**
  *	popover
  */
-function runPopovers () {
+function runPopovers ($timeout) {
   'use strict';
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      require(['bootstrap'], function () {
-        $(element).on('click', function () {
-          $(this).popover({});
-        });
-        // $(element).popover({
-        //   delay: 3
-        // });
+      $(element).children('.purchaseorder-buyer-info').hover(function () {
+        // $(this).css('display', 'block');
+        $(this).show();
       });
+
+      $(element).hover(
+        function () {
+          $(element).children('.purchaseorder-buyer-info').attr('style', 'display:block');
+        },
+        function () {
+          $(element).children('.purchaseorder-buyer-info').attr('style', '');
+        }
+      );
+
+
+
+      //为弹出层绑定事件
+      // $(element).find('.popovers').on('mouseenter', function () {
+      //   $(this).show();
+      // });
+
+
+      // _parent.on({
+      //   mouseenter: function () {
+      //     // 判断当前元素的父元素是否具有相对定位属性
+      //     if (!_parent.hasClass('relative')) {
+      //       _parent.addClass('relative');
+      //     }
+      //     $(element).find('.popovers').show();
+      //   },
+      //   mouseout: function () {
+      //     $(element).find('.popovers').hide();
+      //   }
+      // });
+
+      // _parent.hover(function () {
+      //   $(element).find('.popovers').show().on('mouseenter', function () {
+      //     $(this).show();
+      //   });
+      // }, function () {
+      //   $(element).find('.popovers').hide();
+      // });
+
+
     }
   };
 }
@@ -564,6 +600,6 @@ angular.module('manageApp.project')
     .directive("icheck", icheck) //iCheck
     .directive("sparkline", sparkline) //sparkline 柱状图
     .directive("runTooltips", runTooltips) //tooltips
-    .directive("runPopovers", runPopovers) //popover
+    .directive("runPopovers", ['$timeout', runPopovers]) //popover
     .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]); //带确认对话框的按钮点击事件
 });
