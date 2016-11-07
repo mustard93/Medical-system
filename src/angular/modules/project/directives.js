@@ -432,50 +432,20 @@ function runPopovers ($timeout) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      $(element).children('.purchaseorder-buyer-info').hover(function () {
-        // $(this).css('display', 'block');
-        $(this).show();
+      //获取当前元素的下一个兄弟元素
+      var _modal = $(element).next();
+      //..
+      $(element).hover(function() {
+        _modal.show();
+      }, function() {
+        _modal.hide();
       });
-
-      $(element).hover(
-        function () {
-          $(element).children('.purchaseorder-buyer-info').attr('style', 'display:block');
-        },
-        function () {
-          $(element).children('.purchaseorder-buyer-info').attr('style', '');
-        }
-      );
-
-
-
-      //为弹出层绑定事件
-      // $(element).find('.popovers').on('mouseenter', function () {
-      //   $(this).show();
-      // });
-
-
-      // _parent.on({
-      //   mouseenter: function () {
-      //     // 判断当前元素的父元素是否具有相对定位属性
-      //     if (!_parent.hasClass('relative')) {
-      //       _parent.addClass('relative');
-      //     }
-      //     $(element).find('.popovers').show();
-      //   },
-      //   mouseout: function () {
-      //     $(element).find('.popovers').hide();
-      //   }
-      // });
-
-      // _parent.hover(function () {
-      //   $(element).find('.popovers').show().on('mouseenter', function () {
-      //     $(this).show();
-      //   });
-      // }, function () {
-      //   $(element).find('.popovers').hide();
-      // });
-
-
+      //...
+      _modal.hover(function() {
+        $(this).show();
+      }, function() {
+        $(this).hide();
+      });
     }
   };
 }
