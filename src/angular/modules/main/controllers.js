@@ -131,6 +131,15 @@ define('main/controllers', ['main/init'], function () {
               success: function (_data) {
                 if (_data.code == 200) {
                   $scope.curUser=_data.data;
+
+                    //未绑定用户，跳转到绑定用户绑定
+                    if(Config.applyBindUrl){
+                      if(!$scope.curUser.additional.OrganizationIds||$scope.curUser.additional.OrganizationIds.length==0){
+                          window.location.href = Config.applyBindUrl;
+                          return;
+                      }
+                    }
+
                   $scope.habbit={mainRole:$scope.getMainRole()};
 
                   if(window.location.href.indexOf('#'+Config.indexPage)>-1){
