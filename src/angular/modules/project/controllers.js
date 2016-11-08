@@ -415,6 +415,7 @@ define('project/controllers', ['project/init'], function() {
                $scope.addDataItem.guaranteePeriod = data.guaranteePeriod;
                $scope.addDataItem.licenseNumber = data.licenseNumber;
                $scope.addDataItem.deliveryPlus = data.deliveryPlus;
+               $scope.addDataItem.drugAdministrationCode = data.drugAdministrationCode;
 
                // alert($('#addDataItem_quantity').length);
                // $('#addDataItem_quantity').trigger("focus");
