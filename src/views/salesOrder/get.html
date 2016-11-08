@@ -31,12 +31,12 @@
   <div class="pd-c-xl">
     <!-- 可发货 -->
     <div class="confirm-order bb-line pdb-l" ng-if="showData.orderMedicalNos.length>0">
-      <h1 class="pdt-l color-6 text-m pr-fw-500">订购清单</h1>
+      <h1 class="pdt-l color-6 text-m pr-fw-500">药械清单</h1>
 
       <div order-medicals  ng-model="showData.orderMedicalNos"></div>
 
     </div>
-    <div class="pd-v-xl">
+    <div class="pd-v color-9">
       <p>备注：{{showData.note}}</p>
     </div>
   </div>
@@ -49,17 +49,17 @@
   >
   <div ng-if="tbodyList.length>0" class="mgt-l mgb-l pd-l content-wrapper-main pr-bg-white pr-fuzzy-boundary">
   <!-- 标题 -->
-  <h1  class="pdb-m text-m">已生成订单部分</h1>
+  <h1  class="pdb-m text-m text-bold">已生成销售单部分</h1>
   <div  ng-repeat="showData in tbodyList"><!--tbodyList -->
   <div class="flex-column text-s">
     <div class="flex-item-8 color-9">
-      <span class="mgr-l">订单编号：<em class="text-normal"><a href="#/confirmOrder/get.html?id={{showData.id}}"><span class="color-6">{{showData.orderNo}}</span></a>
+      <span class="mgr-l">销售单号：<em class="text-normal"><a href="#/confirmOrder/get.html?id={{showData.id}}"><span class="color-6">{{showData.orderNo}}</span></a>
         </em></span>
       <span>创建时间：<em class="text-normal"><span class="color-6">{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span></em></span>
     </div>
     <div class="flex-item-4 text-right color-9">
-      <span ng-if="showData.orderStatus!='已作废'">订单状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
-        <span ng-if="showData.orderStatus=='已作废'">订单状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+      <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
+        <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
     </div>
   </div>
   <!-- 已发货部分列表 -->
