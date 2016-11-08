@@ -54,7 +54,7 @@
                   <a href="#/arrivalNoticeOrder/get.html?id={{tr.id}}">查看详情</a>
 
                   <button ng-if="tr.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
-                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                           type="button"
                           handle-this-click
                           dialog-title="确认提交?"
@@ -65,7 +65,7 @@
                           call-back="listParams.refreshId=tr.id">提交到库管</button>
 
                   <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
-                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                           type="button"
                           handle-this-click
                           dialog-title="确认通过?"
@@ -137,7 +137,7 @@
       </ul>
     </div>
     <!-- 导航 -->
-    <div class="clearfix pd-c-m">
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length!='0'">
         <div class="fr">
             <pagination status="status"></pagination>
         </div>

@@ -44,15 +44,18 @@ define('project/controllers', ['project/init'], function() {
         /**
          * 拆分药品数量
          */
-        $scope.caifenQuantity = function(tr,num) {
-             tr.quantity_noInvoice_show=true;
-             if(!num||tr.quantity<num)return;
-             //点击拆分逻辑,不能发货数量为0,并且库存不足时,根据库存自动拆分数量.
-             if(!tr.quantity_noInvoice||tr.quantity_noInvoice==0){
-               tr.quantity_noInvoice=tr.quantity-num;
-               tr.quantity=num;
-             }
-
+        $scope.caifenQuantity = function(tr, num) {
+          tr.quantity_noInvoice_show = true;
+          if (!num || tr.quantity < num) return;
+          //点击拆分逻辑,不能发货数量为0,并且库存不足时,根据库存自动拆分数量.
+          if (!tr.quantity_noInvoice || tr.quantity_noInvoice === 0) {
+            tr.quantity_noInvoice = tr.quantity - num;
+            tr.quantity = num;
+          }
+          //加入订单按钮状态变化
+          if (tr.quantity <= num) {
+            tr.handleFlag = true;
+          }
         };
 
         /**
@@ -234,7 +237,7 @@ define('project/controllers', ['project/init'], function() {
            }
         }
        arr.push(kuaidi);//新建
-       }//kuaidiSaveAfter
+     };//kuaidiSaveAfter
 
 
        /**
@@ -242,7 +245,7 @@ define('project/controllers', ['project/init'], function() {
        type:save-草稿,submit-提交订单。
        */
        $scope.deleteKuaidi = function(kuaidi,invoicesOrderId) {
-         var url="rest/authen/invoicesOrder/kuaidi/delete"
+         var url="rest/authen/invoicesOrder/kuaidi/delete";
          var data= {kuaidiId:kuaidi.id,invoicesOrderId:invoicesOrderId};
          requestData(url,data, 'POST')
            .then(function (results) {
@@ -260,7 +263,7 @@ define('project/controllers', ['project/init'], function() {
            .catch(function (error) {
              alertError(error || '出错');
            });
-         }//deleteKuaidi
+         };//deleteKuaidi
       /**
       *保存
       type:save-草稿,submit-提交订单。
@@ -275,7 +278,7 @@ define('project/controllers', ['project/init'], function() {
 
 
        if ($scope.submitForm_type == "submit") {
-         var url="rest/authen/invoicesOrder/updateStatus"
+         var url="rest/authen/invoicesOrder/updateStatus";
          var data= {id:$scope.formData.id,status:'待发货'};
          requestData(url,data, 'POST')
            .then(function (results) {
@@ -329,20 +332,20 @@ define('project/controllers', ['project/init'], function() {
                 window.location.assign('#/'+notice.moduleType+'/get.html?id='+notice.relId);
 
 
-           }//noticeClick
+           };//noticeClick
 
            //启动消息定时获取
            $rootScope.startGetMsg = function(){
                if($rootScope.startGetMsgObj)return;
                  $rootScope.startGetMsgObj=$interval(function(){
                     $rootScope.noticeRefreshTime=new Date().getTime();
-                 },10000)
+                 }, 10000);
              };
               $rootScope.startGetMsg();
 
            //标记已经阅读。
            requestRead = function(id,notice) {
-             var url="rest/authen/notice/read"
+             var url="rest/authen/notice/read";
              var data= {id:id};
              requestData(url,data, 'POST')
                .then(function (results) {
@@ -415,6 +418,7 @@ define('project/controllers', ['project/init'], function() {
                $scope.addDataItem.guaranteePeriod = data.guaranteePeriod;
                $scope.addDataItem.licenseNumber = data.licenseNumber;
                $scope.addDataItem.deliveryPlus = data.deliveryPlus;
+               $scope.addDataItem.drugAdministrationCode = data.drugAdministrationCode;
 
                // alert($('#addDataItem_quantity').length);
                // $('#addDataItem_quantity').trigger("focus");
@@ -471,7 +475,7 @@ define('project/controllers', ['project/init'], function() {
                 return;
               }
                if ($scope.submitForm_type == "submit") {
-                 var url="rest/authen/purchaseOrder/updateStatus"
+                 var url="rest/authen/purchaseOrder/updateStatus";
                  var data= {id:$scope.formData.id,status:'待审批'};
                  requestData(url,data, 'POST')
                    .then(function (results) {
@@ -523,7 +527,7 @@ define('project/controllers', ['project/init'], function() {
 
              //
              var data=[];
-              if(!ids||ids.length==0){
+              if(!ids||ids.length===0){
                 return data;
               }
               for(var i=0;i<arr.length;i++){
@@ -532,13 +536,13 @@ define('project/controllers', ['project/init'], function() {
                 }
               }
                 return data;
-            }
+            };
            /**
            *保存
            type:save-草稿,submit-提交订单。
            */
            $scope.batchAuditUserApplyOrganization = function(arr,ids,status,message) {
-              if(!ids||ids.length==0){
+              if(!ids||ids.length===0){
                 alertWarn("请先勾选");
                 return;
               }
@@ -553,7 +557,7 @@ define('project/controllers', ['project/init'], function() {
               }
 
 
-              var url="rest/authen/distributor/batchAuditUserApplyOrganization"
+              var url="rest/authen/distributor/batchAuditUserApplyOrganization";
 
 
               var  maskObj=proLoading();
@@ -574,20 +578,20 @@ define('project/controllers', ['project/init'], function() {
 
                 });
 
-            }//batchAuditUserApplyOrganization
+            };//batchAuditUserApplyOrganization
 
             //启动消息定时获取
             $rootScope.startGetMsg = function(){
                 if($rootScope.startGetMsgObj)return;
                   $rootScope.startGetMsgObj=$interval(function(){
                      $rootScope.noticeRefreshTime=new Date().getTime();
-                  },10000)
+                  }, 10000);
               };
                $rootScope.startGetMsg();
 
             //标记已经阅读。
             requestRead = function(id,notice) {
-              var url="rest/authen/notice/read"
+              var url="rest/authen/notice/read";
               var data= {id:id};
               requestData(url,data, 'POST')
                 .then(function (results) {

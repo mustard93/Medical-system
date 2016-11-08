@@ -53,6 +53,15 @@
                   <a ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')" href="#/salesOrder/get.html?id={{tr.id}}" class="">查看详情</a>
                   <a ng-if="tr.progress==0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
                   <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
+                  <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
+                     href="javascript:;"
+                     class="pr-color-red mgl"
+                     handle-this-click
+                     dialog-title="确认删除 ?"
+                     dialog-content="您确认删除这条购需单吗?"
+                     dialog-template="dialog-confirm.html"
+                     request-url="rest/authen/salesOrder/delete?id={{tr.id}}"
+                     emitted="reloadList">删除</a>
                 </span>
               </div>
               <div class="flex-column qurey text-s color-9">
@@ -135,7 +144,7 @@
         </li>
       </ul>
     <!-- 导航 -->
-    <div class="clearfix pd-c-m">
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length!='0'">
         <div class="fr">
             <pagination status="status"></pagination>
         </div>
