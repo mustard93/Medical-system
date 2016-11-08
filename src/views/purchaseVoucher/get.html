@@ -28,7 +28,7 @@ scope-data="showData"
     <div class="order-details">
       <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
         <thead>
-          <th class="">药品名称/生产厂家/规格</th>
+          <th class="">药品名称/生产厂家</th>
           <th class="text-center">型号规格</th>
           <th class="text-center">单位</th>
           <th class="text-center">数量</th>
@@ -41,15 +41,18 @@ scope-data="showData"
           <tr  ng-repeat="tr in showData.orderMedicalNos" >
             <td class="goods-name has-border text-v-t pd-m">
               <div class="pr-table-td-m relative">
-
                 <span class="block">
                   <p class="pdl-m mgb-s color-6 text-n text-bold"><span>{{tr.name}}</span></p>
                   <p class="pdl-m mgb-s color-9 text-s"><span>{{tr.manufacturer}}</span></p>
-                  <p class="mgl-m color-9 text-s"><span>{{tr.specification||"无规格"}}</span></p>
+                  <!-- <p class="mgl-m color-9 text-s"><span>{{tr.specification||"无规格"}}</span></p> -->
                 </span>
               </div>
             </td>
-            <td class="has-border text-center text-v-t pd-m">{{tr.modelType}}</td>
+            <td class="has-border text-center text-v-t pd-m">
+              <span ng-if="tr.modelType && !tr.specification">{{tr.modelType}}</span>
+              <span ng-if="!tr.modelType && tr.specification">{{tr.specification}}</span>
+              <span ng-if="tr.modelType && tr.specification">{{tr.modelType}}/{{tr.specification}}</span>
+            </td>
             <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
             <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
             <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td>
