@@ -59,7 +59,7 @@
 
 
     <!-- 商品列表 -->
-    <div class="pd-c-xxxxl">
+    <div>
       <!-- 可发货 -->
       <!--
       <div class="confirm-order bb-line pdb-l">
@@ -67,21 +67,7 @@
         <div order-medicals  ng-model="showData.orderMedicalNos"></div>
       </div>
       -->
-      <p class="pd-v-l">客服备注：{{showData.note}}</p>
-    </div>
-
-    <!-- 总价 -->
-    <div class="panel pr-panel pr-panel-height text-right">
-      <span class="text-l text-right">合计：￥{{showData.totalPrice | number:2}}</span>
-      <button  ng-if="showData.orderStatus=='待发单'" class="pr-btn-save-glodbg"
-              type="button"
-              handle-this-click
-              dialog-title="确认生成发货单?"
-              dialog-content="是否生成发货单?"
-              dialog-template="pr-dialog-submit.html"
-              params='{"id":showData.id,"status":"待发货"}'
-              request-url="rest/authen/confirmOrder/updateStatus.json"
-              call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{mainStatus.pageParams.id}}')">生成发货单</button>
+      <p class="pd-v color-9">客服备注：<span class="color-6">{{showData.note}}</span></p>
     </div>
 
     <!-- 暂不可转入订单部分 -->
@@ -95,34 +81,49 @@
         <span class="color-custom-orange">请等待库存补足后，即可另外生成销售单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态</span>
       </div>
     </div>
-    <!-- 按钮   ng-if="showData.orderStatus=='待审批'" -->
-    <div  class="text-right mgb-l">
-
-      <span ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('销售单审核')"
-            class="mgr-l"
-            ng-init="rejectObj={url:'rest/authen/confirmOrder/updateStatus.json',typeCode:'订单驳回理由',msg:'驳回后，该销售单将作废。确认驳回?',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
-        <a href="javascript:;"
-           modal-center="490"
-           modal-scope="this"
-           modal-url="views/public/dialog-check-reject.html">驳回</a>
-      </span>
-
-      <button ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('销售单审核')"
-              class="pr-btn-save-glodbg"
-              type="button"
-              handle-this-click
-              dialog-title="确认通过?"
-              dialog-content="审核通过后,销售单将生效,是否通过?"
-              dialog-template="pr-dialog-submit.html"
-              params='{"id":showData.id,"status":"待发单"}'
-              request-url="rest/authen/confirmOrder/updateStatus.json"
-              call-back="$root.goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过
-      </button>
-
-      <a href="javascript:;" class="mgl-l" ng-click="$root.goTo('#/confirmOrder/query.html')">返回销售单中心</a>
-    </div>
-
-
 
   </div>
+</div>
+
+<!-- 总价 -->
+<div class="text-right pdt-l pdb color-9">
+  <span class="text-l text-right pr-font-24">合计：<span class="color-6">￥{{showData.totalPrice | number:2}}</span></span>
+</div>
+
+<!-- 按钮   ng-if="showData.orderStatus=='待审批'" -->
+<div  class="text-right mgb-l">
+
+  <span ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('销售单审核')"
+        class="mgr"
+        ng-init="rejectObj={url:'rest/authen/confirmOrder/updateStatus.json',typeCode:'订单驳回理由',msg:'驳回后，该销售单将作废。确认驳回?',formData:{id:mainStatus.pageParams.id,status:'已作废',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
+    <a href="javascript:;"
+       modal-center="490"
+       modal-scope="this"
+       modal-url="views/public/dialog-check-reject.html"
+       class="text-n">驳回</a>
+  </span>
+
+  <button ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('销售单审核')"
+          class="pr-btn-save-glodbg"
+          type="button"
+          handle-this-click
+          dialog-title="确认通过?"
+          dialog-content="审核通过后,销售单将生效,是否通过?"
+          dialog-template="pr-dialog-submit.html"
+          params='{"id":showData.id,"status":"待发单"}'
+          request-url="rest/authen/confirmOrder/updateStatus.json"
+          call-back="$root.goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过
+  </button>
+
+  <button  ng-if="showData.orderStatus=='待发单'" class="pr-btn-save-glodbg"
+          type="button"
+          handle-this-click
+          dialog-title="确认生成发货单?"
+          dialog-content="是否生成发货单?"
+          dialog-template="pr-dialog-submit.html"
+          params='{"id":showData.id,"status":"待发货"}'
+          request-url="rest/authen/confirmOrder/updateStatus.json"
+          call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{mainStatus.pageParams.id}}')">生成发货单</button>
+
+  <a href="javascript:;" class="mgl-l" ng-click="$root.goTo('#/confirmOrder/query.html')">返回销售单中心</a>
 </div>
