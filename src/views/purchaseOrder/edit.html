@@ -206,16 +206,21 @@
             </td> <!-- 散件数 -->
             <td class="has-border text-center text-v-t pd-m">{{tr.drugAdministrationCode}}</td> <!-- 注册证号 -->
             <td class="has-border text-center text-v-t pd-m">
-              <span class="block" ng-click="formData.orderMedicalNos.splice($index,1)">
-                <a href="javascript:;"><i class="fa fa-trash-o pr-color text-l"></i></a>
+              <span class="block">
+                <a href="javascript:;"
+                   handle-this-click
+                   dialog-title="确认删除?"
+                   dialog-content="您确认删除此条目?"
+                   dialog-template="dialog-confirm.html"
+                   call-back="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">
+                  <i class="fa fa-trash-o pr-color text-l"></i>
+                </a>
               </span>
             </td>
           </tr>
-
           <tr>
             <td colspan="12" class="pd-v-l">添加药械</td>
           </tr>
-
           <tr ng-init="addDataItem={}"
               ajax-if-eval="addDataItem&&addDataItem.relId"
               ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}"
