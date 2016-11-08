@@ -78,8 +78,9 @@
               <div class="flex-column" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
                 <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right">
-                  <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" >查看来货通知</a>
-                  <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                  <a href="#/purchaseOrder/get.html?id={{tr.id}}" class="mgl">查看详情</a>
+                  <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" class="mgl">查看来货通知</a>
+                  <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                           ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='待审批'&&tr.orderStatus!='未提交'&&!tr.arrivalNoticeOrderId&&$root.hasAuthor('来货通知单编辑')"
                           type="button"
                           ajax-url-submit="rest/authen/arrivalNoticeOrder/save?purchaserId={{tr.id}}"
@@ -95,7 +96,7 @@
                           callback="$root.goTo('#/purchaseVoucher/get.html?relId={{tr.id}}')">生成采购凭证
                   </button>
 
-                  <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgr-l">新建</a>
+                  <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgl">新建</a>
 
                   <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('采购单审批')"
                           class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
@@ -107,8 +108,6 @@
                           params='{"id":tr.id,"status":"待采购"}'
                           request-url="rest/authen/purchaseOrder/updateStatus.json">审批通过
                   </button>
-
-                  <a href="#/purchaseOrder/get.html?id={{tr.id}}" class="mgl">查看详情</a>
                 </span>
 
 
@@ -117,7 +116,7 @@
                   <!-- <a href="#/purchaseOrder/edit.html?id={{tr.id}}">删除</a> -->
                   <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
                      href="javascript:;"
-                     class="pr-color-red"
+                     class="pr-color-red mgl"
                      handle-this-click
                      dialog-title="确认删除 ?"
                      dialog-content="您确认删除这条采购单吗?"

@@ -69,14 +69,14 @@
                   </span>
                 </div>
                 <div class="flex-item-8 text-right">
-                  <span>
+                  <span ng-if="tr.orderStatus!='未提交'" class="mgl">
+                    <a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a>
+                  </span>
+                  <span class="mgl">
                     <button ng-if="!tr.outStockOrderId&&tr.orderStatus=='已发货' && $root.hasAuthor('出库单编辑')"
                             type="submit"
                             class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">生成出库单
                     </button>
-                  </span>
-                  <span ng-if="tr.orderStatus!='未提交'" class="mgl">
-                    <a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a>
                   </span>
                   <span ng-if="tr.orderStatus=='未提交'" class="mgl">
                     <a href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a>
