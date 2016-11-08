@@ -2036,8 +2036,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         }
                       });
                     } else {
+                      var firstSelectSource=$attrs.selectSource;
+
 
                       if ($attrs.params) {
+
+                        firstSelectSource=$attrs.params;
                           if ($attrs.params.indexOf("{") === 0) {
                               //监听具体值
                               $attrs.$observe("params", function(value) {
@@ -2047,6 +2051,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                                   getData(_params);
                               });
+                                _params = $scope.$eval($attrs.params);
                           } else {
                               //监听对象
                               $scope.$watch($attrs.params, function(value) {
@@ -2054,9 +2059,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                   if(firstSelectSource==value)return;
                                     ngModel.$setViewValue(null);
 
-
                                   getData(_params);
                               }, true);
+                                _params = $attrs.params;
                           }
                       } else {
                         $attrs.$observe("selectSource", function(value) {
@@ -2078,7 +2083,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             var tmp=$scope.$eval($attrs.ajaxIfEval);
                           if (!tmp) return;
                         }
-                          destroyChosen(chosenObj);
+
                         requestData($attrs.selectSource,_params)
                           .then(function(results) {
                               var data = results[0];
@@ -2111,6 +2116,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                   _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
                               }
                               $element.html(_options);
+                              destroyChosen(chosenObj);
                               chosenObj=$element.chosen($scope.chosen || chosenConfig);
                               ngModel.$setViewValue(_selected);
                           }).catch(function(msg) {
@@ -2118,8 +2124,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                               if (angular.isDefined($attrs.alertError)) alertError(msg);
                           });
                   }
-
-                  var firstSelectSource=$attrs.selectSource;
 
 
 
