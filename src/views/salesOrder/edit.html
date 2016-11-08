@@ -153,7 +153,7 @@
               <td class="has-border text-center text-v-t pd-s pdt">{{medicalStockMap[tr.relId].quantity}}</td>
               <td class="has-border text-center text-v-t pd-s pdt" ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
                 <div class="order-goods-num">
-                  <span class="inline-block left" ng-click="tr.quantity=tr.quantity-1">-</span>
+                  <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
                   <span class="inline-block">
                     <input type="number"
                            class="inline pr-table-input text-center"
@@ -161,7 +161,7 @@
                            ng-model="tr.quantity"
                            ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
                   </span>
-                  <span class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</span>
+                  <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="tr.quantity>=medicalStockMap[tr.relId].quantity">+</button>
                 </div>
                 <!-- <span class="order-goods-num flex-column">
                   <i class="flex-item-2 left" ng-click="tr.quantity=tr.quantity-1">-</i>
@@ -188,7 +188,7 @@
                 </div>
               </td>
               <td class="has-border text-center text-v-t pd-s pdt">
-                <label class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag">加入销售单</label>
+                <label class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag" ng-disabled="tr.quantity>medicalStockMap[tr.relId].quantity">加入销售单</label>
                 <span class="block mgb-m" ng-show="tr.quantity>medicalStockMap[tr.relId].quantity">
                   <button type="button" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgt-s" ng-click="caifenQuantity(tr,medicalStockMap[tr.relId].quantity);">拆分</button>
                 </span>
@@ -199,7 +199,7 @@
                 <span class="block mgb-m" ng-show="tr.quantity_noInvoice>0||tr.quantity_noInvoice_show">
                   <button type="button"
                           class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgt-s"
-                          ng-click="tr.quantity=tr.quantity+tr.quantity_noInvoice;tr.quantity_noInvoice=0;tr.quantity_noInvoice_show=false;">取消拆分</button>
+                          ng-click="tr.quantity=tr.quantity+tr.quantity_noInvoice;tr.quantity_noInvoice=0;tr.quantity_noInvoice_show=false;tr.handleFlag=false;">取消拆分</button>
                 </span>
 
                 <span class="block">
@@ -305,8 +305,9 @@
               class="pr-btn-create-glodbg"
               ng-disabled="!formData.orderMedicalNos.length ||
                            !formData.customerId ||
-                           !formData.saleUserId">预览销售单</button>
-    </span>
+                           !formData.saleUserId ||
+                           !formData.orderMedicalNos[0].handleFlag">预览销售单
+      </button>
 
     <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
     <span>
