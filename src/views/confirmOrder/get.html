@@ -13,22 +13,22 @@
   <div class="content-wrapper-main">
     <!-- 订单信息 -->
     <div class="panel pr-panel pr-panel-height flex-column mgb">
-      <div class="flex-item-10">
-        <span class="mgr-xl">订单编号：<em>{{showData.orderNo}}</em></span>
-        <span class="mgr-xl">创建时间：<em>{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+      <div class="flex-item-10 color-9">
+        <span class="mgr-xl">销售单号：<em class="color-6">{{showData.orderNo}}</em></span>
+        <span class="mgr-xl">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
         <span class="mgr-xl">对应购需单：<em class="color-custom-orange">
           <a href="#/salesOrder/get.html?id={{showData.relId}}">{{showData.relOrderNo}}</a>
          </em></span>
       </div>
-      <div class="flex-item-2 text-right">
-          <span ng-if="showData.orderStatus!='已作废'">订单状态：<em>{{showData.orderStatus}}</em></span>
-            <span ng-if="showData.orderStatus=='已作废'">订单状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+      <div class="flex-item-2 text-right color-9">
+          <span ng-if="showData.orderStatus!='已作废'">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
+            <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
       </div>
     </div>
 
     <!-- 作废原因： -->
         <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
-              <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+              <span class="mgr-xl color-9" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:#ff4040">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
         </div>
 
 
@@ -53,7 +53,7 @@
 
     <!-- 订单清单 -->
     <div class="panel pr-panel pr-panel-height mgb-n">
-      <h1 class="text-l">订购清单</h1>
+      <h1 class="text-m text-bold">药械清单</h1>
       <div class="confirm-order">
         <div order-medicals  ng-model="showData.orderMedicalNos"></div>
 
