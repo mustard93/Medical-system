@@ -32,10 +32,11 @@
                 data-placeholder="选择一个..."
                 chosen
                 ng-model="formData.departmentId"
-                ajax-if="{{formData.organizationId}}"
+                ajax-if-eval="formData.organizationId"
                 default-empty
                 alert-error
-                select-source="rest/index/department/queryForSelectOption.json?DistributorId={{formData.organizationId}}">
+                params='{"DistributorId":"{{formData.organizationId}}"}'
+                select-source="rest/index/department/queryForSelectOption.json">
         </select>
       </div>
       <span>请勾选申请角色</span>
