@@ -23,6 +23,7 @@ define('project/controllers', ['project/init'], function() {
         * 医院地址加载后，回调方法
         */
         $scope.customerAddressGetCallBack = function(formData,customerAddress) {
+
           formData.customerName=customerAddress.name;
           if(!formData.contactsId){
               formData.contactsId=customerAddress.defaultContactId;

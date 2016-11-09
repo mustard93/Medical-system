@@ -558,7 +558,6 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
 }
 
 angular.module('manageApp.project')
-
 .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
     .directive("orderMedicals", orderMedicals)//药械订单列表
     .directive("niceScroll", niceScroll) //滚动条美化
