@@ -39,27 +39,23 @@ class="content-wrapper invoices-order"
   </div>
   <!-- 配送信息 -->
   <div class="panel pr-panel pr-fuzzy-boundary pd-l">
-
-
-      <div class="pd-c-xl pdb-xxl text-right">
-        <span class="mgr-l"  ng-if="showData.orderStatus!='已出库'&&$root.hasAuthor('确认出库')">
-
-          <button class="pr-btn-save-glodbg"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认出库?"
-                  dialog-content="出库以后，将会从库存中扣除。确认出库？"
-                  dialog-template="pr-dialog-submit.html"
-                  params='{"id":showData.id,"status":"已出库"}'
-                  request-url="rest/authen/outstockOrder/updateStatus.json"
-                  call-back="goTo('#/outstockOrder/get.html?id={{showData.id}}&t=1')">确认出库</button>
-
-
-
-        </span>
-          <span class="mgr-l"><a href="#/invoicesOrder/get.html?id={{showData.relId}}">返回发货单</a>
-             <a href="#/outstockOrder/query.html">返回出库中心</a></span>
-      </div>
+    <div class="pd-c-xl pdb-xxl text-right">
+      <span class="" ng-if="showData.orderStatus!='已出库'&&$root.hasAuthor('确认出库')">
+        <button class="pr-btn-save-glodbg"
+                type="button"
+                handle-this-click
+                dialog-title="确认出库?"
+                dialog-content="出库以后，将会从库存中扣除。确认出库？"
+                dialog-template="pr-dialog-submit.html"
+                params='{"id":showData.id,"status":"已出库"}'
+                request-url="rest/authen/outstockOrder/updateStatus.json"
+                call-back="goTo('#/outstockOrder/get.html?id={{showData.id}}&t=1')">确认出库
+        </button>
+      </span>
+      <span class="mgr-l">
+        <a ng-if="showData.orderStatus=='已出库'" class="btn pr-btn-create-glodbg" href="javascript:;">打印</a>
+        <a class="mgl" href="#/outstockOrder/query.html">返回出库中心</a>
+      </span>
     </div>
-
+  </div>
 </div>
