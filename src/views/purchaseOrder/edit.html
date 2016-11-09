@@ -2,8 +2,8 @@
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
+     callback="watchFormChange('formData')"
      alert-error>
-
      <div class="content-wrapper create-new-order"
           ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus"
           scope-data="batchRequirementStatus"
@@ -292,7 +292,7 @@
       <span class="mgr-l">
         <button class="pr-btn-save-glodbg"
                 type="submit"
-                ng-disabled="!formData.orderMedicalNos.length ||
+                ng-disabled="!changeFlag||!formData.orderMedicalNos.length ||
                              !formData.customerId ||
                              !formData.saleUserId">保存
         </button>
