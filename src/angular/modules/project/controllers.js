@@ -139,6 +139,7 @@ define('project/controllers', ['project/init'], function() {
         type:save-草稿,submit-提交订单。
         */
         $scope.submitFormAfter = function() {
+          $scope.formData.validFlag = false;
           if ($scope.submitForm_type == "exit") {
             $scope.goTo('#/salesOrder/query.html');
             return;
@@ -157,7 +158,11 @@ define('project/controllers', ['project/init'], function() {
         */
         $scope.submitForm = function(fromId, type) {
           $scope.submitForm_type = type;
+          if ($scope.submitForm_type == "submit") {
+            $scope.formData.validFlag = true;
+          }
           $("#" + fromId).trigger("submit");
+
           // addDataItem_opt.submitUrl="";
           // $scope.formData.orderMedicalNos.push($scope.addDataItem);
           // $scope.addDataItem={};
