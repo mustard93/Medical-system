@@ -15,6 +15,7 @@
   </div>
   <!-- 主内容区域 -->
   <form id="editForm"
+        name="purchaseForm"
         form-validator
         parameter-body
         action="rest/authen/purchaseOrder/save.json"
@@ -22,7 +23,8 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter()">
+        callback="submitFormAfter()"
+        novalidate="novalidate">
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
     <!-- 订单类型 -->
     <div class="flex-column mgb-l pd-c-xl pdt-m pdb-m bb-line">
@@ -146,7 +148,7 @@
           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PayPeriodType"
           ></select><!--账期要求-->
 
-          <input type="text" class="ipt pr-only-btline"   ng-model="formData.payAndDelivery.prepaidRatio"  placeholder="预付款比例">%
+          <input type="number" class="ipt pr-only-btline" ng-pattern="/[1-9]|[1-9]\d|100/" ng-model="formData.payAndDelivery.prepaidRatio"  placeholder="预付款比例">%
         </div>
         <div class="flex-item-5">
           <select class="select pr-select pr-short-ipt mgr-l"
@@ -292,7 +294,9 @@
       <span class="mgr-l">
         <button class="pr-btn-save-glodbg"
                 type="submit"
-                ng-disabled="!formData.orderMedicalNos.length ||
+                ng-disabled="formData.payAndDelivery.prepaidRatio>100 ||
+                             formData.payAndDelivery.prepaidRatio<0 || 
+                             !formData.orderMedicalNos.length ||
                              !formData.customerId ||
                              !formData.saleUserId">保存
         </button>
@@ -305,7 +309,9 @@
                 dialog-content="提交后，将无法修改。确认提交?"
                 dialog-template="pr-dialog-submit.html"
                 callback="submitForm('editForm','submit')"
-                ng-disabled="!formData.orderMedicalNos.length ||
+                ng-disabled="formData.payAndDelivery.prepaidRatio>100 ||
+                             formData.payAndDelivery.prepaidRatio<0 ||
+                             !formData.orderMedicalNos.length ||
                              !formData.customerId ||
                              !formData.saleUserId">提交审批
         </button>
