@@ -2,6 +2,7 @@
      ng-controller="salesOrderEditCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
+      callback="watchFormChange('formData')"
      alert-error>
 
  <div class="content-wrapper create-new-order"
@@ -23,7 +24,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter()">
+        callback="submitFormAfter();watchFormChange('formData')">
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary mgb-m">
     <!-- 订单类型 -->
     <div class="flex-column mgb-m pd-c-xl pdt-m pdb-m bb-line">
@@ -313,11 +314,11 @@
     <span class="mgl">
       <!-- <button class="pr-btn-save-glodbg"
               type="submit"
-              ng-disabled="!formData.orderMedicalNos.length ||
+              ng-disabled="!changeFlag||!formData.orderMedicalNos.length ||
                            !formData.customerId ||
                            !formData.saleUserId">保存
       </button> -->
-      <button class="pr-btn-save-glodbg" ng-click="submitForm('editForm','save')">保存</button>
+      <button class="pr-btn-save-glodbg"     ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
     </span>
 
     <span class="mgl">
@@ -331,13 +332,16 @@
     </span>
 
     <span class="mgl">
-      <a href="javascript:;"
+      <a   ng-if="changeFlag"  href="javascript:;"
          handle-this-click
          dialog-title="确认返回?"
          dialog-content="该购需单存在未保存数据，是否保存?"
          dialog-template="pr-dialog-return.html"
          nosave-callback="goTo('#/salesOrder/query.html')"
          save-callback="submitForm('editForm','exit')">返回购需中心</a>
+
+
+         <a   ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需中心</a>
     </span>
 
     <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->

@@ -1,0 +1,73 @@
+
+<div class="api_demo">
+  <div class="page-main">
+          <div class="mgb-l"><span class="text-l">表单元素</span></div>
+          <form name="myForm" form-validator action="../data/formValidator.json" alert-error alert-ok scope-error-msg="errorMsg" callback="window.location.assign('#/bind_done');">
+              <div class="form-tr">
+                  <div class="form-th">输入框</div>
+                  <div class="form-td">
+                      <input type="text" class="ipt"  ng-model="formData.name" placeholder="输入框"/>
+                  </div>
+              </div>
+
+              <div class="form-tr">
+                  <div class="form-th"></div>
+                  <div class="form-td">
+                      <button type="submit" class="btn btn-l">提交</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+</div>
+
+<div class="api_desc">
+
+  <textarea style="width:100%;height:600px" readonly="true">
+    用法：
+    增加监听修改标志为；$scope.changeFlag=false;
+       callback="watchFormChange('formData')"
+
+      ng-disabled="!changeFlag"
+    <form name="myForm" form-validator action="../data/formValidator.json" alert-error alert-ok scope-error-msg="errorMsg" >
+          <input type="text" class="ipt"  ng-model="formData.name" placeholder="输入框"/>
+    </form>
+
+    表单验证
+        必填参数：
+        attrs.formValidator：
+        attrs.action；请求数据参数
+        可选参数：
+        $attrs.ajaxUrlHandler :function(data) 指定回调方法
+        $attrs.params  //监听具体值
+        $attrs.scopeResponse ：返回数据Response是绑定到 $scope[$attrs.scopeResponse]
+          $attrs.scopeData ：返回数据Response.data是绑定到 $scope[$attrs.scopeData]
+          $attrs.scopeErrorMsg ：返回数据错误数据是否绑定到 $scope[$attrs.scopeErrorMsg]
+             $attrs.broadcast ：是否发送广播
+          $attrs.alertOk :是否提示请求成功提示。
+          $attrs.alertError :是否提示请求失败提示。
+     $attrs.autoCloseDialog：关闭弹出窗口
+
+     if($attrs.formSubmitAfter=="reset"){
+         DOMForm.reset(); //清空表格
+     }else   if($attrs.formSubmitAfter=="donothing"){
+         return;
+     }
+
+     $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope， callback="formData.courseId=details[0].value"
+
+
+              请求返回数据格式：
+                scopeResponse=  {
+                    "code": 200,
+                    "msg": "操作成功",
+                    "data": {
+                      "id": "id1",
+                      "name": "帐号1"
+                    }
+                  }
+
+
+  </textarea>
+
+
+</div>

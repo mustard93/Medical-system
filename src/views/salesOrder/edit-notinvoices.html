@@ -2,6 +2,7 @@
      ng-controller="salesOrderEditCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
+       callback="watchFormChange('formData')"
      alert-error>
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mgt-m mgb-m">
@@ -17,7 +18,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter()">
+        callback="submitFormAfter();watchFormChange('formData')">
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
     <!-- 订单类型 -->
     <div class="flex-column mgb pd-c-xl pdt pdb bb-line">
@@ -176,7 +177,7 @@
       <span class="mgr">
         <button class="pr-btn-save-glodbg"
                 type="submit"
-                ng-disabled="!formData.orderMedicalNos.length ||
+                ng-disabled="!changeFlag||!formData.orderMedicalNos.length ||
                              !formData.customerId ||
                              !formData.saleUserId">保存</button>
       </span>
@@ -190,14 +191,15 @@
 
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
       <span>
-        <a href="javascript:;"
+        <a ng-if="changeFlag"
+         href="javascript:;"
            handle-this-click
            dialog-title="确认取消?"
            dialog-content="取消后无法回复原有数据,确认取消?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo('#/salesOrder/query.html')"
           save-callback="submitForm('editForm','exit')">返回购需中心</a>
-
+ <a   ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需中心</a>
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
 
     </div>

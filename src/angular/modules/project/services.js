@@ -17,22 +17,17 @@ define('project/services', ['project/init'], function () {
 
 
 
-  //弹窗提示
+  //监听内容修改标志
   function watchFormChange($timeout) {
-      var watchFormChangeObj=null;
+
       return function (watchName, $scope) {
 
+          //延迟初始化修改标志
            $timeout(function () {
                     $scope.changeFlag=false;
                 },500);
 
-              if(watchFormChangeObj){
-                try{
-                    watchFormChangeObj();
-                }catch(e){}
-
-              }
-              watchFormChangeObj = $scope.$watch(watchName,function(newValue,oldValue, scope){
+            $scope.$watch(watchName,function(newValue,oldValue, scope){
                     $scope.changeFlag=true;
              },true);
 
