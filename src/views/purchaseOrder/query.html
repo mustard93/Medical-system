@@ -65,7 +65,7 @@
       </div>
       <!-- 右侧搜索 -->
       <div class="text-right order-list-search pos-rb">
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/采购单编号" ng-model="listParams.q">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/采购单号" ng-model="listParams.q">
         <i class=""></i>
       </div>
     </div>
@@ -77,6 +77,19 @@
             <div class="pd-m">
               <div class="flex-column" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
+                <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right">
+                  <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
+                     href="javascript:;"
+                     class="pr-color-red mgl"
+                     handle-this-click
+                     dialog-title="确认删除 ?"
+                     dialog-content="您确认删除这条采购单吗?"
+                     dialog-template="dialog-confirm.html"
+                     request-url="rest/authen/purchaseOrder/delete?id={{tr.id}}"
+                     emitted="reloadList">删除
+                  </a>
+                  <a href="#/purchaseOrder/edit.html?id={{tr.id}}" class="mgl">编辑</a>
+                </span>
                 <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right">
                   <a href="#/purchaseOrder/get.html?id={{tr.id}}" class="mgl">查看详情</a>
                   <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" class="mgl">查看来货通知</a>
@@ -104,25 +117,11 @@
                           dialog-title="确认通过?"
                           dialog-content="审核通过后,采购单将生效,是否通过?"
                           dialog-template="pr-dialog-confirm.html"
+                          confirm-btn-txt="通过"
                           emitted="reloadList"
                           params='{"id":tr.id,"status":"待采购"}'
                           request-url="rest/authen/purchaseOrder/updateStatus.json">审批通过
                   </button>
-                </span>
-
-
-                <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right">
-                  <a href="#/purchaseOrder/edit.html?id={{tr.id}}" class="mgl">编辑</a>
-                  <!-- <a href="#/purchaseOrder/edit.html?id={{tr.id}}">删除</a> -->
-                  <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
-                     href="javascript:;"
-                     class="pr-color-red mgl"
-                     handle-this-click
-                     dialog-title="确认删除 ?"
-                     dialog-content="您确认删除这条采购单吗?"
-                     dialog-template="dialog-confirm.html"
-                     request-url="rest/authen/purchaseOrder/delete?id={{tr.id}}"
-                     emitted="reloadList">删除</a>
                 </span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>

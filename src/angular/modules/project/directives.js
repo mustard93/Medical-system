@@ -468,6 +468,9 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
         var _jumpUrl = angular.isDefined($attrs.jumpUrl) ? $attrs.jumpUrl : '';
         //如果发送请求的地址
         var _requestUrl = angular.isDefined($attrs.requestUrl) ? $attrs.requestUrl : '';
+        //按钮名称
+        var _confirmBtnTxt = angular.isDefined($attrs.confirmBtnTxt) ? $attrs.confirmBtnTxt : '确定';
+        var _cancelBtnTxt = angular.isDefined($attrs.cancelBtnTxt) ? $attrs.cancelBtnTxt : '取消';
 
         if(_dialogTemplate=="pr-dialog-return.html"){//编辑页面，取消操作
           if( !angular.isDefined($attrs.dialogTitle)) _dialogTitle = '取消修改?';
@@ -538,8 +541,6 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
             return;
           }
 
-
-
           //执行回调
           if ($attrs.callBack) {
             $scope.dialgForm=dialgForm;
@@ -550,7 +551,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
             $scope.dialgForm=dialgForm;
             $scope.$eval($attrs.callback);
           }
-        }, _dialogTemplate, _dialogTitle, _jumpUrl);
+        }, _dialogTemplate, _dialogTitle, _confirmBtnTxt, _cancelBtnTxt, _jumpUrl);
       });
     }
   };

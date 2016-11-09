@@ -36,7 +36,7 @@
       </div>
       <!-- 右侧搜索 -->
       <div class="text-right order-list-search pos-rb">
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/购需单编号/销售人员" ng-model="listParams.q">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/购需单号/销售人员" ng-model="listParams.q">
         <i class=""></i>
       </div>
 
@@ -50,9 +50,6 @@
               <div class="flex-column mgb card-title-height">
                 <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}</span>
                 <span class="flex-item-6 text-right">
-                  <a ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')" href="#/salesOrder/get.html?id={{tr.id}}" class="">查看详情</a>
-                  <a ng-if="tr.progress==0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
-                  <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
                   <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
                      href="javascript:;"
                      class="pr-color-red mgl"
@@ -61,7 +58,11 @@
                      dialog-content="您确认删除这条购需单吗?"
                      dialog-template="dialog-confirm.html"
                      request-url="rest/authen/salesOrder/delete?id={{tr.id}}"
-                     emitted="reloadList">删除</a>
+                     emitted="reloadList">删除
+                  </a>
+                  <a ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')" href="#/salesOrder/get.html?id={{tr.id}}" class="">查看详情</a>
+                  <a ng-if="tr.progress==0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
+                  <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
                 </span>
               </div>
               <div class="flex-column qurey text-s color-9">
