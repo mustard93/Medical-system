@@ -2077,7 +2077,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       function getData(){
                         //满足条件才异步请求
                         if (angular.isDefined($attrs.ajaxIf)) {
-                            if (!$attrs.ajaxIf) return;
+
+                          if ($attrs.ajaxIf.indexOf("{") === 0) {//IE下用
+                            var tmp=$scope.$eval($attrs.ajaxIf);
+                            if (!tmp) return;
+                          }
+
+                          if (!$attrs.ajaxIf) return;
                         }
                         if (angular.isDefined($attrs.ajaxIfEval)) {
                             var tmp=$scope.$eval($attrs.ajaxIfEval);
