@@ -158,10 +158,8 @@ define('project/controllers', ['project/init'], function() {
         type:save-草稿,submit-提交订单。
         */
         $scope.submitForm = function(fromId, type) {
-           $scope.submitForm_type = type;
-
+          $scope.submitForm_type = type;
           $("#" + fromId).trigger("submit");
-
           // addDataItem_opt.submitUrl="";
           // $scope.formData.orderMedicalNos.push($scope.addDataItem);
           // $scope.addDataItem={};
@@ -170,7 +168,7 @@ define('project/controllers', ['project/init'], function() {
          *取消订单
          */
         $scope.cancelForm = function(fromId, url) {
-            alertWarn("cancelForm");
+          alertWarn("cancelForm");
         };
 
     }//end salesOrderEditCtrl

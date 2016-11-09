@@ -269,7 +269,20 @@
               <td class="has-border text-center text-v-t pd-c-s pdt">{{addDataItem.guaranteePeriod}}</td>
               <td class="has-border text-center text-v-t pd-c-s pdt">{{medical.quantity}}</td>
               <td class="has-border text-center text-v-t pd-c-s pdt">
-                <input type="number" id="addDataItem_quantity" class="pr-table-input" ng-model="addDataItem.quantity"  ng-keydown="$event.keyCode==13&&addDataItemClick()"/>
+                <!-- <input type="number" id="addDataItem_quantity" class="pr-table-input" ng-model="addDataItem.quantity"  ng-keydown="$event.keyCode==13&&addDataItemClick()"/> -->
+                <div class="order-goods-num">
+                  <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity<=1 || !tr.quantity">-</button>
+                  <span class="inline-block">
+                    <input type="number"
+                           id="addDataItem_quantity"
+                           class="inline pr-table-input text-center"
+                           style="width:60px;"
+                           ng-model="addDataItem.quantity"
+                           ng-keydown="$event.keyCode==13&&addDataItemClick()"
+                           ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                  </span>
+                  <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="tr.quantity>=medicalStockMap[tr.relId].quantity">+</button>
+                </div>
               </td>
               <td class="fix-td-border">
                 <button class="pr-add-item-glodbg color-white pr-bg-glod" type="button"  ng-click="addDataItemClick(addDataItem,medical)"><i class="fa fa-plus color-white"></i></button>
@@ -300,8 +313,9 @@
                            !formData.customerId ||
                            !formData.saleUserId">保存
       </button> -->
-      <button class="pr-btn-save-glodbg" type="submit">保存</button>
+      <button class="pr-btn-save-glodbg" ng-click="submitForm('editForm','save')">保存</button>
     </span>
+
     <span class="mgr">
       <button ng-click="submitForm('editForm','submit')"
               class="pr-btn-create-glodbg"
@@ -310,8 +324,8 @@
                            !formData.saleUserId ||
                            !formData.orderMedicalNos[0].handleFlag">预览销售单
       </button>
+    </span>
 
-    <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
     <span class="mgl">
       <a href="javascript:;"
          handle-this-click
