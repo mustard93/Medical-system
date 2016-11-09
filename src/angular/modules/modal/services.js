@@ -742,6 +742,9 @@ define('modal/services', ['modal/init'], function () {
                     },
 
                     closeAll: function (value) {
+
+                        
+                          $(".select-address.active").removeClass('active');
                         var $all = document.querySelectorAll('.ngdialog');
 
                         // Reverse order to ensure focus restoration works as expected
