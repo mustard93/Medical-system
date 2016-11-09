@@ -74,7 +74,7 @@ define('project/registration',['angular'], function () {
         // 状态改变
         $scope.sendVerifyCodeStatus = true;
         // 执行倒计时
-        $scope.countdown(60);
+        $scope.countdown(59);
         // 请求验证码，区分是否是新用户(注册与其他场景应用)
         var _url = '';
         if ($location.path() === '/verify_phone') {     // 新用户注册
@@ -310,38 +310,99 @@ define('project/registration',['angular'], function () {
         if (!$rootScope.verifyResult) {
           $rootScope.verifyResult = {};
         }
-        element.on('blur', function () {
-          if (attrs.name === 'password') {    // 校验密码
-            if (!(/[A-Za-z0-9_-]{6,32}/.test(ngModel.$viewValue))) {
-              $rootScope.verifyResult.password = false;
-              $rootScope.verifyResult.msg = '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线';
-              if ($('.reg-info-prompt').css('display') === 'none') {
-                $('.reg-info-prompt').fadeIn(500);
-                $(element).focus();
-              }
-            } else {
-              if ($('.reg-info-prompt').css('display') !== 'none') {
-                $('.reg-info-prompt').fadeOut(200);
-              }
-              $rootScope.verifyResult.password = true;
-            }
-          }
 
-          if (attrs.name === 'repassword') {    // 校验重复密码
-            if (scope.regData.password !== scope.regData.repassword) {
-              $rootScope.verifyResult.repassword = false;
-              $rootScope.verifyResult.msg = '两次输入的密码不一致';
-              if ($('.reg-info-prompt').css('display') === 'none') {
-                $('.reg-info-prompt').fadeIn(500);
+        element.on('keyup', function (event) {
+          if (event.keyCode !== 16) {   //屏蔽shift键
+            if (attrs.name === 'password') {
+              $rootScope.verifyResult = {
+                msg: '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线',
+                password: false
+              };
+              ngModel.$viewValue = $.trim(ngModel.$viewValue);
+              if (ngModel.$viewValue.length >= 6) {
+                if (!(/[A-Za-z0-9_-]{6,32}/.test(ngModel.$viewValue))) {
+                  $rootScope.verifyResult.msg = '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线';
+                  if ($('.reg-info-prompt').css('display') === 'none') {
+                    $('.reg-info-prompt').fadeIn(200);
+                    $(element).focus();
+                    return;
+                  }
+                } else {
+                  if ($('.reg-info-prompt').css('display') !== 'none') {
+                    $('.reg-info-prompt').fadeOut(200);
+                  }
+                  $rootScope.verifyResult.password = true;
+                }
               }
-            } else {
-              if ($('.reg-info-prompt').css('display') !== 'none') {
-                $('.reg-info-prompt').fadeOut(200);
+            }
+
+            if (attrs.name === 'repassword') {
+              if ($rootScope.verifyResult.password === false) {
+                $rootScope.verifyResult.msg = '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线';
+                if ($('.reg-info-prompt').css('display') === 'none') {
+                  $('.reg-info-prompt').fadeIn(200);
+                  $(element).focus();
+                  return;
+                }
+              } else {
+                $rootScope.verifyResult = {
+                  msg: '两次输入的密码不一致',
+                  repassword: false
+                };
+                if (ngModel.$viewValue.length >= 6) {
+                  if (scope.regData.password !== scope.regData.repassword) {
+                    $rootScope.verifyResult.msg = '两次输入的密码不一致';
+                    if ($('.reg-info-prompt').css('display') === 'none') {
+                      $('.reg-info-prompt').fadeIn(200);
+                      $(element).focus();
+                      return;
+                    }
+                  } else {
+                    $rootScope.verifyResult.repassword = true;
+                    if ($('.reg-info-prompt').css('display') !== 'none') {
+                      $('.reg-info-prompt').fadeOut(200);
+                    }
+                  }
+                }
               }
-              $rootScope.verifyResult.repassword = true;
             }
           }
         });
+
+
+
+        // element.on('blur', function () {
+        //   if (attrs.name === 'password') {    // 校验密码
+        //     if (!(/[A-Za-z0-9_-]{6,32}/.test(ngModel.$viewValue))) {
+        //       $rootScope.verifyResult.password = false;
+        //       $rootScope.verifyResult.msg = '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线';
+        //       if ($('.reg-info-prompt').css('display') === 'none') {
+        //         $('.reg-info-prompt').fadeIn(500);
+        //         $(element).focus();
+        //       }
+        //     } else {
+        //       if ($('.reg-info-prompt').css('display') !== 'none') {
+        //         $('.reg-info-prompt').fadeOut(200);
+        //       }
+        //       $rootScope.verifyResult.password = true;
+        //     }
+        //   }
+        //
+        //   if (attrs.name === 'repassword') {    // 校验重复密码
+        //     if ((scope.regData.password !== scope.regData.repassword) && verifyResult.password === false) {
+        //       $rootScope.verifyResult.repassword = false;
+        //       $rootScope.verifyResult.msg = '两次输入的密码不一致';
+        //       if ($('.reg-info-prompt').css('display') === 'none') {
+        //         $('.reg-info-prompt').fadeIn(500);
+        //       }
+        //     } else {
+        //       if ($('.reg-info-prompt').css('display') !== 'none') {
+        //         $('.reg-info-prompt').fadeOut(200);
+        //       }
+        //       $rootScope.verifyResult.repassword = true;
+        //     }
+        //   }
+        // });
       }
     };
   }])

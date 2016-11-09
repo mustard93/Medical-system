@@ -139,6 +139,7 @@ define('project/controllers', ['project/init'], function() {
         type:save-草稿,submit-提交订单。
         */
         $scope.submitFormAfter = function() {
+          $scope.formData.validFlag = false;
           if ($scope.submitForm_type == "exit") {
             $scope.goTo('#/salesOrder/query.html');
             return;
@@ -157,7 +158,11 @@ define('project/controllers', ['project/init'], function() {
         */
         $scope.submitForm = function(fromId, type) {
           $scope.submitForm_type = type;
+          if ($scope.submitForm_type == "submit") {
+            $scope.formData.validFlag = true;
+          }
           $("#" + fromId).trigger("submit");
+
           // addDataItem_opt.submitUrl="";
           // $scope.formData.orderMedicalNos.push($scope.addDataItem);
           // $scope.addDataItem={};
@@ -361,7 +366,7 @@ define('project/controllers', ['project/init'], function() {
          /**
           *编辑、新建采购单
           */
-         function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData) {
+         function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
              modal.closeAll();
              // $scope.formData={};
              $scope.addDataItem = {};
@@ -510,6 +515,11 @@ define('project/controllers', ['project/init'], function() {
                  alertWarn("cancelForm");
              };
 
+
+              $scope.watchFormChange=function(watchName){
+                watchFormChange(watchName,$scope);
+              }
+
          }//end salesOrderEditCtrl
 
 
@@ -605,7 +615,7 @@ define('project/controllers', ['project/init'], function() {
     angular.module('manageApp.project')
 
   .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])
-      .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData", purchaseOrderEditCtrl])
+      .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData","watchFormChange", purchaseOrderEditCtrl])
     .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", noticeCtrl])
     .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
         .controller('salesOrderEditCtrl', ["$scope", "modal","alertWarn", salesOrderEditCtrl]);
