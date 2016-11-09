@@ -1,11 +1,7 @@
 /**
  * Created by hao on 15/11/5.
  */
-
 define('project/controllers', ['project/init'], function() {
-
-
-
     /**
      *编辑、新建订单
      */
@@ -145,12 +141,14 @@ define('project/controllers', ['project/init'], function() {
         $scope.submitFormAfter = function() {
           if ($scope.submitForm_type == "exit") {
             $scope.goTo('#/salesOrder/query.html');
-           return;
-         }
+            return;
+          }
           if ($scope.submitForm_type == "submit") {
             $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
           }
-
+          if ($scope.submitForm_type == "save") {
+            console.log(this);
+          }
         };
 
         /**
@@ -172,9 +170,6 @@ define('project/controllers', ['project/init'], function() {
         };
 
     }//end salesOrderEditCtrl
-
-
-
 
     /**
      *编辑订单
