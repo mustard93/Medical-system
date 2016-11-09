@@ -38,6 +38,19 @@
                         clear-watch-scope="addDataItem.relId"
                         select-source="rest/authen/medicalStock/queryForSelectOption.json"></select>
                         参数说明：chosen-ajax 表示根据输入词，从服务器获取数据。
+
+
+                    满足条件执行用ajax-if-eval="formData.organizationId"
+                    <select class="select select-w"
+                            data-placeholder="选择一个..."
+                            chosen
+                            ng-model="formData.departmentId"
+                            ajax-if-eval="formData.organizationId"
+                            default-empty
+                            alert-error
+                            params='{"DistributorId":"{{formData.organizationId}}"}'
+                            select-source="rest/index/department/queryForSelectOption.json">
+
               </textarea>
             </div>
           </div>
