@@ -1,9 +1,11 @@
 
-        <div class="modal-content" ng-controller="editCtrl"  >
+        <div class="modal-content" ng-controller="editCtrl"
+   ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{tr.id}}"  scope-data="formData" alert-error callback="initFlag=true"
+        >
 
           <form class="add-medical-form form-horizontal"
                 action="rest/authen/medicalStock/save"
-                 ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{tr.id}}"  scope-data="formData" alert-error
+                  scope-data="formData" alert-error
                 form-validator>
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
@@ -36,7 +38,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">药品单位</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select class="ipt pr-short-ipt" data-placeholder="选择单位" chosen default-empty="无" ng-model="formData.unit" select-source="rest/baseData/queryForSelectOptionByType" params='{"type":"单位"}'>
+                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择单位" chosen default-empty="无" ng-model="formData.unit" select-source="rest/baseData/queryForSelectOptionByType" params='{"type":"单位"}'>
 
                     </select>
                   </div>
@@ -99,7 +101,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">属性</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select class="ipt pr-short-ipt" data-placeholder="选择属性" chosen default-empty="无" ng-model="formData.deliveryPlus" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DeliveryPlus">
+                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择属性" chosen default-empty="无" ng-model="formData.deliveryPlus" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DeliveryPlus">
 
                     </select>
                   </div>
@@ -108,7 +110,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">型号</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select class="ipt pr-short-ipt" data-placeholder="选择型号" chosen default-empty="无" ng-model="formData.modelType" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"型号"}'>
+                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择型号" chosen default-empty="无" ng-model="formData.modelType" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"型号"}'>
 
                     </select>
                   </div>
@@ -116,7 +118,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">规格</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select class="ipt pr-short-ipt" data-placeholder="选择规格" chosen default-empty="无" ng-model="formData.specification" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"规格"}'>
+                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择规格" chosen default-empty="无" ng-model="formData.specification" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"规格"}'>
 
                     </select>
                   </div>
@@ -124,7 +126,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">剂型</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select class="ipt pr-short-ipt" data-placeholder="选择剂型" chosen default-empty="无" ng-model="formData.dosageForms" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"剂型"}'>
+                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择剂型" chosen default-empty="无" ng-model="formData.dosageForms" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"剂型"}'>
 
                     </select>
                   </div>
@@ -132,7 +134,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">供货商</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select class="ipt pr-short-ipt" data-placeholder="选择供货商" chosen default-empty="无" ng-model="formData.supplierId" select-source="rest/authen/supplier/queryForSelectOption">
+                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择供货商" chosen default-empty="无" ng-model="formData.supplierId" select-source="rest/authen/supplier/queryForSelectOption">
 
                     </select>
                   </div>

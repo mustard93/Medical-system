@@ -13,7 +13,7 @@ define('main/controllers', ['main/init'], function () {
             msgBubble: 0 //消息气泡
         };
         //当前用户
-        $scope.curUser={};
+        $rootScope.curUser={};
 
         //当前日期
         var getCurrentDate = function () {
@@ -96,9 +96,9 @@ define('main/controllers', ['main/init'], function () {
 
         //全局权限控制器
         $scope.hasAuthor = function (author) {
-            // var arr=TestAuthor["A_"+$scope.curUser.phone];
-            if(!$scope.curUser||!$scope.curUser.additional||!$scope.curUser.additional.Authoritys)return false;
-            var arr=$scope.curUser.additional.Authoritys;
+            // var arr=TestAuthor["A_"+$rootScope.curUser.phone];
+            if(!$rootScope.curUser||!$rootScope.curUser.additional||!$rootScope.curUser.additional.Authoritys)return false;
+            var arr=$rootScope.curUser.additional.Authoritys;
 
             if ($.inArray(author, arr) == -1) {
                 return false;
@@ -130,11 +130,10 @@ define('main/controllers', ['main/init'], function () {
               dataType: 'json',
               success: function (_data) {
                 if (_data.code == 200) {
-                  $scope.curUser=_data.data;
-
+                  $rootScope.curUser=_data.data;
                     //未绑定用户，跳转到绑定用户绑定
                     if(Config.applyBindUrl){
-                      if(!$scope.curUser.additional.OrganizationIds||$scope.curUser.additional.OrganizationIds.length==0){
+                      if(!$rootScope.curUser.additional.OrganizationIds||$rootScope.curUser.additional.OrganizationIds.length==0){
                           window.location.href = Config.applyBindUrl;
                           return;
                       }

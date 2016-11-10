@@ -1,7 +1,7 @@
 
         <div class="modal-content pr-modal-content" ng-controller="editCtrl"
 
-           ajax-url="rest/authen/manageDepartment/getOfEdit.json?id={{tr.id}}"  scope-data="formData" callback="" alert-error >
+           ajax-url="rest/authen/manageDepartment/getOfEdit.json?id={{tr.id}}"  scope-data="formData" callback="initFlag=true" alert-error >
 
           <form class="add-department-form form-horizontal"
                 action="rest/authen/manageDepartment/save"
@@ -15,7 +15,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">所属机构</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption">
 
                   </select>
                 </div>
@@ -23,7 +23,7 @@
               <div class="form-group" ng-if="formData.organizationId">
                 <label class="col-lg-2 col-sm-2 control-label">上级部门</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select class="select select-w" data-placeholder="选择一个..." chosen default-empty="无"  ng-model="formData.parentId" select-source="rest/index/department/queryForSelectOption?DistributorId={{formData.organizationId}}"></select>
+                  <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen default-empty="无"  ng-model="formData.parentId" select-source="rest/index/department/queryForSelectOption?DistributorId={{formData.organizationId}}"></select>
 
                 </div>
               </div>
@@ -39,8 +39,8 @@
                                 <div class="form-group" ng-if="formData.organizationId">
                                   <label class="col-lg-2 col-sm-2 control-label">部门负责人</label>
                                   <div class="col-lg-10 col-sm-10">
-                                    <select class="select select-w" data-placeholder="选择一个..." chosen default-empty multiple ng-model="formData.headUserIds" select-source="rest/authen/manageUser/queryForSelectOption?organizationId={{formData.organizationId}}">
-                                      <option value=""></option>
+                                    <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen default-empty multiple ng-model="formData.headUserIds" select-source="rest/authen/manageUser/queryForSelectOption?organizationId={{formData.organizationId}}">
+
                                     </select>
                                   </div>
                                 </div>
