@@ -205,6 +205,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       })
                       .catch(function(msg) {
                             if(maskObj)maskObj.hide();
+
+                            if ($attrs.errorCallback) {
+                                $scope.$eval($attrs.errorCallback);
+                            }
+
                          if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
                          if (angular.isDefined($attrs.alertError)) alertError(msg);
                          $('.pr-full-loading').remove();
