@@ -90,6 +90,71 @@ function leftMenuChange ($location) {
   };
 }
 /**
+ *  左边栏一、二级菜单伸缩
+ */
+function leftMenuToggle () {
+  'use strict';
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      function visibleSubMenuClose() {
+        $('.menu-list').each(function() {
+          var t = jQuery(this);
+          if(t.hasClass('nav-active')) {
+             t.find('> ul').slideUp(200, function(){
+                t.removeClass('nav-active');
+             });
+          }
+        });
+      }
+
+      function mainContentHeightAdjust() {
+        // Adjust main content height
+        var docHeight = jQuery(document).height();
+        if(docHeight > jQuery('.main-content').height())
+          jQuery('.main-content').height(docHeight);
+      }
+
+      $('.menu-list > a').on('click', function (event) {
+        // 阻止冒泡
+        if (event && event.stopPropagation) {
+          event.stopPropagation();
+        }
+
+        var parent = $(this).parent();
+        var sub = parent.find('> ul');
+
+        // parent.addClass('active');
+        // parent.siblings().each(function () {
+        //   $(this).removeClass('active');
+        // });
+
+        if(!$('body').hasClass('left-side-collapsed')) {
+           if(sub.is(':visible')) {
+              sub.slideUp(200, function(){
+                parent.removeClass('nav-active').addClass('active').siblings().each(function () {
+                  $(this).removeClass('active nav-active');
+                });
+                // $('.main-content').css({height: ''});
+                // mainContentHeightAdjust();
+                //选中样式切换
+              });
+           } else {
+              // visibleSubMenuClose();
+              parent.addClass('nav-active active').siblings().each(function () {
+                $(this).removeClass('active nav-active');
+              });
+              sub.slideDown(200, function(){
+                  mainContentHeightAdjust();
+              });
+           }
+        }
+        return false;
+      });
+    }
+  };
+}
+/**
  * 订单列表首页订单状态按钮切换样式
  */
 function orderStatusChoise () {
@@ -574,6 +639,7 @@ angular.module('manageApp.project')
     .directive("orderMedicals", orderMedicals)//药械订单列表
     .directive("niceScroll", niceScroll) //滚动条美化
     .directive("leftMenuChange", ['$location', leftMenuChange]) //左边栏子菜单点击事件
+    .directive("leftMenuToggle", leftMenuToggle)  //左边栏一、二级菜单伸缩
     .directive("orderStatusChoise", orderStatusChoise) //订单列表首页订单状态按钮切换样式
     .directive("orderListTips", orderListTips) //订单页头导航按钮点击事件处理
     .directive("toggleLeftMenu", toggleLeftMenu) //点击展开隐藏左边栏
