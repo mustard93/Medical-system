@@ -142,7 +142,17 @@
                 </div>
               </td>
               <td class="has-border text-center text-v-t pd-m">
-                <label class="checkbox_label text-s"><input type="checkbox" ng-model="tr.handleFlag">加入销售单</label>
+
+                <label   ng-if="tr.handleFlag||medicalStockMap[tr.relId].quantity>tr.quantity" class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag" >加入销售单</label>
+
+                <label   ng-if="!tr.handleFlag&&medicalStockMap[tr.relId].quantity<tr.quantity" class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag"
+                  handle-this-click
+                  dialog-title="警告"
+                  confirm-btn-txt="继续"
+                  dialog-content="此药械库存不足，生成的销售单极有可能没有足够库存而作废！您确定要继续？"
+                  dialog-template="pr-dialog-confirm-warning.html"
+                  cancel-callback="tr.handleFlag=false">加入销售单</label>
+
                 <span class="block mgb-m" ng-show="tr.quantity>medicalStockMap[tr.relId].quantity">
                   <button type="button" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold" ng-click="caifenQuantity(tr,medicalStockMap[tr.relId].quantity);">拆分</button>
                 </span>
@@ -186,7 +196,8 @@
                 class="pr-btn-create-glodbg"
                 ng-disabled="!formData.orderMedicalNos.length ||
                              !formData.customerId ||
-                             !formData.saleUserId">预览销售单</button>
+                             !formData.saleUserId ||
+                             !canSubmitForm()">预览销售单</button>
       </span>
 
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
