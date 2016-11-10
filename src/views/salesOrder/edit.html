@@ -77,7 +77,7 @@
          callback="customerAddressGetCallBack(formData,customerAddress)"
          ng-class="{'static': customerAddress.contacts}">
       <h1 class="color-6 text-n mgb-m">收货人信息</h1>
-      <ul ng-if="formData.customerId" clear-info-list>
+      <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
         <li class="mgr-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
           <p class="pdb">{{item.name}} </p>
           <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
@@ -166,7 +166,7 @@
                            ng-model="tr.quantity"
                            ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
                   </span>
-                  <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="tr.quantity>=medicalStockMap[tr.relId].quantity">+</button>
+                  <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                 </div>
                 <!-- <span class="order-goods-num flex-column">
                   <i class="flex-item-2 left" ng-click="tr.quantity=tr.quantity-1">-</i>
@@ -193,8 +193,21 @@
                 </div>
               </td>
               <td class="has-border text-center text-v-t pd-s pdt">
-                <label class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag" ng-disabled="tr.quantity>medicalStockMap[tr.relId].quantity">加入销售单</label>
-                <span class="block mgb-m" ng-show="tr.quantity>medicalStockMap[tr.relId].quantity">
+                <label   ng-if="tr.handleFlag||medicalStockMap[tr.relId].quantity>tr.quantity" class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag" >加入销售单</label>
+
+                <label   ng-if="!tr.handleFlag&&medicalStockMap[tr.relId].quantity<tr.quantity" class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag"
+                  handle-this-click
+                  dialog-title="警告"
+                  confirm-btn-txt="继续"
+                  dialog-content="此药械库存不足，生成的销售单极有可能没有足够库存而作废！您确定要继续？"
+                  dialog-template="pr-dialog-confirm-warning.html"
+                  cancel-callback="tr.handleFlag=false">加入销售单</label>
+
+
+
+
+
+                <span class="block mgb-m" ng-show="tr.quantity>medicalStockMap[tr.relId].quantity&&!(tr.quantity_noInvoice>0||tr.quantity_noInvoice_show)">
                   <button type="button" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgt-s" ng-click="caifenQuantity(tr,medicalStockMap[tr.relId].quantity);">拆分</button>
                 </span>
                 <!-- <span class="block mgb-m" ng-show="!(tr.quantity_noInvoice>0||tr.quantity_noInvoice_show)">
@@ -276,7 +289,7 @@
               <td class="has-border text-center text-v-t pd-c-s pdt">
                 <!-- <input type="number" id="addDataItem_quantity" class="pr-table-input" ng-model="addDataItem.quantity"  ng-keydown="$event.keyCode==13&&addDataItemClick()"/> -->
                 <div class="order-goods-num">
-                  <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity<=1 || !tr.quantity">-</button>
+                  <button type="button" class="inline-block left" ng-click="addDataItem.quantity=addDataItem.quantity-1||1" ng-disabled="addDataItem.quantity<=1 || !addDataItem.quantity">-</button>
                   <span class="inline-block">
                     <input type="number"
                            id="addDataItem_quantity"
@@ -286,7 +299,7 @@
                            ng-keydown="$event.keyCode==13&&addDataItemClick()"
                            ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
                   </span>
-                  <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="tr.quantity>=medicalStockMap[tr.relId].quantity">+</button>
+                  <button type="button" class="inline-block right" ng-click="addDataItem.quantity=addDataItem.quantity+1||1" >+</button>
                 </div>
               </td>
               <td class="fix-td-border">
@@ -327,7 +340,7 @@
               ng-disabled="!formData.orderMedicalNos.length ||
                            !formData.customerId ||
                            !formData.saleUserId ||
-                           !formData.orderMedicalNos[0].handleFlag">预览销售单
+                           !canSubmitForm()">预览销售单
       </button>
     </span>
 

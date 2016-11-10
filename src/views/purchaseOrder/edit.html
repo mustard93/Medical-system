@@ -106,8 +106,8 @@
          callback="customerAddressGetCallBack(formData,purchaserAddress)"
          ng-class="{'static': purchaserAddress.contacts}">
       <h1 class="color-9 text-n mgb">收货人信息</h1>
-      <ul ng-if="formData.customerId">
-        <li class="mgr-m mgb-m"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
+      <ul ng-if="formData.customerId" style="min-height:136px;">
+        <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
           <p class="pdb">{{item.name}} </p>
           <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
           <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
@@ -299,11 +299,7 @@
       <span class="mgr-l">
         <button class="pr-btn-save-glodbg"
                 type="submit"
-                ng-disabled="!changeFlag||formData.payAndDelivery.prepaidRatio>100 ||
-                             formData.payAndDelivery.prepaidRatio<0 ||
-                             !formData.orderMedicalNos.length ||
-                             !formData.customerId ||
-                             !formData.saleUserId">保存
+                ng-disabled="!changeFlag">保存
         </button>
       </span>
       <span class="mgr-l">
