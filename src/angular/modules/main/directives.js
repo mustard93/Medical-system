@@ -205,6 +205,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       })
                       .catch(function(msg) {
                             if(maskObj)maskObj.hide();
+
+                            if ($attrs.errorCallback) {
+                                $scope.$eval($attrs.errorCallback);
+                            }
+
                          if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
                          if (angular.isDefined($attrs.alertError)) alertError(msg);
                          $('.pr-full-loading').remove();
@@ -1810,16 +1815,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               }
 
               var chosenObj = null;
-              // 监听一个model 当一个model清空时,重置cosen
-              if ($attrs.clearWatchScope) {
-                $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
-                  if(chosenObj && !newValue){
-                    $timeout(function() {
-                      chosenObj.data("chosen").form_field_jq.trigger("change");
-                    }, 800);
-                  }
-                });
-              }
 
               if ($attrs.width) {
                 chosenConfig.width = $attrs.width;
@@ -2132,8 +2127,20 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
 
 
+                  // 监听一个model 当一个model清空时,重置cosen
+                  if ($attrs.clearWatchScope) {
+                    $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
+                      if(chosenObj && !newValue){
+                        getData();
+                        // chosenObj.data("chosen").form_field_jq.trigger("change");
 
-
+                        // $timeout(function() {
+                        //
+                        //
+                        // }, 800);
+                      }
+                    });
+                  }
 
                   getData();
 

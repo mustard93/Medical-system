@@ -544,6 +544,18 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
 
         dialogConfirm(_dialogContent, function (type,dialgForm) {
 
+
+
+
+          //取消对话框操作
+          if(type=="cancel"){
+            //执行回调
+            if ($attrs.cancelCallback) {
+              $scope.$eval($attrs.cancelCallback);
+            }
+            return;
+          }
+
           //type:nosave,save
           //取消对话框操作
           if(type=="nosave"){
