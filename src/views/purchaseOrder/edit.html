@@ -2,6 +2,7 @@
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
+     callback="watchFormChange('formData')"
      alert-error>
 
      <div class="content-wrapper create-new-order"
@@ -23,12 +24,12 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter()"
+        callback="submitFormAfter();watchFormChange('formData')"
         novalidate="novalidate">
-  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
+  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary mgb">
     <!-- 订单类型 -->
-    <div class="flex-column mgb-l pd-c-xl pdt-m pdb-m bb-line">
-      <div class="flex-item-2 pdt">
+    <div class="flex-column mgb-m pd-c-xl pdt-m pdb-m bb-line">
+      <div class="flex-item-2">
         <select class="select pr-select" ng-model="formData.type" style="max-width:180px;" chosen
          select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PurchaseOrderType">
         </select>
@@ -38,8 +39,8 @@
           <option value="寄售订单">寄售订单</option>
         </select> -->
       </div>
-      <div class="flex-item-10 text-right text-s color-6 mgt">
-        <span class="mgr-xl text-left">采购员：
+      <div class="flex-item-10 text-right text-s color-6">
+        <span class="mgr text-left color-9">采购员：
           <select class="select pr-select"
                   style="max-width:135px;"
                   data-placeholder="采购员"
@@ -54,39 +55,39 @@
             <option value="刘丽">刘丽</option>
           </select> -->
         </span>
-        <span class="mgr-xl">审批人：暂无</span>
+        <span class="mgr-xl color-9">审批人：<span class="color-6">暂无</span></span>
         <!-- <span class="mgr-xl">状态：{{formData.orderStatus || '未提交'}}</span> -->
-        <span class="mgr-xl">状态：未提交</span>
+        <span class="mgr color-9">状态：<span class="color-6">未提交</span></span>
       </div>
     </div>
     <!-- 供货商信息 -->
-    <div class="pd-c-xl pdb-l bb-line"
+    <div class="pd-c-xl pdb-m bb-line"
          ajax-if-eval="formData.supplier.id"
          ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
          scope-data="supplier"
          callback="formData.supplier=supplier"
          alert-error>
 
-      <h1 class="pdb-l">供货商信息</h1>
+      <h1 class="pdb text-n color-6 text-bold">供货商信息</h1>
       <span chosen-ajax>
         <select ng-if="formData.createAt"
-                class="ipt pr-short-ipt"
+                class="ipt pr-long-ipt"
                 data-placeholder="供货商名"
                 chosen
                 ng-model="formData.supplier.id"
                 select-source="rest/authen/supplier/queryForSelectOption.json">
         </select>
       </span>
-      <span>发货人：{{formData.supplier.shipperName}}</span>
-      <span>联系电话：{{formData.supplier.tel}}</span>
+      <span class="color-9">发货人：<span class="color-6">{{formData.supplier.shipperName}}</span></span>
+      <span class="color-9">联系电话：<span class="color-6">{{formData.supplier.tel}}</span></span>
     </div>
 
     <!-- 采购方信息 -->
-    <div class="pd-c-xl pdb-l bb-line" >
-      <h1 class="pdb-l pdt-l">采购方信息</h1>
+    <div class="pd-c-xl pdb-m" >
+      <h1 class="pdb pdt-m text-n color-6 text-bold">采购方信息</h1>
       <span>
         <select ng-if="formData.createAt"
-                class="ipt pr-short-ipt"
+                class="ipt pr-long-ipt"
                 data-placeholder="采购方名称"
                 chosen
                 ng-model="formData.customerId"
@@ -98,13 +99,13 @@
       </span>
     </div>
     <!-- 收货人信息 -->
-    <div class="consignee-info pd-c-xl pdt-l pdb-l bb-line"
+    <div class="consignee-info pd-c-xl pdb-m bb-line"
          ajax-if-eval="formData.customerId"
          ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
          scope-data="purchaserAddress"
          callback="customerAddressGetCallBack(formData,purchaserAddress)"
          ng-class="{'static': purchaserAddress.contacts}">
-      <h1 class="color-6 text-n mgb-l">收货人信息</h1>
+      <h1 class="color-9 text-n mgb">收货人信息</h1>
       <ul ng-if="formData.customerId">
         <li class="mgr-m mgb-m"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
           <p class="pdb">{{item.name}} </p>
@@ -126,8 +127,8 @@
       </ul>
     </div>
     <!-- 付款物流信息 -->
-    <div class="mgt-l pd-c-xl">
-      <h1 class="pdb-l">付款及货运要求</h1>
+    <div class="mgt-m pd-c-xl pdb-m bb-line">
+      <h1 class="pdb text-n text-bold color-6">付款及货运要求</h1>
       <div class="flex-column">
         <div class="flex-item-7">
 
@@ -148,7 +149,7 @@
           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PayPeriodType"
           ></select><!--账期要求-->
 
-          <input type="number" class="ipt pr-only-btline" ng-pattern="/[1-9]|[1-9]\d|100/" ng-model="formData.payAndDelivery.prepaidRatio"  placeholder="预付款比例">%
+          <input type="number" class="ipt pr-short-ipt pr-only-btline" ng-pattern="/[1-9]|[1-9]\d|100/" ng-model="formData.payAndDelivery.prepaidRatio"  placeholder="预付款比例">%
         </div>
         <div class="flex-item-5">
           <select class="select pr-select pr-short-ipt mgr-l"
@@ -166,12 +167,15 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
     <!-- 订单清单 -->
     <div class="order-details pd-c-xl bb-line">
-      <h1 class="pdt-l color-6 text-n">采购清单</h1>
-      <table class="mgt-l pr-table" style="width:100%;max-width:none;table-layout:auto;">
+      <h1 class="pdt-l color-6 text-n text-bold">药械清单</h1>
+      <table class="mgt pr-table" style="width:100%;max-width:none;table-layout:auto;">
         <thead>
-          <th>器械编号</th>
+          <th class="text-center">器械编号</th>
           <th class="pr-indent-20" style="min-width:120px">药械名称/生产厂家/规格</th>
           <th class="text-center">单位</th>
           <th class="text-center">数量</th>
@@ -221,7 +225,7 @@
             </td>
           </tr>
           <tr>
-            <td colspan="12" class="pd-v-l">添加药械</td>
+            <td colspan="12" class="pd-v">添加药械</td>
           </tr>
           <tr ng-init="addDataItem={}"
               ajax-if-eval="addDataItem&&addDataItem.relId"
@@ -280,9 +284,10 @@
     </div>
     <!-- 备注 -->
     <div class="pd-c-xl bb-line">
-      <h1 class="mgt-l">备注</h1>
-      <textarea class="pr-textarea mgb-l mgt-l" ng-model="formData.note" maxlength="240" style="height:92px;" placeholder="请填写备注信息"></textarea>
+      <h1 class="mgt-m">备注</h1>
+      <textarea class="pr-textarea mgb-l mgt" ng-model="formData.note" maxlength="240" style="height:92px;" placeholder="请填写备注信息"></textarea>
     </div>
+  </div>
     <!-- 总价 -->
     <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
       <p class="pr-font-24 color-9 mgb">合计：<span class="pr-font-24 color-6">￥{{formData.totalPrice | number:2}}</span></p>
@@ -294,8 +299,8 @@
       <span class="mgr-l">
         <button class="pr-btn-save-glodbg"
                 type="submit"
-                ng-disabled="formData.payAndDelivery.prepaidRatio>100 ||
-                             formData.payAndDelivery.prepaidRatio<0 || 
+                ng-disabled="!changeFlag||formData.payAndDelivery.prepaidRatio>100 ||
+                             formData.payAndDelivery.prepaidRatio<0 ||
                              !formData.orderMedicalNos.length ||
                              !formData.customerId ||
                              !formData.saleUserId">保存
@@ -318,7 +323,9 @@
       </span>
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
       <span>
-        <a href="javascript:;"
+        <a
+         ng-if="changeFlag"
+        href="javascript:;"
            handle-this-click
            dialog-title="确认返回?"
            dialog-content="有修改数据还未保存，是否保存?"
@@ -326,6 +333,9 @@
            nosave-callback="goTo('#/purchaseOrder/query.html')"
            save-callback="submitForm('editForm','exit')">返回采购单中心
         </a>
+
+
+                 <a   ng-if="!changeFlag" href="#/purchaseOrder/query.html" >返回购需中心</a>
       </span>
       <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
 

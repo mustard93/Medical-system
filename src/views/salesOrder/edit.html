@@ -2,6 +2,7 @@
      ng-controller="salesOrderEditCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
+      callback="watchFormChange('formData')"
      alert-error>
 
  <div class="content-wrapper create-new-order"
@@ -23,8 +24,8 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter()">
-  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
+        callback="submitFormAfter();watchFormChange('formData')">
+  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary mgb">
     <!-- 订单类型 -->
     <div class="flex-column mgb-m pd-c-xl pdt-m pdb-m bb-line">
       <div class="flex-item-2">
@@ -33,18 +34,18 @@
         </select>
       </div>
       <div class="flex-item-10 text-right text-s color-6 mgt">
-        <span class="mgr-xl">创建时间：{{formData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span>
-        <span class="mgr-xl">状态：{{formData.orderStatus}}</span>
+        <span class="mgr-xl color-9">创建时间：<span class="color-6">{{formData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span></span>
+        <span class="mgr-xl color-9">状态：<span class="color-6">{{formData.orderStatus}}</span></span>
         <!-- <span>订单编号：{{formData.orderNo}}</span> -->
       </div>
     </div>
     <!-- 用户信息 -->
     <div class="pd-c-xl pdb-m bb-line" >
       <span class="relative">
-        <label class="pr-label mgr-l">客户名{{statusInfo.isLoading}}</label>
+        <label class="pr-label mgr-l color-9">客户名{{statusInfo.isLoading}}</label>
         <div class="relative inline-block">
           <select ng-if="formData.createAt"
-                  class="ipt pr-long-ipt"
+                  class="ipt pr-long-ipt color-6"
                   data-placeholder="填写客户名"
                   chosen
                   chosen-ajax
@@ -55,8 +56,8 @@
           <!-- <input ng-if="formData.id&&formData.customerName" type="text" class="ipt pr-short-ipt"   ng-readonly="true" ng-model="formData.customerName"> -->
       </span>
       <span>
-        <label class="pr-label mgr-l">销售人员</label>
-        <select class="ipt pr-short-ipt" data-placeholder="填写销售人员" chosen  ng-model="formData.saleUserId"
+        <label class="pr-label mgr-l color-9">销售人员</label>
+        <select class="ipt pr-short-ipt color-6" data-placeholder="填写销售人员" chosen  ng-model="formData.saleUserId"
         select-source="rest/authen/organizationAndUser/queryForSelectOption.json"
           params='{"authority":"销售人员"}'
         >
@@ -64,12 +65,12 @@
         </select>
       </span>
       <span>
-        <label class="pr-label mgr-l">期望到货时间</label>
-        <input type="date" class="ipt pr-short-ipt" placeholder="期望到货时间" convert-to-date ng-model="formData.expectDate">
+        <label class="pr-label mgr-l color-9">期望到货时间</label>
+        <input type="date" class="ipt pr-short-ipt color-6" placeholder="期望到货时间" convert-to-date ng-model="formData.expectDate">
       </span>
     </div>
     <!-- 收货人信息 -->
-    <div class="consignee-info pd-c-xl pdt-l pdb-l bb-line"
+    <div class="consignee-info pd-c-xl pdt-l pdb-l"
          ajax-if-eval="formData.customerId"
          ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
          scope-data="customerAddress"
@@ -97,9 +98,12 @@
         </span>
       </ul>
     </div>
+  </div>
+
+  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
     <!-- 订单清单 -->
     <div class="order-details pd-c-xl bb-line">
-      <h1 class="pdt-l color-6 text-m text-bold">药械清单</h1>
+      <h1 class="pdt-l color-6 text-n text-bold">药械清单</h1>
       <div class="data-table">
         <table class="mgt-m pr-table">
           <thead>
@@ -295,8 +299,8 @@
       <p class="mgt-m mgb-l text-right"><a href="javascript:;">导入购需清单</a><i class="import-icon mgl-s"></i></p>
     </div>
     <!-- 备注 -->
-    <div class="pd-c-xl bb-line">
-      <h1 class="mgt-m text-bold">备注</h1>
+    <div class="pd-c-xl pdb">
+      <h1 class="mgt-m">备注</h1>
       <textarea class="pr-textarea mgb-l mgt" ng-model="formData.note" maxlength="240" style="height:92px;" placeholder="请填写备注信息"></textarea>
     </div>
   </div>
@@ -310,11 +314,11 @@
     <span class="mgl">
       <!-- <button class="pr-btn-save-glodbg"
               type="submit"
-              ng-disabled="!formData.orderMedicalNos.length ||
+              ng-disabled="!changeFlag||!formData.orderMedicalNos.length ||
                            !formData.customerId ||
                            !formData.saleUserId">保存
       </button> -->
-      <button class="pr-btn-save-glodbg" ng-click="submitForm('editForm','save')">保存</button>
+      <button class="pr-btn-save-glodbg"     ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
     </span>
 
     <span class="mgl">
@@ -328,13 +332,16 @@
     </span>
 
     <span class="mgl">
-      <a href="javascript:;"
+      <a   ng-if="changeFlag"  href="javascript:;"
          handle-this-click
          dialog-title="确认返回?"
          dialog-content="该购需单存在未保存数据，是否保存?"
          dialog-template="pr-dialog-return.html"
          nosave-callback="goTo('#/salesOrder/query.html')"
          save-callback="submitForm('editForm','exit')">返回购需中心</a>
+
+
+         <a   ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需中心</a>
     </span>
 
     <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->

@@ -5,7 +5,13 @@ define('project/controllers', ['project/init'], function() {
     /**
      *编辑、新建订单
      */
-    function salesOrderEditCtrl($scope, modal,alertWarn) {
+    function salesOrderEditCtrl($scope, modal,alertWarn,watchFormChange) {
+
+
+                    $scope.watchFormChange=function(watchName){
+                      watchFormChange(watchName,$scope);
+                    }
+
         modal.closeAll();
         // $scope.formData={};
         $scope.addDataItem = {};
@@ -618,7 +624,7 @@ define('project/controllers', ['project/init'], function() {
       .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData","watchFormChange", purchaseOrderEditCtrl])
     .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", noticeCtrl])
     .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
-        .controller('salesOrderEditCtrl', ["$scope", "modal","alertWarn", salesOrderEditCtrl]);
+        .controller('salesOrderEditCtrl', ["$scope", "modal","alertWarn","watchFormChange", salesOrderEditCtrl]);
 
 
         //
