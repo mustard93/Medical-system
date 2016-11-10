@@ -2611,10 +2611,48 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         };
     }
+
+    //验证失败的提示窗口
+    function popover () {
+
+        return {
+            restrict: 'A',
+            scope: {
+                popoverShow: '=',
+                popoverOptions: '@'
+            },
+            link: function (scope, element) {
+                element.popover(JSON.parse(scope.popoverOptions || '{ "placement": "top", "trigger": "manual" }'));
+                scope.isFocus=false;
+                $(element).focus(function(){
+                      scope.isFocus=true;
+                      console.log("2isFocus="+scope.isFocus);
+                  });
+
+                  function showDo(show){
+                    if (  scope.isFocus&&show) {
+                        element.popover('show');
+                    } else {
+                        element.popover('hide');
+                    }
+                  }
+
+                scope.$watch('popoverShow', function (show) {
+                  console.log("isFocus="+  scope.isFocus);
+                    if (  scope.isFocus&&show) {
+                        element.popover('show');
+                    } else {
+                        element.popover('hide');
+                    }
+                });
+            }
+        };
+    }
     /**
      * 加入项目
      */
     angular.module('manageApp.main')
+      .directive("popover", ["$route", "$templateCache", "$routeParams", popover])
         .directive("ngView", ["$route", "$templateCache", "$routeParams", ngView])
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
