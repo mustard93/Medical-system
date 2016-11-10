@@ -47,7 +47,7 @@
       <ul class="">
         <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
-            <div class="pd-c-l">
+            <div class="pd-c-m">
               <div class="flex-column mgb-l pd-v" style="height:22px;line-height:22px;">
                 <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
                 <span  class="flex-item-10 text-right">
@@ -81,23 +81,26 @@
                   <p class="mgb-s">通知单号：{{tr.orderNo}}
                     <!-- <strong class="color-6 text-normal">{{tr.orderNo}}</strong> -->
                   </p>
+                  <p class="mgb-s">采购员：<em class="color-custom-orange">{{tr.saleUser.n}}</em>
+                    <!-- <strong class="color-6 text-normal">{{tr.orderNo}}</strong> -->
+                  </p>
                 </div>
-                <div class="flex-item-6 text-right">
+                <div class="flex-item-6">
                   <p class="mgb-s">创建时间：<strong class="color-6 text-normal">{{tr.createAt | date:'yyyy-MM-dd HH:ss'}}</strong></p>
+                  <p class="mgb-s">审批人：<em class="color-custom-orange">{{tr.operationFlowSet[tr.operationFlowSet.length-1].inputUser}}</em>
+                  </p>
                 </div>
               </div>
             </div>
-            <div class="color-9 pr-ele-height-auto pd-c-l" style="padding-top:10px!important;padding-bottom:10px!important;min-height:1px;">
+            <div class="color-9 pr-ele-height-auto pd-c-m text-m" style="padding-top:10px!important;padding-bottom:10px!important;min-height:1px;">
               供货商：<span class="color-6">{{tr.supplier.name}}</span>
             </div>
             <div class="flex-column text-s">
-              <div class="flex-item-6 br-line pd-l" style="min-height:145px;">
+              <div class="flex-item-6 br-line pd-m" style="min-height:95px;">
                 <p class="mgb-s color-9">采购单号：<em class=" color-custom-orange">  <a href="#/arrivalNoticeOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a></em></p>
-                <p class="mgb-s color-9">采购员：<em class="color-custom-orange">{{tr.saleUser.n}}</em></p>
-                <p class="mgb-s color-9">审批人：<em class="color-custom-orange">{{tr.operationFlowSet[tr.operationFlowSet.length-1].inputUser}}</em></p>
               </div>
-              <div class="flex-item-6 pd">
-                <p class="pd-v-m text-center">入库状态</p>
+              <div class="flex-item-6 pd-m">
+                <p class="pdb-s text-center">入库状态</p>
                 <p class="text-m color-6 text-center">{{tr.progress||"0"}}%</p>
                 <div class="pd-c-xl">
                   <div class="progress pr-progress"
