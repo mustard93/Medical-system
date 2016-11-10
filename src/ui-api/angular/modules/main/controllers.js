@@ -16,7 +16,7 @@ define('main/controllers', ['main/init'], function () {
             msgBubble: 0 //消息气泡
         };
         //当前用户
-        $scope.curUser={};
+        // $rootScope.curUser={};
 
         $scope.mainConfig = window.Config || {};
         //页面跳转
@@ -83,9 +83,9 @@ define('main/controllers', ['main/init'], function () {
 
         //全局权限控制器
         $scope.hasAuthor = function (author) {
-              var arr=TestAuthor["A_"+$scope.curUser.phone];
-            // if(!$scope.curUser.additional||!$scope.curUser.additional.Authoritys)return false;
-            // arr=$scope.curUser.additional.Authoritys;
+              var arr=TestAuthor["A_"+$rootScope.curUser.phone];
+            // if(!$rootScope.curUser.additional||!$rootScope.curUser.additional.Authoritys)return false;
+            // arr=$rootScope.curUser.additional.Authoritys;
 
             if ($.inArray(author, arr) == -1) {
                 return false;
@@ -114,7 +114,7 @@ define('main/controllers', ['main/init'], function () {
               dataType: 'json',
               success: function (_data) {
                 if (_data.code == 200) {
-                  $scope.curUser=_data.data;
+                  $rootScope.curUser=_data.data;
                   angular.extend($scope.mainStatus, _data.data);
                   $scope.$digest();
                 } else if (_data.code == 802){
