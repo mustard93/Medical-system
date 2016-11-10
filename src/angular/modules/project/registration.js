@@ -299,7 +299,7 @@ define('project/registration',['angular'], function () {
     };
   }])
   /**
-   *  校验密码
+   *  校验密码及确认密码
    */
   .directive('regCheckPassword', ['$rootScope', function ($rootScope) {
     'use strict';
@@ -308,30 +308,34 @@ define('project/registration',['angular'], function () {
       require: 'ngModel',
       link: function (scope, element, attrs, ngModel) {
         if (!$rootScope.verifyResult) {
-          $rootScope.verifyResult = {};
+          $rootScope.verifyResult = {
+            msg: '',
+            password: false,
+            repassword: false
+          };
         }
 
         element.on('keyup', function (event) {
           if (event.keyCode !== 16) {   //屏蔽shift键
             if (attrs.name === 'password') {
               $rootScope.verifyResult = {
-                msg: '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线',
-                password: false
+                msg: '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线'
               };
-              ngModel.$viewValue = $.trim(ngModel.$viewValue);
-              if (ngModel.$viewValue.length >= 6) {
+              var _passwordInput = $.trim($(element).val());
+              if (_passwordInput.length >= 6) {
                 if (!(/[A-Za-z0-9_-]{6,32}/.test(ngModel.$viewValue))) {
-                  $rootScope.verifyResult.msg = '密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线';
+                  $rootScope.verifyResult.password = false;
+                  $rootScope.verifyResult.repassword = false;
                   if ($('.reg-info-prompt').css('display') === 'none') {
                     $('.reg-info-prompt').fadeIn(200);
                     $(element).focus();
                     return;
                   }
                 } else {
+                  $rootScope.verifyResult.password = true;
                   if ($('.reg-info-prompt').css('display') !== 'none') {
                     $('.reg-info-prompt').fadeOut(200);
                   }
-                  $rootScope.verifyResult.password = true;
                 }
               }
             }
@@ -347,9 +351,11 @@ define('project/registration',['angular'], function () {
               } else {
                 $rootScope.verifyResult = {
                   msg: '两次输入的密码不一致',
+                  password: true,
                   repassword: false
                 };
-                if (ngModel.$viewValue.length >= 6) {
+                var _repasswordInput = $.trim($(element).val());
+                if (_repasswordInput.length >= 6) {
                   if (scope.regData.password !== scope.regData.repassword) {
                     $rootScope.verifyResult.msg = '两次输入的密码不一致';
                     if ($('.reg-info-prompt').css('display') === 'none') {
