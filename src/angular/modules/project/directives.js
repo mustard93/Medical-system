@@ -97,24 +97,6 @@ function leftMenuToggle () {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      function visibleSubMenuClose() {
-        $('.menu-list').each(function() {
-          var t = jQuery(this);
-          if(t.hasClass('nav-active')) {
-             t.find('> ul').slideUp(200, function(){
-                t.removeClass('nav-active');
-             });
-          }
-        });
-      }
-
-      function mainContentHeightAdjust() {
-        // Adjust main content height
-        var docHeight = jQuery(document).height();
-        if(docHeight > jQuery('.main-content').height())
-          jQuery('.main-content').height(docHeight);
-      }
-
       $('.menu-list > a').on('click', function (event) {
         // 阻止冒泡
         if (event && event.stopPropagation) {
@@ -140,12 +122,11 @@ function leftMenuToggle () {
                 //选中样式切换
               });
            } else {
-              // visibleSubMenuClose();
               parent.addClass('nav-active active').siblings().each(function () {
                 $(this).removeClass('active nav-active');
               });
               sub.slideDown(200, function(){
-                  mainContentHeightAdjust();
+                
               });
            }
         }
