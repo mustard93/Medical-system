@@ -166,7 +166,7 @@
                            ng-model="tr.quantity"
                            ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
                   </span>
-                  <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="tr.quantity>=medicalStockMap[tr.relId].quantity">+</button>
+                  <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                 </div>
                 <!-- <span class="order-goods-num flex-column">
                   <i class="flex-item-2 left" ng-click="tr.quantity=tr.quantity-1">-</i>
@@ -193,7 +193,20 @@
                 </div>
               </td>
               <td class="has-border text-center text-v-t pd-s pdt">
-                <label class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag" ng-disabled="tr.quantity>medicalStockMap[tr.relId].quantity">加入销售单</label>
+                <label   ng-if="tr.handleFlag||medicalStockMap[tr.relId].quantity>tr.quantity" class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag" >加入销售单</label>
+
+                <label   ng-if="!tr.handleFlag&&medicalStockMap[tr.relId].quantity<tr.quantity" class="checkbox_label text-s cur-pot"><input type="checkbox" ng-model="tr.handleFlag"
+                  handle-this-click
+                  dialog-title="警告"
+                  confirm-btn-txt="继续"
+                  dialog-content="此药械库存不足，生成的销售单极有可能没有足够库存而作废！您确定要继续？"
+                  dialog-template="pr-dialog-confirm-warning.html"
+                  cancel-callback="tr.handleFlag=false">加入销售单</label>
+
+
+
+
+
                 <span class="block mgb-m" ng-show="tr.quantity>medicalStockMap[tr.relId].quantity">
                   <button type="button" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgt-s" ng-click="caifenQuantity(tr,medicalStockMap[tr.relId].quantity);">拆分</button>
                 </span>
@@ -327,7 +340,7 @@
               ng-disabled="!formData.orderMedicalNos.length ||
                            !formData.customerId ||
                            !formData.saleUserId ||
-                           !formData.orderMedicalNos[0].handleFlag">预览销售单
+                           !canSubmitForm()">预览销售单
       </button>
     </span>
 
