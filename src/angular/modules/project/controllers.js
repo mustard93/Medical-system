@@ -26,7 +26,14 @@ define('project/controllers', ['project/init'], function() {
         */
         $scope.customerAddressGetCallBack = function(formData,customerAddress) {
 
+
           formData.customerName=customerAddress.name;
+
+          if(!customerAddress||!customerAddress.contacts||customerAddress.contacts.length==0){
+
+            formData.contactsId=null;
+            return;
+          }
           if(!formData.contactsId){
               formData.contactsId=customerAddress.defaultContactId;
           }
@@ -498,7 +505,7 @@ define('project/controllers', ['project/init'], function() {
              $scope.submitFormAfter = function() {
 
                  $scope.formData.validFlag = false;
-          
+
                if ($scope.submitForm_type == "exit") {
                  $scope.goTo('#/purchaseOrder/query.html');
                 return;
