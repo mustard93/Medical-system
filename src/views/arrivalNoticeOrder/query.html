@@ -78,11 +78,10 @@
               </div>
               <div class="flex-column qurey text-s color-9">
                 <div class="flex-item-6 mgb">
-                  <p class="mgb-s">通知单号：{{tr.orderNo}}
+                  <p class="mgb-s">通知单号：<span class="color-6">{{tr.orderNo}}</span>
                     <!-- <strong class="color-6 text-normal">{{tr.orderNo}}</strong> -->
                   </p>
                   <p class="mgb-s">采购员：<em class="color-custom-orange">{{tr.saleUser.n}}</em>
-                    <!-- <strong class="color-6 text-normal">{{tr.orderNo}}</strong> -->
                   </p>
                 </div>
                 <div class="flex-item-6">
@@ -98,6 +97,9 @@
             <div class="flex-column text-s">
               <div class="flex-item-6 br-line pd-m" style="min-height:95px;">
                 <p class="mgb-s color-9">采购单号：<em class=" color-custom-orange">  <a href="#/arrivalNoticeOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a></em></p>
+                <p class="mgb-s color-9">采购员：<em class="color-custom-orange">{{tr.saleUser.n}}</em></p>
+                <!-- <p class="mgb-s color-9">审批人：<em class="color-custom-orange">{{tr.operationFlowSet[tr.operationFlowSet.length-1].inputUser}}</em></p> -->
+                <p class="mgb-s color-9">审批人：<em class="color-custom-orange">{{tr.approverUser.n}}</em></p>
               </div>
               <div class="flex-item-6 pd-m">
                 <p class="pdb-s text-center">入库状态</p>
@@ -120,18 +122,18 @@
                 </div>
               </div>
             </div>
-            <div class="pd-m color-9">
+            <div class="pdr-m pdl-m pd-v color-9">
               <p class="arrivalNotaice-order-details-note">
                 <span>备注：</span><span class="color-6">{{tr.note}}</span>
               </p>
             </div>
-            <div class="pd-m color-9">
-              <div class="flex-column mgb">
+            <div class="pd color-9">
+              <div class="flex-column">
                 <div class="flex-item-6">
                   <!-- 预付款：<em class="">￥{{tr.prepaidPrice | number:2}}</em> -->
                 </div>
-                <div class="flex-item-6 text-right">
-                  合计：<em class="">￥{{tr.totalPrice | number:2}}</em>
+                <div class="flex-item-6 text-right text-m">
+                  合计：<em class="color-6">￥{{tr.totalPrice | number:2}}</em>
                 </div>
               </div>
               <!-- <div class="text-right">税额：<em class="">￥{{tr.totalPrice*tr.tax | number:2}}</em></div> -->
