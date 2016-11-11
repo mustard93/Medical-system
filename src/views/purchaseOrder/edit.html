@@ -2,7 +2,7 @@
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="watchFormChange('formData')"
+     callback="initFlag=true;watchFormChange('formData')"
      alert-error>
 
   <div class="content-wrapper create-new-order"
@@ -30,13 +30,13 @@
     <!-- 订单类型 -->
     <div class="panel pr-panel pr-panel-height mgb flex-column">
       <div class="flex-item-2">
-        <select class="select pr-select" ng-model="formData.type" style="max-width:180px;" chosen
+        <select ng-if="initFlag"  class="select pr-select" ng-model="formData.type" style="max-width:180px;" chosen
          select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PurchaseOrderType">
         </select>
       </div>
       <div class="flex-item-10 text-right text-s color-6">
         <span class="mgr text-left color-9">采购员：
-          <select class="select pr-select"
+          <select ng-if="initFlag"  class="select pr-select"
                   style="max-width:135px;"
                   data-placeholder="采购员"
                   chosen
@@ -60,7 +60,7 @@
 
       <h1 class="pdb text-n color-6 text-bold">供货商信息</h1>
       <span chosen-ajax>
-        <select ng-if="formData.createAt"
+        <select ng-if="initFlag"
                 class="ipt pr-long-ipt"
                 data-placeholder="供货商名"
                 chosen
@@ -71,6 +71,7 @@
       <span class="color-9">发货人：<span class="color-6">{{formData.supplier.shipperName}}</span></span>
       <span class="color-9">联系电话：<span class="color-6">{{formData.supplier.tel}}</span></span>
     </div>
+
     <!-- 采购方信息及收货人信息 -->
     <div class="panel pr-panel pr-panel-height mgb">
       <h1 class="mgb pd-v text-n color-6 text-bold flex-column">
@@ -119,6 +120,52 @@
           </ul>
         </div>
       </div>
+
+
+    <!-- 采购方信息 -->
+    <!-- <div class="pd-c-xl pdb-m" >
+      <h1 class="pdb pdt-m text-n color-6 text-bold">采购方信息</h1>
+      <span>
+        <select ng-if="initFlag"
+                class="ipt pr-long-ipt"
+                data-placeholder="采购方名称"
+                chosen
+                ng-model="formData.customerId"
+                select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
+        </select>
+
+     <input type="text" class="ipt pr-only-btline" placeholder="采购方名称">
+
+      </span>
+    </div> -->
+    <!-- 收货人信息 -->
+    <!-- <div class="consignee-info pd-c-xl pdb-m bb-line"
+         ajax-if-eval="formData.customerId"
+         ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
+         scope-data="purchaserAddress"
+         callback="customerAddressGetCallBack(formData,purchaserAddress)"
+         ng-class="{'static': purchaserAddress.contacts}">
+      <h1 class="color-9 text-n mgb">收货人信息</h1>
+      <ul ng-if="formData.customerId" style="min-height:136px;">
+        <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
+          <p class="pdb">{{item.name}} </p>
+          <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
+          <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
+          <i class="consignee-default-label"  ng-if="purchaserAddress.defaultContactId==item.id">默认</i>
+          <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+        </li>
+        <span>
+          <button class="pr-add-item-whitebg"
+                  modal-right="700"
+                  modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                  modal-scope="this"
+                  modal-url="views/purchaserAddress/contact/edit.html"
+                  ng-class="{'static':!purchaserAddress.contacts}">
+            <i class="fa fa-plus"></i>
+          </button>
+        </span>
+      </ul> -->
+
     </div>
     <!-- 付款物流信息 -->
     <div class="panel pr-panel pr-panel-height mgb">
@@ -128,17 +175,17 @@
 
 
 
-          <select class="select pr-select pr-short-ipt mgr-l"
+          <select ng-if="initFlag"  class="select pr-select pr-short-ipt mgr-l"
           ng-model="formData.payAndDelivery.payType"  chosen
           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PayType"
           >
 
           </select><!--付款方式-->
-          <select class="select pr-select pr-short-ipt mgr-l"
+          <select ng-if="initFlag"  class="select pr-select pr-short-ipt mgr-l"
           ng-model="formData.payAndDelivery.cashType"  chosen
           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_CashType"
           ></select><!--结算方式-->
-          <select class="select pr-select pr-short-ipt mgr-l"
+          <select ng-if="initFlag"  class="select pr-select pr-short-ipt mgr-l"
           ng-model="formData.payAndDelivery.payPeriodType"  chosen
           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PayPeriodType"
           ></select><!--账期要求-->
@@ -146,12 +193,12 @@
           <input type="number" class="ipt pr-short-ipt pr-only-btline" ng-pattern="/[1-9]|[1-9]\d|100/" ng-model="formData.payAndDelivery.prepaidRatio"  placeholder="预付款比例">%
         </div>
         <div class="flex-item-5">
-          <select class="select pr-select pr-short-ipt mgr-l"
+          <select ng-if="initFlag" class="select pr-select pr-short-ipt mgr-l"
           ng-model="formData.payAndDelivery.transportType"  chosen
           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_TransportType"
           ></select><!--运输方式-->
 
-          <select class="select pr-select pr-short-ipt mgr-l"
+          <select ng-if="initFlag" class="select pr-select pr-short-ipt mgr-l"
           ng-model="formData.payAndDelivery.kuaidiType"  chosen
           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_KuaidiType"
           ></select><!--承运单位-->

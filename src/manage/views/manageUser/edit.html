@@ -1,5 +1,6 @@
 
-        <div class="modal-content" ng-controller="editCtrl" ajax-url="rest/authen/manageUser/getOfEdit.json?id={{tr.id}}" scope-data="formData" alert-error>
+        <div class="modal-content" ng-controller="editCtrl"
+        ajax-url="rest/authen/manageUser/getOfEdit.json?id={{tr.id}}" scope-data="formData" callback="initFlag=true" alert-error>
 
           <form class="add-medical-form form-horizontal"
                 action="rest/authen/manageUser/save" alert-ok
@@ -13,7 +14,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">机构</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select class="select select-w"
+                  <select ng-if="initFlag"  class="select select-w"
                           data-placeholder="选择机构"
                           chosen
                           ng-model="formData.organizationId"
@@ -26,13 +27,15 @@
               <div class="form-group" ng-if="formData.organizationId">
                 <label class="col-lg-2 col-sm-2 control-label">部门</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select class="select select-w"
+                  <select ng-if="initFlag"  class="select select-w"
                           data-placeholder="选择部门"
                           chosen
                           ng-model="formData.departmentId"
                           default-empty="无"
                           alert-error
-                          select-source="rest/index/department/queryForSelectOption?DistributorId={{formData.organizationId}}">
+                          ajax-if-eval="formData.organizationId"
+                          params='{"DistributorId":"{{formData.organizationId}}"}'
+                          select-source="rest/index/department/queryForSelectOption">
                   </select>
                 </div>
             </div>
