@@ -90,47 +90,52 @@ function leftMenuChange ($location) {
   };
 }
 /**
- *  左边栏一、二级菜单伸缩
+ *  左边栏一级菜单伸缩
  */
 function leftMenuToggle () {
   'use strict';
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
+      // 一级子菜单点击事件效果
       $('.menu-list > a').on('click', function (event) {
-        // 阻止冒泡
+        //阻止冒泡
         if (event && event.stopPropagation) {
           event.stopPropagation();
         }
 
-        var parent = $(this).parent();
-        var sub = parent.find('> ul');
+        var _parent = $(this).parent(); //当前绑定点击事件的父元素
 
-        // parent.addClass('active');
-        // parent.siblings().each(function () {
-        //   $(this).removeClass('active');
-        // });
+        if ($(this).next('.sub-menu-list').length !== 0) {  //如果有二级菜单
 
-        if(!$('body').hasClass('left-side-collapsed')) {
-           if(sub.is(':visible')) {
-              sub.slideUp(200, function(){
-                parent.removeClass('nav-active').addClass('active').siblings().each(function () {
-                  $(this).removeClass('active nav-active');
-                });
-                // $('.main-content').css({height: ''});
-                // mainContentHeightAdjust();
-                //选中样式切换
+          var _secondMenuList = $(this).next('.sub-menu-list');
+          if (!_secondMenuList.is(':visible')) {  //收起状态
+            _secondMenuList.slideDown(200, function () {
+              // ...
+              _parent.addClass('active').siblings().each(function () {
+                if ($(this).hasClass('active')) {
+                  $(this).removeClass('active');
+                }
+                if ($(this).children('.sub-menu-list').is(':visible')) {
+                  $(this).children('.sub-menu-list').hide(200);
+                }
               });
-           } else {
-              parent.addClass('nav-active active').siblings().each(function () {
-                $(this).removeClass('active nav-active');
-              });
-              sub.slideDown(200, function(){
-                
-              });
-           }
+            });
+          } else {
+            _secondMenuList.slideUp(200, function () {
+              // 这里是一级菜单收起后的回调函数...
+            });
+          }
+        } else {                                            //如果没有二级菜单
+          _parent.addClass('active').siblings().each(function () {
+            if ($(this).hasClass('active')) {
+              $(this).removeClass('active');
+            }
+            if ($(this).children('.sub-menu-list').is(':visible')) {
+              $(this).children('.sub-menu-list').hide(200);
+            }
+          });
         }
-        return false;
       });
     }
   };
@@ -620,7 +625,7 @@ angular.module('manageApp.project')
     .directive("orderMedicals", orderMedicals)//药械订单列表
     .directive("niceScroll", niceScroll) //滚动条美化
     .directive("leftMenuChange", ['$location', leftMenuChange]) //左边栏子菜单点击事件
-    .directive("leftMenuToggle", leftMenuToggle)  //左边栏一、二级菜单伸缩
+    .directive("leftMenuToggle", leftMenuToggle)  //左边栏一级菜单伸缩
     .directive("orderStatusChoise", orderStatusChoise) //订单列表首页订单状态按钮切换样式
     .directive("orderListTips", orderListTips) //订单页头导航按钮点击事件处理
     .directive("toggleLeftMenu", toggleLeftMenu) //点击展开隐藏左边栏
