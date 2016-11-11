@@ -2,7 +2,7 @@
      ng-controller="salesOrderEditCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-      callback="watchFormChange('formData')"
+      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
 
  <div class="content-wrapper create-new-order"
@@ -29,7 +29,7 @@
     <!-- 订单类型 -->
     <div class="flex-column mgb-m pd-c-xl pdt-m pdb-m bb-line">
       <div class="flex-item-2">
-        <select class="select pr-select" ng-model="formData.type" style="max-width:180px;" chosen
+        <select ng-if="initFlag"  class="select pr-select" ng-model="formData.type" style="max-width:180px;" chosen
          select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
         </select>
       </div>
@@ -44,7 +44,7 @@
       <span class="relative">
         <label class="pr-label mgr-l color-9">客户名{{statusInfo.isLoading}}</label>
         <div class="relative inline-block">
-          <select ng-if="formData.createAt"
+          <select ng-if="initFlag"
                   class="ipt pr-long-ipt color-6"
                   data-placeholder="填写客户名"
                   chosen
@@ -57,7 +57,7 @@
       </span>
       <span>
         <label class="pr-label mgr-l color-9">销售人员</label>
-        <select class="ipt pr-short-ipt color-6" data-placeholder="填写销售人员" chosen  ng-model="formData.saleUserId"
+        <select ng-if="initFlag" class="ipt pr-short-ipt color-6" data-placeholder="填写销售人员" chosen  ng-model="formData.saleUserId"
         select-source="rest/authen/organizationAndUser/queryForSelectOption.json"
           params='{"authority":"销售人员"}'
         >
@@ -364,10 +364,11 @@
          href="javascript:;"
          class="pr-color-red mgl"
          handle-this-click
-         dialog-title="确认删除 ?"
+         dialog-title="确认删除?"
          dialog-content="您确认删除这条购需单吗?"
          dialog-template="dialog-confirm.html"
          request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+         jump-url="#/salesOrder/query.html"
          emitted="reloadList">删除</a>
     </span>
 

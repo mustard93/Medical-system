@@ -19,12 +19,12 @@
         <span>对应采购单号：<em class="color-custom-orange"> <a href="#/purchaseOrder/get.html?id={{showData.relId}}">{{showData.relOrderNo}}</a></em></span>
       </div>
       <div class="flex-item-5 text-right">
-        <span class="mgr">采购员：<em class="color-6">{{showData.saleUser.n}}</em></span>
-        <span class="mgr">电话：<em class="color-6">{{showData.saleUser.p}}</em></span>
+        <span class="mgr">采购员：<a href="#">{{showData.saleUser.n}}</a></span>
+        <!-- <span class="mgr">电话：<em class="color-6">{{showData.saleUser.p}}</em></span> -->
 
 
 
-        <span class="mgr">审批人：<em class="color-6">{{showData.operationFlowSet[showData.operationFlowSet.length-1].inputUser}}</em></span>
+        <span class="mgr">审批人：<a href="#">{{showData.operationFlowSet[showData.operationFlowSet.length-1].inputUser}}</a></span>
         <span class="mgr">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
       </div>
     </div>
@@ -82,7 +82,25 @@
               <td class="has-border text-center text-v-t pd-m">{{tr.productionDate}}</td>
               <td class="has-border text-center text-v-t pd-m">{{tr.guaranteePeriod}}</td>
               <td class="has-border text-center text-v-t pd-m">{{tr.stockType}}</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.progress}}</td>
+              <td class="has-border text-center text-v-t pd-m">
+                <p class="text-s color-6">{{tr.progress}}%</p>
+                <div class="progress pr-progress"
+                     data-toggle="tooltip"
+                     data-placement="top"
+                     title="{{tr.progress}}%">
+                  <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
+                       aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                       aria-valuemax="100"
+                       ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'
+                       >
+                  </div>
+                  <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
+                       aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                        ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
+                       aria-valuemax="100" >
+                  </div>
+                </div>
+              </td>
           </tbody>
         </table>
       </div>

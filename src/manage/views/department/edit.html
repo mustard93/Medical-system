@@ -1,7 +1,7 @@
 
         <div class="modal-content pr-modal-content" ng-controller="editCtrl"
 
-           ajax-url="rest/authen/department/getOfEdit.json?id={{tr.id}}"  scope-data="formData" callback="" alert-error >
+           ajax-url="rest/authen/department/getOfEdit.json?id={{tr.id}}"  scope-data="formData" callback="initFlag=true" alert-error >
 
           <form class="add-department-form form-horizontal"
                 action="rest/authen/department/save"
@@ -15,7 +15,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">上级部门</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select class="select select-w" data-placeholder="选择一个..." chosen default-empty="无"  ng-model="formData.customerId" select-source="rest/authen/department/queryForSelectOption.json"></select>
+                  <select ng-if="initFlag" class="select select-w" data-placeholder="选择一个..." chosen default-empty="无"  ng-model="formData.customerId" select-source="rest/authen/department/queryForSelectOption.json"></select>
 
                 </div>
               </div>
@@ -31,7 +31,7 @@
                                 <div class="form-group">
                                   <label class="col-lg-2 col-sm-2 control-label">部门负责人</label>
                                   <div class="col-lg-10 col-sm-10">
-                                    <select class="select select-w" data-placeholder="选择一个..." chosen  multiple ng-model="formData.headUserIds" select-source="rest/authen/user/queryForSelectOption.json">
+                                    <select ng-if="initFlag" class="select select-w" data-placeholder="选择一个..." chosen  multiple ng-model="formData.headUserIds" select-source="rest/authen/user/queryForSelectOption.json">
                                       <option value=""></option>
                                     </select>
                                   </div>
