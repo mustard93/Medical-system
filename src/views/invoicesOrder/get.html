@@ -180,7 +180,7 @@
         <span class="mgr-l">
           <span class="mgr-l"
                 ng-if="showData.orderStatus=='待发货' && $root.hasAuthor('发货单确认')"
-                ng-init="rejectObj={url:'rest/authen/invoicesOrder/updateStatus.json',typeCode:'发货单驳回理由',formData:{id:showData.id,status:'已作废',key:'缺货'},goUrl:'#/invoicesOrder/get.html?t=1&id='+showData.id}">
+                ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'发货单驳回理由',formData:{businessKey:showData.confirmOrderId,conditionType:'驳回',type:'发货单',key:'缺货'},goUrl:'#/invoicesOrder/get.html?t=1&id='+showData.id}">
             <a href="javascript:;"
                modal-center="490"
                modal-scope="this"
@@ -193,8 +193,8 @@
                   dialog-title="确认发货?"
                   dialog-content="确认通知库房发货?此操作会同时打印发货单"
                   dialog-template="pr-dialog-submit.html"
-                  params='{"id":showData.id,"status":"已发货"}'
-                    request-url="rest/authen/invoicesOrder/updateStatus.json"
+                  params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"发货单"}'
+                    request-url="rest/authen/workflowTask/run.json"
                   call-back="goTo('#/invoicesOrder/get.html?id={{showData.id}}&t=1')">确认发货</button>
         </span>
       </div>
