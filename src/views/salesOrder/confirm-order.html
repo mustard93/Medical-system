@@ -17,8 +17,8 @@
         alert-error
         callback="goTo('#/salesOrder/order-done.html?id='+showData.confirmOrder.id)">
   <div class="content-wrapper-main pr-bg-white pr-border pr-fuzzy-boundary">
-    <div class="pd-c-xxxxl bb-line">
-      <div class="mg-xl text-s color-9 flex-column">
+    <div class="pd-c-m bb-line">
+      <div class="mg text-s color-9 flex-column">
         <div class="flex-item-8">
           <span>购需单号：<em class="pr-color color-6">{{showData.salesOrder.orderNo}}</em></span>
         </div>
@@ -46,7 +46,7 @@
     <!-- 商品列表 -->
     <div class="pd-c-xxxxl" ng-init="orderMedicalNoIds=[]">
       <!-- 可发货 -->
-      <div class="confirm-order bb-line pdb-l" >
+      <div class="confirm-order pdb-l" >
         <!-- 标题 -->
         <h1 class="pdt-l color-6 text-m text-bold" >药械清单</h1>
         <!-- 购买清单 -->
@@ -56,12 +56,6 @@
         <!-- 备注 -->
         <div class="bb-line pd-v-l">
           <p>备注：<span class="color-6">{{showData.salesOrder.note}}</span></p>
-        </div>
-        <!-- 总价&提交 -->
-        <div class="text-right pd-v-xxl">
-          <span class="pr-font-24 color-9">合计：<i class="text-normal color-6">￥{{showData.confirmOrder.totalPrice | number:2}}</i></span>
-          <span class="mgl"><button href="javascript:;" type="submit" class="btn btn-primary pr-btn-bg-gold" style="  width: 116px;">提交审批</button></span>
-          <span class="mgl"><a href="javascript:;" ng-click="goTo('#/salesOrder/edit.html?id='+formData.id)">返回修改</a></span>
         </div>
       </div>
 
@@ -80,7 +74,14 @@
     <!-- <div class="pdb-xxl text-right">
       <span><a href="javascript:;" ng-click="goTo('#/salesOrder/edit.html?id='+formData.id)">返回修改</a></span>
     </div> -->
-  </div>
+      </div>
+    </div>
+    <!-- 总价&提交 -->
+    <div class="text-right pd-v-xxl">
+      <span class="pr-font-24 color-9">合计：<i class="text-normal color-6">￥{{showData.confirmOrder.totalPrice | number:2}}</i></span>
+      <span class="mgl"><button href="javascript:;" type="submit" class="btn btn-primary pr-btn-bg-gold">生成销售单 & 提交审批</button></span>
+      <span class="mgl"><a href="javascript:;" ng-click="goTo('#/salesOrder/edit.html?id='+formData.id)">返回修改</a></span>
+    </div>
   </form>
 
 
