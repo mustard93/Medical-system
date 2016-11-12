@@ -1,7 +1,7 @@
 <div class="content-wrapper personal-center"
   ng-init="saveAfterExit=false"
   watch-form-change
-   ajax-url="rest/authen/user/getOfEdit"  scope-data="formData" alert-error
+   ajax-url="rest/authen/user/getOfEdit.json"  scope-data="formData" alert-error
    callback="showData=formData;initFlag=true;watchFormChange('formData')"
 
 >
@@ -67,10 +67,12 @@
               </tr>
             </table>
           </div>
-          <div class="flex-item-5 pd-l">
+          <div class="flex-item-5 pd-l"
+          ajax-url="rest/authen/role/getRoleNamesByCurrentUser.json"  scope-data="roleData"
+          >
             <p class="pdb-l">公司名：{{showData.organizationName}}</p>
             <p class="pdb-l">部门：{{showData.departmentName}}</p>
-            <p class="pdb-l">角色：{{showData.roleNames.join(" ")}}</p>
+            <p class="pdb-l">角色：{{roleData.join(' ')}}</p>
           </div>
         </div>
         <!-- 功能按钮 -->
