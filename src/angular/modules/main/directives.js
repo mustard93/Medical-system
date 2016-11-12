@@ -2518,23 +2518,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
 
-                var _params = {};
-                if ($attrs.params) {
-                    if ($attrs.params.indexOf("{") === 0) {
-                        //监听具体值
-                        $attrs.$observe("params", function(value) {
-                            _params = $scope.$eval(value);
-
-                        });
-                    } else {
-                        //监听对象
-                        $scope.$watch($attrs.params, function(value) {
-                            _params = value;
-
-                        }, true);
-                    }
-                }
-
                 function getData(params) {
                    //满足条件才异步请求
                    if (angular.isDefined($attrs.ajaxIf)) {
@@ -2605,6 +2588,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 }
 
                 $element.on("click", function (aa) {
+
+                      var _params = {};
+                  if ($attrs.params) {
+                      if ($attrs.params.indexOf("{") === 0) {
+                            _params = $scope.$eval($attrs.params);
+                      } else {
+                            _params = $scope[$attrs.params];
+                      }
+                  }
+
                       getData(_params);
                 });
 
