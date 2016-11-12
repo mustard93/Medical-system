@@ -1,4 +1,8 @@
-<div class="content-wrapper personal-center">
+<div class="content-wrapper personal-center"
+
+   ajax-url="rest/authen/user/getOfEdit"  scope-data="formData" alert-error
+   callback="showData=formData"
+>
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mgt-m mgb-m">
     <h1 class="pr-title-color pr-font-24">个人中心</h1>
@@ -8,21 +12,31 @@
     <!-- 左侧菜单 -->
     <div class="flex-item-2 left-menu-list">
       <ul class="text-center text-n">
-        <li class="block-important pd-v"><a style-toggle="active" href="#/personalCenter/personal-info.html" class="active">个人资料</a></li>
+          <li class="block-important pd-v"><a style-toggle="active" href="#/personalCenter/personal-info.html" class="active">个人资料</a></li>
         <li class="block-important pd-v"><a style-toggle="active" href="#/personalCenter/modify-pwd.html">修改密码</a></li>
         <li class="block-important pd-v"><a style-toggle="active" href="javascript:;">提醒设置</a></li>
       </ul>
     </div>
     <!-- 右侧住内容区域 -->
-    <form class="personalModifyInfoForm">
+    <form class="personalModifyInfoForm"
+    action="rest/authen/user/updateOfMine"  scope-data="formData" alert-error alert-ok
+    form-validator
+    >
       <div class="flex-item-10 content-area">
         <!-- 头像及电话 -->
         <div class="panel pr-panel text-center pd-n">
           <div class="bb-line">
-            <span class="user-face"></span>
+            <span class="user-face"
+            ng-init="upFile={}" upload-type="image"
+                                uploader-one="rest/authen/fileUpload/uploadPicture.json" usege="头像"
+                                 up-file="upFile" ng-model="formData.headUrl"
+            >  <img ng-src="{{formData.headUrl}}"  ng-style="{width:120,height:120}"/>
+
+
+                                  </span>
           </div>
           <div class="">
-            <span class="user-phone">13800138000</span>
+            <span class="user-phone">{{formData.phone}}</span>
           </div>
         </div>
         <!-- 详细资料 -->
@@ -31,31 +45,33 @@
             <table class="table">
               <tr>
                 <td>姓名：</td>
-                <td><input type="text" class="ipt"></td>
+                <td><input type="text" class="ipt"  ng-model="formData.name"></td>
               </tr>
               <tr>
                 <td>性别：</td>
                 <td>
-                  <label class="mgr"><input type="radio" name="sex" value="男" checked="checked"> 男</label>
-                  <label><input type="radio" name="sex" value="女"> 女</label>
+
+                  <label class="mgr"><input type="radio" name="sex" value="男"  ng-model="formData.sex" > 男</label>
+                  <label><input type="radio" name="sex" value="女"  ng-model="formData.sex" > 女</label>
                 </td>
               </tr>
               <tr>
                 <td>出生日期：</td>
-                <td><input type="date" class="ipt pr-short-ipt color-6"></td>
+                <td><input type="date" class="ipt pr-short-ipt color-6"   ng-model="formData.birthday"></td>
               </tr>
             </table>
           </div>
           <div class="flex-item-5 pd-l">
-            <p class="pdb-l">公司名：云南国药器械有限责任公司</p>
-            <p class="pdb-l">部门：客服部</p>
-            <p class="pdb-l">职能：客服</p>
+            <p class="pdb-l">公司名：{{showData.organizationName}}</p>
+            <p class="pdb-l">部门：{{showData.departmentName}}</p>
+            <p class="pdb-l">角色：{{showData.roleNames.join(" ")}}</p>
           </div>
         </div>
         <!-- 功能按钮 -->
         <div class="text-center">
-          <a href="javascript:;" class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" style="line-height:1.7;">保存</a>
-          <a href="#/" class="mgl">返回工作中心</a>
+            <input type="submit"  class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" style="line-height:1.7;" value="保存"/>
+
+          <a href="#/main.html" class="mgl">返回工作中心</a>
         </div>
       </div>
     </form>

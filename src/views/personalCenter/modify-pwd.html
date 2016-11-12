@@ -14,28 +14,32 @@
       </ul>
     </div>
     <!-- 右侧住内容区域 -->
-    <form class="personalModifyInfoForm">
+    <form class="personalModifyInfoForm"
+    action="rest/authen/user/updatePassword" scope-data="formData" alert-error alert-ok
+    form-validator
+    >
       <div class="content-area ">
 
         <div class="panel pr-panel text-center">
           <h1 class="bb-line pdb-l text-l">修改密码</h1>
           <div class="">
             <div class="form-group">
-              <input type="password" class="ipt mgt-l" placeholder="旧密码">
+              <input type="password" class="ipt mgt-l" ng-model="formData.password"  placeholder="旧密码">
             </div>
             <div class="form-group">
-              <input type="password" class="ipt" placeholder="新密码">
+              <input type="password" class="ipt" ng-model="formData.newPassword"  placeholder="新密码">
             </div>
             <div class="form-group">
-              <input type="password" class="ipt" placeholder="确认新密码">
+              <input type="password" class="ipt" ng-model="formData.confirmPassword" placeholder="确认新密码">
             </div>
           </div>
         </div>
 
         <!-- 功能按钮 -->
         <div class="text-center">
-          <a href="javascript:;" class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" style="line-height:1.7;">保存</a>
-          <a href="#/" class="mgl">返回工作中心</a>
+          <input type="submit"  class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" style="line-height:1.7;" value="保存"/>
+
+          <a href="#/main.html" class="mgl">返回工作中心</a>
         </div>
       </div>
     </form>
