@@ -1,0 +1,237 @@
+<div class="modal-content" ng-controller="editCtrl">
+  <form class="add-customerAddress-form form-horizontal"
+        action="rest/authen/firstMedicalApplication/save"
+        ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{tr.id}}"
+        scope-data="formData"
+        alert-error
+        alert-ok
+        parameter-body
+        form-validator>
+    <div class="modal-header">
+        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}首营药品申请表</h4>
+    </div>
+    <div class="modal-body">
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">申请单编号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.documentNo"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">申请单状态</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.fmaStatus" disabled="true"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">品种通用名称</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.genericName"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">名称</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.name"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">品种编码</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.code"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">批准文号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.licenseNumber"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">剂型</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.dosageForms"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">计量单位</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.measurement"/>
+          </div>
+      </div>
+
+      <!-- <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label text-left">类别</label>
+          <div class="col-lg-10 col-sm-10">
+
+            <select class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.firstMedical.type" chosen
+                    select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_BusinessScope">
+            </select>
+
+          </div>
+      </div> -->
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">税额</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.tax"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">采购价</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.purchasePrice"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">生产企业</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.firstEnterpriseId"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">产地</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.originalPlace"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">注册商标</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.trademark"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">国药统一编码</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.medicalUniformCode"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">备案凭证编号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.filingDocumentNumber"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">规格</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.specification"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">包装情况</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.packingCondition"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">件装量</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.pieceLoading"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">是否基药</label>
+        <div class="col-lg-2 col-sm-2 control-label">
+          <label><input type="radio" name="isBasicMedicine" value="是" ng-model="formData.firstMedical.isBasicMedicine" ng-checked="true"
+                  ng-init="regData.isBasicMedicine='是'"> 生产</label>
+          <label><input type="radio" name="isBasicMedicine" value="否" ng-model="formData.firstMedical.isBasicMedicine"> 否</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">牌价</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.quoteprice"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">零售价</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.retailPrice"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">厂址</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.factoryAddress"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">存储条件</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.storageCondition"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">质量标准</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.qualityStandard"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">有效期 </label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.guaranteePeriod"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">中包装数量</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.numberOfPackages"/>
+          </div>
+      </div>
+
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">药品的适应或功能主治情况</label>
+          <div class="col-lg-10 col-sm-10">
+              <textarea class="form-control" placeholder="" ng-model="formData.firstMedical.message"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">申请原因1</label>
+          <div class="col-lg-10 col-sm-10">
+              <textarea class="form-control" placeholder="" ng-model="formData.applyReason"/>
+          </div>
+      </div>
+
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="提交" >
+          </div>
+      </div>
+    </div>
+  </form>
+</div>
