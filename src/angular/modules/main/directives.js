@@ -44,9 +44,9 @@ define('main/directives', ['main/init'], function() {
                 ngModel.$formatters.push(function() {
                     if (!ngModel.$modelValue) return null;
                     if ($attrs.timestamp) {
-                        return new Date(ngModel.$modelValue).getTime();
+                        return new Date(parseInt(ngModel.$modelValue,10)).getTime();
                     } else {
-                        return new Date(ngModel.$modelValue);
+                        return new Date(parseInt(ngModel.$modelValue,10));
                     }
                 });
             }
@@ -373,9 +373,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     ajax_submit();
                   }
                 });
+
+                //提交表单方法
+                  $scope.submitForm=function(){
+                      $element.trigger('submit');
+                  }
             }
         };
-    }
+    }//formValidator
 
 
 
@@ -2641,10 +2646,29 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         };
     }
+
+
+
+    /**
+     * 树状列表
+     */
+    function watchFormChange(watchFormChange) {
+        return {
+            restrict: 'AE',
+            link: function($scope, $element, $attrs, ngModel) {
+              $scope.watchFormChange=function(watchName){
+                watchFormChange(watchName,$scope);
+              }
+
+            }
+        }
+    };
+
     /**
      * 加入项目
      */
     angular.module('manageApp.main')
+      .directive("watchFormChange", ["watchFormChange", watchFormChange])
       .directive("popover", ["$route", "$templateCache", "$routeParams", popover])
         .directive("ngView", ["$route", "$templateCache", "$routeParams", ngView])
         .directive("convertToDate", convertToDate)

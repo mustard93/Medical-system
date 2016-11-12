@@ -646,7 +646,20 @@ define('project/controllers', ['project/init'], function() {
             };//end $scope.requestRead
 
           }//auditUserApplyOrganizationCtrl
+
+
+          /**
+           *站内消息
+           */
+          function watchFormCtrl($scope, watchFormChange) {
+            $scope.watchFormChange=function(watchName){
+              watchFormChange(watchName,$scope);
+            }
+
+  
+           }//watchFormCtrl
     angular.module('manageApp.project')
+    .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
 
   .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])
       .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData","watchFormChange", purchaseOrderEditCtrl])
