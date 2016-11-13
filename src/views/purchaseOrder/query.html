@@ -12,28 +12,7 @@
              scope-data="countByOrderStatus"
              alert-error>
             <div class=""></div>
-            <!--  <div class="btn btn-group"   scope-data="statusList">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
-                <span class="pj-badge" ng-if='countByOrderStatus["未提交"]'>{{countByOrderStatus["未提交"]}}</span>
-              </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发货'">待发货
-                <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
-              </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">已发货
-                <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
-              </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已收货</button>
-            </div>
-            <div class="inline-block relative">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg">异常发货单</button>
-            </div>
-            <div class="inline-block relative">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg">作废发货单</button>
-            </div>
-        </div>
-        <div class="order-status-btn pos-tr text-right">
-            <div class=""></div> -->
+
             <div class="btn btn-group"   scope-data="statusList">
               <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
@@ -132,14 +111,36 @@
                       <!-- <a href="#/purchaseOrder/get.html?id={{tr.id}}">{{tr.orderNo}}</a> -->
                     </strong>
                   </p>
-                  <p class="mgb-s relative">采购员：
+                  <p  ng-if="!tr.saleUserId"> 采购员：{{tr.saleUser.n || '暂无'}}    </p>
+                  <p  ng-if="tr.saleUserId"  class="mgb-s relative">采购员：
                     <span run-popovers  class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n}}</span>
-                    <span class="purchaseorder-buyer-info">
+                    <span
+                     class="purchaseorder-buyer-info">
                       <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
-                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt"><a href="javascript:;">发送消息</a></em></i>
+                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                        <a href="javascript:;"
+                        modal-center="500"
+                        modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                        modal-url="views/notice/sendToUser.html"
+                        >发送消息</a>
+                      </em></i>
+                    </span>
+                  </p><!--end notice -->
+
+                    <p  ng-if="!tr.approverUserId" >审批人：{{tr.approverUser.n || '暂无'}}    </p>
+                  <p  ng-if="tr.approverUserId"  class="mgb-s relative">审批人：
+                    <span run-popovers  class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.approverUser.n || '暂无'}}</span>
+                    <span  class="purchaseorder-buyer-info" >
+                      <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.approverUser.p}}</em></i>
+                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                        <a href="javascript:;"
+                        modal-center="500"
+                        modal-data='{"toUser":{{tr.approverUser}},"userIds":["{{tr.approverUserId}}"]}'
+                        modal-url="views/notice/sendToUser.html"
+                        >发送消息</a>
+                      </em></i>
                     </span>
                   </p>
-                  <p>审批人：{{tr.approverUser.n || '暂无'}}</p>
                 </div>
                 <div class="flex-item-6">
                   <p class="mgb-s">创建时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:ss'}}</span></p>

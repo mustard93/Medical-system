@@ -547,7 +547,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           if(type=="nosave"){
             //执行回调
             if ($attrs.nosaveCallback) {
-              $scope.$eval($attrs.nosaveCallback);
+              $scope.$parent.$eval($attrs.nosaveCallback);
             }
             return;
           }
@@ -555,7 +555,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           if(type=="save"){
             //执行回调
             if ($attrs.saveCallback) {
-              $scope.$eval($attrs.saveCallback);
+              $scope.$parent.$eval($attrs.saveCallback);
             }
             return;
           }
@@ -588,10 +588,10 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                 if ($attrs.$scopeData) $scope[$attrs.$scopeData] = data;
                 //执行回调
                 if ($attrs.callBack) {
-                  $scope.$eval($attrs.callBack);
+                    $scope.$parent.$eval($attrs.callBack);
                 }
                 if ($attrs.callback) {
-                  $scope.$eval($attrs.callback);
+                    $scope.$parent.$eval($attrs.callback);
                 }
                 //...
                 if ($attrs.emitted) {
@@ -607,14 +607,50 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           //执行回调
           if ($attrs.callBack) {
             $scope.dialgForm=dialgForm;
-            $scope.$eval($attrs.callBack);
+              $scope.$parent.$eval($attrs.callBack);
           }
           //执行回调
           if ($attrs.callback) {
             $scope.dialgForm=dialgForm;
-            $scope.$eval($attrs.callback);
+              $scope.$parent.$eval($attrs.callback);
           }
         }, _dialogTemplate, _dialogTitle, _confirmBtnTxt, _cancelBtnTxt, _jumpUrl);
+      });
+    }
+  };
+}
+/**
+ *	菜单点击样式切换
+ */
+function styleToggle () {
+  'use strict';
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      $(element).on('click', function (event) {
+        //阻止冒泡
+        if (event && event.stopPropagation) {
+          event.stopPropagation();
+        }
+        //当前元素是否含有设置的样式名称
+        if (!$(element).hasClass(attrs.styleToggle)) {
+          $(this).addClass(attrs.styleToggle).parent().siblings().each(function () {
+            $(this).children().removeClass(attrs.styleToggle);
+          });
+        }
+
+
+
+
+
+
+        // 当前元素是否有兄弟元素
+        // var _siblingsLength = $(element).siblings().length;
+        // if (attrs.styelToggle && _siblingsLength !== 0) {
+        //   $(this).addClass(attrs.styleToggle).siblings().each(function () {
+        //     $(this).removeClass(attrs.styleToggle);
+        //   });
+        // }
       });
     }
   };
@@ -635,5 +671,6 @@ angular.module('manageApp.project')
     .directive("sparkline", sparkline) //sparkline 柱状图
     .directive("runTooltips", runTooltips) //tooltips
     .directive("runPopovers", ['$timeout', runPopovers]) //popover
-    .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]); //带确认对话框的按钮点击事件
+    .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]) //带确认对话框的按钮点击事件
+    .directive("styleToggle", styleToggle); //菜单点击样式切换
 });

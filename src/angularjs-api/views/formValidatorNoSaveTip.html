@@ -1,8 +1,15 @@
-
+<div class="create-new-order"
+     ng-controller="salesOrderEditCtrl"
+     ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+      callback="initFlag=true;watchFormChange('formData')"
+     alert-error>
 <div class="api_demo">
   <div class="page-main">
           <div class="mgb-l"><span class="text-l">表单元素</span></div>
-          <form name="myForm" form-validator action="../data/formValidator.json" alert-error alert-ok scope-error-msg="errorMsg" callback="window.location.assign('#/bind_done');">
+          <form name="myForm" form-validator action="../data/formValidator.json"
+  callback="initFlag=true;watchFormChange('formData')"
+          alert-error alert-ok scope-error-msg="errorMsg" callback="window.location.assign('#/bind_done');">
               <div class="form-tr">
                   <div class="form-th">输入框</div>
                   <div class="form-td">
@@ -24,9 +31,12 @@
 
   <textarea style="width:100%;height:600px" readonly="true">
     用法：
-    增加监听修改标志为；$scope.changeFlag=false;
-       callback="watchFormChange('formData')"
+    增加监听修改标志为；$scope.changeFlag=false; 前提条件: ng-controller="watchFormCtrl",  watchFormChange('formData')
+    增加异步加载数据成功标志为；$scope.initFlag=true;
 
+
+       callback="watchFormChange('formData')"
+    callback="initFlag=true;watchFormChange('formData')"
       ng-disabled="!changeFlag"
     <form name="myForm" form-validator action="../data/formValidator.json" alert-error alert-ok scope-error-msg="errorMsg" >
           <input type="text" class="ipt"  ng-model="formData.name" placeholder="输入框"/>
@@ -70,4 +80,5 @@
   </textarea>
 
 
+</div>
 </div>

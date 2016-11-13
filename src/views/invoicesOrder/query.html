@@ -53,14 +53,7 @@
         <li class="pdr-m relative" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
             <div class="pd-m">
-              <form form-validator ng-init="outstockOrderForm={invoicesId:tr.id}"
-                    action="rest/authen/outstockOrder/save.json"
-                    alert-error
-                    form-data="outstockOrderForm"
-                    scope-data="outstockOrder"
-                    no-close-dialog
-                    alert-ok
-                    callback="$root.goTo('#/outstockOrder/get.html?id='+outstockOrder.id)">
+
               <div class="flex-column mgb-m" style="height:24px;line-height:24px;">
                 <div class="flex-item-4">
                   <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}
@@ -73,17 +66,25 @@
                     <a href="#/invoicesOrder/get.html?id={{tr.id}}">查看详情</a>
                   </span>
                   <span class="mgl">
-                    <button ng-if="!tr.outStockOrderId&&tr.orderStatus=='已发货' && $root.hasAuthor('出库单编辑')"
-                            type="submit"
-                            class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">生成出库单
+
+
+                    <button
+                    ng-if="!tr.outStockOrderId&&tr.orderStatus=='已发货' && $root.hasAuthor('出库单编辑')"
+                     class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                            type="button"
+                            ajax-url-submit="rest/authen/workflowTask/run.json"                      
+                            alert-error
+                            params='{"businessKey":tr.confirmOrderId,"conditionType":"通过","type":"销售单"}'
+                            callback="$root.goTo('#/outstockOrder/get.html?relId='+tr.id)">生成出库单
                     </button>
+
                   </span>
                   <span ng-if="tr.orderStatus=='未提交'" class="mgl">
                     <a href="#/invoicesOrder/edit.html?id={{tr.id}}">编辑</a>
                   </span>
                 </div>
               </div>
-              </form>
+
               <!-- <div class="text-s mgb-m">{{tr.type}}</div> -->
               <div class="flex-column qurey text-s color-9">
                 <span class="flex-item-6 mgb-s">发货单号：<strong class="color-6 text-normal">{{tr.orderNo}}

@@ -95,7 +95,7 @@
 
   <span ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('销售单审核')"
         class="mgr"
-        ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'订单驳回理由',msg:'驳回后，该销售单将作废。确认驳回?',formData:{businessKey:mainStatus.pageParams.id,conditionType:'驳回',type:'销售单',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+mainStatus.pageParams.id}">
+        ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'订单驳回理由',msg:'驳回后，该销售单将作废。确认驳回?',formData:{businessKey:showData.id,conditionType:'驳回',type:'销售单',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+showData.id}">
     <a href="javascript:;"
        modal-center="490"
        modal-scope="this"
@@ -112,7 +112,7 @@
           dialog-template="pr-dialog-confirm.html"
           params='{"businessKey":showData.id,"conditionType":"通过","type":"销售单"}'
           request-url="rest/authen/workflowTask/run.json"
-          call-back="$root.goTo('#/confirmOrder/confirm-order-done.html?id={{mainStatus.pageParams.id}}')">审核通过
+          call-back="$root.goTo('#/confirmOrder/confirm-order-done.html?id={{showData.id}}')">审核通过
   </button>
 
   <button  ng-if="showData.orderStatus=='待发单'" class="pr-btn-save-glodbg"
@@ -123,7 +123,7 @@
           dialog-template="pr-dialog-submit.html"
           params='{"businessKey":showData.id,"type":"销售单"}'
           request-url="rest/authen/workflowTask/run.json"
-          call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{mainStatus.pageParams.id}}')">生成发货单</button>
+          call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{showData.id}}')">生成发货单</button>
 
   <a href="javascript:;" class="mgl-l" ng-click="$root.goTo('#/confirmOrder/query.html')">返回销售单中心</a>
 </div>

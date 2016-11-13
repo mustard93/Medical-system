@@ -17,29 +17,7 @@ define('project/services', ['project/init'], function () {
 
 
 
-  //监听内容修改标志
-  function watchFormChange($timeout) {
-
-      return function (watchName, $scope) {
-
-          //延迟初始化修改标志
-           $timeout(function () {
-                    $scope.changeFlag=false;
-                },500);
-
-            $scope.$watch(watchName,function(newValue,oldValue, scope){
-                    $scope.changeFlag=true;
-             },true);
-
-
-
-
-      };
-
-
-  }
-
   angular.module('manageApp.project')
-      .service('watchFormChange', ["$timeout",watchFormChange])
+
     .factory('proMessageTips', [proMessageTips]);
 });
