@@ -11,7 +11,7 @@ class="content-wrapper invoices-order"
   <!-- 主内容区域 -->
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
     <!-- 单据信息 -->
-    <div class="flex-column pd-c-xl pdt-l pdb-l bb-line">
+    <div class="flex-column pd-c-m pdt-m pdb-m bb-line">
       <div class="flex-item-10">
         <span class="mgr-m">出库单：{{showData.orderNo}}</span>
         <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
@@ -26,7 +26,7 @@ class="content-wrapper invoices-order"
     </div>
 
     <!-- 商品列表 -->
-    <div class="pd-c-xl">
+    <div class="pd-c-m pdt">
       <!-- 可发货 -->
       <div class="confirm-order pdb-l">
         <div order-medicals  ng-model="showData.orderMedicalNos"></div>
@@ -38,8 +38,12 @@ class="content-wrapper invoices-order"
     </div>
   </div>
   <!-- 配送信息 -->
-  <div class="panel pr-panel pr-fuzzy-boundary pd-l">
-    <div class="pd-c-xl pdb-xxl text-right">
+
+    <div class="mgt-m pdb-xxl text-right">
+      <span>
+        <a class="mgr" href="#/outstockOrder/query.html">返回出库列表</a>
+        <a ng-if="showData.orderStatus=='已出库'" class="btn pr-btn-create-glodbg" href="javascript:;">打印</a>
+      </span>
       <span class="" ng-if="showData.orderStatus!='已出库'&&$root.hasAuthor('确认出库')">
         <button class="pr-btn-save-glodbg"
                 type="button"
@@ -47,17 +51,13 @@ class="content-wrapper invoices-order"
                 dialog-title="确认出库?"
                 dialog-content="出库以后，将会从库存中扣除。确认出库？"
                 dialog-template="pr-dialog-submit.html"
-              
+
                 params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"销售单"}'
                   request-url="rest/authen/workflowTask/run.json"
 
                 call-back="goTo('#/outstockOrder/get.html?id={{showData.id}}&t=1')">确认出库
         </button>
       </span>
-      <span class="mgr-l">
-        <a ng-if="showData.orderStatus=='已出库'" class="btn pr-btn-create-glodbg" href="javascript:;">打印</a>
-        <a class="mgl" href="#/outstockOrder/query.html">返回出库中心</a>
-      </span>
     </div>
-  </div>
+
 </div>
