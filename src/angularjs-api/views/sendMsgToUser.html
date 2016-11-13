@@ -1,0 +1,61 @@
+<div class="page-main-content text-n">
+  <div class="page-heading">
+      <h3>主面板</h3>
+      <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">发送私信</li>
+      </ul>
+  </div>
+  <h1 class="pd-c-l pdt-m pdb-m">chosen下拉组件</h1>
+  <div class="pd-c-l">
+      <ul>
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+              <p > 采购员：{{tr.saleUser.n || '暂无'}}    </p>
+              <p  class="mgb-s relative">采购员：
+                <span run-popovers  class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n}}</span>
+                <span
+                 class="purchaseorder-buyer-info">
+                  <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
+                  <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                    <a href="javascript:;"
+                    modal-center="500"
+                    modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                    modal-url="views/notice/sendToUser.html"
+                    >发送消息</a>
+                  </em></i>
+                </span>
+              </p>
+            </div>
+            <div class="panel-body" style="display:none;">
+
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                <p  ng-if="!tr.saleUserId"> 采购员：{{tr.saleUser.n || '暂无'}}    </p>
+                <p ng-if="!tr.saleUserId"  class="mgb-s relative">采购员：
+                  <span run-popovers  class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n|| '暂无'}}</span>
+                  <span
+                   class="purchaseorder-buyer-info">
+                    <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
+                    <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                      <a href="javascript:;"
+                      modal-center="500"
+                      modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                      modal-url="views/notice/sendToUser.html"
+                      >发送消息</a>
+                    </em></i>
+                  </span>
+                </p>
+
+              </textarea>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+</div>

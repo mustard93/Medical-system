@@ -1,0 +1,28 @@
+<div class="pr-page-dialog-wrap" >
+    <form class="confirmOrder-reject-form"
+          ng-init="toUser=dialogData.toUser;formData={userIds:dialogData.userIds};"
+          action="/authen/notice/sendToUser"
+           auto-close-dialog
+           alert-error
+            alert-ok
+          form-validator>
+  <div class="pr-page-dialog-title bb-line">
+    <i></i><span>发送私信</span>
+  </div>
+  <div class="pr-page-dialog-content bb-line">
+      <div class="mgb-l">收信人：{{toUser.n}}</div>
+      <div class="flex-column">
+
+        <div class="flex-item-10" >
+          <p>
+            <textarea class="pr-textarea" ng-model="formData.message" placeholder="消息内容"></textarea>
+          </p>
+        </div>
+      </div>
+  </div>
+  <div class="pr-page-dialog-footer text-center mg-m">
+    <button type="submit"  class="pr-btn-save-glodbg">发送</button>
+    <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">取消</button>
+  </div>
+  </form>
+</div>
