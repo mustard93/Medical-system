@@ -58,7 +58,7 @@
          callback="formData.supplier=supplier"
          alert-error>
 
-      <h1 class="pdb text-n color-6 text-bold">供货商信息</h1>
+      <h1 class="pdb text-n text-bold color-6">供货商信息</h1>
       <span chosen-ajax>
         <select ng-if="initFlag"
                 class="ipt pr-long-ipt"
@@ -72,8 +72,8 @@
       <span class="color-9">联系电话：<span class="color-6">{{formData.supplier.tel}}</span></span>
     </div>
     <!-- 采购方信息及收货人信息 -->
-    <div class="panel mgb">
-      <header class="panel-heading">采购方信息
+    <div class="panel pr-panel pr-panel-height mgb">
+      <header class="text-n text-bold">采购方信息
         <span class="tools pull-right">
           <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
         </span>
@@ -210,26 +210,26 @@
 
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
     <!-- 订单清单 -->
-    <div class="order-details pd-c-xl bb-line">
-      <h1 class="pdt-l color-6 text-n text-bold">药械清单</h1>
-      <table class="mgt pr-table" style="width:100%;max-width:none;table-layout:auto;">
+    <div class="order-details pd-c-m bb-line pdt">
+      <!-- <h1 class="pdt-l color-6 text-n text-bold">药械清单</h1> -->
+      <table class="mgt pr-table">
         <thead>
-          <th class="text-center">器械编号</th>
+          <th class="w-90 text-center">器械编号</th>
           <th class="pr-indent-20" style="min-width:120px">药械名称/生产厂家/规格</th>
-          <th class="text-center">单位</th>
-          <th class="text-center">数量</th>
-          <th class="text-center">单价</th>
-          <th class="text-center">金额</th>
-          <th class="text-center">整件数</th>
-          <th class="text-center">散件数</th>
-          <th class="text-center">注册证号</th>
+          <th class="w-50 text-center">单位</th>
+          <th class="w-90 text-center">数量</th>
+          <th class="w-50 text-center">单价</th>
+          <th class="w-80 text-center">金额</th>
+          <th class="w-90 text-center">整件数</th>
+          <th class="w-90 text-center">散件数</th>
+          <th class="w-120 text-center">注册证号</th>
           <th class="text-center">操作</th>
         </thead>
         <tbody  ng-init="medicalStockMap={};orderMedicalNoIds=[]" >
           <tr class="tr-interval"><td colspan="9"></td></tr>
           <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()"  ng-init="orderMedicalNoIds.push(tr.relId)" >
             <td class="has-border text-center text-s">{{tr.code || '暂无'}}</td> <!-- 器械编号 -->
-            <td class="goods-name has-border pd-m"> <!-- 名称/厂家/规格 -->
+            <td class="goods-name has-border pd-c-s pdt-m"> <!-- 名称/厂家/规格 -->
               <div class="pr-table-td-m relative">
                 <span class="goods-thumbnail inline-block"><img ng-src="{{tr.headUrl}}" alt=""></span>
                 <span class="block">
@@ -239,8 +239,8 @@
                 </span>
               </div>
             </td>
-            <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td> <!-- 单位 -->
-            <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td> <!-- 数量 -->
+            <td class="has-border text-center text-v-t pdt-m pd-c-s">{{tr.unit}}</td> <!-- 单位 -->
+            <td class="has-border text-center text-v-t pdt-m pd-c-s">{{tr.quantity}}</td> <!-- 数量 -->
             <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td> <!-- 单价 -->
             <td class="has-border text-center text-v-t pd-m">{{tr.quantity*tr.strike_price||''}}</td> <!-- 金额 -->
             <td class="has-border text-center text-v-t pd-m">
@@ -328,35 +328,13 @@
     </div>
   </div>
   <!-- 总价 -->
-  <div class="text-right pd-c-xxxxl pdb-xxl pdt-xxl">
+  <div class="text-right pdb-xxl pdt-xxl">
     <p class="pr-font-24 color-9 mgb">合计：<span class="pr-font-24 color-6">￥{{formData.totalPrice | number:2}}</span></p>
     <p class="pr-font-24 color-9 mgb">税额：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.tax/100 | number:2}}</span></p>
     <p class="pr-font-24 color-9">预付款：<span class="pr-font-24 color-6">￥{{formData.totalPrice*formData.payAndDelivery.prepaidRatio/100 || '0.00' | number:2}}</span></p>
   </div>
   <!-- 提交按钮 -->
-  <div class="pd-c-xl pdb-xxl text-right">
-    <span class="mgr-l">
-      <button class="pr-btn-save-glodbg"
-              type="submit"
-              ng-disabled="!changeFlag">保存
-      </button>
-    </span>
-    <span class="mgr-l">
-      <button class="pr-btn-create-glodbg"
-              type="button"
-              handle-this-click
-              dialog-title="确认提交?"
-              dialog-content="提交后，将无法修改。确认提交?"
-              dialog-template="pr-dialog-submit.html"
-              callback="submitForm('editForm','submit')"
-              ng-disabled="formData.payAndDelivery.prepaidRatio>100 ||
-                           formData.payAndDelivery.prepaidRatio<0 ||
-                           !formData.orderMedicalNos.length ||
-                           !formData.customerId ||
-                           !formData.saleUserId">提交审批
-      </button>
-    </span>
-    <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
+  <div class="pdb-xxl text-right">
     <span>
       <a
        ng-if="changeFlag"
@@ -369,8 +347,7 @@
          save-callback="submitForm('editForm','exit')">返回采购单中心
       </a>
 
-
-               <a   ng-if="!changeFlag" href="#/purchaseOrder/query.html" >返回购需中心</a>
+      <a   ng-if="!changeFlag" href="#/purchaseOrder/query.html" >返回购需中心</a>
     </span>
     <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
 
@@ -386,6 +363,28 @@
          call-back="goTo('#/purchaseOrder/query.html')">删除
       </a>
     </span>
+    <span class="mgr mgl">
+      <button class="pr-btn-save-glodbg"
+              type="submit"
+              ng-disabled="!changeFlag">保存
+      </button>
+    </span>
+    <span>
+      <button class="pr-btn-create-glodbg"
+              type="button"
+              handle-this-click
+              dialog-title="确认提交?"
+              dialog-content="提交后，将无法修改。确认提交?"
+              dialog-template="pr-dialog-submit.html"
+              callback="submitForm('editForm','submit')"
+              ng-disabled="formData.payAndDelivery.prepaidRatio>100 ||
+                           formData.payAndDelivery.prepaidRatio<0 ||
+                           !formData.orderMedicalNos.length ||
+                           !formData.customerId ||
+                           !formData.saleUserId">提交审批
+      </button>
+    </span>
+    <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
 
   </div>
   </div>

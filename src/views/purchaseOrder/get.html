@@ -4,7 +4,7 @@
      alert-error>
 
   <!-- 主内容头部 -->
-  <div class="content-wrapper-heading mgt-l mgb-xl flex-column">
+  <div class="content-wrapper-heading mgt-l mgb-m flex-column">
     <h1 class="pr-title-color pr-font-24 flex-item-10">采购单</h1>
     <!-- <a ng-if="showData.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="flex-item-2 block text-right">新建</a> -->
 
@@ -26,26 +26,26 @@
          ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <div class="flex-item-7">
         <span class="mgr-xl">普通采购单</span>
-        <span class="mgr-xl">采购单编号：<em>{{showData.orderNo}}</em></span>
-        <span class="mgr-xl">创建时间：<em>{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+        <span class="mgr-xl color-9">采购单号：<em class="color-6">{{showData.orderNo}}</em></span>
+        <span class="mgr-xl color-9">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
       </div>
       <div class="flex-item-5 text-right">
-        <span class="mgr-l">采购员：<em>{{showData.saleUser.n}}</em></span>
-        <span class="mgr-l" ng-if="showData.orderStatus!='未提交' && showData.orderStatus!='待审批'">审批人：
+        <span class="mgr-l color-9">采购员：<em class="color-6">{{showData.saleUser.n}}</em></span>
+        <span class="mgr-l color-9" ng-if="showData.orderStatus!='未提交' && showData.orderStatus!='待审批'">审批人：
           <!-- <em ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">{{operItem.inputUser}}</em> -->
-          <em>{{showData.approverUser.n}}</em>
+          <em class="color-6">{{showData.approverUser.n}}</em>
         </span>
-        <span class="mgr-l" ng-if="showData.orderStatus=='未提交' || showData.orderStatus=='待审批'">审批人：
-          <em>暂无</em>
+        <span class="mgr-l color-9" ng-if="showData.orderStatus=='未提交' || showData.orderStatus=='待审批'">审批人：
+          <em class="color-6">暂无</em>
         </span>
-        <span>状态：<em>{{showData.orderStatus}}</em></span>
+        <span class="color-9">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
       </div>
     </div>
 
     <!-- 供货商信息 -->
     <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <h1 class="mgb-l">供货商信息</h1>
-      <div class="flex-column mgb">
+      <h1 class="mgb text-n text-bold">供货商信息</h1>
+      <div class="flex-column">
         <span class="color-9 mgr-xl">供货商类型：<em class="color-6 font-normal">{{showData.supplier.type}}</em></span>
         <span class="color-9">供货商名：<em class="color-6 font-normal">{{showData.supplier.name}}</em></span>
       </div>
@@ -53,20 +53,20 @@
 
     <!-- 采购方信息 -->
     <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <h1 class="mgb-l">采购方信息</h1>
-      <div class="mgb-l color-6">
-        <span class="block mgb-m">采购方：<em class="color-9">{{showData.customerName}}</em></span>
-        <span class="block">收货人信息：
-          <em class="color-9">{{showData.address.prov}} {{showData.address.city}} {{showData.address.area}} {{showData.address.address}} </em>
-          <em class="color-9">{{showData.address.name}}</em>
-          <em class="color-9">{{showData.address.tel}}</em>
+      <h1 class="mgb text-n text-bold">采购方信息</h1>
+      <div>
+        <span class="block mgb-s color-9">采购方：<em class="color-6">{{showData.customerName}}</em></span>
+        <span class="block color-9">收货人信息：
+          <em class="color-6">{{showData.address.prov}} {{showData.address.city}} {{showData.address.area}} {{showData.address.address}} </em>
+          <em class="color-6">{{showData.address.name}}</em>
+          <em class="color-6">{{showData.address.tel}}</em>
         </span>
       </div>
     </div>
 
     <!-- 付款及货运 -->
     <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <h1 class="mgb-l">付款及货运要求</h1>
+      <h1 class="mgb text-n text-bold">付款及货运要求</h1>
       <div class="flex-column">
         <div class="flex-item-7 flex-column">
           <span class="color-9 flex-item-3">付款方式：<em class="color-6">{{showData.payAndDelivery.payType}}</em></span>
@@ -84,48 +84,48 @@
 
     <!-- 订单清单 -->
     <div class="panel pr-panel pr-panel-height mgb-n" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <h1 class="text-l">订购清单</h1>
+      <!-- <h1 class="text-l">订购清单</h1> -->
       <div class="confirm-order">
         <div  order-medicals-purchase  ng-model="showData.orderMedicalNos"></div>
 
       </div>
     <!-- 备注 -->
-    <div class="bb-line mgb-l">
+    <div>
       <p class="pd-v-l">备注：{{showData.note}}</p>
-    </div>
-    <!-- 总价 -->
-    <div class="text-right">
-      <div class="text-l text-right mgb">金额：￥{{showData.totalPrice || '0.00' | number:2}}</div>
-      <div class="text-l text-right mgb">税额：￥{{showData.taxPrice || '0.00' | number:2}}</div>
-      <div class="text-l text-right mgb">合计：￥{{showData.totalTax || '0.00' | number:2}}</div>
-      <div class="text-l text-right mgb">预付款：￥{{showData.prepaidPrice || '0.00' | number:2}}</div>
-    </div>
-
-
-
-      <div  class="text-right mgb-l" ng-if="showData.orderStatus=='待审批'">
-      <span ng-if="$root.hasAuthor('采购单审批')"
-            class="mgr-l"
-            ng-init="rejectObj={url:'rest/authen/purchaseOrder/updateStatus.json',typeCode:'采购单驳回理由',msg:'驳回后，该采购单将作废。确认驳回?',formData:{id:showData.id,status:'已作废',key:'缺货'},goUrl:'#/purchaseOrder/get.html?t=1&id='+showData.id}">
-        <a href="javascript:;"
-           modal-center="490"
-           modal-scope="this"
-           modal-url="views/public/dialog-check-reject.html">驳回</a>
-      </span>
-
-      <button ng-if="$root.hasAuthor('采购单审批')"
-              class="pr-btn-save-glodbg"
-              type="button"
-              handle-this-click
-              dialog-title="确认通过?"
-              dialog-content="审核通过后,采购单将生效,是否通过?"
-              dialog-template="pr-dialog-submit.html"
-              confirm-btn-txt="通过"
-              params='{"id":showData.id,"status":"待采购"}'
-              request-url="rest/authen/purchaseOrder/updateStatus.json"
-              call-back="goTo('#/purchaseOrder/get.html?t=审核通过&id={{showData.id}}')">审核通过</button>
     </div>
   </div>
 
+  <!-- 总价 -->
+  <div class="text-right mgt-l">
+    <div class="pr-font-24 text-right mgb color-9">金额：<span class="color-6">￥{{showData.totalPrice || '0.00' | number:2}}</span></div>
+    <div class="pr-font-24 text-right mgb color-9">税额：<span class="color-6">￥{{showData.taxPrice || '0.00' | number:2}}</span></div>
+    <div class="pr-font-24 text-right mgb color-9">合计：<span class="color-6">￥{{showData.totalTax || '0.00' | number:2}}</span></div>
+    <div class="pr-font-24 text-right mgb color-9">预付款：<span class="color-6">￥{{showData.prepaidPrice || '0.00' | number:2}}</span></div>
+  </div>
+
+
+
+    <div  class="text-right mgb-l" ng-if="showData.orderStatus=='待审批'">
+    <span ng-if="$root.hasAuthor('采购单审批')"
+          class="mgr-l"
+          ng-init="rejectObj={url:'rest/authen/purchaseOrder/updateStatus.json',typeCode:'采购单驳回理由',msg:'驳回后，该采购单将作废。确认驳回?',formData:{id:showData.id,status:'已作废',key:'缺货'},goUrl:'#/purchaseOrder/get.html?t=1&id='+showData.id}">
+      <a href="javascript:;"
+         modal-center="490"
+         modal-scope="this"
+         modal-url="views/public/dialog-check-reject.html">驳回</a>
+    </span>
+
+    <button ng-if="$root.hasAuthor('采购单审批')"
+            class="pr-btn-save-glodbg"
+            type="button"
+            handle-this-click
+            dialog-title="确认通过?"
+            dialog-content="审核通过后,采购单将生效,是否通过?"
+            dialog-template="pr-dialog-submit.html"
+            confirm-btn-txt="通过"
+            params='{"id":showData.id,"status":"待采购"}'
+            request-url="rest/authen/purchaseOrder/updateStatus.json"
+            call-back="goTo('#/purchaseOrder/get.html?t=审核通过&id={{showData.id}}')">审核通过</button>
+  </div>
 
 </div>
