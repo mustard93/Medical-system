@@ -27,20 +27,20 @@
         callback="submitFormAfter();watchFormChange('formData')">
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary mgb">
     <!-- 订单类型 -->
-    <div class="flex-column mgb-m pd-c-xl pdt-m pdb-m bb-line">
+    <div class="flex-column mgb-m pd-c-m pdt-m pdb-m bb-line">
       <div class="flex-item-2">
         <select ng-if="initFlag"  class="select pr-select" ng-model="formData.type" style="max-width:180px;" chosen
          select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
         </select>
       </div>
-      <div class="flex-item-10 text-right text-s color-6 mgt">
+      <div class="flex-item-10 text-right text-s color-6">
         <span class="mgr-xl color-9">创建时间：<span class="color-6">{{formData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span></span>
         <span class="mgr-xl color-9">状态：<span class="color-6">{{formData.orderStatus}}</span></span>
         <!-- <span>订单编号：{{formData.orderNo}}</span> -->
       </div>
     </div>
     <!-- 用户信息 -->
-    <div class="pd-c-xl pdb-m bb-line" >
+    <div class="pd-c-m pdb-m bb-line" >
       <span class="relative">
         <label class="pr-label mgr-l color-9">客户名{{statusInfo.isLoading}}</label>
         <div class="relative inline-block">
@@ -70,7 +70,7 @@
       </span>
     </div>
     <!-- 收货人信息 -->
-    <div class="consignee-info pd-c-xl pdt-l pdb-l"
+    <div class="consignee-info pd-c-m pdt-m pdb-m"
          ajax-if-eval="formData.customerId"
          ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
          scope-data="customerAddress"
@@ -102,12 +102,12 @@
 
   <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary">
     <!-- 订单清单 -->
-    <div class="order-details pd-c-xl bb-line">
-      <h1 class="pdt-l color-6 text-n text-bold">药械清单</h1>
+    <div class="order-details pd-c-m pdt-m bb-line">
+      <!-- <h1 class="pdt-l color-6 text-n text-bold">药械清单</h1> -->
       <div class="data-table">
-        <table class="mgt-m pr-table">
+        <table class="pr-table">
           <thead>
-            <th class="pr-indent-20">货品编码/货位</th>
+            <th class="w-90 text-center">货品编码/货位</th>
             <th class="pr-indent-20">药械名称/生产厂家/规格</th>
             <th class="w-50 text-center">剂型</th>
             <th class="w-50 text-center">单位</th>
@@ -118,7 +118,7 @@
             <th class="w-100 text-center">有效期</th>
             <th class="w-90 text-center">库存</th>
             <th class="w-120 text-center" style="min-width:120px;">购买数量</th>
-            <th class="text-center" style="min-width:80px;">操作</th>
+            <th class="w-90 text-center" style="min-width:80px;">操作</th>
           </thead>
           <tbody  ng-init="medicalStockMap={};orderMedicalNoIds=[]" >
             <tr class="tr-interval"><td colspan="9"></td></tr>
@@ -312,7 +312,7 @@
       <p class="mgt-m mgb-l text-right"><a href="javascript:;">导入购需清单</a><i class="import-icon mgl-s"></i></p>
     </div>
     <!-- 备注 -->
-    <div class="pd-c-xl pdb">
+    <div class="pd-c-m pdb">
       <h1 class="mgt-m">备注</h1>
       <textarea class="pr-textarea mgb-l mgt" ng-model="formData.note" maxlength="240" style="height:92px;" placeholder="请填写备注信息"></textarea>
     </div>
@@ -324,6 +324,33 @@
   </div>
   <!-- 提交按钮 -->
   <div class="pdb-xxl text-right">
+    <span class="mgl">
+      <a   ng-if="changeFlag"  href="javascript:;"
+         handle-this-click
+         dialog-title="确认返回?"
+         dialog-content="该购需单存在未保存数据，是否保存?"
+         dialog-template="pr-dialog-return.html"
+         nosave-callback="goTo('#/salesOrder/query.html')"
+         save-callback="submitForm('editForm','exit')">返回购需列表</a>
+
+
+         <a   ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需列表</a>
+    </span>
+
+    <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
+
+    <span>
+      <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+         href="javascript:;"
+         class="pr-color-red mgl"
+         handle-this-click
+         dialog-title="确认删除?"
+         dialog-content="您确认删除这条购需单吗?"
+         dialog-template="dialog-confirm.html"
+         request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+         jump-url="#/salesOrder/query.html"
+         emitted="reloadList">删除</a>
+    </span>
     <span class="mgl">
       <!-- <button class="pr-btn-save-glodbg"
               type="submit"
@@ -342,34 +369,6 @@
                            !formData.saleUserId ||
                            !canSubmitForm()">预览销售单
       </button>
-    </span>
-
-    <span class="mgl">
-      <a   ng-if="changeFlag"  href="javascript:;"
-         handle-this-click
-         dialog-title="确认返回?"
-         dialog-content="该购需单存在未保存数据，是否保存?"
-         dialog-template="pr-dialog-return.html"
-         nosave-callback="goTo('#/salesOrder/query.html')"
-         save-callback="submitForm('editForm','exit')">返回购需中心</a>
-
-
-         <a   ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需中心</a>
-    </span>
-
-    <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
-
-    <span>
-      <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
-         href="javascript:;"
-         class="pr-color-red mgl"
-         handle-this-click
-         dialog-title="确认删除?"
-         dialog-content="您确认删除这条购需单吗?"
-         dialog-template="dialog-confirm.html"
-         request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-         jump-url="#/salesOrder/query.html"
-         emitted="reloadList">删除</a>
     </span>
 
   </div>
