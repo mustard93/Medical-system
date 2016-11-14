@@ -1,6 +1,4 @@
-<div class="content-wrapper "
-
-ng-init="listSelected=[];listParams.uaoStatus='等待认证'">
+<div class="content-wrapper queryUserApplyCurDepartment" ng-init="listSelected=[];listParams.uaoStatus='等待认证'">
 
   <table-list list-data="rest/authen/distributor/queryUserApplyOrganization.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容头部 -->
@@ -12,11 +10,6 @@ ng-init="listSelected=[];listParams.uaoStatus='等待认证'">
       <!-- 右侧功能按钮及搜索 -->
       <div class="text-right order-list-search flex-item-8 relative">
 
-        <div class="btn btn-group">
-          <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.uaoStatus='等待认证'">等待认证</button>
-          <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.uaoStatus=''">全部
-          </button>
-        </div>
 
         <label>  <input type="checkbox" class="selectAll">全选</label>
 
@@ -39,8 +32,6 @@ ng-init="listSelected=[];listParams.uaoStatus='等待认证'">
           modal-url="views/distributor/dialog-check-reject-batch.html"
 
           >批量拒绝</a></span>
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单号/销售人员" ng-model="listParams.q">
-        <i class="" style="top:30px;"></i>
       </div>
     </div>
     <!-- 主内容区域 -->
@@ -48,29 +39,26 @@ ng-init="listSelected=[];listParams.uaoStatus='等待认证'">
       <ul class="">
         <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative pd-m"
-           ng-init='formData={"id":tr.id,"status":"认证通过"};tr.formData=formData'
-          >
+               ng-init='formData={"id":tr.id,"status":"认证通过","roleIds":tr.applyRoleIds};tr.formData=formData'>
             <!-- 选择checkbox -->
             <!-- <div  class="square border-none">
 
             </div> -->
 
-              <input ng-disabled="tr.uaoStatus=='等待认证'" type="checkbox" value="{{tr.id}}"  class="selectOne"  checkbox-group="formDataArr"/>
+            <input ng-if="tr.uaoStatus=='等待认证'" type="checkbox" value="{{tr.id}}"  class="selectOne"  checkbox-group="formDataArr"/>
             <!-- 用户基本信息 -->
             <div class="border-none text-center pr-font-16">
               <!-- <p><img src="http://www.qdaily.com/images/missing_face.png" alt="" /></p> -->
               <!-- <p class="mgb-m"><span class="default-user-face"></span></p> -->
               <p class="mgb-m">
-                <img ng-if="!tr.applyUser.headUrl" src="http://www.qdaily.com/images/missing_face.png" alt="" style="width:120px;height:120px;" />
-                <img ng-if="tr.applyUser.headUrl" src="{{tr.applyUser.headUrl}}" alt="" style="width:120px;height:120px;" />
+                <img ng-if="!tr.user.i" src="http://www.qdaily.com/images/missing_face.png" alt="" style="width:120px;height:120px;" />
+                <img ng-if="tr.user.i" src="{{tr.applyUser.headUrl}}" alt="" style="width:120px;height:120px;" />
               </p>
               <p class="mgb-m"><span class="mgr-l">{{tr.applyUser.name}}</span><span>{{tr.applyUser.sex}}</span></p>
               <p class="pdb-m bb-line">{{tr.applyUser.phone}}</p>
             </div>
             <!-- 部门职能 -->
-            <div class="border-none pd-v-m color-9"
-
-            >
+            <div class="border-none pd-v-m color-9">
               <p class="mgb">部门：<span class="color-6">{{tr.departmentName}}</span></p>
               <p class="">角色：
                 <label class="pr-label color-6 mgr cur-pot"  ng-repeat="item in tr.roles">
