@@ -5,7 +5,7 @@
     <div class="content-wrapper-heading line-b mgr-m mgb-l relative flex-column" style="height:75px;line-height:75px;">
       <!-- 区块标题 -->
       <div class="flex-item-4">
-        <span class="pr-font-20">待审核账号</span>
+        <span class="pr-font-20">我部门待审核账号</span>
       </div>
       <!-- 右侧功能按钮及搜索 -->
       <div class="text-right order-list-search flex-item-8 relative">
@@ -32,8 +32,6 @@
           modal-url="views/distributor/dialog-check-reject-batch.html"
 
           >批量拒绝</a></span>
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单号/销售人员" ng-model="listParams.q">
-        <i class="" style="top:30px;"></i>
       </div>
     </div>
     <!-- 主内容区域 -->
@@ -53,8 +51,8 @@
               <!-- <p><img src="http://www.qdaily.com/images/missing_face.png" alt="" /></p> -->
               <!-- <p class="mgb-m"><span class="default-user-face"></span></p> -->
               <p class="mgb-m">
-                <img ng-if="!tr.user.i" src="http://www.qdaily.com/images/missing_face.png" alt="" style="width:120px;height:120px;" />
-                <img ng-if="tr.user.i" src="{{tr.applyUser.headUrl}}" alt="" style="width:120px;height:120px;" />
+                <img ng-if="!tr.applyUser.headUrl" src="http://www.qdaily.com/images/missing_face.png" alt="" style="width:120px;height:120px;" />
+                <img ng-if="tr.applyUser.headUrl" ng-src="{{tr.applyUser.headUrl}}" alt="" style="width:120px;height:120px;" />
               </p>
               <p class="mgb-m"><span class="mgr-l">{{tr.applyUser.name}}</span><span>{{tr.applyUser.sex}}</span></p>
               <p class="pdb-m bb-line">{{tr.applyUser.phone}}</p>

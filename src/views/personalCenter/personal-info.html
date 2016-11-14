@@ -30,8 +30,8 @@
     >
       <div class="flex-item-10 content-area">
         <!-- 头像及电话 -->
-        <div class="panel pr-panel text-center pd-n">
-          <div class="bb-line">
+        <div class="panel pr-panel pr-panel-fixed-height text-center pd-n mgb">
+          <div class="avatar-container bb-line-gold">
             <span class="user-face"
             ng-init="upFile={}" upload-type="image"
                                 uploader-one="rest/authen/fileUpload/uploadPicture.json" usege="头像"
@@ -47,11 +47,11 @@
         </div>
         <!-- 详细资料 -->
         <div class="panel pr-panel flex-column">
-          <div class="flex-item-7 br-line">
+          <div class="flex-item-6 br-dashed-line">
             <table class="table">
               <tr>
                 <td>姓名：</td>
-                <td><input type="text" class="ipt"  ng-model="formData.name"></td>
+                <td><input type="text" class="ipt color-6"  ng-model="formData.name"></td>
               </tr>
               <tr>
                 <td>性别：</td>
@@ -67,9 +67,7 @@
               </tr>
             </table>
           </div>
-          <div class="flex-item-5 pd-l"
-
-          >
+          <div class="flex-item-6 pd-l">
             <p class="pdb-l"  ng-if-eval="organizationId"    ajax-url="rest/authen/distributor/get.json?id={{showData.organizationId}}"  scope-data="distributor">公司名：{{distributor.name}}</p>
             <p class="pdb-l">部门：{{showData.departmentName}}</p>
             <p class="pdb-l"      ajax-url="rest/authen/role/getRoleNamesByCurrentUser.json"  scope-data="roleData">角色：{{roleData.join(' ')}}</p>
@@ -77,10 +75,6 @@
         </div>
         <!-- 功能按钮 -->
         <div class="text-center mgb">
-            <input type="submit"
-  ng-disabled="!changeFlag"
-             class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" style="line-height:1.7;" value="保存"/>
-
           <a   ng-if="changeFlag"  href="javascript:;"
              handle-this-click
              dialog-title="确认返回?"
@@ -90,7 +84,10 @@
              parent-save-callback="saveAfterExit=true;submitForm1();">返回工作中心</a>
 
 
-             <a   ng-if="!changeFlag"  href="#/main.html" class="mgl">返回工作中心</a>
+             <a   ng-if="!changeFlag"  href="#/main.html" class="mgr">返回工作中心</a>
+            <input type="submit"
+  ng-disabled="!changeFlag"
+             class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" style="line-height:1.7;" value="保存"/>
 
         </div>
       </div>
