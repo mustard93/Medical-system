@@ -610,6 +610,7 @@ define('project/controllers', ['project/init'], function() {
                          if(maskObj)maskObj.hide();
                           alertOk(results[1].msg);
                         $scope.$broadcast("reloadList");
+                          $scope.$emit("reloadList");
                           modal.close();
 
                 })
@@ -656,7 +657,7 @@ define('project/controllers', ['project/init'], function() {
               watchFormChange(watchName,$scope);
             }
 
-  
+
            }//watchFormCtrl
     angular.module('manageApp.project')
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
