@@ -1,3 +1,7 @@
+表单增加：  用法：
+  增加监听修改标志为；$scope.changeFlag=false; 前提条件: ng-controller="watchFormCtrl",  watchFormChange('formData')
+  增加异步加载数据成功标志为；$scope.initFlag=true;
+  异步加载数据中  chosen 需要用 ng-if="initFlag"  来初始化
 <div class="create-new-order"
      ng-controller="salesOrderEditCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
@@ -16,7 +20,14 @@
                       <input type="text" class="ipt"  ng-model="formData.name" placeholder="输入框"/>
                   </div>
               </div>
-
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">部门负责人</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select ng-if="initFlag" class="select select-w" data-placeholder="选择一个..." chosen  multiple ng-model="formData.headUserIds" select-source="rest/authen/user/queryForSelectOption.json">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
               <div class="form-tr">
                   <div class="form-th"></div>
                   <div class="form-td">
@@ -33,7 +44,7 @@
     用法：
     增加监听修改标志为；$scope.changeFlag=false; 前提条件: ng-controller="watchFormCtrl",  watchFormChange('formData')
     增加异步加载数据成功标志为；$scope.initFlag=true;
-
+    异步加载数据中  chosen 需要用 ng-if="initFlag"  来初始化
 
        callback="watchFormChange('formData')"
     callback="initFlag=true;watchFormChange('formData')"
