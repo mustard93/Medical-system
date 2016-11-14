@@ -120,10 +120,13 @@ function leftMenuToggle () {
                   $(this).children('.sub-menu-list').hide(200);
                 }
               });
+              // 右侧箭头指示改变
+              $(this).prev().find('span.pr-arrow-down').removeClass('pr-arrow-down').addClass('pr-arrow-up');
             });
           } else {
             _secondMenuList.slideUp(200, function () {
               // 这里是一级菜单收起后的回调函数...
+              $(this).prev().find('span.pr-arrow-up').removeClass('pr-arrow-up').addClass('pr-arrow-down');
             });
           }
         } else {                                            //如果没有二级菜单
@@ -620,10 +623,9 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
   };
 }
 /**
- *	菜单点击样式切换
+ *	左侧二级菜单切换效果（临时解决方案，无法与一级菜单点击事件指令集成在一起）
  */
-function styleToggle () {
-  'use strict';
+function leftMenuSecondToggle () {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
@@ -632,25 +634,22 @@ function styleToggle () {
         if (event && event.stopPropagation) {
           event.stopPropagation();
         }
-        //当前元素是否含有设置的样式名称
-        if (!$(element).hasClass(attrs.styleToggle)) {
-          $(this).addClass(attrs.styleToggle).parent().siblings().each(function () {
-            $(this).children().removeClass(attrs.styleToggle);
-          });
-        }
-
-
-
-
-
-
-        // 当前元素是否有兄弟元素
-        // var _siblingsLength = $(element).siblings().length;
-        // if (attrs.styelToggle && _siblingsLength !== 0) {
-        //   $(this).addClass(attrs.styleToggle).siblings().each(function () {
-        //     $(this).removeClass(attrs.styleToggle);
-        //   });
+        //父元素
+        var _parent = $(element).parent();
+        _parent.addClass('active').siblings().each(function () {
+          $(this).removeClass('active');
+        });
+        // if (_parent.parent('menu-list').hasClass('active')) {
+        //   $(this).removeClass('active');
         // }
+        _parent.parent('menu-list').siblings().each(function () {
+          console.log($(this));
+          $(this).find('.sub-menu-list > li').each(function () {
+            if ($(this).hasClass('active')) {
+              $(this).removeClass('active');
+            }
+          });
+        });
       });
     }
   };
@@ -672,5 +671,5 @@ angular.module('manageApp.project')
     .directive("runTooltips", runTooltips) //tooltips
     .directive("runPopovers", ['$timeout', runPopovers]) //popover
     .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]) //带确认对话框的按钮点击事件
-    .directive("styleToggle", styleToggle); //菜单点击样式切换
+    .directive("leftMenuSecondToggle", leftMenuSecondToggle); //左侧二级菜单切换效果
 });
