@@ -26,7 +26,7 @@
 
     action="rest/authen/user/updateOfMine"  scope-data="formData" alert-error alert-ok
     form-validator
-    callback="saveAfterExit&&$root.goTo('#/main.html')"
+    callback="watchFormChange('formData');saveAfterExit&&$root.goTo('#/main.html');"
     >
       <div class="flex-item-10 content-area">
         <!-- 头像及电话 -->
@@ -68,11 +68,11 @@
             </table>
           </div>
           <div class="flex-item-5 pd-l"
-          ajax-url="rest/authen/role/getRoleNamesByCurrentUser.json"  scope-data="roleData"
+
           >
-            <p class="pdb-l">公司名：{{showData.organizationName}}</p>
+            <p class="pdb-l"  ng-if-eval="organizationId"    ajax-url="rest/authen/distributor/get.json?id={{showData.organizationId}}"  scope-data="distributor">公司名：{{distributor.name}}</p>
             <p class="pdb-l">部门：{{showData.departmentName}}</p>
-            <p class="pdb-l">角色：{{roleData.join(' ')}}</p>
+            <p class="pdb-l"      ajax-url="rest/authen/role/getRoleNamesByCurrentUser.json"  scope-data="roleData">角色：{{roleData.join(' ')}}</p>
           </div>
         </div>
         <!-- 功能按钮 -->
@@ -87,7 +87,7 @@
              dialog-content="存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="$root.goTo('#/main.html')"
-             save-callback="saveAfterExit=true;submitForm();">返回工作中心</a>
+             parent-save-callback="saveAfterExit=true;submitForm1();">返回工作中心</a>
 
 
              <a   ng-if="!changeFlag"  href="#/main.html" class="mgl">返回工作中心</a>

@@ -550,7 +550,10 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           if(type=="nosave"){
             //执行回调
             if ($attrs.nosaveCallback) {
-              $scope.$parent.$eval($attrs.nosaveCallback);
+              $scope.$eval($attrs.nosaveCallback);
+            }
+            if ($attrs.parentNosaveCallback) {
+              $scope.$parent.$eval($attrs.parentNosaveCallback);
             }
             return;
           }
@@ -558,7 +561,11 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           if(type=="save"){
             //执行回调
             if ($attrs.saveCallback) {
-              $scope.$parent.$eval($attrs.saveCallback);
+              $scope.$eval($attrs.saveCallback);
+            }
+
+            if ($attrs.parentSaveCallback) {
+              $scope.$parent.$eval($attrs.parentSaveCallback);
             }
             return;
           }
@@ -590,12 +597,21 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                 }
                 if ($attrs.$scopeData) $scope[$attrs.$scopeData] = data;
                 //执行回调
+
+
+
                 if ($attrs.callBack) {
-                    $scope.$parent.$eval($attrs.callBack);
+                    $scope.$eval($attrs.callBack);
                 }
                 if ($attrs.callback) {
-                    $scope.$parent.$eval($attrs.callback);
+                    $scope.$eval($attrs.callback);
                 }
+
+                if ($attrs.parentCallback) {
+                  $scope.$parent.$eval($attrs.parentCallback);
+                }
+
+
                 //...
                 if ($attrs.emitted) {
                   $scope.$emit($attrs.emitted);
@@ -610,12 +626,20 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           //执行回调
           if ($attrs.callBack) {
             $scope.dialgForm=dialgForm;
-              $scope.$parent.$eval($attrs.callBack);
+              $scope.$eval($attrs.callBack);
           }
           //执行回调
           if ($attrs.callback) {
             $scope.dialgForm=dialgForm;
-              $scope.$parent.$eval($attrs.callback);
+              $scope.$eval($attrs.callback);
+
+
+
+              if ($attrs.parentCallback) {
+                $scope.$parent.$eval($attrs.parentCallback);
+              }
+
+
           }
         }, _dialogTemplate, _dialogTitle, _confirmBtnTxt, _cancelBtnTxt, _jumpUrl);
       });
