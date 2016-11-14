@@ -1421,12 +1421,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         var results = eval( "(" + text + ")" );
 
 
-                        if ( results.code != 200) {
-                            // console.log(_data);
-                              alertError(results.message || '出错了');
-                            return ;
-
-                        }
+                        // if ( results.code != 200) {
+                        //     // console.log(_data);
+                        //       alertError(results.message || '出错了');
+                        //     return ;
+                        //
+                        // }
 
                         var _data = results.data;
 
@@ -1456,7 +1456,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       },
                       error:function(res){
                         //{readyState: 0, responseText: "", status: 0, statusText: "error"}
-                          alert("服务器连接不上或内部异常："+res.responseText);
+                          // alert("服务器连接不上或内部异常："+res.responseText);
                       }
                     });
 
