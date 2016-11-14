@@ -690,11 +690,9 @@ function leftMenuSecondToggle ($location) {
 
         _parent.parent().parent().removeClass('active').siblings().each(function () {
           $(this).removeClass('active');
-          // $(this).find('.sub-menu-list > li').each(function () {
-          //   if ($(this).hasClass('active')) {
-          //     $(this).removeClass('active');
-          //   }
-          // });
+          $(this).find('.sub-menu-list > li').each(function () {
+              $(this).removeClass('active');
+          });
         });
       });
     }
