@@ -375,7 +375,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 });
 
                 //提交表单方法
-                  $scope.submitForm=function(){
+                  $scope.submitForm1=function(){
                       $element.trigger('submit');
                   }
             }
