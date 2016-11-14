@@ -128,9 +128,9 @@
                   </p>
                 </div>
                 <div class="flex-item-6">
+                  <p class="mgb-s">采购凭证：<a href="#/purchaseVoucher/get.html?relId={{tr.id}}">{{tr.purchaseVoucherNo || 'PZ000000115'}}</a></p>
                   <p class="mgb-s">创建时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:ss'}}</span></p>
-                  <p class="mgb-s">采购凭证：<a href="#/purchaseVoucher/get.html?relId={{tr.id}}">{{tr.purchaseVoucherNo}}</a></p>
-                  <p>期望到货时间：<span class="color-6">{{tr.expectDate | date: 'yyyy-MM-dd'}}</span></p>
+                  <p>入库时间：<span class="color-6">{{tr.expectDate | date: 'yyyy-MM-dd'}}</span></p>
                 </div>
               </div>
             </div>
@@ -138,14 +138,11 @@
               供货商：<span class="color-6">{{tr.supplier.name}}</span>
             </div>
             <div class="flex-column text-s">
-              <div class="flex-item-6 br-line" style="min-height:125px;">
-                <div class="text-center pd-v">
-                  <p class="pdb-l">采购药械品类数</p>
-                  <p class="text-xxxl">{{tr.itemCount}}</p>
-                </div>
-                <div class="color-9 text-center pd-v">
-                  冷链药械：<span class="color-6">{{tr.isNeedColdChain}}</span>
-                </div>
+              <div class="flex-item-6 br-line pd-m" style="min-height:125px;">
+                <p class="mgb-s">账期要求：<em>2个月</em></p>
+                <p class="mgb-s">预付款：<em>50%</em></p>
+                <p class="mgb-s">结算方式：<em>网银转账</em></p>
+                <p class="mgb-s">付款方式：<em>货到付款</em></p>
               </div>
               <div class="flex-item-6 pd">
                 <h1 class="pd-v-s bb-line">物流信息</h1>
@@ -165,12 +162,14 @@
                 <span>备注：</span><span class="color-6">{{tr.note}}</span>
               </p>
             </div>
-            <div class="pdl-m pdr-m pd-v color-9 flex-column">
-              <div class="flex-item-6">
-                付款方式：<span class="color-6">{{tr.payAndDelivery.payType}}</span>
+            <div class="pdl-m pdr-m pd-v color-9">
+              <div class="flex-column mgb-s">
+                <span class="flex-item-6">金额：<em>￥6000.00</em></span>
+                <span class="flex-item-6 text-right">合计：<em>￥7020.00</em></span>
               </div>
-              <div class="flex-item-6 text-right text-m">
-                合计：<span class="color-6">￥{{tr.totalPrice | number:2}}</span>
+              <div class="flex-column">
+                <span class="flex-item-6">税额：<em>￥600.00</em></span>
+                <span class="flex-item-6 text-right">待付：<em class="color-red">￥3020.00</em></span>
               </div>
             </div>
           </div>
