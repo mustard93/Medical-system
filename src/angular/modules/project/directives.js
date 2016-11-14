@@ -687,13 +687,14 @@ function leftMenuSecondToggle ($location) {
         // if (_parent.parent('menu-list').hasClass('active')) {
         //   $(this).removeClass('active');
         // }
-        _parent.parent('menu-list').siblings().each(function () {
-          console.log($(this));
-          $(this).find('.sub-menu-list > li').each(function () {
-            if ($(this).hasClass('active')) {
-              $(this).removeClass('active');
-            }
-          });
+
+        _parent.parent().parent().removeClass('active').siblings().each(function () {
+          $(this).removeClass('active');
+          // $(this).find('.sub-menu-list > li').each(function () {
+          //   if ($(this).hasClass('active')) {
+          //     $(this).removeClass('active');
+          //   }
+          // });
         });
       });
     }
