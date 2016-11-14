@@ -6,7 +6,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope,$rootScope,$http,store) {
+    function mainCtrl($scope, $rootScope, $http, $location, store) {
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
@@ -21,6 +21,16 @@ define('main/controllers', ['main/init'], function () {
           return _t.getFullYear() + '-' + (_t.getMonth() + 1) + '-' + _t.getDate();
         };
         $scope.currentDate = getCurrentDate();
+
+        //左侧边栏是否隐藏
+        $scope.leftSideisShow = true;   //默认显示
+        $scope.$on('$locationChangeStart', function (event, newUrl, currentUrl) {
+          if (newUrl.indexOf('personalCenter') !== -1) {
+            $scope.leftSideisShow = false;
+          } else {
+            $scope.leftSideisShow = true;
+          }
+        });
 
         $scope.mainConfig = window.Config || {};
 
@@ -275,7 +285,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http","store", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
