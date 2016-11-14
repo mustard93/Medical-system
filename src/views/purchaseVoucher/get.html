@@ -11,7 +11,7 @@ scope-data="showData"
   </div>
   <!-- 凭证主内容 -->
   <div class="panel pr-panel pr-panel-height mgb">
-    <h1 class="text-center pr-font-20 pd-v-l">采购凭证</h1>
+    <h1 class="text-center pr-font-22 pd-v bb-line mgb-m color-6">采购凭证</h1>
     <div class="flex-column">
       <div class="flex-item-8">
         <p class="mgb">供货商：<em class="color-6">{{showData.supplier.name}}</em></p>
@@ -22,13 +22,14 @@ scope-data="showData"
       <div class="flex-item-4">
         <p class="mgb">凭证号：<em class="color-6">{{showData.orderNo}}</em></p>
         <p class="mgb">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:ss'}}</em></p>
-        <p>电话：<em class="color-6">{{showData.address.tel}}</em></p>
+        <p class="mgb">电话：<em class="color-6">{{showData.address.tel}}</em></p>
+        <p>采购员：<em class="color-6">{{showData.saleUser.n}}</em></p>
       </div>
     </div>
     <div class="order-details">
       <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
         <thead>
-          <th class="">药品名称/生产厂家</th>
+          <th class="pdl-m">药品名称/生产厂家</th>
           <th class="text-center">型号规格</th>
           <th class="text-center">单位</th>
           <th class="text-center">数量</th>
@@ -39,39 +40,36 @@ scope-data="showData"
         <tbody>
           <tr class="tr-interval"><td colspan="9"></td></tr>
           <tr  ng-repeat="tr in showData.orderMedicalNos" >
-            <td class="goods-name has-border text-v-t pd-m">
+            <td class="goods-name has-border text-v-t pd-m color-6">
               <div class="pr-table-td-m relative">
                 <span class="block">
-                  <p class="pdl-m mgb-s color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                  <p class="pdl-m mgb-s color-9 text-s"><span>{{tr.manufacturer}}</span></p>
+                  <p class="mgb-s color-6 text-n text-bold"><span>{{tr.name}}</span></p>
+                  <p class="mgb-s color-9 text-s"><span>{{tr.manufacturer}}</span></p>
                   <!-- <p class="mgl-m color-9 text-s"><span>{{tr.specification||"无规格"}}</span></p> -->
                 </span>
               </div>
             </td>
-            <td class="has-border text-center text-v-t pd-m">
+            <td class="has-border text-center text-v-t pd-m color-6">
               <span ng-if="tr.modelType && !tr.specification">{{tr.modelType}}</span>
               <span ng-if="!tr.modelType && tr.specification">{{tr.specification}}</span>
               <span ng-if="tr.modelType && tr.specification">{{tr.modelType}}/{{tr.specification}}</span>
             </td>
-            <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
-            <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
-            <td class="has-border text-center text-v-t pd-m">￥{{tr.price}}</td>
-            <td class="has-border text-center text-v-t pd-m">{{tr.quantity*tr.strike_price||''}}</td>
-            <td class="has-border text-center text-v-t pd-m">{{tr.drugAdministrationCode}}</td>
+            <td class="has-border text-center text-v-t pd-m color-6">{{tr.unit}}</td>
+            <td class="has-border text-center text-v-t pd-m color-6">{{tr.quantity}}</td>
+            <td class="has-border text-center text-v-t pd-m color-6">￥{{tr.price}}</td>
+            <td class="has-border text-center text-v-t pd-m color-6">{{tr.quantity*tr.strike_price||''}}</td>
+            <td class="has-border text-center text-v-t pd-m color-6">{{tr.drugAdministrationCode}}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="text-right pd-v-l bb-line">
-      <span class="mgr-l">合计：￥{{showData.totalPrice | number:2}}</span>
+      <span class="mgr-l pr-font-22 color-9">合计：<span class="color-6">￥{{showData.totalPrice | number:2}}</span></span>
 
-      <span>人民币大写: ￥{{showData.totalPrice | upDigit}}</span>
-    </div>
-    <div class="pd-v-l bb-line">
-      备注：{{showData.note}}
+      <span class="pr-font-22 color-9">人民币大写: <span class="color-6">￥{{showData.totalPrice | upDigit}}</span></span>
     </div>
     <div class="pd-v">
-      采购员：{{showData.saleUser.n}}
+      备注：{{showData.note}}
     </div>
   </div>
   <!-- 凭证功能按钮 -->
@@ -83,20 +81,20 @@ scope-data="showData"
     <div class="flex-item-10 text-right">
       <span><a href="#/purchaseVoucher/query.html">返回采购凭证列表</a></span>
       <span ng-if="$root.hasAuthor('采购凭证编辑')" class="mgl">
-        <a ng-if="showData.orderStatus=='待发送'"
+        <button ng-if="showData.orderStatus=='待发送'"
            href="javascript:;"
-           class="btn btn-primary"
+           class="pr-btn-save-glodbg"
            modal-center="490"
            modal-scope="this"
            modal-url="views/purchaseVoucher/sendEmail.html">发送至厂家
-        </a>
-        <a ng-if="showData.orderStatus=='已发送'"
+        </button>
+        <button ng-if="showData.orderStatus=='已发送'"
            href="javascript:;"
            class="pr-btn-save-glodbg"
            modal-center="490"
            modal-scope="this"
            modal-url="views/purchaseVoucher/sendEmail.html">再次发送
-        </a>
+        </button>
       </span>
     </div>
   </div>
