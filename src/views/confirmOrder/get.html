@@ -53,7 +53,7 @@
 
     <!-- 订单清单 -->
     <div class="panel pr-panel pr-panel-height mgb-n"  ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <h1 class="text-m text-bold">药械清单</h1>
+      <!-- <h1 class="text-m text-bold">药械清单</h1> -->
       <div class="confirm-order">
         <div order-medicals  ng-model="showData.orderMedicalNos"></div>
 
@@ -92,7 +92,7 @@
 
 <!-- 按钮   ng-if="showData.orderStatus=='待审批'" -->
 <div class="text-right mgb-l">
-  <a href="javascript:;" class="mgr" ng-click="$root.goTo('#/confirmOrder/query.html')">返回销售单中心</a>
+  <a href="javascript:;" class="mgr" ng-click="$root.goTo('#/confirmOrder/query.html')">返回销售单列表</a>
   <span ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('销售单审核')"
         class="mgr"
         ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'订单驳回理由',msg:'驳回后，该销售单将作废。确认驳回?',formData:{businessKey:showData.id,conditionType:'驳回',type:'销售单',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+showData.id}">
