@@ -7,7 +7,7 @@
   <div class="bind-wrap col-lg-12" ng-controller="registrationCtrl" query-distributor-list>
     <!-- 提示信息 -->
     <div class="text-center bind-notice">
-      <span>请绑定公司名跟部门</span>
+      <span>请选择公司名，部门和角色进行身份绑定。</span>
     </div>
     <form class="form-signin"
           onsubmit="return false;"
@@ -15,7 +15,7 @@
           action= "rest/authen/distributor/userApplyOrganization.json"
           alert-error callback="bind_done();">
       <div>
-          <select class="select select-w"
+          <select class="select pr-select"
                   data-placeholder="选择一个..."
                   chosen alert-error
                   ng-model="formData.organizationId"
@@ -39,19 +39,20 @@
                 select-source="rest/index/department/queryForSelectOption.json">
         </select>
       </div>
-      <span>请勾选申请角色</span>
-      <p  ajax-if="{{formData.departmentId}}"
+      <div class="mgb roles-wrapper">
+      <span class="disp-b text-n text-bold color-6 pd">角色:</span>
+      <p class="mgl" ajax-if="{{formData.departmentId}}"
       ajax-url="rest/index/role/queryForSelectOption"
 
           params='{"departmentId":"{{formData.departmentId}}","organizationId":"{{formData.organizationId}}"}'
        scope-data="roles"
-       alert-error
-      >
+       alert-error>
         <label class="pr-label color-6 mgr cur-pot"  ng-repeat="item in roles">
           <span  class="square" style="position:relative;top:5px;">
             <input value="{{item.value}}" type="checkbox" checkbox-group="formData.applyRoleIds"></span>
           <span class="">{{item.text}}</span>
         </label>
+        </div>
 
         <!-- <label class="pr-label color-6 mgr cur-pot">
 
@@ -65,18 +66,18 @@
 
       </p>
       <div class="flex-column">
-        <div class="flex-item-10" style="border:none;">
+        <div class="flex-item-12" style="border:none;">
           <button type="submit"
                   class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
                   ng-disabled="!formData.organizationId || !formData.departmentId">完 成
           </button>
         </div>
-        <div class="flex-item-2">
+        <!-- <div class="flex-item-2">
           <a href="login.html" class="mgl text-n">稍后绑定</a>
-        </div>
+        </div> -->
       </div>
       <div class="col-lg-12 text-center">
-        <a href="login.html" class="color-custom-orange">返回登陆</a>
+        <a href="login.html" class="mgl text-n">稍后绑定</a>
       </div>
     </form>
   </div>
