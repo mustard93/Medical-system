@@ -1,0 +1,74 @@
+<div class="modal-content" ng-controller="editCtrl">
+  <form class="add-customerAddress-form form-horizontal"
+        action="rest/authen/firstEnterpriseApplication/updateStatus"
+        scope-data="formData"
+        ng-init="formData=tr"
+        alert-error
+        alert-ok
+        parameter-body
+        form-validator>
+    <div class="modal-header">
+        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+        <h4 class="modal-title">首营企业申请审批</h4>
+    </div>
+    <div class="modal-body">
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">申请单编号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.applicationNumber" disabled="true"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">申请单状态</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.applicationStatus" disabled="true"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">首营企业名称</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.fullName" disabled="true"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">申请原因</label>
+          <div class="col-lg-10 col-sm-10">
+              <textarea class="form-control" placeholder="" ng-model="formData.applyReason" disabled="true"/>
+          </div>
+      </div>
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">审批意见</label>
+          <div class="col-lg-10 col-sm-10">
+              <textarea class="form-control" placeholder="" ng-model="formData.note"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">审批结论</label>
+        <div class="col-lg-2 col-sm-2 control-label">
+          <label><input type="radio" name="investigateStatus" value="通过" ng-model="formData.investigateStatus"
+            ng-checked="true" ng-init="regData.type='通过'">通过</label>
+          <label><input type="radio" name="investigateStatus" value="不通过" ng-model="formData.investigateStatus">不通过</label>
+        </div>
+      </div>
+
+      <!-- 关联申请表的ID -->
+      <input type="hidden" class="form-control" ng-init="formData.applicationId=formData.id" ng-model="formData.applicationId" />
+
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+          </div>
+      </div>
+    </div>
+  </form>
+</div>
