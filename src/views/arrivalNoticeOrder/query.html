@@ -13,7 +13,7 @@
              alert-error>
           <div class="btn btn-group"   scope-data="statusList">
             <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
+            <button ng-if="$root.hasAuthor('来货通知单编辑')" order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
               <span class="pj-badge" ng-if='countByOrderStatus["未提交"]'>{{countByOrderStatus["未提交"]}}</span>
             </button>
             <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待审批'">待审批
@@ -26,7 +26,7 @@
               <span class="pj-badge" ng-if='countByOrderStatus["入库中"]'>{{countByOrderStatus["入库中"]}}</span>
             </button>
             <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已完成'">已完成
-              <span class="pj-badge" ng-if='countByOrderStatus["已完成"]'>{{countByOrderStatus["已完成"]}}</span>
+
             </button>
           </div>
           <div class="inline-block relative">
@@ -81,7 +81,18 @@
                   <p class="mgb-s">通知单号：<span class="color-6">{{tr.orderNo}}</span>
                     <!-- <strong class="color-6 text-normal">{{tr.orderNo}}</strong> -->
                   </p>
-                  <p class="mgb-s">采购员：<em class="color-custom-orange">{{tr.saleUser.n}}</em>
+                  <p class="mgb-s relative">采购员：
+                    <em run-popovers class="color-custom-orange cur-pot text-normal color-6" style="position:absolute;height:25px;">{{tr.saleUser.n}}</em>
+                    <span class="purchaseorder-buyer-info">
+                      <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
+                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                        <a href="javascript:;"
+                           modal-center="490"
+                           modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                           modal-url="views/notice/sendToUser.html">发送消息
+                        </a>
+                      </em></i>
+                    </span>
                   </p>
                 </div>
                 <div class="flex-item-6">

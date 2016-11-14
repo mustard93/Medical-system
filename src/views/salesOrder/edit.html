@@ -107,8 +107,8 @@
       <div class="data-table">
         <table class="pr-table">
           <thead>
-            <th class="w-90 text-center">货品编码/货位</th>
-            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
+            <th class="w-120 text-center">货品编码/货位</th>
+            <th class="pr-indent-20" style="min-width:260px;">药械名称/生产厂家/规格</th>
             <th class="w-50 text-center">剂型</th>
             <th class="w-50 text-center">单位</th>
             <th class="w-60 text-center">参考单价</th>
@@ -246,7 +246,7 @@
                 <p>{{medical.code||'无'}}</p>
                 <p>{{medical.storageLocation||'无'}}</p>
               </td>
-              <td class="has-border text-v-t pd-m">
+              <td class="has-border text-v-t pd">
                 <div class="relative pr-table-td-m">
                   <span class="goods-thumbnail flex-item-2"><img ng-if="addDataItem.headUrl" ng-src="{{addDataItem.headUrl}}" alt=""/></span>
                   <span class="block pdl-m">
@@ -348,8 +348,8 @@
          dialog-content="您确认删除这条购需单吗?"
          dialog-template="dialog-confirm.html"
          request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-         jump-url="#/salesOrder/query.html"
-         emitted="reloadList">删除</a>
+         call-back="$root.goTo('#/salesOrder/query.html')">删除
+      </a>
     </span>
     <span class="mgl">
       <!-- <button class="pr-btn-save-glodbg"

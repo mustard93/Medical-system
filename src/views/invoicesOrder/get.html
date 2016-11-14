@@ -23,22 +23,16 @@
           <a href="#/confirmOrder/get.html?id={{showData.confirmOrderId}}">{{showData.confirmOrderNo}}</a>
         </span>
         <span>对应出库单：
-  <a href="#/outstockOrder/get.html?id={{showData.outStockOrderId}}">  {{showData.outStockOrderNo}}</a>
-
-
-
-  <button
-  ng-if="!showData.outStockOrderNo&&showData.orderStatus!='已作废'&&$root.hasAuthor('出库单编辑')"
-    ng-disabled="showData.orderStatus=='待发货'"
-    class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
-          type="button"
-          ajax-url-submit="rest/authen/workflowTask/run.json"
-          alert-error
-          params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"销售单"}'
-          callback="$root.goTo('#/outstockOrder/get.html?relId='+showData.id)">生成出库单
-  </button>
-
-
+          <a href="#/outstockOrder/get.html?id={{showData.outStockOrderId}}">  {{showData.outStockOrderNo}}</a>
+          <button ng-if="!showData.outStockOrderNo&&showData.orderStatus!='已作废'&&$root.hasAuthor('出库单编辑')"
+                  ng-disabled="showData.orderStatus=='待发货'"
+                  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                  type="button"
+                  ajax-url-submit="rest/authen/workflowTask/run.json"
+                  alert-error
+                  params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"销售单"}'
+                  callback="$root.goTo('#/outstockOrder/get.html?confirmOrderId='+showData.confirmOrderId)">生成出库单
+          </button>
         </span>
       </div>
 

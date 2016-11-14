@@ -1,4 +1,4 @@
-<div id="page-side" class="left-side sticky-left-side" nice-scroll >
+<div ng-if="leftSideisShow" id="page-side" class="left-side sticky-left-side" nice-scroll >
   <!--logo start-->
   <div class="logo">
     <div>
@@ -6,43 +6,43 @@
     </div>
   </div>
   <!--logo end-->
-  <div ng-if="$root.curUser.name"  class="left-side-inner" left-menu-toggle>
+  <div ng-if="$root.curUser.name"  class="left-side-inner">
     <ul class="nav nav-pills nav-stacked custom-nav">
-      <li class="menu-list active">
-        <a href="#/" class="nav-home"><span class="nav-ico nav-home"></span><span> 首页</span></a>
+      <li class="menu-list">
+        <a left-menu-toggle href="#/main.html" class="nav-home"><span class="nav-ico nav-home"></span><span> 首页</span></a>
       </li>
       <li class="menu-list">
-        <a href="" class="nav-order"><span class="nav-ico nav-order"></span><span> 销售中心</span><span class="pr-arrow-down"></span></a>
-        <ul class="sub-menu-list" left-menu-second-click>
-            <li ng-if="$root.hasAuthor('购需单查询')"><a href="#/salesOrder/query.html">购需单</a></li>
-            <li ng-if="$root.hasAuthor('销售单查询')"><a href="#/confirmOrder/query.html">销售单</a></li>
-            <li ng-if="$root.hasAuthor('发货单查询')"><a href="#/invoicesOrder/query.html">发货单</a></li>
-            <li ng-if="$root.hasAuthor('出库单查询')"><a href="#/outstockOrder/query.html">出库单</a></li>
+        <a left-menu-toggle href="" class="nav-order"><span class="nav-ico nav-order"></span><span> 销售中心</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+            <li ng-if="$root.hasAuthor('购需单查询')"><a left-menu-second-toggle href="#/salesOrder/query.html">购需单</a></li>
+            <li ng-if="$root.hasAuthor('销售单查询')"><a left-menu-second-toggle href="#/confirmOrder/query.html">销售单</a></li>
+            <li ng-if="$root.hasAuthor('发货单查询')"><a left-menu-second-toggle href="#/invoicesOrder/query.html">发货单</a></li>
+            <li ng-if="$root.hasAuthor('出库单查询')"><a left-menu-second-toggle href="#/outstockOrder/query.html">出库单</a></li>
         </ul>
       </li>
       <li class="menu-list">
-        <a href="" class="nav-home nav-purchase"><span class="nav-ico nav-purchase"></span><span> 采购中心</span><span class="pr-arrow-down"></span></a>
+        <a left-menu-toggle href="" class="nav-home nav-purchase"><span class="nav-ico nav-purchase"></span><span> 采购中心</span><span class="pr-arrow-down"></span></a>
         <ul class="sub-menu-list">
-            <li  ng-if="$root.hasAuthor('采购单查询')"><a href="#/purchaseOrder/query.html">采购单</a></li>
-            <li ng-if="$root.hasAuthor('采购凭证查询')"><a href="#/purchaseVoucher/query.html">采购凭证</a></li>
-            <li  ng-if="$root.hasAuthor('来货通知单查询')"><a href="#/arrivalNoticeOrder/query.html">来货通知单</a></li>
+            <li ng-if="$root.hasAuthor('采购单查询')"><a left-menu-second-toggle href="#/purchaseOrder/query.html">采购单</a></li>
+            <li ng-if="$root.hasAuthor('采购凭证查询')"><a left-menu-second-toggle href="#/purchaseVoucher/query.html">采购凭证</a></li>
+            <li ng-if="$root.hasAuthor('来货通知单查询')"><a left-menu-second-toggle href="#/arrivalNoticeOrder/query.html">来货通知单</a></li>
         </ul>
       </li>
       <li class="menu-list">
-        <a href="#/distributor/queryUserApplyOrganization.html" class="nav-account-check"><span class="nav-ico nav-account-check"></span><span> 账号审核</span></a>
+        <a left-menu-toggle href="#/distributor/queryUserApplyOrganization.html" class="nav-account-check"><span class="nav-ico nav-account-check"></span><span> 账号审核</span></a>
       </li>
       <li class="menu-list">
-        <a href="" class="nav-home nav-manage-center"><span class="nav-ico nav-manage-center"></span><span> 管理中心</span><span class="pr-arrow-down"></span></a>
+        <a left-menu-toggle href="" class="nav-home nav-manage-center"><span class="nav-ico nav-manage-center"></span><span> 管理中心</span><span class="pr-arrow-down"></span></a>
         <ul class="sub-menu-list">
-          <li><a href="#/role/query.html">角色管理</a></li>
-            <li><a href="#/department/query.html">部门管理</a></li>
-            <li><a href="#/supplier/query.html">供货商管理</a></li>
-              <li><a href="#/purchaserAddress/query.html">采购方地址管理</a></li>
-            <li><a href="#/customerAddress/query.html">客户管理</a></li>
-            <li><a href="#/medicalStock/query.html">药械管理</a></li>
-              <li  ng-if="$root.hasAuthor('帐号审核')"><a href="#/user/query.html">员工管理</a></li>
-            <li  ng-if="$root.hasAuthor('部门帐号审核')"><a href="#/departmentUser/query.html">部门用户管理</a></li>
-            <li  ng-if="$root.hasAuthor('部门帐号审核')"><a href="#/distributor/queryUserApplyCurDepartment.html">部门帐号审核</a></li>
+          <li><a left-menu-second-toggle href="#/role/query.html">角色管理</a></li>
+          <li><a left-menu-second-toggle href="#/department/query.html">部门管理</a></li>
+          <li><a left-menu-second-toggle href="#/supplier/query.html">供货商管理</a></li>
+          <li><a left-menu-second-toggle href="#/purchaserAddress/query.html">采购方地址管理</a></li>
+          <li><a left-menu-second-toggle href="#/customerAddress/query.html">客户管理</a></li>
+          <li><a left-menu-second-toggle href="#/medicalStock/query.html">药械管理</a></li>
+          <li ng-if="$root.hasAuthor('帐号审核')"><a left-menu-second-toggle href="#/user/query.html">员工管理</a></li>
+          <li ng-if="$root.hasAuthor('部门帐号审核')"><a left-menu-second-toggle href="#/departmentUser/query.html">部门用户管理</a></li>
+          <li ng-if="$root.hasAuthor('部门帐号审核')"><a left-menu-second-toggle href="#/distributor/queryUserApplyCurDepartment.html">部门帐号审核</a></li>
 
 
         </ul>

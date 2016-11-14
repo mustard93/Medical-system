@@ -49,8 +49,18 @@
                 <span class="flex-item-6 pdl mgb-s">
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
-                <span class="flex-item-6">
-                  销售人员：<em class="color-custom-orange">{{tr.saleUser.n}}</em>
+                <span class="flex-item-6 relative">销售人员：
+                  <em run-popovers class="color-custom-orange cur-pot text-normal color-6" style="position:absolute;height:25px;">{{tr.saleUser.n}}</em>
+                  <span class="purchaseorder-buyer-info">
+                    <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
+                    <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                      <a href="javascript:;"
+                         modal-center="490"
+                         modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                         modal-url="views/notice/sendToUser.html">发送消息
+                      </a>
+                    </em></i>
+                  </span>
                 </span>
               </div>
             </div>

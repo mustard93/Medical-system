@@ -19,7 +19,7 @@
                 <!-- <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-repeat="tr in statusList" ng-click="listParams.orderStatus=tr.value">{{tr.value}}
                   <span class="pj-badge" ng-if='countByOrderStatus[tr.value]'>{{countByOrderStatus[tr.value]}}</span>
                 </button> -->
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
+              <button ng-if="$root.hasAuthor('发货单编辑')" order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
                 <span class="pj-badge" ng-if='countByOrderStatus["未提交"]'>{{countByOrderStatus["未提交"]}}</span>
               </button>
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发货'">待发货
@@ -53,7 +53,6 @@
         <li class="pdr-m relative" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
             <div class="pd-m">
-
               <div class="flex-column mgb-m" style="height:24px;line-height:24px;">
                 <div class="flex-item-4">
                   <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}
@@ -72,10 +71,10 @@
                     ng-if="!tr.outStockOrderId&&tr.orderStatus=='已发货' && $root.hasAuthor('出库单编辑')"
                      class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                             type="button"
-                            ajax-url-submit="rest/authen/workflowTask/run.json"                      
+                            ajax-url-submit="rest/authen/workflowTask/run.json"
                             alert-error
                             params='{"businessKey":tr.confirmOrderId,"conditionType":"通过","type":"销售单"}'
-                            callback="$root.goTo('#/outstockOrder/get.html?relId='+tr.id)">生成出库单
+                            callback="$root.goTo('#/outstockOrder/get.html?confirmOrderId='+tr.confirmOrderId)">生成出库单
                     </button>
 
                   </span>
@@ -94,8 +93,18 @@
                 <span class="flex-item-6 pdl mgb-s">
                   创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                 </span>
-                <span class="flex-item-6">
-                  销售人员：<strong class="color-6 text-normal">{{tr.saleUser.n}}</strong>
+                <span class="flex-item-6 relative">销售人员：
+                  <strong run-popovers class="color-custom-orange cur-pot text-normal color-6" style="position:absolute;height:25px;">{{tr.saleUser.n}}</strong>
+                  <span class="purchaseorder-buyer-info">
+                    <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
+                    <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                      <a href="javascript:;"
+                         modal-center="490"
+                         modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                         modal-url="views/notice/sendToUser.html">发送消息
+                      </a>
+                    </em></i>
+                  </span>
                 </span>
                 <!-- <span class="flex-item-6 pdl">
                   电话：<strong class="color-6 text-normal">{{tr.address.tel}}</strong>
@@ -122,6 +131,9 @@
                 </div>
               </div>
             </div>
+            <!-- <div ng-if="tr.orderStatus=='待发货'" class="text-right pd-v pdr">
+              <a href="" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">确认发货</a>
+            </div> -->
           </div>
         </li>
       </ul>

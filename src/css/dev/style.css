@@ -1961,6 +1961,17 @@ body.ngdialog-open {
     transform: translateY(100%);
   }
 }
+/* 指示图标转动效果 */
+@keyframes customRotate {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+}
 
 .page-dialog-wrap {
   height: 100%;
@@ -2305,6 +2316,13 @@ body.ngdialog-open {
   border-color: #c7a77b;
   color: #fff!important;
 }
+.pr-btn-bg-gold[disabled] {
+  background-color: #ccc;
+  border: none;
+}
+.pr-btn-bg-gold[disabled]:hover {
+  background-color: #ccc;
+}
 /* 白色按钮 */
 .pr-btn-bg-white {
   background-color: #fff;
@@ -2350,6 +2368,10 @@ body.ngdialog-open {
 }
 .pr-panel-height {
   min-height: 1px;
+}
+.pr-panel-fixed-height {
+  height: 210px;
+  min-height: auto;
 }
 /* 表单 */
 .pr-select {
@@ -2413,6 +2435,11 @@ body.ngdialog-open {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+.bb-line-gold {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #c7a77b;
 }
 .bl-line {
   border-left-width: 1px;
@@ -3168,6 +3195,9 @@ body.ngdialog-open {
 .pr-modal-content .modal-header {
   background-color: rgba(54, 48, 44, .7);
 }
+.modal-header {
+  background-color: rgba(54, 48, 44, .7);
+}
 .pr-modal-content .modal-content {
   background-color: transparent;
 }
@@ -3268,6 +3298,7 @@ span.popovers:hover, span.popovers > .purchaseorder-buyer-info:hover {
   display: none;
   border:1px solid #ccc;
   background-color:#fff;
+  z-index: 1;
   -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
   -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
   box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
@@ -5683,6 +5714,7 @@ label.error { background: url('../images/alert.png') no-repeat 0 5px; color: #DE
   display: none;
   margin: 0;
   padding: 0;
+  background: #2d2825;
 }
 
 .custom-nav .sub-menu-list>li>a {
@@ -5711,7 +5743,7 @@ label.error { background: url('../images/alert.png') no-repeat 0 5px; color: #DE
 
 .custom-nav .sub-menu-list>li>a:hover, .custom-nav .sub-menu-list>li>a:active, .custom-nav .sub-menu-list>li>a:focus {
     text-decoration: none;
-    background: #2a323f;
+    background: #1f1b19;
 }
 
 .custom-nav .sub-menu-list>li .fa {
@@ -5724,8 +5756,12 @@ label.error { background: url('../images/alert.png') no-repeat 0 5px; color: #DE
 }
 
 .custom-nav .sub-menu-list>li.active>a {
-    color: #65CEA7;
-    background-color: #2A323F;
+    /*color: #65CEA7;*/
+    color: #fff;
+    background-color: #1f1b19;
+}
+.custom-nav .sub-menu-list>li.active>a:before {
+  border-color: #fff;
 }
 
 .custom-nav .sub-menu-list ul {
@@ -5887,6 +5923,7 @@ h5.left-nav-title {
   display: inline-block;
   width: 6px;
   height: 6px;
+  -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
   border-bottom: 1px solid #c7a77b;
   border-left: 1px solid #c7a77b;
@@ -5894,6 +5931,22 @@ h5.left-nav-title {
   position: absolute;
   top: 17px;
   right: 10px;
+  animation: customRotate 0.2s;
+}
+/* 向上的箭头 */
+.pr-arrow-up {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  border-top: 1px solid #c7a77b;
+  border-right: 1px solid #c7a77b;
+  margin-left: 6px;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  animation: customRotate 0.2s;
 }
 
 .login-body .container .login-info-prompt,
@@ -6168,7 +6221,9 @@ h5.left-nav-title {
 }
 .personal-center {
   width: 998px;
-  margin: 0 auto;
+  position: relative;
+  left: 50%;
+  margin-left: -629px;
 }
 .personal-center .content-wrapper-main {
 
@@ -6192,6 +6247,9 @@ h5.left-nav-title {
 .personal-center .content-wrapper-main .content-area {
   width: 848px;
 }
+.personal-center .content-wrapper-main .content-area .avatar-container {
+  height: 80px;
+}
 .personal-center .content-wrapper-main .content-area span.user-face {
   width: 120px;
   height: 120px;
@@ -6204,19 +6262,19 @@ h5.left-nav-title {
   background-repeat: no-repeat;
   background-position: -561px -150px;
   position: relative;
-  top: 60px;
+  top: 20px;
+  border-radius: 60px;
+  overflow: hidden;
+  border: 1px solid #c7a77b;
 }
 .personal-center .content-wrapper-main .content-area span.user-phone {
-  font-size: 16px;
+  font-size: 24px;
   position: relative;
-  top: 100px;
+  top: 80px;
 }
 .personal-center .content-wrapper-main .content-area > div:nth-child(2) {
-  min-height: 285px;
-  padding: 25px;
-}
-.personal-center .content-wrapper-main .content-area > div:nth-child(2) > div:first-child {
-  height: 285px;
+  min-height: 158px;
+  padding: 20px;
 }
 
 /* 项目自定义响应式 */
