@@ -108,7 +108,7 @@
     <div  class="text-right mgb-l" ng-if="showData.orderStatus=='待审批'">
     <span ng-if="$root.hasAuthor('采购单审批')"
           class="mgr-l"
-          ng-init="rejectObj={url:'rest/authen/purchaseOrder/updateStatus.json',typeCode:'采购单驳回理由',msg:'驳回后，该采购单将作废。确认驳回?',formData:{id:showData.id,status:'已作废',key:'缺货'},goUrl:'#/purchaseOrder/get.html?t=1&id='+showData.id}">
+          ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'采购单驳回理由',msg:'驳回后，该采购单将作废。确认驳回?',formData:{businessKey:showData.id,conditionType:'驳回',type:'采购单',key:'缺货'},goUrl:'#/purchaseOrder/get.html?t=1&id='+showData.id}">
       <a href="javascript:;"
          modal-center="490"
          modal-scope="this"
@@ -123,8 +123,8 @@
             dialog-content="审核通过后,采购单将生效,是否通过?"
             dialog-template="pr-dialog-submit.html"
             confirm-btn-txt="通过"
-            params='{"id":showData.id,"status":"待采购"}'
-            request-url="rest/authen/purchaseOrder/updateStatus.json"
+            params='{"businessKey":showData.id,"conditionType":"通过","type":"采购单"}'
+            request-url="rest/authen/workflowTask/run.json"
             call-back="goTo('#/purchaseOrder/get.html?t=审核通过&id={{showData.id}}')">审核通过</button>
   </div>
 
