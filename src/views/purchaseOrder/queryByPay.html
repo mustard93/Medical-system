@@ -1,0 +1,187 @@
+<div class="content-wrapper purchase-order">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/purchaseOrder/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+    <!-- 主内容头部 -->
+    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
+      <!-- 新建按钮及状态按钮 -->
+      <div class="full-width">
+        <div class="order-status-btn pos-tr text-right"
+             ajax-url="rest/authen/purchaseOrder/countByOrderStatus.json"
+             scope-data="countByOrderStatus"
+             alert-error>
+            <div class=""></div>
+
+            <div class="btn btn-group" scope-data="statusList">
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
+              <button  ng-if="$root.hasAuthor('采购单编辑')"  order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">待批款
+                <span class="pj-badge" ng-if='countByOrderStatus["待批款"]'>{{countByOrderStatus["待批款"]}}</span>
+              </button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待付款'">待付款
+                <span class="pj-badge" ng-if='countByOrderStatus["待付款"]'>{{countByOrderStatus["待付款"]}}</span>
+              </button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已付款'">已付款
+                <span class="pj-badge" ng-if='countByOrderStatus["已付款"]'>{{countByOrderStatus["已付款"]}}</span>
+              </button>
+            </div>
+        </div>
+      </div>
+      <!-- 右侧搜索 -->
+      <div class="text-right order-list-search pos-rb">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/采购单号" ng-model="listParams.q">
+        <i class=""></i>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <ul class="">
+        <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+            <div class="pd-m">
+              <div class="flex-column" style="height:22px;line-height:22px;">
+                <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
+                <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right">
+                  <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
+                     href="javascript:;"
+                     class="pr-color-red mgl"
+                     handle-this-click
+                     dialog-title="确认删除 ?"
+                     dialog-content="您确认删除这条采购单吗?"
+                     dialog-template="dialog-confirm.html"
+                     request-url="rest/authen/purchaseOrder/delete?id={{tr.id}}"
+                     emitted="reloadList">删除
+                  </a>
+                  <a href="#/purchaseOrder/edit.html?id={{tr.id}}" class="mgl">编辑</a>
+                </span>
+                <span ng-if="tr.orderStatus!='未提交'" class="flex-item-10 text-right">
+                  <a href="#/purchaseOrder/get.html?id={{tr.id}}" class="mgl">查看详情</a>
+                  <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" class="mgl">查看来货通知</a>
+                  <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                          ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='待审批'&&tr.orderStatus!='未提交'&&!tr.arrivalNoticeOrderId&&$root.hasAuthor('来货通知单编辑')"
+                          type="button"
+                          ajax-url-submit="rest/authen/arrivalNoticeOrder/save?purchaserId={{tr.id}}"
+                          alert-error
+                          callback="$root.goTo('#/arrivalNoticeOrder/get.html?relId={{tr.id}}')">生成来货通知
+                  </button>
+
+                  <button ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='未提交'&&tr.orderStatus!='待审批'&&!tr.purchaseVoucherNo&&$root.hasAuthor('采购凭证编辑')"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                          type="button"
+                          ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{tr.id}}"
+                          alert-error
+                          callback="$root.goTo('#/purchaseVoucher/get.html?relId={{tr.id}}')">生成采购凭证
+                  </button>
+
+                  <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgl">新建</a>
+
+                  <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('采购单审批')"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                          handle-this-click
+                          dialog-title="确认通过?"
+                          dialog-content="审核通过后,采购单将生效,是否通过?"
+                          dialog-template="pr-dialog-confirm.html"
+                          confirm-btn-txt="通过"
+                          emitted="reloadList"
+                          params='{"businessKey":tr.id,"conditionType":"通过","type":"采购单"}'
+                          request-url="rest/authen/workflowTask/run.json">审批通过
+                  </button>
+                </span>
+              </div>
+              <div class="text-s mgb-m">{{tr.type}}</div>
+              <div class="flex-column qurey text-s color-9">
+                <div class="flex-item-6">
+                  <p class="mgb-s">采购单号：
+                    <strong class="color-6 text-normal">{{tr.orderNo}}
+                      <!-- <a href="#/purchaseOrder/get.html?id={{tr.id}}">{{tr.orderNo}}</a> -->
+                    </strong>
+                  </p>
+                  <p  ng-if="!tr.saleUserId"> 采购员：{{tr.saleUser.n || '暂无'}}    </p>
+                  <p  ng-if="tr.saleUserId"  class="mgb-s relative">采购员：
+                    <span run-popovers  class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n}}</span>
+                    <span
+                     class="purchaseorder-buyer-info">
+                      <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
+                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                        <a href="javascript:;"
+                        modal-center="500"
+                        modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                        modal-url="views/notice/sendToUser.html"
+                        >发送消息</a>
+                      </em></i>
+                    </span>
+                  </p><!--end notice -->
+
+                  <p ng-if="!tr.approverUserId" >审批人：{{tr.approverUser.n || '暂无'}}    </p>
+                  <p ng-if="tr.approverUserId"  class="mgb-s relative">审批人：
+                    <span run-popovers  class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.approverUser.n || '暂无'}}</span>
+                    <span  class="purchaseorder-buyer-info" >
+                      <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.approverUser.p}}</em></i>
+                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                        <a href="javascript:;"
+                           modal-center="490"
+                           modal-data='{"toUser":{{tr.approverUser}},"userIds":["{{tr.approverUserId}}"]}'
+                           modal-url="views/notice/sendToUser.html">发送消息
+                        </a>
+                      </em></i>
+                    </span>
+                  </p>
+                </div>
+                <div class="flex-item-6">
+                  <p class="mgb-s">创建时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:ss'}}</span></p>
+                  <p class="mgb-s">采购凭证：<a href="#/purchaseVoucher/get.html?relId={{tr.id}}">{{tr.purchaseVoucherNo}}</a></p>
+                  <p>期望到货时间：<span class="color-6">{{tr.expectDate | date: 'yyyy-MM-dd'}}</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="color-9 pr-ele-height-auto pd-c-m text-m" style="padding-top:10px!important;padding-bottom:10px!important;min-height:1px;">
+              供货商：<span class="color-6">{{tr.supplier.name}}</span>
+            </div>
+            <div class="flex-column text-s">
+              <div class="flex-item-6 br-line" style="min-height:125px;">
+                <div class="text-center pd-v">
+                  <p class="pdb-l">采购药械品类数</p>
+                  <p class="text-xxxl">{{tr.itemCount}}</p>
+                </div>
+                <div class="color-9 text-center pd-v">
+                  冷链药械：<span class="color-6">{{tr.isNeedColdChain}}</span>
+                </div>
+              </div>
+              <div class="flex-item-6 pd">
+                <h1 class="pd-v-s bb-line">物流信息</h1>
+                <div ng-if="tr.kuaidiSet" class="flex-column mgt-s"  ng-repeat="kuaidi in tr.kuaidiSet">
+                  <span class="flex-item-5 mgr-0">{{kuaidi.type}}</span>
+                  <span class="flex-item-7">
+                    <p class="pr-color">{{kuaidi.nu}}</p>
+                  </span>
+                </div>
+                <div ng-if="!tr.kuaidiSet" class="mgt-s color-9">
+                  暂无
+                </div>
+              </div>
+            </div>
+            <div class="pdl-m pdr-m pd-v color-9">
+              <p class="purchase-order-details-note">
+                <span>备注：</span><span class="color-6">{{tr.note}}</span>
+              </p>
+            </div>
+            <div class="pdl-m pdr-m pd-v color-9 flex-column">
+              <div class="flex-item-6">
+                付款方式：<span class="color-6">{{tr.payAndDelivery.payType}}</span>
+              </div>
+              <div class="flex-item-6 text-right text-m">
+                合计：<span class="color-6">￥{{tr.totalPrice | number:2}}</span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length!='0'">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>
