@@ -1,5 +1,5 @@
 <div class="pr-page-dialog-wrap"      ng-controller="auditUserApplyOrganizationCtrl"
-ng-init="checkUserArr=getCheckUserApplyArr(tbodyList,listSelected)"
+ng-init="checkUserArr=getCheckUserApplyArr(tbodyList,listSelected);"
 >
   <div class="pr-page-dialog-title bb-line">
     <i></i><span>审核确认</span>
@@ -19,8 +19,9 @@ ng-init="checkUserArr=getCheckUserApplyArr(tbodyList,listSelected)"
           ajax-url="rest/baseData/queryForSelectOptionByType"
               params='{"type":"审核帐号驳回理由"}'
           scope-data="selectOptions"
+          callback="formData.key=selectOptions[0].value"
           >
-            <select ng-if="selectOptions" class="select" ng-model="formData.key" ng-options="item.text as item.text   for item in selectOptions">
+            <select ng-if="selectOptions" class="select" ng-model="formData.key" ng-options="item.value as item.text   for item in selectOptions">
             </select>
           </p>
           <p>
@@ -29,6 +30,7 @@ ng-init="checkUserArr=getCheckUserApplyArr(tbodyList,listSelected)"
         </div>
       </div>
   </div>
+
   <div class="pr-page-dialog-footer text-center mg-m">
     <button type="button"  ng-click="batchAuditUserApplyOrganization(checkUserArr,listSelected,'认证驳回',formData.key,formData.message)" class="pr-btn-save-glodbg">驳回</button>
     <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">取消</button>
