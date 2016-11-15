@@ -3,6 +3,7 @@
         action="rest/authen/firstEnterpriseApplication/save"
         ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{tr.id}}"
         scope-data="formData"
+        callback="initFlag=true"
         alert-error
         alert-ok
         parameter-body
@@ -89,7 +90,7 @@
           <label class="col-lg-2 col-sm-2 control-label text-left">经营范围</label>
           <div class="col-lg-10 col-sm-10">
 
-            <select class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.firstEnterprise.businessScope" chosen
+            <select ng-if="initFlag" class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.firstEnterprise.businessScope" chosen
                     select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_BusinessScope">
             </select>
 
