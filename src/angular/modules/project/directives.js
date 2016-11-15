@@ -707,6 +707,41 @@ function leftMenuSecondToggle ($location) {
     }
   };
 }
+/**
+ *  个人中心导航切换
+ */
+function styleToggle ($location) {
+  'use strict';
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+
+      if (attrs.href.indexOf($location.path().split('/')[2]) !== -1) {
+        $(element).addClass('active').parent().siblings().each(function () {
+          $(this).children().removeClass('active');
+        });
+        // $(element).parent().parent().show();
+      }
+
+      // $(element).addClass('active');
+
+      // scope.$on('$locationChangeStart', function (event, newUrl, currentUrl) {
+      //
+      //   if (attrs.href.indexOf(newUrl.split('#')[1].split('/')[2]) !== -1) {
+      //     $(element).addClass('active');
+      //   }
+      // });
+
+      $(element).on('click', function (e) {
+        if (!$(this).hasClass('active')) {
+          $(this).addClass('active').parent().siblings().each(function () {
+            $(this).children().removeClass('active');
+          });
+        }
+      });
+    }
+  };
+}
 
 angular.module('manageApp.project')
   .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
@@ -724,5 +759,6 @@ angular.module('manageApp.project')
   .directive("runTooltips", runTooltips) //tooltips
   .directive("runPopovers", ['$timeout', runPopovers]) //popover
   .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]) //带确认对话框的按钮点击事件
-  .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]); //左侧二级菜单切换效果
+  .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
+  .directive("styleToggle", ['$location', styleToggle]);
 });
