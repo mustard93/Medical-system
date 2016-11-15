@@ -106,8 +106,6 @@ function leftMenuToggle ($location) {
         }
       }
 
-
-
       // 一级子菜单点击事件效果
       $(element).on('click', function (event) {
         //阻止冒泡
@@ -666,7 +664,9 @@ function leftMenuSecondToggle ($location) {
     restrict: 'A',
     link: function (scope, element, attrs) {
       //刷新页面保持边栏状态
-      if ($location.absUrl().indexOf(attrs.href) !== -1) {
+
+
+      if (attrs.href.indexOf($location.path().split('/')[1]) !== -1) {
         var _par = $(element).parent();
         _par.addClass('active').siblings().each(function () {
           $(this).removeClass('active');
@@ -687,12 +687,11 @@ function leftMenuSecondToggle ($location) {
         // if (_parent.parent('menu-list').hasClass('active')) {
         //   $(this).removeClass('active');
         // }
-        _parent.parent('menu-list').siblings().each(function () {
-          console.log($(this));
+
+        _parent.parent().parent().removeClass('active').siblings().each(function () {
+          $(this).removeClass('active');
           $(this).find('.sub-menu-list > li').each(function () {
-            if ($(this).hasClass('active')) {
               $(this).removeClass('active');
-            }
           });
         });
       });
