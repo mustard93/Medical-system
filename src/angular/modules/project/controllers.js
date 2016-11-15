@@ -584,7 +584,7 @@ define('project/controllers', ['project/init'], function() {
            *保存
            type:save-草稿,submit-提交订单。
            */
-           $scope.batchAuditUserApplyOrganization = function(arr,ids,status,message) {
+           $scope.batchAuditUserApplyOrganization = function(arr,ids,status,key,message) {
               if(!ids||ids.length===0){
                 alertWarn("请先勾选");
                 return;
@@ -595,6 +595,8 @@ define('project/controllers', ['project/init'], function() {
 
                 if(ids.indexOf(arr[i].id)>-1&&arr[i].formData){
                           arr[i].formData.status=status;
+                          arr[i].formData.key=key;
+                          arr[i].formData.message=message;
                           data.push(arr[i].formData);
                 }
               }
@@ -610,6 +612,7 @@ define('project/controllers', ['project/init'], function() {
                          if(maskObj)maskObj.hide();
                           alertOk(results[1].msg);
                         $scope.$broadcast("reloadList");
+                          $scope.$emit("reloadList");
                           modal.close();
 
                 })
@@ -656,7 +659,7 @@ define('project/controllers', ['project/init'], function() {
               watchFormChange(watchName,$scope);
             }
 
-  
+
            }//watchFormCtrl
     angular.module('manageApp.project')
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])

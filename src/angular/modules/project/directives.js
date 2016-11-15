@@ -106,8 +106,6 @@ function leftMenuToggle ($location) {
         }
       }
 
-
-
       // 一级子菜单点击事件效果
       $(element).on('click', function (event) {
         //阻止冒泡
@@ -124,11 +122,11 @@ function leftMenuToggle ($location) {
             _secondMenuList.slideDown(200, function () {
               // ...
               _parent.siblings().each(function () {
-                if ($(this).hasClass('active')) {
-                  $(this).removeClass('active');
-                }
+                // if ($(this).hasClass('active')) {
+                //   $(this).removeClass('active');
+                // }
                 if ($(this).children('.sub-menu-list').is(':visible')) {
-                  $(this).children('.sub-menu-list').hide(200);
+                  $(this).children('.sub-menu-list').hide(200).prev().find('span.pr-arrow-up').removeClass('pr-arrow-up').addClass('pr-arrow-down');
                 }
               });
               // 右侧箭头指示改变
@@ -143,7 +141,9 @@ function leftMenuToggle ($location) {
         } else {
           //如果没有二级菜单
           _parent.addClass('active').siblings().each(function () {
-            $(this).removeClass('active');
+            $(this).removeClass('active').find('.sub-menu-list > li').each(function () {
+              $(this).removeClass('active');
+            });
             if ($(this).children('.sub-menu-list').is(':visible')) {
               $(this).children('.sub-menu-list').hide(200);
             }
@@ -245,11 +245,11 @@ function togglePanel () {
 
         if (!$(this).hasClass('fa-times')) {    //展开与收起
           var el = $(this).parents(".panel").children(".panel-body");
-          if ($(this).hasClass("fa-chevron-down")) {
-            $(this).removeClass("fa-chevron-down").addClass("fa-chevron-up");
+          if ($(this).hasClass("fa-chevron-up")) {
+            $(this).removeClass("fa-chevron-up").addClass("fa-chevron-down");
             el.slideUp(200);
           } else {
-            $(this).removeClass("fa-chevron-up").addClass("fa-chevron-down");
+            $(this).removeClass("fa-chevron-down").addClass("fa-chevron-up");
             el.slideDown(200);
           }
         } else {                                //关闭
@@ -664,55 +664,65 @@ function leftMenuSecondToggle ($location) {
     restrict: 'A',
     link: function (scope, element, attrs) {
       //刷新页面保持边栏状态
-      if ($location.absUrl().indexOf(attrs.href) !== -1) {
+      if (attrs.href.indexOf($location.path().split('/')[1]) !== -1) {
         var _par = $(element).parent();
         _par.addClass('active').siblings().each(function () {
           $(this).removeClass('active');
         });
         $(element).parent().parent().show();
       }
+
       //绑定点击事件
       $(element).on('click', function (event) {
         //阻止冒泡
         if (event && event.stopPropagation) {
           event.stopPropagation();
         }
-        //父元素
+
+        //执行事件
+        eleChangeEvent();
+      });
+
+      //定义监视器，监控Url变化
+      scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
+        if (attrs.href.indexOf(newUrl.split('#')[1].split('/')[1]) !== -1) {
+          eleChangeEvent();
+        }
+      });
+
+      function eleChangeEvent () {
         var _parent = $(element).parent();
+
         _parent.addClass('active').siblings().each(function () {
           $(this).removeClass('active');
         });
-        // if (_parent.parent('menu-list').hasClass('active')) {
-        //   $(this).removeClass('active');
-        // }
-        _parent.parent('menu-list').siblings().each(function () {
-          console.log($(this));
+
+        _parent.parent().parent().removeClass('active').siblings().each(function () {
+          $(this).removeClass('active');
           $(this).find('.sub-menu-list > li').each(function () {
-            if ($(this).hasClass('active')) {
               $(this).removeClass('active');
-            }
           });
         });
-      });
+      }
     }
   };
 }
 
 angular.module('manageApp.project')
-.directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
-    .directive("orderMedicals", orderMedicals)//药械订单列表
-    .directive("niceScroll", niceScroll) //滚动条美化
-    .directive("leftMenuChange", ['$location', leftMenuChange]) //左边栏子菜单点击事件
-    .directive("leftMenuToggle", ['$location', leftMenuToggle])  //左边栏一级菜单伸缩
-    .directive("orderStatusChoise", orderStatusChoise) //订单列表首页订单状态按钮切换样式
-    .directive("orderListTips", orderListTips) //订单页头导航按钮点击事件处理
-    .directive("toggleLeftMenu", toggleLeftMenu) //点击展开隐藏左边栏
-    .directive("togglePanel", togglePanel) //面板点击收起、展开与关闭
-    .directive("morris", morris) //morris图表展示
-    .directive("icheck", icheck) //iCheck
-    .directive("sparkline", sparkline) //sparkline 柱状图
-    .directive("runTooltips", runTooltips) //tooltips
-    .directive("runPopovers", ['$timeout', runPopovers]) //popover
-    .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]) //带确认对话框的按钮点击事件
-    .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]); //左侧二级菜单切换效果
+  .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
+  .directive("orderMedicals", orderMedicals)//药械订单列表
+  .directive("niceScroll", niceScroll) //滚动条美化
+  .directive("leftMenuChange", ['$location', leftMenuChange]) //左边栏子菜单点击事件
+  .directive("leftMenuToggle", ['$location', leftMenuToggle])  //左边栏一级菜单伸缩
+  .directive("orderStatusChoise", orderStatusChoise) //订单列表首页订单状态按钮切换样式
+  .directive("orderListTips", orderListTips) //订单页头导航按钮点击事件处理
+  .directive("toggleLeftMenu", toggleLeftMenu) //点击展开隐藏左边栏
+  .directive("togglePanel", togglePanel) //面板点击收起、展开与关闭
+  .directive("morris", morris) //morris图表展示
+  .directive("icheck", icheck) //iCheck
+  .directive("sparkline", sparkline) //sparkline 柱状图
+  .directive("runTooltips", runTooltips) //tooltips
+  .directive("runPopovers", ['$timeout', runPopovers]) //popover
+  .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]) //带确认对话框的按钮点击事件
+  .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]); //左侧二级菜单切换效果
 });

@@ -1,7 +1,7 @@
 <div class="content-wrapper color-9 pd-v-xl"
-ajax-url="rest/authen/purchaseVoucher/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
-scope-data="showData"
-    alert-error>
+     ajax-url="rest/authen/purchaseVoucher/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
+     scope-data="showData"
+     alert-error>
   <!-- 凭证头部信息 -->
   <div class="panel pr-panel pr-panel-height mgb flex-column">
     <span class="flex-item-6">对应采购单号：<em class="color-6">
@@ -21,7 +21,7 @@ scope-data="showData"
       </div>
       <div class="flex-item-4">
         <p class="mgb">凭证号：<em class="color-6">{{showData.orderNo}}</em></p>
-        <p class="mgb">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:ss'}}</em></p>
+        <p class="mgb">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></p>
         <p class="mgb">电话：<em class="color-6">{{showData.address.tel}}</em></p>
         <p>采购员：<em class="color-6">{{showData.saleUser.n}}</em></p>
       </div>
@@ -86,6 +86,7 @@ scope-data="showData"
            class="pr-btn-save-glodbg"
            modal-center="490"
            modal-scope="this"
+           modal-data='{"refreshPage":"true"}'
            modal-url="views/purchaseVoucher/sendEmail.html">发送至厂家
         </button>
         <button ng-if="showData.orderStatus=='已发送'"
@@ -93,6 +94,7 @@ scope-data="showData"
            class="pr-btn-save-glodbg"
            modal-center="490"
            modal-scope="this"
+           modal-data='{"refreshPage":"true"}'
            modal-url="views/purchaseVoucher/sendEmail.html">再次发送
         </button>
       </span>

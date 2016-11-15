@@ -82,7 +82,7 @@
                     <!-- <strong class="color-6 text-normal">{{tr.orderNo}}</strong> -->
                   </p>
                   <p class="mgb-s relative">采购员：
-                    <em run-popovers class="color-custom-orange cur-pot text-normal color-6" style="position:absolute;height:25px;">{{tr.saleUser.n}}</em>
+                    <em run-popovers class="color-custom-orange cur-pot text-normal pr-color" style="position:absolute;height:25px;">{{tr.saleUser.n}}</em>
                     <span class="purchaseorder-buyer-info">
                       <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
                       <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
@@ -96,10 +96,22 @@
                   </p>
                 </div>
                 <div class="flex-item-6">
-                  <p class="mgb-s">创建时间：<strong class="color-6 text-normal">{{tr.createAt | date:'yyyy-MM-dd HH:ss'}}</strong></p>
-                  <p class="mgb-s">审批人：
+                  <p class="mgb-s">创建时间：<strong class="color-6 text-normal">{{tr.createAt | date:'yyyy-MM-dd HH:mm'}}</strong></p>
+                  <p class="mgb-s relative">审批人：
                     <!-- <em class="color-custom-orange">{{tr.operationFlowSet[tr.operationFlowSet.length-1].inputUser}}</em> -->
-                    <em class="color-custom-orange">{{tr.approverUser.n || '暂无'}}</em>
+                    <em ng-if="!tr.approverUser.n" class="color-6">暂无</em>
+                    <!-- <em ng-if="tr.approverUser.n" class="color-custom-orange">{{tr.approverUser.n}}</em> -->
+                    <em ng-if="tr.approverUser.n" run-popovers class="color-custom-orange cur-pot text-normal pr-color" style="position:absolute;height:25px;">{{tr.approverUser.n}}</em>
+                    <span class="purchaseorder-buyer-info">
+                      <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.approverUser.p}}</em></i>
+                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                        <a href="javascript:;"
+                           modal-center="490"
+                           modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                           modal-url="views/notice/sendToUser.html">发送消息
+                        </a>
+                      </em></i>
+                    </span>
                   </p>
                 </div>
               </div>

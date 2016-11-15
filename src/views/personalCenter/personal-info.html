@@ -1,7 +1,7 @@
 <div class="content-wrapper personal-center"
   ng-init="saveAfterExit=false"
   watch-form-change
-   ajax-url="rest/authen/user/getOfEdit.json"  scope-data="formData" alert-error
+   ajax-url="rest/authen/user/getMineOfEdit.json"  scope-data="formData" alert-error
    callback="showData=formData;initFlag=true;watchFormChange('formData')"
 
 >
@@ -20,26 +20,26 @@
       </ul>
     </div>
     <!-- 右侧住内容区域 -->
-    <form
-
-     class="personalModifyInfoForm"
-
-    action="rest/authen/user/updateOfMine"  scope-data="formData" alert-error alert-ok
-    form-validator
-    callback="watchFormChange('formData');saveAfterExit&&$root.goTo('#/main.html');"
-    >
+    <form class="personalModifyInfoForm"
+          action="rest/authen/user/updateOfMine"
+          scope-data="formData"
+          alert-error
+          alert-ok
+          form-validator
+          callback="watchFormChange('formData');saveAfterExit&&$root.goTo('#/main.html');"
+          broadcast="loadMainInfo">
       <div class="flex-item-10 content-area">
         <!-- 头像及电话 -->
         <div class="panel pr-panel pr-panel-fixed-height text-center pd-n mgb">
           <div class="avatar-container bb-line-gold">
-            <span class="user-face"
-            ng-init="upFile={}" upload-type="image"
-                                uploader-one="rest/authen/fileUpload/uploadPicture.json" usege="头像"
-                                 up-file="upFile" ng-model="formData.headUrl"
-            >  <img alt="点击上传头像" title="点击上传头像" ng-src="{{formData.headUrl}}"  ng-style="{width:120,height:120}"/>
-
-
-                                  </span>
+            <span class="user-face cur-pot"
+                  ng-init="upFile={}"
+                  upload-type="image"
+                  uploader-one="rest/authen/fileUpload/uploadPicture.json" usege="头像"
+                  up-file="upFile"
+                  ng-model="formData.headUrl">
+              <img alt="点击上传头像" title="点击上传头像" ng-src="{{formData.headUrl || 'images/default-user-face.png'}}"  ng-style="{width:120,height:120}"/>
+            </span>
           </div>
           <div class="">
             <span class="user-phone">{{formData.phone}}</span>
