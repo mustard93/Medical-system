@@ -30,7 +30,9 @@
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">已发货
                 <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
               </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已收货</button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已收货
+                <span class="pj-badge" ng-if='countByOrderStatus["已收货"]'>{{countByOrderStatus["已收货"]}}</span>
+              </button>
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">待付款
                 <span class="pj-badge" ng-if='countByOrderStatus["待付款"]'>{{countByOrderStatus["待付款"]}}</span>
               </button>
@@ -128,7 +130,8 @@
                   </p><!--end notice -->
 
                   <p ng-if="!tr.approverUserId" class="relative">审批人：
-                    <span run-popovers  class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.approverUser.n || '暂无'}}</span>
+                    <span ng-if="!tr.approverUser.n" class="color-6" style="position:absolute;height:25px;">暂无</span>
+                    <span ng-if="tr.approverUser.n" run-popovers  class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.approverUser.n}}</span>
                     <span  class="purchaseorder-buyer-info" >
                       <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.approverUser.p}}</em></i>
                       <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
