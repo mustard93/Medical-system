@@ -29,9 +29,15 @@
             <li ><a left-menu-second-toggle href="#/purchaseOrder/queryByPay.html">付款申请单</a></li>
         </ul>
       </li>
-      <li class="menu-list">
-        <a left-menu-toggle href="#/distributor/queryUserApplyOrganization.html" class="nav-account-check"><span class="nav-ico nav-account-check"></span><span> 账号审核</span></a>
+      <li class="menu-list" ng-if="$root.hasAuthor('部门帐号审核')">
+        <a left-menu-toggle href="" class="nav-home nav-purchase"><span class="nav-ico nav-purchase"></span><span> 部门管理</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+          <li ng-if="$root.hasAuthor('部门帐号审核')"><a left-menu-second-toggle href="#/departmentUser/query.html">部门用户管理</a></li>
+          <li ng-if="$root.hasAuthor('部门帐号审核')"><a left-menu-second-toggle href="#/distributor/queryUserApplyCurDepartment.html">部门帐号审核</a></li>
+
+        </ul>
       </li>
+
       <li class="menu-list">
         <a left-menu-toggle href="" class="nav-home nav-manage-center"><span class="nav-ico nav-manage-center"></span><span> 管理中心</span><span class="pr-arrow-down"></span></a>
         <ul class="sub-menu-list">
@@ -41,9 +47,9 @@
           <li><a left-menu-second-toggle href="#/purchaserAddress/query.html">采购方管理</a></li>
           <li><a left-menu-second-toggle href="#/customerAddress/query.html">客户管理</a></li>
           <li><a left-menu-second-toggle href="#/medicalStock/query.html">药械管理</a></li>
-          <li ng-if="$root.hasAuthor('帐号审核')"><a left-menu-second-toggle href="#/user/query.html">员工管理</a></li>
-          <li ng-if="$root.hasAuthor('部门帐号审核')"><a left-menu-second-toggle href="#/departmentUser/query.html">部门用户管理</a></li>
-          <li ng-if="$root.hasAuthor('部门帐号审核')"><a left-menu-second-toggle href="#/distributor/queryUserApplyCurDepartment.html">部门帐号审核</a></li>
+
+          <li><a left-menu-second-toggle href="#/user/query.html">员工管理</a></li>
+          <li><a left-menu-second-toggle href="#/distributor/queryUserApplyOrganization.html">账号审核</a></li>
 
 
         </ul>

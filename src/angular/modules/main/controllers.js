@@ -120,63 +120,68 @@ define('main/controllers', ['main/init'], function () {
         $rootScope.hasAuthor = $scope.hasAuthor;
 
 
-        //获取主要信息
-        if ($scope.mainConfig.getMainInfo) {
-            var _url = $scope.mainConfig.getMainInfo;
 
-            if (Config.serverPath) {
-              if (_url.indexOf("http://") !== 0 && _url.indexOf("https://") !== 0) {
-                _url = $scope.mainConfig.serverPath + _url;
+        /**
+        加载当前用户信息
+        */
+        function loadMainInfo(){
+          //获取主要信息
+          if ($scope.mainConfig.getMainInfo) {
+              var _url = $scope.mainConfig.getMainInfo;
+
+              if (Config.serverPath) {
+                if (_url.indexOf("http://") !== 0 && _url.indexOf("https://") !== 0) {
+                  _url = $scope.mainConfig.serverPath + _url;
+                }
+                // 定义服务器请求路径
+                $scope.mainStatus.requestPath = Config.serverPath;
               }
-              // 定义服务器请求路径
-              $scope.mainStatus.requestPath = Config.serverPath;
-            }
 
-            $.ajax({
-              url: _url,
-              type: 'get',
-              xhrFields:{withCredentials: true},
-              crossDomain:true,
-              dataType: 'json',
-              success: function (_data) {
-                if (_data.code == 200) {
-                  $rootScope.curUser=_data.data;
-                    //未绑定用户，跳转到绑定用户绑定
-                    if(Config.applyBindUrl){
-                      if(!$rootScope.curUser.additional.OrganizationIds||$rootScope.curUser.additional.OrganizationIds.length==0){
-                          window.location.href = Config.applyBindUrl;
-                          return;
+              $.ajax({
+                url: _url,
+                type: 'get',
+                xhrFields:{withCredentials: true},
+                crossDomain:true,
+                dataType: 'json',
+                success: function (_data) {
+                  if (_data.code == 200) {
+                    $rootScope.curUser=_data.data;
+                      //未绑定用户，跳转到绑定用户绑定
+                      if(Config.applyBindUrl){
+                        if(!$rootScope.curUser.additional.OrganizationIds||$rootScope.curUser.additional.OrganizationIds.length==0){
+                            window.location.href = Config.applyBindUrl;
+                            return;
+                        }
                       }
+
+                    $scope.habbit={mainRole:$scope.getMainRole()};
+
+                    if(window.location.href.indexOf('#'+Config.indexPage)>-1){
+                            $scope.goToMainRole($scope.habbit.mainRole);
                     }
 
-                  $scope.habbit={mainRole:$scope.getMainRole()};
+                    angular.extend($scope.mainStatus, _data.data);
+                    $scope.$digest();
+                    // 角色跳转主页面
 
-                  if(window.location.href.indexOf('#'+Config.indexPage)>-1){
-                          $scope.goToMainRole($scope.habbit.mainRole);
-                  }
-
-                  angular.extend($scope.mainStatus, _data.data);
-                  $scope.$digest();
-                  // 角色跳转主页面
-
-                } else if (_data.code == 802){
+                  } else if (_data.code == 802){
+                      alert(_data.msg || '登录失败');
+                    window.location.href = Config.loginHtmlUrl;
+                  } else {
                     alert(_data.msg || '登录失败');
-                  window.location.href = Config.loginHtmlUrl;
-                } else {
-                  alert(_data.msg || '登录失败');
+                  }
                 }
-              }
-            });
-            //
-            // $.getJSON(_url, function (_data) {
-            //         if (_data.code == 200) {
-            //             angular.extend($scope.mainStatus, _data.data);
-            //         }
-            //     })
-            //     .complete(function () {
-            //
-            //     });
+              });
+
+          }
         }
+
+        loadMainInfo();
+        //接受广播
+        $rootScope.$on("loadMainInfo", function() {
+          loadMainInfo();
+        });
+
 
         //后退
         $(document).on("click", ".top-nav-wrap .backBtn", function () {
