@@ -245,11 +245,11 @@ function togglePanel () {
 
         if (!$(this).hasClass('fa-times')) {    //展开与收起
           var el = $(this).parents(".panel").children(".panel-body");
-          if ($(this).hasClass("fa-chevron-down")) {
-            $(this).removeClass("fa-chevron-down").addClass("fa-chevron-up");
+          if ($(this).hasClass("fa-chevron-up")) {
+            $(this).removeClass("fa-chevron-up").addClass("fa-chevron-down");
             el.slideUp(200);
           } else {
-            $(this).removeClass("fa-chevron-up").addClass("fa-chevron-down");
+            $(this).removeClass("fa-chevron-down").addClass("fa-chevron-up");
             el.slideDown(200);
           }
         } else {                                //关闭
