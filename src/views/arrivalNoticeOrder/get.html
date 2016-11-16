@@ -11,8 +11,15 @@
 
   <!-- 主内容区域 -->
   <div class="content-wrapper-main">
+    <!-- 作废原因： -->
+    <div class="panel pr-panel pr-panel-height flex-column mgb"
+         ng-if="showData.orderStatus=='已作废'"
+         ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+    </div>
+
     <!-- 通知单信息 -->
-    <div class="panel pr-panel pr-panel-height flex-column mgb color-9">
+    <div class="panel pr-panel pr-panel-height flex-column mgb color-9" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <div class="flex-item-7">
         <span class="mgr">通知单号：<em class="color-6">{{showData.orderNo}}</em></span>
         <span class="mgr">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
@@ -29,7 +36,7 @@
       </div>
     </div>
     <!-- 供货商信息 -->
-    <div class="panel pr-panel pr-panel-height flex-column mgb color-9">
+    <div class="panel pr-panel pr-panel-height flex-column mgb color-9" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <div class="flex-item-6">
         <span class="mgr">供货商类型：<em class="color-6">厂家</em></span>
         <span class="mgr">供货商名：<em class="color-6">{{showData.supplier.name}}</em></span>
@@ -39,7 +46,7 @@
       </div>
     </div>
     <!-- 采购清单 -->
-    <div class="panel pr-panel pr-panel-height mgb">
+    <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <!-- 清单 -->
       <div class="order-details">
         <!-- <h1>采购清单</h1> -->
@@ -107,7 +114,8 @@
       <!-- 备注 -->
       <div class="mgt pd-v bt-line">
         <div>
-          <span>备注：</span><textarea class="pr-textarea mgt" ng-value="showData.note" ng-model="formData.note"></textarea>
+          <!-- <span>备注：</span><textarea class="pr-textarea mgt" ng-value="showData.note" ng-model="formData.note"></textarea> -->
+          <span>备注：{{showData.note}}</span>
         </div>
       </div>
 
@@ -150,7 +158,7 @@
                 ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
                 ng-init="rejectObj={url:'rest/authen/arrivalNoticeOrder/updateStatus.json',typeCode:'来货通知单驳回理由',msg:'驳回后，该来货通知单将作废。确认驳回?',formData:{id:showData.id,status:'已作废',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
                 <a href="javascript:;"
-                   modal-center
+                   modal-center="490"
                    modal-scope="this"
                    modal-url="views/public/dialog-check-reject.html">驳回</a>
           </span>

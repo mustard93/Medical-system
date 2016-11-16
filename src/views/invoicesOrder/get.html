@@ -11,10 +11,16 @@
     <h1 class="pr-title-color pr-font-24">发货单</h1>
   </div>
   <!-- 主内容区域 -->
-  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-    <!-- 单据信息 -->
-    <div class="flex-column pd-c-m pdt-m pdb-m bb-line">
+  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+    <!-- 作废原因： -->
+    <div class="panel pr-panel pr-panel-height flex-column mgb"
+         ng-if="showData.orderStatus=='已作废'"
+         ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+    </div>
 
+    <!-- 单据信息 -->
+    <div class="flex-column pd-c-m pdt-m pdb-m bb-line" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <div class="">
         <span class="mgr-m">发货单号：{{showData.orderNo}}</span>
         <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
@@ -41,13 +47,8 @@
       </div>
     </div>
 
-<!-- 作废原因： -->
-    <div class="panel pr-panel pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'">
-          <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
-    </div>
-
     <!-- 用户信息 -->
-    <div class="pd-c-m pdt-m pdb-m bb-line">
+    <div class="pd-c-m pdt-m pdb-m bb-line" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <p class="flex-column mgb">
         <span class="flex-item-6">客户名：{{showData.customerName}}</span>
         <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：{{showData.expectDate | date: 'yyyy-MM-dd'}}</span>
@@ -55,7 +56,7 @@
       <p>收货人信息：{{showData.address.name}} {{showData.address.prov}}{{showData.address.city}}{{showData.address.area}}{{showData.address.address}} {{showData.address.tel}}</p>
     </div>
     <!-- 商品列表 -->
-    <div class="pd-c-m">
+    <div class="pd-c-m" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <!-- 可发货 -->
       <div class="confirm-order bb-line pdb-l mgt-m">
         <!-- <h1 class="pdt-l color-6 text-m pr-fw-500">订购清单</h1> -->
@@ -72,7 +73,7 @@
 
 
   <!-- 配送信息 -->
-  <div class="panel pr-panel pr-fuzzy-boundary pd-m mgt">
+  <div class="panel pr-panel pr-fuzzy-boundary pd-m mgt" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="pdb-l text-m color-6">配送信息</h1>
       <div class="flex-column bb-line text-s">
         <div class="flex-item-3">

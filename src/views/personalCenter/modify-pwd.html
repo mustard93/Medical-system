@@ -17,29 +17,42 @@
     <!-- 右侧住内容区域 -->
     <form class="personalModifyInfoForm"
     action="rest/authen/user/updatePassword" scope-data="formData" alert-error alert-ok
-    form-validator
+    form-validator novalidate
+    name="editForm"
     >
       <div class="content-area ">
 
         <div class="panel pr-panel text-center mgb-s">
           <h1 class="bb-line pdb-m text-l color-6">修改密码</h1>
           <div class="mgt-xl">
+
             <div class="form-group mgb">
-              <input type="password" class="ipt mgt-l" ng-model="formData.password"  placeholder="旧密码">
+              <input type="password" class="ipt mgt-l" ng-model="formData.password" name="password"  placeholder="旧密码" required>
             </div>
             <div class="form-group mgb">
-              <input type="password" class="ipt" ng-model="formData.newPassword"  placeholder="新密码">
+              <input type="password" class="ipt" ng-model="formData.newPassword"  name="newPassword"   placeholder="新密码" required ng-pattern="/[A-Za-z0-9_-]{6,32}/"
+              data-content="密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线"
+               invalid-popover="{{editForm.newPassword.$invalid}}"
+              >
+
             </div>
             <div class="form-group mgb">
-              <input type="password" class="ipt" ng-model="formData.confirmPassword" placeholder="确认新密码">
+              <input type="password" class="ipt" ng-model="formData.confirmPassword"  name="confirmPassword"  placeholder="确认新密码" required
+              data-content="确认新密码请输入与新密码相同"
+              invalid-popover="{{formData.confirmPassword&&formData.newPassword!=formData.confirmPassword}}"
+               >
             </div>
           </div>
+
+
         </div>
 
         <!-- 功能按钮 -->
         <div class="text-center pd-s">
           <a href="#/main.html" class="mgr">返回工作中心</a>
-          <input type="submit"  class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" style="line-height:1.7;" value="确定"/>
+          <input
+          ng-disabled="!formData.password|| !formData.newPassword||!formData.confirmPassword||formData.newPassword!=formData.confirmPassword"
+   type="submit"  class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" style="line-height:1.7;" value="确定"/>
         </div>
       </div>
     </form>
