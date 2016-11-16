@@ -1,5 +1,5 @@
 <div class="content-wrapper purchase-order">
-  <table-list list-data="{{mainStatus.requestPath}}rest/authen/purchaseOrder/query.json"
+  <table-list list-data="rest/authen/purchasePayOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -8,14 +8,14 @@
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
         <div class="order-status-btn pos-tr text-right"
-             ajax-url="rest/authen/purchaseOrder/countByOrderStatus.json"
+             ajax-url="rest/authen/purchasePayOrder/countByOrderStatus.json"
              scope-data="countByOrderStatus"
              alert-error>
             <div class=""></div>
 
             <div class="btn btn-group" scope-data="statusList">
               <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-              <button  ng-if="$root.hasAuthor('采购单编辑')"  order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">待批款
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待批款'">待批款
                 <span class="pj-badge" ng-if='countByOrderStatus["待批款"]'>{{countByOrderStatus["待批款"]}}</span>
               </button>
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待付款'">待付款

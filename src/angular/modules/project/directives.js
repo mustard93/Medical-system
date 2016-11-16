@@ -664,8 +664,6 @@ function leftMenuSecondToggle ($location) {
     restrict: 'A',
     link: function (scope, element, attrs) {
       //刷新页面保持边栏状态
-
-
       if (attrs.href.indexOf($location.path().split('/')[1]) !== -1) {
         var _par = $(element).parent();
         _par.addClass('active').siblings().each(function () {
@@ -673,20 +671,31 @@ function leftMenuSecondToggle ($location) {
         });
         $(element).parent().parent().show();
       }
+
       //绑定点击事件
       $(element).on('click', function (event) {
         //阻止冒泡
         if (event && event.stopPropagation) {
           event.stopPropagation();
         }
-        //父元素
+
+        //执行事件
+        eleChangeEvent();
+      });
+
+      //定义监视器，监控Url变化
+      scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
+        if (attrs.href.indexOf(newUrl.split('#')[1].split('/')[1]) !== -1) {
+          eleChangeEvent();
+        }
+      });
+
+      function eleChangeEvent () {
         var _parent = $(element).parent();
+
         _parent.addClass('active').siblings().each(function () {
           $(this).removeClass('active');
         });
-        // if (_parent.parent('menu-list').hasClass('active')) {
-        //   $(this).removeClass('active');
-        // }
 
         _parent.parent().parent().removeClass('active').siblings().each(function () {
           $(this).removeClass('active');
@@ -694,6 +703,41 @@ function leftMenuSecondToggle ($location) {
               $(this).removeClass('active');
           });
         });
+      }
+    }
+  };
+}
+/**
+ *  个人中心导航切换
+ */
+function styleToggle ($location) {
+  'use strict';
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+
+      if (attrs.href.indexOf($location.path().split('/')[2]) !== -1) {
+        $(element).addClass('active').parent().siblings().each(function () {
+          $(this).children().removeClass('active');
+        });
+        // $(element).parent().parent().show();
+      }
+
+      // $(element).addClass('active');
+
+      // scope.$on('$locationChangeStart', function (event, newUrl, currentUrl) {
+      //
+      //   if (attrs.href.indexOf(newUrl.split('#')[1].split('/')[2]) !== -1) {
+      //     $(element).addClass('active');
+      //   }
+      // });
+
+      $(element).on('click', function (e) {
+        if (!$(this).hasClass('active')) {
+          $(this).addClass('active').parent().siblings().each(function () {
+            $(this).children().removeClass('active');
+          });
+        }
       });
     }
   };
@@ -715,5 +759,6 @@ angular.module('manageApp.project')
   .directive("runTooltips", runTooltips) //tooltips
   .directive("runPopovers", ['$timeout', runPopovers]) //popover
   .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]) //带确认对话框的按钮点击事件
-  .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]); //左侧二级菜单切换效果
+  .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
+  .directive("styleToggle", ['$location', styleToggle]);
 });

@@ -1,10 +1,9 @@
 
-        <div class="modal-content" ng-controller="editCtrl"      ajax-url="rest/authen/role/getUserAndRole.json?userid={{tr.id}}"  scope-data="formData" alert-error
+        <div class="modal-content" ng-controller="editCtrl"      ajax-url="rest/authen/userAndOrganization/getByUserId.json?userId={{tr.id}}&organizationId={{tr.organizationId}}"  scope-data="formData" alert-error
        >
 
           <form class="add-medical-form form-horizontal"
-                action="rest/authen/role/updateRoleOfUser"
-                 ajax-url="rest/authen/role/getUserAndRole.json?userid={{tr.id}}"  scope-data="formData" alert-error
+                action="rest/authen/role/updateRoleOfUser"  scope-data="formData" alert-error
                 form-validator>
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
@@ -17,11 +16,9 @@
                   <input type="text" class="form-control" placeholder="" ng-model="formData.userid" />
                 </div>
               </div>
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">角色集</label>
-                  <div class="col-lg-10 col-sm-10">
-
-
+              <div class="form-group" >
+                <label class="col-lg-2 col-sm-2 control-label">角色集</label>
+                <div class="col-lg-10 col-sm-10" ng-if="formData.departmentId">
                                         <div class="form-ctrl"
                                          ajax-url="rest/authen/role/queryForSelectOption"  scope-data="roles" alert-error>
 
@@ -40,6 +37,11 @@
                                         </div>
                                         <!--end Authoritys -->
 
+
+                  </div>
+
+                  <div class="col-lg-10 col-sm-10" ng-if="!formData.departmentId">
+                                      没关联部门不能授权！
 
                   </div>
                 </div>

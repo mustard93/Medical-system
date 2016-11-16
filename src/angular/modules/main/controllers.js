@@ -43,6 +43,8 @@ define('main/controllers', ['main/init'], function () {
         // 调转页面
         $scope.goTo = function (url,confirmMsg) {
 
+              url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+              
             if(confirmMsg){
               dialogConfirm(confirmMsg, function () {
                 window.location.assign(url);

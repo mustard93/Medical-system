@@ -6,7 +6,8 @@
           <form class="add-department-form form-horizontal"
                 action="rest/authen/department/save"
                 alert-error
-                form-validator>
+                form-validator
+                broadcast="reloadList">
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
                 <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}部门</h4>
@@ -31,7 +32,7 @@
                                 <div class="form-group">
                                   <label class="col-lg-2 col-sm-2 control-label">部门负责人</label>
                                   <div class="col-lg-10 col-sm-10">
-                                    <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen  multiple ng-model="formData.headUserIds" select-source="rest/authen/user/queryForSelectOption.json">
+                                    <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen default-empty  multiple ng-model="formData.headUserIds" select-source="rest/authen/user/queryForSelectOption.json">
                                       <option value=""></option>
                                     </select>
                                   </div>
