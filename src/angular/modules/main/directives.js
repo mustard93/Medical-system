@@ -2611,37 +2611,35 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     }
 
     //验证失败的提示窗口
-    function popover () {
+    function invalidPopover () {
 
         return {
             restrict: 'A',
             scope: {
-                popoverShow: '=',
                 popoverOptions: '@'
             },
-            link: function (scope, element) {
-                element.popover(JSON.parse(scope.popoverOptions || '{ "placement": "top", "trigger": "manual" }'));
-                scope.isFocus=false;
-                $(element).focus(function(){
-                      scope.isFocus=true;
-                      console.log("2isFocus="+scope.isFocus);
+            link: function ($scope, element,$attrs) {
+
+              function showDo(show){
+                if ( element.data("isFocus")&&show=="true") {
+                    element.popover('show');
+                      // console.log("element.popover('show');");
+                } else {
+                    element.popover('hide');
+                      // console.log("element.popover('hide');");
+                }
+              }
+
+                element.popover(JSON.parse($scope.popoverOptions || '{ "placement": "right", "trigger": "manual" }'));
+
+                element.focus(function(){
+                  //获取焦点时才条件验证。
+                    element.data("isFocus", true);
+                        showDo($attrs.invalidPopover);
                   });
 
-                  function showDo(show){
-                    if (  scope.isFocus&&show) {
-                        element.popover('show');
-                    } else {
-                        element.popover('hide');
-                    }
-                  }
-
-                scope.$watch('popoverShow', function (show) {
-                  console.log("isFocus="+  scope.isFocus);
-                    if (  scope.isFocus&&show) {
-                        element.popover('show');
-                    } else {
-                        element.popover('hide');
-                    }
+                $attrs.$observe('invalidPopover', function (show) {
+                    showDo(show);
                 });
             }
         };
@@ -2669,7 +2667,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      */
     angular.module('manageApp.main')
       .directive("watchFormChange", ["watchFormChange", watchFormChange])
-      .directive("popover", ["$route", "$templateCache", "$routeParams", popover])
+      .directive("invalidPopover", ["$route", "$templateCache", "$routeParams", invalidPopover])
         .directive("ngView", ["$route", "$templateCache", "$routeParams", ngView])
         .directive("convertToDate", convertToDate)
         .directive("convertToNumber", convertToNumber)
