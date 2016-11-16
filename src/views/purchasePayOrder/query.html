@@ -67,13 +67,14 @@
               <div class="text-s mgb-m">{{tr.type}}</div>
               <div class="flex-column qurey text-s color-9">
                 <div class="flex-item-6">
-                  <p class="mgb-s">付款申请单号：<span class="color-6">{{tr.purchaseVoucherNo || 'PZ000000115'}}</span></p>
+                  <p class="mgb-s">付款申请单号：<span class="color-6">{{tr.orderNo}}</span></p>
                   <p class="mgb-s">创建时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:ss'}}</span></p>
-                  <p>入库时间：<span class="color-6">{{tr.expectDate || '2016-10-28 11:41' | date: 'yyyy-MM-dd HH:ss'}}</span></p>
+                  <p>入库时间：<span class="color-6">{{tr.expectDate | date: 'yyyy-MM-dd HH:ss'}}</span></p>
                 </div>
                 <div class="flex-item-6">
                   <p class="mgb-s relative">采购员：
-                    <span run-popovers class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n || '测试'}}</span>
+                    <span ng-if="!tr.saleUser.n" class="color-6" style="position:absolute;height:25px;">暂无</span>
+                    <span ng-if="tr.saleUser.n" run-popovers class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n}}</span>
                     <span class="purchaseorder-buyer-info">
                       <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
                       <i class="block pdb-s text-normal">
@@ -89,7 +90,8 @@
                     </span>
                   </p>
                   <p class="mgb-s relative">采购审批：
-                    <span run-popovers class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n || '测试'}}</span>
+                    <span ng-if="!tr.approverUser.n" class="color-6" style="position:absolute;height:25px;">暂无</span>
+                    <span ng-if="tr.approverUser.n" run-popovers class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.approverUser.n || '测试'}}</span>
                     <span class="purchaseorder-buyer-info">
                       <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
                       <i class="block pdb-s text-normal">
@@ -105,7 +107,8 @@
                     </span>
                   </p>
                   <p class="mgb-s relative">财务审批：
-                    <span run-popovers class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n || '测试'}}</span>
+                    <span ng-if="tr.orderStatus=='待批款'" class="color-6" style="position:absolute;height:25px;">暂无</span>
+                    <span ng-if="tr.orderStatus!='待批款'" run-popovers class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n || '测试'}}</span>
                     <span class="purchaseorder-buyer-info">
                       <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
                       <i class="block pdb-s text-normal">
@@ -128,24 +131,24 @@
             </div>
             <div class="flex-column text-s">
               <div class="flex-item-6 pd-m br-line" style="min-height:130px;">
-                <p class="mgb-s">采购单号：<span class="color-custom-orange">CG00013456789</span></p>
-                <p class="mgb-s">来货通知单号：<span class="color-custom-orange">L00013456789</span></p>
+                <p class="mgb-s">采购单号：<span class="color-custom-orange"><a href="#/purchaseOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a></span></p>
+                <p class="mgb-s">来货通知单号：<span class="color-custom-orange"><a href="">{{tr.relOrderNo}}</a></span></p>
               </div>
               <div class="flex-item-6 pd-m">
-                <p class="mgb-s">账期要求：<em>2个月</em></p>
-                <p class="mgb-s">预付款：<em>50%</em></p>
-                <p class="mgb-s">结算方式：<em>网银转账</em></p>
-                <p class="mgb-s">付款方式：<em>货到付款</em></p>
+                <p class="mgb-s">账期要求：<em>{{tr.payAndDelivery.payPeriodType || '暂无'}}</em></p>
+                <p class="mgb-s">预付款：<em>{{tr.payAndDelivery.prepaidRatio}}%</em></p>
+                <p class="mgb-s">结算方式：<em>{{tr.payAndDelivery.cashType || '暂无'}}</em></p>
+                <p class="mgb-s">付款方式：<em>{{tr.payAndDelivery.payType || '暂无'}}</em></p>
               </div>
             </div>
             <div class="pdl-m pdr-m pd-v color-9">
               <p class="purchase-order-details-note">
-                <span>备注：</span><span class="color-6">{{tr.note || '这是很长很长的测试公告'}}</span>
+                <span>备注：</span><span class="color-6">{{tr.note}}</span>
               </p>
             </div>
             <div class="pdl-m pdr-m pd-v color-9" style="height:72px;">
               <div class="text-right mgb-s text-n">
-                <span>合计：<em class="color-6">￥7020.00 (含税：￥1020.00)</em></span>
+                <span>合计：<em class="color-6">￥{{tr.totalPrice | number:2}} (含税：￥{{tr.totalPrice * tr.tax / 100 | number:2}})</em></span>
               </div>
               <div ng-if="tr.orderStatus=='待批款' || tr.orderStatus=='待付款'" class="flex-column bt-line pdt-s">
                 <span class="flex-item-6">预付：<em>￥600.00</em></span>
