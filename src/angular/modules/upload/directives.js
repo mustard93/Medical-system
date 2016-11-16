@@ -347,6 +347,13 @@ define('upload/directives', ['upload/init'], function () {
                           _fileObj.data = _data.data;
                           // _data.data="http://stimg3.tuicool.com/JNzQre.png";
                           $scope.ngModel=_data.data;
+
+
+
+                          // $scope.$apply();
+                          if ($attrs.callback) {
+                              $scope.$eval($attrs.callback);
+                          }
                           $scope.$apply();
 
                       }, false);
