@@ -679,6 +679,8 @@ function leftMenuSecondToggle ($location) {
           $(this).removeClass('active');
         });
         $(element).parent().parent().show();
+        //保持图标状态
+        $(element).parents('ul.sub-menu-list').prev().children().eq(2).removeClass('pr-arrow-down').addClass('pr-arrow-up');
       }
 
       //绑定点击事件
