@@ -49,7 +49,7 @@
                           dialog-content="同意后,出纳将进行付款,确认同意?"
                           dialog-template="pr-dialog-confirm.html"
                           emitted="reloadList"
-                          params='{"businessKey":tr.id,"conditionType":"通过","type":"采购单"}'
+                          params='{"businessKey":tr.relId,"conditionType":"通过","type":"采购单"}'
                           request-url="rest/authen/workflowTask/run.json">同意付款
                   </button>
                   <button ng-if="tr.orderStatus=='待付款'"
@@ -68,8 +68,7 @@
               <div class="flex-column qurey text-s color-9">
                 <div class="flex-item-6">
                   <p class="mgb-s">付款申请单号：<span class="color-6">{{tr.orderNo}}</span></p>
-                  <p class="mgb-s">创建时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:ss'}}</span></p>
-                  <p>入库时间：<span class="color-6">{{tr.expectDate | date: 'yyyy-MM-dd HH:ss'}}</span></p>
+                  <p class="mgb-s">入库时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:ss'}}</span></p>
                 </div>
                 <div class="flex-item-6">
                   <p class="mgb-s relative">采购员：
@@ -132,7 +131,7 @@
             <div class="flex-column text-s">
               <div class="flex-item-6 pd-m br-line" style="min-height:130px;">
                 <p class="mgb-s">采购单号：<span class="color-custom-orange"><a href="#/purchaseOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a></span></p>
-                <p class="mgb-s">来货通知单号：<span class="color-custom-orange"><a href="">{{tr.relOrderNo}}</a></span></p>
+                <p class="mgb-s">来货通知单号：<span class="color-custom-orange"><a href="">{{tr.arrivalNoticeOrderNo}}</a></span></p>
               </div>
               <div class="flex-item-6 pd-m">
                 <p class="mgb-s">账期要求：<em>{{tr.payAndDelivery.payPeriodType || '暂无'}}</em></p>
