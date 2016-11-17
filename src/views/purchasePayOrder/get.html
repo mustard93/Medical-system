@@ -25,7 +25,6 @@
         <span class="color-9">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
       </div>
     </div>
-
     <!-- 供货商信息 -->
     <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="mgb text-n text-bold">供货商信息</h1>
@@ -36,7 +35,6 @@
         <span class="color-9 mgr-xl">联系电话：<em class="color-6 font-normal">{{showData.supplier.tel}}</em></span>
       </div>
     </div>
-
     <!-- 采购方信息 -->
     <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="mgb text-n text-bold">采购方信息</h1>
@@ -49,7 +47,6 @@
         </span>
       </div>
     </div>
-
     <!-- 付款及货运 -->
     <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="mgb text-n text-bold">付款及货运要求</h1>
@@ -67,7 +64,6 @@
         </div>
       </div>
     </div>
-
     <!-- 订单清单 -->
     <div class="panel pr-panel pr-panel-height mgb-n" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <!-- <h1 class="text-l">订购清单</h1> -->
@@ -79,20 +75,21 @@
         <p class="pd-v-l">备注：{{showData.note}}</p>
       </div>
     </div>
-
     <!-- 总价 -->
     <div class="text-right mgt-l">
       <div class="pr-font-24 text-right mgb color-9">合计：
-        <span class="color-6">￥{{showData.totalPrice || '0.00' | number:2}} (含税：￥{{showData.totalPrice*showData.tax/100 | number:2}})</span>
+        <span class="color-6">￥{{showData.totalPrice | number:2}} (含税：￥{{showData.taxPrice | number:2}})</span>
       </div>
-      <div class="text-right text-l">
+      <div ng-if="showData.orderStatus!='已付款'" class="text-right text-l">
         <p class="mgb mgt-m">预付：<span>￥{{showData.prepaidPrice | number:2}}</span></p>
-        <p>待付：<span class="pr-color-red">￥3510.00</span></p>
+        <p>待付：<span class="pr-color-red">￥{{showData.pendingPrice | number:2}}</span></p>
       </div>
     </div>
+    <!-- 操作 -->
     <div class="text-right mg-l">
       <a href="#/purchasePayOrder/query.html">返回付款申请单列表</a>
-      <button class="pr-btn-save-glodbg mgl"
+      <button ng-if="showData.orderStatus=='待批款' && $root.hasAuthor('付款申请单批款')"
+              class="pr-btn-save-glodbg mgl"
               type="button"
               handle-this-click
               dialog-title="确认同意?"
@@ -100,7 +97,18 @@
               dialog-template="pr-dialog-submit.html"
               params='{"businessKey":showData.relId,"conditionType":"通过","type":"采购单"}'
               request-url="rest/authen/workflowTask/run.json"
-              call-back="goTo('#/purchaseOrder/get.html?t=审核通过&id={{showData.id}}')">同意付款
+              call-back="goTo('#/purchasePayOrder/get.html?t=审核通过&id={{showData.id}}')">同意付款
+      </button>
+      <button ng-if="showData.orderStatus=='待付款' && $root.hasAuthor('付款申请单付款')"
+              class="pr-btn-save-glodbg mgl"
+              type="button"
+              handle-this-click
+              dialog-title="确认同意?"
+              dialog-content="同意后，出纳将进行付款，确认同意?"
+              dialog-template="pr-dialog-submit.html"
+              params='{"businessKey":showData.relId,"conditionType":"通过","type":"采购单"}'
+              request-url="rest/authen/workflowTask/run.json"
+              call-back="goTo('#/purchasePayOrder/get.html?t=审核通过&id={{showData.id}}')">付款
       </button>
     </div>
   </div>

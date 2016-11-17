@@ -72,9 +72,10 @@
                           dialog-title="确认通过?"
                           dialog-content="审批通过后，销售单将生效。确认通过?"
                           dialog-template="pr-dialog-submit.html"
+                          emitted="reloadList,ajaxUrlReload"
                           params='{"businessKey":tr.id,"conditionType":"通过","type":"销售单"}'
-                          request-url="rest/authen/workflowTask/run.json"
-                          call-back="listParams.refreshId=tr.id">审批通过</button>
+                          request-url="rest/authen/workflowTask/run.json">审批通过
+                  </button>
                   <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                           ng-if="tr.orderStatus=='待发单' && $root.hasAuthor('发货单编辑')"
                           type="button"
@@ -84,7 +85,8 @@
                           dialog-template="pr-dialog-submit.html"
                           params='{"businessKey":tr.id,"type":"销售单"}'
                           request-url="rest/authen/workflowTask/run.json"
-                          call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{tr.id}}')">生成发货单</button>
+                          call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{tr.id}}')">生成发货单
+                  </button>
                 </span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
