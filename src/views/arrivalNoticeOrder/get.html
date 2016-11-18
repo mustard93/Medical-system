@@ -113,8 +113,10 @@
       </div>
       <!-- 备注 -->
       <div class="mgt pd-v bt-line">
-        <div>
-          <!-- <span>备注：</span><textarea class="pr-textarea mgt" ng-value="showData.note" ng-model="formData.note"></textarea> -->
+        <div ng-if="showData.orderStatus=='未提交'">
+          <span>备注：</span><textarea class="pr-textarea mgt" ng-value="showData.note" ng-model="formData.note"></textarea>
+        </div>
+        <div ng-if="showData.orderStatus!='未提交'">
           <span>备注：{{showData.note}}</span>
         </div>
       </div>
