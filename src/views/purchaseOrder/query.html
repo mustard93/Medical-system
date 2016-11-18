@@ -36,7 +36,9 @@
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">待付款
                 <span class="pj-badge" ng-if='countByOrderStatus["待付款"]'>{{countByOrderStatus["待付款"]}}</span>
               </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已完成</button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已完成'">已完成
+                <span class="pj-badge" ng-if='countByOrderStatus["已完成"]'>{{countByOrderStatus["已完成"]}}</span>
+              </button>
             </div>
             <div class="inline-block relative">
               <span class="pj-badge" ng-if='countByOrderStatus["已作废"]'>{{countByOrderStatus["已作废"]}}</span>
@@ -52,7 +54,13 @@
     </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
-      <ul class="">
+      <div ng-if="tbodyList.length=='0'">
+        <p class="empty-data text-center">
+          <span class="fa fa-inbox"></span>
+          <span>没有数据</span>
+        </p>
+      </div>
+      <ul ng-if="tbodyList.length!='0'">
         <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
             <div class="pd-m">

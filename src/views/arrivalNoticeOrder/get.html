@@ -113,8 +113,10 @@
       </div>
       <!-- 备注 -->
       <div class="mgt pd-v bt-line">
-        <div>
-          <!-- <span>备注：</span><textarea class="pr-textarea mgt" ng-value="showData.note" ng-model="formData.note"></textarea> -->
+        <div ng-if="showData.orderStatus=='未提交'">
+          <span>备注：</span><textarea class="pr-textarea mgt" ng-value="showData.note" ng-model="formData.note"></textarea>
+        </div>
+        <div ng-if="showData.orderStatus!='未提交'">
           <span>备注：{{showData.note}}</span>
         </div>
       </div>
@@ -143,7 +145,10 @@
             </button>
           </span>
 
+
+
           <button ng-if="showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
+                ng-disabled="formData.note!=showData.note"
                   class="pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
@@ -152,7 +157,8 @@
                   dialog-template="pr-dialog-submit.html"
                   params='{"id":showData.id,"status":"待审批"}'
                   request-url="rest/authen/arrivalNoticeOrder/updateStatus.json"
-                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管</button>
+                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管
+          </button>
 
           <span class="mgr-l"
                 ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
