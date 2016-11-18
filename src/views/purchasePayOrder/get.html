@@ -21,7 +21,8 @@
         <span class="mgr-l color-9">入库时间：<em class="color-6">{{showData.createAt | date:'yyyy-MM-dd HH:ss'}}</em></span>
         <span class="mgr-l color-9">采购员：<em class="color-custom-orange">{{showData.inputUser.n}}</em></span>
         <span class="mgr-l color-9">采购审批：<em class="color-custom-orange">{{showData.approverUser.n}}</em></span>
-        <span class="mgr-l color-9">财务审批：<em class="color-custom-orange">{{showData.approverUser.n}}</em></span>
+        <span ng-if="showData.orderStatus=='待批款'" class="mgr-l color-9">财务审批：<em class="color-6">暂无</em></span>
+        <span ng-if="showData.orderStatus=='待付款'" class="mgr-l color-9">财务审批：<em class="color-custom-orange">{{showData.approverUser.n}}</em></span>
         <span class="color-9">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
       </div>
     </div>
