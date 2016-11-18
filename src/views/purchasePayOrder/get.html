@@ -10,40 +10,32 @@
 
   <!-- 主内容区域 -->
   <div class="content-wrapper-main">
-    <!-- 作废原因： -->
-    <!-- <div class="panel pr-panel pr-panel-height flex-column mgb"
-         ng-if="showData.orderStatus=='已作废'"
-         ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
-    </div> -->
-
     <!-- 订单信息 -->
     <div class="panel pr-panel pr-panel-height flex-column mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <div class="flex-item-5">
-        <span class="mgr-xl color-9">付款申请单号：<em class="color-6">{{showData.orderNo || 'C000123456789'}}</em></span>
-        <span class="mgr-xl color-9">采购单号：<em class="color-6"><a href="">{{showData.orderNo || 'C012345678'}}</a></em></span>
-        <span class="mgr-xl color-9">来货通知单号：<em class="color-6"><a href="">{{showData.orderNo || 'C012345678'}}</a></em></span>
+        <span class="mgr-xl color-9">付款申请单号：<em class="color-6">{{showData.orderNo}}</em></span>
+        <span class="mgr-xl color-9">采购单号：<em class="color-6"><a href="#/purchaseOrder/get.html?id={{showData.relId}}">{{showData.relOrderNo}}</a></em></span>
+        <span class="mgr-xl color-9">来货通知单号：<em class="color-6"><a href="#/arrivalNoticeOrder/get.html?id={{showData.arrivalNoticeOrderId}}">{{showData.arrivalNoticeOrderNo}}</a></em></span>
       </div>
       <div class="flex-item-7 text-right">
-        <span class="mgr-l color-9">创建时间：<em class="color-6">{{showData.createAt || '2016-09-01 11:45' | date:'yyyy-MM-dd HH:ss'}}</em></span>
-        <span class="mgr-l color-9">采购员：<em class="color-custom-orange">{{showData.approverUser.n || "刘丽"}}</em></span>
-        <span class="mgr-l color-9">采购审批：<em class="color-custom-orange">{{showData.approverUser.n || "刘天天"}}</em></span>
-        <span class="mgr-l color-9">财务审批：<em class="color-custom-orange">{{showData.approverUser.n || "暂无"}}</em></span>
-        <span class="color-9">状态：<em class="color-6">{{showData.orderStatus || '待批款'}}</em></span>
+        <span class="mgr-l color-9">入库时间：<em class="color-6">{{showData.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+        <span class="mgr-l color-9">采购员：<em class="color-custom-orange">{{showData.inputUser.n}}</em></span>
+        <span class="mgr-l color-9">采购审批：<em class="color-custom-orange">{{showData.approverUser.n}}</em></span>
+        <span ng-if="showData.orderStatus=='待批款'" class="mgr-l color-9">财务审批：<em class="color-6">暂无</em></span>
+        <span ng-if="showData.orderStatus=='待付款'" class="mgr-l color-9">财务审批：<em class="color-custom-orange">{{showData.approverUser.n}}</em></span>
+        <span class="color-9">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
       </div>
     </div>
-
     <!-- 供货商信息 -->
     <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="mgb text-n text-bold">供货商信息</h1>
       <div class="flex-column">
         <span class="color-9 mgr-xl">供货商类型：<em class="color-6 font-normal">{{showData.supplier.type}}</em></span>
         <span class="color-9 mgr-xl">供货商名：<em class="color-6 font-normal">{{showData.supplier.name}}</em></span>
-        <span class="color-9 mgr-xl">发货人：<em class="color-6 font-normal">{{showData.supplier.name}}</em></span>
-        <span class="color-9 mgr-xl">联系电话：<em class="color-6 font-normal">{{showData.supplier.name}}</em></span>
+        <span class="color-9 mgr-xl">发货人：<em class="color-6 font-normal">{{showData.supplier.shipperName}}</em></span>
+        <span class="color-9 mgr-xl">联系电话：<em class="color-6 font-normal">{{showData.supplier.tel}}</em></span>
       </div>
     </div>
-
     <!-- 采购方信息 -->
     <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="mgb text-n text-bold">采购方信息</h1>
@@ -56,7 +48,6 @@
         </span>
       </div>
     </div>
-
     <!-- 付款及货运 -->
     <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <h1 class="mgb text-n text-bold">付款及货运要求</h1>
@@ -74,41 +65,52 @@
         </div>
       </div>
     </div>
-
     <!-- 订单清单 -->
     <div class="panel pr-panel pr-panel-height mgb-n" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
       <!-- <h1 class="text-l">订购清单</h1> -->
       <div class="confirm-order">
-        <div  order-medicals-purchase  ng-model="showData.orderMedicalNos"></div>
-
+        <div order-medicals-purchase ng-model="showData.orderMedicalNos"></div>
       </div>
-    <!-- 备注 -->
-    <div>
-      <p class="pd-v-l">备注：{{showData.note}}</p>
+      <!-- 备注 -->
+      <div>
+        <p class="pd-v-l">备注：{{showData.note}}</p>
+      </div>
     </div>
-  </div>
-
-  <!-- 总价 -->
-  <div class="text-right mgt-l">
-    <div class="pr-font-24 text-right mgb color-9">合计：
-      <span class="color-6">￥{{showData.totalPrice || '0.00' | number:2}} (含税：￥1020.00)</span>
+    <!-- 总价 -->
+    <div class="text-right mgt-l">
+      <div class="pr-font-24 text-right mgb color-9">合计：
+        <span class="color-6">￥{{showData.totalPrice | number:2}} (含税：￥{{showData.taxPrice | number:2}})</span>
+      </div>
+      <div ng-if="showData.orderStatus!='已付款'" class="text-right text-l">
+        <p class="mgb mgt-m">预付：<span>￥{{showData.prepaidPrice | number:2}}</span></p>
+        <p>待付：<span class="pr-color-red">￥{{showData.pendingPrice | number:2}}</span></p>
+      </div>
     </div>
-    <div class="text-right text-l">
-      <p class="mgb mgt-m">预付：<span>￥500.00</span></p>
-      <p>待付：<span class="pr-color-red">￥3510.00</span></p>
+    <!-- 操作 -->
+    <div class="text-right mg-l">
+      <a href="#/purchasePayOrder/query.html">返回付款申请单列表</a>
+      <button ng-if="showData.orderStatus=='待批款' && $root.hasAuthor('付款申请单批款')"
+              class="pr-btn-save-glodbg mgl"
+              type="button"
+              handle-this-click
+              dialog-title="确认同意?"
+              dialog-content="同意后，出纳将进行付款，确认同意?"
+              dialog-template="pr-dialog-submit.html"
+              params='{"businessKey":showData.relId,"conditionType":"通过","type":"采购单"}'
+              request-url="rest/authen/workflowTask/run.json"
+              call-back="goTo('#/purchasePayOrder/get.html?t=审核通过&id={{showData.id}}')">同意付款
+      </button>
+      <button ng-if="showData.orderStatus=='待付款' && $root.hasAuthor('付款申请单付款')"
+              class="pr-btn-save-glodbg mgl"
+              type="button"
+              handle-this-click
+              dialog-title="确认付款?"
+              dialog-content="确认没有问题, 可以付款?"
+              dialog-template="pr-dialog-submit.html"
+              params='{"businessKey":showData.relId,"conditionType":"通过","type":"采购单"}'
+              request-url="rest/authen/workflowTask/run.json"
+              call-back="goTo('#/purchasePayOrder/get.html?t=审核通过&id={{showData.id}}')">付款
+      </button>
     </div>
-  </div>
-  <div class="text-right mg-l">
-    <a href="#/purchasePayOrder/query.html">返回付款申请单列表</a>
-    <button class="pr-btn-save-glodbg mgl"
-            type="button"
-            handle-this-click
-            dialog-title="确认同意?"
-            dialog-content="同意后，出纳将进行付款，确认同意?"
-            dialog-template="pr-dialog-submit.html"
-            params=''
-            request-url="rest/authen/workflowTask/run.json"
-            call-back="goTo('#/purchaseOrder/get.html?t=审核通过&id={{showData.id}}')">同意付款
-    </button>
   </div>
 </div>

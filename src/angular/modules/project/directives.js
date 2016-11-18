@@ -622,9 +622,18 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                 }
 
 
-                //...
+                //操作成功完成向上传播事件
                 if ($attrs.emitted) {
-                  $scope.$emit($attrs.emitted);
+                  if ($attrs.emitted.indexOf(',') !== -1) {   //多个事件
+                    var _arr = $attrs.emitted.split(',');
+                    var _len = _arr.length,
+                        i = 0;
+                    for (i=0; i<_len; i++) {
+                      $scope.$emit(_arr[i]);
+                    }
+                  } else {    //单个事件
+                    $scope.$emit($attrs.emitted);
+                  }
                 }
               })
               .catch(function (error) {
@@ -670,6 +679,8 @@ function leftMenuSecondToggle ($location) {
           $(this).removeClass('active');
         });
         $(element).parent().parent().show();
+        //保持图标状态
+        $(element).parents('ul.sub-menu-list').prev().children().eq(2).removeClass('pr-arrow-down').addClass('pr-arrow-up');
       }
 
       //绑定点击事件

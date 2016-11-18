@@ -42,24 +42,24 @@
 
                 <span class="flex-item-10 text-right">
                   <a href="#/purchasePayOrder/get.html?id={{tr.id}}" class="mgl">查看详情</a>
-                  <button ng-if="tr.orderStatus=='待批款'"
+                  <button ng-if="tr.orderStatus=='待批款' && $root.hasAuthor('付款申请单批款')"
                           class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                           handle-this-click
                           dialog-title="确认同意?"
                           dialog-content="同意后,出纳将进行付款,确认同意?"
                           dialog-template="pr-dialog-confirm.html"
-                          emitted="reloadList"
-                          params='{"businessKey":tr.id,"conditionType":"通过","type":"采购单"}'
+                          emitted="reloadList,ajaxUrlReload"
+                          params='{"businessKey":tr.relId,"conditionType":"通过","type":"采购单"}'
                           request-url="rest/authen/workflowTask/run.json">同意付款
                   </button>
-                  <button ng-if="tr.orderStatus=='待付款'"
+                  <button ng-if="tr.orderStatus=='待付款' && $root.hasAuthor('付款申请单付款')"
                           class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                           handle-this-click
                           dialog-title="确认付款?"
                           dialog-content="确认没有问题, 可以付款?"
                           dialog-template="pr-dialog-confirm.html"
-                          emitted="reloadList"
-                          params='{"businessKey":tr.id,"conditionType":"通过","type":"采购单"}'
+                          emitted="reloadList,ajaxUrlReload"
+                          params='{"businessKey":tr.relId,"conditionType":"通过","type":"采购单"}'
                           request-url="rest/authen/workflowTask/run.json">付款
                   </button>
                 </span>
@@ -68,8 +68,7 @@
               <div class="flex-column qurey text-s color-9">
                 <div class="flex-item-6">
                   <p class="mgb-s">付款申请单号：<span class="color-6">{{tr.orderNo}}</span></p>
-                  <p class="mgb-s">创建时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:ss'}}</span></p>
-                  <p>入库时间：<span class="color-6">{{tr.expectDate | date: 'yyyy-MM-dd HH:ss'}}</span></p>
+                  <p class="mgb-s">入库时间：<span class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</span></p>
                 </div>
                 <div class="flex-item-6">
                   <p class="mgb-s relative">采购员：
@@ -132,7 +131,7 @@
             <div class="flex-column text-s">
               <div class="flex-item-6 pd-m br-line" style="min-height:130px;">
                 <p class="mgb-s">采购单号：<span class="color-custom-orange"><a href="#/purchaseOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a></span></p>
-                <p class="mgb-s">来货通知单号：<span class="color-custom-orange"><a href="">{{tr.relOrderNo}}</a></span></p>
+                <p class="mgb-s">来货通知单号：<span class="color-custom-orange"><a href="#/arrivalNoticeOrder/get.html?id={{tr.arrivalNoticeOrderId}}">{{tr.arrivalNoticeOrderNo}}</a></span></p>
               </div>
               <div class="flex-item-6 pd-m">
                 <p class="mgb-s">账期要求：<em>{{tr.payAndDelivery.payPeriodType || '暂无'}}</em></p>
@@ -148,11 +147,11 @@
             </div>
             <div class="pdl-m pdr-m pd-v color-9" style="height:72px;">
               <div class="text-right mgb-s text-n">
-                <span>合计：<em class="color-6">￥{{tr.totalPrice | number:2}} (含税：￥{{tr.totalPrice * tr.tax / 100 | number:2}})</em></span>
+                <span>合计：<em class="color-6">￥{{tr.totalPrice | number:2}} (含税：￥{{tr.taxPrice | number:2}})</em></span>
               </div>
               <div ng-if="tr.orderStatus=='待批款' || tr.orderStatus=='待付款'" class="flex-column bt-line pdt-s">
-                <span class="flex-item-6">预付：<em>￥600.00</em></span>
-                <span class="flex-item-6 text-right text-n">待付：<em class="color-red">￥3020.00</em></span>
+                <span class="flex-item-6">预付：<em>￥{{tr.prepaidPrice | number:2}}</em></span>
+                <span class="flex-item-6 text-right text-n">待付：<em class="color-red">￥{{tr.pendingPrice | number:2}}</em></span>
               </div>
               <div ng-if="tr.orderStatus=='已付款'" class="flex-column pdt-s"></div>
             </div>

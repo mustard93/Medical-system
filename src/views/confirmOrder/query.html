@@ -53,7 +53,13 @@
     </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
-      <ul class="">
+      <div ng-if="tbodyList.length==0">
+        <p class="empty-data text-center">
+          <span class="fa fa-inbox"></span>
+          <span>没有数据</span>
+        </p>
+      </div>
+      <ul ng-if="tbodyList.length!=0">
         <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
           <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
             <div class="relative pd-m">
@@ -72,9 +78,10 @@
                           dialog-title="确认通过?"
                           dialog-content="审批通过后，销售单将生效。确认通过?"
                           dialog-template="pr-dialog-submit.html"
+                          emitted="reloadList,ajaxUrlReload"
                           params='{"businessKey":tr.id,"conditionType":"通过","type":"销售单"}'
-                          request-url="rest/authen/workflowTask/run.json"
-                          call-back="listParams.refreshId=tr.id">审批通过</button>
+                          request-url="rest/authen/workflowTask/run.json">审批通过
+                  </button>
                   <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                           ng-if="tr.orderStatus=='待发单' && $root.hasAuthor('发货单编辑')"
                           type="button"
@@ -84,7 +91,8 @@
                           dialog-template="pr-dialog-submit.html"
                           params='{"businessKey":tr.id,"type":"销售单"}'
                           request-url="rest/authen/workflowTask/run.json"
-                          call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{tr.id}}')">生成发货单</button>
+                          call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{tr.id}}')">生成发货单
+                  </button>
                 </span>
               </div>
               <div class="text-s mgb-m">{{tr.type}}</div>
