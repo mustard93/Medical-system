@@ -1,15 +1,220 @@
-<div class="index-order-create flex-column">
+<div class="index-order-personal-info flex-column text-center">
+  <!-- 左侧内容 -->
   <div class="flex-item-5">
     <!-- 购需分析 -->
-    <div class="">
-
+    <div class="panel pr-panel pr-panel-height mgr-m pr-fuzzy-boundary pd-n flex-column">
+      <div class="flex-item-2 br-line pr-color">
+        <div class="pr-line-height">
+          <p class="relative"><span class="pr-icon-bg4"></span></p>
+          <p>待处理</p>
+        </div>
+        <div class="pr-line-height">
+          <p class="relative"><span class="pr-icon-bg5"></span></p>
+          <p>已处理</p>
+        </div>
+      </div>
+      <div class="flex-item-10">
+        <h4 class="bb-line pd-v-m pr-panel-title-color">我的购需分析</h4>
+        <div class="flex-column">
+          <div class="flex-item-6 br-dashed-line">
+            <div class="flex-column">
+              <div class="flex-item-6">
+                <p class="text-s">昨日新购需单</p>
+                <p class="pr-color text-l">8</p>
+              </div>
+              <div class="flex-item-6">
+                <p class="text-s">已处理购需单</p>
+                <p class="pr-color text-l">20</p>
+              </div>
+            </div>
+            <div class="pr-easypiechart text-center">
+             <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+               <span>
+                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
+                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
+                 <p class="text-s">日购需单处理率</p>
+               </span>
+             </div>
+            </div>
+          </div>
+          <div class="flex-item-6">
+            <div class="flex-column">
+              <div class="flex-item-6">
+                <p class="text-s">本年总购需单</p>
+                <p class="pr-color text-l">8</p>
+              </div>
+              <div class="flex-item-6">
+                <p class="text-s">已处理购需单</p>
+                <p class="pr-color text-l">20</p>
+              </div>
+            </div>
+            <div class="pr-easypiechart text-center">
+             <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+               <span>
+                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
+                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
+                 <p class="text-s">年购需单处理率</p>
+               </span>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- 物流分析 -->
-    <div class="">
-
+    <div class="panel pr-panel pr-panel-height mgr-m pr-fuzzy-boundary pd-n flex-column">
+      <div class="flex-item-2 br-line pr-color">
+        <div class="pr-line-height">
+          <p class="relative">
+            <span class="pr-icon-bg4"></span>
+          </p>
+          <p>未提交发货单</p>
+        </div>
+        <div class="text-center pr-line-height">
+          <p class="relative">
+            <span class="pr-icon-bg5"></span>
+          </p>
+          <p>待发货</p>
+        </div>
+      </div>
+      <div class="flex-item-10">
+        <h4 class="bb-line pd-v-m pr-panel-title-color">我的物流情况分析</h4>
+        <div class="flex-column">
+          <div class="flex-item-6 br-dashed-line">
+            <div class="flex-column">
+              <div class="flex-item-6">
+                <p class="text-s">本年总销售单</p>
+                <p class="pr-color text-l">8</p>
+              </div>
+              <div class="flex-item-6">
+                <p class="text-s">已发货销售单</p>
+                <p class="pr-color text-l">20</p>
+              </div>
+            </div>
+            <div class="pr-easypiechart text-center">
+             <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+               <span>
+                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
+                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
+                 <p class="text-s">年销售单发货率</p>
+               </span>
+             </div>
+            </div>
+          </div>
+          <div class="flex-item-6">
+            <div chart="{{mainConfig.serverPath}}rest/authen/salesOrder/countByOrderStatus4Echarts?dateType=yesterday&isOnlyCurrentUser=true"
+                  style="height:189px;">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="flex-item-7">
 
+  <!-- 右侧内容 -->
+  <div class="flex-item-7">
+    <div class="panel pr-panel pr-panel-height pr-fuzzy-boundary pd-n">
+      <!-- 销售单分析 -->
+      <div class="bb-line">
+        <div class="flex-column">
+          <div class="flex-item-2 br-line pr-color">
+            <div class="pr-line-height">
+              <p class="relative"><span class="pr-icon-bg4"></span></p>
+              <p>待审批</p>
+            </div>
+            <div class="pr-line-height">
+              <p class="relative"><span class="pr-icon-bg5"></span></p>
+              <p>待发单</p>
+            </div>
+            <div class="pr-line-height">
+              <p class="relative"><span class="pr-icon-bg5"></span></p>
+              <p>待收款</p>
+            </div>
+          </div>
+          <div class="flex-item-10">
+            <h4 class="bb-line pd-v-m pr-panel-title-color">我的销售单分析</h4>
+            <div class="flex-column">
+              <div class="flex-item-4 br-dashed-line">
+                <div class="flex-column">
+                  <div class="flex-item-6">
+                    <p class="text-s">昨日新购需单</p>
+                    <p class="pr-color text-l">8</p>
+                  </div>
+                  <div class="flex-item-6">
+                    <p class="text-s">已处理购需单</p>
+                    <p class="pr-color text-l">20</p>
+                  </div>
+                </div>
+                <div class="pr-easypiechart text-center">
+                 <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+                   <span>
+                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
+                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
+                     <p class="text-s">日购需单处理率</p>
+                   </span>
+                 </div>
+                </div>
+              </div>
+              <div class="flex-item-4 br-dashed-line">
+                <div class="flex-column">
+                  <div class="flex-item-6">
+                    <p class="text-s">昨日新购需单</p>
+                    <p class="pr-color text-l">8</p>
+                  </div>
+                  <div class="flex-item-6">
+                    <p class="text-s">已处理购需单</p>
+                    <p class="pr-color text-l">20</p>
+                  </div>
+                </div>
+                <div class="pr-easypiechart text-center">
+                 <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+                   <span>
+                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
+                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
+                     <p class="text-s">日购需单处理率</p>
+                   </span>
+                 </div>
+                </div>
+              </div>
+              <div class="flex-item-4">
+                <div>
+                  <p>待收款额</p>
+                  <p>￥100000022.00</p>
+                </div>
+                <div>
+                  <p>本月已收款销售单</p>
+                  <p>￥9550255.00</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 销售额比较 -->
+        <div>
+          <div class="flex-column pd-c-l pdt-m">
+            <h4 class="flex-item-4 l-h-25 mgt pr-panel-title-color">日订单处理量去年同期比较 - 8月</h4>
+            <div class="flex-item-8 text-right">
+              <span class="mgr"><i class="chart-tip-icon pr-icon-bg-green"></i> 今年</span>
+              <span><i class="chart-tip-icon pr-icon-bg-grey"></i> 去年</span>
+              <!-- <div class="btn btn-group">
+                <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">日</button>
+                <button order-status-choise type="button" class="btn pr-btn-transparentbg">月</button>
+                <button order-status-choise type="button" class="btn pr-btn-transparentbg">季度</button>
+                <button order-status-choise type="button" class="btn pr-btn-transparentbg">年</button>
+              </div> -->
+              <div class="btn btn-group">
+                <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold bd-radius-14">日</button>
+                <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">月</button>
+                <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">季度</button>
+                <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">年</button>
+              </div>
+            </div>
+          </div>
+          <div chart="http://120.76.232.188:8080/dt/data/line-chart4.json?id=20161019" style="height: 300px;"></div>
+          <!-- <div chart="rest/authen/salesOrder/countByCreateAt4Echarts?dateRangeType=recent30day&isOnlyCurrentUser=true" style="height: 300px;"></div> -->
+        </div>
+
+    </div>
   </div>
 </div>
