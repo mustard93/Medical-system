@@ -661,9 +661,20 @@ define('project/controllers', ['project/init'], function() {
 
 
            }//watchFormCtrl
+
+
+           /**
+            * 定时任务ctrl
+            */
+           function intervalCtrl($scope, modal,alertWarn,requestData,alertOk,alertError,$rootScope,$interval) {
+            
+          }//intervalCtrl
+
+
     angular.module('manageApp.project')
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
 
+    .controller('intervalCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", intervalCtrl])
   .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])
       .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData","watchFormChange", purchaseOrderEditCtrl])
     .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", noticeCtrl])

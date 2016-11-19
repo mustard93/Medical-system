@@ -175,7 +175,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       maskObj=proLoading($element);
                       //  if(maskObj)maskObj.hide();
                     }
-
+                   if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
                     requestData($attrs.ajaxUrl, params)
                       .then(function(results) {
                             if(maskObj)maskObj.hide();
@@ -296,7 +296,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   if($attrs.formData){
                     data=$scope[$attrs.formData];
                   }
-                  requestData($attrs.action,data, "POST", parameterBody)
+                  if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
+                    if ($attrs.scopeOkMsg) $scope[$attrs.scopeOkMsg] ="";
+                  var httpMethod="POST"
+                  if($attrs.httpMethod){
+                    httpMethod=$attrs.httpMethod;
+                  }
+                  requestData($attrs.action,data,httpMethod, parameterBody)
                     .then(function(results) {
                       var data = results[0];
                       var data1 = results[1];
@@ -307,7 +313,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
 
                       if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
-
+                      if ($attrs.scopeOkMsg) $scope[$attrs.scopeOkMsg] =results[1].msg;
                       //重置表单
                       if ($attrs.formSubmitAfter == "reset") {
                           DOMForm.reset();
@@ -360,7 +366,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   .catch(function(error) {
                       formStatus.submitting = false;
                       formStatus.submitInfo = error || '提交失败。';
-                      alertError(error);
+                      if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] =error;
+                      if (angular.isDefined($attrs.alertError)) alertError(error);
                       //angular.isFunction($scope.submitCallBack) && $scope.submitCallBack.call($scope, dialogData, "");
                   });
                 }
@@ -1418,6 +1425,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       crossDomain:true,
                       dataType: 'text',//text,json
                       success: function (text) {
+                          myChart.hideLoading();
+                          $scope.isLoading = false;
                         // var results=eval(text);
                         //eavl 作用域设置为当前，支持执行echart提供方法。
                         var results = eval( "(" + text + ")" );
@@ -1431,14 +1440,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         // }
 
                         var _data = results.data;
-
+                        if(!_data)return;
                         //js api 增加功能：eChart组件将data返回给$scope.$parent.eChartMapData[$scope.eChartKey] 用于显示数据。
                         if ($scope.eChartKey) {
                             if (!$scope.$parent.eChartMapData) $scope.$parent.eChartMapData = {};
                             $scope.$parent.eChartMapData[$scope.eChartKey] = _data;
                         }
 
-                        myChart.hideLoading();
+
                         //解决百度图表雷达图 Tip 显示不正确的问题
                         if (_data.polar) {
                             _data.tooltip.formatter = function(_items) {
@@ -1454,9 +1463,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             }
                         }
                         myChart.setOption(_data);
-                        $scope.isLoading = false;
+
                       },
                       error:function(res){
+                          $scope.isLoading = false;
                         //{readyState: 0, responseText: "", status: 0, statusText: "error"}
                           // alert("服务器连接不上或内部异常："+res.responseText);
                       }
@@ -2542,7 +2552,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                    }
                    var parameterBody = false;
                    if (angular.isDefined($attrs.parameterBody)) parameterBody = true;
-                   requestData($attrs.ajaxUrlSubmit, params,"POST",parameterBody)
+
+                   if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
+
+
+                   var httpMethod="POST"
+                   if($attrs.httpMethod){
+                     httpMethod=$attrs.httpMethod;
+                   }
+
+                   requestData($attrs.ajaxUrlSubmit, params,httpMethod,parameterBody)
                      .then(function(results) {
                            if(maskObj)maskObj.hide();
 

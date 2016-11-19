@@ -1,0 +1,69 @@
+<div class="page-main-content text-n">
+  <div class="page-heading">
+      <h3>主面板</h3>
+      <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">$rootScope 自定义方法html中，调用$root</li>
+      </ul>
+  </div>
+  <h1 class="pd-c-l pdt-m pdb-m">$rootScope.store 本地存储</h1>
+  <div class="pd-c-l">
+      <ul>
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+
+              设置key：
+              $root.store.set('habbit.mainRole',mainRole);
+              获取key：
+                $root.store.get('habbit.mainRole');
+                常用key：remeberNumber ：登录电话号码
+
+
+            </div>
+            <textarea class="form-control" style="min-height:200px;" readonly="true">
+              设置key：
+              $root.store.set('habbit.mainRole',mainRole);
+              获取key：
+                $root.store.get('habbit.mainRole');
+
+
+
+              </textarea>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+              跳转页面，callback 中用：
+              $root.go('#/reg/send_info.html')
+
+
+
+            </div>
+            <textarea class="form-control" style="min-height:200px;" readonly="true">
+              <form name="editForm" class="row form-signin"    onsubmit="return false;" novalidate autocomplete="off"
+              action="rest/sms/verifySmsCodey.json"
+              form-validator
+              scope-error-msg="errorMsg"
+              alert-ok
+              callback="$root.store.set('remeberNumber',formData.phone);$root.store.set('sendVerificationCode',formData.verifyCode);$root.go('#/reg/send_info.html')"
+
+              >
+            </from>
+              </textarea>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+</div>

@@ -7,6 +7,7 @@ define('main/controllers', ['main/init'], function () {
      * 主控
      */
     function mainCtrl($scope, $rootScope, $http, $location, store) {
+      $rootScope.store=store;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
@@ -44,7 +45,7 @@ define('main/controllers', ['main/init'], function () {
         $scope.goTo = function (url,confirmMsg) {
 
               url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
-              
+
             if(confirmMsg){
               dialogConfirm(confirmMsg, function () {
                 window.location.assign(url);
