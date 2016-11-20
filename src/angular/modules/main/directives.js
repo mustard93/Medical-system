@@ -52,7 +52,6 @@ define('main/directives', ['main/init'], function() {
             }
         };
     }
-    convertToDate.$inject = ['$filter'];
 
     /**
      * 转换为数字
@@ -70,7 +69,6 @@ define('main/directives', ['main/init'], function() {
             }
         };
     }
-    convertToNumber.$inject = [];
 
     /**
      * JSON转换为
@@ -2683,14 +2681,69 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }
     };
 
+        /**
+         * 树状列表
+         */
+        function datepicker($filter) {
+
+            var config={
+                format:'YYYY-MM-DD', //''yy-mm-dd',
+            };
+
+            return {
+              restrict:'EA',
+              require: 'ngModel',
+
+                link: function($scope, $element, $attrs, ngModel) {
+
+                  var moment = require('moment');
+
+                  	var _format=$attrs.format||config.format;
+                    ngModel.$parsers.push(function(val) {
+                      if (!val) return;
+                      // var tt=moment(val, _format).millisecond();
+                        var tt=moment(val, _format).format('x');
+
+
+                      return tt;
+                      if (!val) return;
+                        var tt=moment(val).format('x');
+
+                      return tt;
+
+                  });
+                  //
+                  ngModel.$formatters.push(function() {
+                      if (!ngModel.$modelValue) return null;
+                      var time=moment(ngModel.$modelValue).format(_format);
+
+                      return time;
+                  });
+                  $element.datepicker({
+            					dateFormat:'yy-mm-dd',
+                      monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                  			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                  			dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+                  			dayNamesMin: ['日','一','二','三','四','五','六'],
+            					onSelect:function(val){
+            						$scope.$apply(function(){
+
+                          	ngModel.$setViewValue(val);
+            						});
+            					}
+            			});
+                }
+            }
+        };
     /**
      * 加入项目
      */
     angular.module('manageApp.main')
+    .directive("datepicker", ['$filter',datepicker])
       .directive("watchFormChange", ["watchFormChange", watchFormChange])
       .directive("invalidPopover", ["$route", "$templateCache", "$routeParams", invalidPopover])
         .directive("ngView", ["$route", "$templateCache", "$routeParams", ngView])
-        .directive("convertToDate", convertToDate)
+        .directive("convertToDate",  ['$filter', convertToDate])
         .directive("convertToNumber", convertToNumber)
         .directive("convertJsonToObject", convertJsonToObject)
         .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","modal", ajaxUrlSubmit])
