@@ -1,0 +1,70 @@
+<div class="container col-lg-6 col-lg-offset-3"
+
+  ng-init="formData={};errorMsg='';okMsg='';formData.phone=$root.store.get('remeberNumber');formData.code=$root.store.get('sendVerificationCode');"
+>
+  <div class="col-lg-12 col-sm-12 sys-reg-logo"></div>
+  <div class="col-lg-12 col-sm-12">
+    <p class="sys-reg-title">用户 - 重置密码</p>
+  </div>
+
+  <div class="reg-wrap col-lg-12">
+    <div class="user-face">
+      <span></span>
+    </div>
+    <div class="user-phone">
+      {{formData.phone}}
+
+    </div>
+
+    <div class="col-lg-12 col-sm-12 reg-info-prompt"
+    ng-if="errorMsg">
+      <div>
+        <i class="fa fa-exclamation-triangle"></i>
+          <span>{{errorMsg}}</span>
+      </div>
+    </div>
+
+        <div   ng-if="okMsg" class="col-lg-12 col-sm-12 reg-success-prompt" >
+          <div>
+            <i class="fa fa-check"></i>
+            <span class="color-white">{{okMsg}}</span>
+          </div>
+        </div>
+
+    <div class="reg-wrap col-lg-12" >
+      <form name="editForm" class="form-signin" onsubmit="return false;" novalidate="novalidate"
+      action="rest/index/forgetPassword.json"
+      form-validator
+      scope-error-msg="errorMsg"
+      scope-ok-msg="okMsg"
+    
+      >
+        <div>
+          <input type="password" class="form-control" placeholder="输入新密码"
+                name="password" ng-model="formData.password" maxlength="32" required autofocus
+                required ng-pattern="/[A-Za-z0-9_-]{6,32}/"
+                data-content="密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线"
+                 invalid-popover="{{editForm.password.$invalid}}"
+                >
+        </div>
+        <div>
+          <input type="password" class="form-control" placeholder="再次输入新密码"
+                name="repassword" ng-model="formData.repassword" maxlength="32"
+                placeholder="确认新密码" required
+               data-content="确认新密码请输入与新密码相同"
+               invalid-popover="{{formData.repassword&&formData.password!=formData.repassword}}"
+                >
+        </div>
+
+        <div class="button-wrap">
+          <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
+          ng-disabled="!formData.password||!formData.repassword||formData.password!=formData.repassword"
+          >完 成</button>
+        </div>
+        <div class="col-lg-12 text-center cancel">
+          <a href="login.html" class="color-custom-orange">取 消</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
