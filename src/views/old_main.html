@@ -1,0 +1,360 @@
+<div class="content-wrapper pdt-xxl" run-tooltips>
+  <!-- 基本信息 -->
+  <div class="index-base-info">
+    <!-- <div class="mgb-s overhide block">
+      <p class="text-right">
+        <a href="#/authorIndex/main-servicemanager.html">客服主管演示</a> |
+        <a href="#/authorIndex/main-salemanager.html">销售主管演示</a> |
+        <a href="#/authorIndex/main-purchasemanager.html">采购主管演示</a> |
+        <a href="#/authorIndex/main-repertorymanager.html">库管主管演示</a> |
+        <a href="#/authorIndex/main-checkmanager.html">验收主管演示</a> |
+        <a href="#/authorIndex/main-generalmanager.html">总经理演示</a>
+      </p>
+    </div> -->
+    <div class="flex-column">
+      <!-- 订单录入统计 -->
+      <div class="flex-item-5"
+           ajax-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=true"
+           scope-data="epcUserData"
+           callback="useryesterdayorderpercent=epcUserData.yesterdayAlready/epcUserData.yesterdayTotal*100;
+                     usermonthorderpercent=epcUserData.monthAlready/epcUserData.monthTotal*100">
+        <div class="panel pr-panel mgr pr-fuzzy-boundary pd-n">
+          <h4 class="pd-m pr-panel-title-color text-center bb-line">我的订单录入统计</h4>
+          <div class="flex-column">
+            <div class="flex-item-4 br-dashed-line index-chart-fix-height">
+              <div class="full-height">
+                <p class="text-center half-height pdt-xl bb-dashed-line">
+                  <em class="block text-s mgb-l">今日新订单</em>
+                  <span class="block text-large pr-color">{{epcUserData.todayCount}}</span>
+                </p>
+                <p class="text-center half-height pdt-xl">
+                  <em class="block text-s mgb-l">订单总数</em>
+                  <span class="block text-large pr-color">{{epcUserData.totalCount}}</span>
+                </p>
+              </div>
+            </div>
+            <div class="flex-item-4 br-dashed-line index-chart-fix-height pdt-l">
+              <div class="flex-column text-center mgb-xl">
+                <div class="flex-item-6">
+                  <p class="text-s">昨日新订单</p>
+                  <p class="pr-color text-l">{{epcUserData.yesterdayTotal}}</p>
+                </div>
+                <div class="flex-item-6">
+                  <p class="text-s">今日新订单</p>
+                  <p class="pr-color text-l">{{epcUserData.todayCount}}</p>
+                </div>
+              </div>
+              <div class="pr-easypiechart text-center">
+               <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+                 <span>
+                   <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">0%</h1>
+                   <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">{{epcUserData.yesterdayAlready/epcUserData.yesterdayTotal*100 | number:0}}%</h1>
+                   <p class="text-s">昨日订单处理率</p>
+                 </span>
+               </div>
+              </div>
+            </div>
+            <div class="flex-item-4 index-chart-fix-height pdt-l">
+              <div class="flex-column text-center mgb-xl">
+                <div class="flex-item-6">
+                  <p class="text-s">本月新订单</p>
+                  <p class="pr-color text-l">{{epcUserData.monthTotal}}</p>
+                </div>
+                <div class="flex-item-6">
+                  <p class="text-s">已处理订单</p>
+                  <p class="pr-color text-l">{{epcUserData.monthAlready}}</p>
+                </div>
+              </div>
+              <div easypeichart class="pr-easypiechart text-center">
+                <div easypiechart options="easypiechart_options" percent="usermonthorderpercent">
+                  <span>
+                    <h1 class="text-center" ng-if="epcUserData.monthAlready==0">0%</h1>
+                    <h1 class="text-center" ng-if="epcUserData.monthAlready!=0">{{epcUserData.monthAlready/epcUserData.monthTotal*100 | number:0}}%</h1>
+                    <p class="text-s">本月订单处理率</p>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-item-4">
+        <div class="panel pr-panel mgr pr-fuzzy-boundary pd-n">
+          <h4 class="pd-m pr-panel-title-color text-center bb-line">我的昨日订单状态</h4>
+          <div class="flex-column">
+            <div class="flex-item-6 pdt-l pdb-xl br-dashed-line">
+              <div chart="{{mainConfig.serverPath}}rest/authen/salesOrder/countByOrderStatus4Echarts?dateType=yesterday&isOnlyCurrentUser=true"
+                   style="height:189px;"></div>
+              <!-- <div class="text-s text-center mgb-xl">
+                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-red"></i>未处理</span>
+                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-orange"></i>未拆分</span>
+                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-gold"></i>未提交</span>
+              </div> -->
+
+              <!-- <div morris
+                   id="morris-order-status"
+                   class="revenue-graph"
+                   datavalue="10,65,25"
+                   datalabel="未处理,未拆分,未提交"
+                   dataformatted="未处理:10,未拆分:65,未提交:25">
+              </div> -->
+            </div>
+            <div class="flex-item-6 pdt-l pdb-xl">
+              <div chart="{{mainConfig.serverPath}}rest/authen/salesOrder/countByOrderStatus4Echarts?dateType=yesterday&isOnlyCurrentUser=true"
+                   style="height:189px;"></div>
+              <!-- <div class="text-s text-center mgb-xl flex-column">
+                <span class="flex-item-6 text-center"><i class="chart-tip-icon pr-icon-bg-red"></i>库存不足</span>
+                <span class="flex-item-6 text-center"><i class="chart-tip-icon pr-icon-bg-orange"></i>批次要求</span>
+              </div> -->
+
+              <!-- <div morris
+                   id="morris-order-status2"
+                   class="revenue-graph"
+                   datavalue="40,60"
+                   datalabel="库存不足,批次要求"
+                   dataformatted="库存不足:4,批次要求:6">
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-item-3 fix-width">
+        <div class="panel pr-panel pr-fuzzy-boundary pd-n">
+          <h4 class="pd-m pr-panel-title-color text-center bb-line">库存统计</h4>
+          <div class="bb-dashed-line">
+            <div class="flex-column pd-v-s">
+              <div class="flex-item-4 text-center">
+                <span class="block text-s mgb-s">药品类型</span>
+                <span class="block text-xl pr-color">256</span>
+              </div>
+              <div class="flex-item-4 text-center">
+                <span class="block text-s mgb-s">新增药品</span>
+                <span class="block text-xl pr-color">8</span>
+              </div>
+              <div class="flex-item-4 text-center">
+                <span class="block text-s mgb-s">库存过低</span>
+                <span class="block text-xl pr-color">4</span>
+              </div>
+            </div>
+          </div>
+          <div class="pd-c-l">
+            <table class="table tabel-layout-fixed">
+              <tr>
+                <td class="overhide w-space-nowrap">甲钴胺片</td>
+                <td>
+                  <div class="progress pr-progress"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       title="10">
+                    <div class="progress-bar pr-progress-bar" role="progressbar"
+                         aria-valuenow="10" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 10%;">
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="overhide w-space-nowrap">尤卓尔(丁酸氢化松乳膏)</td>
+                <td>
+                  <div class="progress pr-progress"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       title="25">
+                    <div class="progress-bar pr-progress-bar" role="progressbar"
+                         aria-valuenow="25" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 25%;">
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="overhide w-space-nowrap">胶体果胶秘胶囊</td>
+                <td>
+                  <div class="progress pr-progress"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       title="95">
+                    <div class="progress-bar pr-progress-bar" role="progressbar"
+                         aria-valuenow="95" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 95%;">
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="overhide w-space-nowrap">一次性使用注射笔</td>
+                <td>
+                  <div class="progress pr-progress"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       title="60">
+                    <div class="progress-bar pr-progress-bar" role="progressbar"
+                         aria-valuenow="60" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 60%;">
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-column">
+      <div class="flex-item-9">
+        <ng-include src="'views/index-template/index-sale-line-chart.html'"></ng-include>
+      </div>
+      <div class="flex-item-3">
+        <ng-include src="'views/index-template/index-calendar.html'"></ng-include>
+      </div>
+    </div>
+  </div>
+  <!-- 订单录入辅助信息 -->
+  <div class="index-order-create">
+    <div class="index-order-create-title pr-line-title">
+      <span class="">订单录入辅助信息</span>
+    </div>
+    <div class="flex-column">
+      <div class="flex-item-7">
+        <ng-include src="'views/index-template/index-order-forecast.html'"></ng-include>
+      </div>
+      <div class="flex-item-5">
+        <ng-include src="'views/index-template/index-order-abnormal.html'"></ng-include>
+      </div>
+    </div>
+    <div class="flex-column">
+      <div class="flex-item-12">
+        <ng-include src="'views/index-template/index-new-goods-recommand.html'"></ng-include>
+      </div>
+    </div>
+  </div>
+  <!-- 主管辅助分析数据 -->
+  <div class="index-data-analysis">
+    <div class="index-order-create-title pr-line-title">
+      <span class="">主管辅助分析数据</span>
+    </div>
+    <div class="flex-column">
+      <div class="flex-item-8"
+           ajax-url="rest/authen/salesOrder/count4Index?isOnlyCurrentUser=false"
+           scope-data="epcTeamData"
+           callback="teamyesterdayorderpercent=epcTeamData.yesterdayAlready/epcTeamData.yesterdayTotal*100;
+                     teamlastweekorderpercent=epcTeamData.lastWeekAlready/epcTeamData.lastWeekTotal*100;
+                     teammonthorderpercent=epcTeamData.monthAlready/epcTeamData.monthTotal*100">
+        <div class="panel pr-panel mgr pr-fuzzy-boundary pd-n">
+          <h4 class="pd-m text-n pr-panel-title-color text-center bb-line">小组订单录入统计</h4>
+          <div class="flex-column">
+            <div class="flex-item-3 br-dashed-line index-chart-fix-height">
+              <div class="mg-l">
+                <p class="text-center mgb-l">
+                  <em class="block text-s mgb-xxl">今日新订单</em>
+                  <span class="block text-xxxl pr-color text-large">{{epcTeamData.todayCount}}</span>
+                </p>
+                <p class="text-center">
+                  <em class="block text-s mgb-xxl">采购单总数</em>
+                  <span class="block text-xxxl pr-color text-large">{{epcTeamData.totalCount}}</span>
+                </p>
+              </div>
+            </div>
+            <div class="flex-item-3 br-dashed-line index-chart-fix-height pdt-l">
+              <div class="flex-column text-center mgb-xl">
+                <div class="flex-item-6">
+                  <p class="text-s">昨日新订单</p>
+                  <p class="pr-color">{{epcTeamData.yesterdayTotal}}</p>
+                </div>
+                <div class="flex-item-6">
+                  <p class="text-s">已处理数</p>
+                  <p class="pr-color">{{epcTeamData.yesterdayAlready}}</p>
+                </div>
+              </div>
+              <div class="pr-easypiechart text-center">
+                <div easypiechart options="easypiechart_options" percent="teamyesterdayorderpercent">
+                  <span>
+                    <h1 class="text-center" ng-if="epcTeamData.yesterdayAlready==0">0%</h1>
+                    <h1 class="text-center" ng-if="epcTeamData.yesterdayAlready!=0">{{epcTeamData.yesterdayAlready/epcTeamData.yesterdayTotal*100 | number:0}}%</h1>
+                    <p class="text-s">昨日订单处理率</p>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-3 br-dashed-line index-chart-fix-height pdt-l">
+              <div class="flex-column text-center mgb-xl">
+                <div class="flex-item-6">
+                  <p class="text-s">上周新订单</p>
+                  <p class="pr-color">{{epcTeamData.lastWeekTotal}}</p>
+                </div>
+                <div class="flex-item-6">
+                  <p class="text-s">已处理数</p>
+                  <p class="pr-color">{{epcTeamData.lastWeekAlready}}</p>
+                </div>
+              </div>
+              <div class="pr-easypiechart text-center">
+                <div easypiechart options="easypiechart_options" percent="teamlastweekorderpercent">
+                  <span>
+                    <h1 class="text-center" ng-if="epcTeamData.lastWeekAlready==0">0%</h1>
+                    <h1 class="text-center" ng-if="epcTeamData.lastWeekAlready!=0">{{epcTeamData.lastWeekAlready/epcTeamData.lastWeekTotal*100 | number:0}}%</h1>
+                    <p class="text-s">上周订单处理率</p>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-3 index-chart-fix-height pdt-l">
+              <div class="flex-column text-center mgb-xl">
+                <div class="flex-item-6">
+                  <p class="text-s">本月新订单</p>
+                  <p class="pr-color">{{epcTeamData.monthTotal}}</p>
+                </div>
+                <div class="flex-item-6">
+                  <p class="text-s">已处理数</p>
+                  <p class="pr-color">{{epcTeamData.monthAlready}}</p>
+                </div>
+              </div>
+              <div class="pr-easypiechart text-center">
+                <div easypiechart options="easypiechart_options" percent="teammonthorderpercent">
+                  <span>
+                    <h1 class="text-center" ng-if="epcTeamData.monthAlready==0">0%</h1>
+                    <h1 class="text-center" ng-if="epcTeamData.monthAlready!=0">{{epcTeamData.monthAlready/epcTeamData.monthTotal*100 | number:0}}%</h1>
+                    <p class="text-s">本月订单处理率</p>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-item-4">
+        <div class="panel pr-panel mgr pr-fuzzy-boundary pd-n">
+          <h4 class="pd-m text-n pr-panel-title-color text-center bb-line">小组订单状态统计</h4>
+          <div class="flex-column">
+            <div class="flex-item-6 pdt-l pdb br-dashed-line">
+              <div chart="{{mainConfig.serverPath}}rest/authen/salesOrder/countByOrderStatus4Echarts?dateType=yesterday&isOnlyCurrentUser=false"
+                   style="height:180px;"></div>
+              <!-- <div class="text-s text-center mgb-xl">
+                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-red"></i>未处理</span>
+                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-orange"></i>未拆分</span>
+                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-gold"></i>未提交</span>
+              </div>
+              <div chart="../data/pie-chart.json?id=1" style="height:180px;margin-top:-7px;margin-bottom:-10px;"></div> -->
+            </div>
+            <div class="flex-item-6 pdt-l pdb">
+              <div chart="{{mainConfig.serverPath}}rest/authen/salesOrder/countByOrderStatus4Echarts?dateType=yesterday&isOnlyCurrentUser=false"
+                   style="height:180px;"></div>
+              <!-- <div class="text-s text-center mgb-xl">
+                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-red"></i>库存不足</span>
+                <span class="mgr-s"><i class="chart-tip-icon pr-icon-bg-orange"></i>批次要求</span>
+              </div>
+              <div chart="../data/pie-chart.json?id=1" style="height:180px;margin-top:-7px;margin-bottom:-10px;"></div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex-column">
+      <div class="flex-item-12">
+        <div class="panel pr-panel mgr pr-fuzzy-boundary pd-n">
+          <h4 class="pd-m text-n pr-panel-title-color text-left">小组组员订单录入处理分析</h4>
+          <div chart="http://120.76.232.188:8080/dt/data/bar-chart.json?20161017" style="height: 300px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

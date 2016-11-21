@@ -2570,8 +2570,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                              data = $scope.ajaxUrlHandler(data);
                          }
 
-                         if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                         if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                         if ($attrs.scopeResponse) $scope.$parent[$attrs.scopeResponse] = results[1];
+                         if ($attrs.scopeData) $scope.$parent[$attrs.scopeData] = data;
                          else $scope.scopeData = data;
                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
@@ -2582,7 +2582,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                          // $scope.$apply();
                          if ($attrs.callback) {
-                             $scope.$eval($attrs.callback);
+                             $scope.$parent.$eval($attrs.callback);
                          }
 
 
@@ -2604,8 +2604,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      })
                      .catch(function(msg) {
                            if(maskObj)maskObj.hide();
-                        if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                        if ($attrs.scopeErrorMsg) $scope.$parent[$attrs.scopeErrorMsg] = (msg);
                         if (angular.isDefined($attrs.alertError)) alertError(msg);
+
+                        if ($attrs.errorCallback) {
+                            $scope.$eval($attrs.errorCallback);
+                        }
+
                         $('.pr-full-loading').remove();
                      });
 
@@ -2618,7 +2623,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if ($attrs.params.indexOf("{") === 0) {
                             _params = $scope.$eval($attrs.params);
                       } else {
-                            _params = $scope[$attrs.params];
+                            _params = $scope.$parent[$attrs.params];
                       }
                   }
 
