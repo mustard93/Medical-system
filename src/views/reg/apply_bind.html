@@ -4,7 +4,7 @@
     <p class="sys-reg-title">申请绑定</p>
   </div>
 
-  <div class="bind-wrap col-lg-12" ng-controller="registrationCtrl" query-distributor-list>
+  <div class="bind-wrap col-lg-12" >
     <!-- 提示信息 -->
     <div class="text-center bind-notice">
       <span>请选择公司名，部门和角色进行身份绑定。</span>
@@ -13,7 +13,7 @@
           onsubmit="return false;"
           form-validator
           action= "rest/authen/distributor/userApplyOrganization.json"
-          alert-error callback="bind_done();">
+          alert-error callback='$root.goTo("#/reg/bind_done.html")'>
       <div>
           <select class="select select-w"
                   data-placeholder="选择一个..."
@@ -40,7 +40,7 @@
         </select>
       </div>
       <span>请勾选申请角色</span>
-      <p  ajax-if="{{formData.departmentId}}"
+      <p ng-if="formData.departmentId" ajax-if="{{formData.departmentId}}"
       ajax-url="rest/index/role/queryForSelectOption"
 
           params='{"departmentId":"{{formData.departmentId}}","organizationId":"{{formData.organizationId}}"}'

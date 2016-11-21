@@ -753,8 +753,37 @@ function styleToggle ($location) {
     }
   };
 }
+/**
+ * [左边栏子菜单点击事件]
+ */
+function intervalCountdown ($interval) {
+  'use strict';
+  return {
+      restrict: 'AE',
+         scope: false,
+    link: function ($scope, element, $attrs) {
+      $scope.countdown = function (scopeKey,num) {
+        $scope[scopeKey] = num;
+          var timeout_upd=$interval(function () {
+            if ( $scope[scopeKey] > 0) {
+              $scope[scopeKey] -= 1;
+            } else {
+               $interval.cancel(timeout_upd);
+            }
+          }, 1000);
+      };
+      $scope.$on('$destroy',function(){
+        try{
 
+             $interval.cancel(timeout_upd);
+        }catch(e){}
+
+          })
+    }
+  };
+}
 angular.module('manageApp.project')
+.directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
   .directive("orderMedicals", orderMedicals)//药械订单列表
   .directive("niceScroll", niceScroll) //滚动条美化

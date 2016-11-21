@@ -884,7 +884,31 @@ define('datepicker/datepicker', ['moment', 'angular'], function (moment) {
                 }
 
                 ngModel.$formatters.push(formatter);
-                ngModel.$parsers.unshift(parser);
+                // ngModel.$parsers.unshift(parser);
+
+
+
+                ngModel.$parsers.push(function(val) {
+                    if (!val) return;
+
+
+                    if (attrs.format) {
+                        return dateFilter(val, _format);
+                    } else {
+                        return val.getTime();
+
+                    }
+                });
+                //
+                // ngModel.$formatters.push(function() {
+                //     if (!ngModel.$modelValue) return null;
+                //     if (attrs.timestamp) {
+                //         return new Date(parseInt(ngModel.$modelValue,10)).getTime();
+                //     } else {
+                //         return new Date(parseInt(ngModel.$modelValue,10));
+                //     }
+                // });
+
 
                 if (angular.isDefined(attrs.minDate)) {
                     setMin(datePickerUtils.findParam(scope, attrs.minDate));
