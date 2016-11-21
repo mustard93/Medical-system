@@ -27,7 +27,7 @@
     callback="$root.store.set('remeberNumber',formData.tel);$root.store.set('sendVerificationCode',formData.code);$root.goTo('#/reg/send_info.html')"
 
     >
-      <div class="pr-form-control col-lg-12 mgl-l relative"
+      <div class="pr-form-control col-lg-12 mgl-l"
            ajax-if-eval="formData.tel.length==11"
            ajax-url="rest/index/user/isExist.json"
            scope-error-msg="isExist_errorMsg"
@@ -53,7 +53,6 @@
                                       params='{"isNewUser":true,"tel":"{{formData.tel}}"}'
                                       scope-error-msg="errorMsg"
                                       callback="countdown('sendVerifyCodeCountdown',60);"
-                                      error-callback="countdown('sendVerifyCodeCountdown',60);"
                    ng-disabled="!canRegPhone">{{sendVerifyCodeCountdown<0?"获取验证码":"重发验证码"}}
           </button>
           <button  ng-if="sendVerifyCodeCountdown>0"  type="button" class="btn btn-primary btn-sm pr-btn"
