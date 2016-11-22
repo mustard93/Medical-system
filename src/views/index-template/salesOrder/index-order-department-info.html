@@ -5,7 +5,7 @@
       <div class="flex-item-5 br-line">
         <h4 class="bb-line pd-v-m pr-panel-title-color">部门今日新购需单统计</h4>
         <div class="department-data department-data-left"
-        ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType=today&isOnlyCurrentUser=false&isOnlyCurrentDepartment=true"
+        ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType=today&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
         scope-response="salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment"
 
         >
@@ -26,19 +26,15 @@
         </div>
       </div>
       <div class="flex-item-7">
-        <h4 class="bb-line pd-v-m pr-panel-title-color flex-column">
-          <span class="flex-item-6 text-center">部门购需单分析</span>
-          <span class="flex-item-6" style="padding-right:45px;">
-            <select ng-init="salesOrder_dateRangeType='today'" ng-model="salesOrder_dateRangeType" class="select pr-select pr-select-sm" style="width:80px;position:absolute;top:10px;">
-              <option value="today">今天</option>
-              <option value="recent7day">最近7天</option>
-              <option value="recent30day">最近30天</option>
-            </select>
-          </span>
-        </h4>
+        <h4 class="bb-line pd-v-m pr-panel-title-color">部门购需单分析</h4>
 
+        <select ng-init="salesOrder_dateRangeType='today'" ng-model="salesOrder_dateRangeType" class="select pr-select pr-select-sm" style="width:90px;">
+          <option value="today">今天</option>
+          <option value="recent7day">最近7天</option>
+          <option value="recent30day">最近30天</option>
+        </select>
         <div class="department-data"
-        ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType={{salesOrder_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=true"
+        ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType={{salesOrder_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
         scope-response="salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment2"
             callback="salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment2_parent=(salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment2.data['已处理']/salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment2.totalCount*100)"
         >
@@ -72,20 +68,20 @@
     <div class="panel pr-panel pr-panel-height pr-fuzzy-boundary pd-n flex-column department-confirmOrder">
       <div class="flex-item-2 pr-color br-line full-height"
       ajax-url="rest/authen/confirmOrder/countByOrderStatus.json"
-      scope-data="confirmOrder_countByOrderStatus"
+      scope-data="confirmOrder_countByOrderStatus_department"
 
       >
         <div class="pr-line-height bb-dashed-line half-height pdt-xxxxl">
 
           <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=待审批">
 
-          <p class="relative"><span class="pr-icon-bg28 relative"><i class="pj-badge text-normal" style="right:-12px;">{{confirmOrder_countByOrderStatus["待审批"]}}</i></span></p>
+          <p class="relative" ><span class="pr-icon-bg4 relative"><i class="pj-badge text-normal" style="right:-12px;"  ng-if='confirmOrder_countByOrderStatus_department["待审批"]'>{{confirmOrder_countByOrderStatus_department["待审批"]}}</i></span></p>
           <p>待审批销售单</p>
           </a>
         </div>
         <div class="pr-line-height half-height half-height pdt-xxxxl">
             <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=已发货">
-              <p class="relative"><span class="pr-icon-bg30 relative"><i class="pj-badge text-normal" style="right:-12px;">{{confirmOrder_countByOrderStatus["已发货"]}}</i></span></p>
+              <p class="relative"><span class="pr-icon-bg30 relative"><i class="pj-badge text-normal" style="right:-12px;"  ng-if='confirmOrder_countByOrderStatus_department["待审批"]'>{{confirmOrder_countByOrderStatus_department["已发货"]}}</i></span></p>
               <p>待收款销售单</p>
             </a>
         </div>
@@ -97,7 +93,7 @@
         <h4 class="bb-line pd-v-m pr-panel-title-color">部门销售单统计</h4>
         <div class="pdb-m pdt-l">
 
-          <select  ng-model="confirmOrder_countByOrderStatus4Index_dateRangeType" class="select pr-select pr-select-sm" style="width:80px;">
+          <select  ng-model="confirmOrder_countByOrderStatus4Index_dateRangeType" class="select pr-select pr-select-sm" style="width:90px;">
             <option value="today">今天</option>
             <option value="recent7day">最近7天</option>
             <option value="recent30day">最近30天</option>
@@ -105,24 +101,24 @@
 
         </div>
         <div class="pdb-m"
-        ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType={{confirmOrder_countByOrderStatus4Index_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=true"
+        ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType={{confirmOrder_countByOrderStatus4Index_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
         scope-response="confirmOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment"
         >
           <p class="mgb-s">新增销售单</p>
           <p class="pr-font-20 pr-color">  <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=">{{confirmOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment.totalCount}}</a></p>
         </div>
         <div class="pdb-m"
-        ajax-url="rest/authen/confirmOrder/countPriceByCreateAt4Index?dateRangeType={{confirmOrder_countByOrderStatus4Index_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=true"
-        scope-response="confirmOrder_countPriceByCreateAt4Index_dateRangeType_isOnlyCurrentDepartment"
+        ajax-url="rest/authen/confirmOrder/countPriceByCreateAt4Index?dateRangeType={{confirmOrder_countByOrderStatus4Index_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
+        scope-data="confirmOrder_countPriceByCreateAt4Index_dateRangeType_isOnlyCurrentDepartment"
         >
           <p class="mgb-s">新增销售额</p>
-          <p class="pr-font-20"> <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=">￥ {{confirmOrder_countPriceByCreateAt4Index_dateRangeType_isOnlyCurrentDepartment.totalCount||'0'}}</a></p>
+          <p class="pr-font-20"> <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=">￥ {{confirmOrder_countPriceByCreateAt4Index_dateRangeType_isOnlyCurrentDepartment.totalPrice||'0'}}</a></p>
         </div>
       </div><!--部门销售单统计-->
       <div class="flex-item-7">
         <h4 class="bb-line pd-v-m pr-panel-title-color">本年销售部门分析</h4>
         <div class="flex-column department-data"
-        ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=false&isOnlyCurrentDepartment=true"
+        ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
         scope-response="confirmOrder_countByOrderStatus4Index_year_isOnlyCurrentDepartment"
               callback="confirmOrder_countByOrderStatus4Index_year_isOnlyCurrentDepartment_parent=(confirmOrder_countByOrderStatus4Index_year_isOnlyCurrentDepartment.data['已完成']/confirmOrder_countByOrderStatus4Index_year_isOnlyCurrentDepartment.totalPrice*100)"
         >
@@ -147,7 +143,7 @@
             </div>
           </div>
           <div class="flex-item-6"
-          ajax-url="rest/authen/confirmOrder/countPriceByCreateAt4Index?dateRangeType=year&isOnlyCurrentUser=false&isOnlyCurrentDepartment=true"
+          ajax-url="rest/authen/confirmOrder/countPriceByCreateAt4Index?dateRangeType=year&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
           scope-data="confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment"
                 callback="confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment_parent=(confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment.data['已完成']/confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment.totalPrice*100)"
 
@@ -155,11 +151,11 @@
             <div class="flex-column pd-v-xl">
               <div class="flex-item-6">
                 <p class="text-s">本年销售总额</p>
-                <p class="pr-color text-l"><a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=">￥{{confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment.totalPrice}}</a></p>
+                <p class="color-6 text-l">￥{{confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment.totalPrice}}</p>
               </div>
               <div class="flex-item-6">
                 <p class="text-s">本年已收款额</p>
-                <p class="pr-color text-l"><a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=已完成">￥{{confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment.finish_totalPrice}}</a></p>
+                <p class="color-6 text-l">￥{{confirmOrder_countPriceByCreateAt4Index_year_isOnlyCurrentDepartment.finish_totalPrice}}</p>
               </div>
             </div>
             <div class="pr-easypiechart text-center">
