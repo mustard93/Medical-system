@@ -193,7 +193,7 @@ function queryOrderStatusButton() {
     templateUrl:  Config.tplPath +'tpl/project/queryOrderStatusButton.html',
     link: function ($scope, element, $attrs,ngModel) {
 
-  
+
 
 
       $scope.key=$attrs.key;
@@ -757,6 +757,10 @@ function leftMenuSecondToggle ($location) {
               $(this).removeClass('active');
           });
         });
+
+        if (!_parent.parent().is(':visible')) {
+          _parent.parent().show();
+        }
       }
     }
   };
