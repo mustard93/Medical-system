@@ -1462,7 +1462,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 return _str;
                             };
                         } else {
-                            if (_data.tooltip.formatter && _data.tooltip.formatter.indexOf("function") === 0) {
+                            if (_data.tooltip&&_data.tooltip.formatter && _data.tooltip.formatter.indexOf("function") === 0) {
                                 _data.tooltip.formatter = eval("(" + _data.tooltip.formatter + ")");
                             }
                         }

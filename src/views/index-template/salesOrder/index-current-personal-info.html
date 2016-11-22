@@ -27,12 +27,12 @@
 
       </div>
       <div class="flex-item-10 salesOrder-module-analysis"
-          ajax-url="rest/authen/salesOrder/countByOrderStatus4Index.json?dateRangeType=today&isOnlyCurrentUser=false&userId={{confirmOrder_saleUserId}}"
+          ajax-url="rest/authen/salesOrder/countByOrderStatus4Index.json?dateRangeType=today&isOnlyCurrentUser=true"
           scope-response="countByOrderStatus4Index_today"
           callback="countByOrderStatus4Index_today_parent=(countByOrderStatus4Index_today.data['已处理']/countByOrderStatus4Index_today.totalCount*100)"
 
       >
-        <h4 class="bb-line pd-v-m pr-panel-title-color">成员购需分析</h4>
+        <h4 class="bb-line pd-v-m pr-panel-title-color">我的购需分析</h4>
         <div class="flex-column">
           <div class="flex-item-6 br-dashed-line">
             <div class="flex-column pd-v-xl">
@@ -49,13 +49,14 @@
              <div easypiechart options="easypiechart_options"  percent="countByOrderStatus4Index_today_parent">
                <span>
                  <h1 class="text-center">{{countByOrderStatus4Index_today_parent ||'0'| number:0}}%</h1>
+
                  <p class="text-s">日购需单处理率</p>
                </span>
              </div>
             </div>
           </div>
           <div class="flex-item-6"
-          ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=false&userId={{confirmOrder_saleUserId}}"
+          ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=true"
 
           scope-response="countByOrderStatus4Index_year"
           callback="countByOrderStatus4Index_year_parent=(countByOrderStatus4Index_year.data['已处理']/countByOrderStatus4Index_year.totalCount*100)"
@@ -109,10 +110,10 @@
       </div>
 
       <div class="flex-item-10 logistics-module-analysis">
-        <h4 class="bb-line pd-v-m pr-panel-title-color">成员物流情况分析</h4>
+        <h4 class="bb-line pd-v-m pr-panel-title-color">我的物流情况分析</h4>
         <div class="flex-column">
           <div class="flex-item-6 br-dashed-line"
-          ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=false&userId={{confirmOrder_saleUserId}}&isOnlyCurrentDepartment=false"
+          ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
                 scope-response="confirmOrder_countByOrderStatus4Index_year"
             callback="
             invoicesOrder_hadSend=confirmOrder_countByOrderStatus4Index_year.data['已完成']+confirmOrder_countByOrderStatus4Index_year.data['已发货']+confirmOrder_countByOrderStatus4Index_year.data['未收款'];
@@ -144,7 +145,7 @@
             </div>
           </div>
           <div class="flex-item-6 pdt-xl">
-            <div chart="rest/authen/confirmOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=false&userId={{confirmOrder_saleUserId}}"
+            <div chart="rest/authen/confirmOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=true"
                   style="height:189px;">
             </div>
           </div>
@@ -187,10 +188,10 @@
             </div>
           </div>
           <div class="flex-item-10">
-            <h4 class="bb-line pd-v-m pr-panel-title-color">成员销售单分析</h4>
+            <h4 class="bb-line pd-v-m pr-panel-title-color">我的销售单分析</h4>
             <div class="flex-column">
               <div class="flex-item-4 br-dashed-line fm"
-              ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=false&userId={{confirmOrder_saleUserId}}&isOnlyCurrentDepartment=false"
+              ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
                     scope-response="confirmOrder_countByOrderStatus4Index_year"
                              callback="confirmOrder_countByOrderStatus4Index_year_parent=(confirmOrder_countByOrderStatus4Index_year.data['已完成']/confirmOrder_countByOrderStatus4Index_year.totalCount*100)"
               >
@@ -218,18 +219,18 @@
               </div>
 
               <div class="flex-item-4 br-dashed-line fm"
-              ajax-url="rest/authen/confirmOrder/countPriceByCreateAt4Index?dateRangeType=year&isOnlyCurrentUser=false&userId={{confirmOrder_saleUserId}}&isOnlyCurrentDepartment=false"
+              ajax-url="rest/authen/confirmOrder/countPriceByCreateAt4Index?dateRangeType=year&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
               scope-data="countPriceByCreateAt4Index"
                 callback="countPriceByCreateAt4Index_parent=(countPriceByCreateAt4Index.finish_totalPrice/countPriceByCreateAt4Index.totalPrice*100)"
               >
                 <div class="flex-column pd-v-l">
                   <div class="flex-item-6">
                     <p class="text-s">本年销售总额</p>
-                    <p class="pr-color text-l">￥{{countPriceByCreateAt4Index.totalPrice| number:2}}</p>
+                    <p class="pr-color text-l">￥{{countPriceByCreateAt4Index.totalPrice}}</p>
                   </div>
                   <div class="flex-item-6">
                     <p class="text-s">本年已收款额</p>
-                    <p class="pr-color text-l">￥{{countPriceByCreateAt4Index.finish_totalPrice| number:2}}</p>
+                    <p class="pr-color text-l">￥{{countPriceByCreateAt4Index.finish_totalPrice}}</p>
                   </div>
                 </div>
                 <div class="pr-easypiechart text-center">
@@ -247,10 +248,10 @@
               <div class="flex-item-4 confirmOrder-module-analysis-num">
                 <div class="bb-dashed-line">
                   <p class="mgb-s">待收款额</p>
-                  <p class="pr-font-18 color-red">￥{{countPriceByCreateAt4Index.nofinish_totalPrice| number:2}}</p>
+                  <p class="pr-font-18 color-red">￥{{countPriceByCreateAt4Index.nofinish_totalPrice}}</p>
                 </div>
                 <div
-                ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=recent30day&isOnlyCurrentUser=false&userId={{confirmOrder_saleUserId}}&isOnlyCurrentDepartment=false"
+                ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=recent30day&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
                 scope-data="countByOrderStatus4Index_recent30day"
                  >
                   <p class="mgb-s">本月已收款销售单</p>
