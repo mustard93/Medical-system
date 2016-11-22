@@ -192,11 +192,8 @@ function queryOrderStatusButton() {
     replace: true,
     templateUrl:  Config.tplPath +'tpl/project/queryOrderStatusButton.html',
     link: function ($scope, element, $attrs,ngModel) {
-      if(!ngModel.$viewValue){
-        ngModel.$setViewValue('');
-      }
 
-
+  
 
 
       $scope.key=$attrs.key;
