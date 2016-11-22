@@ -26,13 +26,17 @@
         </div>
       </div>
       <div class="flex-item-7">
-        <h4 class="bb-line pd-v-m pr-panel-title-color">部门购需单分析</h4>
+        <h4 class="bb-line pd-v-m pr-panel-title-color flex-column">
+          <span class="flex-item-6 text-center">部门购需单分析</span>
+          <span class="flex-item-6" style="padding-right:45px;">
+            <select ng-init="salesOrder_dateRangeType='today'" ng-model="salesOrder_dateRangeType" class="select pr-select pr-select-sm" style="width:80px;position:absolute;top:10px;">
+              <option value="today">今天</option>
+              <option value="recent7day">最近7天</option>
+              <option value="recent30day">最近30天</option>
+            </select>
+          </span>
+        </h4>
 
-        <select ng-init="salesOrder_dateRangeType='today'" ng-model="salesOrder_dateRangeType" class="select pr-select pr-select-sm" style="width:80px;">
-          <option value="today">今天</option>
-          <option value="recent7day">最近7天</option>
-          <option value="recent30day">最近30天</option>
-        </select>
         <div class="department-data"
         ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType={{salesOrder_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=true"
         scope-response="salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment2"
