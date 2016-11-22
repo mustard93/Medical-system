@@ -2608,7 +2608,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         if (angular.isDefined($attrs.alertError)) alertError(msg);
 
                         if ($attrs.errorCallback) {
-                            $scope.$eval($attrs.errorCallback);
+                             $scope.$parent.$eval($attrs.callback);
+                            // $scope.$eval($attrs.errorCallback);
                         }
 
                         $('.pr-full-loading').remove();
@@ -2725,6 +2726,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       return time;
                   });
                   $element.datepicker({
+                     changeYear : true ,
+                      changeMonth  : true ,
             					dateFormat:'yy-mm-dd',
                       monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
                   			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
