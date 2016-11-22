@@ -8,15 +8,19 @@
 
   <div class="panel pr-panel pr-fuzzy-boundary pd-n">
     <h4 class="pd-m text-n pr-panel-title-color text-left">部门成员采购单完成率</h4>
-    <div chart="http://120.76.232.188:8080/dt/data/bar-chart.json?20161017" style="height: 300px;"></div>
+    <div chart="rest/authen/purchaseOrder/countByInputUser4Echarts?dateRangeType=year&isOnlyCurrentDepartment=false" style="height: 300px;"></div>
   </div>
 
   <div class="mgb-l flex-column">
-    <select class="select pr-select pr-select-sm flex-item-1">
-      <option>赵云</option>
-      <option>马云</option>
-      <option>浮云</option>
-    </select>
+    <select
+     class="ipt pr-short-ipt color-6" data-placeholder="填写销售人员" chosen  ng-model="purchase_userId"
+    select-source="rest/authen/organizationAndUser/queryForSelectOption.json"
+    >
+  </select>
   </div>
 
 </div>
+
+
+<!-- 门购需单部门成员分析及个人 -->
+<ng-include ng-if="$root.hasAuthor('销售单统计权限')" src="'views/index-template/purchase/index-purchase-personal-info.html'"></ng-include>
