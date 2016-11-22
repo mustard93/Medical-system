@@ -15,13 +15,21 @@
              alert-error>
             <div class=""></div>
             <div class="btn btn-group"   scope-data="statusList">
+
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
+                <button query-order-status-button  ng-model="listParams.orderStatus" key="未提交"  count-map="countByOrderStatus">  </button>
+                <button query-order-status-button  ng-model="listParams.orderStatus" key="待发货"  count-map="countByOrderStatus">  </button>
+                  <button query-order-status-button  ng-model="listParams.orderStatus" key="已发货"  count-map="countByOrderStatus">  </button>
+                  <button query-order-status-button  ng-model="listParams.orderStatus" key="已收货"  count-map="countByOrderStatus">  </button>
+
+
               <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
 
 
                 <!-- <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-repeat="tr in statusList" ng-click="listParams.orderStatus=tr.value">{{tr.value}}
                   <span class="pj-badge" ng-if='countByOrderStatus[tr.value]'>{{countByOrderStatus[tr.value]}}</span>
                 </button> -->
-              <button ng-if="$root.hasAuthor('发货单编辑')" order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
+              <!-- <button ng-if="$root.hasAuthor('发货单编辑')" order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未提交'">未提交
                 <span class="pj-badge" ng-if='countByOrderStatus["未提交"]'>{{countByOrderStatus["未提交"]}}</span>
               </button>
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发货'">待发货
@@ -30,7 +38,7 @@
               <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">已发货
                 <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
               </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已收货</button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已收货</button> -->
             </div>
             <div class="inline-block relative">
               <button order-status-choise type="button" class="btn pr-btn-transparentbg">异常发货单</button>
@@ -38,8 +46,11 @@
 
 
             <div class="inline-block relative">
+
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="已作废"  count-map="countByOrderStatus">  </button>
+<!--
                 <span class="pj-badge" ng-if='countByOrderStatus["已作废"]'>{{countByOrderStatus["已作废"]}}</span>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已作废'">已作废</button>
+              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已作废'">已作废</button> -->
             </div>
         </div>
       </div>

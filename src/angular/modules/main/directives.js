@@ -1416,6 +1416,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.isLoading = true;
                     myChart.showLoading();
 
+                    if(Config.serverPath){
+                      if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
+                        _url=Config.serverPath+_url;
+                      }
+                    }
+
                     $.ajax({
                       url: _url,
                       type: "GET",
