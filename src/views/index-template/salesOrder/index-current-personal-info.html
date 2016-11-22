@@ -4,15 +4,15 @@
     <!-- 入库统计 -->
     <div class="panel pr-panel pr-panel-height mgr-m pr-fuzzy-boundary pd-n flex-column salesOrder-module">
       <div class="flex-item-2 br-line pr-color"
-        ajax-url="rest/authen/salesOrder/countByOrderStatus.json"
-        scope-data="salesOrder_countByOrderStatus"
+        ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=true"
+        scope-data="salesOrder_countByOrderStatus4Index_isOnlyCurrentUser"
 
       >
 
 
         <div class="left-title pr-line-height bb-dashed-line">
               <a  class="pr-color" href="#/salesOrder/query.html?orderStatus=待处理">
-          <p class="relative"><span class="pr-icon-bg4 relative"><i class="pj-badge text-normal" style="right:-12px;" ng-if='salesOrder_countByOrderStatus["待处理"]'>{{salesOrder_countByOrderStatus["待处理"]}}</i></span></p>
+          <p class="relative"><span class="pr-icon-bg4 relative"><i class="pj-badge text-normal" style="right:-12px;" ng-if='salesOrder_countByOrderStatus4Index_isOnlyCurrentUser["待处理"]'>{{salesOrder_countByOrderStatus4Index_isOnlyCurrentUser["待处理"]}}</i></span></p>
           <p>待处理</p>
               </a>
         </div>
@@ -20,7 +20,7 @@
 
         <div class="left-title pr-line-height">
           <a  class="pr-color" href="#/salesOrder/query.html?orderStatus=处理中">
-        <p class="relative"><span class="pr-icon-bg4 relative"><i class="pj-badge text-normal" style="right:-12px;" ng-if='salesOrder_countByOrderStatus["处理中"]'>{{salesOrder_countByOrderStatus["处理中"]}}</i></span></p>
+        <p class="relative"><span class="pr-icon-bg4 relative"><i class="pj-badge text-normal" style="right:-12px;" ng-if='salesOrder_countByOrderStatus4Index_isOnlyCurrentUser["处理中"]'>{{salesOrder_countByOrderStatus4Index_isOnlyCurrentUser["处理中"]}}</i></span></p>
         <p>处理中</p>
             </a>
        </div>
@@ -128,7 +128,7 @@
             </div>
             <div class="flex-item-6">
               <p class="text-s">已发货销售单</p>
-              <p class="pr-color text-l"><a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=已完成">{{invoicesOrder_hadSend}}</a></p>
+              <p class="pr-color text-l"><a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=已发货">{{invoicesOrder_hadSend}}</a></p>
             </div>
           </div>
           <div class="pr-easypiechart text-center">
@@ -137,7 +137,7 @@
                  <span>
                    <h1 class="text-center">{{invoicesOrder_countByOrderStatus4Index_year_parent ||'0'| number:0}}%</h1>
 
-                   <p class="text-s">销售单完成率</p>
+                   <p class="text-s">年销售单发货率</p>
                  </span>
                </div>
 
@@ -226,11 +226,11 @@
                 <div class="flex-column pd-v-l">
                   <div class="flex-item-6">
                     <p class="text-s">本年销售总额</p>
-                    <p class="pr-color text-l">￥{{countPriceByCreateAt4Index.totalPrice}}</p>
+                    <p class="pr-color text-l">￥{{countPriceByCreateAt4Index.totalPrice| number:2}}</p>
                   </div>
                   <div class="flex-item-6">
                     <p class="text-s">本年已收款额</p>
-                    <p class="pr-color text-l">￥{{countPriceByCreateAt4Index.finish_totalPrice}}</p>
+                    <p class="pr-color text-l">￥{{countPriceByCreateAt4Index.finish_totalPrice| number:2}}</p>
                   </div>
                 </div>
                 <div class="pr-easypiechart text-center">
@@ -248,7 +248,7 @@
               <div class="flex-item-4 confirmOrder-module-analysis-num">
                 <div class="bb-dashed-line">
                   <p class="mgb-s">待收款额</p>
-                  <p class="pr-font-18 color-red">￥{{countPriceByCreateAt4Index.nofinish_totalPrice}}</p>
+                  <p class="pr-font-18 color-red">￥{{countPriceByCreateAt4Index.nofinish_totalPrice| number:2}}</p>
                 </div>
                 <div
                 ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=recent30day&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"

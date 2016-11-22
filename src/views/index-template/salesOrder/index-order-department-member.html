@@ -7,14 +7,13 @@
   </div>
 
   <div class="panel pr-panel pr-fuzzy-boundary pd-n">
-    <h4 class="pd-m text-n pr-panel-title-color text-left">部门成员销售单处理率</h4>
+    <!-- <h4 class="pd-m text-n pr-panel-title-color text-left">部门成员销售单处理率</h4> -->
     <div chart="rest/authen/confirmOrder/countByInputUser4Echarts?dateRangeType=year&isOnlyCurrentDepartment=false" style="height: 300px;"></div>
   </div>
 
   <div class="mgb-l flex-column">
 
     <select
-  ng-init="confirmOrder_saleUserId=$root.curUser.id"
      class="ipt pr-short-ipt color-6" data-placeholder="填写销售人员" chosen  ng-model="confirmOrder_saleUserId"
     select-source="rest/authen/organizationAndUser/queryForSelectOption.json"
     >
@@ -24,3 +23,6 @@
   </div>
 
 </div>
+
+<!-- 门购需单部门成员分析及个人 -->
+<ng-include ng-if="$root.hasAuthor('销售单统计权限')" src="'views/index-template/salesOrder/index-personal-info.html'"></ng-include>
