@@ -1,4 +1,4 @@
-<div class="index-order-personal-info flex-column text-center">
+<div class="index-purchase-personal-info flex-column text-center">
   <!-- 左侧内容 -->
   <div class="flex-item-5">
     <!-- 入库统计 -->
@@ -8,7 +8,6 @@
         scope-data="salesOrder_countByOrderStatus"
 
       >
-
 
         <div class="left-title pr-line-height bb-dashed-line">
               <a  class="pr-color" href="#/salesOrder/query.html?orderStatus=待处理">
@@ -31,15 +30,17 @@
           scope-data="countByOrderStatus4Index_today"
       >
         <h4 class="bb-line pd-v-m pr-panel-title-color">我的购需分析</h4>
+
+
         <div class="flex-column">
           <div class="flex-item-6 br-dashed-line">
             <div class="flex-column pd-v-xl">
               <div class="flex-item-6">
-                <p class="text-s">昨日新购需单</p>
+                <p class="text-s">总来货通知单</p>
                 <p class="pr-color text-l">8</p>
               </div>
               <div class="flex-item-6">
-                <p class="text-s">已处理购需单</p>
+                <p class="text-s">已入库</p>
                 <p class="pr-color text-l">20</p>
               </div>
             </div>
@@ -53,6 +54,7 @@
              </div>
             </div>
           </div>
+
           <div class="flex-item-6"
           ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=true"
           scope-data="countByOrderStatus4Index_year"
@@ -81,6 +83,7 @@
       </div>
     </div>
     <!-- 付款统计 -->
+
     <div class="panel pr-panel pr-panel-height mgr-m pr-fuzzy-boundary pd-n flex-column logistics-module">
       <div class="flex-item-2 br-line pr-color"
       ajax-url="rest/authen/invoicesOrder/countByOrderStatus.json"
@@ -102,20 +105,21 @@
         <p>待发货</p>
             </a>
 
+
         </div>
       </div>
 
       <div class="flex-item-10 logistics-module-analysis">
-        <h4 class="bb-line pd-v-m pr-panel-title-color">我的物流情况分析</h4>
+        <h4 class="bb-line pd-v-m pr-panel-title-color">我的付款统计分析</h4>
         <div class="flex-column">
           <div class="flex-item-6 br-dashed-line">
             <div class="flex-column pd-v-xl">
-              <div class="flex-item-6">
-                <p class="text-s">本年总销售单</p>
+              <div class="flex-item-6 left-title">
+                <p class="text-s">总采购单</p>
                 <p class="pr-color text-l">8</p>
               </div>
-              <div class="flex-item-6">
-                <p class="text-s">已发货销售单</p>
+              <div class="flex-item-6 left-title">
+                <p class="text-s">已付款采购单</p>
                 <p class="pr-color text-l">20</p>
               </div>
             </div>
@@ -124,7 +128,7 @@
                <span>
                  <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
                  <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
-                 <p class="text-s">年销售单发货率</p>
+                 <p class="text-s">付款率</p>
                </span>
              </div>
             </div>
@@ -143,12 +147,14 @@
     <div class="panel pr-panel pr-panel-height pr-fuzzy-boundary pd-n confirmOrder-module">
       <!-- 销售单分析 -->
       <div class="bb-line">
+
         <div class="flex-column confirmOrder-module-analysis">
           <div class="flex-item-2 br-line pr-color"
           ajax-url="rest/authen/confirmOrder/countByOrderStatus.json"
   scope-data="confirmOrder_countByOrderStatus"
 
           >
+
             <div class="pr-line-height left-title bb-dashed-line">
 
               <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=待审批">
@@ -172,10 +178,33 @@
 
             </div>
           </div>
-          <div class="flex-item-10">
-            <h4 class="bb-line pd-v-m pr-panel-title-color">我的销售单分析</h4>
+          <div class="flex-item-3 br-line purchase-module-item">
+            <h4 class="bb-line pd-v-m pr-panel-title-color">我的今日采购统计</h4>
+            <div class="">
+              <div class="bb-dashed-line">
+                <p class="mgb-s">今日新增采购单</p>
+                <p class="pr-font-20 pr-color">23</p>
+              </div>
+              <div class="">
+                <p class="mgb-s">采购总金额</p>
+                <p class="pr-font-20 color-red">￥123456.00</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex-item-7 purchase-module-item2">
+            <h4 class="bb-line pd-v-m pr-panel-title-color">我的采购单分析</h4>
             <div class="flex-column">
-              <div class="flex-item-4 br-dashed-line fm">
+              <div class="flex-item-6 br-dashed-line fm">
+                <div class="bb-dashed-line purchase-module-item2-data">
+                  <p class="mgb-s">本周普通采购单</p>
+                  <p class="pr-font-20 pr-color">123</p>
+                </div>
+                <div class="purchase-module-item2-data">
+                  <p class="mgb-s">冷链采购单</p>
+                  <p class="pr-font-20 pr-color">43</p>
+                </div>
+              </div>
+              <div class="flex-item-6 fm pdt-l">
                 <div class="flex-column pd-v-l">
                   <div class="flex-item-6">
                     <p class="text-s">昨日新购需单</p>
@@ -194,37 +223,6 @@
                      <p class="text-s">日购需单处理率</p>
                    </span>
                  </div>
-                </div>
-              </div>
-              <div class="flex-item-4 br-dashed-line fm">
-                <div class="flex-column pd-v-l">
-                  <div class="flex-item-6">
-                    <p class="text-s">昨日新购需单</p>
-                    <p class="pr-color text-l">8</p>
-                  </div>
-                  <div class="flex-item-6">
-                    <p class="text-s">已处理购需单</p>
-                    <p class="pr-color text-l">20</p>
-                  </div>
-                </div>
-                <div class="pr-easypiechart text-center">
-                 <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
-                   <span>
-                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
-                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
-                     <p class="text-s">日购需单处理率</p>
-                   </span>
-                 </div>
-                </div>
-              </div>
-              <div class="flex-item-4 confirmOrder-module-analysis-num">
-                <div class="bb-dashed-line">
-                  <p class="mgb-s">待收款额</p>
-                  <p class="pr-font-18 color-red">￥100000022.00</p>
-                </div>
-                <div>
-                  <p class="mgb-s">本月已收款销售单</p>
-                  <p class="pr-font-18 pr-color">￥9550255.00</p>
                 </div>
               </div>
             </div>
