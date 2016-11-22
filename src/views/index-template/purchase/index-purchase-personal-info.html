@@ -4,18 +4,38 @@
     <!-- 入库统计分析 -->
     <div class="panel pr-panel pr-panel-height mgr-l pd-n pr-fuzzy-boundary flex-column pr-color">
       <!-- 左侧标题 -->
-      <div class="flex-item-3 br-line">
+      <div class="flex-item-3 br-line"
+            ajax-url="rest/authen/purchaseOrder/countByOrderStatus.json"
+            scope-data="purchaseOrder_countByOrderStatus">
         <div class="item-left-title-3 pr-line-height bb-dashed-line">
-          <p class="relative"><span class="pr-icon-bg4 relative"><i class="pj-badge text-normal" style="right:-12px;">1</i></span></p>
-          <p>未提交</p>
+          <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=未提交">
+            <p class="relative">
+              <span class="pr-icon-bg4 relative">
+                <i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["未提交"]'>{{purchaseOrder_countByOrderStatus["未提交"]}}</i>
+              </span>
+            </p>
+            <p>未提交</p>
+          </a>
         </div>
         <div class="item-left-title-3 pr-line-height bb-dashed-line">
-          <p class="relative"><span class="pr-icon-bg5 relative"><i class="pj-badge text-normal" style="right:-12px;">12</i></span></p>
-          <p>待入库</p>
+          <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=待采购">
+            <p class="relative">
+              <span class="pr-icon-bg4 relative">
+                <i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["待采购"]'>{{purchaseOrder_countByOrderStatus["待采购"]}}</i>
+              </span>
+            </p>
+            <p>待采购</p>
+          </a>
         </div>
         <div class="item-left-title-3 pr-line-height">
-          <p class="relative"><span class="pr-icon-bg5 relative"><i class="pj-badge text-normal" style="right:-12px;">12</i></span></p>
-          <p>入库中</p>
+          <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=待发货">
+            <p class="relative">
+              <span class="pr-icon-bg4 relative">
+                <i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["待发货"]'>{{purchaseOrder_countByOrderStatus["待发货"]}}</i>
+              </span>
+            </p>
+            <p>待发货</p>
+          </a>
         </div>
       </div>
       <!-- 右侧内容 -->
