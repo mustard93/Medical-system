@@ -2,14 +2,28 @@
   <div class="flex-column">
     <div class="flex-item-4">
       <div class="panel pr-panel pr-panel-height mgr-l pd-n pr-fuzzy-boundary flex-column pr-color">
-        <div class="flex-item-3 br-line">
+        <div class="flex-item-3 br-line"
+             ajax-url="rest/authen/purchaseOrder/countByOrderStatus.json"
+             scope-data="purchaseOrder_countByOrderStatus">
           <div class="item-left-title-2 pr-line-height bb-dashed-line">
-            <p class="relative"><span class="pr-icon-bg15 relative"><i class="pj-badge text-normal" style="right:-12px;">1</i></span></p>
-            <p>待审批</p>
+            <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=待审批">
+              <p class="relative">
+                <span class="pr-icon-bg36 relative">
+                  <i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["待审批"]'>{{purchaseOrder_countByOrderStatus["待审批"]}}</i>
+                </span>
+              </p>
+              <p>待审批</p>
+            </a>
           </div>
           <div class="item-left-title-2 pr-line-height">
-            <p class="relative"><span class="pr-icon-bg18 relative"><i class="pj-badge text-normal" style="right:-12px;">12</i></span></p>
-            <p>待采购</p>
+            <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=待采购">
+              <p class="relative">
+                <span class="pr-icon-bg36 relative">
+                  <i class="pj-badge text-normal" style="right:-12px;" ng-if='confirmOrder_countByOrderStatus["待采购"]'>{{confirmOrder_countByOrderStatus["待采购"]}}</i>
+                </span>
+              </p>
+              <p>待采购</p>
+            </a>
           </div>
         </div>
         <div class="flex-item-3 br-line">
