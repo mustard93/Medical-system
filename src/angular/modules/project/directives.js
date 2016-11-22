@@ -28,6 +28,8 @@ function orderMedicalsPurchase() {
     templateUrl:  Config.tplPath +'tpl/project/orderMedicalNosOfPurchaseOrder.html'
   };
 }
+
+
 /**
  * [滚动条美化]
  */
@@ -174,6 +176,50 @@ function orderStatusChoise () {
     }
   };
 }
+
+
+/**
+  药械订单列表-采购
+*/
+function queryOrderStatusButton() {
+  return {
+    restrict: 'EA',
+    scope: {
+        ngModel:"=",
+        countMap: "="
+    },
+      require: 'ngModel',
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/queryOrderStatusButton.html',
+    link: function ($scope, element, $attrs,ngModel) {
+      if(!ngModel.$viewValue){
+        ngModel.$setViewValue('');
+      }
+
+
+
+
+      $scope.key=$attrs.key;
+      $scope.showName=$scope.key;
+
+      if($attrs.showName){
+        $scope.showName=$attrs.showName;
+      }
+
+      element.on('click', function () {
+        $(this).addClass('pr-btn-bg-gold').siblings().each(function () {
+          $(this).removeClass('pr-btn-bg-gold');
+        });
+        $(this).parent().siblings().each(function () {
+          $(this).children().each(function () {
+            $(this).removeClass('pr-btn-bg-gold');
+          });
+        });
+      });
+    }
+  };
+}
+
 /**
  *  订单页头导航按钮点击事件处理
  */
@@ -782,7 +828,11 @@ function intervalCountdown ($interval) {
     }
   };
 }
+
+
 angular.module('manageApp.project')
+  .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
+
 .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
   .directive("orderMedicals", orderMedicals)//药械订单列表

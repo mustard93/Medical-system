@@ -28,26 +28,28 @@
       </div>
       <div class="flex-item-10 salesOrder-module-analysis"
           ajax-url="rest/authen/salesOrder/countByOrderStatus4Index.json?dateRangeType=today&isOnlyCurrentUser=true"
-          scope-data="countByOrderStatus4Index_today"
+          scope-response="countByOrderStatus4Index_today"
+          callback="countByOrderStatus4Index_today_parent=(countByOrderStatus4Index_today.data['已处理']/countByOrderStatus4Index_today.totalCount*100)"
+
       >
         <h4 class="bb-line pd-v-m pr-panel-title-color">我的购需分析</h4>
         <div class="flex-column">
           <div class="flex-item-6 br-dashed-line">
             <div class="flex-column pd-v-xl">
               <div class="flex-item-6">
-                <p class="text-s">昨日新购需单</p>
-                <p class="pr-color text-l">8</p>
+                <p class="text-s">今日新购需单</p>
+                <p class="pr-color text-l">      <a  class="pr-color" href="#/salesOrder/query.html">{{countByOrderStatus4Index_today.totalCount}}</a></p>
               </div>
               <div class="flex-item-6">
                 <p class="text-s">已处理购需单</p>
-                <p class="pr-color text-l">20</p>
+                <p class="pr-color text-l"> <a  class="pr-color" href="#/salesOrder/query.html?orderStatus=已处理">{{countByOrderStatus4Index_today.data['已处理']}}</a></p>
               </div>
             </div>
             <div class="pr-easypiechart text-center">
-             <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+             <div easypiechart options="easypiechart_options"  percent="countByOrderStatus4Index_today_parent">
                <span>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
+                 <h1 class="text-center">{{countByOrderStatus4Index_today_parent ||'0'| number:0}}%</h1>
+
                  <p class="text-s">日购需单处理率</p>
                </span>
              </div>
@@ -55,23 +57,25 @@
           </div>
           <div class="flex-item-6"
           ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=true"
-          scope-data="countByOrderStatus4Index_year"
+
+          scope-response="countByOrderStatus4Index_year"
+          callback="countByOrderStatus4Index_year_parent=(countByOrderStatus4Index_year.data['已处理']/countByOrderStatus4Index_year.totalCount*100)"
           >
             <div class="flex-column pd-v-xl">
               <div class="flex-item-6">
                 <p class="text-s">本年总购需单</p>
-                <p class="pr-color text-l">8</p>
+                <p class="pr-color text-l"> <a  class="pr-color" href="#/salesOrder/query.html">{{countByOrderStatus4Index_year.totalCount}}</a></p>
               </div>
               <div class="flex-item-6">
                 <p class="text-s">已处理购需单</p>
-                <p class="pr-color text-l">20</p>
+                <p class="pr-color text-l"> <a  class="pr-color" href="#/salesOrder/query.html?orderStatus=已处理">{{countByOrderStatus4Index_year.data['已处理']}}</a></p>
               </div>
             </div>
             <div class="pr-easypiechart text-center">
-             <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+             <div easypiechart options="easypiechart_options" percent="countByOrderStatus4Index_year_parent">
                <span>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
+                 <h1 class="text-center">{{countByOrderStatus4Index_year_parent||'0' | number:0}}%</h1>
+
                  <p class="text-s">年购需单处理率</p>
                </span>
              </div>
@@ -108,29 +112,40 @@
       <div class="flex-item-10 logistics-module-analysis">
         <h4 class="bb-line pd-v-m pr-panel-title-color">我的物流情况分析</h4>
         <div class="flex-column">
-          <div class="flex-item-6 br-dashed-line">
-            <div class="flex-column pd-v-xl">
-              <div class="flex-item-6">
-                <p class="text-s">本年总销售单</p>
-                <p class="pr-color text-l">8</p>
-              </div>
-              <div class="flex-item-6">
-                <p class="text-s">已发货销售单</p>
-                <p class="pr-color text-l">20</p>
-              </div>
+          <div class="flex-item-6 br-dashed-line"
+          ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
+                scope-response="confirmOrder_countByOrderStatus4Index_year"
+            callback="
+            invoicesOrder_hadSend=confirmOrder_countByOrderStatus4Index_year.data['已完成']+confirmOrder_countByOrderStatus4Index_year.data['已发货']+confirmOrder_countByOrderStatus4Index_year.data['未收款'];
+            invoicesOrder_countByOrderStatus4Index_year_parent=(invoicesOrder_hadSend/confirmOrder_countByOrderStatus4Index_year.totalCount*100)"
+
+          >
+
+          <div class="flex-column pd-v-l">
+            <div class="flex-item-6">
+              <p class="text-s">本年总销售单</p>
+              <p class="pr-color text-l">  <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=">{{confirmOrder_countByOrderStatus4Index_year.totalCount}}</a></p>
             </div>
-            <div class="pr-easypiechart text-center">
-             <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
-               <span>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
-                 <p class="text-s">年销售单发货率</p>
-               </span>
-             </div>
+            <div class="flex-item-6">
+              <p class="text-s">已发货销售单</p>
+              <p class="pr-color text-l"><a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=已完成">{{invoicesOrder_hadSend}}</a></p>
+            </div>
+          </div>
+          <div class="pr-easypiechart text-center">
+
+               <div easypiechart options="easypiechart_options"  percent="invoicesOrder_countByOrderStatus4Index_year_parent">
+                 <span>
+                   <h1 class="text-center">{{invoicesOrder_countByOrderStatus4Index_year_parent ||'0'| number:0}}%</h1>
+
+                   <p class="text-s">销售单完成率</p>
+                 </span>
+               </div>
+
+
             </div>
           </div>
           <div class="flex-item-6 pdt-xl">
-            <div chart="{{mainConfig.serverPath}}rest/authen/salesOrder/countByOrderStatus4Echarts?dateType=yesterday&isOnlyCurrentUser=true"
+            <div chart="rest/authen/confirmOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=true"
                   style="height:189px;">
             </div>
           </div>
@@ -175,56 +190,72 @@
           <div class="flex-item-10">
             <h4 class="bb-line pd-v-m pr-panel-title-color">我的销售单分析</h4>
             <div class="flex-column">
-              <div class="flex-item-4 br-dashed-line fm">
+              <div class="flex-item-4 br-dashed-line fm"
+              ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
+                    scope-response="confirmOrder_countByOrderStatus4Index_year"
+                             callback="confirmOrder_countByOrderStatus4Index_year_parent=(confirmOrder_countByOrderStatus4Index_year.data['已完成']/confirmOrder_countByOrderStatus4Index_year.totalCount*100)"
+              >
                 <div class="flex-column pd-v-l">
                   <div class="flex-item-6">
-                    <p class="text-s">昨日新购需单</p>
-                    <p class="pr-color text-l">8</p>
+                    <p class="text-s">本年总销售单</p>
+                    <p class="pr-color text-l">  <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=">{{confirmOrder_countByOrderStatus4Index_year.totalCount}}</a></p>
                   </div>
                   <div class="flex-item-6">
-                    <p class="text-s">已处理购需单</p>
-                    <p class="pr-color text-l">20</p>
+                    <p class="text-s">已完成销售单</p>
+                    <p class="pr-color text-l"><a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=已完成">{{confirmOrder_countByOrderStatus4Index_year.data['已完成']}}</a></p>
                   </div>
                 </div>
                 <div class="pr-easypiechart text-center">
-                 <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
-                   <span>
-                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
-                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
-                     <p class="text-s">日购需单处理率</p>
-                   </span>
-                 </div>
+
+           <div easypiechart options="easypiechart_options"  percent="confirmOrder_countByOrderStatus4Index_year_parent">
+             <span>
+               <h1 class="text-center">{{confirmOrder_countByOrderStatus4Index_year_parent ||'0'| number:0}}%</h1>
+
+               <p class="text-s">销售单完成率</p>
+             </span>
+           </div>
+
                 </div>
               </div>
-              <div class="flex-item-4 br-dashed-line fm">
+
+              <div class="flex-item-4 br-dashed-line fm"
+              ajax-url="rest/authen/confirmOrder/countPriceByCreateAt4Index?dateRangeType=year&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
+              scope-data="countPriceByCreateAt4Index"
+                callback="countPriceByCreateAt4Index_parent=(countPriceByCreateAt4Index.finish_totalPrice/countPriceByCreateAt4Index.totalPrice*100)"
+              >
                 <div class="flex-column pd-v-l">
                   <div class="flex-item-6">
-                    <p class="text-s">昨日新购需单</p>
-                    <p class="pr-color text-l">8</p>
+                    <p class="text-s">本年销售总额</p>
+                    <p class="pr-color text-l">{{countPriceByCreateAt4Index.totalPrice}}</p>
                   </div>
                   <div class="flex-item-6">
-                    <p class="text-s">已处理购需单</p>
-                    <p class="pr-color text-l">20</p>
+                    <p class="text-s">本年已收款额</p>
+                    <p class="pr-color text-l">{{countPriceByCreateAt4Index.finish_totalPrice}}</p>
                   </div>
                 </div>
                 <div class="pr-easypiechart text-center">
-                 <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
-                   <span>
-                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
-                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
-                     <p class="text-s">日购需单处理率</p>
-                   </span>
-                 </div>
+
+           <div easypiechart options="easypiechart_options"  percent="countPriceByCreateAt4Index_parent">
+             <span>
+               <h1 class="text-center">{{countPriceByCreateAt4Index_parent ||'0'| number:0}}%</h1>
+               <p class="text-s">回款率</p>
+             </span>
+           </div>
+
                 </div>
               </div>
+
               <div class="flex-item-4 confirmOrder-module-analysis-num">
                 <div class="bb-dashed-line">
                   <p class="mgb-s">待收款额</p>
-                  <p class="pr-font-18 color-red">￥100000022.00</p>
+                  <p class="pr-font-18 color-red">￥{{countPriceByCreateAt4Index.nofinish_totalPrice}}</p>
                 </div>
-                <div>
+                <div
+                ajax-url="rest/authen/confirmOrder/countByOrderStatus4Index?dateRangeType=recent30day&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
+                scope-data="countByOrderStatus4Index_recent30day"
+                 >
                   <p class="mgb-s">本月已收款销售单</p>
-                  <p class="pr-font-18 pr-color">￥9550255.00</p>
+                  <p class="pr-font-18 pr-color">{{countByOrderStatus4Index_recent30day["已完成"]}}</p>
                 </div>
               </div>
             </div>
@@ -234,7 +265,7 @@
       <!-- 销售额比较 -->
         <div>
           <div class="flex-column pd-c-l pdt-m">
-            <h4 class="flex-item-4 l-h-25 mgt pr-panel-title-color">日订单处理量去年同期比较 - 8月</h4>
+            <h4 class="flex-item-4 l-h-25 mgt pr-panel-title-color">销售额同期比较</h4>
             <div class="flex-item-8 text-right">
               <span class="mgr"><i class="chart-tip-icon pr-icon-bg-green"></i> 今年</span>
               <span><i class="chart-tip-icon pr-icon-bg-grey"></i> 去年</span>
