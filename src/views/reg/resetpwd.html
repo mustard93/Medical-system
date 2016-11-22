@@ -37,14 +37,15 @@
       form-validator
       scope-error-msg="errorMsg"
       scope-ok-msg="okMsg"
-    
+
       >
         <div>
-          <input type="password" class="form-control" placeholder="输入新密码"
+          <input type="password" class="form-control mgb-l" placeholder="输入新密码"
                 name="password" ng-model="formData.password" maxlength="32" required autofocus
                 required ng-pattern="/[A-Za-z0-9_-]{6,32}/"
                 data-content="密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线"
                  invalid-popover="{{editForm.password.$invalid}}"
+                 style="border-bottom: 1px solid #ccc;width: 90%;margin: 0 auto;border-radius: 0;padding-left:0"
                 >
         </div>
         <div>
@@ -53,10 +54,11 @@
                 placeholder="确认新密码" required
                data-content="确认新密码请输入与新密码相同"
                invalid-popover="{{formData.repassword&&formData.password!=formData.repassword}}"
+               style="width: 90%;margin: 0 auto;border-radius: 0;padding-left:0"
                 >
         </div>
 
-        <div class="button-wrap">
+        <div class="button-wrap" style="margin-top:65px;">
           <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
           ng-disabled="!formData.password||!formData.repassword||formData.password!=formData.repassword"
           >完 成</button>
