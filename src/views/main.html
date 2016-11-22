@@ -1,18 +1,11 @@
 <div class="content-wrapper pdt-xxl" run-tooltips
-  ng-init="confirmOrder_saleUserId=$root.curUser.id"
-
->
-
-confirmOrder_saleUserId={{confirmOrder_saleUserId}}
+  ng-init="confirmOrder_saleUserId=$root.curUser.id">
   <!-- 部门购需单分析 -->
-  <div>
   <ng-include ng-if="$root.hasAuthor('销售单统计权限')" src="'views/index-template/salesOrder/index-order-department-info.html'"></ng-include>
   <!-- 部门购需成员 -->
   <ng-include ng-if="$root.hasAuthor('销售单统计权限')"  src="'views/index-template/salesOrder/index-order-department-member.html'"></ng-include>
-
-
   <!-- 门购需单我的  -->
-  <ng-include  ng-if="$root.hasAuthor('购需单编辑')" src="'views/index-template/salesOrder/index-current-personal-info.html'"></ng-include>
+  <ng-include  ng-if="!$root.hasAuthor('销售单统计权限')&&$root.hasAuthor('购需单编辑')" src="'views/index-template/salesOrder/index-current-personal-info.html'"></ng-include>
 
   <!-- 个人销售信息 -->
   <!-- <ng-include src="'views/index-template/service/index-order-personal-info.html'"></ng-include> -->
@@ -36,6 +29,16 @@ confirmOrder_saleUserId={{confirmOrder_saleUserId}}
 <!-- 销售辅助信息-->
 <ng-include ng-if="$root.hasAuthor('购需单编辑')||$root.hasAuthor('销售单统计权限')" src="'views/index-template/salesOrder/index-supple-info.html'"></ng-include>
 
-<ng-include src="'views/index-template/index-new-goods-recommand.html'"></ng-include>
+
+  <!-- 部门采购单分析 -->
+  <ng-include ng-if="$root.hasAuthor('采购单统计权限')" src="'views/index-template/purchase/index-purchase-department-info.html'"></ng-include>
+  <!-- 采购部门成员分析 -->
+  <ng-include ng-if="$root.hasAuthor('采购单统计权限')" src="'views/index-template/purchase/index-purchase-department-member.html'"></ng-include>
+  <!-- 个人采购分析 -->
+  <ng-include ng-if="$root.hasAuthor('采购单统计权限')" src="'views/index-template/purchase/index-purchase-personal-info.html'"></ng-include>
+  <!--  -->
+  <ng-include ng-if="$root.hasAuthor('采购单统计权限')" src="'views/index-template/purchase/index-purchase-supple-info.html'"></ng-include>
+
+  <ng-include src="'views/index-template/index-new-goods-recommand.html'"></ng-include>
 
 </div>
