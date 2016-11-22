@@ -2,45 +2,74 @@
   <div class="flex-column">
     <div class="flex-item-4">
       <div class="panel pr-panel pr-panel-height mgr-l pd-n pr-fuzzy-boundary flex-column pr-color"
+      ajax-url="rest/authen/purchaseOrder/countByOrderStatus.json"
+      scope-data="purchaseOrder_countByOrderStatus"
 
-      ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType=today&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
-      scope-response="salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment"
+
 
       >
         <div class="flex-item-3 br-line">
           <div class="item-left-title-2 pr-line-height bb-dashed-line">
-            <p class="relative"><span class="pr-icon-bg15 relative"><i class="pj-badge text-normal" style="right:-12px;">1</i></span></p>
+
+            <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=待审批">
+            <p class="relative"><span class="pr-icon-bg15 relative"><i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["待审批"]'>{{purchaseOrder_countByOrderStatus["待审批"]}}</i></span></p>
             <p>待审批</p>
+          </a>
           </div>
           <div class="item-left-title-2 pr-line-height">
-            <p class="relative"><span class="pr-icon-bg18 relative"><i class="pj-badge text-normal" style="right:-12px;">12</i></span></p>
+
+            <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=待采购">
+            <p class="relative"><span class="pr-icon-bg15 relative"><i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["待采购"]'>{{purchaseOrder_countByOrderStatus["待采购"]}}</i></span></p>
             <p>待采购</p>
+          </a>
+
+
           </div>
         </div>
         <div class="flex-item-3 br-line">
           <div class="item-left-title-3 pr-line-height bb-dashed-line">
-            <p class="relative"><span class="pr-icon-bg34 relative"><i class="pj-badge text-normal" style="right:-12px;">1</i></span></p>
+
+            <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=待发货">
+            <p class="relative"><span class="pr-icon-bg15 relative"><i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["待发货"]'>{{purchaseOrder_countByOrderStatus["待发货"]}}</i></span></p>
             <p>待发货</p>
+          </a>
+
           </div>
           <div class="item-left-title-3 pr-line-height bb-dashed-line">
-            <p class="relative"><span class="pr-icon-bg31 relative"><i class="pj-badge text-normal" style="right:-12px;">12</i></span></p>
+
+            <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=待批款">
+            <p class="relative"><span class="pr-icon-bg15 relative"><i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["待批款"]'>{{purchaseOrder_countByOrderStatus["待批款"]}}</i></span></p>
             <p>待批款</p>
+          </a>
+
           </div>
           <div class="item-left-title-3 pr-line-height">
-            <p class="relative"><span class="pr-icon-bg33 relative"><i class="pj-badge text-normal" style="right:-12px;">12</i></span></p>
+            <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=待付款">
+            <p class="relative"><span class="pr-icon-bg15 relative"><i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["待付款"]'>{{purchaseOrder_countByOrderStatus["待付款"]}}</i></span></p>
             <p>待付款</p>
+          </a>
+
           </div>
         </div>
-        <div class="flex-item-6">
+        <div class="flex-item-6"
+
+        ajax-url="rest/authen/purchaseOrder/countByOrderStatus4Index?dateRangeType=today&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
+        scope-response="purchaseOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment">
+
           <h4 class="bb-line pd-v-m pr-panel-title-color">部门今日采购统计</h4>
           <div class="color-6">
             <div class="bb-dashed-line index-module-item-2">
               <p class="mgb-s">今日新采购单</p>
-              <p class="pr-font-20 pr-color">25</p>
+              <p class="pr-font-20 pr-color"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment.totalCount}}</a></p>
             </div>
-            <div class="index-module-item-2">
+            <div class="index-module-item-2"
+
+
+  ajax-url="rest/authen/purchaseOrder/countPriceByCreateAt4Index?dateRangeType=today&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
+  scope-response="purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment">
+
               <p class="mgb-s">新增采购总金额</p>
-              <p class="pr-font-20 color-red">￥12345.00</p>
+              <p class="pr-font-20 color-red">￥{{purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment.totalPrice||'0'| number:2}}</p>
             </div>
           </div>
         </div>
@@ -53,88 +82,137 @@
             <h4 class="bb-line pd-v-m pr-panel-title-color flex-column">
               <span class="flex-item-8">部门采购分析</span>
               <span class="flex-item-4">
+
+
+                <select ng-init="purchaseOrder_countDeliveryPlusByCreateAt4Index_dateRangeType='today'" ng-model="purchaseOrder_countDeliveryPlusByCreateAt4Index_dateRangeType" class="select pr-select pr-select-sm" style="width:80px;top:10px;">
+                  <option value="today">今天</option>
+                  <option value="recent7day">最近7天</option>
+                  <option value="recent30day">最近30天</option>
+                </select>
+
+<!--
                 <select class="select pr-select pr-select-sm" style="width:80px;position:absolute;top:10px;">
                   <option value="">日</option>
                   <option value="">月</option>
                   <option value="">季</option>
                   <option value="">年</option>
-                </select>
+                </select> -->
               </span>
             </h4>
-            <div class="flex-column">
+            <div class="flex-column"
+
+
+
+            ajax-url="rest/authen/purchaseOrder/countDeliveryPlusByCreateAt4Index?dateRangeType={{purchaseOrder_countDeliveryPlusByCreateAt4Index_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
+            scope-data="purchaseOrder_countDeliveryPlusByCreateAt4Index_dateRangeType_isOnlyCurrentDepartment">
+
+
               <div class="flex-item-6 br-dashed-line index-module-list">
                 <div class="bb-dashed-line index-module-item-2">
                   <p class="mgb-s">本周普通采购单</p>
-                  <p class="pr-font-20 pr-color">123</p>
+
+                  <p class="pr-font-20 pr-color"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countDeliveryPlusByCreateAt4Index_dateRangeType_isOnlyCurrentDepartment["普通"]||"0"}}</a></p>
+
                 </div>
                 <div class="index-module-item-2">
                   <p class="mgb-s">冷链采购单</p>
-                  <p class="pr-font-20 pr-color">56</p>
+                  <p class="pr-font-20 pr-color"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countDeliveryPlusByCreateAt4Index_dateRangeType_isOnlyCurrentDepartment["冷链"]||"0"}}</a></p>
+
                 </div>
               </div>
-              <div class="flex-item-6">
+              <div class="flex-item-6"
+
+
+
+                ajax-url="rest/authen/purchaseOrder/countPriceByCreateAt4Index?dateRangeType={{purchaseOrder_countDeliveryPlusByCreateAt4Index_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
+                scope-response="purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment"
+
+                    callback="purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment_parent=(purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment.data['已完成']/purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment.totalCount*100)"
+                >
+
                 <div class="flex-column pd-v-xl">
                   <div class="flex-item-6">
                     <p class="text-s">本周总采购单</p>
-                    <p class="pr-color text-l">8</p>
+                    <p class="pr-color text-l"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment.totalCount}}</a></p>
+
                   </div>
                   <div class="flex-item-6">
                     <p class="text-s">已完成采购单</p>
-                    <p class="pr-color text-l">20</p>
+                    <p class="pr-color text-l"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment.data["已完成"]}}</a></p>
+
                   </div>
                 </div>
                 <div class="pr-easypiechart text-center">
-                 <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+                 <div easypiechart options="easypiechart_options" percent="purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment_parent">
                    <span>
-                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
-                     <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
-                     <p class="text-s">日购需单处理率</p>
+                     <h1 class="text-center">{{purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment_parent||'0' | number:0}}%</h1>
+                     <p class="text-s">采购单完成率</p>
                    </span>
                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="flex-item-3 br-line">
+          <div class="flex-item-3 br-line"
+          ajax-url="rest/authen/purchaseOrder/countPriceByCreateAt4Index?dateRangeType=year&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
+          scope-response="purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment"
+
+              callback="purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment_parent=(purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment.data['已完成']/purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment.totalCount*100)"
+
+          >
             <h4 class="bb-line pd-v-m pr-panel-title-color">部门采购单入库分析</h4>
-            <div class="flex-column pd-v-xl">
-              <div class="flex-item-6">
-                <p class="text-s">本周总采购单</p>
-                <p class="pr-color text-l">8</p>
-              </div>
-              <div class="flex-item-6">
-                <p class="text-s">已完成采购单</p>
-                <p class="pr-color text-l">20</p>
-              </div>
+
+            <div chart="{{mainConfig.serverPath}}rest/authen/arrivalNoticeOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=true"
+                  style="height:189px;">
             </div>
-            <div class="pr-easypiechart text-center">
-             <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
-               <span>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
-                 <p class="text-s">日购需单处理率</p>
-               </span>
-             </div>
-            </div>
+              <!--
+              <div class="flex-column pd-v-xl">
+                <div class="flex-item-6">
+                  <p class="text-s">本周总采购单</p>
+                  <p class="pr-color text-l">8</p>
+                </div>
+                <div class="flex-item-6">
+                  <p class="text-s">已完成采购单</p>
+                  <p class="pr-color text-l">20</p>
+                </div>
+              </div>
+              <div class="pr-easypiechart text-center">
+               <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+                 <span>
+                   <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
+                   <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
+                   <p class="text-s">日购需单处理率</p>
+                 </span>
+               </div>
+              </div> -->
           </div>
-          <div class="flex-item-3">
+          <div class="flex-item-3"
+
+          ajax-url="rest/authen/purchaseOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
+          scope-response="purchaseOrder_countByOrderStatus4Index_year_department"
+          callback="purchaseOrder_countByOrderStatus4Index_year_department_parent=(purchaseOrder_countByOrderStatus4Index_year_department.data['已完成']/purchaseOrder_countByOrderStatus4Index_year_department.totalCount*100)"
+
+
+          >
             <h4 class="bb-line pd-v-m pr-panel-title-color">部门采购单付款分析</h4>
             <div class="flex-column pd-v-xl">
               <div class="flex-item-6">
-                <p class="text-s">本周总采购单</p>
-                <p class="pr-color text-l">8</p>
+                <p class="text-s">部门总采购单</p>
+
+                <p class="pr-color text-l"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countByOrderStatus4Index_year_department.totalCount}}</a></p>
+
               </div>
               <div class="flex-item-6">
-                <p class="text-s">已完成采购单</p>
-                <p class="pr-color text-l">20</p>
+                <p class="text-s">已付款采购单</p>
+                <p class="pr-color text-l"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countByOrderStatus4Index_year_department.data["已完成"]}}</a></p>
+
               </div>
             </div>
             <div class="pr-easypiechart text-center">
-             <div easypiechart options="easypiechart_options" percent="useryesterdayorderpercent">
+             <div easypiechart options="easypiechart_options" percent="purchaseOrder_countByOrderStatus4Index_year_department_parent">
                <span>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready==0">85%</h1>
-                 <h1 class="text-center" ng-if="epcUserData.yesterdayAlready!=0">85%</h1>
-                 <p class="text-s">日购需单处理率</p>
+                    <h1 class="text-center">{{purchaseOrder_countByOrderStatus4Index_year_department_parent ||'0'| number:0}}%</h1>
+                 <p class="text-s">采购单付款率</p>
                </span>
              </div>
             </div>
@@ -145,25 +223,20 @@
   </div>
   <div class="panel pr-panel pr-panel-height pr-fuzzy-boundary">
     <div class="pd-c-l pdt-m">
-      <h4 class="flex-item-4 l-h-25 mgt pr-panel-title-color">日订单处理量去年同期比较 - 8月</h4>
+      <h4 class="flex-item-4 l-h-25 mgt pr-panel-title-color">采购额同期比较</h4>
       <div class="flex-item-8 text-right">
         <!-- <span class="mgr"><i class="chart-tip-icon pr-icon-bg-green"></i> 今年</span>
         <span><i class="chart-tip-icon pr-icon-bg-grey"></i> 去年</span> -->
-        <div class="btn btn-group">
-          <!-- <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold bd-radius-14">日</button>
-          <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">月</button>
-          <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">季度</button>
-          <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">年</button> -->
-
-          <select ng-init="purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType2='today'"
-           ng-model="purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType2" class="select pr-select pr-select-sm" style="width:90px;">
-            <option value="today">今天</option>
-            <option value="recent7day">最近7天</option>
-            <option value="recent30day">最近30天</option>
-          </select>
-        </div>
+        <select ng-init="purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType2='today'"
+         ng-model="purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType2" class="select pr-select pr-select-sm" style="width:90px;">
+          <option value="today">今天</option>
+          <option value="recent7day">最近7天</option>
+          <option value="recent30day">最近30天</option>
+        </select>
       </div>
     </div>
+      <div class="pd-c-l pdt-m">
     <div chart="rest/authen/purchaseOrder/countPriceGroupByCreateAt4Echarts?dateRangeType={{purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType2}}&isOnlyCurrentUser=false" style="height: 300px;"></div>
+      </div>
   </div>
 </div>
