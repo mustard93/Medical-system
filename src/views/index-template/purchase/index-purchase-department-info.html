@@ -1,29 +1,20 @@
 <div class="index-purchase-department-info text-center">
   <div class="flex-column">
     <div class="flex-item-4">
-      <div class="panel pr-panel pr-panel-height mgr-l pd-n pr-fuzzy-boundary flex-column pr-color">
-        <div class="flex-item-3 br-line"
-             ajax-url="rest/authen/purchaseOrder/countByOrderStatus.json"
-             scope-data="purchaseOrder_countByOrderStatus">
+      <div class="panel pr-panel pr-panel-height mgr-l pd-n pr-fuzzy-boundary flex-column pr-color"
+
+      ajax-url="rest/authen/salesOrder/countByOrderStatus4Index?dateRangeType=today&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
+      scope-response="salesOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment"
+
+      >
+        <div class="flex-item-3 br-line">
           <div class="item-left-title-2 pr-line-height bb-dashed-line">
-            <a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=待审批">
-              <p class="relative">
-                <span class="pr-icon-bg36 relative">
-                  <i class="pj-badge text-normal" style="right:-12px;" ng-if='purchaseOrder_countByOrderStatus["待审批"]'>{{purchaseOrder_countByOrderStatus["待审批"]}}</i>
-                </span>
-              </p>
-              <p>待审批</p>
-            </a>
+            <p class="relative"><span class="pr-icon-bg15 relative"><i class="pj-badge text-normal" style="right:-12px;">1</i></span></p>
+            <p>待审批</p>
           </div>
           <div class="item-left-title-2 pr-line-height">
-            <a  class="pr-color" href="#/confirmOrder/query.html?orderStatus=待采购">
-              <p class="relative">
-                <span class="pr-icon-bg36 relative">
-                  <i class="pj-badge text-normal" style="right:-12px;" ng-if='confirmOrder_countByOrderStatus["待采购"]'>{{confirmOrder_countByOrderStatus["待采购"]}}</i>
-                </span>
-              </p>
-              <p>待采购</p>
-            </a>
+            <p class="relative"><span class="pr-icon-bg18 relative"><i class="pj-badge text-normal" style="right:-12px;">12</i></span></p>
+            <p>待采购</p>
           </div>
         </div>
         <div class="flex-item-3 br-line">
@@ -156,16 +147,23 @@
     <div class="pd-c-l pdt-m">
       <h4 class="flex-item-4 l-h-25 mgt pr-panel-title-color">日订单处理量去年同期比较 - 8月</h4>
       <div class="flex-item-8 text-right">
-        <span class="mgr"><i class="chart-tip-icon pr-icon-bg-green"></i> 今年</span>
-        <span><i class="chart-tip-icon pr-icon-bg-grey"></i> 去年</span>
+        <!-- <span class="mgr"><i class="chart-tip-icon pr-icon-bg-green"></i> 今年</span>
+        <span><i class="chart-tip-icon pr-icon-bg-grey"></i> 去年</span> -->
         <div class="btn btn-group">
-          <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold bd-radius-14">日</button>
+          <!-- <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold bd-radius-14">日</button>
           <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">月</button>
           <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">季度</button>
-          <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">年</button>
+          <button type="button" class="btn pr-btn-transparentbg pr-btn-bg-white bd-radius-14">年</button> -->
+
+          <select ng-init="purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType2='today'"
+           ng-model="purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType2" class="select pr-select pr-select-sm" style="width:90px;">
+            <option value="today">今天</option>
+            <option value="recent7day">最近7天</option>
+            <option value="recent30day">最近30天</option>
+          </select>
         </div>
       </div>
     </div>
-    <div chart="http://120.76.232.188:8080/dt/data/line-chart4.json?id=20161019" style="height: 300px;"></div>
+    <div chart="rest/authen/purchaseOrder/countPriceGroupByCreateAt4Echarts?dateRangeType={{purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType2}}&isOnlyCurrentUser=false" style="height: 300px;"></div>
   </div>
 </div>

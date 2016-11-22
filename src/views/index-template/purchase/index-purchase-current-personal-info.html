@@ -5,7 +5,7 @@
     <div class="panel pr-panel pr-panel-height mgr-l pd-n pr-fuzzy-boundary flex-column pr-color">
       <!-- 左侧标题 -->
       <div class="flex-item-3 br-line"
-           ajax-url="rest/authen/arrivalNoticeOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=false&userId={{purchase_userId}}&isOnlyCurrentDepartment=false"
+           ajax-url="rest/authen/arrivalNoticeOrder/countByOrderStatus4Index?dateRangeType=year&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
            scope-data="arrivalNoticeOrder_countByOrderStatus">
         <div class="item-left-title-3 pr-line-height bb-dashed-line">
           <a  class="pr-color" href="#/arrivalNoticeOrder/query.html?orderStatus=未提交">
@@ -40,10 +40,10 @@
       </div>
       <!-- 右侧内容 -->
       <div class="flex-item-9"
-           ajax-url="rest/authen/arrivalNoticeOrder/countByOrderStatus4Index.json?dateRangeType=today&isOnlyCurrentUser=false&userId={{purchase_userId}}&isOnlyCurrentDepartment=false"
+           ajax-url="rest/authen/arrivalNoticeOrder/countByOrderStatus4Index.json?dateRangeType=today&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
            scope-response="arr_countByOrderStatus4Index_today"
            callback="arr_countByOrderStatus4Index_today_parent=(arr_countByOrderStatus4Index_today.data['已处理']/arr_countByOrderStatus4Index_today.totalCount*100)">
-        <h4 class="bb-line pd-v-m pr-panel-title-color">成员入库统计分析</h4>
+        <h4 class="bb-line pd-v-m pr-panel-title-color">我的入库统计分析</h4>
         <div class="flex-column">
           <div class="flex-item-6 br-line">
             <div class="flex-column pd-v-xl">
@@ -70,7 +70,7 @@
             </div>
           </div>
           <div class="flex-item-6 pdt-xl">
-            <div chart="{{mainConfig.serverPath}}rest/authen/arrivalNoticeOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=false&userId={{purchase_userId}}"
+            <div chart="{{mainConfig.serverPath}}rest/authen/arrivalNoticeOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=true"
                   style="height:189px;">
             </div>
           </div>
@@ -109,7 +109,7 @@
            ajax-url="rest/authen/purchasePayOrder/countByOrderStatus"
            scope-response="purchasePay_countByOrderStatus4Index_today"
            callback="purchasePay_countByOrderStatus4Index_today_parent=(purchasePay_countByOrderStatus4Index_today.data['已付款']/purchasePay_countByOrderStatus4Index_today.totalCount*100)">
-        <h4 class="bb-line pd-v-m pr-panel-title-color">成员付款统计分析</h4>
+        <h4 class="bb-line pd-v-m pr-panel-title-color">我的付款统计分析</h4>
         <div class="flex-column">
           <div class="flex-item-6 br-line">
             <div class="flex-column pd-v-xl">
@@ -136,7 +136,7 @@
             </div>
           </div>
           <div class="flex-item-6 pdt-xl">
-            <div chart="{{mainConfig.serverPath}}rest/authen/purchaseOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=false&userId={{purchase_userId}}"
+            <div chart="{{mainConfig.serverPath}}rest/authen/purchaseOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=true"
                   style="height:189px;">
             </div>
           </div>
@@ -186,10 +186,10 @@
         </div>
         <!-- 今日采购 -->
         <div class="flex-item-3 br-line"
-             ajax-url="rest/authen/purchaseOrder/countByOrderStatus4Index?dateRangeType=today&isOnlyCurrentUser=false&userId={{purchase_userId}}&isOnlyCurrentDepartment=false"
+             ajax-url="rest/authen/purchaseOrder/countByOrderStatus4Index?dateRangeType=today&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
              scope-response="purchaseOrder_countByOrderStatus4Index_today"
              callback="purchaseOrderr_countByOrderStatus4Index_today_parent=(purchaseOrder_countByOrderStatus4Index_today.data['已完成']/purchaseOrder_countByOrderStatus4Index_today.totalCount*100)">
-          <h4 class="bb-line pd-v-m pr-panel-title-color">成员今日采购统计</h4>
+          <h4 class="bb-line pd-v-m pr-panel-title-color">我的今日采购统计</h4>
           <div class="color-6">
             <div class="bb-dashed-line index-module-item-2">
               <p class="mgb-s">今日新增采购单</p>
@@ -198,7 +198,7 @@
               </p>
             </div>
             <div class="index-module-item-2"
-                 ajax-url="rest/authen/purchaseOrder/countPriceByCreateAt4Index?dateRangeType=today&isOnlyCurrentUser=false&userId={{purchase_userId}}&isOnlyCurrentDepartment=false"
+                 ajax-url="rest/authen/purchaseOrder/countPriceByCreateAt4Index?dateRangeType=today&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
                  scope-data="purchaseOrder_countByOrderStatus4Index_today_total">
               <p class="mgb-s">采购总金额</p>
               <p class="pr-font-20 color-red">￥{{purchaseOrder_countByOrderStatus4Index_today_total.totalPrice | number: 2}}</p>
@@ -208,7 +208,7 @@
         <!-- 采购单分析 -->
         <div class="flex-item-7">
           <h4 class="bb-line pd-v-m pr-panel-title-color flex-column">
-            <span class="flex-item-8">成员采购单分析</span>
+            <span class="flex-item-8">我的采购单分析</span>
             <span class="flex-item-4">
 
               <select ng-init="purchaseOrder_dateRangeType='today'" ng-model="purchaseOrder_dateRangeType" class="select pr-select pr-select-sm" style="width:80px;top:10px;">
@@ -221,7 +221,7 @@
           </h4>
           <div class="flex-column">
             <div class="flex-item-6 br-dashed-line index-module-list"
-                 ajax-url="rest/authen/purchaseOrder/countDeliveryPlusByCreateAt4Index?dateRangeType={{purchaseOrder_dateRangeType}}&isOnlyCurrentUser=false&userId={{purchase_userId}}&isOnlyCurrentDepartment=false"
+                 ajax-url="rest/authen/purchaseOrder/countDeliveryPlusByCreateAt4Index?dateRangeType={{purchaseOrder_dateRangeType}}&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
                  scope-data="purchaseOrder_countByOrderStatus4Index_week_total">
               <div class="bb-dashed-line index-module-item-2">
                 <p class="mgb-s">普通采购单</p>
@@ -238,7 +238,7 @@
               </div>
             </div>
             <div class="flex-item-6"
-                 ajax-url="rest/authen/purchaseOrder/countByOrderStatus4Index?dateRangeType={{purchaseOrder_dateRangeType}}&isOnlyCurrentUser=false&userId={{purchase_userId}}&isOnlyCurrentDepartment=false"
+                 ajax-url="rest/authen/purchaseOrder/countByOrderStatus4Index?dateRangeType={{purchaseOrder_dateRangeType}}&isOnlyCurrentUser=true&isOnlyCurrentDepartment=false"
                  scope-response="purchaseOrder_countByOrderStatus4Index_week"
                  callback="purchaseOrderr_countByOrderStatus4Index_week_parent=(purchaseOrder_countByOrderStatus4Index_week.data['已完成']/purchaseOrder_countByOrderStatus4Index_week.totalCount*100)">
               <div class="flex-column pd-v-xl">
@@ -290,7 +290,7 @@
             </div>
           </div>
         </div>
-        <div chart="rest/authen/purchaseOrder/countPriceGroupByCreateAt4Echarts?dateRangeType={{purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType}}&isOnlyCurrentUser=false&userId={{purchase_userId}}" style="height: 300px;"></div>
+        <div chart="rest/authen/purchaseOrder/countPriceGroupByCreateAt4Echarts?dateRangeType={{purchaseOrder_countPriceGroupByCreateAt4Echarts_dateRangeType}}&isOnlyCurrentUser=false" style="height: 300px;"></div>
       </div>
     </div>
   </div>
