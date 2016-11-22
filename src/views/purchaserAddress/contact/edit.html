@@ -8,13 +8,13 @@
         <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}收货人信息</h4>
     </div>
     <div class="modal-body">
-      <div class="form-group">
+      <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label text-left">收货人</label>
           <div class="col-lg-10 col-sm-10">
               <input type="text" class="form-control" placeholder="请填写收货人姓名" ng-model="formData.name"/>
           </div>
       </div>
-      <div class="form-group">
+      <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label">手机</label>
           <div class="col-lg-10 col-sm-10">
               <input type="tel" class="form-control" placeholder="请填写联系手机号码" ng-model="formData.tel"/>
@@ -22,7 +22,7 @@
       </div>
 
 
-    <div class="form-group">
+    <div class="form-group mgb">
         <label class="col-lg-2 col-sm-2 control-label">省/市/区</label>
         <div class="col-lg-10 col-sm-10">
           <input class="form-control"
@@ -32,17 +32,28 @@
             </div>
     </div>
 
-      <div class="form-group">
+      <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label">详细地址</label>
           <div class="col-lg-10 col-sm-10">
               <input type="text" class="form-control" placeholder="建议您如实填写详细收货地址，例如街道名称，门牌号码，楼层和房间号等信息" ng-model="formData.address"/>
           </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label"></label>
           <div class="col-lg-10 col-sm-10">
               <input type="submit" class="btn pr-btn-create-glodbg" value="提交" ng-disabled="!formData.name || !formData.tel || !formData.address || !province_city_area">
+              <button type="button"
+                      class="btn btn-warning pr-btn-xsm mgr mgl"
+                      ng-disabled="!formData.id&&!formData.customerAddressId"
+                      handle-this-click
+                      dialog-title="确认删除?"
+                      dialog-content="确认删除?"
+                      dialog-template="pr-dialog-submit.html"
+                      callback="customerAddressReload()"
+                      params='{"id":"2342"}'
+                      request-url="rest/authen/purchaserAddress/delete">删除
+              </button>
           </div>
       </div>
     </div>
