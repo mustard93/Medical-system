@@ -108,28 +108,28 @@
 
 
 
-                ajax-url="rest/authen/purchaseOrder/countPriceByCreateAt4Index?dateRangeType={{purchaseOrder_countDeliveryPlusByCreateAt4Index_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
-                scope-response="purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment"
+                ajax-url="rest/authen/purchaseOrder/countByOrderStatus4Index?dateRangeType={{purchaseOrder_countDeliveryPlusByCreateAt4Index_dateRangeType}}&isOnlyCurrentUser=false&isOnlyCurrentDepartment=false"
+                scope-response="purchaseOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment"
 
-                    callback="purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment_parent=(purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment.data['已完成']/purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment.totalCount*100)"
+                    callback="purchaseOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment_parent=(purchaseOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment.data['已完成']/purchaseOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment.totalCount*100)"
                 >
 
                 <div class="flex-column pd-v-xl">
                   <div class="flex-item-6">
                     <p class="text-s">总采购单</p>
-                    <p class="pr-color text-l"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment.totalCount}}</a></p>
+                    <p class="pr-color text-l"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment.totalCount}}</a></p>
 
                   </div>
                   <div class="flex-item-6">
                     <p class="text-s">已完成采购单</p>
-                    <p class="pr-color text-l"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countByOrderStatus4Index_today_isOnlyCurrentDepartment.data["已完成"]}}</a></p>
+                    <p class="pr-color text-l"><a  class="pr-color" href="#/purchaseOrder/query.html?orderStatus=">{{purchaseOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment.data["已完成"]}}</a></p>
 
                   </div>
                 </div>
                 <div class="pr-easypiechart text-center">
-                 <div easypiechart options="easypiechart_options" percent="purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment_parent">
+                 <div easypiechart options="easypiechart_options" percent="purchaseOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment_parent">
                    <span>
-                     <h1 class="text-center">{{purchaseOrder_countPriceByCreateAt4Index_today_isOnlyCurrentDepartment_parent||'0' | number:0}}%</h1>
+                     <h1 class="text-center">{{purchaseOrder_countByOrderStatus4Index_dateRangeType_isOnlyCurrentDepartment_parent||'0' | number:0}}%</h1>
                      <p class="text-s">采购单完成率</p>
                    </span>
                  </div>
@@ -147,7 +147,7 @@
             <h4 class="bb-line pd-v-m pr-panel-title-color">部门采购单入库分析</h4>
 
             <div class="" style="height:264px;">
-              <div chart="{{mainConfig.serverPath}}rest/authen/arrivalNoticeOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=true"
+              <div chart="{{mainConfig.serverPath}}rest/authen/arrivalNoticeOrder/countByOrderStatus4Echarts?dateType=all&isOnlyCurrentDepartment=false&isOnlyCurrentUser=false"
                     style="height:189px;padding-top:25px;">
               </div>
             </div>
