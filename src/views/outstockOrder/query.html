@@ -29,61 +29,67 @@
     </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
-      <ul class="">
-        <li class="pdr-m relative" ng-repeat="tr in tbodyList">
-          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative">
-            <div class="pd-m">
-              <div class="flex-column mgb-l" style="height:24px;line-height:24px;">
-                <span class="flex-item-3 title-states text-bold">{{tr.orderStatus}}</span>
-                <span class="flex-item-9 text-right">
-                  <a href="#/outstockOrder/get.html?id={{tr.id}}" class="mgr">查看详情</a>
-                  <a ng-if="tr.orderStatus=='未出库'&&$root.hasAuthor('确认出库')" href="#/outstockOrder/get.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即出库</a>
-                </span>
-              </div>
-              <!-- <div class="text-s mgb-m">{{tr.type}}</div> -->
-              <div class="flex-column qurey color-9 text-s">
-                <span class="flex-item-6 mgb-s">出库单号：<span class="color-6 text-normal">{{tr.orderNo}}
-                    <!-- <a href="#/outstockOrder/get.html?id={{tr.id}}"> {{tr.orderNo}}</a> -->
+      <div ng-if="!status.isLoading">
+        <div ng-if="!tbodyList.length">
+          <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+          <p class="text-center">什么也没有</p>
+        </div>
+        <ul class="">
+          <li class="pdr-m relative" ng-repeat="tr in tbodyList">
+            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative">
+              <div class="pd-m">
+                <div class="flex-column mgb-l" style="height:24px;line-height:24px;">
+                  <span class="flex-item-3 title-states text-bold">{{tr.orderStatus}}</span>
+                  <span class="flex-item-9 text-right">
+                    <a href="#/outstockOrder/get.html?id={{tr.id}}" class="mgr">查看详情</a>
+                    <a ng-if="tr.orderStatus=='未出库'&&$root.hasAuthor('确认出库')" href="#/outstockOrder/get.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold">立即出库</a>
                   </span>
-                </span>
-                <span class="flex-item-6 pdl mgb-s">
-                  创建时间：<strong class="color-6 text-normal">{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</strong>
-                </span>
-                <span class="flex-item-6 relative">销售人员：
-                  <em run-popovers class="color-custom-orange cur-pot text-normal pr-color" style="position:absolute;height:25px;">{{tr.saleUser.n}}</em>
-                  <span class="purchaseorder-buyer-info">
-                    <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
-                    <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
-                      <a href="javascript:;"
-                         modal-center="490"
-                         modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
-                         modal-url="views/notice/sendToUser.html">发送消息
-                      </a>
-                    </em></i>
-                  </span>
-                </span>
-              </div>
-            </div>
-            <div class="flex-column">
-              <div class="flex-item-6 br-line">
-                <div class="bb-line">
-                  <p class="text-center pd-v-m text-s">药械品类数</p>
-                  <p class="text-center pr-font-24 pdb-l">{{tr.orderMedicalNos.length}}</p>
                 </div>
-                <div class="text-center pdt pdb text-s">冷链药械：<em class="color-6">{{tr.isNeedColdChain}}</em></div>
+                <!-- <div class="text-s mgb-m">{{tr.type}}</div> -->
+                <div class="flex-column qurey color-9 text-s">
+                  <span class="flex-item-6 mgb-s">出库单号：<span class="color-6 text-normal">{{tr.orderNo}}
+                      <!-- <a href="#/outstockOrder/get.html?id={{tr.id}}"> {{tr.orderNo}}</a> -->
+                    </span>
+                  </span>
+                  <span class="flex-item-6 pdl mgb-s">
+                    创建时间：<strong class="color-6 text-normal">{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</strong>
+                  </span>
+                  <span class="flex-item-6 relative">销售人员：
+                    <em run-popovers class="color-custom-orange cur-pot text-normal pr-color" style="position:absolute;height:25px;">{{tr.saleUser.n}}</em>
+                    <span class="purchaseorder-buyer-info">
+                      <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
+                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                        <a href="javascript:;"
+                           modal-center="490"
+                           modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                           modal-url="views/notice/sendToUser.html">发送消息
+                        </a>
+                      </em></i>
+                    </span>
+                  </span>
+                </div>
               </div>
-              <div class="flex-item-6 pd-m text-s">
-                <!-- <p class="pdb-s color-9">购需单号：<a href=""></a></p> -->
-                <p class="pdb-s color-9">销售单号：<a href="#/confirmOrder/get.html?id={{tr.confirmOrderId}}">{{tr.confirmOrderNo}}</a></p>
-                <p class="pdb-s color-9">发货单号：<a href="#/invoicesOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a></em></p>
+              <div class="flex-column">
+                <div class="flex-item-6 br-line">
+                  <div class="bb-line">
+                    <p class="text-center pd-v-m text-s">药械品类数</p>
+                    <p class="text-center pr-font-24 pdb-l">{{tr.orderMedicalNos.length}}</p>
+                  </div>
+                  <div class="text-center pdt pdb text-s">冷链药械：<em class="color-6">{{tr.isNeedColdChain}}</em></div>
+                </div>
+                <div class="flex-item-6 pd-m text-s">
+                  <!-- <p class="pdb-s color-9">购需单号：<a href=""></a></p> -->
+                  <p class="pdb-s color-9">销售单号：<a href="#/confirmOrder/get.html?id={{tr.confirmOrderId}}">{{tr.confirmOrderNo}}</a></p>
+                  <p class="pdb-s color-9">发货单号：<a href="#/invoicesOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a></em></p>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
     <!-- 导航 -->
-    <div class="clearfix pd-c-m" ng-if="tbodyList.length!='0'">
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
         <div class="fr">
             <pagination status="status"></pagination>
         </div>

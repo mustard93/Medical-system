@@ -50,112 +50,112 @@
     </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
-      <div ng-if="tbodyList.length=='0'">
-        <p class="empty-data text-center">
-          <span class="fa fa-inbox"></span>
-          <span>没有数据</span>
-        </p>
-      </div>
-      <ul ng-if="tbodyList.length!='0'">
-        <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
-          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary">
-            <div class="pd-m">
-              <div class="flex-column mgb card-title-height">
-                <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}</span>
-                <span class="flex-item-6 text-right">
-                  <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
-                     href="javascript:;"
-                     class="pr-color-red mgl"
-                     handle-this-click
-                     dialog-title="确认删除 ?"
-                     dialog-content="您确认删除这条购需单吗?"
-                     dialog-template="dialog-confirm.html"
-                     request-url="rest/authen/salesOrder/delete?id={{tr.id}}"
-                     emitted="reloadList">删除
-                  </a>
-                  <a ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')" href="#/salesOrder/get.html?id={{tr.id}}" class="">查看详情</a>
-                  <a ng-if="tr.progress==0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
-                  <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
-                </span>
-              </div>
-              <div class="flex-column qurey text-s color-9">
-                <span class="flex-item-6 mgb-s">
-                  购需单号：<strong class="color-6 text-normal">{{tr.orderNo}}
-                    <!-- <a href="#/salesOrder/get.html?id={{tr.id}}" class="">  {{tr.orderNo}}</a> -->
-                  </strong>
-                </span>
-                <span class="flex-item-6 pdl mgb-s">
-                  创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
-                </span>
-              </div>
-              <div class="flex-column qurey text-s color-9">
-                <span class="flex-item-6 relative">销售人员：
-                  <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color" style="position:absolute;height:25px;">{{tr.saleUser.n}}</strong>
-                  <span class="purchaseorder-buyer-info">
-                    <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
-                    <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
-                      <a href="javascript:;"
-                         modal-center="490"
-                         modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
-                         modal-url="views/notice/sendToUser.html">发送消息
-                      </a>
-                    </em></i>
+      <div ng-if="!status.isLoading">
+        <div ng-if="tbodyList.length==0">
+          <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+          <p class="text-center">什么也没有</p>
+        </div>
+        <ul ng-if="tbodyList.length">
+          <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
+            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary">
+              <div class="pd-m">
+                <div class="flex-column mgb card-title-height">
+                  <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}</span>
+                  <span class="flex-item-6 text-right">
+                    <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
+                       href="javascript:;"
+                       class="pr-color-red mgl"
+                       handle-this-click
+                       dialog-title="确认删除 ?"
+                       dialog-content="您确认删除这条购需单吗?"
+                       dialog-template="dialog-confirm.html"
+                       request-url="rest/authen/salesOrder/delete?id={{tr.id}}"
+                       emitted="reloadList">删除
+                    </a>
+                    <a ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')" href="#/salesOrder/get.html?id={{tr.id}}" class="">查看详情</a>
+                    <a ng-if="tr.progress==0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
+                    <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>
                   </span>
-                </span>
-                <span class="flex-item-6 pdl">
-                  期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
-                </span>
-              </div>
-            </div>
-            <div class="relative">
-              <div class="bb-line">
-                <h1 class="mg-m text-center text-m color-6 text-ellips-s">{{tr.customerName || '未知单位'}}</h1>
-              </div>
-              <div class="flex-column mgb-n query text-s color-9">
-                <div class="flex-item-6 br-line text-center" style="height:131px;">
-                  <div class="">
-                    <p class="pdt-m pdb-s">购需药械品类数</p>
-                    <p class="text-xxxl pdb-xl pdt-s">{{tr.itemCount}}</p>
-                  </div>
-                  <div class="flex-column">
-                    <span class="flex-item-6">
-                      冷链药械： <strong class="text-normal color-6">{{tr.isNeedColdChain}}</strong>
-                    </span>
-                    <span class="flex-item-6">
-                      库存： <strong class="text-normal color-6">{{tr.stockStatus}}</strong>
-                    </span>
-                  </div>
                 </div>
-                <div class="flex-item-6 text-center">
-                  <p class="pd-v-m">购需转销售单进度</p>
-                  <p class="text-m color-6">{{tr.progress}}%</p>
-                  <div class="pd-c-xl">
-                    <div class="progress pr-progress"
-                         data-toggle="tooltip"
-                         data-placement="top"
-                         title="{{tr.progress}}%">
-                      <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
-                           aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                           aria-valuemax="100"
-                           ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'
-                           >
-                      </div>
-                      <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
-                           aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                            ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
-                           aria-valuemax="100" >
-                      </div>
+                <div class="flex-column qurey text-s color-9">
+                  <span class="flex-item-6 mgb-s">
+                    购需单号：<strong class="color-6 text-normal">{{tr.orderNo}}
+                      <!-- <a href="#/salesOrder/get.html?id={{tr.id}}" class="">  {{tr.orderNo}}</a> -->
+                    </strong>
+                  </span>
+                  <span class="flex-item-6 pdl mgb-s">
+                    创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
+                  </span>
+                </div>
+                <div class="flex-column qurey text-s color-9">
+                  <span class="flex-item-6 relative">销售人员：
+                    <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color" style="position:absolute;height:25px;">{{tr.saleUser.n}}</strong>
+                    <span class="purchaseorder-buyer-info">
+                      <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
+                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
+                        <a href="javascript:;"
+                           modal-center="490"
+                           modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                           modal-url="views/notice/sendToUser.html">发送消息
+                        </a>
+                      </em></i>
+                    </span>
+                  </span>
+                  <span class="flex-item-6 pdl">
+                    期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
+                  </span>
+                </div>
+              </div>
+              <div class="relative">
+                <div class="bb-line">
+                  <h1 class="mg-m text-center text-m color-6 text-ellips-s">{{tr.customerName || '未知单位'}}</h1>
+                </div>
+                <div class="flex-column mgb-n query text-s color-9">
+                  <div class="flex-item-6 br-line text-center" style="height:131px;">
+                    <div class="">
+                      <p class="pdt-m pdb-s">购需药械品类数</p>
+                      <p class="text-xxxl pdb-xl pdt-s">{{tr.itemCount}}</p>
+                    </div>
+                    <div class="flex-column">
+                      <span class="flex-item-6">
+                        冷链药械： <strong class="text-normal color-6">{{tr.isNeedColdChain}}</strong>
+                      </span>
+                      <span class="flex-item-6">
+                        库存： <strong class="text-normal color-6">{{tr.stockStatus}}</strong>
+                      </span>
                     </div>
                   </div>
-                  <!-- <p><strong class="text-normal color-6">{{tr.progress}}%</strong></p> -->
+                  <div class="flex-item-6 text-center">
+                    <p class="pd-v-m">购需转销售单进度</p>
+                    <p class="text-m color-6">{{tr.progress}}%</p>
+                    <div class="pd-c-xl">
+                      <div class="progress pr-progress"
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           title="{{tr.progress}}%">
+                        <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
+                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                             aria-valuemax="100"
+                             ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'
+                             >
+                        </div>
+                        <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
+                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                              ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
+                             aria-valuemax="100" >
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <p><strong class="text-normal color-6">{{tr.progress}}%</strong></p> -->
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     <!-- 导航 -->
-    <div class="clearfix pd-c-m" ng-if="tbodyList.length!='0'">
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
         <div class="fr">
             <pagination status="status"></pagination>
         </div>
