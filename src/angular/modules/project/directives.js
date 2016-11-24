@@ -708,63 +708,195 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
     }
   };
 }
+
 /**
  *	左侧二级菜单切换效果（临时解决方案，无法与一级菜单点击事件指令集成在一起）
  */
 function leftMenuSecondToggle ($location) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      //刷新页面保持边栏状态
-      if (attrs.href.indexOf($location.path().split('/')[1]) !== -1) {
-        var _par = $(element).parent();
-        _par.addClass('active').siblings().each(function () {
-          $(this).removeClass('active');
-        });
-        $(element).parent().parent().show();
-        //保持图标状态
-        $(element).parents('ul.sub-menu-list').prev().children().eq(2).removeClass('pr-arrow-down').addClass('pr-arrow-up');
-      }
 
-      //绑定点击事件
-      $(element).on('click', function (event) {
-        //阻止冒泡
-        if (event && event.stopPropagation) {
-          event.stopPropagation();
+  /**
+  *菜单根据网页地址，选中对应菜单
+  */
+  var LeftMenuObj={
+      isStart:false,//监听只启动一个标志。
+      routeMap:{},
+      last1MenuShowObj:null,
+      //执行样式选中
+      eleChangeEvent:function(element){
+        if(!element||element.length==0){
+          console.log("error:LeftMenuObj.element=null");
         }
-
-        //执行事件
-        eleChangeEvent();
-      });
-
-      //定义监视器，监控Url变化
-      scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
-        if (attrs.href.indexOf(newUrl.split('#')[1].split('/')[1]) !== -1) {
-          eleChangeEvent();
-        }
-      });
-
-      function eleChangeEvent () {
+        //ul(p5)>li(p4)>ul(p3)>li(p2)>a(p1) left-menu-second-toggle
         var _parent = $(element).parent();
-
+          //p2
         _parent.addClass('active').siblings().each(function () {
           $(this).removeClass('active');
         });
-
+        //p4
         _parent.parent().parent().removeClass('active').siblings().each(function () {
           $(this).removeClass('active');
           $(this).find('.sub-menu-list > li').each(function () {
               $(this).removeClass('active');
           });
         });
-
+        //隐藏其他的
+        if(LeftMenuObj.last1MenuShowObj){
+            LeftMenuObj.last1MenuShowObj.hide();
+        }
+        //p3
         if (!_parent.parent().is(':visible')) {
           _parent.parent().show();
+            LeftMenuObj.last1MenuShowObj=_parent.parent();
         }
+        //
+        //   $(element).parents('ul.sub-menu-list').prev().children().eq(2).removeClass('pr-arrow-down').addClass('pr-arrow-up');
+      },
+      //LeftMenuObj.doRoute();
+      //根据优先级路由定位菜单
+      doRoute:function(newUrl){
+        // console.log("getElementMenu1="+url);
+        var url=newUrl;// #/purchaseOrder/query.html?t=123
+        url=url.split('#')[1];// /purchaseOrder/query.html?t=123
+        if(!url)return;
+
+        //全匹配优先级最高
+        elementMenu=this.routeMap[url];
+        //去掉参数匹配优先级最高
+        if(!elementMenu||elementMenu.length==0){
+             url=url.split('?')[0];// /purchaseOrder/query.html
+            elementMenu=this.routeMap[url];
+        }
+        //取模块名
+        if(!elementMenu||elementMenu.length==0){
+             url=url.split('/')[1];  // purchaseOrder
+            elementMenu=this.routeMap[url];
+        }
+        // console.log("getElementMenu2="+url);
+      if(!elementMenu||elementMenu.length==0){
+             return;
+        }
+          console.log("doRoute="+url);
+        this.eleChangeEvent(elementMenu);
+      },
+        //启动监听定义监视器，监控Url变化 LeftMenuObj.startListen($scope)
+      startListen:function($scope){
+        if(this.isStart)return;
+        this.isStart=true;
+        $scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
+            console.log("locationChangeSuccess="+newUrl);
+           LeftMenuObj.doRoute(newUrl);
+
+        });
+      },//startListen
+      //添加路由，支持自定义key
+      add:function(keyArr,elementMenu ){
+        if(keyArr&&keyArr.length>0){//  自定义key
+          for(var i=0;i<keyArr.length;i++){
+              this.routeMap[keyArr[i]]=elementMenu;
+          }
+        }
+        // #/purchaseOrder/query.html?t=123
+        var url=  elementMenu.attr("href");
+        if(!url)return;
+
+        url=url.split('#')[1];  // /purchaseOrder/query.html?t=123
+
+        if(url)this.routeMap[url]=elementMenu;
+        url=url.split('?')[0];  // /purchaseOrder/query.html
+        if(url)this.routeMap[url]=elementMenu;
+        url=url.split('/')[1]; // purchaseOrder
+        if(url)this.routeMap[url]=elementMenu;
+
+      }//end key
+
+  }
+
+
+  return {
+    restrict: 'A',
+    link: function ($scope, $element, $attrs) {
+      var keyArr=null;
+      if($attrs.keyArr){
+          keyArr=$scope.$eval($attrs.keyArr);
       }
+      LeftMenuObj.add(keyArr,$element);
+      LeftMenuObj.startListen($scope);
+      LeftMenuObj.doRoute("#"+$location.path());
+
+
+      //绑定点击事件
+      $element.on('click', function (event) {
+        //阻止冒泡
+        if (event && event.stopPropagation) {
+          event.stopPropagation();
+        }
+
+        //执行事件
+          LeftMenuObj.eleChangeEvent($element);
+      });
+
     }
   };
-}
+}//leftMenuSecondToggle
+/**
+  弃用
+ *	左侧二级菜单切换效果（临时解决方案，无法与一级菜单点击事件指令集成在一起）
+ */
+// function leftMenuSecondToggle_bak ($location) {
+//   return {
+//     restrict: 'A',
+//     link: function (scope, element, attrs) {
+//       //刷新页面保持边栏状态
+//       if (attrs.href.indexOf($location.path().split('/')[1]) !== -1) {
+//         var _par = $(element).parent();
+//         _par.addClass('active').siblings().each(function () {
+//           $(this).removeClass('active');
+//         });
+//         $(element).parent().parent().show();
+//         //保持图标状态
+//         $(element).parents('ul.sub-menu-list').prev().children().eq(2).removeClass('pr-arrow-down').addClass('pr-arrow-up');
+//       }
+//
+//       //绑定点击事件
+//       $(element).on('click', function (event) {
+//         //阻止冒泡
+//         if (event && event.stopPropagation) {
+//           event.stopPropagation();
+//         }
+//
+//         //执行事件
+//         eleChangeEvent();
+//       });
+//
+//       //定义监视器，监控Url变化
+//       scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
+//         console.log("locationChangeSuccess="+attrs.href);
+//         if (attrs.href.indexOf(newUrl.split('#')[1].split('/')[1]) !== -1) {
+//           eleChangeEvent();
+//         }
+//       });
+//
+//       function eleChangeEvent () {
+//         var _parent = $(element).parent();
+//
+//         _parent.addClass('active').siblings().each(function () {
+//           $(this).removeClass('active');
+//         });
+//
+//         _parent.parent().parent().removeClass('active').siblings().each(function () {
+//           $(this).removeClass('active');
+//           $(this).find('.sub-menu-list > li').each(function () {
+//               $(this).removeClass('active');
+//           });
+//         });
+//
+//         if (!_parent.parent().is(':visible')) {
+//           _parent.parent().show();
+//         }
+//       }
+//     }
+//   };
+// }
 /**
  *  个人中心导航切换
  */
