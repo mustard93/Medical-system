@@ -669,10 +669,18 @@ define('project/controllers', ['project/init'], function() {
     function firstMedicalCtrl ($scope, modal, alertWarn, requestData, alertOk, alertError, $rootScope) {
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
+
          if ($scope.submitForm_type == "submit") {
            $scope.formData.validFlag = true;
          }
         $("#" + fromId).trigger("submit");
+      };
+
+      $scope.submitFormAfter = function (_url) {
+        if ($scope.submitForm_type === 'submit') {
+          // $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+$scope.formData.id);
+          $scope.goTo(_url + '?id=' + $scope.formData.id);
+        }
       };
     }
 

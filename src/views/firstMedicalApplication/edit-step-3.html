@@ -1,4 +1,9 @@
-<div class="content-wrapper first-medical-application">
+<div class="content-wrapper first-medical-application"
+     ng-controller="firstMedicalCtrl"
+     ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback=""
+     alert-error>
   <div class="page-header-info">
     <h1>首营品种申请</h1>
     <p>管理中心 / 药械管理</p>
@@ -11,18 +16,29 @@
   </div>
   <!-- 主体内容 -->
   <div class="content-wrapper-main mgt">
-    <form class="form-horizontal">
+    <form class="form-horizontal"
+          id="firstMedical-editForm"
+          name="firstMedicalEditForm"
+          form-validator
+          parameter-body
+          action="rest/authen/firstMedicalApplication/saveAttachments?validateFlag=true"
+          alert-error
+          alert-ok
+          scope-error-msg="errorMsg"
+          scope-data="formData"
+          novalidate="true"
+          callback="submitFormAfter('#/firstMedicalApplication/get.html')">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-        <span class="flex-item-11">申请单：<em class="color-6">SY0123456789</em></span>
+        <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo}}</em></span>
         <span class="current-status flex-item-1">
-          <strong>状态：未提交</strong>
+          <strong>状态：{{formData.orderStatus}}</strong>
         </span>
       </div>
       <!-- 基本信息 -->
       <div class="panel pr-panel pr-panel-height mgb">
         <h1 class="pr-font-18 mgb">审核资料</h1>
-        <div class="">
+        <div>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -33,12 +49,37 @@
                 <th>有效日期</th>
                 <th>附件</th>
                 <th>备注</th>
-                <th>操作</th>
+                <th class="text-center">操作</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-
+              <tr ng-repeat="item in formData.attachments">
+                <td>{{$index + 1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.uploadUserName}}</td>
+                <td>{{}}</td>
+                <td><input type="date" class="ipt pr-short-ipt color-6" placeholder="有效日期至" convert-to-date
+                ng-model="item.guaranteePeriod"></td>
+                <td>
+                  <p ng-if="item.attachmentUrl"><img src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
+                  <p ng-if="!item.attachmentUrl"><img src="{{item.attachmentUrl}}" alt=""/></p>
+                  <p>
+                    <button type="button"
+                            class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                            ng-init="upFile={}"
+                            uploader-one="rest/authen/fileUpload/upload.json"
+                            usege="首营品种申请"
+                            callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
+                            up-file="upFile" ng-model="item.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                    </button>
+                  </p>
+                </td>
+                <td>
+                  <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
+                </td>
+                <td class="text-center">
+                  <a href="javascript:;" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
+                </td>
               </tr>
             </tbody>
             <!-- 添加资料 -->
@@ -81,13 +122,19 @@
              request-url="rest/authen/customerAddress/contact/delete">删除</a>
         </span>
         <span class="mgl">
-          <a href="#" class="btn btn-primary pr-btn-bg-gold">保存</a>
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled=""
+                  ng-click="submitForm('firstMedical-editForm','save')">保存
+          </button>
         </span>
         <span class="mgl">
-          <a href="#" class="btn btn-primary pr-btn-bg-gold">上一步</a>
+          <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="pageTo('#/firstMedicalApplication/edit-step-2.html?id='+formData.id)">上一步</button>
         </span>
         <span class="mgl">
-          <a href="#" class="btn btn-primary pr-btn-bg-gold">预览申请单get</a>
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled=""
+                  ng-click="submitForm('firstMedical-editForm','submit')">预览申请单
+          </button>
         </span>
       </div>
     </form>

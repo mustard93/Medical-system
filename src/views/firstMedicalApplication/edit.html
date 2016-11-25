@@ -18,21 +18,23 @@
   <div class="content-wrapper-main mgt">
     <form class="form-horizontal"
           id="firstMedical-editForm"
-          name="firstMedical-editForm"
+          name="firstMedicalEditForm"
           form-validator
           parameter-body
           action="rest/authen/firstMedicalApplication/saveBaseInfo?validateFlag=false"
           alert-error
           alert-ok
           scope-error-msg="errorMsg"
-          scope-data="formData">
+          scope-data="formData"
+          novalidate="true"
+          callback="submitFormAfter('#/firstMedicalApplication/edit-step-2.html')">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="flex-item-11">申请单：<em class="color-6">暂无</em></span>
         <span class="current-status flex-item-1">
-          <strong>状态：未提交</strong>
+          <strong>状态：{{formData.orderStatus}}</strong>
         </span>
-      </div>{{formData.firstMedical}}
+      </div>
       <!-- 基本信息 -->
       <div class="panel pr-panel pr-panel-height mgb">
         <h1 class="pr-font-18">基本信息</h1>
@@ -43,10 +45,10 @@
                 <label for="" class="col-sm-2 control-label">类别：</label>
                 <div class="col-sm-10">
                   <label class="radio-inline">
-                    <input type="radio" name="type" value="器械" ng-model="formData.firstMedical.type"> 器械
+                    <input type="radio" name="type" value="药械" ng-model="formData.firstMedical.type"> 药械
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="type" value="中药及饮品" ng-model="formData.firstMedical.type"> 中药及饮品
+                    <input type="radio" name="type" value="中药及饮片" ng-model="formData.firstMedical.type"> 中药及饮片
                   </label>
                   <label class="radio-inline">
                     <input type="radio" name="type" value="其他药品" ng-model="formData.firstMedical.type"> 其他药品
@@ -58,7 +60,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">品种通用名称：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.genericName">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.genericName" required>
                 </div>
               </div>
             </div>
@@ -68,7 +70,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">品种名：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.name">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.name" required>
                 </div>
               </div>
             </div>
@@ -76,7 +78,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">注册商标：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.trademark">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.trademark" required>
                 </div>
               </div>
             </div>
@@ -86,7 +88,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">品种编码：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.code">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.code" required>
                 </div>
               </div>
             </div>
@@ -94,7 +96,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">国药统一编码：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.medicalUniformCode">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.medicalUniformCode" required>
                 </div>
               </div>
             </div>
@@ -104,7 +106,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">批准文号：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.licenseNumber">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.licenseNumber" required>
                 </div>
               </div>
             </div>
@@ -112,7 +114,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">备案凭证编号：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.filingDocumentNumber">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.filingDocumentNumber" required>
                 </div>
               </div>
             </div>
@@ -122,7 +124,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">剂型：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.dosageForms">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.dosageForms" required>
                 </div>
               </div>
             </div>
@@ -130,7 +132,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">型号规格：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.specification">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.specification" required>
                 </div>
               </div>
             </div>
@@ -140,7 +142,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">计量单位：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.measurement">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.measurement" required>
                 </div>
               </div>
             </div>
@@ -148,7 +150,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">包装情况：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.packingCondition">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.packingCondition" required>
                 </div>
               </div>
             </div>
@@ -158,7 +160,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">中包装数量：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.numberOfPackages">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.numberOfPackages" required>
                 </div>
               </div>
             </div>
@@ -166,7 +168,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">件装量：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.pieceLoading">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.pieceLoading" required>
                 </div>
               </div>
             </div>
@@ -176,7 +178,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">税率：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.tax">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.tax" required>
                 </div>
               </div>
             </div>
@@ -185,7 +187,7 @@
                 <label for="" class="col-sm-2 control-label">是否基药：</label>
                 <div class="col-sm-6 flex-column">
                   <span class="flex-item-3">
-                    <select class="form-control" name="" ng-model="formData.firstMedical.isBasicMedicine">
+                    <select class="form-control" name="" ng-model="formData.firstMedical.isBasicMedicine" required>
                       <option value="是" ng-selected="true">是</option>
                       <option value="否">否</option>
                     </select>
@@ -206,7 +208,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">采购价：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control text-right" placeholder="￥0.00" ng-model="formData.firstMedical.purchasePrice">
+                  <input type="text" class="form-control text-right" placeholder="￥0.00" ng-model="formData.firstMedical.purchasePrice" required>
                 </div>
               </div>
             </div>
@@ -214,7 +216,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">零售价：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.retailPrice">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.retailPrice" required>
                 </div>
               </div>
             </div>
@@ -224,7 +226,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">生产企业：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.produceEnterprise">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.produceEnterprise" required>
                 </div>
               </div>
             </div>
@@ -232,7 +234,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">厂址：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.factoryAddress">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.factoryAddress" required>
                 </div>
               </div>
             </div>
@@ -242,7 +244,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">产地：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.originalPlace">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.originalPlace" required>
                 </div>
               </div>
             </div>
@@ -250,7 +252,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">存储条件：</label>
                 <div class="col-sm-6">
-                  <select class="select pr-select pr-short-ipt" name="" ng-model="formData.firstMedical.storageCondition">
+                  <select class="select pr-select pr-short-ipt" name="" ng-model="formData.firstMedical.storageCondition" required>
                     <option value="常温" ng-selected="true">常温</option>
                     <option value="冷链">冷链</option>
                   </select>
@@ -263,7 +265,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">供应单位：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.supplierName">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.supplierName" required>
                 </div>
               </div>
             </div>
@@ -271,7 +273,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">质量标准：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.qualityStandard">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.qualityStandard" required>
                 </div>
               </div>
             </div>
@@ -281,7 +283,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">有效期：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.guaranteePeriod">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.guaranteePeriod" required>
                 </div>
               </div>
             </div>
@@ -304,13 +306,16 @@
              dialog-template="pr-dialog-submit.html"
              callback="$root.goTo('#/firstMedicalApplication/query.html')"
              params='{"customerAddressId":formData.customerAddressId,"contactId":formData.id}'
-             request-url="rest/authen/customerAddress/contact/delete">删除</a>
+             request-url="rest/authen/firstMedicalApplication/delete">删除</a>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="submitForm('firstMedical-editForm','save')">保存</button>
         </span>
         <span class="mgl">
-          <a href="#" class="btn btn-primary pr-btn-bg-gold">下一步</a>
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled=""
+                  ng-click="submitForm('firstMedical-editForm','submit')">下一步
+          </button>
         </span>
       </div>
     </form>
