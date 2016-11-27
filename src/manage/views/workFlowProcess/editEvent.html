@@ -1,0 +1,102 @@
+
+
+        <div class="modal-content" ng-controller="editCtrl"
+        ng-init='isUpdate=currentEvent && currentEvent.name==dialogData.name;formData1=dialogData||currentEvent'
+        >
+
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/medicalStock/save"
+                 scope-data="formData1" alert-error
+                form-validator>
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">{{isUpdate}}编辑</h4>
+            </div>
+            <div class="modal-body">
+
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">名字</label>
+                <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData1.name" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">eventType</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select ng-if="initFlag"  class="ipt pr-short-ipt"  ng-model="formData1.eventType">
+                      <option value="销售单">销售单</option>
+                        <option value="采购单">采购单</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">类型</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.type">
+                      <option value="Event">Event</option>
+                        <option value="StartEvent">StartEvent</option>
+                          <option value="EndEvent">EndEvent</option>
+                            <option value="BranchEvent">BranchEvent</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">状态</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.status">
+                      <option value="待审批">待审批</option>
+                          <option value="已作废">已作废</option>
+                  </select>
+                  <!-- <select ng-if="initFlag"  class="select pr-select" ng-model="formData1.status" style="max-width:180px;" chosen
+                   select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
+                  </select> -->
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">conditionType</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.conditionType">
+                          <option value="通过">通过</option>
+                      <option value="驳回">驳回</option>
+
+                  </select>
+                  <!-- <select ng-if="initFlag"  class="select pr-select" ng-model="formData1.status" style="max-width:180px;" chosen
+                   select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
+                  </select> -->
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">sourceRef</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select ng-if="initFlag"  class="ipt pr-short-ipt" ng-model="formData1.sourceRef"  ng-options="event.name as event.name for event in formData.events">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">targetRef</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select ng-if="initFlag"  class="ipt pr-short-ipt" ng-model="formData1.targetRef"  ng-options="event.name  as event.name for event in formData.events">
+                    <option value=""></option>
+                  </select>
+                </div>
+              </div>
+
+                <div class="form-group">
+
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+
+                    {{updateWorkflowFlag}}
+                <button ng-if="isUpdate" ng-click="updateWorkflowFlag.count=updateWorkflowFlag.count+1;" type="button" class="btn btn-default" > 保存  </button>
+                <button ng-if="!isUpdate" ng-click="formData.events.push(formData1);updateWorkflowFlag.count=updateWorkflowFlag.count+1;" type="button" class="btn btn-default" > 保存  </button>
+
+                <button  ng-click="$emit('workflowReload');" type="button" class="btn btn-default" > 刷新  </button>
+
+                      </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>
