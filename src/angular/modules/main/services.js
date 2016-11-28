@@ -393,6 +393,60 @@ function alertOk($rootScope, modal) {
 
       };
 
+      //工具类
+      function utils () {
+          return  {
+
+                //在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
+                getScopeExtend  : function ($scope,scopeExtendName) {
+
+                    if(  angular.isObject($scope[scopeExtendName])){
+                      return $scope[scopeExtendName];
+                    }
+                    if(!$scope.$parent)return;
+                    return this.getScopeExtend($scope.$parent,scopeExtendName);
+                },
+                //  跳转到对应页面 utils.goTo(url,confirmMsg);
+                goTo  : function (url,confirmMsg) {
+
+                      url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+                    if(confirmMsg){
+                      dialogConfirm(confirmMsg, function () {
+                        window.location.assign(url);
+                      }, null);
+                    }else{
+                        window.location.assign(url);
+                    }
+                },
+                //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+               getObjectIndexByKeyOfArr : function (arr,key,val) {
+
+                     if(!angular.isArray(arr))return null;
+                     for(var i=0;i<arr.length;i++){
+                       if(arr[i][key]==val)return i;
+                     }
+                     return -1;
+                 },
+                //    遍历数组，返回满足属性值等于val的。 utils.getObjectByKeyOfArr(arr,key,val) ;
+                getObjectByKeyOfArr : function (arr,key,val) {
+
+                    var index=this.getObjectIndexByKeyOfArr(arr,key,val);
+                    if(index<0)     return null;
+                    return arr[index];
+                },
+                //    遍历数组，删除满足属性值等于val的。utils.removeObjectByKeyOfArr(arr,key,val)
+                removeObjectByKeyOfArr : function (arr,key,val) {
+
+                    var index=this.getObjectIndexByKeyOfArr(arr,key,val);
+                    if(index>-1){
+                        arr.splice(index,1);
+                    }
+                    return index;
+                }
+
+            }
+
+    };
 
 
 
@@ -422,6 +476,7 @@ function alertOk($rootScope, modal) {
       .service('dialogChart', dialogChart)
       .service('buildTree', buildTree)
         .factory('store', store)
+          .factory('utils', utils)
       .factory('proLoading', proLoading)
       .config(['$httpProvider', function ($httpProvider) {
           $httpProvider.interceptors.push('redirectInterceptor');

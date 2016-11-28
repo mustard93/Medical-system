@@ -685,7 +685,65 @@ define('project/controllers', ['project/init'], function() {
     }
 
 
+
+    /**
+     * 编辑工作流
+     */
+    function editWorkFlowProcessCtrl ($scope, modal, alertWarn, requestData, alertOk, alertError, $rootScope) {
+
+
+
+      /**
+      保存节点信息（新建or创建）
+      */
+      $scope.saveEvent = function(event1) {
+        if(!$scope.formData.events)$scope.formData.events=[];
+        var events=$scope.formData.events;
+        var isInsert=true;
+        if(event1.id){
+            var eventTmp=$rootScope.utils.getObjectByKeyOfArr(events,'id',event1.id);
+            if(eventTmp){
+                event1.id=event1.name;
+                eventTmp=$.extend(true,eventTmp,event1);
+                isInsert=false;
+            }
+        }
+
+        if(isInsert){
+
+              event1.id=event1.name;
+             events.push(event1);
+        }
+
+        if($scope.scopeExtend&&$scope.scopeExtend.workflow){
+          $scope.scopeExtend.workflow.reload();
+        }
+        modal.closeAll();
+      };
+
+      /**
+      删除节点信息（新建or创建）
+      */
+      $scope.deleteEvent = function(id) {
+        if(!$scope.formData.events)$scope.formData.events=[];
+          var events=$scope.formData.events;
+        var index=$rootScope.utils.removeObjectByKeyOfArr(events,'id',id);
+        if(index<0){
+            alertError("没有该节点，id="+event1.id);
+            return;
+        }
+        if($scope.scopeExtend&&$scope.scopeExtend.workflow){
+          $scope.scopeExtend.workflow.reload();
+        }
+
+          modal.closeAll();
+      };//deleteEvent
+
+    }//editWorkFlowProcessCtrl
+
+
     angular.module('manageApp.project')
+      .controller('editWorkFlowProcessCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl])
     .controller('firstMedicalCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", firstMedicalCtrl])
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
     .controller('intervalCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", intervalCtrl])
