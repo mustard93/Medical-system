@@ -23,9 +23,9 @@ define(['JTopo'], function(JTopo){
 
 　　　　function WorkflowProcess(divId,option){
           if(option){
-              this.options=$.extend({},defaultOptions,option);
+              this.options=$.extend(true,{},defaultOptions,option);
           }else{
-              this.options=$.extend({},defaultOptions);
+              this.options=$.extend(true,{},defaultOptions);
           }
 
           var canvas = document.getElementById(divId);
@@ -49,7 +49,7 @@ define(['JTopo'], function(JTopo){
             var scene = this.stage.childs[0];
 
             var nodes = scene.childs.filter(function(e){
-              return e instanceof JTopo.Node&&e.text==name;
+              return e instanceof JTopo.Node&&e.key==name;
             });
             if(nodes&&nodes.length>0)return nodes[0];
 
@@ -86,7 +86,7 @@ define(['JTopo'], function(JTopo){
             for(var i=0;i<data.events.length;i++){
                this.addLinkByEvent(data.events[i]);
             }
-               this.scene.doLayout(JTopo.layout.TreeLayout('right', 150, 150));
+               this.scene.doLayout(JTopo.layout.TreeLayout('right', 80, 120));
               //  var json=this.stage.toJson();
               //  console.log(json);
           },
@@ -154,16 +154,16 @@ define(['JTopo'], function(JTopo){
 
           addNodeByEvent:function(event1){
             var node=null;
-            var name=event1.name;
+            var name=event1.name+"-"+event1.status;
             switch (event1.type) {
               case "StartEvent":
-                  node=this.addStartNode(event1.name);
+                  node=this.addStartNode(name);
                 break;
                 case "EndEvent":
-                      node=this.addEndNode(event1.name);
+                      node=this.addEndNode(name);
                   break;
               default:
-                    node=this.addNode(event1.name);
+                    node=this.addNode(name);
             }
             switch (event1.conditionType) {
               case "驳回":
@@ -173,6 +173,9 @@ define(['JTopo'], function(JTopo){
               default:
                 ;
             }
+
+
+            node.key=event1.name;
             return node;
           },
            addEvent:function(event1){
@@ -199,13 +202,13 @@ define(['JTopo'], function(JTopo){
             }
 
 
-            node.mouseover(function(){
-                this.text = event1.name;
-            });
-            node.mouseout(function(){
-                this.text = event1.name;
-                // this.text = null;
-            });
+            // node.mouseover(function(){
+            //     // this.text = event1.name;
+            // });
+            // node.mouseout(function(){
+            //     // this.text = event1.name;
+            //     // this.text = null;
+            // });
 
 
             return node;

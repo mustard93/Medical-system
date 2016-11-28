@@ -6,7 +6,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store) {
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal) {
       $rootScope.store=store;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
@@ -42,30 +42,31 @@ define('main/controllers', ['main/init'], function () {
 
 
         // 调转页面
-        $scope.goTo = function (url,confirmMsg) {
+        // $scope.goTo = function (url,confirmMsg) {
+        //
+        //       url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+        //
+        //     if(confirmMsg){
+        //       dialogConfirm(confirmMsg, function () {
+        //         window.location.assign(url);
+        //       }, null);
+        //     }else{
+        //         window.location.assign(url);
+        //     }
+        // };
 
-              url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
-
-            if(confirmMsg){
-              dialogConfirm(confirmMsg, function () {
-                window.location.assign(url);
-              }, null);
-            }else{
-                window.location.assign(url);
-            }
-        };
+        //@Deprecated 已移动到$rootScope.utils中 建议使用$rootScope.utils
+        $scope.goTo=utils.goTo;
         $rootScope.goTo=$scope.goTo;
-
-
         //遍历数组，返回满足属性值等于val的。
-        $rootScope.getObjectByKeyOfArr = function (arr,key,val) {
+        $rootScope.getObjectByKeyOfArr = utils.getObjectByKeyOfArr;
+        //推荐使用
+        $rootScope.utils=utils;
 
-            if(!angular.isArray(arr))return null;
-            for(var i=0;i<arr.length;i++){
-              if(arr[i][key]==val)return arr[i];
-            }
-            return null;
-        };
+        //    $rootScope.modal.closeAll();
+        $rootScope.modal=modal;
+
+
 
         $scope.httpGet = function(url) {
           if (Config.serverPath) {
@@ -293,7 +294,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
