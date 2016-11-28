@@ -962,8 +962,87 @@ function intervalCountdown ($interval) {
   };
 }
 
+/**
+ * [左边栏子菜单点击事件]
+ */
+function canvasWorkflow (modal) {
+  'use strict';
+  return {
+      restrict: 'AE',
+      // scope: false,
+      scope: {
+          // workflowCallback:"&",
+          updateWorkflowFlag:"=?",
+          ngModel:"=?"
+      },
+    link: function ($scope, element, $attrs) {
 
+      // $scope.ngModel;
+      // var data=$scope[$attrs.ngModel];
+          var data= $scope.ngModel;
+        console.log(data);
+          require(['WorkflowProcess'], function(WorkflowProcess) {
+
+
+
+
+
+            function clickCallback(event,that){
+
+                if(!angular.isDefined($attrs.modalUrl)){
+                    return;
+                }
+                // alert(that.currentNode.text);
+                  $scope.$parent.currentEvent=that.currentNode.data;
+                  modal.open({
+                    template: $attrs.modalUrl,
+                    className: 'ngdialog-theme-right',
+                    cache: false,
+                    trapFocus: true,
+                    overlay: ($attrs.modalOverlay == "true"),
+                    data: that.currentNode.data,
+                    scope: $scope.$parent,
+                    controller: ["$scope", "$element", function ($scope, $element) {
+                        $(".ngdialog-content", $element).width("50%");
+                    }]
+                });
+            }//end clickCallback
+
+
+            var option={
+                node:{
+
+                  clickCallback:clickCallback
+                }
+            };
+
+            var workflow=new WorkflowProcess($attrs.id,option);
+
+            workflow.addWorkflowProcess(data);
+              //编辑节点回掉函数 新建保存，作用域调用不到该函数
+              $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
+                modal.closeAll();
+                workflow.reload();
+
+            }
+              //编辑节点回掉函数 新建保存，作用域调用不到该函数,采用监听标志位
+
+              if(angular.isDefined($attrs.updateWorkflowFlag)){
+                $scope.$parent.$watch($attrs.updateWorkflowFlag, function(value) {
+                  modal.closeAll();
+                  workflow.reload();
+                }, true);
+              }
+
+
+          });//WorkflowProcess
+
+    }//end link
+  };
+}
 angular.module('manageApp.project')
+.directive("canvasWorkflow", ["modal",canvasWorkflow])//工作流编辑
+
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
 
 .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
