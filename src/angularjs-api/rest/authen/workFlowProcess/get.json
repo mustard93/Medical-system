@@ -1,0 +1,93 @@
+{
+  "code": 200,
+  "data":  {
+        "id" : "582025d2a01f44e149ae221a",
+        "name" : "全局销售单流程",
+        "events" : [
+            {
+                "id" : "销售单待审批",
+                "type" : "StartEvent",
+                "name" : "销售单待审批",
+                "status" : "待审批",
+                "eventType" : "销售单",
+                "_class" : "com.pangu.mss.vo.workflow.StartEvent"
+            },
+            {
+                "id" : "销售单已作废",
+                "conditionType" : "驳回",
+                "type" : "BranchEvent",
+                "name" : "销售单已作废",
+                "sourceRef" : "销售单待审批",
+                "status" : "已作废",
+                "eventType" : "销售单",
+                "_class" : "com.pangu.mss.vo.workflow.BranchEvent"
+            },
+            {
+                "id" : "销售单待发单",
+                "conditionType" : "通过",
+                "type" : "BranchEvent",
+                "name" : "销售单待发单",
+                "sourceRef" : "销售单待审批",
+                "targetRef" : "销售单待发货",
+                "status" : "待发单",
+                "eventType" : "销售单",
+                "_class" : "com.pangu.mss.vo.workflow.BranchEvent"
+            },
+            {
+                "id" : "销售单待发货",
+                "type" : "Event",
+                "name" : "销售单待发货",
+                "sourceRef" : "销售单待发单",
+                "targetRef" : "发货单待发货",
+                "status" : "待发货",
+                "eventType" : "销售单",
+                "action" : [
+                    "生成发货单"
+                ]
+            },
+            {
+                "id" : "发货单待发货",
+                "type" : "Event",
+                "name" : "发货单待发货",
+                "sourceRef" : "销售单待发货",
+                "targetRef" : "生成出库单",
+                "status" : "待发货",
+                "eventType" : "发货单"
+            },
+            {
+                "id" : "生成出库单",
+                "type" : "Event",
+                "name" : "生成出库单",
+                "sourceRef" : "发货单已发货",
+                "targetRef" : "出库单已出库",
+                "status" : "已发货",
+                "eventType" : "发货单",
+                "action" : [
+                    "生成出库单"
+                ]
+            },
+            {
+                "id" : "出库单已出库",
+                "type" : "EndEvent",
+                "name" : "出库单已出库",
+                "sourceRef" : "生成出库单",
+                "status" : "已出库",
+                "eventType" : "出库单",
+                "_class" : "com.pangu.mss.vo.workflow.EndEvent"
+            }
+        ],
+        "businessType" : "销售单",
+        "organizationId" : "57e9c4c343f28f0dd78d6bcd",
+        "status" : "ACTIVE",
+        "spell" : [
+            "quanjuxiaoshoudanliucheng",
+            "quanjuxiaoshoushanliucheng",
+            "quanjuxiaoshouchanliucheng"
+        ],
+        "fspell" : [
+            "qjxsclc",
+            "qjxsslc",
+            "qjxsdlc"
+        ]
+    }
+}

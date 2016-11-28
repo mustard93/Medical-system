@@ -9,6 +9,7 @@
   <h1 class="pd-c-l pdt-m pdb-m">$rootScope.store 本地存储</h1>
   <div class="pd-c-l">
       <ul>
+
         <li>
           <div class="panel">
             <div class="panel-heading">
@@ -25,6 +26,8 @@
 
 
             </div>
+
+            <div class="panel-body" style="display:none;">
             <textarea class="form-control" style="min-height:200px;" readonly="true">
               设置key：
               $root.store.set('habbit.mainRole',mainRole);
@@ -34,6 +37,8 @@
 
 
               </textarea>
+            </div>
+
             </div>
           </div>
         </li>
@@ -50,17 +55,77 @@
 
 
             </div>
-            <textarea class="form-control" style="min-height:200px;" readonly="true">
-              <form name="editForm" class="row form-signin"    onsubmit="return false;" novalidate autocomplete="off"
-              action="rest/sms/verifySmsCodey.json"
-              form-validator
-              scope-error-msg="errorMsg"
-              alert-ok
-              callback="$root.store.set('remeberNumber',formData.phone);$root.store.set('sendVerificationCode',formData.verifyCode);$root.go('#/reg/send_info.html')"
 
-              >
-            </from>
-              </textarea>
+            <div class="panel-body" style="display:none;">
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                <form name="editForm" class="row form-signin"    onsubmit="return false;" novalidate autocomplete="off"
+                action="rest/sms/verifySmsCodey.json"
+                form-validator
+                scope-error-msg="errorMsg"
+                alert-ok
+                callback="$root.store.set('remeberNumber',formData.phone);$root.store.set('sendVerificationCode',formData.verifyCode);$root.go('#/reg/send_info.html')"
+
+                >
+              </from>
+                </textarea>
+                </div>
+
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+              $root.utlis工具类说明：
+              下面简写为：utlis=$root.utlis
+              <p>
+              //在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
+              $root.utlis.getScopeExtend($scope,scopeExtendName);
+              </p>
+              <p>
+              //  跳转到对应页面   $root.utils.goTo(url,confirmMsg);
+              </p>
+              <p>
+              //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+              </p>
+              <p>
+                / 遍历数组，返回满足属性值等于val的。 utils.getObjectByKeyOfArr(arr,key,val) ;
+              </p>
+              <p>
+                //    遍历数组，删除满足属性值等于val的。utils.removeObjectByKeyOfArr(arr,key,val)
+              </p>
+
+            </div>
+
+            <div class="panel-body" style="display:none;">
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                $root.utlis工具类说明：
+                下面简写为：utlis=$root.utlis
+                <p>
+                //在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
+                $root.utlis.getScopeExtend($scope,scopeExtendName);
+                </p>
+                <p>
+                //  跳转到对应页面   $root.utils.goTo(url,confirmMsg);
+                </p>
+                <p>
+                //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+                </p>
+                <p>
+                  / 遍历数组，返回满足属性值等于val的。 utils.getObjectByKeyOfArr(arr,key,val) ;
+                </p>
+                <p>
+                  //    遍历数组，删除满足属性值等于val的。utils.removeObjectByKeyOfArr(arr,key,val)
+                </p>
+              </from>
+                </textarea>
+                </div>
+
             </div>
           </div>
         </li>

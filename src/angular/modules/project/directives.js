@@ -965,7 +965,7 @@ function intervalCountdown ($interval) {
 /**
  * [左边栏子菜单点击事件]
  */
-function canvasWorkflow (modal) {
+function canvasWorkflow (modal,utils) {
   'use strict';
   return {
       restrict: 'AE',
@@ -1018,21 +1018,31 @@ function canvasWorkflow (modal) {
 
             var workflow=new WorkflowProcess($attrs.id,option);
 
-            workflow.addWorkflowProcess(data);
-              //编辑节点回掉函数 新建保存，作用域调用不到该函数
-              $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
-                modal.closeAll();
-                workflow.reload();
+
+
+            if ($attrs.scopeExtend){
+                var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
+                if(scopeExtend){
+                  if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
+                }
 
             }
+
+            workflow.addWorkflowProcess(data);
+              //编辑节点回掉函数 新建保存，作用域调用不到该函数
+              // $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
+              //   modal.closeAll();
+              //   workflow.reload();
+              //
+              // }
               //编辑节点回掉函数 新建保存，作用域调用不到该函数,采用监听标志位
 
-              if(angular.isDefined($attrs.updateWorkflowFlag)){
-                $scope.$parent.$watch($attrs.updateWorkflowFlag, function(value) {
-                  modal.closeAll();
-                  workflow.reload();
-                }, true);
-              }
+              // if(angular.isDefined($attrs.updateWorkflowFlag)){
+              //   $scope.$parent.$watch($attrs.updateWorkflowFlag, function(value) {
+              //     modal.closeAll();
+              //     workflow.reload();
+              //   }, true);
+              // }
 
 
           });//WorkflowProcess
@@ -1041,7 +1051,7 @@ function canvasWorkflow (modal) {
   };
 }
 angular.module('manageApp.project')
-.directive("canvasWorkflow", ["modal",canvasWorkflow])//工作流编辑
+.directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
 
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
 
