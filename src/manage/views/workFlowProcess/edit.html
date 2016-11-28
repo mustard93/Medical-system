@@ -1,0 +1,44 @@
+
+        <div class="modal-content" ng-controller="editCtrl" ng-init="updateWorkflowFlag={count:1}"
+        ajax-url="rest/authen/workFlowProcess/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+         scope-data="formData" alert-error callback="initFlag=true;"
+         >
+         
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/workFlowProcess/save"
+                 scope-data="formData" alert-error
+                form-validator>
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">{{formData.id?"编辑":"添加"}}工作流
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">名称</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+                  </div>
+                </div>
+                <button  type="button" class="btn btn-default" modal-right="400"
+                  modal-scope="this"
+                 modal-url="views/workFlowProcess/editEvent.html">
+                    添加
+                </button>
+                <canvas  ng-if="initFlag" id="canvas" canvas-workflow update-workflow-flag="updateWorkflowFlag" ng-model="formData" height="300px"
+                modal-url="views/workFlowProcess/editEvent.html" width="1200px"
+
+                style="background:gray"></canvas>
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn btn-success" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>

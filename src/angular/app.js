@@ -20,6 +20,8 @@ require.config({
     waitSeconds: 0,
     baseUrl: require.dir + 'modules',
     paths: {
+        'WorkflowProcess': '../modules/workflow/WorkflowProcess',
+        'JTopo': '../libs/jtopo-0.4.8.min',
         'jQuery': '../libs/jquery.min',                         //jQuery
         'underscore': '../libs/underscore/underscore-1.5.2.min',
         'moment': '../libs/moment.min',                         //日历插件
@@ -39,6 +41,9 @@ require.config({
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
     shim: {
+        'JTopo': {
+            exports: 'JTopo'
+        },
         'jQuery': {
             exports: 'jQuery'
         },
@@ -54,6 +59,7 @@ require.config({
         'echarts': {
             exports: 'echarts'
         },
+
         'angular': {
             deps: ['jQuery'],
             exports: 'angular'
