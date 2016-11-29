@@ -58,8 +58,13 @@
                 <td>{{item.name}}</td>
                 <td>{{item.uploadUserName}}</td>
                 <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
-                <td><input type="date" class="ipt pr-short-ipt color-6" placeholder="有效日期至" convert-to-date
-                ng-model="item.guaranteePeriod"></td>
+                <td>
+                  <input type="date"
+                         class="ipt pr-short-ipt color-6"
+                         placeholder="有效日期至"
+                         convert-to-date
+                         ng-model="item.guaranteePeriod">
+                </td>
                 <td>
                   <p ng-if="item.attachmentUrl"><img src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
                   <p ng-if="!item.attachmentUrl"><img src="{{item.attachmentUrl}}" alt=""/></p>
@@ -95,7 +100,16 @@
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td><input type="date" class="ipt pr-short-ipt color-6" placeholder="有效期"></td>
-                <td><a href="javascript">上传附件</a></td>
+                <td>
+                  <button type="button"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                          ng-init="upFile={}"
+                          uploader-one="rest/authen/fileUpload/upload.json"
+                          usege="首营品种申请"
+                          callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
+                          up-file="upFile" ng-model="item.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                  </button>
+                </td>
                 <td>
                   <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"></textarea>
                 </td>
