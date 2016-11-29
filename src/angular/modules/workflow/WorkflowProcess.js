@@ -75,9 +75,11 @@ define(['JTopo'], function(JTopo){
           },
           addWorkflowProcess:function(data){
             if(!data)return;
-            if(!data.events)return;
-
             this.data=data;
+            if(!data.events)return;
+            console.log("addWorkflowProcess.data=");
+            console.log(data);
+
             //添加节点
             for(var i=0;i<data.events.length;i++){
                this.addEvent(data.events[i]);

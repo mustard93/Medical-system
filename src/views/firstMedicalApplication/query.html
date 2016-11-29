@@ -1,4 +1,5 @@
 <div class="content-wrapper first-medical-application"
+     ng-controller="firstMedicalCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
   <!-- 模块标题及面包屑 -->
   <div class="page-header-info">
@@ -32,7 +33,7 @@
       </div>
       <!-- 右侧搜索 -->
       <div class="text-right order-list-search pos-rb">
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/购需单号/销售人员" ng-model="listParams.q">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/申请单号/申请人" ng-model="listParams.q">
         <i class=""></i>
       </div>
     </div>
@@ -45,26 +46,26 @@
         </div>
         <ul ng-if="tbodyList.length">
           <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
-            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}">
               <div class="relative pd-m">
                 <div class="flex-column mgb card-title-height" style="height:24px;line-height:24px;">
                   <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
                     <a ng-if="tr.orderStatus=='未提交'" href="#/firstMedicalApplication/edit.html?id={{tr.id}}">编辑</a>
-                    <a ng-if="tr.orderStatus!='未提交'" href="#/firstMedicalApplication/get.html?id={{tr.id}}">查看详情</a>
-                    <a ng-if="tr.orderStatus=='待审批'" href="javascript:;" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl">立即审批</a>
+                    <a ng-if="tr.orderStatus!='未提交' && tr.orderStatus!='待审批'" href="#/firstMedicalApplication/get.html?id={{tr.id}}">查看详情</a>
+                    <a ng-if="tr.orderStatus=='待审批'" href="#/firstMedicalApplication/get.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl">立即审批</a>
                   </span>
                 </div>
                 <div class="flex-column qurey text-s color-9">
                   <span class="flex-item-6 mgb-s">申请单：
-                    <strong class="color-6 text-normal">{{tr.orderNo || '1234567890'}}</strong></span>
+                    <strong class="color-6 text-normal">{{tr.orderNo}}</strong></span>
                   <span class="flex-item-6 pdl mgb-s">创建时间：
                     <strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
                   </span>
                 </div>
                 <div class="flex-column qurey text-s color-9">
                   <span class="flex-item-6 relative">申请人：
-                    <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color" style="position:absolute;height:25px;">{{tr.saleUser.n || '张琦'}}</strong>
+                    <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color" style="position:absolute;height:25px;">{{tr.proposerName}}</strong>
                     <span class="purchaseorder-buyer-info">
                       <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
                       <i class="block pdb-s text-normal">
@@ -83,21 +84,36 @@
               </div>
               <div class="relative">
                 <div class="bb-line">
-                  <h1 class="mg-m text-center text-m color-6 text-ellips-s">{{tr.customerName || '申请药械名'}}</h1>
+                  <h1 class="mg-m text-center text-m color-6 text-ellips-s">{{tr.firstMedical.name || '未知名称'}}</h1>
                 </div>
                 <div style="min-height:136px;">
-                  <div ng-if="tr.orderStatus=='未提交'" class="text-s bb-line">申请原因：暂无</div>
-                  <div ng-if="tr.orderStatus!='未提交'" class="flex-column text-s bb-line">
+                  <div ng-if="tr.orderStatus=='未提交'" class="flex-column text-s">
+                    <div class="flex-item-12 pd-v pdl-m pdr-m" style="height:136px;">
+                      <p>申请原因：</p>
+                      <div style="height:100px;overflow:hidden;">{{tr.applyReason || '暂无'}}</div>
+                    </div>
+                  </div>
+                  <div ng-if="tr.orderStatus!='未提交'" class="flex-column text-s">
                     <div class="flex-item-6 br-line pd-v pdl-m pdr-m" style="height:136px;">
                       <p>申请原因：</p>
-                      <div>...</div>
+                      <div style="height:100px;overflow:hidden;">{{tr.applyReason || '暂无'}}</div>
                     </div>
-                    <div class="flex-item-6 pd-m">
-                      <p>商务部：<span>已通过</span></p>
-                      <p>商务部经理：<span>已通过</span></p>
-                      <p>运营部：<span>已通过</span></p>
-                      <p>质管部：<span>已通过</span></p>
-                      <p>分管总监：<span>已通过</span></p>
+                    <div class="flex-item-6 pd">
+                      <p ng-init="department1=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','商务部')">
+                        商务部：{{department1.status || '待审批'}}
+                      </p>
+                      <p ng-init="department2=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','商务部经理')">
+                        商务部经理：{{department2.status || '待审批'}}
+                      </p>
+                      <p ng-init="department3=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','运营部')">
+                        运营部：{{department3.status || '待审批'}}
+                      </p>
+                      <p ng-init="department4=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','质管部')">
+                        质管部：{{department4.status || '待审批'}}
+                      </p>
+                      <p ng-init="department5=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','分管总监')">
+                        分管总监：{{department5.status || '待审批'}}
+                      </p>
                     </div>
                   </div>
                 </div>

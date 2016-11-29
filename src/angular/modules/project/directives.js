@@ -980,13 +980,8 @@ function canvasWorkflow (modal,utils) {
       // $scope.ngModel;
       // var data=$scope[$attrs.ngModel];
           var data= $scope.ngModel;
-        console.log(data);
+          console.log(data);
           require(['WorkflowProcess'], function(WorkflowProcess) {
-
-
-
-
-
             function clickCallback(event,that){
 
                 if(!angular.isDefined($attrs.modalUrl)){
@@ -1011,7 +1006,6 @@ function canvasWorkflow (modal,utils) {
 
             var option={
                 node:{
-
                   clickCallback:clickCallback
                 }
             };
