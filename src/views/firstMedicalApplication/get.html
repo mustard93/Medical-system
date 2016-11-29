@@ -1,7 +1,7 @@
 <div class="content-wrapper first-medical-application"
      ajax-url="rest/authen/firstMedicalApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="formData.id=showData.id;formData.orderStatus='待审批'"
+     callback="formData.businessKey=showData.id;formData.type='首营品种';formData.attachments=[]"
      alert-error>
   <div class="page-header-info">
     <h1>首营品种申请</h1>
@@ -9,15 +9,7 @@
   </div>
   <!-- 主体内容 -->
   <div class="content-wrapper-main mgt">
-    <form class="form-horizontal"
-          name="createOrderForm"
-          action="rest/authen/firstMedicalApplication/approverUpdateStatus"
-          form-validator
 
-          parameter-body
-          alert-error
-          alert-ok
-          callback="$root.goTo('#/firstMedicalApplication/get.html?id={{showData.id}}')">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <div class="flex-item-8">
@@ -183,6 +175,9 @@
           <span>{{showData.firstMedical.message}}</span>
         </div>
       </div>
+
+
+
       <!-- 申请原因 -->
       <div class="panel pr-panel pr-panel-height mgb">
         <h1 class="pr-font-18 mgb">申请原因</h1>
@@ -211,7 +206,7 @@
               <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
               <td>{{item.guaranteePeriod | date : 'yyyy-MM-dd HH:mm'}}</td>
               <td>
-                <img ng-if="item.attachmentUrl" src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;" />
+                <img ng-if="item.attachmentUrl" ng-src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;" />
               </td>
               <td>{{item.note}}</td>
             </tr>
@@ -219,25 +214,41 @@
         </table>
       </div>
       <!-- 审批 -->
+
+      <form class="form-horizontal"
+            name="createOrderForm"
+            action="rest/authen/workflowTask/runWithAttchments"
+            form-validator
+            parameter-body
+            alert-error
+            alert-ok
+            ng-init='beforeConfirmMsg="确认通过此申请单?"'
+            beforeConfirmMsg="{{beforeConfirmMsg}}"
+
+            callback="$root.goTo('#/firstMedicalApplication/get.html?id={{showData.id}}')">
+
       <div ng-if="true">
+
+
+
         <!-- 审批意见 -->
         <div class="panel pr-panel pr-panel-height mgb">
           <h1 class="pr-font-18 mgb">审批意见</h1>
           <div class="mgb-m">
-            <label class="radio-inline">
-              <input type="radio" name="type" value="通过" ng-model="formData.approvalResult"> 通过
+            <label class="radio-inline" ng-click='beforeConfirmMsg="确认通过此申请单?"'>
+              <input type="radio" name="type" value="通过" ng-model="formData.conditionType"> 通过
             </label>
-            <label class="radio-inline">
-              <input type="radio" name="type" value="不通过" ng-model="formData.approvalResult"> 不通过
+            <label class="radio-inline" ng-click='beforeConfirmMsg="审批不通过将使该申请单申请失败, 是否拒绝通过?"'>
+              <input type="radio" name="type" value="驳回" ng-model="formData.conditionType"> 驳回
             </label>
           </div>
           <div class="">
-            <textarea class="pr-textarea" rows="4" placeholder="原因说明" ng-model="formData.note"></textarea>
+            <textarea class="pr-textarea" rows="4" placeholder="原因说明" ng-model="formData.message"></textarea>
           </div>
         </div>
         <!-- 补充材料 -->
         <div class="panel pr-panel pr-panel-height mgb">
-          <h1 class="pr-font-18 mgb">审核资料</h1>
+            <h1 class="pr-font-18 mgb">审核资料</h1>
           <div>
             <table class="table table-striped">
               <thead>
@@ -257,12 +268,11 @@
                   <td>{{$index + 1}}</td>
                   <td>{{item.name}}</td>
                   <td>{{item.uploadUserName}}</td>
-                  <td>{{}}</td>
-                  <td><input type="date" class="ipt pr-short-ipt color-6" placeholder="有效日期至" convert-to-date
-                  ng-model="item.guaranteePeriod"></td>
+                  <td>{{item.uploadTime| date : 'yyyy-MM-dd'}}</td>
+                  <td><input  type="text" datepicker  class="ipt pr-short-ipt color-6" placeholder="有效日期至"   ng-model="item.guaranteePeriod"></td>
                   <td>
-                    <p ng-if="item.attachmentUrl"><img src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
-                    <p ng-if="!item.attachmentUrl"><img src="{{item.attachmentUrl}}" alt=""/></p>
+                    <p ng-if="item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
+                    <p ng-if="!item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt=""/></p>
                     <p>
                       <button type="button"
                               class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
@@ -278,12 +288,12 @@
                     <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
                   </td>
                   <td class="text-center">
-                    <a href="javascript:;" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
+                    <a href="javascript:;" ng-click="formData.item.splice($index,1);" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
                   </td>
                 </tr>
               </tbody>
               <!-- 添加资料 -->
-              <tfoot>
+              <tfoot ng-init="addAttachment={}">
                 <tr>
                   <td colspan="7">
                     <h1 class="pr-font-16">添加附件</h1>
@@ -291,31 +301,34 @@
                 </tr>
                 <tr>
                   <td>&nbsp;</td>
-                  <td><input type="text" name="name" class="ipt" placeholder="资料名称"></td>
+                  <td><input type="text" ng-model="addAttachment.name" class="ipt" placeholder="资料名称"></td>
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
-                  <td><input type="date" class="ipt pr-short-ipt color-6" placeholder="有效期"></td>
+                  <td><input type="text" readonly="true"  datepicker ng-model="addAttachment.guaranteePeriod"  class="ipt pr-short-ipt color-6" placeholder="有效期"></td>
                   <td>
                     <button type="button"
                             class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                             ng-init="upFile={}"
                             uploader-one="rest/authen/fileUpload/upload.json"
                             usege="首营品种申请"
-                            callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
-                            up-file="upFile" ng-model="item.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                            callback="addAttachment.uploadUserId='{{$root.curUser.id}}';addAttachment.uploadUserName='{{$root.curUser.name}}'"
+                            up-file="upFile" ng-model="addAttachment.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
                     </button>
                   </td>
                   <td>
-                    <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"></textarea>
+                    <textarea class="pr-textarea" ng-model="addAttachment.note" rows="6" cols="20" placeholder="备注信息"></textarea>
                   </td>
                   <td>
-                    <a href="#" class="pr-add-circle"><span class="fa fa-plus-circle"></span></a>
+                    <a   href="javascript:;" class="pr-add-circle"
+                      ng-click="formData.attachments.push(addAttachment);addAttachment={}"
+                    ><span class="fa fa-plus-circle"></span></a>
                   </td>
                 </tr>
               </tfoot>
             </table>
           </div>
         </div>
+
       </div>
       <!-- 功能按钮 -->
       <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
@@ -335,14 +348,14 @@
         <span class="mgl">
 
 
-                                <button class="pr-btn-save-glodbg"
-                                        type="button"
-                                        ajax-url-submit="rest/authen/firstMedicalApplication/proposerUpdateStatus"
-                                        params='{"id":showData.id,"orderStatus":"待审批"}'
-                                        alert-error
-                                        scope-data="showData"
-                                      >提交审批
-                                </button>
+        <button class="pr-btn-save-glodbg"
+                type="button"
+                ajax-url-submit="rest/authen/firstMedicalApplication/proposerUpdateStatus"
+                params='{"id":showData.id,"orderStatus":"待审批"}'
+                alert-error
+                scope-data="showData"
+              >提交审批
+        </button>
 
           <!-- <button type="submit" class="pr-btn-save-glodbg">提交审批</button> -->
         </span>
@@ -351,11 +364,11 @@
         <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
 
 
-          <!-- <button type="submit" class="pr-btn-save-glodbg">提交</button> -->
+          <button type="submit" class="pr-btn-save-glodbg">提交</button>
 
 
 
-        <button ng-if="!formData.approvalResult" type="button" class="pr-btn-save-glodbg mgl" disabled>提交</button>
+        <!-- <button ng-if="!formData.approvalResult" type="button" class="pr-btn-save-glodbg mgl" disabled>提交</button>
         <button ng-if="formData.approvalResult=='通过'"
                 ng-disabled="!formData.approvalResult"
                 class="pr-btn-save-glodbg mgl"
@@ -379,9 +392,11 @@
                 params='{"id":formData.id,"approvalResult":formData.approvalResult}'
                 request-url="rest/authen/firstMedicalApplication/approverUpdateStatus.json"
                 call-back="">提交
-        </button>
+        </button> -->
         <button type="button" class="pr-btn-save-glodbg mgl">打印</button>
       </div>
-    </form>
+
+      </form>
+
   </div>
 </div>
