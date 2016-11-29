@@ -1,20 +1,20 @@
-<div   ng-controller="pageCtrl"><!-- pageCtrl-->
+<div   ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
 <div class="page-main-content">
   <!-- page heading start-->
   <div class="page-heading">
-      <h3>工作流管理</h3>
+      <h3>定时任务</h3>
       <ul class="breadcrumb">
           <li><a href="#">主面板</a></li>
-          <li class="active">工作流管理</li>
+          <li class="active">定时任务</li>
       </ul>
   </div>
   <!-- page heading end-->
 
   <!--body wrapper start-->
-  <table-list list-data="rest/authen/workflowProcess/query.json" list-params="listParams">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/scheduleTask/query.json" list-params="listParams">
       <div class="mg-m col-lg-12 col-sm-12">
         <div class="col-lg-1">
-          <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/workflowProcess/edit.html">
+          <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/scheduleTask/edit.html">
               <i class="fa fa-plus"></i>新建
           </button>
         </div>
@@ -55,12 +55,11 @@
                           <tr>
                               <th><input type="checkbox" class="selectAll"></th>
                               <th>序号</th>
-                              <th>名称</th>
-                              <th>单位</th>
-                              <th>价格</th>
-                              <th>创建时间</th>
-                              <th>库存</th>
+                              <th>任务名称</th>
+                              <th>cron表达式</th>
                               <th>状态</th>
+                              <th>创建时间</th>
+                              <th>更新时间</th>
                               <th>操作</th>
                               <th></th>
                           </tr>
@@ -69,22 +68,21 @@
                           <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
                               <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                               <td>{{$index + 1}}</td>
-                              <td>{{tr.name}}</td>
-                              <td>{{tr.unit}}</td>
-                              <td>{{tr.price}}</td>
+                              <td>{{tr.taskName}}</td>
+                              <td>{{tr.cronExpression}}</td>
+                              <td>{{tr.taskStatus}}</td>
                               <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-                              <td>{{tr.quantity}}</td>
-                              <td>{{tr.status}}</td>
+                              <td>{{tr.updateAt | date : 'yyyy-MM-dd HH:mm'}}</td>
                               <td>
-                                  <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html">
+                                  <!-- <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html">
                                       <i class="fa fa-folder-open-o"></i>
                                       查看
+                                  </button> -->
+                                  <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/scheduleTask/edit.html?id={{tr.id}}">
+                                      <i class="fa fa-edit"></i>
+                                      编辑
                                   </button>
-                                  <a href="#/workflowProcess/edit.html?id={{tr.id}}"
-
-                                     >编辑</a>
-                                
-                                  <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/workflowProcess/delete', tr.id)">
+                                  <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/scheduleTask/delete', tr.id)">
                                       <i class="fa fa-trash-o"></i>
                                       删除</button>
                               </td>
@@ -102,4 +100,4 @@
   </table-list>
   <!--body wrapper end-->
 </div>
-</div><!-- pageCtrl-->
+</div>
