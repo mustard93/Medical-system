@@ -1,0 +1,235 @@
+<div class="modal-content" ng-controller="editCtrl">
+  <form class="add-customerAddress-form form-horizontal"
+        action="rest/authen/firstEnterpriseApplication/save"
+        ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{tr.id}}"
+        scope-data="formData"
+        callback="initFlag=true"
+        alert-error
+        alert-ok
+        parameter-body
+        form-validator>
+    <div class="modal-header">
+        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}首营企业申请表</h4>
+    </div>
+    <div class="modal-body">
+
+      <h4 class="modal-title">企业基本信息：</h4>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">申请单编号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.applicationNumber"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">申请单状态</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.applicationStatus" disabled="true"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">首营企业名称</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.fullName"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">企业类别</label>
+        <div class="col-lg-2 col-sm-2 control-label" ng-init="formData.firstEnterprise.type='生产'">
+
+          <label><input type="radio" name="type" value="生产" ng-model="formData.firstEnterprise.type">生产</label>
+          <label><input type="radio" name="type" value="经营" ng-model="formData.firstEnterprise.type">经营</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">企业地址</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.address"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">企业简称</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.shortName"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">法人代表</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.legalRepresentative"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">证件号码</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.credentialsNo"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">GSP证书号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.gspCertificateNo"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">生产许可证号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.productionLicenseNo"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label text-left">经营范围</label>
+          <div class="col-lg-10 col-sm-10">
+
+            <select ng-if="initFlag" class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.firstEnterprise.businessScope" chosen
+                    select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_BusinessScope">
+            </select>
+
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">注册资金</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.registeredCapital"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">税号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.taxNo"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">营业执照号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.businessLicenseNo"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">营业期限</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.busnissAllotedTime"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">开户银行</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.accountBank"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">开户账号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.accountNumber"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">开户名称</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.accountName"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">付款方式</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.paymentMethod"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">销售人员</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.salesman"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">身份证号</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.identityNo"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">联系电话</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.tel"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">邮箱</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.firstEnterprise.email"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">拟供产品</label>
+          <div class="col-lg-10 col-sm-10">
+              <textarea class="form-control" placeholder="" ng-model="formData.firstEnterprise.provideProducts"/>
+          </div>
+      </div>
+
+      <h4 class="modal-title">申请原因：</h4>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">申请原因</label>
+          <div class="col-lg-10 col-sm-10">
+              <textarea class="form-control" placeholder="" ng-model="formData.applyReason"/>
+          </div>
+      </div>
+
+      <h4 class="modal-title">审核附件上传：</h4>
+      <div class="form-group"  ng-repeat="item in formData.attachments">
+          <div class="col-lg-10 col-sm-10">
+            {{item.name}}：{{item.uploadUserId}}:{{item.uploadUserName}}
+
+            有效日期至：<input type="date" class="ipt pr-short-ipt color-6" placeholder="有效日期至" convert-to-date ng-model="item.guaranteePeriod">
+
+              {{item.attachmentUrl}}
+
+
+              <button type="button" class="btn btn-default" ng-init="upFile={}"
+                                  uploader-one="rest/authen/fileUpload/upload.json" usege="首营企业申请"
+                                    callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
+                                   up-file="upFile" ng-model="item.attachmentUrl">
+
+                                      上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+              </button>
+          </div>
+      </div>
+
+
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="保存">
+          </div>
+      </div>
+
+
+
+
+    </div>
+  </form>
+</div>

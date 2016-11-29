@@ -10,7 +10,7 @@ define('project/controllers', ['project/init'], function() {
 
                     $scope.watchFormChange=function(watchName){
                       watchFormChange(watchName,$scope);
-                    }
+                    };
 
         modal.closeAll();
         // $scope.formData={};
@@ -684,7 +684,26 @@ define('project/controllers', ['project/init'], function() {
       };
     }
 
+    /**
+     * 首营企业
+     */
+    function firstEnterpriseCtrl ($scope, modal, alertWarn, requestData, alertOk, alertError, $rootScope) {
+      $scope.submitForm = function(fromId, type) {
+         $scope.submitForm_type = type;
 
+         if ($scope.submitForm_type == "submit") {
+           $scope.formData.validFlag = true;
+         }
+        $("#" + fromId).trigger("submit");
+      };
+
+      $scope.submitFormAfter = function (_url) {
+        if ($scope.submitForm_type === 'submit') {
+          // $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+$scope.formData.id);
+          $scope.goTo(_url + '?id=' + $scope.formData.id);
+        }
+      };
+    }
 
     /**
      * 编辑工作流
@@ -743,7 +762,8 @@ define('project/controllers', ['project/init'], function() {
 
 
     angular.module('manageApp.project')
-      .controller('editWorkFlowProcessCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl])
+    .controller('firstEnterpriseCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", firstEnterpriseCtrl])
+    .controller('editWorkFlowProcessCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl])
     .controller('firstMedicalCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", firstMedicalCtrl])
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
     .controller('intervalCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", intervalCtrl])
