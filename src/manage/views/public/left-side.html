@@ -1,68 +1,43 @@
-<div id="page-side" class="left-side sticky-left-side" nice-scroll >
-    <!--logo start-->
-    <div class="logo">
-      <div>
-        <a href="index.html"><i></i></a>
-      </div>
+<div ng-if="leftSideisShow" id="page-side" class="left-side sticky-left-side" nice-scroll >
+  <!--logo start-->
+  <div class="logo">
+    <div>
+      <a href="index.html"><i></i></a>
     </div>
-    <!--logo end-->
-    <div class="left-side-inner">
-        <ul class="nav nav-pills nav-stacked custom-nav">
-          <li>
-            <a href="#/main.html" class="text-center" left-menu-change>首页</a>
-          </li>
-          <li >
-            <a href="#/distributor/query.html" class="text-center" left-menu-change>经销商管理</a>
-          </li>
-          <li>
-            <a href="#/medical/query.html" class="text-center pr-bg-side">
-              药械基本数据
-            </a>
-          </li>
-          <li>
-            <a href="#/department/query.html" class="text-center pr-bg-side">
-              部门管理
-            </a>
-          </li>
-          <li>
-            <a href="#/manageDepartment/query.html" class="text-center pr-bg-side">
-              部门管理（代理管理员）
-            </a>
-          </li>
-          <li>
-            <a href="#/user/query.html" class="text-center pr-bg-side">
-            用户管理
-            </a>
-          </li>
-          <li>
-            <a href="#/manageUser/query.html" class="text-center pr-bg-side">
-            用户管理（代理管理员）
-            </a>
-          </li>
-          <li>
-            <a href="#/role/query.html" class="text-center pr-bg-side">
-            角色管理
-            </a>
-          </li>
-          <li>
-            <a href="#/manageRole/query.html" class="text-center pr-bg-side">
-            角色管理（代理管理员）
-            </a>
-          </li>
-          <li>
-            <a href="#/baseData/query.html" class="text-center pr-bg-side">
-            基础数据管理
-            </a>
-          </li>
-          <li>
-            <a href="#/workFlowProcess/query.html" class="text-center pr-bg-side">
-              工作流管理
-            </a>
-          </li>
-          <li >
-            <a href="#/distributor/queryUserApplyOrganization.html" class="text-center" left-menu-change>管理平台帐号审核</a>
-          </li>
+  </div>
+  <!--logo end-->
+  <div ng-if="$root.curUser.name"  class="left-side-inner">
+    <ul class="nav nav-pills nav-stacked custom-nav">
+      <li class="menu-list">
+        <a left-menu-toggle href="#/main.html" class="nav-home"><span class="nav-ico nav-home"></span><span> 首页</span></a>
+      </li>
+      <li class="menu-list">
+        <a left-menu-toggle href="" class="nav-order"><span class="nav-ico nav-order"></span><span>经销商代理管理员</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+           <li><a left-menu-second-toggle href="#/manageDepartment/query.html"  >部门管理（代理管理员）</a>  </li>
+           <li><a left-menu-second-toggle href="#/manageUser/query.html">用户管理（代理管理员） </a>  </li>
+           <li><a left-menu-second-toggle  href="#/manageRole/query.html" > 角色管理（代理管理员）</a>  </li>
+           <li><a left-menu-second-toggle href="#/manageWorkflowProcess/query.html" > 工作流管理（代理管理员）</a>  </li>
+               <li><a left-menu-second-toggle href="#/workflowProcess/query.html">系统策略</a></li>
+            <li><a left-menu-second-toggle href="#/systemSetting/query.html">系统策略（代理管理员）</a></li>
         </ul>
-        <!--侧边栏导航 end-->
-    </div>
+      </li>
+
+      <li class="menu-list" >
+        <a left-menu-toggle href="" class="nav-home nav-manage-center"><span class="nav-ico nav-manage-center"></span><span> 管理中心</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+          <li><a left-menu-second-toggle href="#/role/query.html">角色管理</a></li>
+          <!-- <li><a left-menu-second-toggle href="#/department/query.html">部门管理</a></li>
+          <li><a left-menu-second-toggle href="#/supplier/query.html">供货商管理</a></li>
+          <li><a left-menu-second-toggle href="#/purchaserAddress/query.html">采购方管理</a></li>
+          <li><a left-menu-second-toggle href="#/customerAddress/query.html">客户管理</a></li>
+          <li><a left-menu-second-toggle href="#/medicalStock/query.html">药械管理</a></li> -->
+          <li><a left-menu-second-toggle href="#/user/query.html">员工管理</a></li>
+          <li><a left-menu-second-toggle href="#/distributor/queryUserApplyOrganization.html">账号审核</a></li>
+          <li><a left-menu-second-toggle href="#/systemSetting/query.html">系统策略</a></li>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
 </div>

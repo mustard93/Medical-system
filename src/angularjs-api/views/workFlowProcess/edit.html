@@ -1,11 +1,12 @@
 
         <div class="modal-content" ng-controller="editWorkFlowProcessCtrl" ng-init="scopeExtend={}"
-        ajax-url="rest/authen/workFlowProcess/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+        ajax-url="rest/authen/workflowProcess/getOfEdit.json?id={{mainStatus.pageParams.id}}"
          scope-data="formData" alert-error callback="initFlag=true;"
          >
 
           <form class="add-medical-form form-horizontal"
-                action="rest/authen/workFlowProcess/save"
+                action="rest/authen/workflowProcess/save"
+                 parameter-body 
                  scope-data="formData" alert-error
                  callback="canvasWorkflow.reload(formData)"
                 form-validator>
@@ -34,13 +35,13 @@
                 <div class="form-group">
                   <button  type="button" class="btn btn-default" modal-right="400"
                     modal-scope="this"
-                   modal-url="views/workFlowProcess/editEvent.html">
+                   modal-url="views/workflowProcess/editEvent.html">
                       添加节点
                   </button>
                 </div>
 
                 <canvas  ng-if="initFlag" id="canvas" canvas-workflow update-workflow-flag="updateWorkflowFlag" scope-extend="scopeExtend" scope-extend-attr="workflow"  ng-model="formData" height="300px"
-                modal-url="views/workFlowProcess/editEvent.html" width="1200px"
+                modal-url="views/workflowProcess/editEvent.html" width="1200px"
 
                 style="background:gray"></canvas>
 
