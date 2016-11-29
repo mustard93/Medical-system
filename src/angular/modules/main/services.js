@@ -421,7 +421,7 @@ function alertOk($rootScope, modal) {
                 //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
                getObjectIndexByKeyOfArr : function (arr,key,val) {
 
-                     if(!angular.isArray(arr))return null;
+                     if(!angular.isArray(arr))return -1;
                      for(var i=0;i<arr.length;i++){
                        if(arr[i][key]==val)return i;
                      }

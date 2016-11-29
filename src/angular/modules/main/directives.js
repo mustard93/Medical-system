@@ -274,6 +274,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 $scope.formData = angular.extend({}, $scope.formData);
 
+
+
                 $scope.$watch($attrs.source, function(value) {
                     if (value && angular.isObject(value)) {
                         angular.extend($scope.formData, value);
@@ -2716,21 +2718,19 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       // var tt=moment(val, _format).millisecond();
                         var tt=moment(val, _format).format('x');
 
-
-                      return tt;
-                      if (!val) return;
-                        var tt=moment(val).format('x');
-
                       return tt;
 
                   });
                   //
                   ngModel.$formatters.push(function() {
                       if (!ngModel.$modelValue) return null;
-                      var time=moment(ngModel.$modelValue).format(_format);
+                      var tmp=ngModel.$modelValue;
+                      var time=moment(parseInt(tmp,10)).format(_format);
 
                       return time;
                   });
+
+
                   $element.datepicker({
                      changeYear : true ,
                       changeMonth  : true ,
@@ -2741,7 +2741,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   			dayNamesMin: ['日','一','二','三','四','五','六'],
             					onSelect:function(val){
             						$scope.$apply(function(){
-
                           	ngModel.$setViewValue(val);
             						});
             					}
