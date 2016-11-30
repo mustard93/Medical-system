@@ -175,9 +175,6 @@
           <span>{{showData.firstMedical.message}}</span>
         </div>
       </div>
-
-
-
       <!-- 申请原因 -->
       <div class="panel pr-panel pr-panel-height mgb">
         <h1 class="pr-font-18 mgb">申请原因</h1>
@@ -214,7 +211,6 @@
         </table>
       </div>
       <!-- 审批 -->
-
       <form class="form-horizontal"
             name="createOrderForm"
             action="rest/authen/workflowTask/runWithAttchments"
@@ -224,13 +220,13 @@
             alert-ok
             ng-init='beforeConfirmMsg="确认通过此申请单?"'
             beforeConfirmMsg="{{beforeConfirmMsg}}"
-
             callback="$root.goTo('#/firstMedicalApplication/get.html?id={{showData.id}}')">
-
-      <div ng-if="true">
-
-
-
+      <div ng-if="showData.orderStatus=='待审批' &&
+                  $root.hasAuthor('商务部审批权') ||
+                  $root.hasAuthor('商务部经理审批权') ||
+                  $root.hasAuthor('运营部审批权') ||
+                  $root.hasAuthor('质管部审批权') ||
+                  $root.hasAuthor('分管总监审批权')">
         <!-- 审批意见 -->
         <div class="panel pr-panel pr-panel-height mgb">
           <h1 class="pr-font-18 mgb">审批意见</h1>
@@ -328,7 +324,6 @@
             </table>
           </div>
         </div>
-
       </div>
       <!-- 功能按钮 -->
       <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
@@ -363,8 +358,16 @@
       <div ng-if="showData.orderStatus=='待审批'" class="mgb text-right">
         <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
 
-
-          <button type="submit" class="pr-btn-save-glodbg">提交</button>
+        <button ng-if="showData.orderStatus=='待审批' &&
+                       $root.hasAuthor('商务部审批权') ||
+                       $root.hasAuthor('商务部经理审批权') ||
+                       $root.hasAuthor('运营部审批权') ||
+                       $root.hasAuthor('质管部审批权') ||
+                       $root.hasAuthor('分管总监审批权')"
+                type="submit"
+                class="pr-btn-save-glodbg mgl"
+                ng-disabled="!formData.conditionType">提交
+        </button>
 
 
 

@@ -682,6 +682,25 @@ define('project/controllers', ['project/init'], function() {
           $scope.goTo(_url + '?id=' + $scope.formData.id);
         }
       };
+
+      //清空当前列的审核资料
+      $scope.resetThisItem = function (item) {
+        if (angular.isObject(item)) {
+          item.uploadUserName = null;
+          item.uploadTime = null;
+          item.guaranteePeriod = null;
+          item.attachmentUrl = null;
+          item.note = null;
+        }
+      };
+
+      //添加自定义审核资料
+      $scope.addCustomExamineItem = function () {
+        console.log($scope.formData.addCustomExamineItem);
+        if ($scope.formData.addCustomExamineItem.name) {
+          $scope.formData.attachments.push($scope.formData.addCustomExamineItem);
+        }
+      };
     }
 
     /**
