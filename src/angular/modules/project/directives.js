@@ -29,6 +29,75 @@ function orderMedicalsPurchase() {
   };
 }
 
+/**
+  药械订单列表-采购
+*/
+function workflowRejectButton() {
+  return {
+    restrict: 'EA',
+    scope: true,
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/workflowRejectButton.html',
+
+          link: function ($scope, element, $attrs) {
+            if ($attrs.customMenu) {
+              var firstLetter = $attrs.customMenu.replace(/^\s*/, '')[0];
+                $scope.customMenu= (firstLetter === '{' || firstLetter === '[') ? angular.fromJson($attrs.customMenu) : new String($attrs.customMenu);
+
+            }
+          }
+  };
+}
+
+
+/**
+  药械订单列表-采购
+*/
+function workflowPassButton() {
+  return {
+    restrict: 'EA',
+    scope: true,
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/workflowPassButton.html',
+
+      link: function ($scope, element, $attrs) {
+        if ($attrs.customMenu) {
+          var firstLetter = $attrs.customMenu.replace(/^\s*/, '')[0];
+            $scope.customMenu= (firstLetter === '{' || firstLetter === '[') ? angular.fromJson($attrs.customMenu) : new String($attrs.customMenu);
+
+        }
+      }
+  };
+}
+
+/**
+  药械订单列表-采购
+*/
+function customMenuList() {
+  return {
+    restrict: 'EA',
+    // scope: {
+    //     ngModel: "="
+    // },
+    // replace: true,
+      scope: true,
+    templateUrl:  Config.tplPath +'tpl/project/customMenuList.html',
+
+      link: function ($scope, element, $attrs) {
+
+        if ($attrs.customMenuArr) {
+          var firstLetter = $attrs.customMenuArr.replace(/^\s*/, '')[0];
+            $scope.customMenuArr= (firstLetter === '{' || firstLetter === '[') ? angular.fromJson($attrs.customMenuArr) : new String($attrs.customMenuArr);
+
+        }else{
+              $scope.customMenuArr=$attrs.customMenuArr;
+        }
+        console.log(  $scope.customMenuArr);
+
+      }
+  };
+}
+
 
 /**
  * [滚动条美化]
@@ -584,6 +653,83 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           if( !angular.isDefined($attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';
         }
 
+
+        function ajax_submit(){
+          //如果操作为点击后发送请求
+          var parameterBody = false;
+          if (angular.isDefined($attrs.parameterBody)) {
+            parameterBody = true;
+            if($attrs.parameterBody=="false"){
+              parameterBody=false;
+            }
+          }
+
+          var httpMethod="POST"
+          if($attrs.httpMethod){
+            httpMethod=$attrs.httpMethod;
+          }
+
+
+          if (angular.isDefined($attrs.requestUrl)) {
+
+            var _params={};
+            if ($attrs.params) {
+                if ($attrs.params.indexOf("{") === 0) {
+                      _params = $scope.$eval($attrs.params);
+                }
+            }
+            requestData(_requestUrl, _params, httpMethod,parameterBody)
+              .then(function (results) {
+                var _data = results[1];
+                if (_data.code === 200) {
+                  alertOk(_data.message || '操作成功');
+                }
+                if ($attrs.$scopeData) $scope[$attrs.$scopeData] = data;
+                //执行回调
+
+
+
+                if ($attrs.callBack) {
+                    $scope.$eval($attrs.callBack);
+                }
+                if ($attrs.callback) {
+                    $scope.$eval($attrs.callback);
+                }
+
+                if ($attrs.parentCallback) {
+                  $scope.$parent.$eval($attrs.parentCallback);
+                }
+
+
+                //操作成功完成向上传播事件
+                if ($attrs.emitted) {
+                  if ($attrs.emitted.indexOf(',') !== -1) {   //多个事件
+                    var _arr = $attrs.emitted.split(',');
+                    var _len = _arr.length,
+                        i = 0;
+                    for (i=0; i<_len; i++) {
+                      $scope.$emit(_arr[i]);
+                    }
+                  } else {    //单个事件
+                    $scope.$emit($attrs.emitted);
+                  }
+                }
+              })
+              .catch(function (error) {
+                alertError(error || '出错');
+              });
+            return;
+          }
+        }//ajax_submit
+
+
+
+        if($attrs.alertConfirm=="false"){
+            ajax_submit();
+            return;
+        }
+
+        //默认弹出窗口
         dialogConfirm(_dialogContent, function (type,dialgForm) {
 
 
@@ -633,57 +779,11 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
               return;
           }
 
-          var _params={};
-          if ($attrs.params) {
-              if ($attrs.params.indexOf("{") === 0) {
-                    _params = $scope.$eval($attrs.params);
-              }
-          }
-
-          //如果操作为点击后发送请求
-          if (angular.isDefined($attrs.requestUrl)) {
-            requestData(_requestUrl, _params, 'POST')
-              .then(function (results) {
-                var _data = results[1];
-                if (_data.code === 200) {
-                  alertOk(_data.message || '操作成功');
-                }
-                if ($attrs.$scopeData) $scope[$attrs.$scopeData] = data;
-                //执行回调
 
 
+          //ajax
 
-                if ($attrs.callBack) {
-                    $scope.$eval($attrs.callBack);
-                }
-                if ($attrs.callback) {
-                    $scope.$eval($attrs.callback);
-                }
-
-                if ($attrs.parentCallback) {
-                  $scope.$parent.$eval($attrs.parentCallback);
-                }
-
-
-                //操作成功完成向上传播事件
-                if ($attrs.emitted) {
-                  if ($attrs.emitted.indexOf(',') !== -1) {   //多个事件
-                    var _arr = $attrs.emitted.split(',');
-                    var _len = _arr.length,
-                        i = 0;
-                    for (i=0; i<_len; i++) {
-                      $scope.$emit(_arr[i]);
-                    }
-                  } else {    //单个事件
-                    $scope.$emit($attrs.emitted);
-                  }
-                }
-              })
-              .catch(function (error) {
-                alertError(error || '出错');
-              });
-            return;
-          }
+          ajax_submit();
 
           //执行回调
           if ($attrs.callBack) {
@@ -1050,6 +1150,10 @@ angular.module('manageApp.project')
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
 
 .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
+.directive("workflowRejectButton", workflowRejectButton)//药械订单列表-采购
+.directive("workflowPassButton", workflowPassButton)//药械订单列表-采购
+.directive("customMenuList", customMenuList)//药械订单列表-采购
+
   .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
   .directive("orderMedicals", orderMedicals)//药械订单列表
   .directive("niceScroll", niceScroll) //滚动条美化

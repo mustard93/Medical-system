@@ -291,7 +291,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   formStatus.submitting = true;
 
                   var parameterBody = false;
-                  if (angular.isDefined($attrs.parameterBody)) parameterBody = true;
+                  if (angular.isDefined($attrs.parameterBody)) {
+                    parameterBody = true;
+                    if($attrs.parameterBody=="false"){
+                      parameterBody=false;
+                    }
+                  }
                   var data= $scope.formData;
                   if($attrs.formData){
                     data=$scope[$attrs.formData];

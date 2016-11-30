@@ -407,6 +407,19 @@ function alertOk($rootScope, modal) {
                     return this.getScopeExtend($scope.$parent,scopeExtendName);
                 },
                 //  跳转到对应页面 utils.goTo(url,confirmMsg);
+                refreshHref  : function (confirmMsg) {
+                    var url=window.location.href;
+                      url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+
+                    if(confirmMsg){
+                      dialogConfirm(confirmMsg, function () {
+                        window.location.assign(url);
+                      }, null);
+                    }else{
+                        window.location.assign(url);
+                    }
+                },
+                //  跳转到对应页面 utils.goTo(url,confirmMsg);
                 goTo  : function (url,confirmMsg) {
 
                       url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
@@ -418,6 +431,11 @@ function alertOk($rootScope, modal) {
                         window.location.assign(url);
                     }
                 },
+                //遍历菜单数组，返回满足属性值type等于val的。数据位置。 utils.getcustomMenuByKeyOfArr(arr,val) ;
+               getcustomMenuByKeyOfArr : function (arr,val) {
+                    return this.getObjectByKeyOfArr(arr,"type",val) ;
+
+                 },
                 //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
                getObjectIndexByKeyOfArr : function (arr,key,val) {
 

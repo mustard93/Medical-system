@@ -1,12 +1,12 @@
 <div class="content-wrapper first-medical-application"
-     ng-controller="firstMedicalCtrl"
-     ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     ng-controller="firstEnterpriseCtrl"
+     ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      callback=""
      alert-error>
   <div class="page-header-info">
-    <h1>首营品种申请</h1>
-    <p>管理中心 / 药械管理</p>
+    <h1>首营企业申请</h1>
+    <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
   </div>
   <!-- 添加流程导航 -->
   <div class="first-medical-nav text-right">
@@ -21,13 +21,13 @@
           name="firstMedicalEditForm"
           form-validator
           parameter-body
-          action="rest/authen/firstMedicalApplication/saveApplyReason?validateFlag=true"
+          action="rest/authen/firstEnterpriseApplication/saveApplyReason?validateFlag=true"
           alert-error
           alert-ok
           scope-error-msg="errorMsg"
           scope-data="formData"
           novalidate="true"
-          callback="submitFormAfter('#/firstMedicalApplication/edit-step-3.html')">
+          callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-3.html')">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo}}</em></span>
@@ -44,7 +44,7 @@
       </div>
       <!-- 功能按钮 -->
       <div class="mgb text-right">
-        <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
+        <span class="mgl"><a href="#/firstEnterpriseApplication/query.html">返回申请单列表</a></span>
         <span class="mgl">
           <a ng-if="formData.id && formData.proposerName==mainStatus.name"
              href="javascript:;"
@@ -53,9 +53,9 @@
              dialog-title="确认删除?"
              dialog-content="删除后将无法恢复,确认删除?"
              dialog-template="pr-dialog-submit.html"
-             callback="$root.goTo('#/firstMedicalApplication/query.html')"
+             callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
              params='{"id":formData.id}'
-             request-url="rest/authen/firstMedicalApplication/delete">删除</a>
+             request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
@@ -64,7 +64,7 @@
           </button>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="pageTo('#/firstMedicalApplication/edit.html?id='+formData.id)">上一步</button>
+          <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="pageTo('#/firstEnterpriseApplication/edit.html?id='+formData.id)">上一步</button>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
