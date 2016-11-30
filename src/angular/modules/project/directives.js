@@ -1087,6 +1087,9 @@ function canvasWorkflow (modal,utils) {
                 if(!angular.isDefined($attrs.modalUrl)){
                     return;
                 }
+
+                 modal.closeAll();
+                 
                 // alert(that.currentNode.text);
                   $scope.$parent.currentEvent=that.currentNode.data;
                   modal.open({

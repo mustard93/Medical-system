@@ -197,7 +197,8 @@ define(['JTopo'], function(JTopo){
             //注入node点击回掉函数
             if(this.options.node.clickCallback){
                   var that=this;
-                  node.addEventListener('mouseup', function(event){
+                  //：click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel
+                  node.addEventListener('dbclick', function(event){
                      that.currentNode = this;
                      that.options.node.clickCallback(event,that);
                  });

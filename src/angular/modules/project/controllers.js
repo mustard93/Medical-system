@@ -749,7 +749,19 @@ define('project/controllers', ['project/init'], function() {
     function editWorkFlowProcessCtrl ($scope, modal, alertWarn, requestData, alertOk, alertError, $rootScope) {
 
 
+      /**
+      保存节点信息（新建or创建）
+      */
+      $scope.addEventButtons = function(formData1) {
+        if(!formData1)formData1={};
+        if(!formData1.didateFilter)formData1.didateFilter={};
+        if(!formData1.didateFilter.buttons)formData1.didateFilter.buttons=[];
+        var btnForm={type:"通过",buttonName : "审核通过",requestMethod : "POST",requestMethod : "KeyValue"
+              ,requestUrl : "rest/authen/workflowTask/run.json"
+                };
+        formData1.didateFilter.buttons.push(btnForm);
 
+    }
       /**
       保存节点信息（新建or创建）
       */
