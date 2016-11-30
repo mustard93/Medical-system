@@ -78,8 +78,8 @@
                             dialog-content="提交后，将无法修改，确认提交?"
                             dialog-template="pr-dialog-submit.html"
                             emitted="reloadList,ajaxUrlReload"
-                            params='{"id":tr.id,"status":"待审批"}'
-                            request-url="rest/authen/arrivalNoticeOrder/updateStatus.json">提交到库管
+                            params='{"businessKey":tr.id,"type":"来货通知单"}'
+                            request-url="rest/authen/workflowTask/run.json">提交到库管
                     </button>
 
                     <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
@@ -90,8 +90,8 @@
                             dialog-content="通过后，该来货通知单将生效。确认通过?"
                             dialog-template="pr-dialog-submit.html"
                             emitted="reloadList,ajaxUrlReload"
-                            params='{"id":tr.id,"status":"待入库"}'
-                            request-url="rest/authen/arrivalNoticeOrder/updateStatus.json">审批通过
+                            params='{"businessKey":tr.id,"type":"来货通知单"}'
+                            request-url="rest/authen/workflowTask/run.json">审批通过
                     </button>
                   </span>
                 </div>
