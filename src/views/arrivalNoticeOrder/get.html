@@ -175,7 +175,7 @@
 
           <span class="mgr-l"
                 ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
-                ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'来货通知单驳回理由',msg:'驳回后，该来货通知单将作废。确认驳回?',formData:{businessKey:showData.id,conditionType:'驳回',type:'来货通知单',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
+                ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'来货通知单驳回理由',msg:'驳回后，该来货通知单将作废。确认驳回?',formData:{businessKey:showData.relId,conditionType:'驳回',type:'来货通知单',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
                 <a href="javascript:;"
                    modal-center="490"
                    modal-scope="this"
@@ -188,7 +188,7 @@
                   dialog-title="确认通过?"
                   dialog-content="通过后，该来货通知单将生效。确认通过?"
                   dialog-template="pr-dialog-submit.html"
-                  params='{"businessKey":showData.id,"type":"来货通知单"}'
+                  params='{"businessKey":showData.relId,"type":"来货通知单","ConditionType":"通过"}'
                   request-url="rest/authen/workflowTask/run.json"
                   call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=2')">审批通过
         </button>

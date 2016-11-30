@@ -1,0 +1,68 @@
+
+        <div class="modal-content" ng-controller="editCtrl"
+   ajax-url="rest/authen/systemSetting/getOfEdit.json?id={{tr.id}}"  scope-data="formData" alert-error callback="initFlag=true"
+        >
+
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/systemSetting/save"
+
+                  scope-data="formData" alert-error
+                form-validator>
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}系统策略</h4>
+            </div>
+            <div class="modal-body">
+
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">机构</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select ng-if="initFlag"  class="select select-w"
+                          data-placeholder="选择机构"
+                          chosen
+                          ng-model="formData.organizationId"
+                          default-empty="全局"
+                          alert-error
+                          select-source="rest/index/distributor/queryForSelectOption.json">
+                  </select>
+                </div>
+              </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">策略参数</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择参数" chosen default-empty="无" ng-model="formData.parameter" select-source="rest/index/queryBasicdataForSelectOption" params='{"basicDataType":"Basic_SettingParameter"}'>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">参数值</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.value" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">参数类型</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择参数类型" chosen default-empty="无" ng-model="formData.type" select-source="rest/index/queryBasicdataForSelectOption" params='{"basicDataType":"Basic_OrganizatoinType "}'>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">备注</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <textArea class="form-control" placeholder="" ng-model="formData.note"></textArea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn btn-success" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>
