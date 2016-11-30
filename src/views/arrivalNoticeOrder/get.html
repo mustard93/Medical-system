@@ -147,7 +147,7 @@
 
 
 
-          <button ng-if="showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
+          <!-- <button ng-if="showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
                 ng-disabled="formData.note!=showData.note"
                   class="pr-btn-save-glodbg"
                   type="button"
@@ -157,6 +157,19 @@
                   dialog-template="pr-dialog-submit.html"
                   params='{"id":showData.id,"status":"待审批"}'
                   request-url="rest/authen/arrivalNoticeOrder/updateStatus.json"
+                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管
+          </button> -->
+
+          <button ng-if="showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
+                ng-disabled="formData.note!=showData.note"
+                  class="pr-btn-save-glodbg"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认提交?"
+                  dialog-content="提交后，将无法修改，确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  params='{"businessKey":showData.relId,"type":"来货通知单"}'
+                  request-url="rest/authen/workflowTask/run.json"
                   call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管
           </button>
 
