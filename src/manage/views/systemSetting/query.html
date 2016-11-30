@@ -1,0 +1,114 @@
+<div   ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
+<div class="page-main-content">
+  <!-- page heading start-->
+  <div class="page-heading">
+      <h3>系统策略</h3>
+      <ul class="breadcrumb">
+          <li><a href="#">主面板</a></li>
+          <li class="active">系统策略</li>
+      </ul>
+  </div>
+  <!-- page heading end-->
+
+  <!--body wrapper start-->
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/systemSetting/query.json" list-params="listParams">
+      <div class="mg-m col-lg-12 col-sm-12">
+        <div class="col-lg-1">
+          <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/systemSetting/edit.html">
+              <i class="fa fa-plus"></i>新建
+          </button>
+        </div>
+        <div class="form-group col-lg-2">
+          <label class="col-lg-2 col-sm-2 control-label">机构</label>
+          <div class="col-lg-10 col-sm-10">
+            <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="全局" ng-model="listParams.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group col-lg-2">
+          <!-- <tags-input ng-model="tags11" key-property="id" display-property="text"  add-fom-autocomplete-only="true"
+          on-tag-adding="!tags11||tags11.length<1"
+          on-tag-added="listParams.q=$tag.text"
+          on-tag-removed="listParams.q=''"
+          placeholder="输入查询...">
+              <auto-complete source="httpGet('rest/data/autocomplete0.json?q='+$query)" display-property="text" min-length="1"></auto-complete>
+          </tags-input> -->
+          <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
+        </div>
+      </div>
+
+      <div class="wrapper">
+          <div class="loader" ng-if="status.isLoading">
+              <div class="loader-inner pacman">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+              </div>
+          </div>
+          <div ng-if="!status.isLoading">
+              <div class="empty-wrap" ng-if="tbodyList.length==0">
+                  <span>
+                      <i class="fa fa-inbox">
+                          <em>什么也没有</em>
+                      </i>
+                  </span>
+              </div>
+              <div ng-if="tbodyList.length">
+
+                  <table class="table table-hover table-striped">
+                      <thead>
+                          <tr>
+                              <th><input type="checkbox" class="selectAll"></th>
+                              <th>序号</th>
+                              <th>策略参数</th>
+                              <th>参数值</th>
+                              <th>参数类型</th>
+                              <th>所属机构</th>
+                              <th>备注</th>
+                              <th>创建时间</th>
+                              <th>操作</th>
+                              <th></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
+                              <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                              <td>{{$index + 1}}</td>
+                              <td>{{tr.parameter}}</td>
+                              <td>{{tr.value}}</td>
+                              <td>{{tr.type}}</td>
+                              <td ng-if="tr.organizationId">{{tr.organizationId}}</td>
+                              <td ng-if="!tr.organizationId">全局</td>
+                              <td>{{tr.note}}</td>
+                              <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                              <td>
+                                  <!-- <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html">
+                                      <i class="fa fa-folder-open-o"></i>
+                                      查看
+                                  </button> -->
+                                  <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/systemSetting/edit.html?id={{tr.id}}">
+                                      <i class="fa fa-edit"></i>
+                                      编辑
+                                  </button>
+                                  <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/systemSetting/delete', tr.id)">
+                                      <i class="fa fa-trash-o"></i>
+                                      删除</button>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <div class="clearfix">
+                      <div class="fr">
+                          <pagination status="status"></pagination>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </table-list>
+  <!--body wrapper end-->
+</div>
+</div>
