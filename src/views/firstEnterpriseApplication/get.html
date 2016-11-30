@@ -1,10 +1,11 @@
 <div class="content-wrapper first-medical-application"
-     ajax-url="rest/authen/firstMedicalApplication/get.json?id={{mainStatus.pageParams.id}}"
+     ng-controller="firstEnterpriseCtrl"
+     ajax-url="rest/authen/firstEnterpriseApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="formData.businessKey=showData.id;formData.type='首营品种';formData.attachments=[]"
+     callback="formData.businessKey=showData.id;formData.type='首营企业';formData.attachments=[]"
      alert-error>
   <div class="page-header-info">
-    <h1>首营品种申请</h1>
+    <h1>首营企业申请</h1>
     <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
   </div>
   <!-- 主体内容 -->
@@ -42,138 +43,113 @@
       <!-- 基本信息 -->
       <div class="panel pr-panel pr-panel-height mgb">
         <h1 class="pr-font-18 mgb">基本信息</h1>
+        <div class="bb-line">
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">企业类别：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.type}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">供货企业全称：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.fullName}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">企业简称：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.shortName}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">法人代表/身份证号：</span>
+              <span class="flex-item-10 pr-indent-10">
+                {{showData.firstEnterprise.legalRepresentative}}&nbsp;&nbsp;{{showData.firstEnterprise.legalRepresentativeIdentityNo}}
+              </span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">企业地址：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.medicalUniformCode}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">GMP/GSP证书号：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.gspCertificateNo}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">生产/经营许可证号：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.productionLicenseNo}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">注册资金：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.registeredCapital}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">税号：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.taxNo}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">营业执照号：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.businessLicenseNo}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">营业期限：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.busnissAllotedTime}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">开户银行：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.accountBank}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">开户账号：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.accountNumber}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">开户名称：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.accountName}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">付款方式：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.payType}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">销售人员/身份证号：</span>
+              <span class="flex-item-10 pr-indent-10">
+                {{showData.firstEnterprise.salesman}}&nbsp;&nbsp;{{showData.firstEnterprise.salesmanIdentityNo}}
+              </span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">Email：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.email}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">联系电话：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.tel}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="bb-line">
+          <h1 class="pr-font-14 mgb mgt">经营范围：</h1>
+          <p class="mgb">{{showData.firstEnterprise.businessScope}}</p>
+        </div>
         <div class="">
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">类别：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.type}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">品种通用名称：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.genericName}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">品种名：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.name}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">注册商标：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.trademark}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">品种编码：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.code}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">国药统一编码：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.medicalUniformCode}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">批准文号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.licenseNumber}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">备案凭证编号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.filingDocumentNumber}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">剂型：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.dosageForms}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">型号规格：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.specification}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">计量单位：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.measurement}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">包装情况：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.packingCondition}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">中包装数量：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.numberOfPackages}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">件装量：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.pieceLoading}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">税率：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.tax}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">是否基药：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.isBasicMedicine}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">采购价：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.purchasePrice}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">零售价：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.retailPrice}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">生产企业：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.produceEnterprise}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">厂址：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.factoryAddress}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">产地：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.originalPlace}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">存储条件：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.storageCondition}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">供应单位：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.supplierName}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">质量标准：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.qualityStandard}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">有效期：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.guaranteePeriod}}</span>
-            </div>
-          </div>
+          <h1 class="pr-font-14 mgb mgt">拟供产品：</h1>
+          <p class="mgb">{{showData.firstEnterprise.provideProducts}}</p>
         </div>
-        <div class="pd-v-l bt-line">
-          <h1 class="mgb-l">药品的适应或功能主治情况：</h1>
-          <span>{{showData.firstMedical.message}}</span>
-        </div>
+
       </div>
       <!-- 申请原因 -->
       <div class="panel pr-panel pr-panel-height mgb">
@@ -220,7 +196,7 @@
             alert-ok
             ng-init='beforeConfirmMsg="确认通过此申请单?"'
             beforeConfirmMsg="{{beforeConfirmMsg}}"
-            callback="$root.goTo('#/firstMedicalApplication/get.html?id={{showData.id}}')">
+            callback="$root.goTo('#/firstEnterpriseApplication/get.html?id={{showData.id}}')">
       <div ng-if="showData.orderStatus=='待审批' &&
                   $root.hasAuthor('商务部审批权') ||
                   $root.hasAuthor('商务部经理审批权') ||
@@ -327,7 +303,7 @@
       </div>
       <!-- 功能按钮 -->
       <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
-        <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+        <span class="mgl"><a href="#/firstEnterpriseApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
         <span class="mgl">
           <a ng-if="formData.id && formData.proposerName==mainStatus.name"
              href="javascript:;"
@@ -336,27 +312,26 @@
              dialog-title="确认删除?"
              dialog-content="删除后将无法恢复,确认删除?"
              dialog-template="pr-dialog-submit.html"
-             callback="$root.goTo('#/firstMedicalApplication/query.html')"
+             callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
              params='{"id":showData.id}'
-             request-url="rest/authen/firstMedicalApplication/delete">删除</a>
+             request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
         </span>
         <span class="mgl">
 
 
         <button class="pr-btn-save-glodbg"
                 type="button"
-                ajax-url-submit="rest/authen/firstMedicalApplication/proposerUpdateStatus"
+                ajax-url-submit="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
                 params='{"id":showData.id,"orderStatus":"待审批"}'
                 alert-error
-                scope-data="showData"
-              >提交审批
+                scope-data="showData">提交审批
         </button>
 
           <!-- <button type="submit" class="pr-btn-save-glodbg">提交审批</button> -->
         </span>
       </div>
       <div ng-if="showData.orderStatus=='待审批'" class="mgb text-right">
-        <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
+        <span class="mgl"><a href="#/firstEnterpriseApplication/query.html">返回申请单列表</a></span>
 
         <button ng-if="showData.orderStatus=='待审批' &&
                        $root.hasAuthor('商务部审批权') ||
@@ -381,7 +356,7 @@
                 dialog-content="确认通过此申请单?"
                 dialog-template="pr-dialog-submit.html"
                 params='{"id":formData.id,"approvalResult":formData.approvalResult,"investigateForm":{"note":formData.note}}'
-                request-url="rest/authen/firstMedicalApplication/approverUpdateStatus"
+                request-url="rest/authen/firstEnterpriseApplication/approverUpdateStatus"
                 call-back="">提交
         </button>
         <button ng-if="formData.approvalResult=='不通过'"
@@ -393,7 +368,7 @@
                 dialog-content="审批不通过将使该申请单申请失败, 是否拒绝通过?"
                 dialog-template="pr-dialog-submit.html"
                 params='{"id":formData.id,"approvalResult":formData.approvalResult}'
-                request-url="rest/authen/firstMedicalApplication/approverUpdateStatus.json"
+                request-url="rest/authen/firstEnterpriseApplication/approverUpdateStatus.json"
                 call-back="">提交
         </button> -->
         <button type="button" class="pr-btn-save-glodbg mgl">打印</button>

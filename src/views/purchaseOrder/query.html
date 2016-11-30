@@ -83,6 +83,9 @@
                 <div class="flex-column" style="height:22px;line-height:22px;">
                   <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
                   <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right">
+
+
+
                     <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
                        href="javascript:;"
                        class="pr-color-red mgl"
@@ -116,7 +119,7 @@
 
                     <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgl">新建</a>
 
-                    <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('采购单审批')"
+                    <button ng-if="!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')&&tr.orderStatus=='待审批' && $root.hasAuthor('采购单审批')"
                             class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                             handle-this-click
                             dialog-title="确认通过?"
@@ -127,7 +130,13 @@
                             params='{"businessKey":tr.id,"conditionType":"通过","type":"采购单"}'
                             request-url="rest/authen/workflowTask/run.json">审批通过
                     </button>
+
+                    <!--工作流控制菜单 -->
+                      <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button>
+
+
                   </span>
+
                 </div>
                 <div class="text-s mgb-m">{{tr.type}}</div>
                 <div class="flex-column qurey text-s color-9">
