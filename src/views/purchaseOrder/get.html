@@ -85,82 +85,82 @@
       <!-- <h1 class="text-l">订购清单</h1> -->
       <div class="confirm-order">
         <div  order-medicals-purchase  ng-model="showData.orderMedicalNos"></div>
-
       </div>
-    <!-- 备注 -->
-    <div>
-      <p class="pd-v-l">备注：{{showData.note}}</p>
+      <!-- 备注 -->
+      <div>
+        <p class="pd-v-l">备注：{{showData.note}}</p>
+      </div>
+    </div>
+
+    <!-- 总价 -->
+    <div class="text-right mgt-l">
+      <div class="pr-font-24 text-right mgb color-9">合计：<span class="color-6">￥{{showData.totalPrice || '0.00' | number:2}}</span></div>
+      <!-- <div class="pr-font-24 text-right mgb color-9">金额：<span class="color-6">￥{{showData.totalPrice || '0.00' | number:2}}</span></div> -->
+      <div class="pr-font-24 text-right mgb color-9">税额：<span class="color-6">￥{{showData.taxPrice || '0.00' | number:2}}</span></div>
+      <div class="pr-font-24 text-right mgb color-9">预付：<span class="color-6">￥{{showData.prepaidPrice || '0.00' | number:2}}</span></div>
+      <div ng-if="showData.orderStatus=='待批款'" class="pr-font-24 text-right mgb color-9">待付：<span class="color-red">￥{{showData.prepaidPrice || '0.00' | number:2}}</span></div>
+    </div>
+
+    <span ng-if="showData.orderStatus!='待审批'" class="text-right mg-l pdb-l">
+      <a href="#/purchaseOrder/query.html" class="block text-right">返回采购单列表</a>
+    </span>
+
+    <div class="text-right mgb-l" ng-if="showData.orderStatus=='待审批'">
+      <span class="mgr-l">
+        <a href="#/purchaseOrder/query.html">返回采购单列表</a>
+      </span>
+
+      <span ng-if="!showData.didateFilter.buttons&&$root.hasAuthor('采购单审批')"
+            class="mgr-l"
+            ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'采购单驳回理由',msg:'驳回后，该采购单将作废。确认驳回?',formData:{businessKey:showData.id,conditionType:'驳回',type:'采购单',key:'缺货'},goUrl:'#/purchaseOrder/get.html?t=1&id='+showData.id}">
+        <a href="javascript:;"
+           modal-center="490"
+           modal-scope="this"
+           modal-url="views/public/dialog-check-reject.html">驳回</a>
+      </span>
+
+      <span ng-if="showData.didateFilter.buttons"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
+
+      <button ng-if="!showData.didateFilter.buttons&&$root.hasAuthor('采购单审批')"
+              class="pr-btn-save-glodbg"
+              type="button"
+              handle-this-click
+              dialog-title="确认通过?"
+              dialog-content="审核通过后,采购单将生效,是否通过?"
+              dialog-template="pr-dialog-submit.html"
+              confirm-btn-txt="通过"
+              params='{"businessKey":showData.id,"conditionType":"通过","type":"采购单"}'
+              request-url="rest/authen/workflowTask/run.json"
+              call-back="goTo('#/purchaseOrder/get.html?t=审核通过&id={{showData.id}}')">审核通过
+      </button>
+
+          <!-- <span  workflow-reject-button ng-model="showData.customMenu"  ng-model-key='驳回'></span>
+          <button  workflow-pass-button ng-model="showData.customMenu"  ng-model-key='通过'></button> -->
+          <!-- <span ng-if="rejectButton"
+                class="mgr-l"
+              >
+            <a href="javascript:;"
+               modal-center="490"
+               modal-scope="this"
+               modal-url="views/public/dialog-check-reject-customMenu.html">{{rejectButton.buttonName}}111</a>
+          </span>
+
+          <button ng-if="passButton"
+                  class="pr-btn-save-glodbg"
+                  type="button"
+                  handle-this-click
+
+                  alert-confirm="{{!passButton.alertTitle}}"
+                  dialog-title="{{passButton.alertTitle||'确认通过?'}}"
+                  dialog-content="{{passButton.alertMsg||'审核通过后,采购单将生效,是否通过?'}}"
+                  dialog-template="pr-dialog-submit.html"
+                  confirm-btn-txt="通过"
+                  params='{{passButton.params}}'
+                  request-url="{{passButton.requestUrl}}"
+                  parameter-body="{{passButton.requestParam=='JSON'}}"
+                  call-back="$root.utils.refreshHref()">{{passButton.buttonName}}
+          </button>
+    </div> -->
     </div>
   </div>
-
-  <!-- 总价 -->
-  <div class="text-right mgt-l">
-    <div class="pr-font-24 text-right mgb color-9">合计：<span class="color-6">￥{{showData.totalPrice || '0.00' | number:2}}</span></div>
-    <!-- <div class="pr-font-24 text-right mgb color-9">金额：<span class="color-6">￥{{showData.totalPrice || '0.00' | number:2}}</span></div> -->
-    <div class="pr-font-24 text-right mgb color-9">税额：<span class="color-6">￥{{showData.taxPrice || '0.00' | number:2}}</span></div>
-    <div class="pr-font-24 text-right mgb color-9">预付：<span class="color-6">￥{{showData.prepaidPrice || '0.00' | number:2}}</span></div>
-    <div ng-if="showData.orderStatus=='待批款'" class="pr-font-24 text-right mgb color-9">待付：<span class="color-red">￥{{showData.prepaidPrice || '0.00' | number:2}}</span></div>
-  </div>
-
-  <span ng-if="showData.orderStatus!='待审批'" class="text-right mg-l">
-    <a href="#/purchaseOrder/query.html" class="block text-right">返回采购单列表</a>
-  </span>
-
-  <div class="text-right mgb-l" ng-if="showData.orderStatus=='待审批'">
-    <span class="mgr-l">
-      <a href="#/purchaseOrder/query.html">返回采购单列表</a>
-    </span>
-
-    <span ng-if="!showData.didateFilter.buttons&&$root.hasAuthor('采购单审批')"
-          class="mgr-l"
-          ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'采购单驳回理由',msg:'驳回后，该采购单将作废。确认驳回?',formData:{businessKey:showData.id,conditionType:'驳回',type:'采购单',key:'缺货'},goUrl:'#/purchaseOrder/get.html?t=1&id='+showData.id}">
-      <a href="javascript:;"
-         modal-center="490"
-         modal-scope="this"
-         modal-url="views/public/dialog-check-reject.html">驳回</a>
-    </span>
-
-    <button ng-if="!showData.didateFilter.buttons&&$root.hasAuthor('采购单审批')"
-            class="pr-btn-save-glodbg"
-            type="button"
-            handle-this-click
-            dialog-title="确认通过?"
-            dialog-content="审核通过后,采购单将生效,是否通过?"
-            dialog-template="pr-dialog-submit.html"
-            confirm-btn-txt="通过"
-            params='{"businessKey":showData.id,"conditionType":"通过","type":"采购单"}'
-            request-url="rest/authen/workflowTask/run.json"
-            call-back="goTo('#/purchaseOrder/get.html?t=审核通过&id={{showData.id}}')">审核通过
-    </button>
-
-<span ng-if="showData.didateFilter.buttons"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
-
-        <!-- <span  workflow-reject-button ng-model="showData.customMenu"  ng-model-key='驳回'></span>
-        <button  workflow-pass-button ng-model="showData.customMenu"  ng-model-key='通过'></button> -->
-        <!-- <span ng-if="rejectButton"
-              class="mgr-l"
-            >
-          <a href="javascript:;"
-             modal-center="490"
-             modal-scope="this"
-             modal-url="views/public/dialog-check-reject-customMenu.html">{{rejectButton.buttonName}}111</a>
-        </span>
-
-        <button ng-if="passButton"
-                class="pr-btn-save-glodbg"
-                type="button"
-                handle-this-click
-
-                alert-confirm="{{!passButton.alertTitle}}"
-                dialog-title="{{passButton.alertTitle||'确认通过?'}}"
-                dialog-content="{{passButton.alertMsg||'审核通过后,采购单将生效,是否通过?'}}"
-                dialog-template="pr-dialog-submit.html"
-                confirm-btn-txt="通过"
-                params='{{passButton.params}}'
-                request-url="{{passButton.requestUrl}}"
-                parameter-body="{{passButton.requestParam=='JSON'}}"
-                call-back="$root.utils.refreshHref()">{{passButton.buttonName}}
-        </button>
-  </div> -->
-
 </div>
