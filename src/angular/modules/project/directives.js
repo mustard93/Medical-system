@@ -32,7 +32,7 @@ function orderMedicalsPurchase() {
 /**
   药械订单列表-采购
 */
-function workflowRejectButton() {
+function workflowRejectButton(utils) {
   return {
     restrict: 'EA',
     scope: true,
@@ -41,8 +41,7 @@ function workflowRejectButton() {
 
           link: function ($scope, element, $attrs) {
             if ($attrs.customMenu) {
-              var firstLetter = $attrs.customMenu.replace(/^\s*/, '')[0];
-                $scope.customMenu= (firstLetter === '{' || firstLetter === '[') ? angular.fromJson($attrs.customMenu) : new String($attrs.customMenu);
+                $scope.customMenu=utils.fromJson($attrs.customMenu);
 
             }
           }
@@ -53,7 +52,7 @@ function workflowRejectButton() {
 /**
   药械订单列表-采购
 */
-function workflowPassButton() {
+function workflowPassButton(utils) {
   return {
     restrict: 'EA',
     scope: true,
@@ -62,8 +61,7 @@ function workflowPassButton() {
 
       link: function ($scope, element, $attrs) {
         if ($attrs.customMenu) {
-          var firstLetter = $attrs.customMenu.replace(/^\s*/, '')[0];
-            $scope.customMenu= (firstLetter === '{' || firstLetter === '[') ? angular.fromJson($attrs.customMenu) : new String($attrs.customMenu);
+            $scope.customMenu=utils.fromJson($attrs.customMenu);
 
         }
       }
@@ -73,7 +71,7 @@ function workflowPassButton() {
 /**
   药械订单列表-采购
 */
-function customMenuList() {
+function customMenuList(utils) {
   return {
     restrict: 'EA',
     // scope: {
@@ -86,12 +84,53 @@ function customMenuList() {
       link: function ($scope, element, $attrs) {
 
         if ($attrs.customMenuArr) {
-          var firstLetter = $attrs.customMenuArr.replace(/^\s*/, '')[0];
-            $scope.customMenuArr= (firstLetter === '{' || firstLetter === '[') ? angular.fromJson($attrs.customMenuArr) : new String($attrs.customMenuArr);
+            $scope.customMenuArr= utils.fromJson($attrs.customMenuArr);
 
         }else{
               $scope.customMenuArr=$attrs.customMenuArr;
         }
+        console.log(  $scope.customMenuArr);
+
+      }
+  };
+}
+
+
+
+/**
+  药械订单列表-采购
+*/
+function workflowTaskRunWithAttchments(utils) {
+  return {
+    restrict: 'EA',
+    // scope: {
+    //     ngModel: "="
+    // },
+    // replace: true,
+      scope: true,
+    templateUrl:  Config.tplPath +'tpl/project/workflowTaskRunWithAttchments.html',
+
+      link: function ($scope, element, $attrs) {
+
+        if ($attrs.customMenuArr) {
+            $scope.customMenuArr=utils.fromJson($attrs.customMenuArr);
+
+        }else{
+              $scope.customMenuArr=$attrs.customMenuArr;
+        }
+
+        //返回按钮
+        if ($attrs.returnButton) {
+            $scope.returnButton= utils.fromJson($attrs.returnButton);
+        }
+        //附件上传用途
+          $scope.attchmentUsege=$attrs.attchmentUsege;
+
+          $scope.passButton=utils.getcustomMenuByKeyOfArr($scope.customMenuArr,'通过');
+          $scope.rejectButton=utils.getcustomMenuByKeyOfArr($scope.customMenuArr,'驳回');
+
+          //按钮名字优先去passButton
+              $scope.showButton=$scope.passButton||$scope.rejectButton;
         console.log(  $scope.customMenuArr);
 
       }
@@ -1089,7 +1128,7 @@ function canvasWorkflow (modal,utils) {
                 }
 
                  modal.closeAll();
-                 
+
                 // alert(that.currentNode.text);
                   $scope.$parent.currentEvent=that.currentNode.data;
                   modal.open({
@@ -1153,9 +1192,10 @@ angular.module('manageApp.project')
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
 
 .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
-.directive("workflowRejectButton", workflowRejectButton)//药械订单列表-采购
-.directive("workflowPassButton", workflowPassButton)//药械订单列表-采购
-.directive("customMenuList", customMenuList)//药械订单列表-采购
+.directive("workflowRejectButton",  ['utils', workflowRejectButton])//自定义菜单 驳回
+.directive("workflowPassButton",  ['utils', workflowPassButton])//自定义菜单 通过
+.directive("customMenuList",  ['utils', customMenuList])//自定义菜单。列表显示
+.directive("workflowTaskRunWithAttchments",  ['utils', workflowTaskRunWithAttchments])//待附件审查
 
   .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
   .directive("orderMedicals", orderMedicals)//药械订单列表
