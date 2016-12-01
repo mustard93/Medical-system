@@ -82,7 +82,7 @@
                             request-url="rest/authen/workflowTask/run.json">提交到库管
                     </button>
 
-                    <button ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+                    <button ng-if="!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')&& tr.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
                             class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                             type="button"
                             handle-this-click
@@ -93,6 +93,10 @@
                             params='{"businessKey":tr.relId,"type":"来货通知单","conditionType":"通过"}'
                             request-url="rest/authen/workflowTask/run.json">审批通过
                     </button>
+
+                    <!--工作流控制菜单 -->
+                      <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button>
+
                   </span>
                 </div>
                 <div class="flex-column qurey text-s color-9">
