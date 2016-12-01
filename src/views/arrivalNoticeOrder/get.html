@@ -32,7 +32,18 @@
 
 
         <span class="mgr">审批人：<a href="javascript:;">{{showData.approverUser.n||"暂无"}}</a></span>
-        <span class="mgr">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
+
+
+        <a
+        modal-center="1000px"
+        modal-data='{"businessKey":"{{showData.relId}}"}'
+        modal-scope="this"
+        modal-url="views/workflowTask/getOfDialog.html"
+        >
+                <span class="mgr">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
+              </a>
+
+
       </div>
     </div>
     <!-- 供货商信息 -->
@@ -170,7 +181,7 @@
                   dialog-template="pr-dialog-submit.html"
                   params='{"businessKey":showData.relId,"type":"来货通知单"}'
                   request-url="rest/authen/workflowTask/run.json"
-                  call-back="$root.utils.refreshHref('#/arrivalNoticeOrder/get.html?relId={{showData.relId}}')">提交到库管
+                  call-back="$root.utils.refreshHref()">提交到库管
           </button>
 
           <span class="mgr-l"
@@ -193,7 +204,7 @@
                   dialog-template="pr-dialog-submit.html"
                   params='{"businessKey":showData.relId,"type":"来货通知单","ConditionType":"通过"}'
                   request-url="rest/authen/workflowTask/run.json"
-                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=2')">审批通过
+                  call-back="$root.utils.refreshHref()">审批通过
         </button>
         <button ng-if="showData.orderStatus=='待入库' && $root.hasAuthor('确认入库')"
                   class="pr-btn-save-glodbg"
@@ -204,7 +215,7 @@
                   dialog-template="pr-dialog-submit.html"
                   params='{"businessKey":showData.relId,"type":"来货通知单"}'
                   request-url="rest/authen/workflowTask/run.json"
-                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}')">确认入库
+                  call-back="$root.utils.refreshHref()">确认入库
         </button>
       </span>  <!-- 操作 -->
     </div>

@@ -1111,7 +1111,6 @@ function canvasWorkflow (modal,utils) {
       // scope: false,
       scope: {
           workflowTaskData:"=?",
-          updateWorkflowFlag:"=?",
           ngModel:"=?"
       },
     link: function ($scope, element, $attrs) {
