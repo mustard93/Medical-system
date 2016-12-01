@@ -395,7 +395,10 @@ function alertOk($rootScope, modal) {
 
       //工具类
       function utils () {
-          return  {
+
+
+
+          var  utilsObj={
             //json字符串转换为js 对象。
             fromJson  : function (jsonString) {
                 var firstLetter = jsonString.replace(/^\s*/, '')[0];
@@ -409,7 +412,7 @@ function alertOk($rootScope, modal) {
                       return $scope[scopeExtendName];
                     }
                     if(!$scope.$parent)return;
-                    return this.getScopeExtend($scope.$parent,scopeExtendName);
+                    return utilsObj.getScopeExtend($scope.$parent,scopeExtendName);
                 },
                 //  跳转到对应页面 utils.goTo(url,confirmMsg);
                 refreshHref  : function (confirmMsg) {
@@ -443,7 +446,7 @@ function alertOk($rootScope, modal) {
                 },
                 //遍历菜单数组，返回满足属性值type等于val的。数据位置。 utils.getcustomMenuByKeyOfArr(arr,val) ;
                getcustomMenuByKeyOfArr : function (arr,val) {
-                    return this.getObjectByKeyOfArr(arr,"type",val) ;
+                    return utilsObj.getObjectByKeyOfArr(arr,"type",val) ;
 
                  },
                 //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
@@ -458,14 +461,14 @@ function alertOk($rootScope, modal) {
                 //    遍历数组，返回满足属性值等于val的。 utils.getObjectByKeyOfArr(arr,key,val) ;
                 getObjectByKeyOfArr : function (arr,key,val) {
 
-                    var index=this.getObjectIndexByKeyOfArr(arr,key,val);
+                    var index=utilsObj.getObjectIndexByKeyOfArr(arr,key,val);
                     if(index<0)     return null;
                     return arr[index];
                 },
                 //    遍历数组，删除满足属性值等于val的。utils.removeObjectByKeyOfArr(arr,key,val)
                 removeObjectByKeyOfArr : function (arr,key,val) {
 
-                    var index=this.getObjectIndexByKeyOfArr(arr,key,val);
+                    var index=utilsObj.getObjectIndexByKeyOfArr(arr,key,val);
                     if(index>-1){
                         arr.splice(index,1);
                     }
@@ -474,6 +477,7 @@ function alertOk($rootScope, modal) {
 
             }
 
+          return utilsObj;
     };
 
 
