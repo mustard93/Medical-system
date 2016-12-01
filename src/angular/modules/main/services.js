@@ -417,7 +417,12 @@ function alertOk($rootScope, modal) {
                 //  跳转到对应页面 utils.goTo(url,confirmMsg);
                 refreshHref  : function (confirmMsg) {
                     var url=window.location.href;
-                      url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+
+                    if (url.indexOf('&') > -1) {
+                      url = url.split('&')[0];
+                    }
+
+                    url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
 
                     if(confirmMsg){
                       dialogConfirm(confirmMsg, function () {

@@ -1,199 +1,281 @@
-<div class="modal-content" ng-controller="editCtrl"
-  ajax-url="rest/authen/hospitalApplication/getOfEdit.json?id={{tr.id}}"
-  scope-data="formData"
-  callback="initFlag=true">
-  <form class="add-customerAddress-form form-horizontal"
-        action="rest/authen/hospitalApplication/save"
-
-        alert-error
-        alert-ok
-        parameter-body
-        form-validator>
-    <div class="modal-header">
-        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}医院申请表</h4>
-    </div>
-    <div class="modal-body">
-
-      <h4 class="modal-title">企业基本信息：</h4>
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">申请单编号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.applicationNumber"/>
-          </div>
+<div class="content-wrapper hospital-application first-medical-application"
+     ajax-url="rest/authen/hospitalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback=""
+     alert-error
+     ng-init="formData.validFlag=false">
+  <div class="page-header-info">
+    <h1>医院资格申请</h1>
+    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
+  </div>
+  <!-- 添加流程导航 -->
+  <div class="first-medical-nav text-right">
+    <span class="active">基本信息</span>
+    <span>申请原因</span>
+    <span>添加审核资料</span>
+  </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper-main mgt">
+    <form class="form-horizontal"
+          id="first-enterprise-editForm"
+          name="firstEnterpriseEditForm"
+          form-validator
+          parameter-body
+          action="rest/authen/hospitalApplication/saveBaseInfo"
+          alert-error
+          alert-ok
+          scope-error-msg="errorMsg"
+          scope-data="formData"
+          novalidate="true"
+          callback="submitFormAfter('#/hospitalApplication/edit-step-2.html')">
+      <!-- 单号 -->
+      <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+        <span class="flex-item-11">申请单：<em class="color-6">暂无</em></span>
+        <span class="current-status flex-item-1">
+          <strong>状态：{{formData.orderStatus}}</strong>
+        </span>
       </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">申请单状态</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.applicationStatus" disabled="true"/>
+      <!-- 基本信息 -->
+      <div class="panel pr-panel pr-panel-height mgb">
+        <h1 class="pr-font-18 mgb mgt">基本信息</h1>
+        <div>
+          <h3 class="bb-line pd-v text-bold mgb-m">医院信息：</h3>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">医院名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.hospital.name" required>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">医院系统编号：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.hospital.systemNumber" required>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">医院名称</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.name"/>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">经营性质：</label>
+                <div class="col-sm-6">
+                  <select class="form-control" name="" ng-model="formData.hospital.managementType">
+                    <option value="国营">国营</option>
+                    <option value="民营">民营</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">法人代表：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.hospital.legalRepresentative" required>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">医院系统编号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.systemNumber"/>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">地址：</label>
+                <div class="col-sm-6 mgr-s">
+                  <input type="text" class="form-control" ng-model="formData.hospital.address" required>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">级别：</label>
+                <div class="col-sm-2">
+                  <select class="form-control" ng-model="formData.hospital.level">
+                    <option value="一级">一级</option>
+                    <option value="二级">二级</option>
+                    <option value="三级">三级</option>
+                  </select>
+                </div>
+                <label for="" class="col-sm-2 control-label">等级：</label>
+                <div class="col-sm-2">
+                  <select class="form-control" ng-model="formData.hospital.grade">
+                    <option value="特">特</option>
+                    <option value="甲">甲</option>
+                    <option value="乙">乙</option>
+                    <option value="丙">丙</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label text-left">经营性质</label>
-          <div class="col-lg-10 col-sm-10">
-
-            <select ng-if="initFlag" class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.hospital.managementType" chosen
-                    select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_HospitalManagementType">
-            </select>
-
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">座机：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.hospital.hospitalTel" required>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">邮编：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.hospital.zipCode" required>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">法人代表</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.legalRepresentative"/>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">执业许可证号：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.hospital.practiceLicenseNo" required>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">有效期至：</label>
+                <div class="col-sm-6">
+                  <input type="text" datepicker class="form-control" placeholder="有效日期至" ng-model="formData.hospital.guaranteePeriod" required>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">地址</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.address"/>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">营业执照号：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.firstEnterprise.businessLicenseNo" required>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">营业期限：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.firstEnterprise.busnissAllotedTime" required>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label text-left">级别</label>
-          <div class="col-lg-10 col-sm-10">
-
-            <select ng-if="initFlag" class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.hospital.level" chosen
-                    select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_HospitalLevel">
-            </select>
-
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">开户银行：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.firstEnterprise.accountBank" required>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">开户账号：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.firstEnterprise.accountNumber" required>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">开户名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.firstEnterprise.accountName" required>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">付款方式：</label>
+                <div class="col-sm-3 flex-column">
+                  <select ng-if="initFlag"
+                          class="select select-w"
+                          data-placeholder="选择一个..."
+                          chosen default-empty="无"
+                          ng-model="formData.firstEnterprise.payType"
+                          select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_CashType">
+                  </select>
+                  <!-- <select class="form-control" name="" ng-model="formData.firstEnterprise.paymentMethod" required>
 
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label text-left">等级</label>
-          <div class="col-lg-10 col-sm-10">
-
-            <select ng-if="initFlag" class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.hospital.grade" chosen
-                    select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_HospitalGrade">
-            </select>
-
+                  </select> -->
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">电话</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.tel"/>
+        </div>
+        <div>
+          <h3 class="bb-line pd-v text-bold mgb">销售人员信息：</h3>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">销售人员/身份证号：</label>
+                <div class="col-sm-6 flex-column">
+                  <input type="text" class="form-control flex-item-3" ng-model="formData.firstEnterprise.salesman" required>
+                  <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.firstEnterprise.salesmanIdentityNo" required>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">Email：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.firstEnterprise.email" required>
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">邮编</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.zipCode"/>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">联系电话：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.firstEnterprise.tel" required>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="pd-v-l bt-line">
+          <h1 class="mgb-l text-bold">经营范围：</h1>
+          <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.businessScope"></textarea>
+        </div>
+        <div class="pd-v-l bt-line">
+          <h1 class="mgb-l text-bold">拟供产品：</h1>
+          <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.provideProducts"></textarea>
+        </div>
       </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">采购员姓名</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.purchaserName"/>
-          </div>
+      <!-- 功能按钮 -->
+      <div class="mgb text-right">
+        <span class="mgl"><a href="#/firstEnterpriseApplication/query.html">返回申请单列表</a></span>
+        <span class="mgl">
+          <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+             href="javascript:;"
+             class="color-red"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="删除后将无法恢复,确认删除?"
+             dialog-template="pr-dialog-submit.html"
+             callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+             params='{"id":formData.id}'
+             request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled=""
+                  ng-click="submitForm('first-enterprise-editForm','submit')">下一步
+          </button>
+        </span>
       </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">身份证号码</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.identityNo"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">联系电话</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.phone"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">邮箱</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.email"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">执业许可证</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.practiceLicenseNo"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">有效期至</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.hospital.guaranteePeriod"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">许可项目</label>
-          <div class="col-lg-10 col-sm-10">
-              <textarea class="form-control" placeholder="" ng-model="formData.hospital.permissionItem"/>
-          </div>
-      </div>
-
-
-
-      <h4 class="modal-title">申请原因：</h4>
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">申请原因</label>
-          <div class="col-lg-10 col-sm-10">
-              <textarea class="form-control" placeholder="" ng-model="formData.applyReason"/>
-          </div>
-      </div>
-
-
-
-      <h4 class="modal-title">审核附件上传：</h4>
-      <div class="form-group"  ng-repeat="item in formData.attachments">
-          <div class="col-lg-10 col-sm-10">
-            {{item.name}}：{{item.uploadUserId}}:{{item.uploadUserName}}
-
-            有效日期至：<input type="date" class="ipt pr-short-ipt color-6" placeholder="有效日期至" convert-to-date ng-model="item.guaranteePeriod">
-
-              {{item.attachmentUrl}}
-
-
-              <button type="button" class="btn btn-default" ng-init="upFile={}"
-                                  uploader-one="rest/authen/fileUpload/upload.json" usege="医院申请"
-                                    callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
-                                   up-file="upFile" ng-model="item.attachmentUrl">
-
-                                      上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
-              </button>
-          </div>
-      </div>
-
-
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label"></label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="submit" class="btn pr-btn-create-glodbg" value="提交" >
-          </div>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
