@@ -396,7 +396,12 @@ function alertOk($rootScope, modal) {
       //工具类
       function utils () {
           return  {
+            //json字符串转换为js 对象。
+            fromJson  : function (jsonString) {
+                var firstLetter = jsonString.replace(/^\s*/, '')[0];
+                return (firstLetter === '{' || firstLetter === '[') ? angular.fromJson(jsonString) : new String(jsonString);
 
+            },
                 //在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
                 getScopeExtend  : function ($scope,scopeExtendName) {
 
