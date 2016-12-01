@@ -97,7 +97,7 @@ define(['JTopo'], function(JTopo){
             for(var i=0;i<data.events.length;i++){
                this.addLinkByEvent(data.events[i]);
             }
-               this.scene.doLayout(JTopo.layout.TreeLayout('right', 80, 120));
+               this.scene.doLayout(JTopo.layout.TreeLayout('right', 25, 120));
               //  var json=this.stage.toJson();
               //  console.log(json);
           },
