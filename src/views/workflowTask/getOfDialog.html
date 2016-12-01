@@ -1,0 +1,49 @@
+<div class="modal-content pr-modal-content" ng-controller="editCtrl"
+  ajax-url="rest/authen/workflowTask/get.json?businessKey={{dialogData.businessKey}}"
+  scope-data="workflowTaskData"
+  callback="initFlag=true;"
+  error-callback="initFlag=true;"
+>
+
+    <div class="modal-header">
+        <h4 class="modal-title">工作流展示-{{workflowTaskData.workflowProcess.name}}</h4>
+    </div>
+    <div class="modal-body">
+
+      <canvas  ng-if="initFlag"  id="canvas" canvas-workflow update-workflow-flag="updateWorkflowFlag"
+       scope-extend="scopeExtend" scope-extend-attr="workflow"  ng-model="workflowTaskData.workflowProcess" workflow-task-data="workflowTaskData"
+      height="600px"  width="800px" show-status="true"
+      modal-url="views/manageWorkflowProcess/editEvent.html"
+
+      style="background:gray"></canvas>
+
+
+      <div>
+      <lable>流程记录</lable>
+      <table class="table table-hover table-striped">
+          <thead>
+              <tr>
+                  <th><input type="checkbox" class="selectAll"></th>
+                  <th>序号</th>
+                  <th>节点信息</th>
+                  <th>操作人</th>
+                  <th>创建时间</th>
+                  <th>内容</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="tr in workflowTaskData.eventRecords" ng-click="selectThis()">
+                  <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                  <td>{{$index + 1}}</td>
+                  <td>{{tr.event.name}}</td>
+                  <td>{{tr.inputUser}}</td>
+                  <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                  <td>{{tr.event.conditionType}} {{tr.key}} {{tr.note}}</td>
+
+              </tr>
+          </tbody>
+      </table>
+      </div>
+    </div> <!--modal-body-->
+
+</div>

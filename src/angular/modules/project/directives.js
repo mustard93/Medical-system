@@ -1110,7 +1110,7 @@ function canvasWorkflow (modal,utils) {
       restrict: 'AE',
       // scope: false,
       scope: {
-          // workflowCallback:"&",
+          workflowTaskData:"=?",
           updateWorkflowFlag:"=?",
           ngModel:"=?"
       },
@@ -1147,6 +1147,7 @@ function canvasWorkflow (modal,utils) {
 
 
             var option={
+                showStatus:$attrs.showStatus=="true",
                 node:{
                   clickCallback:clickCallback
                 }
@@ -1165,6 +1166,12 @@ function canvasWorkflow (modal,utils) {
             }
 
             workflow.addWorkflowProcess(data);
+
+
+            if($scope.workflowTaskData){
+              workflow.addWorkflowTaskData($scope.workflowTaskData);
+
+            }
               //编辑节点回掉函数 新建保存，作用域调用不到该函数
               // $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
               //   modal.closeAll();

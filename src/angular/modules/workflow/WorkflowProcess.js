@@ -1,6 +1,13 @@
 define(['JTopo'], function(JTopo){
 
       var defaultOptions={
+            //defaultOptions.status.fillColor_ready
+          showStatus:false,//true 表示显示节点运行状态
+           status:{
+             fillColor_ready:"90,228,230",//未执行
+              fillColor_doing:"240,239,44",//执行中
+               fillColor_done:"80,230,30" //已完成
+           },
             data:null,
             //defaultOptions.scene.background
             scene:{
@@ -19,9 +26,8 @@ define(['JTopo'], function(JTopo){
               image:"../images/logo.png"
 
             }
-        }
-
-　　　　function WorkflowProcess(divId,option){
+        };
+        function WorkflowProcess(divId,option){
           if(option){
               this.options=$.extend(true,{},defaultOptions,option);
           }else{
@@ -37,13 +43,14 @@ define(['JTopo'], function(JTopo){
           this.scene=scene;
           this.currentNode=null;
           this.data=null;
+          this.workflowTaskData=null;
+
+
           if(this.options.data){
               this.addWorkflowProcess(this.options.data);
           }
-
-　　　　}
-
-        WorkflowProcess.prototype={
+        };
+      WorkflowProcess.prototype={
           //根据name返回node节点
           getEventByName:function(name){
             var scene = this.stage.childs[0];
@@ -73,6 +80,8 @@ define(['JTopo'], function(JTopo){
                this.scene.clear();
                this.addWorkflowProcess(this.data);
           },
+
+          //添加流程图定义数据，用于图形展示
           addWorkflowProcess:function(data){
             if(!data)return;
             this.data=data;
@@ -91,6 +100,45 @@ define(['JTopo'], function(JTopo){
                this.scene.doLayout(JTopo.layout.TreeLayout('right', 80, 120));
               //  var json=this.stage.toJson();
               //  console.log(json);
+          },
+          //添加工作流运行节点，用于显示各个状态。
+          addWorkflowTaskData:function(data){
+            if(!data)return;
+            this.workflowTaskData=data;
+
+            console.log("addWorkflowTaskData.data=");
+            console.log(data);
+
+            this.showWorkflowTaskData();
+          },
+          //显示节点状态
+          showWorkflowTaskData(){
+            if(!  this.workflowTaskData)return;
+            var arr=this.workflowTaskData.eventRecords;
+            //已经执行过的节点
+
+            if(arr)for(var i=0;i<arr.length;i++){
+                var eventRecord=arr[i];
+                var node =this.getEventByName(eventRecord.event.name);
+                if(node){
+                    node.fillColor=this.options.status.fillColor_done;
+                }
+
+            }
+              //当前正在执行节点
+
+              var arr=this.workflowTaskData.currentEvent;
+              //已经执行过的节点
+              if(arr)for(var i=0;i<arr.length;i++){
+                  var event=arr[i];
+                  var node =this.getEventByName(event.name);
+                  if(node){
+                      node.fillColor=this.options.status.fillColor_doing;
+                  }
+
+              }
+
+
           },
           //添加2个节点得链接
          addLinkByEvent:function(event1){
@@ -169,7 +217,7 @@ define(['JTopo'], function(JTopo){
             }
             switch (event1.conditionType) {
               case "驳回":
-                        node.fillColor = '255,0, 0'; // 填充颜色
+                        node.fontColor = '255,0, 0'; // 填充颜色
                 break;
 
               default:
@@ -184,7 +232,9 @@ define(['JTopo'], function(JTopo){
             var node = this.addNodeByEvent(event1);
             node.data=event1;
 
-
+            if(this.options.showStatus){
+                node.fillColor=this.options.status.fillColor_ready;
+            }
 
             // node.alpha = 0.7; //透明度
             // node.setImage(event1.image||this.options.node.image, true);
@@ -217,6 +267,5 @@ define(['JTopo'], function(JTopo){
             return node;
           } //end addEvent
         } //end WorkflowProcess.prototype
-
-　　　　return WorkflowProcess;
+        return WorkflowProcess;
 });
