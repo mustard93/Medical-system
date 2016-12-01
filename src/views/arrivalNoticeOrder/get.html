@@ -170,18 +170,21 @@
                   dialog-template="pr-dialog-submit.html"
                   params='{"businessKey":showData.relId,"type":"来货通知单"}'
                   request-url="rest/authen/workflowTask/run.json"
-                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管
+                  call-back="$root.utils.refreshHref('#/arrivalNoticeOrder/get.html?relId={{showData.relId}}')">提交到库管
           </button>
 
           <span class="mgr-l"
-                ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+                ng-if="!showData.didateFilter.buttons&& showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
                 ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'来货通知单驳回理由',msg:'驳回后，该来货通知单将作废。确认驳回?',formData:{businessKey:showData.relId,conditionType:'驳回',type:'来货通知单',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
                 <a href="javascript:;"
                    modal-center="490"
                    modal-scope="this"
                    modal-url="views/public/dialog-check-reject.html">驳回</a>
           </span>
-        <button ng-if="showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+
+      <span ng-if="showData.didateFilter.buttons"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
+
+        <button ng-if="!showData.didateFilter.buttons&& showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
                   class="pr-btn-save-glodbg"
                   type="button"
                   handle-this-click

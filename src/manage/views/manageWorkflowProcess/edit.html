@@ -9,6 +9,8 @@
                  scope-data="formData" alert-error
                  callback="canvasWorkflow.reload(formData)"
                   parameter-body
+                  alert-ok
+                  alert-error
                 form-validator>
             <div class="modal-header">
                 <h4 class="modal-title">{{formData.id?"编辑":"添加"}}工作流
@@ -46,7 +48,7 @@
 
 
 
-            <select ng-if="initFlag"     default-empty    ajax-if-eval="formData.organizationId"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData.departmentIds"
+            <select ng-if="initFlag"     default-empty  multiple  ajax-if-eval="formData.organizationId"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData.departmentIds"
                chosen   params='{"DistributorId":"{{formData.organizationId}}"}'
                  select-source="rest/index/department/queryForSelectOption.json">
             </select>
@@ -67,7 +69,6 @@
                 modal-url="views/manageWorkflowProcess/editEvent.html"
 
                 style="background:gray"></canvas>
-
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label"></label>
                   <div class="col-lg-10 col-sm-10">

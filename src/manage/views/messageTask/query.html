@@ -1,32 +1,35 @@
-<div   ng-controller="pageCtrl"><!-- pageCtrl-->
+<div   ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
 <div class="page-main-content">
   <!-- page heading start-->
   <div class="page-heading">
-      <h3>工作流管理</h3>
+      <h3>消息任务</h3>
       <ul class="breadcrumb">
           <li><a href="#">主面板</a></li>
-          <li class="active">工作流管理</li>
+          <li class="active">消息任务</li>
       </ul>
   </div>
   <!-- page heading end-->
 
   <!--body wrapper start-->
-  <table-list list-data="rest/authen/manageWorkflowProcess/query.json" list-params="listParams">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/messageTask/query.json" list-params="listParams">
       <div class="mg-m col-lg-12 col-sm-12">
-        <div class="col-lg-1">
+        <!-- <div class="col-lg-1">
+          <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/messageTask/edit.html">
+              <i class="fa fa-plus"></i>新建
+          </button>
+        </div> -->
+        <div class="form-group col-lg-2">
+          <label class="col-lg-3 col-sm-3 control-label">消息类型</label>
+          <div class="col-lg-9 col-sm-9">
+            <select class="ipt pr-short-ipt" data-placeholder="选择类型" chosen default-empty="无" ng-model="listParams.type" select-source="rest/index/queryBasicdataForSelectOption"  params='{"basicDataType":"Basic_TaskQueueType"}'>
 
-          <a href="#/manageWorkflowProcess/edit.html">
-             <button type="button" class="btn btn-primary">
-                 <i class="fa fa-plus"></i>新建
-             </button>
-            </a>
-
-
+            </select>
+          </div>
         </div>
         <div class="form-group col-lg-2">
-          <label class="col-lg-2 col-sm-2 control-label">机构</label>
-          <div class="col-lg-10 col-sm-10">
-            <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="listParams.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+          <label class="col-lg-3 col-sm-3 control-label">状态</label>
+          <div class="col-lg-9 col-sm-9">
+            <select class="ipt pr-short-ipt" data-placeholder="选择状态" chosen default-empty="无" ng-model="listParams.taskStatus" select-source="rest/index/queryBasicdataForSelectOption"  params='{"basicDataType":"Basic_MessageTaskStatus"}'>
 
             </select>
           </div>
@@ -68,12 +71,10 @@
                           <tr>
                               <th><input type="checkbox" class="selectAll"></th>
                               <th>序号</th>
-                              <th>名称</th>
-                              <th>机构</th>
-                              <th>部门</th>
-                              <th>类型</th>
-                              <th>创建时间</th>
+                              <th>消息类型</th>
                               <th>状态</th>
+                              <th>创建时间</th>
+                              <th>更新时间</th>
                               <th>操作</th>
                               <th></th>
                           </tr>
@@ -82,32 +83,20 @@
                           <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
                               <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                               <td>{{$index + 1}}</td>
-                              <td>{{tr.name}}</td>
-                              <td>{{tr.organizationId}}</td>
-                              <td>{{tr.departmentIds}}</td>
-                              <td>{{tr.businessType}}</td>                              
+                              <td>{{tr.type}}</td>
+                              <td>{{tr.taskStatus}}</td>
                               <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-                              <td>{{tr.status}}</td>
+                              <td>{{tr.updateAt | date : 'yyyy-MM-dd HH:mm'}}</td>
                               <td>
-
-                                  <a href="#/manageWorkflowProcess/edit.html?id={{tr.id}}"
-
-                                     >
-
-                                     <button type="button" class="btn btn-primary">
-                                         <i class="fa fa-edit"></i>
-                                         编辑
-                                     </button>
-                                    </a>
-
-                                    <a href="#/manageWorkflowProcess/edit.html?copyId={{tr.id}}" >
-
-                                       <button type="button" class="btn btn-primary">
-                                           <i class="fa fa-edit"></i>
-                                              复制新建
-                                       </button>
-                                      </a>
-                                  <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/manageWorkflowProcess/delete', tr.id)">
+                                  <!-- <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html">
+                                      <i class="fa fa-folder-open-o"></i>
+                                      查看
+                                  </button>
+                                  <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/messageTask/edit.html?id={{tr.id}}">
+                                      <i class="fa fa-edit"></i>
+                                      编辑
+                                  </button> -->
+                                  <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/messageTask/delete', tr.id)">
                                       <i class="fa fa-trash-o"></i>
                                       删除</button>
                               </td>
@@ -125,4 +114,4 @@
   </table-list>
   <!--body wrapper end-->
 </div>
-</div><!-- pageCtrl-->
+</div>
