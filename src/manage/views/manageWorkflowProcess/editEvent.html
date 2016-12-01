@@ -1,6 +1,6 @@
 
         <div class="modal-content"
-        ng-init='isUpdate=currentEvent && currentEvent.name==dialogData.name;formData1=dialogData||{}'
+        ng-init='isUpdate=currentEvent && currentEvent.name==dialogData.name;formData1=dialogData||{};initFlagEvent=true;'
         >
 
           <form class="add-medical-form form-horizontal">
@@ -20,7 +20,7 @@
                 <label class="col-lg-2 col-sm-2 control-label">eventType</label>
                 <div class="col-lg-10 col-sm-10">
 
-                  <select ng-if="initFlag"  class="select pr-select" ng-model="formData1.eventType"
+                  <select ng-if="initFlagEvent"  class="select pr-select" ng-model="formData1.eventType"
                    chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_EventType">
                   </select>
 
@@ -29,18 +29,19 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">类型</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.type">
+                  <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.type">
                         <option value="Event">Event</option>
                         <option value="StartEvent">StartEvent</option>
                           <option value="EndEvent">EndEvent</option>
                             <option value="BranchEvent">BranchEvent</option>
+                             <option value="MultiBranchEvent">MultiBranchEvent</option>
                   </select>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">状态</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.status"
+                  <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.status"
                      chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_EventStatus">
                   >
 
@@ -51,14 +52,14 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">conditionType</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="conditionType" ng-model="formData1.conditionType"
+                  <select ng-if="initFlagEvent"  default-empty  class="ipt pr-short-ipt" data-placeholder="conditionType" ng-model="formData1.conditionType"
                   chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_ConditionType"
                   >
                           <!-- <option value="通过">通过</option>
                       <option value="驳回">驳回</option> -->
 
                   </select>
-                  <!-- <select ng-if="initFlag"  class="select pr-select" ng-model="formData1.status" style="max-width:180px;" chosen
+                  <!-- <select ng-if="initFlagEvent"  class="select pr-select" ng-model="formData1.status" style="max-width:180px;" chosen
                    select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
                   </select> -->
                 </div>
@@ -66,14 +67,14 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">action</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择执行动作" ng-model="formData1.action"
+                  <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择执行动作" ng-model="formData1.action"
                   chosen default-empty  multiple select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_EventActionEnum"
                   >
                           <!-- <option value="通过">通过</option>
                       <option value="驳回">驳回</option> -->
 
                   </select>
-                  <!-- <select ng-if="initFlag"  class="select pr-select" ng-model="formData1.status" style="max-width:180px;" chosen
+                  <!-- <select ng-if="initFlagEvent"  class="select pr-select" ng-model="formData1.status" style="max-width:180px;" chosen
                    select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
                   </select> -->
                 </div>
@@ -81,7 +82,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">sourceRef</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="ipt pr-short-ipt" ng-model="formData1.sourceRef"  ng-options="event.name as event.name for event in formData.events">
+                  <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" ng-model="formData1.sourceRef"  ng-options="event.name as event.name for event in formData.events">
                     <option value=""></option>
                   </select>
                 </div>
@@ -89,7 +90,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">targetRef</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="ipt pr-short-ipt" ng-model="formData1.targetRef"  ng-options="event.name  as event.name for event in formData.events">
+                  <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" ng-model="formData1.targetRef"  ng-options="event.name  as event.name for event in formData.events">
                     <option value=""></option>
                   </select>
                 </div>
@@ -97,7 +98,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">权限角色运算符</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen ng-model="formData1.didateFilter.operator" select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_AndOrOperatorsEnmus">
+                  <select ng-if="initFlagEvent"  class="select select-w" data-placeholder="选择一个..." chosen ng-model="formData1.didateFilter.operator" select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_AndOrOperatorsEnmus">
 
                   </select>
 
@@ -106,7 +107,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">指定权限</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen default-empty multiple ng-model="formData1.didateFilter.authoritys" select-source="rest/index/queryAuthoritys.json">
+                  <select ng-if="initFlagEvent"  class="select select-w" data-placeholder="选择一个..." chosen default-empty multiple ng-model="formData1.didateFilter.authoritys" select-source="rest/index/queryAuthoritys.json">
 
                   </select>
 
@@ -116,7 +117,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">指定角色</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.didateFilter.roleIds"
+                  <select ng-if="initFlagEvent"  default-empty multiple  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.didateFilter.roleIds"
                      chosen select-source="rest/authen/manageRole/queryForSelectOption?organizationId={{formData.organizationId}}">
                   >
                   </select>
@@ -130,7 +131,7 @@
 
 
 
-                  <select ng-if="initFlag"     default-empty    ajax-if-eval="formData.organizationId"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.didateFilter.departmentIds"
+                  <select ng-if="initFlagEvent"     default-empty  multiple  ajax-if-eval="formData.organizationId"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData1.didateFilter.departmentIds"
                      chosen   params='{"DistributorId":"{{formData.organizationId}}"}'
                        select-source="rest/index/department/queryForSelectOption.json">
                   </select>
@@ -141,7 +142,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">指定用户</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen default-empty multiple ng-model="formData1.didateFilter.userIds" select-source="rest/authen/manageUser/queryForSelectOption.json?organizationId={{formData.organizationId}}">
+                  <select ng-if="initFlagEvent"  class="select select-w" data-placeholder="选择一个..." chosen default-empty multiple ng-model="formData1.didateFilter.userIds" select-source="rest/authen/manageUser/queryForSelectOption.json?organizationId={{formData.organizationId}}">
 
                   </select>
 
@@ -153,8 +154,8 @@
                 <div class="form-group" >
                   <label class="col-lg-2 col-sm-2 control-label">菜单类型</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择菜单类型" ng-model="tr.type"
-                    chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_ConditionType"
+                    <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择菜单类型" ng-model="tr.type"
+                    chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_ButtonType"
                     >
                   </select>
                   </div>
@@ -169,7 +170,7 @@
                 <div class="form-group" >
                   <label class="col-lg-2 col-sm-2 control-label">请求方式</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择菜单类型" ng-model="tr.requestMethod"
+                    <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择请求方式" ng-model="tr.requestMethod"
                     chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Http_HttpRequestEnmus"
                     >
                   </select>
@@ -180,7 +181,7 @@
                 <div class="form-group" >
                   <label class="col-lg-2 col-sm-2 control-label">请求路径</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择菜单类型" ng-model="tr.requestMethod"
+                    <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择请求路径" ng-model="tr.requestMethod"
 
                     params='{"type":"工作流请求路径"}'
                     chosen select-source="rest/baseData/queryForSelectOptionByType.json"
@@ -188,18 +189,35 @@
                   </div>
                 </div>
                 <div class="form-group" >
-                  <label class="col-lg-2 col-sm-2 control-label">请求方式</label>
+                  <label class="col-lg-2 col-sm-2 control-label">参数方式</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择菜单类型" ng-model="tr.requestParam"
+                    <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择参数方式" ng-model="tr.requestParam"
                     chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Http_HttpRequestParamTypeEnmus"
 
                     >  </select>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">conditionType</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select ng-if="initFlagEvent"  default-empty  class="ipt pr-short-ipt" data-placeholder="conditionType" ng-model="tr.conditionType"
+                    chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_ConditionType"
+                    >
+                            <!-- <option value="通过">通过</option>
+                        <option value="驳回">驳回</option> -->
+
+                    </select>
+                    <!-- <select ng-if="initFlagEvent"  class="select pr-select" ng-model="formData1.status" style="max-width:180px;" chosen
+                     select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
+                    </select> -->
+                  </div>
+                </div>
+
                 <div class="form-group" >
                   <label class="col-lg-2 col-sm-2 control-label">弹出窗口标题</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" default-empty   data-placeholder="选择菜单类型" ng-model="tr.alertTitle"
+                    <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" default-empty   data-placeholder="选择菜单类型" ng-model="tr.alertTitle"
                     params='{"type":"工作流弹出窗口标题"}'
                     chosen select-source="rest/baseData/queryForSelectOptionByType.json"
                       >   </select> <p>（为空则不弹出窗口）</p>
@@ -209,7 +227,7 @@
                 <div class="form-group" >
                   <label class="col-lg-2 col-sm-2 control-label">弹出窗口内容</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" default-empty   data-placeholder="选择菜单类型" ng-model="tr.alertMsg"
+                    <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" default-empty   data-placeholder="选择菜单类型" ng-model="tr.alertMsg"
                     params='{"type":"工作流弹出窗口内容"}'
                     chosen select-source="rest/baseData/queryForSelectOptionByType.json"
                       >  </select>
@@ -218,11 +236,21 @@
                 <div class="form-group" >
                   <label class="col-lg-2 col-sm-2 control-label">驳回下拉选择理由</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" default-empty   data-placeholder="选择菜单类型" ng-model="tr.alertSelect"
+                    <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" default-empty   data-placeholder="选择菜单类型" ng-model="tr.alertSelect"
                     chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_BaseDataType"
                       >  </select>    <p>驳回下拉选择理由</p>
                   </div>
 
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">指定角色</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select ng-if="initFlagEvent"  default-empty multiple class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="tr.roleIds"
+                       chosen select-source="rest/authen/manageRole/queryForSelectOption?organizationId={{formData.organizationId}}">
+                    >
+                    </select>
+
+                  </div>
                 </div>
 
                 <a href="javascript:;" ng-click="formData1.didateFilter.buttons.splice($index,1);" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
