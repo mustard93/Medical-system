@@ -1,12 +1,12 @@
-<div class="content-wrapper first-medical-application"
+<div class="content-wrapper hospital-application first-medical-application"
      ng-controller="QualificationApplyCtrl"
-     ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     ajax-url="rest/authen/hospitalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      callback=""
      alert-error>
   <div class="page-header-info">
-    <h1>首营企业申请</h1>
-    <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
+    <h1>医院资格申请</h1>
+    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
   </div>
   <!-- 添加流程导航 -->
   <div class="first-medical-nav text-right">
@@ -17,17 +17,17 @@
   <!-- 主体内容 -->
   <div class="content-wrapper-main mgt">
     <form class="form-horizontal"
-          id="firstMedical-editForm"
-          name="firstMedicalEditForm"
+          id="hospital-editForm"
+          name="hospitalEditForm"
           form-validator
           parameter-body
-          action="rest/authen/firstEnterpriseApplication/saveApplyReason?validateFlag=true"
+          action="rest/authen/hospitalApplication/saveApplyReason?validateFlag=true"
           alert-error
           alert-ok
           scope-error-msg="errorMsg"
           scope-data="formData"
           novalidate="true"
-          callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-3.html')">
+          callback="submitFormAfter('#/hospitalApplication/edit-step-3.html')">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo}}</em></span>
@@ -44,7 +44,7 @@
       </div>
       <!-- 功能按钮 -->
       <div class="mgb text-right">
-        <span class="mgl"><a href="#/firstEnterpriseApplication/query.html">返回申请单列表</a></span>
+        <span class="mgl"><a href="#/hospitalApplication/query.html">返回申请单列表</a></span>
         <span class="mgl">
           <a ng-if="formData.id && formData.proposerName==mainStatus.name"
              href="javascript:;"
@@ -53,23 +53,23 @@
              dialog-title="确认删除?"
              dialog-content="删除后将无法恢复,确认删除?"
              dialog-template="pr-dialog-submit.html"
-             callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+             callback="$root.goTo('#/hospitalApplication/query.html')"
              params='{"id":formData.id}'
-             request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
+             request-url="rest/authen/hospitalApplication/delete">删除</a>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                  ng-disabled="!formData.applyReason || firstMedicalEditForm.applyReason.$pristine"
-                  ng-click="submitForm('firstMedical-editForm','save')">保存
+                  ng-disabled="!formData.applyReason || hospitalApplication.applyReason.$pristine"
+                  ng-click="submitForm('hospital-editForm','save')">保存
           </button>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="pageTo('#/firstEnterpriseApplication/edit.html?id='+formData.id)">上一步</button>
+          <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="pageTo('#/hospitalApplication/edit.html?id='+formData.id)">上一步</button>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
                   ng-disabled="!formData.applyReason"
-                  ng-click="submitForm('firstMedical-editForm','submit')">下一步
+                  ng-click="submitForm('hospital-editForm','submit')">下一步
           </button>
         </span>
       </div>
