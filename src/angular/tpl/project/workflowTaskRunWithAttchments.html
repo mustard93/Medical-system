@@ -13,12 +13,12 @@
 <div>
   <!-- 审批意见 -->
   <div class="panel pr-panel pr-panel-height mgb">
-    <h1 class="pr-font-18 mgb">审批意见</h1>{{formData.conditionType=='通过'?passButton.alertMsg:rejectButton.alertMsg}}
+    <h1 class="pr-font-18 mgb">审批意见</h1>
     <div class="mgb-m">
-      <label ng-if="passButton" class="radio-inline" ng-click='beforeConfirmMsg=passButton.alertMsg'>
+      <label ng-if="passButton" class="radio-inline" >
         <input type="radio" name="type" value="通过" ng-model="formData.conditionType"> 通过
       </label>
-      <label ng-if="rejectButton" class="radio-inline" ng-click='beforeConfirmMsg=rejectButton.alertMsg'>
+      <label ng-if="rejectButton" class="radio-inline" >
         <input type="radio" name="type" value="驳回" ng-model="formData.conditionType"> 驳回
       </label>
     </div>
@@ -130,7 +130,7 @@
               dialog-title="{{passButton.alertTitle||'确认通过?'}}"
               dialog-content="{{passButton.alertMsg||'审核通过后,采购单将生效,是否通过?'}}"
               dialog-template="pr-dialog-submit.html"
-              confirm-btn-txt="驳回"
+              confirm-btn-txt="通过"
               call-back="submitForm1()">{{passButton.buttonName}}
       </button>
 
@@ -144,7 +144,7 @@
               dialog-title="{{rejectButton.alertTitle||'确认通过?'}}"
               dialog-content="{{rejectButton.alertMsg||'审核通过后,采购单将生效,是否通过?'}}"
               dialog-template="pr-dialog-submit.html"
-              confirm-btn-txt="通过"
+              confirm-btn-txt="驳回"
               call-back="submitForm1()">{{rejectButton.buttonName}}
       </button>
 
