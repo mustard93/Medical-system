@@ -732,10 +732,12 @@ define('project/controllers', ['project/init'], function() {
         var events=$scope.formData.events;
         var isInsert=true;
         if(event1.id){
-            var eventTmp=$rootScope.utils.getObjectByKeyOfArr(events,'id',event1.id);
-            if(eventTmp){
-                event1.id=event1.name;
-                eventTmp=$.extend(true,eventTmp,event1);
+            var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);
+              var eventTmp=$rootScope.utils.getObjectByKeyOfArr(events,'id',event1.id);
+
+            if(ind>-1){
+                events[ind]=event1;
+
                 isInsert=false;
             }
         }
