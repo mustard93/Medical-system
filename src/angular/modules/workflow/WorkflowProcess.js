@@ -112,7 +112,7 @@ define(['JTopo'], function(JTopo){
             this.showWorkflowTaskData();
           },
           //显示节点状态
-          showWorkflowTaskData(){
+          showWorkflowTaskData:function(){
             if(!  this.workflowTaskData)return;
             var arr=this.workflowTaskData.eventRecords;
             //已经执行过的节点
