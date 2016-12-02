@@ -1,0 +1,164 @@
+{
+    "code": 200,
+    "msg": "操作成功",
+    "data": {
+        "id": "583bf7f6a01f2124074706bc",
+        "createAt": 1480325110395,
+        "updateAt": 1480325110395,
+        "status": "ACTIVE",
+        "didateFilter": null,
+        "spell": [
+            "WMSgongzuoliucaigoushanliucheng",
+            "WMSgongzuoliucaigouchanliucheng",
+            "WMSgongzuoliucaigoudanliucheng"
+        ],
+        "fspell": [
+            "WMSgzlcgdlc",
+            "WMSgzlcgclc",
+            "WMSgzlcgslc"
+        ],
+        "name": "WMS工作流采购单流程",
+        "events": [
+            {
+                "type": "StartEvent",
+                "id": "采购单待审批",
+                "name": "采购单待审批",
+                "sourceRef": null,
+                "targetRef": null,
+                "status": "待审批",
+                "eventType": "采购单",
+                "action": null,
+                "didateFilter": null,
+                "conditionType": null
+            },
+            {
+                "type": "BranchEvent",
+                "id": "采购单已作废",
+                "name": "采购单已作废",
+                "sourceRef": "采购单待审批",
+                "targetRef": null,
+                "status": "已作废",
+                "eventType": "采购单",
+                "action": null,
+                "didateFilter": {
+                    "roleIds": null,
+                    "userIds": null,
+                    "departmentIds": null,
+                    "authoritys": null,
+                    "operator": "Or",
+                    "buttons": []
+                },
+                "conditionType": "驳回"
+            },
+            {
+                "type": "BranchEvent",
+                "id": "采购单待采购",
+                "name": "采购单待采购",
+                "sourceRef": "采购单待审批",
+                "targetRef": "来货通知单待审批",
+                "status": "待采购",
+                "eventType": "采购单",
+                "action": null,
+                "didateFilter": {
+                    "roleIds": null,
+                    "userIds": null,
+                    "departmentIds": null,
+                    "authoritys": null,
+                    "operator": "Or",
+                    "buttons": []
+                },
+                "conditionType": "通过"
+            },
+            {
+                "type": "Event",
+                "id": "来货通知单待审批",
+                "name": "来货通知单待审批",
+                "sourceRef": "采购单待采购",
+                "targetRef": null,
+                "status": "待审批",
+                "eventType": "来货通知单",
+                "action": null,
+                "didateFilter": null,
+                "conditionType": null
+            },
+            {
+                "type": "BranchEvent",
+                "id": "来货通知单已作废",
+                "name": "来货通知单已作废",
+                "sourceRef": "来货通知单待审批",
+                "targetRef": "来货通知单待入库",
+                "status": "已作废",
+                "eventType": "来货通知单",
+                "action": null,
+                "didateFilter": null,
+                "conditionType": "驳回"
+            },
+            {
+                "type": "BranchEvent",
+                "id": "来货通知单待入库",
+                "name": "来货通知单待入库",
+                "sourceRef": "来货通知单待审批",
+                "targetRef": "来货通知单入库中",
+                "status": "待入库",
+                "eventType": "来货通知单",
+                "action": null,
+                "didateFilter": null,
+                "conditionType": "通过"
+            },
+            {
+                "type": "Event",
+                "id": "来货通知单入库中",
+                "name": "来货通知单已完成",
+                "sourceRef": "来货通知单待入库",
+                "targetRef": "来货通知单已完成",
+                "status": "入库中",
+                "eventType": "来货通知单",
+                "action": null,
+                "didateFilter": null,
+                "conditionType": null
+            },
+            {
+                "type": "Event",
+                "id": "来货通知单已完成",
+                "name": "来货通知单已完成",
+                "sourceRef": "来货通知单入库中",
+                "targetRef": "付款申请单待付款",
+                "status": "已完成",
+                "eventType": "来货通知单",
+                "action": [
+                    "生成付款申请单"
+                ],
+                "didateFilter": null,
+                "conditionType": null
+            },
+            {
+                "type": "Event",
+                "id": "付款申请单待付款",
+                "name": "付款申请单待付款",
+                "sourceRef": "采购单已收货",
+                "targetRef": "付款申请单已付款",
+                "status": "待付款",
+                "eventType": "付款申请单",
+                "action": null,
+                "didateFilter": null,
+                "conditionType": null
+            },
+            {
+                "type": "EndEvent",
+                "id": "付款申请单已付款",
+                "name": "付款申请单已付款",
+                "sourceRef": "付款申请单待付款",
+                "targetRef": null,
+                "status": "已付款",
+                "eventType": "付款申请单",
+                "action": null,
+                "didateFilter": null,
+                "conditionType": null
+            }
+        ],
+        "businessType": "采购单",
+        "organizationId": "57e9c4c343f28f0dd78d6bcd",
+        "departmentIds": null
+    },
+    "success": true
+}
