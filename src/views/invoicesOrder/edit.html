@@ -160,6 +160,17 @@ class="content-wrapper invoices-order"
               call-back="submitForm('editForm','submit')">提交发货</button>
       </span>
 
+      <button class="pr-btn-save-glodbg"
+              ng-if="$root.hasAuthor('发货单编辑')"
+              type="button"
+              handle-this-click
+              dialog-title="确认提交发货单?"
+              dialog-content="提交后,您将无法修改发货单,确认提交?"
+              dialog-template="pr-dialog-submit.html"
+              params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"发货单"}'
+                request-url="rest/authen/workflowTask/run.json"
+              call-back="goTo('#/invoicesOrder/get.html?id={{showData.id}}&t=1')">提交发货-工作流</button>
+
     </div>
     </form><!-- 配送信息 -->
 </div>
