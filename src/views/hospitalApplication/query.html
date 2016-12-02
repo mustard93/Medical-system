@@ -66,8 +66,8 @@
                 <td>{{tr.orderNo}}</td>
                 <td>{{tr.hospital.name || '未知名称'}}</td>
                 <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-                <td ng-class="{color-9:tr.orderStatus=='未提交'}">{{tr.orderStatus}}</td>
-                <td>
+                <td ng-class="{'color-9':tr.orderStatus=='未提交', 'color-6':tr.orderStatus=='待审批', 'color-green':tr.orderStatus=='已通过', 'color-red':tr.orderStatus=='未通过'}">{{tr.orderStatus}}</td>
+                <td ng-if="tr.orderStatus=='未提交'">
                   <a href="#/hospitalApplication/edit.html?id={{tr.id}}" class="edit-link-icon mgr-m"></a>
                   <!-- <a href="javascript:;" class="delete-link-icon"></a> -->
                   <a href="javascript:;"
@@ -79,6 +79,9 @@
                      callback="$root.goTo('#/hospitalApplication/query.html')"
                      params='{"id":tr.id}'
                      request-url="rest/authen/hospitalApplication/delete"></a>
+                </td>
+                <td ng-if="tr.orderStatus=='待审批'">
+                  <a class="btn btn-primary pr-btn-xsm pr-btn-bg-gold" ng-href="#/hospitalApplication/get.html?id={{tr.id}}">审批</a>
                 </td>
               </tr>
               <!-- <tr>
