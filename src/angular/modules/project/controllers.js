@@ -29,7 +29,7 @@ define('project/controllers', ['project/init'], function() {
 
           formData.customerName=customerAddress.name;
 
-          if(!customerAddress||!customerAddress.contacts||customerAddress.contacts.length==0){
+          if(!customerAddress||!customerAddress.contacts||customerAddress.contacts.length===0){
 
             formData.contactsId=null;
             return;
@@ -664,9 +664,9 @@ define('project/controllers', ['project/init'], function() {
       }//intervalCtrl
 
     /**
-     * 首营品种
+     * 首营品种、首营企业、医院资格申请通用控制器
      */
-    function firstMedicalCtrl ($scope, modal, alertWarn, requestData, alertOk, alertError, $rootScope) {
+    function QualificationApplyCtrl ($scope) {
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
@@ -678,7 +678,6 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.submitFormAfter = function (_url) {
         if ($scope.submitForm_type === 'submit') {
-          // $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+$scope.formData.id);
           $scope.goTo(_url + '?id=' + $scope.formData.id);
         }
       };
@@ -696,47 +695,6 @@ define('project/controllers', ['project/init'], function() {
 
       //添加自定义审核资料
       $scope.addCustomExamineItem = function () {
-        console.log($scope.formData.addCustomExamineItem);
-        if ($scope.formData.addCustomExamineItem.name) {
-          $scope.formData.attachments.push($scope.formData.addCustomExamineItem);
-        }
-      };
-    }
-
-    /**
-     * 首营企业
-     */
-    function firstEnterpriseCtrl ($scope, modal, alertWarn, requestData, alertOk, alertError, $rootScope) {
-      $scope.submitForm = function(fromId, type) {
-         $scope.submitForm_type = type;
-
-         if ($scope.submitForm_type == "submit") {
-           $scope.formData.validFlag = true;
-         }
-        $("#" + fromId).trigger("submit");
-      };
-
-      $scope.submitFormAfter = function (_url) {
-        if ($scope.submitForm_type === 'submit') {
-          // $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+$scope.formData.id);
-          $scope.goTo(_url + '?id=' + $scope.formData.id);
-        }
-      };
-
-      //清空当前列的审核资料
-      $scope.resetThisItem = function (item) {
-        if (angular.isObject(item)) {
-          item.uploadUserName = null;
-          item.uploadTime = null;
-          item.guaranteePeriod = null;
-          item.attachmentUrl = null;
-          item.note = null;
-        }
-      };
-
-      //添加自定义审核资料
-      $scope.addCustomExamineItem = function () {
-        console.log($scope.formData.addCustomExamineItem);
         if ($scope.formData.addCustomExamineItem.name) {
           $scope.formData.attachments.push($scope.formData.addCustomExamineItem);
         }
@@ -756,12 +714,16 @@ define('project/controllers', ['project/init'], function() {
         if(!formData1)formData1={};
         if(!formData1.didateFilter)formData1.didateFilter={};
         if(!formData1.didateFilter.buttons)formData1.didateFilter.buttons=[];
-        var btnForm={type:"通过",buttonName : "审核通过",requestMethod : "POST",requestMethod : "KeyValue"
-              ,requestUrl : "rest/authen/workflowTask/run.json"
-                };
+        var btnForm = {
+          type: "通过",
+          buttonName: "审核通过",
+          requestMethod: "POST",
+          requestMethod: "KeyValue",
+          requestUrl : "rest/authen/workflowTask/run.json"
+        };
         formData1.didateFilter.buttons.push(btnForm);
 
-    }
+    };
       /**
       保存节点信息（新建or创建）
       */
@@ -812,9 +774,8 @@ define('project/controllers', ['project/init'], function() {
 
 
     angular.module('manageApp.project')
-    .controller('firstEnterpriseCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", firstEnterpriseCtrl])
     .controller('editWorkFlowProcessCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl])
-    .controller('firstMedicalCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", firstMedicalCtrl])
+    .controller('QualificationApplyCtrl', ["$scope", QualificationApplyCtrl])
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
     .controller('intervalCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", intervalCtrl])
     .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])
