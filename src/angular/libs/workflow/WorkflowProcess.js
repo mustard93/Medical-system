@@ -1,4 +1,4 @@
-define(['JTopo'], function(JTopo){
+define('WorkflowProcess',['JTopo'], function(JTopo){
 
       var defaultOptions={
             //defaultOptions.status.fillColor_ready
