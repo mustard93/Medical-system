@@ -711,6 +711,15 @@ define('project/controllers', ['project/init'], function() {
 
 
       /**
+       切换button顺序
+      */
+      $scope.switchButtons = function(buttons,ind,ind2) {
+        var tmp=buttons[ind];
+        buttons[ind]=buttons[ind2];
+        buttons[ind2]=tmp;
+
+    };
+      /**
       保存节点信息（新建or创建）
       */
       $scope.addEventButtons = function(formData1) {

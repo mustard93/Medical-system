@@ -251,7 +251,9 @@
                   </div>
                 </div>
 
-                <a href="javascript:;" ng-click="formData1.didateFilter.buttons.splice($index,1);" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
+                <button   ng-click="formData1.didateFilter.buttons.splice($index,1);"  type="button" class="btn btn-default" > 删除  </button>
+                <button ng-if="$index>0"   ng-click="switchButtons(formData1.didateFilter.buttons,$index,$index-1)"  type="button" class="btn btn-default" > 上移  </button>
+                <button  ng-if="$index+1<formData1.didateFilter.buttons.length"   ng-click="switchButtons(formData1.didateFilter.buttons,$index,$index+1)" type="button" class="btn btn-default" > 下移  </button>
 
               </div><!-- end buttons-->
               <a   href="javascript:;" class="pr-add-circle"
