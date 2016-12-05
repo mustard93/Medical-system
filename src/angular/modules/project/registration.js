@@ -493,13 +493,6 @@ define('project/registration',['angular'], function () {
                   if ($('#getVerifyCodeBtn').attr('disabled') == 'disabled') {
                     $('#getVerifyCodeBtn').removeAttr('disabled');
                   }
-
-                  // if ($('.reg-info-prompt').css('display') !== 'none') {
-                  //   $rootScope.verifyResult.msg = msg;
-                  // } else {
-                  //   $('.reg-info-prompt').fadeIn(500);
-                  //   $(element).focus();
-                  // }
                 });
             }
           } else {
