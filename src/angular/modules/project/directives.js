@@ -863,7 +863,7 @@ function leftMenuSecondToggle ($location) {
       //执行样式选中
       eleChangeEvent:function(element){
         if(!element||element.length==0){
-          console.log("error:LeftMenuObj.element=null");
+          // console.log("error:LeftMenuObj.element=null");
         }
         //ul(p5)>li(p4)>ul(p3)>li(p2)>a(p1) left-menu-second-toggle
         var _parent = $(element).parent();
@@ -901,20 +901,20 @@ function leftMenuSecondToggle ($location) {
         //全匹配优先级最高
         elementMenu=this.routeMap[url];
         //去掉参数匹配优先级最高
-        if(!elementMenu||elementMenu.length==0){
+        if(!elementMenu||elementMenu.length===0){
              url=url.split('?')[0];// /purchaseOrder/query.html
             elementMenu=this.routeMap[url];
         }
         //取模块名
-        if(!elementMenu||elementMenu.length==0){
+        if(!elementMenu||elementMenu.length===0){
              url=url.split('/')[1];  // purchaseOrder
             elementMenu=this.routeMap[url];
         }
         // console.log("getElementMenu2="+url);
-      if(!elementMenu||elementMenu.length==0){
+      if(!elementMenu||elementMenu.length===0){
              return;
         }
-          console.log("doRoute="+url);
+          // console.log("doRoute="+url);
         this.eleChangeEvent(elementMenu);
       },
         //启动监听定义监视器，监控Url变化 LeftMenuObj.startListen($scope)
@@ -922,7 +922,7 @@ function leftMenuSecondToggle ($location) {
         if(this.isStart)return;
         this.isStart=true;
         $scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
-            console.log("locationChangeSuccess="+newUrl);
+            // console.log("locationChangeSuccess="+newUrl);
            LeftMenuObj.doRoute(newUrl);
 
         });
@@ -948,7 +948,7 @@ function leftMenuSecondToggle ($location) {
 
       }//end key
 
-  }
+  };
 
 
   return {
