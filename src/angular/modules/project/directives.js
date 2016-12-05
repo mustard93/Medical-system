@@ -161,7 +161,7 @@ function workflowTaskRunWithAttchments(utils) {
               $scope.showButton=$scope.passButton||$scope.rejectButton;
 
                $scope.formData=  $scope.showButton.params;
-                $scope.formData.attachments=[]
+                $scope.formData.attachments=[];
 
               $scope.scopeExtend={};
               console.log(  $scope.customMenuArr);

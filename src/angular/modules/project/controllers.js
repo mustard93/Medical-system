@@ -692,9 +692,7 @@ define('project/controllers', ['project/init'], function() {
 
       // 删除当前列的审核资料
       $scope.deleteThisItem = function (index) {
-        delete $scope.formData.attachments[index];
-        // console.log($scope.formData.attachments);
-        // $scope.formData.attachments.split(index);
+        $scope.formData.attachments.splice(index);
       };
 
       //添加自定义审核资料
