@@ -405,13 +405,22 @@ function alertOk($rootScope, modal) {
                 return (firstLetter === '{' || firstLetter === '[') ? angular.fromJson(jsonString) : new String(jsonString);
 
             },
+            //获取有指定key的scope作用域。
+            getAppointScope  : function ($scope,scopeKey) {
+
+                if($scope[scopeKey]){
+                  return $scope;
+                }
+                if(!$scope.$parent)return null;
+                return utilsObj.getAppointScope($scope.$parent,scopeKey);
+            },
                 //在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
                 getScopeExtend  : function ($scope,scopeExtendName) {
 
                     if(  angular.isObject($scope[scopeExtendName])){
                       return $scope[scopeExtendName];
                     }
-                    if(!$scope.$parent)return;
+                    if(!$scope.$parent)return null;
                     return utilsObj.getScopeExtend($scope.$parent,scopeExtendName);
                 },
                 //  跳转到对应页面 utils.goTo(url,confirmMsg);

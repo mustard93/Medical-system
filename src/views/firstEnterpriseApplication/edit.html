@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback=""
+     callback="initFlag=true;watchFormChange('formData')"
      alert-error
      ng-init="formData.validFlag=false">
   <div class="page-header-info">
@@ -28,10 +28,10 @@
           scope-error-msg="errorMsg"
           scope-data="formData"
           novalidate="true"
-          callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-2.html')">
+          callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-2.html');watchFormChange('formData')">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-        <span class="flex-item-11">申请单：<em class="color-6">暂无</em></span>
+        <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
         <span class="current-status flex-item-1">
           <strong>状态：{{formData.orderStatus}}</strong>
         </span>
@@ -252,11 +252,13 @@
              request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
+                  ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                  ng-disabled=""
+                  ng-disabled="firstEnterpriseEditForm.$invalid"
                   ng-click="submitForm('first-enterprise-editForm','submit')">下一步
           </button>
         </span>
