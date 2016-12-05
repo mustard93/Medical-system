@@ -669,7 +669,12 @@ define('project/controllers', ['project/init'], function() {
     /**
      * 首营品种、首营企业、医院资格申请通用控制器
      */
-    function QualificationApplyCtrl ($scope) {
+    function QualificationApplyCtrl ($scope, watchFormChange) {
+
+      $scope.watchFormChange = function(watchName){
+        watchFormChange(watchName,$scope);
+      };
+
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
@@ -791,7 +796,7 @@ define('project/controllers', ['project/init'], function() {
 
     angular.module('manageApp.project')
     .controller('editWorkFlowProcessCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl])
-    .controller('QualificationApplyCtrl', ["$scope", QualificationApplyCtrl])
+    .controller('QualificationApplyCtrl', ["$scope", "watchFormChange", QualificationApplyCtrl])
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
     .controller('intervalCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", intervalCtrl])
     .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])

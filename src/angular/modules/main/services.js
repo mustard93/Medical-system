@@ -482,19 +482,20 @@ function alertOk($rootScope, modal) {
 
 
 
-        //监听内容修改标志
-        function watchFormChange($timeout) {
-            return function (watchName, $scope) {
-                //延迟初始化修改标志
-                 $timeout(function () {
-                          $scope.changeFlag=false;
-                      },500);
+    //监听内容修改标志
+    function watchFormChange($timeout) {
+      return function (watchName, $scope) {
+        //延迟初始化修改标志
+         $timeout(function () {
+            $scope.changeFlag=false;
+          },500);
 
-                  $scope.$watch(watchName,function(newValue,oldValue, scope){
-                          $scope.changeFlag=true;
-                   },true);
-            };
-          }//watchFormChange
+          $scope.$watch(watchName,function(newValue,oldValue, scope){
+            $scope.changeFlag=true;
+          },true);
+      };
+    }//watchFormChange
+
     angular.module('manageApp.main')
         .service('watchFormChange', ["$timeout",watchFormChange])
       .factory('redirectInterceptor', redirectInterceptor)
