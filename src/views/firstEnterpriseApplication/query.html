@@ -104,20 +104,8 @@
                       <div style="height:100px;overflow:hidden;">{{tr.applyReason || '暂无'}}</div>
                     </div>
                     <div class="flex-item-6 pd">
-                      <p ng-init="department1=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','商务部')">
-                        商务部：{{department1.status || '待审批'}}
-                      </p>
-                      <p ng-init="department2=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','商务部经理')">
-                        商务部经理：{{department2.status || '待审批'}}
-                      </p>
-                      <p ng-init="department3=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','运营部')">
-                        运营部：{{department3.status || '待审批'}}
-                      </p>
-                      <p ng-init="department4=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','质管部')">
-                        质管部：{{department4.status || '待审批'}}
-                      </p>
-                      <p ng-init="department5=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','分管总监')">
-                        分管总监：{{department5.status || '待审批'}}
+                      <p ng-repeat="eventRecord in tr.eventRecords">
+                        {{eventRecord.event.id}}：{{eventRecord.event.status}}
                       </p>
                     </div>
                   </div>
