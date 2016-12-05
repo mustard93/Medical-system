@@ -63,6 +63,7 @@
                          datepicker
                          class="ipt pr-short-ipt color-6"
                          placeholder="有效日期至"
+                         ng-readonly="true"
                          ng-model="item.guaranteePeriod">
                 </td>
                 <td>
@@ -83,7 +84,7 @@
                   <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
                 </td>
                 <td class="text-center">
-                  <a ng-click="formData.item.splice($index,1);" href="javascript:;" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
+                  <a ng-click="formData.attachments.splice($index);" href="javascript:;" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
                 </td>
               </tr>
             </tbody>
@@ -99,9 +100,9 @@
                 <td><input type="text" name="name" class="ipt" placeholder="资料名称" ng-model="addAttachment.name"></td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效期" ng-model="addAttachment.guaranteePeriod"></td>
+                <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效期" ng-readonly="true" ng-model="addAttachment.guaranteePeriod"></td>
                 <td>
-                  <p ng-if="formData.addCustomExamineItem.attachmentUrl"><img ng-src="{{formData.addCustomExamineItem.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
+                  <p ng-if="addAttachment.attachmentUrl"><img ng-src="{{addAttachment.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
                   <button type="button"
                           class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                           ng-init="upFile={}"
