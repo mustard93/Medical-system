@@ -164,16 +164,16 @@ gulp.task('handleJs', ['pro-clean-js'], function () {
 
 //Html替换css、js文件版本
 gulp.task('revHtml', function () {
-    return gulp.src(['./rev/**/*.json', './src/*.html'])
+    return gulp.src(['./rev/**/*.json', './src/release/**/*.html'])
                .pipe(revCollector())
-               .pipe(gulp.dest('./src'));
+               .pipe(gulp.dest('./src/release'));
 });
 
 // 处理manage目录中的链接替换
 gulp.task('revManageHtml', function () {
-  return gulp.src(['./rev/**/*.json', './src/manage/*.html'])
+  return gulp.src(['./rev/**/*.json', './src/manage/release/**/*.html'])
              .pipe(revCollector())
-             .pipe(gulp.dest('./src/manage'));
+             .pipe(gulp.dest('./src/manage/release'));
 });
 
 
@@ -269,5 +269,6 @@ gulp.task('pro-server', function (done) {
       ['handleCss'],
       ['handleJs'],
       ['revHtml'],
+      ['revManageHtml'],
       done);
 });
