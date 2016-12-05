@@ -690,20 +690,18 @@ define('project/controllers', ['project/init'], function() {
         }
       };
 
-      //清空当前列的审核资料
-      $scope.resetThisItem = function (item) {
-        if (angular.isObject(item)) {
-          item.uploadUserName = null;
-          item.uploadTime = null;
-          item.guaranteePeriod = null;
-          item.attachmentUrl = null;
-          item.note = null;
-        }
+      // 删除当前列的审核资料
+      $scope.deleteThisItem = function (index) {
+        delete $scope.formData.attachments[index];
+        console.log($scope.formData.attachments);
+        // $scope.formData.attachments.split(index);
       };
 
       //添加自定义审核资料
       $scope.addCustomExamineItem = function () {
         if ($scope.formData.addCustomExamineItem.name) {
+          // 添加是否可删除标识
+          $scope.formData.addCustomExamineItem.isDel = true;
           $scope.formData.attachments.push($scope.formData.addCustomExamineItem);
         }
       };
