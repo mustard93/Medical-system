@@ -365,6 +365,9 @@ define('project/controllers', ['project/init'], function() {
 
        //启动消息定时获取
        $rootScope.startGetMsg = function(){
+           if(Config.stopIntervalNotice===true){
+              return;
+           }
            if($rootScope.startGetMsgObj)return;
              $rootScope.startGetMsgObj=$interval(function(){
                 $rootScope.noticeRefreshTime=new Date().getTime();
@@ -713,6 +716,15 @@ define('project/controllers', ['project/init'], function() {
 
 
       /**
+       切换button顺序
+      */
+      $scope.switchButtons = function(buttons,ind,ind2) {
+        var tmp=buttons[ind];
+        buttons[ind]=buttons[ind2];
+        buttons[ind2]=tmp;
+
+    };
+      /**
       保存节点信息（新建or创建）
       */
       $scope.addEventButtons = function(formData1) {
@@ -736,11 +748,15 @@ define('project/controllers', ['project/init'], function() {
         if(!$scope.formData.events)$scope.formData.events=[];
         var events=$scope.formData.events;
         var isInsert=true;
+        //防止"" 保存到后台,枚举报错bug.
+        if(!event1.conditionType)event1.conditionType=null;
         if(event1.id){
-            var eventTmp=$rootScope.utils.getObjectByKeyOfArr(events,'id',event1.id);
-            if(eventTmp){
-                event1.id=event1.name;
-                eventTmp=$.extend(true,eventTmp,event1);
+            var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);
+              var eventTmp=$rootScope.utils.getObjectByKeyOfArr(events,'id',event1.id);
+
+            if(ind>-1){
+                events[ind]=event1;
+
                 isInsert=false;
             }
         }
