@@ -735,7 +735,7 @@ define('project/controllers', ['project/init'], function() {
           type: "通过",
           buttonName: "审核通过",
           requestMethod: "POST",
-          requestMethod: "KeyValue",
+          requestParam: "KeyValue",
           requestUrl : "rest/authen/workflowTask/run.json"
         };
         formData1.didateFilter.buttons.push(btnForm);

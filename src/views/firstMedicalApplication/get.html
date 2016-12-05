@@ -2,7 +2,6 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="formData.businessKey=showData.id;formData.type='首营品种';formData.attachments=[]"
      alert-error>
   <div class="page-header-info">
     <h1>首营品种申请</h1>
@@ -19,7 +18,19 @@
           <span>申请时间：{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span>
         </div>
         <span class="current-status flex-item-4 text-right">
-          <strong>状态：{{showData.orderStatus}}</strong>
+
+
+                  <a
+                  modal-center="1000px"
+                  modal-data='{"businessKey":"{{showData.id}}"}'
+                  modal-scope="this"
+                  modal-url="views/workflowTask/getOfDialog.html"
+                  >
+                  <strong>状态：{{showData.orderStatus}}</strong>
+                        </a>
+
+
+
         </span>
       </div>
       <!-- 审核信息 -->
@@ -215,17 +226,25 @@
 
 
       <!-- 审批 -->
-      <div ng-if="showData.didateFilter.buttons"  workflow-task-run-with-attchments
+      <div ng-if="showData.didateFilter.buttons.length>0"  workflow-task-run-with-attchments
       custom-menu-arr="{{showData.didateFilter.buttons}}"
       return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstMedicalApplication/query.html"}'
       attchment-usege="首营品种申请"
       ></div>
 
 
+      <div ng-if=" !(showData.orderStatus=='未提交') && !(showData.didateFilter.buttons.length>0)" class="mgb text-right">
+        <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
+
+      </div>
+
+
+    </div>
+
       <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
         <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
         <span class="mgl">
-          <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+          <a ng-if="showData.id && showData.proposerName==mainStatus.name"
              href="javascript:;"
              class="color-red"
              handle-this-click

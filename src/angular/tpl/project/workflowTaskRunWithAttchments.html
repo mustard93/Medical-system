@@ -1,16 +1,23 @@
-
+<div ng-if="showButton.params"   >
 <!-- 审批 -->
+
 <form class="form-horizontal"
       name="createOrderForm"
+      ng-if="formData"
       action="{{showButton.requestUrl}}"
       form-validator
+
+      scope-extend="scopeExtend"
       parameter-body
       alert-error
       alert-ok
+      callback-scope-key="showButton"
       callback="$root.utils.refreshHref()"
       >
 
-<div>
+
+
+
   <!-- 审批意见 -->
   <div class="panel pr-panel pr-panel-height mgb">
     <h1 class="pr-font-18 mgb">审批意见</h1>
@@ -119,7 +126,6 @@
     <span class="mgl" ng-if="returnButton.buttonName"><a href="{{returnButton.requestUrl}}">{{returnButton.buttonName}}</a></span>
     <span class="mgl">
 
-
       <button
       ng-if="formData.conditionType!='驳回'"
           ng-disabled="!formData.conditionType"
@@ -131,7 +137,8 @@
               dialog-content="{{passButton.alertMsg||'审核通过后,采购单将生效,是否通过?'}}"
               dialog-template="pr-dialog-submit.html"
               confirm-btn-txt="通过"
-              callback="submitForm1()">{{passButton.buttonName}}
+
+              callback="scopeExtend.formValidator.submitForm1()">{{passButton.buttonName}}
       </button>
 
       <button
@@ -145,12 +152,14 @@
               dialog-content="{{rejectButton.alertMsg||'审核通过后,采购单将生效,是否通过?'}}"
               dialog-template="pr-dialog-submit.html"
               confirm-btn-txt="驳回"
-              callback="submitForm1()">{{rejectButton.buttonName}}
+        
+              callback="scopeExtend.formValidator.submitForm1()">{{rejectButton.buttonName}}
       </button>
 
     </span>
   </div>
 
-</div>
+
 
 </form>
+</div>

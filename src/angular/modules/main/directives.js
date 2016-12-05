@@ -261,7 +261,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
      */
-    function formValidator(requestData, modal, alertOk, alertError, dialogConfirm, $timeout) {
+    function formValidator(requestData, modal, alertOk, alertError, dialogConfirm, $timeout,utils) {
         return {
             restrict: 'A',
             // scope: true,
@@ -285,9 +285,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
                 });
 
-                $scope.reset = function() {
-                    DOMForm.reset();
-                };
+                // var appointScope=$scope;
+                // //指定作用域
+                // if($attrs.callbackScopeKey){
+                //     var appointScope=  utils.getAppointScope($scope,$attrs.callbackScopeKey);
+                //
+                // }
 
                 function ajax_submit(){
                   if(formStatus.submitting === true) return;
@@ -395,6 +398,27 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   $scope.submitForm1=function(){
                       $element.trigger('submit');
                   }
+
+
+
+              $scope.reset = function() {
+                  DOMForm.reset();
+              };
+
+
+
+              if ($attrs.scopeExtend){
+                  var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
+                  if(scopeExtend){
+                    scopeExtend.formValidator={};
+                    scopeExtend.formValidator.reset=$scope.reset;
+                      scopeExtend.formValidator.submitForm1=$scope.submitForm1;
+
+                  }
+
+              }
+
+
             }
         };
     }//formValidator
@@ -2769,7 +2793,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("convertJsonToObject", convertJsonToObject)
         .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","modal", ajaxUrlSubmit])
         .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
-        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout", formValidator])
+        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout","utils", formValidator])
         .directive("tableList",  ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading','alertError',tableList])
         .directive("tableCell", tableCell)
         .directive("pagination", pagination)

@@ -131,7 +131,12 @@ function workflowTaskRunWithAttchments(utils) {
 
           //按钮名字优先去passButton
               $scope.showButton=$scope.passButton||$scope.rejectButton;
-        console.log(  $scope.customMenuArr);
+
+               $scope.formData=  $scope.showButton.params;
+                $scope.formData.attachments=[]
+
+              $scope.scopeExtend={};
+              console.log(  $scope.customMenuArr);
 
       }
   };
@@ -667,7 +672,7 @@ function runPopovers ($timeout) {
 /**
  * 带确认对话框的按钮点击事件
  */
-function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertError) {
+function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertError,utils) {
   'use strict';
   return {
     restrict: 'A',
@@ -693,6 +698,23 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
         }
         //回调方法
         function callback(){
+
+          //指定作用域
+          if($attrs.callbackScopeKey){
+              var appointScope=  utils.getAppointScope($scope,$attrs.callbackScopeKey);
+              if(appointScope!=null){
+                if ($attrs.callback) {
+                    appointScope.$eval($attrs.callback);
+                }
+                if ($attrs.callBack) {
+                    appointScope.$eval($attrs.callBack);
+                }
+
+              }
+
+          }
+
+
 
                     if ($attrs.callBack) {
                         $scope.$eval($attrs.callBack);
@@ -1212,7 +1234,7 @@ angular.module('manageApp.project')
   .directive("sparkline", sparkline) //sparkline 柱状图
   .directive("runTooltips", runTooltips) //tooltips
   .directive("runPopovers", ['$timeout', runPopovers]) //popover
-  .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]) //带确认对话框的按钮点击事件
+  .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError','utils', handleThisClick]) //带确认对话框的按钮点击事件
   .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
   .directive("styleToggle", ['$location', styleToggle]);
 });
