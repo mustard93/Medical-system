@@ -18,19 +18,12 @@
           <span>申请时间：{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span>
         </div>
         <span class="current-status flex-item-4 text-right">
-
-
-                  <a
-                  modal-center="1000px"
-                  modal-data='{"businessKey":"{{showData.id}}"}'
-                  modal-scope="this"
-                  modal-url="views/workflowTask/getOfDialog.html"
-                  >
-                  <strong>状态：{{showData.orderStatus}}</strong>
-                        </a>
-
-
-
+          <a modal-center="1000px"
+             modal-data='{"businessKey":"{{showData.id}}"}'
+             modal-scope="this"
+             modal-url="views/workflowTask/getOfDialog.html">
+            <strong>状态：{{showData.orderStatus}}</strong>
+          </a>
         </span>
       </div>
       <!-- 审核信息 -->
@@ -222,57 +215,41 @@
           </tbody>
         </table>
       </div>
-
-
-
       <!-- 审批 -->
-      <div ng-if="showData.didateFilter.buttons.length>0"  workflow-task-run-with-attchments
-      custom-menu-arr="{{showData.didateFilter.buttons}}"
-      return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstMedicalApplication/query.html"}'
-      attchment-usege="首营品种申请"
-      ></div>
-
-
-      <div ng-if=" !(showData.orderStatus=='未提交') && !(showData.didateFilter.buttons.length>0)" class="mgb text-right">
-        <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
-
+      <div ng-if="showData.didateFilter.buttons.length>0"
+           workflow-task-run-with-attchments
+           custom-menu-arr="{{showData.didateFilter.buttons}}"
+           return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstMedicalApplication/query.html"}'
+           attchment-usege="首营品种申请">
       </div>
-
-
+      <div ng-if="!(showData.orderStatus=='未提交') && !(showData.didateFilter.buttons.length>0)" class="mgb text-right">
+        <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
+      </div>
     </div>
 
-      <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
-        <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
-        <span class="mgl">
-          <a ng-if="showData.id && showData.proposerName==mainStatus.name"
-             href="javascript:;"
-             class="color-red"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="删除后将无法恢复,确认删除?"
-             dialog-template="pr-dialog-submit.html"
-             callback="$root.goTo('#/firstMedicalApplication/query.html')"
-             params='{"id":showData.id}'
-             request-url="rest/authen/firstMedicalApplication/delete">删除</a>
-        </span>
-        <span class="mgl">
-
-
+    <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
+      <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+      <span class="mgl">
+        <a ng-if="showData.id && showData.proposerName==mainStatus.name"
+           href="javascript:;"
+           class="color-red"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="删除后将无法恢复,确认删除?"
+           dialog-template="pr-dialog-submit.html"
+           callback="$root.goTo('#/firstMedicalApplication/query.html')"
+           params='{"id":showData.id}'
+           request-url="rest/authen/firstMedicalApplication/delete">删除</a>
+      </span>
+      <span class="mgl">
         <button class="pr-btn-save-glodbg"
                 type="button"
                 ajax-url-submit="rest/authen/firstMedicalApplication/proposerUpdateStatus"
                 params='{"id":showData.id,"orderStatus":"待审批"}'
                 alert-error
                 scope-data="showData"
-                callback="$root.utils.refreshHref()"
-              >提交审批
+                callback="$root.utils.refreshHref()">提交审批
         </button>
-        <!-- <div  class="mgb text-right">
-          <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
-            <button type="button" class="pr-btn-save-glodbg mgl">打印</button>
-          </span>
-        </div> -->
-
-
-      </div>
+      </span>
+    </div>
 </div>
