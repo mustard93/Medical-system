@@ -160,7 +160,16 @@ class="content-wrapper invoices-order"
               call-back="submitForm('editForm','submit')">提交发货</button>
       </span> -->
 
-      <button class="pr-btn-save-glodbg"
+      <span ng-if="formData&& showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
+
+        before-if-eval="formData"
+          before-ajax-parameter-body="true"
+        before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
+        before-ajax-params="formData"
+
+        ></span>
+
+      <!-- <button class="pr-btn-save-glodbg"
               ng-if="$root.hasAuthor('发货单编辑')"
               type="button"
               handle-this-click
@@ -169,7 +178,7 @@ class="content-wrapper invoices-order"
               dialog-template="pr-dialog-submit.html"
               params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"发货单"}'
                 request-url="rest/authen/workflowTask/run.json"
-              call-back="goTo('#/invoicesOrder/get.html?id={{showData.id}}&t=1')">提交发货</button>
+              call-back="goTo('#/invoicesOrder/get.html?id={{showData.id}}&t=1')">提交发货</button> -->
 
     </div>
     </form><!-- 配送信息 -->
