@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="renderer" content="webkit">
+  <link rel="shortcut icon" href="#" type="image/png">
+  <meta name="renderer" content="webkit">
+  <title>盘谷医疗</title>
+
+  <!--[if lt IE 9]>
+  <meta http-equiv="Refresh" content="0;url=ie6.html"/>
+  <![endif]-->
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="fonts/css/font-awesome.min.css">
+
+  <!-- 开发模式 -->
+  <!-- <link rel="stylesheet" href="css/dev/style.css"> -->
+  <!-- 生产模式 -->
+  <link rel="stylesheet" href="build/css/style.min.css?v=9deede1b89">
+
+  <script src="conf.js"></script>
+  <script>
+    var Config = {
+      serverPath:conf.serverPath,
+        viewsDir: "views/",  //视图目录
+        stopIntervalNotice:conf.stopIntervalNotice,//是否停止消息监听
+        tplPath: "angular/",
+        indexPage: "main.html", //默认打开的地址
+        logoutUrl:"rest/authen/user/loginOut.json",
+        applyBindUrl:"user.html#/reg/bind_done.html",
+        loginHtmlUrl:"login.html",
+        getMainInfo: "rest/authen/user/getCurrentUser.json" //获取主要的状态信息
+    };
+  </script>
+  <!-- production mode -->
+  <script id="requirejs_baseUrlId" data-main="build/js/app.min.js?v=ad39246d83" src="angular/r.js" defer async="true"></script>
+  <!-- dev mode -->
+  <!-- <script id="requirejs_baseUrlId" data-main="angular/app.js" src="angular/r.js" defer async="true"></script> -->
+</head>
+
+<body class="sticky-header min-w" ng-controller="mainCtrl" nice-scroll>
+  <section class="page-wrap">
+      <!-- 左侧公共导航 start -->
+      <ng-include src="'views/public/left-side.html'"></ng-include>
+      <!-- 左侧公共导航 end -->
+
+      <!-- 主内容区域 start-->
+      <div class="page-main-wrap main-content" ng-controller="pageCtrl">
+        <!-- 主内容区域头部导航 start -->
+        <ng-include src="'views/public/main-header-section.html'"></ng-include>
+        <!-- 主内容区域头部导航 end -->
+
+        <!-- 主内容区 start -->
+        <div ng-view autoscroll="true"></div>
+        <!-- 主内容区 end -->
+      </div>
+      <!-- 主内容区域 end-->
+  </section>
+</body>
+</html>
