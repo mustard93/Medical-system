@@ -20,7 +20,7 @@ require.config({
     waitSeconds: 0,
     baseUrl: require.dir + 'modules',
     paths: {
-        'WorkflowProcess': '../modules/workflow/WorkflowProcess',
+        'WorkflowProcess': '../libs/workflow/WorkflowProcess',//工作流
         'JTopo': '../libs/jtopo-0.4.8.min',
         'jQuery': '../libs/jquery.min',                         //jQuery
         'underscore': '../libs/underscore/underscore-1.5.2.min',

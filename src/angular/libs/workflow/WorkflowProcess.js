@@ -1,4 +1,85 @@
-define(['JTopo'], function(JTopo){
+define('WorkflowProcess',['JTopo'], function(JTopo){
+
+
+
+  function TreeLayout2(JTopo,dirtion, lineWidth2, lineHeight2)
+  {
+
+    var lineHeight=lineWidth2||100;
+    var lineWidth=lineHeight2||100;
+
+      return function (scene)
+      {
+
+        //获取所有节点得平均高度和宽带
+        function getAvgRect(a)
+        {
+            var b = 0,
+                c = 0;
+            return a.forEach(function (a)
+                {
+                    b += a.width,
+                    c += a.height
+                }),
+            {
+                    width: b / a.length,
+                    height: c / a.length
+                }
+        }
+
+
+
+          //根据name返回node节点
+          function getNodeByParentKey(childs,parentKey){
+            var nodes=[];
+              for(var i=0;i<childs.length;i++){
+                var e=childs[i];
+                if(e instanceof JTopo.Node&&e.parentKey==parentKey){
+                  nodes.push(e);
+                }
+              }
+            return nodes;
+          }
+          //递归设置位置
+          function setXY(childs,rootNodes,nextLocation1){
+            if(!rootNodes||rootNodes.length==0)return;
+            var tmpX=nextLocation1.x;
+
+            var addHeight2=rootNodes[0].height+lineHeight;
+            var addWidth2=lineWidth+rootNodes[0].width;
+            var tmpY=nextLocation1.y-(rootNodes.length-1)/2*addHeight2; //y轴变化
+            // if(tmpY<0){
+            //   tmpY=10;
+            // }
+            nextLocation1.x=tmpX+lineWidth;
+
+            for(var i=0;i<rootNodes.length;i++){
+              var rootNode=rootNodes[i];
+
+                console.log("location1,name="+rootNode.key+",x="+tmpX+",y="+tmpY);
+                // nextLocation1.y=tmpY;
+                rootNode.setLocation(tmpX, tmpY);
+
+              var tmpY=tmpY+addHeight2;
+
+                var tmpChilds=getNodeByParentKey(childs,rootNode.key);
+
+              nextLocation1.x=tmpX+addWidth2;
+
+              setXY(childs,tmpChilds,nextLocation1);
+            }
+
+          }//end setXY
+
+
+          var rootNodes = JTopo.layout.getRootNodes(scene.childs);
+
+            var location1 = scene.getCenterLocation();
+            location1.x=10;
+            setXY(scene.childs,rootNodes,location1);
+      }
+  }//TreeLayout2
+
 
       var defaultOptions={
             //defaultOptions.status.fillColor_ready
@@ -97,7 +178,15 @@ define(['JTopo'], function(JTopo){
             for(var i=0;i<data.events.length;i++){
                this.addLinkByEvent(data.events[i]);
             }
-               this.scene.doLayout(JTopo.layout.TreeLayout('right', 25, 120));
+
+            var root=JTopo.layout.getRootNodes(this.scene.childs);
+              console.log("JTopo.layout.TreeLayout");
+            console.log(root);
+
+                 this.scene.doLayout(TreeLayout2(JTopo,'right', 20, 80));
+                //  TreeLayout2(JTopo,dirtion, width, height2)
+              //  this.scene.doLayout(JTopo.layout.TreeLayout('right', 25, 120));
+                  // this.scene.doLayout(JTopo.layout.FlowLayout('right', 25, 120));
               //  var json=this.stage.toJson();
               //  console.log(json);
           },
@@ -163,6 +252,7 @@ define(['JTopo'], function(JTopo){
                console.log(key);
                return;
               }
+              nodeZ.parentKey=nodeA.key;
               var link = new JTopo.FlexionalLink(nodeA, nodeZ);
               // var direction="vertical";
 
@@ -170,8 +260,13 @@ define(['JTopo'], function(JTopo){
                link.key=key;
 
                 // link.strokeColor = JTopo.util.randomColor(); // 线条颜色随机
+
+
+                //  node.fillColor=this.options.status.fillColor_done;
               link.direction = this.options.link.direction;
-              link.strokeColor = '204,204,204';
+              // link.strokeColor =this.options.status.fillColor_done;
+
+                link.strokeColor = '204,204,204';
               link.lineWidth = 3;
               this.scene.add(link);
               return link;
