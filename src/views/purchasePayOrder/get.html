@@ -89,7 +89,13 @@
     <!-- 操作 -->
     <div class="text-right mg-l">
       <a href="#/purchasePayOrder/query.html">返回付款申请单列表</a>
-      <button ng-if="showData.orderStatus=='待批款' && $root.hasAuthor('付款申请单批款')"
+
+
+
+
+      <span  ng-if="showData.didateFilter.buttons.length>0"   custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
+
+      <button ng-if="(!showData.didateFilter.buttons.length>0)&&showData.orderStatus=='待批款' && $root.hasAuthor('付款申请单批款')"
               class="pr-btn-save-glodbg mgl"
               type="button"
               handle-this-click
@@ -100,7 +106,7 @@
               request-url="rest/authen/workflowTask/run.json"
               call-back="goTo('#/purchasePayOrder/get.html?t=审核通过&id={{showData.id}}')">同意付款
       </button>
-      <button ng-if="showData.orderStatus=='待付款' && $root.hasAuthor('付款申请单付款')"
+      <button ng-if="(!showData.didateFilter.buttons.length>0)&&showData.orderStatus=='待付款' && $root.hasAuthor('付款申请单付款')"
               class="pr-btn-save-glodbg mgl"
               type="button"
               handle-this-click
