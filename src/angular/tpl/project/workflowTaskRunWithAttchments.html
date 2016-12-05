@@ -56,10 +56,12 @@
             <td>{{item.name}}</td>
             <td>{{item.uploadUserName}}</td>
             <td>{{item.uploadTime| date : 'yyyy-MM-dd'}}</td>
-            <td><input  type="text" datepicker  class="ipt pr-short-ipt color-6" placeholder="有效日期至"   ng-model="item.guaranteePeriod"></td>
+            <td><input  type="text" datepicker  class="ipt pr-short-ipt color-6" placeholder="有效日期至" ng-readonly="true" ng-model="item.guaranteePeriod"></td>
             <td>
-              <p ng-if="item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
-              <p ng-if="!item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt=""/></p>
+              <p ng-if="item.attachmentUrl">
+                <img ng-src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/>
+              </p>
+              <!-- <p ng-if="!item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt=""/></p> -->
               <p>
                 <button type="button"
                         class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
@@ -75,7 +77,7 @@
               <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
             </td>
             <td class="text-center">
-              <a href="javascript:;" ng-click="formData.item.splice($index,1);" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
+              <a href="javascript:;" ng-click="formData.attachments.splice($index);" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
             </td>
           </tr>
         </tbody>
@@ -93,6 +95,7 @@
             <td>&nbsp;</td>
             <td><input type="text" readonly="true"  datepicker ng-model="addAttachment.guaranteePeriod"  class="ipt pr-short-ipt color-6" placeholder="有效期"></td>
             <td>
+              <p ng-if="addAttachment.attachmentUrl"><img ng-src="{{addAttachment.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
               <button type="button"
                       class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                       ng-init="upFile={}"
@@ -129,7 +132,7 @@
       <button
       ng-if="formData.conditionType!='驳回'"
           ng-disabled="!formData.conditionType"
-              class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+              class="pr-btn-save-glodbg mgl"
               type="button"
               handle-this-click
               alert-confirm="{{!!passButton.alertTitle}}"
@@ -137,7 +140,6 @@
               dialog-content="{{passButton.alertMsg||'审核通过后,采购单将生效,是否通过?'}}"
               dialog-template="pr-dialog-submit.html"
               confirm-btn-txt="通过"
-
               callback="scopeExtend.formValidator.submitForm1()">{{passButton.buttonName}}
       </button>
 
@@ -152,7 +154,6 @@
               dialog-content="{{rejectButton.alertMsg||'审核通过后,采购单将生效,是否通过?'}}"
               dialog-template="pr-dialog-submit.html"
               confirm-btn-txt="驳回"
-        
               callback="scopeExtend.formValidator.submitForm1()">{{rejectButton.buttonName}}
       </button>
 
