@@ -735,6 +735,7 @@ define('project/controllers', ['project/init'], function() {
           type: "通过",
           buttonName: "审核通过",
           requestMethod: "POST",
+          conditionType:"通过",
           requestParam: "KeyValue",
           requestUrl : "rest/authen/workflowTask/run.json"
         };
@@ -766,6 +767,8 @@ define('project/controllers', ['project/init'], function() {
               event1.id=event1.name;
              events.push(event1);
         }
+
+        console.log(event1);
 
         if($scope.scopeExtend&&$scope.scopeExtend.workflow){
           $scope.scopeExtend.workflow.reload();

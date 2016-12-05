@@ -64,6 +64,21 @@ function workflowPassButton(utils) {
             $scope.customMenu=utils.fromJson($attrs.customMenu);
 
         }
+
+
+        if ($attrs.beforeIfEval) {
+            $scope.beforeIfEval=$attrs.beforeIfEval;
+
+        }
+        if ($attrs.beforeAjaxUrlSubmit) {
+            $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
+
+        }
+        if ($attrs.beforeAjaxParams) {
+            $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
+
+        }
+
       }
   };
 }
@@ -88,6 +103,19 @@ function customMenuList(utils) {
 
         }else{
               $scope.customMenuArr=$attrs.customMenuArr;
+        }
+
+        if ($attrs.beforeIfEval) {
+            $scope.beforeIfEval=$attrs.beforeIfEval;
+
+        }
+        if ($attrs.beforeAjaxUrlSubmit) {
+            $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
+
+        }
+        if ($attrs.beforeAjaxParams) {
+            $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
+
         }
         console.log(  $scope.customMenuArr);
 
@@ -798,10 +826,67 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
 
 
 
-        if($attrs.alertConfirm=="false"){
-            ajax_submit();
-            return;
-        }
+          //ajax_submit_before
+                function ajax_submit_before(){
+                  //如果操作为点击后发送请求
+                  var parameterBody = false;
+                  if (angular.isDefined($attrs.beforeAjaxParameterBody)) {
+                    parameterBody = true;
+                    if($attrs.parameterBody=="false"){
+                      parameterBody=false;
+                    }
+                  }
+
+                  var httpMethod="POST"
+                  if($attrs.beforeAjaxHttpMethod){
+                    httpMethod=$attrs.beforeAjaxHttpMethod;
+                  }
+                  _requestUrl=$attrs.beforeAjaxUrlSubmit;
+
+
+                {
+
+                    var _params={};
+                    if ($attrs.beforeAjaxParams) {
+                        _params=utils.fromJson($attrs.beforeAjaxParams);
+                    }
+
+
+                    function requestData_then(results) {
+                      var _data = results[1];
+                      ajax_submit();
+
+                    };
+
+                    requestData(_requestUrl, _params, httpMethod,parameterBody)
+                      .then(requestData_then)
+                      .catch(function (error) {
+                        alertError(error || '出错');
+                      });
+                    return;
+                  }
+
+
+                }//ajax_submit_before
+
+
+
+                if($attrs.alertConfirm=="false"){
+
+                  //执行前需要执行
+                  if (angular.isDefined($attrs.beforeIfEval) && $attrs.beforeAjaxUrlSubmit) {
+                      var tmp=$scope.$eval($attrs.beforeIfEval);
+                    if (tmp){
+                        ajax_submit_before();
+                        return;
+                    }
+
+                  }
+
+                    ajax_submit();
+                    return;
+                }
+
 
         //默认弹出窗口
         dialogConfirm(_dialogContent, function (type,dialgForm) {
@@ -852,10 +937,18 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
 
 
 
-          //ajax
 
-          ajax_submit();
+          //执行前需要执行
+          if (angular.isDefined($attrs.beforeIfEval) && $attrs.beforeAjaxUrlSubmit) {
+              var tmp=$scope.$eval($attrs.beforeIfEval);
+            if (tmp){
+                ajax_submit_before();
+                return;
+            }
 
+          }
+
+            ajax_submit();
           //执行回调
           // callback();
 

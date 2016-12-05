@@ -83,9 +83,10 @@
                               <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                               <td>{{$index + 1}}</td>
                               <td>{{tr.name}}</td>
-                              <td>{{tr.organizationId}}</td>
+                              <!-- <td>{{tr.organizationId}}</td> -->
+                                <td ajax-if="{{tr.organizationId}}" ajax-url="rest/authen/distributor/get?id={{tr.organizationId}}"  scope-data="organization">{{organization.name}}</td>
                               <td>{{tr.departmentIds}}</td>
-                              <td>{{tr.businessType}}</td>                              
+                              <td>{{tr.businessType}}</td>
                               <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
                               <td>{{tr.status}}</td>
                               <td>

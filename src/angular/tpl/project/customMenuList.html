@@ -1,6 +1,14 @@
 <span ng-repeat="tr in customMenuArr" >
-    <span ng-if="tr.type=='驳回'"  workflow-reject-button custom-menu="{{tr}}" ></span>
-    <button ng-if="tr.type!='驳回'" workflow-pass-button  custom-menu="{{tr}}" ></button>
+    <span ng-if="tr.type=='驳回'"  workflow-reject-button custom-menu="{{tr}}"
+      before-if-eval="{{beforeIfEval}}"
+      before-ajax-url-submit="{{beforeAjaxUrlSubmit}}"
+      before-ajax-params="{{beforeAjaxParams}}"
+     ></span>
+    <button ng-if="tr.type!='驳回'" workflow-pass-button  custom-menu="{{tr}}"
+    before-if-eval="{{beforeIfEval}}"
+    before-ajax-url-submit="{{beforeAjaxUrlSubmit}}"
+    before-ajax-params="{{beforeAjaxParams}}"    
+    ></button>
 
-  
+
 </span>
