@@ -58,6 +58,7 @@ function workflowPassButton(utils) {
     // scope: true,
     scope: {
         beforeAjaxParams: "=?",
+
         beforeIfEval:"=?"
     },
     replace: true,
@@ -70,10 +71,10 @@ function workflowPassButton(utils) {
         }
 
         //
-        // if ($attrs.beforeIfEval) {
-        //     $scope.beforeIfEval=$attrs.beforeIfEval;
-        //
-        // }
+        if ($attrs.passCallback) {
+            $scope.passCallback=$attrs.passCallback;
+
+        }
         if ($attrs.beforeAjaxParameterBody) {
             $scope.beforeAjaxParameterBody=$attrs.beforeAjaxParameterBody;
 
@@ -100,6 +101,7 @@ function customMenuList(utils) {
     restrict: 'EA',
     scope: {
         beforeAjaxParams: "=?",
+
         beforeIfEval:"=?"
     },
     // replace: true,
@@ -115,10 +117,10 @@ function customMenuList(utils) {
               $scope.customMenuArr=$attrs.customMenuArr;
         }
 
-        // if ($attrs.beforeIfEval) {
-        //     $scope.beforeIfEval=$attrs.beforeIfEval;
-        //
-        // }
+        if ($attrs.passCallback) {
+            $scope.passCallback=$attrs.passCallback;
+
+        }
         if ($attrs.beforeAjaxUrlSubmit) {
             $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
 
@@ -787,6 +789,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                 callback();
                 return;
             }
+            var _requestUrl=$attrs.requestUrl;
 
         {
 
@@ -851,10 +854,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                   if($attrs.beforeAjaxHttpMethod){
                     httpMethod=$attrs.beforeAjaxHttpMethod;
                   }
-                  _requestUrl=$attrs.beforeAjaxUrlSubmit;
-
-
-
+                  var _requestUrl=$attrs.beforeAjaxUrlSubmit;
 
                 {
 

@@ -160,17 +160,15 @@ class="content-wrapper invoices-order"
               call-back="submitForm('editForm','submit')">提交发货</button>
       </span> -->
 
-      <!-- <span ng-if="formData&& showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
+      <span ng-if="formData&& showData.didateFilter.buttons.length>0"
+                before-if-eval="formData"
+                  before-ajax-parameter-body="true"
+                before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
+                before-ajax-params="formData"
+          custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}" pass-callback="$root.utils.goTo('#/invoicesOrder/get.html?id={{showData.id}}')"
 
-        before-if-eval="formData"
-          before-ajax-parameter-body="true"
-        before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
-        before-ajax-params="formData"
+        ></span>
 
-        ></span> -->
-        <span ng-if="formData&& showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
-
-          ></span>
 
       <!-- <button class="pr-btn-save-glodbg"
               ng-if="$root.hasAuthor('发货单编辑')"
