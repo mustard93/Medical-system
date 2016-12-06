@@ -1,5 +1,6 @@
 <div class="modal-content pr-modal-content" ng-controller="editCtrl">
   <form class="add-customerAddress-form form-horizontal"
+        name="add-customerAddress-form"
         ng-init="formData=dialogData.contact;formData.customerAddressId=dialogData.customerAddressId"
         action="rest/authen/customerAddress/contact/save"
         callback="customerAddressReload()"
@@ -38,8 +39,12 @@
       <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label"></label>
           <div class="col-lg-10 col-sm-10">
-            <input type="submit" class="btn pr-btn-create-glodbg" value="提交" ng-disabled="!formData.name || !formData.tel || !formData.address || !province_city_area">
-            <button type="button"
+            <input type="submit"
+                   class="btn pr-btn-create-glodbg"
+                   value="提交"
+                   ng-disabled="!formData.name || !formData.tel || !formData.address || !province_city_area">
+            <button ng-if="dialogData.contact.id"
+                    type="button"
                     class="btn btn-warning pr-btn-xsm mgr mgl"
                     ng-disabled="!formData.id&&!formData.customerAddressId"
                     handle-this-click

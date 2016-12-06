@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/hospitalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback=""
+     callback="initFlag=true;watchFormChange('formData')"
      alert-error>
   <div class="page-header-info">
     <h1>医院资格申请</h1>
@@ -27,7 +27,7 @@
           scope-error-msg="errorMsg"
           scope-data="formData"
           novalidate="true"
-          callback="submitFormAfter('#/hospitalApplication/edit-step-3.html')">
+          callback="submitFormAfter('#/hospitalApplication/edit-step-3.html');watchFormChange('formData')">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo}}</em></span>
@@ -59,12 +59,12 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                  ng-disabled="!formData.applyReason || hospitalApplication.applyReason.$pristine"
+                  ng-disabled="!changeFlag || !formData.applyReason || hospitalApplication.applyReason.$pristine"
                   ng-click="submitForm('hospital-editForm','save')">保存
           </button>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="pageTo('#/hospitalApplication/edit.html?id='+formData.id)">上一步</button>
+          <button class="pr-btn-save-glodbg" ng-click="pageTo('#/hospitalApplication/edit.html?id='+formData.id)">上一步</button>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"

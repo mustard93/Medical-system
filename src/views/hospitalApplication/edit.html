@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/hospitalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback=""
+     callback="initFlag=true;watchFormChange('formData')"
      alert-error
      ng-init="formData.validFlag=false">
   <div class="page-header-info">
@@ -28,7 +28,7 @@
           scope-error-msg="errorMsg"
           scope-data="formData"
           novalidate="true"
-          callback="submitFormAfter('#/hospitalApplication/edit-step-2.html')">
+          callback="submitFormAfter('#/hospitalApplication/edit-step-2.html');watchFormChange('formData')">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo}}</em></span>
@@ -97,11 +97,6 @@
                           chosen
                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalLevel">
                   </select>
-                  <!-- <select class="form-control" ng-model="formData.hospital.level">
-                    <option value="一级">一级</option>
-                    <option value="二级">二级</option>
-                    <option value="三级">三级</option>
-                  </select> -->
                 </div>
                 <label for="" class="col-sm-2 control-label">等级：</label>
                 <div class="col-sm-2">
@@ -110,12 +105,6 @@
                           chosen
                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalGrade">
                   </select>
-                  <!-- <select class="form-control" ng-model="formData.hospital.grade">
-                    <option value="特">特</option>
-                    <option value="甲">甲</option>
-                    <option value="乙">乙</option>
-                    <option value="丙">丙</option>
-                  </select> -->
                 </div>
               </div>
             </div>
@@ -133,7 +122,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">邮编：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.zipCode" required>
+                  <input type="number" class="form-control" ng-model="formData.hospital.zipCode" required>
                 </div>
               </div>
             </div>
@@ -151,7 +140,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">有效期至：</label>
                 <div class="col-sm-3">
-                  <input type="text" datepicker class="form-control" placeholder="有效日期至" ng-model="formData.hospital.guaranteePeriod" required>
+                  <input type="text"
+                         datepicker
+                         class="ipt pr-short-ipt color-6"
+                         placeholder="有效日期至"
+                         ng-readonly="true"
+                         ng-model="formData.hospital.guaranteePeriod"
+                         required>
                 </div>
               </div>
             </div>
@@ -219,7 +214,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                  ng-disabled=""
+                  ng-disabled="!changeFlag"
                   ng-click="submitForm('hospital-editForm','save')">保存
           </button>
         </span>
