@@ -57,8 +57,10 @@
                   <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
                     <a ng-if="tr.orderStatus=='未提交'" href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}">编辑</a>
-                    <a ng-if="tr.orderStatus!='未提交' && tr.orderStatus!='待审批'" href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">查看详情</a>
-                    <a ng-if="tr.orderStatus=='待审批'" href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl">立即审批</a>
+                    <a ng-if="tr.orderStatus=='已通过' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                       ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">查看详情</a>
+                    <a class="btn btn-primary pr-btn-xsm pr-btn-bg-gold" ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                       ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">立即审批</a>
                   </span>
                 </div>
                 <div class="flex-column qurey text-s color-9">
