@@ -70,6 +70,8 @@ function workflowPassButton(utils) {
 
         }
 
+
+      //  $scope.passCallback='$root.utils.goOrRefreshHref(customMenu.callBackUrl)';
         //
         if ($attrs.passCallback) {
             $scope.passCallback=$attrs.passCallback;
@@ -804,7 +806,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
             function requestData_then(results) {
               var _data = results[1];
               if (_data.code === 200) {
-                alertOk(_data.message || '操作成功');
+                alertOk(_data.msg || '操作成功');
               }
               if ($attrs.$scopeData) $scope[$attrs.$scopeData] = data;
               //执行回调
