@@ -423,15 +423,24 @@ function alertOk($rootScope, modal) {
                     if(!$scope.$parent)return null;
                     return utilsObj.getScopeExtend($scope.$parent,scopeExtendName);
                 },
+                //  url 存在则跳转，否则刷新。
+                goOrRefreshHref  : function (url,confirmMsg) {
+
+                    if(url){
+                       utilsObj.goTo(url,confirmMsg);
+                       return;
+                    }
+                    utilsObj.refreshHref(confirmMsg);
+                },
                 //  跳转到对应页面 utils.goTo(url,confirmMsg);
                 refreshHref  : function (confirmMsg) {
                     var url=window.location.href;
-
-                    if (url.indexOf('&') > -1) {
-                      url = url.split('&')[0];
+                    //避免参数越来越多
+                    if (url.indexOf('refreshTime=') > -1) {
+                      url = url.split('refreshTime=')[0];
                     }
 
-                    url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+                    url+=(url.indexOf("?")>-1?"&":"?")+"refreshTime="+new Date().getTime();
 
                     if(confirmMsg){
                       dialogConfirm(confirmMsg, function () {
