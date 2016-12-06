@@ -58,6 +58,7 @@ function workflowPassButton(utils) {
     // scope: true,
     scope: {
         beforeAjaxParams: "=?",
+
         beforeIfEval:"=?"
     },
     replace: true,
@@ -69,11 +70,13 @@ function workflowPassButton(utils) {
 
         }
 
+
+      //  $scope.passCallback='$root.utils.goOrRefreshHref(customMenu.callBackUrl)';
         //
-        // if ($attrs.beforeIfEval) {
-        //     $scope.beforeIfEval=$attrs.beforeIfEval;
-        //
-        // }
+        if ($attrs.passCallback) {
+            $scope.passCallback=$attrs.passCallback;
+
+        }
         if ($attrs.beforeAjaxParameterBody) {
             $scope.beforeAjaxParameterBody=$attrs.beforeAjaxParameterBody;
 
@@ -100,6 +103,7 @@ function customMenuList(utils) {
     restrict: 'EA',
     scope: {
         beforeAjaxParams: "=?",
+
         beforeIfEval:"=?"
     },
     // replace: true,
@@ -115,10 +119,10 @@ function customMenuList(utils) {
               $scope.customMenuArr=$attrs.customMenuArr;
         }
 
-        // if ($attrs.beforeIfEval) {
-        //     $scope.beforeIfEval=$attrs.beforeIfEval;
-        //
-        // }
+        if ($attrs.passCallback) {
+            $scope.passCallback=$attrs.passCallback;
+
+        }
         if ($attrs.beforeAjaxUrlSubmit) {
             $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
 
@@ -787,6 +791,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                 callback();
                 return;
             }
+            var _requestUrl=$attrs.requestUrl;
 
         {
 
@@ -801,7 +806,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
             function requestData_then(results) {
               var _data = results[1];
               if (_data.code === 200) {
-                alertOk(_data.message || '操作成功');
+                alertOk(_data.msg || '操作成功');
               }
               if ($attrs.$scopeData) $scope[$attrs.$scopeData] = data;
               //执行回调
@@ -851,10 +856,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                   if($attrs.beforeAjaxHttpMethod){
                     httpMethod=$attrs.beforeAjaxHttpMethod;
                   }
-                  _requestUrl=$attrs.beforeAjaxUrlSubmit;
-
-
-
+                  var _requestUrl=$attrs.beforeAjaxUrlSubmit;
 
                 {
 

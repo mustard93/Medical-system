@@ -103,37 +103,9 @@
 <!-- 按钮   ng-if="showData.orderStatus=='待审批'" -->
 <div class="text-right mgb-l">
   <a href="javascript:;" class="mgr" ng-click="$root.goTo('#/confirmOrder/query.html')">返回销售单列表</a>
-  <span ng-if="!showData.didateFilter.buttons&&showData.orderStatus=='待审批' && $root.hasAuthor('销售单审核')"
-        class="mgr"
-        ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'订单驳回理由',msg:'驳回后，该销售单将作废。确认驳回?',formData:{businessKey:showData.id,conditionType:'驳回',type:'销售单',key:'缺货'},goUrl:'#/confirmOrder/get.html?t=1&id='+showData.id}">
-    <a href="javascript:;"
-       modal-center="490"
-       modal-scope="this"
-       modal-url="views/public/dialog-check-reject.html"
-       class="text-n">驳回</a>
-  </span>
+
 
   <span ng-if="showData.didateFilter.buttons"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
 
-  <button ng-if="!showData.didateFilter.buttons&&showData.orderStatus=='待审批' && $root.hasAuthor('销售单审核')"
-          class="pr-btn-save-glodbg"
-          type="button"
-          handle-this-click
-          dialog-title="确认通过?"
-          dialog-content="审核通过后,销售单将生效,是否通过?"
-          dialog-template="pr-dialog-confirm.html"
-          params='{"businessKey":showData.id,"conditionType":"通过","type":"销售单"}'
-          request-url="rest/authen/workflowTask/run.json"
-          call-back="$root.goTo('#/confirmOrder/confirm-order-done.html?id={{showData.id}}')">审核通过
-  </button>
 
-  <button  ng-if="showData.orderStatus=='待发单'" class="pr-btn-save-glodbg"
-          type="button"
-          handle-this-click
-          dialog-title="确认生成发货单?"
-          dialog-content="是否生成发货单?"
-          dialog-template="pr-dialog-submit.html"
-          params='{"businessKey":showData.id,"type":"销售单"}'
-          request-url="rest/authen/workflowTask/run.json"
-          call-back="$root.goTo('#/invoicesOrder/edit.html?confirmOrderId={{showData.id}}')">生成发货单</button>
 </div>
