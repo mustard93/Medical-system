@@ -95,28 +95,7 @@
 
       <span  ng-if="showData.didateFilter.buttons.length>0"   custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
 
-      <button ng-if="(!showData.didateFilter.buttons.length>0)&&showData.orderStatus=='待批款' && $root.hasAuthor('付款申请单批款')"
-              class="pr-btn-save-glodbg mgl"
-              type="button"
-              handle-this-click
-              dialog-title="确认同意?"
-              dialog-content="同意后，出纳将进行付款，确认同意?"
-              dialog-template="pr-dialog-submit.html"
-              params='{"businessKey":showData.relId,"conditionType":"通过","type":"采购单"}'
-              request-url="rest/authen/workflowTask/run.json"
-              call-back="goTo('#/purchasePayOrder/get.html?t=审核通过&id={{showData.id}}')">同意付款
-      </button>
-      <button ng-if="(!showData.didateFilter.buttons.length>0)&&showData.orderStatus=='待付款' && $root.hasAuthor('付款申请单付款')"
-              class="pr-btn-save-glodbg mgl"
-              type="button"
-              handle-this-click
-              dialog-title="确认付款?"
-              dialog-content="确认没有问题, 可以付款?"
-              dialog-template="pr-dialog-submit.html"
-              params='{"businessKey":showData.relId,"conditionType":"通过","type":"采购单"}'
-              request-url="rest/authen/workflowTask/run.json"
-              call-back="goTo('#/purchasePayOrder/get.html?t=审核通过&id={{showData.id}}')">付款
-      </button>
+
     </div>
   </div>
 </div>
