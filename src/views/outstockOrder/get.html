@@ -44,20 +44,7 @@ class="content-wrapper invoices-order"
         <a class="mgr" href="#/outstockOrder/query.html">返回出库列表</a>
         <a ng-if="showData.orderStatus=='已出库'" class="btn pr-btn-create-glodbg" href="javascript:;">打印</a>
       </span>
-      <span class="" ng-if="showData.orderStatus!='已出库'&&$root.hasAuthor('确认出库')">
-        <button class="pr-btn-save-glodbg"
-                type="button"
-                handle-this-click
-                dialog-title="确认出库?"
-                dialog-content="出库以后，将会从库存中扣除。确认出库？"
-                dialog-template="pr-dialog-submit.html"
-
-                params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"销售单"}'
-                  request-url="rest/authen/workflowTask/run.json"
-
-                call-back="goTo('#/outstockOrder/get.html?id={{showData.id}}&t=1')">确认出库
-        </button>
-      </span>
+      <span ng-if="showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
     </div>
 
 </div>
