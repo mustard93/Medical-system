@@ -622,11 +622,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 } else {
                                     statusInfo.isFinished = true;
                                 }
-                                statusInfo.loadFailMsg = data.message;
+                                statusInfo.loadFailMsg = data.msg;
 
                             } else {
                                 statusInfo.isFinished = true;
-                                statusInfo.loadFailMsg = data.message;
+                                statusInfo.loadFailMsg = data.msg;
 
                             }
                             statusInfo.isLoading = false;
