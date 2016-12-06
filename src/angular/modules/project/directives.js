@@ -55,7 +55,11 @@ function workflowRejectButton(utils) {
 function workflowPassButton(utils) {
   return {
     restrict: 'EA',
-    scope: true,
+    // scope: true,
+    scope: {
+        beforeAjaxParams: "=?",
+        beforeIfEval:"=?"
+    },
     replace: true,
     templateUrl:  Config.tplPath +'tpl/project/workflowPassButton.html',
 
@@ -65,19 +69,24 @@ function workflowPassButton(utils) {
 
         }
 
-
-        if ($attrs.beforeIfEval) {
-            $scope.beforeIfEval=$attrs.beforeIfEval;
+        //
+        // if ($attrs.beforeIfEval) {
+        //     $scope.beforeIfEval=$attrs.beforeIfEval;
+        //
+        // }
+        if ($attrs.beforeAjaxParameterBody) {
+            $scope.beforeAjaxParameterBody=$attrs.beforeAjaxParameterBody;
 
         }
+
         if ($attrs.beforeAjaxUrlSubmit) {
             $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
 
         }
-        if ($attrs.beforeAjaxParams) {
-            $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
-
-        }
+        // if ($attrs.beforeAjaxParams) {
+        //     $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
+        //
+        // }
 
       }
   };
@@ -89,11 +98,12 @@ function workflowPassButton(utils) {
 function customMenuList(utils) {
   return {
     restrict: 'EA',
-    // scope: {
-    //     ngModel: "="
-    // },
+    scope: {
+        beforeAjaxParams: "=?",
+        beforeIfEval:"=?"
+    },
     // replace: true,
-      scope: true,
+      // scope: true,
     templateUrl:  Config.tplPath +'tpl/project/customMenuList.html',
 
       link: function ($scope, element, $attrs) {
@@ -105,18 +115,18 @@ function customMenuList(utils) {
               $scope.customMenuArr=$attrs.customMenuArr;
         }
 
-        if ($attrs.beforeIfEval) {
-            $scope.beforeIfEval=$attrs.beforeIfEval;
-
-        }
+        // if ($attrs.beforeIfEval) {
+        //     $scope.beforeIfEval=$attrs.beforeIfEval;
+        //
+        // }
         if ($attrs.beforeAjaxUrlSubmit) {
             $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
 
         }
-        if ($attrs.beforeAjaxParams) {
-            $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
-
-        }
+        // if ($attrs.beforeAjaxParams) {
+        //     $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
+        //
+        // }
         console.log(  $scope.customMenuArr);
 
       }
@@ -844,11 +854,19 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                   _requestUrl=$attrs.beforeAjaxUrlSubmit;
 
 
+
+
                 {
 
                     var _params={};
                     if ($attrs.beforeAjaxParams) {
-                        _params=utils.fromJson($attrs.beforeAjaxParams);
+
+                      if ($attrs.beforeAjaxParams.indexOf("{") === 0) {
+                          _params = $scope.$eval($attrs.beforeAjaxParams);
+                      } else {
+                        _params=$scope[$attrs.beforeAjaxParams];
+                      }
+
                     }
 
 
