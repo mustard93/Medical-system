@@ -1,6 +1,6 @@
 <div   ng-controller="invoicesOrderCtrl"
 class="content-wrapper invoices-order"
-         ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}"
+         ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="showData"
      callback="formData=showData.distributionInfo;formData.id=showData.id"
      alert-error>
@@ -160,15 +160,17 @@ class="content-wrapper invoices-order"
               call-back="submitForm('editForm','submit')">提交发货</button>
       </span> -->
 
-      <span ng-if="formData&& showData.didateFilter.buttons.length>0"
-                before-if-eval="formData"
-                  before-ajax-parameter-body="true"
-                before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
-                before-ajax-params="formData"
-          custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}" pass-callback="$root.utils.goTo('#/invoicesOrder/get.html?id={{showData.id}}')"
+      <!-- <span ng-if="formData&& showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
 
-        ></span>
+        before-if-eval="formData"
+          before-ajax-parameter-body="true"
+        before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
+        before-ajax-params="formData"
 
+        ></span> -->
+        <span ng-if="formData&& showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
+
+          ></span>
 
       <!-- <button class="pr-btn-save-glodbg"
               ng-if="$root.hasAuthor('发货单编辑')"
