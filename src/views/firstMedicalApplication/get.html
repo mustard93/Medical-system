@@ -27,7 +27,7 @@
         </span>
       </div>
       <!-- 审核信息 -->
-      <div ng-if="showData.orderStatus=='待审批'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
+      <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
         <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
           <span>{{eventRecord.event.id}}：</span>
           <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</em>
@@ -161,7 +161,7 @@
           <div class="flex-column mgb">
             <div class="flex-item-6 flex-column">
               <span class="flex-item-2 text-right">有效期：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.guaranteePeriod}}</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.guaranteePeriod | date:'yyyy-MM-dd'}}</span>
             </div>
           </div>
         </div>
@@ -213,17 +213,23 @@
            return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstMedicalApplication/query.html"}'
            attchment-usege="首营品种申请">
       </div>
-      <!-- <div ng-if="!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过') && showData.orderStatus=='待审批'" class="mgb text-right">
-        <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
-      </div> -->
 
-      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' && !$root.utils.getcustomMenuByKeyOfArr(showData.didateFilter.buttons,'通过')"
+      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus!='未提交'"
            class="panel pr-panel pr-panel-height mgb">
         <div class="mgb-l">
           <h1 class="pr-font-18 mgb">审批意见</h1>
-          <p></p>
+          <div class="mgb" ng-repeat="item in showData.eventRecords">
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'">{{item.event.name}} : <em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人：</em> <em>{{item.inputUser}}</em></span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+            <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
+          </div>
         </div>
         <div class="mgb-l"></div>
+      </div>
+
+      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过'" class="mgb text-right">
+        <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
       </div>
     </div>
 
