@@ -27,7 +27,7 @@
         </span>
       </div>
       <!-- 审核信息 -->
-      <div ng-if="showData.orderStatus=='待审批'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
+      <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
         <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
           <span>{{eventRecord.event.id}}：</span>
           <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</em>
@@ -214,7 +214,7 @@
            attchment-usege="首营品种申请">
       </div>
 
-      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批'"
+      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus!='未提交'"
            class="panel pr-panel pr-panel-height mgb">
         <div class="mgb-l">
           <h1 class="pr-font-18 mgb">审批意见</h1>
