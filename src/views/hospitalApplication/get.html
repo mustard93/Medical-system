@@ -1,0 +1,351 @@
+<div class="content-wrapper first-medical-application"
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/authen/hospitalApplication/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback="formData.businessKey=showData.id;formData.type='首营企业';formData.attachments=[]"
+     alert-error>
+  <div class="page-header-info">
+    <h1>医院资格申请</h1>
+    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
+  </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper-main mgt">
+
+      <!-- 单号 -->
+      <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+        <div class="flex-item-8">
+          <span class="mgr-l">申请单：<em class="color-6">{{showData.orderNo}}</em></span>
+          <span class="mgr-l">申请人：<em class="color-custom-orange">{{showData.proposerName}}</em></span>
+          <span>申请时间：{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span>
+        </div>
+        <span class="current-status flex-item-4 text-right">
+          <strong>状态：{{showData.orderStatus}}</strong>
+        </span>
+      </div>
+      <!-- 审核信息 -->
+      <div ng-if="showData.orderStatus=='待审批'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
+        <span class="mgr-l" ng-init="department1=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','商务部')">
+          商务部：<em class="color-6">{{department1.status || '待审批'}}</em>
+        </span>
+        <span class="mgr-l" ng-init="department2=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','商务部经理')">
+          商务部经理：<em class="color-6">{{department2.status || '待审批'}}</em>
+        </span>
+        <span class="mgr-l" ng-init="department3=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','运营部')">
+          运营部：<em class="color-6">{{department3.status || '待审批'}}</em>
+        </span>
+        <span class="mgr-l" ng-init="department4=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','质管部')">
+          质管部：<em class="color-6">{{department4.status || '待审批'}}</em>
+        </span>
+        <span class="mgr-l" ng-init="department5=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','分管总监')">
+          分管总监：<em class="color-6">{{department5.status || '待审批'}}</em>
+        </span>
+      </div>
+      <!-- 基本信息 -->
+      <div class="panel pr-panel pr-panel-height mgb">
+        <h1 class="pr-font-18 mgb">基本信息</h1>
+        <div class="">
+          <h1 class="pr-font-14 bb-line pd-v text-bold mgb">医院信息：</h1>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">医院名称：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.name}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">医院系统编号：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.systemNumber}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">经营性质：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.managementType}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">法人代表：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.legalRepresentative}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">地址：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.address}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">级别：</span>
+              <span class="flex-item-1 pr-indent-10">{{showData.hospital.level}}</span>
+              <span class="flex-item-1 text-right">等级：</span>
+              <span class="flex-item-1 pr-indent-10">{{showData.hospital.grade}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">电话：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.hospitalTel}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">邮编：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.zipCode}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">执业许可证号：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.practiceLicenseNo}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">有效期：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.guaranteePeriod | date: 'yyyy-MM-dd'}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <h1 class="pr-font-14 bb-line pd-v text-bold mgb">医院采购员信息：</h1>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">采购员/身份证号：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserName}}&nbsp;&nbsp;{{showData.hospital.purchaserIdentityNo}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">座机：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserTel}}</span>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">E-mail：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.email}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">手机：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserPhone}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="">
+          <h1 class="pr-font-14 bb-line pd-v text-bold mgb">许可项目范围：</h1>
+          <p class="mgb">{{showData.hospital.permissionItem}}</p>
+        </div>
+
+      </div>
+      <!-- 申请原因 -->
+      <div class="panel pr-panel pr-panel-height mgb">
+        <h1 class="pr-font-18 mgb">申请原因</h1>
+        <span>{{showData.applyReason}}</span>
+      </div>
+      <!-- 审核资料 -->
+      <div class="panel pr-panel pr-panel-height mgb">
+        <h1 class="pr-font-18 mgb">审核资料</h1>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>资料名称</th>
+              <th>上传人</th>
+              <th>上传日期</th>
+              <th>有效日期</th>
+              <th>附件</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in showData.attachments">
+              <td>{{$index + 1}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.uploadUserName}}</td>
+              <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
+              <td>{{item.guaranteePeriod | date : 'yyyy-MM-dd HH:mm'}}</td>
+              <td>
+                <img ng-if="item.attachmentUrl" ng-src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;" />
+              </td>
+              <td>{{item.note}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- 审批 -->
+      <form class="form-horizontal"
+            name="createOrderForm"
+            action="rest/authen/workflowTask/runWithAttchments"
+            form-validator
+            parameter-body
+            alert-error
+            alert-ok
+            ng-init='beforeConfirmMsg="确认通过此申请单?"'
+            beforeConfirmMsg="{{beforeConfirmMsg}}"
+            callback="$root.goTo('#/hospitalApplication/get.html?id={{showData.id}}')">
+        <div ng-if="showData.orderStatus=='待审批' &&
+                  ($root.hasAuthor('商务部审批权') ||
+                   $root.hasAuthor('商务部经理审批权') ||
+                   $root.hasAuthor('运营部审批权') ||
+                   $root.hasAuthor('质管部审批权') ||
+                   $root.hasAuthor('分管总监审批权'))">
+          <!-- 审批意见 -->
+          <div class="panel pr-panel pr-panel-height mgb">
+            <h1 class="pr-font-18 mgb">审批意见</h1>
+            <div class="mgb-m">
+              <label class="radio-inline" ng-click='beforeConfirmMsg="确认通过此申请单?"'>
+                <input type="radio" name="type" value="通过" ng-model="formData.conditionType"> 通过
+              </label>
+              <label class="radio-inline" ng-click='beforeConfirmMsg="审批不通过将使该申请单申请失败, 是否拒绝通过?"'>
+                <input type="radio" name="type" value="驳回" ng-model="formData.conditionType"> 驳回
+              </label>
+            </div>
+            <div class="">
+              <textarea class="pr-textarea" rows="4" placeholder="原因说明" ng-model="formData.message"></textarea>
+            </div>
+          </div>
+          <!-- 补充材料 -->
+          <div class="panel pr-panel pr-panel-height mgb">
+              <h1 class="pr-font-18 mgb">审核资料</h1>
+            <div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>序号</th>
+                    <th>资料名称</th>
+                    <th>上传人</th>
+                    <th>上传日期</th>
+                    <th>有效日期</th>
+                    <th>附件</th>
+                    <th>备注</th>
+                    <th class="text-center">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="item in formData.attachments">
+                    <td>{{$index + 1}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.uploadUserName}}</td>
+                    <td>{{item.uploadTime| date : 'yyyy-MM-dd'}}</td>
+                    <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效日期至" ng-model="item.guaranteePeriod"></td>
+                    <td>
+                      <p ng-if="item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
+                      <p ng-if="!item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt=""/></p>
+                      <p>
+                        <button type="button"
+                                class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                                ng-init="upFile={}"
+                                uploader-one="rest/authen/fileUpload/upload.json"
+                                usege="首营品种申请"
+                                callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
+                                up-file="upFile" ng-model="item.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                        </button>
+                      </p>
+                    </td>
+                    <td>
+                      <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
+                    </td>
+                    <td class="text-center">
+                      <a href="javascript:;" ng-click="formData.item.splice($index,1);" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
+                    </td>
+                  </tr>
+                </tbody>
+                <!-- 添加资料 -->
+                <tfoot ng-init="addAttachment={}">
+                  <tr>
+                    <td colspan="7">
+                      <h1 class="pr-font-16">添加附件</h1>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="text" ng-model="addAttachment.name" class="ipt" placeholder="资料名称"></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><input type="text" readonly="true"  datepicker ng-model="addAttachment.guaranteePeriod"  class="ipt pr-short-ipt color-6" placeholder="有效期"></td>
+                    <td>
+                      <button type="button"
+                              class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                              ng-init="upFile={}"
+                              uploader-one="rest/authen/fileUpload/upload.json"
+                              usege="首营品种申请"
+                              callback="addAttachment.uploadUserId='{{$root.curUser.id}}';addAttachment.uploadUserName='{{$root.curUser.name}}'"
+                              up-file="upFile" ng-model="addAttachment.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                      </button>
+                    </td>
+                    <td>
+                      <textarea class="pr-textarea" ng-model="addAttachment.note" rows="6" cols="20" placeholder="备注信息"></textarea>
+                    </td>
+                    <td>
+                      <a   href="javascript:;" class="pr-add-circle"
+                        ng-click="formData.attachments.push(addAttachment);addAttachment={}"
+                      ><span class="fa fa-plus-circle"></span></a>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- 功能按钮 -->
+        <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
+          <span class="mgl"><a href="#/hospitalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+          <span class="mgl">
+            <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+               href="javascript:;"
+               class="color-red"
+               handle-this-click
+               dialog-title="确认删除?"
+               dialog-content="删除后将无法恢复,确认删除?"
+               dialog-template="pr-dialog-submit.html"
+               callback="$root.goTo('#/hospitalApplication/query.html')"
+               params='{"id":showData.id}'
+               request-url="rest/authen/hospitalApplication/delete">删除</a>
+          </span>
+          <span class="mgl">
+            <button class="pr-btn-save-glodbg"
+                    type="button"
+                    ajax-url-submit="rest/authen/hospitalApplication/proposerUpdateStatus"
+                    params='{"id":showData.id,"orderStatus":"待审批"}'
+                    alert-error
+                    scope-data="showData">提交审批
+            </button>
+            <!-- <button type="submit" class="pr-btn-save-glodbg">提交审批</button> -->
+          </span>
+        </div>
+        <div ng-if="showData.orderStatus=='待审批'" class="mgb text-right">
+          <span class="mgl"><a href="#/hospitalApplication/query.html">返回申请单列表</a></span>
+
+          <button ng-if="showData.orderStatus=='待审批' &&
+                         $root.hasAuthor('商务部审批权') ||
+                         $root.hasAuthor('商务部经理审批权') ||
+                         $root.hasAuthor('运营部审批权') ||
+                         $root.hasAuthor('质管部审批权') ||
+                         $root.hasAuthor('分管总监审批权')"
+                  type="submit"
+                  class="pr-btn-save-glodbg mgl"
+                  ng-disabled="!formData.conditionType">提交
+          </button>
+
+
+
+          <!-- <button ng-if="!formData.approvalResult" type="button" class="pr-btn-save-glodbg mgl" disabled>提交</button>
+          <button ng-if="formData.approvalResult=='通过'"
+                  ng-disabled="!formData.approvalResult"
+                  class="pr-btn-save-glodbg mgl"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认通过?"
+                  dialog-content="确认通过此申请单?"
+                  dialog-template="pr-dialog-submit.html"
+                  params='{"id":formData.id,"approvalResult":formData.approvalResult,"investigateForm":{"note":formData.note}}'
+                  request-url="rest/authen/firstEnterpriseApplication/approverUpdateStatus"
+                  call-back="">提交
+          </button>
+          <button ng-if="formData.approvalResult=='不通过'"
+                  ng-disabled="!formData.approvalResult"
+                  class="pr-btn-save-glodbg mgl"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认不通过?"
+                  dialog-content="审批不通过将使该申请单申请失败, 是否拒绝通过?"
+                  dialog-template="pr-dialog-submit.html"
+                  params='{"id":formData.id,"approvalResult":formData.approvalResult}'
+                  request-url="rest/authen/firstEnterpriseApplication/approverUpdateStatus.json"
+                  call-back="">提交
+          </button> -->
+          <button type="button" class="pr-btn-save-glodbg mgl">打印</button>
+        </div>
+      </form>
+  </div>
+</div>

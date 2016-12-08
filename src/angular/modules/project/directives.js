@@ -55,7 +55,12 @@ function workflowRejectButton(utils) {
 function workflowPassButton(utils) {
   return {
     restrict: 'EA',
-    scope: true,
+    // scope: true,
+    scope: {
+        beforeAjaxParams: "=?",
+
+        beforeIfEval:"=?"
+    },
     replace: true,
     templateUrl:  Config.tplPath +'tpl/project/workflowPassButton.html',
 
@@ -64,6 +69,28 @@ function workflowPassButton(utils) {
             $scope.customMenu=utils.fromJson($attrs.customMenu);
 
         }
+
+
+      //  $scope.passCallback='$root.utils.goOrRefreshHref(customMenu.callBackUrl)';
+        //
+        if ($attrs.passCallback) {
+            $scope.passCallback=$attrs.passCallback;
+
+        }
+        if ($attrs.beforeAjaxParameterBody) {
+            $scope.beforeAjaxParameterBody=$attrs.beforeAjaxParameterBody;
+
+        }
+
+        if ($attrs.beforeAjaxUrlSubmit) {
+            $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
+
+        }
+        // if ($attrs.beforeAjaxParams) {
+        //     $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
+        //
+        // }
+
       }
   };
 }
@@ -74,11 +101,13 @@ function workflowPassButton(utils) {
 function customMenuList(utils) {
   return {
     restrict: 'EA',
-    // scope: {
-    //     ngModel: "="
-    // },
+    scope: {
+        beforeAjaxParams: "=?",
+
+        beforeIfEval:"=?"
+    },
     // replace: true,
-      scope: true,
+      // scope: true,
     templateUrl:  Config.tplPath +'tpl/project/customMenuList.html',
 
       link: function ($scope, element, $attrs) {
@@ -89,6 +118,19 @@ function customMenuList(utils) {
         }else{
               $scope.customMenuArr=$attrs.customMenuArr;
         }
+
+        if ($attrs.passCallback) {
+            $scope.passCallback=$attrs.passCallback;
+
+        }
+        if ($attrs.beforeAjaxUrlSubmit) {
+            $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
+
+        }
+        // if ($attrs.beforeAjaxParams) {
+        //     $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
+        //
+        // }
         console.log(  $scope.customMenuArr);
 
       }
@@ -131,7 +173,12 @@ function workflowTaskRunWithAttchments(utils) {
 
           //按钮名字优先去passButton
               $scope.showButton=$scope.passButton||$scope.rejectButton;
-        console.log(  $scope.customMenuArr);
+
+               $scope.formData=  $scope.showButton.params;
+                $scope.formData.attachments=[];
+
+              $scope.scopeExtend={};
+              console.log(  $scope.customMenuArr);
 
       }
   };
@@ -667,7 +714,7 @@ function runPopovers ($timeout) {
 /**
  * 带确认对话框的按钮点击事件
  */
-function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertError) {
+function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertError,utils) {
   'use strict';
   return {
     restrict: 'A',
@@ -691,7 +738,39 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           if( !angular.isDefined($attrs.dialogTitle)) _dialogTitle = '取消修改?';
           if( !angular.isDefined($attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';
         }
+        //回调方法
+        function callback(){
 
+          //指定作用域
+          if($attrs.callbackScopeKey){
+              var appointScope=  utils.getAppointScope($scope,$attrs.callbackScopeKey);
+              if(appointScope!=null){
+                if ($attrs.callback) {
+                    appointScope.$eval($attrs.callback);
+                }
+                if ($attrs.callBack) {
+                    appointScope.$eval($attrs.callBack);
+                }
+
+              }
+
+          }
+
+
+
+                    if ($attrs.callBack) {
+                        $scope.$eval($attrs.callBack);
+                    }
+                    if ($attrs.callback) {
+                        $scope.$eval($attrs.callback);
+                    }
+
+                    if ($attrs.parentCallback) {
+                      $scope.$parent.$eval($attrs.parentCallback);
+                    }
+
+
+        }//end callback
 
         function ajax_submit(){
           //如果操作为点击后发送请求
@@ -708,8 +787,13 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
             httpMethod=$attrs.httpMethod;
           }
 
+            if (!angular.isDefined($attrs.requestUrl)) {
+                callback();
+                return;
+            }
+            var _requestUrl=$attrs.requestUrl;
 
-          if (angular.isDefined($attrs.requestUrl)) {
+        {
 
             var _params={};
             if ($attrs.params) {
@@ -717,62 +801,115 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                       _params = $scope.$eval($attrs.params);
                 }
             }
-            requestData(_requestUrl, _params, httpMethod,parameterBody)
-              .then(function (results) {
-                var _data = results[1];
-                if (_data.code === 200) {
-                  alertOk(_data.message || '操作成功');
-                }
-                if ($attrs.$scopeData) $scope[$attrs.$scopeData] = data;
-                //执行回调
 
 
+            function requestData_then(results) {
+              var _data = results[1];
+              if (_data.code === 200) {
+                alertOk(_data.msg || '操作成功');
+              }
+              if ($attrs.$scopeData) $scope[$attrs.$scopeData] = data;
+              //执行回调
 
-                if ($attrs.callBack) {
-                    $scope.$eval($attrs.callBack);
-                }
-                if ($attrs.callback) {
-                    $scope.$eval($attrs.callback);
-                }
+              callback();
 
-                if ($attrs.parentCallback) {
-                  $scope.$parent.$eval($attrs.parentCallback);
-                }
-
-
-                //操作成功完成向上传播事件
-                if ($attrs.emitted) {
-                  if ($attrs.emitted.indexOf(',') !== -1) {   //多个事件
-                    var _arr = $attrs.emitted.split(',');
-                    var _len = _arr.length,
-                        i = 0;
-                    for (i=0; i<_len; i++) {
-                      $scope.$emit(_arr[i]);
-                    }
-                  } else {    //单个事件
-                    $scope.$emit($attrs.emitted);
+              //操作成功完成向上传播事件
+              if ($attrs.emitted) {
+                if ($attrs.emitted.indexOf(',') !== -1) {   //多个事件
+                  var _arr = $attrs.emitted.split(',');
+                  var _len = _arr.length,
+                      i = 0;
+                  for (i=0; i<_len; i++) {
+                    $scope.$emit(_arr[i]);
                   }
+                } else {    //单个事件
+                  $scope.$emit($attrs.emitted);
                 }
-              })
+              }
+            };
+
+            requestData(_requestUrl, _params, httpMethod,parameterBody)
+              .then(requestData_then)
               .catch(function (error) {
                 alertError(error || '出错');
               });
             return;
           }
+
+
         }//ajax_submit
 
 
 
-        if($attrs.alertConfirm=="false"){
-            ajax_submit();
-            return;
-        }
+          //ajax_submit_before
+                function ajax_submit_before(){
+                  //如果操作为点击后发送请求
+                  var parameterBody = false;
+                  if (angular.isDefined($attrs.beforeAjaxParameterBody)) {
+                    parameterBody = true;
+                    if($attrs.parameterBody=="false"){
+                      parameterBody=false;
+                    }
+                  }
+
+                  var httpMethod="POST"
+                  if($attrs.beforeAjaxHttpMethod){
+                    httpMethod=$attrs.beforeAjaxHttpMethod;
+                  }
+                  var _requestUrl=$attrs.beforeAjaxUrlSubmit;
+
+                {
+
+                    var _params={};
+                    if ($attrs.beforeAjaxParams) {
+
+                      if ($attrs.beforeAjaxParams.indexOf("{") === 0) {
+                          _params = $scope.$eval($attrs.beforeAjaxParams);
+                      } else {
+                        _params=$scope[$attrs.beforeAjaxParams];
+                      }
+
+                    }
+
+
+                    function requestData_then(results) {
+                      var _data = results[1];
+                      ajax_submit();
+
+                    };
+
+                    requestData(_requestUrl, _params, httpMethod,parameterBody)
+                      .then(requestData_then)
+                      .catch(function (error) {
+                        alertError(error || '出错');
+                      });
+                    return;
+                  }
+
+
+                }//ajax_submit_before
+
+
+
+                if($attrs.alertConfirm=="false"){
+
+                  //执行前需要执行
+                  if (angular.isDefined($attrs.beforeIfEval) && $attrs.beforeAjaxUrlSubmit) {
+                      var tmp=$scope.$eval($attrs.beforeIfEval);
+                    if (tmp){
+                        ajax_submit_before();
+                        return;
+                    }
+
+                  }
+
+                    ajax_submit();
+                    return;
+                }
+
 
         //默认弹出窗口
         dialogConfirm(_dialogContent, function (type,dialgForm) {
-
-
-
 
           //取消对话框操作
           if(type=="cancel"){
@@ -820,28 +957,21 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
 
 
 
-          //ajax
 
-          ajax_submit();
-
-          //执行回调
-          if ($attrs.callBack) {
-            $scope.dialgForm=dialgForm;
-              $scope.$eval($attrs.callBack);
-          }
-          //执行回调
-          if ($attrs.callback) {
-            $scope.dialgForm=dialgForm;
-              $scope.$eval($attrs.callback);
-
-
-
-              if ($attrs.parentCallback) {
-                $scope.$parent.$eval($attrs.parentCallback);
-              }
-
+          //执行前需要执行
+          if (angular.isDefined($attrs.beforeIfEval) && $attrs.beforeAjaxUrlSubmit) {
+              var tmp=$scope.$eval($attrs.beforeIfEval);
+            if (tmp){
+                ajax_submit_before();
+                return;
+            }
 
           }
+
+            ajax_submit();
+          //执行回调
+          // callback();
+
         }, _dialogTemplate, _dialogTitle, _confirmBtnTxt, _cancelBtnTxt, _jumpUrl);
       });
     }
@@ -863,7 +993,7 @@ function leftMenuSecondToggle ($location) {
       //执行样式选中
       eleChangeEvent:function(element){
         if(!element||element.length==0){
-          console.log("error:LeftMenuObj.element=null");
+          // console.log("error:LeftMenuObj.element=null");
         }
         //ul(p5)>li(p4)>ul(p3)>li(p2)>a(p1) left-menu-second-toggle
         var _parent = $(element).parent();
@@ -901,20 +1031,20 @@ function leftMenuSecondToggle ($location) {
         //全匹配优先级最高
         elementMenu=this.routeMap[url];
         //去掉参数匹配优先级最高
-        if(!elementMenu||elementMenu.length==0){
+        if(!elementMenu||elementMenu.length===0){
              url=url.split('?')[0];// /purchaseOrder/query.html
             elementMenu=this.routeMap[url];
         }
         //取模块名
-        if(!elementMenu||elementMenu.length==0){
+        if(!elementMenu||elementMenu.length===0){
              url=url.split('/')[1];  // purchaseOrder
             elementMenu=this.routeMap[url];
         }
         // console.log("getElementMenu2="+url);
-      if(!elementMenu||elementMenu.length==0){
+      if(!elementMenu||elementMenu.length===0){
              return;
         }
-          console.log("doRoute="+url);
+          // console.log("doRoute="+url);
         this.eleChangeEvent(elementMenu);
       },
         //启动监听定义监视器，监控Url变化 LeftMenuObj.startListen($scope)
@@ -922,7 +1052,7 @@ function leftMenuSecondToggle ($location) {
         if(this.isStart)return;
         this.isStart=true;
         $scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
-            console.log("locationChangeSuccess="+newUrl);
+            // console.log("locationChangeSuccess="+newUrl);
            LeftMenuObj.doRoute(newUrl);
 
         });
@@ -948,7 +1078,7 @@ function leftMenuSecondToggle ($location) {
 
       }//end key
 
-  }
+  };
 
 
   return {
@@ -1217,7 +1347,7 @@ angular.module('manageApp.project')
   .directive("sparkline", sparkline) //sparkline 柱状图
   .directive("runTooltips", runTooltips) //tooltips
   .directive("runPopovers", ['$timeout', runPopovers]) //popover
-  .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError', handleThisClick]) //带确认对话框的按钮点击事件
+  .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError','utils', handleThisClick]) //带确认对话框的按钮点击事件
   .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
   .directive("styleToggle", ['$location', styleToggle]);
 });

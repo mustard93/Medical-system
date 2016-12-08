@@ -1,96 +1,99 @@
-<!-- page heading start-->
-<div class="page-heading">
-    <h3>其他客户申请表管理</h3>
-    <ul class="breadcrumb">
-        <li><a href="#">主面板</a></li>
-        <li class="active">其他客户申请表管理</li>
-    </ul>
+<div class="content-wrapper hospital-application"
+     ng-controller="QualificationApplyCtrl"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+  <!-- 模块标题及面包屑 -->
+  <div class="page-header-info">
+    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
+    <p>
+      <select ng-init="itemChooise='#/otherCustomerApplication/query.html'" class="select pr-select pr-select-sm" style="width:120px;" ng-model="itemChooise" ng-change="utils.goTo(itemChooise)">
+        <option value="#/hospitalApplication/query.html">医院资格申请</option>
+        <option value="#/otherCustomerApplication/query.html">经销商/零售商资格申请</option>
+      </select>
+    </p>
+  </div>
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/otherCustomerApplication/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+    <!-- 主内容头部 -->
+    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl mgr relative">
+      <!-- 新建按钮及状态按钮 -->
+      <div class="full-width">
+        <div class="pos-abs order-create-btn" ng-if="$root.hasAuthor('购需单编辑')">
+          <a href="#/otherCustomerApplication/edit.html" title="新建经销商/零售商"><i></i><span class="text-s">新建经销商/零售商资格申请</span></a>
+        </div>
+        <div class="order-status-btn pos-tr text-right"
+             ajax-url="rest/authen/otherCustomerApplication/countByOrderStatus.json"
+             scope-data="countByOrderStatus"
+             alert-error>
+            <div class=""></div>
+            <div class="btn btn-group">
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="未提交"  count-map="countByOrderStatus">  </button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="待审批"  count-map="countByOrderStatus">  </button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="已通过"  count-map="countByOrderStatus">  </button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="未通过"  count-map="countByOrderStatus">  </button>
+            </div>
+        </div>
+      </div>
+      <!-- 右侧搜索 -->
+      <div class="text-right order-list-search pos-rb">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/申请单号/申请人" ng-model="listParams.q">
+        <i class=""></i>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <div ng-if="!status.isLoading">
+        <div ng-if="tbodyList.length==0">
+          <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+          <p class="text-center">什么也没有</p>
+        </div>
+
+        <div class="pd-c">
+          <table ng-if="tbodyList.length" class="table table-hover table-striped">
+            <thead class="pr-bg-side">
+              <tr>
+                <th>申请单</th>
+                <th>经销商/零售商名称</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody class="pr-bg-white">
+              <tr ng-repeat="tr in tbodyList track by $index">
+                <td>{{tr.orderNo}}</td>
+                <td>{{tr.customer.fullName || '未知名称'}}</td>
+                <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                <td ng-class="{'color-9':tr.orderStatus=='未提交', 'color-6':tr.orderStatus=='待审批', 'color-green':tr.orderStatus=='已通过', 'color-red':tr.orderStatus=='未通过'}">{{tr.orderStatus}}</td>
+                <td ng-if="tr.orderStatus=='未提交'">
+                  <a href="#/otherCustomerApplication/edit.html?id={{tr.id}}" class="edit-link-icon mgr-m"></a>
+                  <!-- <a href="javascript:;" class="delete-link-icon"></a> -->
+                  <a href="javascript:;"
+                     class="color-red delete-link-icon"
+                     handle-this-click
+                     dialog-title="确认删除?"
+                     dialog-content="删除后将无法恢复,确认删除?"
+                     dialog-template="pr-dialog-submit.html"
+                     callback="$root.goTo('#/otherCustomerApplication/query.html')"
+                     params='{"id":tr.id}'
+                     request-url="rest/authen/otherCustomerApplication/delete"></a>
+                </td>
+                <td ng-if="tr.orderStatus=='待审批'">
+                  <a class="btn btn-primary pr-btn-xsm pr-btn-bg-gold" ng-href="#/otherCustomerApplication/get.html?id={{tr.id}}">审批</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
 </div>
-<!-- page heading end-->
-
-<!--body wrapper start-->
-<table-list list-data="rest/authen/otherCustomerApplication/query.json" list-params="listParams">
-    <div class="mg-m col-lg-12 col-sm-12">
-      <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/otherCustomerApplication/edit.html">
-            <i class="fa fa-plus"></i>新建
-        </button>
-      </div>
-      <div class="form-group col-lg-2">
-        <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
-      </div>
-    </div>
-
-    <div class="wrapper">
-        <div class="loader" ng-if="status.isLoading">
-            <div class="loader-inner pacman">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-        <div ng-if="!status.isLoading">
-            <div class="empty-wrap" ng-if="tbodyList.length==0">
-                <span>
-                    <i class="fa fa-inbox">
-                        <em>什么也没有</em>
-                    </i>
-                </span>
-            </div>
-            <div ng-if="tbodyList.length">
-
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" class="selectAll"></th>
-                            <th>序号</th>
-                            <th>申请单号</th>
-                            <th>客户名称</th>
-                            <th>申请表创建时间</th>
-                            <th>申请表状态</th>
-                            <th>操作</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
-                            <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
-                            <td>{{$index + 1}}</td>
-                            <td>{{tr.applicationNumber}}</td>
-                            <td>{{tr.customer.fullName}}</td>
-                            <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-                            <td>{{tr.applicationStatus}}</td>
-                            <td>
-                                <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html">
-                                    <i class="fa fa-folder-open-o"></i>
-                                    查看
-                                </button>
-                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/otherCustomerApplication/edit.html?id={{tr.id}}">
-                                    <i class="fa fa-edit"></i>
-                                    编辑
-                                </button>
-                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/otherCustomerApplication/delete', tr.id)">
-                                    <i class="fa fa-trash-o"></i>
-                                    删除
-                                </button>
-                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"
-                                    modal-url="views/otherCustomerApplication/investigate.html?id={{tr.id}}" ng-disabled="tr.applicationStatus=='驳回' || tr.applicationStatus=='通过'">
-                                    <i class="fa fa-folder-open-o"></i>
-                                    审批
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="clearfix">
-                    <div class="fr">
-                        <pagination status="status"></pagination>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</table-list>
-<!--body wrapper end-->

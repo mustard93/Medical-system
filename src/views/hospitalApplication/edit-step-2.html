@@ -1,0 +1,78 @@
+<div class="content-wrapper hospital-application first-medical-application"
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/authen/hospitalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData')"
+     alert-error>
+  <div class="page-header-info">
+    <h1>医院资格申请</h1>
+    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
+  </div>
+  <!-- 添加流程导航 -->
+  <div class="first-medical-nav text-right">
+    <span>基本信息</span>
+    <span class="active">申请原因</span>
+    <span>添加审核资料</span>
+  </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper-main mgt">
+    <form class="form-horizontal"
+          id="hospital-editForm"
+          name="hospitalEditForm"
+          form-validator
+          parameter-body
+          action="rest/authen/hospitalApplication/saveApplyReason?validateFlag=true"
+          alert-error
+          alert-ok
+          scope-error-msg="errorMsg"
+          scope-data="formData"
+          novalidate="true"
+          callback="submitFormAfter('#/hospitalApplication/edit-step-3.html');watchFormChange('formData')">
+      <!-- 单号 -->
+      <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+        <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo}}</em></span>
+        <span class="current-status flex-item-1">
+          <strong>状态：{{formData.orderStatus}}</strong>
+        </span>
+      </div>
+      <!-- 基本信息 -->
+      <div class="panel pr-panel pr-panel-height mgb">
+        <h1 class="pr-font-18 mgb">申请原因</h1>
+        <div class="">
+          <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+        </div>
+      </div>
+      <!-- 功能按钮 -->
+      <div class="mgb text-right">
+        <span class="mgl"><a href="#/hospitalApplication/query.html">返回申请单列表</a></span>
+        <span class="mgl">
+          <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+             href="javascript:;"
+             class="color-red"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="删除后将无法恢复,确认删除?"
+             dialog-template="pr-dialog-submit.html"
+             callback="$root.goTo('#/hospitalApplication/query.html')"
+             params='{"id":formData.id}'
+             request-url="rest/authen/hospitalApplication/delete">删除</a>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled="!changeFlag || !formData.applyReason || hospitalApplication.applyReason.$pristine"
+                  ng-click="submitForm('hospital-editForm','save')">保存
+          </button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg" ng-click="pageTo('#/hospitalApplication/edit.html?id='+formData.id)">上一步</button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled="!formData.applyReason"
+                  ng-click="submitForm('hospital-editForm','submit')">下一步
+          </button>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>

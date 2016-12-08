@@ -1,7 +1,7 @@
 <div class="content-wrapper first-medical-application"
+     ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="formData.businessKey=showData.id;formData.type='首营品种';formData.attachments=[]"
      alert-error>
   <div class="page-header-info">
     <h1>首营品种申请</h1>
@@ -18,25 +18,19 @@
           <span>申请时间：{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span>
         </div>
         <span class="current-status flex-item-4 text-right">
-          <strong>状态：{{showData.orderStatus}}</strong>
+          <a modal-center="1000px"
+             modal-data='{"businessKey":"{{showData.id}}"}'
+             modal-scope="this"
+             modal-url="views/workflowTask/getOfDialog.html">
+            <strong>状态：{{showData.orderStatus}}</strong>
+          </a>
         </span>
       </div>
       <!-- 审核信息 -->
-      <div class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
-        <span class="mgr-l" ng-init="department1=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','商务部')">
-          商务部：<em class="color-6">{{department1.status || '待审批'}}</em>
-        </span>
-        <span class="mgr-l" ng-init="department2=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','商务部经理')">
-          商务部经理：<em class="color-6">{{department2.status || '待审批'}}</em>
-        </span>
-        <span class="mgr-l" ng-init="department3=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','运营部')">
-          运营部：<em class="color-6">{{department3.status || '待审批'}}</em>
-        </span>
-        <span class="mgr-l" ng-init="department4=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','质管部')">
-          质管部：<em class="color-6">{{department4.status || '待审批'}}</em>
-        </span>
-        <span class="mgr-l" ng-init="department5=utils.getObjectByKeyOfArr(showData.investigateForms,'investigateType','分管总监')">
-          分管总监：<em class="color-6">{{department5.status || '待审批'}}</em>
+      <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
+        <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
+          <span>{{eventRecord.event.id}}：</span>
+          <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</em>
         </span>
       </div>
       <!-- 基本信息 -->
@@ -166,7 +160,7 @@
           <div class="flex-column mgb">
             <div class="flex-item-6 flex-column">
               <span class="flex-item-2 text-right">有效期：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.guaranteePeriod}}</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.guaranteePeriod | date:'yyyy-MM-dd'}}</span>
             </div>
           </div>
         </div>
@@ -211,48 +205,56 @@
         </table>
       </div>
 
-
-
       <!-- 审批 -->
-      <div ng-if="showData.didateFilter.buttons"  workflow-task-run-with-attchments
-      custom-menu-arr="{{showData.didateFilter.buttons}}"
-      return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstMedicalApplication/query.html"}'
-      attchment-usege="首营品种申请"
-      ></div>
+      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(showData.didateFilter.buttons,'通过')"
+           workflow-task-run-with-attchments
+           custom-menu-arr="{{showData.didateFilter.buttons}}"
+           return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstMedicalApplication/query.html"}'
+           attchment-usege="首营品种申请">
+      </div>
 
+      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus!='未提交'"
+           class="panel pr-panel pr-panel-height mgb">
+        <div class="mgb-l">
+          <h1 class="pr-font-18 mgb">审批意见</h1>
+          <div class="mgb" ng-repeat="item in showData.eventRecords">
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'">{{item.event.name}} : <em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人：</em> <em>{{item.inputUser}}</em></span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+            <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
+          </div>
+        </div>
+        <div class="mgb-l"></div>
+      </div>
 
-      <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
-        <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
-        <span class="mgl">
-          <a ng-if="formData.id && formData.proposerName==mainStatus.name"
-             href="javascript:;"
-             class="color-red"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="删除后将无法恢复,确认删除?"
-             dialog-template="pr-dialog-submit.html"
-             callback="$root.goTo('#/firstMedicalApplication/query.html')"
-             params='{"id":showData.id}'
-             request-url="rest/authen/firstMedicalApplication/delete">删除</a>
-        </span>
-        <span class="mgl">
+      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过'" class="mgb text-right">
+        <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
+      </div>
+    </div>
 
-
+    <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
+      <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+      <span class="mgl">
+        <a ng-if="showData.id && showData.proposerName==mainStatus.name"
+           href="javascript:;"
+           class="color-red"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="删除后将无法恢复,确认删除?"
+           dialog-template="pr-dialog-submit.html"
+           callback="$root.goTo('#/firstMedicalApplication/query.html')"
+           params='{"id":showData.id}'
+           request-url="rest/authen/firstMedicalApplication/delete">删除</a>
+      </span>
+      <span class="mgl">
         <button class="pr-btn-save-glodbg"
                 type="button"
                 ajax-url-submit="rest/authen/firstMedicalApplication/proposerUpdateStatus"
                 params='{"id":showData.id,"orderStatus":"待审批"}'
                 alert-error
                 scope-data="showData"
-              >提交审批
+                callback="$root.utils.refreshHref()">提交审批
         </button>
-        <!-- <div  class="mgb text-right">
-          <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
-            <button type="button" class="pr-btn-save-glodbg mgl">打印</button>
-
-        </span> -->
-      </div>
-
-
-  </div>
+      </span>
+    </div>
 </div>

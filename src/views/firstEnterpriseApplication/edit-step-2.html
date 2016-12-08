@@ -1,8 +1,8 @@
 <div class="content-wrapper first-medical-application"
-     ng-controller="firstEnterpriseCtrl"
+     ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback=""
+     callback="initFlag=true;watchFormChange('formData')"
      alert-error>
   <div class="page-header-info">
     <h1>首营企业申请</h1>
@@ -17,8 +17,8 @@
   <!-- 主体内容 -->
   <div class="content-wrapper-main mgt">
     <form class="form-horizontal"
-          id="firstMedical-editForm"
-          name="firstMedicalEditForm"
+          id="first-enterprise-editForm"
+          name="firstEnterpriseEditForm"
           form-validator
           parameter-body
           action="rest/authen/firstEnterpriseApplication/saveApplyReason?validateFlag=true"
@@ -27,7 +27,7 @@
           scope-error-msg="errorMsg"
           scope-data="formData"
           novalidate="true"
-          callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-3.html')">
+          callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-3.html');watchFormChange('formData')">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo}}</em></span>
@@ -59,17 +59,18 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                  ng-disabled="!formData.applyReason || firstMedicalEditForm.applyReason.$pristine"
-                  ng-click="submitForm('firstMedical-editForm','save')">保存
+                  ng-disabled="!changeFlag || !formData.applyReason || firstMedicalEditForm.applyReason.$pristine"
+                  ng-click="submitForm('first-enterprise-editForm','save')">保存
           </button>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg" ng-disabled="" ng-click="pageTo('#/firstEnterpriseApplication/edit.html?id='+formData.id)">上一步</button>
+          <button class="pr-btn-save-glodbg"
+                  ng-click="pageTo('#/firstEnterpriseApplication/edit.html?id='+formData.id)">上一步</button>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
                   ng-disabled="!formData.applyReason"
-                  ng-click="submitForm('firstMedical-editForm','submit')">下一步
+                  ng-click="submitForm('first-enterprise-editForm','submit')">下一步
           </button>
         </span>
       </div>

@@ -1,0 +1,159 @@
+<div class="content-wrapper first-medical-application"
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/authen/hospitalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData')"
+     alert-error>
+  <div class="page-header-info">
+    <h1>医院资格申请</h1>
+    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
+  </div>
+  <!-- 添加流程导航 -->
+  <div class="first-medical-nav text-right">
+    <span>基本信息</span>
+    <span>申请原因</span>
+    <span class="active">添加审核资料</span>
+  </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper-main mgt">
+    <form class="form-horizontal"
+          id="hospital-editForm"
+          name="hospitalEditForm"
+          form-validator
+          parameter-body
+          action="rest/authen/hospitalApplication/saveAttachments?validateFlag=true"
+          alert-error
+          alert-ok
+          scope-error-msg="errorMsg"
+          scope-data="formData"
+          novalidate="true"
+          callback="submitFormAfter('#/hospitalApplication/get.html');watchFormChange('formData')">
+      <!-- 单号 -->
+      <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+        <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo}}</em></span>
+        <span class="current-status flex-item-1">
+          <strong>状态：{{formData.orderStatus}}</strong>
+        </span>
+      </div>
+      <!-- 基本信息 -->
+      <div class="panel pr-panel pr-panel-height mgb">
+        <h1 class="pr-font-18 mgb">审核资料</h1>
+        <div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>资料名称</th>
+                <th>上传人</th>
+                <th>上传日期</th>
+                <th>有效日期</th>
+                <th>附件</th>
+                <th>备注</th>
+                <th class="text-center">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in formData.attachments">
+                <td>{{$index + 1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.uploadUserName}}</td>
+                <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
+                <td>
+                  <input type="text"
+                         datepicker
+                         class="ipt pr-short-ipt color-6"
+                         ng-readonly="true"
+                         placeholder="有效日期至"
+                         ng-model="item.guaranteePeriod">
+                </td>
+                <td>
+                  <p ng-if="item.attachmentUrl"><img src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
+                  <p ng-if="!item.attachmentUrl"><img src="{{item.attachmentUrl}}" alt=""/></p>
+                  <p>
+                    <button type="button"
+                            class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                            ng-init="upFile={}"
+                            uploader-one="rest/authen/fileUpload/upload.json"
+                            usege="首营品种申请"
+                            callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
+                            up-file="upFile" ng-model="item.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                    </button>
+                  </p>
+                </td>
+                <td>
+                  <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
+                </td>
+                <td class="text-center">
+                  <a ng-if="item.canDeleteFlag" ng-click="formData.attachments.splice($index);" href="javascript:;" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
+                </td>
+              </tr>
+            </tbody>
+            <!-- 添加资料 -->
+            <tfoot ng-init="addAttachment={}">
+              <tr>
+                <td colspan="7">
+                  <h1 class="pr-font-16">添加附件</h1>
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><input type="text" name="name" class="ipt" placeholder="资料名称" ng-model="addAttachment.name"></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效期" ng-readonly="true" ng-model="addAttachment.guaranteePeriod"></td>
+                <td>
+                  <p ng-if="addAttachment.attachmentUrl"><img ng-src="{{addAttachment.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
+                  <button type="button"
+                          class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                          ng-init="upFile={}"
+                          uploader-one="rest/authen/fileUpload/upload.json"
+                          usege="首营品种申请"
+                          callback="addAttachment.uploadUserId='{{$root.curUser.id}}';addAttachment.uploadUserName='{{$root.curUser.name}}'"
+                          up-file="upFile" ng-model="addAttachment.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                  </button>
+                </td>
+                <td>
+                  <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="addAttachment.note"></textarea>
+                </td>
+                <td>
+                  <a ng-click="addAttachment.canDeleteFlag=true;formData.attachments.push(addAttachment);addAttachment={}" href="javascript:;" class="pr-add-circle"><span class="fa fa-plus-circle"></span></a>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <!-- 功能按钮 -->
+      <div class="mgb text-right">
+        <span class="mgl"><a href="#/hospitalApplication/query.html">返回申请单列表</a></span>
+        <span class="mgl">
+          <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+             href="javascript:;"
+             class="color-red"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="删除后将无法恢复,确认删除?"
+             dialog-template="pr-dialog-submit.html"
+             callback="$root.goTo('#/hospitalApplication/query.html')"
+             params='{"id":formData.id}'
+             request-url="rest/authen/hospitalApplication/delete">删除</a>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled="!changeFlag"
+                  ng-click="submitForm('hospital-editForm','save')">保存
+          </button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg" ng-click="pageTo('#/hospitalApplication/edit-step-2.html?id='+formData.id)">上一步</button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled=""
+                  ng-click="submitForm('hospital-editForm','submit')">预览申请单
+          </button>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>

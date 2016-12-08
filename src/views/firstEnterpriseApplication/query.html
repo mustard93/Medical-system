@@ -1,5 +1,5 @@
 <div class="content-wrapper first-medical-application first-enterprise-application"
-     ng-controller="firstEnterpriseCtrl"
+     ng-controller="QualificationApplyCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
   <!-- 模块标题及面包屑 -->
   <div class="page-header-info">
@@ -20,7 +20,7 @@
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
         <div class="pos-abs order-create-btn">
-          <a href="#/firstEnterpriseApplication/edit.html" title="新建首营品种"><i></i><span class="text-s"></span></a>
+          <a href="#/firstEnterpriseApplication/edit.html" title="新建首营品种"><i></i><span class="text-s">新建首营企业申请</span></a>
         </div>
         <div class="order-status-btn pos-tr text-right"
              ajax-url="rest/authen/firstEnterpriseApplication/countByOrderStatus.json"
@@ -56,9 +56,18 @@
                 <div class="flex-column mgb card-title-height" style="height:24px;line-height:24px;">
                   <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
-                    <a ng-if="tr.orderStatus=='未提交'" href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}">编辑</a>
-                    <a ng-if="tr.orderStatus!='未提交' && tr.orderStatus!='待审批'" href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">查看详情</a>
-                    <a ng-if="tr.orderStatus=='待审批'" href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl">立即审批</a>
+                    <a class="mgl"
+                       ng-if="tr.orderStatus=='未提交'"
+                       ng-href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}">编辑</a>
+                    <a class="mgl"
+                       ng-if="tr.orderStatus=='未通过'"
+                       ng-href="#/firstEnterpriseApplication/edit.html?copyId={{tr.id}}">新建</a>
+                    <a class="mgl"
+                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')) || tr.orderStatus=='未通过'"
+                       ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">查看详情</a>
+                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                       class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                       ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">立即审批</a>
                   </span>
                 </div>
                 <div class="flex-column qurey text-s color-9">
@@ -104,20 +113,9 @@
                       <div style="height:100px;overflow:hidden;">{{tr.applyReason || '暂无'}}</div>
                     </div>
                     <div class="flex-item-6 pd">
-                      <p ng-init="department1=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','商务部')">
-                        商务部：{{department1.status || '待审批'}}
-                      </p>
-                      <p ng-init="department2=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','商务部经理')">
-                        商务部经理：{{department2.status || '待审批'}}
-                      </p>
-                      <p ng-init="department3=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','运营部')">
-                        运营部：{{department3.status || '待审批'}}
-                      </p>
-                      <p ng-init="department4=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','质管部')">
-                        质管部：{{department4.status || '待审批'}}
-                      </p>
-                      <p ng-init="department5=utils.getObjectByKeyOfArr(tr.investigateForms,'investigateType','分管总监')">
-                        分管总监：{{department5.status || '待审批'}}
+                      <p ng-repeat="eventRecord in tr.eventRecords">
+                        <span>{{eventRecord.event.id}}：</span>
+                        <span ng-class="{'color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</span>
                       </p>
                     </div>
                   </div>

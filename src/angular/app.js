@@ -20,7 +20,7 @@ require.config({
     waitSeconds: 0,
     baseUrl: require.dir + 'modules',
     paths: {
-        'WorkflowProcess': '../modules/workflow/WorkflowProcess',
+        'WorkflowProcess': '../libs/workflow/WorkflowProcess',//工作流
         'JTopo': '../libs/jtopo-0.4.8.min',
         'jQuery': '../libs/jquery.min',                         //jQuery
         'underscore': '../libs/underscore/underscore-1.5.2.min',
@@ -35,9 +35,9 @@ require.config({
         'nicescroll': '../libs/jquery-nicescroll.min',          //滚动条美化
         'easypiechart': '../libs/easypiechart/angular.easypiechart',    //jQuery饼图
         'icheck': '../libs/jquery.icheck.min',                  //checkbox美化
-          'morris': '../libs/morris-chart/morris.min',                         //日历插件
-            'toastr': '../libs/toastr/toastr.min',   //提示窗口
-            'raphael': '../libs/morris-chart/raphael.min',                         //日历插件
+        'morris': '../libs/morris-chart/morris.min',                         //日历插件
+        'toastr': '../libs/toastr/toastr.min',   //提示窗口
+        'raphael': '../libs/morris-chart/raphael.min',                         //日历插件
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
     shim: {

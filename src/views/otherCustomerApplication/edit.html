@@ -1,263 +1,295 @@
-<div class="modal-content" ng-controller="editCtrl"
-  ajax-url="rest/authen/otherCustomerApplication/getOfEdit.json?id={{tr.id}}"
-  scope-data="formData"
-  callback="initFlag=true">
-  <form class="add-customerAddress-form form-horizontal"
-        action="rest/authen/otherCustomerApplication/save"
-        alert-error
-        alert-ok
-        parameter-body
-        form-validator>
-    <div class="modal-header">
-        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}其他客户申请表</h4>
-    </div>
-    <div class="modal-body">
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">申请单编号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.applicationNumber"/>
-          </div>
+<div class="content-wrapper hospital-application first-medical-application"
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/authen/otherCustomerApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData')"
+     alert-error
+     ng-init="formData.validFlag=false">
+  <div class="page-header-info">
+    <h1>经销商/零售商资格申请</h1>
+    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
+  </div>
+  <!-- 添加流程导航 -->
+  <div class="first-medical-nav text-right">
+    <span class="active">基本信息</span>
+    <span>申请原因</span>
+    <span>添加审核资料</span>
+  </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper-main mgt">
+    <form class="form-horizontal"
+          id="otherCustomer-editForm"
+          name="otherCustomerEditForm"
+          form-validator
+          parameter-body
+          action="rest/authen/otherCustomerApplication/saveBaseInfo"
+          alert-error
+          alert-ok
+          scope-error-msg="errorMsg"
+          scope-data="formData"
+          novalidate="true"
+          callback="submitFormAfter('#/otherCustomerApplication/edit-step-2.html');watchFormChange('formData')">
+      <!-- 单号 -->
+      <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+        <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
+        <span class="current-status flex-item-1">
+          <strong>状态：{{formData.orderStatus}}</strong>
+        </span>
       </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">申请单状态</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.applicationStatus" disabled="true"/>
+      <!-- 基本信息 -->
+      <div class="panel pr-panel pr-panel-height mgb">
+        <h1 class="pr-font-18 mgb mgt">基本信息</h1>
+        <!-- 企业信息 -->
+        <div>
+          <h3 class="bb-line pd-v text-bold mgb-m">经销商/零售商信息：</h3>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">企业类别：</label>
+                <div class="col-sm-10">
+                  <label class="radio-inline">
+                    <input type="radio" name="type" value="批发商" ng-model="formData.customer.type" required> 批发商
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="type" value="零售商" ng-model="formData.customer.type" required> 零售商
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">客户全称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.fullName">
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <h4 class="modal-title">客户基本信息：</h4>
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">客户全称</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.fullName"/>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">企业地址：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.address">
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">企业简称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.shortName">
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-lg-2 col-sm-2 control-label">企业类别</label>
-        <div class="col-lg-2 col-sm-2 control-label" ng-init="formData.customer.type='批发商'">
-
-          <label><input type="radio" name="type" value="批发商" ng-model="formData.customer.type">批发商</label>
-          <label><input type="radio" name="type" value="零售商" ng-model="formData.customer.type">零售商</label>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">法人代表/身份证：</label>
+                <div class="col-sm-6 flex-column">
+                  <input type="text" class="form-control flex-item-3" ng-model="formData.customer.legalRepresentative">
+                  <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.credentialsNo">
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">GMP/GSP证书号：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.gspCertificateNo">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">经营许可证号：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.productionLicenseNo">
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">注册资金：</label>
+                <div class="col-sm-6">
+                  <input type="number" class="form-control" ng-model="formData.customer.registeredCapital">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">税号：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.taxNo">
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">营业执照号：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.businessLicenseNo">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">营业期限：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.busnissAllotedTime">
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">开户银行：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.accountBank">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">开户账号：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.accountNumber">
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">开户名称：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.accountName">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">付款方式：</label>
+                <div class="col-sm-3 flex-column">
+                  <select ng-if="initFlag"
+                          class="select select-w"
+                          data-placeholder="选择一个..."
+                          chosen
+                          ng-model="formData.customer.paymentMethod"
+                          select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PayType">
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 收货员信息 -->
+        <div>
+          <h3 class="bb-line pd-v text-bold mgb">经销商/零售商收货员信息：</h3>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">收货员/身份证号：</label>
+                <div class="col-sm-6 flex-column">
+                  <input type="text" class="form-control flex-item-3" ng-model="formData.customer.consignee">
+                  <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.consigneeIdentityNo">
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">联系电话：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.consigneePhone">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">E-mail：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.consigneeEmail">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 采购员信息 -->
+        <div>
+          <h3 class="bb-line pd-v text-bold mgb">经销商/零售商采购员信息：</h3>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">采购员/身份证号：</label>
+                <div class="col-sm-6 flex-column">
+                  <input type="text" class="form-control flex-item-3" ng-model="formData.customer.purchaser">
+                  <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.purchaserIdentityNo">
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">联系电话：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.purchaserPhone">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">E-mail：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.customer.purchaserEmail">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 拟售产品 -->
+        <div class="pd-v-l bt-line">
+          <h1 class="mgb-l text-bold">拟售产品：</h1>
+          <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.customer.saleProducts"></textarea>
         </div>
       </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">企业地址</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.address"/>
-          </div>
+      <!-- 功能按钮 -->
+      <div class="mgb text-right">
+        <span class="mgl"><a href="#/otherCustomerApplication/query.html">返回申请单列表</a></span>
+        <span class="mgl">
+          <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+             href="javascript:;"
+             class="color-red"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="删除后将无法恢复,确认删除?"
+             dialog-template="pr-dialog-submit.html"
+             callback="$root.goTo('#/otherCustomerApplication/query.html')"
+             params='{"id":formData.id}'
+             request-url="rest/authen/otherCustomerApplication/delete">删除</a>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg"
+                  ng-disabled="!changeFlag"
+                  ng-click="submitForm('otherCustomer-editForm','save')">保存
+          </button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg"
+                  ng-click="submitForm('otherCustomer-editForm','submit')">下一步
+          </button>
+        </span>
       </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">企业简称</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.shortName"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">法人代表</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.legalRepresentative"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">证件号码</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.credentialsNo"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">GSP证书号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.gspCertificateNo"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">生产许可证号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.productionLicenseNo"/>
-          </div>
-      </div>
-
-      <!-- <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label text-left">经营范围</label>
-          <div class="col-lg-10 col-sm-10">
-
-            <select ng-if="initFlag" class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.firstEnterprise.businessScope" chosen
-                    select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_BusinessScope">
-            </select>
-
-          </div>
-      </div> -->
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">注册资金</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.registeredCapital"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">税号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.taxNo"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">营业执照号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.businessLicenseNo"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">营业期限</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.busnissAllotedTime"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">收货人员</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.consignee"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">身份证号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.consigneeIdentityNo"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">联系电话</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.consigneePhone"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">邮箱</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.consigneeEmail"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">开户银行</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.accountBank"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">开户账号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.accountNumber"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">开户名称</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.accountName"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">付款方式</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.paymentMethod"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">采购人员</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.purchaser"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">身份证号</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.purchaserIdentityNo"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">联系电话</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.purchaserPhone"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">邮箱</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData.customer.purchaserEmail"/>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">拟售产品</label>
-          <div class="col-lg-10 col-sm-10">
-              <textarea class="form-control" placeholder="" ng-model="formData.customer.saleProducts"/>
-          </div>
-      </div>
-
-      <h4 class="modal-title">申请原因：</h4>
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">申请原因</label>
-          <div class="col-lg-10 col-sm-10">
-              <textarea class="form-control" placeholder="" ng-model="formData.applyReason"/>
-          </div>
-      </div>
-
-      <h4 class="modal-title">审核附件上传：</h4>
-      <div class="form-group"  ng-repeat="item in formData.attachments">
-          <div class="col-lg-10 col-sm-10">
-            {{item.name}}：{{item.uploadUserId}}:{{item.uploadUserName}}
-
-            有效日期至：<input type="date" class="ipt pr-short-ipt color-6" placeholder="有效日期至" convert-to-date ng-model="item.guaranteePeriod">
-
-              {{item.attachmentUrl}}
-
-
-              <button type="button" class="btn btn-default" ng-init="upFile={}"
-                                  uploader-one="rest/authen/fileUpload/upload.json" usege="其他客户申请"
-                                    callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
-                                   up-file="upFile" ng-model="item.attachmentUrl">
-
-                                      上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
-              </button>
-          </div>
-      </div>
-
-
-
-
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label"></label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="submit" class="btn pr-btn-create-glodbg" value="保存">
-          </div>
-      </div>
-
-
-
-
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

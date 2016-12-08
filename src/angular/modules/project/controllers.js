@@ -29,7 +29,7 @@ define('project/controllers', ['project/init'], function() {
 
           formData.customerName=customerAddress.name;
 
-          if(!customerAddress||!customerAddress.contacts||customerAddress.contacts.length==0){
+          if(!customerAddress||!customerAddress.contacts||customerAddress.contacts.length===0){
 
             formData.contactsId=null;
             return;
@@ -365,6 +365,9 @@ define('project/controllers', ['project/init'], function() {
 
        //启动消息定时获取
        $rootScope.startGetMsg = function(){
+           if(Config.stopIntervalNotice===true){
+              return;
+           }
            if($rootScope.startGetMsgObj)return;
              $rootScope.startGetMsgObj=$interval(function(){
                 $rootScope.noticeRefreshTime=new Date().getTime();
@@ -664,9 +667,14 @@ define('project/controllers', ['project/init'], function() {
       }//intervalCtrl
 
     /**
-     * 首营品种
+     * 首营品种、首营企业、医院资格申请通用控制器
      */
-    function firstMedicalCtrl ($scope, modal, alertWarn, requestData, alertOk, alertError, $rootScope) {
+    function QualificationApplyCtrl ($scope, watchFormChange) {
+
+      $scope.watchFormChange = function(watchName){
+        watchFormChange(watchName,$scope);
+      };
+
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
@@ -678,66 +686,20 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.submitFormAfter = function (_url) {
         if ($scope.submitForm_type === 'submit') {
-          // $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+$scope.formData.id);
           $scope.goTo(_url + '?id=' + $scope.formData.id);
         }
       };
 
-      //清空当前列的审核资料
-      $scope.resetThisItem = function (item) {
-        if (angular.isObject(item)) {
-          item.uploadUserName = null;
-          item.uploadTime = null;
-          item.guaranteePeriod = null;
-          item.attachmentUrl = null;
-          item.note = null;
-        }
+      // 删除当前列的审核资料
+      $scope.deleteThisItem = function (index) {
+        $scope.formData.attachments.splice(index);
       };
 
       //添加自定义审核资料
       $scope.addCustomExamineItem = function () {
-        console.log($scope.formData.addCustomExamineItem);
         if ($scope.formData.addCustomExamineItem.name) {
-          $scope.formData.attachments.push($scope.formData.addCustomExamineItem);
-        }
-      };
-    }
-
-    /**
-     * 首营企业
-     */
-    function firstEnterpriseCtrl ($scope, modal, alertWarn, requestData, alertOk, alertError, $rootScope) {
-      $scope.submitForm = function(fromId, type) {
-         $scope.submitForm_type = type;
-
-         if ($scope.submitForm_type == "submit") {
-           $scope.formData.validFlag = true;
-         }
-        $("#" + fromId).trigger("submit");
-      };
-
-      $scope.submitFormAfter = function (_url) {
-        if ($scope.submitForm_type === 'submit') {
-          // $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+$scope.formData.id);
-          $scope.goTo(_url + '?id=' + $scope.formData.id);
-        }
-      };
-
-      //清空当前列的审核资料
-      $scope.resetThisItem = function (item) {
-        if (angular.isObject(item)) {
-          item.uploadUserName = null;
-          item.uploadTime = null;
-          item.guaranteePeriod = null;
-          item.attachmentUrl = null;
-          item.note = null;
-        }
-      };
-
-      //添加自定义审核资料
-      $scope.addCustomExamineItem = function () {
-        console.log($scope.formData.addCustomExamineItem);
-        if ($scope.formData.addCustomExamineItem.name) {
+          // 添加是否可删除标识
+          $scope.formData.addCustomExamineItem.isDel = true;
           $scope.formData.attachments.push($scope.formData.addCustomExamineItem);
         }
       };
@@ -750,18 +712,32 @@ define('project/controllers', ['project/init'], function() {
 
 
       /**
+       切换button顺序
+      */
+      $scope.switchButtons = function(buttons,ind,ind2) {
+        var tmp=buttons[ind];
+        buttons[ind]=buttons[ind2];
+        buttons[ind2]=tmp;
+
+    };
+      /**
       保存节点信息（新建or创建）
       */
       $scope.addEventButtons = function(formData1) {
         if(!formData1)formData1={};
         if(!formData1.didateFilter)formData1.didateFilter={};
         if(!formData1.didateFilter.buttons)formData1.didateFilter.buttons=[];
-        var btnForm={type:"通过",buttonName : "审核通过",requestMethod : "POST",requestMethod : "KeyValue"
-              ,requestUrl : "rest/authen/workflowTask/run.json"
-                };
+        var btnForm = {
+          type: "通过",
+          buttonName: "审核通过",
+          requestMethod: "POST",
+          conditionType:"通过",
+          requestParam: "KeyValue",
+          requestUrl : "rest/authen/workflowTask/run.json"
+        };
         formData1.didateFilter.buttons.push(btnForm);
 
-    }
+    };
       /**
       保存节点信息（新建or创建）
       */
@@ -769,11 +745,15 @@ define('project/controllers', ['project/init'], function() {
         if(!$scope.formData.events)$scope.formData.events=[];
         var events=$scope.formData.events;
         var isInsert=true;
+        //防止"" 保存到后台,枚举报错bug.
+        if(!event1.conditionType)event1.conditionType=null;
         if(event1.id){
-            var eventTmp=$rootScope.utils.getObjectByKeyOfArr(events,'id',event1.id);
-            if(eventTmp){
-                event1.id=event1.name;
-                eventTmp=$.extend(true,eventTmp,event1);
+            var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);
+              var eventTmp=$rootScope.utils.getObjectByKeyOfArr(events,'id',event1.id);
+              eventTmp.id=eventTmp.name;
+            if(ind>-1){
+                events[ind]=event1;
+
                 isInsert=false;
             }
         }
@@ -783,6 +763,8 @@ define('project/controllers', ['project/init'], function() {
               event1.id=event1.name;
              events.push(event1);
         }
+
+        console.log(event1);
 
         if($scope.scopeExtend&&$scope.scopeExtend.workflow){
           $scope.scopeExtend.workflow.reload();
@@ -812,9 +794,8 @@ define('project/controllers', ['project/init'], function() {
 
 
     angular.module('manageApp.project')
-    .controller('firstEnterpriseCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", firstEnterpriseCtrl])
     .controller('editWorkFlowProcessCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl])
-    .controller('firstMedicalCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", firstMedicalCtrl])
+    .controller('QualificationApplyCtrl', ["$scope", "watchFormChange", QualificationApplyCtrl])
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
     .controller('intervalCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", intervalCtrl])
     .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])

@@ -1,5 +1,5 @@
 <div class="content-wrapper"
-     ajax-url="rest/authen/arrivalNoticeOrder/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
+     ajax-url="rest/authen/arrivalNoticeOrder/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="showData"
      callback="formData.note=showData.note;formData.id=showData.id;"
      alert-error>
@@ -71,7 +71,7 @@
             <th class="w-70 text-center">灭菌批号</th>
             <th class="w-186 text-center">注册证号</th>
             <th class="w-80 text-center">生产日期</th>
-            <th class="w-80 text-center">有效期</th>
+            <th class="w-80 text-center">有效期至</th>
             <th class="w-90 text-center">库类型</th>
             <th class="w-120 text-center">入库状态</th>
           </thead>
@@ -94,11 +94,11 @@
               </td>
               <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
               <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.productionBatch}}</td>
-              <td class="has-border text-center text-v-t pd-m"></td><!--灭菌批号-->
+              <td class="has-border text-center text-v-t pd-m">{{tr.batchNumber}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.sterilizationBatchNumber}}</td><!--灭菌批号-->
               <td class="has-border text-center text-v-t pd-m">{{tr.drugAdministrationCode}}</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.productionDate}}</td>
-              <td class="has-border text-center text-v-t pd-m">{{tr.guaranteePeriod}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.productionDate | date: 'yyyy-MM-dd'}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.validTill | date: 'yyyy-MM-dd'}}</td>
               <td class="has-border text-center text-v-t pd-m">{{tr.stockType}}</td>
               <td class="has-border text-center text-v-t pd-m">
                 <p class="text-s color-6">{{tr.progress}}%</p>
@@ -170,8 +170,8 @@
                   request-url="rest/authen/arrivalNoticeOrder/updateStatus.json"
                   call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管
           </button> -->
-
-          <button ng-if="showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
+<!--
+          <button ng-if="(!showData.didateFilter.buttons.length>0 )&&showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
                 ng-disabled="formData.note!=showData.note"
                   class="pr-btn-save-glodbg"
                   type="button"
@@ -185,17 +185,16 @@
           </button>
 
           <span class="mgr-l"
-                ng-if="!showData.didateFilter.buttons&& showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+                ng-if="!showData.didateFilter.buttons && showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
                 ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'来货通知单驳回理由',msg:'驳回后，该来货通知单将作废。确认驳回?',formData:{businessKey:showData.relId,conditionType:'驳回',type:'来货通知单',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
                 <a href="javascript:;"
                    modal-center="490"
                    modal-scope="this"
                    modal-url="views/public/dialog-check-reject.html">驳回</a>
-          </span>
+          </span> -->
 
-      <span ng-if="showData.didateFilter.buttons"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
-
-        <button ng-if="!showData.didateFilter.buttons&& showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+    <!--
+        <button ng-if="(!showData.didateFilter.buttons.length>0 )&& showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
                   class="pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
@@ -206,7 +205,7 @@
                   request-url="rest/authen/workflowTask/run.json"
                   call-back="$root.utils.refreshHref()">审批通过
         </button>
-        <button ng-if="showData.orderStatus=='待入库' && $root.hasAuthor('确认入库')"
+        <button ng-if="(!showData.didateFilter.buttons.length>0 )&& showData.orderStatus=='待入库' && $root.hasAuthor('确认入库')"
                   class="pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
@@ -216,7 +215,16 @@
                   params='{"businessKey":showData.relId,"type":"来货通知单"}'
                   request-url="rest/authen/workflowTask/run.json"
                   call-back="$root.utils.refreshHref()">确认入库
-        </button>
+        </button> -->
+
+        <span ng-if="formData&& showData.didateFilter.buttons.length>0"
+
+          before-if-eval="formData.id&& formData.note!=showData.note"
+          before-ajax-url-submit="rest/authen/arrivalNoticeOrder/updateNote"
+          before-ajax-params="formData"
+
+           custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
+
       </span>  <!-- 操作 -->
     </div>
   </div><!-- class="content-wrapper-main"-->

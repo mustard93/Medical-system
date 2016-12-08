@@ -405,24 +405,42 @@ function alertOk($rootScope, modal) {
                 return (firstLetter === '{' || firstLetter === '[') ? angular.fromJson(jsonString) : new String(jsonString);
 
             },
+            //获取有指定key的scope作用域。
+            getAppointScope  : function ($scope,scopeKey) {
+
+                if($scope[scopeKey]){
+                  return $scope;
+                }
+                if(!$scope.$parent)return null;
+                return utilsObj.getAppointScope($scope.$parent,scopeKey);
+            },
                 //在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
                 getScopeExtend  : function ($scope,scopeExtendName) {
 
                     if(  angular.isObject($scope[scopeExtendName])){
                       return $scope[scopeExtendName];
                     }
-                    if(!$scope.$parent)return;
+                    if(!$scope.$parent)return null;
                     return utilsObj.getScopeExtend($scope.$parent,scopeExtendName);
+                },
+                //  url 存在则跳转，否则刷新。
+                goOrRefreshHref  : function (url,confirmMsg) {
+
+                    if(url){
+                       utilsObj.goTo(url,confirmMsg);
+                       return;
+                    }
+                    utilsObj.refreshHref(confirmMsg);
                 },
                 //  跳转到对应页面 utils.goTo(url,confirmMsg);
                 refreshHref  : function (confirmMsg) {
                     var url=window.location.href;
-
-                    if (url.indexOf('&') > -1) {
-                      url = url.split('&')[0];
+                    //避免参数越来越多
+                    if (url.indexOf('refreshTime=') > -1) {
+                      url = url.split('refreshTime=')[0];
                     }
 
-                    url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+                    url+=(url.indexOf("?")>-1?"&":"?")+"refreshTime="+new Date().getTime();
 
                     if(confirmMsg){
                       dialogConfirm(confirmMsg, function () {
@@ -482,19 +500,20 @@ function alertOk($rootScope, modal) {
 
 
 
-        //监听内容修改标志
-        function watchFormChange($timeout) {
-            return function (watchName, $scope) {
-                //延迟初始化修改标志
-                 $timeout(function () {
-                          $scope.changeFlag=false;
-                      },500);
+    //监听内容修改标志
+    function watchFormChange($timeout) {
+      return function (watchName, $scope) {
+        //延迟初始化修改标志
+         $timeout(function () {
+            $scope.changeFlag=false;
+          },500);
 
-                  $scope.$watch(watchName,function(newValue,oldValue, scope){
-                          $scope.changeFlag=true;
-                   },true);
-            };
-          }//watchFormChange
+          $scope.$watch(watchName,function(newValue,oldValue, scope){
+            $scope.changeFlag=true;
+          },true);
+      };
+    }//watchFormChange
+
     angular.module('manageApp.main')
         .service('watchFormChange', ["$timeout",watchFormChange])
       .factory('redirectInterceptor', redirectInterceptor)

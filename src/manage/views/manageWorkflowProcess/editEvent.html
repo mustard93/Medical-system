@@ -67,6 +67,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">action</label>
                 <div class="col-lg-10 col-sm-10">
+
                   <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择执行动作" ng-model="formData1.action"
                   chosen default-empty  multiple select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_EventActionEnum"
                   >
@@ -181,7 +182,7 @@
                 <div class="form-group" >
                   <label class="col-lg-2 col-sm-2 control-label">请求路径</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择请求路径" ng-model="tr.requestMethod"
+                    <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择请求路径" ng-model="tr.requestUrl"
 
                     params='{"type":"工作流请求路径"}'
                     chosen select-source="rest/baseData/queryForSelectOptionByType.json"
@@ -199,7 +200,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">conditionType</label>
+                  <label class="col-lg-2 col-sm-2 control-label">菜单类型</label>
                   <div class="col-lg-10 col-sm-10">
                     <select ng-if="initFlagEvent"  default-empty  class="ipt pr-short-ipt" data-placeholder="conditionType" ng-model="tr.conditionType"
                     chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_ConditionType"
@@ -208,9 +209,6 @@
                         <option value="驳回">驳回</option> -->
 
                     </select>
-                    <!-- <select ng-if="initFlagEvent"  class="select pr-select" ng-model="formData1.status" style="max-width:180px;" chosen
-                     select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_OrderType">
-                    </select> -->
                   </div>
                 </div>
 
@@ -233,7 +231,7 @@
                       >  </select>
                   </div>
                 </div>
-                <div class="form-group" >
+                <div class="form-group" ng-if="tr.conditionType=='驳回'">
                   <label class="col-lg-2 col-sm-2 control-label">驳回下拉选择理由</label>
                   <div class="col-lg-10 col-sm-10">
                     <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" default-empty   data-placeholder="选择菜单类型" ng-model="tr.alertSelect"
@@ -252,8 +250,17 @@
 
                   </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">回调callback-url</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="tr.callBackUrl" />
 
-                <a href="javascript:;" ng-click="formData1.didateFilter.buttons.splice($index,1);" class="text-center"><span class="fa fa-trash-o text-l"></span></a>
+                  </div>
+                </div>
+
+                <button   ng-click="formData1.didateFilter.buttons.splice($index,1);"  type="button" class="btn btn-default" > 删除  </button>
+                <button ng-if="$index>0"   ng-click="switchButtons(formData1.didateFilter.buttons,$index,$index-1)"  type="button" class="btn btn-default" > 上移  </button>
+                <button  ng-if="$index+1<formData1.didateFilter.buttons.length"   ng-click="switchButtons(formData1.didateFilter.buttons,$index,$index+1)" type="button" class="btn btn-default" > 下移  </button>
 
               </div><!-- end buttons-->
               <a   href="javascript:;" class="pr-add-circle"
