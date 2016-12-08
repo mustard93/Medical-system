@@ -85,17 +85,21 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             //defaultOptions.status.fillColor_ready
           showStatus:false,//true 表示显示节点运行状态
            status:{
-             fillColor_ready:"90,228,230",//未执行
-              fillColor_doing:"240,239,44",//执行中
-               fillColor_done:"80,230,30" //已完成
+             fillColor_ready:"199,167,123",//未执行
+              fillColor_doing:"163,174,0",//执行中
+               fillColor_done:"238,187,45" //已完成
            },
             data:null,
             //defaultOptions.scene.background
             scene:{
-                background:''
+                background:'',
+
             },
 
+
             node:{  //defaultOptions.node.fontColor
+              rejectNodefillColor: '229,229,229',//.node.rejectNodefillColor
+              rejectNodeFontColor: '153,153,153',
               clickCallback:null,
               fontColor:'0,0,0',
               image:"../images/logo.png"
@@ -188,7 +192,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
               //  this.scene.doLayout(JTopo.layout.TreeLayout('right', 25, 120));
                   // this.scene.doLayout(JTopo.layout.FlowLayout('right', 25, 120));
               //  var json=this.stage.toJson();
-              //  console.log(json);
+              //  console.log(json)
           },
           //添加工作流运行节点，用于显示各个状态。
           addWorkflowTaskData:function(data){
@@ -266,35 +270,54 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
               link.direction = this.options.link.direction;
               // link.strokeColor =this.options.status.fillColor_done;
 
-                link.strokeColor = '204,204,204';
-              link.lineWidth = 3;
+              link.strokeColor = '204,204,204';//连线之间的颜色
+              link.lineWidth = 3;//线段的粗细
+              // link.dashedPattern = dashedPattern; //虚线
               this.scene.add(link);
               return link;
           },
           //添加工作流节点
 
           addStartNode:function(key){
-            node = new JTopo.CircleNode(key);
-            node.radius = 24; // 半径
-            node.fillColor = '0, 0, 255'; // 填充颜色
-          //  node.textPosition = 'Middle_Center'; // 文本位置
-          return node;
+            node = new JTopo.Node(key);
+              node.setSize(120, 120);  // 尺寸
+                // node.fontColor = event1.fontColor||this.options.node.fontColor;
+            node.borderRadius = 11.2; // 圆角
+            // node.borderWidth = 2; // 边框的宽度
+            // node.borderColor = '255,255,255'; //边框颜色
+            node.fillColor = '199,167,123'; // 填充颜色
+              return node;
+
+          //   node = new JTopo.CircleNode(key);
+          //   node.radius = 24; // 半径
+          //   node.fillColor = '0,0, 255'; // 填充颜色
+          // //  node.textPosition = 'Middle_Center'; // 文本位置
+          // return node;
           },
           addNode:function(key){
             node = new JTopo.Node(key);
-              node.setSize(60, 60);  // 尺寸
+              node.setSize(148.8, 107.2);  // 尺寸
                 // node.fontColor = event1.fontColor||this.options.node.fontColor;
-            node.borderRadius = 5; // 圆角
-            node.borderWidth = 2; // 边框的宽度
-            node.borderColor = '255,255,255'; //边框颜色
+            node.borderRadius = 11.2; // 圆角
+            // node.borderWidth = 2; // 边框的宽度
+            // node.borderColor = '255,255,255'; //边框颜色
             node.fillColor = '110, 110, 255'; // 填充颜色
               return node;
           },
           addEndNode:function(key){
-            node = new JTopo.CircleNode(key);
-            node.radius = 24; // 半径
-            node.fillColor = '0, 0, 255'; // 填充颜色
+            // node = new JTopo.CircleNode(key);
+            // node.radius = 24; // 半径
+            // node.fillColor = '0,0,255'; // 填充颜色
+            //   return node;
+            node = new JTopo.Node(key);
+                node.setSize(120, 120);  // 尺寸
+                // node.fontColor = event1.fontColor||this.options.node.fontColor;
+            node.borderRadius = 11.2; // 圆角
+            // node.borderWidth = 2; // 边框的宽度
+            // node.borderColor = '255,255,255'; //边框颜色
+            node.fillColor = '238,187,45'; // 填充颜色
               return node;
+
           },
 
           addNodeByEvent:function(event1){
@@ -310,14 +333,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
               default:
                     node=this.addNode(name);
             }
-            switch (event1.conditionType) {
-              case "驳回":
-                        node.fontColor = '255,0, 0'; // 填充颜色
-                break;
 
-              default:
-                ;
-            }
 
 
             node.key=event1.name;
@@ -329,6 +345,18 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
 
             if(this.options.showStatus){
                 node.fillColor=this.options.status.fillColor_ready;
+            }
+
+
+            switch (event1.conditionType) {
+              case "驳回":
+                        node.fontColor = this.options.node.rejectNodeFontColor; // 填充颜色
+                        node.fillColor =this.options.node.rejectNodefillColor; // 填充颜色
+
+                break;
+
+              default:
+                ;
             }
 
             // node.alpha = 0.7; //透明度
