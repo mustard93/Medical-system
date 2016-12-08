@@ -130,8 +130,20 @@
                 <div class="flex-item-6 pd">
                   <h1 class="pd-v bb-line mgb-s">物流信息</h1>
                   <div ng-if="tr.kuaidiSet" class="flex-column"  ng-repeat="kuaidi in tr.kuaidiSet | limitTo:3">
-                    <span class="flex-item-5 mgr-0">{{kuaidi.type}}</span>
-                    <span class="flex-item-7"><a>{{kuaidi.nu}}</a></span>
+
+
+                                           <span class="flex-item-5 mgr-0">{{kuaidi.type}}</span>
+                                           <span class="flex-item-7">
+                                                               <a    href="javacript:;"
+                                                                  class="mgr"
+                                                                  modal-center="600"
+                                                                  modal-data='{"type":"{{kuaidi.type}}","nu":"{{kuaidi.nu}}"}'
+                                                                  modal-scope="this"
+                                                                  modal-url="views/kuaidi/query2.html">{{kuaidi.nu}}</a></span>
+
+                                         
+
+
                   </div>
                   <div ng-if="!tr.kuaidiSet" class="mgt">
                     暂无

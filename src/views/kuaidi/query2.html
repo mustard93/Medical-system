@@ -1,0 +1,59 @@
+<div     ng-init="listParams=dialogData">
+
+
+  <div class="page-heading">
+      <h1>快递信息</h1>
+  </div>
+    <!--body wrapper start-->
+    <table-list list-data="rest/index/kuaidi/query2.json" list-params="listParams">
+
+        <div class="wrapper">
+            <div class="loader" ng-if="status.isLoading">
+                <div class="loader-inner pacman">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div ng-if="!status.isLoading">
+                <div class="empty-wrap" ng-if="!tbodyList||tbodyList.length==0">
+                    <span>
+                        <i class="fa fa-inbox">
+                            <em>{{status.loadFailMsg||"什么也没有"}}</em>
+                        </i>
+                    </span>
+                </div>
+                <div ng-if="tbodyList.length">
+
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+
+                                <th>序号</th>
+                                  <th>时间</th>
+                                <th>内容</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="tr in tbodyList">
+
+                                <td>{{$index + 1}}</td>
+                                <td>{{tr.updateAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                                <td>{{tr.context}}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="clearfix">
+                        <div class="fr">
+                            <pagination status="status"></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </table-list>
+</div>
