@@ -186,12 +186,12 @@
       </div>
 
       <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过'" class="mgb text-right">
-        <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
+        <span class="mgl"><a href="#/hospitalApplication/query.html">返回申请单列表</a></span>
       </div>
     </div>
 
     <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
-      <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+      <span class="mgl"><a href="#/hospitalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
       <span class="mgl">
         <a ng-if="showData.id && showData.proposerName==mainStatus.name"
            href="javascript:;"
@@ -200,14 +200,14 @@
            dialog-title="确认删除?"
            dialog-content="删除后将无法恢复,确认删除?"
            dialog-template="pr-dialog-submit.html"
-           callback="$root.goTo('#/firstMedicalApplication/query.html')"
+           callback="$root.goTo('#/hospitalApplication/query.html')"
            params='{"id":showData.id}'
-           request-url="rest/authen/firstMedicalApplication/delete">删除</a>
+           request-url="rest/authen/hospitalApplication/delete">删除</a>
       </span>
       <span class="mgl">
         <button class="pr-btn-save-glodbg"
                 type="button"
-                ajax-url-submit="rest/authen/firstMedicalApplication/proposerUpdateStatus"
+                ajax-url-submit="rest/authen/hospitalApplication/proposerUpdateStatus"
                 params='{"id":showData.id,"orderStatus":"待审批"}'
                 alert-error
                 scope-data="showData"
