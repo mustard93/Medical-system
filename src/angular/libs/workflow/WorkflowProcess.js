@@ -34,6 +34,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             var nodes=[];
               for(var i=0;i<childs.length;i++){
                 var e=childs[i];
+                e.textPosition = 'Middle_Center';//设置字体出现的位置居中
                 if(e instanceof JTopo.Node&&e.parentKey==parentKey){
                   nodes.push(e);
                 }
@@ -86,8 +87,8 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
           showStatus:false,//true 表示显示节点运行状态
            status:{
              fillColor_ready:"199,167,123",//未执行
-              fillColor_doing:"163,174,0",//执行中
-               fillColor_done:"238,187,45" //已完成
+              fillColor_doing:"238,187,45",//执行中
+               fillColor_done:"163,174,0" //已完成
            },
             data:null,
             //defaultOptions.scene.background
@@ -129,8 +130,6 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
           this.currentNode=null;
           this.data=null;
           this.workflowTaskData=null;
-
-
           if(this.options.data){
               this.addWorkflowProcess(this.options.data);
           }
@@ -198,11 +197,10 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
           addWorkflowTaskData:function(data){
             if(!data)return;
             this.workflowTaskData=data;
-
             console.log("addWorkflowTaskData.data=");
             console.log(data);
-
             this.showWorkflowTaskData();
+
           },
           //显示节点状态
           showWorkflowTaskData:function(){
@@ -246,6 +244,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
                var nodeZ=this.getEventByName(event1.targetRef);
                if(nodeZ)this.addLink(node,nodeZ);
            }
+            console.log(node);
          },
             //添加2个节点得链接
            addLink:function(nodeA, nodeZ){
@@ -265,14 +264,13 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
 
                 // link.strokeColor = JTopo.util.randomColor(); // 线条颜色随机
 
-
                 //  node.fillColor=this.options.status.fillColor_done;
               link.direction = this.options.link.direction;
               // link.strokeColor =this.options.status.fillColor_done;
 
               link.strokeColor = '204,204,204';//连线之间的颜色
-              link.lineWidth = 3;//线段的粗细
-              // link.dashedPattern = dashedPattern; //虚线
+              link.lineWidth = 1.6;//线段的粗细
+              link.dashedPattern = 5;
               this.scene.add(link);
               return link;
           },
@@ -354,7 +352,6 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
                         node.fillColor =this.options.node.rejectNodefillColor; // 填充颜色
 
                 break;
-
               default:
                 ;
             }
