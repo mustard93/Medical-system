@@ -248,7 +248,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
            }
          },
             //添加2个节点得链接
-           addLink:function(nodeA, nodeZ){
+           addLink:function(nodeA, nodeZ, dashedPattern){
 
              var key=nodeA.text+"-"+nodeZ.text;
              //连线之添加一次
@@ -272,6 +272,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
 
               link.strokeColor = '204,204,204';//连线之间的颜色
               link.lineWidth = 3;//线段的粗细
+              link.dashedPattern = dashedPattern;
               // link.dashedPattern = dashedPattern; //虚线
               this.scene.add(link);
               return link;

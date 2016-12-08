@@ -74,7 +74,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">法人代表：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.legalRepresentative" required>
+                  <input type="text" class="form-control" ng-model="formData.hospital.legalRepresentative">
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">地址：</label>
                 <div class="col-sm-6 mgr-s">
-                  <input type="text" class="form-control" ng-model="formData.hospital.address" required>
+                  <input type="text" class="form-control" ng-model="formData.hospital.address">
                 </div>
               </div>
             </div>
@@ -114,7 +114,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">座机：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.hospitalTel" required>
+                  <input type="text" class="form-control" ng-model="formData.hospital.hospitalTel">
                 </div>
               </div>
             </div>
@@ -122,7 +122,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">邮编：</label>
                 <div class="col-sm-6">
-                  <input type="number" class="form-control" ng-model="formData.hospital.zipCode" required>
+                  <input type="number" class="form-control" ng-model="formData.hospital.zipCode">
                 </div>
               </div>
             </div>
@@ -132,7 +132,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">执业许可证号：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.practiceLicenseNo" required>
+                  <input type="text" class="form-control" ng-model="formData.hospital.practiceLicenseNo">
                 </div>
               </div>
             </div>
@@ -145,8 +145,7 @@
                          class="ipt pr-short-ipt color-6"
                          placeholder="有效日期至"
                          ng-readonly="true"
-                         ng-model="formData.hospital.guaranteePeriod"
-                         required>
+                         ng-model="formData.hospital.guaranteePeriod">
                 </div>
               </div>
             </div>
@@ -159,8 +158,8 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">采购员/身份证号：</label>
                 <div class="col-sm-6 flex-column">
-                  <input type="text" class="form-control flex-item-3" ng-model="formData.hospital.purchaserName" required>
-                  <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.hospital.purchaserIdentityNo" required>
+                  <input type="text" class="form-control flex-item-3" ng-model="formData.hospital.purchaserName">
+                  <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.hospital.purchaserIdentityNo">
                 </div>
               </div>
             </div>
@@ -168,7 +167,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">座机：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.purchaserTel" required>
+                  <input type="text" class="form-control" ng-model="formData.hospital.purchaserTel">
                 </div>
               </div>
             </div>
@@ -178,7 +177,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">E-mail：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.email" required>
+                  <input type="text" class="form-control" ng-model="formData.hospital.email">
                 </div>
               </div>
             </div>
@@ -186,7 +185,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">手机：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.purchaserPhone" required>
+                  <input type="text" class="form-control" ng-model="formData.hospital.purchaserPhone">
                 </div>
               </div>
             </div>
@@ -214,13 +213,13 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                  ng-disabled="!changeFlag"
+                  ng-disabled="!changeFlag || hospitalEditForm.$invalid"
                   ng-click="submitForm('hospital-editForm','save')">保存
           </button>
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                  ng-disabled=""
+                  ng-disabled="hospitalEditForm.$invalid"
                   ng-click="submitForm('hospital-editForm','submit')">下一步
           </button>
         </span>
