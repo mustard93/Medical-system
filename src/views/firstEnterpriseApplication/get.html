@@ -179,15 +179,9 @@
           </tbody>
         </table>
       </div>
-      <!-- 审批 -->
-      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(showData.didateFilter.buttons,'通过')"
-           workflow-task-run-with-attchments
-           custom-menu-arr="{{showData.didateFilter.buttons}}"
-           return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstEnterpriseApplication/query.html"}'
-           attchment-usege="首营企业申请">
-      </div>
 
-      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus!='未提交'"
+      <!-- 审批 -->
+      <div ng-if="!showData.orderStatus!='未提交'"
            class="panel pr-panel pr-panel-height mgb">
         <div class="mgb-l">
           <h1 class="pr-font-18 mgb">审批意见</h1>
@@ -199,6 +193,13 @@
           </div>
         </div>
         <div class="mgb-l"></div>
+      </div>
+
+      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(showData.didateFilter.buttons,'通过')"
+           workflow-task-run-with-attchments
+           custom-menu-arr="{{showData.didateFilter.buttons}}"
+           return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstEnterpriseApplication/query.html"}'
+           attchment-usege="首营企业申请">
       </div>
 
       <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过'" class="mgb text-right">
