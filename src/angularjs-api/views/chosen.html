@@ -13,7 +13,7 @@
           <div class="panel">
             <div class="panel-heading">
               <span class="tools pull-right">
-                <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
                 <a href="javascript:;" class="fa fa-times"></a>
               </span>
               同步下拉
@@ -24,7 +24,7 @@
                       data-placeholder="药械名"
                       ng-model="addDataItem.relId"
                       clear-watch-scope="addDataItem.relId"
-                      select-source="rest/authen/medicalStock/queryForSelectOption.json"></select>
+                      select-source="rest/authen/user/queryForSelectOption.json"></select>
             </div>
             <div class="panel-body" style="display:none;">
 
@@ -36,7 +36,7 @@
                         data-placeholder="药械名"
                         ng-model="addDataItem.relId"
                         clear-watch-scope="addDataItem.relId"
-                        select-source="rest/authen/medicalStock/queryForSelectOption.json"></select>
+                          select-source="rest/authen/user/queryForSelectOption.json"></select>
                         参数说明：chosen-ajax 表示根据输入词，从服务器获取数据。
 
 
@@ -50,13 +50,64 @@
                             alert-error
                             ajax-if-eval="formData.organizationId"
                             params='{"DistributorId":"{{formData.organizationId}}"}'
-                            select-source="rest/index/department/queryForSelectOption.json">
+                                select-source="rest/authen/user/queryForSelectOption.json"></select>
 
               </textarea>
             </div>
           </div>
         </li>
 
+
+
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+              异步下拉
+              <select id="addDataItem_relId"
+                      chosen
+                      chosen-ajax
+                      is-empty-query="true"
+                      class="select pr-table-select mgb-s"
+                      data-placeholder="药械名"
+                      ng-model="addDataItem.relId"
+                      clear-watch-scope="addDataItem.relId"
+                      select-source="rest/authen/user/queryForSelectOption.json"></select>
+            </div>
+            <div class="panel-body" style="display:none;">
+
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                <select id="addDataItem_relId"
+                        chosen
+                        chosen-ajax
+                      is-empty-query="true"  //是否空查询条件时，查询数据
+                        class="select pr-table-select mgb-s"
+                        data-placeholder="药械名"
+                        ng-model="addDataItem.relId"
+                        clear-watch-scope="addDataItem.relId"
+                        select-source="rest/authen/user/queryForSelectOption.json"></select>
+                        参数说明：chosen-ajax 表示根据输入词，从服务器获取数据。
+
+
+                    满足条件执行用ajax-if-eval="formData.organizationId"
+                    <select class="select select-w"
+                            data-placeholder="选择一个..."
+                            chosen
+                            ng-model="formData.departmentId"
+
+                            default-empty
+                            alert-error
+                            ajax-if-eval="formData.organizationId"
+                            params='{"DistributorId":"{{formData.organizationId}}"}'
+                                select-source="rest/authen/user/queryForSelectOption.json"></select>
+
+              </textarea>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
 </div>
