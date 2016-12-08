@@ -2,7 +2,6 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="formData.businessKey=showData.id;formData.type='首营企业';formData.attachments=[]"
      alert-error>
   <div class="page-header-info">
     <h1>首营企业申请</h1>
@@ -29,8 +28,9 @@
       </div>
       <!-- 审核信息 -->
       <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
-        <span class="mgr-l"   ng-repeat="eventRecord in showData.eventRecords">
-          {{eventRecord.event.id}}：<em class="color-6">{{eventRecord.event.status}}</em>
+        <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
+          <span>{{eventRecord.event.id}}：</span>
+          <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</em>
         </span>
       </div>
       <!-- 基本信息 -->
@@ -180,14 +180,32 @@
         </table>
       </div>
       <!-- 审批 -->
-      <div ng-if="showData.didateFilter.buttons.length>0"
+      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(showData.didateFilter.buttons,'通过')"
            workflow-task-run-with-attchments
            custom-menu-arr="{{showData.didateFilter.buttons}}"
-           return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstMedicalApplication/query.html"}'
+           return-button='{"buttonName":"返回申请单列表","requestUrl":"#/firstEnterpriseApplication/query.html"}'
            attchment-usege="首营企业申请">
       </div>
-      <div ng-if="!(showData.orderStatus=='未提交') && !(showData.didateFilter.buttons.length>0)" class="mgb text-right">
+
+      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus!='未提交'"
+           class="panel pr-panel pr-panel-height mgb">
+        <div class="mgb-l">
+          <h1 class="pr-font-18 mgb">审批意见</h1>
+          <div class="mgb" ng-repeat="item in showData.eventRecords">
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'">{{item.event.name}} : <em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人：</em> <em>{{item.inputUser}}</em></span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+            <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
+          </div>
+        </div>
+        <div class="mgb-l"></div>
+      </div>
+
+      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过'" class="mgb text-right">
         <span class="mgl"><a href="#/firstEnterpriseApplication/query.html">返回申请单列表</a></span>
+        <span class="mgl">
+          <button type="button" class="pr-btn-save-glodbg"><a class="color-white" ng-href="{{mainStatus.requestPath}}rest/authen/firstEnterpriseApplication/exportWord?id={{showData.id}}">打印</a></button>
+        </span>
       </div>
   </div>
 

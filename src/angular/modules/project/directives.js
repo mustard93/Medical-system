@@ -744,7 +744,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           //指定作用域
           if($attrs.callbackScopeKey){
               var appointScope=  utils.getAppointScope($scope,$attrs.callbackScopeKey);
-              if(appointScope!=null){
+              if(appointScope!==null){
                 if ($attrs.callback) {
                     appointScope.$eval($attrs.callback);
                 }
@@ -782,7 +782,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
             }
           }
 
-          var httpMethod="POST"
+          var httpMethod="POST";
           if($attrs.httpMethod){
             httpMethod=$attrs.httpMethod;
           }
@@ -826,7 +826,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                   $scope.$emit($attrs.emitted);
                 }
               }
-            };
+            }
 
             requestData(_requestUrl, _params, httpMethod,parameterBody)
               .then(requestData_then)
