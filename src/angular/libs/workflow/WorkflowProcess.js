@@ -247,7 +247,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             console.log(node);
          },
             //添加2个节点得链接
-           addLink:function(nodeA, nodeZ){
+           addLink:function(nodeA, nodeZ, dashedPattern){
 
              var key=nodeA.text+"-"+nodeZ.text;
              //连线之添加一次
