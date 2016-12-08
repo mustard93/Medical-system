@@ -202,8 +202,8 @@ define('upload/directives', ['upload/init'], function () {
           return {
               restrict: 'EA',
               scope: {
-                  ngModel: "=",
-                  upFile:"=",
+                  ngModel: "=?",
+                  upFile:"=?",
                   uploadSize: "@",
                   width: "@",
                   height: "@"
@@ -258,7 +258,7 @@ define('upload/directives', ['upload/init'], function () {
                                       data: ""
                                   };
 
-                                  $scope.upFile=_fileObj;
+                                    if($scope.upFile)$scope.upFile=_fileObj;
                                   // $scope.fileList.push(_fileObj);
                                   uploadFile(_fileObj);
                                   break;
@@ -274,7 +274,7 @@ define('upload/directives', ['upload/init'], function () {
                                           imgSrc: window.URL.createObjectURL(new Blob([files[i]], {type: files[i].type}))
                                       };
                                       // $scope.fileList.push(_fileObj);
-                                        $scope.upFile=_fileObj;
+                                          if($scope.upFile)$scope.upFile=_fileObj;
                                       $scope.$digest();
                                       uploadFile(_fileObj);
                                       //console.log($scope.fileList);
@@ -291,7 +291,7 @@ define('upload/directives', ['upload/init'], function () {
                                           text: '上传中...',
                                           data: {}
                                       };
-                                        $scope.upFile=_fileObj;
+                                          if($scope.upFile)$scope.upFile=_fileObj;
                                       // $scope.fileList.push(_fileObj);
                                       $scope.$digest();
                                       uploadFile(_fileObj);
@@ -346,13 +346,20 @@ define('upload/directives', ['upload/init'], function () {
                           _fileObj.text = '上传成功！';
                           _fileObj.data = _data.data;
                           // _data.data="http://stimg3.tuicool.com/JNzQre.png";
-                          $scope.ngModel=_data.data;
+
+                          if(angular.isString(_data.data)){
+                                $scope.ngModel=_data.data;
+                          }else{
+                            $scope.ngModel=_data.data.key;
+                          }
+
+                          if($scope.upFile)$scope.upFile.data=_data.data;
 
 
-
-                          // $scope.$apply();
+                          $scope.$apply();
+                          //callback 放在  $scope.$apply(); 之后，才能及时刷新
                           if ($attrs.callback) {
-                              $scope.$eval($attrs.callback);
+                              $scope.$parent.$eval($attrs.callback);
                           }
                           $scope.$apply();
 
