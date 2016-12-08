@@ -95,7 +95,7 @@ gulp.task('pro-clean-js', function () {
              .pipe(clean());
 });
 
-/* 编译LESS */
+/* 编译LESS    Test test*/
 gulp.task('runLess', ['clean-css'], function () {
   return gulp.src([paths.less + '**/*.less', paths.css + '**/*.css'])
            .pipe(less())
