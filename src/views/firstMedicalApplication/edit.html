@@ -27,7 +27,7 @@
           scope-error-msg="errorMsg"
           scope-data="formData"
           novalidate="true"
-          callback="submitFormAfter('#/firstMedicalApplication/edit-step-2.html');watchFormChange('formData')">
+          callback="submitFormAfter('#/firstMedicalApplication/edit-step-2.html');watchFormChange('formData');">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
@@ -151,6 +151,7 @@
                 <label for="" class="col-sm-2 control-label">包装情况：</label>
                 <div class="col-sm-6">
                   <input type="text" class="form-control" ng-model="formData.firstMedical.packingCondition">
+
                 </div>
               </div>
             </div>
@@ -160,7 +161,11 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">中包装数量：</label>
                 <div class="col-sm-6">
-                  <input type="number" class="form-control" ng-model="formData.firstMedical.numberOfPackages">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.numberOfPackages"
+                    required name="numberOfPackages"
+                    ng-pattern="/^\d$/"
+                     data-content="请输入正整数"
+                      invalid-popover="{{firstMedicalEditForm.numberOfPackages.$invalid}}">
                 </div>
               </div>
             </div>
@@ -168,7 +173,11 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">件装量：</label>
                 <div class="col-sm-6">
-                  <input type="number" class="form-control" ng-model="formData.firstMedical.pieceLoading">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.pieceLoading"
+                  required name="pieceLoading"
+                  ng-pattern="/^\d$/"
+                   data-content="请输入正整数"
+                    invalid-popover="{{firstMedicalEditForm.pieceLoading.$invalid}}">
                 </div>
               </div>
             </div>
@@ -321,6 +330,7 @@
           </button>
         </span>
         <span class="mgl">
+
           <button class="pr-btn-save-glodbg"
                   ng-disabled="firstMedicalEditForm.$invalid"
                   ng-click="submitForm('firstMedical-editForm','submit')">下一步
