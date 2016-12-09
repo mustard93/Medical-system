@@ -199,12 +199,27 @@
         </table>
       </div>
       <!-- 审批 -->
-      <div ng-if="showData.didateFilter.buttons.length>0"
+      <div ng-if="showData.orderStatus!='未提交'"
+           class="panel pr-panel pr-panel-height mgb">
+        <div class="mgb-l">
+          <h1 class="pr-font-18 mgb">审批意见</h1>
+          <div class="mgb" ng-repeat="item in showData.eventRecords">
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'">{{item.event.name}} : <em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人：</em> <em>{{item.inputUser}}</em></span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+            <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
+          </div>
+        </div>
+        <div class="mgb-l"></div>
+      </div>
+
+      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(showData.didateFilter.buttons,'通过')"
            workflow-task-run-with-attchments
            custom-menu-arr="{{showData.didateFilter.buttons}}"
            return-button='{"buttonName":"返回申请单列表","requestUrl":"#/otherCustomerApplication/query.html"}'
-           attchment-usege="首营品种申请">
+           attchment-usege="经销商/零售商资格申请">
       </div>
+
       <div ng-if="!(showData.orderStatus=='未提交') && !(showData.didateFilter.buttons.length>0)" class="mgb text-right">
         <span class="mgl"><a href="#/otherCustomerApplication/query.html">返回申请单列表</a></span>
       </div>
