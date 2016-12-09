@@ -748,9 +748,8 @@ define('project/controllers', ['project/init'], function() {
         //防止"" 保存到后台,枚举报错bug.
         if(!event1.conditionType)event1.conditionType=null;
         if(event1.id){
-            var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);
-              var eventTmp=$rootScope.utils.getObjectByKeyOfArr(events,'id',event1.id);
-              eventTmp.id=eventTmp.name;
+            var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);            
+              event1.id=event1.name;
             if(ind>-1){
                 events[ind]=event1;
 
