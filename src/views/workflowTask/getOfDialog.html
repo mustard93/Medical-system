@@ -5,7 +5,7 @@
   error-callback="workflowTaskDataInitFlag=true;"
 >
 
-    <div class="modal-header">
+    <div class="modal-header bb-line">
         <h4 class="modal-title">工作流展示-{{workflowTaskData.workflowProcess.name}}[{{workflowTaskData.createAt | date : 'yyyy-MM-dd HH:mm:ss'}}]</h4>
     </div>
 
@@ -16,35 +16,36 @@
       height="600px"  width="800px" show-status="true"
       modal-url="views/manageWorkflowProcess/editEvent.html"
 
-      style="background:gray"></canvas>
+      style="background:white"></canvas>
 
 
-      <div>
-      <lable>流程记录</lable>
-      <table class="table table-hover table-striped">
-          <thead>
-              <tr>
-                  <th><input type="checkbox" class="selectAll"></th>
-                  <th>序号</th>
-                  <th>节点信息</th>
-                  <th>操作人</th>
-                  <th>创建时间</th>
-                  <th>内容</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr ng-repeat="tr in workflowTaskData.eventRecords" ng-click="selectThis()">
-                  <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
-                  <td>{{$index + 1}}</td>
-                  <td>{{tr.event.name}}</td>
-                  <td>{{tr.inputUser}}</td>
-                  <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
-                  <td>{{tr.event.conditionType}} {{tr.key}} {{tr.note}}</td>
+    </div>
+    <div class="table-parent">
+    <lable>流程记录</lable>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th><input type="checkbox" class="selectAll"></th>
+                <th>序号</th>
+                <th>节点信息</th>
+                <th>操作人</th>
+                <th>创建时间</th>
+                <th>内容</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="tr in workflowTaskData.eventRecords" ng-click="selectThis()">
+                <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                <td>{{$index + 1}}</td>
+                <td>{{tr.event.name}}</td>
+                <td>{{tr.inputUser}}</td>
+                <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{tr.event.conditionType}} {{tr.key}} {{tr.note}}</td>
 
-              </tr>
-          </tbody>
-      </table>
-      </div>
-    </div> <!--modal-body-->
+            </tr>
+        </tbody>
+    </table>
+    </div> 
+    <!--modal-body-->
 
 </div>
