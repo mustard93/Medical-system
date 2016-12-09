@@ -703,6 +703,22 @@ define('project/controllers', ['project/init'], function() {
           $scope.formData.attachments.push($scope.formData.addCustomExamineItem);
         }
       };
+
+      //判断当前审核意见是否可见
+      $scope.showAuditOpinion = function (returnArr, pipeKey) {
+        if (angular.isArray(returnArr)) {
+          var i, len;
+          len = returnArr.length;
+          for (i = 0; i < len; i++) {
+            if (returnArr[i].event.status !== pipeKey) {
+              return true;
+            }
+          }
+          return false;
+        } else {
+          throw new error('params returnArr is must Array');
+        }
+      };
     }
 
     /**
@@ -748,7 +764,7 @@ define('project/controllers', ['project/init'], function() {
         //防止"" 保存到后台,枚举报错bug.
         if(!event1.conditionType)event1.conditionType=null;
         if(event1.id){
-            var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);            
+            var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);
               event1.id=event1.name;
             if(ind>-1){
                 events[ind]=event1;
