@@ -91,17 +91,18 @@
           <tr>
             <td>&nbsp;</td>
             <td><input type="text" ng-model="addAttachment.name" class="ipt" placeholder="资料名称"></td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>  {{addAttachment.uploadUserName}}</td>
+            <td>{{addAttachment.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
             <td><input type="text" readonly="true"  datepicker ng-model="addAttachment.guaranteePeriod"  class="ipt pr-short-ipt color-6" placeholder="有效期"></td>
             <td>
-              <p ng-if="addAttachment.attachmentUrl"><img ng-src="{{addAttachment.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
+
+              <p ng-if="addAttachment.attachmentUrl"><img  title="{{addAttachment.fileName}}" alt="{{addAttachment.fileName}}" ng-src="{{addAttachment.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
               <button type="button"
                       class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                       ng-init="upFile={}"
-                      uploader-one="rest/authen/fileUpload/upload.json"
-                      usege="首营品种申请"
-                      callback="addAttachment.uploadUserId='{{$root.curUser.id}}';addAttachment.uploadUserName='{{$root.curUser.name}}'"
+                      uploader-one="rest/authen/fileUpload/upload2.json"
+                      usege="{{attchmentUsege}}"
+                      callback="addAttachment.uploadUserId=upFile.data.userId;addAttachment.uploadUserName=upFile.data.userName;addAttachment.uploadTime=upFile.data.createAt;addAttachment.fileName=upFile.data.originalFileName"
                       up-file="upFile" ng-model="addAttachment.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
               </button>
             </td>
