@@ -164,13 +164,6 @@
       </div>
 
       <!-- 审批 -->
-      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(showData.didateFilter.buttons,'通过')"
-           workflow-task-run-with-attchments
-           custom-menu-arr="{{showData.didateFilter.buttons}}"
-           return-button='{"buttonName":"返回申请单列表","requestUrl":"#/hospitalApplication/query.html"}'
-           attchment-usege="医院资格申请">
-      </div>
-
       <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus!='未提交'"
            class="panel pr-panel pr-panel-height mgb">
         <div class="mgb-l">
@@ -183,6 +176,13 @@
           </div>
         </div>
         <div class="mgb-l"></div>
+      </div>
+
+      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(showData.didateFilter.buttons,'通过')"
+           workflow-task-run-with-attchments
+           custom-menu-arr="{{showData.didateFilter.buttons}}"
+           return-button='{"buttonName":"返回申请单列表","requestUrl":"#/hospitalApplication/query.html"}'
+           attchment-usege="医院资格申请">
       </div>
 
       <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过'" class="mgb text-right">
