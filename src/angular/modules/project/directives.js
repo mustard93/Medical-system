@@ -1334,16 +1334,23 @@ function canvasWorkflow (modal,utils) {
       replace: true,
       templateUrl:  Config.tplPath +'tpl/lodopFuncs.html',
       link: function ($scope, element, $attrs) {
-
+            var LODOP=null;
             require(['LodopFuncs'], function(LodopFuncs) {
 
               $scope.LODOP_OB_Id="LODOP_OB_"+new Date().getTime();
               $scope.LODOP_EM_Id="LODOP_EM"+new Date().getTime();
                 $scope.Print_Div_id="Print_Div_"+new Date().getTime();
 
-                  var LODOP=LodopFuncs.getLodop(document.getElementById(  $scope.LODOP_OB_Id),document.getElementById($scope.LODOP_EM_Id));
 
+                  function getLODOP(){
+
+                    if(!LODOP){
+                      LODOP=LodopFuncs.getLodop(document.getElementById(  $scope.LODOP_OB_Id),document.getElementById($scope.LODOP_EM_Id));
+                    }
+                    return LODOP;
+                  }
                   function CreateOneFormPage(){
+                      getLODOP();
                   		LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_表单一");
                   		LODOP.SET_PRINT_STYLE("FontSize",18);
                   		LODOP.SET_PRINT_STYLE("Bold",1);
@@ -1352,6 +1359,7 @@ function canvasWorkflow (modal,utils) {
                   	};
                   //打印预览
                   $scope.prn1_preview=function() {
+                      getLODOP();
                   		CreateOneFormPage();
                   		LODOP.PREVIEW();
                   	};
