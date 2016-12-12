@@ -1334,11 +1334,14 @@ function canvasWorkflow (modal,utils) {
       replace: true,
       templateUrl:  Config.tplPath +'tpl/lodopFuncs.html',
       link: function ($scope, element, $attrs) {
-            $scope.LODOP_OB_Id="LODOP_OB_"+new Date().getTime();
-            $scope.LODOP_EM_Id="LODOP_EM"+new Date().getTime();
-              $scope.Print_Div_id="Print_Div_"+new Date().getTime();
+
             require(['LodopFuncs'], function(LodopFuncs) {
-                  var LODOP=getLodop(document.getElementById(  $scope.LODOP_OB_Id),document.getElementById($scope.LODOP_EM_Id));
+
+              $scope.LODOP_OB_Id="LODOP_OB_"+new Date().getTime();
+              $scope.LODOP_EM_Id="LODOP_EM"+new Date().getTime();
+                $scope.Print_Div_id="Print_Div_"+new Date().getTime();
+
+                  var LODOP=LodopFuncs.getLodop(document.getElementById(  $scope.LODOP_OB_Id),document.getElementById($scope.LODOP_EM_Id));
 
                   function CreateOneFormPage(){
                   		LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_表单一");
@@ -1353,7 +1356,7 @@ function canvasWorkflow (modal,utils) {
                   		LODOP.PREVIEW();
                   	};
 
-
+                    $scope.$digest();
             });//require
       }//link
     };//return
