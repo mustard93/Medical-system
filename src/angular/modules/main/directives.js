@@ -1393,20 +1393,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     myChart.on("click", function(_data) {
 
                         console.log(_data);
-                        console.log($scope);
 
                         if (_data.data) {
+                            if (ngModel) {
+                              if($attrs.ngModelDataKey){
+                                
+                                    ngModel.$setViewValue(_data.data[$attrs.ngModelDataKey]);
+                              }else{
+                                    ngModel.$setViewValue(_data.data);
+                              }
+
+                            }
+
                             if ($scope.clickToUrl) {
                                 // ngModel && ngModel.$setViewValue(_data.data);
-                                if (ngModel) {
-                                  ngModel.$setViewValue(_data.data);
-                                }
                                 window.location.assign($scope.clickToUrl);
                             } else if ($scope.clickToDialog) {
-                                // ngModel && ngModel.$setViewValue(_data.data);
-                                if (ngModel) {
-                                  ngModel.$setViewValue(_data.data);
-                                }
                                 dialogChart($scope.$parent.mainConfig.viewsDir + $scope.clickToDialog);
                             }
 
@@ -1429,7 +1431,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         }
 
 
-                    });
+                    });//end click
 
                     if (angular.isDefined($attrs.chartParams)) {
                         //监听具体值
