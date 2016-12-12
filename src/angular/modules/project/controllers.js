@@ -706,6 +706,7 @@ define('project/controllers', ['project/init'], function() {
 
       //判断当前审核意见是否可见
       $scope.showAuditOpinion = function (returnArr, pipeKey) {
+        console.log(typeof returnArr);
         if (angular.isArray(returnArr)) {
           var i, len;
           len = returnArr.length;
@@ -716,7 +717,7 @@ define('project/controllers', ['project/init'], function() {
           }
           return false;
         } else {
-          throw new error('params returnArr is must Array');
+          throw new Error('params returnArr is must Array');
         }
       };
     }
