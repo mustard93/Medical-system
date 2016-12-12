@@ -21,9 +21,10 @@ require.config({
     baseUrl: require.dir + 'modules',
     paths: {
         'WorkflowProcess': '../libs/workflow/WorkflowProcess',//工作流
+          'WorkflowProcess': '../libs/workflow/WorkflowProcess',//工作流
         'JTopo': '../libs/jtopo-0.4.8.min',
         'jQuery': '../libs/jquery.min',                         //jQuery
-        'underscore': '../libs/underscore/underscore-1.5.2.min',
+        'LodopFuncs': '../libs/LodopFuncs',     //打印功能
         'moment': '../libs/moment.min',                         //日历插件
         'echarts': '../libs/echarts/echarts-3.2.3.min',         // echars v3.2.3
         'chosen': '../libs/chosen.jquery',                  //下拉筛选插件
@@ -46,6 +47,9 @@ require.config({
         },
         'jQuery': {
             exports: 'jQuery'
+        },
+        'LodopFuncs': {
+            exports: 'LodopFuncs'
         },
         'underscore': {
             exports: '_'
