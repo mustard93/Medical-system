@@ -204,7 +204,7 @@
           <h1 class="pr-font-18 mgb">审批意见</h1>
           <div class="mgb" ng-repeat="item in showData.eventRecords">
             <span class="mgr-xl" ng-if="item.event.status!='待审批'">{{item.event.name}} : <em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人：</em> <em>{{item.inputUser}}</em></span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人/部门：</em> <em>{{item.inputUser}}/{{item.departmentName}}</em></span>
             <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
             <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
           </div>

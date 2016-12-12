@@ -1,0 +1,49 @@
+<div class="content-wrapper hospital-application"
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/authen/hospitalPurchaseContents/getOfEdit.json?hospitalId={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback=""
+     alert-error>
+  <div class="page-header-info">
+    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
+    <h1>医院采购目录</h1>
+  </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper-main mgt">
+    <!-- 医院信息 -->
+    <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+      <div class="flex-item-6">
+        <span class="mgl-l">医院名称：<em class="color-6">{{showData.hospitalName || '未知名称'}}</em></span>
+        <span class="mgl-l">系统编号：<em class="color-6">{{}}</em></span>
+        <span class="mgl-l">采购周期：<em class="color-6">{{}}</em></span>
+      </div>
+      <div class="flex-item-6 text-right">
+        <span class="mgl-l">修改人：<em class="color-custom-orange">{{showData.submitUserName}}</em></span>
+        <span class="mgl-l">最后修改时间：<em class="color-6">{{showData.updateAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+      </div>
+    </div>
+    <!-- 采购目录 -->
+    <div class="content-wrapper-heading">
+      <div class="text-right order-list-search">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/申请单号/申请人" ng-model="listParams.q">
+        <i class=""></i>
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>药械编号</th>
+            <th>药械名称</th>
+            <th>生产厂家</th>
+            <th>剂型</th>
+            <th>规格</th>
+            <th>包装</th>
+            <th>单位</th>
+            <th>采购价(元)</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
