@@ -87,9 +87,13 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             //defaultOptions.status.fillColor_ready
           showStatus:false,//true 表示显示节点运行状态
            status:{
-             fillColor_ready:"163,174,0",//未执行
-              fillColor_doing:"229,229,229",//执行中
-               fillColor_done:"229,229,229" //已完成
+
+             strokeColor_doing:"163,174,0",//连线箭头执行中
+             strokeColor_done:"163,174,0",//连线箭头执行中
+
+             fillColor_ready:"229,229,229",//节点未执行
+              fillColor_doing:"163,174,0",//节点执行中
+               fillColor_done:"163,174,0" //节点已完成
            },
             data:null,
             //defaultOptions.scene.background
@@ -157,6 +161,17 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
 
             return null;
           },
+          //获取所有得连接线
+          getAllLinks:function(){
+            var scene = this.stage.childs[0];
+
+            var nodes = scene.childs.filter(function(e){
+              return e instanceof JTopo.Link;
+            });
+            if(nodes&&nodes.length>0)return nodes;
+
+            return null;
+          },
           reload:function(data){
               if(data){
                   this.data=data;
@@ -203,6 +218,25 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             this.showWorkflowTaskData();
 
           },
+          //显示连线演示根据执行节点状态
+          showWorkflowTaskDataLinks:function(){
+                var arr=this.getAllLinks();
+                if(arr)for(var i=0;i<arr.length;i++){
+                    var link=arr[i];
+                      //判断nodeA 是完成状态。
+                    if(link.nodeA&&link.nodeA.fillColor==this.options.status.fillColor_done){
+                      if(link.nodeZ){//nodeZ 是完成或者执行中
+                          if(link.nodeZ.status=="done"){
+                              link.strokeColor=this.options.status.strokeColor_done;
+                          }else   if(link.nodeZ.status=="doing"){
+                              link.strokeColor=this.options.status.strokeColor_doing;
+                            }
+                      }
+
+                    }
+                }
+          },
+
           //显示节点状态
           showWorkflowTaskData:function(){
             if(!  this.workflowTaskData)return;
@@ -214,6 +248,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
                 var node =this.getEventByName(eventRecord.event.name);
                 if(node){
                     node.fillColor=this.options.status.fillColor_done;
+                      node.status="done";
                 }
 
             }
@@ -226,11 +261,12 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
                   var node =this.getEventByName(event.name);
                   if(node){
                       node.fillColor=this.options.status.fillColor_doing;
+                      node.status="doing";
                   }
 
               }
-
-
+              //显示链接线
+              this.showWorkflowTaskDataLinks();
           },
           //添加2个节点得链接
          addLinkByEvent:function(event1){
@@ -256,12 +292,15 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
                console.log(key);
                return;
               }
-              nodeZ.parentKey=nodeA.key;
               var link = new JTopo.FlexionalLink(nodeA, nodeZ);
               // var direction="vertical";
 
                link.arrowsRadius = 15;
                link.key=key;
+              link.nodeA=nodeA;
+              link.nodeZ=nodeZ;
+              nodeZ.parentKey=nodeA.key;//多个父类时，记录最后一个，用于布局。
+
 
                 // link.strokeColor = JTopo.util.randomColor(); // 线条颜色随机
 
@@ -321,7 +360,8 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
 
           addNodeByEvent:function(event1){
             var node=null;
-            var name=event1.name+"-"+event1.status;
+            // var name=event1.name+"-"+event1.status;
+              var name=event1.name;
             switch (event1.type) {
               case "StartEvent":
                   node=this.addStartNode(name);

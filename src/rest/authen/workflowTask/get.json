@@ -26,135 +26,75 @@
             "name": "全局销售单流程",
             "events": [
                 {
-                    "type": "StartEvent",
-                    "id": "销售单待审批",
-                    "name": "销售单待审批",
-                    "sourceRef": null,
-                    "targetRef": null,
-                    "status": "待审批",
-                    "eventType": "销售单",
-                    "action": null,
-                    "didateFilter": null
+                    "id" : "销售单待审批",
+                    "type" : "StartEvent",
+                    "name" : "销售单待审批",
+                    "status" : "待审批",
+                    "eventType" : "销售单",
+                    "_class" : "com.pangu.mss.vo.workflow.StartEvent"
                 },
                 {
-                    "type": "BranchEvent",
-                    "id": "销售单已作废",
-                    "name": "销售单已作废",
-                    "sourceRef": "销售单待审批",
-                    "targetRef": "发货单已发货",
-                    "status": "已作废",
-                    "eventType": "销售单",
-                    "action": null,
-                    "didateFilter": {
-                        "roleId": null,
-                        "userIds": null,
-                        "departmentId": null,
-                        "authority": "销售单审核"
-                    },
-                    "conditionType": "驳回"
+                    "id" : "销售单已作废",
+                    "conditionType" : "驳回",
+                    "type" : "BranchEvent",
+                    "name" : "销售单已作废",
+                    "sourceRef" : "销售单待审批",
+                    "status" : "已作废",
+                    "eventType" : "销售单",
+                    "_class" : "com.pangu.mss.vo.workflow.BranchEvent"
                 },
                 {
-                    "type": "BranchEvent",
-                    "id": "销售单已作废2",
-                    "name": "销售单已作废2",
-                    "sourceRef": "销售单待审批",
-                    "targetRef": "出库单已出库",
-                    "status": "已作废",
-                    "eventType": "销售单",
-                    "action": null,
-                    "didateFilter": {
-                        "roleId": null,
-                        "userIds": null,
-                        "departmentId": null,
-                        "authority": "销售单审核"
-                    },
-                    "conditionType": "驳回"
+                    "id" : "销售单待发单",
+                    "conditionType" : "通过",
+                    "type" : "BranchEvent",
+                    "name" : "销售单待发单",
+                    "sourceRef" : "销售单待审批",
+                    "targetRef" : "销售单待发货",
+                    "status" : "待发单",
+                    "eventType" : "销售单",
+                    "_class" : "com.pangu.mss.vo.workflow.BranchEvent"
                 },
                 {
-                    "type": "BranchEvent",
-                    "id": "销售单已作废2",
-                    "name": "销售单已作废3",
-                    "sourceRef": "销售单待审批",
-                    "targetRef": null,
-                    "conditionType": "驳回"
-                },
-                {
-                    "type": "BranchEvent",
-                    "id": "销售单待发单",
-                    "name": "销售单待发单",
-                    "sourceRef": "销售单待审批",
-                    "targetRef": "销售单待发货",
-                    "status": "待发单",
-                    "eventType": "销售单",
-                    "action": null,
-                    "didateFilter": {
-                        "roleId": null,
-                        "userIds": null,
-                        "departmentId": null,
-                        "authority": "销售单审核"
-                    },
-                    "conditionType": "通过"
-                },
-                {
-                    "type": "Event",
-                    "id": "销售单待发货",
-                    "name": "销售单待发货",
-                    "sourceRef": "销售单待发单",
-                    "targetRef": null,
-                    "status": "待发货",
-                    "eventType": "销售单",
-                    "action": [
+                    "id" : "销售单待发货",
+                    "type" : "Event",
+                    "name" : "销售单待发货",
+                    "sourceRef" : "销售单待发单",
+                    "targetRef" : "发货单待发货",
+                    "status" : "待发货",
+                    "eventType" : "销售单",
+                    "action" : [
                         "生成发货单"
-                    ],
-                    "didateFilter": null
+                    ]
                 },
                 {
-                    "type": "BranchEvent",
-                    "id": "发货单已作废",
-                    "name": "发货单已作废",
-                    "sourceRef": "销售单待发货",
-                    "targetRef": null,
-                    "status": "已作废",
-                    "eventType": "发货单",
-                    "action": null,
-                    "didateFilter": null,
-                    "conditionType": "驳回"
+                    "id" : "发货单待发货",
+                    "type" : "Event",
+                    "name" : "发货单待发货",
+                    "sourceRef" : "销售单待发货",
+                    "targetRef" : "生成出库单",
+                    "status" : "待发货",
+                    "eventType" : "发货单"
                 },
                 {
-                    "type": "BranchEvent",
-                    "id": "发货单已发货",
-                    "name": "发货单已发货",
-                    "sourceRef": "销售单待发货",
-                    "targetRef": "生成出库单",
-                    "status": "已发货",
-                    "eventType": "发货单",
-                    "action": null,
-                    "didateFilter": null,
-                    "conditionType": "通过"
-                },
-                {
-                    "type": "Event",
-                    "id": "生成出库单",
-                    "name": "生成出库单",
-                    "sourceRef": "发货单已发货",
-                    "targetRef": "出库单已出库",
-                    "status": "已发货",
-                    "eventType": "发货单",
-                    "action": [
+                    "id" : "生成出库单",
+                    "type" : "Event",
+                    "name" : "生成出库单",
+                    "sourceRef" : "发货单已发货",
+                    "targetRef" : "出库单已出库",
+                    "status" : "已发货",
+                    "eventType" : "发货单",
+                    "action" : [
                         "生成出库单"
-                    ],
-                    "didateFilter": null
+                    ]
                 },
                 {
-                    "type": "EndEvent",
-                    "id": "出库单已出库",
-                    "name": "出库单已出库",
-                    "sourceRef": "生成出库单",
-                    "targetRef": null,
-                    "status": "已出库",
-                    "eventType": "出库单",
-                    "action": null,
-                    "didateFilter": null
+                    "id" : "出库单已出库",
+                    "type" : "EndEvent",
+                    "name" : "出库单已出库",
+                    "sourceRef" : "生成出库单",
+                    "status" : "已出库",
+                    "eventType" : "出库单",
+                    "_class" : "com.pangu.mss.vo.workflow.EndEvent"
                 }
             ],
             "businessType": "销售单",
@@ -164,20 +104,9 @@
             {
                 "event": {
                     "type": "BranchEvent",
-                    "id": "销售单待发单",
-                    "name": "销售单待发单",
-                    "sourceRef": "销售单待审批",
-                    "targetRef": "销售单待发货",
-                    "status": "待发单",
-                    "eventType": "销售单",
-                    "action": null,
-                    "didateFilter": {
-                        "roleId": null,
-                        "userIds": null,
-                        "departmentId": null,
-                        "authority": "销售单审核"
-                    },
-                    "conditionType": "通过"
+                    "id": "销售单待审批",
+                   "name": "销售单待审批"
+
                 },
                 "createAt": 1479784019169,
                 "key": null,
@@ -187,19 +116,12 @@
             },
             {
                 "event": {
-                    "type": "Event",
-                    "id": "销售单待发货",
-                    "name": "销售单待发货",
-                    "sourceRef": "销售单待发单",
-                    "targetRef": null,
-                    "status": "待发货",
-                    "eventType": "销售单",
-                    "action": [
-                        "生成发货单"
-                    ],
-                    "didateFilter": null
+                    "type": "BranchEvent",
+                    "id": "销售单待发单",
+                   "name": "销售单待发单"
+
                 },
-                "createAt": 1479784022802,
+                "createAt": 1479784019169,
                 "key": null,
                 "note": null,
                 "inputUserId": "58073c8643f2da6b24fe3140",
@@ -208,55 +130,11 @@
             {
                 "event": {
                     "type": "BranchEvent",
-                    "id": "发货单已发货",
-                    "name": "发货单已发货",
-                    "sourceRef": "销售单待发货",
-                    "targetRef": "生成出库单",
-                    "status": "已发货",
-                    "eventType": "发货单",
-                    "action": null,
-                    "didateFilter": null,
-                    "conditionType": "通过"
+                    "id": "销售单待发货",
+                   "name": "销售单待发货"
+
                 },
-                "createAt": 1479784067703,
-                "key": null,
-                "note": null,
-                "inputUserId": "58073c8643f2da6b24fe3140",
-                "inputUser": "童榆乔"
-            },
-            {
-                "event": {
-                    "type": "Event",
-                    "id": "生成出库单",
-                    "name": "生成出库单",
-                    "sourceRef": "发货单已发货",
-                    "targetRef": "出库单已出库",
-                    "status": "已发货",
-                    "eventType": "发货单",
-                    "action": [
-                        "生成出库单"
-                    ],
-                    "didateFilter": null
-                },
-                "createAt": 1479784085238,
-                "key": null,
-                "note": null,
-                "inputUserId": "58073c8643f2da6b24fe3140",
-                "inputUser": "童榆乔"
-            },
-            {
-                "event": {
-                    "type": "EndEvent",
-                    "id": "出库单已出库",
-                    "name": "出库单已出库",
-                    "sourceRef": "生成出库单",
-                    "targetRef": null,
-                    "status": "已出库",
-                    "eventType": "出库单",
-                    "action": null,
-                    "didateFilter": null
-                },
-                "createAt": 1479785414944,
+                "createAt": 1479784019169,
                 "key": null,
                 "note": null,
                 "inputUserId": "58073c8643f2da6b24fe3140",
