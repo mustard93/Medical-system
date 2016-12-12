@@ -35,6 +35,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
               for(var i=0;i<childs.length;i++){
                 var e=childs[i];
                 e.textPosition = 'Middle_Center';//设置字体出现的位置居中
+                e.font='12px PingFangSC-Medium';
                 if(e instanceof JTopo.Node&&e.parentKey==parentKey){
                   nodes.push(e);
                 }
@@ -86,7 +87,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             //defaultOptions.status.fillColor_ready
           showStatus:false,//true 表示显示节点运行状态
            status:{
-             fillColor_ready:"199,167,123",//未执行
+             fillColor_ready:"199,167,100",//未执行
               fillColor_doing:"238,187,45",//执行中
                fillColor_done:"163,174,0" //已完成
            },
@@ -269,8 +270,8 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
               // link.strokeColor =this.options.status.fillColor_done;
 
               link.strokeColor = '204,204,204';//连线之间的颜色
-              link.lineWidth = 1.6;//线段的粗细
-              link.dashedPattern = 5;
+              link.lineWidth = 1;//线段的粗细
+              link.dashedPattern = 2;
               this.scene.add(link);
               return link;
           },
@@ -280,7 +281,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             node = new JTopo.Node(key);
               node.setSize(120, 120);  // 尺寸
                 // node.fontColor = event1.fontColor||this.options.node.fontColor;
-            node.borderRadius = 11.2; // 圆角
+            node.borderRadius = 8; // 圆角
             // node.borderWidth = 2; // 边框的宽度
             // node.borderColor = '255,255,255'; //边框颜色
             node.fillColor = '199,167,123'; // 填充颜色
@@ -294,9 +295,9 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
           },
           addNode:function(key){
             node = new JTopo.Node(key);
-              node.setSize(148.8, 107.2);  // 尺寸
+              node.setSize(120, 44);  // 尺寸
                 // node.fontColor = event1.fontColor||this.options.node.fontColor;
-            node.borderRadius = 11.2; // 圆角
+            node.borderRadius = 8; // 圆角
             // node.borderWidth = 2; // 边框的宽度
             // node.borderColor = '255,255,255'; //边框颜色
             node.fillColor = '110, 110, 255'; // 填充颜色
@@ -310,7 +311,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             node = new JTopo.Node(key);
                 node.setSize(120, 120);  // 尺寸
                 // node.fontColor = event1.fontColor||this.options.node.fontColor;
-            node.borderRadius = 11.2; // 圆角
+            node.borderRadius = 8; // 圆角
             // node.borderWidth = 2; // 边框的宽度
             // node.borderColor = '255,255,255'; //边框颜色
             node.fillColor = '238,187,45'; // 填充颜色
