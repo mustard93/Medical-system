@@ -1321,8 +1321,47 @@ function canvasWorkflow (modal,utils) {
 
     }//end link
   };
-}
+};//canvasWorkflow
+
+
+/**
+    打印组件
+  */
+  function lodopFuncs(modal,utils) {
+    return {
+      restrict: 'EA',
+      scope: true,
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/lodopFuncs.html',
+      link: function ($scope, element, $attrs) {
+            $scope.LODOP_OB_Id="LODOP_OB_"+new Date().getTime();
+            $scope.LODOP_EM_Id="LODOP_EM"+new Date().getTime();
+              $scope.Print_Div_id="Print_Div_"+new Date().getTime();
+            require(['LodopFuncs'], function(LodopFuncs) {
+                  var LODOP=getLodop(document.getElementById(  $scope.LODOP_OB_Id),document.getElementById($scope.LODOP_EM_Id));
+
+                  function CreateOneFormPage(){
+                  		LODOP.PRINT_INIT("打印控件功能演示_Lodop功能_表单一");
+                  		LODOP.SET_PRINT_STYLE("FontSize",18);
+                  		LODOP.SET_PRINT_STYLE("Bold",1);
+                  		LODOP.ADD_PRINT_TEXT(50,231,260,39,"打印页面部分内容");
+                  		LODOP.ADD_PRINT_HTM(88,200,350,600,document.getElementById($scope.Print_Div_id).innerHTML);
+                  	};
+                  //打印预览
+                  $scope.prn1_preview=function() {
+                  		CreateOneFormPage();
+                  		LODOP.PREVIEW();
+                  	};
+
+
+            });//require
+      }//link
+    };//return
+  }
+
+
 angular.module('manageApp.project')
+.directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
 .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
 
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
