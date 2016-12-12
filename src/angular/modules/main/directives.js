@@ -1397,7 +1397,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         if (_data.data) {
                             if (ngModel) {
                               if($attrs.ngModelDataKey){
-                                
+
                                     ngModel.$setViewValue(_data.data[$attrs.ngModelDataKey]);
                               }else{
                                     ngModel.$setViewValue(_data.data);
@@ -1734,6 +1734,28 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               require(['chosen'], function() {
 
 
+                  //监听变化
+                  function watchNgModel(callback){
+                    // 监听一个model 当一个model清空时,重置cosen
+                    if ($attrs.ngModel) {
+                      $scope.$watch($attrs.ngModel, function(newValue, oldValue) {
+                            // console.log("watch,$attrs.ngModel1");
+                              if(!chosenObj|| newValue==oldValue)return;
+                              try{
+                                  var chosen=chosenObj.data("chosen");
+                                  if(!chosen)return;
+                                  if(!chosen.results_data||chosen.current_selectedIndex<0)return;
+                                    var chosenVal= chosen.results_data[chosen.current_selectedIndex];
+                                  if(newValue==chosenVal)return;
+                                  // console.log("watch,$attrs.ngModel2");
+                                    if(callback)callback();
+                              }catch(e){}
+
+                      });
+                    }//  if ($attrs.ngModel)
+                  }
+
+
                 //销毁组件
                 function destroyChosen(chosenObj){
                   try{
@@ -1792,7 +1814,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           if(maskObj)maskObj.hide();
                         }
                          maskObj=  proLoading($element, "chosen");
-
+                         if(!q)q='';
                          _params.q=q;
                          _params.id=ngModel.$viewValue;
                         requestQueue = $.ajax({
@@ -1946,6 +1968,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if($attrs.isEmptyQuery=="true"){
                             handleSearch('');
                       }
+
+
+                      watchNgModel(handleSearch);
+
+
                     }//end ajax
 
 
@@ -2046,20 +2073,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
 
 
-                  // 监听一个model 当一个model清空时,重置cosen
-                  if ($attrs.clearWatchScope) {
-                    $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
-                      if(chosenObj && !newValue){
-                        getData();
-                        // chosenObj.data("chosen").form_field_jq.trigger("change");
 
-                        // $timeout(function() {
-                        //
-                        //
-                        // }, 800);
-                      }
-                    });
-                  }
+
+
+                  watchNgModel(getData);
+
+
+                  $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
+                    if(chosenObj ){
+                      getData();
+
+                    }
+                  });
 
                   getData();
 
