@@ -1,17 +1,18 @@
 <div class="angucomplete-holder">
-    <input ng-model="searchStr" type="text" placeholder="{{placeholder}}" class="ipt"
-    onmouseup="this.select();" ng-focus="angucomplete1.resetHideResults()"
+    <input ng-model="searchStr" type="text" placeholder="{{placeholder}}"
+     class="ipt" onmouseup="this.select();" ng-focus="angucomplete1.resetHideResults()"
            ng-blur="angucomplete1.hideResults()" ng-disabled="ngDisabled"/>
     <div class="angucomplete-dropdown" ng-if="showDropdown">
         <div class="angucomplete-searching" ng-show="searching">正在查询...</div>
         <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)">没有结果</div>
         <div class="angucomplete-row" ng-repeat="result in results"
         ng-mousedown="angucomplete1.selectResult(result)"
-         ng-mouseover="angucomplete1.hoverRow()"
-         ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+        ng-mouseover="angucomplete1.hoverRow()"
+        ng-class="{'angucomplete-selected-row': $index == currentIndex}">
             <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
-            <div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>
-            <div ng-if="result.description && result.description != ''" class="angucomplete-description">{{result.description}}</div>
+            <div class="angucomplete-title" ng-if="!matchClass">{{ result.data.name }}</div>
+            <div class="angucomplete-description">{{ result.data.brand }}</div>
+            <div class="angucomplete-description">{{ result.data.unit }}/{{ result.data.specification }}</div>
         </div>
     </div>
 </div>
