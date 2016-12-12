@@ -123,14 +123,18 @@
               </span>
             </div>
             <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">Email：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.email}}</span>
+              <span class="flex-item-2 text-right">座机：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.tel}}</span>
             </div>
           </div>
           <div class="flex-column mgb">
             <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">联系电话：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.tel}}</span>
+              <span class="flex-item-2 text-right">Email：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.email}}</span>
+            </div>
+            <div class="flex-item-6 flex-column">
+              <span class="flex-item-2 text-right">手机：</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.phone}}</span>
             </div>
           </div>
         </div>
@@ -181,8 +185,7 @@
       </div>
 
       <!-- 审批 -->
-      <div ng-if="!showData.orderStatus!='未提交'"
-           class="panel pr-panel pr-panel-height mgb">
+      <div ng-if="!showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">
         <div class="mgb-l">
           <h1 class="pr-font-18 mgb">审批意见</h1>
           <div class="mgb" ng-repeat="item in showData.eventRecords">
@@ -202,10 +205,13 @@
            attchment-usege="首营企业申请">
       </div>
 
-      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过'" class="mgb text-right">
+      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过' || showData.orderStatus=='已通过'" class="mgb text-right">
         <span class="mgl"><a href="#/firstEnterpriseApplication/query.html">返回申请单列表</a></span>
         <span class="mgl">
-          <button type="button" class="pr-btn-save-glodbg"><a class="color-white" ng-href="{{mainStatus.requestPath}}rest/authen/firstEnterpriseApplication/exportWord?id={{showData.id}}">打印</a></button>
+          <!-- <button type="button" class="pr-btn-save-glodbg">
+            <a class="color-white" ng-href="{{mainStatus.requestPath}}rest/authen/firstEnterpriseApplication/exportWord?id={{showData.id}}">打印</a>
+          </button> -->
+          <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" ng-href="{{mainStatus.requestPath}}rest/authen/firstEnterpriseApplication/exportWord?id={{showData.id}}">打印</a>
         </span>
       </div>
   </div>
