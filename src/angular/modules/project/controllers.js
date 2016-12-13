@@ -669,7 +669,7 @@ define('project/controllers', ['project/init'], function() {
     /**
      * 首营品种、首营企业、医院资格申请、经销商资格申请、采购目录通用控制器
      */
-    function QualificationApplyCtrl ($scope, watchFormChange, requestData) {
+    function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils) {
 
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
@@ -705,7 +705,8 @@ define('project/controllers', ['project/init'], function() {
       };
 
       //医院采购目录医院添加单条药品信息
-      $scope.addMedicinalDataItem = function (id) {
+      $scope.addMedicinalDataItem = function (id, hospitalId) {
+
         $scope.responseBody = {};
 
         if (id) {
@@ -722,12 +723,22 @@ define('project/controllers', ['project/init'], function() {
         requestData('rest/authen/hospitalPurchaseContents/saveMedical', $scope.responseBody, 'POST', 'parameterBody')
         .then(function (results) {
           if (results[1].code === 200) {
-
+            utils.goTo('#/hospitalPurchaseContents/get.html?id='+hospitalId);
           }
         })
         .catch(function (error) {
           throw new Error(error || 'Response Error');
         });
+      };
+
+      //点击编辑进入编辑药品条目编辑模式
+      $scope.hospitalPurchaseComeInEdit = function () {
+        console.log($scope.comeInEdit);
+
+        if ($scope.comeInEdit === false) {
+          $scope.comeInEdit = true;
+        }
+        console.log($scope.comeInEdit);
       };
     }
 
@@ -820,7 +831,7 @@ define('project/controllers', ['project/init'], function() {
 
     angular.module('manageApp.project')
     .controller('editWorkFlowProcessCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl])
-    .controller('QualificationApplyCtrl', ["$scope", "watchFormChange", "requestData", QualificationApplyCtrl])
+    .controller('QualificationApplyCtrl', ["$scope", "watchFormChange", "requestData", "utils", QualificationApplyCtrl])
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
     .controller('intervalCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", intervalCtrl])
     .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])
