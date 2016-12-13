@@ -667,9 +667,9 @@ define('project/controllers', ['project/init'], function() {
       }//intervalCtrl
 
     /**
-     * 首营品种、首营企业、医院资格申请通用控制器
+     * 首营品种、首营企业、医院资格申请、经销商资格申请、采购目录通用控制器
      */
-    function QualificationApplyCtrl ($scope, watchFormChange) {
+    function QualificationApplyCtrl ($scope, watchFormChange, requestData) {
 
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
@@ -690,20 +690,6 @@ define('project/controllers', ['project/init'], function() {
         }
       };
 
-      // 删除当前列的审核资料
-      $scope.deleteThisItem = function (index) {
-        $scope.formData.attachments.splice(index);
-      };
-
-      //添加自定义审核资料
-      $scope.addCustomExamineItem = function () {
-        if ($scope.formData.addCustomExamineItem.name) {
-          // 添加是否可删除标识
-          $scope.formData.addCustomExamineItem.isDel = true;
-          $scope.formData.attachments.push($scope.formData.addCustomExamineItem);
-        }
-      };
-
       //判断当前审核意见是否可见
       $scope.showAuditOpinion = function (returnArr, pipeKey) {
         if (angular.isArray(returnArr)) {
@@ -716,6 +702,32 @@ define('project/controllers', ['project/init'], function() {
           }
           return false;
         }
+      };
+
+      //医院采购目录医院添加单条药品信息
+      $scope.addMedicinalDataItem = function (id) {
+        $scope.responseBody = {};
+
+        if (id) {
+          $scope.responseBody.hospitalPurchaseContentsId = id;
+        }
+
+        if ($scope.medical) {
+          //处理药品内信息id和copyId，以区分新建和编辑
+          $scope.medical.copyId = $scope.medical.id;
+          $scope.medical.id = null;
+          $scope.responseBody.hospitalPurchaseMedical = $scope.medical;
+        }
+
+        requestData('rest/authen/hospitalPurchaseContents/saveMedical', $scope.responseBody, 'POST', 'parameterBody')
+        .then(function (results) {
+          if (results[1].code === 200) {
+
+          }
+        })
+        .catch(function (error) {
+          throw new Error(error || 'Response Error');
+        });
       };
     }
 
@@ -808,7 +820,7 @@ define('project/controllers', ['project/init'], function() {
 
     angular.module('manageApp.project')
     .controller('editWorkFlowProcessCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl])
-    .controller('QualificationApplyCtrl', ["$scope", "watchFormChange", QualificationApplyCtrl])
+    .controller('QualificationApplyCtrl', ["$scope", "watchFormChange", "requestData", QualificationApplyCtrl])
     .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
     .controller('intervalCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", intervalCtrl])
     .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])

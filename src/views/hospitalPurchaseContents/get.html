@@ -28,33 +28,32 @@
         <input type="text" class="ipt pdr-xxl" placeholder="客户名/申请单号/申请人" ng-model="listParams.q">
         <i class=""></i>
       </div>
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover pr-table">
         <thead class="pr-bg-side">
           <tr>
-            <th>序号</th>
+            <th class="w-50">序号</th>
             <th>药械编号</th>
-            <th>药械名称</th>
+            <th class="w-260">药械名称</th>
             <th>生产厂家</th>
             <th>剂型</th>
             <th>规格</th>
             <th>包装</th>
             <th>单位</th>
             <th>采购价(元)</th>
-            <th>操作</th>
+            <th class="w-100">操作</th>
           </tr>
         </thead>
         <tbody>
-          <!-- <tr ng-repeat="tr in showData.medicals track by $index"> -->
-          <tr>
-            <td>1</td>
-            <td>YX0123456789</td>
-            <td>测试药械名称</td>
-            <td>测试药品厂家名称</td>
-            <td>冲剂</td>
-            <td>150ml</td>
-            <td>10</td>
-            <td>袋</td>
-            <td>￥1.50</td>
+          <tr ng-repeat="item in showData.medicals track by $index">
+            <td>{{$index+1}}</td>
+            <td>{{item.code}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.manufacturer}}</td>
+            <td>{{item.dosageForms}}</td>
+            <td>{{item.specification}}</td>
+            <td>{{}}</td>
+            <td>{{item.unit}}</td>
+            <td>{{item.price | currency: '￥'}}</td>
             <td>
               <a href="#/hospitalPurchaseContents/get.html?id={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
               <a href="javascript:;"
@@ -65,41 +64,40 @@
                  dialog-content="删除后将无法恢复,确认删除?"
                  dialog-template="pr-dialog-submit.html"
                  callback="$root.goTo('#/hospitalPurchaseContents/query.html')"
-                 params='{"id":tr.id}'
-                 request-url="rest/authen/hospitalPurchaseContents/delete">
+                 params='{"id":item.relId, "hospitalPurchaseContentsId":showData.id}'
+                 request-url="rest/authen/hospitalPurchaseContents/deleteMedical">
               </a>
             </td>
           </tr>
         </tbody>
-        <tfoot class="pr-bg-side" ng-init="addCustomItem={}">
-          <tr>
+        <tfoot class="pr-bg-side">
+          <tr ng-init="addDataItem={}"
+              ajax-if-eval="addDataItem&&addDataItem.relId"
+              ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}"
+              scope-data="medical"
+              callback="selectRelIdCallBack(medical)"
+              show-loading = "true"
+              class="showLoading relative text-s">
             <td>添加</td>
-            <td>
-              <input type="text" ng-model="addCustomItem.code" class="ipt pr-w-100">
+            <td>{{medical.code}}</td>
+            <td class="w-100">
+              <select id="addDataItem_relId"
+                      chosen
+                      class="select pr-table-select mgb-s"
+                      data-placeholder="药械名"
+                      ng-model="addDataItem.relId"
+                      clear-watch-scope="addDataItem.relId"
+                      select-source="rest/authen/medicalStock/queryForSelectOption.json?pageSize=99999">
+              </select>
             </td>
+            <td>{{medical.manufacturer}}</td>
+            <td>{{medical.dosageForms}}</td>
+            <td>{{medical.specification}}</td>
+            <td></td>
+            <td>{{medical.unit}}</td>
+            <td>{{medical.price | currency: '￥'}}</td>
             <td>
-              <input type="text" ng-model="addCustomItem.name" class="ipt pr-w-100">
-            </td>
-            <td>
-              <input type="text" ng-model="addCustomItem.manufacturer" class="ipt pr-w-100">
-            </td>
-            <td>
-              <input type="text" ng-model="addCustomItem.manufacturer" class="ipt pr-w-100">
-            </td>
-            <td>
-              <input type="text" ng-model="addCustomItem.manufacturer" class="ipt pr-w-100">
-            </td>
-            <td>
-              <input type="text" ng-model="addCustomItem.manufacturer" class="ipt pr-w-100">
-            </td>
-            <td>
-              <input type="text" ng-model="addCustomItem.manufacturer" class="ipt pr-w-100">
-            </td>
-            <td>
-              <input type="text" ng-model="addCustomItem.manufacturer" class="ipt pr-w-100">
-            </td>
-            <td>
-              <a href="javascript:;" class="pr-add-circle">
+              <a href="javascript:;" class="pr-add-circle" ng-click="addMedicinalDataItem(showData.id)">
                  <span class="fa fa-plus-circle"></span>
               </a>
             </td>
