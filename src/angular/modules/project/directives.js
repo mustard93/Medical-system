@@ -1232,7 +1232,7 @@ function intervalCountdown ($interval) {
 }
 
 /**
- * [左边栏子菜单点击事件]
+ * []
  */
 function canvasWorkflow (modal,utils) {
   'use strict';
@@ -1321,13 +1321,12 @@ function canvasWorkflow (modal,utils) {
 
     }//end link
   };
-};//canvasWorkflow
-
+}//canvasWorkflow
 
 /**
     打印组件
   */
-  function lodopFuncs(modal,utils) {
+function lodopFuncs(modal,utils) {
     return {
       restrict: 'EA',
       scope: true,
@@ -1356,7 +1355,7 @@ function canvasWorkflow (modal,utils) {
                   		LODOP.SET_PRINT_STYLE("Bold",1);
                   		LODOP.ADD_PRINT_TEXT(50,231,260,39,"打印页面部分内容");
                   		LODOP.ADD_PRINT_HTM(88,200,350,600,document.getElementById($scope.Print_Div_id).innerHTML);
-                  	};
+                  	}
                   //打印预览
                   $scope.prn1_preview=function() {
                       getLODOP();
@@ -1370,19 +1369,33 @@ function canvasWorkflow (modal,utils) {
     };//return
   }
 
+/**
+ *  医院采购目录点击进入编辑模式事件处理
+ */
+function hospitalPurchaseComeinEdit () {
+  return {
+    restrict: 'A',
+    scope: {},
+    link: function (scope, element, attrs) {
+      console.log(angular.element(element));
+    },
+    controller: function () {
+
+    }
+  };
+}
+
 
 angular.module('manageApp.project')
-.directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
-.directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
-
+  .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
+  .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
+  .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
-
-.directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
-.directive("workflowRejectButton",  ['utils', workflowRejectButton])//自定义菜单 驳回
-.directive("workflowPassButton",  ['utils', workflowPassButton])//自定义菜单 通过
-.directive("customMenuList",  ['utils', customMenuList])//自定义菜单。列表显示
-.directive("workflowTaskRunWithAttchments",  ['utils', workflowTaskRunWithAttchments])//待附件审查
-
+  .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
+  .directive("workflowRejectButton",  ['utils', workflowRejectButton])//自定义菜单 驳回
+  .directive("workflowPassButton",  ['utils', workflowPassButton])//自定义菜单 通过
+  .directive("customMenuList",  ['utils', customMenuList])//自定义菜单。列表显示
+  .directive("workflowTaskRunWithAttchments",  ['utils', workflowTaskRunWithAttchments])//待附件审查
   .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
   .directive("orderMedicals", orderMedicals)//药械订单列表
   .directive("niceScroll", niceScroll) //滚动条美化

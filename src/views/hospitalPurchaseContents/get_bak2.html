@@ -1,0 +1,181 @@
+<div class="content-wrapper hospital-application" ng-controller="QualificationApplyCtrl">
+  <div class="page-header-info">
+    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
+    <h1>医院采购目录</h1>
+  </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper-main mgt">
+    <table-list list-data="rest/authen/hospitalPurchaseContents/getOfEdit.json"
+                list-params="{'hospitalId':mainStatus.pageParams.id}"
+                search-mode="noCaseSensitive"
+                search-param="q">
+
+      <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+        <div class="flex-item-6">
+          <span class="mgr-l">医院名称：<em class="color-6">{{showData.hospitalName || '未知名称'}}</em></span>
+          <span class="mgr-l">系统编号：<em class="color-6">{{}}</em></span>
+          <span class="mgr-l">采购周期：<em class="color-6">{{}}</em></span>
+        </div>
+        <div class="flex-item-6 text-right">
+          <span class="mgr-l">修改人：<em class="color-custom-orange">{{showData.submitUserName}}</em></span>
+          <span class="">最后修改时间：<em class="color-6">{{showData.updateAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+        </div>
+      </div>{{tbodyList}}
+
+      <!-- 主内容头部 -->
+      <div class="content-wrapper-heading mgb-m mgt-xl pdb-s mgl mgr relative">
+        <!-- 右侧搜索 -->
+        <div class="text-right order-list-search pos-rb">
+          <input type="text" class="ipt pdr-xxl" placeholder="客户名/申请单号/申请人" ng-model="listParams.q">
+          <i class=""></i>
+        </div>
+      </div>
+      <!-- 主内容区域 -->
+      <div class="content-wrapper-main">
+        <div ng-if="!status.isLoading">
+          <div ng-if="tbodyList.length==0">
+            <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+            <p class="text-center">什么也没有</p>
+          </div>
+
+          <div class="pd-c">
+            <table ng-if="tbodyList.length" class="table table-hover table-striped">
+              <thead class="pr-bg-side">
+                <tr>
+                  <th>系统编号</th>
+                  <th>医院名称</th>
+                  <th>创建时间</th>
+                  <th>采购周期</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody class="pr-bg-white">
+                <tr ng-repeat="tr in tbodyList track by $index">
+                  <td>{{tr.orderNo}}</td>
+                  <td class="color-custom-orange"><a href="#/hospitalPurchaseContents/get.html?id={{tr.id}}">{{tr.name}}</a></td>
+                  <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                  <td>{{tr.orderStatus}}</td>
+                  <td>
+                    <a href="#/hospitalPurchaseContents/get.html?id={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
+                    <!-- <a href="javascript:;" class="delete-link-icon"></a> -->
+                    <a href="javascript:;"
+                       class="color-red delete-link-icon"
+                       title="删除"
+                       handle-this-click
+                       dialog-title="确认删除?"
+                       dialog-content="删除后将无法恢复,确认删除?"
+                       dialog-template="pr-dialog-submit.html"
+                       callback="$root.goTo('#/hospitalPurchaseContents/query.html')"
+                       params='{"id":tr.id}'
+                       request-url="rest/authen/hospitalPurchaseContents/delete"></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- 导航 -->
+      <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+          <div class="fr">
+              <pagination status="status"></pagination>
+          </div>
+      </div>
+    </table-list>
+  <!-- 医院信息 -->
+    <!-- <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+      <div class="flex-item-6">
+        <span class="mgr-l">医院名称：<em class="color-6">{{showData.hospitalName || '未知名称'}}</em></span>
+        <span class="mgr-l">系统编号：<em class="color-6">{{}}</em></span>
+        <span class="mgr-l">采购周期：<em class="color-6">{{}}</em></span>
+      </div>
+      <div class="flex-item-6 text-right">
+        <span class="mgr-l">修改人：<em class="color-custom-orange">{{showData.submitUserName}}</em></span>
+        <span class="">最后修改时间：<em class="color-6">{{showData.updateAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+      </div>
+    </div> -->
+    <!-- 采购目录 -->
+    <!-- <div class="content-wrapper-heading">
+      <div class="text-right order-list-search">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/申请单号/申请人" ng-model="listParams.q">
+        <i class=""></i>
+      </div>
+      <table class="table table-striped table-hover pr-table">
+        <thead class="pr-bg-side">
+          <tr>
+            <th class="w-50">序号</th>
+            <th>药械编号</th>
+            <th class="w-260">药械名称</th>
+            <th>生产厂家</th>
+            <th>剂型</th>
+            <th>规格</th>
+            <th>包装</th>
+            <th>单位</th>
+            <th>采购价(元)</th>
+            <th class="w-100">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in showData.medicals track by $index">
+            <td>{{$index+1}}</td>
+            <td>{{item.code}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.manufacturer}}</td>
+            <td>{{item.dosageForms}}</td>
+            <td>{{item.specification}}</td>
+            <td>{{}}</td>
+            <td>{{item.unit}}</td>
+            <td>{{item.price | currency: '￥'}}</td>
+            <td>
+              <a href="#/hospitalPurchaseContents/get.html?id={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
+              <a href="javascript:;"
+                 class="color-red delete-link-icon"
+                 title="删除"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/hospitalPurchaseContents/get.html?id={{showData.hospitalId}}')"
+                 params='{"relId":item.id, "hospitalPurchaseContentsId":showData.id}'
+                 request-url="rest/authen/hospitalPurchaseContents/deleteMedical">
+              </a>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot class="pr-bg-side">
+          <tr ng-init="addDataItem={}"
+              ajax-if-eval="addDataItem&&addDataItem.relId"
+              ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}"
+              scope-data="medical"
+              callback="selectRelIdCallBack(medical)"
+              show-loading = "true"
+              class="showLoading relative text-s">
+            <td>添加</td>
+            <td>{{medical.code}}</td>
+            <td class="w-100">
+              <select id="addDataItem_relId"
+                      chosen
+                      class="select pr-table-select mgb-s"
+                      data-placeholder="药械名"
+                      ng-model="addDataItem.relId"
+                      clear-watch-scope="addDataItem.relId"
+                      select-source="rest/authen/medicalStock/queryForSelectOption.json?pageSize=99999">
+              </select>
+            </td>
+            <td>{{medical.manufacturer}}</td>
+            <td>{{medical.dosageForms}}</td>
+            <td>{{medical.specification}}</td>
+            <td></td>
+            <td>{{medical.unit}}</td>
+            <td>{{medical.price | currency: '￥'}}</td>
+            <td>
+              <a href="javascript:;" class="pr-add-circle" ng-click="addMedicinalDataItem(showData.id, showData.hospitalId)">
+                 <span class="fa fa-plus-circle"></span>
+              </a>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div> -->
+  </div>
+</div>
