@@ -206,7 +206,13 @@
       </div>
 
       <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过' || showData.orderStatus=='已通过'" class="mgb text-right">
-        <span class="mgl"><a href="#/firstEnterpriseApplication/query.html">返回申请单列表</a></span>
+        <span>
+          <a class="mgl"
+             ng-if="showData.orderStatus=='未通过'"
+             ng-href="#/firstEnterpriseApplication/edit.html?copyId={{showData.id}}">新建</a>
+        </span>
+        <span class="mgl">
+          <a href="#/firstEnterpriseApplication/query.html">返回申请单列表</a></span>
         <span class="mgl">
           <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" ng-href="{{mainStatus.requestPath}}rest/authen/firstEnterpriseApplication/exportWord?id={{showData.id}}">打印</a>
         </span>
