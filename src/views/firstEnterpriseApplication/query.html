@@ -54,7 +54,10 @@
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}">
               <div class="relative pd-m">
                 <div class="flex-column mgb card-title-height" style="height:24px;line-height:24px;">
-                  <span class="flex-item-6 title-states text-bold">{{tr.orderStatus}}</span>
+                  <span class="flex-item-6 title-states text-bold">
+                      <em ng-class="{'color-6':tr.orderStatus=='待审批','color-green':tr.orderStatus=='已通过','color-red':tr.orderStatus=='未通过'}">
+                    {{tr.orderStatus}}</em>
+                  </span>
                   <span class="flex-item-6 text-right">
                     <a class="mgl"
                        ng-if="tr.orderStatus=='未提交'"
