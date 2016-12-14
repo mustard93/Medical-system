@@ -6,8 +6,8 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal) {
-      $rootScope.store=store;
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter) {
+
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
@@ -15,6 +15,9 @@ define('main/controllers', ['main/init'], function () {
         };
         //当前用户
         $rootScope.curUser={};
+
+
+
 
         //当前日期
         var getCurrentDate = function () {
@@ -62,11 +65,12 @@ define('main/controllers', ['main/init'], function () {
         $rootScope.getObjectByKeyOfArr = utils.getObjectByKeyOfArr;
         //推荐使用
         $rootScope.utils=utils;
-
+        //本地存储
+        $rootScope.store=store;
         //    $rootScope.modal.closeAll();
         $rootScope.modal=modal;
-
-
+        //打印工具
+        $rootScope.OPrinter=OPrinter;
 
         $scope.httpGet = function(url) {
           if (Config.serverPath) {
@@ -294,7 +298,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
