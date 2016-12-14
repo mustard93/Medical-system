@@ -1389,8 +1389,40 @@ function hospitalPurchaseComeinEdit () {
   };
 }
 
+/**
+ *  卡片式列表页面内容超出范围的处理(动态宽度)
+ */
+function handleTextOverflow () {
+  return {
+    restrict: 'A',
+    scope: {},
+    link: function (scope, element, attrs) {
+      if (!attrs.type) {
+        throw new Error('params type is must defined');
+      }
+
+      // 处理动态宽度的一行超出范围
+      if (attrs.type === 'line') {      // 行内超出
+        var _w = $(element).width(),
+            _h = attrs.height;
+
+        $(element).attr('style', 'width:'+_w+'px;height:'+_h+'px;').addClass('overhide').addClass('w-space-nowrap');
+      }
+
+      // 处理动态宽度的块级元素超出范围
+      if (attrs.type === 'block') {      // 块级元素超出
+        var _wb = $(element).width(),
+            _hb = $(element).height();
+
+        $(element).attr('style', 'width:'+_wb+'px;height:'+_hb+'px;').addClass('text-ellips-block');
+      }
+    }
+  };
+}
+
 
 angular.module('manageApp.project')
+  .directive("handleTextOverflow", [handleTextOverflow])  // 卡片式列表页面内容超出范围的处理(动态宽度)
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
