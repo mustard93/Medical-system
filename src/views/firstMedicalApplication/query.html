@@ -103,19 +103,28 @@
               </div>
               <div class="relative">
                 <div class="bb-line">
-                  <h1 class="mg-m text-center text-m color-6 pd-c-m">{{tr.firstMedical.name || '未知名称'}}</h1>
+                  <h1 class="mg-m text-center text-m color-6 pd-c-m text-ellips-s">{{tr.firstMedical.name || '未知名称'}}
+                  </h1>
                 </div>
                 <div style="min-height:136px;">
                   <div ng-if="tr.orderStatus=='未提交'" class="flex-column text-s">
                     <div class="flex-item-12 pd-v pdl-m pdr-m" style="height:136px;">
                       <p>申请原因：</p>
-                      <div style="height:100px;overflow:hidden;" class="text-ellips-d">{{tr.applyReason || '暂无'}}</div>
+                      <div style="height:100px;overflow:hidden;"
+                           class=""
+                           handle-text-overflow
+                           type="block">{{tr.applyReason || '暂无'}}
+                      </div>
                     </div>
                   </div>
                   <div ng-if="tr.orderStatus!='未提交'" class="flex-column text-s">
                     <div class="flex-item-6 br-line pd-v pdl-m pdr-m" style="height:136px;">
                       <p>申请原因：</p>
-                      <div style="height:100px;overflow:hidden;" class="text-ellips-d">{{tr.applyReason || '暂无'}}</div>
+                      <div style="height:100px;overflow:hidden;"
+                           class=""
+                           handle-text-overflow
+                           type="block">{{tr.applyReason || '暂无'}}
+                      </div>
                     </div>
                     <div class="flex-item-6 pd">
                       <p ng-repeat="eventRecord in tr.eventRecords">
