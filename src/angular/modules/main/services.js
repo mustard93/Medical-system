@@ -549,12 +549,59 @@ function alertOk($rootScope, modal) {
                       LODOP=getOPrinter();
                       if(!LODOP)console.log("need exe:$root.OPrinter.init()");
                     }
-                    LODOP.ADD_PRINT_HTM(88,200,350,600,document.getElementById(divId).innerHTML);
+
+                    /**
+                    PRINT_INIT(strPrintTaskName)打印初始化
+                    ●	SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)设定纸张大小
+                    ●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
+                    ●	ADD_PRINT_TEXT(intTop,intLeft,intWidth,intHeight,strContent)增加纯文本项
+                    ●	ADD_PRINT_TABLE(intTop,intLeft,intWidth,intHeight,strHtml)增加表格项
+                    ●	ADD_PRINT_SHAPE(intShapeType,intTop,intLeft,intWidth,intHeight,intLineStyle,intLineWidth,intColor)画图形
+                    ●	SET_PRINT_STYLE(strStyleName, varStyleValue)设置对象风格
+                    ●	PREVIEW打印预览
+                    ●	PRINT直接打印
+                    ●	PRINT_SETUP打印维护
+                    ●	PRINT_DESIGN打印设计
+                    */
+                    LODOP.ADD_PRINT_HTM(0,0,350,600,document.getElementById(divId).innerHTML);
                     LODOP.PREVIEW();
-                  }
+                  }//preview
+                  ,
+                  //打印
+                  print:function(divId,taskName) {
 
+                        LODOP=getOPrinter();
+                          if(!LODOP)console.log("need exe:$root.OPrinter.init()");
+                      if(taskName)LODOP.PRINT_INIT(taskName);               //首先一个初始化语句
+                      LODOP.ADD_PRINT_HTM(88,200,350,600,document.getElementById(divId).innerHTML);
+                      LODOP.PRINT();
+                    }//print
+                    ,
+                    //打印设置。整体位置调整。
+                    printSetup:function(divId,taskName) {
+                          LODOP=getOPrinter();
+                              if(taskName)LODOP.PRINT_INIT(taskName);               //首先一个初始化语句
+                        LODOP.ADD_PRINT_HTM(88,200,350,600,document.getElementById(divId).innerHTML);
+                        LODOP.PRINT_SETUP();
+                      }//print
+                      ,
+                    //打印设置。详细调整，可以到每个字
+                    printDesign:function(divId,taskName) {
+                          LODOP=getOPrinter();
+                              if(taskName)LODOP.PRINT_INIT(taskName);               //首先一个初始化语句
+                        LODOP.ADD_PRINT_HTM(88,200,800,600,document.getElementById(divId).innerHTML);
+                        LODOP.PRINT_DESIGN();
+                      }//print
+                  ,
+                  //设置基本打印风格
+                  setPrintStyle:function(key,val) {
+                      LODOP=getOPrinter();
+                      // LODOP.SET_PRINT_STYLE("FontSize",11);
+                      LODOP.SET_PRINT_STYLE(key,val);
 
-                }
+                    }//preview
+
+                }//OPrinter
 
               return OPrinter;
         };//OPrinter
