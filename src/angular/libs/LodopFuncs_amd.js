@@ -38,19 +38,24 @@ define('LodopFuncs',function(){
       } catch(err) {return true;};
   };
 
-  //====页面引用CLodop云打印必须的JS文件：====
-  if (needCLodop()) {
-      //让其它电脑的浏览器通过本机打印（适用例子）：
-      oscript = document.createElement("script");
-      oscript.src ="http://localhost:8000/CLodopfuncs.js?priority=1";
-      var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
-      head.insertBefore( oscript,head.firstChild );
-      //让本机浏览器打印(更优先)：
-      var oscript = document.createElement("script");
-      oscript.src ="http://localhost:8001/CLodopfuncs.js?priority=2";
-      var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
-      head.insertBefore( oscript,head.firstChild );
-  };
+
+
+  function loadCLodop(){
+    //====页面引用CLodop云打印必须的JS文件：====
+    if (needCLodop()) {
+        //让其它电脑的浏览器通过本机打印（适用例子）：
+        oscript = document.createElement("script");
+        oscript.src ="http://localhost:8000/CLodopfuncs.js?priority=1";
+        var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
+        head.insertBefore( oscript,head.firstChild );
+        //让本机浏览器打印(更优先)：
+        var oscript = document.createElement("script");
+        oscript.src ="http://localhost:8001/CLodopfuncs.js?priority=2";
+        var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
+        head.insertBefore( oscript,head.firstChild );
+    };
+  }
+
 
   //====获取LODOP对象的主过程：====
   function getLodop(oOBJECT,oEMBED){
@@ -69,12 +74,12 @@ define('LodopFuncs',function(){
               try{ LODOP=getCLodop();} catch(err) {};
   	    if (!LODOP && document.readyState!=="complete") {alert("C-Lodop没准备好，请稍后再试！"); return;};
               if (!LODOP) {
-  		 if (isIE) document.write(strCLodopInstall); else
-  		 document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
-                   return;
+  		 if (isIE) document.write(strCLodopInstall);
+       else  document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
+          return;
               } else {
 
-  	         if (CLODOP.CVERSION<"2.0.3.5") {
+  	    if (CLODOP.CVERSION<"2.0.3.5") {
   			if (isIE) document.write(strCLodopUpdate); else
   			document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML;
   		 };
@@ -125,6 +130,7 @@ define('LodopFuncs',function(){
 
 
     return {
+      loadCLodop:loadCLodop,
       getLodop:getLodop
 
     };

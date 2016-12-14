@@ -502,7 +502,53 @@ function alertOk($rootScope, modal) {
       };
     }//watchFormChange
 
+
+
+
+          //打印工具
+          function OPrinter () {
+
+              var LodopFuncs=null;
+                var LODOP=null;
+
+
+              function getOPrinter(){
+                    if(!LODOP&&LodopFuncs){
+                          LODOP=LodopFuncs.getLodop(document.getElementById("LODOP_OB_Id"),document.getElementById("LODOP_EM_Id"));
+                    }
+                    return LODOP;
+              }//_getLODOP
+
+              var  OPrinter={
+
+                init:function(){
+                    if(!LODOP){
+                        require(['LodopFuncs'], function(LodopFuncs1) {
+                              LodopFuncs=LodopFuncs1;
+                              //异步加载js
+                              LodopFuncs1.loadCLodop();
+
+                        });//require
+                      }//if
+                },
+                //预览
+                preview:function(divId) {
+                    if(!LODOP){
+                      LODOP=getOPrinter();
+                      if(!LODOP)console.log("need exe:$root.OPrinter.init()");
+                    }
+                    LODOP.ADD_PRINT_HTM(88,200,350,600,document.getElementById(divId).innerHTML);
+                    LODOP.PREVIEW();
+                  }
+
+
+                }
+
+              return OPrinter;
+        };//OPrinter
+
     angular.module('manageApp.main')
+        .factory('OPrinter', OPrinter)
         .service('watchFormChange', ["$timeout",watchFormChange])
       .factory('redirectInterceptor', redirectInterceptor)
       .service('alertOk', ['$rootScope', 'modal',alertOk])
