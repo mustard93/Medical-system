@@ -2448,7 +2448,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope， callback="formData.courseId=details[0].value"
 
     */
-    function ajaxUrlSubmit($timeout, requestData, alertOk, alertError, proLoading,modal) {
+    function ajaxUrlSubmit($timeout, requestData, alertOk, alertError, proLoading, modal) {
         return {
             restrict: 'AE',
             // scope: true,
@@ -2460,35 +2460,34 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 $scope.ajaxUrlHandler = $scope.$eval($attrs.ajaxUrlHandler);
 
-
-
                 function getData(params) {
-                   //满足条件才异步请求
-                   if (angular.isDefined($attrs.ajaxIf)) {
-                     if (!$attrs.ajaxIf) return;
-                   }
-                   if (angular.isDefined($attrs.ajaxIfEval)) {
-                       var tmp=$scope.$eval($attrs.ajaxIfEval);
-                     if (!tmp) return;
-                   }
-                   $scope.isLoading = true;
-                   var maskObj=null;
-                   if (!$attrs.noshowLoading) {
-                     maskObj=proLoading($element);
-                     //  if(maskObj)maskObj.hide();
-                   }
+                  //满足条件才异步请求
+                  if (angular.isDefined($attrs.ajaxIf)) {
+                    if (!$attrs.ajaxIf) return;
+                  }
+
+                  if (angular.isDefined($attrs.ajaxIfEval)) {
+                    var tmp = $scope.$eval($attrs.ajaxIfEval);
+                    if (!tmp) return;
+                  }
+                  $scope.isLoading = true;
+                    var maskObj=null;
+                    if (!$attrs.noshowLoading) {
+                      maskObj=proLoading($element);
+                      //  if(maskObj)maskObj.hide();
+                    }
                    var parameterBody = false;
                    if (angular.isDefined($attrs.parameterBody)) parameterBody = true;
 
                    if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] ="";
 
 
-                   var httpMethod="POST"
+                   var httpMethod = "POST";
                    if($attrs.httpMethod){
                      httpMethod=$attrs.httpMethod;
                    }
 
-                   requestData($attrs.ajaxUrlSubmit, params,httpMethod,parameterBody)
+                   requestData($attrs.ajaxUrlSubmit, params, httpMethod, parameterBody)
                      .then(function(results) {
                            if(maskObj)maskObj.hide();
 
@@ -2546,18 +2545,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 }
 
-                $element.on("click", function (aa) {
-
-                      var _params = {};
+                $element.on("click", function () {
+                  var _params = {};
                   if ($attrs.params) {
-                      if ($attrs.params.indexOf("{") === 0) {
-                            _params = $scope.$eval($attrs.params);
-                      } else {
-                            _params = $scope.$parent[$attrs.params];
-                      }
+                    if ($attrs.params.indexOf("{") === 0) {
+                      _params = $scope.$eval($attrs.params);
+                    } else {
+                      _params = $scope.$parent[$attrs.params];
+                    }
                   }
 
-                      getData(_params);
+                  getData(_params);
                 });
 
             }

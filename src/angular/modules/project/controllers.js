@@ -730,16 +730,6 @@ define('project/controllers', ['project/init'], function() {
           throw new Error(error || 'Response Error');
         });
       };
-
-      //点击编辑进入编辑药品条目编辑模式
-      $scope.hospitalPurchaseComeInEdit = function () {
-        console.log($scope.comeInEdit);
-
-        if ($scope.comeInEdit === false) {
-          $scope.comeInEdit = true;
-        }
-        console.log($scope.comeInEdit);
-      };
     }
 
     /**
