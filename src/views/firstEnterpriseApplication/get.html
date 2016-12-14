@@ -94,7 +94,7 @@
             </div>
             <div class="flex-item-6 flex-column">
               <span class="flex-item-2 text-right">营业期限：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.busnissAllotedTime}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.busnissAllotedTime | date: 'yyyy-MM-dd'}}</span>
             </div>
           </div>
           <div class="flex-column mgb">
@@ -180,9 +180,16 @@
               <td>{{item.uploadUserName}}</td>
               <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
               <td>{{item.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-              <td>
-                <img ng-if="item.attachmentUrl" ng-src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;" />
+              <td ng-if="item.attachmentUrl && utils.isPicture(item.fileName)">
+                <img title="{{item.fileName}}"
+                     alt="{{item.fileName}}"
+                     ng-src="{{item.attachmentUrl}}"
+                     style="width:120px;height:120px;margin-bottom:10px;"/>
               </td>
+              <td ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
+                {{item.fileName}}
+              </td>
+
               <td>{{item.note}}</td>
             </tr>
           </tbody>

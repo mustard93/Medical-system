@@ -69,11 +69,16 @@
 
 
                 <td>
-                  <p ng-if="item.attachmentUrl"><img  title="{{item.fileName}}" alt="{{item.fileName}}"  ng-src="{{item.attachmentUrl}}"  style="width:120px;height:120px;margin-bottom:10px;"/></p>
-                  <!-- <p ng-if="!item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt=""/></p> -->
+                  <p ng-if="item.attachmentUrl && utils.isPicture(item.fileName)">
+                    <img title="{{item.fileName}}"
+                         alt="{{item.fileName}}"
+                         ng-src="{{item.attachmentUrl}}"
+                         style="width:120px;height:120px;margin-bottom:10px;"/>
+                  </p>
+                  <p ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
+                    {{item.fileName}}
+                  </p>
                   <p>
-
-
                     <button type="button"
                             class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                               ng-init="upFile={}"
@@ -108,7 +113,17 @@
                 <td>{{addAttachment.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
                 <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效日期至" ng-readonly="true" ng-model="addAttachment.guaranteePeriod"></td>
                 <td>
-                  <p ng-if="addAttachment.attachmentUrl"><img  title="{{addAttachment.fileName}}" alt="{{addAttachment.fileName}}" ng-src="{{addAttachment.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
+                  <p ng-if="addAttachment.attachmentUrl && utils.isPicture(addAttachment.fileName)">
+                    <img title="{{addAttachment.fileName}}"
+                         alt="{{addAttachment.fileName}}"
+                         ng-src="{{addAttachment.attachmentUrl}}"
+                         alt=""
+                         style="width:120px;height:120px;margin-bottom:10px;"/>
+                  </p>
+                  <p ng-if="addAttachment.attachmentUrl && !utils.isPicture(addAttachment.fileName)" class="mgb">
+                    {{addAttachment.fileName}}
+
+                  </p>
                   <button type="button"
                           class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                           ng-init="upFile={}"

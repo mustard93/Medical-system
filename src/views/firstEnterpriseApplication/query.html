@@ -59,9 +59,21 @@
                     {{tr.orderStatus}}</em>
                   </span>
                   <span class="flex-item-6 text-right">
+                       <a  ng-if="tr.orderStatus=='未提交' && mainStatus.id==tr.proposerId"
+                          href="javascript:;"
+                          class="color-red"
+                          handle-this-click
+                          dialog-title="确认删除?"
+                          dialog-content="删除后将无法恢复,确认删除?"
+                          dialog-template="pr-dialog-submit.html"
+                          callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+                          params='{"id":tr.id}'
+                          request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
+
                     <a class="mgl"
                        ng-if="tr.orderStatus=='未提交'"
                        ng-href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}">编辑</a>
+
                     <a class="mgl"
                        ng-if="tr.orderStatus=='未通过'"
                        ng-href="#/firstEnterpriseApplication/edit.html?copyId={{tr.id}}">新建</a>
@@ -73,6 +85,7 @@
                        ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">立即审批</a>
                   </span>
                 </div>
+
                 <div class="flex-column qurey text-s color-9">
                   <span class="flex-item-6 mgb-s">申请单：
                     <strong class="color-6 text-normal">{{tr.orderNo}}</strong></span>
