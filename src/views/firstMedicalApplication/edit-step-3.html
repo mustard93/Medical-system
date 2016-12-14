@@ -60,20 +60,25 @@
                 <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
                 <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效日期至" ng-readonly="true" ng-model="item.guaranteePeriod"></td>
                 <td>
-                  <p ng-if="item.attachmentUrl"><img  title="{{item.fileName}}" alt="{{item.fileName}}"  ng-src="{{item.attachmentUrl}}"  style="width:120px;height:120px;margin-bottom:10px;"/></p>
-                  <!-- <p ng-if="!item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt=""/></p> -->
+                  <p ng-if="item.attachmentUrl && utils.isPicture(item.fileName)">
+                    <img title="{{item.fileName}}"
+                         alt="{{item.fileName}}"
+                         ng-src="{{item.attachmentUrl}}"
+                         style="width:120px;height:120px;margin-bottom:10px;"/>
+                  </p>
+                  <p ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
+                    {{item.fileName}}
+                  </p>
                   <p>
-
-
                     <button type="button"
                             class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
-                              ng-init="upFile={}"
+                            ng-init="upFile={}"
                             uploader-one="rest/authen/fileUpload/upload2.json"
                             usege="首营品种申请"
                             callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"
-                            up-file="upFile" ng-model="item.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                            up-file="upFile"
+                            ng-model="item.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
                     </button>
-
                   </p>
                 </td>
                 <td>
@@ -94,22 +99,34 @@
               <tr>
                 <td>&nbsp;</td>
                 <td><input type="text" name="name" class="ipt" placeholder="资料名称" ng-model="addAttachment.name"></td>
-                <td>  {{addAttachment.uploadUserName}}</td>
+                <td>{{addAttachment.uploadUserName}}</td>
                 <td>{{addAttachment.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
                 <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效日期至" ng-readonly="true" ng-model="addAttachment.guaranteePeriod"></td>
                 <td>
-                  <p ng-if="addAttachment.attachmentUrl"><img  title="{{addAttachment.fileName}}" alt="{{addAttachment.fileName}}" ng-src="{{addAttachment.attachmentUrl}}" alt="" style="width:120px;height:120px;margin-bottom:10px;"/></p>
+
+                  <p ng-if="addAttachment.attachmentUrl && utils.isPicture(addAttachment.fileName)">
+                    <img title="{{addAttachment.fileName}}"
+                         alt="{{addAttachment.fileName}}"
+                         ng-src="{{addAttachment.attachmentUrl}}"
+                         alt=""
+                         style="width:120px;height:120px;margin-bottom:10px;"/>
+                  </p>
+                  <p ng-if="addAttachment.attachmentUrl && !utils.isPicture(addAttachment.fileName)" class="mgb">
+                    {{addAttachment.fileName}}
+
+                  </p>
                   <button type="button"
                           class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                           ng-init="upFile={}"
                           uploader-one="rest/authen/fileUpload/upload2.json"
                           usege="首营品种申请"
                           callback="addAttachment.uploadUserId=upFile.data.userId;addAttachment.uploadUserName=upFile.data.userName;addAttachment.uploadTime=upFile.data.createAt;addAttachment.fileName=upFile.data.originalFileName"
-                          up-file="upFile" ng-model="addAttachment.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                          up-file="upFile"
+                          ng-model="addAttachment.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
                   </button>
                 </td>
                 <td>
-                  <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="addAttachment.note"></textarea>
+                  <textarea class="pr-textarea " name="name" rows="6" cols="20" placeholder="备注信息" ng-model="addAttachment.note"></textarea>
                 </td>
                 <td>
                   <a ng-click="addAttachment.canDeleteFlag=true;formData.attachments.push(addAttachment);addAttachment={}" href="javascript:;" class="pr-add-circle"><span class="fa fa-plus-circle"></span></a>

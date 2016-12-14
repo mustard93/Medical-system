@@ -144,8 +144,14 @@
               <td>{{item.uploadUserName}}</td>
               <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
               <td>{{item.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-              <td>
-                <img ng-if="item.attachmentUrl" ng-src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;" />
+              <td ng-if="item.attachmentUrl && utils.isPicture(item.fileName)">
+                <img title="{{item.fileName}}"
+                     alt="{{item.fileName}}"
+                     ng-src="{{item.attachmentUrl}}"
+                     style="width:120px;height:120px;margin-bottom:10px;"/>
+              </td>
+              <td ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
+                {{item.fileName}}
               </td>
               <td>{{item.note}}</td>
             </tr>
@@ -175,6 +181,11 @@
       </div>
 
       <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过' || showData.orderStatus=='已通过'" class="mgb text-right">
+        <span>
+          <a class="mgl"
+             ng-if="showData.orderStatus=='未通过'"
+             ng-href="#/hospitalApplication/edit.html?copyId={{showData.id}}">新建</a>
+        </span>
         <span class="mgl"><a href="#/hospitalApplication/query.html">返回申请单列表</a></span>
         <span class="mgl">
           <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" ng-href="{{mainStatus.requestPath}}rest/authen/hospitalApplication/exportWord?id={{showData.id}}">打印</a>

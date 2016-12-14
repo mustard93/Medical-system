@@ -36,6 +36,8 @@
       <!-- 基本信息 -->
       <div class="panel pr-panel pr-panel-height mgb">
         <h1 class="pr-font-18 mgb">基本信息</h1>
+        <div class="">
+        <h1 class="pr-font-14 bb-line pd-v text-bold mgb">企业信息：</h1>
         <div class="bb-line">
           <div class="flex-column mgb">
             <div class="flex-item-6 flex-column">
@@ -62,7 +64,7 @@
             </div>
             <div class="flex-item-6 flex-column">
               <span class="flex-item-2 text-right">企业地址：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.medicalUniformCode}}</span>
+              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.address}}</span>
             </div>
           </div>
           <div class="flex-column mgb">
@@ -92,7 +94,7 @@
             </div>
             <div class="flex-item-6 flex-column">
               <span class="flex-item-2 text-right">营业期限：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.busnissAllotedTime}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.busnissAllotedTime | date: 'yyyy-MM-dd'}}</span>
             </div>
           </div>
           <div class="flex-column mgb">
@@ -114,6 +116,9 @@
               <span class="flex-item-2 text-right">付款方式：</span>
               <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.payType}}</span>
             </div>
+          </div>
+          <div class="">
+            <h1 class="pr-font-14 bb-line pd-v text-bold mgb">销售人员信息：</h1>
           </div>
           <div class="flex-column mgb">
             <div class="flex-item-6 flex-column">
@@ -138,12 +143,12 @@
             </div>
           </div>
         </div>
-        <div class="bb-line">
-          <h1 class="pr-font-14 mgb mgt">经营范围：</h1>
-          <p class="mgb">{{showData.firstEnterprise.businessScope}}</p>
-        </div>
+      </div>
         <div class="">
-          <h1 class="pr-font-14 mgb mgt">拟供产品：</h1>
+          <h1 class="pr-font-14 mgb mgt text-bold">经营范围：</h1>
+          <p class="mgb">{{showData.firstEnterprise.businessScope}}</p>
+
+          <h1 class="pr-font-14 mgb mgt text-bold">拟供产品：</h1>
           <p class="mgb">{{showData.firstEnterprise.provideProducts}}</p>
         </div>
 
@@ -175,10 +180,18 @@
               <td>{{item.uploadUserName}}</td>
               <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
               <td>{{item.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-              <td>
-                <img ng-if="item.attachmentUrl" ng-src="{{item.attachmentUrl}}" alt="" style="width:120px;height:120px;" />
+              <td ng-if="item.attachmentUrl && utils.isPicture(item.fileName)">
+                <img title="{{item.fileName}}"
+                     alt="{{item.fileName}}"
+                     ng-src="{{item.attachmentUrl}}"
+                     style="width:120px;height:120px;margin-bottom:10px;"/>
               </td>
-              <td>{{item.note}}</td>
+              <td ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
+                {{item.fileName}}
+              </td>
+              <td style="height:113px;overflow:hidden;"
+               handle-text-overflow
+               type="block">{{item.note}}</td>
             </tr>
           </tbody>
         </table>

@@ -1,0 +1,90 @@
+<div ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
+
+<!--body wrapper start-->
+<table-list list-data="rest/authen/outstockDetail/query.json" list-params="listParams">
+    <div class="mg-m col-lg-12 col-sm-12">
+      <!-- <div class="col-lg-1">
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/role/edit.html">
+            <i class="fa fa-plus"></i>新建
+        </button>
+      </div> -->
+      <div class="form-group col-lg-2">
+        <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
+      </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="loader" ng-if="status.isLoading">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div ng-if="!status.isLoading">
+            <div class="empty-wrap" ng-if="tbodyList.length==0">
+                <span>
+                    <i class="fa fa-inbox">
+                        <em>什么也没有</em>
+                    </i>
+                </span>
+            </div>
+            <div ng-if="tbodyList.length">
+
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="selectAll"></th>
+                            <th>序号</th>
+                            <th>单据日期</th>
+                            <th>单据编号</th>
+                            <th>仓库</th>
+                            <th>商品编码</th>
+                            <th>商品名称</th>
+                            <th>数量</th>
+                            <th>批号</th>
+                            <th>灭菌批号</th>
+                            <th>有效期至</th>
+                            <th>生产日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
+                            <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                            <td>{{$index + 1}}</td>
+                            <td>{{tr.orderDate | date : 'yyyy-MM-dd HH:mm'}}</td>
+                            <td>{{tr.orderNo}}</td>
+                            <td>{{tr.warehouseCenter}}</td>
+                            <td>{{tr.medicalStockId}}</td>
+                            <td>{{tr.medicalStockName}}</td>
+                            <td>{{tr.outgoingQuantity}}</td>
+                            <td>{{tr.productionBatch}}</td>
+                            <td>{{tr.sterilizationBatchNumber}}</td>
+                            <td>{{tr.validTill | date : 'yyyy-MM-dd HH:mm'}}</td>
+                            <td>{{tr.productionDate | date : 'yyyy-MM-dd HH:mm'}}</td>
+                            <!-- <td>
+
+                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/role/edit.html?id={{tr.id}}">
+                                    <i class="fa fa-edit"></i>
+                                    编辑
+                                </button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/role/delete', tr.id)">
+                                    <i class="fa fa-trash-o"></i>
+                                    删除</button>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="fr">
+                        <pagination status="status"></pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</table-list>
+<!--body wrapper end-->
+</div>
