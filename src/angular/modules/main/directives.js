@@ -2694,7 +2694,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("chart", eChart)
         .directive("angucomplete", ["$parse", "requestData", "$sce", "$timeout",angucomplete])
         .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
-
         .directive("checkboxGroup", checkboxGroup)
         .directive("chosen", chosen)
         .directive("formItem", formItem)

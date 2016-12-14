@@ -264,15 +264,15 @@ define('upload/directives', ['upload/init'], function () {
                                   break;
                               case "image":
                                   if (/image/g.test(files[i].type)) {
-                                      var _fileObj = {
-                                          status: 'uploading',
-                                          file: files[i],
-                                          progress: 0,
-                                          text: '上传中...',
-                                          name: files[i].name,
-                                          data: "",
-                                          imgSrc: window.URL.createObjectURL(new Blob([files[i]], {type: files[i].type}))
-                                      };
+                                    _fileObj = {
+                                      status: 'uploading',
+                                      file: files[i],
+                                      progress: 0,
+                                      text: '上传中...',
+                                      name: files[i].name,
+                                      data: "",
+                                      imgSrc: window.URL.createObjectURL(new Blob([files[i]], {type: files[i].type}))
+                                    };
                                       // $scope.fileList.push(_fileObj);
                                           if($scope.upFile)$scope.upFile=_fileObj;
                                       $scope.$digest();
@@ -284,13 +284,13 @@ define('upload/directives', ['upload/init'], function () {
                                   break;
                               default:
                                   if (!files[i].type||new RegExp(fileType).test(files[i].type)) {
-                                      var _fileObj = {
-                                          status: 'uploading',
-                                          file: files[i],
-                                          progress: 0,
-                                          text: '上传中...',
-                                          data: {}
-                                      };
+                                    _fileObj = {
+                                      status: 'uploading',
+                                      file: files[i],
+                                      progress: 0,
+                                      text: '上传中...',
+                                      data: {}
+                                    };
                                           if($scope.upFile)$scope.upFile=_fileObj;
                                       // $scope.fileList.push(_fileObj);
                                       $scope.$digest();
@@ -304,7 +304,6 @@ define('upload/directives', ['upload/init'], function () {
 
                   //删除图片
                   function delFile(file) {
-
                       $scope.ngModel = "";
                   }
 
@@ -386,11 +385,11 @@ define('upload/directives', ['upload/init'], function () {
                       xhr.send(fd);
                   }
               }
-          }
-      };
+          };
+      }
 
 //
     angular.module('manageApp.upload')
     .directive("uploaderOne", ["alertError",uploaderOne])
-        .directive("uploader", uploader)
+    .directive("uploader", uploader);
 });

@@ -395,7 +395,7 @@ function alertOk($rootScope, modal) {
 
       //工具类
       function utils () {
-          var  utilsObj={
+          var  utilsObj = {
             //json字符串转换为js 对象。
             fromJson  : function (jsonString) {
               var firstLetter = jsonString.replace(/^\s*/, '')[0];
@@ -480,9 +480,21 @@ function alertOk($rootScope, modal) {
                   arr.splice(index,1);
               }
               return index;
-            }
+            },
             // 对文件名后缀进行判断以区分用户上传的文件类型
-            
+            isPicture : function (fileName) {
+              if (angular.isString(fileName) && fileName.indexOf('.') !== -1) {
+                var _suffix = fileName.split('.')[1];
+                return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
+                // if (_suffix !== 'png' || _suffix !== 'jpg' || _suffix !== 'jpeg' || _suffix !== 'gif') {
+                //   return false;
+                // } else {
+                //   return true;
+                // }
+              } else {
+                throw new Error('params fileName is must type of String');
+              }
+            }
           };
 
           return utilsObj;
