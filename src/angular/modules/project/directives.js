@@ -1377,9 +1377,13 @@ function hospitalPurchaseComeinEdit () {
     restrict: 'A',
     scope: {},
     link: function (scope, element, attrs) {
-      console.log(angular.element(element));
+      $(element).find('a.edit-link-icon').on('click', function () {
+        $(this).hide().next().show();
+        $(element).find('span.notEdit').hide();
+        $(element).find('span.comeInEdit').show();
+      });
     },
-    controller: function () {
+    controller: function ($scope) {
 
     }
   };

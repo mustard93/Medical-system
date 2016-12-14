@@ -395,110 +395,98 @@ function alertOk($rootScope, modal) {
 
       //工具类
       function utils () {
-
-
-
           var  utilsObj={
             //json字符串转换为js 对象。
             fromJson  : function (jsonString) {
-                var firstLetter = jsonString.replace(/^\s*/, '')[0];
-                return (firstLetter === '{' || firstLetter === '[') ? angular.fromJson(jsonString) : new String(jsonString);
-
+              var firstLetter = jsonString.replace(/^\s*/, '')[0];
+              return (firstLetter === '{' || firstLetter === '[') ? angular.fromJson(jsonString) : new String(jsonString);
             },
             //获取有指定key的scope作用域。
             getAppointScope  : function ($scope,scopeKey) {
-
                 if($scope[scopeKey]){
                   return $scope;
                 }
                 if(!$scope.$parent)return null;
                 return utilsObj.getAppointScope($scope.$parent,scopeKey);
             },
-                //在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
-                getScopeExtend  : function ($scope,scopeExtendName) {
-
-                    if(  angular.isObject($scope[scopeExtendName])){
-                      return $scope[scopeExtendName];
-                    }
-                    if(!$scope.$parent)return null;
-                    return utilsObj.getScopeExtend($scope.$parent,scopeExtendName);
-                },
-                //  url 存在则跳转，否则刷新。
-                goOrRefreshHref  : function (url,confirmMsg) {
-
-                    if(url){
-                       utilsObj.goTo(url,confirmMsg);
-                       return;
-                    }
-                    utilsObj.refreshHref(confirmMsg);
-                },
-                //  跳转到对应页面 utils.goTo(url,confirmMsg);
-                refreshHref  : function (confirmMsg) {
-                    var url=window.location.href;
-                    //避免参数越来越多
-                    if (url.indexOf('refreshTime=') > -1) {
-                      url = url.split('refreshTime=')[0];
-                    }
-
-                    url+=(url.indexOf("?")>-1?"&":"?")+"refreshTime="+new Date().getTime();
-
-                    if(confirmMsg){
-                      dialogConfirm(confirmMsg, function () {
-                        window.location.assign(url);
-                      }, null);
-                    }else{
-                        window.location.assign(url);
-                    }
-                },
-                //  跳转到对应页面 utils.goTo(url,confirmMsg);
-                goTo  : function (url,confirmMsg) {
-
-                      url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
-                    if(confirmMsg){
-                      dialogConfirm(confirmMsg, function () {
-                        window.location.assign(url);
-                      }, null);
-                    }else{
-                        window.location.assign(url);
-                    }
-                },
-                //遍历菜单数组，返回满足属性值type等于val的。数据位置。 utils.getcustomMenuByKeyOfArr(arr,val) ;
-               getcustomMenuByKeyOfArr : function (arr,val) {
-                    return utilsObj.getObjectByKeyOfArr(arr,"type",val) ;
-
-                 },
-                //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
-               getObjectIndexByKeyOfArr : function (arr,key,val) {
-
-                     if(!angular.isArray(arr))return -1;
-                     for(var i=0;i<arr.length;i++){
-                       if(arr[i][key]==val)return i;
-                     }
-                     return -1;
-                 },
-                //    遍历数组，返回满足属性值等于val的。 utils.getObjectByKeyOfArr(arr,key,val) ;
-                getObjectByKeyOfArr : function (arr,key,val) {
-
-                    var index=utilsObj.getObjectIndexByKeyOfArr(arr,key,val);
-                    if(index<0)     return null;
-                    return arr[index];
-                },
-                //    遍历数组，删除满足属性值等于val的。utils.removeObjectByKeyOfArr(arr,key,val)
-                removeObjectByKeyOfArr : function (arr,key,val) {
-
-                    var index=utilsObj.getObjectIndexByKeyOfArr(arr,key,val);
-                    if(index>-1){
-                        arr.splice(index,1);
-                    }
-                    return index;
+            //在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
+            getScopeExtend  : function ($scope,scopeExtendName) {
+                if(  angular.isObject($scope[scopeExtendName])){
+                  return $scope[scopeExtendName];
+                }
+                if(!$scope.$parent)return null;
+                return utilsObj.getScopeExtend($scope.$parent,scopeExtendName);
+            },
+            //  url 存在则跳转，否则刷新。
+            goOrRefreshHref  : function (url,confirmMsg) {
+                if(url){
+                   utilsObj.goTo(url,confirmMsg);
+                   return;
+                }
+                utilsObj.refreshHref(confirmMsg);
+            },
+            //  跳转到对应页面 utils.goTo(url,confirmMsg);
+            refreshHref  : function (confirmMsg) {
+                var url=window.location.href;
+                //避免参数越来越多
+                if (url.indexOf('refreshTime=') > -1) {
+                  url = url.split('refreshTime=')[0];
                 }
 
+                url+=(url.indexOf("?")>-1?"&":"?")+"refreshTime="+new Date().getTime();
+
+                if(confirmMsg){
+                  dialogConfirm(confirmMsg, function () {
+                    window.location.assign(url);
+                  }, null);
+                }else{
+                    window.location.assign(url);
+                }
+            },
+            //  跳转到对应页面 utils.goTo(url,confirmMsg);
+            goTo  : function (url,confirmMsg) {
+
+                  url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+                if(confirmMsg){
+                  dialogConfirm(confirmMsg, function () {
+                    window.location.assign(url);
+                  }, null);
+                }else{
+                    window.location.assign(url);
+                }
+            },
+            //遍历菜单数组，返回满足属性值type等于val的。数据位置。 utils.getcustomMenuByKeyOfArr(arr,val) ;
+            getcustomMenuByKeyOfArr : function (arr,val) {
+              return utilsObj.getObjectByKeyOfArr(arr,"type",val) ;
+            },
+            //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+            getObjectIndexByKeyOfArr : function (arr,key,val) {
+              if(!angular.isArray(arr))return -1;
+              for(var i=0;i<arr.length;i++){
+                if(arr[i][key]==val)return i;
+              }
+              return -1;
+            },
+            //遍历数组，返回满足属性值等于val的。 utils.getObjectByKeyOfArr(arr,key,val) ;
+            getObjectByKeyOfArr : function (arr,key,val) {
+              var index=utilsObj.getObjectIndexByKeyOfArr(arr,key,val);
+              if(index<0)     return null;
+              return arr[index];
+            },
+            //遍历数组，删除满足属性值等于val的。utils.removeObjectByKeyOfArr(arr,key,val)
+            removeObjectByKeyOfArr : function (arr,key,val) {
+              var index=utilsObj.getObjectIndexByKeyOfArr(arr,key,val);
+              if(index>-1){
+                  arr.splice(index,1);
+              }
+              return index;
             }
+            // 对文件名后缀进行判断以区分用户上传的文件类型
+            
+          };
 
           return utilsObj;
-    };
-
-
+    }
 
     //监听内容修改标志
     function watchFormChange($timeout) {

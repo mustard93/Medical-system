@@ -60,11 +60,13 @@
                 <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
                 <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效日期至" ng-readonly="true" ng-model="item.guaranteePeriod"></td>
                 <td>
-                  <p ng-if="item.attachmentUrl"><img  title="{{item.fileName}}" alt="{{item.fileName}}"  ng-src="{{item.attachmentUrl}}"  style="width:120px;height:120px;margin-bottom:10px;"/></p>
-                  <!-- <p ng-if="!item.attachmentUrl"><img ng-src="{{item.attachmentUrl}}" alt=""/></p> -->
+                  <p ng-if="item.attachmentUrl">
+                    <img title="{{item.fileName}}"
+                         alt="{{item.fileName}}"  
+                         ng-src="{{item.attachmentUrl}}"
+                         style="width:120px;height:120px;margin-bottom:10px;"/>
+                  </p>
                   <p>
-
-
                     <button type="button"
                             class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                               ng-init="upFile={}"
@@ -73,7 +75,6 @@
                             callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"
                             up-file="upFile" ng-model="item.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
                     </button>
-
                   </p>
                 </td>
                 <td>
