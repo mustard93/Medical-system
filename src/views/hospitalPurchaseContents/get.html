@@ -1,6 +1,6 @@
 <div class="content-wrapper hospital-application"
      ng-controller="QualificationApplyCtrl"
-     ajax-url="rest/authen/hospitalPurchaseContents/getOfEdit.json?hospitalId={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/customerAddress/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback=""
      alert-error>
@@ -13,33 +13,37 @@
     <!-- 医院信息 -->
     <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
       <div class="flex-item-6">
-        <span class="mgr-l">医院名称：<em class="color-6">{{showData.hospitalName || '未知名称'}}</em></span>
-        <span class="mgr-l">系统编号：<em class="color-6">{{}}</em></span>
+        <span class="mgr-l">医院名称：<em class="color-6">{{showData.name || '未知名称'}}</em></span>
+        <span class="mgr-l">系统编号：<em class="color-6">{{showData.code}}</em></span>
         <span class="mgr-l">采购周期：<em class="color-6">{{}}</em></span>
       </div>
       <div class="flex-item-6 text-right">
-        <span class="mgr-l">修改人：<em class="color-custom-orange">{{showData.submitUserName}}</em></span>
+        <span class="mgr-l">修改人：<em class="color-custom-orange">{{showData.updateUserName}}</em></span>
         <span class="">最后修改时间：<em class="color-6">{{showData.updateAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
       </div>
     </div>
     <!-- 采购目录 -->
     <div class="content-wrapper-heading">
+      <table-list list-data="rest/authen/hospitalPurchaseMedical/query.json?hospitalId=mainStatus.pageParams.id"
+                  list-params="listParams"
+                  search-mode="noCaseSensitive"
+                  search-param="q">
       <div class="text-right order-list-search">
-        <input type="text" class="ipt pdr-xxl" placeholder="医院名称/申请单号/申请人" ng-model="listParams.q">
+        <input type="text" class="ipt pdr-xxl" placeholder="医院名称/申请单号/申请" ng-model="listParams.q">
         <i class=""></i>
       </div>
       <table class="table table-striped table-hover pr-table">
         <thead class="pr-bg-side">
           <tr>
             <th class="w-50">序号</th>
-            <th>药械编号</th>
+            <th class="w-160">药械编号</th>
             <th class="w-260">药械名称</th>
-            <th>生产厂家</th>
-            <th>剂型</th>
-            <th>规格</th>
-            <th>包装</th>
-            <th>单位</th>
-            <th>采购价(元)</th>
+            <th class="w-260">生产厂家</th>
+            <th class="w-120">剂型</th>
+            <th class="w-120">规格</th>
+            <th class="w-120">包装</th>
+            <th class="w-120">单位</th>
+            <th class="w-120">采购价(元)</th>
             <th class="w-120">操作</th>
           </tr>
         </thead>
@@ -83,40 +87,46 @@
             </td>
           </tr>
         </tbody>
-        <tfoot class="pr-bg-side">
-          <tr ng-init="addDataItem={}"
-              ajax-if-eval="addDataItem&&addDataItem.relId"
-              ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}"
-              scope-data="medical"
-              callback="selectRelIdCallBack(medical)"
-              show-loading = "true"
-              class="showLoading relative text-s">
-            <td>添加</td>
-            <td>{{medical.code}}</td>
-            <td class="w-100">
-              <select id="addDataItem_relId"
-                      chosen
-                      class="select pr-table-select mgb-s"
-                      data-placeholder="药械名"
-                      ng-model="addDataItem.relId"
-                      clear-watch-scope="addDataItem.relId"
-                      select-source="rest/authen/medicalStock/queryForSelectOption.json?pageSize=99999">
-              </select>
-            </td>
-            <td>{{medical.manufacturer}}</td>
-            <td>{{medical.dosageForms}}</td>
-            <td>{{medical.specification}}</td>
-            <td></td>
-            <td>{{medical.unit}}</td>
-            <td>{{medical.price | currency: '￥'}}</td>
-            <td>
-              <a href="javascript:;" class="pr-add-circle" ng-click="addMedicinalDataItem(showData.id, showData.hospitalId)">
-                 <span class="fa fa-plus-circle"></span>
-              </a>
-            </td>
-          </tr>
-        </tfoot>
       </table>
+      </table-list>
+
+      <div class="pr-bg-side">
+        <table class="table table-striped table-hover pr-table">
+          <thead>
+            <tr ng-init="addDataItem={}"
+                ajax-if-eval="addDataItem&&addDataItem.relId"
+                ajax-url="rest/authen/medicalStock/get.json?id={{addDataItem.relId}}"
+                scope-data="medical"
+                callback="selectRelIdCallBack(medical)"
+                show-loading = "true"
+                class="showLoading relative text-s">
+              <td class="w-50">添加</td>
+              <td class="w-160">{{medical.code}}</td>
+              <td style="width:260px;">
+                <select id="addDataItem_relId"
+                        chosen
+                        class="select pr-table-select mgb-s"
+                        data-placeholder="药械名"
+                        ng-model="addDataItem.relId"
+                        clear-watch-scope="addDataItem.relId"
+                        select-source="rest/authen/medicalStock/queryForSelectOption.json?pageSize=99999">
+                </select>
+              </td>
+              <td class="w-260">{{medical.manufacturer || '暂无'}}</td>
+              <td class="w-120">{{medical.dosageForms || '暂无'}}</td>
+              <td class="w-120">{{medical.specification || '暂无'}}</td>
+              <td class="w-120">{{'暂无'}}</td>
+              <td class="w-120">{{medical.unit}}</td>
+              <td class="w-120">{{medical.price | currency: '￥'}}</td>
+              <td class="w-120">
+                <a href="" class="pr-add-circle" ng-click="addMedicinalDataItem(showData.id, showData.hospitalId)">
+                   <span class="fa fa-plus-circle"></span>
+                </a>
+              </td>
+            </tr>
+          </thead>
+        </table>
+      </div>
     </div>
   </div>
 </div>

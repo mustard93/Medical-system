@@ -715,12 +715,12 @@ define('project/controllers', ['project/init'], function() {
 
         if ($scope.medical) {
           //处理药品内信息id和copyId，以区分新建和编辑
-          $scope.medical.copyId = $scope.medical.id;
+          $scope.medical.relId = $scope.medical.id;
           $scope.medical.id = null;
           $scope.responseBody.hospitalPurchaseMedical = $scope.medical;
         }
 
-        requestData('rest/authen/hospitalPurchaseContents/saveMedical', $scope.responseBody, 'POST', 'parameterBody')
+        requestData('rest/authen/hospitalPurchaseMedical/save', $scope.responseBody, 'POST', 'parameterBody')
         .then(function (results) {
           if (results[1].code === 200) {
             utils.goTo('#/hospitalPurchaseContents/get.html?id='+hospitalId);
