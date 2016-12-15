@@ -705,22 +705,23 @@ define('project/controllers', ['project/init'], function() {
       };
 
       //医院采购目录医院添加单条药品信息
-      $scope.addMedicinalDataItem = function (id, hospitalId) {
+      $scope.addMedicinalDataItem = function (hospitalId) {
 
-        $scope.responseBody = {};
+        // $scope.responseBody = {};
 
-        if (id) {
-          $scope.responseBody.hospitalPurchaseContentsId = id;
-        }
+        // if (id) {
+        //   $scope.responseBody.hospitalPurchaseContentsId = id;
+        // }
 
         if ($scope.medical) {
           //处理药品内信息id和copyId，以区分新建和编辑
+          $scope.medical.hospitalId = hospitalId;
           $scope.medical.relId = $scope.medical.id;
           $scope.medical.id = null;
-          $scope.responseBody.hospitalPurchaseMedical = $scope.medical;
+          $scope.hospitalPurchaseMedical = $scope.medical;
         }
 
-        requestData('rest/authen/hospitalPurchaseMedical/save', $scope.responseBody, 'POST', 'parameterBody')
+        requestData('rest/authen/hospitalPurchaseMedical/save', $scope.hospitalPurchaseMedical, 'POST', 'parameterBody')
         .then(function (results) {
           if (results[1].code === 200) {
             utils.goTo('#/hospitalPurchaseContents/get.html?id='+hospitalId);
