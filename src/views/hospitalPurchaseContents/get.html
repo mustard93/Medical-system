@@ -24,7 +24,7 @@
     </div>
     <!-- 采购目录 -->
     <div class="content-wrapper-heading">
-      <table-list list-data="rest/authen/hospitalPurchaseMedical/query.json?hospitalId=mainStatus.pageParams.id"
+      <table-list list-data="rest/authen/hospitalPurchaseMedical/query.json?hospitalId={{mainStatus.pageParams.id}}"
                   list-params="listParams"
                   search-mode="noCaseSensitive"
                   search-param="q">
@@ -48,10 +48,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="item in showData.medicals | orderBy:'updateAt'" hospital-purchase-comein-edit>
+          <tr ng-repeat="item in tbodyList | orderBy:'updateAt'" hospital-purchase-comein-edit>
             <td>{{$index+1}}</td>
             <td>{{item.code}}</td>
-            <td>{{item.name}}</td>
+            <td>{{item.name}}-{{item.id}}</td>
             <td>{{item.manufacturer}}</td>
             <td>{{item.dosageForms}}</td>
             <td>{{item.specification}}</td>
@@ -68,9 +68,9 @@
               <a href="javascript:;"
                  style="position:relative;top:-3px;display:none;"
                  class="mgr-m"
-                 ajax-url-submit="rest/authen/hospitalPurchaseContents/saveMedical"
+                 ajax-url-submit="rest/authen/hospitalPurchaseMedical/save"
                  parameter-body
-                 params='{"hospitalPurchaseContentsId":showData.id,"hospitalPurchaseMedical":item}'
+                 params='{"id":item.id}'
                  alert-error
                  callback="$root.goTo('#/hospitalPurchaseContents/get.html?id={{showData.hospitalId}}')">保存</a>
               <a href="javascript:;"
@@ -80,9 +80,9 @@
                  dialog-title="确认删除?"
                  dialog-content="删除后将无法恢复,确认删除?"
                  dialog-template="pr-dialog-submit.html"
-                 callback="$root.goTo('#/hospitalPurchaseContents/get.html?id={{showData.hospitalId}}')"
-                 params='{"relId":item.id, "hospitalPurchaseContentsId":showData.id}'
-                 request-url="rest/authen/hospitalPurchaseContents/deleteMedical">
+                 callback="$root.goTo('#/hospitalPurchaseContents/get.html?id={{mainStatus.pageParams.id}}')"
+                 params='{"id":item.id, "hospitalId":mainStatus.pageParams.id}'
+                 request-url="rest/authen/hospitalPurchaseMedical/delete">
               </a>
             </td>
           </tr>

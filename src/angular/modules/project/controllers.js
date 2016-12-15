@@ -724,7 +724,8 @@ define('project/controllers', ['project/init'], function() {
         requestData('rest/authen/hospitalPurchaseMedical/save', $scope.hospitalPurchaseMedical, 'POST', 'parameterBody')
         .then(function (results) {
           if (results[1].code === 200) {
-            utils.goTo('#/hospitalPurchaseContents/get.html?id='+hospitalId);
+            // utils.goTo('#/hospitalPurchaseContents/get.html?id='+hospitalId);
+            $scope.$broadcast('reloadList');
           }
         })
         .catch(function (error) {
