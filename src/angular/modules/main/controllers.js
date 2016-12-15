@@ -75,7 +75,7 @@ define('main/controllers', ['main/init'], function () {
         $scope.httpGet = function(url) {
           if (Config.serverPath) {
               if (url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0) {
-                url = $scope.mainConfig.serverPath + url;
+                url = Config.serverPath + url;
               }
           }
           return $http.get(url);
@@ -96,7 +96,7 @@ define('main/controllers', ['main/init'], function () {
           if (Config.serverPath) {
             _url = Config.logoutUrl;
             if (_url.indexOf("http://") !== 0 && _url.indexOf("https://") !== 0) {
-              _url = $scope.mainConfig.serverPath + _url;
+              _url = Config.serverPath + _url;
             }
           }
 
@@ -139,10 +139,12 @@ define('main/controllers', ['main/init'], function () {
 
               if (Config.serverPath) {
                 if (_url.indexOf("http://") !== 0 && _url.indexOf("https://") !== 0) {
-                  _url = $scope.mainConfig.serverPath + _url;
+                  _url = Config.serverPath + _url;
                 }
                 // 定义服务器请求路径
-                $scope.mainStatus.requestPath = Config.serverPath;
+                // $scope.mainStatus.requestPath = Config.serverPath;
+                //解决 配置同服务器请。/dt/
+                  $scope.mainStatus.requestPath="";
               }
 
               $.ajax({

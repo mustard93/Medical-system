@@ -20,7 +20,7 @@
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
         <div class="pos-abs order-create-btn">
-          <a href="#/firstEnterpriseApplication/edit.html" title="新建首营品种"><i></i><span class="text-s">新建首营企业申请</span></a>
+          <a ng-if="$root.hasAuthor('首营企业申请')" href="#/firstEnterpriseApplication/edit.html" title="新建首营品种"><i></i><span class="text-s">新建首营企业申请</span></a>
         </div>
         <div class="order-status-btn pos-tr text-right"
              ajax-url="rest/authen/firstEnterpriseApplication/countByOrderStatus.json"
@@ -131,7 +131,7 @@
                            handle-text-overflow
                            type="block">{{tr.applyReason || '暂无'}}
                       </div>
-                      
+
                     </div>
                     <div class="flex-item-6 pd">
                       <p ng-repeat="eventRecord in tr.eventRecords">
