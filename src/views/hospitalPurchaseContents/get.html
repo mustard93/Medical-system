@@ -23,14 +23,16 @@
         <span class="">最后修改时间：<em class="color-6">{{showData.updateAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
       </div>
     </div>
-    <!-- 采购目录 -->
-    <table-list list-data="rest/authen/hospitalPurchaseMedical/query.json?hospitalId={{mainStatus.pageParams.id}}"
-                list-params="listParams"
-                search-mode="noCaseSensitive"
-                search-param="q">
-      <div class="text-right order-list-search">
-        <input type="text" class="ipt pdr-xxl" placeholder="医院名称/申请单号/申请" ng-model="listParams.q">
-        <i class=""></i>
+      <table-list list-data="rest/authen/hospitalPurchaseMedical/query.json?hospitalId={{mainStatus.pageParams.id}}"
+                  list-params="listParams"
+                  search-mode="noCaseSensitive"
+                  search-param="q">
+      <!-- 采购目录 -->
+      <div class="content-wrapper-heading" style="height:35px;">
+        <div class="text-right order-list-search mgb">
+          <input type="text" class="ipt pdr-xxl" placeholder="医院名称/申请单号/申请" ng-model="listParams.q">
+          <i class=""></i>
+        </div>
       </div>
       <table class="table table-striped table-hover pr-table">
         <thead class="pr-bg-side">
@@ -51,15 +53,14 @@
           <tr ng-repeat="item in tbodyList | orderBy:'updateAt'" hospital-purchase-comein-edit>
             <td>{{$index+1}}</td>
             <td>{{item.code}}</td>
-            <td>{{item.name}}-{{item.id}}</td>
+            <td>{{item.name}}</td>
             <td>{{item.manufacturer}}</td>
             <td>{{item.dosageForms}}</td>
             <td>{{item.specification}}</td>
             <td>{{}}</td>
             <td>{{item.unit}}</td>
             <td>
-              <span ng-if="item.purchasePrice" class="notEdit">￥ {{item.purchasePrice | number:2}}</span>
-              <span ng-if="!item.purchasePrice" class="notEdit">暂无</span>
+              <span class="notEdit">{{item.purchasePrice | number:2 | currency:'￥'}}</span>
               <span class="comeInEdit pr-dpy-none">
                 ￥ <input type="text" value="{{item.purchasePrice}}" class="text-right ipt" style="width:80px;" ng-model="item.purchasePrice">
               </span>
