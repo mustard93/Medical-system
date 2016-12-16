@@ -1382,9 +1382,6 @@ function hospitalPurchaseComeinEdit () {
         $(element).find('span.notEdit').hide();
         $(element).find('span.comeInEdit').show();
       });
-    },
-    controller: function ($scope) {
-
     }
   };
 }
