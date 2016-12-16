@@ -1385,10 +1385,12 @@ function hospitalPurchaseComeinEdit () {
     }
   };
 }
-/**
- *
- */
+
 // 库存明细模块，鼠标移入高亮并显示两个按钮
+/**
+ * [medicalStockMouseOver description]
+ * @return {[type]} [description]
+ */
 function medicalStockMouseOver(){
   return{
     restrict: 'A',

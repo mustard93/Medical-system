@@ -5,52 +5,31 @@
 
   <div ng-if="$root.curUser.name"  class="left-side-inner left-se-side-w pos-abs">
 
+<div>
     <select class="pr-select pdt" chosen
     ng-model="listParams.value"
     select-source="rest/authen/warehouse/queryForSelectOption">
     </select>
+</div>
+
+  <div ajax-url="rest/authen/medicalAttribute/query?pageSize=9999"
+   scope-data="showData"
+   alert-error>
     <h1 class="med-list"> 商品类别</h1>
     <ul class="mgt-m nav nav-pills nav-stacked custom-nav ">
-
-      <li class="menu-list" >
-        <a left-menu-toggle href="" class="nav-order"><span> 有源手术器械</span><span class="pr-arrow-down"></span></a>
-        <ul class="sub-menu-list">
+      <li class="menu-list" ng-repeat="item in showData" >
+        <a left-menu-toggle href="" class="nav-order">
+          <span> {{item.name}}</span>
+          <span class="pr-arrow-down"></span></a>
+        <!-- <ul class="sub-menu-list">
           <li><a left-menu-second-toggle href="#"></a></li>
           <li><a left-menu-second-toggle href="#"></a></li>
-        </ul>
-      </li>
-      <li class="menu-list">
-        <a left-menu-toggle href="" class="nav-home nav-purchase"><span>无源手术器械</span><span class="pr-arrow-down"></span></a>
-        <ul class="sub-menu-list">
-          <li><a left-menu-second-toggle href="#"></a></li>
-          <li><a left-menu-second-toggle href="#"></a></li>
-        </ul>
-      </li>
-      <li class="menu-list">
-        <a left-menu-toggle href="" class="nav-home nav-purchase"><span> 手术器械-刀</span><span class="pr-arrow-down"></span></a>
-        <ul class="sub-menu-list">
-          <li><a left-menu-second-toggle href="#/medicalStock/query-stock.html">手术刀</a></li>
-          <li><a left-menu-second-toggle href="#">血管刀</a></li>
-          <li><a left-menu-second-toggle href="#">备皮刀</a></li>
-        </ul>
-      </li>
-      <li class="menu-list">
-        <a left-menu-toggle href="" class="nav-home nav-purchase"><span> 手术器械-凿</span><span class="pr-arrow-down"></span></a>
-        <ul class="sub-menu-list">
-          <li><a left-menu-second-toggle href="#"></a></li>
-          <li><a left-menu-second-toggle href="#"></a></li>
-        </ul>
-      </li>
-      <li class="menu-list">
-        <a left-menu-toggle href="" class="nav-home nav-purchase"><span> 神经和心血管手术器械</span><span class="pr-arrow-down"></span></a>
-        <ul class="sub-menu-list">
-            <li><a left-menu-second-toggle href="#"></a></li>
-            <li><a left-menu-second-toggle href="#"></a></li>
-
-        </ul>
+        </ul> -->
       </li>
 
     </ul>
+  </div>
+
   </div>
 </div>
 </div>
