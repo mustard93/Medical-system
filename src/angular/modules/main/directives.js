@@ -275,7 +275,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 var scopeForm = $scope.$eval($attrs.name);
                 var dialogData = $scope.ngDialogData;
 
-                $scope.formData = angular.extend({}, $scope.formData);
+                // $scope.formData = angular.extend({}, $scope.formData);
+                if(!$scope.formData)$scope.formData = angular.extend({}, $scope.formData);
 
 
 
@@ -2667,7 +2668,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 }
             }
         };
-        
+
     /**
      * 加入项目
      */
