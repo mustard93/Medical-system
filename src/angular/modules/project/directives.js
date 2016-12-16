@@ -1385,7 +1385,31 @@ function hospitalPurchaseComeinEdit () {
     }
   };
 }
+/**
+ *
+ */
+// 库存明细模块，鼠标移入高亮并显示两个按钮
+function medicalStockMouseOver(){
+  return{
+    restrict: 'A',
+    scope: {},
+      link: function (scope, element, attrs) {
+        $(element).mouseover(function(){
+          $(this).addClass("bg-c");
+           var btn1=$("<button>详情<button>");
+           var btn2=$("<button>变动详情<button>");
+           $(this).children("td:last-child").append(btn1);
+           $(this).children("td:last-child").append(btn2);
+        });
+        $(element).mouseout(function(){
+          $(this).removeClass("bg-c");
+          $("button").remove();
+        });
+      }
+  };
 
+
+}
 /**
  *  卡片式列表页面内容超出范围的处理(动态宽度)
  */
@@ -1445,5 +1469,6 @@ angular.module('manageApp.project')
   .directive("runPopovers", ['$timeout', runPopovers]) //popover
   .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError','utils', handleThisClick]) //带确认对话框的按钮点击事件
   .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
-  .directive("styleToggle", ['$location', styleToggle]);
+  .directive("styleToggle", ['$location', styleToggle])
+  .directive("medicalStockMouseOver",[medicalStockMouseOver]);// 库存明细模块，鼠标移入高亮并显示两个按钮
 });

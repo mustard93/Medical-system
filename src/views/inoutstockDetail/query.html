@@ -1,5 +1,18 @@
 <div ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
 
+  <div class="page-header-info ">
+
+    <p class="mgb bb-line ">
+      库存报表 / <em class="color-custom-orange">出入库明细</em>
+    </p>
+
+  </div>
+  <div class="bb-dashed-line pd-v-l">
+      <select class="pr-select select-wd mgr-ls">
+          <<option value="">昆明库</option>
+      </select>
+  </div>
+
 <!--body wrapper start-->
 <table-list list-data="rest/authen/inoutstockDetail/query.json" list-params="listParams">
     <div class="mg-m col-lg-12 col-sm-12">
@@ -8,18 +21,46 @@
             <i class="fa fa-plus"></i>新建
         </button>
       </div> -->
-      <div class="form-group col-lg-2">
-        <label class="col-lg-2 col-sm-2 control-label">类型</label>
+      <div class="text-left order-list-search relative">
+          <select class="pr-select select-wd mgr-l" chosen default-empty="无"
+          ng-model="listParams.type"
+          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
+
+          </select>
+
+            <input type="text"
+                   datepicker
+                   class="ipt pr-short-ipt color-6 mgr mgl-l"
+                   ng-readonly="true"
+                   placeholder="日期"
+                   ng-model="item.guaranteePeriod">
+             <span class="mgr">至</span>
+             <input type="text"
+                   datepicker
+                   class="ipt pr-short-ipt color-6 mgr-l"
+                   ng-readonly="true"
+                   placeholder="日期"
+                   ng-model="item.guaranteePeriod">
+                   <select class="pr-select select-wd mgr-ls">
+                       <<option value="">所有单据</option>
+                   </select>
+
+        <input type="text" class="ipt pdr-xxl ipt-r" placeholder="单据编号/经手人" ng-model="listParams.q">
+        <i class="ipt-r-i"></i>
+
+      </div>
+
+      <!-- <div class="form-group col-lg-2">
         <div class="col-lg-10 col-sm-10">
           <select class="ipt pr-short-ipt" data-placeholder="选择类型" chosen default-empty="无" ng-model="listParams.type" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
 
           </select>
         </div>
-      </div>
-      <div class="form-group col-lg-2">
+      </div> -->
+      <!-- <div class="form-group col-lg-2">
         <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
       </div>
-    </div>
+    </div> -->
 
     <div class="wrapper">
         <div class="loader" ng-if="status.isLoading">
@@ -44,7 +85,6 @@
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" class="selectAll"></th>
                             <th>序号</th>
                             <th>单据日期</th>
                             <th>单据编号</th>
@@ -60,7 +100,6 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
-                            <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                             <td>{{$index + 1}}</td>
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd HH:mm'}}</td>
                             <td>{{tr.orderNo}}</td>
