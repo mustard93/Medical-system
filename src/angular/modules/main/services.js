@@ -517,7 +517,23 @@ function alertOk($rootScope, modal) {
 
 
 
-          //打印工具
+          //
+          /**
+           *
+          * @Description: 打印工具
+          * @method OPrinter
+
+          * @return
+          * @author liumingquan
+
+          * @author ecolouds-01
+          * @date 2016年12月15日 下午5:16:02
+            使用帮助使用前，必须先初始化 打印组件：ng-init="$root.OPrinter.init()"
+              关键步骤：
+              1.初始化打印组件。
+              2.调用打印，预览等功能。
+
+           */
           function OPrinter () {
 
               var LodopFuncs=null;
@@ -533,6 +549,50 @@ function alertOk($rootScope, modal) {
 
               var  OPrinter={
 
+
+
+                /**
+                 *
+                * @Description: 打印工具 初始化
+                * @method OPrinter
+
+                * @return
+                * @author liumingquan
+
+                * @author ecolouds-01
+                * @date 2016年12月15日 下午5:16:02
+                打印页边距设定为 0mm 时，网页内最大元素的分辨率：794×1123
+                <div style="width:794px;height:1123px;border:1px solid #000000;"> </div>
+
+                打印页边距设定为 5mm 时，网页内最大元素的分辨率：756×1086
+                <div style="width:756px;height:1086px;border:1px solid #000000;"> </div>
+
+                打印页边距设定为 19.05mm 时，网页内最大元素的分辨率：649×978
+                <div style="width:649px;height:978px;border:1px solid #000000;"> </div>
+
+                 */
+                 _rect:{
+                  top:0,
+                  left:0,
+                  width:794,
+                  height:1123
+                },
+                /**
+                 *
+                * @Description: 打印工具 初始化
+                * @method OPrinter
+
+                * @return
+                * @author liumingquan
+
+                * @author ecolouds-01
+                * @date 2016年12月15日 下午5:16:02
+                  使用帮助使用前，必须先初始化 打印组件：ng-init="$root.OPrinter.init()"
+                    关键步骤：
+                    1.初始化打印组件。
+                    2.调用打印，预览等功能。
+
+                 */
                 init:function(){
                     if(!LODOP){
                         require(['LodopFuncs'], function(LodopFuncs1) {
@@ -543,7 +603,15 @@ function alertOk($rootScope, modal) {
                         });//require
                       }//if
                 },
-                //预览
+                //设置打印尺寸
+                setRect:function(intTop,intLeft,intWidth,intHeight){
+                  this._rect={
+                     top:intTop,
+                    left:intLeft,
+                    width:intWidth,
+                    height:intHeight
+                  }
+                },
                 preview:function(divId) {
                     if(!LODOP){
                       LODOP=getOPrinter();
@@ -563,7 +631,9 @@ function alertOk($rootScope, modal) {
                     ●	PRINT_SETUP打印维护
                     ●	PRINT_DESIGN打印设计
                     */
-                    LODOP.ADD_PRINT_HTM(0,0,350,600,document.getElementById(divId).innerHTML);
+
+
+                    LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,document.getElementById(divId).innerHTML);
                     LODOP.PREVIEW();
                   }//preview
                   ,
