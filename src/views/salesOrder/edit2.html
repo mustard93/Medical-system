@@ -1,0 +1,261 @@
+<div class="salesOrder-edit"
+     ng-controller="salesOrderEditCtrl"
+     ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData')"
+     alert-error>
+
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/salesOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter();watchFormChange('formData')">
+    <!-- 头部信息 -->
+    <div class="relative bb-line">
+      <div class="pd-l">
+        <!-- 标题 -->
+        <div class="mgb-m">
+          <p class="mgb-m">销售中心 / <em class="color-custom-orange">购需单</em></p>
+          <h1 class="pr-font-22 pr-color">新建购需单</h1>
+        </div>
+        <!-- 客户列表 -->
+        <div class="">
+          <select ng-if="initFlag"
+                  class="ipt pr-long-ipt color-6"
+                  data-placeholder="客户名"
+                  chosen
+                  chosen-ajax
+                  ng-model="formData.customerId"
+                  select-source="rest/authen/customerAddress/queryForSelectOption.json">
+          </select>
+        </div>
+      </div>
+    </div>
+    <!-- 药械列表 -->
+    <div class="relative bb-dashed-line pr-bg-lighglod">
+      <div class="pd-l">
+        <!-- 信息 -->
+        <div class="bb-dashed-line">
+          <h1 class="text-bold">药械闪加</h1>{{formData}}
+          <div class="mgb">
+            <span angucomplete-medical
+                  placeholder="商品名 商品简称 商品名头字母 商品编号 厂家名 厂家名头字母。多个关键字段，用空格分隔"
+                  title-field="name"
+                  url="http://localhost:3000/src/angularjs-api/data/medicalStockList.json"
+                  ng-model="angucomplete_data"
+                  class="inline-block mgr medical-search" ng-change="addDataItem=angucomplete_data.data;addDataItem.relId=angucomplete_data.id">
+            </span>
+            <span class="mgr medical-num inline-block">
+              <input type="number" class="ipt pr-w-100" ng-model="addDataItem.csmQuantity" placeholder="数量" />
+            </span>
+            <span class="mgr">
+              <a href="" ng-click="newAddDataItemClick(addDataItem,medical);" class="add-medical-list" title="添加药械"></a>
+            </span>
+            <span class="mgr">
+              <a href="#" class="import-medical-list">导入药械清单</a>
+            </span>
+          </div>
+          <p class="mgb">
+            <span class="mgr-m">{{addDataItem.manufacturer || '生产商名'}}</span>
+            <span>{{addDataItem.specification || '规格'}}</span>
+          </p>
+        </div>
+        <!-- 列表 -->
+        <div class="pd-v-l">
+          <p class="flex-column mgb">
+            <span class="flex-item-6">购需单号：<em>{{'暂无'}}</em></span>
+            <span class="flex-item-6 text-right">状态：<em>未提交</em></span>
+          </p>
+          <table class="table pr-table table-hover">
+            <thead>
+              <tr>
+                <th>商品编号</th>
+                <th>商品全名</th>
+                <th>规格型号</th>
+                <th>主计量</th>
+                <th>数量</th>
+                <th>含税单价</th>
+                <th>无税单价</th>
+                <th>无税金额</th>
+                <th>税额</th>
+                <th>价税合计</th>
+                <th>税率</th>
+                <th>折扣额</th>
+                <th>折扣率</th>
+                <th>预发货日期</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <tr ng-repeat="tr in formData.orderMedicalNos">
+                <td>{{tr.code}}</td>
+                <td>{{tr.name}}</td>
+                <td>{{tr.specification}}</td>
+                <td>{{tr.unit}}</td>
+                <td></td>
+                <td>{{tr.price | currency:'￥'}}</td>
+                <td>￥127.00</td>
+                <td>{{'&nbsp;'}}</td>
+                <td>{{'&nbsp;'}}</td>
+                <td>{{'&nbsp;'}}</td>
+                <td>{{'&nbsp;'}}</td>
+                <td>{{'&nbsp;'}}</td>
+                <td>{{'&nbsp;'}}</td>
+                <td>{{'&nbsp;'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- 其他信息 -->
+    <div class="relative">
+      <div class="pd-l">
+        <!-- 发货方信息 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <header class="text-n text-bold">发货方信息
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+            </span>
+          </header>
+          <div class="panel-body" style="display:none;">
+            <div class="mgb-l">
+              <select ng-if="formData.createAt"
+                      class="ipt pr-long-ipt"
+                      data-placeholder="采购方名称"
+                      chosen
+                      width="280px"
+                      ng-model="formData.customerId"
+                      select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
+              </select>
+            </div>
+            <div class="consignee-info"
+                 ajax-if-eval="formData.customerId"
+                 ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
+                 scope-data="purchaserAddress"
+                 callback="customerAddressGetCallBack(formData,purchaserAddress)"
+                 ng-class="{'static': purchaserAddress.contacts}">
+              <h1 class="color-9 text-n mgb">收货人信息</h1>
+              <ul ng-if="formData.customerId" style="min-height:136px;">
+                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
+                  <p class="pdb">{{item.name}} </p>
+                  <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
+                  <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
+                  <i class="consignee-default-label"  ng-if="purchaserAddress.defaultContactId==item.id">默认</i>
+                  <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+                </li>
+                <span>
+                  <button class="pr-add-item-whitebg" style="min-height:136px;"
+                          modal-right="700"
+                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                          modal-scope="this"
+                          modal-url="views/purchaserAddress/contact/edit.html"
+                          ng-class="{'static':!purchaserAddress.contacts}">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </span>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- 收货方信息 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <header class="text-n text-bold">收货方信息
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+            </span>
+          </header>
+          <div class="panel-body" style="display:none;">
+            <div class="mgb-l">
+              <select ng-if="formData.createAt"
+                      class="ipt pr-long-ipt"
+                      data-placeholder="采购方名称"
+                      chosen
+                      width="280px"
+                      ng-model="formData.customerId"
+                      select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
+              </select>
+            </div>
+            <div class="consignee-info"
+                 ajax-if-eval="formData.customerId"
+                 ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
+                 scope-data="purchaserAddress"
+                 callback="customerAddressGetCallBack(formData,purchaserAddress)"
+                 ng-class="{'static': purchaserAddress.contacts}">
+              <h1 class="color-9 text-n mgb">收货人信息</h1>
+              <ul ng-if="formData.customerId" style="min-height:136px;">
+                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
+                  <p class="pdb">{{item.name}} </p>
+                  <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
+                  <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
+                  <i class="consignee-default-label"  ng-if="purchaserAddress.defaultContactId==item.id">默认</i>
+                  <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+                </li>
+                <span>
+                  <button class="pr-add-item-whitebg" style="min-height:136px;"
+                          modal-right="700"
+                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                          modal-scope="this"
+                          modal-url="views/purchaserAddress/contact/edit.html"
+                          ng-class="{'static':!purchaserAddress.contacts}">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </span>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <h1>备注</h1>
+          <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+        </div>
+        <!-- 功能按钮 -->
+        <div class="pdb-xxl text-right">
+          <span class="mgl">
+            <a ng-if="changeFlag" href="javascript:;"
+               handle-this-click
+               dialog-title="确认返回?"
+               dialog-content="该购需单存在未保存数据，是否保存?"
+               dialog-template="pr-dialog-return.html"
+               nosave-callback="goTo('#/salesOrder/query.html')"
+               save-callback="submitForm('editForm','exit')">返回</a>
+
+               <a ng-if="!changeFlag" href="#/salesOrder/query.html" >返回</a>
+          </span>
+
+          <span>
+            <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+               href="javascript:;"
+               class="pr-color-red mgl"
+               handle-this-click
+               dialog-title="确认删除?"
+               dialog-content="您确认删除这条购需单吗?"
+               dialog-template="dialog-confirm.html"
+               request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+               call-back="$root.goTo('#/salesOrder/query.html')">删除
+            </a>
+          </span>
+
+          <span class="mgl">
+            <button class="pr-btn-save-glodbg" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+          </span>
+
+          <span class="mgl">
+            <button ng-click="submitForm('editForm','submit')"
+                    class="pr-btn-create-glodbg"
+                    ng-disabled="!formData.orderMedicalNos.length ||
+                                 !formData.customerId ||
+                                 !formData.saleUserId ||
+                                 !canSubmitForm()">生成销售单
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
