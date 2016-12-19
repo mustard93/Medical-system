@@ -1,132 +1,118 @@
 <div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "><!-- pageCtrl-->
 <div class="page-main-content left-se-side-par">
   <!--body wrapper start-->
+  <table-list  list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.relMedicalStockId}}"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+    <div class="pd-c-xxl"
 
-    <div class="pd-c-xxl">
+    ajax-url="rest/authen/medicalStock/get.json?id={{mainStatus.pageParams.relMedicalStockId}}"
+    scope-data="showData"
+    alert-error
+    >
+         <div class="page-header-info">
 
-         <div class="page-header-info ">
+           <p class="mgb bb-line relative  pdb-s">
+             <a  href="#/medicalStock/query-stock.html" class="mgr-xl">
+              <span class="circle ">
+                   <span class="pr-arrow-l"></span>
+              </span>
 
-           <p class="mgb bb-line pdb-s relative  ">
-
-             <a href="#/medicalStock/query-stock.html">
-               <span class="circle ">
-                    <span class="pr-arrow-l"></span>
-               </span>
-
-             </a>
-             <em class="mgl-xxl">库存报表 </em>/ <em >库存查询</em> / <em class="color-custom-orange">库存变动明细</em></p>
+           </a>
+             <em class="mgl">库存报表 </em>/ <em >库存查询</em> / <em class="color-custom-orange">库存明细</em></p>
            <p>
              <em>仓库：</em><em>昆明库-01</em>
            </p>
-             <h1 class="color-black text-l ">一次性使用无菌手术刀</h1>
-            <p>
-              <em class="mgll">此前库存：</em><em>0</em>
-              <em class="mgl-xxxl">期末库存：</em><em>90</em>
-            </p>
+             <h1 class="color-black text-l ">{{showData.name}}</h1>
+
          </div>
 
          <!-- 主体内容 start-->
          <div class="content-wrapper-main">
 
-            <div class="pd-c"
-            ajax-url="rest/authen/medicalStock/query"
-             scope-data="showData"
-             alert-error>
-             <table-list list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/query.json"
-                         list-params="listParams"
-                         search-mode="noCaseSensitive"
-                         search-param="q">
-                         <!-- 搜索框 start-->
-                         <div class="text-left order-list-search relative">
-                             <select class="pr-select select-wd mgr-l">
-                               <option>最近7天</option>
-                               <option>最近10天</option>
-                               <option>最近一个月</option>
-                             </select>
-                               <input type="text"
-                                      datepicker
-                                      class="ipt pr-short-ipt color-6 mgr"
-                                      ng-readonly="true"
-                                      placeholder="日期"
-                                      ng-model="item.guaranteePeriod">
-                                <span class="mgr">至</span>
-                                <input type="text"
-                                      datepicker
-                                      class="ipt pr-short-ipt color-6 mgr-l"
-                                      ng-readonly="true"
-                                      placeholder="日期"
-                                      ng-model="item.guaranteePeriod">
-                         <input type="text" class="ipt pdr-xxl" placeholder="单据编号/经手人" ng-model="listParams.q">
-                           <i class="ipt-i"></i>
+            <!-- 表格 start -->
+                    <div class="pd-c">
+
+                       <!-- 搜索框 start-->
+                      <div class="text-left order-list-search relative">
+                         <!-- <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q"> -->
+                          <input type="text" class="ipt pdr-xxl ipt-bor-r" placeholder="批号/灭菌批号" ng-model="listParams.q">
+                          <i class=""></i>
+                      </div>
+                                  <!-- 搜索框 end-->
+                       <!-- 主内容头部 -->
+                       <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr relative">
+                       <!-- 主内容区域 -->
+                       <div class="content-wrapper-main">
+                         <div ng-if="!status.isLoading">
+                           <div ng-if="tbodyList.length==0">
+                             <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+                             <p class="text-center">什么也没有</p>
+                           </div>
+
+                           <div class="pd-c">
+                             <table ng-if="tbodyList.length" class="table table-hover table-striped table-mr table-bordered table-content">
+                               <thead class="pr-bg-side">
+                                 <tr>
+                                   <th>序号</th>
+                                   <th>商品编号</th>
+                                   <th>商品全名</th>
+                                   <th>规格</th>
+                                   <th>单位</th>
+                                   <th>注册证号</th>
+                                   <th>批号</th>
+                                   <th>灭菌批号</th>
+                                   <th>有效期</th>
+                                   <th>生产日期</th>
+                                   <th>数量</th>
+                                   <th>成本单价</th>
+                                   <th>库存金额</th>
+                                 </tr>
+                               </thead>
+                               <tbody class="pr-bg-white tr-hover ">
+                                 <tr ng-repeat="tr in tbodyList track by $index">
+                                   <td>{{$index + 1}}</td>
+                                   <td>{{showData.code}}</td>
+                                   <td class="text-ellips-s">{{showData.name}}</td>
+                                   <td>{{showData.specification}}</td>
+                                   <td>{{showData.unit}}</td>
+                                   <td>{{showData.drugAdministrationCode}}</td>
+                                   <td>{{tr.productionBatch}}</td>
+                                   <td>{{tr.sterilizationBatchNumber}}</td>
+                                   <td>{{tr.validTill | date:'yyyy-MM-dd'}}</td>
+                                   <td>{{tr.productionDate}}</td>
+                                   <td>{{tr.quantity}}</td>
+                                   <td>{{tr.price}}</td>
+                                   <td>{{tr.quantity-tr.actualQuantity}}</td>
+
+                                 </tr>
+
+                               </tbody>
+                             </table>
+                             <!-- 分页 -->
+                             <div class="clearfix">
+                                 <div class="fr">
+                                     <pagination status="status"></pagination>
+                                 </div>
+                             </div>
+                           </div>
                          </div>
-                          <!-- 搜索框 end-->
+                       </div>
+                       <!-- 导航 -->
+                       <!-- <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+                           <div class="fr">
+                               <pagination status="status"></pagination>
+                           </div>
+                       </div> -->
 
-               <!-- 主内容头部 -->
-               <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr relative">
-               <!-- 主内容区域 -->
-               <div class="content-wrapper-main">
-                 <div ng-if="!status.isLoading">
-                   <div ng-if="tbodyList.length==0">
-                     <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-                     <p class="text-center">什么也没有</p>
-                   </div>
 
-                   <div class="pd-c">
-                     <table ng-if="tbodyList.length" class="table table-hover table-striped table-mr table-bordered table-content">
-                       <thead class="pr-bg-side">
-                         <tr>
-                           <th>序号</th>
-                           <th>商品编号</th>
-                           <th>商品全名</th>
-                           <th>规格</th>
-                           <th>单位</th>
-                           <th>注册证号</th>
-                           <th>数量</th>
-                           <th>成本单价</th>
-                           <th>库存金额</th>
-                           <th>可销售数量</th>
-                           <th>订单占用数量</th>
-                         </tr>
-                       </thead>
-                       <tbody class="pr-bg-white tr-hover ">
-                         <tr ng-repeat="tr in tbodyList track by $index">
-                           <td>{{$index + 1}}</td>
-                           <td>{{tr.code}}</td>
-                           <td class="text-ellips-s">{{tr.name}}</td>
-                           <td>{{tr.specification}}</td>
-                           <td>{{tr.unit}}</td>
-                           <td>{{tr.drugAdministrationCode}}</td>
-                           <td>{{tr.actualQuantity}}</td>
-                           <td>{{tr.price}}</td>
-                           <td>{{tr.quantity*tr.price}}</td>
-                           <td>{{tr.quantity}}</td>
-                           <td>{{tr.quantity-tr.actualQuantity}}</td>
-
-                         </tr>
-                         <tr class="bgco-orange">
-                           <td colspan="6" class="text-right">合计：</td>
-                           <td></td>
-                           <td></td>
-                           <td></td>
-                           <td></td>
-                           <td></td>
-                         </tr>
-                       </tbody>
-                     </table>
-                     <!-- 分页 -->
-                     <div class="clearfix">
-                         <div class="fr">
-                             <pagination status="status"></pagination>
-                         </div>
-                     </div>
-                   </div>
-                 </div>
-               </div>
            <!-- 主体内容 end -->
          </div>
 
     </div>
   <!--body wrapper end-->
 </div>
-</div>
+</div><!--class="pd-c-xxl"-->
 </table-list>
+<!-- 表格 end -->
