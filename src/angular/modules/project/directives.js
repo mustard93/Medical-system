@@ -1388,24 +1388,61 @@ function hospitalPurchaseComeinEdit () {
 
 // 库存明细模块，鼠标移入高亮并显示两个按钮
 /**
- * [medicalStockMouseOver description]
- * @return {[type]} [description]
- */
+   *
+  	* @Description: 鼠标移入高亮并显示两个按钮
+  	* @author liumingquan
+  	* @date 2016年12月19日 下午4:32:59
+   */
+
+   	   //  关键步骤：
+   	    //1.传入参数:url(跳转路径)，className(控制样式的class)
+   		//2.mouseenter:表示鼠标移入之后要执行的步骤。
+   		//3.mouseleave:表示鼠标移出后执行的步骤。
+
+
 function medicalStockMouseOver(){
+
   return{
     restrict: 'A',
 
-      link: function (scope, element, attrs) {
-        $(element).mouseover(function(){
+      link: function ($scope, $element, $attrs) {
+
+        var btnArray=[];
+
+
+        var mouseOverButtons=  $scope.$eval($attrs.mouseOverButtonsJson);
+        for(var i=0;i<mouseOverButtons.length;i++){
+            var bt=mouseOverButtons[i];
+              //bt.url; 跳转url
+              //bt.className;
+              var tmp="<a class='relative' href='"+bt.url+"'><span class='"+bt.className+"'></span></a>";
+              // 特殊处理
+              if('pos-s pr-arrow-r'==bt.className){
+                tmp="<a class='relative' href='"+bt.url+"'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>";
+              }
+
+            var btn1=$(tmp);
+            btnArray.push(btn1);
+        }
+
+        //  var btn1=$("<a class='relative' href='#/medicalStock/get.html?relMedicalStockId="+attrs.medicalId+"'><span class='circle-icon pos-icon1 pos-abs pr-icon-bg11'></span></a>");
+        //  var btn2=$("<a class='relative' href='#/medicalStock/get1.html'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>");
+        // 鼠标移入显示按钮
+        $($element).mouseenter(function(){
           $(this).addClass("bg-c");
-           var btn1=$("<button>详情</button>").addClass("posl");
-           var btn2=$("<button>变动详情</button>").addClass("posr");
-           $(this).children("td:last-child").addClass(" relative").append(btn1);
-           $(this).children("td:last-child").addClass(" relative").append(btn2);
+            for(var i=0;i<btnArray.length;i++){
+                  $(this).children("td:last-child").append(btnArray[i]);
+            }
+
         });
-        $(element).mouseout(function(){
+        // 鼠标移出按钮消失
+        $($element).mouseleave(function(){
           $(this).removeClass("bg-c");
-          $("button").remove();
+          for(var i=0;i<btnArray.length;i++){
+              $(btnArray[i]).remove();
+
+          }
+
         });
       }
   };
