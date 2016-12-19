@@ -7,10 +7,9 @@ define('project/controllers', ['project/init'], function() {
      */
     function salesOrderEditCtrl($scope, modal,alertWarn,watchFormChange) {
 
-
-                    $scope.watchFormChange=function(watchName){
-                      watchFormChange(watchName,$scope);
-                    };
+        $scope.watchFormChange=function(watchName){
+          watchFormChange(watchName,$scope);
+        };
 
         modal.closeAll();
         // $scope.formData={};
@@ -77,13 +76,13 @@ define('project/controllers', ['project/init'], function() {
           $scope.addDataItem.brand = data.brand;
           $scope.addDataItem.unit = data.unit;
           $scope.addDataItem.price = data.price;
-          // $scope.addDataItem.isSameBatch = "否";
+          // $scope.addDataItem.isSameBatch = '否';
           $scope.addDataItem.strike_price = data.price;
           $scope.addDataItem.headUrl = data.headUrl;
           $scope.addDataItem.specification = data.specification;
           $scope.addDataItem.manufacturer = data.manufacturer;
           $scope.addDataItem.handleFlag =true;//默认添加到订单
-          $scope.addDataItem.productionBatch = "无";
+          $scope.addDataItem.productionBatch = '无';
           $scope.addDataItem.dosageForms = data.dosageForms;
           $scope.addDataItem.code = data.code;
           $scope.addDataItem.productionBatch = data.productionBatch;
@@ -98,23 +97,24 @@ define('project/controllers', ['project/init'], function() {
             $scope.addDataItem.deliveryPlus = data.deliveryPlus;
 
           // alert($('#addDataItem_quantity').length);
-          // $('#addDataItem_quantity').trigger("focus");
-          $('#addDataItem_quantity').trigger("focus");
+          // $('#addDataItem_quantity').trigger('focus');
+          $('#addDataItem_quantity').trigger('focus');
         };
         /**
         * 添加一条。并缓存数据。
         */
         $scope.addDataItemClick = function(addDataItem,medical) {
+
             if (!(addDataItem.relId && addDataItem.name)) {
-                alertWarn("请选择药品。");
+                alertWarn('请选择药品。');
                 return;
             }
             if (!addDataItem.quantity||addDataItem.quantity<1) {
-                alertWarn("请输入大于0的数量。");
+                alertWarn('请输入大于0的数量。');
                 return;
             }
             if (!addDataItem.strike_price) {
-                alertWarn("请输入成交价格。");
+                alertWarn('请输入成交价格。');
                 return;
             }
             if(addDataItem.quantity>medical.quantity){//库存不足情况
@@ -126,7 +126,7 @@ define('project/controllers', ['project/init'], function() {
             // 如果已添加
             if ($scope.formData.orderMedicalNos.length !== 0) {
               var _len = $scope.formData.orderMedicalNos.length;
-              console.log(_len);
+              // console.log(_len);
               // 未使用forEach方法，因为IE不兼容
               for (var i=0; i<_len; i++) {
                 if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
@@ -143,8 +143,54 @@ define('project/controllers', ['project/init'], function() {
 
             $scope.addDataItem = {};
 
-            $("input", "#addDataItem_relId_chosen").trigger("focus");
-            // $("#addDataItem_relId_chosen").trigger("click");
+            $('input', '#addDataItem_relId_chosen').trigger('focus');
+            // $('#addDataItem_relId_chosen').trigger('click');
+        };
+
+        // 新版购需单控制器
+        $scope.newAddDataItemClick = function(addDataItem,medical) {
+
+            if (!(addDataItem.relId && addDataItem.name)) {
+                alertWarn('请选择药品。');
+                return;
+            }
+            if (!addDataItem.csmQuantity || addDataItem.quantity<1) {
+                alertWarn('请输入大于0的数量。');
+                return;
+            }
+            // if (!addDataItem.strike_price) {
+            //     alertWarn('请输入成交价格。');
+            //     return;
+            // }
+            // if(addDataItem.quantity>medical.quantity){//库存不足情况
+            //     addDataItem.handleFlag =false;//默认添加到订单
+            // }
+            if (!$scope.formData.orderMedicalNos) {
+              $scope.formData.orderMedicalNos = [];
+            }
+            // 如果已添加
+            if ($scope.formData.orderMedicalNos.length !== 0) {
+              var _len = $scope.formData.orderMedicalNos.length;
+              // console.log(_len);
+              // 未使用forEach方法，因为IE不兼容
+              for (var i=0; i<_len; i++) {
+                if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+                  alertWarn('此药械已添加到列表');
+                  return;
+                }
+              }
+            }
+            //添加到列表
+            addDataItem.quantity = addDataItem.csmQuantity;
+            $scope.formData.orderMedicalNos.push(addDataItem);
+
+            //计算价格
+            $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+
+            $scope.addDataItem = {};
+
+            $('input', '#addDataItem_relId_chosen').trigger('focus');
+            // $('#addDataItem_relId_chosen').trigger('click');
         };
 
         /**
@@ -153,15 +199,15 @@ define('project/controllers', ['project/init'], function() {
         */
         $scope.submitFormAfter = function() {
           $scope.formData.validFlag = false;
-          if ($scope.submitForm_type == "exit") {
+          if ($scope.submitForm_type == 'exit') {
             $scope.goTo('#/salesOrder/query.html');
             return;
           }
-          if ($scope.submitForm_type == "submit") {
+          if ($scope.submitForm_type == 'submit') {
             $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
           }
-          if ($scope.submitForm_type == "save") {
-            console.log(this);
+          if ($scope.submitForm_type == 'save') {
+            // console.log(this);
           }
         };
         /**
@@ -187,12 +233,12 @@ define('project/controllers', ['project/init'], function() {
         */
         $scope.submitForm = function(fromId, type) {
           $scope.submitForm_type = type;
-          if ($scope.submitForm_type == "submit") {
+          if ($scope.submitForm_type == 'submit') {
             $scope.formData.validFlag = true;
           }
-          $("#" + fromId).trigger("submit");
+          $('#' + fromId).trigger('submit');
 
-          // addDataItem_opt.submitUrl="";
+          // addDataItem_opt.submitUrl='';
           // $scope.formData.orderMedicalNos.push($scope.addDataItem);
           // $scope.addDataItem={};
         };
@@ -200,7 +246,7 @@ define('project/controllers', ['project/init'], function() {
          *取消订单
          */
         $scope.cancelForm = function(fromId, url) {
-          alertWarn("cancelForm");
+          alertWarn('cancelForm');
         };
 
     }//end salesOrderEditCtrl
@@ -215,13 +261,13 @@ define('project/controllers', ['project/init'], function() {
       */
       $scope.submitFormAfter = function() {
 
-        if ($scope.submitForm_type == "exit") {
+        if ($scope.submitForm_type == 'exit') {
           $scope.goTo('#/invoicesOrder/query.html');
          return;
        }
 
-       if ($scope.submitForm_type == "submit") {
-         var url="rest/authen/confirmOrder/updateStatus";
+       if ($scope.submitForm_type == 'submit') {
+         var url='rest/authen/confirmOrder/updateStatus';
          var data= {id:$scope.formData.id,orderStatus:'待发货'};
          requestData(url,data, 'POST')
            .then(function (results) {
@@ -245,7 +291,7 @@ define('project/controllers', ['project/init'], function() {
       */
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
-        $("#" + fromId).trigger("submit");
+        $('#' + fromId).trigger('submit');
 
       };
     }
@@ -277,7 +323,7 @@ define('project/controllers', ['project/init'], function() {
        type:save-草稿,submit-提交订单。
        */
        $scope.deleteKuaidi = function(kuaidi,invoicesOrderId) {
-         var url="rest/authen/invoicesOrder/kuaidi/delete";
+         var url='rest/authen/invoicesOrder/kuaidi/delete';
          var data= {kuaidiId:kuaidi.id,invoicesOrderId:invoicesOrderId};
          requestData(url,data, 'POST')
            .then(function (results) {
@@ -303,14 +349,14 @@ define('project/controllers', ['project/init'], function() {
       $scope.submitFormAfter = function() {
 
 
-          if ($scope.submitForm_type == "exit") {
+          if ($scope.submitForm_type == 'exit') {
             $scope.goTo('#/invoicesOrder/query.html');
            return;
          }
 
 
-       if ($scope.submitForm_type == "submit") {
-         var url="rest/authen/invoicesOrder/updateStatus";
+       if ($scope.submitForm_type == 'submit') {
+         var url='rest/authen/invoicesOrder/updateStatus';
          var data= {id:$scope.formData.id,status:'待发货'};
          requestData(url,data, 'POST')
            .then(function (results) {
@@ -334,7 +380,7 @@ define('project/controllers', ['project/init'], function() {
       */
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
-        $("#" + fromId).trigger("submit");
+        $('#' + fromId).trigger('submit');
 
       };
     }
@@ -377,7 +423,7 @@ define('project/controllers', ['project/init'], function() {
 
        //标记已经阅读。
        requestRead = function(id,notice) {
-         var url="rest/authen/notice/read";
+         var url='rest/authen/notice/read';
          var data= {id:id};
          requestData(url,data, 'POST')
            .then(function (results) {
@@ -435,13 +481,13 @@ define('project/controllers', ['project/init'], function() {
            $scope.addDataItem.brand = data.brand;
            $scope.addDataItem.unit = data.unit;
            $scope.addDataItem.price = data.price;
-           // $scope.addDataItem.isSameBatch = "否";
+           // $scope.addDataItem.isSameBatch = '否';
            $scope.addDataItem.strike_price = data.price;
            $scope.addDataItem.headUrl = data.headUrl;
            $scope.addDataItem.specification = data.specification;
            $scope.addDataItem.manufacturer = data.manufacturer;
            $scope.addDataItem.handleFlag =true;//默认添加到订单
-           $scope.addDataItem.productionBatch = "无";
+           $scope.addDataItem.productionBatch = '无';
            $scope.addDataItem.dosageForms = data.dosageForms;
            $scope.addDataItem.code = data.code;
            $scope.addDataItem.productionBatch = data.productionBatch;
@@ -452,19 +498,19 @@ define('project/controllers', ['project/init'], function() {
            $scope.addDataItem.drugAdministrationCode = data.drugAdministrationCode;
 
            // alert($('#addDataItem_quantity').length);
-           // $('#addDataItem_quantity').trigger("focus");
-           $('#addDataItem_quantity').trigger("focus");
+           // $('#addDataItem_quantity').trigger('focus');
+           $('#addDataItem_quantity').trigger('focus');
          };
          /**
          * 添加一条。并缓存数据。
          */
          $scope.addDataItemClick = function(addDataItem,medical) {
              if (!(addDataItem.relId && addDataItem.name)) {
-                 alertWarn("请选择药品。");
+                 alertWarn('请选择药品。');
                  return;
              }
              if (!addDataItem.quantity||addDataItem.quantity<1) {
-                 alertWarn("请输入大于0的数量。");
+                 alertWarn('请输入大于0的数量。');
                  return;
              }
 
@@ -492,8 +538,8 @@ define('project/controllers', ['project/init'], function() {
 
              $scope.addDataItem = {};
 
-             $("input", "#addDataItem_relId_chosen").trigger("focus");
-             // $("#addDataItem_relId_chosen").trigger("click");
+             $('input', '#addDataItem_relId_chosen').trigger('focus');
+             // $('#addDataItem_relId_chosen').trigger('click');
          };
 
          /**
@@ -504,12 +550,12 @@ define('project/controllers', ['project/init'], function() {
 
              $scope.formData.validFlag = false;
 
-           if ($scope.submitForm_type == "exit") {
+           if ($scope.submitForm_type == 'exit') {
              $scope.goTo('#/purchaseOrder/query.html');
             return;
           }
-           if ($scope.submitForm_type == "submit") {
-             var url="rest/authen/purchaseOrder/updateStatus";
+           if ($scope.submitForm_type == 'submit') {
+             var url='rest/authen/purchaseOrder/updateStatus';
              var data= {id:$scope.formData.id,status:'待审批'};
              requestData(url,data, 'POST')
                .then(function (results) {
@@ -531,12 +577,12 @@ define('project/controllers', ['project/init'], function() {
          */
          $scope.submitForm = function(fromId, type) {
             $scope.submitForm_type = type;
-            if ($scope.submitForm_type == "submit") {
+            if ($scope.submitForm_type == 'submit') {
               $scope.formData.validFlag = true;
             }
-           $("#" + fromId).trigger("submit");
+           $('#' + fromId).trigger('submit');
 
-           // addDataItem_opt.submitUrl="";
+           // addDataItem_opt.submitUrl='';
            // $scope.formData.orderMedicalNos.push($scope.addDataItem);
            // $scope.addDataItem={};
          };
@@ -544,7 +590,7 @@ define('project/controllers', ['project/init'], function() {
           *取消订单
           */
          $scope.cancelForm = function(fromId, url) {
-             alertWarn("cancelForm");
+             alertWarn('cancelForm');
          };
 
 
@@ -582,7 +628,7 @@ define('project/controllers', ['project/init'], function() {
        */
        $scope.batchAuditUserApplyOrganization = function(arr,ids,status,key,message) {
           if(!ids||ids.length===0){
-            alertWarn("请先勾选");
+            alertWarn('请先勾选');
             return;
           }
           //
@@ -598,7 +644,7 @@ define('project/controllers', ['project/init'], function() {
           }
 
 
-          var url="rest/authen/distributor/batchAuditUserApplyOrganization";
+          var url='rest/authen/distributor/batchAuditUserApplyOrganization';
 
 
           var  maskObj=proLoading();
@@ -607,8 +653,8 @@ define('project/controllers', ['project/init'], function() {
             .then(function (results) {
                      if(maskObj)maskObj.hide();
                       alertOk(results[1].msg);
-                    $scope.$broadcast("reloadList");
-                      $scope.$emit("reloadList");
+                    $scope.$broadcast('reloadList');
+                      $scope.$emit('reloadList');
                       modal.close();
 
             })
@@ -633,7 +679,7 @@ define('project/controllers', ['project/init'], function() {
 
         //标记已经阅读。
         requestRead = function(id,notice) {
-          var url="rest/authen/notice/read";
+          var url='rest/authen/notice/read';
           var data= {id:id};
           requestData(url,data, 'POST')
             .then(function (results) {
@@ -667,7 +713,11 @@ define('project/controllers', ['project/init'], function() {
       }//intervalCtrl
 
     /**
-     * 首营品种、首营企业、医院资格申请、经销商资格申请、采购目录通用控制器
+     * [QualificationApplyCtrl description]
+     * @param {[type]} $scope          [description]
+     * @param {[type]} watchFormChange [description]
+     * @param {[type]} requestData     [description]
+     * @param {[type]} utils           [description]
      */
     function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils) {
 
@@ -678,10 +728,10 @@ define('project/controllers', ['project/init'], function() {
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
-         if ($scope.submitForm_type == "submit") {
+         if ($scope.submitForm_type == 'submit') {
            $scope.formData.validFlag = true;
          }
-        $("#" + fromId).trigger("submit");
+        $('#' + fromId).trigger('submit');
       };
 
       $scope.submitFormAfter = function (_url) {
@@ -726,6 +776,8 @@ define('project/controllers', ['project/init'], function() {
           if (results[1].code === 200) {
             // utils.goTo('#/hospitalPurchaseContents/get.html?id='+hospitalId);
             $scope.$broadcast('reloadList');
+          } else {
+
           }
         })
         .catch(function (error) {
@@ -757,12 +809,12 @@ define('project/controllers', ['project/init'], function() {
         if(!formData1.didateFilter)formData1.didateFilter={};
         if(!formData1.didateFilter.buttons)formData1.didateFilter.buttons=[];
         var btnForm = {
-          type: "通过",
-          buttonName: "审核通过",
-          requestMethod: "POST",
-          conditionType:"通过",
-          requestParam: "KeyValue",
-          requestUrl : "rest/authen/workflowTask/run.json"
+          type: '通过',
+          buttonName: '审核通过',
+          requestMethod: 'POST',
+          conditionType:'通过',
+          requestParam: 'KeyValue',
+          requestUrl : 'rest/authen/workflowTask/run.json'
         };
         formData1.didateFilter.buttons.push(btnForm);
 
@@ -774,7 +826,7 @@ define('project/controllers', ['project/init'], function() {
         if(!$scope.formData.events)$scope.formData.events=[];
         var events=$scope.formData.events;
         var isInsert=true;
-        //防止"" 保存到后台,枚举报错bug.
+        //防止'' 保存到后台,枚举报错bug.
         if(!event1.conditionType)event1.conditionType=null;
         if(event1.id){
             var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);
@@ -808,7 +860,7 @@ define('project/controllers', ['project/init'], function() {
           var events=$scope.formData.events;
         var index=$rootScope.utils.removeObjectByKeyOfArr(events,'id',id);
         if(index<0){
-            alertError("没有该节点，id="+event1.id);
+            alertError('没有该节点，id='+event1.id);
             return;
         }
         if($scope.scopeExtend&&$scope.scopeExtend.workflow){
@@ -822,15 +874,15 @@ define('project/controllers', ['project/init'], function() {
 
 
     angular.module('manageApp.project')
-    .controller('editWorkFlowProcessCtrl', ["$scope", "modal", "alertWarn", "requestData", "alertOk", "alertError", "$rootScope", editWorkFlowProcessCtrl])
-    .controller('QualificationApplyCtrl', ["$scope", "watchFormChange", "requestData", "utils", QualificationApplyCtrl])
-    .controller('watchFormCtrl', ["$scope","watchFormChange", watchFormCtrl])
-    .controller('intervalCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", intervalCtrl])
-    .controller('auditUserApplyOrganizationCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","proLoading", auditUserApplyOrganizationCtrl])
-    .controller('purchaseOrderEditCtrl', ["$scope", "modal","alertWarn","alertError","requestData","watchFormChange", purchaseOrderEditCtrl])
-    .controller('noticeCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError","$rootScope","$interval", noticeCtrl])
-    .controller('invoicesOrderCtrl', ["$scope", "modal","alertWarn","requestData","alertOk","alertError", invoicesOrderCtrl])
-    .controller('salesOrderEditCtrl', ["$scope", "modal","alertWarn","watchFormChange", salesOrderEditCtrl]);
+    .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
+    .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils', QualificationApplyCtrl])
+    .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
+    .controller('intervalCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', intervalCtrl])
+    .controller('auditUserApplyOrganizationCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','proLoading', auditUserApplyOrganizationCtrl])
+    .controller('purchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', purchaseOrderEditCtrl])
+    .controller('noticeCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', noticeCtrl])
+    .controller('invoicesOrderCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError', invoicesOrderCtrl])
+    .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl]);
 
 
         //
