@@ -1394,14 +1394,14 @@ function hospitalPurchaseComeinEdit () {
 function medicalStockMouseOver(){
   return{
     restrict: 'A',
-    scope: {},
+
       link: function (scope, element, attrs) {
         $(element).mouseover(function(){
           $(this).addClass("bg-c");
-           var btn1=$("<button>详情<button>");
-           var btn2=$("<button>变动详情<button>");
-           $(this).children("td:last-child").append(btn1);
-           $(this).children("td:last-child").append(btn2);
+           var btn1=$("<button>详情</button>").addClass("posl");
+           var btn2=$("<button>变动详情</button>").addClass("posr");
+           $(this).children("td:last-child").addClass(" relative").append(btn1);
+           $(this).children("td:last-child").addClass(" relative").append(btn2);
         });
         $(element).mouseout(function(){
           $(this).removeClass("bg-c");
