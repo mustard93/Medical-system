@@ -1,7 +1,7 @@
 <div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "><!-- pageCtrl-->
-<div class="page-main-content left-se-side-par"  >
+<div class="page-main-content left-se-side-par">
   <!-- page heading start-->
-    <ng-include src="'views/medicalStock/left-second-side.html'" class="pos-abs left-se-side-par"></ng-include>
+    <ng-include src="'views/public/left-second-side.html'" class="pos-abs left-se-side-par"></ng-include>
   <!-- page heading end-->
   <!--body wrapper start-->
 
@@ -15,6 +15,7 @@
          <div class="content-wrapper-main mgt">
             <!-- 表格 start -->
                     <div class="pd-c"
+                    ajax-url="rest/authen/medicalStock/query"
                      scope-data="showData"
                      alert-error>
                      <table-list list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/query.json"
@@ -54,13 +55,9 @@
                                    <th>订单占用数量</th>
                                  </tr>
                                </thead>
-                               <tbody class="pr-bg-white" >
-                                 <tr ng-repeat="tr in tbodyList track by $index"
-                                 ng-init=''
-                                medical-stock-mouse-over
-                                 mouse-over-buttons-json='[{"url":"#/medicalStock/get.html?relMedicalStockId="+tr.id,"className":"circle-icon pos-icon1 pos-abs pr-icon-bg11"},{"url":"#/medicalStock/get1.html?relMedicalStockId="+tr.id,"className":"pos-s pr-arrow-r"}]'
-                                 >
-                                   <td  >{{$index + 1}}</td>
+                               <tbody class="pr-bg-white">
+                                 <tr medical-stock-mouse-over ng-repeat="tr in tbodyList track by $index">
+                                   <td>{{$index + 1}}</td>
                                    <td>{{tr.code}}</td>
                                    <td class="text-ellips-s">{{tr.name}}</td>
                                    <td>{{tr.specification}}</td>
@@ -75,16 +72,15 @@
                                  </tr>
                                </tbody>
                              </table>
-                             <!-- 分页 -->
-                             <div class="clearfix body-bg">
-                                 <div class="fr body-bg">
-                                     <pagination status="status"></pagination>
-                                 </div>
-                             </div>
                            </div>
                          </div>
                        </div>
-
+                       <!-- 导航 -->
+                       <!-- <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+                           <div class="fr">
+                               <pagination status="status"></pagination>
+                           </div>
+                       </div> -->
                      </table-list>
             <!-- 表格 end -->
 
