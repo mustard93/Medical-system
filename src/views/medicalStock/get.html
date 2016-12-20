@@ -1,136 +1,130 @@
-<table-list list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/query.json"
+<table-list list-data="rest/authen/medicalStock/queryInoutstockDetailChange?medicalStockId={{mainStatus.pageParams.medicalStockId}}"
             list-params="listParams"
             search-mode="noCaseSensitive"
             search-param="q">
   <div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "><!-- pageCtrl-->
-  <div class="page-main-content left-se-side-par">
-  <!--body wrapper start-->
+    <div class="page-main-content left-se-side-par">
+    <!--body wrapper start-->
 
-    <div class="pd-c-xxl"
-    ajax-url="rest/authen/medicalStock/queryInoutstockDetailChange"
-     scope-data="showData"
-     alert-error
-    >
+        <div class="pd-c-xxl">
+           <div class="page-header-info ">
 
-         <div class="page-header-info ">
+             <p class="mgb bb-line pdb-s relative  ">
 
-           <p class="mgb bb-line pdb-s relative  ">
+               <a href="#/medicalStock/query-stock.html">
+                 <span class="circle ">
+                      <span class="pr-arrow-l"></span>
+                 </span>
 
-             <a href="#/medicalStock/query-stock.html">
-               <span class="circle ">
-                    <span class="pr-arrow-l"></span>
-               </span>
+               </a>
+               <em class="mgl-xxl">库存报表 </em>/ <em class="color-custom-orange">库存查询</em> / <em >库存变动明细</em></p>
+             <p>
+               <em>仓库：</em><em></em>
+             </p>
 
-             </a>
-             <em class="mgl-xxl">库存报表 </em>/ <em class="color-custom-orange">库存查询</em> / <em >库存变动明细</em></p>
-           <p>
-             <em>仓库：</em><em>{{warehouseCode}}</em>
-           </p>
-             <h1 class="color-black text-l ">{{showData.name}}</h1>
-            <p>
-              <em class="mgll">此前库存：</em><em>0</em>
-              <em class="mgl-xxxl">期末库存：</em><em>90</em>
-            </p>
-         </div>
+               <h1 class="color-black text-l pd">{{tbodyList[0].name}}</h1>
+           </div>
 
-         <!-- 主体内容 start-->
-         <div class="content-wrapper-main">
+           <!-- 主体内容 start-->
+           <div class="content-wrapper-main">
 
-            <div class="pd-c">
+              <div class="pd-c">
 
-                         <!-- 搜索框 start-->
-                         <div class="text-left order-list-search relative">
-                             <select class="pr-select select-wd mgr-l">
-                               <option>最近7天</option>
-                               <option>最近10天</option>
-                               <option>最近一个月</option>
-                             </select>
-                               <input type="text"
-                                      datepicker
-                                      class="ipt pr-short-ipt color-6 mgr"
-                                      ng-readonly="true"
-                                      placeholder="日期"
-                                      ng-model="item.guaranteePeriod">
-                                <span class="mgr">至</span>
-                                <input type="text"
-                                      datepicker
-                                      class="ipt pr-short-ipt color-6 mgr-l"
-                                      ng-readonly="true"
-                                      placeholder="日期"
-                                      ng-model="item.guaranteePeriod">
-                         <input type="text" class="ipt pdr-xxl" placeholder="单据编号/经手人" ng-model="listParams.q">
-                           <i class="ipt-i"></i>
+                           <!-- 搜索框 start-->
+                           <div class="text-left order-list-search relative">
+                               <select class="pr-select select-wd mgr-l">
+                                 <option>最近7天</option>
+                                 <option>最近10天</option>
+                                 <option>最近一个月</option>
+                               </select>
+                                 <input type="text"
+                                        datepicker
+                                        class="ipt pr-short-ipt color-6 mgr"
+                                        ng-readonly="true"
+                                        placeholder="日期"
+                                        ng-model="item.guaranteePeriod">
+                                  <span class="mgr">至</span>
+                                  <input type="text"
+                                        datepicker
+                                        class="ipt pr-short-ipt color-6 mgr-l"
+                                        ng-readonly="true"
+                                        placeholder="日期"
+                                        ng-model="item.guaranteePeriod">
+                           <input type="text" class="ipt pdr-xxl" placeholder="单据编号/经手人" ng-model="listParams.q">
+                             <i class="ipt-i"></i>
+                           </div>
+                            <!-- 搜索框 end-->
+
+                 <!-- 主内容头部 -->
+                 <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
+                   <!-- 主内容区域 -->
+                   <div class="content-wrapper-main">
+                     <div ng-if="!status.isLoading">
+                       <div ng-if="tbodyList.length==0">
+                         <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+                         <p class="text-center">什么也没有</p>
+                       </div>
+
+                       <div class="pd-c">
+                         <table ng-if="tbodyList.length" class="table table-hover table-striped table-mr table-bordered table-content">
+                           <thead class="pr-bg-side">
+                             <tr>
+                               <th>序号</th>
+                               <th>单据日期</th>
+                               <th>单据类型</th>
+                               <th>单据编号</th>
+                               <th>仓库</th>
+                               <th>单位</th>
+                               <th>经手人</th>
+                               <th>入库数量</th>
+                               <th>出库数量</th>
+                               <th>库存余量</th>
+                               <th>成本价</th>
+                               <th>成本金额</th>
+                             </tr>
+                           </thead>
+                           <tbody class="pr-bg-white">
+                             <tr ng-repeat="tr in tbodyList track by $index">
+                               <td>{{$index + 1}}</td>
+                               <td>{{tr.createAt | date:'yyyy-MM-dd'}}</td>
+                               <td class="text-ellips-s">{{tr.type}}</td>
+                               <td>{{tr.orderNo}}</td>
+                               <td>{{tr.warehouseName}}</td>
+                               <td>{{tr.unit}}</td>
+                               <td>{{!tr.inputUser.n?'&nbsp;':tr.inputUser.n}}</td>
+                               <td >{{tr.quantity>0?tr.quantity:'&nbsp;'}}</td>
+                               <td >{{tr.quantity<0?tr.quantity:'&nbsp;'}}</td>
+                               <td>{{tr.actualQuantity}}</td>
+                               <td>{{tr.price}}</td>
+                               <td>{{tr.actualQuantity*tr.price}}</td>
+                             </tr>
+                             <tr class="bgco-orange">
+                               <td colspan="7" class="text-right color-white">合计：</td>
+                               <td></td>
+                               <td></td>
+                               <td></td>
+                               <td></td>
+                               <td></td>
+                             </tr>
+                           </tbody>
+                         </table>
+                         <!-- 分页 -->
+                         <div class="clearfix">
+                             <div class="fr">
+                                 <pagination status="status"></pagination>
+                             </div>
                          </div>
-                          <!-- 搜索框 end-->
-
-               <!-- 主内容头部 -->
-               <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
-               <!-- 主内容区域 -->
-               <div class="content-wrapper-main">
-                 <div ng-if="!status.isLoading">
-                   <div ng-if="tbodyList.length==0">
-                     <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-                     <p class="text-center">什么也没有</p>
-                   </div>
-
-                   <div class="pd-c">
-                     <table ng-if="tbodyList.length" class="table table-hover table-striped table-mr table-bordered table-content">
-                       <thead class="pr-bg-side">
-                         <tr>
-                           <th>序号</th>
-                           <th>单据日期</th>
-                           <th>单据类型</th>
-                           <th>单据编号</th>
-                           <th>仓库</th>
-                           <th>单位</th>
-                           <th>经手人</th>
-                           <th>入库数量</th>
-                           <th>出库数量</th>
-                           <th>库存余量</th>
-                           <th>成本价</th>
-                           <th>成本金额</th>
-                         </tr>
-                       </thead>
-                       <tbody class="pr-bg-white">
-                         <tr ng-repeat="tr in tbodyList track by $index">
-                           <td>{{$index + 1}}</td>
-                           <td>{{tr.code}}</td>
-                           <td class="text-ellips-s">{{tr.name}}</td>
-                           <td>{{tr.orderNo}}</td>
-                           <td>{{tr.unit}}</td>
-                           <td>{{tr.drugAdministrationCode}}</td>
-                           <td>{{tr.actualQuantity}}</td>
-                           <td>{{tr.price}}</td>
-                           <td>{{tr.quantity*tr.price}}</td>
-                           <td>{{tr.quantity}}</td>
-                           <td>{{tr.quantity-tr.actualQuantity}}</td>
-                           <td>{{tr.quantity}}</td>
-                         </tr>
-                         <tr class="bgco-orange">
-                           <td colspan="7" class="text-right color-white">合计：</td>
-                           <td></td>
-                           <td></td>
-                           <td></td>
-                           <td></td>
-                           <td></td>
-                         </tr>
-                       </tbody>
-                     </table>
-                     <!-- 分页 -->
-                     <div class="clearfix">
-                         <div class="fr">
-                             <pagination status="status"></pagination>
-                         </div>
+                       </div>
                      </div>
                    </div>
+                   <!-- 主体内容 end -->
                  </div>
+
                </div>
-           <!-- 主体内容 end -->
-         </div>
 
+          <!--body wrapper end-->
+          </div>
+        </div>
     </div>
-
-  <!--body wrapper end-->
   </div>
-  </div>
-  </table-list>
+</table-list>

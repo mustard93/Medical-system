@@ -14,16 +14,15 @@
     </select>
 </div>
 
-
-    <h1 class="med-list"> 商品类别</h1>
+<h1 class="med-list"> 商品类别</h1>
 
   <div  tree-list2="rest/authen/medicalAttribute/query?pageSize=9999" pid-key="parentId"
    alert-error>
 
    <!--递归模版 -->
-   <script id="recursion" type="text/ng-template" class="">
+   <script id="recursion" type="text/ng-template" class="li-active">
        <li ng-repeat="item in treeList_recursion " ng-init="hildrenDivId='parent_'+item.id;foldClassId='foldClassId_'+item.id"
-        class='pdl-s pd-s relative animate'>
+        class='pdl-s pd-s relative animate li-active'>
          <a  href="" class="nav-order color-or " ng-click="item.nodes.length>0&&extendTree2($event,hildrenDivId,foldClassId,'pr-arrow-se-up')">
            <span > {{item.name}}</span>
            <span id="{{foldClassId}}" class="pos-abs posr"
