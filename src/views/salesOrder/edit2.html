@@ -270,7 +270,7 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <a ng-if="changeFlag" href="javascript:;"
+          <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
              handle-this-click
              dialog-title="确认返回?"
              dialog-content="该购需单存在未保存数据，是否保存?"
@@ -279,11 +279,11 @@
              save-callback="submitForm('editForm','exit')">返回购需单列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
+          <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
 
           <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
              href="javascript:;"
-             class="pr-color-red mgl"
+             class="pr-color-red mgr-l"
              handle-this-click
              dialog-title="确认删除?"
              dialog-content="您确认删除这条购需单吗?"
@@ -291,6 +291,16 @@
              request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
              call-back="$root.goTo('#/salesOrder/query.html')">删除
           </a>
+
+          <button class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+
+          <button ng-click="submitForm('editForm','submit')"
+                  class="pr-btn-create-glodbg"
+                  ng-disabled="!formData.orderMedicalNos.length ||
+                               !formData.customerId ||
+                               !formData.saleUserId ||
+                               !canSubmitForm()">生成销售单
+          </button>
       </div>
     </div>
   </form>
