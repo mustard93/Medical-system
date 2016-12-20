@@ -1446,9 +1446,8 @@ function medicalStockMouseOver(){
         });
       }
   };
-
-
 }
+
 /**
  *  卡片式列表页面内容超出范围的处理(动态宽度)
  */
@@ -1480,12 +1479,7 @@ function handleTextOverflow () {
   };
 }
 
-function tableTotal(){
-  return{
-    restrict:'A',
-    
-  };
-}
+
 
 
 angular.module('manageApp.project')
