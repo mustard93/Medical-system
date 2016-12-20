@@ -75,13 +75,16 @@
                                    <td>{{tr.quantity-tr.actualQuantity}}</td>
 
                                  </tr>
-                                 <tr class="bgco-orange color-white">
+
+
+                                 <tr class="bgco-orange color-white"   ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity'])">
                                    <td colspan="6" class="text-right">合计：</td>
-                                   <td></td>
-                                   <td></td>
-                                   <td></td>
-                                   <td></td>
-                                   <td></td>
+                                   <td>{{totalObj.quantity-totalObj.actualQuantity}}</td>
+                                   <td>{{totalObj.price}}</td>
+                                   <td>{{totalObj.quantity*totalObj.price}}</td>
+                                   <td>{{totalObj.quantity}}</td>
+                                   <td>{{totalObj.quantity-totalObj.actualQuantity}}</td>
+
                                  </tr>
                                </tbody>
                              </table>
