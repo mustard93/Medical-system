@@ -36,8 +36,6 @@ define('main/controllers', ['main/init'], function () {
             };
         };
 
-
-
         $scope.leftSideisShow = true;   //默认显示
         $scope.$on('$locationChangeStart', function (event, newUrl, currentUrl) {
           // 当Url发生变化，则更新Url信息
