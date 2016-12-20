@@ -7,7 +7,7 @@
 
 <div>
     <select class="pr-select pdt" chosen
-    ng-model="listParams.warehouseStocksCode" default-empty="无"
+    ng-model="listParams.warehouseStocksCode" default-empty="全部"
     select-source="rest/authen/warehouse/queryForSelectOption">
     </select>
 </div>
@@ -15,24 +15,20 @@
 
     <h1 class="med-list"> 商品类别</h1>
 
-
-
   <div  tree-list2="rest/authen/medicalAttribute/query?pageSize=9999" pid-key="parentId"
    alert-error>
 
    <!--递归模版 -->
-   <script id="recursion" type="text/ng-template">
-       <li ng-repeat="item in treeList_recursion" ng-init="hildrenDivId='parent_'+item.id;foldClassId='foldClassId_'+item.id"
-        class='pd-s li-active'>
-         <a  href="" class="nav-order color-or" ng-click="extendTree2($event,hildrenDivId,foldClassId,'pr-arrow-se-up')">
-           <span> {{item.name}}</span>
+   <script id="recursion" type="text/ng-template" class="">
+       <li ng-repeat="item in treeList_recursion " ng-init="hildrenDivId='parent_'+item.id;foldClassId='foldClassId_'+item.id"
+        class='pdl-s pd-s relative animate'>
+         <a  href="" class="nav-order color-or " ng-click="item.nodes.length>0&&extendTree2($event,hildrenDivId,foldClassId,'pr-arrow-se-up')">
+           <span > {{item.name}}</span>
            <span id="{{foldClassId}}" class="pos-abs posr"
              ng-class="{'pr-arrow-se-down': item.nodes.length>0}"
-
-
-           ></span>
+             ></span>
          </a>
-           <ul id="{{hildrenDivId}}"  ng-if="item.nodes.length" ng-include="'recursion'"  ng-init="treeList_recursion=item.nodes;tree_index=tree_index+1">
+           <ul id="{{hildrenDivId}}"  style="display:none;" ng-if="item.nodes.length" ng-include="'recursion'"  ng-init="treeList_recursion=item.nodes;tree_index=tree_index+1">
 
            </ul>
        </li>
