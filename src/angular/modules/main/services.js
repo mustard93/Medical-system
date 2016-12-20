@@ -379,7 +379,8 @@ function alertOk($rootScope, modal) {
                       return window.localStorage.getItem(key);
                   },
                 remove : function(key){
-                   if(!window.localStorage)return; localStorage.removeItem(key)
+                   if(!window.localStorage) return;
+                   localStorage.removeItem(key);
                  },
                   set : function(key, value){
                       if(!  window.localStorage)return;
@@ -389,9 +390,9 @@ function alertOk($rootScope, modal) {
                    if(!window.localStorage)return;
                     localStorage.clear();
                  }
-              }
+              };
 
-      };
+      }
 
       //工具类
       function utils () {

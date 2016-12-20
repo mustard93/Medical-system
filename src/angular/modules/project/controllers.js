@@ -872,8 +872,14 @@ define('project/controllers', ['project/init'], function() {
 
     }//editWorkFlowProcessCtrl
 
+    function MedicalStockController ($scope, utils) {
+      $scope.getUrlInfo = function () {
+        return utils.getUrlFullInfo.getUrl();
+      };
+    }
 
     angular.module('manageApp.project')
+    .controller('MedicalStockController', ['$scope', 'utils', MedicalStockController])
     .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
     .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils', QualificationApplyCtrl])
     .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
