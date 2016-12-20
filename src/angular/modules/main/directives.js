@@ -1079,6 +1079,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         .then(function(results) {
                             var data = results[0];
                             $scope.treeList = buildTree(data,$attrs.pidKey);
+
+                            console.log($scope.treeList);
                             $scope.status.isLoading = false;
                             if (isFirstLoad && angular.isDefined($attrs.selectFirst)) {
                                 isFirstLoad = false;
@@ -1156,6 +1158,31 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
                 };
 
+                /**
+                 * [extendTree2 description]
+                 * @param  {[type]} e             [description]
+                 * @param  {[type]} childrenDivId [隐藏或显示的孩子展示区]
+                 * @param  {[type]} foldClassId   [展开或隐藏样式绑定的divid]
+                 * @param  {[type]} foldClass     [自定义添加展开的样式名]
+                 * @return {[type]}               [description]
+                 */
+                $scope.extendTree2 = function(e,childrenDivId,foldClassId,foldClass) {
+                  if(!foldClass)foldClass="fold";
+                    // e.preventDefault();
+                    // e.stopPropagation();
+                    // var $this = $(e.currentTarget);
+                    var $parentLi =  $("#"+foldClassId);
+
+
+                    if ($parentLi.hasClass(foldClass)) {
+                        $parentLi.removeClass(foldClass);
+                         $("#"+childrenDivId).hide();
+                    } else {
+                        $parentLi.addClass(foldClass);
+                       $("#"+childrenDivId).show();
+                    }
+                };
+
                 $scope.deleteTree = function(e, _url) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1191,6 +1218,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         .then(function(results) {
                             var data = results[0];
                             $scope.treeList = buildTree(data,$attrs.pidKey);
+
+                                console.log($scope.treeList);
+
                             $scope.status.isLoading = false;
                         })
                         .catch(function() {
