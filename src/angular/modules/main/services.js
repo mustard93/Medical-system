@@ -379,7 +379,8 @@ function alertOk($rootScope, modal) {
                       return window.localStorage.getItem(key);
                   },
                 remove : function(key){
-                   if(!window.localStorage)return; localStorage.removeItem(key)
+                   if(!window.localStorage) return;
+                   localStorage.removeItem(key);
                  },
                   set : function(key, value){
                       if(!  window.localStorage)return;
@@ -389,9 +390,9 @@ function alertOk($rootScope, modal) {
                    if(!window.localStorage)return;
                     localStorage.clear();
                  }
-              }
+              };
 
-      };
+      }
 
       //工具类
       function utils () {
@@ -494,7 +495,40 @@ function alertOk($rootScope, modal) {
               } else {
                 throw new Error('params fileName is must type of String');
               }
-            }
+            },
+            // 返回当前Url地址信息，包括当前Url地址、主机名、端口、地址、hash
+            getUrlFullInfo : function ($location) {
+              return {
+                // 返回完整url信息
+                getAbsUrl : function () {
+                  return $location.absUrl();
+                },
+                // 返回#后面的url信息字段
+                getUrl : function () {
+                  return $location.url();
+                },
+                // 返回协议
+                getProtocol : function () {
+                  return $location.protocol();
+                },
+                // 返回端口
+                getPort : function () {
+                  return $location.port();
+                },
+                // 返回路径
+                getPath : function () {
+                  return $location.path();
+                },
+                // 获取哈希
+                getHash : function () {
+                  return $location.hash();
+                },
+                // 获取url的参数的序列化json对象
+                getSearch : function () {
+                  return $location.search();
+                }
+              };
+            },
           };
 
           return utilsObj;

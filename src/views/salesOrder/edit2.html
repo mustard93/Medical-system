@@ -125,7 +125,7 @@
       </div>
     </div>
     <!-- 其他信息 -->
-    <div class="relative">
+    <div class="relative" style="margin-bottom:60px;">
       <div class="pd-c-l">
         <!-- 发货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
@@ -227,7 +227,7 @@
           <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
         <!-- 功能按钮 -->
-        <div class="pdb-xxl text-right">
+        <!-- <div class="pdb-xxl text-right">
           <span class="mgl">
             <a ng-if="changeFlag" href="javascript:;"
                handle-this-click
@@ -239,7 +239,6 @@
 
                <a ng-if="!changeFlag" href="#/salesOrder/query.html" >返回</a>
           </span>
-
           <span>
             <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
                href="javascript:;"
@@ -252,11 +251,9 @@
                call-back="$root.goTo('#/salesOrder/query.html')">删除
             </a>
           </span>
-
           <span class="mgl">
             <button class="pr-btn-save-glodbg" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
           </span>
-
           <span class="mgl">
             <button ng-click="submitForm('editForm','submit')"
                     class="pr-btn-create-glodbg"
@@ -266,7 +263,34 @@
                                  !canSubmitForm()">生成销售单
             </button>
           </span>
-        </div>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area relative">
+      <div class="btn-area">
+          <a ng-if="changeFlag" href="javascript:;"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="该购需单存在未保存数据，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo('#/salesOrder/query.html')"
+             save-callback="submitForm('editForm','exit')">返回购需单列表
+          </a>
+
+          <a ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
+
+          <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+             href="javascript:;"
+             class="pr-color-red mgl"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="您确认删除这条购需单吗?"
+             dialog-template="dialog-confirm.html"
+             request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+             call-back="$root.goTo('#/salesOrder/query.html')">删除
+          </a>
       </div>
     </div>
   </form>
