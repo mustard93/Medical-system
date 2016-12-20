@@ -37,11 +37,11 @@
       </div>
     </div>
     <!-- 药械列表 -->
-    <div class="relative bb-dashed-line pr-bg-lighglod">
-      <div class="pd-l">
+    <div class="pd-l">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l">
         <!-- 信息 -->
         <div class="bb-dashed-line">
-          <h1 class="text-bold">药械闪加</h1>{{formData}}
+          <h1 class="text-bold">药械闪加</h1>
           <div class="mgb">
             <span angucomplete-medical
                   placeholder="商品名 商品简称 商品名头字母 商品编号 厂家名 厂家名头字母。多个关键字段，用空格分隔"
@@ -66,9 +66,9 @@
           </p>
         </div>
         <!-- 列表 -->
-        <div class="pd-v-l">
+        <div class="pd-v-s">
           <p class="flex-column mgb">
-            <span class="flex-item-6">购需单号：<em>{{'暂无'}}</em></span>
+            <span class="flex-item-6">购需单号：<em>{{formData.orderNo || '暂无'}}</em></span>
             <span class="flex-item-6 text-right">状态：<em>未提交</em></span>
           </p>
           <table class="table pr-table table-hover">
@@ -96,7 +96,19 @@
                 <td>{{tr.name}}</td>
                 <td>{{tr.specification}}</td>
                 <td>{{tr.unit}}</td>
-                <td></td>
+                <td>
+                  <div class="order-goods-num">
+                    <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
+                    <span class="inline-block">
+                      <input type="number"
+                             class="inline pr-table-input text-center"
+                             style="width:60px;"
+                             ng-model="tr.quantity"
+                             ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                    </span>
+                    <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
+                  </div>
+                </td>
                 <td>{{tr.price | currency:'￥'}}</td>
                 <td>￥127.00</td>
                 <td>{{'&nbsp;'}}</td>
@@ -114,7 +126,7 @@
     </div>
     <!-- 其他信息 -->
     <div class="relative">
-      <div class="pd-l">
+      <div class="pd-c-l">
         <!-- 发货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
           <header class="text-n text-bold">发货方信息
