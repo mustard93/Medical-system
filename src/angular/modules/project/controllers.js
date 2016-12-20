@@ -154,7 +154,7 @@ define('project/controllers', ['project/init'], function() {
                 alertWarn('请选择药品。');
                 return;
             }
-            if (!addDataItem.csmQuantity || addDataItem.quantity<1) {
+            if (!addDataItem.csmQuantity || addDataItem.csmQuantity<1) {
                 alertWarn('请输入大于0的数量。');
                 return;
             }
