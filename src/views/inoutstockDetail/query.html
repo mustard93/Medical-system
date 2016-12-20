@@ -23,11 +23,16 @@
         </button>
       </div> -->
       <div class="text-left order-list-search relative order-list-i mgl">
-          <select class="pr-select select-wd mgr-l" chosen default-empty="无"
+        <select class="pr-select select-wd mgr-l">
+          <option>最近7天</option>
+          <option>最近10天</option>
+          <option>最近一个月</option>
+        </select>
+          <!-- <select class="pr-select select-wd mgr-l" chosen default-empty="所有单据"
           ng-model="listParams.type"
           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
 
-          </select>
+          </select> -->
 
             <input type="text"
                    datepicker
@@ -42,11 +47,14 @@
                    ng-readonly="true"
                    placeholder="日期"
                    ng-model="item.guaranteePeriod">
-                   <select class="pr-select select-wd mgr-ls">
-                       <option value="">所有单据</option>
+                   <select class="pr-select select-wd mgr-l" chosen default-empty="所有单据"
+                   ng-model="listParams.type"
+                   select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
+
                    </select>
 
-        <input type="text" class="ipt pdr-xl ipt-r-i" placeholder="单据编号/经手人" ng-model="listParams.q">
+
+        <input type="text" class="ipt pdr-xl ipt-r-i" placeholder="商品名称/单据编号" ng-model="listParams.q">
         <i></i>
 
       </div>
@@ -88,6 +96,7 @@
                         <tr>
                             <th>序号</th>
                             <th>单据日期</th>
+                            <th>单据类型</th>
                             <th>单据编号</th>
                             <th>仓库</th>
                             <th>商品编码</th>
@@ -95,15 +104,16 @@
                             <th>数量</th>
                             <th>批号</th>
                             <th>灭菌批号</th>
-                            <th>有效期至</th>
+                            <th>有效期</th>
                             <th>生产日期</th>
                         </tr>
                     </thead>
-                    <tbody class="tr-hover">
+                    <tbody>
                         <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered ">
                             <td>{{$index + 1}}</td>
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd HH:mm'}}</td>
-                            <td>{{tr.orderNo}}</td>
+                            <td>{{tr.type}}</td>
+                            <td class="color-orange">{{tr.orderNo}}</td>
                             <td>{{tr.warehouseCenter}}</td>
                             <td>{{tr.medicalStockId}}</td>
                             <td>{{tr.medicalStockName}}</td>
@@ -112,16 +122,7 @@
                             <td>{{tr.sterilizationBatchNumber}}</td>
                             <td>{{tr.validTill | date : 'yyyy-MM-dd HH:mm'}}</td>
                             <td>{{tr.productionDate | date : 'yyyy-MM-dd HH:mm'}}</td>
-                            <!-- <td>
 
-                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/role/edit.html?id={{tr.id}}">
-                                    <i class="fa fa-edit"></i>
-                                    编辑
-                                </button>
-                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/role/delete', tr.id)">
-                                    <i class="fa fa-trash-o"></i>
-                                    删除</button>
-                            </td> -->
                         </tr>
                     </tbody>
                 </table>

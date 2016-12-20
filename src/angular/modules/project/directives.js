@@ -1480,6 +1480,13 @@ function handleTextOverflow () {
   };
 }
 
+function tableTotal(){
+  return{
+    restrict:'A',
+    
+  };
+}
+
 
 angular.module('manageApp.project')
   .directive("handleTextOverflow", [handleTextOverflow])  // 卡片式列表页面内容超出范围的处理(动态宽度)
@@ -1510,4 +1517,5 @@ angular.module('manageApp.project')
   .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
   .directive("styleToggle", ['$location', styleToggle])
   .directive("medicalStockMouseOver",[medicalStockMouseOver]);// 库存明细模块，鼠标移入高亮并显示两个按钮
+
 });

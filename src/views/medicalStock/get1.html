@@ -1,4 +1,6 @@
-<div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "><!-- pageCtrl-->
+<div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "
+ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}"
+><!-- pageCtrl-->
 <div class="page-main-content left-se-side-par">
   <!--body wrapper start-->
   <table-list  list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.relMedicalStockId}}"
@@ -20,9 +22,9 @@
               </span>
 
            </a>
-             <em class="mgl">库存报表 </em>/ <em >库存查询</em> / <em class="color-custom-orange">库存明细</em></p>
+             <em class="mgl">库存报表 </em>/ <em class="color-custom-orange">库存查询</em> / <em >库存明细</em></p>
            <p>
-             <em>仓库：</em><em>昆明库-01</em>
+             <em>仓库：</em><em></em>
            </p>
              <h1 class="color-black text-l ">{{showData.name}}</h1>
 
@@ -42,7 +44,7 @@
                       </div>
                                   <!-- 搜索框 end-->
                        <!-- 主内容头部 -->
-                       <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr relative">
+                       <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
                        <!-- 主内容区域 -->
                        <div class="content-wrapper-main">
                          <div ng-if="!status.isLoading">
@@ -70,7 +72,7 @@
                                    <th>库存金额</th>
                                  </tr>
                                </thead>
-                               <tbody class="pr-bg-white tr-hover ">
+                               <tbody class="pr-bg-white">
                                  <tr ng-repeat="tr in tbodyList track by $index">
                                    <td>{{$index + 1}}</td>
                                    <td>{{showData.code}}</td>
@@ -87,6 +89,12 @@
                                    <td>{{tr.quantity-tr.actualQuantity}}</td>
 
                                  </tr>
+                                 <tr class="bgco-orange color-white">
+                                   <td colspan="10" class="text-right">合计：</td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                 </tr>
 
                                </tbody>
                              </table>
@@ -99,13 +107,6 @@
                            </div>
                          </div>
                        </div>
-                       <!-- 导航 -->
-                       <!-- <div class="clearfix pd-c-m" ng-if="tbodyList.length">
-                           <div class="fr">
-                               <pagination status="status"></pagination>
-                           </div>
-                       </div> -->
-
 
            <!-- 主体内容 end -->
          </div>

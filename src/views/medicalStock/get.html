@@ -1,8 +1,16 @@
-<div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "><!-- pageCtrl-->
-<div class="page-main-content left-se-side-par">
+<table-list list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/query.json"
+            list-params="listParams"
+            search-mode="noCaseSensitive"
+            search-param="q">
+  <div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "><!-- pageCtrl-->
+  <div class="page-main-content left-se-side-par">
   <!--body wrapper start-->
 
-    <div class="pd-c-xxl">
+    <div class="pd-c-xxl"
+    ajax-url="rest/authen/medicalStock/query"
+     scope-data="showData"
+     alert-error
+    >
 
          <div class="page-header-info ">
 
@@ -14,11 +22,11 @@
                </span>
 
              </a>
-             <em class="mgl-xxl">库存报表 </em>/ <em >库存查询</em> / <em class="color-custom-orange">库存变动明细</em></p>
+             <em class="mgl-xxl">库存报表 </em>/ <em class="color-custom-orange">库存查询</em> / <em >库存变动明细</em></p>
            <p>
-             <em>仓库：</em><em>昆明库-01</em>
+             <em>仓库：</em><em>{{warehouseCode}}</em>
            </p>
-             <h1 class="color-black text-l ">一次性使用无菌手术刀</h1>
+             <h1 class="color-black text-l ">{{showData.name}}</h1>
             <p>
               <em class="mgll">此前库存：</em><em>0</em>
               <em class="mgl-xxxl">期末库存：</em><em>90</em>
@@ -28,14 +36,8 @@
          <!-- 主体内容 start-->
          <div class="content-wrapper-main">
 
-            <div class="pd-c"
-            ajax-url="rest/authen/medicalStock/query"
-             scope-data="showData"
-             alert-error>
-             <table-list list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/query.json"
-                         list-params="listParams"
-                         search-mode="noCaseSensitive"
-                         search-param="q">
+            <div class="pd-c">
+
                          <!-- 搜索框 start-->
                          <div class="text-left order-list-search relative">
                              <select class="pr-select select-wd mgr-l">
@@ -62,7 +64,7 @@
                           <!-- 搜索框 end-->
 
                <!-- 主内容头部 -->
-               <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr relative">
+               <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
                <!-- 主内容区域 -->
                <div class="content-wrapper-main">
                  <div ng-if="!status.isLoading">
@@ -76,19 +78,20 @@
                        <thead class="pr-bg-side">
                          <tr>
                            <th>序号</th>
-                           <th>商品编号</th>
-                           <th>商品全名</th>
-                           <th>规格</th>
+                           <th>单据日期</th>
+                           <th>单据类型</th>
+                           <th>单据编号</th>
+                           <th>仓库</th>
                            <th>单位</th>
-                           <th>注册证号</th>
-                           <th>数量</th>
-                           <th>成本单价</th>
-                           <th>库存金额</th>
-                           <th>可销售数量</th>
-                           <th>订单占用数量</th>
+                           <th>经手人</th>
+                           <th>入库数量</th>
+                           <th>出库数量</th>
+                           <th>库存余量</th>
+                           <th>成本价</th>
+                           <th>成本金额</th>
                          </tr>
                        </thead>
-                       <tbody class="pr-bg-white tr-hover ">
+                       <tbody class="pr-bg-white">
                          <tr ng-repeat="tr in tbodyList track by $index">
                            <td>{{$index + 1}}</td>
                            <td>{{tr.code}}</td>
@@ -101,10 +104,10 @@
                            <td>{{tr.quantity*tr.price}}</td>
                            <td>{{tr.quantity}}</td>
                            <td>{{tr.quantity-tr.actualQuantity}}</td>
-
+                           <td>{{tr.quantity}}</td>
                          </tr>
                          <tr class="bgco-orange">
-                           <td colspan="6" class="text-right">合计：</td>
+                           <td colspan="7" class="text-right color-white">合计：</td>
                            <td></td>
                            <td></td>
                            <td></td>
@@ -126,7 +129,8 @@
          </div>
 
     </div>
+
   <!--body wrapper end-->
-</div>
-</div>
+  </div>
+  </div>
 </table-list>

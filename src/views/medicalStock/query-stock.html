@@ -26,9 +26,10 @@
                          <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
                           <i class=""></i>
                       </div>
+
                                   <!-- 搜索框 end-->
                        <!-- 主内容头部 -->
-                       <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr relative">
+                       <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
                        <!-- 主内容区域 -->
                        <div class="content-wrapper-main">
                          <div ng-if="!status.isLoading">
@@ -58,7 +59,11 @@
                                  <tr ng-repeat="tr in tbodyList track by $index"
                                  ng-init=''
                                 medical-stock-mouse-over
-                                 mouse-over-buttons-json='[{"url":"#/medicalStock/get.html?relMedicalStockId="+tr.id,"className":"circle-icon pos-icon1 pos-abs pr-icon-bg11"},{"url":"#/medicalStock/get1.html?relMedicalStockId="+tr.id,"className":"pos-s pr-arrow-r"}]'
+                                mouse-over-buttons-json=
+                                 '[{"url":"#/medicalStock/get.html?relMedicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
+                                 "className":"circle-icon pos-icon1 pos-abs pr-icon-bg11"},
+                                 {"url":"#/medicalStock/get1.html?relMedicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
+                                 "className":"pos-s pr-arrow-r"}]'
                                  >
                                    <td  >{{$index + 1}}</td>
                                    <td>{{tr.code}}</td>
@@ -72,6 +77,14 @@
                                    <td>{{tr.quantity}}</td>
                                    <td>{{tr.quantity-tr.actualQuantity}}</td>
 
+                                 </tr>
+                                 <tr class="bgco-orange color-white">
+                                   <td colspan="6" class="text-right">合计：</td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
                                  </tr>
                                </tbody>
                              </table>
