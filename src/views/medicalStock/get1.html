@@ -1,18 +1,13 @@
-<div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "
-ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}"
-><!-- pageCtrl-->
-<div class="page-main-content left-se-side-par">
+<div ng-controller="pageCtrl"
+     class="pd-c-xxxl left-se-side-par "
+     ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}"><!-- pageCtrl-->
+<div ng-controller="MedicalStockController" class="page-main-content left-se-side-par">
   <!--body wrapper start-->
-  <table-list  list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.relMedicalStockId}}"
-              list-params="listParams"
-              search-mode="noCaseSensitive"
-              search-param="q">
-    <div class="pd-c-xxl"
 
-    ajax-url="rest/authen/medicalStock/get.json?id={{mainStatus.pageParams.relMedicalStockId}}"
-    scope-data="showData"
-    alert-error
-    >
+    <div class="pd-c-xxl"
+         ajax-url="rest/authen/medicalStock/get.json?id={{mainStatus.pageParams.relMedicalStockId}}"
+         scope-data="showData"
+         alert-error>
          <div class="page-header-info">
 
            <p class="mgb bb-line relative  pdb-s">
@@ -23,12 +18,20 @@ ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.war
 
            </a>
              <em class="mgl">库存报表 </em>/ <em class="color-custom-orange">库存查询</em> / <em >库存明细</em></p>
-           <p>
-             <em>仓库：</em><em></em>
+           <p ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{urlInfo.search.warehouseCode}}" scope-data="warehouseName">
+             <em>仓库：</em>
+             <em ng-if="warehouseName.name">{{warehouseName.name}}</em>
+             <em ng-if="!warehouseName.name">全部</em>
            </p>
              <h1 class="color-black text-l ">{{showData.name}}</h1>
 
          </div>
+
+
+         <table-list  list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.relMedicalStockId}}"
+                     list-params="listParams"
+                     search-mode="noCaseSensitive"
+                     search-param="q">
 
          <!-- 主体内容 start-->
          <div class="content-wrapper-main">
@@ -111,9 +114,10 @@ ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.war
            <!-- 主体内容 end -->
          </div>
 
+        </div>
+      <!--body wrapper end-->
     </div>
-  <!--body wrapper end-->
-</div>
+    </table-list>
 </div><!--class="pd-c-xxl"-->
-</table-list>
+
 <!-- 表格 end -->
