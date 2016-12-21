@@ -3,10 +3,7 @@
   <div ng-controller="MedicalStockController" class="page-main-content left-se-side-par">
     <!--body wrapper start-->
     <!-- 表格start   -->
-   <table-list list-data="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.relMedicalStockId}}"
-               list-params="listParams"
-               search-mode="noCaseSensitive"
-               search-param="q">
+
       <div class="pd-c-xxl mgrl"
            ajax-url="rest/authen/medicalStock/get.json?id={{mainStatus.pageParams.relMedicalStockId}}"
            scope-data="showData"
@@ -28,9 +25,12 @@
              </p>
                <h1 class="color-black text-l">{{showData.name}}</h1>
            </div>
-
+          <table-list list-data="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.relMedicalStockId}}"
+                      list-params="listParams"
+                      search-mode="noCaseSensitive"
+                      search-param="q">
            <div class="content-wrapper-main">
-            <div class="pd-c">
+             <div class="pd-c">
               <!-- 搜索框 start-->
              <div class="text-left order-list-search relative">
                 <!-- <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q"> -->
@@ -106,8 +106,7 @@
               <!-- 主体内容 end -->
              </div>
             </div>
-
-          </div>
+           </div>
           </table-list>
           <!-- 表格end -->
       </div>
