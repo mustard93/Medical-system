@@ -1447,6 +1447,29 @@ function medicalStockMouseOver(){
       }
   };
 }
+/**
+ * 点击左侧侧边栏选项，改变其样式
+ * @return {[type]} [description]
+ */
+function leftSideActive(){
+  return{
+    restrict: 'A',
+    link: function ($scope, $element, $attrs) {
+      //1、点击库存查询页面的侧边子菜单后触发
+      $($element).on('click', 'li a', function(e){
+        //2、如果含有actived样式，就先去掉样式
+        if($('li').hasClass('actived')||$('a').hasClass('actived')||$('span').hasClass('actived')){
+          $('li').removeClass('actived');
+          $('a').removeClass('actived');
+          $('span').removeClass('actived');
+        }
+        //3、然后把点击的该元素加上actived样式
+      $(e.target).addClass('actived');
+      });
+    }
+  };
+
+}
 
 /**
  *  卡片式列表页面内容超出范围的处理(动态宽度)
@@ -1510,6 +1533,8 @@ angular.module('manageApp.project')
   .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError','utils', handleThisClick]) //带确认对话框的按钮点击事件
   .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
   .directive("styleToggle", ['$location', styleToggle])
+  .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
   .directive("medicalStockMouseOver",[medicalStockMouseOver]);// 库存明细模块，鼠标移入高亮并显示两个按钮
+
 
 });

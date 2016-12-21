@@ -6,7 +6,14 @@
       <div class="pd-c-xxl pr-pos">
              <div class="page-header-info ">
                <p class="mgb bb-line">库存报表 / <em class="color-custom-orange">库存查询</em></p>
-               <h1 class="color-black text-l ">{{}}</h1>
+               <div ng-if="listParams.medicalAttributeId"
+                    ajax-url="rest/authen/medicalAttribute/get?id={{listParams.medicalAttributeId}}"
+                    scope-data="showData1"
+                    alert-error>
+                 <h1 class="color-black text-l">
+                   {{showData1.name}}
+               </h1>
+             </div>
              </div>
 
              <!-- 主体内容 start-->

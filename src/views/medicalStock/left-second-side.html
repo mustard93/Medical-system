@@ -22,14 +22,16 @@
      <script id="recursion" type="text/ng-template" >
          <li ng-repeat="item in treeList_recursion " ng-init="childrenDivId='parent_'+item.id;foldClassId='foldClassId_'+item.id"
           class='pdl-s pd-s relative '>
-           <a  href="" class="nav-order color-or " ng-click="item.nodes.length>0&&extendTree2($event,childrenDivId,foldClassId,'pr-arrow-se-up')">
+           <a  href="" class="nav-order color-or " ng-click="item.nodes.length>0&&extendTree2($event,childrenDivId,foldClassId,'pr-arrow-se-up');
+            listParams.medicalAttributeId=item.id
+             ">
              <span > {{item.name}}</span>
              <span id="{{foldClassId}}" class="pos-abs posr"
                ng-class="{'pr-arrow-se-down': item.nodes.length>0}"
                >
             </span>
            </a>
-             <ul id="{{childrenDivId}}" style="display:none;" ng-if="item.nodes.length" ng-include="'recursion'"  ng-init="treeList_recursion=item.nodes;tree_index=tree_index+1">
+             <ul left-side-active id="{{childrenDivId}}" style="display:none;" ng-if="item.nodes.length" ng-include="'recursion'"  ng-init="treeList_recursion=item.nodes;tree_index=tree_index+1">
 
              </ul>
          </li>
