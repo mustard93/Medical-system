@@ -1,25 +1,28 @@
-<table-list list-data="rest/authen/medicalStock/queryInoutstockDetailChange?medicalStockId={{mainStatus.pageParams.medicalStockId}}"
-            list-params="listParams"
-            search-mode="noCaseSensitive"
-            search-param="q">
-  <div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "><!-- pageCtrl-->
-    <div class="page-main-content left-se-side-par">
-    <!--body wrapper start-->
 
+  <div ng-controller="pageCtrl"
+  class="pd-c-xxxl left-se-side-par "
+  ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}"><!-- pageCtrl-->
+    <div ng-controller="MedicalStockController" class="page-main-content left-se-side-par">
+      <table-list list-data="rest/authen/medicalStock/queryInoutstockDetailChange?medicalStockId={{mainStatus.pageParams.medicalStockId}}"
+                  list-params="listParams"
+                  search-mode="noCaseSensitive"
+                  search-param="q">
+        <!--body wrapper start-->
         <div class="pd-c-xxl">
            <div class="page-header-info ">
-
              <p class="mgb bb-line pdb-s relative  ">
-
                <a href="#/medicalStock/query-stock.html">
                  <span class="circle ">
                       <span class="pr-arrow-l"></span>
                  </span>
-
                </a>
-               <em class="mgl-xxl">库存报表 </em>/ <em class="color-custom-orange">库存查询</em> / <em >库存变动明细</em></p>
-             <p>
-               <em>仓库：</em><em></em>
+               <em class="mgl-xxl">库存报表 </em>/ <em class="color-custom-orange">库存查询</em> / <em >库存变动明细</em>
+             </p>
+             
+             <p ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{urlInfo.search.warehouseCode}}" scope-data="warehouseName">
+               <em>仓库：</em>
+               <em ng-if="warehouseName.name">{{warehouseName.name}}</em>
+               <em ng-if="!warehouseName.name">全部</em>
              </p>
 
                <h1 class="color-black text-l pd">{{tbodyList[0].name}}</h1>
@@ -27,9 +30,7 @@
 
            <!-- 主体内容 start-->
            <div class="content-wrapper-main">
-
               <div class="pd-c">
-
                            <!-- 搜索框 start-->
                            <div class="text-left order-list-search relative">
                                <select class="pr-select select-wd mgr-l">
@@ -64,7 +65,6 @@
                          <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
                          <p class="text-center">什么也没有</p>
                        </div>
-
                        <div class="pd-c">
                          <table ng-if="tbodyList.length" class="table table-hover table-striped table-mr table-bordered table-content">
                            <thead class="pr-bg-side">
@@ -100,14 +100,12 @@
                              </tr>
 
                              <tr class="bgco-orange color-white"   ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity'])">
-                               <td colspan="6" class="text-right">合计：</td>
+                               <td colspan="7" class="text-right">合计：</td>
                                <td>{{totalObj.quantity}}</td>
-                               <td>{{totalObj.quantity-totalObj.actualQuantity}}</td>
+                               <td>{{totalObj.quantity}}</td>
+                               <td>{{totalObj.actualQuantity}}</td>
                                <td>{{totalObj.price}}</td>
-                               <td>{{totalObj.quantity*totalObj.price}}</td>
-
-                               <td>{{totalObj.quantity-totalObj.actualQuantity}}</td>
-
+                               <td>{{totalObj.actualQuantity*totalObj.price}}</td>
                              </tr>
                            </tbody>
                          </table>
@@ -122,12 +120,10 @@
                    </div>
                    <!-- 主体内容 end -->
                  </div>
-
                </div>
-
           <!--body wrapper end-->
           </div>
         </div>
+      </table-list>
     </div>
   </div>
-</table-list>
