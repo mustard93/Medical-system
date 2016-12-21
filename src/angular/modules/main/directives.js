@@ -1120,8 +1120,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.treeList = [];
                 $scope.curTree = {};
                 $scope.status.isLoading = true;
-                if (!angular.isDefined($scope.listParams)) {
-                   $scope.listParams = {};
+                var listParamsKey="listParams";
+                // 默认的是监听listParams
+                if($attrs.listParamsKey){
+                    listParamsKey=$attrs.listParamsKey;
+                    // 自己指定的
+                }
+
+                if (!angular.isDefined($scope[listParamsKey])) {
+                   $scope[listParamsKey]= {};
                }
 
                  var formData = {};
@@ -1173,7 +1180,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     // var $this = $(e.currentTarget);
                     var $parentLi =  $("#"+foldClassId);
 
-
                     if ($parentLi.hasClass(foldClass)) {
                         $parentLi.removeClass(foldClass);
                          $("#"+childrenDivId).hide();
@@ -1182,6 +1188,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                        $("#"+childrenDivId).show();
                     }
                 };
+
 
                 $scope.deleteTree = function(e, _url) {
                     e.preventDefault();
@@ -1227,10 +1234,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             $scope.status.isLoading = false;
                         });
                 }
+                //   $scope[listParamsKey]
+                $scope.$watch(listParamsKey, function() {
 
-                $scope.$watch("listParams", function() {
-
-                   formData = angular.copy($scope.listParams);
+                   formData = angular.copy($scope[listParamsKey]);
 
                     getTreeData();
                 }, true);
