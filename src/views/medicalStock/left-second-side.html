@@ -13,7 +13,7 @@
         </select>
     </div>
 
-    <h1 class="med-list"> 商品类别</h1>
+    <h1 class="stork-h1"> 商品类别</h1>
 
     <div  tree-list2="rest/authen/medicalAttribute/query?pageSize=9999" pid-key="parentId" list-params-key="listParams1"
      alert-error>
@@ -21,23 +21,23 @@
      <!--递归模版 -->
      <script id="recursion" type="text/ng-template" >
          <li ng-repeat="item in treeList_recursion " ng-init="childrenDivId='parent_'+item.id;foldClassId='foldClassId_'+item.id"
-          class='pdl-s pd-s relative '>
+          class='relative '>
            <a  href="" class="nav-order color-or " ng-click="item.nodes.length>0&&extendTree2($event,childrenDivId,foldClassId,'pr-arrow-se-up');
             listParams.medicalAttributeId=item.id
              ">
              <span > {{item.name}}</span>
-             <span id="{{foldClassId}}" class="pos-abs posr"
+             <span id="{{foldClassId}}" class="pos-abs posr text-center"
                ng-class="{'pr-arrow-se-down': item.nodes.length>0}"
                >
             </span>
            </a>
-             <ul left-side-active id="{{childrenDivId}}" style="display:none;" ng-if="item.nodes.length" ng-include="'recursion'"  ng-init="treeList_recursion=item.nodes;tree_index=tree_index+1">
+             <ul class="li-w" left-side-active id="{{childrenDivId}}" style="display:none;" ng-if="item.nodes.length" ng-include="'recursion'"  ng-init="treeList_recursion=item.nodes;tree_index=tree_index+1">
 
              </ul>
          </li>
      </script>
 
-     <ul ng-if="treeList.length"  ng-include="'recursion'"  ng-init="treeList_recursion=treeList;tree_index=1">
+     <ul class="out-li" ng-if="treeList.length"  ng-include="'recursion'"  ng-init="treeList_recursion=treeList;tree_index=1">
 
     </ul>
     </div><!--tree-list2-->
