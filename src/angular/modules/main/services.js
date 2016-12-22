@@ -630,7 +630,7 @@ function alertOk($rootScope, modal) {
                                       ●	PRINT直接打印
                                       ●	PRINT_SETUP打印维护
 
-
+e
                  */
                 init:function(){
                     if(!LODOP){
@@ -656,22 +656,22 @@ function alertOk($rootScope, modal) {
                 },
                 _PrintDivId:null,
                 //设置打印的内容是htmlid绑定的innerHTML。优先级高于_PrintHtml
-                setPrintDivId(divId){
+                setPrintDivId:function(divId){
                   this._PrintDivId=divId;
                 },
                 _PrintHtml:null,
                 //设置打印的内容innerHTML
-                setPrintHtmlContent(content){
+                setPrintHtmlContent:function(content){
                   this._PrintHtml=content;
                 },
                 //返回要打印的内容
-                getPrintHtmlContent(content){
+                getPrintHtmlContent:function(content){
                     if(this._PrintDivId)this._PrintHtml= document.getElementById(this._PrintDivId).innerHTML;
 
                     return this._PrintHtml;
                 },
                 //打印前的准备工作
-                _printBeforePrint(content,taskName){
+                _printBeforePrint:function(content,taskName){
                   if(!LODOP){
                     LODOP=getOPrinter();
                     this.LODOP=LODOP;
@@ -706,8 +706,8 @@ function alertOk($rootScope, modal) {
                     printDesign:function(content,taskName) {
                         LODOP=this._printBeforePrint(content,taskName);
                         LODOP.PRINT_DESIGN();
-                  }//print
-                  ,
+                  },//print
+
                   //设置基本打印风格
                   setPrintStyle:function(key,val) {
                       LODOP=getOPrinter();
