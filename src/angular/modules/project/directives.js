@@ -1502,10 +1502,72 @@ function handleTextOverflow () {
   };
 }
 
+/**
+ * [salesorderEditShowDelbtn 新版购需单页面商品列表hover后的删除功能实现]
+ * @return {[type]} [description]
+ * @author liuzhen
+ */
+function salesorderEditShowDelbtn () {
+  return {
+    restrict: 'A',
+    scope: true,
+    link: function ($scope, $element, $attrs) {
 
+      // 获取当前元素的最后一个子元素
+      var _lastChild = $element.children().last();
 
+      // 绑定鼠标移入移出事件
+      $element.hover(function () {
+        $(_lastChild).find('div.sales-order-item-delbtn').each(function () {
+          $(this).css('z-index','110').find('div.sales-order-del-btn').show();
+        });
+      }, function () {
+        $(_lastChild).find('div.sales-order-item-delbtn').each(function () {
+          $(this).css('z-index','100').find('div.sales-order-del-btn').hide().next().hide();
+        });
+      });
+
+      //为删除按钮绑定点击事件
+      $(_lastChild).find('div.sales-order-del-btn').each(function () {
+        $(this).on('click', function () {
+          $(this).next().show();
+        });
+      });
+    },
+    controller: function ($scope, $element) {
+      // ...
+    }
+  };
+}
+
+/**
+ * [autoGetFocus 根据条件让某些页面控件自动获取焦点]
+ * @return {[type]} [description]
+ * @author liuzhen
+ */
+function autoGetFocus () {
+  return {
+    restrict: 'A',
+    link: function ($scope, $element, $attrs) {
+
+      if (!$attrs.autoGetFocus) {
+        throw new Error('autoGetFocus directive must be true');
+      }
+
+      function getFocus (id) {
+        $('#' + id).focus();
+      }
+
+      $scope.$watch($scope.angucomplete_data, function (newVal) {
+        console.log(newVal);
+      });
+    }
+  };
+}
 
 angular.module('manageApp.project')
+  .directive("autoGetFocus", [autoGetFocus])
+  .directive("salesorderEditShowDelbtn", [salesorderEditShowDelbtn])
   .directive("handleTextOverflow", [handleTextOverflow])  // 卡片式列表页面内容超出范围的处理(动态宽度)
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
