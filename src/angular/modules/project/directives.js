@@ -1323,6 +1323,73 @@ function canvasWorkflow (modal,utils) {
   };
 }//canvasWorkflow
 
+
+
+/**
+ * 业务单流程展示
+ */
+function canvasBusinessFlow (modal,utils) {
+  'use strict';
+  return {
+      restrict: 'AE',
+      // scope: false,
+      scope: {
+          ngModel:"=?"
+      },
+    link: function ($scope, element, $attrs) {
+
+      // $scope.ngModel;
+      // var data=$scope[$attrs.ngModel];
+          var data= $scope.ngModel;
+          console.log(data);
+
+          require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
+
+            //点击回调方法
+            function clickCallback(event,that){
+                if(!angular.isDefined($attrs.modalUrl)){
+                    return;
+                }
+                  modal.open({
+                    template: $attrs.modalUrl,
+                    className: 'ngdialog-theme-right',
+                    cache: false,
+                    trapFocus: true,
+                    overlay: ($attrs.modalOverlay == "true"),
+                    data: that.currentNode.data,
+                    scope: $scope.$parent,
+                    controller: ["$scope", "$element", function ($scope, $element) {
+                        $(".ngdialog-content", $element).width("50%");
+                    }]
+                });
+            }//end clickCallback
+
+            //参数定义
+            var option={
+
+                node:{
+                  clickCallback:clickCallback
+                }
+            };
+            if($attrs.baseImageUrl){
+              option.baseImageUrl=$attrs.baseImageUrl;
+            }
+
+            var workflow=new CanvasBusinessFlow($attrs.id,option);
+            if ($attrs.scopeExtend){
+                var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
+                if(scopeExtend){
+                  if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
+                }
+            }
+            workflow.addCanvasBusinessFlow(data);
+
+          });//WorkflowProcess
+
+    }//end link
+  };
+}//canvasWorkflow
+
 /**
     打印组件
   */
@@ -1670,6 +1737,7 @@ angular.module('manageApp.project')
   .directive("handleTextOverflow", [handleTextOverflow])  // 卡片式列表页面内容超出范围的处理(动态宽度)
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
+    .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签

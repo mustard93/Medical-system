@@ -33,6 +33,7 @@ require.config({
         'ueditor': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.all',//html编辑器
         'ueditor_config': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.config',//编辑器。require 不支持。
         'ueditor_lang': '../libs/ueditor1_4_3_3-utf8-jsp/lang/zh-cn/zh-cn',//编辑器
+        'CanvasBusinessFlow': '../libs/project/CanvasBusinessFlow',//业务单图展示
         'WorkflowProcess': '../libs/workflow/WorkflowProcess',//工作流
         'LodopFuncs': '../libs/LodopFuncs_amd',     //打印功能
         'JTopo': '../libs/jtopo-0.4.8.min',
