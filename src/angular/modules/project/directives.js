@@ -1418,7 +1418,7 @@ function medicalStockMouseOver(){
               var tmp="<a class='relative' href='"+bt.url+"'><span class='"+bt.className+"'></span></a>";
               // 特殊处理
               if('pos-s pr-arrow-r'==bt.className){
-                tmp="<a class='relative' href='"+bt.url+"'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>";
+                tmp="<a class='relative' href='"+bt.url+"' title='变动详情'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>";
               }
 
             var btn1=$(tmp);
@@ -1505,7 +1505,85 @@ function handleTextOverflow () {
 
 
 
+/**
+  	 *
+  	* @Description: TODO(监听日期下拉选择值，来设置开始时间和结束时间)
+  	* @method sayMsgToOther
+  	* @param peopleA
+  	* @param peopleB
+  	* @param msg
+  	* @return
+  	* @author ecolouds-01
+  	* @date 2016年12月15日 下午5:16:02
+
+  	  修改记录：
+  	   @Description: TODO(修改了什么)
+  	* @author ecolouds-01
+  	* @date 2016年12月15日 下午5:16:02
+
+  	    关键步骤：
+  	    //1.传如参数：人A，人B
+  		//2.如果人B==null，则返回失败标准。
+  		//3.A对B说。 该逻辑很复杂，或变化多则单独写成方法
+  		//4.返回成功标志。
+  	 */
+function datePeriodSelect () {
+  return{
+    scope:{
+      startTime:"=",
+      endTime:"=",
+      ngModel:"="
+    },
+    restrict: 'A',
+    link: function ($scope, $element, $attrs) {
+
+      /**
+       * 开始结束时间设置方法
+       * @param {[type]} val [description]
+       */
+      function  setStartAndEndTime (val){
+            var moment = require('moment');
+            var startTime=moment().format("x");
+            var endTime=moment().format("x");
+            switch (val) {
+              case "最近7天":
+              startTime= moment().subtract(1, "weeks").format("x");
+
+                break;
+              case "最近10天":
+              startTime= moment().subtract(10, "days").format("x");
+
+                  break;
+              case "最近一个月":
+              startTime= moment().subtract(1, "months").format("x");
+
+              break;
+              default:
+
+            }
+
+          $scope.startTime=startTime;
+          $scope.endTime=endTime;
+        }
+
+      //1.监听下拉选择的值，触发开始结束时间设置方法setStartAndEndTime。
+          $scope.$watch("ngModel", function(val) {
+              //2.根据监听的值设置时间。
+              console.log(val);
+              setStartAndEndTime(val);
+
+          });
+    }
+  };
+
+}
+
+
+
+
+
 angular.module('manageApp.project')
+  .directive("datePeriodSelect", [datePeriodSelect])
   .directive("handleTextOverflow", [handleTextOverflow])  // 卡片式列表页面内容超出范围的处理(动态宽度)
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件

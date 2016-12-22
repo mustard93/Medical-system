@@ -33,25 +33,27 @@
           <div class="content-wrapper-main mgt">
               <div class="pd-c">
                            <!-- 搜索框 start-->
-                           <div class="text-left order-list-search relative">
-                               <select class="pr-select select-wd mgr-l">
-                                 <option>最近7天</option>
-                                 <option>最近10天</option>
-                                 <option>最近一个月</option>
+                           <div class="text-left order-list-search relative" ng-init="queryDatePeriod=''">
+                               <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
+                                date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
+                                 <option value="最近7天">最近7天</option>
+                                 <option  value="最近10天">最近10天</option>
+                                 <option  value="最近一个月">最近一个月</option>
                                </select>
+
                                  <input type="text"
                                         datepicker
                                         class="ipt pr-short-ipt color-6 mgr"
                                         ng-readonly="true"
                                         placeholder="日期"
-                                        ng-model="item.guaranteePeriod">
+                                        ng-model="listParams.createAtBeg">
                                   <span class="mgr">至</span>
                                   <input type="text"
                                         datepicker
                                         class="ipt pr-short-ipt color-6 mgr-l"
                                         ng-readonly="true"
                                         placeholder="日期"
-                                        ng-model="item.guaranteePeriod">
+                                        ng-model="listParams.createAtEnd">
                            <input type="text" class="ipt pdr-xxl" placeholder="单据编号/经手人" ng-model="listParams.q">
                              <i class="ipt-i"></i>
                            </div>
@@ -96,7 +98,7 @@
                                <td >{{tr.quantity>0?tr.quantity:'&nbsp;'}}</td>
                                <td >{{tr.quantity<0?tr.quantity:'&nbsp;'}}</td>
                                <td>{{tr.actualQuantity}}</td>
-                               <td>{{tr.price}}</td>
+                               <td>{{tr.price?tr.price:'0'}}</td>
                                <td>{{tr.actualQuantity*tr.price}}</td>
                              </tr>
 

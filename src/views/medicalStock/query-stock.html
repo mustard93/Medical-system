@@ -42,22 +42,34 @@
                        <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
                        <p class="text-center">什么也没有</p>
                      </div>
-
                      <div class="pd-c">
-                       <table ng-if="tbodyList.length" class="table table-hover table-striped table-mr table-bordered table-content">
+                       <table ng-if="tbodyList.length" class="table-hover table-striped table-mr table-bordered table-content table-wid">
                          <thead class="pr-bg-side">
                            <tr>
                              <th>序号</th>
+                             <th>仓库编码</th>
+                             <th>仓库名称</th>
                              <th>商品编号</th>
-                             <th>商品全名</th>
-                             <th>规格</th>
+                             <th>商品代码</th>
+                             <th>商品名称</th>
+                             <th>规格型号</th>
+                             <th>商品分类编码</th>
+                             <th>商品分类名称</th>
                              <th>单位</th>
                              <th>注册证号</th>
-                             <th>数量</th>
-                             <th>成本单价</th>
-                             <th>库存金额</th>
-                             <th>可销售数量</th>
-                             <th>订单占用数量</th>
+                             <th>可用数量</th>
+                             <th>现存数量</th>
+                             <th>其中冻结数量</th>
+                             <th>其中锁定数量</th>
+                             <th>其中待处理数量</th>
+                             <th>到货/在检数量</th>
+                             <th>采购在途数量</th>
+                             <th>已请购数量</th>
+                             <th>预计入库数量</th>
+                             <th>销售订单数量</th>
+                             <th>代发货数量</th>
+                             <th>预计出库数量</th>
+
                            </tr>
                          </thead>
                          <tbody class="pr-bg-white" >
@@ -71,25 +83,44 @@
                            "className":"pos-s pr-arrow-r"}]'
                            >
                              <td  >{{$index + 1}}</td>
+                             <td>{{tr.warehouseCode}}</td>
+                             <td>{{tr.warehouseName}}</td>
                              <td>{{tr.code}}</td>
-                             <td class="text-ellips-s">{{tr.name}}</td>
+                             <td></td>
+                             <td>{{tr.name}}</td>
                              <td>{{tr.specification}}</td>
+                             <td></td>
+                             <td></td>
                              <td>{{tr.unit}}</td>
-                             <td>{{tr.drugAdministrationCode}}</td>
-                             <td>{{tr.actualQuantity}}</td>
-                             <td>{{tr.price}}</td>
-                             <td>{{tr.quantity*tr.price}}</td>
-                             <td>{{tr.quantity}}</td>
-                             <td>{{tr.quantity-tr.actualQuantity}}</td>
+                             <td>{{tr.stockModel.drugAdministrationCode}}</td>
+                             <td>{{tr.stockModel.quantity}}</td>
+                             <td>{{tr.stockModel.actualQuantity}}</td>
+                             <td>{{tr.stockModel.freezeQuantity}}</td>
+                             <td>{{tr.stockModel.lockingQuantity}}</td>
+                             <td>{{tr.stockModel.handleQuantity}}</td>
+                             <td>{{tr.stockModel.beingCheckedQuantity}}</td>
+                             <td>{{tr.stockModel.purchaseInWayQuantity}}</td>
+                             <td>{{tr.stockModel.purchaseRequisitionQuantity}}</td>
+                             <td>{{tr.stockModel.inStockQuantity}}</td>
+                             <td>{{tr.stockModel.confirmOrderQuantity}}</td>
+                             <td>{{tr.stockModel.shippedQuantity}}</td>
+                             <td>{{tr.stockModel.outStockQuantity}}</td>
                            </tr>
 
                            <tr class="bgco-orange color-white"   ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity'])">
-                             <td colspan="6" class="text-right">合计：</td>
-                             <td>{{totalObj.quantity-totalObj.actualQuantity}}</td>
-                             <td>{{totalObj.price}}</td>
-                             <td>{{totalObj.quantity*totalObj.price}}</td>
+                             <td colspan="11" class="text-right">合计：</td>
                              <td>{{totalObj.quantity}}</td>
-                             <td>{{totalObj.quantity-totalObj.actualQuantity}}</td>
+                             <td>{{totalObj.actualQuantity}}</td>
+                             <td>{{totalObj.freezeQuantity}}</td>
+                             <td>{{totalObj.lockingQuantity}}</td>
+                             <td>{{totalObj.handleQuantity}}</td>
+                             <td>{{totalObj.beingCheckedQuantity}}</td>
+                             <td>{{totalObj.purchaseInWayQuantity}}</td>
+                             <td>{{totalObj.purchaseRequisitionQuantity}}</td>
+                             <td>{{totalObj.inStockQuantity}}</td>
+                             <td>{{totalObj.confirmOrderQuantity}}</td>
+                             <td>{{totalObj.shippedQuantity}}</td>
+                             <td>{{totalObj.outStockQuantity}}</td>
 
                            </tr>
                          </tbody>
