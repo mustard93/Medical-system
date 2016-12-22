@@ -14,12 +14,26 @@
     if (!Config.tplPath) {
       Config.tplPath = "";
     }
-}());
 
+
+}());
+    // window.UMEDITOR_HOME_URL=Config.serverPath;//编辑器需要 配置服务器地址
 require.config({
+
+  map: {
+        "*": {
+            "css": "../css.min"
+        }
+    },
     waitSeconds: 0,
     baseUrl: require.dir + 'modules',
     paths: {
+      'ZeroClipboard': '../libs/ueditor1_4_3_3-utf8-jsp/third-party/zeroclipboard/ZeroClipboard',//html编辑器
+
+        'ueditor': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.all',//html编辑器
+        'ueditor_config': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.config',//编辑器。require 不支持。
+        'ueditor_lang': '../libs/ueditor1_4_3_3-utf8-jsp/lang/zh-cn/zh-cn',//编辑器
+        'CanvasBusinessFlow': '../libs/project/CanvasBusinessFlow',//业务单图展示
         'WorkflowProcess': '../libs/workflow/WorkflowProcess',//工作流
         'LodopFuncs': '../libs/LodopFuncs_amd',     //打印功能
         'JTopo': '../libs/jtopo-0.4.8.min',
@@ -42,6 +56,21 @@ require.config({
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
     shim: {
+      'ueditor_config': {
+          deps: ['jQuery']
+      },
+      'ZeroClipboard': {
+            deps: ['jQuery'],
+          exports: 'ZeroClipboard'
+      },
+      'ueditor': {
+          deps: ['jQuery','ZeroClipboard']
+      },
+//,'css!../libs/umeditor1_2_2/themes/default/css/umeditor.min.css'
+      'ueditor_lang': {
+          deps: ['ueditor','ueditor_config'],
+            exports: 'UM'
+      },
         'JTopo': {
             exports: 'JTopo'
         },

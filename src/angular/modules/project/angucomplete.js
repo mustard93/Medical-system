@@ -1,7 +1,4 @@
 define(['project/angucomplete'], function(){
-　　  /**
-        自动补全
-      */
       function Angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel){
 
         var isNewSearchNeeded = function(newTerm, oldTerm) {
@@ -212,7 +209,5 @@ define(['project/angucomplete'], function(){
           this.selectResult=selectResult;
         return this;
       };//Angucomplete
-
-
-　　　　return Angucomplete;
+      return Angucomplete;
 });

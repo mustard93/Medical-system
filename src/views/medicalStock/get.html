@@ -3,10 +3,7 @@
   class="pd-c-xxxl left-se-side-par "
   ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}"><!-- pageCtrl-->
     <div ng-controller="MedicalStockController" class="page-main-content left-se-side-par">
-      <table-list list-data="rest/authen/medicalStock/queryInoutstockDetailChange?medicalStockId={{mainStatus.pageParams.medicalStockId}}"
-                  list-params="listParams"
-                  search-mode="noCaseSensitive"
-                  search-param="q">
+
         <!--body wrapper start-->
         <div class="pd-c-xxl">
            <div class="page-header-info ">
@@ -25,11 +22,15 @@
                <em ng-if="!warehouseName.name">全部</em>
              </p>
 
-               <h1 class="color-black text-l pd">{{tbodyList[0].name}}</h1>
            </div>
 
            <!-- 主体内容 start-->
-           <div class="content-wrapper-main">
+           <table-list list-data="rest/authen/medicalStock/queryInoutstockDetailChange?medicalStockId={{mainStatus.pageParams.medicalStockId}}"
+                       list-params="listParams"
+                       search-mode="noCaseSensitive"
+                       search-param="q">
+          <h1 class="color-black text-l pd">{{tbodyList[0].name}}</h1>
+          <div class="content-wrapper-main mgt">
               <div class="pd-c">
                            <!-- 搜索框 start-->
                            <div class="text-left order-list-search relative">
@@ -123,7 +124,7 @@
                </div>
           <!--body wrapper end-->
           </div>
-        </div>
-      </table-list>
+        </table-list>
+      </div>
     </div>
   </div>
