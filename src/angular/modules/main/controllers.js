@@ -16,9 +16,6 @@ define('main/controllers', ['main/init'], function () {
         //当前用户
         $rootScope.curUser={};
 
-
-
-
         //当前日期
         var getCurrentDate = function () {
           var _t = new Date();
@@ -26,9 +23,25 @@ define('main/controllers', ['main/init'], function () {
         };
         $scope.currentDate = getCurrentDate();
 
-        //左侧边栏是否隐藏
+        // 获取当前Url信息
+        var getUrlInfo = function () {
+          return {
+              absUrl : $location.absUrl(),   // 返回完整url信息
+              url : $location.url(),         // 返回#后面的url信息字段
+              protocol : $location.protocol(),   // 返回协议
+              port : $location.port(),   // 返回端口
+              path : $location.path(),   // 返回路径
+              hash : $location.hash(),   // 获取哈希
+              search : $location.search()  // 获取url的参数的序列化json对象
+            };
+        };
+
         $scope.leftSideisShow = true;   //默认显示
         $scope.$on('$locationChangeStart', function (event, newUrl, currentUrl) {
+          // 当Url发生变化，则更新Url信息
+          $scope.urlInfo = getUrlInfo();
+
+          // 左侧边栏是否隐藏
           if (newUrl.indexOf('personalCenter') !== -1) {
             $scope.leftSideisShow = false;
           } else {

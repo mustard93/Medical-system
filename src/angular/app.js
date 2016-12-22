@@ -37,7 +37,7 @@ require.config({
         'LodopFuncs': '../libs/LodopFuncs_amd',     //打印功能
         'JTopo': '../libs/jtopo-0.4.8.min',
         'jQuery': '../libs/jquery.min',                         //jQuery
-         'underscore': '../libs/underscore/underscore-1.5.2.min',
+        'underscore': '../libs/underscore/underscore-1.5.2.min',
         'moment': '../libs/moment.min',                         //日历插件
         'echarts': '../libs/echarts/echarts-3.2.3.min',         // echars v3.2.3
         'chosen': '../libs/chosen.jquery',                  //下拉筛选插件

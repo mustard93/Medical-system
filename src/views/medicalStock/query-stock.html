@@ -1,97 +1,115 @@
-<div   ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par "><!-- pageCtrl-->
-<div class="page-main-content left-se-side-par"  >
-  <!-- page heading start-->
+
+<div ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par ">
+  <div ng-controller="MedicalStockController" class="page-main-content left-se-side-par">
     <ng-include src="'views/medicalStock/left-second-side.html'" class="pos-abs left-se-side-par"></ng-include>
-  <!-- page heading end-->
-  <!--body wrapper start-->
 
-    <div class="pd-c-xxl pr-pos">
-         <div class="page-header-info ">
-           <p class="mgb bb-line">库存报表 / <em class="color-custom-orange">库存查询</em></p>
-           <h1 class="color-black text-l ">手术刀</h1>
-         </div>
+      <div class="pd-c-xxl pr-pos">
+             <div class="page-header-info ">
+               <p class="mgb bb-line">库存报表 / <em class="color-custom-orange">库存查询</em></p>
+               <div ng-if="listParams.medicalAttributeId"
+                    ajax-url="rest/authen/medicalAttribute/get?id={{listParams.medicalAttributeId}}"
+                    scope-data="showData1"
+                    alert-error>
+                 <h1 class="color-black text-l">
+                   {{showData1.name}}
+               </h1>
+             </div>
+             </div>
 
-         <!-- 主体内容 start-->
-         <div class="content-wrapper-main mgt">
-            <!-- 表格 start -->
-                    <div class="pd-c"
-                     scope-data="showData"
-                     alert-error>
-                     <table-list list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/query.json"
-                                 list-params="listParams"
-                                 search-mode="noCaseSensitive"
-                                 search-param="q">
-                       <!-- 搜索框 start-->
-                      <div class="text-left order-list-search relative">
-                         <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
-                          <i class=""></i>
-                      </div>
-                                  <!-- 搜索框 end-->
-                       <!-- 主内容头部 -->
-                       <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr relative">
-                       <!-- 主内容区域 -->
-                       <div class="content-wrapper-main">
-                         <div ng-if="!status.isLoading">
-                           <div ng-if="tbodyList.length==0">
-                             <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-                             <p class="text-center">什么也没有</p>
+             <!-- 主体内容 start-->
+             <div class="content-wrapper-main mgt">
+              <!-- 表格 start -->
+              <div class="pd-c"
+               scope-data="showData"
+               alert-error>
+               <table-list list-data="rest/authen/medicalStock/query.json"
+                           list-params="listParams"
+                           search-mode="noCaseSensitive"
+                           search-param="q">
+                 <!-- 搜索框 start-->
+                <div class="text-left order-list-search relative">
+                   <input type="text" class="ipt pdr-xxl" placeholder="商品编号/商品全名/注册证号" ng-model="listParams.q">
+                    <i class=""></i>
+                </div>
+
+                  <!-- 搜索框 end-->
+                 <!-- 主内容头部 -->
+                 <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
+                 <!-- 主内容区域 -->
+                 <div class="content-wrapper-main">
+                   <div ng-if="!status.isLoading">
+                     <div ng-if="tbodyList.length==0">
+                       <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+                       <p class="text-center">什么也没有</p>
+                     </div>
+
+                     <div class="pd-c">
+                       <table ng-if="tbodyList.length" class="table table-hover table-striped table-mr table-bordered table-content">
+                         <thead class="pr-bg-side">
+                           <tr>
+                             <th>序号</th>
+                             <th>商品编号</th>
+                             <th>商品全名</th>
+                             <th>规格</th>
+                             <th>单位</th>
+                             <th>注册证号</th>
+                             <th>数量</th>
+                             <th>成本单价</th>
+                             <th>库存金额</th>
+                             <th>可销售数量</th>
+                             <th>订单占用数量</th>
+                           </tr>
+                         </thead>
+                         <tbody class="pr-bg-white" >
+                           <tr ng-repeat="tr in tbodyList track by $index"
+                           ng-init=''
+                          medical-stock-mouse-over
+                          mouse-over-buttons-json=
+                           '[{"url":"#/medicalStock/get.html?medicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
+                           "className":"circle-icon pos-icon1 pos-abs pr-icon-bg11"},
+                           {"url":"#/medicalStock/get1.html?relMedicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
+                           "className":"pos-s pr-arrow-r"}]'
+                           >
+                             <td  >{{$index + 1}}</td>
+                             <td>{{tr.code}}</td>
+                             <td class="text-ellips-s">{{tr.name}}</td>
+                             <td>{{tr.specification}}</td>
+                             <td>{{tr.unit}}</td>
+                             <td>{{tr.drugAdministrationCode}}</td>
+                             <td>{{tr.actualQuantity}}</td>
+                             <td>{{tr.price}}</td>
+                             <td>{{tr.quantity*tr.price}}</td>
+                             <td>{{tr.quantity}}</td>
+                             <td>{{tr.quantity-tr.actualQuantity}}</td>
+                           </tr>
+
+                           <tr class="bgco-orange color-white"   ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity'])">
+                             <td colspan="6" class="text-right">合计：</td>
+                             <td>{{totalObj.quantity-totalObj.actualQuantity}}</td>
+                             <td>{{totalObj.price}}</td>
+                             <td>{{totalObj.quantity*totalObj.price}}</td>
+                             <td>{{totalObj.quantity}}</td>
+                             <td>{{totalObj.quantity-totalObj.actualQuantity}}</td>
+
+                           </tr>
+                         </tbody>
+                       </table>
+                       <!-- 分页 -->
+                       <div class="clearfix body-bg">
+                           <div class="fr body-bg">
+                               <pagination status="status"></pagination>
                            </div>
-
-                           <div class="pd-c">
-                             <table ng-if="tbodyList.length" class="table table-hover table-striped table-mr table-bordered table-content">
-                               <thead class="pr-bg-side">
-                                 <tr>
-                                   <th>序号</th>
-                                   <th>商品编号</th>
-                                   <th>商品全名</th>
-                                   <th>规格</th>
-                                   <th>单位</th>
-                                   <th>注册证号</th>
-                                   <th>数量</th>
-                                   <th>成本单价</th>
-                                   <th>库存金额</th>
-                                   <th>可销售数量</th>
-                                   <th>订单占用数量</th>
-                                 </tr>
-                               </thead>
-                               <tbody class="pr-bg-white" >
-                                 <tr ng-repeat="tr in tbodyList track by $index"
-                                 ng-init=''
-                                medical-stock-mouse-over
-                                 mouse-over-buttons-json='[{"url":"#/medicalStock/get.html?relMedicalStockId="+tr.id,"className":"circle-icon pos-icon1 pos-abs pr-icon-bg11"},{"url":"#/medicalStock/get1.html?relMedicalStockId="+tr.id,"className":"pos-s pr-arrow-r"}]'
-                                 >
-                                   <td  >{{$index + 1}}</td>
-                                   <td>{{tr.code}}</td>
-                                   <td class="text-ellips-s">{{tr.name}}</td>
-                                   <td>{{tr.specification}}</td>
-                                   <td>{{tr.unit}}</td>
-                                   <td>{{tr.drugAdministrationCode}}</td>
-                                   <td>{{tr.actualQuantity}}</td>
-                                   <td>{{tr.price}}</td>
-                                   <td>{{tr.quantity*tr.price}}</td>
-                                   <td>{{tr.quantity}}</td>
-                                   <td>{{tr.quantity-tr.actualQuantity}}</td>
-
-                                 </tr>
-                               </tbody>
-                             </table>
-                             <!-- 分页 -->
-                             <div class="clearfix body-bg">
-                                 <div class="fr body-bg">
-                                     <pagination status="status"></pagination>
-                                 </div>
-                             </div>
-                           </div>
-                         </div>
                        </div>
+                     </div>
+                   </div>
+                 </div>
+                  </div>
+               </table-list>
+              <!-- 表格 end -->
+             <!-- 主体内容 end -->
+              </div>
 
-                     </table-list>
-            <!-- 表格 end -->
-
-           <!-- 主体内容 end -->
-         </div>
-
+             </div>
+      </div>
     </div>
-  <!--body wrapper end-->
-</div>
 </div>

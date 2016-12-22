@@ -1,5 +1,5 @@
 <div class="salesOrder-edit"
-     ng-controller="salesOrderEditCtrl"
+     ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
@@ -15,6 +15,8 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         callback="submitFormAfter();watchFormChange('formData')">
+
+        <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative bb-line">
       <div class="pd-l">
@@ -70,33 +72,34 @@
           <p class="flex-column mgb">
             <span class="flex-item-6">购需单号：<em>{{formData.orderNo || '暂无'}}</em></span>
             <span class="flex-item-6 text-right">状态：<em>未提交</em></span>
+            <div style="padding:15px;width:90%;overflow:scroll;">{{formData.orderMedicalNos}}</div>
           </p>
+
           <table class="table pr-table table-hover">
             <thead>
               <tr>
-                <th>商品编号</th>
-                <th>商品全名</th>
-                <th>规格型号</th>
-                <th>主计量</th>
-                <th>数量</th>
-                <th>含税单价</th>
-                <th>无税单价</th>
-                <th>无税金额</th>
-                <th>税额</th>
-                <th>价税合计</th>
-                <th>税率</th>
-                <th>折扣额</th>
-                <th>折扣率</th>
-                <th>预发货日期</th>
+                <th class="text-center">商品编号</th>
+                <th class="text-left">商品全名</th>
+                <th class="text-center">规格型号</th>
+                <th class="text-center">单位</th>
+                <th class="text-center">数量</th>
+                <th class="text-center">含税单价</th>
+                <th class="text-center">税率</th>
+                <th class="text-center">折扣额</th>
+                <th class="text-center">折扣率</th>
+                <th class="text-center">无税单价</th>
+                <th class="text-center">无税金额</th>
+                <th class="text-center">税额</th>
+                <th class="text-center">价税合计</th>
               </tr>
             </thead>
             <tbody class="bg-white">
-              <tr ng-repeat="tr in formData.orderMedicalNos">
-                <td>{{tr.code}}</td>
-                <td>{{tr.name}}</td>
-                <td>{{tr.specification}}</td>
-                <td>{{tr.unit}}</td>
-                <td>
+              <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()"  ng-init="orderMedicalNoIds.push(tr.relId)" >
+                <td class="text-center">{{tr.code}}</td>
+                <td class="text-left">{{tr.name}}</td>
+                <td class="text-center">{{tr.specification}}</td>
+                <td class="text-center">{{tr.unit}}</td>
+                <td class="text-center">
                   <div class="order-goods-num">
                     <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
                     <span class="inline-block">
@@ -109,15 +112,26 @@
                     <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                   </div>
                 </td>
-                <td>{{tr.price | currency:'￥'}}</td>
-                <td>￥127.00</td>
-                <td>{{'&nbsp;'}}</td>
-                <td>{{'&nbsp;'}}</td>
-                <td>{{'&nbsp;'}}</td>
-                <td>{{'&nbsp;'}}</td>
-                <td>{{'&nbsp;'}}</td>
-                <td>{{'&nbsp;'}}</td>
-                <td>{{'&nbsp;'}}</td>
+                <td class="text-center">
+                  ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price">
+                </td>
+                <td class="text-center" ng-init="tr.taxRate='0.17'">
+                  <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.taxRate"> -->
+                  <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
+                    <option value="0.17" ng-selected="true">17%</option>
+                    <option value="0.03">3%</option>
+                  </select>
+                </td>
+                <td class="text-center" ng-init="tr.discountPrice='0'">
+                  ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountPrice">
+                </td>
+                <td class="text-center" ng-init="tr.discountRate='100'">
+                  <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">
+                </td>
+                <td class="text-center">￥{{tr.price*(1-tr.taxRate) | number:2}}</td>
+                <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice | number:2}}</td>
+                <td class="text-center">￥{{tr.price*tr.taxRate | number:2}}</td>
+                <td class="text-center">￥{{tr.price*tr.quantity-tr.discountPrice | number:2}}</td>
               </tr>
             </tbody>
           </table>
@@ -125,7 +139,7 @@
       </div>
     </div>
     <!-- 其他信息 -->
-    <div class="relative">
+    <div class="relative" style="margin-bottom:60px;">
       <div class="pd-c-l">
         <!-- 发货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
@@ -227,7 +241,7 @@
           <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
         <!-- 功能按钮 -->
-        <div class="pdb-xxl text-right">
+        <!-- <div class="pdb-xxl text-right">
           <span class="mgl">
             <a ng-if="changeFlag" href="javascript:;"
                handle-this-click
@@ -239,7 +253,6 @@
 
                <a ng-if="!changeFlag" href="#/salesOrder/query.html" >返回</a>
           </span>
-
           <span>
             <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
                href="javascript:;"
@@ -252,11 +265,9 @@
                call-back="$root.goTo('#/salesOrder/query.html')">删除
             </a>
           </span>
-
           <span class="mgl">
             <button class="pr-btn-save-glodbg" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
           </span>
-
           <span class="mgl">
             <button ng-click="submitForm('editForm','submit')"
                     class="pr-btn-create-glodbg"
@@ -266,7 +277,44 @@
                                  !canSubmitForm()">生成销售单
             </button>
           </span>
-        </div>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area relative">
+      <div class="btn-area">
+          <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="该购需单存在未保存数据，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo('#/salesOrder/query.html')"
+             save-callback="submitForm('editForm','exit')">返回购需单列表
+          </a>
+
+          <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
+
+          <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+             href="javascript:;"
+             class="pr-color-red mgr-l"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="您确认删除这条购需单吗?"
+             dialog-template="dialog-confirm.html"
+             request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+             call-back="$root.goTo('#/salesOrder/query.html')">删除
+          </a>
+
+          <button class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+
+          <button ng-click="submitForm('editForm','submit')"
+                  class="pr-btn-create-glodbg"
+                  ng-disabled="!formData.orderMedicalNos.length ||
+                               !formData.customerId ||
+                               !formData.saleUserId ||
+                               !canSubmitForm()">生成销售单
+          </button>
       </div>
     </div>
   </form>

@@ -379,7 +379,8 @@ function alertOk($rootScope, modal) {
                       return window.localStorage.getItem(key);
                   },
                 remove : function(key){
-                   if(!window.localStorage)return; localStorage.removeItem(key)
+                   if(!window.localStorage) return;
+                   localStorage.removeItem(key);
                  },
                   set : function(key, value){
                       if(!  window.localStorage)return;
@@ -389,9 +390,9 @@ function alertOk($rootScope, modal) {
                    if(!window.localStorage)return;
                     localStorage.clear();
                  }
-              }
+              };
 
-      };
+      }
 
       //工具类
       function utils () {
@@ -455,6 +456,29 @@ function alertOk($rootScope, modal) {
                     window.location.assign(url);
                 }
             },
+            //sumTotalByArray(tbodyList,['quantity','price','quantity_actualQuantity'])
+            //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+            sumTotalByArray : function (arr,keyArr) {
+              var total={};
+              if(!angular.isArray(arr))return -1;
+              for(var i=0;i<arr.length;i++){
+                  var tmp=arr[i];
+                  if(!tmp)continue;
+                for(var j=0;j<keyArr.length;j++){
+                    var keyName=keyArr[j];
+
+
+                    if(!total[keyName])total[keyName]=0;
+
+                    if(!tmp[keyName])continue;
+                  total[keyName]+=tmp[keyName];
+
+                }
+
+              }
+              return total;
+            },
+
             //遍历菜单数组，返回满足属性值type等于val的。数据位置。 utils.getcustomMenuByKeyOfArr(arr,val) ;
             getcustomMenuByKeyOfArr : function (arr,val) {
               return utilsObj.getObjectByKeyOfArr(arr,"type",val) ;
