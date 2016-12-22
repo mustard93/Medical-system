@@ -1625,8 +1625,21 @@ function autoGetFocus () {
         $('#' + id).focus();
       }
 
-      $scope.$watch($scope.angucomplete_data, function (newVal) {
-        console.log(newVal);
+      $scope.$watch('addDataItem', function (newVal) {
+        var _count = 0;
+        for (var item in newVal) {
+          _count++;
+        }
+        if (_count !== 0) {
+          $('#salesOrderQuantity').each(function () {
+            $(this)[0].focus();
+          });
+        }
+      });
+
+      // 监控键盘事件
+      $('#salesOrderQuantity').on('keydown', function () {
+        
       });
     }
   };
