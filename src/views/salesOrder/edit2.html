@@ -42,7 +42,7 @@
     <div class="pd-l">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l">
         <!-- 信息 -->
-        <div class="bb-dashed-line">
+        <div class="bb-dashed-line" auto-get-focus="salesOrderQuantity" focus-condition="angucomplete_data">
           <h1 class="text-bold">药械闪加</h1>
           <div class="mgb">
             <span angucomplete-medical
@@ -50,10 +50,11 @@
                   title-field="name"
                   url="http://localhost:3000/src/angularjs-api/data/medicalStockList.json"
                   ng-model="angucomplete_data"
-                  class="inline-block mgr medical-search" ng-change="addDataItem=angucomplete_data.data;addDataItem.relId=angucomplete_data.id">
+                  class="inline-block mgr medical-search"
+                  ng-change="addDataItem=angucomplete_data.data;addDataItem.relId=angucomplete_data.id">
             </span>
             <span class="mgr medical-num inline-block">
-              <input type="number" class="ipt pr-w-100" ng-model="addDataItem.csmQuantity" placeholder="数量" />
+              <input id="salesOrderQuantity" type="number" class="ipt pr-w-100" ng-model="addDataItem.csmQuantity" ng-keyup="handleAddThisItem($event)" placeholder="数量" />
             </span>
             <span class="mgr">
               <a href="" ng-click="newAddDataItemClick(addDataItem,medical);" class="add-medical-list" title="添加药械"></a>
@@ -72,7 +73,6 @@
           <p class="flex-column mgb">
             <span class="flex-item-6">购需单号：<em>{{formData.orderNo || '暂无'}}</em></span>
             <span class="flex-item-6 text-right">状态：<em>未提交</em></span>
-            <div style="padding:15px;width:90%;overflow:scroll;">{{formData.orderMedicalNos}}</div>
           </p>
 
           <table class="table pr-table table-hover">
@@ -94,7 +94,7 @@
               </tr>
             </thead>
             <tbody class="bg-white">
-              <tr ng-repeat="tr in formData.orderMedicalNos" ng-click="selectThis()"  ng-init="orderMedicalNoIds.push(tr.relId)" >
+              <tr ng-repeat="tr in formData.orderMedicalNos" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                 <td class="text-center">{{tr.code}}</td>
                 <td class="text-left">{{tr.name}}</td>
                 <td class="text-center">{{tr.specification}}</td>
@@ -104,7 +104,7 @@
                     <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
                     <span class="inline-block">
                       <input type="number"
-                             class="inline pr-table-input text-center"
+                             class="inline pr-table-input text-center item-quantity"
                              style="width:60px;"
                              ng-model="tr.quantity"
                              ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
@@ -126,12 +126,25 @@
                   ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountPrice">
                 </td>
                 <td class="text-center" ng-init="tr.discountRate='100'">
-                  <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">
+                  <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">%
                 </td>
-                <td class="text-center">￥{{tr.price*(1-tr.taxRate) | number:2}}</td>
-                <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice | number:2}}</td>
-                <td class="text-center">￥{{tr.price*tr.taxRate | number:2}}</td>
-                <td class="text-center">￥{{tr.price*tr.quantity-tr.discountPrice | number:2}}</td>
+                <td class="text-center">￥{{tr.price*(1-tr.taxRate)-tr.discountPrice | number:2}}</td>
+                <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice*tr.quantity | number:2}}</td>
+                <td class="text-center">￥{{tr.price*tr.taxRate-tr.discountPrice | number:2}}</td>
+                <td class="text-center relative">￥{{tr.price*tr.quantity-tr.discountPrice*tr.quantity | number:2}}
+                  <div class="sales-order-item-delbtn">
+                    <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
+                    <div class="bg-white">
+                      <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                      <p class="pd-v-s">
+                        <a href="" ng-click="return;">取消</a>
+                        <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                                ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -148,7 +161,7 @@
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
           </header>
-          <div class="panel-body" style="display:none;">
+          <!-- <div class="panel-body" style="display:none;">
             <div class="mgb-l">
               <select ng-if="formData.createAt"
                       class="ipt pr-long-ipt"
@@ -186,7 +199,7 @@
                 </span>
               </ul>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- 收货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
@@ -195,7 +208,7 @@
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
           </header>
-          <div class="panel-body" style="display:none;">
+          <!-- <div class="panel-body" style="display:none;">
             <div class="mgb-l">
               <select ng-if="formData.createAt"
                       class="ipt pr-long-ipt"
@@ -233,7 +246,7 @@
                 </span>
               </ul>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">

@@ -241,6 +241,15 @@ define('project/controllers', ['project/init'], function() {
      */
     function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange) {
 
+      // 处理回车事件
+      $scope.handleAddThisItem = function (e) {
+        var keycode = window.event ? e.keyCode : e.which;
+        if(keycode==13){
+          $scope.newAddDataItemClick($scope.addDataItem, $scope.medical);
+        }
+      };
+
+
         $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
         };
@@ -1091,7 +1100,14 @@ define('project/controllers', ['project/init'], function() {
      * @param {[type]} $scope [依赖项]
      */
     function SalesOrderDetailsController ($scope, $timeout) {
-
+      // 监视折扣额
+      $scope.$watch('tr.discountPrice', function (newValue) {
+        $scope.tr.discountRate = parseInt(($scope.tr.price - $scope.tr.discountPrice) / $scope.tr.price * 100);
+      });
+      // 监视折扣率
+      $scope.$watch('tr.discountRate', function (newValue) {
+        $scope.tr.discountPrice = ($scope.tr.price * (1 - newValue / 100)).toFixed(2);
+      });
     }
 
     angular.module('manageApp.project')
