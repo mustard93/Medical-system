@@ -997,13 +997,15 @@ define('project/controllers', ['project/init'], function() {
 
             }
 
-          var formData=$.extend(true,{},$scope.medical);
+          var formData = $.extend(true,{},$scope.medical);
 
           //处理药品内信息id和copyId，以区分新建和编辑
           formData.hospitalId = hospitalId;
           formData.relId = $scope.medical.id;
           formData.id = null;
+          formData.purchasePrice = formData.price;
 
+          console.log(formData);
 
         requestData('rest/authen/hospitalPurchaseMedical/save', formData, 'POST', 'parameterBody')
         .then(function (results) {
@@ -1011,11 +1013,11 @@ define('project/controllers', ['project/init'], function() {
             // utils.goTo('#/hospitalPurchaseContents/get.html?id='+hospitalId);
             $scope.$broadcast('reloadList');
           } else {
-
+            alertError('出错!');
           }
         })
         .catch(function (error) {
-           alertError(error || '出错');
+           alertError('此药械已添加');
         });
       };
     }
