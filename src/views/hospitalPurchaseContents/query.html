@@ -11,7 +11,7 @@
       </select>
     </p> -->
   </div>
-  <table-list list-data="{{mainStatus.requestPath}}rest/authen/customerAddress/query.json"
+  <table-list list-data="rest/authen/customerAddress/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -54,7 +54,7 @@
               <tr>
                 <th>系统编号</th>
                 <th>医院名称</th>
-                <th>创建时间</th>
+                <th>最后更新时间</th>
                 <th>采购周期</th>
                 <th>操作</th>
               </tr>
@@ -63,7 +63,7 @@
               <tr ng-repeat="tr in tbodyList track by $index">
                 <td>{{tr.orderNo}}</td>
                 <td class="color-custom-orange"><a href="#/hospitalPurchaseContents/get.html?id={{tr.id}}">{{tr.name}}</a></td>
-                <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{tr.updateAt | date : 'yyyy-MM-dd HH:mm'}}</td>
                 <td>{{tr.orderStatus}}</td>
                 <td>
                   <a href="#/hospitalPurchaseContents/get.html?id={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
