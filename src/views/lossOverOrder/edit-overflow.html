@@ -22,8 +22,8 @@
       <div class="pd-l">
         <!-- 标题 -->
         <div class="mgb-m">
-          <p class="mgb-m">库存管理 / <em class="color-custom-orange">报损单</em>/ 新建报损申请单</p>
-          <h1 class="pr-font-22 ">新建报损申请单</h1>
+          <p class="mgb-m">库存管理 / <em class="color-custom-orange">报溢单</em>/ 新建报溢申请单</p>
+          <h1 class="pr-font-22 ">新建报溢申请单</h1>
         </div>
 
       </div>
@@ -245,11 +245,11 @@
              dialog-title="确认返回?"
              dialog-content="该购需单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/lossOverOrder/query-reimburse.html')"
-             save-callback="submitForm('editForm','exit')">返回报损单列表
+             nosave-callback="goTo('#/lossOverOrder/query-overflow.html')"
+             save-callback="submitForm('editForm','exit')">返回报溢单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-reimburse.html" >返回报损单列表</a>
+          <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-overflow.html" >返回报溢单列表</a>
 
           <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
              href="javascript:;"
@@ -259,7 +259,7 @@
              dialog-content="您确认删除这条购需单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/lossOverOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/lossOverOrder/query-reimburse.html')">删除
+             call-back="$root.goTo('#/lossOverOrder/query-overflow.html')">删除
           </a>
 
           <button class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
@@ -273,7 +273,7 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="通过"
                   request-url=""
-                  callback="utils.goTo('#/lossOverOrder/get-reimburse.html')"
+                  callback="utils.goTo('#/lossOverOrder/get-overflow.html')"
 
                   >审核
           </button>
