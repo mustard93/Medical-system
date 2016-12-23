@@ -1,4 +1,4 @@
-<div class="salesOrder-edit"
+<div class="confirm-order-edit"
      ng-controller="confirmOrderCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
@@ -278,39 +278,41 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
-             handle-this-click
-             dialog-title="确认返回?"
-             dialog-content="该购需单存在未保存数据，是否保存?"
-             dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/salesOrder/query.html')"
-             save-callback="submitForm('editForm','exit')">返回购需单
-          </a>
+        <span class="show-total pr-font-20 pr-color">总计：<em class="color-white">￥0.00</em></span>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单</a>
+        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该购需单存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/salesOrder/query.html')"
+           save-callback="submitForm('editForm','exit')">返回购需单
+        </a>
 
-          <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
-             href="javascript:;"
-             class="pr-color-red mgr-l"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="您确认删除这条购需单吗?"
-             dialog-template="dialog-confirm.html"
-             request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/salesOrder/query.html')">删除
-          </a>
+        <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单</a>
 
-          <button type="button" class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+           href="javascript:;"
+           class="pr-color-red mgr-l"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条购需单吗?"
+           dialog-template="dialog-confirm.html"
+           request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+           call-back="$root.goTo('#/salesOrder/query.html')">删除
+        </a>
 
-          <button type="button" class="pr-btn-save-glodbg mgr-l">打印预览</button>
+        <button type="button" class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
 
-          <button type="button" ng-click="submitForm('editForm','submit')"
-                  class="pr-btn-create-glodbg"
-                  ng-disabled="!formData.orderMedicalNos.length ||
-                               !formData.customerId ||
-                               !formData.saleUserId ||
-                               !canSubmitForm()">审核
-          </button>
+        <button type="button" class="pr-btn-save-glodbg mgr-l">打印预览</button>
+
+        <button type="button" ng-click="submitForm('editForm','submit')"
+                class="pr-btn-create-glodbg"
+                ng-disabled="!formData.orderMedicalNos.length ||
+                             !formData.customerId ||
+                             !formData.saleUserId ||
+                             !canSubmitForm()">审核
+        </button>
       </div>
     </div>
   </form>
