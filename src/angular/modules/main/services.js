@@ -397,6 +397,12 @@ function alertOk($rootScope, modal) {
       //工具类
       function utils () {
           var  utilsObj = {
+            //获取内容区的宽度。
+            getMainBodyWidth:function(){
+                var t=$("#main_body").width();
+                console.log(t);
+                return t;
+            },
             //json字符串转换为js 对象。
             fromJson  : function (jsonString) {
               var firstLetter = jsonString.replace(/^\s*/, '')[0];

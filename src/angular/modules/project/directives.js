@@ -1347,21 +1347,19 @@ function canvasBusinessFlow (modal,utils) {
 
             //点击回调方法
             function clickCallback(event,that){
-                if(!angular.isDefined($attrs.modalUrl)){
+                if(angular.isDefined($attrs.disableClick)){
                     return;
                 }
-                  modal.open({
-                    template: $attrs.modalUrl,
-                    className: 'ngdialog-theme-right',
-                    cache: false,
-                    trapFocus: true,
-                    overlay: ($attrs.modalOverlay == "true"),
-                    data: that.currentNode.data,
-                    scope: $scope.$parent,
-                    controller: ["$scope", "$element", function ($scope, $element) {
-                        $(".ngdialog-content", $element).width("50%");
-                    }]
-                });
+
+              var moduleType=that.currentNode.data.moduleType;
+              var relId= that.currentNode.data.relId;
+              if(!moduleType||!relId){
+                console.log("moduleType="+moduleType+",relId="+relId);
+              }
+              // var url="/salesOrder/get.html?id="+relId;
+              var url="#/"+moduleType+"/get.html?id="+relId;
+
+              utils.goTo(url);
             }//end clickCallback
 
             //参数定义
@@ -1374,6 +1372,13 @@ function canvasBusinessFlow (modal,utils) {
             if($attrs.baseImageUrl){
               option.baseImageUrl=$attrs.baseImageUrl;
             }
+            if($attrs.spacingWidth){
+              option.spacingWidth=parseInt($attrs.spacingWidth);
+            }
+            if($attrs.spacingHeight){
+              option.spacingWidth=parseInt($attrs.spacingHeight);
+            }
+
 
             var workflow=new CanvasBusinessFlow($attrs.id,option);
             if ($attrs.scopeExtend){

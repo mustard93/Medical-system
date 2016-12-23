@@ -1,6 +1,13 @@
+
+/**
+业务单流程图形展示
+*/
 define('CanvasBusinessFlow',['JTopo'], function(JTopo){
 
       var defaultOptions={
+
+           spacingWidth:20,
+           spacingHeight:80,
           baseImageUrl:"../images/canvasBusinessFlow/",//图片路径
           parentKeyName:"id",
             //defaultOptions.status.fillColor_ready
@@ -104,8 +111,8 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
             if(!data)return;
             this.data=data;
             if(!data.events)return;
-            console.log("addCanvasBusinessFlow.data=");
-            console.log(data);
+            // console.log("addCanvasBusinessFlow.data=");
+            // console.log(data);
 
             //添加节点
             for(var i=0;i<data.events.length;i++){
@@ -118,10 +125,11 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
 
             var root=JTopo.layout.getRootNodes(this.scene.childs);
               console.log("JTopo.layout.TreeLayout");
-            console.log(root);
+            // console.log(root);
 
               this.showWorkflowTaskDataLinks();
-                 this.scene.doLayout(TreeLayout2(JTopo,'right', 20, 40));
+
+                 this.scene.doLayout(TreeLayout2(JTopo,'right', this.options.spacingWidth, this.options.spacingHeight));
                 //  TreeLayout2(JTopo,dirtion, width, height2)
               //  this.scene.doLayout(JTopo.layout.TreeLayout('right', 25, 120));
                   // this.scene.doLayout(JTopo.layout.FlowLayout('right', 25, 120));
@@ -163,7 +171,7 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
                var nodeZ=this.getEventByKey(event1.targetRef);
                if(nodeZ)this.addLink(node,nodeZ);
            }
-            console.log(node);
+            // console.log(node);
          },
             //添加2个节点得链接
            addLink:function(nodeA, nodeZ, dashedPattern){
@@ -214,19 +222,23 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
 
              //saleOrder_doing.png
              //提供图片后开放
-            //  var imageName=event1.moduleType;
+             var imageName="icon-"+event1.moduleType;
 
-            //调试使用
-             var imageName="salesOrder";
+            //调试使用 icon-salesOrder-active.png
+            //  var imageName="icon-salesOrder";
 
              if(node.data.status=="完成"){
                   node.fontColor =this.options.status.strokeColor_done;
-                  imageName+="_done";
+                  imageName+="-done";
              }else   if(node.data.status=="执行中"){
                node.fontColor =this.options.status.strokeColor_doing;
 
-                 imageName+="_doing"
+                 imageName+="-active"
+             }else {
+               node.fontColor =this.options.status.strokeColor_doing;
+                 imageName+="-null"
              }
+
 
 
            node.setImage( this.options.baseImageUrl+imageName+".png", true);
