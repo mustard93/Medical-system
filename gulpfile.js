@@ -65,6 +65,7 @@ var paths = {
   img       :  "src/images/",
   html      :  "src/html/",
   build     :  "src/build/",
+   buildTmp :  "../",
   src       :  'src/'
 };
 
@@ -142,6 +143,14 @@ gulp.task('handleJs', ['pro-clean-js'], function () {
              .pipe(gulp.dest(paths.build + 'js'))
              .pipe(rev.manifest())
              .pipe(gulp.dest('./rev/js'));
+});
+
+/* 压缩 JS 开发测试压缩是否失败 */
+gulp.task('handleJsCompress', ['pro-clean-js'], function () {
+  return gulp.src([paths.src + 'angular/app.js', paths.src + 'angular/modules/**/*.js'])
+             //.pipe(concat('app.min.js'))
+             .pipe(uglify())             
+             .pipe(gulp.dest(paths.buildTmp + 'js'));
 });
 
 /* CSS生成文件hash编码并生成 rev-manifest.json文件名对照映射 */
@@ -246,14 +255,14 @@ gulp.task('default', ['runLess', 'html', 'images', 'browserify'], function () {
 /* 开发模式 */
 gulp.task('server', function (done) {
   condition = false;
-  runSequence(['browser'], ['concatCss'], ['bro'], done);
+  runSequence(['handleJsCompress'],['browser'], ['concatCss'], ['bro'], done);
   //监控所有CSS文件
   gulp.watch('./src/css/block_css/*.css', function () {
     runSequence(['concatCss'], ['bro'], done);
   });
   //监控所有JS文件
   gulp.watch(['./src/angular/**/**/*.js', './src/angular/*.js'], function () {
-    runSequence(['bro']);
+    runSequence(['handleJsCompress'],['bro']);
   });
   gulp.watch([
     './src/*.html',

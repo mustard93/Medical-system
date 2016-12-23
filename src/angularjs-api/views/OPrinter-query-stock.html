@@ -4,13 +4,13 @@
   <!-- page heading end-->
   <!--body wrapper start-->
 
-    <div class="pd-c-xxl pr-pos" ng-init="$root.OPrinter.init()">
+    <div class="pd-c-xxl pr-pos" ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id')">
          <div class="page-header-info ">
            <p class="mgb bb-line">库存报表 / <em class="color-custom-orange">库存查询</em></p>
-           <button  ng-click="$root.OPrinter.preview('Print_Div_id','templateName1')">打印预览</button>
-             <button  ng-click="$root.OPrinter.print('Print_Div_id')">打印</button>
-              <button  ng-click="$root.OPrinter.printSetup('Print_Div_id','templateName1')">打印设置</button>
-               <button  ng-click="$root.OPrinter.printDesign('Print_Div_id','templateName1')">打印设计</button>
+           <button  ng-click="$root.OPrinter.preview(null,'templateName1')">打印预览</button>
+             <button  ng-click="$root.OPrinter.print(null)">打印</button>
+              <button  ng-click="$root.OPrinter.printSetup(null,'templateName1')">打印设置</button>
+               <button  ng-click="$root.OPrinter.printDesign(null,'templateName1')">打印设计</button>
          </div>
 
 
@@ -32,69 +32,49 @@
             <!-- 表格 start -->
                     <div class="pd-c"
                      alert-error>
-                     <table-list list-data="{{mainStatus.requestPath}}rest/authen/medicalStock/query.json"
+                     <table-list list-data="rest/authen/medicalStock/query.json"
                                  list-params="listParams"
                                  search-mode="noCaseSensitive"
                                  search-param="q">
-                       <!-- 搜索框 start-->
-                      <div class="text-left order-list-search relative">
-                         <input type="text" class="ipt pdr-xxl" placeholder="客户名/订单编号/负责人" ng-model="listParams.q">
-                          <i class=""></i>
-                      </div>
-                                  <!-- 搜索框 end-->
-                       <!-- 主内容头部 -->
-                       <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr relative">
-                       <!-- 主内容区域 -->
-                       <div class="content-wrapper-main">
-                         <div ng-if="!status.isLoading">
-                           <div ng-if="tbodyList.length==0">
-                             <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-                             <p class="text-center">什么也没有</p>
-                           </div>
+                                 <!-- 打印区域 -->
+                                 <div class="pd-c" id="Print_Div_id" contenteditable="true"
+                                 style="width:794px;height:1123px;border:1px solid #000000;"
+                                 >
+                                   <table ng-if="tbodyList.length"  style="width:794px;height:1123px;border:1px solid #000000;">
+                                     <thead class="pr-bg-side">
+                                       <tr>
+                                         <th>序号</th>
+                                         <th>商品编号</th>
+                                         <th>商品全名</th>
+                                         <th>规格</th>
+                                         <th>单位</th>
+                                         <th>注册证号</th>
+                                         <th>数量</th>
+                                         <th>成本单价</th>
+                                         <th>库存金额</th>
+                                         <th>可销售数量</th>
+                                         <th>订单占用数量</th>
+                                       </tr>
+                                     </thead>
+                                     <tbody class="pr-bg-white">
+                                       <tr  ng-repeat="tr in tbodyList track by $index">
+                                         <td>{{$index + 1}}</td>
+                                         <td>{{tr.code}}</td>
+                                         <td class="text-ellips-s">{{tr.name}}</td>
+                                         <td>{{tr.specification}}</td>
+                                         <td>{{tr.unit}}</td>
+                                         <td>{{tr.drugAdministrationCode}}</td>
+                                         <td>{{tr.actualQuantity}}</td>
+                                         <td>{{tr.price}}</td>
+                                         <td>{{tr.quantity*tr.price}}</td>
+                                         <td>{{tr.quantity}}</td>
+                                         <td>{{tr.quantity-tr.actualQuantity}}</td>
 
-                           <div class="pd-c" id="Print_Div_id">
-                             <table ng-if="tbodyList.length"  style="width:794px;height:1123px;border:1px solid #000000;">
-                               <thead class="pr-bg-side">
-                                 <tr>
-                                   <th>序号</th>
-                                   <th>商品编号</th>
-                                   <th>商品全名</th>
-                                   <th>规格</th>
-                                   <th>单位</th>
-                                   <th>注册证号</th>
-                                   <th>数量</th>
-                                   <th>成本单价</th>
-                                   <th>库存金额</th>
-                                   <th>可销售数量</th>
-                                   <th>订单占用数量</th>
-                                 </tr>
-                               </thead>
-                               <tbody class="pr-bg-white">
-                                 <tr  ng-repeat="tr in tbodyList track by $index">
-                                   <td>{{$index + 1}}</td>
-                                   <td>{{tr.code}}</td>
-                                   <td class="text-ellips-s">{{tr.name}}</td>
-                                   <td>{{tr.specification}}</td>
-                                   <td>{{tr.unit}}</td>
-                                   <td>{{tr.drugAdministrationCode}}</td>
-                                   <td>{{tr.actualQuantity}}</td>
-                                   <td>{{tr.price}}</td>
-                                   <td>{{tr.quantity*tr.price}}</td>
-                                   <td>{{tr.quantity}}</td>
-                                   <td>{{tr.quantity-tr.actualQuantity}}</td>
-
-                                 </tr>
-                               </tbody>
-                             </table>
-                           </div>
-                         </div>
-                       </div>
-                       <!-- 导航 -->
-                       <!-- <div class="clearfix pd-c-m" ng-if="tbodyList.length">
-                           <div class="fr">
-                               <pagination status="status"></pagination>
-                           </div>
-                       </div> -->
+                                       </tr>
+                                     </tbody>
+                                   </table>
+                                 </div>
+                                  <!-- 打印区域 -->
                      </table-list>
             <!-- 表格 end -->
 

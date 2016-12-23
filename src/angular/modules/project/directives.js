@@ -1323,6 +1323,73 @@ function canvasWorkflow (modal,utils) {
   };
 }//canvasWorkflow
 
+
+
+/**
+ * 业务单流程展示
+ */
+function canvasBusinessFlow (modal,utils) {
+  'use strict';
+  return {
+      restrict: 'AE',
+      // scope: false,
+      scope: {
+          ngModel:"=?"
+      },
+    link: function ($scope, element, $attrs) {
+
+      // $scope.ngModel;
+      // var data=$scope[$attrs.ngModel];
+          var data= $scope.ngModel;
+          console.log(data);
+
+          require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
+
+            //点击回调方法
+            function clickCallback(event,that){
+                if(!angular.isDefined($attrs.modalUrl)){
+                    return;
+                }
+                  modal.open({
+                    template: $attrs.modalUrl,
+                    className: 'ngdialog-theme-right',
+                    cache: false,
+                    trapFocus: true,
+                    overlay: ($attrs.modalOverlay == "true"),
+                    data: that.currentNode.data,
+                    scope: $scope.$parent,
+                    controller: ["$scope", "$element", function ($scope, $element) {
+                        $(".ngdialog-content", $element).width("50%");
+                    }]
+                });
+            }//end clickCallback
+
+            //参数定义
+            var option={
+
+                node:{
+                  clickCallback:clickCallback
+                }
+            };
+            if($attrs.baseImageUrl){
+              option.baseImageUrl=$attrs.baseImageUrl;
+            }
+
+            var workflow=new CanvasBusinessFlow($attrs.id,option);
+            if ($attrs.scopeExtend){
+                var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
+                if(scopeExtend){
+                  if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
+                }
+            }
+            workflow.addCanvasBusinessFlow(data);
+
+          });//WorkflowProcess
+
+    }//end link
+  };
+}//canvasWorkflow
+
 /**
     打印组件
   */
@@ -1504,6 +1571,164 @@ function handleTextOverflow () {
 
 
 
+/**
+  	 *
+  	* @Description: html编辑器
+  	* @method sayMsgToOther
+  	* @param
+  	* @param
+  	* @param msg
+  	* @return
+  	* @author ecolouds-01
+  	* @date 2016年12月15日 下午5:16:02
+
+  	  修改记录：
+  	   @Description: TODO(修改了什么)
+  	* @author ecolouds-01
+  	* @date 2016年12月15日 下午5:16:02
+
+  	    关键步骤：
+  	    //1.传如参数：人A，人B
+  		//2.如果人B==null，则返回失败标准。
+  		//3.A对B说。 该逻辑很复杂，或变化多则单独写成方法
+  		//4.返回成功标志。
+  	 */
+function umeditor ($timeout) {
+  return {
+    restrict: 'A',
+    scope: {ngModel:"=?"},
+    // replace: true,
+      transclude: true,
+    require: 'ngModel',
+    // templateUrl:  Config.tplPath +'tpl/umeditor.html',
+    link: function ($scope, $element, $attrs,ngModel) {
+      var _dom = $element[0];
+      //默认样式
+      $scope.umStyle={"width":'1000px',"height":"240px"};
+
+      if ($attrs.umStyle) {
+          if ($attrs.umStyle.indexOf("{") === 0) {
+                $scope.umStyle = $scope.$eval($attrs.umStyle);
+          }
+      }
+
+        $scope.editorId=$attrs.umeditor;
+
+          var _umeditor =null;
+          require(['ueditor_lang'], function(ueditor_lang) {
+
+        function initEditor(){
+            if(_umeditor)return;
+           //获取当前的DOM元素
+
+
+                   var _id = '_' + Math.floor(Math.random() * 100).toString() + new Date().getTime().toString();
+                   var placeholder= $attrs.placeholder;
+                   if(!placeholder)placeholder="";
+                   var _placeholder = '<p style="font-size:14px;color:#ccc;">' +
+                       placeholder +
+                       '</p>';
+
+                   var _config = $scope.config || {
+                           //这里可以选择自己需要的工具按钮名称,此处仅选择如下七个
+                           toolbar: ['source undo redo bold italic underline'],
+                           //focus时自动清空初始化时的内容
+                           autoClearinitialContent: true,
+                           //关闭字数统计
+                           wordCount: false,
+                           //关闭elementPath
+                           elementPathEnabled: false,
+                           //frame高度
+                           //initialFrameHeight: 300
+                       };
+
+                   _dom.setAttribute('id', _id);
+                   var _umeditor = UE.getEditor(_id, _config);
+                   /**
+                    * 对于umeditor添加内容改变事件，内容改变触发ngModel改变.
+                    */
+                   var editorToModel = function () {
+
+                       if (_umeditor.hasContents())
+                           ngModel.$setViewValue(_umeditor.getContent());
+                       else
+                           ngModel.$setViewValue(undefined);
+                   };
+
+                   /**
+                    * umeditor准备就绪后，执行逻辑
+                    * 如果ngModel存在
+                    *   则给在编辑器中赋值
+                    *   给编辑器添加内容改变的监听事件.
+                    * 如果不存在
+                    *   则写入提示文案
+                    */
+
+                   _umeditor.ready(function () {
+
+
+                      if($attrs.initHtmlContentId){
+                           _umeditor.setContent($("#"+$attrs.initHtmlContentId).html());
+                            ngModel.$setViewValue(_umeditor.getContent());
+                        return;
+                      }else{
+                        if (ngModel.$viewValue) {
+                            _umeditor.setContent(ngModel.$viewValue);
+
+                        } else {
+                            _umeditor.setContent(_placeholder);
+                        }
+                      }
+                      _umeditor.addListener('contentChange', editorToModel);
+
+                       //_umeditor.execCommand('fontsize', '32px');
+                       //_umeditor.execCommand('fontfamily', '"Microsoft YaHei","微软雅黑"')
+                   });
+
+                   /**
+                    * 添加编辑器被选中事件
+                    * 如果ngModel没有赋值
+                    *   清空content
+                    *   给编辑器添加内容改变的监听事件
+                    */
+                   _umeditor.addListener('focus', function () {
+                        //  if($attrs.initHtmlContentId)return;
+                       if (!ngModel.$viewValue) {
+                          //  _umeditor.setContent('');
+                           _umeditor.addListener('contentChange', editorToModel);
+                       }
+                   });
+
+
+                   /**
+                    * 添加编辑器取消选中事件
+                    * 如content值为空
+                    *   取消内容改变的监听事件
+                    *   添加content为提示文案
+                    */
+                   _umeditor.addListener('blur', function () {
+                       if (!_umeditor.hasContents()) {
+                           _umeditor.removeListener('contentChange', editorToModel);
+                           _umeditor.setContent(_placeholder);
+                       } else {
+                       }
+                   })
+        }//initEditor
+
+        initEditor();
+
+        //  if ($scope.$last === true) {
+        //        $timeout(function () {
+        //          console.log("$scope.$last $timeout");
+        //           initEditor();
+        //        });
+        //    }
+      });//require
+
+    }//end link
+  };
+}
+
 
 /**
   	 *
@@ -1584,9 +1809,11 @@ function datePeriodSelect () {
 
 angular.module('manageApp.project')
   .directive("datePeriodSelect", [datePeriodSelect])
+  .directive("umeditor", ["$timeout",umeditor])  // html编辑器
   .directive("handleTextOverflow", [handleTextOverflow])  // 卡片式列表页面内容超出范围的处理(动态宽度)
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
+  .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
@@ -1613,6 +1840,4 @@ angular.module('manageApp.project')
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
   .directive("medicalStockMouseOver",[medicalStockMouseOver]);// 库存明细模块，鼠标移入高亮并显示两个按钮
-
-
 });
