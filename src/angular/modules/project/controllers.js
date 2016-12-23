@@ -947,7 +947,7 @@ define('project/controllers', ['project/init'], function() {
       }//intervalCtrl
 
 
-    function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils) {
+    function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils,alertError,alertWarn) {
 
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
@@ -991,15 +991,21 @@ define('project/controllers', ['project/init'], function() {
         //   $scope.responseBody.hospitalPurchaseContentsId = id;
         // }
 
-        if ($scope.medical) {
-          //处理药品内信息id和copyId，以区分新建和编辑
-          $scope.medical.hospitalId = hospitalId;
-          $scope.medical.relId = $scope.medical.id;
-          $scope.medical.id = null;
-          $scope.hospitalPurchaseMedical = $scope.medical;
-        }
+            if (!$scope.medical||!$scope.medical.id) {
+                alertWarn("请选择药械");
+                return;
 
-        requestData('rest/authen/hospitalPurchaseMedical/save', $scope.hospitalPurchaseMedical, 'POST', 'parameterBody')
+            }
+
+          var formData=$.extend(true,{},$scope.medical);
+
+          //处理药品内信息id和copyId，以区分新建和编辑
+          formData.hospitalId = hospitalId;
+          formData.relId = $scope.medical.id;
+          formData.id = null;
+
+
+        requestData('rest/authen/hospitalPurchaseMedical/save', formData, 'POST', 'parameterBody')
         .then(function (results) {
           if (results[1].code === 200) {
             // utils.goTo('#/hospitalPurchaseContents/get.html?id='+hospitalId);
@@ -1009,7 +1015,7 @@ define('project/controllers', ['project/init'], function() {
           }
         })
         .catch(function (error) {
-          throw new Error(error || 'Response Error');
+           alertError(error || '出错');
         });
       };
     }
@@ -1120,7 +1126,7 @@ define('project/controllers', ['project/init'], function() {
     .controller('SalesOrderDetailsController', ['$scope', '$timeout', SalesOrderDetailsController])
     .controller('MedicalStockController', ['$scope', 'utils', MedicalStockController])
     .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
-    .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils', QualificationApplyCtrl])
+    .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', QualificationApplyCtrl])
     .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
     .controller('intervalCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', intervalCtrl])
     .controller('auditUserApplyOrganizationCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','proLoading', auditUserApplyOrganizationCtrl])
