@@ -35,7 +35,7 @@ define('modal/services', ['modal/init'], function () {
             preCloseCallback: false,
             overlay: true,
             cache: true,
-            trapFocus: true,
+            trapFocus: false,
             preserveFocus: true,
             ariaAuto: true,
             ariaRole: null,
@@ -743,7 +743,7 @@ define('modal/services', ['modal/init'], function () {
 
                     closeAll: function (value) {
 
-                        
+
                           $(".select-address.active").removeClass('active');
                         var $all = document.querySelectorAll('.ngdialog');
 
