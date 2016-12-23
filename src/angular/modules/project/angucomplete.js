@@ -150,6 +150,39 @@ define(['project/angucomplete'], function(){
             ngModel && ngModel.$setViewValue(result);
         };
 
+
+
+        var result_scrollTop = function() {
+          var itemDiv=$(".angucomplete-selected-row");
+          if(itemDiv.length==0){
+            console.log(".angucomplete-selected-row length=0");
+            return;
+          }
+          var high_bottom, high_top, maxHeight, visible_bottom, visible_top;
+          var search_results = $(".angucomplete-dropdown");
+          maxHeight = parseInt(search_results.css("maxHeight"), 10);
+
+          visible_top = search_results.scrollTop();
+          visible_bottom = maxHeight + visible_top;
+
+
+          high_top = itemDiv.position().top +visible_top;
+          high_bottom = high_top + itemDiv.outerHeight();
+
+          if (high_bottom >= visible_bottom) {
+            return search_results.scrollTop((high_bottom - maxHeight) > 0 ? high_bottom - maxHeight : 0);
+          } else if (high_top < visible_top) {
+            return search_results.scrollTop(high_top);
+          }
+
+        };
+
+        //隐藏下拉框
+        var setSelectFouns = function() {
+             $timeout(function() {
+               result_scrollTop();
+            }, 0);
+        };
         //div 元素 键盘事件.
         var elemKeyup=function(event) {
             if (event.which === 40) {
@@ -161,6 +194,7 @@ define(['project/angucomplete'], function(){
                 }
 
                 $scope.$apply();
+                setSelectFouns();
             } else if (event.which == 38) {
                 if ($scope.currentIndex >= 1) {
                     $scope.currentIndex--;
@@ -168,7 +202,7 @@ define(['project/angucomplete'], function(){
                     event.preventDefault;
                     event.stopPropagation();
                 }
-
+                setSelectFouns();
             } else if (event.which == 13) {
                 if ($scope.results && $scope.currentIndex >= 0 && $scope.currentIndex < $scope.results.length) {
                   selectResult($scope.results[$scope.currentIndex]);
