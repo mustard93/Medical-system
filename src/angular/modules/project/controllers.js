@@ -517,6 +517,20 @@ define('project/controllers', ['project/init'], function() {
     }
 
     /**
+     * [confirmOrderCtrl 新版销售单控制器]
+     * @param  {[type]} $scope      [description]
+     * @param  {[type]} modal       [description]
+     * @param  {[type]} alertWarn   [description]
+     * @param  {[type]} requestData [description]
+     * @param  {[type]} alertOk     [description]
+     * @param  {[type]} alertError  [description]
+     * @return {[type]}             [description]
+     */
+    function confirmOrderCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+
+    }
+
+    /**
      *出库单
      */
     function invoicesOrderCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
@@ -1102,6 +1116,7 @@ define('project/controllers', ['project/init'], function() {
     }
 
     angular.module('manageApp.project')
+    .controller('confirmOrderCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderCtrl])
     .controller('SalesOrderDetailsController', ['$scope', '$timeout', SalesOrderDetailsController])
     .controller('MedicalStockController', ['$scope', 'utils', MedicalStockController])
     .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])

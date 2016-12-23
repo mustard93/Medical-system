@@ -1,0 +1,125 @@
+<div class="content-wrapper loss-over-order"
+     ng-controller="QualificationApplyCtrl"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+  <!-- 模块标题及面包屑 -->
+  <div class="page-header-info">
+    <p class="mgb">库存管理 / <em class="color-custom-orange">报损单</em></p>
+    <p>
+      <select ng-init="itemChooise='#/lossOverOrder/query-reimburse.html'" class="select pr-select pr-select-sm" style="width:120px;" ng-model="itemChooise" ng-change="utils.goTo(itemChooise)">
+        <option value="#/lossOverOrder/query-reimburse.html">报损单</option>
+        <option value="#/lossOverOrder/query-overflow.html">报溢单</option>
+      </select>
+    </p>
+  </div>
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/lossOverOrder/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+    <!-- 主内容头部 -->
+    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl mgr relative">
+      <!-- 新建按钮及状态按钮 -->
+      <div class="full-width">
+        <div class="pos-abs order-create-btn">
+          <a href="#/lossOverOrder/edit-reimburse.html" title="新建报损单"><i></i><span class="text-s">新建报损单</span></a>
+        </div>
+        <div class="order-status-btn pos-tr text-right"
+             ajax-url="rest/authen/lossOverOrder/countByOrderStatus.json"
+             scope-data="countByOrderStatus"
+             alert-error>
+            <div class=""></div>
+            <div class="btn btn-group">
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="未提交"  count-map="countByOrderStatus">  </button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="待审批"  count-map="countByOrderStatus">  </button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="已通过" >  </button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="未通过"  count-map="countByOrderStatus">  </button>
+            </div>
+        </div>
+      </div>
+      <!-- 右侧搜索 -->
+      <div class="text-right order-list-search pos-rb">
+        <input type="text" class="ipt pdr-xxl" placeholder="单据编号" ng-model="listParams.q">
+        <i class=""></i>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <div ng-if="!status.isLoading">
+        <div ng-if="tbodyList.length==0">
+          <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+          <p class="text-center">什么也没有</p>
+        </div>
+        <ul ng-if="tbodyList.length">
+          <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
+            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}">
+              <div class="relative pd-m">
+                <div class="flex-column mgb card-title-height" style="height:24px;line-height:24px;">
+                  <span class="flex-item-6 title-states text-bold">
+                    <em ng-class="{'color-6':tr.orderStatus=='待审批','color-green':tr.orderStatus=='已通过','color-red':tr.orderStatus=='未通过'}">
+                    {{tr.orderStatus}}</em>
+                  </span>
+                  <span class="flex-item-6 text-right">
+                    <a  ng-if="tr.orderStatus=='未提交' && mainStatus.id==tr.proposerId"
+                       href="javascript:;"
+                       class="color-red"
+                       handle-this-click
+                       dialog-title="确认删除?"
+                       dialog-content="删除后将无法恢复,确认删除?"
+                       dialog-template="pr-dialog-submit.html"
+                       callback="$root.goTo('#/lossOverOrder/query-reimburse.html')"
+                       params='{"id":tr.id}'
+                       request-url="rest/authen/lossOverOrder/delete">删除</a>
+                    <a class="mgl"
+                       ng-if="tr.orderStatus=='未提交'"
+                       ng-href="#/lossOverOrder/edit-reimburse.html?id={{tr.id}}">编辑</a>
+                    <a class="mgl"
+                       ng-if="tr.orderStatus=='未通过'"
+                       ng-href="#/lossOverOrder/edit-reimburse.html?copyId={{tr.id}}">新建</a>
+                    <a class="mgl"
+                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')) || tr.orderStatus=='未通过'"
+                       ng-href="#/lossOverOrder/get-reimburse.html?id={{tr.id}}">查看详情</a>
+                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                       class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                       ng-href="#/lossOverOrder/get-reimburse.html?id={{tr.id}}">立即审批</a>
+                    <!--工作流控制菜单 -->
+                    <!-- <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button> -->
+                  </span>
+                </div>
+                <div class="flex-column qurey text-s color-9">
+                  <span class="flex-item-6 mgb-s">单据编号：
+                    <strong class="color-6 text-normal">{{tr.orderNo}}</strong></span>
+                  <span class="flex-item-6 pdl mgb-s">申请日期：
+                    <strong class="color-6 text-normal">{{tr.applyDate | date : 'yyyy-MM-dd'}}</strong>
+                  </span>
+                </div>
+
+              </div>
+              <div class="relative bt-dotted-line">
+                <div >
+                  <h1 class="mg-m text-center text-m color-6 pd-c-m text-ellips-s">{{tr.firstMedical.name || '0'}}
+                  </h1>
+                  <p class="text-center bb-dotted-line pdb">报损品种数</p>
+                </div>
+
+                <div>
+                  <h1 class="mg-m text-center text-m color-6 pd-c-m text-ellips-s">昆明高登路仓库</h1>
+
+                </div>
+                <div class="bt-dotted-line">
+                  <p class="pd-l "><em>备注：</em></p>
+                </div>
+
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>
