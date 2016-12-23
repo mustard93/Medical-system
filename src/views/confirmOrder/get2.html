@@ -1,10 +1,9 @@
 <div class="salesOrder-edit"
-     ng-controller="salesOrderEditCtrl2"
+     ng-controller="confirmOrderCtrl"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
-
   <form id="editForm"
         name="editForm"
         form-validator
@@ -16,131 +15,115 @@
         scope-data="formData"
         callback="submitFormAfter();watchFormChange('formData')">
     <!-- 头部信息 -->
-    <div class="relative bb-line">
-      <div class="pd-l">
-        <!-- 标题 -->
-        <div class="mgb-m">
-          <p class="mgb-m">销售中心 / <em class="color-custom-orange">购需单</em></p>
-          <h1 class="pr-font-22 pr-color">新建购需单</h1>
-        </div>
-        <!-- 客户列表 -->
-        <div class="">
-          <select ng-if="initFlag"
-                  class="ipt pr-long-ipt color-6"
-                  data-placeholder="客户名"
-                  chosen
-                  chosen-ajax
-                  ng-model="formData.customerId"
-                  select-source="rest/authen/customerAddress/queryForSelectOption.json">
-          </select>
-        </div>
+    <div class="relative">
+      <!-- 标题 -->
+      <div class="mgb-m pd-c-l">
+        <p class="mgb-m mgt-m">销售中心 / <em class="color-custom-orange">销售单</em></p>
+        <h1 class="pr-font-22">销售单</h1>
+        <p class="mgt-l">上海太阳生物科技有限公司</p>
       </div>
     </div>
     <!-- 药械列表 -->
     <div class="pd-l">
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" auto-get-focus="salesOrderQuantity">
-        <!-- 信息 -->
-        <div class="bb-dashed-line">
-          <h1 class="text-bold">药械闪加</h1>
-          <div class="mgb">
-            <span angucomplete-medical
-                  placeholder="商品名 商品简称 商品名头字母 商品编号 厂家名 厂家名头字母。多个关键字段，用空格分隔"
-                  title-field="name"
-                  url="http://localhost:3000/src/angularjs-api/data/medicalStockList.json"
-                  ng-model="angucomplete_data"
-                  class="inline-block mgr medical-search"
-                  ng-change="addDataItem=angucomplete_data.data;addDataItem.relId=angucomplete_data.id">
-            </span>
-            <span class="mgr medical-num inline-block">
-              <input id="salesOrderQuantity" type="number" class="ipt pr-w-100" ng-model="addDataItem.csmQuantity" ng-keyup="handleAddThisItem($event)" placeholder="数量" />
-            </span>
-            <span class="mgr">
-              <a href="" ng-click="newAddDataItemClick(addDataItem,medical);" class="add-medical-list" title="添加药械"></a>
-            </span>
-            <span class="mgr">
-              <a href="#" class="import-medical-list">导入药械清单</a>
-            </span>
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-n">
+        <!-- 单据信息 -->
+        <div class="bb-line">
+          <div class="flex-column color-9 pd-l">
+            <div class="flex-item-6">
+              <span class="mgr">单据编号：<em class="color-6">XX123456789</em></span>
+              <span class="mgr">制单人：<em class="color-6">刘丽</em></span>
+              <span class="mgr">审核人：<em class="color-6">暂无</em></span>
+            </div>
+            <div class="flex-item-6 text-right">
+              <span class="mgr">录单日期：<em class="color-6">2016-12-22</em></span>
+              <span class="mgr">状态：<em class="color-6">待审核</em></span>
+            </div>
           </div>
-          <p class="mgb">
-            <span class="mgr-m">{{addDataItem.manufacturer || '生产商名'}}</span>
-            <span>{{addDataItem.specification || '规格'}}</span>
-          </p>
         </div>
-        <!-- 列表 -->
-        <div class="pd-v-s">
-          <p class="flex-column mgb">
-            <span class="flex-item-6">购需单号：<em>{{formData.orderNo || '暂无'}}</em></span>
-            <span class="flex-item-6 text-right">状态：<em>未提交</em></span>
-          </p>
-          <table class="table pr-table table-hover">
+        <!-- 类别选择 -->
+        <div class="pd-l">
+          <span class="mgr">销售部门：
+            <select class="select pr-select pr-select-sm" style="width:100px;">
+              <option value="">事业一部</option>
+              <option value="">事业二部</option>
+            </select>
+          </span>
+          <span class="mgr">业务人员：
+            <select class="select pr-select pr-select-sm" style="width:100px;">
+              <option value="">业务甲</option>
+              <option value="">业务乙</option>
+            </select>
+          </span>
+          <span class="mgr">业务类型：
+            <select class="select pr-select pr-select-sm" style="width:100px;">
+              <option value="">普通</option>
+            </select>
+          </span>
+          <span class="mgr">销售类型：
+            <select class="select pr-select pr-select-sm" style="width:100px;">
+              <option value="">直销</option>
+            </select>
+          </span>
+          <span class="mgr">付款条件：
+            <select class="select pr-select pr-select-sm" style="width:100px;">
+              <option value="">付款</option>
+            </select>
+          </span>
+          <span class="mgr">币种：
+            <select class="select pr-select pr-select-sm" style="width:100px;">
+              <option value="">人民币</option>
+            </select>
+          </span>
+          <span class="mgr">汇率
+            <input type="text" class="ipt pr-ipt-60 text-right">
+          </span>
+        </div>
+        <!-- 商品列表 -->
+        <div class="">
+          <table class="table pr-table">
             <thead>
               <tr>
-                <th class="text-center">商品编号</th>
-                <th class="text-left">商品全名</th>
-                <th class="text-center">规格型号</th>
-                <th class="text-center">单位</th>
-                <th class="text-center">数量</th>
-                <th class="text-center">含税单价</th>
-                <th class="text-center">税率</th>
-                <th class="text-center">折扣额</th>
-                <th class="text-center">折扣率</th>
-                <th class="text-center">无税单价</th>
-                <th class="text-center">无税金额</th>
-                <th class="text-center">税额</th>
-                <th class="text-center">价税合计</th>
+                <th>商品编号</th>
+                <th>商品全名</th>
+                <th>规格型号</th>
+                <th>单位</th>
+                <th>数量</th>
+                <th>批号要求</th>
+                <th>生产批号</th>
+                <th>预发货日期</th>
+                <th>单价</th>
+                <th>含税单价</th>
+                <th>税率</th>
               </tr>
             </thead>
-            <tbody class="bg-white">
-              <tr ng-repeat="tr in formData.orderMedicalNos" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
-                <td class="text-center">{{tr.code}}</td>
-                <td class="text-left">{{tr.name}}</td>
-                <td class="text-center">{{tr.specification}}</td>
-                <td class="text-center">{{tr.unit}}</td>
-                <td class="text-center">
-                  <div class="order-goods-num">
-                    <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
-                    <span class="inline-block">
-                      <input type="number"
-                             class="inline pr-table-input text-center item-quantity"
-                             style="width:60px;"
-                             ng-model="tr.quantity"
-                             ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
-                    </span>
-                    <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
-                  </div>
-                </td>
-                <td class="text-center">
-                  ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price">
-                </td>
-                <td class="text-center" ng-init="tr.taxRate='0.17'">
-                  <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.taxRate"> -->
-                  <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
-                    <option value="0.17" ng-selected="true">17%</option>
-                    <option value="0.03">3%</option>
+            <tbody>
+              <tr>
+                <td>0123456789</td>
+                <td>肠道71型xxxxxxxxxx</td>
+                <td>24T/盒</td>
+                <td>箱</td>
+                <td>100</td>
+                <td>
+                  <select class="select pr-select pr-select-sm">
+                    <option value="">同一批号</option>
                   </select>
                 </td>
-                <td class="text-center" ng-init="tr.discountPrice='0'">
-                  ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountPrice">
+                <td>
+                  <select class="select pr-select pr-select-sm">
+                    <option value="">xxxx</option>
+                  </select>
                 </td>
-                <td class="text-center" ng-init="tr.discountRate='100'">
-                  <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">%
+                <td>
+                  <input type="text" class="ipt pr-short-ipt color-6" ng-readonly="true">
                 </td>
-                <td class="text-center">￥{{tr.price*(1-tr.taxRate)-tr.discountPrice | number:2}}</td>
-                <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice*tr.quantity | number:2}}</td>
-                <td class="text-center">￥{{tr.price*tr.taxRate-tr.discountPrice | number:2}}</td>
-                <td class="text-center relative">￥{{tr.price*tr.quantity-tr.discountPrice*tr.quantity | number:2}}
-                  <div class="sales-order-item-delbtn">
-                    <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
-                    <div class="bg-white">
-                      <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                      <p class="pd-v-s">
-                        <a href="" ng-click="return;">取消</a>
-                        <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                                ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
-                        </button>
-                      </p>
-                    </div>
-                  </div>
+                <td>
+                  ￥150.00
+                </td>
+                <td>
+                  ￥150000.00
+                </td>
+                <td>
+                  99%
                 </td>
               </tr>
             </tbody>
@@ -186,8 +169,7 @@
                 </li>
                 <span>
                   <button type="button"
-                          class="pr-add-item-whitebg"
-                          style="min-height:136px;"
+                          class="pr-add-item-whitebg" style="min-height:136px;"
                           modal-right="700"
                           modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
                           modal-scope="this"
@@ -235,8 +217,7 @@
                 </li>
                 <span>
                   <button type="button"
-                          class="pr-add-item-whitebg" 
-                          style="min-height:136px;"
+                          class="pr-add-item-whitebg" style="min-height:136px;"
                           modal-right="700"
                           modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
                           modal-scope="this"
@@ -252,7 +233,7 @@
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
           <h1>备注</h1>
-          <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+          <p>这里显示备注信息</p>
         </div>
         <!-- 功能按钮 -->
         <!-- <div class="pdb-xxl text-right">
@@ -303,10 +284,10 @@
              dialog-content="该购需单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/salesOrder/query.html')"
-             save-callback="submitForm('editForm','exit')">返回购需单列表
+             save-callback="submitForm('editForm','exit')">返回购需单
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
+          <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单</a>
 
           <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
              href="javascript:;"
@@ -319,14 +300,16 @@
              call-back="$root.goTo('#/salesOrder/query.html')">删除
           </a>
 
-          <button class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+          <button type="button" class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
 
-          <button ng-click="submitForm('editForm','submit')"
+          <button type="button" class="pr-btn-save-glodbg mgr-l">打印预览</button>
+
+          <button type="button" ng-click="submitForm('editForm','submit')"
                   class="pr-btn-create-glodbg"
                   ng-disabled="!formData.orderMedicalNos.length ||
                                !formData.customerId ||
                                !formData.saleUserId ||
-                               !canSubmitForm()">生成销售单
+                               !canSubmitForm()">审核
           </button>
       </div>
     </div>
