@@ -1617,13 +1617,13 @@ function autoGetFocus () {
     restrict: 'A',
     link: function ($scope, $element, $attrs) {
 
-      if (!$attrs.autoGetFocus) {
-        throw new Error('autoGetFocus directive must be true');
-      }
-
-      function getFocus (id) {
-        $('#' + id).focus();
-      }
+      // if (!$attrs.autoGetFocus) {
+      //   throw new Error('autoGetFocus directive must be true');
+      // }
+      //
+      // function getFocus (id) {
+      //   $('#' + id).focus();
+      // }
 
       $scope.$watch('addDataItem', function (newVal) {
         var _count = 0;
@@ -1634,13 +1634,29 @@ function autoGetFocus () {
           $('#salesOrderQuantity').each(function () {
             $(this)[0].focus();
           });
+        } else {
+          // console.log($('#salesOrderEditMedicalSearchStr'));
+          if ($('#salesOrderEditMedicalSearchStr')[0] !== undefined) {
+            $('#salesOrderEditMedicalSearchStr').val("");
+            $('#salesOrderEditMedicalSearchStr')[0].focus();
+          }
         }
       });
 
-      // 监控键盘事件
-      $('#salesOrderQuantity').on('keydown', function () {
 
-      });
+    },
+    controller: function ($scope, $attrs) {
+      $scope.handleAddThisItem = function (e) {
+        var keycode = window.event ? e.keyCode : e.which;
+        if (keycode == 13) {
+          $scope.newAddDataItemClick($scope.addDataItem, $scope.medical);
+        }
+      };
+
+      //Test
+      $scope.test =function (e) {
+        console.log(e);
+      };
     }
   };
 }

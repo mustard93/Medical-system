@@ -241,15 +241,6 @@ define('project/controllers', ['project/init'], function() {
      */
     function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange) {
 
-      // 处理回车事件
-      $scope.handleAddThisItem = function (e) {
-        var keycode = window.event ? e.keyCode : e.which;
-        if(keycode==13){
-          $scope.newAddDataItemClick($scope.addDataItem, $scope.medical);
-        }
-      };
-
-
         $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
         };
