@@ -513,9 +513,18 @@ function alertOk($rootScope, modal) {
             },
             // 对文件名后缀进行判断以区分用户上传的文件类型
             isPicture : function (fileName) {
+              if(!fileName)return false;
+              //http://pangu16.aliyuncs.com/d0a2dcabd56e418ebb001ff137e3ea00.PNG@108w
+              var re = new RegExp("(\.png)|(\.jpg)|(\.jpeg)",["i"])
+              if (!re.exec(fileName)) return false;
+
+              return true;
+
               if (angular.isString(fileName) && fileName.indexOf('.') !== -1) {
+                //img.png@100h
                 var _suffix = fileName.split('.')[1];
-                return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
+                   _suffix = fileName.split('@')[0];//解决缩略图情况
+                  return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
                 // if (_suffix !== 'png' || _suffix !== 'jpg' || _suffix !== 'jpeg' || _suffix !== 'gif') {
                 //   return false;
                 // } else {

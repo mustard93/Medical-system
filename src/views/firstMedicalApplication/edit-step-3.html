@@ -60,13 +60,16 @@
                 <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
                 <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效日期至" ng-readonly="true" ng-model="item.guaranteePeriod"></td>
                 <td>
-                  <p ng-if="item.attachmentUrl && utils.isPicture(item.fileName)">
+          
+                  <p ng-if="item.attachmentUrl && utils.isPicture(item.attachmentUrl)">
                     <img title="{{item.fileName}}"
                          alt="{{item.fileName}}"
+
+                         modal-img-show
                          ng-src="{{item.attachmentUrl}}"
                          style="width:120px;height:120px;margin-bottom:10px;"/>
                   </p>
-                  <p ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
+                  <p ng-if="item.attachmentUrl && !utils.isPicture(item.attachmentUrl)" class="mgb">
                     {{item.fileName}}
                   </p>
                   <p>
