@@ -1900,7 +1900,6 @@ function datePeriodSelect () {
 
 
 
-
 angular.module('manageApp.project')
   .directive("datePeriodSelect", [datePeriodSelect])
   .directive("umeditor", ["$timeout",umeditor])  // html编辑器
