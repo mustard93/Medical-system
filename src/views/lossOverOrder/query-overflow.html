@@ -20,7 +20,7 @@
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
         <div class="pos-abs order-create-btn">
-          <a href="#/lossOverOrder/edit-reimburse.html" title="新建报溢单"><i></i><span class="text-s">新建报溢单</span></a>
+          <a href="#/lossOverOrder/edit-overflow-reimburse.html" title="新建报溢单"><i></i><span class="text-s">新建报溢单</span></a>
         </div>
         <div class="order-status-btn pos-tr text-right"
              ajax-url="rest/authen/lossOverOrder/countByOrderStatus.json"
@@ -38,7 +38,24 @@
       </div>
       <!-- 右侧搜索 -->
       <div class="text-right order-list-search pos-rb">
-        <input type="text" class="ipt pdr-xxl" placeholder="单据编号" ng-model="listParams.q">
+        <select class="pr-select select-wd mgr-l" >
+          <option >选择仓库</option>
+          <option >仓库2</option>
+          <option >仓库3</option>
+        </select>
+          <!-- <span class="mgr">申请日期：</span>
+          <input type="text"
+                 datepicker
+                 class="ipt pr-short-ipt color-6 mgr"
+                 ng-readonly="true"
+                 placeholder="日期">
+           <span class="mgr">至</span>
+           <input type="text"
+                 datepicker
+                 class="ipt pr-short-ipt color-6 mgr-l"
+                 ng-readonly="true"
+                 placeholder="日期"> -->
+        <input type="text" class="ipt pdr-xxl  " placeholder="单据编号" ng-model="listParams.q">
         <i class=""></i>
       </div>
     </div>
@@ -71,18 +88,18 @@
                        request-url="rest/authen/lossOverOrder/delete">删除</a>
                     <a class="mgl"
                        ng-if="tr.orderStatus=='未提交'"
-                       ng-href="#/lossOverOrder/edit.html?id={{tr.id}}">编辑</a>
+                       ng-href="#/lossOverOrder/edit-overflow.html?id={{tr.id}}">编辑</a>
                     <a class="mgl"
                        ng-if="tr.orderStatus=='未通过'"
-                       ng-href="#/lossOverOrder/edit.html?copyId={{tr.id}}">新建</a>
+                       ng-href="#/lossOverOrder/edit-overflow.html?copyId={{tr.id}}">新建</a>
                     <a class="mgl"
-                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')) || tr.orderStatus=='未通过'"
-                       ng-href="#/lossOverOrder/get.html?id={{tr.id}}">查看详情</a>
-                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')) || tr.orderStatus=='未通过'"
+                       ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">查看详情</a>
+                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
                        class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                       ng-href="#/lossOverOrder/get.html?id={{tr.id}}">立即审批</a>
+                       ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">立即审批</a>
                     <!--工作流控制菜单 -->
-                    <!-- <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button> -->
+                    <!-- <button ng-if="$root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button> -->
                   </span>
                 </div>
                 <div class="flex-column qurey text-s color-9">
