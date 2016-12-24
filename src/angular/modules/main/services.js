@@ -161,14 +161,20 @@ function alertOk($rootScope, modal) {
 
     //弹窗提示
     function alertWarn($rootScope, modal) {
-        return function (_text, _callBack) {
-            var _$scope = $rootScope.$new(false);
-            _$scope.confirmText = _text || '确定';
-            modal.openConfirm({
-                template: Config.tplPath+'tpl/dialog-alert.html',
-                scope: _$scope
-            }).then(_callBack);
-        };
+      return function (_text, _callBack) {
+
+
+        toastr.warning(_text,"",  {timeOut: 3000,positionClass: 'toast-top-center'});
+
+      };
+        // return function (_text, _callBack) {
+        //     var _$scope = $rootScope.$new(false);
+        //     _$scope.confirmText = _text || '确定';
+        //     modal.openConfirm({
+        //         template: Config.tplPath+'tpl/dialog-alert.html',
+        //         scope: _$scope
+        //     }).then(_callBack);
+        // };
     }
 
     //普通弹窗
@@ -742,7 +748,7 @@ e
       .factory('redirectInterceptor', redirectInterceptor)
       .service('alertOk', ['$rootScope', 'modal',alertOk])
       .service('alertError', ['$rootScope', 'modal',alertError])
-      .service('alertWarn', ['$rootScope', 'modal',alertError])
+      .service('alertWarn', ['$rootScope', 'modal',alertWarn])
       .service('requestData', requestData)
       .service('dialogConfirm', dialogConfirm)
       .service('dialogAlert', dialogAlert)
