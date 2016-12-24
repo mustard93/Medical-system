@@ -1898,9 +1898,45 @@ function datePeriodSelect () {
 }
 
 
+  //显示原图
+  function modalImgShow(ngDialog,utils) {
+      return {
+          restrict: 'A',
+          // scope: {
+          //     modalScope: '='
+          // },
+          link: function ($scope, $elem, $attrs) {
+
+              $elem.on('click', function (e) {
+                  e.preventDefault();
+                  if(!$attrs.ngSrc)return;
+
+                  var url=$attrs.ngSrc.split("@")[0];
+
+                    var modalData='{"url":"'+url+'"}';
+
+                    console.log(modalData);
+
+                  ngDialog.open({
+                      template:  Config.tplPath +"tpl/show-original-image.html",
+                      //className: 'ngdialog-theme-right',
+                      cache: false,
+                      trapFocus: false,
+                      //overlay: false,
+                      data:modalData,
+                      scope: $scope,
+                      controller: ["$scope", "$element", function ($scope, $element) {
+                          $(".ngdialog-content", $element).width(utils.getMainBodyWidth());
+                      }]
+                  });
+              });
+          }
+      };
+  }
 
 
 angular.module('manageApp.project')
+  .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])
   .directive("umeditor", ["$timeout",umeditor])  // html编辑器
   .directive("autoGetFocus", [autoGetFocus])
