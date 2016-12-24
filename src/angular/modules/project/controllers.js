@@ -296,37 +296,7 @@ define('project/controllers', ['project/init'], function() {
           }
         };
 
-        // 添加一条。并缓存数据。
-        $scope.selectRelIdCallBack = function(data) {
-          $scope.addDataItem.relId = data.id;
-          $scope.addDataItem.name = data.name;
-          $scope.addDataItem.brand = data.brand;
-          $scope.addDataItem.unit = data.unit;
-          $scope.addDataItem.price = data.price;
-          // $scope.addDataItem.isSameBatch = '否';
-          $scope.addDataItem.strike_price = data.price;
-          $scope.addDataItem.headUrl = data.headUrl;
-          $scope.addDataItem.specification = data.specification;
-          $scope.addDataItem.manufacturer = data.manufacturer;
-          $scope.addDataItem.handleFlag =true;//默认添加到订单
-          $scope.addDataItem.productionBatch = '无';
-          $scope.addDataItem.dosageForms = data.dosageForms;
-          $scope.addDataItem.code = data.code;
-          $scope.addDataItem.productionBatch = data.productionBatch;
-          $scope.addDataItem.productionDate = data.productionDate;
-          $scope.addDataItem.guaranteePeriod = data.guaranteePeriod;
-          $scope.addDataItem.licenseNumber = data.licenseNumber;
-          $scope.addDataItem.deliveryPlus = data.deliveryPlus;
-          $scope.addDataItem.storageLocation = data.storageLocation;
-          $scope.addDataItem.productionDate = data.productionDate;
-          $scope.addDataItem.guaranteePeriod = data.guaranteePeriod;
-          $scope.addDataItem.licenseNumber = data.licenseNumber;
-            $scope.addDataItem.deliveryPlus = data.deliveryPlus;
 
-          // alert($('#addDataItem_quantity').length);
-          // $('#addDataItem_quantity').trigger('focus');
-          $('#addDataItem_quantity').trigger('focus');
-        };
 
         // 添加一条。并缓存数据。返回true表示成功。会处理数据。
         $scope.flashAddDataCallbackFn = function(flashAddData) {
@@ -374,99 +344,6 @@ define('project/controllers', ['project/init'], function() {
             //计算价格
             $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
             return true;
-        };
-
-        // 添加一条。并缓存数据。
-        $scope.addDataItemClick = function(addDataItem,medical) {
-
-            if (!(addDataItem.relId && addDataItem.name)) {
-                alertWarn('请选择药品。');
-                return;
-            }
-            if (!addDataItem.quantity||addDataItem.quantity<1) {
-                alertWarn('请输入大于0的数量。');
-                return;
-            }
-            if (!addDataItem.strike_price) {
-                alertWarn('请输入成交价格。');
-                return;
-            }
-            if(addDataItem.quantity>medical.quantity){//库存不足情况
-                addDataItem.handleFlag =false;//默认添加到订单
-            }
-            if (!$scope.formData.orderMedicalNos) {
-              $scope.formData.orderMedicalNos = [];
-            }
-            // 如果已添加
-            if ($scope.formData.orderMedicalNos.length !== 0) {
-              var _len = $scope.formData.orderMedicalNos.length;
-              // console.log(_len);
-              // 未使用forEach方法，因为IE不兼容
-              for (var i=0; i<_len; i++) {
-                if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-                  alertWarn('此药械已添加到列表');
-                  return;
-                }
-              }
-            }
-            //添加到列表
-            $scope.formData.orderMedicalNos.push(addDataItem);
-
-            //计算价格
-            $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-
-            $scope.addDataItem = {};
-
-            $('input', '#addDataItem_relId_chosen').trigger('focus');
-            // $('#addDataItem_relId_chosen').trigger('click');
-        };
-
-        // 新版购需单控制器点击添加条目到列表方法
-        $scope.newAddDataItemClick = function(addDataItem,medical) {
-
-            if (!(addDataItem.relId && addDataItem.name)) {
-                alertWarn('请选择药品。');
-                return;
-            }
-            if (!addDataItem.csmQuantity || addDataItem.csmQuantity<1) {
-                alertWarn('请输入大于0的数量。');
-                return;
-            }
-            // if (!addDataItem.strike_price) {
-            //     alertWarn('请输入成交价格。');
-            //     return;
-            // }
-            // if(addDataItem.quantity>medical.quantity){//库存不足情况
-            //     addDataItem.handleFlag =false;//默认添加到订单
-            // }
-            if (!$scope.formData.orderMedicalNos) {
-              $scope.formData.orderMedicalNos = [];
-            }
-            // 如果已添加
-            if ($scope.formData.orderMedicalNos.length !== 0) {
-              var _len = $scope.formData.orderMedicalNos.length;
-
-              for (var i=0; i<_len; i++) {
-                if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-                  alertWarn('此药械已添加到列表');
-                  return;
-                }
-              }
-            }
-
-            addDataItem.priceWithoutTax = addDataItem.price - addDataItem.price*addDataItem.taxRate;
-
-            //添加到列表
-            addDataItem.quantity = addDataItem.csmQuantity;
-            $scope.formData.orderMedicalNos.push(addDataItem);
-
-            //计算价格
-            $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-
-            $scope.addDataItem = {};
-
-            $('input', '#addDataItem_relId_chosen').trigger('focus');
-            // $('#addDataItem_relId_chosen').trigger('click');
         };
 
         // 保存  type:save-草稿,submit-提交订单。

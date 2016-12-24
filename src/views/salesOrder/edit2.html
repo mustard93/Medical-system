@@ -14,6 +14,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
+        onkeydown="if(window.event.keyCode==13) return false;"
         callback="submitFormAfter();watchFormChange('formData')">
     <!-- 头部信息 -->
     <div class="relative bb-line">
@@ -40,34 +41,7 @@
     <div class="pd-l">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" auto-get-focus="salesOrderQuantity">
         <!-- 信息 -->
-  <div  flash-add-medical ng-model="data1" add-data-callback-fn="flashAddDataCallbackFn(data1)"></div>
-
-        <div class="bb-dashed-line">
-          <h1 class="text-bold">药械闪加</h1>
-          <div class="mgb">
-            <span angucomplete-medical
-                  placeholder="商品名 商品简称 商品名头字母 商品编号 厂家名 厂家名头字母。多个关键字段，用空格分隔"
-                  title-field="name"
-                  url="http://localhost:3000/src/angularjs-api/data/medicalStockList.json"
-                  ng-model="angucomplete_data"
-                  class="inline-block mgr medical-search"
-                  ng-change="addDataItem=angucomplete_data.data;addDataItem.relId=angucomplete_data.id">
-            </span>
-            <span class="mgr medical-num inline-block">
-              <input id="salesOrderQuantity" type="number" class="ipt pr-w-100" ng-model="addDataItem.csmQuantity" ng-keyup="handleAddThisItem($event)" placeholder="数量" />
-            </span>
-            <span class="mgr">
-              <a href="" ng-click="newAddDataItemClick(addDataItem,medical);" class="add-medical-list" title="添加药械"></a>
-            </span>
-            <span class="mgr">
-              <a href="#" class="import-medical-list">导入药械清单</a>
-            </span>
-          </div>
-          <p class="mgb">
-            <span class="mgr-m">{{addDataItem.manufacturer || '生产商名'}}</span>
-            <span>{{addDataItem.specification || '规格'}}</span>
-          </p>
-        </div>
+          <div  flash-add-medical ng-model="data1" add-data-callback-fn="flashAddDataCallbackFn(data1)"></div>
         <!-- 列表 -->
         <div class="pd-v-s">
           <p class="flex-column mgb">
@@ -153,14 +127,14 @@
     <!-- 其他信息 -->
     <div class="relative" style="margin-bottom:60px;">
       <div class="pd-c-l">
-        <!-- 发货方信息 -->
+        <!-- 收货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold">发货方信息
+          <header class="text-n text-bold">收货方信息
             <span class="tools pull-right">
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
           </header>
-          <div class="panel-body" style="display:none;">
+          <div class="panel-body" style="display:none;padding:15px 0;">
             <div class="mgb-l">
               <select ng-if="formData.createAt"
                       class="ipt pr-long-ipt"
@@ -202,15 +176,15 @@
             </div>
           </div>
         </div>
-        <!-- 收货方信息 -->
+        <!-- 发货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold">收货方信息
+          <header class="text-n text-bold">发货方信息
             <span class="tools pull-right">
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
           </header>
-          <div class="panel-body" style="display:none;">
-            <div class="mgb-l">
+          <div class="panel-body" style="display:none;padding:15px 0;">
+            <!-- <div class="mgb-l">
               <select ng-if="formData.createAt"
                       class="ipt pr-long-ipt"
                       data-placeholder="采购方名称"
@@ -219,14 +193,14 @@
                       ng-model="formData.customerId"
                       select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
               </select>
-            </div>
+            </div> -->
             <div class="consignee-info"
                  ajax-if-eval="formData.customerId"
                  ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
                  scope-data="purchaserAddress"
                  callback="customerAddressGetCallBack(formData,purchaserAddress)"
                  ng-class="{'static': purchaserAddress.contacts}">
-              <h1 class="color-9 text-n mgb">收货人信息</h1>
+              <!-- <h1 class="color-9 text-n mgb">收货人信息</h1> -->
               <ul ng-if="formData.customerId" style="min-height:136px;">
                 <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
                   <p class="pdb">{{item.name}} </p>
@@ -236,9 +210,7 @@
                   <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
                 </li>
                 <span>
-                  <button type="button"
-                          class="pr-add-item-whitebg"
-                          style="min-height:136px;"
+                  <button class="pr-add-item-whitebg" style="min-height:136px;"
                           modal-right="700"
                           modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
                           modal-scope="this"
