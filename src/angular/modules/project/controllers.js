@@ -1005,8 +1005,6 @@ define('project/controllers', ['project/init'], function() {
           formData.id = null;
           formData.purchasePrice = formData.price;
 
-          console.log(formData);
-
         requestData('rest/authen/hospitalPurchaseMedical/save', formData, 'POST', 'parameterBody')
         .then(function (results) {
           if (results[1].code === 200) {
