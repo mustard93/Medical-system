@@ -1989,12 +1989,15 @@ function datePeriodSelect () {
               restrict: 'EA',
               scope: {
                   "ngModel": "=",
+
                   "addDataCallbackFn":"&"
               },
               require: "?^ngModel",
               templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
-              link: function($scope, elem, attrs, ngModel) {
+              link: function($scope, elem, $attrs, ngModel) {
 
+
+                  $scope.ajaxUrl=$attrs.ajaxUrl;
                   //添加业务数据
                   $scope.addDataFn = function () {
                     if(!  $scope.addDataCallbackFn){
