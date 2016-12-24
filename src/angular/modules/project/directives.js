@@ -1657,11 +1657,6 @@ function autoGetFocus () {
           $scope.newAddDataItemClick($scope.addDataItem, $scope.medical);
         }
       };
-
-      //Test
-      $scope.test =function (e) {
-        console.log(e);
-      };
     }
   };
 }
