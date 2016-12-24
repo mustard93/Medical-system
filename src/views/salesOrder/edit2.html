@@ -14,6 +14,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
+        onkeydown="if(window.event.keyCode==13) return false;"
         callback="submitFormAfter();watchFormChange('formData')">
     <!-- 头部信息 -->
     <div class="relative bb-line">
@@ -151,14 +152,14 @@
     <!-- 其他信息 -->
     <div class="relative" style="margin-bottom:60px;">
       <div class="pd-c-l">
-        <!-- 发货方信息 -->
+        <!-- 收货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold">发货方信息
+          <header class="text-n text-bold">收货方信息
             <span class="tools pull-right">
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
           </header>
-          <div class="panel-body" style="display:none;">
+          <div class="panel-body" style="display:none;padding:15px 0;">
             <div class="mgb-l">
               <select ng-if="formData.createAt"
                       class="ipt pr-long-ipt"
@@ -200,15 +201,15 @@
             </div>
           </div>
         </div>
-        <!-- 收货方信息 -->
+        <!-- 发货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold">收货方信息
+          <header class="text-n text-bold">发货方信息
             <span class="tools pull-right">
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
           </header>
-          <div class="panel-body" style="display:none;">
-            <div class="mgb-l">
+          <div class="panel-body" style="display:none;padding:15px 0;">
+            <!-- <div class="mgb-l">
               <select ng-if="formData.createAt"
                       class="ipt pr-long-ipt"
                       data-placeholder="采购方名称"
@@ -217,14 +218,14 @@
                       ng-model="formData.customerId"
                       select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
               </select>
-            </div>
+            </div> -->
             <div class="consignee-info"
                  ajax-if-eval="formData.customerId"
                  ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
                  scope-data="purchaserAddress"
                  callback="customerAddressGetCallBack(formData,purchaserAddress)"
                  ng-class="{'static': purchaserAddress.contacts}">
-              <h1 class="color-9 text-n mgb">收货人信息</h1>
+              <!-- <h1 class="color-9 text-n mgb">收货人信息</h1> -->
               <ul ng-if="formData.customerId" style="min-height:136px;">
                 <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
                   <p class="pdb">{{item.name}} </p>
@@ -234,9 +235,7 @@
                   <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
                 </li>
                 <span>
-                  <button type="button"
-                          class="pr-add-item-whitebg" 
-                          style="min-height:136px;"
+                  <button class="pr-add-item-whitebg" style="min-height:136px;"
                           modal-right="700"
                           modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
                           modal-scope="this"
