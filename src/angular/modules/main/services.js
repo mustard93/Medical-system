@@ -161,14 +161,20 @@ function alertOk($rootScope, modal) {
 
     //弹窗提示
     function alertWarn($rootScope, modal) {
-        return function (_text, _callBack) {
-            var _$scope = $rootScope.$new(false);
-            _$scope.confirmText = _text || '确定';
-            modal.openConfirm({
-                template: Config.tplPath+'tpl/dialog-alert.html',
-                scope: _$scope
-            }).then(_callBack);
-        };
+      return function (_text, _callBack) {
+
+
+        toastr.warning(_text,"",  {timeOut: 3000,positionClass: 'toast-top-center'});
+
+      };
+        // return function (_text, _callBack) {
+        //     var _$scope = $rootScope.$new(false);
+        //     _$scope.confirmText = _text || '确定';
+        //     modal.openConfirm({
+        //         template: Config.tplPath+'tpl/dialog-alert.html',
+        //         scope: _$scope
+        //     }).then(_callBack);
+        // };
     }
 
     //普通弹窗
@@ -513,9 +519,18 @@ function alertOk($rootScope, modal) {
             },
             // 对文件名后缀进行判断以区分用户上传的文件类型
             isPicture : function (fileName) {
+              if(!fileName)return false;
+              //http://pangu16.aliyuncs.com/d0a2dcabd56e418ebb001ff137e3ea00.PNG@108w
+              var re = new RegExp("(\.png)|(\.jpg)|(\.jpeg)",["i"])
+              if (!re.exec(fileName)) return false;
+
+              return true;
+
               if (angular.isString(fileName) && fileName.indexOf('.') !== -1) {
+                //img.png@100h
                 var _suffix = fileName.split('.')[1];
-                return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
+                   _suffix = fileName.split('@')[0];//解决缩略图情况
+                  return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
                 // if (_suffix !== 'png' || _suffix !== 'jpg' || _suffix !== 'jpeg' || _suffix !== 'gif') {
                 //   return false;
                 // } else {
@@ -733,7 +748,7 @@ e
       .factory('redirectInterceptor', redirectInterceptor)
       .service('alertOk', ['$rootScope', 'modal',alertOk])
       .service('alertError', ['$rootScope', 'modal',alertError])
-      .service('alertWarn', ['$rootScope', 'modal',alertError])
+      .service('alertWarn', ['$rootScope', 'modal',alertWarn])
       .service('requestData', requestData)
       .service('dialogConfirm', dialogConfirm)
       .service('dialogAlert', dialogAlert)

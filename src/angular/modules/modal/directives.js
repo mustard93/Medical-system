@@ -77,7 +77,7 @@ define('modal/directives', ['modal/init'], function () {
           }
       };
   }
-  modalRight.$inject = ['modal'];
+
 
   //中间遮罩层
   function modalCenter(ngDialog) {
@@ -109,10 +109,10 @@ define('modal/directives', ['modal/init'], function () {
           }
       };
   }
-  modalCenter.$inject = ['modal'];
+
 
   angular.module('manageApp.modal')
       .directive("modal", modal)
-      .directive("modalRight", modalRight)
-      .directive("modalCenter", modalCenter);
+      .directive("modalRight",  ['modal',modalRight])
+      .directive("modalCenter", ['modal',modalCenter]);
 });
