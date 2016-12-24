@@ -1,0 +1,77 @@
+<div class="page-main-content text-n">
+
+  <div class="page-heading">
+      <h3>主面板</h3>
+      <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">闪加药械</li>
+      </ul>
+  </div>
+
+  <div class="pd-c-l">
+      <ul>
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+               flash-add-medical
+              <div  flash-add-medical ng-model="data1" add-data-callback-fn="flashAddDataCallbackFn(data1)"></div>
+            {{data1}}
+
+
+            </div>
+            <div class="panel-body" style="display:none;">
+
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                  add-data-callback-fn：回调业务方法。
+
+                <div  flash-add-medical ng-model="data1" add-data-callback-fn="flashAddDataCallbackFn(data1)"></div>
+                // 添加一条。并缓存数据。返回true表示成功。会处理数据。
+                $scope.flashAddDataCallbackFn = function(flashAddData) {
+
+                  var medical=flashAddData.data.data;
+                  var addDataItem = $.extend(true,{},medical);
+
+                      addDataItem.quantity=flashAddData.quantity;
+                      addDataItem.relId=medical.id;
+                      return true;
+                    }
+              </textarea>
+            </div>
+          </div>
+        </li>
+
+
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
+              <div class="form-tr">
+                  <div class="form-th">自动补全</div>
+                  <div class="form-td">
+                    <span angucomplete placeholder="输入"
+                    title-field="text"
+                     url="data/autocomplete.json" class="inline-block"
+                      ng-model="angucomplete_data1"></span>                </div>
+              </div>
+            </div>
+            <div class="panel-body" style="display:none;">
+
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                <span angucomplete placeholder="输入"
+                 title-field="text" //显示属性名
+                 url="data/data.json" class="inline-block"
+                  ng-model="angucomplete_data1"></span>
+              </textarea>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+</div>

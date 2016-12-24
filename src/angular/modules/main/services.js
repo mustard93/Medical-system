@@ -401,8 +401,17 @@ function alertOk($rootScope, modal) {
       }
 
       //工具类
-      function utils () {
+      function utils ($timeout) {
           var  utilsObj = {
+            //设置输入框获取焦点
+            focusByInputId: function (inputId) {
+              //  $timeout 保障不受其他干扰，最后一个执行。
+              $timeout(function(){
+                  $('#'+inputId).trigger('focus');
+
+              },0);
+
+            },
             //获取内容区的宽度。
             getMainBodyWidth:function(){
                 var t=$("#main_body").width();
@@ -756,7 +765,7 @@ e
       .service('dialogChart', dialogChart)
       .service('buildTree', buildTree)
         .factory('store', store)
-          .factory('utils', utils)
+          .factory('utils', ["$timeout",utils])
       .factory('proLoading', proLoading)
       .config(['$httpProvider', function ($httpProvider) {
           $httpProvider.interceptors.push('redirectInterceptor');
