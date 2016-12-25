@@ -400,7 +400,40 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       $element.trigger('submit');
                   }
 
+                  // 保存  type:save-草稿,submit-提交订单。
+                  function goToFN(key,obj) {
+                    if(!key||!obj)return;
+                    var goToUrl=obj[key];
+                    if(!goToUrl)return;
+                    utils.goTo(goToUrl);
+                  };
 
+                   function updateStatusFN(key,obj,updateStatus) {
+
+                      var url=updateStatus.url;
+                      var data= updateStatus.param;
+                      requestData(url,data, 'POST')
+                        .then(function (results) {
+                          var _data = results[1];
+                         //  alertOk(_data.message || '操作成功');
+                          goToFN(key,obj);
+                        })
+                        .catch(function (error) {
+                          alertError(error || '出错');
+                        });
+
+                  };
+                  // 保存  type:save-草稿,submit-提交订单。
+                  $scope.submitFormAfter1 = function(key,obj,updateStatus) {
+                    $scope.formData.validFlag = false;
+                      if(!key)return;
+                    if(updateStatus&&key==updateStatus.type){
+                      updateStatusFN(key,obj,updateStatus);
+                        return;
+                    }
+                    goToFN(key,obj);
+
+                  };
 
               $scope.reset = function() {
                   DOMForm.reset();

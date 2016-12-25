@@ -1,6 +1,6 @@
 <div class="lossOverOrder-edit"
      ng-controller="salesOrderEditCtrl2"
-     ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
@@ -16,7 +16,7 @@
         scope-data="formData"
         callback="submitFormAfter();watchFormChange('formData')">
 
-        <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
+    <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative bb-line">
       <div class="pd-l">
@@ -61,102 +61,140 @@
         <!-- 列表 -->
         <div class="pd-v-s">
           <p class="flex-column mgb pd">
-            <span class="flex-item-4">
-              单据编号：<em >{{formData.orderNo || '暂无'}}</em>
-              <em  class="mgl">制单人：</em><em>{{formData.orderNo || '暂无'}}</em>
-              <em  class="mgl">审核人：</em><em>{{formData.orderNo || '暂无'}}</em>
-            </span>
-            <span class="flex-item-7 text-right">
-              申请日期：<em >{{formData.orderNo || '暂无'}}</em>
-            </span>
-            <span class="flex-item-1 text-right">状态：<em>未提交</em></span>
-          </p>
-
-          <table class="table pr-table table-hover table-bordered">
-            <thead>
-              <tr>
-                <th class="text-center">商品编码</th>
-                <th class="text-center">商品代码</th>
-                <th class="text-left">商品名称</th>
-                <th class="text-center">规格型号</th>
-                <th class="text-center">单位</th>
-                <th class="text-center">数量</th>
-                <th class="text-center">生产批号</th>
-                <th class="text-center">灭菌批号</th>
-                <th class="text-center">折生产日期</th>
-                <th class="text-center">保质期</th>
-                <th class="text-center">失效日期</th>
-                <th class="text-center">产品执行标准</th>
-                <th class="text-center">保存温度</th>
-                <th class="text-center">产地品牌</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr ng-repeat="tr in formData.orderMedicalNos" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
-                <td class="text-center"></td>
-                <td class="text-left"></td>
-                <td class="text-center">
-                  <select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </select>
-                </td>
-                <td class="text-center">
-                  <select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </select>
-                </td>
-
-                <td class="text-center">
-                  <select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </select>
-                </td>
-
-                <td class="text-center">
-                  <input type="text" class="ipt  text-right" ng-model="tr.price">
-                </td>
-                <td class="text-center">
-                 <input type="text" class=" pr-ipt-60 text-right" ng-model="tr.price">
-                </td>
-                <td class="text-center" ng-init="tr.taxRate='0.17'">
-                  <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.taxRate"> -->
-                  <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
-                    <option value="0.17" ng-selected="true">17%</option>
-                    <option value="0.03">3%</option>
-                  </select>
-                </td>
-                <td class="text-center" ng-init="tr.discountPrice='0'">
-                  ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountPrice">
-                </td>
-                <td class="text-center" ng-init="tr.discountRate='100'">
-                  <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">%
-                </td>
-                <td class="text-center">￥{{tr.price*(1-tr.taxRate)-tr.discountPrice | number:2}}</td>
-                <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice*tr.quantity | number:2}}</td>
-                <td class="text-center">￥{{tr.price*tr.taxRate-tr.discountPrice | number:2}}</td>
-                <td class="text-center relative">￥{{tr.price*tr.quantity-tr.discountPrice*tr.quantity | number:2}}
-                  <div class="sales-order-item-delbtn">
-                    <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
-                    <div class="bg-white">
-                      <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                      <p class="pd-v-s">
-                        <a href="" ng-click="return;">取消</a>
-                        <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                                ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
-                        </button>
-                      </p>
+            <div class="flex-column mgb ">
+              <div class="flex-item-10">
+                <span class="flex-item-1 pd">
+                  单据编号：<em >{{formData.orderNo || '暂无'}}</em>
+                </span>
+                  <div class="pd-v-s flex-item-4 ">
+                    <div class="flex-item-6 text-left">
+                      <span class="mgl-x-l">申请人：</span>
+                      <select class="pd-select pd-s mgb-m inline"
+                              data-placeholder=" "
+                              chosen
+                              ng-model="formData.id"
+                              default-empty
+                              alert-error
+                              select-source="rest/authen/user/queryForSelectOption">
+                      </select>
+                    </div>
+                    <div class="flex-item-6">
+                      <span class="mgl-x-l">部门：</span>
+                      <select class="pd-select pd-s mgb-m inline"
+                              data-placeholder=" "
+                              chosen
+                              ng-model="formData.departmentId"
+                              default-empty
+                              alert-error
+                              select-source="rest/authen/department/queryForSelectOption.json">
+                      </select>
                     </div>
                   </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+                <span class="flex-item-4  pd">
+                  <!-- 单据编号：<em >{{formData.orderNo || '暂无'}}</em> -->
+                  <em  class="mgl">制单人：</em><em class="color-orange">{{formData.inputUser.n|| '暂无'}}</em>
+                  <em  class="mgl">审批人：</em><em class="color-orange">{{formData.approverUser || '暂无'}}</em>
+                </span>
+              </div>
+
+
+              <div class="flex-item-2">
+                <span class="flex-item-6 text-right pd">
+                  申请日期：<em >{{formData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
+                </span>
+                <span class="flex-item-6 text-right pd">状态：<em>{{formData.orderStatus}}</em></span>
+              </div>
+
+            </div>
+          <div class="outside-table-d">
+            <table class="table pr-table pr-new-table table-wid">
+              <thead>
+                <tr>
+                  <th class="text-center">商品编码</th>
+                  <th class="text-center">商品代码</th>
+                  <th class="text-left">商品名称</th>
+                  <th class="text-center">规格型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">数量</th>
+                  <th class="text-center">生产批号</th>
+                  <th class="text-center">灭菌批号</th>
+                  <th class="text-center">生产日期</th>
+                  <th class="text-center">保质期</th>
+                  <th class="text-center">失效日期</th>
+                  <th class="text-center">产品执行标准</th>
+                  <th class="text-center">保存温度</th>
+                  <th class="text-center">产地品牌</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white">
+                <tr ng-repeat="tr in formData.orderMedicalNos" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                  <td class="text-center"></td>
+                  <td class="text-left"></td>
+                  <td class="text-center">
+                    <select>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                    </select>
+                  </td>
+                  <td class="text-center">
+                    <select>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                    </select>
+                  </td>
+
+                  <td class="text-center">
+                    <select>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                    </select>
+                  </td>
+
+                  <td class="text-center">
+                    <input type="text" class="ipt  text-right" ng-model="tr.price">
+                  </td>
+                  <td class="text-center">
+                   <input type="text" class=" pr-ipt-60 text-right" ng-model="tr.price">
+                  </td>
+                  <td class="text-center" ng-init="tr.taxRate='0.17'">
+                    <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.taxRate"> -->
+                    <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
+                      <option value="0.17" ng-selected="true">17%</option>
+                      <option value="0.03">3%</option>
+                    </select>
+                  </td>
+                  <td class="text-center" ng-init="tr.discountPrice='0'">
+                    ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountPrice">
+                  </td>
+                  <td class="text-center" ng-init="tr.discountRate='100'">
+                    <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">%
+                  </td>
+                  <td class="text-center">￥{{tr.price*(1-tr.taxRate)-tr.discountPrice | number:2}}</td>
+                  <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice*tr.quantity | number:2}}</td>
+                  <td class="text-center">￥{{tr.price*tr.taxRate-tr.discountPrice | number:2}}</td>
+                  <td class="text-center relative">￥{{tr.price*tr.quantity-tr.discountPrice*tr.quantity | number:2}}
+                    <div class="sales-order-item-delbtn">
+                      <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
+                      <div class="bg-white">
+                        <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                        <p class="pd-v-s">
+                          <a href="" ng-click="return;">取消</a>
+                          <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                                  ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
+                          </button>
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
       </div>
     </div>
@@ -168,44 +206,7 @@
           <h1>备注</h1>
           <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
-        <!-- 功能按钮 -->
-        <!-- <div class="pdb-xxl text-right">
-          <span class="mgl">
-            <a ng-if="changeFlag" href="javascript:;"
-               handle-this-click
-               dialog-title="确认返回?"
-               dialog-content="该购需单存在未保存数据，是否保存?"
-               dialog-template="pr-dialog-return.html"
-               nosave-callback="goTo('#/lossOverOrder/query.html')"
-               save-callback="submitForm('editForm','exit')">返回</a>
 
-               <a ng-if="!changeFlag" href="#/lossOverOrder/query.html" >返回</a>
-          </span>
-          <span>
-            <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
-               href="javascript:;"
-               class="pr-color-red mgl"
-               handle-this-click
-               dialog-title="确认删除?"
-               dialog-content="您确认删除这条购需单吗?"
-               dialog-template="dialog-confirm.html"
-               request-url="rest/authen/lossOverOrder/delete?id={{formData.id}}"
-               call-back="$root.goTo('#/lossOverOrder/query.html')">删除
-            </a>
-          </span>
-          <span class="mgl">
-            <button class="pr-btn-save-glodbg" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
-          </span>
-          <span class="mgl">
-            <button ng-click="submitForm('editForm','submit')"
-                    class="pr-btn-create-glodbg"
-                    ng-disabled="!formData.orderMedicalNos.length ||
-                                 !formData.customerId ||
-                                 !formData.saleUserId ||
-                                 !canSubmitForm()">生成销售单
-            </button>
-          </span>
-        </div> -->
       </div>
     </div>
 
@@ -249,14 +250,6 @@
 
                   >审核
           </button>
-
-          <!-- <button ng-click="submitForm('editForm','submit')"
-                  class="pr-btn-create-glodbg">审核
-              ng-disabled="!formData.orderMedicalNos.length ||
-                           !formData.customerId ||
-                           !formData.saleUserId ||
-                           !canSubmitForm()"
-          </button> -->
       </div>
     </div>
   </form>
