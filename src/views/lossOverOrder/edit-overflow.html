@@ -190,7 +190,17 @@
                   </td>
 
                   <td class="text-center">
-                    <input type="text" class="ipt ipt-w text-right" ng-model="tr.quantity">
+                    <div class="order-goods-num">
+                      <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
+                      <span class="inline-block">
+                        <input type="number"
+                               class="inline pr-table-input text-center item-quantity"
+                               style="width:60px;"
+                               ng-model="tr.quantity"
+                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                      </span>
+                      <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
+                    </div>
                   </td>
 
                   <td class="text-center">
