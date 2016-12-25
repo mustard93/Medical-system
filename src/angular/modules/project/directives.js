@@ -1643,54 +1643,6 @@ function salesorderEditShowDelbtn () {
   };
 }
 
-/**
- * [autoGetFocus 根据条件让某些页面控件自动获取焦点]
- * @return {[type]} [description]
- * @author liuzhen
- */
-function autoGetFocus () {
-  return {
-    restrict: 'A',
-    link: function ($scope, $element, $attrs) {
-
-      // if (!$attrs.autoGetFocus) {
-      //   throw new Error('autoGetFocus directive must be true');
-      // }
-      //
-      // function getFocus (id) {
-      //   $('#' + id).focus();
-      // }
-
-      $scope.$watch('addDataItem', function (newVal) {
-        var _count = 0;
-        for (var item in newVal) {
-          _count++;
-        }
-        if (_count !== 0) {
-          $('#salesOrderQuantity').each(function () {
-            $(this)[0].focus();
-          });
-        } else {
-          // console.log($('#salesOrderEditMedicalSearchStr'));
-          if ($('#salesOrderEditMedicalSearchStr')[0] !== undefined) {
-            $('#salesOrderEditMedicalSearchStr').val("");
-            $('#salesOrderEditMedicalSearchStr')[0].focus();
-          }
-        }
-      });
-
-
-    },
-    controller: function ($scope, $attrs) {
-      $scope.handleAddThisItem = function (e) {
-        var keycode = window.event ? e.keyCode : e.which;
-        if (keycode == 13) {
-          $scope.newAddDataItemClick($scope.addDataItem, $scope.medical);
-        }
-      };
-    }
-  };
-}
 
 /**
   	 *
@@ -2069,7 +2021,6 @@ angular.module('manageApp.project')
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])
   .directive("umeditor", ["$timeout",umeditor])  // html编辑器
-  .directive("autoGetFocus", [autoGetFocus])
   .directive("salesorderEditShowDelbtn", [salesorderEditShowDelbtn])
   .directive("handleTextOverflow", [handleTextOverflow])  // 卡片式列表页面内容超出范围的处理(动态宽度)
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
