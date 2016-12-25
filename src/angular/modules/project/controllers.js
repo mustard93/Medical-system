@@ -354,7 +354,7 @@ define('project/controllers', ['project/init'], function() {
             return;
           }
           if ($scope.submitForm_type == 'submit') {
-            $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
+            $scope.goTo('#/confirmOrder/get2.html?id='+$scope.formData.id);
           }
           if ($scope.submitForm_type == 'save') {
             // console.log(this);
