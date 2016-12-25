@@ -1,7 +1,8 @@
 <div class="content-wrapper loss-over-order"
      ng-controller="QualificationApplyCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;
-      formData.applyType='报溢'">
+      formData.applyType='报溢';listParams.applyType='报溢'
+      ">
   <!-- 模块标题及面包屑 -->
   <div class="page-header-info">
     <p class="mgb">库存管理 / <em class="color-custom-orange">报溢单</em></p>
@@ -20,11 +21,11 @@
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl mgr relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
-        <div class="pos-abs order-create-btn">
+        <div ng-if="$root.hasAuthor('报溢单新建')" class="pos-abs order-create-btn">
           <a href="#/lossOverOrder/edit-overflow.html" title="新建报溢单"><i></i><span class="text-s">新建报溢单</span></a>
         </div>
         <div class="order-status-btn pos-tr text-right"
-             ajax-url="rest/authen/lossOverOrder/countByOrderStatus.json"
+             ajax-url="rest/authen/lossOverOrder/countByOrderStatus.json?listParams.applyType='报溢'"
              scope-data="countByOrderStatus"
              alert-error>
             <div class=""></div>
@@ -82,7 +83,7 @@
           <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
           <p class="text-center">什么也没有</p>
         </div>
-        <ul ng-if="tbodyList.length">
+        <ul ng-if="tbodyList.length" class="li-min-h">
           <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}">
               <div class="relative pd-m">
@@ -134,7 +135,7 @@
                   <p class="text-center bb-dotted-line pdb">报溢品种数</p>
                 </div>
                 <div>
-                  <h1 class="mg-m text-center text-m color-6 pd-c-m text-ellips-s">{{tr.warehouseName}}</h1>
+                  <h1 class="mg-m text-center text-m color-6 pd-c-m text-ellips-s">{{tr.warehouseName  || '暂无'}}</h1>
 
                 </div>
                 <div class="bt-dotted-line">

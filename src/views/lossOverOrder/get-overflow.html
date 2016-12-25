@@ -1,5 +1,5 @@
 <div class="content-wrapper"
-     ajax-url="rest/authen/lossOverOrder/get.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
      alert-error>
@@ -8,115 +8,136 @@
        <div class="pd-l">
          <!-- 标题 -->
          <div class="mgb-m">
-           <p class="mgb-m">库存管理 / <em class="color-custom-orange">报损单</em>/ 新建报溢申请单</p>
-           <h1 class="pr-font-22 ">报溢申请单</h1>
+           <p class="mgb-m">库存管理 / <em class="color-custom-orange">报溢单</em>/ 报溢申请单详情</p>
+           <h1 class="pr-font-22 ">报溢申请单详情</h1>
          </div>
          <h1 class="color-black text-l">
-           昆明库
-           <!-- {{showData1.name}} -->
+           <!-- 昆明库 -->
+           {{showData.warehouseName}}
        </h1>
        </div>
      </div>
-<!-- 主内容区域 -->
+     <!-- 主内容区域 -->
     <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-      <div class="pd-v color-9">
+      <div class=" color-9">
         <p class="flex-column mgb  pd">
           <span class="flex-item-4">
-            单据编号：<em >{{formData.orderNo || '暂无'}}</em>
-            <em  class="mgl">制单人：</em><em>{{formData.orderNo || '暂无'}}</em>
-            <em  class="mgl">审核人：</em><em>{{formData.orderNo || '暂无'}}</em>
+            单据编号：<em >{{showData.orderNo || '暂无'}}</em>
+            <em  class="mgl">部门：</em><em>{{showData.departmentName|| '暂无'}}</em>
+            <em  class="mgl">申请人：</em><em class="color-orange">{{showData.saleUserName|| '暂无'}}</em>
+            <em  class="mgl">制单人：</em><em class="color-orange">{{showData.inputUser.n|| '暂无'}}</em>
+            <em  class="mgl">
+              审批人：</em><em class="color-orange">{{showData.inputUser.n || '暂无'}}</em>
           </span>
           <span class="flex-item-7 text-right">
-            申请日期：<em >{{formData.orderNo || '暂无'}}</em>
+            申请日期：<em >{{showData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
           </span>
-          <span class="flex-item-1 text-right">状态：<em>未提交</em></span>
+          <span class="flex-item-1 text-right">状态：<em>{{showData.orderStatus}}</em></span>
         </p>
-        <table-list list-data="rest/authen/lossOverOrder/query.json"
-                    list-params="listParams"
-                    search-mode="noCaseSensitive"
-                    search-param="q">
+
           <!-- 主内容头部 -->
-          <div class="content-wrapper-heading h-l relative">
             <!-- 主内容区域 -->
-            <div class="content-wrapper-main">
-              <div ng-if="!status.isLoading">
-                <div ng-if="tbodyList.length==0">
-                  <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-                  <p class="text-center">什么也没有</p>
-                </div>
-                <div class="full-width " ><!-- outside-table-d -->
-                  <table ng-if="tbodyList.length" class="table-hover table-striped table-bordered table-content full-width">    <!-- table-wid -->
+            <div class="content-wrapper-main ">
+              <div class="outside-table-d">
+                <table class=" pr-table table-hover table-bordered table-wid" >    <!-- table-wid -->
                     <thead class="pr-bg-side">
                       <tr>
                         <th class="text-center">商品编码</th>
                         <th class="text-center">商品代码</th>
-                        <th class="text-left">商品名称</th>
+                        <th class="text-center">商品名称</th>
                         <th class="text-center">规格型号</th>
                         <th class="text-center">单位</th>
                         <th class="text-center">数量</th>
                         <th class="text-center">生产批号</th>
                         <th class="text-center">灭菌批号</th>
-                        <th class="text-center">折生产日期</th>
+                        <th class="text-center">生产日期</th>
                         <th class="text-center">保质期</th>
                         <th class="text-center">失效日期</th>
                         <th class="text-center">产品执行标准</th>
                         <th class="text-center">保存温度</th>
                         <th class="text-center">产地品牌</th>
+                        <th class="text-center">产品注册证号</th>
+                        <th class="text-center">注册证有效期</th>
                       </tr>
                     </thead>
+
                     <tbody class="pr-bg-white" >
-                      <tr ng-repeat="tr in tbodyList track by $index">
-                        <td  >{{$index + 1}}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
 
+                      <tr ng-repeat="tr in showData.orderMedicalNos" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                        <td class="text-center">{{tr.code}}</td>
+                        <td class="text-center">{{tr.goodsCode}}</td>
+                        <td class="text-center">
+                          {{tr.name}}
+                        </td>
+                        <td class="text-center">
+                          {{tr.modelType}}
+                        </td>
+                        <td class="text-center">
+                          {{tr.unit}}
+                        </td>
+
+                        <td class="text-right">
+                        {{tr.quantity}}
+                        </td>
+
+                        <td class="text-center">
+                          <!-- 生产批号 -->
+                        </td>
+                        <td class="text-center">
+                          <!-- 灭菌批号 -->
+                        </td>
+                        <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                        <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
+                        <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
+
+                        <td class="text-center">
+                          <!-- 产品执行标准 -->
+                        </td>
+
+                        <td class="text-center">
+                          <!-- 保存温度 -->
+                        </td>
+
+                        <td class="text-center">
+                          {{tr.brand}}
+                        </td>
+
+                        <td class="text-center">
+                        {{tr.productionEnterpriseLicenseNo}}
+                        </td>
+                        <td>
+                          {{tr.productionEnterpriseLicensePeriod}}
+                        </td>
                       </tr>
-
                     </tbody>
-                  </table>
-                  <!-- 分页 -->
-                  <div class="clearfix body-bg">
-                      <div class="fr body-bg">
-                          <pagination status="status"></pagination>
-                      </div>
-                  </div>
-                </div>
+                </table>
               </div>
             </div>
-          </div>
-        </table-list>
-      </div>
-      </div>
-
-    </div>
-    <!-- 其他信息 -->
-    <div class="relative mgt-l" style="margin-bottom:60px;">
-      <div class="pd-c-l">
-        <!-- 备注 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <h1>备注</h1>
-          <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
-        </div>
 
       </div>
     </div>
-
-<!-- 已生成订单部分 -->
-
-
-    <div class="handle-btn-area relative">
-      <div class="btn-area over-write-wid">
-          <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-reimburse.html" >返回报溢单列表</a>
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
+      <!-- 备注 -->
+      <div class="note">
+        <p class="pd-v-l">备注：{{showData.note}}</p>
       </div>
     </div>
+</div>
+
+
+<!-- <div class="handle-btn-area relative">
+  <div class="btn-area over-write-wid">
+      <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-overflow.html" >返回报溢单列表</a>
+  </div>
+</div> -->
+<div class="handle-btn-area relative">
+  <div class="btn-area over-write-wid">
+      <span class="mgr-l">
+        <a  href="#/lossOverOrder/query-overflow.html">返回报溢单列表</a>
+      </span>
+      <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
+       custom-menu-list
+       custom-menu-arr="{{showData.didateFilter.buttons}}">
+      </span>
+  </div>
+</div>
