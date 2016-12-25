@@ -1,0 +1,26 @@
+<div class="bb-dashed-line">
+  <h1 class="text-bold">药械闪加</h1>
+  <div class="mgb">
+    <span angucomplete-medical
+          placeholder="商品名 商品简称 商品名头字母 商品编号 厂家名 厂家名头字母。多个关键字段，用空格分隔"
+          title-field="name"
+          url="{{ajaxUrl}}"
+          ng-model="ngModel.data"
+          class="inline-block mgr medical-search"
+          ng-change="$root.utils.focusByInputId('flashAddMedical_input_count')">
+    </span>
+    <span class="mgr medical-num inline-block">
+      <input id="flashAddMedical_input_count" type="number" class="ipt pr-w-100" ng-model="ngModel.quantity" ng-keyup="handleAddThisItem($event)" placeholder="数量" />
+    </span>
+    <span class="mgr">
+      <a href="" ng-click="addDataFn();" class="add-medical-list" title="添加药械"></a>
+    </span>
+    <span class="mgr">
+      <a href="#" class="import-medical-list">导入药械清单</a>
+    </span>
+  </div>
+  <p class="mgb">
+    <span class="mgr-m">{{ngModel.data.manufacturer || '生产商名'}}</span>
+    <span>{{ngModel.data.specification || '规格'}}</span>
+  </p>
+</div>

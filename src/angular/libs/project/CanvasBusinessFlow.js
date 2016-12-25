@@ -205,7 +205,7 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
 
 
           addNodeByEvent:function(event1){
-            var node = new JTopo.Node(event1.relId);
+            var node = new JTopo.Node(event1.name);
                node.data=event1;
             node.setSize(120, 44);  // 尺寸
 
@@ -216,7 +216,7 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
             //   node.radius = 24; // 半径
             //   node.fillColor = '0,0, 255'; // 填充颜色
            node.textPosition = 'Bottom_Center'; // 文本位置
-           node.text=event1.relId;
+           node.text=event1.name;
             node.font='12px PingFangSC-Medium';
              node.fontColor = this.options.node.fontColor;
 

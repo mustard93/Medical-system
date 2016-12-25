@@ -1657,11 +1657,6 @@ function autoGetFocus () {
           $scope.newAddDataItemClick($scope.addDataItem, $scope.medical);
         }
       };
-
-      //Test
-      $scope.test =function (e) {
-        console.log(e);
-      };
     }
   };
 }
@@ -1935,7 +1930,108 @@ function datePeriodSelect () {
   }
 
 
+
+      /**
+       * 自动补全
+       */
+      function angucompleteMedical($parse, requestData, $sce, $timeout) {
+          return {
+              restrict: 'EA',
+              scope: {
+                  "placeholder": "@",
+                  "selectedItem": "=?",
+                  "url": "@",
+                  "titleField": "@",
+                  "descriptionField": "@",
+                  //"localData": "=?",
+                  "searchFields": "@",
+                  "matchClass": "@",
+                  "ngDisabled": "=?"
+              },
+              require: "?^ngModel",
+              templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
+              link: function($scope, elem, attrs, ngModel) {
+                  $scope.lastSearchTerm = null;
+                  $scope.currentIndex = null;
+                  $scope.justChanged = false;
+                  $scope.searchTimer = null;
+                  $scope.hideTimer = null;
+                  $scope.searching = false;
+                  $scope.pause = 300;
+                  $scope.minLength = 1;
+                  $scope.searchStr = null;
+
+                  require(['project/angucomplete'], function(angucomplete) {
+                        $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+
+                  });//angucomplete
+
+              }
+          };
+      };
+
+
+      /**
+       * 闪加药械
+
+       ngModel={
+       data:{},//药械基本信息
+       count：10 //输入数量
+     }
+       */
+      function flashAddMedical() {
+          return {
+              restrict: 'EA',
+              scope: {
+                  "ngModel": "=",
+
+                  "addDataCallbackFn":"&"
+              },
+              require: "?^ngModel",
+              templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
+              link: function($scope, elem, $attrs, ngModel) {
+
+
+                  $scope.ajaxUrl=$attrs.ajaxUrl;
+                  //添加业务数据
+                  $scope.addDataFn = function () {
+                    if(!  $scope.addDataCallbackFn){
+                      console.log("scope.addDataCallback function is null!");
+                      return true;
+                    }
+
+                    var  flag=$scope.addDataCallbackFn($scope.ngModel);
+                    if(!flag){//业务逻辑判断添加失败，则不清空数据。
+                      return false;
+                    }
+                      //清空输入数据
+                    $scope.ngModel={};
+                    //自动补全查询输入框获得焦点
+                    $('#angucompleteMedical_searchInputId').val("");
+                    $('#angucompleteMedical_searchInputId').trigger('focus');
+
+                    return false;
+
+                  };
+
+                  //input输入框回车事件。
+                  $scope.handleAddThisItem = function (e) {
+                    var keycode = window.event ? e.keyCode : e.which;
+                    if (keycode == 13) {
+                      $scope.addDataFn();
+
+                    }
+                      return false;
+                  };
+
+              }
+          };
+      };
+
+
 angular.module('manageApp.project')
+  .directive("flashAddMedical", [flashAddMedical])
+  .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])
   .directive("umeditor", ["$timeout",umeditor])  // html编辑器
