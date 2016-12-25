@@ -1670,45 +1670,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     };
 
     /**
-     * 自动补全
-     */
-    function angucompleteMedical($parse, requestData, $sce, $timeout) {
-        return {
-            restrict: 'EA',
-            scope: {
-                "placeholder": "@",
-                "selectedItem": "=?",
-                "url": "@",
-                "titleField": "@",
-                "descriptionField": "@",
-                //"localData": "=?",
-                "searchFields": "@",
-                "matchClass": "@",
-                "ngDisabled": "=?"
-            },
-            require: "?^ngModel",
-            templateUrl: Config.tplPath + 'tpl/autocomplete-medicalStock.html',
-            link: function($scope, elem, attrs, ngModel) {
-                $scope.lastSearchTerm = null;
-                $scope.currentIndex = null;
-                $scope.justChanged = false;
-                $scope.searchTimer = null;
-                $scope.hideTimer = null;
-                $scope.searching = false;
-                $scope.pause = 300;
-                $scope.minLength = 1;
-                $scope.searchStr = null;
-
-                require(['project/angucomplete'], function(angucomplete) {
-                      $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
-
-                });//angucomplete
-
-            }
-        };
-    };
-
-    /**
      * checkbox
      */
     function checkboxGroup() {
@@ -2765,7 +2726,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         .directive("relativeSelect", relativeSelect)
         .directive("chart", eChart)
         .directive("angucomplete", ["$parse", "requestData", "$sce", "$timeout",angucomplete])
-        .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
+
+
         .directive("checkboxGroup", checkboxGroup)
         .directive("chosen", chosen)
         .directive("formItem", formItem)
