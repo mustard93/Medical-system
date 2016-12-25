@@ -38,13 +38,22 @@
             </div>
         </div>
       </div>
-      <!-- 右侧搜索 -->
+      <!-- 搜索 -->
       <div class="text-right pos-rb order-list-search">
-        <select class="pr-select select-wd mgr-l" >
-          <option >选择仓库</option>
-          <option >仓库2</option>
-          <option >仓库3</option>
+        <select class="pr-select select-wd"
+         chosen
+          ng-model="listParams.warehouseCode"
+          default-empty="选择仓库"
+          select-source="rest/authen/warehouse/queryForSelectOption">
         </select>
+        <!--
+            <select class="pr-select select-wd mgr"
+                    chosen
+                    ng-model="listParams.warehouseCode"
+                    default-empty="选择仓库"
+                    select-source="rest/authen/warehouse/queryForSelectOption">
+            </select> -->
+
           <span class="mgr">申请日期：</span>
           <input type="text"
                  datepicker
@@ -109,7 +118,7 @@
                 <div class="flex-column qurey text-s color-9">
                   <span class="flex-item-6 mgb-s">单据编号：
                     <strong class="color-6 text-normal">{{tr.orderNo}}</strong></span>
-                  <span class="flex-item-6 pdl mgb-s">申请日期：
+                  <span class="flex-item-6 pdl mgb-s text-right">申请日期：
                     <strong class="color-6 text-normal">{{tr.applyDate | date : 'yyyy-MM-dd'}}</strong>
                   </span>
                 </div>
@@ -127,7 +136,9 @@
 
                 </div>
                 <div class="bt-dotted-line">
-                  <p class="pd-l "><em>备注：</em></p>
+                  <p class="pd-l "><em>备注：</em>
+                    <em>{{tr.note}}</em>
+                  </p>
                 </div>
 
               </div>

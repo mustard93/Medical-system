@@ -1355,6 +1355,7 @@ function canvasBusinessFlow (modal,utils) {
               var relId= that.currentNode.data.relId;
               if(!moduleType||!relId){
                 console.log("moduleType="+moduleType+",relId="+relId);
+                return;
               }
               // var url="/salesOrder/get.html?id="+relId;
               var url="#/"+moduleType+"/get.html?id="+relId;
