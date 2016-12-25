@@ -348,14 +348,18 @@ define('project/controllers', ['project/init'], function() {
 
         // 保存  type:save-草稿,submit-提交订单。
         $scope.submitFormAfter = function() {
+
           $scope.formData.validFlag = false;
+
           if ($scope.submitForm_type == 'exit') {
             $scope.goTo('#/salesOrder/query.html');
             return;
           }
+
           if ($scope.submitForm_type == 'submit') {
             $scope.goTo('#/confirmOrder/get2.html?id='+$scope.formData.id);
           }
+
           if ($scope.submitForm_type == 'save') {
             // console.log(this);
           }
