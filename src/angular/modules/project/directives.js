@@ -1497,7 +1497,7 @@ function medicalStockMouseOver(utils){
             var bt=mouseOverButtons[i];
               //bt.url; 跳转url
               //bt.className;
-              var tmp="<a  href='"+bt.url+"' title='"+bt.title+"'>1111<span class='"+bt.className+"'></span></a>";
+              var tmp="<a style='width:32px;height:32px;display:inline-block' href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
               // 特殊处理
               // if('pos-s pr-arrow-r'==bt.className){
               //   tmp="<a href='"+bt.url+"'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>";
@@ -1514,19 +1514,21 @@ function medicalStockMouseOver(utils){
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
 
+          console.log(utils.getMainBodyWidth());
+
           $element.addClass("bg-c");
           if(!moveBtnDiv)return;
           //+document.body.scrollLeft+
           moveBtnDivWidth=34*btnCount;
           var y =$element.offset().top -document.body.scrollTop;
-          var x= utils.getMainBodyWidth()-moveBtnDivWidth-30;
+          var x= utils.getMainBodyWidth();
           //
           moveBtnDiv.css({
              "position": "fixed",
              "width":moveBtnDivWidth,
              "height":$element.height(),
-               "top": y,
-               "left": x
+             "top": y,
+             "left": x
            });
           //  console.log("moveBtnDivWidth="+moveBtnDivWidth+",x="+x+",y="+y+",utils.getMainBodyWidth()="+utils.getMainBodyWidth());
           //  console.log("e.pageX="+e.pageX+",e.pageY"+e.pageY);
@@ -1636,10 +1638,11 @@ function salesorderEditShowDelbtn () {
           $(this).next().show();
         });
       });
-    },
-    controller: function ($scope, $element) {
-      // ...
     }
+    // ng1里如果指令中controller属性没有内容，则不能添加，否则编译会出错
+    // controller: function ($scope, $element) {
+    //   // ...
+    // }
   };
 }
 
