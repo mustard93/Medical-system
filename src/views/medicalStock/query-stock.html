@@ -1,139 +1,133 @@
-
 <div ng-controller="pageCtrl" class="pd-c-xxxl left-se-side-par ">
   <div ng-controller="MedicalStockController" class="page-main-content left-se-side-par">
+
     <ng-include src="'views/medicalStock/left-second-side.html'" class="pos-abs left-se-side-par"></ng-include>
 
-      <div class="pd-c-xxl pr-pos">
-             <div class="page-header-info ">
-               <p class="mgb bb-line">库存报表 / <em class="color-custom-orange">库存查询</em></p>
-               <div ng-if="listParams.medicalAttributeId"
-                    ajax-url="rest/authen/medicalAttribute/get?id={{listParams.medicalAttributeId}}"
-                    scope-data="showData1"
-                    alert-error>
-                 <h1 class="color-black text-l">
-                   {{showData1.name}}
-               </h1>
-              </div>
-             </div>
+    <div class="pd-c-xxl pr-pos">
+       <div class="page-header-info ">
+         <p class="mgb bb-line">库存报表 / <em class="color-custom-orange">库存查询</em></p>
+         <div ng-if="listParams.medicalAttributeId"
+              ajax-url="rest/authen/medicalAttribute/get?id={{listParams.medicalAttributeId}}"
+              scope-data="showData1"
+              alert-error>
+           <h1 class="color-black text-l">
+             {{showData1.name}}
+         </h1>
+        </div>
+       </div>
 
-             <!-- 主体内容 start-->
-             <div class="content-wrapper-main mgt">
-              <!-- 表格 start -->
-              <div class="pd-c"
+       <!-- 主体内容 start-->
+       <div class="content-wrapper-main mgt">
+          <!-- 表格 start -->
+          <div class="pd-c"
                scope-data="showData"
                alert-error>
-               <table-list list-data="rest/authen/medicalStock/query.json"
-                           list-params="listParams"
-                           search-mode="noCaseSensitive"
-                           search-param="q">
-                 <!-- 搜索框 start-->
-                <div class="text-left order-list-search relative">
-                   <input type="text" class="ipt pdr-xxl" placeholder="商品编号/商品全名/注册证号" ng-model="listParams.q">
-                    <i class=""></i>
-                </div>
+           <table-list list-data="rest/authen/medicalStock/query.json"
+                       list-params="listParams"
+                       search-mode="noCaseSensitive"
+                       search-param="q">
 
-                  <!-- 搜索框 end-->
-                 <!-- 主内容头部 -->
-                 <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
-                 <!-- 主内容区域 -->
-                 <div class="content-wrapper-main">
+            <div class="text-left order-list-search relative">
+              <input type="text" class="ipt pdr-xxl" placeholder="商品编号/商品全名/注册证号" ng-model="listParams.q">
+              <i class=""></i>
+            </div>
 
-                     <div class="pd-c outside-table-d" ><!-- outside-table-d -->
-                       <table  class="table-hover table-striped table-mr table-bordered table-content table-wid ">    <!-- table-wid -->
-                         <thead class="pr-bg-side">
-                           <tr>
-                             <th>序号</th>
-                             <th>商品编号</th>
-                             <th>商品代码</th>
-                             <th>商品名称</th>
-                             <th>规格型号</th>
-                             <th>商品分类编码</th>
-                             <th>商品分类名称</th>
-                             <th>单位</th>
-                             <th>注册证号</th>
-                             <th>可用数量</th>
-                             <th>现存数量</th>
-                             <th>其中冻结数量</th>
-                             <th>其中锁定数量</th>
-                             <th>其中待处理数量</th>
-                             <th>到货/在检数量</th>
-                             <th>采购在途数量</th>
-                             <th>已请购数量</th>
-                             <th>预计入库数量</th>
-                             <th>销售订单数量</th>
-                             <th>代发货数量</th>
-                             <th>预计出库数量</th>
+             <!-- 主内容头部 -->
+            <!-- <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative"></div> -->
 
-                           </tr>
-                         </thead>
-                         <tbody class="pr-bg-white" >
-                           <tr ng-repeat="tr in tbodyList track by $index"
-                           ng-init=''
-                          medical-stock-mouse-over
-                          mouse-over-buttons-json=
-                           '[{"url":"#/medicalStock/queryInoutstockDetailChange.html?medicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
-                           "className":"circle-icon pos-icon1 pos-abs pr-icon-bg11"},
-                           {"url":"#/medicalStock/getByCodeAndOrganization.html?relMedicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
-                           "className":"pos-s pr-arrow-r"}]'
-                           >
-                             <td  >{{$index + 1}}</td>
-                             <td>{{tr.code}}</td>
-                             <td></td>
-                             <td>{{tr.name}}</td>
-                             <td>{{tr.specification}}</td>
-                             <td>{{tr.medicalAttribute.code}}</td>
-                             <td>{{tr.medicalAttribute.name}}</td>
-                             <td>{{tr.unit}}</td>
-                             <td>{{tr.stockModel.drugAdministrationCode}}</td>
-                             <td>{{tr.stockModel.salesQuantity}}</td>
-                             <td>{{tr.stockModel.quantity}}</td>
-                             <td>{{tr.stockModel.freezeQuantity}}</td>
-                             <td>{{tr.stockModel.lockingQuantity}}</td>
-                             <td>{{tr.stockModel.handleQuantity}}</td>
-                             <td>{{tr.stockModel.beingCheckedQuantity}}</td>
-                             <td>{{tr.stockModel.purchaseInWayQuantity}}</td>
-                             <td>{{tr.stockModel.purchaseRequisitionQuantity}}</td>
-                             <td>{{tr.stockModel.inStockQuantity}}</td>
-                             <td>{{tr.stockModel.confirmOrderQuantity}}</td>
-                             <td>{{tr.stockModel.shippedQuantity}}</td>
-                             <td>{{tr.stockModel.outStockQuantity}}</td>
-                           </tr>
+            <!-- 主内容区域 -->
+            <div class="pd-c outside-table-d" ><!-- outside-table-d -->
+              <table class="table-hover table-striped table-mr table-bordered table-content table-wid ">    <!-- table-wid -->
+                <thead class="pr-bg-side">
+                  <tr>
+                    <th>序号</th>
+                    <th>商品编号</th>
+                    <th>商品代码</th>
+                    <th>商品名称</th>
+                    <th>规格型号</th>
+                    <th>商品分类编码</th>
+                    <th>商品分类名称</th>
+                    <th>单位</th>
+                    <th>注册证号</th>
+                    <th>可用数量</th>
+                    <th>现存数量</th>
+                    <th>其中冻结数量</th>
+                    <th>其中锁定数量</th>
+                    <th>其中待处理数量</th>
+                    <th>到货/在检数量</th>
+                    <th>采购在途数量</th>
+                    <th>已请购数量</th>
+                    <th>预计入库数量</th>
+                    <th>销售订单数量</th>
+                    <th>代发货数量</th>
+                    <th>预计出库数量</th>
 
-                           <tr class="bgco-orange color-white"   ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity'])">
-                             <td colspan="9" class="text-right">合计：</td>
-                             <td>{{totalObj.salesQuantity}}</td>
-                             <td>{{totalObj.quantity}}</td>
-                             <td>{{totalObj.freezeQuantity}}</td>
-                             <td>{{totalObj.lockingQuantity}}</td>
-                             <td>{{totalObj.handleQuantity}}</td>
-                             <td>{{totalObj.beingCheckedQuantity}}</td>
-                             <td>{{totalObj.purchaseInWayQuantity}}</td>
-                             <td>{{totalObj.purchaseRequisitionQuantity}}</td>
-                             <td>{{totalObj.inStockQuantity}}</td>
-                             <td>{{totalObj.confirmOrderQuantity}}</td>
-                             <td>{{totalObj.shippedQuantity}}</td>
-                             <td>{{totalObj.outStockQuantity}}</td>
+                  </tr>
+                </thead>
+                <tbody class="pr-bg-white" >
+                  <tr ng-repeat="tr in tbodyList track by $index"
+                  ng-init=''
+                 medical-stock-mouse-over
+                 mouse-over-buttons-json=
+                  '[{"url":"#/medicalStock/queryInoutstockDetailChange.html?medicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
+                  "className":"circle-icon pos-icon1 pos-abs pr-icon-bg11"},
+                  {"url":"#/medicalStock/getByCodeAndOrganization.html?relMedicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
+                  "className":"pos-s pr-arrow-r"}]'
+                  >
+                    <td  >{{$index + 1}}</td>
+                    <td>{{tr.code}}</td>
+                    <td></td>
+                    <td>{{tr.name}}</td>
+                    <td>{{tr.specification}}</td>
+                    <td>{{tr.medicalAttribute.code}}</td>
+                    <td>{{tr.medicalAttribute.name}}</td>
+                    <td>{{tr.unit}}</td>
+                    <td>{{tr.stockModel.drugAdministrationCode}}</td>
+                    <td>{{tr.stockModel.salesQuantity}}</td>
+                    <td>{{tr.stockModel.quantity}}</td>
+                    <td>{{tr.stockModel.freezeQuantity}}</td>
+                    <td>{{tr.stockModel.lockingQuantity}}</td>
+                    <td>{{tr.stockModel.handleQuantity}}</td>
+                    <td>{{tr.stockModel.beingCheckedQuantity}}</td>
+                    <td>{{tr.stockModel.purchaseInWayQuantity}}</td>
+                    <td>{{tr.stockModel.purchaseRequisitionQuantity}}</td>
+                    <td>{{tr.stockModel.inStockQuantity}}</td>
+                    <td>{{tr.stockModel.confirmOrderQuantity}}</td>
+                    <td>{{tr.stockModel.shippedQuantity}}</td>
+                    <td>{{tr.stockModel.outStockQuantity}}</td>
+                  </tr>
 
-                           </tr>
-                         </tbody>
-                       </table>
+                  <tr class="bgco-orange color-white"   ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity'])">
+                    <td colspan="9" class="text-right">合计：</td>
+                    <td>{{totalObj.salesQuantity}}</td>
+                    <td>{{totalObj.quantity}}</td>
+                    <td>{{totalObj.freezeQuantity}}</td>
+                    <td>{{totalObj.lockingQuantity}}</td>
+                    <td>{{totalObj.handleQuantity}}</td>
+                    <td>{{totalObj.beingCheckedQuantity}}</td>
+                    <td>{{totalObj.purchaseInWayQuantity}}</td>
+                    <td>{{totalObj.purchaseRequisitionQuantity}}</td>
+                    <td>{{totalObj.inStockQuantity}}</td>
+                    <td>{{totalObj.confirmOrderQuantity}}</td>
+                    <td>{{totalObj.shippedQuantity}}</td>
+                    <td>{{totalObj.outStockQuantity}}</td>
 
-                     </div>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-                 </div>
-                  </div>
-                  <!-- 分页 -->
-                  <div class="clearfix body-bg">
-                      <div class="fr body-bg">
-                          <pagination status="status"></pagination>
-                      </div>
-                  </div>
-               </table-list>
-              <!-- 表格 end -->
-             <!-- 主体内容 end -->
+            <!-- 分页 -->
+            <div class="clearfix body-bg">
+              <div class="fr body-bg">
+                <pagination status="status"></pagination>
               </div>
-
-             </div>
-      </div>
+            </div>
+           </table-list>
+          <!-- 表格 end -->
+               <!-- 主体内容 end -->
+          </div>
+        </div>
     </div>
+  </div>
 </div>
