@@ -1473,51 +1473,81 @@ function hospitalPurchaseComeinEdit () {
    		//3.mouseleave:表示鼠标移出后执行的步骤。
 
 
-function medicalStockMouseOver(){
+function medicalStockMouseOver(utils){
 
   return{
     restrict: 'A',
 
       link: function ($scope, $element, $attrs) {
 
-        var btnArray=[];
-
-
+        // var btnArray=[];
+        //按钮数量，用于计算弹出菜单的div宽度
+        var btnCount=0;
+        //弹出菜单的div
+        var moveBtnDiv=null;
+        //按钮基础数据
         var mouseOverButtons=  $scope.$eval($attrs.mouseOverButtonsJson);
+
+        if(mouseOverButtons && mouseOverButtons.length>0){
+          moveBtnDiv=$("<div></div>");
+          btnCount=mouseOverButtons.length;
+        }
+
         for(var i=0;i<mouseOverButtons.length;i++){
             var bt=mouseOverButtons[i];
               //bt.url; 跳转url
               //bt.className;
-              var tmp="<a class='relative' href='"+bt.url+"'><span class='"+bt.className+"'></span></a>";
+              var tmp="<a  href='"+bt.url+"' title='"+bt.title+"'>1111<span class='"+bt.className+"'></span></a>";
               // 特殊处理
-              if('pos-s pr-arrow-r'==bt.className){
-                tmp="<a class='relative' href='"+bt.url+"' title='变动详情'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>";
-              }
+              // if('pos-s pr-arrow-r'==bt.className){
+              //   tmp="<a href='"+bt.url+"'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>";
+              // }
 
             var btn1=$(tmp);
-            btnArray.push(btn1);
+            // btn1.appendto(moveBtnDiv);
+            moveBtnDiv.append(btn1);
+            // btnArray.push(btn1);
         }
 
         //  var btn1=$("<a class='relative' href='#/medicalStock/get.html?relMedicalStockId="+attrs.medicalId+"'><span class='circle-icon pos-icon1 pos-abs pr-icon-bg11'></span></a>");
         //  var btn2=$("<a class='relative' href='#/medicalStock/get1.html'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>");
         // 鼠标移入显示按钮
-        $($element).mouseenter(function(){
-          $(this).addClass("bg-c");
-            for(var i=0;i<btnArray.length;i++){
-                  $(this).children("td:last-child").append(btnArray[i]);
-            }
+        $($element).mouseenter(function(e){
 
-        });
+          $element.addClass("bg-c");
+          if(!moveBtnDiv)return;
+          //+document.body.scrollLeft+
+          moveBtnDivWidth=34*btnCount;
+          var y =$element.offset().top -document.body.scrollTop;
+          var x= utils.getMainBodyWidth()-moveBtnDivWidth-30;
+          //
+          moveBtnDiv.css({
+             "position": "fixed",
+             "width":moveBtnDivWidth,
+             "height":$element.height(),
+               "top": y,
+               "left": x
+           });
+          //  console.log("moveBtnDivWidth="+moveBtnDivWidth+",x="+x+",y="+y+",utils.getMainBodyWidth()="+utils.getMainBodyWidth());
+          //  console.log("e.pageX="+e.pageX+",e.pageY"+e.pageY);
+
+           $(this).append(moveBtnDiv);
+            // for(var i=0;i<btnArray.length;i++){
+            //       $(this).children("td:last-child").append(btnArray[i]);
+            //
+            // }
+
+        });//mouseenter
         // 鼠标移出按钮消失
         $($element).mouseleave(function(){
           $(this).removeClass("bg-c");
-          for(var i=0;i<btnArray.length;i++){
-              $(btnArray[i]).remove();
+          moveBtnDiv.remove();
+          // for(var i=0;i<btnArray.length;i++){
+          //     // $(btnArray[i]).remove();
+          // }
 
-          }
-
-        });
-      }
+        });//mouseleave
+      }//link
   };
 }
 /**
@@ -2067,5 +2097,5 @@ angular.module('manageApp.project')
   .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
-  .directive("medicalStockMouseOver",[medicalStockMouseOver]);// 库存明细模块，鼠标移入高亮并显示两个按钮
+  .directive("medicalStockMouseOver",["utils",medicalStockMouseOver]);// 库存明细模块，鼠标移入高亮并显示两个按钮
 });
