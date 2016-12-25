@@ -2728,7 +2728,7 @@ body.ngdialog-open {
   background-position: -252px -3px;
 }
 .loss-over-order .order-list-search > i{
-  left: 890px;
+  left: 875px;
 }
 /* 空数据 */
 .content-wrapper-main ul li {
@@ -3965,7 +3965,7 @@ border: 1px solid #ddd;
 }
 .table-wid{
   width:2500px;
-
+  min-height: 90px;
 }
 .table-wid td,
 .table-wid th{
@@ -4143,6 +4143,18 @@ border: 1px solid #ddd;
 }
 .ipt-w{
   width: 100px;
+}
+.lossOverOrder-edit .select-wd{
+  width: 302px;
+  height: 28px;
+}
+.pd-loss-l{
+  padding:0 20px 20px 20px;
+}
+
+.btn-area>span{
+  display: inline-block;
+  margin-top: 15px;
 }
 
 /* datepicker */
@@ -7721,6 +7733,7 @@ padding-right: 0;
 
 @media screen and (max-width: 1024px) {
   .invoices-order .content-wrapper-main ul li,
+  .loss-over-order .content-wrapper-main ul li,
   .order-center .content-wrapper-main ul li.confirm-order-list,
   .sales-order .content-wrapper-main ul li.confirm-order-list,
   .purchase-order .content-wrapper-main ul li.confirm-order-list,
@@ -7736,6 +7749,7 @@ padding-right: 0;
 
 @media screen and (min-width: 1024px) {
   .invoices-order .content-wrapper-main ul li,
+  .loss-over-order .content-wrapper-main ul li,
   .order-center .content-wrapper-main ul li.confirm-order-list,
   .sales-order .content-wrapper-main ul li.confirm-order-list,
   .purchase-order .content-wrapper-main ul li.confirm-order-list,
@@ -7751,6 +7765,7 @@ padding-right: 0;
 
 @media screen and (min-width: 1300px) {
   .invoices-order .content-wrapper-main ul li,
+  .loss-over-order .content-wrapper-main ul li,
   .order-center .content-wrapper-main ul li.confirm-order-list,
   .sales-order .content-wrapper-main ul li.confirm-order-list,
   .purchase-order .content-wrapper-main ul li.confirm-order-list,
@@ -7766,6 +7781,7 @@ padding-right: 0;
 
 @media screen and (min-width: 1440px) {
   .invoices-order .content-wrapper-main ul li,
+  .loss-over-order .content-wrapper-main ul li,
   .order-center .content-wrapper-main ul li.confirm-order-list,
   .sales-order .content-wrapper-main ul li.confirm-order-list,
   .purchase-order .content-wrapper-main ul li.confirm-order-list,
@@ -7781,6 +7797,7 @@ padding-right: 0;
 
 @media screen and (min-width: 1840px) {
   .invoices-order .content-wrapper-main ul li,
+  .loss-over-order .content-wrapper-main ul li,
   .order-center .content-wrapper-main ul li.confirm-order-list,
   .sales-order .content-wrapper-main ul li.confirm-order-list,
   .purchase-order .content-wrapper-main ul li.confirm-order-list,
@@ -7796,6 +7813,7 @@ padding-right: 0;
 
 @media screen and (min-width: 2230px) {
   .invoices-order .content-wrapper-main ul li,
+  .loss-over-order .content-wrapper-main ul li,
   .order-center .content-wrapper-main ul li.confirm-order-list,
   .sales-order .content-wrapper-main ul li.confirm-order-list,
   .purchase-order .content-wrapper-main ul li.confirm-order-list,
@@ -12658,18 +12676,16 @@ i.fa-inbox:before {
 }
 
 /* 自动完成 */
-
 .angucomplete-holder {
     position: relative;
 }
-
 .angucomplete-dropdown {
     border: 1px solid #ECECEC;
     border-radius: 2px;
     width: 100%;
     max-height: 200px;
     overflow: auto;
-    padding: 6px;
+    /*padding: 6px;*/
     cursor: pointer;
     z-index: 9999;
     position: absolute;
@@ -12678,37 +12694,36 @@ i.fa-inbox:before {
 	*/
     margin-top: -5px;
     background-color: #FFF;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
 }
-
 .angucomplete-searching {
     color: #ACACAC;
     font-size: 14px;
 }
-
 .angucomplete-description {
-    font-size: 14px;
+    font-size: 12px;
 }
-
 .angucomplete-row {
-    padding: 5px;
-    color: #000;
+    padding: 5px 0;
+    color: #666;
     margin-bottom: 4px;
+    text-indent: 10px;
 }
-
+.angucomplete-row:last-child {
+  margin-bottom: 0;
+}
 .angucomplete-selected-row, .angucomplete-row:hover {
-    background-color: #4C637B;
-    color: #FFF;
-    border-radius: 3px;
+    /*background-color: #4C637B;*/
+    background: rgba(240,230,195,0.52);
+    color: #666;
+    /*border-radius: 3px;*/
 }
-
 .angucomplete-image-holder {
     padding-top: 2px;
     float: left;
     margin-right: 10px;
     margin-left: 5px;
 }
-
 .angucomplete-image {
     height: 34px;
     width: 34px;
@@ -12717,15 +12732,11 @@ i.fa-inbox:before {
     border-style: solid;
     border-width: 1px;
 }
-
 .angucomplete-image-default {
-    /* Add your own default image here
-	 background-image: url('/assets/default.png');
-	*/
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
+  background-position: center;
+  background-size: contain;
+  height: 34px;
+  width: 34px;
 }
 
 
@@ -17258,10 +17269,9 @@ i.fa-inbox:before {
 
 /* 自动完成 */
 
-.angucomplete-holder {
+/*.angucomplete-holder {
     position: relative;
 }
-
 .angucomplete-dropdown {
     border: 1px solid #ECECEC;
     border-radius: 2px;
@@ -17272,42 +17282,34 @@ i.fa-inbox:before {
     cursor: pointer;
     z-index: 9999;
     position: absolute;
-    /*top: 32px;
-	left: 0px;
-	*/
     margin-top: -2px;
     background-color: #FFF;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
 .angucomplete-searching {
     color: #ACACAC;
     font-size: 14px;
 }
-
 .angucomplete-description {
     font-size: 14px;
 }
-
 .angucomplete-row {
     padding: 5px;
     color: #000;
     margin-bottom: 4px;
 }
-
 .angucomplete-selected-row, .angucomplete-row:hover {
     background-color: #4C637B;
+    background: rgba(240,230,195,0.52);
     color: #FFF;
     border-radius: 3px;
 }
-
 .angucomplete-image-holder {
     padding-top: 2px;
     float: left;
     margin-right: 10px;
     margin-left: 5px;
 }
-
 .angucomplete-image {
     height: 34px;
     width: 34px;
@@ -17316,16 +17318,12 @@ i.fa-inbox:before {
     border-style: solid;
     border-width: 1px;
 }
-
 .angucomplete-image-default {
-    /* Add your own default image here
-	 background-image: url('/assets/default.png');
-	*/
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
-}
+  background-position: center;
+  background-size: contain;
+  height: 34px;
+  width: 34px;
+}*/
 
 
 /* 下拉多选 */

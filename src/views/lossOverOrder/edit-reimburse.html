@@ -1,8 +1,8 @@
 <div class="lossOverOrder-edit"
      ng-controller="salesOrderEditCtrl2"
-     ajax-url="rest/authen/lossOverOrder/getOfEdit.json"
+     ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
+     callback='initFlag=true;watchFormChange("formData");'
      alert-error>
 
   <form id="editForm"
@@ -12,27 +12,37 @@
         action="rest/authen/lossOverOrder/save.json"
         alert-error
         alert-ok
+        scope-extend="scopeExtend"
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter();watchFormChange('formData')">
-
+        callback='updateStatus={"type":"submit","url":"rest/authen/lossOverOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/lossOverOrder/get-reimburse.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
+        novalidate="novalidate">
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
-    <div class="relative bb-line">
+    <div class="relative">
       <div class="pd-l">
         <!-- 标题 -->
         <div class="mgb-m">
           <p class="mgb-m">库存管理 / <em class="color-custom-orange">报损单</em>/ 新建报损申请单</p>
           <h1 class="pr-font-22 ">新建报损申请单</h1>
+          <div class="mgt-l">
+              <select class="pr-select select-wd"
+               chosen
+                ng-model="listParams.warehouseCode"
+                default-empty="仓库名"
+                select-source="rest/authen/warehouse/queryForSelectOption">
+              </select>
+          </div>
+
         </div>
 
       </div>
     </div>
     <!-- 药械列表 -->
-    <div class="pd-l">
+    <div class="pd-loss-l">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l">
         <!-- 信息 -->
-        <div class="bb-dashed-line" auto-get-focus="lossOverOrderQuantity" focus-condition="angucomplete_data">
+        <!-- <div class="bb-dashed-line" auto-get-focus="lossOverOrderQuantity" focus-condition="angucomplete_data">
           <h1 class="text-bold pdb">药械闪加</h1>
           <div class="mgb">
             <span angucomplete-medical
@@ -57,33 +67,73 @@
             <span class="mgr-m">{{addDataItem.manufacturer || '生产商名'}}</span>
             <span>{{addDataItem.specification || '规格型号'}}</span>
           </p>
+        </div> -->
+        <div class="pd-c-l" flash-add-medical
+             ng-model="data1"
+             ajax-url="rest/authen/medicalStock/query.json?hospitalId={{formData.customerId}}"
+             add-data-callback-fn="flashAddDataCallbackFn(data1)">
         </div>
         <!-- 列表 -->
-        <div class="pd-v-s">
-          <p class="flex-column mgb pd">
-            <span class="flex-item-4">
-              单据编号：<em >{{formData.orderNo || '暂无'}}</em>
-              <em  class="mgl">制单人：</em><em class="color-orange">{{formData.inputUser.n|| '暂无'}}</em>
-              <em  class="mgl">审核人：</em><em class="color-orange">{{formData.approverUser || '暂无'}}</em>
-            </span>
-            <span class="flex-item-7 text-right">
-              申请日期：<em >{{formData.applyDate || '暂无'}}</em>
-            </span>
-            <span class="flex-item-1 text-right">状态：<em>待审核</em></span>
-          </p>
-          <!-- 下拉款内容start -->
-          <!-- <div class="pd-v-s ">
+        <div class="pd-c-l ">
+          <div class="flex-column mgb ">
+            <div class="flex-item-10">
+              <span class="flex-item-2 ">
+                单据编号：<em >{{formData.orderNo || '暂无'}}</em>
+              </span>
+                <div class="pd-v-s flex-item-4 ">
+                  <div class="flex-item-6 text-left">
+                    <span class="mgl-x-l">申请人：</span>
+                    <select class="pd-select pd-s mgb-m inline"
+                            data-placeholder=" "
+                            chosen
+                            ng-model="formData.id"
+                            default-empty
+                            alert-error
+                            select-source="rest/authen/user/queryForSelectOption">
+                    </select>
+                  </div>
+                  <div class="flex-item-6">
+                    <span class="mgl-x-l">部门：</span>
+                    <select class="pd-select pd-s mgb-m inline"
+                            data-placeholder=" "
+                            chosen
+                            ng-model="formData.departmentId"
+                            default-empty
+                            alert-error
+                            select-source="rest/authen/department/queryForSelectOption.json">
+                    </select>
+                  </div>
+                </div>
 
-            <div class="flex-item-1" ng-init="formData.warehouseName=''">
+              <span class="flex-item-4  pd">
+                <!-- 单据编号：<em >{{formData.orderNo || '暂无'}}</em> -->
+                <em  class="mgl">制单人：</em><em class="color-orange">{{formData.inputUser.n|| '暂无'}}</em>
+                <em  class="mgl">审批人：</em><em class="color-orange">{{formData.approverUser || '暂无'}}</em>
+              </span>
+            </div>
+
+            <div class="flex-item-2">
+              <span class="flex-item-7 text-right pd">
+                申请日期：<em >{{formData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
+              </span>
+              <span class="flex-item-5 text-right pd">状态：<em>{{formData.orderStatus}}</em></span>
+            </div>
+
+          </div>
+          <!-- 下拉款内容start -->
+          <!-- <div class="pd-v-s "> -->
+
+            <!-- <div class="flex-item-1" ng-init="formData.warehouseName=''">
                 <select class="pr-select pd-s mgb-m inline"
                         chosen
                         ng-model="formData.warehouseStocksCode"
                         default-empty="选择仓库"
                         select-source="rest/authen/warehouse/queryForSelectOption">
                 </select>
-            </div>
+            </div> -->
 
-            <div class="flex-item-2">
+
+            <!-- <div class="flex-item-2">
               <span class="mgl-x-l">部门：</span>
               <select class="pd-select pd-s mgb-m inline"
                       data-placeholder=" "
@@ -93,9 +143,9 @@
                       alert-error
                       select-source="rest/authen/department/queryForSelectOption.json">
               </select>
-            </div>
+            </div> -->
 
-            <div class="flex-item-2 pdb">
+            <!-- <div class="flex-item-2 pdb">
               <em class="">业务员：</em>
               <select class="pd-select pd-s mgb-m inline"
                       data-placeholder=" "
@@ -106,10 +156,10 @@
                       select-source="rest/authen/user/queryForSelectOption">
               </select>
             </div> -->
-          </div>
+          <!-- </div> -->
           <!-- 下拉款内容end-->
           <div class="outside-table-d">
-            <table class="table pr-table table-hover table-bordered table-wid" >
+            <table class="table pr-table pr-new-table table-wid" >
               <thead>
                 <tr>
                   <th class="text-center">商品编码</th>
@@ -195,17 +245,15 @@
             </table>
           </div>
         </div>
-      </div>
     </div>
     <!-- 其他信息 -->
-    <div class="relative" style="margin-bottom:60px;">
-      <div class="pd-c-l">
+    <div class="relative " style="margin-bottom:60px;">
+
+      <div class="pd-c-l full-width">
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
           <h1>备注</h1>
-          <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note">
-
-          </textarea>
+          <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
       </div>
     </div>
@@ -236,7 +284,9 @@
              call-back="$root.goTo('#/lossOverOrder/query-reimburse.html')">删除
           </a>
 
-          <button class="pr-btn-save-glodbg mgr-l" ng-click="submitForm('editForm','save')">保存</button>
+          <button type="submit" class="pr-btn-save-glodbg mgr-l"
+                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
+          </button>
 
           <button
                   class="btn pr-btn-bg-gold mgl"
@@ -246,19 +296,10 @@
                   dialog-content="审核后,将提交审批，确认审核?"
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="通过"
-                  request-url=""
-                  callback="utils.goTo('#/lossOverOrder/get-reimburse.html')"
-
+                  callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
                   >审核
           </button>
 
-          <!-- <button ng-click="submitForm('editForm','submit')"
-                  class="pr-btn-create-glodbg">审核
-              ng-disabled="!formData.orderMedicalNos.length ||
-                           !formData.customerId ||
-                           !formData.saleUserId ||
-                           !canSubmitForm()"
-          </button> -->
       </div>
     </div>
   </form>

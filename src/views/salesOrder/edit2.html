@@ -17,7 +17,7 @@
         onkeydown="if(window.event.keyCode==13) return false;"
         callback="submitFormAfter();watchFormChange('formData')">
     <!-- 头部信息 -->
-    <div class="relative bb-line">
+    <div class="relative">
       <div class="pd-l">
         <!-- 标题 -->
         <div class="mgb-m">
@@ -38,18 +38,21 @@
       </div>
     </div>
     <!-- 药械列表 -->
-    <div class="pd-l">
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" auto-get-focus="salesOrderQuantity">
+    <div class="pd-c-l">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb" style="padding:15px 0;" auto-get-focus="salesOrderQuantity">
         <!-- 信息 -->
-          <div  flash-add-medical ng-model="data1" ajax-url="http://localhost:3000/src/angularjs-api/data/medicalStockList.json" add-data-callback-fn="flashAddDataCallbackFn(data1)"></div>
-
+        <div class="pd-c-l" flash-add-medical
+             ng-model="data1"
+             ajax-url="rest/authen/medicalStock/query.json?hospitalId={{formData.customerId}}"
+             add-data-callback-fn="flashAddDataCallbackFn(data1)">
+        </div>
         <!-- 列表 -->
-        <div class="pd-v-s">
-          <p class="flex-column mgb">
+        <div>
+          <p class="flex-column mgb pd-c-l mgt">
             <span class="flex-item-6">购需单号：<em>{{formData.orderNo || '暂无'}}</em></span>
             <span class="flex-item-6 text-right">状态：<em>未提交</em></span>
           </p>
-          <table class="table pr-table table-hover">
+          <table class="table pr-table pr-new-table">
             <thead>
               <tr>
                 <th class="text-center">商品编号</th>
@@ -136,40 +139,30 @@
             </span>
           </header>
           <div class="panel-body" style="display:none;padding:15px 0;">
-            <div class="mgb-l">
-              <select ng-if="formData.createAt"
-                      class="ipt pr-long-ipt"
-                      data-placeholder="采购方名称"
-                      chosen
-                      width="280px"
-                      ng-model="formData.customerId"
-                      select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
-              </select>
-            </div>
             <div class="consignee-info"
                  ajax-if-eval="formData.customerId"
-                 ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
-                 scope-data="purchaserAddress"
-                 callback="customerAddressGetCallBack(formData,purchaserAddress)"
-                 ng-class="{'static': purchaserAddress.contacts}">
-              <h1 class="color-9 text-n mgb">收货人信息</h1>
-              <ul ng-if="formData.customerId" style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
+                 ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
+                 scope-data="customerAddress"
+                 callback="customerAddressGetCallBack(formData,customerAddress)"
+                 ng-class="{'static': customerAddress.contacts}">
+              <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
+                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
                   <p class="pdb">{{item.name}} </p>
-                  <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
-                  <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
-                  <i class="consignee-default-label"  ng-if="purchaserAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+                  <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
+                  <p class="text-s">{{item.tel}}</p>
+                  <p><a href="javacript:;" modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
+                  <i class="consignee-default-label" ng-if="customerAddress.defaultContactId==item.id">默认</i>
+                  <i class="consignee-choise-label" ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
                 </li>
                 <span>
-                  <button type="button"
-                          class="pr-add-item-whitebg"
+                  <button  class="pr-add-item-whitebg"
+                   type="button"
                           style="min-height:136px;"
                           modal-right="700"
                           modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
                           modal-scope="this"
-                          modal-url="views/purchaserAddress/contact/edit.html"
-                          ng-class="{'static':!purchaserAddress.contacts}">
+                          modal-url="views/customerAddress/contact/edit.html"
+                          ng-class="{'static':!customerAddress.contacts}">
                     <i class="fa fa-plus"></i>
                   </button>
                 </span>
@@ -185,29 +178,17 @@
             </span>
           </header>
           <div class="panel-body" style="display:none;padding:15px 0;">
-            <!-- <div class="mgb-l">
-              <select ng-if="formData.createAt"
-                      class="ipt pr-long-ipt"
-                      data-placeholder="采购方名称"
-                      chosen
-                      width="280px"
-                      ng-model="formData.customerId"
-                      select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
-              </select>
-            </div> -->
             <div class="consignee-info"
-                 ajax-if-eval="formData.customerId"
-                 ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
-                 scope-data="purchaserAddress"
-                 callback="customerAddressGetCallBack(formData,purchaserAddress)"
+                 ajax-url="rest/authen/invoicesAddress/get.json"
+                 scope-data="invoicesAddress"
+                 callback="customerAddressGetCallBack(formData,invoicesAddress)"
                  ng-class="{'static': purchaserAddress.contacts}">
-              <!-- <h1 class="color-9 text-n mgb">收货人信息</h1> -->
-              <ul ng-if="formData.customerId" style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
+              <ul style="min-height:136px;">
+                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.contactsId=item.id">
                   <p class="pdb">{{item.name}} </p>
                   <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
                   <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
-                  <i class="consignee-default-label"  ng-if="purchaserAddress.defaultContactId==item.id">默认</i>
+                  <i class="consignee-default-label"  ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
                   <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
                 </li>
                 <span>
@@ -215,7 +196,7 @@
                           modal-right="700"
                           modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
                           modal-scope="this"
-                          modal-url="views/purchaserAddress/contact/edit.html"
+                          modal-url="views/salesOrder/contact/edit.html"
                           ng-class="{'static':!purchaserAddress.contacts}">
                     <i class="fa fa-plus"></i>
                   </button>
@@ -229,44 +210,18 @@
           <h1>备注</h1>
           <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
-        <!-- 功能按钮 -->
-        <!-- <div class="pdb-xxl text-right">
-          <span class="mgl">
-            <a ng-if="changeFlag" href="javascript:;"
-               handle-this-click
-               dialog-title="确认返回?"
-               dialog-content="该购需单存在未保存数据，是否保存?"
-               dialog-template="pr-dialog-return.html"
-               nosave-callback="goTo('#/salesOrder/query.html')"
-               save-callback="submitForm('editForm','exit')">返回</a>
-
-               <a ng-if="!changeFlag" href="#/salesOrder/query.html" >返回</a>
-          </span>
-          <span>
-            <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
-               href="javascript:;"
-               class="pr-color-red mgl"
-               handle-this-click
-               dialog-title="确认删除?"
-               dialog-content="您确认删除这条购需单吗?"
-               dialog-template="dialog-confirm.html"
-               request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-               call-back="$root.goTo('#/salesOrder/query.html')">删除
-            </a>
-          </span>
-          <span class="mgl">
-            <button class="pr-btn-save-glodbg" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
-          </span>
-          <span class="mgl">
-            <button ng-click="submitForm('editForm','submit')"
-                    class="pr-btn-create-glodbg"
-                    ng-disabled="!formData.orderMedicalNos.length ||
-                                 !formData.customerId ||
-                                 !formData.saleUserId ||
-                                 !canSubmitForm()">生成销售单
-            </button>
-          </span>
-        </div> -->
+        <!-- 流程图 -->
+        <div ng-if="formData.id" class="modal-content pr-modal-content pr-modal-process"
+              ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
+              scope-data="businessFlowData"
+              callback="businessFlowDataInitFlag=true;"
+              error-callback="businessFlowDataInitFlag=true;">
+          <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"
+                  width="{{$root.utils.getMainBodyWidth()}}"
+                  height="300" base-image-url="images/canvasBusinessFlow/"
+                  style="background:white" spacing-height="80" spacing-width="40">
+          </canvas>
+        </div>
       </div>
     </div>
     <!-- 功能按钮 -->
@@ -299,9 +254,7 @@
           <button ng-click="submitForm('editForm','submit')"
                   class="pr-btn-create-glodbg"
                   ng-disabled="!formData.orderMedicalNos.length ||
-                               !formData.customerId ||
-                               !formData.saleUserId ||
-                               !canSubmitForm()">审核
+                               !formData.customerId">审核
           </button>
       </div>
     </div>
