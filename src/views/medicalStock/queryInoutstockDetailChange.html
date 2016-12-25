@@ -94,16 +94,16 @@
                                <td >{{tr.changeQuantity<0?tr.changeQuantity:'&nbsp;'}}</td>
                                <td>{{tr.quantity}}</td>
                                <td>{{tr.price?tr.price:'0'}}</td>
-                               <td>{{tr.quantity*tr.price}}</td>
+                               <td>{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
                              </tr>
 
-                             <tr class="bgco-orange color-white"   ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity'])">
+                             <tr class="bgco-orange color-white" ng-if="tbodyList.length>0"  ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity'])">
                                <td colspan="7" class="text-right">合计：</td>
                                <td>{{totalObj.changeQuantity>0?totalObj.changeQuantity:'&nbsp;'}}</td>
                                <td>{{totalObj.changeQuantity<0?totalObj.changeQuantity:'&nbsp;'}}</td>
                                <td>{{totalObj.actualQuantity}}</td>
-                               <td>{{totalObj.price}}</td>
-                               <td>{{totalObj.quantity*tr.price}}</td>
+                               <td>&nbsp;</td>
+                               <td>&nbsp;</td>
                              </tr>
                            </tbody>
                          </table>
