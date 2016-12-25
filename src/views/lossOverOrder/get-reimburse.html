@@ -27,7 +27,7 @@
             <em  class="mgl">申请人：</em><em class="color-orange">{{showData.inputUser.n|| '暂无'}}</em>
             <em  class="mgl">制单人：</em><em class="color-orange">{{showData.inputUser.n|| '暂无'}}</em>
             <em  class="mgl">
-              审批人：</em><em>{{showData.approverUser || '暂无'}}</em>
+              审批人：</em><em class="color-orange">{{showData.inputUser.n || '暂无'}}</em>
           </span>
           <span class="flex-item-7 text-right">
             申请日期：<em >{{showData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
@@ -125,8 +125,18 @@
 </div>
 
 
-<div class="handle-btn-area relative">
+<!-- <div class="handle-btn-area relative">
   <div class="btn-area over-write-wid">
       <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-reimburse.html" >返回报损单列表</a>
+  </div>
+</div> -->
+<div class="handle-btn-area relative">
+  <div class="btn-area over-write-wid">
+      <span class="mgr-l">
+        <a  href="#/lossOverOrder/query-reimburse.html">返回报损单列表</a>
+      </span>
+      <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
+       custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}">
+      </span>
   </div>
 </div>
