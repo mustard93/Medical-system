@@ -1992,7 +1992,10 @@ function datePeriodSelect () {
               link: function($scope, elem, $attrs, ngModel) {
 
 
-                  $scope.ajaxUrl=$attrs.ajaxUrl;
+                   $attrs.$observe("ajaxUrl", function(value) {
+                        $scope.ajaxUrl=value;
+                   });
+
                   //添加业务数据
                   $scope.addDataFn = function () {
                     if(!  $scope.addDataCallbackFn){
@@ -2026,7 +2029,7 @@ function datePeriodSelect () {
 
               }
           };
-      };
+      }
 
 
 angular.module('manageApp.project')
