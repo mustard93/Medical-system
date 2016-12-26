@@ -358,10 +358,6 @@ define('project/controllers', ['project/init'], function() {
 
           if ($scope.submitForm_type == 'submit') {
 
-
-            console.log($scope.formData.id); return;
-
-            // $scope.goTo('#/confirmOrder/get2.html?id='+$scope.formData.id);
             var url='rest/authen/salesOrder/confirmSalesOrder';
             var data= {id:$scope.formData.id};
             requestData(url, data, 'POST')
