@@ -2,7 +2,7 @@
      ng-controller="freezeThawOrderEditCtrl"
      ajax-url="rest/authen/freezeThawOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");formData.applyType="报损"'
+     callback='initFlag=true;watchFormChange("formData");formData.applyType="批次解冻"'
      alert-error>
 <!-- &copyId={{mainStatus.pageParams.copyId}}" -->
   <form id="editForm"
@@ -23,8 +23,8 @@
       <div class="pd-l">
         <!-- 标题 -->
         <div class="mgb-m">
-          <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-orange">报溢单</em>/ 新建报溢申请单</p>
-          <h1 class="pr-font-22 ">新建报溢申请单</h1>
+          <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-orange">批次解冻单</em>/ 新建批次解冻申请单</p>
+          <h1 class="pr-font-22 ">新建批次解冻申请单</h1>
           <div class="mgt-l">
             <select class="pr-select select-wd"
              chosen
@@ -95,44 +95,7 @@
             </div>
 
           </div>
-          <!-- 下拉款内容start -->
-          <!-- <div class="pd-v-s "> -->
 
-            <!-- <div class="flex-item-1" ng-init="formData.warehouseName=''">
-                <select class="pr-select pd-s mgb-m inline"
-                        chosen
-                        ng-model="formData.warehouseStocksCode"
-                        default-empty="选择仓库"
-                        select-source="rest/authen/warehouse/queryForSelectOption">
-                </select>
-            </div> -->
-
-
-            <!-- <div class="flex-item-2">
-              <span class="mgl-x-l">部门：</span>
-              <select class="pd-select pd-s mgb-m inline"
-                      data-placeholder=" "
-                      chosen
-                      ng-model="formData.departmentId"
-                      default-empty
-                      alert-error
-                      select-source="rest/authen/department/queryForSelectOption.json">
-              </select>
-            </div> -->
-
-            <!-- <div class="flex-item-2 pdb">
-              <em class="">业务员：</em>
-              <select class="pd-select pd-s mgb-m inline"
-                      data-placeholder=" "
-                      chosen
-                      ng-model="formData.id"
-                      default-empty
-                      alert-error
-                      select-source="rest/authen/user/queryForSelectOption">
-              </select>
-            </div> -->
-          <!-- </div> -->
-          <!-- 下拉款内容end-->
           <div class="outside-table-d">
             <table class="table pr-table pr-new-table table-wid" >
               <thead>
@@ -143,8 +106,7 @@
                   <th class="text-center">规格型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
-                  <th class="text-center">生产批号</th>
-                  <th class="text-center">灭菌批号</th>
+                  <th class="text-center">生产批号/灭菌批号</th>
                   <th class="text-center">生产日期</th>
                   <th class="text-center">保质期</th>
                   <th class="text-center">失效日期</th>
@@ -186,9 +148,6 @@
 
                   <td class="text-center">
                     <!-- 生产批号 -->
-                  </td>
-                  <td class="text-center">
-                    <!-- 灭菌批号 -->
                   </td>
                   <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
@@ -232,15 +191,12 @@
         </div>
     </div>
     <!-- 其他信息 -->
-    <div class="relative" style="margin-bottom:60px;">
-      <div class="pd-c-l">
+    <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
         <!-- 备注 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <div class='mgb'>
           <h1>备注</h1>
           <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
-
-      </div>
     </div>
 
 
@@ -250,20 +206,20 @@
           <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
              handle-this-click
              dialog-title="确认返回?"
-             dialog-content="该购需单存在未保存数据，是否保存?"
+             dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/freezeThawOrder/query-overflow.html')"
-             save-callback="submitForm('editForm','exit')">返回报溢单列表
+             save-callback="submitForm('editForm','exit')">返回批次解冻单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/freezeThawOrder/query-reimburse.html" >返回报溢单列表</a>
+          <a class="mgr-l" ng-if="!changeFlag" href="#/freezeThawOrder/query-reimburse.html" >返回批次解冻单列表</a>
 
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
              handle-this-click
              dialog-title="确认删除?"
-             dialog-content="您确认删除这条报溢单吗?"
+             dialog-content="您确认删除这条批次解冻单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/freezeThawOrder/delete?id={{formData.id}}"
              call-back="$root.goTo('#/freezeThawOrder/query-overflow.html')">删除

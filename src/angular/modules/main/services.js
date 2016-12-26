@@ -499,6 +499,26 @@ function alertOk($rootScope, modal) {
               }
               return total;
             },
+            //sumTotalByArray(tbodyList,['quantity','price','quantity_actualQuantity'])
+            //遍历数组，返回满足属性值等于val的。进行相乘法后在相加。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+            sumTotalByArrayMul : function (arr,keyArr) {
+              var total=0;
+              if(!angular.isArray(arr))return -1;
+              for(var i=0;i<arr.length;i++){
+                  var tmp=arr[i];
+                  if(!tmp)continue;
+                  var sum=1;
+                for(var j=0;j<keyArr.length;j++){
+                    var keyName=keyArr[j];
+
+                    if(!tmp[keyName])tmp[keyName]=0;
+                    sum=utilsObj.numberMul(sum,tmp[keyName]);
+
+                }
+                total+=sum;
+              }
+              return total;
+            },
 
             //遍历菜单数组，返回满足属性值type等于val的。数据位置。 utils.getcustomMenuByKeyOfArr(arr,val) ;
             getcustomMenuByKeyOfArr : function (arr,val) {
