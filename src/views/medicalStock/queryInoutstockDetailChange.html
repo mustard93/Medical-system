@@ -86,22 +86,22 @@
                                <td>{{tr.createAt | date:'yyyy-MM-dd'}}</td>
                                <td class="text-ellips-s">{{tr.type}}</td>
                                <td>{{tr.orderNo}}</td>
-                               <td>{{tr.warehouseCode}}</td>
+                               <td>{{tr.warehouseName}}</td>
                                <td>{{tr.unit}}</td>
                                <td>{{!tr.inputUser.n?'&nbsp;':tr.inputUser.n}}</td>
-                               <td >{{tr.changeQuantity>0?tr.changeQuantity:'&nbsp;'}}</td>
-                               <td >{{tr.changeQuantity<0?tr.changeQuantity:'&nbsp;'}}</td>
+                               <td >{{tr.changeQuantity>0?tr.changeQuantity:'0'}}</td>
+                               <td >{{tr.changeQuantity<0?Math.abs(tr.changeQuantity):'0'}}</td>
                                <td>{{tr.quantity}}</td>
                                <td>{{tr.price?tr.price:'0'}}</td>
                                <td>{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
                              </tr>
 
                              <tr class="bgco-orange color-white" ng-if="tbodyList.length>0"
-                               ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity'])">
+                               ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','changeQuantity'])">
                                <td colspan="7" class="text-right">合计：</td>
                                <td>{{totalObj.changeQuantity>0?totalObj.changeQuantity:'&nbsp;'}}</td>
                                <td>{{totalObj.changeQuantity<0?totalObj.changeQuantity:'&nbsp;'}}</td>
-                               <td>{{totalObj.actualQuantity}}</td>
+                               <td>{{totalObj.quantity}}</td>
                                <td>{{totalObj.price}}</td>
                                <td>&nbsp;</td>
                              </tr>
