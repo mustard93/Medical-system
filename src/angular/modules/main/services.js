@@ -415,7 +415,7 @@ function alertOk($rootScope, modal) {
             //获取内容区的宽度。
             getMainBodyWidth:function(){
                 var t=$("#main_body").width();
-                console.log("main_body="+t);
+                // console.log("main_body="+t);
                 return t;
             },
             //json字符串转换为js 对象。

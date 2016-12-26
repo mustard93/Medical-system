@@ -239,7 +239,7 @@ define('project/controllers', ['project/init'], function() {
     /**
      *编辑、新建订单
      */
-    function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange) {
+    function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData) {
 
         $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
@@ -295,8 +295,6 @@ define('project/controllers', ['project/init'], function() {
             tr.handleFlag = true;
           }
         };
-
-
 
         // 添加一条。并缓存数据。返回true表示成功。会处理数据。
         $scope.flashAddDataCallbackFn = function(flashAddData) {
@@ -357,18 +355,19 @@ define('project/controllers', ['project/init'], function() {
           }
 
           if ($scope.submitForm_type == 'submit') {
+            // $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
 
             var url='rest/authen/salesOrder/confirmSalesOrder';
-            var data= {id:$scope.formData.id};
+            var data= {id:$scope.formData.id,status:'待审批'};
             requestData(url, data, 'POST')
               .then(function (results) {
-                var _data = results[1];
-               //  alertOk(_data.message || '操作成功');
-                $scope.goTo('#/confirmOrder/get2.html?id='+_data.id);
+                var _data = results[1].data;
+                // console.log(_data);
+                $scope.goTo('#/confirmOrder/get2.html?id='+_data.confirmOrder.id);
 
               })
               .catch(function (error) {
-                alertError(error || '出错');
+                // alertError(error || '出错');
               });
           }
 
@@ -1074,7 +1073,7 @@ define('project/controllers', ['project/init'], function() {
     .controller('purchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', purchaseOrderEditCtrl])
     .controller('noticeCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', noticeCtrl])
     .controller('invoicesOrderCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError', invoicesOrderCtrl])
-    .controller('salesOrderEditCtrl2', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl2])
+    .controller('salesOrderEditCtrl2', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', salesOrderEditCtrl2])
     .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl]);
 
 

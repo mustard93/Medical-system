@@ -124,7 +124,7 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
             }
 
             var root=JTopo.layout.getRootNodes(this.scene.childs);
-              console.log("JTopo.layout.TreeLayout");
+              // console.log("JTopo.layout.TreeLayout");
             // console.log(root);
 
               this.showWorkflowTaskDataLinks();
@@ -331,7 +331,7 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
                   for(var i=0;i<rootNodes.length;i++){
                     var rootNode=rootNodes[i];
 
-                      console.log("location1,name="+rootNode.key+",x="+curNodeX+",y="+curNodeY);
+                      // console.log("location1,name="+rootNode.key+",x="+curNodeX+",y="+curNodeY);
                       // nextLocation1.y=tmpY;
                       rootNode.setLocation(curNodeX, curNodeY);
 

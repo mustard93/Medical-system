@@ -1341,7 +1341,7 @@ function canvasBusinessFlow (modal,utils) {
       // $scope.ngModel;
       // var data=$scope[$attrs.ngModel];
           var data= $scope.ngModel;
-          console.log(data);
+          // console.log(data);
 
           require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
 
