@@ -1325,76 +1325,84 @@ function canvasWorkflow (modal,utils) {
 
 
 
-/**
- * 业务单流程展示
- */
-function canvasBusinessFlow (modal,utils) {
-  'use strict';
-  return {
-      restrict: 'AE',
-      // scope: false,
-      scope: {
-          ngModel:"=?"
-      },
-    link: function ($scope, element, $attrs) {
+ /**
+  * 业务单流程展示
+  */
+ function canvasBusinessFlow (modal,utils) {
+   'use strict';
+   return {
+       restrict: 'AE',
+       // scope: false,
+       scope: {
+           ngModel:"=?"
+       },
+     link: function ($scope, element, $attrs) {
 
-      // $scope.ngModel;
-      // var data=$scope[$attrs.ngModel];
-          var data= $scope.ngModel;
-          // console.log(data);
+       // $scope.ngModel;
+       // var data=$scope[$attrs.ngModel];
+           var data= $scope.ngModel;
+           console.log(data);
+           var curRelId=$attrs.curRelId;//当前页面业务单id
+           console.log(data);
 
-          require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
+           require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
 
-            //点击回调方法
-            function clickCallback(event,that){
-                if(angular.isDefined($attrs.disableClick)){
-                    return;
-                }
-
-              var moduleType=that.currentNode.data.moduleType;
-              var relId= that.currentNode.data.relId;
-              if(!moduleType||!relId){
-                console.log("moduleType="+moduleType+",relId="+relId);
-                return;
-              }
-              // var url="/salesOrder/get.html?id="+relId;
-              var url="#/"+moduleType+"/get.html?id="+relId;
-
-              utils.goTo(url);
-            }//end clickCallback
-
-            //参数定义
-            var option={
-
-                node:{
-                  clickCallback:clickCallback
-                }
-            };
-            if($attrs.baseImageUrl){
-              option.baseImageUrl=$attrs.baseImageUrl;
-            }
-            if($attrs.spacingWidth){
-              option.spacingWidth=parseInt($attrs.spacingWidth);
-            }
-            if($attrs.spacingHeight){
-              option.spacingWidth=parseInt($attrs.spacingHeight);
-            }
+             //点击回调方法
+             function clickCallback(event,that){
+                 if(angular.isDefined($attrs.disableClick)){
+                     return;
+                 }
 
 
-            var workflow=new CanvasBusinessFlow($attrs.id,option);
-            if ($attrs.scopeExtend){
-                var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
-                if(scopeExtend){
-                  if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
-                }
-            }
-            workflow.addCanvasBusinessFlow(data);
+               var moduleType=that.currentNode.data.moduleType;
+               var relId= that.currentNode.data.relId;
+               if(!moduleType||!relId){
+                 console.log("moduleType="+moduleType+",relId="+relId);
+                 return;
+               }
 
-          });//WorkflowProcess
+               if(curRelId==relId){//当前页面节点点击不做跳转
+                 return;
+               }
+               // var url="/salesOrder/get.html?id="+relId;
+               var url="#/"+moduleType+"/get.html?id="+relId;
 
-    }//end link
-  };
-}//canvasWorkflow
+               utils.goTo(url);
+             }//end clickCallback
+
+             //参数定义
+             var option={
+
+                 node:{
+                   clickCallback:clickCallback
+                 }
+             };
+             if($attrs.baseImageUrl){
+               option.baseImageUrl=$attrs.baseImageUrl;
+             }
+             if($attrs.spacingWidth){
+               option.spacingWidth=parseInt($attrs.spacingWidth);
+             }
+             if($attrs.spacingHeight){
+               option.spacingWidth=parseInt($attrs.spacingHeight);
+             }
+
+
+             var workflow=new CanvasBusinessFlow($attrs.id,option);
+             if ($attrs.scopeExtend){
+                 var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
+                 if(scopeExtend){
+                   if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
+                 }
+             }
+             workflow.addCanvasBusinessFlow(data);
+             workflow.addCanvasBusinessFlow(data,curRelId);
+
+           });//WorkflowProcess
+
+     }//end link
+   };
+ }//canvasWorkflow
 
 /**
     打印组件
