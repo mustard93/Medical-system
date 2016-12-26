@@ -27,6 +27,8 @@
            <table-list list-data="rest/authen/medicalStock/queryInoutstockDetailChange?medicalStockId={{mainStatus.pageParams.medicalStockId}}"
                        list-params="listParams"
                        search-mode="noCaseSensitive"
+                       callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity']);total_quantity_price=$root.utils.sumTotalByArrayMul(tbodyList,['price','quantity'])"
+
                        search-param="q">
           <h1 class="color-black text-l pd">{{tbodyList[0].name}}</h1>
           <div class="content-wrapper-main mgt">
@@ -96,14 +98,13 @@
                                <td>{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
                              </tr>
 
-                             <tr class="bgco-orange color-white" ng-if="tbodyList.length>0"
-                               ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity'])">
+                             <tr class="bgco-orange color-white" >
                                <td colspan="7" class="text-right">合计：</td>
                                <td>{{totalObj.changeQuantity>0?totalObj.changeQuantity:'&nbsp;'}}</td>
                                <td>{{totalObj.changeQuantity<0?totalObj.changeQuantity:'&nbsp;'}}</td>
                                <td>{{totalObj.actualQuantity}}</td>
                                <td>{{totalObj.price}}</td>
-                               <td>&nbsp;</td>
+                               <td>{{total_quantity_price}}</td>
                              </tr>
                            </tbody>
                          </table>
