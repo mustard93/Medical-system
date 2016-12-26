@@ -14,12 +14,24 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
           showStatus:false,//true 表示显示节点运行状态
            status:{
 
-             strokeColor_doing:"153,153,153",//连线箭头执行中
-             strokeColor_done:"143,174,0",//连线箭头已完成
+             strokeColor_doing:"90,195,0",//连线箭头执行中
+             strokeColor_done:"244,140,0",//连线箭头已完成
+             strokeColor_ready:"153,153,153",//连线箭头已完成
+
+
+             link_strokeColor_doing:"90,195,0",//连线箭头执行中
+             link_strokeColor_done:"90,195,0",//连线箭头已完成
+             link_strokeColor_ready:"153,153,153",//连线箭头已完成
+
+             link_dashedPattern_ready:5,  //连接箭头虚线
+             link_dashedPattern_done:null,
+              link_dashedPattern_doing:null,
 
              fillColor_ready:"229,229,229",//节点未执行
-              fillColor_doing:"229,229,229",//节点执行中
-               fillColor_done:"143,174,0" ,//节点已完成
+              fillColor_doing:"90,159,0",//节点执行中
+               fillColor_done:"244,140,0" ,//节点已完成
+
+
               fontColor_regject_done:"255,255,255", //节点(驳回状态，已作废)已完成 字体
               fillColor_regject_done:"153,153,153" //节点(驳回状态，已作废)已完成
            },
@@ -107,9 +119,10 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
           },
 
           //添加流程图定义数据，用于图形展示
-          addCanvasBusinessFlow:function(data){
+          addCanvasBusinessFlow:function(data,curRelId){
             if(!data)return;
             this.data=data;
+            this.curRelId=curRelId;
             if(!data.events)return;
             // console.log("addCanvasBusinessFlow.data=");
             // console.log(data);
@@ -145,12 +158,21 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
                 if(arr)for(var i=0;i<arr.length;i++){
                     var link=arr[i];
                       //判断nodeA 是完成状态。
-                    if(link.nodeA&&link.nodeA.status=="完成"){
+
+                    link.strokeColor=this.options.status.link_strokeColor_ready;
+                    link.dashedPattern=this.options.status.link_dashedPattern_ready;
+
+
+                    if(link.nodeA&&link.nodeA.data&&link.nodeA.data.status=="完成"){
                       if(link.nodeZ){//nodeZ 是完成或者执行中
-                          if(link.nodeZ.status=="完成"){
-                              link.strokeColor=this.options.status.strokeColor_done;
-                          }else   if(link.nodeZ.status=="执行中"){
-                              link.strokeColor=this.options.status.strokeColor_doing;
+                          if(link.nodeZ.data.status=="完成"){
+                              link.strokeColor=this.options.status.link_strokeColor_done;
+                              link.dashedPattern=this.options.status.link_dashedPattern_done;
+
+                          }else   if(link.nodeZ.data.status=="执行中"){
+                              link.strokeColor=this.options.status.link_strokeColor_doing;
+                              link.dashedPattern=this.options.status.link_dashedPattern_doing;
+
                             }
                       }
 
@@ -197,7 +219,9 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
               // link.strokeColor =this.options.status.fillColor_done;
               link.strokeColor = '204,204,204';//连线之间的颜色
               link.lineWidth = 1;//线段的粗细
-              link.dashedPattern = 2;
+              // link.dashedPattern = 2;
+              link.dashedPattern=this.options.status.link_dashedPattern_ready;
+
               this.scene.add(link);
               return link;
           },
@@ -205,7 +229,14 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
 
 
           addNodeByEvent:function(event1){
-            var node = new JTopo.Node(event1.name);
+
+            var iscreate=false;
+            var node=this.getEventByKey(event1.id);
+            if(!node){
+              iscreate=true;
+              node = new JTopo.Node(event1.name);
+            }
+
                node.data=event1;
             node.setSize(120, 44);  // 尺寸
 
@@ -227,31 +258,39 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
             //调试使用 icon-salesOrder-active.png
             //  var imageName="icon-salesOrder";
 
-             if(node.data.status=="完成"){
-                  node.fontColor =this.options.status.strokeColor_done;
-                  imageName+="-done";
-             }else   if(node.data.status=="执行中"){
-               node.fontColor =this.options.status.strokeColor_doing;
 
-                 imageName+="-active"
-             }else {
-               node.fontColor =this.options.status.strokeColor_doing;
-                 imageName+="-null"
-             }
+            //优先级最高，当前页面设置样式及颜色
+            if(this.curRelId&&this.curRelId==node.data.relId){
+                node.fontColor =this.options.status.strokeColor_doing;
+                 imageName+="-active";
+            }else{
+              //根据状态设置样式
+               if(node.data.status=="完成"){
+                    node.fontColor =this.options.status.strokeColor_done;
+                    imageName+="-done";
+               }else   if(node.data.status=="执行中"){
+
+                   node.fontColor =this.options.status.strokeColor_done;
+                     imageName+="-done";
+               }else {
+                 node.fontColor =this.options.status.strokeColor_doing;
+                   imageName+="-null"
+               }
+            }  //优先级最高，当前页面设置样式及颜色
+
 
 
 
            node.setImage( this.options.baseImageUrl+imageName+".png", true);
+
+           if(iscreate)this.scene.add(node);
+
 
               return node;
           },
            addEvent:function(event1){
             var node = this.addNodeByEvent(event1);
 
-            if(this.options.showStatus){
-              //  node.fillColor=this.options.status.fillColor_ready;
-            }
-            this.scene.add(node);
 
             //注入node点击回掉函数
             if(this.options.node.clickCallback){

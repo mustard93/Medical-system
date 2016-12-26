@@ -5,7 +5,7 @@
       ">
   <!-- 模块标题及面包屑 -->
   <div class="page-header-info">
-    <p class="mgb">库存管理 / <em class="color-custom-orange">报溢单</em></p>
+    <p class="mgb crumbs pr-indent-10">库存管理 / <em class="color-custom-orange">报溢单</em></p>
     <p>
       <select ng-init="itemChooise='#/lossOverOrder/query-overflow.html'" class="select pr-select pr-select-sm" style="width:120px;" ng-model="itemChooise" ng-change="utils.goTo(itemChooise)">
         <option value="#/lossOverOrder/query-overflow.html">报溢单</option>
@@ -63,14 +63,14 @@
                         datepicker
                         class="ipt pr-short-ipt color-6 mgr"
                         ng-readonly="true"
-                        ng-model="listParams.createAtBeg"
+                        ng-model="listParams.beginDate"
                         placeholder="日期">
                   <span class="mgr">至</span>
                   <input type="text"
                         datepicker
                         class="ipt pr-short-ipt color-6 mgr-l"
                         ng-readonly="true"
-                          ng-model="listParams.createAtEnd"
+                          ng-model="listParams.endDate"
                         placeholder="日期">
                <input type="text" class="ipt pdr-xxl  " placeholder="单据编号" ng-model="listParams.q">
                <i class=""></i>
@@ -93,28 +93,28 @@
                     {{tr.orderStatus}}</em>
                   </span>
                   <span class="flex-item-6 text-right">
-                    <a  ng-if="tr.orderStatus=='未提交' && mainStatus.id==tr.proposerId"
+                    <a  ng-if="tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id"
                        href="javascript:;"
                        class="color-red"
                        handle-this-click
                        dialog-title="确认删除?"
                        dialog-content="删除后将无法恢复,确认删除?"
                        dialog-template="pr-dialog-submit.html"
-                       callback="$root.goTo('#/lossOverOrder/query.html')"
+                       callback="$root.goTo('#/lossOverOrder/query-reimburse.html')"
                        params='{"id":tr.id}'
                        request-url="rest/authen/lossOverOrder/delete">删除</a>
                     <a class="mgl"
-                       ng-if="tr.orderStatus=='未提交'"
-                       ng-href="#/lossOverOrder/edit-overflow.html?id={{tr.id}}">编辑</a>
+                       ng-if="tr.orderStatus=='待审核'"
+                       ng-href="#/lossOverOrder/edit-reimburse.html?id={{tr.id}}">编辑</a>
                     <a class="mgl"
                        ng-if="tr.orderStatus=='未通过'"
-                       ng-href="#/lossOverOrder/edit-overflow.html?copyId={{tr.id}}">新建</a>
-                    <a class="mgl"
-                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')) || tr.orderStatus=='未通过'"
-                       ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">查看详情</a>
-                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                       ng-href="#/lossOverOrder/edit-reimburse.html?copyId={{tr.id}}">新建</a>
+                       <a class="mgl"
+                          ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
+                          ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">查看详情</a>
+                    <a ng-if="tr.orderStatus=='待审批' "
                        class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                       ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">立即审批</a>
+                       ng-href="#/lossOverOrder/get-reimburse.html?id={{tr.id}}">立即审批</a>
                     <!--工作流控制菜单 -->
                     <!-- <button ng-if="$root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button> -->
                   </span>
