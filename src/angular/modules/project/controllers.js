@@ -357,7 +357,19 @@ define('project/controllers', ['project/init'], function() {
           }
 
           if ($scope.submitForm_type == 'submit') {
-            $scope.goTo('#/confirmOrder/get2.html?id='+$scope.formData.id);
+            // $scope.goTo('#/confirmOrder/get2.html?id='+$scope.formData.id);
+            var url='rest/authen/salesOrder/confirmSalesOrder';
+            var data= {id:$scope.formData.id};
+            requestData(url, data, 'POST')
+              .then(function (results) {
+                var _data = results[1];
+               //  alertOk(_data.message || '操作成功');
+                $scope.goTo('#/confirmOrder/get2.html?id='+_data.id);
+
+              })
+              .catch(function (error) {
+                alertError(error || '出错');
+              });
           }
 
           if ($scope.submitForm_type == 'save') {
