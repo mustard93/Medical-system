@@ -402,6 +402,23 @@ function alertOk($rootScope, modal) {
 
       //工具类
       function utils ($timeout) {
+        //递归 获取：data.data.data 获取子属性值
+
+          function getObjectValByKeyArr(obj,keyArr,index){
+            if(!keyArr)return null;
+
+              if(keyArr.length-index==1){//直到取最后一个节点
+                var key=keyArr[index];
+                  if(!key)return null;
+                  return obj[key];
+              }
+              var key=keyArr[index];
+                if(!key)return null;
+              if(!obj[key])return null;
+              return getObjectValByKeyArr(obj[key],arr,(1+index));
+
+          };
+
           var  utilsObj = {
             //设置输入框获取焦点
             focusByInputId: function (inputId) {
@@ -477,6 +494,14 @@ function alertOk($rootScope, modal) {
                     window.location.assign(url);
                 }
             },
+
+
+            //递归 获取：data.data.data 获取子属性值
+            getObjectVal:function (obj,key){
+                if(!key)return null;
+               var arr=key.split(".");
+               return getObjectValByKeyArr(obj,arr,0);
+            },
             //sumTotalByArray(tbodyList,['quantity','price','quantity_actualQuantity'])
             //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
             sumTotalByArray : function (arr,keyArr) {
@@ -487,12 +512,10 @@ function alertOk($rootScope, modal) {
                   if(!tmp)continue;
                 for(var j=0;j<keyArr.length;j++){
                     var keyName=keyArr[j];
-
-
                     if(!total[keyName])total[keyName]=0;
-
-                    if(!tmp[keyName])continue;
-                  total[keyName]+=tmp[keyName];
+                    var val=utilsObj.getObjectVal(tmp,keyName);
+                    if(!val)continue;
+                  total[keyName]+=val;
 
                 }
 
@@ -501,6 +524,7 @@ function alertOk($rootScope, modal) {
             },
             //sumTotalByArray(tbodyList,['quantity','price','quantity_actualQuantity'])
             //遍历数组，返回满足属性值等于val的。进行相乘法后在相加。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+
             sumTotalByArrayMul : function (arr,keyArr) {
               var total=0;
               if(!angular.isArray(arr))return -1;
@@ -511,8 +535,10 @@ function alertOk($rootScope, modal) {
                 for(var j=0;j<keyArr.length;j++){
                     var keyName=keyArr[j];
 
-                    if(!tmp[keyName])tmp[keyName]=0;
-                    sum=utilsObj.numberMul(sum,tmp[keyName]);
+                    var val=utilsObj.getObjectVal(tmp,keyName);
+                    if(!val)val=0;
+
+                    sum=utilsObj.numberMul(sum,val);
 
                 }
                 total+=sum;
