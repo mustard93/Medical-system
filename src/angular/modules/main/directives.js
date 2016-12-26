@@ -663,6 +663,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 statusInfo.loadFailMsg = data.msg;
 
                             }
+
+                            if ($attrs.callback) {
+                                $scope.$eval($attrs.callback);
+                            }
+
                             statusInfo.isLoading = false;
                             $scope.isLoading = false;
                             $timeout(bindSelectOneEvent);

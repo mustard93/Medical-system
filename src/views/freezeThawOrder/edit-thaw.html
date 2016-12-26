@@ -4,7 +4,7 @@
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");formData.applyType="批次解冻"'
      alert-error>
-<!-- &copyId={{mainStatus.pageParams.copyId}}" -->
+
   <form id="editForm"
         name="editForm"
         form-validator
@@ -15,8 +15,9 @@
         scope-extend="scopeExtend"
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback='updateStatus={"type":"submit","url":"rest/authen/freezeThawOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/freezeThawOrder/get-overflow.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
-        novalidate="novalidate">
+        callback='updateStatus={"type":"submit","url":"rest/authen/freezeThawOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/freezeThawOrder/get-thaw.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
+        novalidate="novalidate"
+        ng-init="formData.applyType='批次解冻'">
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative">
@@ -26,13 +27,12 @@
           <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-orange">批次解冻单</em>/ 新建批次解冻申请单</p>
           <h1 class="pr-font-22 ">新建批次解冻申请单</h1>
           <div class="mgt-l">
-            <select class="pr-select select-wd"
-             chosen
-              ng-model="listParams.warehouseCode"
-              default-empty="仓库名"
-              select-source="rest/authen/warehouse/queryForSelectOption">
-            </select>
-
+              <select class="pr-select select-wd"
+               chosen
+                ng-model="formData.warehouseCode"
+                default-empty="仓库名"
+                select-source="rest/authen/warehouse/queryForSelectOption">
+              </select>
           </div>
 
         </div>
@@ -48,12 +48,13 @@
              ajax-url="rest/authen/medicalStock/query.json?hospitalId={{formData.customerId}}"
              add-data-callback-fn="flashAddDataCallbackFn(data1)">
         </div>
+
         <!-- 列表 -->
-        <div class="pd-v-s ">
+        <div class="pd-c-l ">
           <div class="flex-column mgb ">
-            <div class="flex-item-10">
+            <div class="flex-item-9">
               <span class="flex-item-2 pd">
-                单据编号：<em >{{formData.orderNo || '暂无'}}</em>
+                  单据编号：<em >{{formData.orderNo || '暂无'}}</em>
               </span>
                 <div class="pd-v-s flex-item-4 ">
                   <div class="flex-item-6 text-left">
@@ -61,7 +62,7 @@
                     <select class="pd-select pd-s mgb-m inline"
                             data-placeholder=" "
                             chosen
-                            ng-model="formData.id"
+                            ng-model="formData.saleUserId"
                             default-empty
                             alert-error
                             select-source="rest/authen/user/queryForSelectOption">
@@ -87,7 +88,7 @@
               </span>
             </div>
 
-            <div class="flex-item-2">
+            <div class="flex-item-3">
               <span class="flex-item-7 text-right pd">
                 申请日期：<em >{{formData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
               </span>
@@ -107,6 +108,7 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
                   <th class="text-center">生产批号/灭菌批号</th>
+                  <!-- <th class="text-center"></th> -->
                   <th class="text-center">生产日期</th>
                   <th class="text-center">保质期</th>
                   <th class="text-center">失效日期</th>
@@ -133,6 +135,7 @@
                   </td>
 
                   <td class="text-center">
+                    <!-- <input type="text" class="ipt ipt-w text-right" ng-model="tr.quantity"> -->
                     <div class="order-goods-num">
                       <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
                       <span class="inline-block">
@@ -147,8 +150,22 @@
                   </td>
 
                   <td class="text-center">
-                    <!-- 生产批号 -->
+
+                    <!-- <select ng-if="tr.relId" class="pd-select pd-s mgb-m inline"
+                            data-placeholder=" "
+                            is-empty-query
+                            chosen
+                            ng-model="tr.productionBatch"
+                            params='{"relMedicalStockId":"{{tr.relId}}"}'
+                            default-empty
+                            alert-error
+                            select-source="rest/authen/medicalStock/queryAllStockBatch">
+                    </select> -->
+
                   </td>
+                  <!-- <td class="text-center"> -->
+                    <!-- 灭菌批号 -->
+                  <!-- </td> -->
                   <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
@@ -208,12 +225,11 @@
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/freezeThawOrder/query-overflow.html')"
+             nosave-callback="goTo('#/freezeThawOrder/query-thaw.html')"
              save-callback="submitForm('editForm','exit')">返回批次解冻单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/freezeThawOrder/query-reimburse.html" >返回批次解冻单列表</a>
-
+          <a class="mgr-l" ng-if="!changeFlag" href="#/freezeThawOrder/query-thaw.html" >返回批次解冻单列表</a>
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
@@ -222,7 +238,7 @@
              dialog-content="您确认删除这条批次解冻单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/freezeThawOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/freezeThawOrder/query-overflow.html')">删除
+             call-back="$root.goTo('#/freezeThawOrder/query-thaw.html')">删除
           </a>
 
           <button type="submit" class="pr-btn-save-glodbg mgr-l"
