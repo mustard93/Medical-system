@@ -15,7 +15,7 @@
         scope-extend="scopeExtend"
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback='updateStatus={"type":"submit","url":"rest/authen/freezeThawOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/freezeThawOrder/get-reimburse.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
+        callback='updateStatus={"type":"submit","url":"rest/authen/freezeThawOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/freezeThawOrder/get-freeze.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
         novalidate="novalidate"
         ng-init="formData.applyType='批次冻结'">
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
@@ -43,11 +43,12 @@
     <div class="pd-loss-l">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l">
         <!-- 信息 -->
-        <div class="pd-c-l" flash-add-medical
+        <div class="pd-c-l view-medical" flash-add-medical
              ng-model="data1"
              ajax-url="rest/authen/medicalStock/query.json?hospitalId={{formData.customerId}}"
              add-data-callback-fn="flashAddDataCallbackFn(data1)">
         </div>
+
         <!-- 列表 -->
         <div class="pd-c-l ">
           <div class="flex-column mgb ">
@@ -107,6 +108,7 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
                   <th class="text-center">生产批号/灭菌批号</th>
+                  <!-- <th class="text-center"></th> -->
                   <th class="text-center">生产日期</th>
                   <th class="text-center">保质期</th>
                   <th class="text-center">失效日期</th>
@@ -147,10 +149,23 @@
                     </div>
                   </td>
 
-
                   <td class="text-center">
-                    <!-- 生产批号 -->
+
+                    <!-- <select ng-if="tr.relId" class="pd-select pd-s mgb-m inline"
+                            data-placeholder=" "
+                            is-empty-query
+                            chosen
+                            ng-model="tr.productionBatch"
+                            params='{"relMedicalStockId":"{{tr.relId}}"}'
+                            default-empty
+                            alert-error
+                            select-source="rest/authen/medicalStock/queryAllStockBatch">
+                    </select> -->
+
                   </td>
+                  <!-- <td class="text-center"> -->
+                    <!-- 灭菌批号 -->
+                  <!-- </td> -->
                   <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
@@ -210,12 +225,11 @@
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/freezeThawOrder/query-reimburse.html')"
+             nosave-callback="goTo('#/freezeThawOrder/query-freeze.html')"
              save-callback="submitForm('editForm','exit')">返回批次冻结单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/freezeThawOrder/query-reimburse.html" >返回批次冻结单列表</a>
-
+          <a class="mgr-l" ng-if="!changeFlag" href="#/freezeThawOrder/query-freeze.html" >返回批次冻结单列表</a>
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
@@ -224,7 +238,7 @@
              dialog-content="您确认删除这条批次冻结单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/freezeThawOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/freezeThawOrder/query-reimburse.html')">删除
+             call-back="$root.goTo('#/freezeThawOrder/query-freeze.html')">删除
           </a>
 
           <button type="submit" class="pr-btn-save-glodbg mgr-l"
