@@ -1,7 +1,7 @@
 <div class="content-wrapper loss-over-order"
      ng-controller="QualificationApplyCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;
-     formData.applyType='报损'
+     formData.applyType='报损';listParams.applyType='报损'
      ">
   <!-- 模块标题及面包屑 -->
   <div class="page-header-info">
@@ -21,11 +21,11 @@
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl mgr relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
-        <div class="pos-abs order-create-btn">
+        <div ng-if="$root.hasAuthor('报损单新建')" class="pos-abs order-create-btn" >
           <a href="#/lossOverOrder/edit-reimburse.html" title="新建报损单"><i></i><span class="text-s">新建报损单</span></a>
         </div>
         <div class="order-status-btn pos-tr text-right"
-             ajax-url="rest/authen/lossOverOrder/countByOrderStatus.json"
+             ajax-url="rest/authen/lossOverOrder/countByOrderStatus.json?applyType=报损"
              scope-data="countByOrderStatus"
              alert-error>
             <div class=""></div>
@@ -79,7 +79,7 @@
           <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
           <p class="text-center">什么也没有</p>
         </div>
-        <ul ng-if="tbodyList.length">
+        <ul ng-if="tbodyList.length" class="li-min-h">
           <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}">
               <div class="relative pd-m">
@@ -105,9 +105,9 @@
                     <a class="mgl"
                        ng-if="tr.orderStatus=='未通过'"
                        ng-href="#/lossOverOrder/edit-reimburse.html?copyId={{tr.id}}">新建</a>
-                    <a class="mgl"
-                       ng-if="(tr.orderStatus!='已通过' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')) || tr.orderStatus=='未通过'"
-                       ng-href="#/lossOverOrder/get-reimburse.html?id={{tr.id}}">查看详情</a>
+                       <a class="mgl"
+                          ng-if="(tr.orderStatus!='待审核' && !$root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')) || tr.orderStatus=='未通过'"
+                          ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">查看详情</a>
                     <a ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
                        class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                        ng-href="#/lossOverOrder/get-reimburse.html?id={{tr.id}}">立即审批</a>
@@ -132,7 +132,7 @@
                 </div>
 
                 <div>
-                  <h1 class="mg-m text-center text-m color-6 pd-c-m text-ellips-s">{{tr.warehouseName}}</h1>
+                  <h1 class="mg-m text-center text-m color-6 pd-c-m text-ellips-s">{{tr.warehouseName || '暂无'}}</h1>
 
                 </div>
                 <div class="bt-dotted-line">
