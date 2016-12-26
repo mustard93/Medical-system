@@ -1,8 +1,8 @@
 <div class="lossOverOrder-edit"
-     ng-controller="salesOrderEditCtrl2"
+     ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");'
+     callback='initFlag=true;watchFormChange("formData");formData.applyType="报损"'
      alert-error>
 <!-- &copyId={{mainStatus.pageParams.copyId}}" -->
   <form id="editForm"
@@ -23,49 +23,30 @@
       <div class="pd-l">
         <!-- 标题 -->
         <div class="mgb-m">
-          <p class="mgb-m">库存管理 / <em class="color-custom-orange">报损单</em>/ 新建报溢申请单</p>
+          <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-orange">报溢单</em>/ 新建报溢申请单</p>
           <h1 class="pr-font-22 ">新建报溢申请单</h1>
+          <div class="mgt-l">
+            <select class="pr-select select-wd"
+             chosen
+              ng-model="listParams.warehouseCode"
+              default-empty="仓库名"
+              select-source="rest/authen/warehouse/queryForSelectOption">
+            </select>
 
-          <select class="pr-select select-wd"
-           chosen
-            ng-model="listParams.warehouseCode"
-            default-empty="选择仓库"
-            select-source="rest/authen/warehouse/queryForSelectOption">
-          </select>
+          </div>
 
         </div>
 
       </div>
     </div>
     <!-- 药械列表 -->
-    <div class="pd-l">
+    <div class="pd-loss-l">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l">
         <!-- 信息 -->
-        <div class="bb-dashed-line" auto-get-focus="lossOverOrderQuantity" focus-condition="angucomplete_data">
-          <h1 class="text-bold pdb">药械闪加</h1>
-          <div class="mgb">
-            <span angucomplete-medical
-                  placeholder="商品名 商品简称 商品名头字母 商品编号 厂家名 厂家名头字母。多个关键字段，用空格分隔"
-                  title-field="name"
-                  url="http://localhost:3000/src/angularjs-api/data/medicalStockList.json"
-                  ng-model="angucomplete_data"
-                  class="inline-block mgr medical-search"
-                  ng-change="addDataItem=angucomplete_data.data;addDataItem.relId=angucomplete_data.id">
-            </span>
-            <span class="mgr medical-num inline-block">
-              <input id="lossOverOrderQuantity" type="number" class="ipt pr-w-100" ng-model="addDataItem.csmQuantity" ng-keyup="handleAddThisItem($event)" placeholder="数量" />
-            </span>
-            <span class="mgr">
-              <a href="" ng-click="newAddDataItemClick(addDataItem,medical);" class="add-medical-list" title="添加药械"></a>
-            </span>
-            <span class="mgr">
-              <a href="#" class="import-medical-list">导入药械清单</a>
-            </span>
-          </div>
-          <p class="mgb">
-            <span class="mgr-m">{{addDataItem.manufacturer || '生产商名'}}</span>
-            <span>{{addDataItem.specification || '规格型号'}}</span>
-          </p>
+        <div class="pd-c-l" flash-add-medical
+             ng-model="data1"
+             ajax-url="rest/authen/medicalStock/query.json?hospitalId={{formData.customerId}}"
+             add-data-callback-fn="flashAddDataCallbackFn(data1)">
         </div>
         <!-- 列表 -->
         <div class="pd-v-s ">
@@ -162,8 +143,8 @@
                   <th class="text-center">规格型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
-                  <th class="text-center">生产批号</th>
-                  <th class="text-center">灭菌批号</th>
+                  <th class="text-center">生产批号/灭菌批号</th>
+                  <!-- <th class="text-center"></th> -->
                   <th class="text-center">生产日期</th>
                   <th class="text-center">保质期</th>
                   <th class="text-center">失效日期</th>
@@ -206,12 +187,12 @@
                   <td class="text-center">
                     <!-- 生产批号 -->
                   </td>
-                  <td class="text-center">
+                  <!-- <td class="text-center"> -->
                     <!-- 灭菌批号 -->
-                  </td>
-                  <td class="text-center">{{tr.productionDate}}</td>
-                  <td class="text-center">{{tr.guaranteePeriod}}</td>
-                  <td class="text-center">{{tr.validTill}}</td>
+                  <!-- </td> -->
+                  <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                  <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
+                  <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
                   <td class="text-center">
                     <!-- 产品执行标准 -->
@@ -269,13 +250,13 @@
           <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
              handle-this-click
              dialog-title="确认返回?"
-             dialog-content="该报溢单存在未保存数据，是否保存?"
+             dialog-content="该购需单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/lossOverOrder/query-overflow.html')"
              save-callback="submitForm('editForm','exit')">返回报溢单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-overflow.html" >返回报溢单列表</a>
+          <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-reimburse.html" >返回报溢单列表</a>
 
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"

@@ -8,9 +8,14 @@
 
   </div>
   <div class="bb-dashed-line pd-v-l">
-      <select class="pr-select select-wd mgr-ls">
-          <<option value="">昆明库</option>
-      </select>
+
+      <select class="pr-select select-wd mgr-ls"
+        chosen
+         ng-model="listParams.warehouseCode"
+         default-empty="选择仓库"
+         select-source="rest/authen/warehouse/queryForSelectOption">
+       </select>
+
   </div>
 
 <!--body wrapper start-->
@@ -23,30 +28,26 @@
         </button>
       </div> -->
       <div class="text-left order-list-search relative order-list-i mgl">
-        <select class="pr-select select-wd mgr-l">
-          <option>最近7天</option>
-          <option>最近10天</option>
-          <option>最近一个月</option>
+        <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
+         date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
+          <option value="最近7天">最近7天</option>
+          <option  value="最近10天">最近10天</option>
+          <option  value="最近一个月">最近一个月</option>
         </select>
-          <!-- <select class="pr-select select-wd mgr-l" chosen default-empty="所有单据"
-          ng-model="listParams.type"
-          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
 
-          </select> -->
-
-            <input type="text"
-                   datepicker
-                   class="ipt pr-short-ipt color-6 mgr mgl-l"
-                   ng-readonly="true"
-                   placeholder="日期"
-                   ng-model="item.guaranteePeriod">
-             <span class="mgr">至</span>
-             <input type="text"
-                   datepicker
-                   class="ipt pr-short-ipt color-6 mgr-l"
-                   ng-readonly="true"
-                   placeholder="日期"
-                   ng-model="item.guaranteePeriod">
+          <input type="text"
+                 datepicker
+                 class="ipt pr-short-ipt color-6 mgr"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtBeg">
+           <span class="mgr">至</span>
+           <input type="text"
+                 datepicker
+                 class="ipt pr-short-ipt color-6 mgr-l"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtEnd">
                    <select class="pr-select select-wd mgr-l" chosen default-empty="所有单据"
                    ng-model="listParams.type"
                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">

@@ -1,7 +1,6 @@
-
-  <div ng-controller="pageCtrl"
-  class="pd-c-xxxl left-se-side-par "
-  ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}"><!-- pageCtrl-->
+<div ng-controller="pageCtrl"
+     class="pd-c-xxxl left-se-side-par "
+     ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:600px;"><!-- pageCtrl-->
     <div ng-controller="MedicalStockController" class="page-main-content left-se-side-par">
 
         <!--body wrapper start-->
@@ -97,12 +96,13 @@
                                <td>{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
                              </tr>
 
-                             <tr class="bgco-orange color-white" ng-if="tbodyList.length>0"  ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity'])">
+                             <tr class="bgco-orange color-white" ng-if="tbodyList.length>0"
+                               ng-init="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity'])">
                                <td colspan="7" class="text-right">合计：</td>
                                <td>{{totalObj.changeQuantity>0?totalObj.changeQuantity:'&nbsp;'}}</td>
                                <td>{{totalObj.changeQuantity<0?totalObj.changeQuantity:'&nbsp;'}}</td>
                                <td>{{totalObj.actualQuantity}}</td>
-                               <td>&nbsp;</td>
+                               <td>{{totalObj.price}}</td>
                                <td>&nbsp;</td>
                              </tr>
                            </tbody>

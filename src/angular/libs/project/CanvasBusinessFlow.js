@@ -137,7 +137,7 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
             }
 
             var root=JTopo.layout.getRootNodes(this.scene.childs);
-              console.log("JTopo.layout.TreeLayout");
+              // console.log("JTopo.layout.TreeLayout");
             // console.log(root);
 
               this.showWorkflowTaskDataLinks();
@@ -229,7 +229,14 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
 
 
           addNodeByEvent:function(event1){
-            var node = new JTopo.Node(event1.name);
+
+            var iscreate=false;
+            var node=this.getEventByKey(event1.id);
+            if(!node){
+              iscreate=true;
+              node = new JTopo.Node(event1.name);
+            }
+
                node.data=event1;
             node.setSize(120, 44);  // 尺寸
 
@@ -276,15 +283,14 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
 
            node.setImage( this.options.baseImageUrl+imageName+".png", true);
 
+           if(iscreate)this.scene.add(node);
+
+
               return node;
           },
            addEvent:function(event1){
             var node = this.addNodeByEvent(event1);
 
-            if(this.options.showStatus){
-              //  node.fillColor=this.options.status.fillColor_ready;
-            }
-            this.scene.add(node);
 
             //注入node点击回掉函数
             if(this.options.node.clickCallback){
@@ -364,7 +370,7 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
                   for(var i=0;i<rootNodes.length;i++){
                     var rootNode=rootNodes[i];
 
-                      console.log("location1,name="+rootNode.key+",x="+curNodeX+",y="+curNodeY);
+                      // console.log("location1,name="+rootNode.key+",x="+curNodeX+",y="+curNodeY);
                       // nextLocation1.y=tmpY;
                       rootNode.setLocation(curNodeX, curNodeY);
 
