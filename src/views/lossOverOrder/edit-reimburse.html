@@ -16,7 +16,8 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         callback='updateStatus={"type":"submit","url":"rest/authen/lossOverOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/lossOverOrder/get-reimburse.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
-        novalidate="novalidate">
+        novalidate="novalidate"
+        ng-init="formData.applyType='报损'">
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative">{{formData}}
@@ -76,8 +77,8 @@
         <!-- 列表 -->
         <div class="pd-c-l ">
           <div class="flex-column mgb ">
-            <div class="flex-item-10">
-              <span class="flex-item-2 ">
+            <div class="flex-item-9">
+              <span class="flex-item-2 pd">
                   单据编号：<em >{{formData.orderNo || '暂无'}}</em>
               </span>
                 <div class="pd-v-s flex-item-4 ">
@@ -112,7 +113,7 @@
               </span>
             </div>
 
-            <div class="flex-item-2">
+            <div class="flex-item-3">
               <span class="flex-item-7 text-right pd">
                 申请日期：<em >{{formData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
               </span>
@@ -216,9 +217,9 @@
                   <td class="text-center">
                     <!-- 灭菌批号 -->
                   </td>
-                  <td class="text-center">{{tr.productionDate}}</td>
-                  <td class="text-center">{{tr.guaranteePeriod}}</td>
-                  <td class="text-center">{{tr.validTill}}</td>
+                  <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                  <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
+                  <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
                   <td class="text-center">
                     <!-- 产品执行标准 -->
@@ -296,7 +297,7 @@
           </a>
 
           <button type="submit" class="pr-btn-save-glodbg mgr-l"
-                   ng-click="submitForm_type='save';formData.validFlag=false;formData.applyType=报损;submitForm1();">保存
+                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
 
           <button
