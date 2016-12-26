@@ -1341,6 +1341,7 @@ function canvasBusinessFlow (modal,utils) {
       // $scope.ngModel;
       // var data=$scope[$attrs.ngModel];
           var data= $scope.ngModel;
+          var curRelId=$attrs.curRelId;//当前页面业务单id
           console.log(data);
 
           require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
@@ -1351,10 +1352,15 @@ function canvasBusinessFlow (modal,utils) {
                     return;
                 }
 
+
               var moduleType=that.currentNode.data.moduleType;
               var relId= that.currentNode.data.relId;
               if(!moduleType||!relId){
                 console.log("moduleType="+moduleType+",relId="+relId);
+                return;
+              }
+
+              if(curRelId==relId){//当前页面节点点击不做跳转
                 return;
               }
               // var url="/salesOrder/get.html?id="+relId;
@@ -1388,7 +1394,7 @@ function canvasBusinessFlow (modal,utils) {
                   if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
                 }
             }
-            workflow.addCanvasBusinessFlow(data);
+            workflow.addCanvasBusinessFlow(data,curRelId);
 
           });//WorkflowProcess
 
