@@ -21,7 +21,7 @@
     <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl mgr relative">
       <!-- 新建按钮及状态按钮 -->
       <div class="full-width">
-        <div  class="pos-abs order-create-btn">
+        <div ng-if="$root.hasAuthor('批次解冻新建')" class="pos-abs order-create-btn">
           <a href="#/freezeThawOrder/edit-thaw.html" title="新建批次解冻单"><i></i><span class="text-s">新建批次解冻单</span></a>
         </div>
         <div class="order-status-btn pos-tr text-right"
@@ -101,9 +101,9 @@
                     <a class="mgl"
                        ng-if="(tr.orderStatus!='未提交' && !$root.utils.get-thawcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')) || tr.orderStatus=='未通过'"
                        ng-href="#/freezeThawOrder/get-thaw.html?id={{tr.id}}">查看详情</a>
-                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.get-thawcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                       class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                       ng-href="#/freezeThawOrder/get-thaw.html?id={{tr.id}}">立即审批</a>
+                   <a ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('批次冻结解冻单审批')"
+                      class=" mgl"
+                      ng-href="#/lossOverOrder/get-thaw.html?id={{tr.id}}">立即审批</a>
                     <!--工作流控制菜单 -->
                     <!-- <button ng-if="$root.utils.get-thawcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.get-thawcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button> -->
                   </span>

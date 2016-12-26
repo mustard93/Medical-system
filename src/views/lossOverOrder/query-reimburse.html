@@ -89,7 +89,7 @@
                     {{tr.orderStatus}}</em>
                   </span>
                   <span class="flex-item-6 text-right">
-                  
+
                     <a  ng-if="tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id"
                        href="javascript:;"
                        class="color-red"
@@ -107,10 +107,10 @@
                        ng-if="tr.orderStatus=='未通过'"
                        ng-href="#/lossOverOrder/edit-reimburse.html?copyId={{tr.id}}">新建</a>
                        <a class="mgl"
-                          ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
+                          ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='未通过' || tr.orderStatus=='待审批'"
                           ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">查看详情</a>
-                    <a ng-if="tr.orderStatus=='待审批' "
-                       class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                    <a ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('报损报溢单审批')"
+                       class=" mgl"
                        ng-href="#/lossOverOrder/get-reimburse.html?id={{tr.id}}">立即审批</a>
                     <!--工作流控制菜单 -->
                     <!-- <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button> -->

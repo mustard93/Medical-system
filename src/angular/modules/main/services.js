@@ -415,7 +415,7 @@ function alertOk($rootScope, modal) {
               var key=keyArr[index];
                 if(!key)return null;
               if(!obj[key])return null;
-              return getObjectValByKeyArr(obj[key],arr,(1+index));
+              return getObjectValByKeyArr(obj[key],keyArr,(1+index));
 
           };
 
