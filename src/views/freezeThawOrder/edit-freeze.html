@@ -1,6 +1,6 @@
-<div class="lossOverOrder-edit"
-     ng-controller="lossOverOrderEditCtrl"
-     ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+<div class="freezeThawOrder-edit"
+     ng-controller="freezeThawOrderEditCtrl"
+     ajax-url="rest/authen/freezeThawOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");formData.applyType="报损"'
      alert-error>
@@ -9,13 +9,13 @@
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/lossOverOrder/save.json"
+        action="rest/authen/freezeThawOrder/save.json"
         alert-error
         alert-ok
         scope-extend="scopeExtend"
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback='updateStatus={"type":"submit","url":"rest/authen/lossOverOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/lossOverOrder/get-reimburse.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
+        callback='updateStatus={"type":"submit","url":"rest/authen/freezeThawOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/freezeThawOrder/get-reimburse.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
         novalidate="novalidate"
         ng-init="formData.applyType='报损'">
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
@@ -43,7 +43,7 @@
     <div class="pd-loss-l">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l">
         <!-- 信息 -->
-        <!-- <div class="bb-dashed-line" auto-get-focus="lossOverOrderQuantity" focus-condition="angucomplete_data">
+        <!-- <div class="bb-dashed-line" auto-get-focus="freezeThawOrderQuantity" focus-condition="angucomplete_data">
           <h1 class="text-bold pdb">药械闪加</h1>
           <div class="mgb">
             <span angucomplete-medical
@@ -55,7 +55,7 @@
                   ng-change="addDataItem=angucomplete_data.data;addDataItem.relId=angucomplete_data.id">
             </span>
             <span class="mgr medical-num inline-block">
-              <input id="lossOverOrderQuantity" type="number" class="ipt pr-w-100" ng-model="addDataItem.csmQuantity" ng-keyup="handleAddThisItem($event)" placeholder="数量" />
+              <input id="freezeThawOrderQuantity" type="number" class="ipt pr-w-100" ng-model="addDataItem.csmQuantity" ng-keyup="handleAddThisItem($event)" placeholder="数量" />
             </span>
             <span class="mgr">
               <a href="" ng-click="newAddDataItemClick(addDataItem,medical);" class="add-medical-list" title="添加药械"></a>
@@ -74,7 +74,6 @@
              ajax-url="rest/authen/medicalStock/query.json?hospitalId={{formData.customerId}}"
              add-data-callback-fn="flashAddDataCallbackFn(data1)">
         </div>
-
         <!-- 列表 -->
         <div class="pd-c-l ">
           <div class="flex-column mgb ">
@@ -170,8 +169,8 @@
                   <th class="text-center">规格型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
-                  <th class="text-center">生产批号/灭菌批号</th>
-                  <!-- <th class="text-center"></th> -->
+                  <th class="text-center">生产批号</th>
+                  <th class="text-center">灭菌批号</th>
                   <th class="text-center">生产日期</th>
                   <th class="text-center">保质期</th>
                   <th class="text-center">失效日期</th>
@@ -213,22 +212,11 @@
                   </td>
 
                   <td class="text-center">
-
-                    <!-- <select ng-if="tr.relId" class="pd-select pd-s mgb-m inline"
-                            data-placeholder=" "
-                            is-empty-query
-                            chosen
-                            ng-model="tr.productionBatch"
-                            params='{"relMedicalStockId":"{{tr.relId}}"}'
-                            default-empty
-                            alert-error
-                            select-source="rest/authen/medicalStock/queryAllStockBatch">
-                    </select> -->
-
+                    <!-- 生产批号 -->
                   </td>
-                  <!-- <td class="text-center"> -->
+                  <td class="text-center">
                     <!-- 灭菌批号 -->
-                  <!-- </td> -->
+                  </td>
                   <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
@@ -291,11 +279,11 @@
              dialog-title="确认返回?"
              dialog-content="该购需单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/lossOverOrder/query-reimburse.html')"
+             nosave-callback="goTo('#/freezeThawOrder/query-reimburse.html')"
              save-callback="submitForm('editForm','exit')">返回报损单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-reimburse.html" >返回报损单列表</a>
+          <a class="mgr-l" ng-if="!changeFlag" href="#/freezeThawOrder/query-reimburse.html" >返回报损单列表</a>
 
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
@@ -304,8 +292,8 @@
              dialog-title="确认删除?"
              dialog-content="您确认删除这条报损单吗?"
              dialog-template="dialog-confirm.html"
-             request-url="rest/authen/lossOverOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/lossOverOrder/query-reimburse.html')">删除
+             request-url="rest/authen/freezeThawOrder/delete?id={{formData.id}}"
+             call-back="$root.goTo('#/freezeThawOrder/query-reimburse.html')">删除
           </a>
 
           <button type="submit" class="pr-btn-save-glodbg mgr-l"
