@@ -8,8 +8,8 @@
        <div class="pd-l">
          <!-- 标题 -->
          <div class="mgb-m">
-           <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-orange">批次解冻单</em>/ 报溢申请单详情</p>
-           <h1 class="pr-font-22 ">报溢申请单详情</h1>
+           <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-black">批次解冻单</em>/ 批次解冻申请单详情</p>
+           <h1 class="pr-font-22 ">批次解冻申请单详情</h1>
          </div>
          <h1 class="color-black text-l">
            <!-- 昆明库 -->
@@ -25,9 +25,9 @@
             单据编号：<em >{{showData.orderNo || '暂无'}}</em>
             <em  class="mgl">申请人：</em><em class="color-orange">{{showData.saleUser.n|| '暂无'}}</em>
             <em  class="mgl">部门：</em><em>{{showData.departmentName|| '暂无'}}</em>
-            <em  class="mgl">制单人：</em><em class="color-orange">{{showData.inputUser.n|| '暂无'}}</em>
+            <em  class="mgl">制单人：</em><em class="color-black">{{showData.inputUser.n|| '暂无'}}</em>
             <em  class="mgl">
-              审批人：</em><em class="color-orange">{{showData.inputUser.n || '暂无'}}</em>
+              审批人：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
           </span>
           <span class="flex-item-7 text-right">
             申请日期：<em >{{showData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
@@ -38,13 +38,13 @@
           <!-- 主内容头部 -->
             <!-- 主内容区域 -->
             <div class="content-wrapper-main ">
-              <div class="outside-table-d">
-                <table class=" pr-table table-hover table-bordered table-wid" >    <!-- table-wid -->
+              <div >
+                <table class=" pr-table table-hover table-bordered " >    <!-- table-wid -->
                     <thead class="pr-bg-side">
                       <tr>
                         <th class="text-center">商品编码</th>
                         <th class="text-center">商品代码</th>
-                        <th class="text-center">商品名称</th>
+                        <th class="text-left">商品名称</th>
                         <th class="text-center">规格型号</th>
                         <th class="text-center">单位</th>
                         <th class="text-center">数量</th>
@@ -76,7 +76,7 @@
                           {{tr.unit}}
                         </td>
 
-                        <td class="text-right">
+                        <td class="text-center">
                         {{tr.quantity}}
                         </td>
 
@@ -127,17 +127,17 @@
 
 <!-- <div class="handle-btn-area relative">
   <div class="btn-area over-write-wid">
-      <a class="mgr-l" ng-if="!changeFlag" href="#/freezeThawOrder/query-overflow.html" >返回批次解冻单列表</a>
+      <a class="mgr-l" ng-if="!changeFlag" href="#/freezeThawOrder/query-thaw.html" >返回批次解冻单列表</a>
   </div>
 </div> -->
 <div class="handle-btn-area relative">
   <div class="btn-area over-write-wid">
       <span class="mgr-l">
-        <a  href="#/freezeThawOrder/query-overflow.html">返回批次解冻单列表</a>
+        <a  href="#/freezeThawOrder/query-thaw.html">返回批次解冻单列表</a>
       </span>
       <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
        custom-menu-list
-       custom-menu-arr="{{showData.didateFilter.buttons}}">
+        custom-menu-arr="{{showData.didateFilter.buttons}}">
       </span>
   </div>
 </div>
