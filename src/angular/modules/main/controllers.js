@@ -6,7 +6,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter) {
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable) {
 
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
@@ -84,7 +84,8 @@ define('main/controllers', ['main/init'], function () {
         $rootScope.modal=modal;
         //打印工具
         $rootScope.OPrinter=OPrinter;
-
+          //自定义table工具类
+        $rootScope.UICustomTable=UICustomTable;
         $scope.httpGet = function(url) {
           if (Config.serverPath) {
               if (url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0) {
@@ -313,7 +314,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);

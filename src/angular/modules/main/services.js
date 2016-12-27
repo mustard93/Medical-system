@@ -839,7 +839,61 @@ e
               return OPrinter;
         };//OPrinter
 
+
+
+        /**
+        自定义的table工具类
+        public class UICustomTableHeaderVO implements Serializable{
+        	@DataValidate(description = "排序")
+        	private Integer index;
+        	@DataValidate(description = "属性名",nullable=false)
+        	private String propertyKey;//$index 特殊属性，表示显示序号
+        	@DataValidate(description = "属性类型")
+        	private String propertyType;//
+        	@DataValidate(description = "属性显示名",nullable=false)
+        	private String propertyName;//
+        	@DataValidate(description = "显示格式转换",nullable=false)
+        	private String format;//yyyy-MM-dd HH:mm
+        	@DataValidate(description = "标题样式名")
+        	private String thCss;//
+        	@DataValidate(description = "标题样式")
+        	private String thStyle;//
+        	@DataValidate(description = "内容样式名")
+        	private String tdCss;//
+        	@DataValidate(description = "内容样式")
+        	private String tdStyle;//
+        */
+        function UICustomTable ($filter,utils) {
+
+            var dateFilter = $filter('date');
+            var  UICustomTableObj = {
+              //设置输入框获取焦点
+              getShowValue: function (obj,uICustomTableHeaderVO,$index) {
+                if(!uICustomTableHeaderVO)return "";
+                if(uICustomTableHeaderVO.propertyKey=="$index")return $index+1;
+                var val=utils.getObjectVal(obj,uICustomTableHeaderVO.propertyKey);
+
+                 //number,date
+                 //  val=  $filter('date')(val, uICustomTableHeaderVO.format);
+                   if(uICustomTableHeaderVO.filterName){
+                      var fn=$filter(uICustomTableHeaderVO.filterName);
+                      if(!fn){
+                        console.log("filterName is null.filterName="+uICustomTableHeaderVO.filterName);
+                      }else{
+                            val=fn(val, uICustomTableHeaderVO.format);
+                      }
+
+                   }
+
+
+                 return val;
+              }
+            };
+
+            return UICustomTableObj;
+        }//UICustomTable
     angular.module('manageApp.main')
+
         .factory('OPrinter', OPrinter)
         .service('watchFormChange', ["$timeout",watchFormChange])
       .factory('redirectInterceptor', redirectInterceptor)
@@ -854,6 +908,7 @@ e
       .service('buildTree', buildTree)
         .factory('store', store)
           .factory('utils', ["$timeout",utils])
+            .factory('UICustomTable', ["$filter","utils",UICustomTable])
       .factory('proLoading', proLoading)
       .config(['$httpProvider', function ($httpProvider) {
           $httpProvider.interceptors.push('redirectInterceptor');
