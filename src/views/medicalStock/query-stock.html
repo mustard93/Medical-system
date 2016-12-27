@@ -25,9 +25,11 @@
            <table-list list-data="rest/authen/medicalStock/query.json"
                        list-params="listParams"
                        search-mode="noCaseSensitive"
-                       callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','salesQuantity',
-                       'freezeQuantity','lockingQuantity','handleQuantity',
-                       'beingCheckedQuantity','purchaseInWayQuantity','purchaseRequisitionQuantity','stockModel.outStockQuantity'])"
+                       callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['stockModel.quantity',
+                       'stockModel.salesQuantity', 'stockModel.freezeQuantity','stockModel.lockingQuantity',
+                       'stockModel.handleQuantity','stockModel.beingCheckedQuantity',
+                       'stockModel.purchaseInWayQuantity','stockModel.purchaseRequisitionQuantity','stockModel.inStockQuantity',
+                       'stockModel.confirmOrderQuantity','stockModel.shippedQuantity','stockModel.outStockQuantity'])"
                        search-param="q">
 
             <div class="text-left order-list-search relative">
@@ -77,13 +79,13 @@
                       "className":"circle-icon2 pos-abs pr-icon-bg11"}]'>
                     <td>{{$index + 1}}</td>
                     <td>{{tr.code}}</td>
-                    <td></td>
+                    <td>{{showData.goodsCode}}</td>
                     <td>{{tr.name}}</td>
                     <td>{{tr.specification}}</td>
                     <td>{{tr.medicalAttribute.code}}</td>
                     <td>{{tr.medicalAttribute.name}}</td>
                     <td>{{tr.unit}}</td>
-                    <td>{{tr.stockModel.drugAdministrationCode}}</td>
+                    <td>{{tr.drugAdministrationCode}}</td>
                     <td>{{tr.stockModel.salesQuantity}}</td>
                     <td>{{tr.stockModel.quantity}}</td>
                     <td>{{tr.stockModel.freezeQuantity}}</td>
@@ -101,17 +103,17 @@
                   <tr class="bgco-orange color-white">
 
                     <td colspan="9" class="text-right">合计：</td>
-                    <td>{{totalObj.salesQuantity}}</td>
-                    <td>{{totalObj.quantity}}</td>
-                    <td>{{totalObj.freezeQuantity}}</td>
-                    <td>{{totalObj.lockingQuantity}}</td>
-                    <td>{{totalObj.handleQuantity}}</td>
-                    <td>{{totalObj.beingCheckedQuantity}}</td>
-                    <td>{{totalObj.purchaseInWayQuantity}}</td>
-                    <td>{{totalObj.purchaseRequisitionQuantity}}</td>
-                    <td>{{totalObj.inStockQuantity}}</td>
-                    <td>{{totalObj.confirmOrderQuantity}}</td>
-                    <td>{{totalObj.shippedQuantity}}</td>
+                    <td>{{totalObj['stockModel.salesQuantity']}}</td>
+                    <td>{{totalObj['stockModel.quantity']}}</td>
+                    <td>{{totalObj['stockModel.freezeQuantity']}}</td>
+                    <td>{{totalObj['stockModel.lockingQuantity']}}</td>
+                    <td>{{totalObj['stockModel.handleQuantity']}}</td>
+                    <td>{{totalObj['stockModel.beingCheckedQuantity']}}</td>
+                    <td>{{totalObj['stockModel.purchaseInWayQuantity']}}</td>
+                    <td>{{totalObj['stockModel.purchaseRequisitionQuantity']}}</td>
+                    <td>{{totalObj['stockModel.inStockQuantity']}}</td>
+                    <td>{{totalObj['stockModel.confirmOrderQuantity']}}</td>
+                    <td>{{totalObj['stockModel.shippedQuantity']}}</td>
                     <td>{{totalObj['stockModel.outStockQuantity']}}</td>
                   </tr>
                 </tbody>
