@@ -30,13 +30,18 @@
                        callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity']);total_quantity_price=$root.utils.sumTotalByArrayMul(tbodyList,['price','quantity'])"
                        search-param="q">
           <h1 class="color-black text-l pd">{{tbodyList[0].name}}</h1>
+          <p ajax-url="rest/authen/medicalStock/queryInoutstockDetailChangeForTerminal">
+            <em class="mgl-stock-l">此前库存：</em><em>0</em>
+            <em class="mgl-xxxl">期末库存：</em><em>0</em>
+          </p>
           <div class="content-wrapper-main mgt">
               <div class="pd-c">
                            <!-- 搜索框 start-->
-                           <div class="text-left order-list-search relative" ng-init="queryDatePeriod=''">
+                           <div class="text-left order-list-search relative" ng-init="queryDatePeriod='最近7天'">
                                <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
                                 date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
                                  <option value="最近7天">最近7天</option>
+
                                  <option  value="最近10天">最近10天</option>
                                  <option  value="最近一个月">最近一个月</option>
                                </select>
@@ -54,7 +59,7 @@
                                         ng-readonly="true"
                                         placeholder="日期"
                                         ng-model="listParams.createAtEnd">
-                           <input type="text" class="ipt pdr-xxl" placeholder="单据编号/经手人" ng-model="listParams.q">
+                           <input type="text" class="ipt pdr-xxl" placeholder="单据编号/业务员" ng-model="listParams.q">
                              <i class="ipt-i"></i>
                            </div>
                             <!-- 搜索框 end-->
@@ -73,7 +78,7 @@
                                <th>单据编号</th>
                                <th>仓库</th>
                                <th>单位</th>
-                               <th>经手人</th>
+                               <th>业务员</th>
                                <th>入库数量</th>
                                <th>出库数量</th>
                                <th>库存余量</th>
@@ -91,7 +96,7 @@
                                <td>{{tr.unit}}</td>
                                <td>{{!tr.inputUser.n?'&nbsp;':tr.inputUser.n}}</td>
                                <td >{{tr.changeQuantity>0?tr.changeQuantity:'0'}}</td>
-                               <td >{{tr.changeQuantity<0?Math.abs(tr.changeQuantity):'0'}}</td>
+                               <td >{{tr.changeQuantity<0?tr.changeQuantity:'0'}}</td>
                                <td>{{tr.quantity?tr.quantity:'0'}}</td>
                                <td>{{tr.price?tr.price:'0'}}</td>
                                <td>{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
