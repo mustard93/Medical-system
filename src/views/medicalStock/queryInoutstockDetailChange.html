@@ -30,9 +30,10 @@
                        callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity']);total_quantity_price=$root.utils.sumTotalByArrayMul(tbodyList,['price','quantity'])"
                        search-param="q">
           <h1 class="color-black text-l pd">{{tbodyList[0].name}}</h1>
-          <p ajax-url="rest/authen/medicalStock/queryInoutstockDetailChangeForTerminal">
-            <em class="mgl-stock-l">此前库存：</em><em>0</em>
-            <em class="mgl-xxxl">期末库存：</em><em>0</em>
+          <p ajax-url="rest/authen/medicalStock/queryInoutstockDetailChangeForTerminal" scope-data="stocks">
+
+            <em class="mgl-stock-l">此前库存：</em><em>{{stocks.startQuantity}}</em>
+            <em class="mgl-xxxl">期末库存：</em><em>{{stocks.terminalQuantity}}</em>
           </p>
           <div class="content-wrapper-main mgt">
               <div class="pd-c">
