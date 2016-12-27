@@ -6,9 +6,11 @@
     <table-list list-data="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.relMedicalStockId}}"
                 list-params="listParams"
                 search-mode="noCaseSensitive"
-                callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','salesQuantity',
-                'freezeQuantity','lockingQuantity','handleQuantity',
-                'beingCheckedQuantity','purchaseInWayQuantity','purchaseRequisitionQuantity','stockModel.outStockQuantity'])"
+                callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['stockModel.quantity',
+                'stockModel.salesQuantity', 'stockModel.freezeQuantity','stockModel.lockingQuantity',
+                'stockModel.handleQuantity','stockModel.beingCheckedQuantity',
+                'stockModel.purchaseInWayQuantity','stockModel.purchaseRequisitionQuantity','stockModel.inStockQuantity',
+                'stockModel.confirmOrderQuantity','stockModel.shippedQuantity','stockModel.outStockQuantity'])"
                 search-param="q">
 
       <div class="pd-c-xxl mgrl"
@@ -94,17 +96,15 @@
                           <td>{{showData.medicalAttribute.code}}</td>
                           <td>{{showData.medicalAttribute.name}}</td>
                           <td>{{showData.unit}}</td>
-                          <td>{{showData.stockModel.drugAdministrationCode}}</td>
+                          <td>{{showData.drugAdministrationCode}}</td>
                           <td>{{tr.productionBatch}}</td>
                           <td>{{tr.sterilizationBatchNumber}}</td>
                           <td>{{tr.productionDate  | date:'yyyy-MM-dd'}}</td>
                           <td></td>
                           <td>{{tr.validTill | date:'yyyy-MM-dd'}}</td>
-
                           <td>{{tr.stockModel.salesQuantity}}</td>
                           <td>{{tr.stockModel.quantity}}</td>
                           <td>{{tr.stockModel.freezeQuantity}}</td>
-
                           <td>{{tr.stockModel.lockingQuantity}}</td>
                           <td>{{tr.stockModel.handleQuantity}}</td>
                           <td>{{tr.stockModel.beingCheckedQuantity}}</td>
@@ -118,17 +118,17 @@
                         </tr>
                         <tr class="bgco-orange color-white">
                           <td colspan="14" class="text-right">合计：</td>
-                          <td>{{totalObj.salesQuantity}}</td>
-                          <td>{{totalObj.quantity}}</td>
-                          <td>{{totalObj.freezeQuantity}}</td>
-                          <td>{{totalObj.lockingQuantity}}</td>
-                          <td>{{totalObj.handleQuantity}}</td>
-                          <td>{{totalObj.beingCheckedQuantity}}</td>
-                          <td>{{totalObj.purchaseInWayQuantity}}</td>
-                          <td>{{totalObj.purchaseRequisitionQuantity}}</td>
-                          <td>{{totalObj.inStockQuantity}}</td>
-                          <td>{{totalObj.confirmOrderQuantity}}</td>
-                          <td>{{totalObj.shippedQuantity}}</td>
+                          <td>{{totalObj['stockModel.salesQuantity']}}</td>
+                          <td>{{totalObj['stockModel.quantity']}}</td>
+                          <td>{{totalObj['stockModel.freezeQuantity']}}</td>
+                          <td>{{totalObj['stockModel.lockingQuantity']}}</td>
+                          <td>{{totalObj['stockModel.handleQuantity']}}</td>
+                          <td>{{totalObj['stockModel.beingCheckedQuantity']}}</td>
+                          <td>{{totalObj['stockModel.purchaseInWayQuantity']}}</td>
+                          <td>{{totalObj['stockModel.purchaseRequisitionQuantity']}}</td>
+                          <td>{{totalObj['stockModel.inStockQuantity']}}</td>
+                          <td>{{totalObj['stockModel.confirmOrderQuantity']}}</td>
+                          <td>{{totalObj['stockModel.shippedQuantity']}}</td>
                           <td>{{totalObj['stockModel.outStockQuantity']}}</td>
 
                         </tr>
