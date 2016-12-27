@@ -28,7 +28,6 @@
                        list-params="listParams"
                        search-mode="noCaseSensitive"
                        callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity']);total_quantity_price=$root.utils.sumTotalByArrayMul(tbodyList,['price','quantity'])"
-
                        search-param="q">
           <h1 class="color-black text-l pd">{{tbodyList[0].name}}</h1>
           <div class="content-wrapper-main mgt">
@@ -93,7 +92,7 @@
                                <td>{{!tr.inputUser.n?'&nbsp;':tr.inputUser.n}}</td>
                                <td >{{tr.changeQuantity>0?tr.changeQuantity:'0'}}</td>
                                <td >{{tr.changeQuantity<0?Math.abs(tr.changeQuantity):'0'}}</td>
-                               <td>{{tr.quantity}}</td>
+                               <td>{{tr.quantity?tr.quantity:'0'}}</td>
                                <td>{{tr.price?tr.price:'0'}}</td>
                                <td>{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
                              </tr>
@@ -101,8 +100,8 @@
 
                              <tr class="bgco-orange color-white" >
                                <td colspan="7" class="text-right">合计：</td>
-                               <td>{{totalObj.changeQuantity>0?totalObj.changeQuantity:'&nbsp;'}}</td>
-                               <td>{{totalObj.changeQuantity<0?totalObj.changeQuantity:'&nbsp;'}}</td>
+                               <td>{{totalObj.changeQuantity>0?totalObj.changeQuantity:'0'}}</td>
+                               <td>{{totalObj.changeQuantity<0?totalObj.changeQuantity:'0'}}</td>
                                <td>{{totalObj.quantity}}</td>
                                <td>{{totalObj.price}}</td>
                                <td>{{total_quantity_price}}</td>
