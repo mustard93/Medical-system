@@ -1,0 +1,72 @@
+<div ng-controller="pageCtrl" class="pd-c-xxxl"
+
+><!-- pageCtrl-->
+
+  <div class="page-header-info ">
+
+    <p class="mgb bb-line ">
+      库存报表 / <em class="color-custom-orange">出入库明细</em>
+    </p>
+
+  </div>
+  <div class="bb-dashed-line pd-v-l">
+
+      <select class="pr-select select-wd mgr-ls"
+        chosen
+         ng-model="listParams.warehouseCode"
+         default-empty="选择仓库"
+         select-source="rest/authen/warehouse/queryForSelectOption.json">
+       </select>
+
+  </div>
+
+<!--body wrapper start-->
+
+<table-list list-data="rest/authen/inoutstockDetail/query.json" class="table table-hover table-striped table-mr table-content" list-params="listParams">
+    <div class="mg-m col-lg-12 col-sm-12"
+
+    >
+      <!-- <div class="col-lg-1">
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/role/edit.html">
+            <i class="fa fa-plus"></i>新建
+        </button>
+      </div> -->
+      <div class="text-left order-list-search relative order-list-i mgl">
+        <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
+         date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
+          <option value="最近7天">最近7天</option>
+          <option  value="最近10天">最近10天</option>
+          <option  value="最近一个月">最近一个月</option>
+        </select>
+
+          <input type="text"
+                 datepicker
+                 class="ipt pr-short-ipt color-6 mgr"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtBeg">
+           <span class="mgr">至</span>
+           <input type="text"
+                 datepicker
+                 class="ipt pr-short-ipt color-6 mgr-l"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtEnd"/>
+                   <select class="pr-select select-wd mgr-l" chosen default-empty="所有单据"
+                   ng-model="listParams.type"
+                   select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_InoutstockDetailType">
+
+                   </select>
+
+
+        <input type="text" class="ipt pdr-xl ipt-r-i" placeholder="商品名称/单据编号" ng-model="listParams.q">
+        <i></i>
+
+      </div>
+
+     <div custom-table="name" ></div>
+
+    </div>
+</table-list>
+<!--body wrapper end-->
+</div>
