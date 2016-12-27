@@ -59,8 +59,14 @@
             <div class="flex-item-6">
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">品种通用名称：</label>
-                <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.genericName" required>
+                <div class="col-sm-6 relative">
+                  <input type="text"
+                         class="form-control"
+                         name="genericName"
+                         ng-model="formData.firstMedical.genericName"
+                         required="true"
+                         data-content="请输入通用名称(必填项)"
+                         invalid-popover="{{firstMedicalEditForm.genericName.$invalid}}" />
                 </div>
               </div>
             </div>
@@ -69,8 +75,14 @@
             <div class="flex-item-6">
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">品种名：</label>
-                <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.name" required>
+                <div class="col-sm-6 relative">
+                  <input type="text"
+                         class="form-control"
+                         name="name"
+                         ng-model="formData.firstMedical.name"
+                         required="true"
+                         data-content="请输入品种名称(必填项)"
+                         invalid-popover="{{firstMedicalEditForm.name.$invalid}}" />
                 </div>
               </div>
             </div>
@@ -78,7 +90,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">注册商标：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.trademark" required>
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.trademark">
                 </div>
               </div>
             </div>
@@ -204,14 +216,19 @@
                 <div class="col-sm-6 flex-column">
                   <span class="flex-item-3">
                     <select class="form-control" name="" ng-model="formData.firstMedical.isBasicMedicine">
-                      <option value="是" ng-selected="true">是</option>
+                      <option value="是">是</option>
                       <option value="否">否</option>
                     </select>
                   </span>
                   <span class="flex-item-8 flex-offset-1">
                     <label for="" class="col-sm-4 control-label">牌价：</label>
                     <div class="col-sm-8">
-                      <input type="number" class="form-control text-right" placeholder="￥0.00" ng-model="formData.firstMedical.quoteprice">
+                      <input type="number"
+                             class="form-control text-right"
+                             placeholder="￥0.00"
+                             ng-model="formData.firstMedical.quoteprice"
+                             ng-disabled="formData.firstMedical.isBasicMedicine=='否'"
+                             ng-keyup="chkQuoteAndRetail()">
                     </div>
                   </span>
 
@@ -224,7 +241,11 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">采购价：</label>
                 <div class="col-sm-6">
-                  <input type="number" class="form-control text-right" placeholder="￥0.00" ng-model="formData.firstMedical.purchasePrice" required="true">
+                  <input type="number"
+                         class="form-control text-right"
+                         placeholder="￥0.00"
+                         ng-model="formData.firstMedical.purchasePrice"
+                         required="true">
                 </div>
               </div>
             </div>
@@ -232,7 +253,12 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">零售价：</label>
                 <div class="col-sm-6">
-                  <input type="number" class="form-control text-right" placeholder="￥0.00" ng-model="formData.firstMedical.retailPrice" required="true">
+                  <input type="number"
+                         class="form-control text-right"
+                         placeholder="￥0.00"
+                         ng-model="formData.firstMedical.retailPrice"
+                         required="true"
+                         ng-keyup="chkQuoteAndRetail()">
                 </div>
               </div>
             </div>
@@ -330,7 +356,7 @@
              nosave-callback="goTo('#/firstMedicalApplication/query.html')"
              save-callback="submitForm('editForm','exit')">返回申请单列表</a>
 
-          <a href="#/firstMedicalApplication/query.html">返回申请单列表</a>
+          <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回申请单列表</a>
         </span>
         <span class="mgl">
           <a ng-if="formData.id && formData.proposerName==mainStatus.name"
