@@ -1235,7 +1235,7 @@ define('project/controllers', ['project/init'], function() {
       }//intervalCtrl
 
 
-    function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils,alertError,alertWarn) {
+    function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
@@ -1305,6 +1305,17 @@ define('project/controllers', ['project/init'], function() {
         .catch(function (error) {
            alertError('此药械已添加');
         });
+      };
+
+      // 首营品种新建页面用户输入零售价大于牌价的提示
+      $scope.chkQuoteAndRetail = function () {
+        if ($scope.formData.firstMedical.quoteprice) {
+          $scope.$watch($scope.formData.firstMedical.retailPrice, function () {
+            if (parseInt($scope.formData.firstMedical.retailPrice) > parseInt($scope.formData.firstMedical.quoteprice)) {
+              alertWarn('当前输入的零售价大于输入的牌价!');
+            }
+          });
+        }
       };
     }
 
