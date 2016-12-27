@@ -41,12 +41,16 @@
         <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label">安装包</label>
           <div class="col-lg-10 col-sm-10">
+            <p class="mgb">
+              {{formData.fileName}}
+            </p>
             <button type="button"
                     class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                       ng-init="upFile={}"
                     uploader-one="rest/authen/fileUpload/upload2.json"
+                    callback="formData.fileName=upFile.data.originalFileName"
                     usege="APK安装包上传"
-                    up-file="upFile" ng-model="item.loadUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                    up-file="upFile" ng-model="formData.loadUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
             </button>
           </div>
         </div>

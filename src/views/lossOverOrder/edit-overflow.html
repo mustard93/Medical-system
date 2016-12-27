@@ -23,7 +23,7 @@
       <div class="pd-l">
         <!-- 标题 -->
         <div class="mgb-m">
-          <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-orange">报溢单</em>/ 新建报溢申请单</p>
+          <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-black">报溢单</em>/ 新建报溢申请单</p>
           <h1 class="pr-font-22 ">新建报溢申请单</h1>
           <div class="mgt-l">
             <select class="pr-select select-wd"
@@ -43,7 +43,7 @@
     <div class="pd-loss-l">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l">
         <!-- 信息 -->
-        <div class="pd-c-l" flash-add-medical
+        <div class="pd-c-l view-medical" flash-add-medical
              ng-model="data1"
              ajax-url="rest/authen/medicalStock/query.json?hospitalId={{formData.customerId}}"
              add-data-callback-fn="flashAddDataCallbackFn(data1)">
@@ -82,8 +82,8 @@
 
               <span class="flex-item-4  pd">
                 <!-- 单据编号：<em >{{formData.orderNo || '暂无'}}</em> -->
-                <em  class="mgl">制单人：</em><em class="color-orange">{{formData.inputUser.n|| '暂无'}}</em>
-                <em  class="mgl">审批人：</em><em class="color-orange">{{formData.approverUser || '暂无'}}</em>
+                <em  class="mgl">制单人：</em><em class="color-black">{{formData.inputUser.n|| '暂无'}}</em>
+                <em  class="mgl">审批人：</em><em class="color-black">{{formData.approverUser || '暂无'}}</em>
               </span>
             </div>
 
@@ -133,8 +133,8 @@
             </div> -->
           <!-- </div> -->
           <!-- 下拉款内容end-->
-          <div class="outside-table-d">
-            <table class="table pr-table pr-new-table table-wid" >
+          <div> <!-- class="outside-table-d"-->
+            <table class="table pr-table pr-new-table " > <!--table-wid-->
               <thead>
                 <tr>
                   <th class="text-center">商品编码</th>
@@ -186,10 +186,17 @@
 
                   <td class="text-center">
                     <!-- 生产批号 -->
-                  </td>
-                  <!-- <td class="text-center"> -->
-                    <!-- 灭菌批号 -->
-                  <!-- </td> -->
+                    <select ng-if="tr.relId" class="pd-select pd-s mgb-m inline"
+                            data-placeholder=" "
+                            is-empty-query
+                            chosen
+                            ng-model="tr.productionBatch"
+                            params='{"relMedicalStockId":"{{tr.relId}}"}'
+                            default-empty
+                            alert-error
+                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption">
+                    </select>
+                  </td>        
                   <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
