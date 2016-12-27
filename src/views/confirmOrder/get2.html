@@ -3,7 +3,8 @@
      ajax-url="rest/authen/confirmOrder/getThisAndSalesOrder.json?id={{mainStatus.pageParams.id}}"
      scope-data="scopeData"
      callback="showData=scopeData.confirmOrder"
-     alert-error>
+     alert-error
+     ng-init="formData.exchangeRate='1.00'">
   <form id="editForm"
         name="editForm"
         form-validator
@@ -43,45 +44,61 @@
         <!-- 类别选择 -->
         <div class="pd-l">
           <span class="mgr">销售部门：
-            <select class="select pr-select pr-select-sm" style="width:100px;">
-              <option value="">事业一部</option>
-              <option value="">事业二部</option>
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.salesDepartmentId"
+                    select-source="rest/authen/department/queryForSelectOption">
             </select>
           </span>
           <span class="mgr">业务人员：
-            <select class="select pr-select pr-select-sm" style="width:100px;">
-              <option value="">业务甲</option>
-              <option value="">业务乙</option>
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.saleUserId"
+                    select-source="rest/authen/organizationAndUser/queryForSelectOption.json">
             </select>
           </span>
           <span class="mgr">业务类型：
-            <select class="select pr-select pr-select-sm" style="width:100px;">
-              <option value="">普通</option>
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.orderBusinessType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
             </select>
           </span>
           <span class="mgr">销售类型：
-            <select class="select pr-select pr-select-sm" style="width:100px;">
-              <option value="">直销</option>
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.salesType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_SalesType">
             </select>
           </span>
           <span class="mgr">付款条件：
-            <select class="select pr-select pr-select-sm" style="width:100px;">
-              <option value="">付款</option>
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.paymentType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PaymentType">
             </select>
           </span>
           <span class="mgr">币种：
-            <select class="select pr-select pr-select-sm" style="width:100px;">
-              <option value="">人民币</option>
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.currencyType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_CurrencyType">
             </select>
           </span>
-          <span class="mgr">汇率
-            <input type="text" class="ipt pr-ipt-60 text-right">
+          <span class="mgr">汇率：
+            <input type="text" class="ipt pr-ipt-60 text-right" ng-model="formData.exchangeRate">
           </span>
         </div>
         <!-- 商品列表 -->
         <div class="">
-          <div class="" style="width:100%;overflow-x:scroll;overflow-y:hidden;">
-            <table class="table pr-table pr-new-table table-wid mgb-n">
+          <div class="">
+            <table class="table pr-table pr-new-table mgb-n">
               <thead>
                 <tr>
                   <th class="text-center w-50">
@@ -127,7 +144,7 @@
                             chosen
                             default-empty
                             data-placeholder=" "
-                            ng-model="item.batchRequirement"
+                            ng-model="item.productionBatch"
                             select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
                     </select>
                   </td>
@@ -138,22 +155,29 @@
                            style="width:110px;"
                            placeholder=""
                            ng-readonly="true"
-                           ng-model="item.time" />
+                           ng-model="item.expectDate" />
                   </td>
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
-                  <td class="text-center">99%</td>
-                  <td class="text-center">99%</td>
-                  <td class="text-center">99%</td>
-                  <td class="text-center">99%</td>
-                  <td class="text-center">99%</td>
-                  <td class="text-center">99%</td>
-                  <td class="text-center">99%</td>
+                  <td class="text-center">{{item.taxRate*100}}%</td>
+                  <td class="text-center">￥{{item.discountPrice | number:2}}</td>
+                  <td class="text-center">{{item.discountRate}}%</td>
+                  <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
+                  <td class="text-center">￥{{item.price*(1-item.taxRate)*item.quantity-item.discountPrice*item.quantity | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.taxRate-item.discountPrice | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.quantity-item.discountPrice*item.quantity | number:2}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="text-right color-9 pd-l confirm-order-toatl text-m">本页小计：<em class="color-6">23.00</em>
+          <div class="flex-column pd-v-l">
+            <div class="flex-item-9 color-red pr-indent-20">
+              确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a>
+            </div>
+            <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
+              本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(showData.orderMedicalNos,['price','quantity']) | number:2}}</em>
+            </div>
           </div>
+
         </div>
       </div>
     </div>
