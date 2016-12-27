@@ -96,15 +96,19 @@
                             <th>灭菌批号</th>
                             <th>有效期至</th>
                             <th>生产日期</th>
+                            <th>备注</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered ">
+                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered " ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
                             <td>{{$index + 1}}</td>
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.type}}</td>
                             <td class="color-orange">
-                              <a ng-if="tr.type='采购入库单'" href="">
+                              <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
+                              {{tr.orderNo}}
+                              </a>
+                              <a ng-if="tr.type=='采购出库单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
                               {{tr.orderNo}}
                               </a>
                             </td>
@@ -114,12 +118,13 @@
                             <td>{{tr.modelType}}</td>
                             <td>{{tr.drugAdministrationCode}}</td>
                             <td>{{tr.unit}}</td>
-                            <td>{{tr.quantity}}</td>
+                            <td ng-if="!tr.refuseQuantity">{{tr.quantity}}</td>
+                            <td ng-if="!tr.quantity">{{tr.refuseQuantity}}</td>
                             <td>{{tr.productionBatch}}</td>
                             <td>{{tr.sterilizationBatchNumber}}</td>
                             <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
-
+                            <td>{{tr.note}}</td>
                         </tr>
                     </tbody>
                 </table>
