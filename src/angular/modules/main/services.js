@@ -515,7 +515,8 @@ function alertOk($rootScope, modal) {
                     if(!total[keyName])total[keyName]=0;
                     var val=utilsObj.getObjectVal(tmp,keyName);
                     if(!val)continue;
-                  total[keyName]+=val;
+
+                        total[keyName]=utilsObj.numberAdd(total[keyName],val);
 
                 }
 
