@@ -16,7 +16,6 @@ define('project/services', ['project/init'], function () {
   }
 
 
-
   angular.module('manageApp.project')
 
     .factory('proMessageTips', [proMessageTips]);

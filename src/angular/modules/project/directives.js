@@ -2026,7 +2026,46 @@ function datePeriodSelect () {
       }
 
 
+
+      /**
+        用户自定义表结构显示。
+      */
+      function customTable() {
+        return {
+          restrict: 'EA',
+          scope: false,
+          replace: true,
+          templateUrl:  Config.tplPath +'tpl/project/customTable.html',
+
+                link: function ($scope, element, $attrs) {
+                  if ($attrs.customTable) {
+                      $scope.customTableName=$attrs.customTable;
+                  }
+                }
+        };
+      }
+
+      /**
+          用户自定义表结构-打印显示
+      */
+      function customTablePrint() {
+        return {
+          restrict: 'EA',
+          scope: false,
+          replace: true,
+          templateUrl:  Config.tplPath +'tpl/project/customTablePrint.html',
+
+                link: function ($scope, element, $attrs) {
+                  if ($attrs.customTablePrint) {
+                      $scope.customTablePrintName=$attrs.customTablePrint;
+                  }
+                }
+        };
+      }
+
 angular.module('manageApp.project')
+.directive("customTablePrint", [customTablePrint])
+  .directive("customTable", [customTable])
   .directive("flashAddMedical", [flashAddMedical])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图

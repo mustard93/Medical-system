@@ -27,10 +27,10 @@
             <i class="fa fa-plus"></i>新建
         </button>
       </div> -->
-      <div class="text-left order-list-search relative order-list-i mgl">
+      <div class="text-left order-list-search relative order-list-i mgl" ng-init="queryDatePeriod='最近7天'">
         <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
          date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
-          <option value="最近7天">最近7天</option>
+          <option value="最近7天" >最近7天</option>
           <option  value="最近10天">最近10天</option>
           <option  value="最近一个月">最近一个月</option>
         </select>
@@ -44,6 +44,7 @@
            <span class="mgr">至</span>
            <input type="text"
                  datepicker
+
                  class="ipt pr-short-ipt color-6 mgr-l"
                  ng-readonly="true"
                  placeholder="日期"
@@ -54,9 +55,10 @@
 
                    </select>
 
-
-        <input type="text" class="ipt pdr-xl ipt-r-i" placeholder="商品名称/单据编号" ng-model="listParams.q">
-        <i></i>
+        <div class="out-ipt-div">
+          <input type="text" class="ipt pdr-xl ipt-r-i" placeholder="商品名称/单据编号" ng-model="listParams.q">
+          <i></i>
+        </div>
 
       </div>
 
@@ -85,30 +87,45 @@
                             <th>单据类型</th>
                             <th>单据编号</th>
                             <th>仓库</th>
-                            <th>商品编码</th>
+                            <th>商品编号</th>
                             <th>商品名称</th>
+                            <th>规格型号</th>
+                            <th>注册证号</th>
+                            <th>单位</th>
                             <th>数量</th>
                             <th>批号</th>
                             <th>灭菌批号</th>
                             <th>有效期至</th>
                             <th>生产日期</th>
+                            <th>备注</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered ">
+                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered " ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
                             <td>{{$index + 1}}</td>
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.type}}</td>
-                            <td class="color-orange">{{tr.orderNo}}</td>
+                            <td class="color-orange">
+                              <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
+                              {{tr.orderNo}}
+                              </a>
+                              <a ng-if="tr.type=='采购出库单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
+                              {{tr.orderNo}}
+                              </a>
+                            </td>
                             <td>{{tr.warehouseName}}</td>
-                            <td>{{tr.medicalStockId}}</td>
+                            <td>{{tr.code}}</td>
                             <td>{{tr.medicalStockName}}</td>
-                            <td>{{tr.quantity}}</td>
+                            <td>{{tr.modelType}}</td>
+                            <td>{{tr.drugAdministrationCode}}</td>
+                            <td>{{tr.unit}}</td>
+                            <td ng-if="!tr.refuseQuantity">{{tr.quantity}}</td>
+                            <td ng-if="!tr.quantity">{{tr.refuseQuantity}}</td>
                             <td>{{tr.productionBatch}}</td>
                             <td>{{tr.sterilizationBatchNumber}}</td>
                             <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
-
+                            <td>{{tr.note}}</td>
                         </tr>
                     </tbody>
                 </table>
