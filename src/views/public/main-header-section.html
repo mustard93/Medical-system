@@ -11,11 +11,14 @@
        noshow-loading="true"
        scope-response="scopeResponse">
 
-    <ul class="notification-menu">
+    <ul class="notification-menu"
+        ajax-url="rest/authen/notice/getUnReadSize.json"
+        noshow-loading="true"
+        scope-response="scopeResponse2">
         <li>
           <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">
               <i class="header-message mgt-s"></i>
-              <span ng-if="scopeResponse.data && scopeResponse.data.length > 0" class="badge">{{scopeResponse.data.length}}</span>
+              <span ng-if="scopeResponse.data && scopeResponse.data.length > 0" class="badge">{{scopeResponse2.data}}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-head pull-right">
             <ul class="dropdown-list user-list pr-fuzzy-boundary">
