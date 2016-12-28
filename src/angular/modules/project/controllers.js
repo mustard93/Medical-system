@@ -1538,6 +1538,51 @@ define('project/controllers', ['project/init'], function() {
       });
     }
 
+    /**
+     * [MedicalStockController 库存明细查询模块控制器]
+     * @param {[type]} $scope   [description]
+     * @param {[type]} $timeout [description]
+     */
+    function MedicalStockController ($scope, $timeout) {
+
+    }
+
+    /**
+     * [CalculateTotalController 数据表格内计算各列和]
+     * @param {[type]} $scope [description]
+     */
+    function CalculateTotalController ($scope) {
+      $scope.calculateColumnTotal = function (bodyList, columnName, xx) {
+        var _thisColumnTotal = 0;
+        if (bodyList) {
+          angular.forEach(bodyList, function (data, index, array) {
+            for (var key in data) {
+              // 返回入库数量
+              if (key === columnName && (parseInt(data[key]) > 0)) {
+                _thisColumnTotal += data[key];
+              }
+            }
+          });
+        }
+        return _thisColumnTotal;
+      };
+
+        $scope.calculateColumnTotal2 = function (bodyList, columnName, xx) {
+          var _thisColumnTotal = 0;
+          if (bodyList) {
+            angular.forEach(bodyList, function (data, index, array) {
+              for (var key in data) {
+                // 返回入库数量
+                if (key === columnName && (parseInt(data[key]) < 0)) {
+                  _thisColumnTotal += (0 - data[key]);
+                }
+              }
+            });
+          }
+          return _thisColumnTotal;
+        };
+    }
+
     angular.module('manageApp.project')
     .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
     .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl])
@@ -1554,5 +1599,7 @@ define('project/controllers', ['project/init'], function() {
     .controller('salesOrderEditCtrl2', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', salesOrderEditCtrl2])
     .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl])
     .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
-    .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl]);
+    .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
+    .controller('MedicalStockController', ['$scope', '$timeout', MedicalStockController])
+    .controller('CalculateTotalController', ['$scope', CalculateTotalController]);
 });
