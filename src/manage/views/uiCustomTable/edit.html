@@ -1,0 +1,173 @@
+<div class="modal-content" ng-controller="editCtrl"
+  ng-init="className_getOfEdit=false"
+  ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&className={{className}}"
+  scope-data="formData"
+  callback="initFlag=true">
+  <form class="add-customerAddress-form form-horizontal"
+        action="rest/authen/uiCustomTable/save"
+
+        alert-error
+        alert-ok
+        parameter-body
+        form-validator>
+    <div class="modal-header">
+        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}用户自定义表头</h4>
+    </div>
+
+
+              <button type="button"  ng-click="className=formData.className">根据对象名初始化</button>
+
+    <div class="modal-body">
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label text-left">缺省标志位</label>
+          <div class="col-lg-10 col-sm-10">
+            <select ng-if="initFlag" class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.defaultFlag" chosen
+                    select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_BooleanType">
+            </select>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">java对象名</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.className"/>
+          </div>
+
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">表名</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.name" disabled="true"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">描述</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.desc"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">样式名</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.css"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">样式</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.style"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">表头样式名</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.theadCss"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">表头样式</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.theadStyle"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">表内容样式名</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.tbodyCss"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">表内容样式</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.tbodyStyle"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">表尾样式名</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.tfootCss"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">表尾样式</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData.tfootStyle"/>
+          </div>
+      </div>
+
+
+
+
+      <table class="table table-hover table-striped">
+          <thead>
+              <tr>
+                  <th><input type="checkbox" class="selectAll"></th>
+                  <th>序号</th>
+
+                  <th>排序</th>
+                  <th>是否显示</th>
+                  <th>属性名</th>
+                  <th>属性类型</th>
+                  <th>属性显示名</th>
+                  <th>显示格式转换</th>
+                  <th>显示格式转换</th>
+                  <th>标题样式名</th>
+                  <th>标题样式</th>
+                  <th>内容样式名</th>
+                  <th>内容样式</th>
+
+                  <th>操作</th>
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="tr in formData.items" ng-click="selectThis()">
+
+                  <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                  <td>{{$index + 1}}</td>
+
+                  <td>{{tr.index}}</td>
+                  <td>{{tr.showFlag}}</td>
+                  <td>{{tr.propertyKey}}</td>
+                  <td>{{tr.propertyType}}</td>
+                  <td>{{tr.propertyName}}</td>
+                  <td>{{tr.filterName}}</td>
+                  <td>{{tr.format}}</td>
+                  <td>{{tr.thCss}}</td>
+                  <td>{{tr.thStyle}}</td>
+                  <td>{{tr.tdCss}}</td>
+                  <td>{{tr.tdStyle}}</td>
+
+                  <td>
+                      <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/uiCustomTable/uiCustomTableHeaderVO/edit.html">
+                          <i class="fa fa-edit"></i>
+                          编辑
+                      </button>
+                  </td>
+
+              </tr>
+          </tbody>
+      </table>
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+          </div>
+      </div>
+    </div>
+  </form>
+</div>
