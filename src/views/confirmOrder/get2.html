@@ -2,14 +2,14 @@
      ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/getThisAndSalesOrder.json?id={{mainStatus.pageParams.id}}"
      scope-data="scopeData"
-     callback="formData=scopeData.confirmOrder;orderMedicalNos=formData.orderMedicalNos;"
+     callback="initFlag=true;watchFormChange('formData');formData=scopeData.confirmOrder;orderMedicalNos=formData.orderMedicalNos;"
      alert-error
      ng-init="formData.exchangeRate='1.00';">
   <form id="editForm"
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/salesOrder/save.json"
+        action="rest/authen/confirmOrder/save.json"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
@@ -153,12 +153,16 @@
                               select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
                       </select>
                       <p class="mgt text-right" ng-if="stockBatchsItem.productionBatch">
-                        <input type="number" class="ipt pr-short-ipt color-6 text-right" ng-model="stockBatchsItem.quantity" />
+                        <input type="number" class="ipt pr-short-ipt color-6 text-right" ng-model="stockBatchsItem.quantity"
+                          data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
+                        invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}"
+
+                        />
                       </p>
-                      <p class="text-right color-red pdr-s mgt-s" ng-if="selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)">缺货：{{stockBatchsItem.quantity-selectData.note.salesQuantity}}</p>
+                      <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)">{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}缺货：{{stockBatchsItem.quantity-selectData.note.salesQuantity}}</p> -->
                     </div>
 
-                    <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p> -->
+                    <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
 
                   </td>
                   <td class="text-center">
