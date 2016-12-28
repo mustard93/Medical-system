@@ -136,14 +136,14 @@
       <!-- 功能按钮 -->
       <div class="mgb text-right">
         <span class="mgl">
-          <a   ng-if="changeFlag"  href="javascript:;"
+          <a ng-if="changeFlag"  href="javascript:;"
              handle-this-click
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/otherCustomerApplication/query.html')"
              save-callback="submitForm('editForm','exit')">返回申请单列表</a>
-          <a href="#/otherCustomerApplication/query.html">返回申请单列表</a>
+          <a ng-if="!changeFlag" href="#/otherCustomerApplication/query.html">返回申请单列表</a>
         </span>
         <span class="mgl">
           <a ng-if="formData.id && formData.proposerName==mainStatus.name"

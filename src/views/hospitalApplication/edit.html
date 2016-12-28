@@ -207,7 +207,7 @@
              nosave-callback="goTo('#/hospitalApplication/query.html')"
              save-callback="submitForm('editForm','exit')">返回申请单列表</a>
 
-          <a href="#/hospitalApplication/query.html">返回申请单列表</a>
+          <a ng-if="!changeFlag" href="#/hospitalApplication/query.html">返回申请单列表</a>
         </span>
         <span class="mgl">
           <a ng-if="formData.id && formData.proposerName==mainStatus.name"
@@ -223,7 +223,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                  ng-disabled="!changeFlag || hospitalEditForm.$invalid"
+                  ng-disabled="!changeFlag "
                   ng-click="submitForm('hospital-editForm','save')">保存
           </button>
         </span>
