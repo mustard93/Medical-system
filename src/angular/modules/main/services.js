@@ -755,10 +755,10 @@ function alertOk($rootScope, modal) {
                  LODOP:null,//返回具体打印的实现累，用于特殊需求打印。
                  _rect:{},
                 _rectDefualt:{
-                 top:0,
-                 left:0,
-                 width:794,
-                 height:1123
+                 top:5,
+                 left:5,
+                 width:794,//794
+                 height:1123//1123
                },
                 /**
                  *
@@ -840,6 +840,7 @@ e
                   LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
                   console.log("this._rect");
                   console.log(this._rect);
+                      console.log(content);
                   return LODOP;
                 },
                 preview:function(content,taskName) {
@@ -907,6 +908,18 @@ e
             var dateFilter = $filter('date');
             var  UICustomTableObj = {
               //设置输入框获取焦点
+
+              /**
+                过滤掉不显示的字段，返回需要显示的字段。
+              */
+              getShowItemArray:function(arr){
+                  if(!arr)return arr;
+                  var showItemArray=[];
+                  for(var i=0;i<arr.length;i++){
+                    if(arr[i].showFlag)showItemArray.push(arr[i]);
+                  }
+                  return showItemArray;
+              },
               getShowValue: function (obj,uICustomTableHeaderVO,$index) {
                 if(!uICustomTableHeaderVO)return "";
                 if(uICustomTableHeaderVO.propertyKey=="$index")return $index+1;

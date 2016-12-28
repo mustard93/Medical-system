@@ -25,11 +25,10 @@
     scope-data="uICustomTable"
     callback="showUICustomTableItems=$root.UICustomTable.getShowItemArray(uICustomTable.items)"
     >
-         <div id="Print_Div_id" >
 
-         <div style="width:794px;height:1123px;border:1px solid #000000;">
+         <div id="Print_Div_id" style="width:794px;height:1123px;border:1px solid #000000;" class="print_div_clear">
            <h1>国药集团云南医疗器械有限公司销售单</h1>
-           <table border=1 width="100%" style="border:solid 1px black;border-collapse:collapse">
+           <table >
                <tbody>
                <tr >
                    <td>发货仓库：</td>
@@ -61,7 +60,7 @@
                </tr>
                </tbody>
            </table>
-           <table  style='{{uICustomTable.style}}' >
+           <table  style='{{uICustomTable.style}}' resizable-columns data-resizable-columns-id="demo-table">
                <thead  style='{{uICustomTable.theadStyle}}'>
                    <tr >
                        <th data-resizable-columns-id="{{item.propertyName}}"   style='{{item.thStyle}}'   ng-repeat="item in showUICustomTableItems">{{item.propertyName}}</th>
@@ -69,18 +68,6 @@
                    </tr>
                </thead>
                <tbody>
-                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
-                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
-                   </tr>
-                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
-                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
-                   </tr>
-                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
-                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
-                   </tr>
-                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
-                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
-                   </tr>
                    <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
                        <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
                    </tr>
@@ -93,8 +80,7 @@
                    </tr>
                </tbody>
            </table>
-   </div>
-     </div><!--Print_Div_id-->
+   </div><!--Print_Div_id-->
     </div>
 <!--body wrapper end-->
 </div>

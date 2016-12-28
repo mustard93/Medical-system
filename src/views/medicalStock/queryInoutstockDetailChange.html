@@ -1,10 +1,19 @@
 <div ng-controller="pageCtrl"
      class="pd-c-xxxl left-se-side-par "
      ng-init="listParams.medicalStockId=mainStatus.pageParams.medicalStockId"
+<<<<<<< HEAD
      ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;"><!-- pageCtrl-->
     <div class="page-main-content left-se-side-par" ng-controller="MedicalStockController">
+=======
+     ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;"
+     ><!-- pageCtrl-->
+
+    <div class="page-main-content left-se-side-par">
+
+>>>>>>> 7738f0ad36eb196a5eb2e66f7beed748fff7fda1
         <!--body wrapper start-->
-        <div class="pd-c-xxl">
+        <div class="pd-c-xxl"
+         ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{urlInfo.search.warehouseCode}}" scope-data="warehouseName">
            <div class="page-header-info ">
              <p class="mgb bb-line pdb-s relative  ">
                <a href="#/medicalStock/query-stock.html">
@@ -15,7 +24,7 @@
                <em class="mgl-xxl">库存报表 </em>/ <em class="color-custom-orange">库存查询</em> / <em >库存变动明细</em>
              </p>
 
-             <p ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{urlInfo.search.warehouseCode}}" scope-data="warehouseName">
+             <p>
                <em>仓库：</em>
                <em ng-if="warehouseName.name">{{warehouseName.name}}</em>
                <em ng-if="!warehouseName.name">全部</em>
@@ -69,8 +78,8 @@
                  <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
                    <!-- 主内容区域 -->
                    <div class="content-wrapper-main">
-                       <div class="pd-c">
-                         <table  class="table pr-table pr-new-table table-ellipsis">
+                       <div>
+                         <table  class="table pr-table pr-new-table pr-table-content">
                            <thead class="pr-bg-side">
                              <tr>
                                <th>序号</th>
