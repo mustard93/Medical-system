@@ -2,9 +2,9 @@
      ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/getThisAndSalesOrder.json?id={{mainStatus.pageParams.id}}"
      scope-data="scopeData"
-     callback="formData=scopeData.confirmOrder;orderMedicalNosList=formData.orderMedicalNos;formData.orderMedicalNos={}"
+     callback="formData=scopeData.confirmOrder;orderMedicalNosList=formData.orderMedicalNos;formData.orderMedicalNos=[]"
      alert-error
-     ng-init="formData.exchangeRate='1.00'">{{formData}}
+     ng-init="formData.exchangeRate='1.00';isAddItemData=false">{{formData}}
   <form id="editForm"
         name="editForm"
         form-validator
@@ -125,7 +125,7 @@
               <tbody>
                 <tr ng-repeat="item in orderMedicalNosList" ng-controller="ConfirmOrderMedicalController">
                   <td class="text-center w-50">
-                    <label for=""><input type="checkbox" ng-checked="item.productionBatch"></label>
+                    <label for=""><input type="checkbox" ng-model="isAddItemData"></label>
                   </td>
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
@@ -144,15 +144,17 @@
                             chosen
                             default-empty
                             data-placeholder=" "
+                            select-data="selectData"
+                            callback="selectData2=selectData"
                             ng-model="item.productionBatch"
                             ng-change="choiseProductionBatch()"
                             select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
                     </select>
                     <p class="mgt text-right" ng-if="item.productionBatch">
-                      <input type="number" class="ipt pr-short-ipt color-6 text-right" ng-model="formData.userInputQuantity" />
+                      <input type="number" class="ipt pr-short-ipt color-6 text-right" ng-model="selectData2.note.salesQuantity" />
                     </p>
 
-                    <p class="text-right color-red pdr-s mgt-s" ng-if="formData.userInputQuantity && item.quantity>formData.userInputQuantity">缺货：{{item.quantity-formData.userInputQuantity}}</p>
+                    <p class="text-right color-red pdr-s mgt-s" ng-if="selectData2.note.salesQuantity && item.quantity>selectData2.note.salesQuantity">缺货：{{item.quantity-selectData2.note.salesQuantity}}</p>
 
                   </td>
                   <td class="text-center">
@@ -178,7 +180,7 @@
           </div>
           <div class="flex-column pd-v-l">
             <div class="flex-item-9 color-red pr-indent-20">
-              <p ng-if="formData.userInputQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
+              <p ng-if="selectData2.note.salesQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
             </div>
             <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
               本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNosList,['price','planQuantity']) | number:2}}</em>
