@@ -873,6 +873,11 @@ define('project/controllers', ['project/init'], function() {
 
                 stockBatchsItem.quantity=item.planQuantity-item.quantity;
 
+                if(selectData){
+                    if(!selectData.note)selectData.note={};
+                    if(!selectData.note.salesQuantity)selectData.note.salesQuantity=0;
+                }
+
                 if(selectData&&selectData.note&&selectData.note.salesQuantity){
                   //批次库存不满足计划销售数量
                   if(stockBatchsItem.quantity>selectData.note.salesQuantity){
@@ -894,8 +899,10 @@ define('project/controllers', ['project/init'], function() {
               var item=$scope.item;
               item.quantity=0;//根据批次的销售数量，计算销售的总数量。
               //记录批次中是否有空的数量没填写，没有则根据，批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
-              var hasStockBatchsQuantityEmpty=false;
+
               if(!newVal)newVal=[];
+
+              //记录添加新的批号选择下拉框的索引号。
               var noSelectproductionBatchValIndex=-1;
               for(var i=0;i<newVal.length;i++){
                 if(!newVal[i].productionBatch){
