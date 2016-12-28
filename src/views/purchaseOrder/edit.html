@@ -202,7 +202,7 @@
           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_KuaidiType"
           ></select><!--承运单位-->
 
-            <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="期望到货时间"  ng-model="formData.expectDate">
+            <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="期望到货时间" ng-model="formData.expectDate" required/>
 
         </div>
       </div>
@@ -348,7 +348,7 @@
          save-callback="submitForm('editForm','exit')">返回采购单列表
       </a>
 
-      <a   ng-if="!changeFlag" href="#/purchaseOrder/query.html" >返回采购单列表</a>
+      <a ng-if="!changeFlag" href="#/purchaseOrder/query.html" >返回采购单列表</a>
     </span>
     <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
 
@@ -382,7 +382,9 @@
                            formData.payAndDelivery.prepaidRatio<0 ||
                            !formData.orderMedicalNos.length ||
                            !formData.customerId ||
-                           !formData.saleUserId">提交审批
+                           !formData.saleUserId ||
+                           !formData.expectDate">提交审批
+
       </button>
     </span>
     <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">取消</a></span> -->
