@@ -814,10 +814,15 @@ define('project/controllers', ['project/init'], function() {
      * @param  {[type]} alertError  [description]
      * @return {[type]}             [description]
      */
-    function confirmOrderEditCtrl2($scope, modal,alertWarn,requestData,alertOk,alertError) {
+    function confirmOrderEditCtrl2($scope, modal,alertWarn,requestData,alertOk,alertError, watchFormChange) {
+
+      $scope.watchFormChange = function (watchName) {
+        watchFormChange(watchName,$scope);
+      };
+
+
       // 保存type:save-草稿,submit-提交订单。
       $scope.submitFormAfter = function() {
-
         if ($scope.submitForm_type == 'exit') {
           $scope.goTo('#/invoicesOrder/query.html');
          return;
@@ -1536,7 +1541,7 @@ define('project/controllers', ['project/init'], function() {
     angular.module('manageApp.project')
     .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
     .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl])
-    .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl2])
+    .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'watchFormChange', confirmOrderEditCtrl2])
     .controller('SalesOrderDetailsController', ['$scope', '$timeout', SalesOrderDetailsController])
     .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
     .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', QualificationApplyCtrl])
