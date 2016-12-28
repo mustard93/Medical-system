@@ -2,9 +2,9 @@
      ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/getThisAndSalesOrder.json?id={{mainStatus.pageParams.id}}"
      scope-data="scopeData"
-     callback="formData=scopeData.confirmOrder;orderMedicalNosList=formData.orderMedicalNos;formData.orderMedicalNos=[]"
+     callback="formData=scopeData.confirmOrder;orderMedicalNos=formData.orderMedicalNos;"
      alert-error
-     ng-init="formData.exchangeRate='1.00';isAddItemData=false">{{formData}}
+     ng-init="formData.exchangeRate='1.00';">
   <form id="editForm"
         name="editForm"
         form-validator
@@ -123,9 +123,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="item in orderMedicalNosList" ng-controller="ConfirmOrderMedicalController">
+                <tr ng-repeat="item in orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
                   <td class="text-center w-50">
-                    <label for=""><input type="checkbox" ng-model="isAddItemData"></label>
+                    <label for=""><input type="checkbox" ng-model="item.handleFlag"></label>
                   </td>
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
@@ -140,21 +140,25 @@
                     </select>
                   </td>
                   <td class="text-center">
-                    <select class="select pr-select pr-select-sm text-left"
-                            chosen
-                            default-empty
-                            data-placeholder=" "
-                            select-data="selectData"
-                            callback="selectData2=selectData"
-                            ng-model="item.productionBatch"
-                            ng-change="choiseProductionBatch()"
-                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
-                    </select>
-                    <p class="mgt text-right" ng-if="item.productionBatch">
-                      <input type="number" class="ipt pr-short-ipt color-6 text-right" ng-model="selectData2.note.salesQuantity" />
-                    </p>
+                  
+                    <div  ng-repeat="stockBatchsItem in item.stockBatchs"  >
+                      <select class="select pr-select pr-select-sm text-left"
+                              chosen
+                              default-empty
+                              data-placeholder=" "
+                              select-data="selectData"
+                                ng-model="stockBatchsItem.productionBatch"
 
-                    <p class="text-right color-red pdr-s mgt-s" ng-if="selectData2.note.salesQuantity && item.quantity>selectData2.note.salesQuantity">缺货：{{item.quantity-selectData2.note.salesQuantity}}</p>
+                              callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
+                              select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
+                      </select>
+                      <p class="mgt text-right" ng-if="stockBatchsItem.productionBatch">
+                        <input type="number" class="ipt pr-short-ipt color-6 text-right" ng-model="stockBatchsItem.quantity" />
+                      </p>
+
+                    </div>
+
+                    <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">缺货：{{item.planQuantity-item.quantity}}</p>
 
                   </td>
                   <td class="text-center">
@@ -183,7 +187,7 @@
               <p ng-if="selectData2.note.salesQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
             </div>
             <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
-              本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNosList,['price','planQuantity']) | number:2}}</em>
+              本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}</em>
             </div>
           </div>
 
@@ -281,7 +285,7 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-        <span class="show-total pr-font-20 pr-color">总计：<em class="color-white">￥0.00</em></span>
+        <span class="show-total pr-font-20 pr-color">总计：<em class="color-white">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}</em></span>
 
         <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
            handle-this-click

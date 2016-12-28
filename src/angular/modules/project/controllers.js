@@ -848,6 +848,13 @@ define('project/controllers', ['project/init'], function() {
         $('#' + fromId).trigger('submit');
 
       };
+      // function jishuzongjia(){
+      //     jishuzongjia1();
+      //         jishuzongjia2();
+      // }
+
+
+
     }
 
     /**
@@ -855,21 +862,75 @@ define('project/controllers', ['project/init'], function() {
      * @param {[type]} $scope [description]
      */
     function ConfirmOrderMedicalController ($scope) {
+
+
+
       // 当用户选择某条目的生产批号后，将该条目设置为已选择状态
-      $scope.choiseProductionBatch = function () {
-        if ($scope.item.productionBatch) {
-          $scope.isAddItemData = true;
+      $scope.choiseProductionBatch = function (item,stockBatchsItem,selectData) {
+        if(stockBatchsItem&&!stockBatchsItem.quantity){
+                //库存批次数量，满足则数量设置为计划数量。
+                if(!item.quantity)item.quantity=0;
+
+                stockBatchsItem.quantity=item.planQuantity-item.quantity;
+
+                if(selectData&&selectData.note&&selectData.note.salesQuantity){
+                  //批次库存不满足计划销售数量
+                  if(stockBatchsItem.quantity>selectData.note.salesQuantity){
+                    stockBatchsItem.quantity= selectData.note.salesQuantity;
+
+                  }
+                }else{//未获取到批次数量
+                  stockBatchsItem.quantity=null;
+                }
+
         }
+
       };
 
+      //监听批次销售数量变化。
+      $scope.$watch('item.stockBatchs', function (newVal,oldVal) {
+              console.log("item.stockBatchs");
+              console.log(newVal);
+              var item=$scope.item;
+              item.quantity=0;//根据批次的销售数量，计算销售的总数量。
+              //记录批次中是否有空的数量没填写，没有则根据，批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
+              var hasStockBatchsQuantityEmpty=false;
+              if(!newVal)newVal=[];
+              var noSelectproductionBatchValIndex=-1;
+              for(var i=0;i<newVal.length;i++){
+                if(!newVal[i].productionBatch){
+                  newVal[i].quantity=0;
+                  noSelectproductionBatchValIndex=i;
+                }
+                if(newVal[i].quantity){
+                    item.quantity+=newVal[i].quantity;
+                }
+
+              }
+
+
+              if(item.quantity<item.planQuantity){//批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
+                if(noSelectproductionBatchValIndex==-1){
+                    item.stockBatchs.push({});
+                }
+              }else{//数量选择够了后，删除未选择批号的数据
+
+                  if(noSelectproductionBatchValIndex>-1){
+                      item.stockBatchs.splice(noSelectproductionBatchValIndex,1);
+                  }
+
+              }
+
+      },true);//$scope.$watch
+
       // 监视条目状态，如果改变为真，则将该条目加入到formData对象的orderMedicalNos数组中
-      $scope.$watch('isAddItemData', function () {
-        if ($scope.isAddItemData) {
-          $scope.formData.orderMedicalNos.push($scope.orderMedicalNosList[$scope.$index]);
-        } else {
-          $scope.formData.orderMedicalNos.splice($scope.$index,1);
-        }
-      });
+      // $scope.$watch('isAddItemData', function () {
+      //   if ($scope.isAddItemData) {
+      //     $scope.formData.orderMedicalNos.push($scope.orderMedicalNosList[$scope.$index]);
+      //   } else {
+      //     $scope.formData.orderMedicalNos.splice($scope.$index,1);
+      //   }
+      // });
     }
 
     /**
