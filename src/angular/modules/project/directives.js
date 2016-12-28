@@ -2046,7 +2046,7 @@ function datePeriodSelect () {
       }
 
       /**
-          用户自定义表结构-打印显示
+          用户自定义表 可以调整宽度指令
       */
       function customTablePrint() {
         return {
@@ -2063,8 +2063,27 @@ function datePeriodSelect () {
         };
       }
 
+      /**
+          用户自定义表结构-打印显示
+      */
+      function resizableColumns() {
+        return {
+          restrict: 'EA',
+
+                link: function ($scope, $element, $attrs) {
+
+                              require(['store','resizableColumns'], function(store) {
+                                    $element.resizableColumns({
+                                            store: store
+                                          });
+                              });
+                }//end link
+        };
+      }
+
 angular.module('manageApp.project')
 .directive("customTablePrint", [customTablePrint])
+  .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
   .directive("flashAddMedical", [flashAddMedical])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
