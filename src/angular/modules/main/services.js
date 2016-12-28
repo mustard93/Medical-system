@@ -555,7 +555,8 @@ function alertOk($rootScope, modal) {
             getObjectIndexByKeyOfArr : function (arr,key,val) {
               if(!angular.isArray(arr))return -1;
               for(var i=0;i<arr.length;i++){
-                if(arr[i][key]==val)return i;
+                var tmpVal=utilsObj.getObjectVal(arr[i],key);
+                if(tmpVal==val)return i;
               }
               return -1;
             },
