@@ -203,7 +203,12 @@
               <td ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
                 {{item.fileName}}
               </td>
-              <td>{{item.note}}</td>
+              <td ng-if="!item.attachmentUrl && !utils.isPicture(item.fileName)">
+
+              </td>
+              <td style="height:113px;overflow:hidden;"
+               handle-text-overflow
+               type="block">{{item.note}}</td>
             </tr>
           </tbody>
         </table>
