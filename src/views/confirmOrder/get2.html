@@ -1,10 +1,10 @@
 <div class="confirm-order-edit"
-     ng-controller="confirmOrderCtrl"
+     ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/getThisAndSalesOrder.json?id={{mainStatus.pageParams.id}}"
      scope-data="scopeData"
-     callback="showData=scopeData.confirmOrder"
+     callback="formData=scopeData.confirmOrder;orderMedicalNosList=formData.orderMedicalNos;formData.orderMedicalNos={}"
      alert-error
-     ng-init="formData.exchangeRate='1.00'">
+     ng-init="formData.exchangeRate='1.00'">{{formData}}
   <form id="editForm"
         name="editForm"
         form-validator
@@ -31,13 +31,13 @@
         <div class="bb-line">
           <div class="flex-column color-9 pd-l">
             <div class="flex-item-6">
-              <span class="mgr">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
-              <span class="mgr">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
+              <span class="mgr">单据编号：<em class="color-6">{{formData.orderNo}}</em></span>
+              <span class="mgr">制单人：<em class="color-6">{{formData.inputUser.n}}</em></span>
               <span class="mgr">审核人：<em class="color-6">暂无</em></span>
             </div>
             <div class="flex-item-6 text-right">
-              <span class="mgr">录单日期：<em class="color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
-              <span class="mgr">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
+              <span class="mgr">录单日期：<em class="color-6">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+              <span class="mgr">状态：<em class="color-6">{{formData.orderStatus}}</em></span>
             </div>
           </div>
         </div>
@@ -110,8 +110,8 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
-                  <th class="text-center">生产批号</th>
-                  <th class="text-center">预发货日期</th>
+                  <th class="text-center w-160">生产批号</th>
+                  <th class="text-center w-140">预发货日期</th>
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -123,15 +123,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="item in showData.orderMedicalNos">
+                <tr ng-repeat="item in orderMedicalNosList" ng-controller="ConfirmOrderMedicalController">
                   <td class="text-center w-50">
-                    <label for=""><input type="checkbox" name="" value=""></label>
+                    <label for=""><input type="checkbox" ng-checked="item.productionBatch"></label>
                   </td>
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-center">{{item.specification}}</td>
                   <td class="text-center">{{item.unit}}</td>
-                  <td class="text-center">{{item.quantity}}</td>
+                  <td class="text-center">{{item.planQuantity}}</td>
                   <td class="text-center">
                     <select class="select pr-select pr-select-sm text-left"
                             chosen
@@ -145,8 +145,15 @@
                             default-empty
                             data-placeholder=" "
                             ng-model="item.productionBatch"
+                            ng-change="choiseProductionBatch()"
                             select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
                     </select>
+                    <p class="mgt text-right" ng-if="item.productionBatch">
+                      <input type="number" class="ipt pr-short-ipt color-6 text-right" ng-model="formData.userInputQuantity" />
+                    </p>
+
+                    <p class="text-right color-red pdr-s mgt-s" ng-if="formData.userInputQuantity && item.quantity>formData.userInputQuantity">缺货：{{item.quantity-formData.userInputQuantity}}</p>
+
                   </td>
                   <td class="text-center">
                     <input type="text"
@@ -162,19 +169,19 @@
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate}}%</td>
                   <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*(1-item.taxRate)*item.quantity-item.discountPrice*item.quantity | number:2}}</td>
+                  <td class="text-center">￥{{item.price*(1-item.taxRate)*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
                   <td class="text-center">￥{{item.price*item.taxRate-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.quantity-item.discountPrice*item.quantity | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="flex-column pd-v-l">
             <div class="flex-item-9 color-red pr-indent-20">
-              确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a>
+              <p ng-if="formData.userInputQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
             </div>
             <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
-              本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(showData.orderMedicalNos,['price','quantity']) | number:2}}</em>
+              本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNosList,['price','planQuantity']) | number:2}}</em>
             </div>
           </div>
 
@@ -192,9 +199,9 @@
             </span>
           </header>
           <div class="panel-body" style="display:none;padding:15px 0;">
-            <h1 class="mgb">收货方：{{showData.customerName}}</h1>
+            <h1 class="mgb">收货方：{{formData.customerName}}</h1>
             <p class="">收货人信息：
-              {{showData.address.prov}}&nbsp;&nbsp;{{showData.address.city}}&nbsp;&nbsp;{{showData.address.area}}&nbsp;&nbsp;{{showData.address.address}}&nbsp;&nbsp;{{showData.address.name}}&nbsp;&nbsp;{{showData.address.tel}}
+              {{formData.address.prov}}&nbsp;&nbsp;{{formData.address.city}}&nbsp;&nbsp;{{formData.address.area}}&nbsp;&nbsp;{{formData.address.address}}&nbsp;&nbsp;{{formData.address.name}}&nbsp;&nbsp;{{formData.address.tel}}
             </p>
             <!-- <div class="consignee-info pd-c-m pdt-m pdb-m"
                  ajax-if-eval="formData.customerId"

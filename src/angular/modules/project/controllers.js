@@ -315,10 +315,10 @@ define('project/controllers', ['project/init'], function() {
                 alertWarn('请输入大于0的数量。');
                 return false;
             }
-            if (!addDataItem.strike_price) {
-                alertWarn('请输入成交价格。');
-                return false;
-            }
+            // if (!addDataItem.strike_price) {
+            //     alertWarn('请输入成交价格。');
+            //     return false;
+            // }
             if(addDataItem.quantity>medical.quantity){//库存不足情况
                 addDataItem.handleFlag =false;//默认添加到订单
             }
@@ -805,7 +805,7 @@ define('project/controllers', ['project/init'], function() {
     }
 
     /**
-     * [confirmOrderCtrl 新版销售单控制器]
+     * [confirmOrderEditCtrl2 新版销售单Controller]
      * @param  {[type]} $scope      [description]
      * @param  {[type]} modal       [description]
      * @param  {[type]} alertWarn   [description]
@@ -814,8 +814,53 @@ define('project/controllers', ['project/init'], function() {
      * @param  {[type]} alertError  [description]
      * @return {[type]}             [description]
      */
-    function confirmOrderCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+    function confirmOrderEditCtrl2($scope, modal,alertWarn,requestData,alertOk,alertError) {
+      // 保存type:save-草稿,submit-提交订单。
+      $scope.submitFormAfter = function() {
 
+        if ($scope.submitForm_type == 'exit') {
+          $scope.goTo('#/invoicesOrder/query.html');
+         return;
+       }
+
+       if ($scope.submitForm_type == 'submit') {
+         var url='rest/authen/confirmOrder/updateStatus';
+         var data= {id:$scope.formData.id,orderStatus:'待发货'};
+         requestData(url,data, 'POST')
+           .then(function (results) {
+             var _data = results[1];
+            //  alertOk(_data.message || '操作成功');
+             $scope.goTo('#/confirmOrder/confirm-order.html?id='+$scope.formData.id);
+
+           })
+           .catch(function (error) {
+             alertError(error || '出错');
+           });
+
+
+        }
+
+      };
+
+      // 保存type:save-草稿,submit-提交订单。
+      $scope.submitForm = function(fromId, type) {
+         $scope.submitForm_type = type;
+        $('#' + fromId).trigger('submit');
+
+      };
+    }
+
+    /**
+     * [ConfirmOrderMedicalController 新版销售单药品列表行控制器]
+     * @param {[type]} $scope [description]
+     */
+    function ConfirmOrderMedicalController ($scope) {
+
+      $scope.choiseProductionBatch = function () {
+        if ($scope.item.productionBatch) {
+          
+        }
+      };
     }
 
     /**
@@ -1397,15 +1442,6 @@ define('project/controllers', ['project/init'], function() {
     }
 
     /**
-     * [库存查询模块控制器]
-     * @param {[type]} $scope [依赖项]
-     * @param {[type]} utils  [依赖项]
-     */
-    function MedicalStockController ($scope, utils) {
-
-    }
-
-    /**
      * [新版购需单商品条目控制器]
      * @param {[type]} $scope [依赖项]
      */
@@ -1421,9 +1457,10 @@ define('project/controllers', ['project/init'], function() {
     }
 
     angular.module('manageApp.project')
-    .controller('confirmOrderCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderCtrl])
+    .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
+    .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl])
+    .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl2])
     .controller('SalesOrderDetailsController', ['$scope', '$timeout', SalesOrderDetailsController])
-    .controller('MedicalStockController', ['$scope', 'utils', MedicalStockController])
     .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
     .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', QualificationApplyCtrl])
     .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
@@ -1436,19 +1473,4 @@ define('project/controllers', ['project/init'], function() {
     .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl])
     .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
     .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl]);
-
-
-        //
-        // angular.module('manageApp.project', ['ngTagsInput'])
-        //           .controller('MyCtrl', function($scope, $http) {
-        //               $scope.tags = [
-        //                   { text: 'just' },
-        //                   { text: 'some' },
-        //                   { text: 'cool' },
-        //                   { text: 'tags' }
-        //               ];
-        //               $scope.loadTags = function(query) {
-        //                    return $http.get('data/autocomplete0.json?q=' + query);
-        //               };
-        //           });
 });
