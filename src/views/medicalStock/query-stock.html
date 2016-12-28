@@ -24,11 +24,6 @@
            <table-list list-data="rest/authen/medicalStock/query.json"
                        list-params="listParams"
                        search-mode="noCaseSensitive"
-                       callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['stockModel.quantity',
-                       'stockModel.salesQuantity', 'stockModel.freezeQuantity','stockModel.lockingQuantity',
-                       'stockModel.handleQuantity','stockModel.beingCheckedQuantity',
-                       'stockModel.purchaseInWayQuantity','stockModel.purchaseRequisitionQuantity','stockModel.inStockQuantity',
-                       'stockModel.confirmOrderQuantity','stockModel.shippedQuantity','stockModel.outStockQuantity'])"
                        search-param="q">
 
             <div class="text-left order-list-search relative">
@@ -72,10 +67,10 @@
                       ng-init=''
                       medical-stock-mouse-over
                       mouse-over-buttons-json=
-                      '[{"title":"变动明细","url":"#/medicalStock/queryInoutstockDetailChange.html?medicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
-                      "className":"circle-icon pos-abs pr-icon-bg11"},
-                      {"title":"库存明细","url":"#/medicalStock/getByCodeAndOrganization.html?relMedicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
-                      "className":"circle-icon2 pos-abs pr-icon-arrow-left"}]'>
+                      '[  {"title":"库存明细","url":"#/medicalStock/getByCodeAndOrganization.html?relMedicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
+                        "className":"circle-icon2 pos-abs pr-icon-arrow-left"},
+                        {"title":"变动明细","url":"#/medicalStock/queryInoutstockDetailChange.html?medicalStockId="+tr.id+"&warehouseCode="+listParams.warehouseStocksCode,
+                      "className":"circle-icon pos-abs pr-icon-bg11"}]'>
                     <td>{{$index + 1}}</td>
                     <td>{{tr.code}}</td>
                     <td>{{tr.goodsCode}}</td>
@@ -99,22 +94,6 @@
                     <td>{{tr.stockModel.outStockQuantity}}</td>
                   </tr>
 
-                  <tr class="bgco-orange color-white">
-
-                    <td colspan="9" class="text-right">合计：</td>
-                    <td>{{totalObj['stockModel.salesQuantity']}}</td>
-                    <td>{{totalObj['stockModel.quantity']}}</td>
-                    <td>{{totalObj['stockModel.freezeQuantity']}}</td>
-                    <td>{{totalObj['stockModel.lockingQuantity']}}</td>
-                    <td>{{totalObj['stockModel.handleQuantity']}}</td>
-                    <td>{{totalObj['stockModel.beingCheckedQuantity']}}</td>
-                    <td>{{totalObj['stockModel.purchaseInWayQuantity']}}</td>
-                    <td>{{totalObj['stockModel.purchaseRequisitionQuantity']}}</td>
-                    <td>{{totalObj['stockModel.inStockQuantity']}}</td>
-                    <td>{{totalObj['stockModel.confirmOrderQuantity']}}</td>
-                    <td>{{totalObj['stockModel.shippedQuantity']}}</td>
-                    <td>{{totalObj['stockModel.outStockQuantity']}}</td>
-                  </tr>
                 </tbody>
               </table>
             </div>
