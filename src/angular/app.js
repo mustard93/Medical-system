@@ -28,6 +28,9 @@ require.config({
     waitSeconds: 0,
     baseUrl: require.dir + 'modules',
     paths: {
+
+          'resizableColumns': '../libs/resizableColumns/jquery.resizableColumns',     //jQuery拖动调整表格列宽度
+          'store': '../libs/store.min',     //本地存储
       'ZeroClipboard': '../libs/ueditor1_4_3_3-utf8-jsp/third-party/zeroclipboard/ZeroClipboard',//html编辑器
 
         'ueditor': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.all',//html编辑器
@@ -77,6 +80,10 @@ require.config({
         'jQuery': {
             exports: 'jQuery'
         },
+        'resizableColumns': {
+            deps: ['jQuery','css!../libs/resizableColumns/jquery.resizableColumns.css']
+        },
+
 
         'underscore': {
             exports: '_'
