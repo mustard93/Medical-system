@@ -106,45 +106,41 @@
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.type}}</td>
                             <td class="color-orange">
-                              <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
-                              {{tr.orderNo}}
-                              </a>
-                              <a ng-if="tr.type=='采购出库单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
+                              <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
                               {{tr.orderNo}}
                               </a>
 
-                              <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?id={{tr.orderId}}">
+                              <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
                               {{tr.orderNo}}
                               </a>
-                              <a ng-if="tr.type=='销售入库单'" href="#/invoicesOrder/get.html?id={{tr.orderId}}">
-                              {{tr.orderNo}}
-                              </a>
-
-                              <a ng-if="tr.type=='采购来货通知单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
+                              <a ng-if="tr.type=='销售入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
                               {{tr.orderNo}}
                               </a>
 
-
-                              <a ng-if="tr.type=='采购退货出库单'" href="#/invoicesOrder/get.html?id={{tr.orderId}}">
-                              {{tr.orderNo}}
-                              </a>
-                              <a ng-if="tr.type=='销售退货入库单'" href="#/invoicesOrder/get.html?id={{tr.orderId}}">
+                              <a ng-if="tr.type=='采购来货通知单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
                               {{tr.orderNo}}
                               </a>
 
-                              <a ng-if="tr.type=='报损出库单'" href="#/lossOverOrder/get-reimburse.html?id={{tr.orderId}}">
+                              <a ng-if="tr.type=='采购退货出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
                               {{tr.orderNo}}
                               </a>
-                              <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?id={{tr.orderId}}">
+                              <a ng-if="tr.type=='销售退货入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
                               {{tr.orderNo}}
                               </a>
 
-                              <a ng-if="tr.type=='批次冻结出库单'" href="#/freezeThawOrder/get-freeze.html?id={{tr.orderId}}">
+                              <a ng-if="tr.type=='报损出库单'" href="#/lossOverOrder/get-reimburse.html?orderNo={{tr.orderNo}}">
                               {{tr.orderNo}}
                               </a>
-                              <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThawOrder/get-thaw.html?id={{tr.orderId}}">
+                              <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?orderNo={{tr.orderNo}}">
                               {{tr.orderNo}}
-                            </a>
+                              </a>
+
+                              <a ng-if="tr.type=='批次冻结出库单'" href="#/freezeThawOrder/get-freeze.html?orderNo={{tr.orderNo}}">
+                              {{tr.orderNo}}
+                              </a>
+                              <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThawOrder/get-thaw.html?orderNo={{tr.orderNo}}">
+                              {{tr.orderNo}}
+                              </a>
                             </td>
                             <td>{{tr.warehouseName}}</td>
                             <td>{{tr.code}}</td>
@@ -152,8 +148,7 @@
                             <td>{{tr.modelType}}</td>
                             <td>{{tr.drugAdministrationCode}}</td>
                             <td>{{tr.unit}}</td>
-                            <td ng-if="!tr.refuseQuantity">{{tr.quantity}}</td>
-                            <td ng-if="!tr.quantity">{{tr.refuseQuantity}}</td>
+                            <td>{{(tr.quantity || tr.quantity==0) ? tr.quantity : tr.refuseQuantity}}</td>
                             <td>{{tr.productionBatch}}</td>
                             <td>{{tr.sterilizationBatchNumber}}</td>
                             <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
