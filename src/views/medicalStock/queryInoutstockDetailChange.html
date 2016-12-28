@@ -94,8 +94,49 @@
                                <td>{{$index + 1}}</td>
                                <td>{{tr.createAt | date:'yyyy-MM-dd'}}</td>
                                <td class="text-ellips-s">{{tr.type}}</td>
-                               <td class="color-orange">
+                               <!-- <td class="color-orange">
                                  {{tr.orderNo}}
+                               </td> -->
+                               <td class="color-orange">
+                                 <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='采购出库单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+                                 <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='销售入库单'" href="#/invoicesOrder/get.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+                                 <a ng-if="tr.type=='采购来货通知单'" href="#/arrivalNoticeOrder/get.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+
+                                 <a ng-if="tr.type=='采购退货出库单'" href="#/invoicesOrder/get.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='销售退货入库单'" href="#/invoicesOrder/get.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+                                 <a ng-if="tr.type=='报损出库单'" href="#/lossOverOrder/get-reimburse.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+                                 <a ng-if="tr.type=='批次冻结出库单'" href="#/freezeThawOrder/get-freeze.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThawOrder/get-thaw.html?id={{tr.orderId}}">
+                                 {{tr.orderNo}}
+                               </a>
                                </td>
                                <td>{{tr.warehouseName}}</td>
                                <td>{{tr.unit}}</td>
