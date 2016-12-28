@@ -855,12 +855,21 @@ define('project/controllers', ['project/init'], function() {
      * @param {[type]} $scope [description]
      */
     function ConfirmOrderMedicalController ($scope) {
-
+      // 当用户选择某条目的生产批号后，将该条目设置为已选择状态
       $scope.choiseProductionBatch = function () {
         if ($scope.item.productionBatch) {
-          
+          $scope.isAddItemData = true;
         }
       };
+
+      // 监视条目状态，如果改变为真，则将该条目加入到formData对象的orderMedicalNos数组中
+      $scope.$watch('isAddItemData', function () {
+        if ($scope.isAddItemData) {
+          $scope.formData.orderMedicalNos.push($scope.orderMedicalNosList[$scope.$index]);
+        } else {
+          $scope.formData.orderMedicalNos.splice($scope.$index,1);
+        }
+      });
     }
 
     /**
