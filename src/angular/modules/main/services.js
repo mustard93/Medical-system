@@ -502,14 +502,33 @@ function alertOk($rootScope, modal) {
                var arr=key.split(".");
                return getObjectValByKeyArr(obj,arr,0);
             },
-            //sumTotalByArray(tbodyList,['quantity','price','quantity_actualQuantity'])
-            //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
-            sumTotalByArray : function (arr,keyArr) {
+
+            /**
+
+            *
+            * @Description: 遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+            * @method sumTotalByArray
+            * @param arr ：数组
+            * @param keyArr：累加的属性名的数组。
+            * @param conditionEqualPropertyKey 条件属性名，不为空，表示需要判断满足条件的值（conditionEqualVal）才生效
+            * @return
+            * @author liumingquan
+            * @date 2016年12月28日 下午5:16:02
+            */
+            sumTotalByArray : function (arr,keyArr,conditionEqualPropertyKey, conditionEqualVal) {
               var total={};
               if(!angular.isArray(arr))return -1;
               for(var i=0;i<arr.length;i++){
                   var tmp=arr[i];
                   if(!tmp)continue;
+
+                  //属性值满足条件的，才允许相加。
+                  if(conditionEqualPropertyKey){
+                    var tmpval=utilsObj.getObjectVal(tmp,conditionEqualPropertyKey);
+                    if(tmpval!=conditionEqualVal){
+                      continue;
+                    }
+                  }
                 for(var j=0;j<keyArr.length;j++){
                     var keyName=keyArr[j];
                     if(!total[keyName])total[keyName]=0;
@@ -524,9 +543,21 @@ function alertOk($rootScope, modal) {
               return total;
             },
             //sumTotalByArray(tbodyList,['quantity','price','quantity_actualQuantity'])
-            //遍历数组，返回满足属性值等于val的。进行相乘法后在相加。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+            //
 
-            sumTotalByArrayMul : function (arr,keyArr) {
+            /**
+
+            *
+            * @Description: 遍历数组，返回满足属性值等于val的。进行相乘法后在相加。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+          	* @method sumTotalByArrayMul
+          	* @param arr ：数组
+          	* @param keyArr：乘的属性名的数组。
+          	* @param conditionEqualPropertyKey 条件属性名，不为空，表示需要判断满足条件的值（conditionEqualVal）才生效
+          	* @return
+          	* @author liumingquan
+          	* @date 2016年12月28日 下午5:16:02
+            */
+            sumTotalByArrayMul : function (arr,keyArr,conditionEqualPropertyKey, conditionEqualVal) {
               var total=0;
               if(!angular.isArray(arr))return -1;
               for(var i=0;i<arr.length;i++){
@@ -534,11 +565,17 @@ function alertOk($rootScope, modal) {
                   if(!tmp)continue;
                   var sum=1;
                 for(var j=0;j<keyArr.length;j++){
-                    var keyName=keyArr[j];
 
+                    //属性值满足条件的，才允许相加。
+                    if(conditionEqualPropertyKey){
+                      var tmpval=utilsObj.getObjectVal(tmp,conditionEqualPropertyKey);
+                      if(tmpval!=conditionEqualVal){
+                        continue;
+                      }
+                    }
+                    var keyName=keyArr[j];
                     var val=utilsObj.getObjectVal(tmp,keyName);
                     if(!val)val=0;
-
                     sum=utilsObj.numberMul(sum,val);
 
                 }

@@ -1,5 +1,8 @@
 <div ng-controller="pageCtrl" class="pd-c-xxxl"
  ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id')"
+ ajax-url="rest/authen/customTable/get_confirmOrder.json?name={{customTablePrintName}}" style="min-height:600px;"
+ scope-data="customTablePrint"
+
 ><!-- pageCtrl-->
 
   <div class="page-header-info ">
@@ -13,21 +16,13 @@
     <button  ng-click="$root.OPrinter.print(null)">打印</button>
      <button  ng-click="$root.OPrinter.printSetup(null,'templateName1')">打印设置</button>
       <button  ng-click="$root.OPrinter.printDesign(null,'templateName1')">打印设计</button>
-  <div class="bb-dashed-line pd-v-l">
 
-      <select class="pr-select select-wd mgr-ls"
-        chosen
-         ng-model="listParams.warehouseCode"
-         default-empty="选择仓库"
-         select-source="rest/authen/warehouse/queryForSelectOption.json">
-       </select>
-
-  </div>
 
 <!--body wrapper start-->
 
-<table-list list-data="rest/authen/inoutstockDetail/query.json" class="table table-hover table-striped table-mr table-content" list-params="listParams">
     <div class="mg-m col-lg-12 col-sm-12"
+    ajax-url="rest/authen/customTablePrint/get.json?name={{customTablePrintName}}" style="min-height:600px;"
+    scope-data="customTablePrint"
 
     >
       <!-- <div class="col-lg-1">
@@ -105,6 +100,5 @@
            <div custom-table-print="nam2e" > </div>
    </div><!--Print_Div_id-->
     </div>
-</table-list>
 <!--body wrapper end-->
 </div>
