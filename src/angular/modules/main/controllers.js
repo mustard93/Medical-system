@@ -23,6 +23,9 @@ define('main/controllers', ['main/init'], function () {
         };
         $scope.currentDate = getCurrentDate();
 
+        // 将Window方法上的Math赋值给当前作用域
+        $scope.Math=window.Math;
+
         // 获取当前Url信息
         var getUrlInfo = function () {
           return {

@@ -1,7 +1,7 @@
 <div ng-controller="pageCtrl"
      class="pd-c-xxxl left-se-side-par "
     ng-init="listParams.medicalStockId=mainStatus.pageParams.medicalStockId"
-     ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:600px;"><!-- pageCtrl-->
+     ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;"><!-- pageCtrl-->
     <div class="page-main-content left-se-side-par">
 
         <!--body wrapper start-->
@@ -72,7 +72,7 @@
                    <!-- 主内容区域 -->
                    <div class="content-wrapper-main">
                        <div class="pd-c">
-                         <table  class="table pr-table pr-new-table ">
+                         <table  class="table pr-table pr-new-table table-ellipsis">
                            <thead class="pr-bg-side">
                              <tr>
                                <th>序号</th>
@@ -94,14 +94,53 @@
                                <td>{{$index + 1}}</td>
                                <td>{{tr.createAt | date:'yyyy-MM-dd'}}</td>
                                <td class="text-ellips-s">{{tr.type}}</td>
-                               <td class="color-orange">
+                               <!-- <td class="color-orange">
                                  {{tr.orderNo}}
+                               </td> -->
+                               <td class="color-orange">
+                                 <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+                                 <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='销售入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+                                 <a ng-if="tr.type=='采购来货通知单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+
+                                 <a ng-if="tr.type=='采购退货出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='销售退货入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+                                 <a ng-if="tr.type=='报损出库单'" href="#/lossOverOrder/get-reimburse.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+
+                                 <a ng-if="tr.type=='批次冻结出库单'" href="#/freezeThawOrder/get-freeze.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThawOrder/get-thaw.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                               </a>
                                </td>
                                <td>{{tr.warehouseName}}</td>
                                <td>{{tr.unit}}</td>
                                <td>{{!tr.inputUser.n?'&nbsp;':tr.inputUser.n}}</td>
                                <td >{{tr.changeQuantity>0?tr.changeQuantity:'0'}}</td>
                                <td >{{tr.changeQuantity<0?tr.changeQuantity:'0'}}</td>
+                               <!-- <td >{{Math.abs(-2)}}</td> -->
                                <td>{{tr.quantity?tr.quantity:'0'}}</td>
                                <td>{{tr.price?tr.price:'0'}}</td>
                                <td>{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
