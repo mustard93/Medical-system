@@ -20,18 +20,25 @@
               <select id="addDataItem_relId"
                       chosen
 
+
+                      select-data="selectData"
+                      callback="selectData2=selectData"
+
                       class="select pr-table-select mgb-s"
                       data-placeholder="药械名"
                       ng-model="addDataItem.relId"
                       clear-watch-scope="addDataItem.relId"
                       select-source="rest/authen/user/queryForSelectOption.json"></select>
             </div>
+                  {{selectData}}/////  {{selectData2}}
             <div class="panel-body" style="display:none;">
 
               <textarea class="form-control" style="min-height:200px;" readonly="true">
                 <select id="addDataItem_relId"
                         chosen
                         chosen-ajax
+                        select-data="selectData"   //选中后sope中添加选中对象。
+                        callback="selectData2=selectData" //选中后sope回调方法。
                         class="select pr-table-select mgb-s"
                         data-placeholder="药械名"
                         ng-model="addDataItem.relId"

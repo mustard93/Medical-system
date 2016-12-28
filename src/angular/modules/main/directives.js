@@ -1735,7 +1735,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       id：指定id，id！=null&&q==null 时，根据id查询，q不为空时根据q查询。
       pageSize：指定返回数据条数
       */
-    function chosen(requestData, $timeout, $rootScope, alertError, proLoading) {
+    function chosen(requestData, $timeout, $rootScope, alertError, proLoading,utils) {
         return {
             restrict: 'A',
             //  scope: {
@@ -1767,6 +1767,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               if ($attrs.width) {
                 chosenConfig.width = $attrs.width;
               }
+                //记录返回数据
+              var dataArr=null;
 
               require(['chosen'], function() {
 
@@ -1774,23 +1776,35 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   //监听变化
                   function watchNgModel(callback){
                     // 监听一个model 当一个model清空时,重置cosen
+                    //model 变化时，触发回调方法。
                     if ($attrs.ngModel) {
                       $scope.$watch($attrs.ngModel, function(newValue, oldValue) {
                             // console.log("watch,$attrs.ngModel1");
                               if(!chosenObj|| newValue==oldValue)return;
+
                               try{
                                   var chosen=chosenObj.data("chosen");
                                   if(!chosen)return;
                                   if(!chosen.results_data||chosen.current_selectedIndex<0)return;
-                                    var chosenVal= chosen.results_data[chosen.current_selectedIndex];
-                                  if(newValue==chosenVal)return;
+                                  chosen.results_data[chosen.current_selectedIndex];
                                   // console.log("watch,$attrs.ngModel2");
+
+
                                     if(callback)callback();
+
+                                    if ($attrs.selectData){
+                                      var selData=utils.getObjectByKeyOfArr(dataArr,"value",newValue);
+                                      $scope[$attrs.selectData] = selData;
+                                    }
+                                    // $scope.$apply();
+                                    if ($attrs.callback) {
+                                        $scope.$eval($attrs.callback);
+                                    }
                               }catch(e){}
 
                       });
                     }//  if ($attrs.ngModel)
-                  }
+                  }//watchNgModel
 
 
                 //销毁组件
@@ -1867,9 +1881,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 $rootScope.isLoading = false;
                                 var _options = '';
                                 if (!_data.data) _data.data = [];
+
+                                dataArr=_data.data;
                                 if(_data.data.length === 0){
                                   _data.data.push({value:"",text:""});
                                 }
+
+
 
                                 var _length = _data.data.length;
                                 var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
@@ -2073,6 +2091,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                               var data = results[0];
                               var _options = '';
                               if (!data) data = [];
+
+                              dataArr=data;
+
                               var _length = data.length;
                               //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
 
@@ -2134,8 +2155,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               });
             }
         };
-    }
-    chosen.$inject = ["requestData", "$timeout", "$rootScope", "alertError", "proLoading"];
+    };
 
     /**
      * form-item
@@ -2734,7 +2754,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
         .directive("checkboxGroup", checkboxGroup)
-        .directive("chosen", chosen)
+        .directive("chosen", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",chosen])
         .directive("formItem", formItem)
         .directive("autoComplete", autoComplete)
         .directive("selectAddress", ["$http", "$q", "$compile",selectAddress])
