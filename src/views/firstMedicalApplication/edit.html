@@ -4,6 +4,7 @@
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
+
   <div class="page-header-info">
     <h1>首营品种申请</h1>
     <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
@@ -135,16 +136,37 @@
             <div class="flex-item-6">
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">剂型：</label>
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                   <input type="text" class="form-control" ng-model="formData.firstMedical.dosageForms">
+                </div> -->
+                <div class="col-sm-6">
+                  <!-- {{formData.firstMedical.dosageForms}} -->
+                  <div class="col-lg-10 col-sm-10">
+                    <select class="ipt pr-short-ipt" data-placeholder="选择剂型"
+                    chosen
+                    default-empty="无"
+                    ng-model="formData.firstMedical.dosageForms"
+                    select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="flex-item-6">
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">型号规格：</label>
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                   <input type="text" class="form-control" ng-model="formData.firstMedical.specification">
+                </div> -->
+                <div class="col-sm-6">
+                  <div class="col-lg-10 col-sm-10">
+                    <select class="ipt pr-short-ipt"
+                    data-placeholder="选择规格"
+                    chosen default-empty="无"
+                    ng-model="formData.firstMedical.specification"
+                    select-source="rest/baseData/queryForSelectOptionByType?type=规格">
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -153,9 +175,20 @@
             <div class="flex-item-6">
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">计量单位：</label>
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                   <input type="text" class="form-control" ng-model="formData.firstMedical.measurement">
+                </div> -->
+                <div class="col-sm-6">
+                  <div class="col-lg-10 col-sm-10">
+                    <select class="ipt pr-short-ipt"
+                    data-placeholder="选择单位"
+                    chosen default-empty="无"
+                    ng-model="formData.firstMedical.measurement"
+                    select-source="rest/baseData/queryForSelectOptionByType?type=单位">
+                    </select>
+                  </div>
                 </div>
+
               </div>
             </div>
             <div class="flex-item-6">
@@ -309,8 +342,8 @@
                 <label for="" class="col-sm-2 control-label">供应单位：</label>
                 <div class="col-sm-6">
                   <!-- <input type="text" class="form-control" ng-model="formData.firstMedical.supplierName"> -->
-                  <select class="form-control" name="" ng-model="formData.firstMedical.supplierId" chosen select-source="rest/authen/supplier/queryForSelectOption">
-
+                  <select class="form-control" name="" ng-model="formData.firstMedical.supplierId"
+                  chosen select-source="rest/authen/supplier/queryForSelectOption">
                   </select>
                 </div>
               </div>
