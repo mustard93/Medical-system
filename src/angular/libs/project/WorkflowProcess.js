@@ -2,88 +2,11 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
 
 
 
-  function TreeLayout2(JTopo,dirtion, lineWidth2, lineHeight2)
-  {
-
-    var lineHeight=lineWidth2||100;
-    var lineWidth=lineHeight2||100;
-
-      return function (scene)
-      {
-
-        //获取所有节点得平均高度和宽带
-        function getAvgRect(a)
-        {
-            var b = 0,
-                c = 0;
-            return a.forEach(function (a)
-                {
-                    b += a.width,
-                    c += a.height
-                }),
-            {
-                    width: b / a.length,
-                    height: c / a.length
-                }
-        }
-
-
-
-          //根据name返回node节点
-          function getNodeByParentKey(childs,parentKey){
-            var nodes=[];
-              for(var i=0;i<childs.length;i++){
-                var e=childs[i];
-                e.textPosition = 'Middle_Center';//设置字体出现的位置居中
-                e.font='12px PingFangSC-Medium';
-                if(e instanceof JTopo.Node&&e.parentKey==parentKey){
-                  nodes.push(e);
-                }
-              }
-            return nodes;
-          }
-          //递归设置位置
-          function setXY(childs,rootNodes,nextLocation1){
-            if(!rootNodes||rootNodes.length==0)return;
-            var tmpX=nextLocation1.x;
-
-            var addHeight2=rootNodes[0].height+lineHeight;
-            var addWidth2=lineWidth+rootNodes[0].width;
-            var tmpY=nextLocation1.y-(rootNodes.length-1)/2*addHeight2; //y轴变化
-            // if(tmpY<0){
-            //   tmpY=10;
-            // }
-            nextLocation1.x=tmpX+lineWidth;
-
-            for(var i=0;i<rootNodes.length;i++){
-              var rootNode=rootNodes[i];
-
-                console.log("location1,name="+rootNode.key+",x="+tmpX+",y="+tmpY);
-                // nextLocation1.y=tmpY;
-                rootNode.setLocation(tmpX, tmpY);
-
-              var tmpY=tmpY+addHeight2;
-
-                var tmpChilds=getNodeByParentKey(childs,rootNode.key);
-
-              nextLocation1.x=tmpX+addWidth2;
-
-              setXY(childs,tmpChilds,nextLocation1);
-            }
-
-          }//end setXY
-
-
-          var rootNodes = JTopo.layout.getRootNodes(scene.childs);
-
-            var location1 = scene.getCenterLocation();
-            location1.x=10;
-            setXY(scene.childs,rootNodes,location1);
-      }
-  }//TreeLayout2
 
 
       var defaultOptions={
+          spacingWidth:80,
+          spacingHeight:20,
             //defaultOptions.status.fillColor_ready
           showStatus:false,//true 表示显示节点运行状态
            status:{
@@ -143,7 +66,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
         };
       WorkflowProcess.prototype={
           //根据name返回node节点
-          getEventByName:function(name){
+          getNodesByName:function(name){
             var scene = this.stage.childs[0];
 
             var nodes = scene.childs.filter(function(e){
@@ -152,6 +75,16 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             if(nodes&&nodes.length>0)return nodes[0];
 
             return null;
+          },
+          //根据name返回node节点
+          getNodesByEventType:function(name){
+            var scene = this.stage.childs[0];
+
+            var nodes = scene.childs.filter(function(e){
+              return e instanceof JTopo.Node&&e.data.type==name;
+            });
+
+            return nodes;
           },
           getLinkByKey:function(name){
             var scene = this.stage.childs[0];
@@ -203,8 +136,16 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             var root=JTopo.layout.getRootNodes(this.scene.childs);
               console.log("JTopo.layout.TreeLayout");
             console.log(root);
+            var that=this;
 
-                 this.scene.doLayout(TreeLayout2(JTopo,'right', 20, 80));
+
+            require(['CanvasTreeLayout'],function(CanvasTreeLayout){
+                var rootNodes=that.getNodesByEventType("StartEvent");
+                that.scene.doLayout(CanvasTreeLayout.TreeLayout2(JTopo,'right-center', that.options.spacingWidth, that.options.spacingHeight,rootNodes));
+
+            });
+
+
                 //  TreeLayout2(JTopo,dirtion, width, height2)
               //  this.scene.doLayout(JTopo.layout.TreeLayout('right', 25, 120));
                   // this.scene.doLayout(JTopo.layout.FlowLayout('right', 25, 120));
@@ -251,7 +192,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
                   //已经执行过的节点
                   if(arr)for(var i=0;i<arr.length;i++){
                       var event=arr[i];
-                      var node =this.getEventByName(event.name);
+                      var node =this.getNodesByName(event.name);
                       if(node){
                           node.fillColor=this.options.status.fillColor_doing;
                           node.status="doing";
@@ -267,7 +208,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
 
               if(arr)for(var i=0;i<arr.length;i++){
                   var eventRecord=arr[i];
-                  var node =this.getEventByName(eventRecord.event.name);
+                  var node =this.getNodesByName(eventRecord.event.name);
                   if(node){
 
                     if(node.data.conditionType=="驳回"){
@@ -292,14 +233,14 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
           //添加2个节点得链接
          addLinkByEvent:function(event1){
            //有上级就添加链接
-             var node =this.getEventByName(event1.name);
+             var node =this.getNodesByName(event1.name);
              if(!node)return;
            if(event1.sourceRef){
-               var nodeA=this.getEventByName(event1.sourceRef);
+               var nodeA=this.getNodesByName(event1.sourceRef);
                if(nodeA)this.addLink(nodeA,node);
            }
            if(event1.targetRef){
-               var nodeZ=this.getEventByName(event1.targetRef);
+               var nodeZ=this.getNodesByName(event1.targetRef);
                if(nodeZ)this.addLink(node,nodeZ);
            }
             console.log(node);
@@ -397,6 +338,10 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
           },
            addEvent:function(event1){
             var node = this.addNodeByEvent(event1);
+
+            node.textPosition = 'Middle_Center';//设置字体出现的位置居中
+            node.font='12px PingFangSC-Medium';
+
             node.data=event1;
 
             if(this.options.showStatus){
@@ -445,5 +390,90 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             return node;
           } //end addEvent
         } //end WorkflowProcess.prototype
+
+
+
+
+
+          // function TreeLayout2(JTopo,dirtion, lineWidth2, lineHeight2)
+          // {
+          //
+          //   var lineHeight=lineWidth2||100;
+          //   var lineWidth=lineHeight2||100;
+          //
+          //     return function (scene)
+          //     {
+          //
+          //       //获取所有节点得平均高度和宽带
+          //       function getAvgRect(a)
+          //       {
+          //           var b = 0,
+          //               c = 0;
+          //           return a.forEach(function (a)
+          //               {
+          //                   b += a.width,
+          //                   c += a.height
+          //               }),
+          //           {
+          //                   width: b / a.length,
+          //                   height: c / a.length
+          //               }
+          //       }
+          //
+          //
+          //
+          //         //根据name返回node节点
+          //         function getNodeByParentKey(childs,parentKey){
+          //           var nodes=[];
+          //             for(var i=0;i<childs.length;i++){
+          //               var e=childs[i];
+          //               e.textPosition = 'Middle_Center';//设置字体出现的位置居中
+          //               e.font='12px PingFangSC-Medium';
+          //               if(e instanceof JTopo.Node&&e.parentKey==parentKey){
+          //                 nodes.push(e);
+          //               }
+          //             }
+          //           return nodes;
+          //         }
+          //         //递归设置位置
+          //         function setXY(childs,rootNodes,nextLocation1){
+          //           if(!rootNodes||rootNodes.length==0)return;
+          //           var tmpX=nextLocation1.x;
+          //
+          //           var addHeight2=rootNodes[0].height+lineHeight;
+          //           var addWidth2=lineWidth+rootNodes[0].width;
+          //           var tmpY=nextLocation1.y-(rootNodes.length-1)/2*addHeight2; //y轴变化
+          //           // if(tmpY<0){
+          //           //   tmpY=10;
+          //           // }
+          //           nextLocation1.x=tmpX+lineWidth;
+          //
+          //           for(var i=0;i<rootNodes.length;i++){
+          //             var rootNode=rootNodes[i];
+          //
+          //               console.log("location1,name="+rootNode.key+",x="+tmpX+",y="+tmpY);
+          //               // nextLocation1.y=tmpY;
+          //               rootNode.setLocation(tmpX, tmpY);
+          //
+          //             var tmpY=tmpY+addHeight2;
+          //
+          //               var tmpChilds=getNodeByParentKey(childs,rootNode.key);
+          //
+          //             nextLocation1.x=tmpX+addWidth2;
+          //
+          //             setXY(childs,tmpChilds,nextLocation1);
+          //           }
+          //
+          //         }//end setXY
+          //
+          //
+          //         var rootNodes = JTopo.layout.getRootNodes(scene.childs);
+          //
+          //           var location1 = scene.getCenterLocation();
+          //           location1.x=10;
+          //           setXY(scene.childs,rootNodes,location1);
+          //     }
+          // }//TreeLayout2
+
         return WorkflowProcess;
 });

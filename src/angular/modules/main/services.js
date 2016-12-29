@@ -757,8 +757,8 @@ function alertOk($rootScope, modal) {
                 _rectDefualt:{
                  top:5,
                  left:5,
-                 width:794,//794
-                 height:1123//1123
+                 width:"100%",//794
+                 height:"100%"//1123
                },
                 /**
                  *
@@ -848,6 +848,7 @@ strPageName：
     关键字“CreateCustomPage”会在系统内建立一个名称为“LodopCustomPage”自定义纸张类型。
     */
                 setPrintPageSize:function(intOrient,intPageWidth,intPageHeight,strPageName){
+                  console.log("  LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)");
                     LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName);
                 },
                 //打印前的准备工作
@@ -858,8 +859,11 @@ strPageName：
                     if(!LODOP)console.log("need exe:$root.OPrinter.init()");
                   }
 
-                  this.setPrintPageSize(1,2160,1400,"LodopCustomPage");
-                    if(taskName)LODOP.PRINT_INIT(taskName);
+                  this.setPrintPageSize(2,2160,1400,"");
+                  // 若strTaskName空，控件则不保存本地化信息，打印全部由页面程序控制。
+                  taskName="";
+                  if(!taskName)taskName="";
+                  LODOP.PRINT_INIT(taskName);
                   if(!content)content=this.getPrintHtmlContent();
                   //设定纸张大小
                   // LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)

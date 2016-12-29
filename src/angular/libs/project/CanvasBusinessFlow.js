@@ -141,8 +141,13 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
             // console.log(root);
 
               this.showWorkflowTaskDataLinks();
+              var that=this;
+              require(['CanvasTreeLayout'],function(CanvasTreeLayout){
+                       that.scene.doLayout(CanvasTreeLayout.TreeLayout2(JTopo,'right', that.options.spacingWidth, that.options.spacingHeight));
 
-                 this.scene.doLayout(TreeLayout2(JTopo,'right', this.options.spacingWidth, this.options.spacingHeight));
+              });
+
+
                 //  TreeLayout2(JTopo,dirtion, width, height2)
               //  this.scene.doLayout(JTopo.layout.TreeLayout('right', 25, 120));
                   // this.scene.doLayout(JTopo.layout.FlowLayout('right', 25, 120));
@@ -308,96 +313,6 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
         } //end CanvasBusinessFlow.prototype
 
 
-
-        //自动树形布局
-        function TreeLayout2(JTopo,dirtion, lineWidth2, lineHeight2)
-        {
-
-          var lineWidth=lineWidth2||30;
-          var lineHeight=lineHeight2||30;
-
-            return function (scene)
-            {
-
-              //获取所有节点得平均高度和宽带
-              function getAvgRect(a)
-              {
-                  var b = 0,
-                      c = 0;
-                  return a.forEach(function (a)
-                      {
-                          b += a.width,
-                          c += a.height
-                      }),
-                  {
-                          width: b / a.length,
-                          height: c / a.length
-                      }
-              }
-
-
-
-                //根据name返回node节点
-                function getNodeByParentKey(childs,parentKey){
-                  var nodes=[];
-                  if(!parentKey)return nodes;
-                    for(var i=0;i<childs.length;i++){
-                      var e=childs[i];
-
-                      if(e instanceof JTopo.Node&&e.parentKey==parentKey){
-                        nodes.push(e);
-                      }
-                    }
-                  return nodes;
-                }
-                //递归设置位置
-                /**
-                nextLocation1 下一个坐标的位置
-                */
-                function setXY(childs,rootNodes,nextLocation1){
-                  if(!rootNodes||rootNodes.length==0)return;
-
-
-                  //当前节点x坐标
-                  var curNodeX=nextLocation1.x;
-                    //当前节点x坐标.
-                  var curNodeY=nextLocation1.y; //y轴变化
-                      // var curNodeY=nextLocation1.y-(rootNodes.length-1)/2*addHeight2; //多个情况，居中对其
-                  // if(tmpY<0){
-                  //   tmpY=10;
-                  // }
-
-                  for(var i=0;i<rootNodes.length;i++){
-                    var rootNode=rootNodes[i];
-
-                      // console.log("location1,name="+rootNode.key+",x="+curNodeX+",y="+curNodeY);
-                      // nextLocation1.y=tmpY;
-                      rootNode.setLocation(curNodeX, curNodeY);
-
-                      //获取当前节点的儿子列表
-                     var tmpChilds=getNodeByParentKey(childs,rootNode.key);
-                     //设置下一个兄弟节点的Y坐标
-                     //儿子x变化。Y不变  rootNode.height
-                    nextLocation1.x=curNodeX+lineWidth+rootNode.width;
-                    nextLocation1.y=curNodeY;              //
-                    setXY(childs,tmpChilds,nextLocation1);
-
-
-                    curNodeY+=lineHeight+rootNode.height;
-                  }
-
-
-                }//end setXY
-
-
-                var rootNodes = JTopo.layout.getRootNodes(scene.childs);
-                  //  scene.getCenterLocation()
-                  var location1 ={} ;
-                  location1.x=10;
-                  location1.y=10;
-                  setXY(scene.childs,rootNodes,location1);
-            }
-        }//TreeLayout2
 
         return CanvasBusinessFlow;
 });
