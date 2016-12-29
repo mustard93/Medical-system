@@ -1967,7 +1967,7 @@ function datePeriodSelect () {
 
               }
           };
-      };
+      }
 
 
       /**
@@ -1983,13 +1983,12 @@ function datePeriodSelect () {
               restrict: 'EA',
               scope: {
                   "ngModel": "=",
-
-                  "addDataCallbackFn":"&"
+                  "addDataCallbackFn":"&",
+                  "formData": "="
               },
               require: "?^ngModel",
               templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
               link: function($scope, elem, $attrs, ngModel) {
-
 
                    $attrs.$observe("ajaxUrl", function(value) {
                         $scope.ajaxUrl=value;

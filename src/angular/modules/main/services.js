@@ -573,7 +573,7 @@ function alertOk($rootScope, modal) {
               for(var i=0;i<arr.length;i++){
                   var tmp=arr[i];
                   if(!tmp)continue;
-                  var sum=1;
+                  var sum=0;
                 for(var j=0;j<keyArr.length;j++){
 
                     //属性值满足条件的，才允许相加。
