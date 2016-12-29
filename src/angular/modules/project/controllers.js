@@ -1553,35 +1553,6 @@ define('project/controllers', ['project/init'], function() {
      */
     function CalculateTotalController ($scope) {
 
-      $scope.calculateColumnTotal = function (bodyList, columnName) {
-        var _thisColumnTotal = 0;
-        if (bodyList) {
-          angular.forEach(bodyList, function (data, index, array) {
-            for (var key in data) {
-              // 返回入库数量
-              if (key === columnName && (parseInt(data[key]) > 0)) {
-                _thisColumnTotal += data[key];
-              }
-            }
-          });
-        }
-        return _thisColumnTotal;
-      };
-
-        $scope.calculateColumnTotal2 = function (bodyList, columnName) {
-          var _thisColumnTotal = 0;
-          if (bodyList) {
-            angular.forEach(bodyList, function (data, index, array) {
-              for (var key in data) {
-                // 返回出库数量
-                if (key === columnName && (parseInt(data[key]) < 0)) {
-                  _thisColumnTotal += (0 - data[key]);
-                }
-              }
-            });
-          }
-          return _thisColumnTotal;
-        };
     }
 
     angular.module('manageApp.project')
