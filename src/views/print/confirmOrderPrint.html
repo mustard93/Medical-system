@@ -1,17 +1,10 @@
-<div ng-controller="pageCtrl" class="pd-c-xxxl"
+<div ng-controller="pageCtrl"
  ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id')"
-
- ajax-url="rest/authen/confirmOrder/get.json?name={{customTablePrintName}}" style="min-height:600px;"
+ ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}" style="min-height:600px;"
  scope-data="showData"
 ><!-- pageCtrl-->
+<!-- {{showData}} -->
 
-  <div class="page-header-info ">
-
-    <p class="mgb bb-line ">
-      库存报表 / <em class="color-custom-orange">出入库明细</em>
-    </p>
-
-  </div>
   <button  ng-click="$root.OPrinter.preview(null,'templateName1')">打印预览</button>
     <button  ng-click="$root.OPrinter.print(null)">打印</button>
      <button  ng-click="$root.OPrinter.printSetup(null,'templateName1')">打印设置</button>
@@ -20,18 +13,14 @@
 
 <!--body wrapper start-->
 
-    <div class="mg-m col-lg-12 col-sm-12"
-    ajax-url="rest/authen/uICustomTable/get_confirmOrder.json?name={{customTablePrintName}}" style="min-height:600px;"
-    scope-data="uICustomTable"
-    callback="showUICustomTableItems=$root.UICustomTable.getShowItemArray(uICustomTable.items)"
-    >
+    <div style="width=680px;height=397px;color:black;">
          <div id="Print_Div_id" >
-
-         <div style="width:794px;height:1123px;border:1px solid #000000;">
-           <h1>国药集团云南医疗器械有限公司销售单</h1>
-           <table  border=1 width="100%" style="border:solid 1px black;border-collapse:collapse">
+           <!-- {{showData.orderMedicalNos }} -->
+         <div style="width:612px;height:397px;border:1px solid #000000;">
+           <h2 style="width=100%;text-align:center;font-size:16px;padding:10px;">国药集团云南医疗器械有限公司销售单</h2>
+           <table  width="100%" style="text-align:center;border-collapse:collapse;">
                <tbody>
-               <tr >
+               <tr>
                    <td>发货仓库：</td>
                    <td >
                       国药云南物流中心
@@ -40,9 +29,10 @@
                    <td >
 
                    </td>
-                   <td>单据号：</td>
+                   <td>单据编号：</td>
                    <td >
-                      GYM20161306
+                      <!-- GYM20161306 -->
+                      {{showData.orderNo}}
                    </td>
                </tr>
                <tr >
@@ -52,47 +42,88 @@
                    </td>
                    <td>联系人：</td>
                    <td >
-
+                     xxxxxxxxxx
                    </td>
-                   <td>录入日期：</td>
+                   <td>录单日期：</td>
                    <td >
-                      2016-11-28
+                      {{showData.createAt | date:'yyyy-MM-dd'}}
                    </td>
                </tr>
                </tbody>
            </table>
-           <table  style='{{uICustomTable.style}}' >
-               <thead  style='{{uICustomTable.theadStyle}}'>
-                   <tr >
-                       <th data-resizable-columns-id="{{item.propertyName}}"   style='{{item.thStyle}}'   ng-repeat="item in showUICustomTableItems">{{item.propertyName}}</th>
-
-                   </tr>
-               </thead>
-               <tbody>
-                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
-                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
-                   </tr>
-                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
-                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
-                   </tr>
-                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
-                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
-                   </tr>
-                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
-                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
-                   </tr>
-                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
-                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
-                   </tr>
-                   <tr >
-                       <td >总计大写</td>
-                      <td  colspan="{{showUICustomTableItems.length-5}}">五千元整</td>
-                          <td  ></td>
-                        <td  colspan="2">本页小计</td>
-                        <td colspan="2">5150</td>
-                   </tr>
-               </tbody>
+           <table border=1 style="text-align:center;width:612px;border:1px solid #000000;">
+             <thead >
+               <tr >
+                 <th>商品编号</th>
+                 <th>商品全名</th>
+                 <th>规格</th>
+                 <th>单位</th>
+                 <th>数量</th>
+                 <th>单价</th>
+                 <th>金额</th>
+                 <th>生产批号</th>
+                 <th>有效日期</th>
+                 <th>生厂商</th>
+                 <th>产品注册证</th>
+                 <th>产地品牌</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr  ng-repeat="tr in showData.orderMedicalNos ">
+                 <td>{{tr.code}}</td>
+                 <td >{{tr.name}}</td>
+                 <td>{{tr.specification}}</td>
+                 <td>{{tr.unit}}</td>
+                 <td>{{tr.quantity}}</td>
+                 <td>{{tr.strike_price}}</td>
+                 <td>{{tr.quantity*tr.strike_price}}</td>
+                 <td>{{tr.productionBatch}}</td>
+                 <td>{{tr.guaranteePeriod}}</td>
+                 <td>{{tr.manufacturer}}</td>
+                 <td>{{tr.drugAdministrationCode}}</td>
+                 <td>{{tr.brand}}</td>
+               </tr>
+               <tr>
+                 <td>总计大写：</td>
+                 <td colspan="7">五十一百二十元整</td>
+                 <td colspan="2">本页小计</td>
+                 <td colspan="2">{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}</td>
+               </tr>
+               <tr>
+                 <td>发货单位</td>
+                 <td colspan="4">国药集团云南医疗器械有限公司</td>
+                 <td>联系人：</td>
+                 <td>xxxxx</td>
+                 <td>电话：</td>
+                 <td colspan="2">134568948</td>
+                 <td>传真：</td>
+                 <td>214565</td>
+               </tr>
+             </tbody>
            </table>
+           <table  style="text-align:center;width:612px;">
+             <tbody>
+               <tr>
+                 <td>地址：</td>
+                 <td colspan="8"></td>
+                 <td>邮编：</td>
+                 <td></td>
+               </tr>
+               <tr>
+                 <td>制单人：</td>
+                 <td>{{showData.inputUser.n}}</td>
+                 <td>库房：</td>
+                 <td colspan="2">{{showData.warehouseName}}</td>
+                 <td>复核:</td>
+                 <td colspan="2">ksdahfjsakifhj</td>
+                 <td>送货人:</td>
+                 <td>{{showData.name}}</td>
+                 <td>收货人(签字):</td>
+                 <td></td>
+               </tr>
+             </tbody>
+           </table>
+
    </div>
      </div><!--Print_Div_id-->
     </div>
