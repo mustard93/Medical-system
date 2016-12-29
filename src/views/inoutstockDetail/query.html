@@ -7,26 +7,23 @@
     </p>
 
   </div>
-  <div class="bb-dashed-line pd-v-l">
-
-      <select class="pr-select select-wd mgr-ls"
-        chosen
-         ng-model="listParams.warehouseCode"
-         default-empty="选择仓库"
-         select-source="rest/authen/warehouse/queryForSelectOption">
-       </select>
-
-  </div>
 
 <!--body wrapper start-->
 
-<table-list list-data="rest/authen/inoutstockDetail/query.json" class="table table-hover table-striped table-mr table-content" list-params="listParams">
+<table-list list-data="rest/authen/inoutstockDetail/query.json" class="table pr-table pr-new-table" list-params="listParams">
+    <div class="bb-dashed-line pd-v-l">
+
+        <select class="pr-select select-wd"
+          chosen
+           ng-model="listParams.warehouseCode"
+           default-empty="选择仓库"
+           select-source="rest/authen/warehouse/queryForSelectOption">
+         </select>
+
+    </div>
+
     <div class="mg-m col-lg-12 col-sm-12">
-      <!-- <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/role/edit.html">
-            <i class="fa fa-plus"></i>新建
-        </button>
-      </div> -->
+
       <div class="text-left order-list-search relative order-list-i mgl" ng-init="queryDatePeriod='最近7天'">
         <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
          date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
