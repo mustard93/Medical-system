@@ -103,7 +103,6 @@ function customMenuList(utils) {
     restrict: 'EA',
     scope: {
         beforeAjaxParams: "=?",
-
         beforeIfEval:"=?"
     },
     // replace: true,
@@ -131,7 +130,7 @@ function customMenuList(utils) {
         //     $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
         //
         // }
-        console.log(  $scope.customMenuArr);
+        // console.log(  $scope.customMenuArr);
 
       }
   };
