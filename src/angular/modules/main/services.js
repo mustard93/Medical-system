@@ -64,7 +64,7 @@ define('main/services', ['toastr','main/init'], function (toastr) {
 
             $http(config)
                 .success(function (_data, status, headers, config) {
-
+                
                     if(angular.isString(_data)){  //返回非json字符串方式
                         defer.resolve([_data, _data]);
                         return;

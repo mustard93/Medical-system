@@ -7,7 +7,7 @@ define('main/controllers', ['main/init'], function () {
      * 主控
      */
     function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable) {
-       $http.defaults.withCredentials=true;
+      //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
@@ -193,7 +193,7 @@ define('main/controllers', ['main/init'], function () {
 
                   } else if (_data.code == 802){
                       alert(_data.msg || '登录失败');
-                    window.location.href = Config.loginHtmlUrl;
+                    if(Config.loginHtmlUrl)window.location.href = Config.loginHtmlUrl;
                   } else {
                     alert(_data.msg || '登录失败');
                   }

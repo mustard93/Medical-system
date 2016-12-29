@@ -196,11 +196,12 @@ require(['manageApp','ngRoute'], function (app) {
     app.config(['$routeProvider', '$templateRequestProvider','$sceDelegateProvider',
        function ($routeProvider, $templateRequestProvider,$sceDelegateProvider) {
 
-        //  $sceDelegateProvider.resourceUrlWhitelist([
-        //      // Allow same origin resource loads.
-        //      'self',
-        //      // Allow loading from our assets domain.  Notice the difference between * and **.
-        //      'http://localhost:8080/**']);
+         $sceDelegateProvider.resourceUrlWhitelist([
+             // Allow same origin resource loads.
+             'self',
+             '**',
+             // Allow loading from our assets domain.  Notice the difference between * and **.
+             'http://localhost:8080/**']);//ng-include $get允许跨越。
 
         if (window.Config) {
             $routeProvider
@@ -234,7 +235,9 @@ require(['manageApp','ngRoute'], function (app) {
         }
 
         $templateRequestProvider.httpOptions({
+          withCredentials:true,//ng-include $get允许跨越。
             headers: {
+
                 'template': '1'
             }
         });
