@@ -836,6 +836,8 @@ e
                   }
                     if(taskName)LODOP.PRINT_INIT(taskName);
                   if(!content)content=this.getPrintHtmlContent();
+                  //设定纸张大小
+                  // LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)
                   //●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
                   LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
                   console.log("this._rect");
