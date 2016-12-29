@@ -2625,9 +2625,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         return {
             restrict: 'A',
             scope: {
-                popoverOptions: '@'
+                popoverOptions: '@',
+                popoverShow: '='
             },
             link: function ($scope, element,$attrs) {
+
+            console.log($scope.popoverOptions);
 
               function showDo(show){
                 if ( element.data("isFocus")&&show=="true") {
@@ -2640,6 +2643,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               }
 
                 element.popover(JSON.parse($scope.popoverOptions || '{ "placement": "right", "trigger": "manual" }'));
+
+                if ($attrs.popoverShow) {
+                  $scope.$watch('popoverShow', function (val) {
+                    //val ? element.popover('show') : element.popover('hide');
+                    if (val) {
+                      element.popover('show');
+                    } else {
+                      element.popover('hide');
+                    }
+                  });
+                }
 
                 element.focus(function(){
                   //获取焦点时才条件验证。
