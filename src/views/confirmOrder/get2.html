@@ -313,7 +313,7 @@
            call-back="$root.goTo('#/salesOrder/query.html')">删除
         </a>
 
-        <button type="button" class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
 
         <button type="button" class="pr-btn-save-glodbg mgr-l">打印预览</button>
 
@@ -326,8 +326,10 @@
         </button> -->
 
 
-        <span  ng-if="formData.didateFilter.buttons.length>0"   custom-menu-list custom-menu-arr="{{formData.didateFilter.buttons}}"></span>
-
+        <span ng-if="formData.didateFilter.buttons.length>0"
+              custom-menu-list
+              custom-menu-arr="{{formData.didateFilter.buttons}}">
+        </span>
       </div>
     </div>
   </form>
