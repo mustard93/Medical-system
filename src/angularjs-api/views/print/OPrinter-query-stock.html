@@ -1,0 +1,58 @@
+<div   ng-controller="pageCtrl"><!-- pageCtrl-->
+
+
+  <div class="page-header-info "
+  ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id')"
+  >
+    <button  ng-click="$root.OPrinter.preview(null,'templateName11')">打印预览</button>
+      <button  ng-click="$root.OPrinter.print(null)">立即打印</button>
+       <button  ng-click="$root.OPrinter.printSetup(null,'templateName11')">打印设置</button>
+        <button  ng-click="$root.OPrinter.printDesign(null,'templateName11')">打印设计</button>
+  </div>
+
+
+  <table-list list-data="rest/authen/medicalStock/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+              <!-- 打印区域 -->
+              <div class="pd-c" id="Print_Div_id" contenteditable="true"
+              style="width:794px;height:1123px;border:1px solid #000000;"
+              >
+                <table ng-if="tbodyList.length"  style="width:794px;height:1123px;border:1px solid #000000;">
+                  <thead class="pr-bg-side">
+                    <tr>
+                      <th>序号</th>
+                      <th>商品编号</th>
+                      <th>商品全名</th>
+                      <th>规格</th>
+                      <th>单位</th>
+                      <th>注册证号</th>
+                      <th>数量</th>
+                      <th>成本单价</th>
+                      <th>库存金额</th>
+                      <th>可销售数量</th>
+                      <th>订单占用数量</th>
+                    </tr>
+                  </thead>
+                  <tbody class="pr-bg-white">
+                    <tr  ng-repeat="tr in tbodyList track by $index">
+                      <td>{{$index + 1}}</td>
+                      <td>{{tr.code}}</td>
+                      <td >{{tr.name}}</td>
+                      <td>{{tr.specification}}</td>
+                      <td>{{tr.unit}}</td>
+                      <td>{{tr.drugAdministrationCode}}</td>
+                      <td>{{tr.actualQuantity}}</td>
+                      <td>{{tr.price}}</td>
+                      <td>{{tr.quantity*tr.price}}</td>
+                      <td>{{tr.quantity}}</td>
+                      <td>{{tr.quantity-tr.actualQuantity}}</td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+               <!-- 打印区域 -->
+  </table-list>
+</div>
