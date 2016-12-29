@@ -4,6 +4,13 @@
 define('project/controllers', ['project/init'], function() {
 
 
+
+    /**
+     * 主控
+     */
+    function dynamicHtmlTemplateCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable) {
+
+    }
     /**
      *编辑、新建订单
      */

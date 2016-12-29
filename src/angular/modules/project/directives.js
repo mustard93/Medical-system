@@ -1679,7 +1679,11 @@ function salesorderEditShowDelbtn () {
 function umeditor ($timeout) {
   return {
     restrict: 'A',
-    scope: {ngModel:"=?"},
+    scope: {
+      ngModel:"=?",
+      umeditor:"="
+
+  },
     // replace: true,
       transclude: true,
     require: 'ngModel',
@@ -1727,6 +1731,8 @@ function umeditor ($timeout) {
 
                    _dom.setAttribute('id', _id);
                    var _umeditor = UE.getEditor(_id, _config);
+
+                    $scope.umeditor=_umeditor;
                    /**
                     * 对于umeditor添加内容改变事件，内容改变触发ngModel改变.
                     */
@@ -2081,6 +2087,7 @@ function datePeriodSelect () {
       }
 
 angular.module('manageApp.project')
+
 .directive("customTablePrint", [customTablePrint])
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])

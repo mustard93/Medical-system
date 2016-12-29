@@ -1,4 +1,6 @@
-<div class="page-main-content text-n">
+<div class="page-main-content text-n"
+
+ ng-init="umeditor={}">
   <div class="page-heading">
       <h3>主面板</h3>
       <ul class="breadcrumb">
@@ -10,15 +12,23 @@
   <div class="pd-c-l">
 
 
-<script id="editor" type="text/plain" style="width:1024px;height:500px;" umeditor ng-model="content1"></script>
+<button
+ajax-url-submit="rest/authen/angluarHtml/get.html"
+      params="formData"
+      http-method="GET"
+      alert-error
+      scope-data="formData"
+          callback="umeditor.setContent(formData)"
+>获取模版</button>
+umeditor={{umeditor.getContent()}}
+<script id="editor" type="text/plain" style="width:1024px;height:500px;" umeditor="umeditor" ng-model="content1"></script>
 
-
-
+content1={{content1}}
     <!--body wrapper end-->
 
     <textarea class="form-control" style="min-height:200px;"  readonly="true">
 
-      <script id="editor" type="text/plain" style="width:1024px;height:500px;" umeditor ng-model="content1"></script>
+      <script id="editor" type="text/plain" style="width:1024px;height:500px;" umeditor="umeditor" ng-model="content111"></script>
 
 
 content1={{content1}}

@@ -2509,11 +2509,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         return {
             restrict: 'AE',
             // scope: true,
-            transclude: true,
+            // transclude: true,
             link: function($scope, $element, $attrs, $ctrls, $transclude) {
-                $transclude($scope, function(clone) {
-                    $element.append(clone);
-                });
+                // $transclude($scope, function(clone) {
+                //     $element.append(clone);
+                // });
 
                 $scope.ajaxUrlHandler = $scope.$eval($attrs.ajaxUrlHandler);
 
@@ -2555,9 +2555,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                              data = $scope.ajaxUrlHandler(data);
                          }
 
-                         if ($attrs.scopeResponse) $scope.$parent[$attrs.scopeResponse] = results[1];
-                         if ($attrs.scopeData) $scope.$parent[$attrs.scopeData] = data;
-                         else $scope.scopeData = data;
+                         if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                         if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+
                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
                          //回调父级的处理事件;
@@ -2567,7 +2567,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                          // $scope.$apply();
                          if ($attrs.callback) {
-                             $scope.$parent.$eval($attrs.callback);
+                             $scope.$eval($attrs.callback);
                          }
 
 
@@ -2589,11 +2589,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      })
                      .catch(function(msg) {
                            if(maskObj)maskObj.hide();
-                        if ($attrs.scopeErrorMsg) $scope.$parent[$attrs.scopeErrorMsg] = (msg);
+                        if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
                         if (angular.isDefined($attrs.alertError)) alertError(msg);
 
                         if ($attrs.errorCallback) {
-                             $scope.$parent.$eval($attrs.callback);
+                             $scope.$eval($attrs.callback);
                             // $scope.$eval($attrs.errorCallback);
                         }
 
