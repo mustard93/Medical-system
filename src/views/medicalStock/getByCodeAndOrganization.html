@@ -1,23 +1,15 @@
 <div ng-controller="pageCtrl"
-     class="pd-c-xxxl left-se-side-par" style="min-height:600px;"><!-- pageCtrl-->
+     class="pd-c-xxxl left-se-side-par"
+     style="min-height:600px;">
   <div class="page-main-content left-se-side-par">
     <!--body wrapper start-->
-    <!-- 表格start   -->
-    <table-list list-data="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.relMedicalStockId}}"
-                list-params="listParams"
-                search-mode="noCaseSensitive"
-                callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['stockModel.quantity',
-                'stockModel.salesQuantity', 'stockModel.freezeQuantity','stockModel.lockingQuantity',
-                'stockModel.handleQuantity','stockModel.beingCheckedQuantity',
-                'stockModel.purchaseInWayQuantity','stockModel.purchaseRequisitionQuantity','stockModel.inStockQuantity',
-                'stockModel.confirmOrderQuantity','stockModel.shippedQuantity','stockModel.outStockQuantity'])"
-                search-param="q">
+
 
       <div class="pd-c-xxl mgrl"
       ajax-url="rest/authen/medicalStock/get.json?id={{mainStatus.pageParams.relMedicalStockId}}"
       scope-data="showData"
-      alert-error
-      >
+      alert-error>
+
            <div class="page-header-info">
              <p class="mgb bb-line relative  pdb-s">
                <a href="#/medicalStock/query-stock.html" class="mgr-xl">
@@ -36,9 +28,19 @@
                <h1 class="color-black text-l mgt">{{showData.name}}</h1>
            </div>
 
+
+         <!-- 表格start   -->
+         <table-list list-data="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.relMedicalStockId}}"
+                     list-params="listParams"
+                     search-mode="noCaseSensitive"
+                     callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['stockModel.quantity',
+                     'stockModel.salesQuantity', 'stockModel.freezeQuantity','stockModel.lockingQuantity',
+                     'stockModel.handleQuantity','stockModel.beingCheckedQuantity',
+                     'stockModel.purchaseInWayQuantity','stockModel.purchaseRequisitionQuantity','stockModel.inStockQuantity',
+                     'stockModel.confirmOrderQuantity','stockModel.shippedQuantity','stockModel.outStockQuantity'])"
+                     search-param="q">
            <div class="content-wrapper-main mgt">
-             <div class="pd-c"
-             >
+             <div class="pd-c">
               <!-- 搜索框 start-->
              <div class="text-left order-list-search relative">
                  <input type="text" class="ipt pdr-xxl" placeholder="批号/灭菌批号" ng-model="listParams.q">
@@ -49,7 +51,6 @@
               <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
               <!-- 主内容区域 -->
               <div class="content-wrapper-main">
-
                   <div class="outside-table-d">
                     <table  class="table pr-table pr-new-table pr-table-content table-wid">
                       <thead class="pr-bg-side">
@@ -142,15 +143,13 @@
                   </div>
 
               </div>
-
               <!-- 主体内容 end -->
              </div>
             </div>
            </div>
+          </table-list>
+      </div>
 
-
-         </div>
-      </table-list>
       <!-- 表格end -->
   </div>
 </div>

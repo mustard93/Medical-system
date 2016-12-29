@@ -103,7 +103,6 @@ function customMenuList(utils) {
     restrict: 'EA',
     scope: {
         beforeAjaxParams: "=?",
-
         beforeIfEval:"=?"
     },
     // replace: true,
@@ -131,7 +130,7 @@ function customMenuList(utils) {
         //     $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
         //
         // }
-        console.log(  $scope.customMenuArr);
+        // console.log(  $scope.customMenuArr);
 
       }
   };
@@ -1877,7 +1876,7 @@ function datePeriodSelect () {
       //1.监听下拉选择的值，触发开始结束时间设置方法setStartAndEndTime。
           $scope.$watch("ngModel", function(val) {
               //2.根据监听的值设置时间。
-              console.log(val);
+              // console.log(val);
               setStartAndEndTime(val);
 
           });

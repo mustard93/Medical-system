@@ -1,0 +1,100 @@
+<div ng-controller="pageCtrl" class="pd-c-xxxl"
+ ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id')"
+
+ ajax-url="rest/authen/confirmOrder/get.json?name={{customTablePrintName}}" style="min-height:600px;"
+ scope-data="showData"
+><!-- pageCtrl-->
+
+  <div class="page-header-info ">
+
+    <p class="mgb bb-line ">
+      库存报表 / <em class="color-custom-orange">出入库明细</em>
+    </p>
+
+  </div>
+  <button  ng-click="$root.OPrinter.preview(null,'templateName1')">打印预览</button>
+    <button  ng-click="$root.OPrinter.print(null)">打印</button>
+     <button  ng-click="$root.OPrinter.printSetup(null,'templateName1')">打印设置</button>
+      <button  ng-click="$root.OPrinter.printDesign(null,'templateName1')">打印设计</button>
+
+
+<!--body wrapper start-->
+
+    <div class="mg-m col-lg-12 col-sm-12"
+    ajax-url="rest/authen/uICustomTable/get_confirmOrder.json?name={{customTablePrintName}}" style="min-height:600px;"
+    scope-data="uICustomTable"
+    callback="showUICustomTableItems=$root.UICustomTable.getShowItemArray(uICustomTable.items)"
+    >
+         <div id="Print_Div_id" >
+
+         <div style="width:794px;height:1123px;border:1px solid #000000;">
+           <h1>国药集团云南医疗器械有限公司销售单</h1>
+           <table  border=1 width="100%" style="border:solid 1px black;border-collapse:collapse">
+               <tbody>
+               <tr >
+                   <td>发货仓库：</td>
+                   <td >
+                      国药云南物流中心
+                   </td>
+                   <td></td>
+                   <td >
+
+                   </td>
+                   <td>单据号：</td>
+                   <td >
+                      GYM20161306
+                   </td>
+               </tr>
+               <tr >
+                   <td>客户名称：</td>
+                   <td >
+                      昆明市某某医药
+                   </td>
+                   <td>联系人：</td>
+                   <td >
+
+                   </td>
+                   <td>录入日期：</td>
+                   <td >
+                      2016-11-28
+                   </td>
+               </tr>
+               </tbody>
+           </table>
+           <table  style='{{uICustomTable.style}}' >
+               <thead  style='{{uICustomTable.theadStyle}}'>
+                   <tr >
+                       <th data-resizable-columns-id="{{item.propertyName}}"   style='{{item.thStyle}}'   ng-repeat="item in showUICustomTableItems">{{item.propertyName}}</th>
+
+                   </tr>
+               </thead>
+               <tbody>
+                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
+                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
+                   </tr>
+                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
+                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
+                   </tr>
+                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
+                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
+                   </tr>
+                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
+                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
+                   </tr>
+                   <tr ng-repeat="tr in showData.orderMedicalNos" ng-click="selectThis()" class="td-bordered ">
+                       <td style='{{item.tdStyle}}'  ng-repeat="item in showUICustomTableItems">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
+                   </tr>
+                   <tr >
+                       <td >总计大写</td>
+                      <td  colspan="{{showUICustomTableItems.length-5}}">五千元整</td>
+                          <td  ></td>
+                        <td  colspan="2">本页小计</td>
+                        <td colspan="2">5150</td>
+                   </tr>
+               </tbody>
+           </table>
+   </div>
+     </div><!--Print_Div_id-->
+    </div>
+<!--body wrapper end-->
+</div>

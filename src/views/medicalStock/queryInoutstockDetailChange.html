@@ -1,14 +1,12 @@
 <div ng-controller="pageCtrl"
      class="pd-c-xxxl left-se-side-par "
      ng-init="listParams.medicalStockId=mainStatus.pageParams.medicalStockId"
-     ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;"
-     ><!-- pageCtrl-->
-
-    <div class="page-main-content left-se-side-par">
-
+     ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;"><!-- pageCtrl-->
+    <div class="page-main-content left-se-side-par" ng-controller="MedicalStockController">
         <!--body wrapper start-->
         <div class="pd-c-xxl"
-         ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{urlInfo.search.warehouseCode}}" scope-data="warehouseName">
+             ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{urlInfo.search.warehouseCode}}" 
+             scope-data="warehouseName">
            <div class="page-header-info ">
              <p class="mgb bb-line pdb-s relative  ">
                <a href="#/medicalStock/query-stock.html">
@@ -28,8 +26,7 @@
            </div>
 
            <!-- 主体内容 start-->
-           <table-list
-            list-data="rest/authen/medicalStock/queryInoutstockDetailChange"
+           <table-list list-data="rest/authen/medicalStock/queryInoutstockDetailChange"
                        list-params="listParams"
                        search-mode="noCaseSensitive"
                        callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','changeQuantity']);total_quantity_price=$root.utils.sumTotalByArrayMul(tbodyList,['price','quantity'])"
@@ -98,55 +95,33 @@
                                <td>{{tr.createAt | date:'yyyy-MM-dd'}}</td>
                                <td class="text-ellips-s">{{tr.type}}</td>
                                <td class="color-orange">
-                                 <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                                 </a>
-                                 <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                                 </a>
-                                 <a ng-if="tr.type=='销售入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                                 </a>
-
-                                 <a ng-if="tr.type=='采购来货通知单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                                 </a>
-
-                                 <a ng-if="tr.type=='采购退货出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                                 </a>
-                                 <a ng-if="tr.type=='销售退货入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                                 </a>
-
-                                 <a ng-if="tr.type=='报损出库单'" href="#/lossOverOrder/get-reimburse.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                                 </a>
-                                 <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                                 </a>
-
-                                 <a ng-if="tr.type=='批次冻结出库单'" href="#/freezeThawOrder/get-freeze.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                                 </a>
-                                 <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThawOrder/get-thaw.html?orderNo={{tr.orderNo}}">
-                                 {{tr.orderNo}}
-                               </a>
+                                 <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                                 <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                                 <a ng-if="tr.type=='销售入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                                 <a ng-if="tr.type=='采购来货通知单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                                 <a ng-if="tr.type=='采购退货出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                                 <a ng-if="tr.type=='销售退货入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                                 <a ng-if="tr.type=='报损出库单'" href="#/lossOverOrder/get-reimburse.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                                 <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                                 <a ng-if="tr.type=='批次冻结出库单'" href="#/freezeThawOrder/get-freeze.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                                 <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThawOrder/get-thaw.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
                                </td>
                                <td>{{tr.warehouseName}}</td>
                                <td>{{tr.unit}}</td>
                                <td>{{!tr.inputUser.n?'&nbsp;':tr.inputUser.n}}</td>
-                               <td >{{tr.changeQuantity>0?tr.changeQuantity:'0'}}</td>
-                               <td >{{tr.changeQuantity<0?0-tr.changeQuantity:'0'}}</td>
+                               <td>{{tr.changeQuantity>0?tr.changeQuantity:'0'}}</td>
+                               <td>{{tr.changeQuantity<0?0-tr.changeQuantity:'0'}}</td>
                                <td>{{tr.quantity?tr.quantity:'0'}}</td>
                                <td>{{tr.price?tr.price:'0'}}</td>
                                <td>{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
                              </tr>
 
-                             <tr class="bgco-orange color-white" >
+                             <tr class="bgco-orange color-white" ng-controller="CalculateTotalController">
                                <td colspan="7" class="text-right">合计：</td>
-                               <td>{{totalObj.changeQuantity>0?totalObj.changeQuantity:'0'}}</td>
-                               <td>{{totalObj.changeQuantity<0?totalObj.changeQuantity:'0'}}</td>
+                               <!-- <td>{{totalObj.changeQuantity>0?totalObj.changeQuantity:'0'}}</td> -->
+                               <td>{{calculateColumnTotal(tbodyList, 'changeQuantity')}}</td>
+                               <!-- <td>{{totalObj.changeQuantity<0?totalObj.changeQuantity:'0'}}</td> -->
+                               <td>{{calculateColumnTotal2(tbodyList, 'changeQuantity')}}</td>
                                <td>{{totalObj.quantity}}</td>
                                <td>{{totalObj.price}}</td>
                                <td>{{total_quantity_price}}</td>
