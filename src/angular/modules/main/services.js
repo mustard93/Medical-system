@@ -827,6 +827,29 @@ e
 
                     return this._PrintHtml;
                 },
+                //
+                /**
+
+                参数说明：
+intOrient：打印方向及纸张类型
+    1---纵向打印，固定纸张；
+    2---横向打印，固定纸张；
+    3---纵向打印，宽度固定，高度按打印内容的高度自适应(见样例18)；
+    0---方向不定，由操作者自行选择或按打印机缺省设置。
+
+intPageWidth：
+    纸张宽，单位为0.1mm 譬如该参数值为45，则表示4.5mm,计量精度是0.1mm。
+
+intPageHeight：
+    固定纸张时该参数是纸张高；高度自适应时该参数是纸张底边的空白高，计量单位与纸张宽一样。
+
+strPageName：
+    纸张类型名， intPageWidth等于零时本参数才有效，具体名称参见操作系统打印服务属性中的格式定义。
+    关键字“CreateCustomPage”会在系统内建立一个名称为“LodopCustomPage”自定义纸张类型。
+    */
+                setPrintPageSize:function(intOrient,intPageWidth,intPageHeight,strPageName){
+                    LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName);
+                },
                 //打印前的准备工作
                 _printBeforePrint:function(content,taskName){
                   if(!LODOP){
@@ -834,6 +857,8 @@ e
                     this.LODOP=LODOP;
                     if(!LODOP)console.log("need exe:$root.OPrinter.init()");
                   }
+
+                  this.setPrintPageSize(1,2160,1400,"LodopCustomPage");
                     if(taskName)LODOP.PRINT_INIT(taskName);
                   if(!content)content=this.getPrintHtmlContent();
                   //设定纸张大小
