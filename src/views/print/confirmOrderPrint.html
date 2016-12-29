@@ -13,11 +13,12 @@
 
 <!--body wrapper start-->
 
-    <div style="width=680px;height=397px;color:black;">
+    <div style="width=680px;height=397px;color:black;"
+    ajax-url="rest/authen/distributor/getCurrentOrganization"
+    scope-data="organizationName">
          <div id="Print_Div_id" >
-           <!-- {{showData.orderMedicalNos }} -->
          <div style="width:612px;height:397px;border:1px solid #000000;">
-           <h2 style="width=100%;text-align:center;font-size:16px;padding:10px;">国药集团云南医疗器械有限公司销售单</h2>
+           <h2 style="width=100%;text-align:center;font-size:16px;padding:10px;">{{organizationName.name}}</h2>
            <table  width="100%" style="text-align:center;border-collapse:collapse;">
                <tbody>
                <tr>
@@ -38,11 +39,11 @@
                <tr >
                    <td>客户名称：</td>
                    <td >
-                      昆明市某某医药
+                      {{showData.customerName}}
                    </td>
                    <td>联系人：</td>
                    <td >
-                     xxxxxxxxxx
+                     {{showData.address.name}}
                    </td>
                    <td>录单日期：</td>
                    <td >
@@ -53,19 +54,19 @@
            </table>
            <table border=1 style="text-align:center;width:612px;border:1px solid #000000;">
              <thead >
-               <tr >
-                 <th>商品编号</th>
-                 <th>商品全名</th>
-                 <th>规格</th>
-                 <th>单位</th>
-                 <th>数量</th>
-                 <th>单价</th>
-                 <th>金额</th>
-                 <th>生产批号</th>
-                 <th>有效日期</th>
-                 <th>生厂商</th>
-                 <th>产品注册证</th>
-                 <th>产地品牌</th>
+               <tr>
+                 <th style="text-align:center;">商品编号</th>
+                 <th style="text-align:center;">商品全名</th>
+                 <th style="text-align:center;">规格</th>
+                 <th style="text-align:center;">单位</th>
+                 <th style="text-align:center;">数量</th>
+                 <th style="text-align:center;">单价</th>
+                 <th style="text-align:center;">金额</th>
+                 <th style="text-align:center;">生产批号</th>
+                 <th style="text-align:center;">有效日期</th>
+                 <th style="text-align:center;">生厂商</th>
+                 <th style="text-align:center;">产品注册证</th>
+                 <th style="text-align:center;">产地品牌</th>
                </tr>
              </thead>
              <tbody>
@@ -85,41 +86,44 @@
                </tr>
                <tr>
                  <td>总计大写：</td>
-                 <td colspan="7">五十一百二十元整</td>
+                 <td colspan="7">{{showData.totalPriceCN}}</td>
                  <td colspan="2">本页小计</td>
-                 <td colspan="2">{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}</td>
+                 <td colspan="2">{{showData.totalPrice}}
+                   <!-- {{showData.orderMedicalNos[0].price}}
+                   {{showData.orderMedicalNos[0].planQuantity}} -->
+                 </td>
                </tr>
                <tr>
                  <td>发货单位</td>
-                 <td colspan="4">国药集团云南医疗器械有限公司</td>
+                 <td colspan="4">{{organizationName.name}}</td>
                  <td>联系人：</td>
-                 <td>xxxxx</td>
+                 <td>{{showData.invoicesContacts.name}}</td>
                  <td>电话：</td>
-                 <td colspan="2">134568948</td>
+                 <td colspan="2">{{showData.invoicesContacts.tel}}</td>
                  <td>传真：</td>
-                 <td>214565</td>
+                 <td>{{showData.invoicesContacts.fax}}</td>
                </tr>
              </tbody>
            </table>
-           <table  style="text-align:center;width:612px;">
+           <table style="text-align:center;width:612px;">
              <tbody>
                <tr>
                  <td>地址：</td>
-                 <td colspan="8"></td>
+                 <td colspan="7" style="text-align:left">{{showData.address.address}}</td>
                  <td>邮编：</td>
-                 <td></td>
+                 <td>{{showData.address.zipCode}}</td>
                </tr>
                <tr>
                  <td>制单人：</td>
                  <td>{{showData.inputUser.n}}</td>
                  <td>库房：</td>
-                 <td colspan="2">{{showData.warehouseName}}</td>
+                 <td>&nbsp;&nbsp;</td>
                  <td>复核:</td>
-                 <td colspan="2">ksdahfjsakifhj</td>
+                 <td >{{showData.approverUser.n}}</td>
                  <td>送货人:</td>
-                 <td>{{showData.name}}</td>
+                 <td>&nbsp;&nbsp;</td>
                  <td>收货人(签字):</td>
-                 <td></td>
+                 <td>&nbsp;&nbsp;</td>
                </tr>
              </tbody>
            </table>
