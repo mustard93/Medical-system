@@ -34,12 +34,13 @@
                   ng-model="formData.customerId"
                   select-source="rest/authen/customerAddress/queryForSelectOption.json">
           </select>
+          <span class="color-red mgl" ng-if="!formData.customerId">请先选择客户名</span>
         </div>
       </div>
     </div>
     <!-- 药械列表 -->
     <div class="pd-l">
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" >
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height">
         <!-- 信息 -->
         <div flash-add-medical
              ng-model="data1"
@@ -48,84 +49,145 @@
         </div>
 
         <!-- 列表 -->
-        <div class="pd-v-s">
-          <p class="flex-column mgb">
+        <div class="">
+          <p class="flex-column mgb mgt">
             <span class="flex-item-6">购需单号：<em>{{formData.orderNo || '暂无'}}</em></span>
             <span class="flex-item-6 text-right">状态：<em>未提交</em></span>
           </p>
-          <table class="table pr-table table-hover">
-            <thead>
-              <tr>
-                <th class="text-center">商品编号</th>
-                <th class="text-left">商品全名</th>
-                <th class="text-center">规格型号</th>
-                <th class="text-center">单位</th>
-                <th class="text-center">数量</th>
-                <th class="text-center">含税单价</th>
-                <th class="text-center">税率</th>
-                <th class="text-center">折扣额</th>
-                <th class="text-center">折扣率</th>
-                <th class="text-center">无税单价</th>
-                <th class="text-center">无税金额</th>
-                <th class="text-center">税额</th>
-                <th class="text-center">价税合计</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white">
-              <tr ng-repeat="tr in formData.orderMedicalNos" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
-                <td class="text-center">{{tr.code}}</td>
-                <td class="text-left">{{tr.name}}</td>
-                <td class="text-center">{{tr.specification}}</td>
-                <td class="text-center">{{tr.unit}}</td>
-                <td class="text-center">
-                  <div class="order-goods-num">
-                    <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
-                    <span class="inline-block">
-                      <input type="number"
-                             class="inline pr-table-input text-center item-quantity"
-                             style="width:60px;"
-                             ng-model="tr.quantity"
-                             ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
-                    </span>
-                    <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
-                  </div>
-                </td>
-                <td class="text-center">
-                  ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price">
-                </td>
-                <td class="text-center" ng-init="tr.taxRate='0.17'">
-                  <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.taxRate"> -->
-                  <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
-                    <option value="0.17" ng-selected="true">17%</option>
-                    <option value="0.03">3%</option>
-                  </select>
-                </td>
-                <td class="text-center" ng-init="tr.discountPrice='0'">
-                  ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountPrice">
-                </td>
-                <td class="text-center" ng-init="tr.discountRate='100'">
-                  <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">%
-                </td>
-                <td class="text-center">￥{{tr.price*(1-tr.taxRate)-tr.discountPrice | number:2}}</td>
-                <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice*tr.quantity | number:2}}</td>
-                <td class="text-center">￥{{tr.price*tr.taxRate-tr.discountPrice | number:2}}</td>
-                <td class="text-center relative">￥{{tr.price*tr.quantity-tr.discountPrice*tr.quantity | number:2}}
-                  <div class="sales-order-item-delbtn">
-                    <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
-                    <div class="bg-white">
-                      <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                      <p class="pd-v-s">
-                        <a href="" ng-click="return;">取消</a>
-                        <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                                ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
-                        </button>
-                      </p>
+
+          <div class="" style="margin-left:-20px;margin-right:-20px;">
+            <table class="table pr-table pr-new-table">
+              <thead>
+                <tr>
+                  <th class="text-center">商品编号</th>
+                  <th class="text-left">商品全名</th>
+                  <th class="text-center">规格型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">数量</th>
+                  <th class="text-center">含税单价</th>
+                  <th class="text-center">税率</th>
+                  <th class="text-center">折扣额</th>
+                  <th class="text-center">折扣率</th>
+                  <th class="text-center">无税单价</th>
+                  <th class="text-center">无税金额</th>
+                  <th class="text-center">税额</th>
+                  <th class="text-center">价税合计</th>
+                </tr>
+              </thead>
+              <tbody ng-if="formData.orderMedicalNos.length" class="bg-white">
+                <tr ng-repeat="tr in formData.orderMedicalNos" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                  <td class="text-center">{{tr.code}}</td>
+                  <td class="text-left">{{tr.name}}</td>
+                  <td class="text-center">{{tr.specification}}</td>
+                  <td class="text-center">{{tr.unit}}</td>
+                  <td class="text-center">
+                    <div class="order-goods-num">
+                      <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
+                      <span class="inline-block">
+                        <input type="number"
+                               class="inline pr-table-input text-center item-quantity"
+                               style="width:60px;"
+                               ng-model="tr.quantity"
+                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                      </span>
+                      <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                     </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                  <td class="text-center">
+                    ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price">
+                  </td>
+                  <td class="text-center" ng-init="tr.taxRate='0.17'">
+                    <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.taxRate"> -->
+                    <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
+                      <option value="0.17" ng-selected="true">17%</option>
+                      <option value="0.03">3%</option>
+                    </select>
+                  </td>
+                  <td class="text-center" ng-init="tr.discountPrice='0'">
+                    ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountPrice">
+                  </td>
+                  <td class="text-center" ng-init="tr.discountRate='100'">
+                    <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">%
+                  </td>
+                  <td class="text-center">￥{{tr.price*(1-tr.taxRate)-tr.discountPrice | number:2}}</td>
+                  <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice*tr.quantity | number:2}}</td>
+                  <td class="text-center">￥{{tr.price*tr.taxRate-tr.discountPrice | number:2}}</td>
+                  <td class="text-center relative">￥{{tr.price*tr.quantity-tr.discountPrice*tr.quantity | number:2}}
+                    <div class="sales-order-item-delbtn">
+                      <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
+                      <div class="bg-white">
+                        <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                        <p class="pd-v-s">
+                          <a href="" ng-click="return;">取消</a>
+                          <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                                  ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
+                          </button>
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+
+              <tbody ng-if="formData.iOrderMedicalNos.length" class="bg-white">
+                <tr ng-repeat="tr in formData.iOrderMedicalNos" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                  <td class="text-center">{{tr.code}}</td>
+                  <td class="text-left">{{tr.name}}</td>
+                  <td class="text-center">{{tr.specification}}</td>
+                  <td class="text-center">{{tr.unit}}</td>
+                  <td class="text-center">
+                    <div class="order-goods-num">
+                      <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
+                      <span class="inline-block">
+                        <input type="number"
+                               class="inline pr-table-input text-center item-quantity"
+                               style="width:60px;"
+                               ng-model="tr.quantity"
+                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                      </span>
+                      <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price">
+                  </td>
+                  <td class="text-center" ng-init="tr.taxRate='0.17'">
+                    <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.taxRate"> -->
+                    <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
+                      <option value="0.17" ng-selected="true">17%</option>
+                      <option value="0.03">3%</option>
+                    </select>
+                  </td>
+                  <td class="text-center" ng-init="tr.discountPrice='0'">
+                    ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountPrice">
+                  </td>
+                  <td class="text-center" ng-init="tr.discountRate='100'">
+                    <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">%
+                  </td>
+                  <td class="text-center">￥{{tr.price*(1-tr.taxRate)-tr.discountPrice | number:2}}</td>
+                  <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice*tr.quantity | number:2}}</td>
+                  <td class="text-center">￥{{tr.price*tr.taxRate-tr.discountPrice | number:2}}</td>
+                  <td class="text-center relative">￥{{tr.price*tr.quantity-tr.discountPrice*tr.quantity | number:2}}
+                    <div class="sales-order-item-delbtn">
+                      <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
+                      <div class="bg-white">
+                        <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                        <p class="pd-v-s">
+                          <a href="" ng-click="return;">取消</a>
+                          <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                                  ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
+                          </button>
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+
+            </table>
+          </div>
+
+
         </div>
       </div>
     </div>
