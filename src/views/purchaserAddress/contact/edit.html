@@ -1,8 +1,9 @@
 <div class="modal-content pr-modal-content" ng-controller="editCtrl">
   <form class="add-customerAddress-form form-horizontal"
+    name="editForm"
         ng-init="formData=dialogData.contact;formData.purchaserAddressId=dialogData.customerAddressId"
         action="rest/authen/purchaserAddress/contact/save"
-        callback="customerAddressReload()"
+        callback="$root.reloadTime=$root.utils.getNowTime();$root.modal.closeAll();"
         form-validator>
     <div class="modal-header">
         <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}收货人信息</h4>
@@ -17,7 +18,15 @@
       <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label">手机</label>
           <div class="col-lg-10 col-sm-10">
-              <input type="tel" class="form-control" placeholder="请填写联系手机号码" ng-model="formData.tel"/>
+              <input type="tel" class="form-control" placeholder="请填写联系手机号码" ng-model="formData.tel"
+              maxlength="11"
+               name="tel"
+              ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+              data-content="请输入11位手机号码"
+              invalid-popover="{{editForm.tel.$invalid}}"
+              placement="top"
+
+              />
           </div>
       </div>
 
@@ -54,7 +63,7 @@
                       dialog-title="确认删除?"
                       dialog-content="确认删除?"
                       dialog-template="pr-dialog-submit.html"
-                      callback="customerAddressReload()"
+                      callback="$root.reloadTime=$root.utils.getNowTime();$root.modal.closeAll();"
                       params='{"purchaserAddressId":formData.purchaserAddressId,"contactId":formData.id}'
                       request-url="rest/authen/purchaserAddress/contact/delete">删除
               </button>

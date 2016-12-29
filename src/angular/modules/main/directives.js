@@ -2638,8 +2638,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       // console.log("element.popover('hide');");
                 }
               }
-
-                element.popover(JSON.parse($scope.popoverOptions || '{ "placement": "right", "trigger": "manual" }'));
+                var placement="right";
+                if($attrs.placement)placement=$attrs.placement;
+                var popoverOptions='{ "placement": "'+placement+'", "trigger": "manual" }';
+                if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
+                element.popover(JSON.parse(popoverOptions));
 
                 element.focus(function(){
                   //获取焦点时才条件验证。

@@ -420,6 +420,11 @@ function alertOk($rootScope, modal) {
           };
 
           var  utilsObj = {
+            //获取当前时间
+            getNowTime: function (inputId) {
+              return new Date().getTime();
+
+            },
             //设置输入框获取焦点
             focusByInputId: function (inputId) {
               //  $timeout 保障不受其他干扰，最后一个执行。
