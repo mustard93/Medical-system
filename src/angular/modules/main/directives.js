@@ -2728,10 +2728,145 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         };
 
+
+
+        var ngInclude2 = ['$templateRequest', '$anchorScroll', '$animate','requestData','$templateCache',
+                          function($templateRequest,   $anchorScroll,   $animate,requestData,$templateCache) {
+          return {
+            restrict: 'ECA',
+            priority: 400,
+            terminal: true,
+            transclude: 'element',
+            controller: angular.noop,
+            compile: function(element, attr) {
+              var srcExp = attr.ngInclude || attr.src,
+                  onloadExp = attr.onload || '',
+                  autoScrollExp = attr.autoscroll;
+
+              return function(scope, $element, $attr, ctrl, $transclude) {
+                var changeCounter = 0,
+                    currentScope,
+                    previousElement,
+                    currentElement;
+
+                var cleanupLastIncludeContent = function() {
+                  if (previousElement) {
+                    previousElement.remove();
+                    previousElement = null;
+                  }
+                  if (currentScope) {
+                    currentScope.$destroy();
+                    currentScope = null;
+                  }
+                  if (currentElement) {
+                    $animate.leave(currentElement).then(function() {
+                      previousElement = null;
+                    });
+                    previousElement = currentElement;
+                    currentElement = null;
+                  }
+                };
+
+                scope.$watch(srcExp, function ngIncludeWatchAction(src) {
+                  var afterAnimation = function() {
+                    if (angular.isDefined(autoScrollExp) && (!autoScrollExp || scope.$eval(autoScrollExp))) {
+                      $anchorScroll();
+                    }
+                  };
+                  var thisChangeId = ++changeCounter;
+
+                  if (src) {
+                    //set the 2nd param to true to ignore the template request error so that the inner
+                    //contents and scope can be cleaned up.
+
+
+                    requestData(src, null)
+                      .then(function(results) {
+
+
+                        if (scope.$$destroyed) return;
+
+                        if (thisChangeId !== changeCounter) return;
+                        var newScope = scope.$new();
+                        ctrl.template = results[0];
+                          $templateCache.put(src, results[0]);
+
+                        // Note: This will also link all children of ng-include that were contained in the original
+                        // html. If that content contains controllers, ... they could pollute/change the scope.
+                        // However, using ng-include on an element with additional content does not make sense...
+                        // Note: We can't remove them in the cloneAttchFn of $transclude as that
+                        // function is called before linking the content, which would apply child
+                        // directives to non existing elements.
+                        var clone = $transclude(newScope, function(clone) {
+                          cleanupLastIncludeContent();
+                          $animate.enter(clone, null, $element).then(afterAnimation);
+
+                            // $element.append(clone);
+                        });
+
+                        currentScope = newScope;
+                        currentElement = clone;
+
+                        currentScope.$emit('$includeContentLoaded', src);
+                        scope.$eval(onloadExp);
+
+                      })
+                      .catch(function(msg) {
+                        if (scope.$$destroyed) return;
+
+                        if (thisChangeId === changeCounter) {
+                          cleanupLastIncludeContent();
+                          scope.$emit('$includeContentError', src);
+                        }
+                      });
+
+                //     $templateRequest(src, true).then(function(response) {
+                //       if (scope.$$destroyed) return;
+                //
+                //       if (thisChangeId !== changeCounter) return;
+                //       var newScope = scope.$new();
+                //       ctrl.template = response;
+                //
+                //       // Note: This will also link all children of ng-include that were contained in the original
+                //       // html. If that content contains controllers, ... they could pollute/change the scope.
+                //       // However, using ng-include on an element with additional content does not make sense...
+                //       // Note: We can't remove them in the cloneAttchFn of $transclude as that
+                //       // function is called before linking the content, which would apply child
+                //       // directives to non existing elements.
+                //       var clone = $transclude(newScope, function(clone) {
+                //         cleanupLastIncludeContent();
+                //         $animate.enter(clone, null, $element).then(afterAnimation);
+                //       });
+                //
+                //       currentScope = newScope;
+                //       currentElement = clone;
+                //
+                //       currentScope.$emit('$includeContentLoaded', src);
+                //       scope.$eval(onloadExp);
+                //     }, function() {
+                //       if (scope.$$destroyed) return;
+                //
+                //       if (thisChangeId === changeCounter) {
+                //         cleanupLastIncludeContent();
+                //         scope.$emit('$includeContentError', src);
+                //       }
+                //     });
+                //     scope.$emit('$includeContentRequested', src);
+              } else {//if (src)
+                    cleanupLastIncludeContent();
+                    ctrl.template = null;
+                  }
+                });
+              };
+            }
+          };
+        }];
     /**
      * 加入项目
      */
     angular.module('manageApp.main')
+  .directive("ngInclude2", ngInclude2)
+
     .directive("datepicker", ['$filter',datepicker])
       .directive("watchFormChange", ["watchFormChange", watchFormChange])
       .directive("invalidPopover", ["$route", "$templateCache", "$routeParams", invalidPopover])

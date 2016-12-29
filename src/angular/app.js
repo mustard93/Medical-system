@@ -183,8 +183,25 @@ define('manageApp', [
 });
 
 require(['manageApp','ngRoute'], function (app) {
-    app.config(['$routeProvider', '$templateRequestProvider',
-       function ($routeProvider, $templateRequestProvider) {
+
+
+  app.config(function($sceDelegateProvider) {
+   $sceDelegateProvider.resourceUrlWhitelist([
+       // Allow same origin resource loads.
+       'self',
+       // Allow loading from our assets domain.  Notice the difference between * and **.
+       'http://media.w3.org/**']);
+});
+
+    app.config(['$routeProvider', '$templateRequestProvider','$sceDelegateProvider',
+       function ($routeProvider, $templateRequestProvider,$sceDelegateProvider) {
+
+        //  $sceDelegateProvider.resourceUrlWhitelist([
+        //      // Allow same origin resource loads.
+        //      'self',
+        //      // Allow loading from our assets domain.  Notice the difference between * and **.
+        //      'http://localhost:8080/**']);
+
         if (window.Config) {
             $routeProvider
                 .when("/:page*", {
