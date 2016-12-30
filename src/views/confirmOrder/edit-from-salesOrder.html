@@ -140,7 +140,7 @@
                     </select>
                   </td>
                   <td class="text-center">
-                    <div  ng-repeat="stockBatchsItem in item.stockBatchs"  >
+                    <div ng-repeat="stockBatchsItem in item.stockBatchs">
                       <select class="select pr-select pr-select-sm text-left"
                               chosen
                               default-empty
@@ -152,12 +152,14 @@
                               callback="choiseProductionBatch(item,stockBatchsItem,selectData);item.handleFlag=true"
                               select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
                       </select>
-                      <p class="mgt text-right" ng-if="stockBatchsItem.productionBatch">
-                        <input type="number" class="ipt pr-short-ipt color-6 text-right" ng-model="stockBatchsItem.quantity"
-                          data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
-                        invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}"
+                      <p class="mgt text-right relative" ng-if="stockBatchsItem.productionBatch">
+                        <input type="number"
+                               class="ipt pr-short-ipt color-6 text-right"
+                               ng-model="stockBatchsItem.quantity"
+                               data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
+                               invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}" />
 
-                        />
+                        <span class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                       </p>
                       <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)">{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}缺货：{{stockBatchsItem.quantity-selectData.note.salesQuantity}}</p> -->
                     </div>

@@ -5,29 +5,35 @@
 ><!-- pageCtrl-->
 <!-- {{showData}} -->
 
-  <button  ng-click="$root.OPrinter.preview(null,'templateName1')">打印预览</button>
-    <button  ng-click="$root.OPrinter.print(null)">打印</button>
-     <button  ng-click="$root.OPrinter.printSetup(null,'templateName1')">打印设置</button>
-      <button  ng-click="$root.OPrinter.printDesign(null,'templateName1')">打印设计</button>
-      <div
+  <button  ng-click="$root.OPrinter.preview(null)">打印预览</button>
+    <button  ng-click="$root.OPrinter.print(null)">立即打印</button>
+     <button  ng-click="$root.OPrinter.printSetup(null)">打印设置</button>
+
+      <select
       ajax-url="rest/authen/uiCustomHtml/queryForSelectOptionByKey.json?key=confirmOrderPrint"
       scope-data="queryForSelectOptionByKey"
       callback="defaultObj=$root.utils.getObjectByKeyOfArr('note','true'); uiCustomHtmlId=defaultObj.value||queryForSelectOptionByKey[0].value"
-      ></div>
-      <select  ng-options="item.value as item.text  for item in queryForSelectOptionByKey"  ng-model="uiCustomHtmlId">
+
+        ng-options="item.value as item.text  for item in queryForSelectOptionByKey"  ng-model="uiCustomHtmlId">
 
       </select>
+
+
+      <div
+      ajax-url="rest/authen/uiCustomHtml/get.json?id={{uiCustomHtmlId}}"
+      scope-data="uiCustomHtml"
+      callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml)"
+  ></div>
 <!--body wrapper start-->
 
-    <div 
+    <div
     ajax-url="rest/authen/distributor/getCurrentOrganization"
     scope-data="organizationName">
 
-    <div ng-if="!uiCustomHtmlId">请选择模版</div>
+    <div ng-if="!uiCustomHtmlId">请选择模版,无模版选择，请先配置模版</div>
 
          <div id="Print_Div_id"  ng-if="uiCustomHtmlId"
-         ajax-url="rest/authen/uiCustomHtml/getHtml.html?id={{uiCustomHtmlId}}"
-         scope-data="uiCustomHtml"
+
          >
 
          <ng-include src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtml.html?id='+uiCustomHtmlId"></ng-include>

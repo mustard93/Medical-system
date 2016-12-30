@@ -129,7 +129,7 @@
           <thead>
             <tr>
               <th>序号</th>
-              <th>资料名称</th>
+              <th class="w-140">资料名称</th>
               <th>上传人</th>
               <th>上传时间</th>
               <th>有效日期</th>
@@ -140,7 +140,12 @@
           <tbody>
             <tr ng-repeat="item in showData.attachments">
               <td>{{$index + 1}}</td>
-              <td>{{item.name}}</td>
+              <td>
+                <div class="autocut" title="{{item.name}}">
+                  {{item.name}}
+                </div>
+
+              </td>
               <td>{{item.uploadUserName}}</td>
               <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
               <td>{{item.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>

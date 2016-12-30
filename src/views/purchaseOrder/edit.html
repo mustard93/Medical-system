@@ -25,6 +25,7 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         callback="submitFormAfter();watchFormChange('formData')"
+        onkeydown="if(window.event.keyCode==13) return false;"
         novalidate="novalidate">
 
   <div class="content-wrapper-main mgb">
@@ -241,8 +242,11 @@
               </div>
             </td>
             <td class="has-border text-center text-v-t pdt-m pd-c-s">{{tr.unit}}</td> <!-- 单位 -->
-            <td class="has-border text-center text-v-t pdt-m pd-c-s">{{tr.quantity}}</td> <!-- 数量 -->
-            <td class="has-border text-center text-v-t pd-m">￥{{tr.strike_price}}</td> <!-- 单价 -->
+            <td class="has-border text-center text-v-t pdt-m pd-c-s">  <input type="number" id="addDataItem_quantity" class="pr-table-input" ng-model="tr.quantity" /></td> <!-- 数量 -->
+            <td class="has-border text-center text-v-t pd-m">
+              <span class="pr-unit-inline">￥</span>
+              <input type="text" class="pr-table-input price" placeholder="成交价" ng-model="tr.strike_price" >
+            </td> <!-- 单价 -->
             <td class="has-border text-center text-v-t pd-m">{{tr.quantity*tr.strike_price | number:2}}</td> <!-- 金额 -->
             <td class="has-border text-center text-v-t pd-m">
               <input type="text"  class="pr-table-input" ng-model="tr.originalParts" />

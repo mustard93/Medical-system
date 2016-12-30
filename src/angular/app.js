@@ -69,12 +69,16 @@ require.config({
       'ueditor_config': {
           deps: ['jQuery']
       },
-      'ZeroClipboard': {
-            deps: ['jQuery'],
-          exports: 'ZeroClipboard'
-      },
+      // 'ZeroClipboard': {
+      //       deps: ['jQuery'],
+      //     exports: 'ZeroClipboard'
+      // },
       'ueditor': {
-          deps: ['jQuery','ZeroClipboard']
+          deps: ['jQuery','ZeroClipboard'],
+          init:function(ZeroClipboard){
+               //导出到全局变量，供ueditor使用
+               window.ZeroClipboard = ZeroClipboard;
+           }
       },
 //,'css!../libs/umeditor1_2_2/themes/default/css/umeditor.min.css'
       'ueditor_lang': {
