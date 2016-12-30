@@ -1564,7 +1564,8 @@ define('project/controllers', ['project/init'], function() {
     function SalesOrderDetailsController ($scope, $timeout) {
       // 监视折扣额
       $scope.$watch('tr.discountPrice', function (newValue) {
-        $scope.tr.discountRate = parseInt(($scope.tr.price - $scope.tr.discountPrice) / $scope.tr.price * 100);
+        $scope.tr.discountRate = (($scope.tr.price - newValue) / $scope.tr.price * 100).toFixed(2);
+        if ($scope.tr.discountRate.isNaN) return;
       });
       // 监视折扣率
       $scope.$watch('tr.discountRate', function (newValue) {

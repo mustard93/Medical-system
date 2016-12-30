@@ -19,7 +19,7 @@
             <div class="btn btn-group">
 
               <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="待审批"  count-map="countByOrderStatus">  </button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="待审核"  count-map="countByOrderStatus">  </button>
               <button query-order-status-button  ng-model="listParams.orderStatus" key="待发单"  count-map="countByOrderStatus">  </button>
               <button query-order-status-button  ng-model="listParams.orderStatus" key="待发货"  count-map="countByOrderStatus">  </button>
               <button query-order-status-button  ng-model="listParams.orderStatus" key="已发货"  count-map="countByOrderStatus">  </button>
@@ -89,7 +89,9 @@
                   </span>
                   <!-- <span  ng-if="!(tr.orderStatus=='待审批'||tr.orderStatus=='待发单')" class="flex-item-6 text-right"> -->
                   <span class="flex-item-6 text-right">
-                    <a href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a>
+                    <a ng-if="tr.orderStatus=='待审核'" href="#/confirmOrder/edit-from-salesOrder.html?id={{tr.id}}">编辑</a>
+
+                    <a ng-if="tr.orderStatus!='待审核'" href="#/confirmOrder/get.html?id={{tr.id}}">查看详情</a>
                     <!-- <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
                             ng-if="!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')&& tr.orderStatus=='待审批' && $root.hasAuthor('销售单审核')"
                             type="button"
