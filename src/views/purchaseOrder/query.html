@@ -83,9 +83,6 @@
                 <div class="flex-column" style="height:22px;line-height:22px;">
                   <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
                   <span ng-if="tr.orderStatus=='未提交'" class="flex-item-10 text-right">
-
-
-
                     <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
                        href="javascript:;"
                        class="pr-color-red mgl"
@@ -133,12 +130,10 @@
 
                     <!--工作流控制菜单 -->
                       <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')" workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}" ></button>
-
-
                   </span>
 
                 </div>
-                <div class="text-s mgb-m">{{tr.type}}</div>
+                <div class="text-s mgb-m">{{tr.type || '未知状态'}}</div>
                 <div class="flex-column qurey text-s color-9">
                   <div class="flex-item-6">
                     <p class="mgb-s">采购单号：

@@ -1,6 +1,6 @@
 <div class="confirm-order-edit"
      ng-controller="confirmOrderEditCtrl2"
-     ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');orderMedicalNos=formData.orderMedicalNos;"
      alert-error
@@ -146,6 +146,8 @@
                               default-empty
                               data-placeholder=" "
                               select-data="selectData"
+                              suffix-connection="/"
+                              suffix-key="note.salesQuantity"
                               ng-model="stockBatchsItem.productionBatch"
                               callback="choiseProductionBatch(item,stockBatchsItem,selectData);item.handleFlag=true"
                               select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
@@ -308,23 +310,30 @@
            call-back="$root.goTo('#/salesOrder/query.html')">删除
         </a>
 
-        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <button ng-if="formData.orderStatus=='待审核'"
+                type="button"
+                class="pr-btn-save-glodbg mgr-l"
+                ng-disabled="!changeFlag"
+                ng-click="submitForm('editForm','save')">保存
+        </button>
 
-        <button type="button" class="pr-btn-save-glodbg mgr-l">打印预览</button>
+        <button type="button" class="pr-btn-save-glodbg mgr-l">
+          <a class="color-white" ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}" target="_blank">打印预览</a>
+        </button>
 
-        <!-- <button type="button" ng-click="submitForm('editForm','submit')"
-                class="pr-btn-create-glodbg"
-                ng-disabled="!formData.orderMedicalNos.length ||
-                             !formData.customerId ||
-                             !formData.saleUserId ||
-                             !canSubmitForm()">审核
-        </button> -->
+        <button type="button"
+                class="pr-btn-save-glodbg mgr-l"
+                ng-disabled="($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0) ||
+                             ($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
+                ng-click="submitForm('editForm','submit')">审核
+        </button>
 
 
-        <span ng-if="formData.didateFilter.buttons.length>0"
+
+        <!-- <span ng-if="formData.didateFilter.buttons.length>0"
               custom-menu-list
               custom-menu-arr="{{formData.didateFilter.buttons}}">
-        </span>
+        </span> -->
       </div>
       <div class="btn-area relative" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"

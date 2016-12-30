@@ -20,9 +20,9 @@
     <div class="relative bb-line">
       <div class="pd-l">
         <!-- 标题 -->
-        <div class="mgb-m">
-          <p class="mgb-m crumbs pr-indent-10">销售中心 / <em class="color-custom-orange">购需单</em></p>
-          <h1 class="pr-font-22 pr-color">新建购需单</h1>
+        <div class="mgb-l">
+          <p class="mgb-m crumbs pr-indent-20">销售中心 / <em class="color-custom-orange">购需单</em></p>
+          <h1 class="pr-font-20 color-black">新建购需单</h1>
         </div>
         <!-- 客户列表 -->
         <div class="">
@@ -52,7 +52,7 @@
         <div class="">
           <p class="flex-column mgb mgt">
             <span class="flex-item-6">购需单号：<em>{{formData.orderNo || '暂无'}}</em></span>
-            <span class="flex-item-6 text-right">状态：<em>未提交</em></span>
+            <span class="flex-item-6 text-right">状态：<em>{{formData.orderStatus}}</em></span>
           </p>
 
           <div class="" style="margin-left:-20px;margin-right:-20px;">
@@ -129,7 +129,7 @@
                 </tr>
               </tbody>
 
-              <tbody ng-if="formData.iOrderMedicalNos.length" class="bg-white">
+              <!-- <tbody ng-if="formData.iOrderMedicalNos.length" class="bg-white">
                 <tr ng-repeat="tr in formData.iOrderMedicalNos" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                   <td class="text-center">{{tr.code}}</td>
                   <td class="text-left">{{tr.name}}</td>
@@ -152,7 +152,6 @@
                     ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price">
                   </td>
                   <td class="text-center" ng-init="tr.taxRate='0.17'">
-                    <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.taxRate"> -->
                     <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
                       <option value="0.17" ng-selected="true">17%</option>
                       <option value="0.03">3%</option>
@@ -182,7 +181,7 @@
                     </div>
                   </td>
                 </tr>
-              </tbody>
+              </tbody> -->
 
             </table>
           </div>
@@ -247,7 +246,7 @@
                  callback="invoicesGetCallBack(formData,invoicesAddress)"
                  ng-class="{'static': invoicesAddress.contacts}">
               <ul clear-info-list style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.invoicesId=item.id;formData.invoicesContacts={};formData.invoicesContacts=item;">
+                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.invoicesId=item.id;formData.invoicesContacts=item;">
                   <p class="pdb">{{item.name}} </p>
                   <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
                   <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>

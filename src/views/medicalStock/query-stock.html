@@ -5,7 +5,7 @@
 
     <div class="pd-c-xxl pr-pos">
        <div class="page-header-info ">
-         <p class="mgb bb-line">库存报表 / <em class="color-custom-orange">库存查询</em></p>
+         <p class="mgb crumbs pr-indent-20">库存报表 / <em class="color-custom-orange">库存查询</em></p>
          <div ng-if="listParams.medicalAttributeId"
               ajax-url="rest/authen/medicalAttribute/get?id={{listParams.medicalAttributeId}}"
               scope-data="showData1"
@@ -42,7 +42,7 @@
                     <th>序号</th>
                     <th>商品编号</th>
                     <th>商品代码</th>
-                    <th class="w-260">商品名称</th>
+                    <th class="w-220">商品名称</th>
                     <th>规格型号</th>
                     <th>商品分类编码</th>
                     <th>商品分类名称</th>
@@ -74,7 +74,11 @@
                     <td>{{$index + 1}}</td>
                     <td>{{tr.code}}</td>
                     <td>{{tr.goodsCode}}</td>
-                    <td>{{tr.name}}</td>
+                    <td class="text-left ">
+                      <div class="autocut" title="{{tr.name}}">
+                        {{tr.name}}
+                      </div>
+                    </td>
                     <td>{{tr.specification}}</td>
                     <td>{{tr.medicalAttribute.code}}</td>
                     <td>{{tr.medicalAttribute.name}}</td>
