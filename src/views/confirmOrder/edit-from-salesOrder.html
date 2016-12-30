@@ -1,6 +1,6 @@
 <div class="confirm-order-edit"
      ng-controller="confirmOrderEditCtrl2"
-     ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');orderMedicalNos=formData.orderMedicalNos;"
      alert-error
@@ -317,7 +317,9 @@
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button type="button" class="pr-btn-save-glodbg mgr-l">打印预览</button>
+        <button type="button" class="pr-btn-save-glodbg mgr-l">
+          <a class="color-white" ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}" target="_blank">打印预览</a>
+        </button>
 
         <button type="button"
                 class="pr-btn-save-glodbg mgr-l"
@@ -325,6 +327,8 @@
                              ($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
                 ng-click="submitForm('editForm','submit')">审核
         </button>
+
+
 
         <!-- <span ng-if="formData.didateFilter.buttons.length>0"
               custom-menu-list
