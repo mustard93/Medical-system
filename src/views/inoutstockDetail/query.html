@@ -74,17 +74,17 @@
             <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
             <p class="text-center">什么也没有</p>
           </div>
-            <div ng-if="tbodyList.length">
-                <table class="table pr-table pr-new-table pr-table-content">
+            <div ng-if="tbodyList.length" class="outside-table-d">
+                <table class="table pr-table pr-new-table pr-table-content table-s-wid">
                     <thead class="pr-bg-side">
                         <tr>
                             <th>序号</th>
                             <th>单据日期</th>
                             <th>单据类型</th>
                             <th>单据编号</th>
-                            <th>仓库</th>
+                            <th class="w-220">仓库</th>
                             <th>商品编号</th>
-                            <th>商品名称</th>
+                            <th class="w-220">商品名称</th>
                             <th>规格型号</th>
                             <th>注册证号</th>
                             <th>单位</th>
@@ -93,7 +93,7 @@
                             <th>灭菌批号</th>
                             <th>有效期至</th>
                             <th>生产日期</th>
-                            <th>备注</th>
+                            <th class="w-260">备注</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,47 +102,48 @@
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.type}}</td>
                             <td class="color-orange">
-                              {{tr.orderNo}}
-                                <!-- <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
+                                <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.sourceOrderNo}}">
+                                {{tr.sourceOrderNo}}
                                 </a>
-
-                                <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
+                                <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.sourceOrderNo}}">
+                                {{tr.sourceOrderNo}}
                                 </a>
-                                <a ng-if="tr.type=='销售入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
+                                <a ng-if="tr.type=='销售入库单'" href="#">
+                                {{tr.sourceOrderNo}}
                                 </a>
-
-                                <a ng-if="tr.type=='采购来货通知单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
+                                <a ng-if="tr.type=='采购来货通知单'" href="#">
+                                {{tr.sourceOrderNo}}
                                 </a>
-
-                                <a ng-if="tr.type=='采购退货出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
+                                <a ng-if="tr.type=='采购退货出库单'" href="#">
+                                {{tr.sourceOrderNo}}
                                 </a>
-                                <a ng-if="tr.type=='销售退货入库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
+                                <a ng-if="tr.type=='销售退货入库单'" href="#">
+                                {{tr.sourceOrderNo}}
                                 </a>
-
-                                <a ng-if="tr.type=='报损出库单'" href="#/lossOverOrder/get-reimburse.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
+                                <a ng-if="tr.type=='报损出库单'" href="#">
+                                {{tr.sourceOrderNo}}
                                 </a>
-                                <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
+                                <a ng-if="tr.type=='报溢入库单'" href="#">
+                                {{tr.sourceOrderNo}}
                                 </a>
-
-                                <a ng-if="tr.type=='批次冻结出库单'" href="#/freezeThawOrder/get-freeze.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
+                                <a ng-if="tr.type=='批次冻结出库单'" href="#">
+                                {{tr.sourceOrderNo}}
                                 </a>
-                                <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThawOrder/get-thaw.html?orderNo={{tr.orderNo}}">
-                                {{tr.orderNo}}
-                                </a> -->
-
+                                <a ng-if="tr.type=='批次解冻入库单'" href="#">
+                                {{tr.sourceOrderNo}}
+                                </a>
                             </td>
-                            <td>{{tr.warehouseName}}</td>
+                            <td class="text-left">
+                                <div class="autocut" title="{{tr.warehouseName}}">
+                                    {{tr.warehouseName}}
+                                </div>
+                            </td>
                             <td>{{tr.code}}</td>
-                            <td class="text-left">{{tr.medicalStockName}}</td>
+                            <td class="text-left">
+                              <div class="autocut" title="{{tr.medicalStockName}}">
+                                  {{tr.medicalStockName}}
+                              </div>
+                            </td>
                             <td>{{tr.modelType}}</td>
                             <td>{{tr.drugAdministrationCode}}</td>
                             <td>{{tr.unit}}</td>
@@ -155,10 +156,11 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="clearfix ">
-                    <div class="fr">
-                        <pagination status="status"></pagination>
-                    </div>
+
+            </div>
+            <div class="clearfix ">
+                <div class="fr">
+                    <pagination status="status"></pagination>
                 </div>
             </div>
         </div>
