@@ -49,6 +49,7 @@
           <span class="mgr-l">付款条件：<em class="color-6">{{scopeData.paymentType}}</em></span>
           <span class="mgr-l">币种：<em class="color-6">{{scopeData.currencyType}}</em></span>
           <span class="mgr-l">汇率：1.00</span>
+          <span class="mgr-l">预发货日期：<em class="color-6">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
         </div>
         <!-- 商品列表 -->
         <div class="">
@@ -65,8 +66,8 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
-                  <th class="text-center w-160">生产批号</th>
-                  <th class="text-center w-140">预发货日期</th>
+                  <th class="text-center w-160">生产批号/灭菌批号</th>
+                  <!-- <th class="text-center w-140">预发货日期</th> -->
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -78,7 +79,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="item in scopeData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
+                <tr ng-repeat="item in scopeData.orderMedicalNos">
                   <!-- <td class="text-center w-50">
                     <label for=""><input type="checkbox" ng-model="item.handleFlag"></label>
                   </td> -->
@@ -89,7 +90,7 @@
                   <td class="text-center">{{item.quantity}}</td>
                   <td class="text-center">{{item.batchRequirement}}</td>
                   <td class="text-center">{{item.productionBatch}}</td>
-                  <td class="text-center">{{item.expectDate | date:'yyyy-MM-dd'}}</td>
+                  <!-- <td class="text-center">{{item.expectDate | date:'yyyy-MM-dd'}}</td> -->
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
                   <td class="text-center">{{item.taxRate*100}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
@@ -229,7 +230,7 @@
            save-callback="submitForm('editForm','exit')">返回购需单
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/salesOrder/edit2.html?id={{formData.relId}}" >返回购需单</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/salesOrder/edit2.html?id={{scopeData.relId}}" >返回购需单</a>
 
         <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -268,10 +269,7 @@
         </span>
       </div>
       <div class="btn-area relative" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
-        popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
-          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}
-        </em>
+        <em class="color-white">{{scopeData.totalPrice | number:2}}</em>
       </div>
     </div>
   </form>
