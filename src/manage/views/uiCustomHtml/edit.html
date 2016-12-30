@@ -1,0 +1,82 @@
+<div class="modal-content" ng-controller="editCtrl"
+  ajax-url="rest/authen/uiCustomHtml/getOfEdit.json?id={{tr.id}}"
+  scope-data="formData"
+  callback="initFlag=true">
+  <form class="add-customerAddress-form form-horizontal"
+        action="rest/authen/uiCustomHtml/save"
+
+        alert-error
+        alert-ok
+        parameter-body
+        form-validator>
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}用户自定义表头</h4>
+        </div>
+
+
+                  <button type="button"  ng-click="className=formData.className">根据对象名初始化</button>
+
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">机构</label>
+            <div class="col-lg-10 col-sm-10">
+              <select ng-if="initFlag"  class="select select-w"
+                      data-placeholder="选择机构"
+                      chosen
+                      ng-model="formData.organizationId"
+                      default-empty="全局"
+                      alert-error
+                      select-source="rest/index/distributor/queryForSelectOption.json">
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label text-left">缺省标志位</label>
+              <div class="col-lg-10 col-sm-10">
+                <select ng-if="initFlag" class="ipt pr-short-ipt" data-placeholder=""  ng-model="formData.defaultFlag" chosen
+                        select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_BooleanType">
+                </select>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">获取模版唯一标识</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.key"/>
+              </div>
+
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">表名</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.name"/>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">描述</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.desc"/>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">html语法</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.html"/>
+              </div>
+          </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="提交" >
+          </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1748,6 +1748,29 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   no_results_text: "没有找到",
                   display_selected_options: false
               };
+                //后缀连接符号
+              var suffixConnection=$attrs.suffixConnection||"";
+              //后缀连接数据得key
+             var suffixKey=$attrs.suffixKey||"";
+             //创建option数据
+             function createOptionsStr(data,_selected){
+                      var _options = '';
+
+                      if(_selected==null)_selected="";
+                  if (angular.isDefined($attrs.defaultEmpty)) {
+                      _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
+                  }
+                  for (var i = 0; i < data.length; i++) {
+                    var text=data[i].text;
+                      if(suffixKey){//添加额外属性
+                        suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
+                        if(suffixKeyVal)text+=suffixConnection+suffixKeyVal;
+                      }
+                      _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + text + '</option>';
+                  }
+                  return _options;
+
+             }//createOptionsStr
 
               if ($attrs.selectCallBack) {
                 $element.on("change", changeHandle);
@@ -1879,7 +1902,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 if(maskObj)maskObj.hide();
                               if (_data.code == 200) {
                                 $rootScope.isLoading = false;
-                                var _options = '';
+
                                 if (!_data.data) _data.data = [];
 
                                 dataArr=_data.data;
@@ -1892,15 +1915,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 var _length = _data.data.length;
                                 var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
                                 var data= _data.data;
-                                for (var i = 0; i < _length; i++) {
-                                    // var data= _data.data;
-                                    // if (_selected.indexOf(_data.data[i].value) == -1) {
-                                    //     _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
-                                    // }
 
-                                    _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
+                                  var _options=createOptionsStr(data,_selected);
 
-                                }
+                                // for (var i = 0; i < _length; i++) {
+                                //     // var data= _data.data;
+                                //     // if (_selected.indexOf(_data.data[i].value) == -1) {
+                                //     //     _options += '<option value="' + _data.data[i].value + '">' + _data.data[i].text + '</option>';
+                                //     // }
+                                //
+                                //     _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
+                                //
+                                // }
                                 $element.html(_options);
                                 // .prepend(selected);
                                 $element.trigger("chosen:updated");
@@ -2089,7 +2115,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         requestData($attrs.selectSource,_params)
                           .then(function(results) {
                               var data = results[0];
-                              var _options = '';
+
                               if (!data) data = [];
 
                               dataArr=data;
@@ -2114,12 +2140,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                  }
                               }
                               if(_selected==null)_selected="";
-                              if (angular.isDefined($attrs.defaultEmpty)) {
-                                  _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
-                              }
-                              for (var i = 0; i < _length; i++) {
-                                  _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
-                              }
+
+                              var _options=createOptionsStr(data,_selected);
+                              //
+                              // if (angular.isDefined($attrs.defaultEmpty)) {
+                              //     _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
+                              // }
+                              // for (var i = 0; i < _length; i++) {
+                              //     _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + data[i].text + '</option>';
+                              // }
                               $element.html(_options);
                               destroyChosen(chosenObj);
                               chosenObj=$element.chosen($scope.chosen || chosenConfig);
@@ -2129,10 +2158,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                               if (angular.isDefined($attrs.alertError)) alertError(msg);
                           });
                   }
-
-
-
-
 
                   watchNgModel(getData);
 
@@ -2509,11 +2534,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         return {
             restrict: 'AE',
             // scope: true,
-            transclude: true,
+            // transclude: true,
             link: function($scope, $element, $attrs, $ctrls, $transclude) {
-                $transclude($scope, function(clone) {
-                    $element.append(clone);
-                });
+                // $transclude($scope, function(clone) {
+                //     $element.append(clone);
+                // });
 
                 $scope.ajaxUrlHandler = $scope.$eval($attrs.ajaxUrlHandler);
 
@@ -2555,9 +2580,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                              data = $scope.ajaxUrlHandler(data);
                          }
 
-                         if ($attrs.scopeResponse) $scope.$parent[$attrs.scopeResponse] = results[1];
-                         if ($attrs.scopeData) $scope.$parent[$attrs.scopeData] = data;
-                         else $scope.scopeData = data;
+                         if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
+                         if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+
                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
                          //回调父级的处理事件;
@@ -2567,7 +2592,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                          // $scope.$apply();
                          if ($attrs.callback) {
-                             $scope.$parent.$eval($attrs.callback);
+                             $scope.$eval($attrs.callback);
                          }
 
 
@@ -2589,11 +2614,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                      })
                      .catch(function(msg) {
                            if(maskObj)maskObj.hide();
-                        if ($attrs.scopeErrorMsg) $scope.$parent[$attrs.scopeErrorMsg] = (msg);
+                        if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
                         if (angular.isDefined($attrs.alertError)) alertError(msg);
 
                         if ($attrs.errorCallback) {
-                             $scope.$parent.$eval($attrs.callback);
+                             $scope.$eval($attrs.callback);
                             // $scope.$eval($attrs.errorCallback);
                         }
 
@@ -2641,8 +2666,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       // console.log("element.popover('hide');");
                 }
               }
-
-                element.popover(JSON.parse($scope.popoverOptions || '{ "placement": "right", "trigger": "manual" }'));
+                var placement="right";
+                if($attrs.placement)placement=$attrs.placement;
+                var popoverOptions='{ "placement": "'+placement+'", "trigger": "manual" }';
+                if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
+                element.popover(JSON.parse(popoverOptions));
 
                 if ($attrs.popoverShow) {
                   $scope.$watch('popoverShow', function (val) {
@@ -2739,10 +2767,145 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
         };
 
+
+
+        var ngInclude2 = ['$templateRequest', '$anchorScroll', '$animate','requestData','$templateCache',
+                          function($templateRequest,   $anchorScroll,   $animate,requestData,$templateCache) {
+          return {
+            restrict: 'ECA',
+            priority: 400,
+            terminal: true,
+            transclude: 'element',
+            controller: angular.noop,
+            compile: function(element, attr) {
+              var srcExp = attr.ngInclude || attr.src,
+                  onloadExp = attr.onload || '',
+                  autoScrollExp = attr.autoscroll;
+
+              return function(scope, $element, $attr, ctrl, $transclude) {
+                var changeCounter = 0,
+                    currentScope,
+                    previousElement,
+                    currentElement;
+
+                var cleanupLastIncludeContent = function() {
+                  if (previousElement) {
+                    previousElement.remove();
+                    previousElement = null;
+                  }
+                  if (currentScope) {
+                    currentScope.$destroy();
+                    currentScope = null;
+                  }
+                  if (currentElement) {
+                    $animate.leave(currentElement).then(function() {
+                      previousElement = null;
+                    });
+                    previousElement = currentElement;
+                    currentElement = null;
+                  }
+                };
+
+                scope.$watch(srcExp, function ngIncludeWatchAction(src) {
+                  var afterAnimation = function() {
+                    if (angular.isDefined(autoScrollExp) && (!autoScrollExp || scope.$eval(autoScrollExp))) {
+                      $anchorScroll();
+                    }
+                  };
+                  var thisChangeId = ++changeCounter;
+
+                  if (src) {
+                    //set the 2nd param to true to ignore the template request error so that the inner
+                    //contents and scope can be cleaned up.
+
+
+                    requestData(src, null)
+                      .then(function(results) {
+
+
+                        if (scope.$$destroyed) return;
+
+                        if (thisChangeId !== changeCounter) return;
+                        var newScope = scope.$new();
+                        ctrl.template = results[0];
+                          $templateCache.put(src, results[0]);
+
+                        // Note: This will also link all children of ng-include that were contained in the original
+                        // html. If that content contains controllers, ... they could pollute/change the scope.
+                        // However, using ng-include on an element with additional content does not make sense...
+                        // Note: We can't remove them in the cloneAttchFn of $transclude as that
+                        // function is called before linking the content, which would apply child
+                        // directives to non existing elements.
+                        var clone = $transclude(newScope, function(clone) {
+                          cleanupLastIncludeContent();
+                          $animate.enter(clone, null, $element).then(afterAnimation);
+
+                            // $element.append(clone);
+                        });
+
+                        currentScope = newScope;
+                        currentElement = clone;
+
+                        currentScope.$emit('$includeContentLoaded', src);
+                        scope.$eval(onloadExp);
+
+                      })
+                      .catch(function(msg) {
+                        if (scope.$$destroyed) return;
+
+                        if (thisChangeId === changeCounter) {
+                          cleanupLastIncludeContent();
+                          scope.$emit('$includeContentError', src);
+                        }
+                      });
+
+                //     $templateRequest(src, true).then(function(response) {
+                //       if (scope.$$destroyed) return;
+                //
+                //       if (thisChangeId !== changeCounter) return;
+                //       var newScope = scope.$new();
+                //       ctrl.template = response;
+                //
+                //       // Note: This will also link all children of ng-include that were contained in the original
+                //       // html. If that content contains controllers, ... they could pollute/change the scope.
+                //       // However, using ng-include on an element with additional content does not make sense...
+                //       // Note: We can't remove them in the cloneAttchFn of $transclude as that
+                //       // function is called before linking the content, which would apply child
+                //       // directives to non existing elements.
+                //       var clone = $transclude(newScope, function(clone) {
+                //         cleanupLastIncludeContent();
+                //         $animate.enter(clone, null, $element).then(afterAnimation);
+                //       });
+                //
+                //       currentScope = newScope;
+                //       currentElement = clone;
+                //
+                //       currentScope.$emit('$includeContentLoaded', src);
+                //       scope.$eval(onloadExp);
+                //     }, function() {
+                //       if (scope.$$destroyed) return;
+                //
+                //       if (thisChangeId === changeCounter) {
+                //         cleanupLastIncludeContent();
+                //         scope.$emit('$includeContentError', src);
+                //       }
+                //     });
+                //     scope.$emit('$includeContentRequested', src);
+              } else {//if (src)
+                    cleanupLastIncludeContent();
+                    ctrl.template = null;
+                  }
+                });
+              };
+            }
+          };
+        }];
     /**
      * 加入项目
      */
     angular.module('manageApp.main')
+  .directive("ngInclude2", ngInclude2)
+
     .directive("datepicker", ['$filter',datepicker])
       .directive("watchFormChange", ["watchFormChange", watchFormChange])
       .directive("invalidPopover", ["$route", "$templateCache", "$routeParams", invalidPopover])

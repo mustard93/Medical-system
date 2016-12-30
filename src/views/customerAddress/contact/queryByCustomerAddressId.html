@@ -1,0 +1,52 @@
+<div   ng-controller="pageCtrl" class="pd-c-xxxl"
+    ajax-url="rest/authen/customerAddress/get.json?id={{mainStatus.pageParams.id}}&t={{$root.reloadTime}}"
+    scope-data="customerAddress"
+
+><!-- pageCtrl-->
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>客户管理</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li>收货方信息</li>
+          <li class="active">收货地址管理</li>
+    </ul>
+</div>
+<!-- page heading end-->
+
+<!--body wrapper start-->
+<!-- 收货方信息 -->
+<div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+  <header class="text-n text-bold">客户名：{{customerAddress.name}}
+    <span class="tools pull-right">
+      <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
+    </span>
+  </header>
+  <div class="panel-body" style="display:;padding:15px 0;">
+    <div class="consignee-info pd-c-m pdt-m pdb-m">
+      <ul clear-info-list style="min-height:136px;">
+        <li class="mgr-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" >
+          <p class="pdb">{{item.name}} </p>
+          <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
+          <p class="text-s">{{item.tel}}</p>
+          <p><a href="javacript:;" modal-right="600" modal-data='{"customerAddressId":"{{customerAddress.id}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
+          <i class="consignee-default-label" ng-if="customerAddress.defaultContactId==item.id">默认</i>
+        </li>
+        <span>
+          <button  class="pr-add-item-whitebg"
+           type="button"
+                  style="min-height:136px;"
+                  modal-right="700"
+                  modal-data='{"customerAddressId":"{{customerAddress.id}}","contact":{}}'
+                  modal-scope="this"
+                  modal-url="views/customerAddress/contact/edit.html"
+                  ng-class="{'static':!customerAddress.contacts}">
+            <i class="fa fa-plus"></i>
+          </button>
+        </span>
+      </ul>
+    </div>
+  </div>
+</div>
+<!--body wrapper end-->
+</div>

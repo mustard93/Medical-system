@@ -64,6 +64,11 @@ define('main/services', ['toastr','main/init'], function (toastr) {
 
             $http(config)
                 .success(function (_data, status, headers, config) {
+
+                    if(angular.isString(_data)){  //返回非json字符串方式
+                        defer.resolve([_data, _data]);
+                        return;
+                    }
                     if (status == 200 && _data.code == 200) {
                       defer.resolve([_data.data, _data]);
                     } else {
@@ -420,6 +425,11 @@ function alertOk($rootScope, modal) {
           };
 
           var  utilsObj = {
+            //获取当前时间
+            getNowTime: function (inputId) {
+              return new Date().getTime();
+
+            },
             //设置输入框获取焦点
             focusByInputId: function (inputId) {
               //  $timeout 保障不受其他干扰，最后一个执行。
@@ -581,7 +591,9 @@ function alertOk($rootScope, modal) {
                     chengji=sum;
 
                 }
-                total+=sum;
+                total=  utilsObj.numberAdd(total,sum);
+
+
               }
               return total;
             },
@@ -647,7 +659,11 @@ function alertOk($rootScope, modal) {
               try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0};
               try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0};
               m=Math.pow(10,Math.max(r1,r2));
-              return (arg1*m+arg2*m)/m ;
+
+              var arg1Mul=utilsObj.numberMul(arg1,m);
+              var arg2Mul=utilsObj.numberMul(arg2,m);
+
+              return (arg1Mul+arg2Mul)/m ;
           },
           //减法
           numberSub:function(arg1,arg2){

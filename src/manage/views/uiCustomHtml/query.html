@@ -1,22 +1,31 @@
-<div   ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
 <!-- page heading start-->
 <div class="page-heading">
-    <h3>客户管理</h3>
+    <h3>用户自定义html模版管理</h3>
     <ul class="breadcrumb">
         <li><a href="#">主面板</a></li>
-        <li class="active">客户管理</li>
+        <li class="active">用户自定义html模版管理</li>
     </ul>
 </div>
 <!-- page heading end-->
 
 <!--body wrapper start-->
-<table-list list-data="{{mainStatus.requestPath}}rest/authen/customerAddress/query.json" list-params="listParams">
+<table-list list-data="rest/authen/uiCustomHtml/query.json" list-params="listParams">
     <div class="mg-m col-lg-12 col-sm-12">
       <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/customerAddress/edit.html">
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/uiCustomHtml/edit.html">
             <i class="fa fa-plus"></i>新建
         </button>
       </div>
+
+      <div class="form-group col-lg-2">
+        <label class="col-lg-2 col-sm-2 control-label">机构</label>
+        <div class="col-lg-10 col-sm-10">
+          <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="全局" ng-model="listParams.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+
+          </select>
+        </div>
+      </div>
+
       <div class="form-group col-lg-2">
         <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
       </div>
@@ -47,10 +56,9 @@
                         <tr>
                             <th><input type="checkbox" class="selectAll"></th>
                             <th>序号</th>
-                            <th>名称</th>
-
-                            <th>创建时间</th>
-
+                            <th>获取模板唯一标识</th>
+                            <th>模版名</th>
+                            <th>描述</th>
                             <th>操作</th>
                             <th></th>
                         </tr>
@@ -59,26 +67,21 @@
                         <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
                             <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                             <td>{{$index + 1}}</td>
+                            <td>{{tr.key}}</td>
                             <td>{{tr.name}}</td>
-
-                            <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-
+                            <td>{{tr.desc}}</td>
                             <td>
-                                <!-- <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html">
-                                    <i class="fa fa-folder-open-o"></i>
-                                    查看
-                                </button> -->
-                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/customerAddress/edit.html?id={{tr.id}}">
+
+                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/uiCustomHtml/edit.html?id={{tr.id}}">
                                     <i class="fa fa-edit"></i>
                                     编辑
                                 </button>
-                                <button type="button" class="btn btn-primary"  ng-click="$root.goTo('#/customerAddress/contact/queryByCustomerAddressId.html?id='+tr.id)">
-                                    <i class="fa fa-edit"></i>
-                                    地址管理
-                                </button>
-                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/customerAddress/delete', tr.id)">
+
+                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/uiCustomHtml/delete', tr.id)">
                                     <i class="fa fa-trash-o"></i>
-                                    删除</button>
+                                    删除
+                                </button>
+
                             </td>
                         </tr>
                     </tbody>
@@ -93,4 +96,3 @@
     </div>
 </table-list>
 <!--body wrapper end-->
-</div>
