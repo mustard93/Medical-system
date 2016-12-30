@@ -1340,9 +1340,9 @@ function canvasWorkflow (modal,utils) {
        // $scope.ngModel;
        // var data=$scope[$attrs.ngModel];
            var data= $scope.ngModel;
-           console.log(data);
+          //  console.log(data);
            var curRelId=$attrs.curRelId;//当前页面业务单id
-           console.log(data);
+          //  console.log(data);
 
            require(['CanvasBusinessFlow'], function(CanvasBusinessFlow) {
 

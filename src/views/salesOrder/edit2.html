@@ -15,7 +15,8 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         onkeydown="if(window.event.keyCode==13) return false;"
-        callback="submitFormAfter();watchFormChange('formData')">
+        callback="submitFormAfter();watchFormChange('formData')"
+        novalidate="true">
     <!-- 头部信息 -->
     <div class="relative bb-line">
       <div class="pd-l">
@@ -84,7 +85,7 @@
                     <div class="order-goods-num">
                       <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
                       <span class="inline-block">
-                        <input type="number"
+                        <input type="text"
                                class="inline pr-table-input text-center item-quantity"
                                style="width:60px;"
                                ng-model="tr.quantity"
@@ -93,8 +94,16 @@
                       <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                     </div>
                   </td>
-                  <td class="text-center">
-                    ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price">
+                  <td class="text-center">￥
+                    <input type="text"
+                           class="ipt pr-ipt-60 text-right"
+                           name="price"
+                           ng-model="tr.price"
+                           ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                           required
+                           invalid-popover
+                           popover-show="!editForm.price.$valid"
+                           popover-options='{"content":"必须为数字", "placement":"right", "trigger":"manual"}' />
                   </td>
                   <td class="text-center" ng-init="tr.taxRate='0.17'">
                     <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.taxRate"> -->
@@ -103,8 +112,16 @@
                       <option value="0.03">3%</option>
                     </select>
                   </td>
-                  <td class="text-center" ng-init="tr.discountPrice='0'">
-                    ￥ <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountPrice">
+                  <td class="text-center">￥
+                    <input type="text"
+                           class="ipt pr-ipt-60 text-right"
+                           name="discountPrice"
+                           ng-model="tr.discountPrice"
+                           ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                           required
+                           invalid-popover
+                           popover-show="!editForm.discountPrice.$valid"
+                           popover-options='{"content":"必须为数字", "placement":"right", "trigger":"manual"}' />
                   </td>
                   <td class="text-center" ng-init="tr.discountRate='100'">
                     <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.discountRate">%
@@ -316,7 +333,8 @@
           <button ng-click="submitForm('editForm','submit')"
                   class="pr-btn-create-glodbg"
                   ng-disabled="!formData.orderMedicalNos.length ||
-                               !formData.customerId">生成销售单
+                               !formData.customerId ||
+                               !editForm.$valid">生成销售单
           </button>
       </div>
     </div>
