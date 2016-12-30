@@ -664,6 +664,9 @@ function alertOk($rootScope, modal) {
               var arg2Mul=utilsObj.numberMul(arg2,m);
 
               return (arg1Mul+arg2Mul)/m ;
+
+                //不精确bug
+              //  return (arg1*m+arg2*m)/m;
           },
           //减法
           numberSub:function(arg1,arg2){
@@ -673,7 +676,14 @@ function alertOk($rootScope, modal) {
                try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0};
                m=Math.pow(10,Math.max(r1,r2));
                n=(r1>=r2)?r1:r2;
-               return ((arg1*m-arg2*m)/m).toFixed(n);
+
+
+               var arg1Mul=utilsObj.numberMul(arg1,m);
+               var arg2Mul=utilsObj.numberMul(arg2,m);
+
+               return ((arg1Mul-arg2Mul)/m).toFixed(n) ;
+                   //不精确bug
+              //  return ((arg1*m-arg2*m)/m).toFixed(n);
           },
 
             // 对文件名后缀进行判断以区分用户上传的文件类型
@@ -777,6 +787,14 @@ function alertOk($rootScope, modal) {
                  */
                  LODOP:null,//返回具体打印的实现累，用于特殊需求打印。
                  _rect:{},
+                 //设定纸张大小
+                 _pageSize:{
+                   intOrient:1,
+                   intPageWidth:2160,
+                   intPageHeight:1400
+
+                 },
+                 //默认尺寸
                 _rectDefualt:{
                  top:5,
                  left:5,
@@ -870,9 +888,31 @@ strPageName：
     纸张类型名， intPageWidth等于零时本参数才有效，具体名称参见操作系统打印服务属性中的格式定义。
     关键字“CreateCustomPage”会在系统内建立一个名称为“LodopCustomPage”自定义纸张类型。
     */
+
                 setPrintPageSize:function(intOrient,intPageWidth,intPageHeight,strPageName){
                   console.log("  LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)");
-                    LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName);
+
+                  // (扩展型)打印初始化
+                  // 格式：PRINT_INITA(Top,Left,Width,Height,strPrintName)
+                  // 功能：打印初始化、设定纸张整体偏移量、设定可视编辑区域大小
+
+
+
+            //               名称：设定纸张大小
+            // 格式：SET_PRINT_PAGESIZE(intOrient, PageWidth,PageHeight,strPageName)
+            // 功能：设定打印纸张为固定纸张或自适应内容高，并设定相关大小值或纸张名及打印方向。
+            //1---纵(正)向打印，固定纸张；
+                          this._pageSize={
+                            intOrient:intOrient,
+                            intPageWidth:intPageWidth,
+                            intPageHeight:intPageHeight
+
+                          };
+                console.log(this._pageSize);
+                    LODOP.SET_PRINT_PAGESIZE(this._pageSize.intOrient,this._pageSize.intPageWidth,this._pageSize.intPageHeight,strPageName);
+
+
+
                 },
                 //打印前的准备工作
                 _printBeforePrint:function(content,taskName){
@@ -882,12 +922,17 @@ strPageName：
                     if(!LODOP)console.log("need exe:$root.OPrinter.init()");
                   }
 
-                  this.setPrintPageSize(2,2160,1400,"");
+
                   // 若strTaskName空，控件则不保存本地化信息，打印全部由页面程序控制。
                   taskName="";
                   if(!taskName)taskName="";
-                  LODOP.PRINT_INIT(taskName);
+
+                      LODOP.PRINT_INITA(12,0,2160,1400,taskName);
+                    this.setPrintPageSize(1,2160,1400,taskName);
+
                   if(!content)content=this.getPrintHtmlContent();
+                  this._rect.top=12;
+                  this._rect.left=12;
                   //设定纸张大小
                   // LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)
                   //●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
@@ -899,6 +944,10 @@ strPageName：
                 },
                 preview:function(content,taskName) {
                     LODOP=this._printBeforePrint(content,taskName);
+
+
+
+
                     LODOP.PREVIEW();
                   }//preview
                   ,
