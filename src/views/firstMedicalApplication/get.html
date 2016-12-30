@@ -241,18 +241,21 @@
            attchment-usege="首营品种申请">
       </div>
 
-      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过' || showData.orderStatus=='已通过'" class="mgb text-right" >
+      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过' || showData.orderStatus=='已通过'"
+        class="mgb text-right" >
         <span>
           <a class="mgl"
              ng-if="showData.orderStatus=='未通过'"
              ng-href="#/firstMedicalApplication/edit.html?copyId={{showData.id}}">新建</a>
         </span>
         <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
-        <span class="mgl text-right">
+        <span class="mgl text-right" ng-if="showData.orderStatus!='未提交'">
           <!-- <button type="button" class="pr-btn-save-glodbg"><a class="color-white" ng-href="{{mainStatus.requestPath}}rest/authen/firstMedicalApplication/exportWord?id={{showData.id}}">打印</a></button> -->
-          <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" ng-href="{{mainStatus.requestPath}}rest/authen/firstMedicalApplication/exportWord?id={{showData.id}}">打印</a>
+          <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg"
+          ng-href="{{mainStatus.requestPath}}rest/authen/firstMedicalApplication/exportWord?id={{showData.id}}">打印</a>
         </span>
       </div>
+
 
     </div>
 

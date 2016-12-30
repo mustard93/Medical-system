@@ -3,12 +3,16 @@
   <div class="page-header-info ">
     <p class="mgb crumbs pr-indent-20">
       库存报表 / <em class="color-custom-orange">出入库明细</em>
+
+    </p>
+    <p>
+        <em class="color-black text-l mgt">出入库明细查询</em>
     </p>
   </div>
 
 <!--body wrapper start-->
 <table-list list-data="rest/authen/inoutstockDetail/query.json" class="table pr-table pr-new-table" list-params="listParams">
-    <div class="bb-dashed-line pd-v-l">
+    <div class="pd-v">
         <select class="pr-select select-wd"
           chosen
            ng-model="listParams.warehouseCode"
@@ -17,9 +21,9 @@
          </select>
     </div>
 
-    <div class="mg-m col-lg-12 col-sm-12">
+    <div class="mg-m col-lg-12 col-sm-12 panel">
 
-      <div class="text-left order-list-search relative order-list-i mgl" ng-init="queryDatePeriod='最近7天'">
+      <div class="text-left order-list-search relative order-list-i mg-l mgl-l" ng-init="queryDatePeriod='最近7天'">
         <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
          date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
           <option value="最近7天" >最近7天</option>
@@ -54,7 +58,7 @@
 
       </div>
 
-    <div class="wrapper">
+    <div>
         <div class="loader" ng-if="status.isLoading">
             <div class="loader-inner pacman">
                 <div></div>

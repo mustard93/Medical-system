@@ -129,9 +129,22 @@ class="content-wrapper invoices-order"
             <img src="images/temp/tiaoxingma.jpg" alt="" style="height:135px;margin-left:50px;width:450px">
           </div> -->
         </div>
+
       </div>
 
     </div>
+    <!-- 流程图 -->
+    <div ng-if="formData.id" class="modal-content pr-modal-content pr-modal-process"
+           ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
+           scope-data="businessFlowData"
+           callback="businessFlowDataInitFlag=true;"
+           error-callback="businessFlowDataInitFlag=true;">
+       <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{formData.id}}"
+               width="{{$root.utils.getMainBodyWidth()}}"
+               height="300" base-image-url="images/canvasBusinessFlow/"
+               spacing-height="80" spacing-width="40">
+       </canvas>
+     </div>
     <!-- 提交按钮 -->
     <div class="pdb-xxl text-right">
       <span class="mgr">
