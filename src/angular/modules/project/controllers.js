@@ -1562,15 +1562,19 @@ define('project/controllers', ['project/init'], function() {
      * @param {[type]} $scope [依赖项]
      */
     function SalesOrderDetailsController ($scope, $timeout) {
+
+      // $scope.$watch('[tr.discountPrice, tr.discountRate]', function (oldValue, newValue) {
+      //   $scope.tr.discountRate = (($scope.tr.price - newValue[0]) / $scope.tr.price * 100).toFixed(2);
+      // },true);
+
       // 监视折扣额
-      $scope.$watch('tr.discountPrice', function (newValue) {
-        $scope.tr.discountRate = (($scope.tr.price - newValue) / $scope.tr.price * 100).toFixed(2);
-        if ($scope.tr.discountRate.isNaN) return;
-      });
+      // $scope.$watch('tr.discountPrice', function (newValue) {
+      //   $scope.tr.discountRate = (($scope.tr.price - newValue) / $scope.tr.price * 100).toFixed(0);
+      // });
       // 监视折扣率
-      $scope.$watch('tr.discountRate', function (newValue) {
-        $scope.tr.discountPrice = ($scope.tr.price * (1 - newValue / 100)).toFixed(2);
-      });
+      // $scope.$watch('tr.discountRate', function (newValue) {
+      //   $scope.tr.discountPrice = ($scope.tr.price * (1 - newValue / 100)).toFixed(0);
+      // });
     }
 
     /**
