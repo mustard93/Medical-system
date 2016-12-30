@@ -94,6 +94,15 @@
           <span class="mgr">汇率：
             <input type="text" class="ipt pr-ipt-60 text-right" ng-model="formData.exchangeRate">
           </span>
+          <span class="mgr">预发货日期：
+            <input type="text"
+                   datepicker
+                   class="ipt pr-short-ipt color-6"
+                   style="width:110px;"
+                   placeholder=""
+                   ng-readonly="true"
+                   ng-model="formData.expectDate" />
+          </span>
         </div>
         <!-- 商品列表 -->
         <div class="">
@@ -110,8 +119,8 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
-                  <th class="text-center w-160">生产批号</th>
-                  <th class="text-center w-140">预发货日期</th>
+                  <th class="text-center w-160">生产批号/灭菌批号</th>
+                  <!-- <th class="text-center w-140">预发货日期</th> -->
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -166,7 +175,7 @@
 
                     <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
                   </td>
-                  <td class="text-center">
+                  <!-- <td class="text-center">
                     <input type="text"
                            datepicker
                            class="ipt pr-short-ipt color-6"
@@ -174,7 +183,7 @@
                            placeholder=""
                            ng-readonly="true"
                            ng-model="item.expectDate" />
-                  </td>
+                  </td> -->
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
                   <td class="text-center">{{item.taxRate*100}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
@@ -285,6 +294,18 @@
           <h1 class="pd-v-s">备注</h1>
           <p>{{showData.note}}</p>
         </div>
+        <!-- 流程图 -->
+        <div ng-if="formData.id" class="modal-content pr-modal-content pr-modal-process"
+               ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
+               scope-data="businessFlowData"
+               callback="businessFlowDataInitFlag=true;"
+               error-callback="businessFlowDataInitFlag=true;">
+           <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{formData.id}}"
+                   width="{{$root.utils.getMainBodyWidth()}}"
+                   height="300" base-image-url="images/canvasBusinessFlow/"
+                   spacing-height="80" spacing-width="40">
+           </canvas>
+         </div>
       </div>
     </div>
     <!-- 功能按钮 -->
