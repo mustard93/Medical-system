@@ -88,7 +88,7 @@ define('CanvasTreeLayout',['JTopo'], function(JTopo){
               //标记已经设置过位置了，防止一直循环。
               if(rootNode.hasSetLocation)continue;
                 rootNode.hasSetLocation=true;
-                console.log("location1,name="+rootNode.key+",x="+curNodeX+",y="+curNodeY);
+                // console.log("location1,name="+rootNode.key+",x="+curNodeX+",y="+curNodeY);
                 // nextLocation1.y=tmpY;
                 // if(dirtion=="right-center"){
                 //   curNodeY=curNodeY-rootNode.height/2;

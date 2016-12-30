@@ -251,7 +251,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
              var key=nodeA.text+"-"+nodeZ.text;
              //连线之添加一次
              if(this.getLinkByKey(key)){
-               console.log(key);
+              //  console.log(key);
                return;
               }
               var link = new JTopo.FlexionalLink(nodeA, nodeZ);
