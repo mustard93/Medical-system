@@ -1,25 +1,20 @@
 <div ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
 
   <div class="page-header-info ">
-
-    <p class="mgb bb-line ">
+    <p class="mgb crumbs pr-indent-10">
       库存报表 / <em class="color-custom-orange">出入库明细</em>
     </p>
-
   </div>
 
 <!--body wrapper start-->
-
 <table-list list-data="rest/authen/inoutstockDetail/query.json" class="table pr-table pr-new-table" list-params="listParams">
     <div class="bb-dashed-line pd-v-l">
-
         <select class="pr-select select-wd"
           chosen
            ng-model="listParams.warehouseCode"
            default-empty="选择仓库"
            select-source="rest/authen/warehouse/queryForSelectOption">
          </select>
-
     </div>
 
     <div class="mg-m col-lg-12 col-sm-12">
@@ -88,7 +83,9 @@
                             <th>规格型号</th>
                             <th>注册证号</th>
                             <th>单位</th>
-                            <th>数量</th>
+                            <th>实收数量</th>
+                            <th>拒收数量</th>
+                            <th>出库数量</th>
                             <th>批号</th>
                             <th>灭菌批号</th>
                             <th>有效期至</th>
@@ -147,7 +144,9 @@
                             <td>{{tr.modelType}}</td>
                             <td>{{tr.drugAdministrationCode}}</td>
                             <td>{{tr.unit}}</td>
-                            <td class="text-right">{{(tr.quantity || tr.quantity==0) ? tr.quantity : tr.refuseQuantity}}</td>
+                            <td class="text-right">{{tr.storageQuantity}}</td>
+                            <td class="text-right">{{tr.refuseQuantity}}</td>
+                            <td class="text-right">{{tr.outgoingQuantity}}</td>
                             <td>{{tr.productionBatch}}</td>
                             <td>{{tr.sterilizationBatchNumber}}</td>
                             <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
@@ -156,7 +155,6 @@
                         </tr>
                     </tbody>
                 </table>
-
             </div>
             <div class="clearfix ">
                 <div class="fr">
