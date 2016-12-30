@@ -1,8 +1,8 @@
 <div class="confirm-order-edit"
      ng-controller="confirmOrderEditCtrl2"
-     ajax-url="rest/authen/confirmOrder/getThisAndSalesOrder.json?id={{mainStatus.pageParams.id}}"
-     scope-data="scopeData"
-     callback="initFlag=true;watchFormChange('formData');formData=scopeData.confirmOrder;orderMedicalNos=formData.orderMedicalNos;"
+     ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData');orderMedicalNos=formData.orderMedicalNos;"
      alert-error
      ng-init="formData.exchangeRate='1.00';">
   <form id="editForm"
@@ -146,9 +146,10 @@
                               default-empty
                               data-placeholder=" "
                               select-data="selectData"
-                                ng-model="stockBatchsItem.productionBatch"
-
-                              callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
+                              suffix-connection="/"
+                              suffix-key="note.salesQuantity"                              
+                              ng-model="stockBatchsItem.productionBatch"
+                              callback="choiseProductionBatch(item,stockBatchsItem,selectData);item.handleFlag=true"
                               select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
                       </select>
                       <p class="mgt text-right" ng-if="stockBatchsItem.productionBatch">
@@ -285,12 +286,8 @@
       </div>
     </div>
     <!-- 功能按钮 -->
-    <div class="handle-btn-area relative">
-      <div class="btn-area">
-        <span class="show-total pr-font-20 pr-color">
-          总计：<em class="color-white">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}</em>
-        </span>
-
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
         <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
            handle-this-click
            dialog-title="确认返回?"
@@ -330,6 +327,12 @@
               custom-menu-list
               custom-menu-arr="{{formData.didateFilter.buttons}}">
         </span>
+      </div>
+      <div class="btn-area relative" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+        popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
+          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}
+        </em>
       </div>
     </div>
   </form>

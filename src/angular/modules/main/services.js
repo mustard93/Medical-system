@@ -64,6 +64,11 @@ define('main/services', ['toastr','main/init'], function (toastr) {
 
             $http(config)
                 .success(function (_data, status, headers, config) {
+
+                    if(angular.isString(_data)){  //返回非json字符串方式
+                        defer.resolve([_data, _data]);
+                        return;
+                    }
                     if (status == 200 && _data.code == 200) {
                       defer.resolve([_data.data, _data]);
                     } else {
@@ -420,6 +425,11 @@ function alertOk($rootScope, modal) {
           };
 
           var  utilsObj = {
+            //获取当前时间
+            getNowTime: function (inputId) {
+              return new Date().getTime();
+
+            },
             //设置输入框获取焦点
             focusByInputId: function (inputId) {
               //  $timeout 保障不受其他干扰，最后一个执行。
@@ -559,11 +569,12 @@ function alertOk($rootScope, modal) {
             */
             sumTotalByArrayMul : function (arr,keyArr,conditionEqualPropertyKey, conditionEqualVal) {
               var total=0;
-              if(!angular.isArray(arr))return -1;
+              if(!angular.isArray(arr))return 0;
               for(var i=0;i<arr.length;i++){
                   var tmp=arr[i];
                   if(!tmp)continue;
                   var sum=0;
+                  var chengji=1;
                 for(var j=0;j<keyArr.length;j++){
 
                     //属性值满足条件的，才允许相加。
@@ -576,10 +587,13 @@ function alertOk($rootScope, modal) {
                     var keyName=keyArr[j];
                     var val=utilsObj.getObjectVal(tmp,keyName);
                     if(!val)val=0;
-                    sum=utilsObj.numberMul(sum,val);
+                    sum=utilsObj.numberMul(chengji,val);
+                    chengji=sum;
 
                 }
-                total+=sum;
+                total=  utilsObj.numberAdd(total,sum);
+
+
               }
               return total;
             },
@@ -619,7 +633,9 @@ function alertOk($rootScope, modal) {
                with(Math){
                  r1=Number(arg1.toString().replace(".",""));
                  r2=Number(arg2.toString().replace(".",""));
-                 return utilsObj.numberMul((r1/r2),pow(10,t2-t1));
+                 var tmp= utilsObj.numberMul((r1/r2),pow(10,t2-t1));
+
+                 return tmp;
                }
            },
            //乘法
@@ -630,7 +646,10 @@ function alertOk($rootScope, modal) {
                var m=0,s1=arg1.toString(),s2=arg2.toString();
                try{m+=s1.split(".")[1].length}catch(e){};
                try{m+=s2.split(".")[1].length}catch(e){};
-               return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+
+                var tmp= Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+
+                return tmp;
            },
           //加法
           numberAdd:function(arg1,arg2){
@@ -640,7 +659,11 @@ function alertOk($rootScope, modal) {
               try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0};
               try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0};
               m=Math.pow(10,Math.max(r1,r2));
-              return (arg1*m+arg2*m)/m ;
+
+              var arg1Mul=utilsObj.numberMul(arg1,m);
+              var arg2Mul=utilsObj.numberMul(arg2,m);
+
+              return (arg1Mul+arg2Mul)/m ;
           },
           //减法
           numberSub:function(arg1,arg2){
