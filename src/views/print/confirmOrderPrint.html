@@ -12,14 +12,14 @@
       <div
       ajax-url="rest/authen/uiCustomHtml/queryForSelectOptionByKey.json?key=confirmOrderPrint"
       scope-data="queryForSelectOptionByKey"
-      callback="uiCustomHtmlId=queryForSelectOptionByKey[0].value"
+      callback="defaultObj=$root.utils.getObjectByKeyOfArr('note','true'); uiCustomHtmlId=defaultObj.value||queryForSelectOptionByKey[0].value"
       ></div>
       <select  ng-options="item.value as item.text  for item in queryForSelectOptionByKey"  ng-model="uiCustomHtmlId">
 
       </select>
 <!--body wrapper start-->
 
-    <div style="width=680px;height=397px;color:black;"
+    <div 
     ajax-url="rest/authen/distributor/getCurrentOrganization"
     scope-data="organizationName">
 
