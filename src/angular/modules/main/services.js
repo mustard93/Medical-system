@@ -847,7 +847,7 @@ e
                 init:function(){
 
                   this.print_param=$.extend({},this.print_param_defualt);
-                  
+
                     console.log(this.print_param);
 
                     if(!LODOP){
@@ -913,7 +913,7 @@ e
                         var p=this.print_param;
 
                       LODOP.PRINT_INITA(p.paper_top,p.paper_left,p.paper_width,p.paper_height,taskName);
-                    LODOP.SET_PRINT_PAGESIZE(p.print_orient,p.paper_width,p.paper_height,t,strPageName);
+                    LODOP.SET_PRINT_PAGESIZE(p.print_orient,p.paper_width,p.paper_height,taskName);
                   if(!content)content=this.getPrintHtmlContent();
 
                   //设定纸张大小

@@ -8,7 +8,7 @@
   <button  ng-click="$root.OPrinter.preview(null)">打印预览</button>
     <button  ng-click="$root.OPrinter.print(null)">立即打印</button>
      <button  ng-click="$root.OPrinter.printSetup(null)">打印设置</button>
-    
+
       <select
       ajax-url="rest/authen/uiCustomHtml/queryForSelectOptionByKey.json?key=confirmOrderPrint"
       scope-data="queryForSelectOptionByKey"
@@ -17,6 +17,13 @@
         ng-options="item.value as item.text  for item in queryForSelectOptionByKey"  ng-model="uiCustomHtmlId">
 
       </select>
+
+
+      <div
+      ajax-url="rest/authen/uiCustomHtml/get.json?id={{uiCustomHtmlId}}"
+      scope-data="uiCustomHtml"
+      callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml)"
+  ></div>
 <!--body wrapper start-->
 
     <div
@@ -26,9 +33,7 @@
     <div ng-if="!uiCustomHtmlId">请选择模版</div>
 
          <div id="Print_Div_id"  ng-if="uiCustomHtmlId"
-         ajax-url="rest/authen/uiCustomHtml/getHtml.html?id={{uiCustomHtmlId}}"
-         scope-data="uiCustomHtml"
-         callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml)"
+
          >
 
          <ng-include src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtml.html?id='+uiCustomHtmlId"></ng-include>
