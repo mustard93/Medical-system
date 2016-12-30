@@ -202,14 +202,14 @@
             </span>
           </header>
           <div class="panel-body" style="display:none;padding:15px 0;">
-            <div class="consignee-info pd-c-m pdt-m pdb-m"
+            <div class="consignee-info pdt-m pdb-m"
                  ajax-if-eval="formData.customerId"
                  ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
                  scope-data="customerAddress"
                  callback="customerAddressGetCallBack(formData,customerAddress)"
                  ng-class="{'static': customerAddress.contacts}">
               <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
-                <li class="mgr-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
+                <li class="mgr-m mgb-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
                   <p class="pdb">{{item.name}} </p>
                   <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
                   <p class="text-s">{{item.tel}}</p>
@@ -244,15 +244,15 @@
             <div class="consignee-info"
                  ajax-url="rest/authen/invoicesAddress/get.json"
                  scope-data="invoicesAddress"
-                 callback="customerAddressGetCallBack(formData,invoicesAddress)"
+                 callback="invoicesGetCallBack(formData,invoicesAddress)"
                  ng-class="{'static': invoicesAddress.contacts}">
-              <ul style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.contactsId=item.id">
+              <ul clear-info-list style="min-height:136px;">
+                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.invoicesId=item.id;formData.invoicesContacts={};formData.invoicesContacts=item;">
                   <p class="pdb">{{item.name}} </p>
                   <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
                   <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
                   <i class="consignee-default-label"  ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+                  <i class="consignee-choise-label"   ng-if="formData.invoicesId==item.id"><em class="fa fa-check color-white"></em></i>
                 </li>
                 <span>
                   <button class="pr-add-item-whitebg" style="min-height:136px;"
@@ -317,7 +317,7 @@
           <button ng-click="submitForm('editForm','submit')"
                   class="pr-btn-create-glodbg"
                   ng-disabled="!formData.orderMedicalNos.length ||
-                               !formData.customerId">审核
+                               !formData.customerId">生成销售单
           </button>
       </div>
     </div>
