@@ -297,6 +297,7 @@ define('project/controllers', ['project/init'], function() {
           }
         };
 
+        // 发货方信息回调方法
         $scope.invoicesGetCallBack = function (formData,invoicesAddress) {
 
           // 新版购需单中处理发货方信息
@@ -304,16 +305,21 @@ define('project/controllers', ['project/init'], function() {
             formData.invoicesId = invoicesAddress.defaultContactId;
           }
 
-          if (formData.invoicesId) {
+          var _contacts = invoicesAddress.contacts;
 
-            var _contacts = invoicesAddress.contacts;
-
-            angular.forEach(_contacts, function (data, index, array) {
-              if (formData.invoicesId === data.id) {
-                formData.invoicesContacts = data;
-              }
-            });
+          for (var i=0; i<_contacts.length; i++) {
+            if (invoicesAddress.defaultContactId == _contacts[i].id) {
+              formData.invoicesContacts = _contacts[i];
+              break;
+            }
           }
+
+          // angular.forEach(_contacts, function (data, index, array) {
+          //   if (formData.invoicesId === data.id) {
+          //     formData.invoicesContacts = data;
+          //   }
+          // });
+
         };
 
         // 拆分药品数量
@@ -398,7 +404,7 @@ define('project/controllers', ['project/init'], function() {
               .then(function (results) {
                 var _data = results[1].data;
                 // console.log(_data);
-                $scope.goTo('#/confirmOrder/get2.html?id='+_data.confirmOrder.id);
+                $scope.goTo('#/confirmOrder/edit-from-salesOrder.html?id='+_data.confirmOrder.id);
 
               })
               .catch(function (error) {
@@ -849,12 +855,11 @@ define('project/controllers', ['project/init'], function() {
      * @param  {[type]} alertError  [description]
      * @return {[type]}             [description]
      */
-    function confirmOrderEditCtrl2($scope, modal,alertWarn,requestData,alertOk,alertError, watchFormChange) {
+    function confirmOrderEditCtrl2($scope, modal, alertWarn, requestData, alertOk, alertError, watchFormChange) {
 
       $scope.watchFormChange = function (watchName) {
         watchFormChange(watchName,$scope);
       };
-
 
       // 保存type:save-草稿,submit-提交订单。
       $scope.submitFormAfter = function() {
@@ -865,12 +870,12 @@ define('project/controllers', ['project/init'], function() {
 
        if ($scope.submitForm_type == 'submit') {
          var url='rest/authen/confirmOrder/updateStatus';
-         var data= {id:$scope.formData.id,orderStatus:'待发货'};
-         requestData(url,data, 'POST')
+         var data= {id:$scope.formData.id,status:'待发单'};
+         requestData(url, data, 'POST')
            .then(function (results) {
              var _data = results[1];
             //  alertOk(_data.message || '操作成功');
-             $scope.goTo('#/confirmOrder/confirm-order.html?id='+$scope.formData.id);
+             $scope.goTo('#/confirmOrder/get.html?id='+$scope.formData.id);
 
            })
            .catch(function (error) {
@@ -888,12 +893,6 @@ define('project/controllers', ['project/init'], function() {
         $('#' + fromId).trigger('submit');
 
       };
-      // function jishuzongjia(){
-      //     jishuzongjia1();
-      //         jishuzongjia2();
-      // }
-
-
 
     }
 

@@ -1,111 +1,322 @@
-<div class="content-wrapper"
-     ajax-url="rest/authen/confirmOrder/getThisAndSalesOrder.json?id={{mainStatus.pageParams.id}}"
+<div class="confirm-order-edit"
+     ng-controller="confirmOrderEditCtrl2"
+     ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="scopeData"
-     callback="showData=scopeData.confirmOrder"
      alert-error>
 
-  <!-- 主内容头部 -->
-  <div class="content-wrapper-heading mgt-l mgb-xl">
-    <h1 class="pr-title-color pr-font-20">销售单</h1>
-  </div>
-
-  <!-- 主内容区域 -->
-  <div class="content-wrapper-main" >
-    <!-- 订单信息 -->
-    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height flex-column mgb"  ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <div class="flex-item-10 color-9">
-        <span class="mgr-xl">销售单号：<em class="color-6">{{showData.orderNo}}</em></span>
-        <span class="mgr-xl">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
-        <span class="mgr-xl">对应购需单：<em class="color-custom-orange">
-          <a href="#/salesOrder/get.html?id={{showData.relId}}">{{showData.relOrderNo}}</a>
-         </em></span>
-      </div>
-      <div class="flex-item-2 text-right color-9">
-
-        <a
-        modal-center="1000px"
-        modal-data='{"businessKey":"{{showData.id}}"}'
-        modal-scope="this"
-        modal-url="views/workflowTask/getOfDialog.html"
-        >
-
-          <span ng-if="showData.orderStatus!='已作废'">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
-            <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
-
-              </a>
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/confirmOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter();watchFormChange('formData')">
+    <!-- 头部信息 -->
+    <div class="relative">
+      <!-- 标题 -->
+      <div class="mgb-m pd-c-l">
+        <p class="mgb-m mgt-m crumbs pr-indent-10">销售中心 > <em class="color-custom-orange">销售单</em></p>
+        <h1 class="pr-font-22 mgt-l">销售单</h1>
+        <p class="mgt-l text-n text-bold">{{scopeData.customerName}}</p>
       </div>
     </div>
-
-    <!-- 作废原因： -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height flex-column mgb" ng-if="showData.orderStatus=='已作废'"  ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-              <span class="mgr-xl color-9" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:#ff4040">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+    <!-- 药械列表 -->
+    <div class="pd-l">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-n">
+        <!-- 单据信息 -->
+        <div class="bb-line">
+          <div class="flex-column color-9 pd-l">
+            <div class="flex-item-6">
+              <span class="mgr">单据编号：<em class="color-6">{{scopeData.orderNo}}</em></span>
+              <span class="mgr">制单人：<em class="color-6">{{scopeData.inputUser.n}}</em></span>
+              <span class="mgr">审核人：<em class="color-6">{{scopeData.approverUser.n}}</em></span>
+            </div>
+            <div class="flex-item-6 text-right">
+              <span class="mgr">录单日期：<em class="color-6">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+              <span class="mgr">状态：<em class="color-6">{{scopeData.orderStatus}}</em></span>
+            </div>
+          </div>
         </div>
-
-
-
-
-    <!-- 用户信息 -->
-    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb"  ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <div class="flex-column mgb">
-        <div class="flex-item-6">
-          <span class="color-9">客户名：<em class="color-6 font-normal">{{showData.customerName}}</em></span>
+        <!-- 类别选择 -->
+        <div class="pd-l">
+          <span class="mgr">销售部门：{{scopeData.departmentName}}</span>
+          <span class="mgr">业务人员：{{}}</span>
+          <span class="mgr">业务类型：
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.orderBusinessType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+            </select>
+          </span>
+          <span class="mgr">销售类型：
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.salesType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_SalesType">
+            </select>
+          </span>
+          <span class="mgr">付款条件：
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.paymentType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PaymentType">
+            </select>
+          </span>
+          <span class="mgr">币种：
+            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.currencyType"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_CurrencyType">
+            </select>
+          </span>
+          <span class="mgr">汇率：
+            <input type="text" class="ipt pr-ipt-60 text-right" ng-model="formData.exchangeRate">
+          </span>
         </div>
-        <div class="flex-item-6 text-right">
-          <span class="color-9 mgr-xl">销售人员：<em class="color-6 font-normal">{{showData.saleUser.n}}</em></span>
-          <span class="color-9">期望到货时间：<em class="color-6 font-normal">{{showData.expectDate | date: 'yyyy-MM-dd'}}</em></span>
+        <!-- 商品列表 -->
+        <div class="">
+          <div class="">
+            <table class="table pr-table pr-new-table mgb-n">
+              <thead>
+                <tr>
+                  <th class="text-center w-50">
+                    <label for=""><input type="checkbox" name="" value=""></label>
+                  </th>
+                  <th class="text-center">商品编号</th>
+                  <th>商品全名</th>
+                  <th class="text-center">规格型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">数量</th>
+                  <th class="text-center w-110">批号要求</th>
+                  <th class="text-center w-160">生产批号</th>
+                  <th class="text-center w-140">预发货日期</th>
+                  <th class="text-center">含税单价</th>
+                  <th class="text-center">税率</th>
+                  <th class="text-center">折扣额</th>
+                  <th class="text-center">折扣率</th>
+                  <th class="text-center">无税单价</th>
+                  <th class="text-center">无税金额</th>
+                  <th class="text-center">税额</th>
+                  <th class="text-center">价税合计</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
+                  <td class="text-center w-50">
+                    <label for=""><input type="checkbox" ng-model="item.handleFlag"></label>
+                  </td>
+                  <td class="text-center">{{item.code}}</td>
+                  <td>{{item.name}}</td>
+                  <td class="text-center">{{item.specification}}</td>
+                  <td class="text-center">{{item.unit}}</td>
+                  <td class="text-center">{{item.planQuantity}}</td>
+                  <td class="text-center">
+                    <select class="select pr-select pr-select-sm text-left"
+                            chosen
+                            ng-model="item.batchRequirement"
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
+                    </select>
+                  </td>
+                  <td class="text-center">
+                    <div  ng-repeat="stockBatchsItem in item.stockBatchs"  >
+                      <select class="select pr-select pr-select-sm text-left"
+                              chosen
+                              default-empty
+                              data-placeholder=" "
+                              select-data="selectData"
+                              ng-model="stockBatchsItem.productionBatch"
+                              callback="choiseProductionBatch(item,stockBatchsItem,selectData);item.handleFlag=true"
+                              select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
+                      </select>
+                      <p class="mgt text-right" ng-if="stockBatchsItem.productionBatch">
+                        <input type="number" class="ipt pr-short-ipt color-6 text-right" ng-model="stockBatchsItem.quantity"
+                          data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
+                        invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}"
+
+                        />
+                      </p>
+                      <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)">{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}缺货：{{stockBatchsItem.quantity-selectData.note.salesQuantity}}</p> -->
+                    </div>
+
+                    <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
+                  </td>
+                  <td class="text-center">
+                    <input type="text"
+                           datepicker
+                           class="ipt pr-short-ipt color-6"
+                           style="width:110px;"
+                           placeholder=""
+                           ng-readonly="true"
+                           ng-model="item.expectDate" />
+                  </td>
+                  <td class="text-center">{{item.price | currency:'￥'}}</td>
+                  <td class="text-center">{{item.taxRate*100}}%</td>
+                  <td class="text-center">￥{{item.discountPrice | number:2}}</td>
+                  <td class="text-center">{{item.discountRate}}%</td>
+                  <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
+                  <td class="text-center">￥{{item.price*(1-item.taxRate)*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.taxRate-item.discountPrice | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flex-column pd-v-l">
+            <div class="flex-item-9 color-red pr-indent-20">
+              <p ng-if="selectData2.note.salesQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
+            </div>
+            <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
+              本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}</em>
+            </div>
+          </div>
+
         </div>
       </div>
-      <div class="">
-        <span class="color-9">收货人信息：<em class="color-6">{{showData.address.name}}&nbsp;&nbsp;&nbsp;
-          {{showData.address.prov}}{{showData.address.city}}{{showData.address.area}}{{showData.address.address}}&nbsp;&nbsp;&nbsp;{{showData.address.tel}}</em></span>
+    </div>
+    <!-- 其他信息 -->
+    <div class="relative" style="margin-bottom:60px;">
+      <div class="pd-c-l">
+        <!-- 收货方信息 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <header class="text-n text-bold">收货方信息
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+            </span>
+          </header>
+          <div class="panel-body" style="display:none;padding:15px 0;">
+            <h1 class="mgb">收货方：{{formData.customerName}}</h1>
+            <p class="">收货人信息：
+              {{formData.address.prov}}&nbsp;&nbsp;{{formData.address.city}}&nbsp;&nbsp;{{formData.address.area}}&nbsp;&nbsp;{{formData.address.address}}&nbsp;&nbsp;{{formData.address.name}}&nbsp;&nbsp;{{formData.address.tel}}
+            </p>
+            <!-- <div class="consignee-info pd-c-m pdt-m pdb-m"
+                 ajax-if-eval="formData.customerId"
+                 ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
+                 scope-data="customerAddress"
+                 callback="customerAddressGetCallBack(formData,customerAddress)"
+                 ng-class="{'static': customerAddress.contacts}">
+              <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
+                <li class="mgr-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
+                  <p class="pdb">{{item.name}} </p>
+                  <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
+                  <p class="text-s">{{item.tel}}</p>
+                  <p><a href="javacript:;" modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
+                  <i class="consignee-default-label" ng-if="customerAddress.defaultContactId==item.id">默认</i>
+                  <i class="consignee-choise-label" ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+                </li>
+                <span>
+                  <button  class="pr-add-item-whitebg"
+                   type="button"
+                          style="min-height:136px;"
+                          modal-right="700"
+                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                          modal-scope="this"
+                          modal-url="views/customerAddress/contact/edit.html"
+                          ng-class="{'static':!customerAddress.contacts}">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </span>
+              </ul>
+            </div> -->
+          </div>
+        </div>
+        <!-- 发货方信息 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <header class="text-n text-bold">发货方信息
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+            </span>
+          </header>
+          <div class="panel-body" style="display:none;padding:15px 0;">
+            <div class="consignee-info"
+                 ajax-url="rest/authen/invoicesAddress/get.json"
+                 scope-data="invoicesAddress"
+                 callback="customerAddressGetCallBack(formData,invoicesAddress)"
+                 ng-class="{'static': invoicesAddress.contacts}">
+              <ul style="min-height:136px;">
+                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.contactsId=item.id">
+                  <p class="pdb">{{item.name}} </p>
+                  <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
+                  <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
+                  <i class="consignee-default-label"  ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
+                  <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+                </li>
+                <span>
+                  <button class="pr-add-item-whitebg" style="min-height:136px;"
+                          modal-right="700"
+                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                          modal-scope="this"
+                          modal-url="views/salesOrder/contact/edit.html"
+                          ng-class="{'static':!invoicesAddress.contacts}">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </span>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <h1 class="pd-v-s">备注</h1>
+          <p>{{showData.note}}</p>
+        </div>
       </div>
     </div>
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该购需单存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/salesOrder/query.html')"
+           save-callback="submitForm('editForm','exit')">返回购需单
+        </a>
 
-    <!-- 订单清单 -->
-    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-n"  ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
-      <!-- <h1 class="text-m text-bold">药械清单</h1> -->
-      <div class="confirm-order">
-        <div order-medicals  ng-model="showData.orderMedicalNos"></div>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/salesOrder/edit2.html?id={{formData.relId}}" >返回购需单</a>
+
+        <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+           href="javascript:;"
+           class="pr-color-red mgr-l"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条购需单吗?"
+           dialog-template="dialog-confirm.html"
+           request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+           call-back="$root.goTo('#/salesOrder/query.html')">删除
+        </a>
+
+        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+
+        <button type="button" class="pr-btn-save-glodbg mgr-l">打印预览</button>
+
+        <!-- <button type="button" ng-click="submitForm('editForm','submit')"
+                class="pr-btn-create-glodbg"
+                ng-disabled="!formData.orderMedicalNos.length ||
+                             !formData.customerId ||
+                             !formData.saleUserId ||
+                             !canSubmitForm()">审核
+        </button> -->
 
 
-    <!-- 商品列表 -->
-    <div>
-      <!-- 可发货 -->
-      <!--
-      <div class="confirm-order bb-line pdb-l">
-        <h1 class="pdt-l color-6 text-m pr-fw-500">药械详细</h1>
-        <div order-medicals  ng-model="showData.orderMedicalNos"></div>
+        <span ng-if="formData.didateFilter.buttons.length>0"
+              custom-menu-list
+              custom-menu-arr="{{formData.didateFilter.buttons}}">
+        </span>
       </div>
-      -->
-      <p class="pd-v color-9">客服备注：<span class="color-6">{{showData.note}}</span></p>
+      <div class="btn-area relative" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+        popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
+          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}
+        </em>
+      </div>
     </div>
-
-    <!-- 暂不可转入订单部分 -->
-    <div  ng-if="scopeData.salesOrder&&showData.confirmOrder.orderStatus=='已作废'" class="panel pr-panel pr-bg-grey">
-      <h1 class="text-l">暂不可转入销售单部分</h1>
-      <div ng-if="scopeData.salesOrder" class="confirm-order">
-        <div order-medicals  ng-model="scopeData.salesOrder.orderMedicalNos"></div>
-
-      </div>
-      <div class="text-right pdb-xxl pdt-xxl">
-        <span class="color-custom-orange">请等待库存补足后，即可另外生成销售单。可在购需单{{showData.salesOrder.orderNo}}跟踪此部分最新状态</span>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- 总价 -->
-<div class="text-right pdt-l pdb color-9">
-  <span class="text-l text-right pr-font-24">合计：<span class="color-6">￥{{showData.totalPrice | number:2}}</span></span>
-</div>
-
-<!-- 按钮   ng-if="showData.orderStatus=='待审批'" -->
-<div class="text-right mgb-l">
-  <a href="javascript:;" class="mgr" ng-click="$root.goTo('#/confirmOrder/query.html')">返回销售单列表</a>
-
-
-  <span ng-if="showData.didateFilter.buttons"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
-
-
+  </form>
 </div>

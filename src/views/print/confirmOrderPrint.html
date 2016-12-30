@@ -9,124 +9,30 @@
     <button  ng-click="$root.OPrinter.print(null)">打印</button>
      <button  ng-click="$root.OPrinter.printSetup(null,'templateName1')">打印设置</button>
       <button  ng-click="$root.OPrinter.printDesign(null,'templateName1')">打印设计</button>
+      <div
+      ajax-url="rest/authen/uiCustomHtml/queryForSelectOptionByKey.json?key=confirmOrderPrint"
+      scope-data="queryForSelectOptionByKey"
+      callback="uiCustomHtmlId=queryForSelectOptionByKey[0].value"
+      ></div>
+      <select  ng-options="item.value as item.text  for item in queryForSelectOptionByKey"  ng-model="uiCustomHtmlId">
 
-
+      </select>
 <!--body wrapper start-->
 
     <div style="width=680px;height=397px;color:black;"
     ajax-url="rest/authen/distributor/getCurrentOrganization"
     scope-data="organizationName">
-         <div id="Print_Div_id" >
-         <div style="width:612px;height:397px;border:1px solid #000000;">
-           <h2 style="width=100%;text-align:center;font-size:16px;padding:10px;">{{organizationName.name}}</h2>
-           <table width="100%" style="text-align:center;border-collapse:collapse;">
-               <tbody>
-               <tr>
-                   <td>发货仓库：</td>
-                   <td >
-                      国药云南物流中心
-                   </td>
-                   <td></td>
-                   <td >
 
-                   </td>
-                   <td>单据编号：</td>
-                   <td >
-                      <!-- GYM20161306 -->
-                      {{showData.orderNo}}
-                   </td>
-               </tr>
-               <tr >
-                   <td>客户名称：</td>
-                   <td >
-                      {{showData.customerName}}
-                   </td>
-                   <td>联系人：</td>
-                   <td >
-                     {{showData.address.name}}
-                   </td>
-                   <td>录单日期：</td>
-                   <td >
-                      {{showData.createAt | date:'yyyy-MM-dd'}}
-                   </td>
-               </tr>
-               </tbody>
-           </table>
-           <table border=1 style="text-align:center;width:612px;border:1px solid #000000;">
-             <thead >
-               <tr>
-                 <th style="text-align:center;">商品编号</th>
-                 <th style="text-align:center;">商品全名</th>
-                 <th style="text-align:center;">规格</th>
-                 <th style="text-align:center;">单位</th>
-                 <th style="text-align:center;">数量</th>
-                 <th style="text-align:center;">单价</th>
-                 <th style="text-align:center;">金额</th>
-                 <th style="text-align:center;">生产批号</th>
-                 <th style="text-align:center;">有效日期</th>
-                 <th style="text-align:center;">生厂商</th>
-                 <th style="text-align:center;">产品注册证</th>
-                 <th style="text-align:center;">产地品牌</th>
-               </tr>
-             </thead>
-             <tbody>
-               <tr  ng-repeat="tr in showData.orderMedicalNos ">
-                 <td>{{tr.code}}</td>
-                 <td >{{tr.name}}</td>
-                 <td>{{tr.specification}}</td>
-                 <td>{{tr.unit}}</td>
-                 <td>{{tr.quantity}}</td>
-                 <td>{{tr.strike_price}}</td>
-                 <td>{{tr.quantity*tr.strike_price}}</td>
-                 <td>{{tr.productionBatch}}</td>
-                 <td>{{tr.guaranteePeriod}}</td>
-                 <td>{{tr.manufacturer}}</td>
-                 <td>{{tr.drugAdministrationCode}}</td>
-                 <td>{{tr.brand}}</td>
-               </tr>
-               <tr>
-                 <td>总计大写：</td>
-                 <td colspan="7">{{showData.totalPriceCN}}</td>
-                 <td colspan="2">本页小计</td>
-                 <td colspan="2">{{showData.totalPrice}}
-                 </td>
-               </tr>
-               <tr>
-                 <td>发货单位</td>
-                 <td colspan="4">{{organizationName.name}}</td>
-                 <td>联系人：</td>
-                 <td>{{showData.invoicesContacts.name}}</td>
-                 <td>电话：</td>
-                 <td colspan="2">{{showData.invoicesContacts.tel}}</td>
-                 <td>传真：</td>
-                 <td>{{showData.invoicesContacts.fax}}</td>
-               </tr>
-             </tbody>
-           </table>
-           <table style="text-align:center;width:612px;">
-             <tbody>
-               <tr>
-                 <td>地址：</td>
-                 <td colspan="7" style="text-align:left">{{showData.address.address}}</td>
-                 <td>邮编：</td>
-                 <td>{{showData.address.zipCode}}</td>
-               </tr>
-               <tr>
-                 <td>制单人：</td>
-                 <td>{{showData.inputUser.n}}</td>
-                 <td>库房：</td>
-                 <td>&nbsp;&nbsp;</td>
-                 <td>复核:</td>
-                 <td >{{showData.approverUser.n}}</td>
-                 <td>送货人:</td>
-                 <td>&nbsp;&nbsp;</td>
-                 <td>收货人(签字):</td>
-                 <td>&nbsp;&nbsp;</td>
-               </tr>
-             </tbody>
-           </table>
+    <div ng-if="!uiCustomHtmlId">请选择模版</div>
 
-   </div>
+         <div id="Print_Div_id"  ng-if="uiCustomHtmlId"
+         ajax-url="rest/authen/uiCustomHtml/getHtml.html?id={{uiCustomHtmlId}}"
+         scope-data="uiCustomHtml"
+         >
+
+         <ng-include src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtml.html?id='+uiCustomHtmlId"></ng-include>
+
+
      </div><!--Print_Div_id-->
     </div>
 <!--body wrapper end-->

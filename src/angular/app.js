@@ -11,6 +11,12 @@
     }
     require.dir = loaderScript.src.match(/[^?#]*\//)[0];
 
+
+
+    //ueditor编辑器路径配置
+    window.UEDITOR_HOME_URL=require.dir+"libs/ueditor1_4_3_3-utf8-jsp/";
+
+
     if (!Config.tplPath) {
       Config.tplPath = "";
     }
@@ -185,13 +191,6 @@ define('manageApp', [
 require(['manageApp','ngRoute'], function (app) {
 
 
-  app.config(function($sceDelegateProvider) {
-   $sceDelegateProvider.resourceUrlWhitelist([
-       // Allow same origin resource loads.
-       'self',
-       // Allow loading from our assets domain.  Notice the difference between * and **.
-       'http://media.w3.org/**']);
-});
 
     app.config(['$routeProvider', '$templateRequestProvider','$sceDelegateProvider',
        function ($routeProvider, $templateRequestProvider,$sceDelegateProvider) {
@@ -200,6 +199,7 @@ require(['manageApp','ngRoute'], function (app) {
              // Allow same origin resource loads.
              'self',
              '**',
+                'http://192.168.0.211:8080/**',
              // Allow loading from our assets domain.  Notice the difference between * and **.
              'http://localhost:8080/**']);//ng-include $get允许跨越。
 
@@ -235,11 +235,12 @@ require(['manageApp','ngRoute'], function (app) {
         }
 
         $templateRequestProvider.httpOptions({
-          withCredentials:true,//ng-include $get允许跨越。
-            headers: {
-
-                'template': '1'
-            }
+          withCredentials:true
+          // ,//ng-include $get允许跨越。
+          //   headers: {
+          //
+          //       'template': '1'
+          //   }
         });
     }]);
 
