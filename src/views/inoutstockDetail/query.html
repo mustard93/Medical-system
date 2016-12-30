@@ -65,10 +65,6 @@
             </div>
         </div>
         <div ng-if="!status.isLoading">
-          <div ng-if="tbodyList.length==0">
-            <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-            <p class="text-center">什么也没有</p>
-          </div>
             <div ng-if="tbodyList.length" class="outside-table-d">
                 <table class="table pr-table pr-new-table pr-table-content table-s-wid">
                     <thead class="pr-bg-side">
@@ -144,9 +140,17 @@
                             <td>{{tr.modelType}}</td>
                             <td>{{tr.drugAdministrationCode}}</td>
                             <td>{{tr.unit}}</td>
-                            <td class="text-right">{{tr.storageQuantity}}</td>
-                            <td class="text-right">{{tr.refuseQuantity}}</td>
-                            <td class="text-right">{{tr.outgoingQuantity}}</td>
+                            <td
+                            ng-class="{'text-right':tr.storageQuantity,'text-center':!tr.storageQuantity}">
+                            {{tr.storageQuantity?tr.storageQuantity:"—"}}
+                            </td>
+                            <td
+                            ng-class="{'text-right':tr.refuseQuantity,'text-center':!tr.refuseQuantity}">
+                            {{tr.refuseQuantity?tr.refuseQuantity:"—"}}
+                            </td>
+                            <td ng-class="{'text-right':tr.outgoingQuantity,'text-center':!tr.outgoingQuantity}">
+                            {{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}
+                            </td>
                             <td>{{tr.productionBatch}}</td>
                             <td>{{tr.sterilizationBatchNumber}}</td>
                             <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
