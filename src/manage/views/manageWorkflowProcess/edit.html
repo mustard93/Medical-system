@@ -1,7 +1,7 @@
 
         <div class="modal-content" ng-controller="editWorkFlowProcessCtrl" ng-init="scopeExtend={}"
         ajax-url="rest/authen/manageWorkflowProcess/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
-         scope-data="formData" alert-error callback="initFlag=true;"
+         scope-data="formData" alert-error callback="initFlag=true;scopeExtend.formData=formData"
          >
 
           <form class="add-medical-form form-horizontal"
@@ -48,7 +48,7 @@
 
 
 
-            <select ng-if="initFlag"     default-empty  multiple  ajax-if-eval="formData.organizationId"  class="ipt pr-short-ipt" data-placeholder="选择规格" ng-model="formData.departmentIds"
+            <select ng-if="initFlag"     default-empty  multiple  ajax-if-eval="formData.organizationId"  class="ipt pr-short-ipt" data-placeholder="指定部门" ng-model="formData.departmentIds"
                chosen   params='{"DistributorId":"{{formData.organizationId}}"}'
                  select-source="rest/index/department/queryForSelectOption.json">
             </select>

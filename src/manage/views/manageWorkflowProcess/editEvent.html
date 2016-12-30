@@ -1,11 +1,10 @@
-
-        <div class="modal-content"
+  <div class="modal-content"
         ng-init='isUpdate=currentEvent && currentEvent.name==dialogData.name;formData1=dialogData||{};initFlagEvent=true;'
         >
 
           <form class="add-medical-form form-horizontal">
             <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+
                 <h4 class="modal-title">{{isUpdate?"编辑":"添加"}}节点</h4>
             </div>
             <div class="modal-body">
@@ -68,8 +67,15 @@
                 <label class="col-lg-2 col-sm-2 control-label">action</label>
                 <div class="col-lg-10 col-sm-10">
 
+
+
+
                   <select ng-if="initFlagEvent"  class="ipt pr-short-ipt" data-placeholder="选择执行动作" ng-model="formData1.action"
-                  chosen default-empty  multiple select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_EventActionEnum"
+                  chosen default-empty  multiple
+                  params='{"businessType":"{{scopeExtend.formData.businessType}}"}'
+                  select-source="rest/authen/workflowProcess/queryEventActionForSelectOption.json"
+
+                   select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Workflow_EventActionEnum"
                   >
                           <!-- <option value="通过">通过</option>
                       <option value="驳回">驳回</option> -->
