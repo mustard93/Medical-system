@@ -4,12 +4,10 @@ define('CanvasTreeLayout',['JTopo'], function(JTopo){
 
 
   //自动树形布局
-  function TreeLayout2(JTopo,dirtion, lineWidth2, lineHeight2,rootNodes)
+  function TreeLayout2(JTopo,dirtion, lineWidth2, lineHeight2,rootNodes,marginTop2,marginLeft2)
   {
 
-    var lineWidth=lineWidth2||30;
-    var lineHeight=lineHeight2||30;
-
+    var lineWidth=lineWidth2||30, lineHeight=lineHeight2||30, marginTop=marginTop2||20,marginLeft=marginLeft2||20;
       return function (scene)
       {
 
@@ -129,8 +127,10 @@ define('CanvasTreeLayout',['JTopo'], function(JTopo){
 
 
             }else{
-              location1.x=10;
-              location1.y=10;
+
+
+              location1.x=marginTop;
+              location1.y=marginLeft;
             }
 
             setXY(scene.childs,rootNodes,location1);
