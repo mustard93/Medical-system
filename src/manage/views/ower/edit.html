@@ -1,0 +1,49 @@
+<div class="modal-content pr-modal-content" ng-controller="editCtrl"
+ ajax-url="rest/ower/getOfEdit.json?id={{tr.id}}"
+   scope-data="formData" callback="initFlag=true"
+>
+
+  <form class="add-medical-form form-horizontal"
+        action="rest/ower/save"
+        scope-data="formData" alert-error
+        form-validator>
+    <div class="modal-header">
+        <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}仓库货主</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">货主名称</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">货主编码</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.code" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">所属系统</label>
+          <div class="col-lg-10 col-sm-10">
+            <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="所属系统" chosen default-empty="无" ng-model="formData.wmsSystem" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WmsSystemEnum">
+
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+          </div>
+        </div>
+
+    </div>
+
+    </form>
+</div>

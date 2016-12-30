@@ -98,7 +98,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered " ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
+                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
                             <td>{{$index + 1}}</td>
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.type}}</td>
@@ -145,7 +145,7 @@
                             <td>{{tr.modelType}}</td>
                             <td>{{tr.drugAdministrationCode}}</td>
                             <td>{{tr.unit}}</td>
-                            <td>{{(tr.quantity || tr.quantity==0) ? tr.quantity : tr.refuseQuantity}}</td>
+                            <td class="text-right">{{(tr.quantity || tr.quantity==0) ? tr.quantity : tr.refuseQuantity}}</td>
                             <td>{{tr.productionBatch}}</td>
                             <td>{{tr.sterilizationBatchNumber}}</td>
                             <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>

@@ -1757,6 +1757,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       var _options = '';
 
                       if(_selected==null)_selected="";
+                      _selected=_selected+"";//解决true 的情况
                   if (angular.isDefined($attrs.defaultEmpty)) {
                       _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
                   }
