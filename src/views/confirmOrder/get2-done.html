@@ -146,8 +146,6 @@
                               default-empty
                               data-placeholder=" "
                               select-data="selectData"
-                              suffix-connection="/"
-                              suffix-key="note.salesQuantity"                              
                               ng-model="stockBatchsItem.productionBatch"
                               callback="choiseProductionBatch(item,stockBatchsItem,selectData);item.handleFlag=true"
                               select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
@@ -313,6 +311,15 @@
         <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
 
         <button type="button" class="pr-btn-save-glodbg mgr-l">打印预览</button>
+
+        <!-- <button type="button" ng-click="submitForm('editForm','submit')"
+                class="pr-btn-create-glodbg"
+                ng-disabled="!formData.orderMedicalNos.length ||
+                             !formData.customerId ||
+                             !formData.saleUserId ||
+                             !canSubmitForm()">审核
+        </button> -->
+
 
         <span ng-if="formData.didateFilter.buttons.length>0"
               custom-menu-list

@@ -250,13 +250,14 @@ define('project/controllers', ['project/init'], function() {
      */
     function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData) {
 
-        $scope.watchFormChange=function(watchName){
-          watchFormChange(watchName,$scope);
-        };
-
         modal.closeAll();
         // $scope.formData={};
         $scope.addDataItem = {};
+
+        // 监视表单内子项目变化
+        $scope.watchFormChange=function(watchName){
+          watchFormChange(watchName,$scope);
+        };
 
         //需要重新家长地址方法。编辑新建后
         $scope.customerAddressReload=function (){
@@ -266,6 +267,7 @@ define('project/controllers', ['project/init'], function() {
 
         // 医院地址加载后，回调方法
         $scope.customerAddressGetCallBack = function(formData,customerAddress) {
+
           formData.customerName=customerAddress.name;
 
           if(!customerAddress||!customerAddress.contacts||customerAddress.contacts.length===0){
@@ -287,6 +289,30 @@ define('project/controllers', ['project/init'], function() {
 
           if(!hasContactsId){
               formData.contactsId=customerAddress.defaultContactId;
+          }
+
+          // 新版购需单中处理发货方信息
+          if (!formData.invoicesId) {
+            formData.invoicesId = customerAddress.defaultContactId;
+          }
+        };
+
+        $scope.invoicesGetCallBack = function (formData,invoicesAddress) {
+
+          // 新版购需单中处理发货方信息
+          if (!formData.invoicesId) {
+            formData.invoicesId = invoicesAddress.defaultContactId;
+          }
+
+          if (formData.invoicesId) {
+
+            var _contacts = invoicesAddress.contacts;
+
+            angular.forEach(_contacts, function (data, index, array) {
+              if (formData.invoicesId === data.id) {
+                formData.invoicesContacts = data;
+              }
+            });
           }
         };
 
