@@ -786,6 +786,20 @@ function alertOk($rootScope, modal) {
 
                  */
                  LODOP:null,//返回具体打印的实现累，用于特殊需求打印。
+                 print_param_defualt:{
+                   print_orient:0,//打印方向及纸张类型，数字型.1---纵(正)向打印，固定纸张；
+                   paper_top: 0,//整页上边距，整数或字符型
+                    paper_left: 0,//整页左边距
+                     paper_width:2100,//可视编辑区域的宽度.A4 21*29.7cm（210mm×297mm）
+                      paper_height:2970,//可视编辑区域的高度
+
+                       html_top: 0,//html上边距，整数或字符型
+                      html_left: 0,//html上边距，整数或字符型
+                      html_width: "100%",//html的宽度
+                        html_height: "100%"//html上边距，整数或字符型
+
+                 },
+                 print_param:null,
                  _rect:{},
                  //设定纸张大小
                  _pageSize:{
@@ -831,6 +845,11 @@ function alertOk($rootScope, modal) {
 e
                  */
                 init:function(){
+
+                  this.print_param=$.extend({},this.print_param_defualt);
+                  
+                    console.log(this.print_param);
+
                     if(!LODOP){
                         require(['LodopFuncs'], function(LodopFuncs1) {
                               LodopFuncs=LodopFuncs1;
@@ -843,14 +862,24 @@ e
                       //恢复默认配置。
                        this._rect=this._rectDefualt;
                 },
+                //设置打印参数,根据接口返回html模版数据
+                setPrint_paramByUICustomHtml:function(uICustomHtml){
+                  if(!uICustomHtml)return;
+                var p=$.extend({},this.print_param_defualt);
+                  for(var key in p){
+                      if(uICustomHtml[key])p[key]=uICustomHtml[key];
+                  }
+
+                  console.log(p);
+                  this.print_param=p;
+                },
                 //设置打印尺寸
                 setRect:function(intTop,intLeft,intWidth,intHeight){
-                  this._rect={
-                     top:intTop,
-                    left:intLeft,
-                    width:intWidth,
-                    height:intHeight
-                  }
+                  this.print_param.html_top=intTop;
+                    this.print_param.html_left=intLeft;
+                      this.print_param.html_width=intWidth;
+                        this.print_param.html_height=intHeight;
+
                 },
                 _PrintDivId:null,
                 //设置打印的内容是htmlid绑定的innerHTML。优先级高于_PrintHtml
@@ -865,88 +894,42 @@ e
                 //返回要打印的内容
                 getPrintHtmlContent:function(content){
                     if(this._PrintDivId)this._PrintHtml= document.getElementById(this._PrintDivId).innerHTML;
-
                     return this._PrintHtml;
                 },
-                //
-                /**
 
-                参数说明：
-intOrient：打印方向及纸张类型
-    1---纵向打印，固定纸张；
-    2---横向打印，固定纸张；
-    3---纵向打印，宽度固定，高度按打印内容的高度自适应(见样例18)；
-    0---方向不定，由操作者自行选择或按打印机缺省设置。
-
-intPageWidth：
-    纸张宽，单位为0.1mm 譬如该参数值为45，则表示4.5mm,计量精度是0.1mm。
-
-intPageHeight：
-    固定纸张时该参数是纸张高；高度自适应时该参数是纸张底边的空白高，计量单位与纸张宽一样。
-
-strPageName：
-    纸张类型名， intPageWidth等于零时本参数才有效，具体名称参见操作系统打印服务属性中的格式定义。
-    关键字“CreateCustomPage”会在系统内建立一个名称为“LodopCustomPage”自定义纸张类型。
-    */
-
-                setPrintPageSize:function(intOrient,intPageWidth,intPageHeight,strPageName){
-                  console.log("  LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)");
-
-                  // (扩展型)打印初始化
-                  // 格式：PRINT_INITA(Top,Left,Width,Height,strPrintName)
-                  // 功能：打印初始化、设定纸张整体偏移量、设定可视编辑区域大小
-
-
-
-            //               名称：设定纸张大小
-            // 格式：SET_PRINT_PAGESIZE(intOrient, PageWidth,PageHeight,strPageName)
-            // 功能：设定打印纸张为固定纸张或自适应内容高，并设定相关大小值或纸张名及打印方向。
-            //1---纵(正)向打印，固定纸张；
-                          this._pageSize={
-                            intOrient:intOrient,
-                            intPageWidth:intPageWidth,
-                            intPageHeight:intPageHeight
-
-                          };
-                console.log(this._pageSize);
-                    LODOP.SET_PRINT_PAGESIZE(this._pageSize.intOrient,this._pageSize.intPageWidth,this._pageSize.intPageHeight,strPageName);
-
-
-
-                },
-                //打印前的准备工作
+                //打印前的准备工作。设置打印参数，及打印内容
                 _printBeforePrint:function(content,taskName){
                   if(!LODOP){
                     LODOP=getOPrinter();
                     this.LODOP=LODOP;
                     if(!LODOP)console.log("need exe:$root.OPrinter.init()");
                   }
-
-
                   // 若strTaskName空，控件则不保存本地化信息，打印全部由页面程序控制。
                   taskName="";
                   if(!taskName)taskName="";
+                  // (扩展型)打印初始化
+                  // 格式：PRINT_INITA(Top,Left,Width,Height,strPrintName)
+                  // 功能：打印初始化、设定纸张整体偏移量、设定可视编辑区域大小
+                        var p=this.print_param;
 
-                      LODOP.PRINT_INITA(12,0,2160,1400,taskName);
-                    this.setPrintPageSize(1,2160,1400,taskName);
-
+                      LODOP.PRINT_INITA(p.paper_top,p.paper_left,p.paper_width,p.paper_height,taskName);
+                    LODOP.SET_PRINT_PAGESIZE(p.print_orient,p.paper_width,p.paper_height,t,strPageName);
                   if(!content)content=this.getPrintHtmlContent();
-                  this._rect.top=12;
-                  this._rect.left=12;
+
                   //设定纸张大小
                   // LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)
                   //●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
-                  LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
-                  console.log("this._rect");
-                  console.log(this._rect);
-                      console.log(content);
+
+
+                    LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,content);
+                  // LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
+                  console.log(p);
+
+                      // console.log(content);
                   return LODOP;
                 },
                 preview:function(content,taskName) {
                     LODOP=this._printBeforePrint(content,taskName);
-
-
-
 
                     LODOP.PREVIEW();
                   }//preview
