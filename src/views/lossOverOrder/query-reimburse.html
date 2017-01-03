@@ -5,21 +5,22 @@
      ">
   <!-- 模块标题及面包屑 -->
   <div class="page-header-info">
-    <p class="mgb crumbs pr-indent-20">库存管理 / <em class="color-custom-orange">报损单</em></p>
-    <p>
-      <select ng-init="itemChooise='#/lossOverOrder/query-reimburse.html'" class="select pr-select pr-select-sm" style="width:120px;" ng-model="itemChooise" ng-change="utils.goTo(itemChooise)">
-        <option value="#/lossOverOrder/query-reimburse.html">报损单</option>
-        <option value="#/lossOverOrder/query-overflow.html">报溢单</option>
-      </select>
-    </p>
+    <p class="mgb crumbs pr-indent-20">库存管理 > <em>报损单</em></p>
   </div>
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/lossOverOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
     <!-- 主内容头部 -->
-    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl mgr relative">
+    <div class="content-wrapper-heading h-l mgb-m mgt-l pdb-s line-b mgl mgr relative">
       <!-- 新建按钮及状态按钮 -->
+      <p>
+        <select ng-init="itemChooise='#/lossOverOrder/query-reimburse.html'" class="select pr-select pr-select-sm" style="width:120px;"
+        ng-model="itemChooise" ng-change="$root.utils.goTo(itemChooise)">
+          <option value="#/lossOverOrder/query-reimburse.html">报损单</option>
+          <option value="#/lossOverOrder/query-overflow.html">报溢单</option>
+        </select>
+      </p>
       <div class="full-width">
         <div ng-if="$root.hasAuthor('报损单新建')" class="pos-abs order-create-btn" >
           <a href="#/lossOverOrder/edit-reimburse.html" title="新建报损单"><i></i><span class="text-s">新建报损单</span></a>
@@ -40,36 +41,32 @@
       </div>
       <!-- 搜索 -->
       <div class="text-right pos-rb order-list-search">
-        <select class="pr-select select-wd"
-         chosen
-          ng-model="listParams.warehouseCode"
-          default-empty="选择仓库"
-          select-source="rest/authen/warehouse/queryForSelectOption">
-        </select>
-        <!--
-            <select class="pr-select select-wd mgr"
-                    chosen
-                    ng-model="listParams.warehouseCode"
-                    default-empty="选择仓库"
-                    select-source="rest/authen/warehouse/queryForSelectOption">
-            </select> -->
+          <span class="mgr color-999">仓库</span>
+          <select class="pr-select select-wd mgr-xl"
+           chosen
+            ng-model="listParams.warehouseCode"
+            default-empty="全部"
+            select-source="rest/authen/warehouse/queryForSelectOption">
+          </select>
 
-          <span class="mgr">申请日期：</span>
+          <span class="mgr color-999">申请日期</span>
           <input type="text"
                  datepicker
-                 class="ipt pr-short-ipt color-6 mgr"
+                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                  ng-readonly="true"
                  ng-model="listParams.beginDate"
-                 placeholder="日期">
-           <span class="mgr">至</span>
+                 placeholder="">
+           <span class="mgr color-999">至</span>
            <input type="text"
                  datepicker
-                 class="ipt pr-short-ipt color-6 mgr-l"
+                 class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
                  ng-readonly="true"
-                   ng-model="listParams.endDate"
-                 placeholder="日期">
-        <input type="text" class="ipt pdr-xxl  " placeholder="单据编号" ng-model="listParams.q">
-        <i class=""></i>
+                 ng-model="listParams.endDate"
+                 placeholder="">
+
+          <input type="text" class="ipt pdr-xxl" placeholder="单据编号" ng-model="listParams.q">
+          <i class=""></i>
+
       </div>
     </div>
     <!-- 主内容区域 -->
@@ -81,11 +78,12 @@
         </div>
         <ul ng-if="tbodyList.length" class="li-min-h">
           <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
-            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}">
+            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
+              <!-- ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}" -->
               <div class="relative pd-m">
                 <div class="flex-column mgb card-title-height" style="height:24px;line-height:24px;">
                   <span class="flex-item-6 title-states text-bold">
-                    <em ng-class="{'color-6':tr.orderStatus=='待审批','color-green':tr.orderStatus=='已通过','color-red':tr.orderStatus=='未通过'}">
+                    <em ng-class="{'color-black':tr.orderStatus=='待审批','color-green':tr.orderStatus=='已通过','color-gray':tr.orderStatus=='未通过'}">
                     {{tr.orderStatus}}</em>
                   </span>
                   <span class="flex-item-6 text-right">
@@ -103,12 +101,12 @@
                     <a class="mgl"
                        ng-if="tr.orderStatus=='待审核'"
                        ng-href="#/lossOverOrder/edit-reimburse.html?id={{tr.id}}">编辑</a>
-                    <a class="mgl"
+                    <!-- <a class="mgl"
                        ng-if="tr.orderStatus=='未通过'"
-                       ng-href="#/lossOverOrder/edit-reimburse.html?copyId={{tr.id}}">新建</a>
+                       ng-href="#/lossOverOrder/edit-reimburse.html?copyId={{tr.id}}">新建</a> -->
                        <a class="mgl"
-                          ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='未通过' || tr.orderStatus=='待审批'"
-                          ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">查看详情</a>
+                          ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
+                          ng-href="#/lossOverOrder/get-reimburse.html?id={{tr.id}}">查看详情</a>
                     <a ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('报损报溢单审批')"
                        class=" mgl"
                        ng-href="#/lossOverOrder/get-reimburse.html?id={{tr.id}}">立即审批</a>
@@ -127,18 +125,20 @@
               </div>
               <div class="relative bt-dotted-line">
                 <div >
-                  <h1 class="mg-m text-center text-m color-6 pd-c-m text-ellips-s">{{tr.orderMedicalNos.length|| '0'}}
+                  <h1 class="mg-m text-center text-m color-black pd-c-m text-ellips-s">{{tr.orderMedicalNos.length|| '0'}}
                   </h1>
                   <p class="text-center bb-dotted-line pdb">报损品种数</p>
                 </div>
 
                 <div>
-                  <h1 class="mg-m text-center text-m color-6 pd-c-m text-ellips-s">{{tr.warehouseName || '暂无'}}</h1>
+                  <h1 class="mg-m text-center text-m color-black pd-c-m text-ellips-s">{{tr.warehouseName || '暂无'}}</h1>
 
                 </div>
-                <div class="bt-dotted-line">
+                <div class="bt-dotted-line"
+                title="{{tr.note}}"
+                >
                   <p class="pd-l "><em>备注：</em>
-                    <em>{{tr.note}}</em>
+                    <em>{{tr.note || '暂无'}}</em>
                   </p>
                 </div>
 
