@@ -59,7 +59,8 @@
         <label class="pr-label mgr-l color-9">销售人员</label>
         <select ng-if="initFlag" class="ipt pr-short-ipt color-6" data-placeholder="填写销售人员" chosen  ng-model="formData.saleUserId"
         select-source="rest/authen/organizationAndUser/queryForSelectOption.json"
-          params='{"authority":"销售人员"}'>
+          params='{"authority":"销售人员"}'
+        >
           <option value=""></option>
         </select>
       </span>
@@ -71,7 +72,7 @@
     <!-- 收货人信息 -->
     <div class="consignee-info pd-c-m pdt-m pdb-m"
          ajax-if-eval="formData.customerId"
-         ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{$root.reloadTime}}"
+         ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
          scope-data="customerAddress"
          callback="customerAddressGetCallBack(formData,customerAddress)"
          ng-class="{'static': customerAddress.contacts}">
@@ -204,10 +205,6 @@
                   dialog-template="pr-dialog-confirm-warning.html"
                   cancel-callback="tr.handleFlag=false">加入销售单</label>
 
-
-
-
-
                 <span class="block mgb-m" ng-show="tr.quantity>medicalStockMap[tr.relId].quantity&&!(tr.quantity_noInvoice>0||tr.quantity_noInvoice_show)">
                   <button type="button" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgt-s" ng-click="caifenQuantity(tr,medicalStockMap[tr.relId].quantity);">拆分</button>
                 </span>
@@ -326,7 +323,7 @@
   <!-- 提交按钮 -->
   <div class="pdb-xxl text-right">
     <span class="mgl">
-      <a ng-if="changeFlag"  href="javascript:;"
+      <a   ng-if="changeFlag"  href="javascript:;"
          handle-this-click
          dialog-title="确认返回?"
          dialog-content="该购需单存在未保存数据，是否保存?"
@@ -334,7 +331,8 @@
          nosave-callback="goTo('#/salesOrder/query.html')"
          save-callback="submitForm('editForm','exit')">返回购需列表</a>
 
-      <a ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需列表</a>
+
+         <a   ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需列表</a>
     </span>
 
     <!-- <span><a href="javascript:;" ng-click="cancelThis('取消后无法回复原有数据,确认取消?', 'pr-dialog-confirm.html', '确认取消?')">返回购需中心</a></span> -->
