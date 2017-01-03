@@ -1921,6 +1921,7 @@ function datePeriodSelect () {
                       scope: $scope,
                       controller: ["$scope", "$element", function ($scope, $element) {
                           $(".ngdialog-content", $element).width(utils.getMainBodyWidth());
+                            $(".ngdialog-content", $element).height(utils.getwindowHeight());
                       }]
                   });
               });
@@ -2031,59 +2032,58 @@ function datePeriodSelect () {
 
 
 
-      /**
-        用户自定义表结构显示。
-      */
-      function customTable() {
-        return {
-          restrict: 'EA',
-          scope: false,
-          replace: true,
-          templateUrl:  Config.tplPath +'tpl/project/customTable.html',
+/**
+  用户自定义表结构显示。
+*/
+function customTable() {
+  return {
+    restrict: 'EA',
+    scope: false,
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/customTable.html',
 
-                link: function ($scope, element, $attrs) {
-                  if ($attrs.customTable) {
-                      $scope.customTableName=$attrs.customTable;
-                  }
-                }
-        };
+          link: function ($scope, element, $attrs) {
+            if ($attrs.customTable) {
+                $scope.customTableName=$attrs.customTable;
+            }
+          }
+  };
+}
+
+/**
+    用户自定义表 可以调整宽度指令
+*/
+function customTablePrint() {
+  return {
+    restrict: 'EA',
+    scope: false,
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/customTablePrint.html',
+      link: function ($scope, element, $attrs) {
+        if ($attrs.customTablePrint) {
+            $scope.customTablePrintName=$attrs.customTablePrint;
+        }
       }
+  };
+}
 
-      /**
-          用户自定义表 可以调整宽度指令
-      */
-      function customTablePrint() {
-        return {
-          restrict: 'EA',
-          scope: false,
-          replace: true,
-          templateUrl:  Config.tplPath +'tpl/project/customTablePrint.html',
+/**
+    用户自定义表结构-打印显示
+*/
+function resizableColumns() {
+  return {
+    restrict: 'EA',
 
-                link: function ($scope, element, $attrs) {
-                  if ($attrs.customTablePrint) {
-                      $scope.customTablePrintName=$attrs.customTablePrint;
-                  }
-                }
-        };
-      }
+          link: function ($scope, $element, $attrs) {
 
-      /**
-          用户自定义表结构-打印显示
-      */
-      function resizableColumns() {
-        return {
-          restrict: 'EA',
-
-                link: function ($scope, $element, $attrs) {
-
-                              require(['store','resizableColumns'], function(store) {
-                                    $element.resizableColumns({
-                                            store: store
-                                          });
-                              });
-                }//end link
-        };
-      }
+                        require(['store','resizableColumns'], function(store) {
+                              $element.resizableColumns({
+                                      store: store
+                                    });
+                        });
+          }//end link
+  };
+}
 
 angular.module('manageApp.project')
   .directive("customTablePrint", [customTablePrint])
