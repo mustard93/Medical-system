@@ -46,7 +46,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">医院名称：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.name" required>
+                  <input type="text"
+                         class="form-control"
+                         name="hospitalName"
+                         ng-model="formData.hospital.name"
+                         required
+                         data-content="* 必填字段"
+                         invalid-popover="{{!hospitalEditForm.hospitalName.$valid}}">
                 </div>
               </div>
             </div>
@@ -54,7 +60,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">医院系统编号：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.systemNumber" required>
+                  <input type="text"
+                         class="form-control"
+                         name="systemNumber"
+                         ng-model="formData.hospital.systemNumber"
+                         required
+                         data-content="* 必填字段"
+                         invalid-popover="{{!hospitalEditForm.systemNumber.$valid}}">
                 </div>
               </div>
             </div>
@@ -158,8 +170,14 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">采购员/身份证号：</label>
                 <div class="col-sm-6 flex-column">
-                  <input type="text" class="form-control flex-item-3" ng-model="formData.hospital.purchaserName">
-                  <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.hospital.purchaserIdentityNo">
+                  <input type="text" class="form-control flex-item-3" ng-model="formData.hospital.purchaserName" />
+                  <input type="text"
+                         name="purchaserIdentityNo"
+                         class="form-control flex-item-8 flex-offset-1"
+                         ng-model="formData.hospital.purchaserIdentityNo"
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!hospitalEditForm.purchaserIdentityNo.$valid}}" />
                 </div>
               </div>
             </div>
@@ -177,7 +195,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">E-mail：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.email">
+                  <input type="text"
+                         class="form-control"
+                         name="hospitalEmail"
+                         ng-model="formData.hospital.email"
+                         ng-pattern="/^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g"
+                         data-content="Email格式有误!"
+                         invalid-popover="{{!hospitalEditForm.hospitalEmail.$valid}}" />
                 </div>
               </div>
             </div>
@@ -185,7 +209,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">手机：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.hospital.purchaserPhone">
+                  <input type="text"
+                         class="form-control"
+                         name="purchaserPhone"
+                         ng-model="formData.hospital.purchaserPhone"
+                         ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                         data-content="手机号码格式有误!"
+                         invalid-popover="{{!hospitalEditForm.purchaserPhone.$valid}}" />
                 </div>
               </div>
             </div>
