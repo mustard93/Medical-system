@@ -1921,6 +1921,7 @@ function datePeriodSelect () {
                       scope: $scope,
                       controller: ["$scope", "$element", function ($scope, $element) {
                           $(".ngdialog-content", $element).width(utils.getMainBodyWidth());
+                            $(".ngdialog-content", $element).height(utils.getwindowHeight());
                       }]
                   });
               });
