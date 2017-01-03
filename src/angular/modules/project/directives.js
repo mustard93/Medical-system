@@ -2086,8 +2086,7 @@ function datePeriodSelect () {
       }
 
 angular.module('manageApp.project')
-
-.directive("customTablePrint", [customTablePrint])
+  .directive("customTablePrint", [customTablePrint])
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
   .directive("flashAddMedical", [flashAddMedical])
