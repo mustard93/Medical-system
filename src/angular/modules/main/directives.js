@@ -2901,40 +2901,71 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             }
           };
         }];
+
+    /**
+     * [textInterception 自定义指令为过长内容进行截取，解决CSS3里ellipsis属性会将下划线隐藏掉的问题]
+     * @return {[type]} [description]
+     * @author liuzhen
+     */
+    function textInterception () {
+      'use strcit';
+      return {
+        restrict: 'A',
+        scope: true,
+        link: function ($scope, $element, $attrs) {
+          // 获取当前元素宽度
+          var _w = $element.width();
+          // 为当前元素设置固定宽度和高度
+          $element.css({'width':_w, 'height':'auto', 'margin-left':'auto', 'margin-right':'auto'});
+          // 获取需要显示的字符数
+          var _showCharNum = parseInt(_w/17);
+
+          var _resStr,
+              // _str = $scope.tr.firstMedical.name;
+              _str = $attrs.textInterception;
+          if (_str.length > _showCharNum) {
+            _resStr = _str.slice(0, _showCharNum) + '...';
+            $scope.tr.firstMedical.name = _resStr;
+          }
+
+          // console.log(_resStr);
+
+        }
+      }
+    }
+
     /**
      * 加入项目
      */
     angular.module('manageApp.main')
-  .directive("ngInclude2", ngInclude2)
-
-    .directive("datepicker", ['$filter',datepicker])
+      .directive("textInterception", textInterception)
+      .directive("ngInclude2", ngInclude2)
+      .directive("datepicker", ['$filter',datepicker])
       .directive("watchFormChange", ["watchFormChange", watchFormChange])
       .directive("invalidPopover", ["$route", "$templateCache", "$routeParams", invalidPopover])
-        .directive("ngView", ["$route", "$templateCache", "$routeParams", ngView])
-        .directive("convertToDate",  ['$filter', convertToDate])
-        .directive("convertToNumber", convertToNumber)
-        .directive("convertJsonToObject", convertJsonToObject)
-        .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","modal", ajaxUrlSubmit])
-        .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
-        .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout","utils", formValidator])
-        .directive("tableList",  ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading','alertError',tableList])
-        .directive("tableCell", tableCell)
-        .directive("pagination", pagination)
-        .directive("pagination2", pagination2)
-        .directive("filterConditions", filterConditions)
-        .directive("treeList", treeList)
-        .directive("treeList2", treeList2)
-        .directive("navList", navList)
-        .directive("selectAsync", selectAsync)
-        .directive("relativeSelect", relativeSelect)
-        .directive("chart", eChart)
-        .directive("angucomplete", ["$parse", "requestData", "$sce", "$timeout",angucomplete])
-
-
-        .directive("checkboxGroup", checkboxGroup)
-        .directive("chosen", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",chosen])
-        .directive("formItem", formItem)
-        .directive("autoComplete", autoComplete)
-        .directive("selectAddress", ["$http", "$q", "$compile",selectAddress])
-        .directive("customConfig", customConfig)
+      .directive("ngView", ["$route", "$templateCache", "$routeParams", ngView])
+      .directive("convertToDate",  ['$filter', convertToDate])
+      .directive("convertToNumber", convertToNumber)
+      .directive("convertJsonToObject", convertJsonToObject)
+      .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","modal", ajaxUrlSubmit])
+      .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
+      .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout","utils", formValidator])
+      .directive("tableList",  ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading','alertError',tableList])
+      .directive("tableCell", tableCell)
+      .directive("pagination", pagination)
+      .directive("pagination2", pagination2)
+      .directive("filterConditions", filterConditions)
+      .directive("treeList", treeList)
+      .directive("treeList2", treeList2)
+      .directive("navList", navList)
+      .directive("selectAsync", selectAsync)
+      .directive("relativeSelect", relativeSelect)
+      .directive("chart", eChart)
+      .directive("angucomplete", ["$parse", "requestData", "$sce", "$timeout",angucomplete])
+      .directive("checkboxGroup", checkboxGroup)
+      .directive("chosen", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",chosen])
+      .directive("formItem", formItem)
+      .directive("autoComplete", autoComplete)
+      .directive("selectAddress", ["$http", "$q", "$compile",selectAddress])
+      .directive("customConfig", customConfig)
 });
