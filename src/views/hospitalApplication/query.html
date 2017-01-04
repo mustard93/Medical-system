@@ -54,17 +54,17 @@
           <table ng-if="tbodyList.length" class="table table-hover table-striped">
             <thead class="pr-bg-side">
               <tr>
-                <th>申请单</th>
+                <th class="w-160">申请单</th>
                 <th>医院名称</th>
-                <th>创建时间</th>
-                <th>状态</th>
-                <th>操作</th>
+                <th class="w-160">创建时间</th>
+                <th class="w-160">状态</th>
+                <th class="w-160">操作</th>
               </tr>
             </thead>
             <tbody class="pr-bg-white">
               <tr ng-repeat="tr in tbodyList track by $index">
                 <td>{{tr.orderNo}}</td>
-                <td>{{tr.hospital.name || '未知名称'}}</td>
+                <td>{{tr.hospital.name}}</td>
                 <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
                 <td ng-class="{'color-9':tr.orderStatus=='未提交', 'color-6':tr.orderStatus=='待审批', 'color-green':tr.orderStatus=='已通过', 'color-red':tr.orderStatus=='未通过'}">{{tr.orderStatus}}</td>
                 <td ng-if="tr.orderStatus=='未提交'">
