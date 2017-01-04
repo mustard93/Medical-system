@@ -8,8 +8,12 @@
        <div class="pd-l">
          <!-- 标题 -->
          <div class="mgb-m">
-           <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-black">报溢单</em>/ 报溢申请单详情</p>
-           <h1 class="pr-font-22 ">报溢申请单详情</h1>
+           <p class="mgb-m crumbs pr-indent-20">库存管理 >
+           <a href="#/lossOverOrder/query-overflow.html">
+             <em class="color-orange">报溢单</em>
+           </a>
+             > 报溢申请单详情</p>
+           <h1 class="pr-font-22 color-black">报溢申请单详情</h1>
          </div>
          <h1 class="color-black text-l">
            <!-- 昆明库 -->
@@ -23,16 +27,20 @@
         <p class="flex-column mgb  pd">
           <span class="flex-item-4">
             单据编号：<em >{{showData.orderNo || '暂无'}}</em>
-            <em  class="mgl">申请人：</em><em class="color-orange">{{showData.saleUser.n|| '暂无'}}</em>
             <em  class="mgl">部门：</em><em>{{showData.departmentName|| '暂无'}}</em>
-            <em  class="mgl">制单人：</em><em class="color-black">{{showData.inputUser.n|| '暂无'}}</em>
+            <em  class="mgl">申请人：</em><em class="color-orange">{{showData.saleUser.n|| '暂无'}}</em>
+            <em  class="mgl">制单人：</em><em class="color-orange">{{showData.inputUser.n|| '暂无'}}</em>
             <em  class="mgl">
               审批人：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
           </span>
           <span class="flex-item-7 text-right">
             申请日期：<em >{{showData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
           </span>
-          <span class="flex-item-1 text-right">状态：<em>{{showData.orderStatus}}</em></span>
+          <span class="flex-item-1 text-right">状态：
+            <em class="color-black"  ng-class="{'color-green':showData.orderStatus=='已通过'}">
+              {{showData.orderStatus}}
+            </em>
+          </span>
         </p>
 
           <!-- 主内容头部 -->
@@ -103,10 +111,10 @@
                         </td>
 
                         <td class="text-center">
-                        {{tr.productionEnterpriseLicenseNo}}
+                        {{tr.drugAdministrationCode}}
                         </td>
                         <td>
-                          {{tr.productionEnterpriseLicensePeriod}}
+                          {{tr.drugAdministrationCodeGuaranteePeriod}}
                         </td>
                       </tr>
                     </tbody>

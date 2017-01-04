@@ -439,6 +439,18 @@ function alertOk($rootScope, modal) {
               },0);
 
             },
+            //获取window窗口的高度
+            getwindowHeight:function(){
+                var t=$(window).height();
+                // console.log("main_body="+t);
+                return t;
+            },
+            //获取window窗口的高度
+            getwindowWidth:function(){
+                var t=$(window).width();
+                // console.log("main_body="+t);
+                return t;
+            },
             //获取内容区的宽度。
             getMainBodyWidth:function(){
                 var t=$("#main_body").width();

@@ -1534,7 +1534,7 @@ define('project/controllers', ['project/init'], function() {
         console.log(event1);
 
         if($scope.scopeExtend&&$scope.scopeExtend.workflow){
-          $scope.scopeExtend.workflow.reload();
+          $scope.scopeExtend.workflow.reload($scope.formData);
         }
         modal.closeAll();
       };
