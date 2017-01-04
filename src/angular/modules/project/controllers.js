@@ -1561,20 +1561,28 @@ define('project/controllers', ['project/init'], function() {
      * [新版购需单商品条目控制器]
      * @param {[type]} $scope [依赖项]
      */
-    function SalesOrderDetailsController ($scope, $timeout) {
+    function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, requestData) {
+      // 根据用户选择批号获取当前药品的生产日期
+      $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
 
-      // $scope.$watch('[tr.discountPrice, tr.discountRate]', function (oldValue, newValue) {
-      //   $scope.tr.discountRate = (($scope.tr.price - newValue[0]) / $scope.tr.price * 100).toFixed(2);
-      // },true);
+        if (relMedicalStockId && p_and_s) {
 
-      // 监视折扣额
-      // $scope.$watch('tr.discountPrice', function (newValue) {
-      //   $scope.tr.discountRate = (($scope.tr.price - newValue) / $scope.tr.price * 100).toFixed(0);
-      // });
-      // 监视折扣率
-      // $scope.$watch('tr.discountRate', function (newValue) {
-      //   $scope.tr.discountPrice = ($scope.tr.price * (1 - newValue / 100)).toFixed(0);
-      // });
+          var url='rest/authen/medicalStock/getStockBatch?relMedicalStockId='+relMedicalStockId+'&p_and_s='+p_and_s;
+          var data= {};
+          requestData(url,data,'get')
+            .then(function (results) {
+              var _data = results[1];
+              console.log(_data);
+            $scope.tr.productionDate =_data.data.productionDate;
+            
+            })
+            .catch(function (error) {
+              alertError(error || '出错');
+            });
+
+        }
+      };
+
     }
 
     /**
@@ -1598,7 +1606,7 @@ define('project/controllers', ['project/init'], function() {
     .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
     .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl])
     .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'watchFormChange', confirmOrderEditCtrl2])
-    .controller('SalesOrderDetailsController', ['$scope', '$timeout', SalesOrderDetailsController])
+    .controller('SalesOrderDetailsController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', SalesOrderDetailsController])
     .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
     .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', QualificationApplyCtrl])
     .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])

@@ -1,4 +1,4 @@
-<div class="content-wrapper"
+<div class="content-wrapper loss-over-order"
      ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
@@ -18,7 +18,11 @@
          <h1 class="color-black text-l">
            <!-- 昆明库 -->
            {{showData.warehouseName}}
-       </h1>
+         </h1>
+       </div>
+       <div ng-if="showData.orderStatus=='未通过'"
+        class="pr-panel pr-panel-height mgb">
+         <em class="color-red">原因:</em>
        </div>
      </div>
      <!-- 主内容区域 -->
