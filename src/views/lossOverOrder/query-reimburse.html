@@ -80,8 +80,8 @@
           <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
               <!-- ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}" -->
-              <div class="relative pd-m">
-                <div class="flex-column mgb card-title-height" style="height:24px;line-height:24px;">
+              <div class="relative">
+                <div class="flex-column mgb-m card-title-height pd-m" style="height:24px;line-height:24px;">
                   <span class="flex-item-6 title-states text-bold">
                     <em ng-class="{'color-black':tr.orderStatus=='待审批','color-green':tr.orderStatus=='已通过','color-gray':tr.orderStatus=='未通过'}">
                     {{tr.orderStatus}}</em>
@@ -114,33 +114,36 @@
                     <!-- <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button> -->
                   </span>
                 </div>
-                <div class="flex-column qurey text-s color-9">
-                  <span class="flex-item-6 mgb-s">单据编号：
-                    <strong class="color-6 text-normal">{{tr.orderNo}}</strong></span>
-                  <span class="flex-item-6 pdl mgb-s text-right">申请日期：
-                    <strong class="color-6 text-normal">{{tr.applyDate | date : 'yyyy-MM-dd'}}</strong>
-                  </span>
-                </div>
+                <div class="card-new">
+                          <div class="bt-line">
+                            <h1 class="text-center text-m color-black text-ellips-s">{{tr.warehouseName || '暂无'}}</h1>
+                          </div>
+                          <div class="flex-column qurey text-s color-9 bt-line">
+                            <span class="flex-item-6 mgb-s pr-indent-10">单据编号：</span>
+                            <span class="flex-item-6 text-right pr-indent-10"><strong class="color-6 text-normal">{{tr.orderNo}}</strong></span>
+                          </div>
+                          <div class="flex-column qurey text-s color-9 bt-dotted-line">
+                            <span class="flex-item-6 pdl mgb-s text-left">申请日期：</span>
+                            <span class="flex-item-6 text-right">
+                                <strong class="color-6 text-normal">{{tr.applyDate | date : 'yyyy-MM-dd'}}</strong>
+                            </span>
+                          </div>
+                          <div class="flex-column qurey text-s color-9 bt-dotted-line">
+                            <span class="flex-item-6 pdl mgb-s text-left">报损条目数</span>
+                            <span class="flex-item-6 text-right">
+                                <strong class="color-6 text-normal">{{tr.orderMedicalNos.length|| '0'}}</strong>
+                            </span>
+                          </div>
 
-              </div>
-              <div class="relative bt-dotted-line">
-                <div >
-                  <h1 class="mg-m text-center text-m color-black pd-c-m text-ellips-s">{{tr.orderMedicalNos.length|| '0'}}
-                  </h1>
-                  <p class="text-center bb-dotted-line pdb">报损品种数</p>
-                </div>
+                          <div class="flex-column qurey text-s color-9 mgb bt-line"
+                          style="height50px;overflow:hidden"
+                            title="{{tr.note}}">
+                            <span class="pdl mgb-s text-left">备注：
+                              <em>{{tr.note || '暂无'}}</em>
+                            </span>
 
-                <div>
-                  <h1 class="mg-m text-center text-m color-black pd-c-m text-ellips-s">{{tr.warehouseName || '暂无'}}</h1>
-
-                </div>
-                <div class="bt-dotted-line mgb"
-                  title="{{tr.note}}">
-                  <p class="pd-l "><em>备注：</em>
-                    <em>{{tr.note || '暂无'}}</em>
-                  </p>
-                </div>
-
+                          </div>
+                    </div>
               </div>
             </div>
           </li>
