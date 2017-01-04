@@ -85,29 +85,32 @@
                     <em ng-class="{'color-black':tr.orderStatus=='待审批','color-green':tr.orderStatus=='已通过','color-gray':tr.orderStatus=='未通过'}">
                     {{tr.orderStatus}}</em>
                   </span>
-                  <span class="flex-item-6 text-right">
-                    <span ng-if="tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id">
+                  <span
+                  ng-if="tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id"
+                  class="flex-item-6 text-right  relative">
+                    <span >
                       <span run-popovers class="circle-ss">
                       <span ></span>
                       <span ></span>
                       <span ></span>
                     </span>
                     <span class="purchaseorder-buyer-info">
-                      <i class="block bb-line pdb-s text-normal">
-                        <em class="inline-block pd"><a class="mgl"
-                           ng-href="#/lossOverOrder/edit-reimburse.html?id={{tr.id}}">编辑
+                      <i class="block bb-dashed-line pd-c-l text-normal">
+                        <em class="inline-block pd-v-s">
+                          <a class=""
+                           ng-href="#/lossOverOrder/edit-overflow.html?id={{tr.id}}">编辑
                          </a>
                        </em>
                      </i>
-                      <i class="block pdb-s text-normal">
-                        <em class="inline-block pd">
+                      <i class="block pd-c-l text-normal">
+                        <em class="inline-block pd-v-s">
                         <a href="javascript:;"
                            class="color-red"
                            handle-this-click
                            dialog-title="确认删除?"
                            dialog-content="删除后将无法恢复,确认删除?"
                            dialog-template="pr-dialog-submit.html"
-                           callback="$root.goTo('#/lossOverOrder/query-reimburse.html')"
+                           callback="$root.goTo('#/lossOverOrder/query-overflow.html')"
                            params='{"id":tr.id}'
                            request-url="rest/authen/lossOverOrder/delete">删除
                          </a>
@@ -116,6 +119,7 @@
                     </span>
                   </span>
                 </span>
+                <span class="flex-item-6 text-right">
                     <a class="mgl"
                        ng-if="tr.orderStatus=='待审核'&& mainStatus.id!=tr.inputUser.id"
                        ng-href="#/lossOverOrder/edit-reimburse.html?id={{tr.id}}">编辑
@@ -139,16 +143,16 @@
                         <h1 class="text-center text-m color-black text-ellips-s">{{tr.warehouseName || '暂无'}}</h1>
                       </div>
                       <div class="flex-column qurey text-s color-9 bt-line">
-                        <span class="flex-item-6 mgb-s pr-indent-10">单据编号：</span>
+                        <span class="flex-item-6 mgb-s pr-indent-10">单据编号</span>
                         <span class="flex-item-6 text-right pr-indent-10"><strong class="color-6 text-normal">{{tr.orderNo}}</strong></span>
                       </div>
-                      <div class="flex-column qurey text-s color-9 bt-dotted-line">
-                        <span class="flex-item-6 pdl mgb-s text-left">申请日期：</span>
+                      <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                        <span class="flex-item-6 pdl mgb-s text-left">申请日期</span>
                         <span class="flex-item-6 text-right">
                             <strong class="color-6 text-normal">{{tr.applyDate | date : 'yyyy-MM-dd'}}</strong>
                         </span>
                       </div>
-                      <div class="flex-column qurey text-s color-9 bt-dotted-line">
+                      <div class="flex-column qurey text-s color-9 bt-dashed-line">
                         <span class="flex-item-6 pdl mgb-s text-left">报损条目数</span>
                         <span class="flex-item-6 text-right">
                             <strong class="color-6 text-normal">{{tr.orderMedicalNos.length|| '0'}}</strong>
@@ -158,9 +162,15 @@
                       <div class="flex-column qurey text-s color-9 mgb bt-line"
                       style="height50px;overflow:hidden"
                         title="{{tr.note}}">
-                        <span class="pdl mgb-s text-left">备注：
-                          <em>{{tr.note || '暂无'}}</em>
-                        </span>
+                        <p ng-if="tr.orderStatus!='未通过'"
+                        class="loss-over-order-details-note">
+                          <span class="pdl">备注：</span><span class="color-6">{{tr.note || '暂无'}}</span>
+                        </p>
+
+                        <p ng-if="tr.orderStatus=='未通过'"
+                        class="loss-over-order-details-note">
+                          <span class="pdl">原因：</span><span class="color-6">{{tr.message || '暂无'}}</span>
+                        </p>
 
                       </div>
                 </div>

@@ -12,6 +12,7 @@
         action="rest/authen/lossOverOrder/save.json"
         alert-error
         alert-ok
+        onkeydown="if(window.event.keyCode==13) return false;"
         scope-extend="scopeExtend"
         scope-error-msg="errorMsg"
         scope-data="formData"
@@ -32,7 +33,7 @@
           <div class="mgt-l">
             <select class="pr-select select-wd"
              chosen
-              ng-model="listParams.warehouseStocksCode"
+              ng-model="formData.warehouseStocksCode"
               default-empty="仓库名"
               select-source="rest/authen/warehouse/queryForSelectOption">
             </select>
@@ -201,10 +202,13 @@
                             params='{"relMedicalStockId":"{{tr.relId}}"}'
                             default-empty
                             alert-error
-                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption">
+                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption"
+                            ng-change="getCurrentProductionDate(tr.relId, tr.productionBatch)">
                     </select>
                   </td>
-                  <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                  <td class="text-center">
+                    {{tr.productionDate | date : 'yyyy-MM-dd'}}
+                  </td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
@@ -287,7 +291,7 @@
           </button>
 
           <button
-                  class="btn pr-btn-bg-gold mgl"
+                  class=" mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认通过?"

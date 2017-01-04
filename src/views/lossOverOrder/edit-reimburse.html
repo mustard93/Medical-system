@@ -15,6 +15,7 @@
         scope-extend="scopeExtend"
         scope-error-msg="errorMsg"
         scope-data="formData"
+        onkeydown="if(window.event.keyCode==13) return false;"
         callback='updateStatus={"type":"submit","url":"rest/authen/lossOverOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/lossOverOrder/get-reimburse.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
         novalidate="novalidate"
         ng-init="formData.applyType='报损'">
@@ -95,7 +96,7 @@
 
             <div class="flex-item-3">
               <span class="flex-item-7 text-right pd">
-                申请日期：<em >{{formData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
+                申请日期：<em >{{formData.applyDate | date : 'yyyy-MM-dd'}}</em>
               </span>
               <span class="flex-item-5 text-right pd">状态：<em>{{formData.orderStatus}}</em></span>
             </div>
@@ -158,7 +159,6 @@
                   </td>
 
                   <td class="text-center">
-
                     <select ng-if="tr.relId" class="pd-select pd-s mgb-m inline"
                             data-placeholder=" "
                             is-empty-query
@@ -167,14 +167,16 @@
                             params='{"relMedicalStockId":"{{tr.relId}}"}'
                             default-empty
                             alert-error
-                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption">
+                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption"
+                            ng-change="getCurrentProductionDate(tr.relId, tr.productionBatch)">
                     </select>
-
                   </td>
                   <!-- <td class="text-center"> -->
                     <!-- 灭菌批号 -->
                   <!-- </td> -->
-                  <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                  <td class="text-center">
+                    {{tr.productionDate  | date : 'yyyy-MM-dd' || '暂无'}}
+                  </td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
