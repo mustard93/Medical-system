@@ -1407,7 +1407,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             var _length = data.length;
                             var _value = "";
                             for (var i = 0; i < _length; i++) {
-                                if (data[i].selected || (isSelectFirst && i == 0)) {
+                                if (data[i].selected || (isSelectFirst && i === 0)) {
                                     _value = data[i].value;
                                 }
                                 _options += '<option ' + (data[i].enabled === 0 ? ' class="text-muted"' : '') + ' value="' + data[i].value + '">' + data[i].text + '</option>';
