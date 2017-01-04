@@ -1,32 +1,39 @@
+
+<!-- 主内容头部 -->
+<div class="content-wrapper-heading pdb-m mgb-l relative">
+  <p class="pdb-s pdt-s mgb-l crumbs pr-indent-35">销售中心 / <em class="color-custom-orange">出库单</em></p>
+  <div class="pd-c-xxxxl">
+    <div class="pos-rel-tl inline-block fl-l">
+      <h1 class="pr-font-20 color-black">出库单</h1>
+    </div>
+    <!-- 新建按钮及状态按钮 -->
+    <div class="full-width">
+      <!-- <div class="pos-abs order-create-btn">
+        <a href="#/salesOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a>
+      </div> -->
+      <div class="order-status-btn pos-tr text-right" ng-init="countByOrderStatus={}"
+           ajax-url="rest/authen/outstockOrder/countByOrderStatus.json"
+           scope-data="countByOrderStatus"
+           alert-error>
+          <div class=""></div>
+          <div class="btn btn-group"  ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OutstockOrderStatus"  scope-data="statusList">
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-repeat="tr in statusList" ng-click="listParams.orderStatus=tr.value">{{tr.value}}
+              <span class="pj-badge" ng-if='countByOrderStatus[tr.value]'>{{countByOrderStatus[tr.value]}}</span>
+            </button>
+          </div>
+      </div>
+    </div>
+    <!-- 右侧搜索 -->
+    <div class="text-right order-list-search pos-rel-tr inline-block fl-r">
+      <input type="text" class="ipt pdr-xxl" placeholder="客户名/出库单号/销售人员" ng-model="listParams.q">
+      <i class=""></i>
+    </div>
+  </div>
+</div>
+
 <div class="content-wrapper invoices-order" ng-init="listParams={}">
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/outstockOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
-    <!-- 主内容头部 -->
-    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
-      <!-- 新建按钮及状态按钮 -->
-      <div class="full-width">
-        <!-- <div class="pos-abs order-create-btn">
-          <a href="#/salesOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a>
-        </div> -->
-        <div class="order-status-btn pos-tr text-right" ng-init="countByOrderStatus={}"
-             ajax-url="rest/authen/outstockOrder/countByOrderStatus.json"
-             scope-data="countByOrderStatus"
-             alert-error>
-            <div class=""></div>
-            <div class="btn btn-group"  ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OutstockOrderStatus"  scope-data="statusList">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-repeat="tr in statusList" ng-click="listParams.orderStatus=tr.value">{{tr.value}}
-                <span class="pj-badge" ng-if='countByOrderStatus[tr.value]'>{{countByOrderStatus[tr.value]}}</span>
-              </button>
-            </div>
-        </div>
-      </div>
-      <!-- 右侧搜索 -->
-      <div class="text-right order-list-search pos-rb">
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/出库单号/销售人员" ng-model="listParams.q">
-        <i class=""></i>
-      </div>
-
-    </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <div ng-if="!status.isLoading">
