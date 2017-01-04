@@ -1,9 +1,8 @@
-.ipt-new {
-    height: 28px;
-    width: 280px;
+.ipt-l {
+    height: 36px;
+    width: 286px;
     box-sizing: border-box;
     padding: 5px 10px;
-    margin-bottom: 2px;
     border-radius: 4px;
     background-color: #fff;
     border: 1px solid rgba(199,167,123,1);
@@ -33,6 +32,10 @@
     background: #FFF;
     border: 1px solid #AAA;
     outline: 0;
+}
+
+.tools a {
+  background: none !important;
 }
 
 .select-w {
@@ -539,6 +542,20 @@
 .pos-fixed-b {
   position: fixed;
 }
+.pos-rel-tr {
+  position: relative;
+  right: 0;
+}
+.pos-rel-tl {
+  position: relative;
+  left: 0;
+}
+.fl-l {
+  float: left;
+}
+.fl-r {
+  float: right;
+}
 .fieldset {
     border-radius: 3px;
     border: 1px solid #CCC;
@@ -577,6 +594,9 @@
 }
 .color-light-brown {
   color: #c7a77b;
+}
+.color-placeholder{
+  color: #B5B5B5;
 }
 .bgco-orange{
   background-color: rgba(177, 168, 152, .9) !important;
@@ -1389,6 +1409,9 @@ body.ngdialog-open {
 .color-white {
   color: #fff;
 }
+.color-3 {
+  color: #333;
+}
 .color-6 {
   color: #666;
 }
@@ -1491,8 +1514,8 @@ body.ngdialog-open {
 }
 .pr-btn-save-glodbg[disabled],
 .pr-btn[disabled] {
-  color: #fff;
-  background-color: #e5e5e5;
+  color: #999;
+  background-color: #666;
   cursor: not-allowed;
 }
 .pr-btn-xsm {
@@ -1514,8 +1537,8 @@ body.ngdialog-open {
   color: #fff;
 }
 .pr-btn-create-glodbg[disabled] {
-  color: #fff;
-  background-color: #e5e5e5;
+  color: #999;
+  background-color: #666;
   cursor: not-allowed;
 }
 .pr-btn-create-glodbg:hover {
@@ -1759,8 +1782,14 @@ body.ngdialog-open {
 .bb-dotted-line {
   border-bottom: 1px dotted #e2e2e2;
 }
+.bt-dashed-line {
+  border-top: 1px dashed #e2e2e2;
+}
 .bb-dashed-line {
   border-bottom: 1px dashed #e2e2e2;
+}
+.bt-dashed-line {
+  border-top: 1px dashed #e2e2e2;
 }
 .bl-dotted-line {
   border-left: 1px dotted #e2e2e2;
@@ -1819,7 +1848,9 @@ body.ngdialog-open {
   margin: 0 30px;
 }
 .content-wrapper-heading {
-  height: 20px;
+  min-height: 20px;
+  background: rgba(236, 231, 220, .9);
+  overflow: hidden;
 }
 .content-wrapper-heading.h-l {
   height: 90px;
@@ -1827,10 +1858,10 @@ body.ngdialog-open {
 .content-wrapper-heading.line-b {
   border-bottom: 1px solid rgba(199, 167, 123, .7);
 }
-.content-wrapper .content-wrapper-heading .order-create-btn {
+/* .content-wrapper-heading .order-create-btn {
   bottom: 10px;
-}
-.content-wrapper .content-wrapper-heading .order-create-btn a {
+} */
+.content-wrapper-heading .order-create-btn a {
   display: inline-block;
   height: 30px;
   background: #c7a77b;
@@ -1840,7 +1871,7 @@ body.ngdialog-open {
   padding: 0 14px;
   box-shadow: 0 0 20px rgba(199, 167, 123, .9);
 }
-.content-wrapper .content-wrapper-heading .order-create-btn a i {
+.content-wrapper-heading .order-create-btn a i {
   display: inline-block;
   position: absolute;
   top: 3px;
@@ -1852,7 +1883,7 @@ body.ngdialog-open {
   height: 24px;
   margin: 0 auto;
 }
-.content-wrapper .content-wrapper-heading .order-create-btn a span {
+.content-wrapper-heading .order-create-btn a span {
   line-height: 30px;
   padding-left: 15px;
 }
@@ -1875,7 +1906,7 @@ body.ngdialog-open {
   height: 1px;
   border-top: 1px solid #c7a77b;
 } */
-.content-wrapper .content-wrapper-heading .order-status-btn > div {
+.content-wrapper-heading .order-status-btn > div {
   text-align: right;
   padding: 0;
   z-index: 0;
@@ -1899,17 +1930,17 @@ body.ngdialog-open {
   height: 1px;
   border-top: 1px solid #c7a77b;
 } */
-.content-wrapper .content-wrapper-heading .order-list-search {
+/* . content-wrapper-heading .order-list-search {
   margin: 5px 0;
   bottom: 5px;
-}
-.content-wrapper .content-wrapper-heading .order-list-search .ipt {
+} */
+.content-wrapper-heading .order-list-search .ipt {
   height: 26px;
   border-radius: 13px;
   border: 1px solid #c7a77b;
   background: rgba(255, 255, 255, .3);
 }
-.content-wrapper .content-wrapper-heading .order-list-search > i,
+.content-wrapper-heading .order-list-search > i,
 .out-ipt-div > i
  {
   position: absolute;
@@ -1935,9 +1966,7 @@ body.ngdialog-open {
   background-repeat: no-repeat;
   background-position: -252px -3px;
 }
-.loss-over-order .order-list-search > i{
-  left: 875px;
-}
+
 /* 空数据 */
 .content-wrapper-main ul li {
   display: inline-block;
@@ -2389,6 +2418,10 @@ div.order-goods-num > button.right {
   line-height: 30px;
   background-color: rgba(254, 231, 231, 0.9);
   cursor: pointer;
+}
+/* 页面头部信息 */
+.header-info {
+  background: rgba(236, 231, 220, .9);
 }
 /* 表格灰色填充 */
 .pr-table-greyfill {
@@ -2894,7 +2927,10 @@ label.checkbox_label > div {
 }
 /* 采购单模块 */
 .purchase-order .content-wrapper-main ul li div p.purchase-order-details-note,
-.arrivalNotaice-order .content-wrapper-main ul li div p.arrivalNotaice-order-details-note{
+.arrivalNotaice-order .content-wrapper-main ul li div p.arrivalNotaice-order-details-note,
+.loss-over-order .content-wrapper-main ul li div p.loss-over-order-details-note,
+.freeze-thaw-order .content-wrapper-main ul li div p.freeze-thaw-order-details-note
+{
   display: inline-block;
   width: 100%;
   height: 15px;
@@ -3227,14 +3263,13 @@ border: 1px solid #ddd;
   right: 0;*/
   display: inline-block;
   float: right;
-  padding: 0 15px;
+  padding: 0 20px;
+  background: rgba(54,48,44,.3);
 }
 .handle-btn-area > .btn-area > a {
   display: inline-block;
   height: 100%;
   line-height: 56px;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .stork-h1{
@@ -3301,7 +3336,6 @@ border: 1px solid #ddd;
 .view-medical
 {
   position: relative;
-  top: -5px;
 }
 /* 新版表格样式 */
 .pr-new-table {
@@ -3317,10 +3351,10 @@ border: 1px solid #ddd;
   background: rgba(255,231,163,0.2);
 }
 .pr-new-table thead tr th {
-  border-top: 1px solid rgba(239,165,0,0.25) !important;
+  border-top: 1px solid rgba(209,143,0,0.2) !important;
   border-bottom: 1px solid rgba(209,143,0,0.2);
   border-left: none;
-  border-right: 1px solid rgba(209,143,0,0.2);
+  border-right: 1px solid rgba(209,143,0,0.1);
   vertical-align: middle;
   color: #484848;
   font-weight: bold;
@@ -3367,7 +3401,7 @@ border: 1px solid #ddd;
   background-color: #c7a77b;
   background-image: url(../../images/pr-sprites.png);
   background-repeat: no-repeat;
-  background-position: -57px 5px;
+  background-position: -181px 5px;
 }
 .salesOrder-edit .import-medical-list::after,
 .view-medical .import-medical-list::after
@@ -3388,6 +3422,7 @@ border: 1px solid #ddd;
 {
   width: 550px;
 }
+
 .salesOrder-edit table.pr-table > tbody input.item-quantity,
 .view-medical table.pr-table > tbody input.item-quantity
  {
@@ -3396,7 +3431,7 @@ border: 1px solid #ddd;
 .salesOrder-edit table.pr-table > thead,
 .view-medical table.pr-table > thead
  {
-  background: rgba(240,230,195,0.52);
+  background: rgba(239,165,0,0.25);
 }
 .salesOrder-edit table.pr-table > tbody > tr:hover,
 .view-medical table.pr-table > tbody > tr:hover
@@ -3410,7 +3445,9 @@ border: 1px solid #ddd;
   line-height: 30px;
 }
 .salesOrder-edit .sales-order-item-delbtn,
-.view-medical .sales-order-item-delbtn
+.view-medical .sales-order-item-delbtn,
+.loss-over-order .sales-order-item-delbtn,
+.freeze-thaw-order .sales-order-item-delbtn
 {
   display: inline-block;
   position: absolute;
@@ -3422,7 +3459,9 @@ border: 1px solid #ddd;
   z-index: 100;
 }
 .salesOrder-edit .sales-order-item-delbtn > div:first-child,
-.view-medical .sales-order-item-delbtn > div:first-child
+.view-medical .sales-order-item-delbtn > div:first-child,
+.loss-over-order .sales-order-item-delbtn > div:first-child,
+.freeze-thaw-order .sales-order-item-delbtn > div:first-child
  {
   width: 32px;
   height: 32px;
@@ -3441,14 +3480,18 @@ border: 1px solid #ddd;
   display: none;
 }
 .salesOrder-edit .sales-order-item-delbtn > div:last-child,
-.view-medical .sales-order-item-delbtn > div:last-child
+.view-medical .sales-order-item-delbtn > div:last-child,
+.loss-over-order .sales-order-item-delbtn > div:last-child,
+.freeze-thaw-order .sales-order-item-delbtn > div:last-child
  {
   margin-top: 10px;
   border: 1px solid #c7a77b;
   display: none;
 }
 .salesOrder-edit .sales-order-item-delbtn > div:last-child:before,
-.view-medical .sales-order-item-delbtn > div:last-child:before
+.view-medical .sales-order-item-delbtn > div:last-child:before,
+.loss-over-order .sales-order-item-delbtn > div:last-child:before,
+.freeze-thaw-order .sales-order-item-delbtn > div:last-child:before
 
  {
   content: ' ';
@@ -3478,7 +3521,7 @@ border: 1px solid #ddd;
 .ipt-w{
   width: 100px;
 }
-.lossOverOrder-edit .select-wd{
+.loss-over-order.select-wd{
   width: 302px;
   height: 28px;
 }
@@ -3486,16 +3529,9 @@ border: 1px solid #ddd;
   padding:0 20px 20px 20px;
 }
 
-.btn-area>span{
-  display: inline-block;
-  margin-top: 15px;
-}
 /* 新版面包屑样式 */
 .crumbs {
-  background: rgba(0,0,0,0.05);
-  border-radius: 100px;
-  height: 24px;
-  line-height: 24px;
+  border-bottom: 1px solid rgba(226,222,202,.9);
 }
 
 /*关于销售单小红图标*/
@@ -3515,3 +3551,104 @@ border: 1px solid #ddd;
   color:rgba(245,68,64,1);
   font-size: 18px;
 }
+/*关于报损报溢模块*/
+.loss-over-order .ipt-date,
+.loss-over-order .select,
+.freeze-thaw-order  .ipt-date,
+.freeze-thaw-order  .select
+{
+  width: 120px;
+  height: 28px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 2px;
+}
+.loss-over-order select+div,
+.freeze-thaw-order select+div
+{
+  margin-right: 20px;
+}
+.loss-over-order .ipt,
+.freeze-thaw-order .ipt
+{
+  width: 286px;
+  height: 30px;
+  border:1px solid rgba(199,167,123,1);
+}
+.loss-over-order .order-list-search > i
+{
+  left: 840px;
+}
+.freeze-thaw-order .order-list-search > i
+{
+  left: 820px;
+}
+.loss-over-order .pr-btn-create-glodbg[disabled],
+.freeze-thaw-order .pr-btn-create-glodbg[disabled]
+{
+    color: #fff !important;
+    background-color: #e5e5e5 !important;
+}
+.card-new>div
+{
+  min-height: 50px;
+  padding: 15px 10px 10px 10px;
+}
+.circle-ss>span{
+  display: inline-block;
+  width: 4px;
+  height:4px;
+  background-color: rgba(199,167,123,0.55);
+  border-radius: 50%;
+  box-shadow: 0 1px 1px 0 rgba(199,167,123,0.55);
+}
+.loss-over-order .purchaseorder-buyer-info,
+.freeze-thaw-order .purchaseorder-buyer-info{
+    top: 20px;
+    left:75%;
+}
+.loss-over-order .purchaseorder-buyer-info:before,
+.freeze-thaw-order .purchaseorder-buyer-info:before
+{
+    top:-5px;
+    left:78%;
+}
+.btn-reject
+{
+  display: inline-block;
+  width: 88px;
+  height: 36px;
+  line-height: 24px;
+  -webkit-border-radius: 18px;
+  border-radius: 18px;
+  border: none;
+  outline: none;
+  background: rgba(255,56,56,0.80);
+  border-radius: 100px;
+  margin-top: -5px;
+}
+.btn-pass{
+  display: inline-block;
+  width: 160px;
+  height: 36px;
+  line-height: 24px;
+  -webkit-border-radius: 18px;
+  border-radius: 18px;
+  border: none;
+  outline: none;
+  background: #C7A77B;
+  border-radius: 100px;
+  margin-top: -5px;
+}
+
+.btn-reject a,
+.btn-pass a{
+  display: inline-block;
+  text-align: center;
+  line-height: 36px;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+}
+
+/*批次冻结解冻*/
