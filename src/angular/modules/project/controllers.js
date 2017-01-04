@@ -530,10 +530,10 @@ define('project/controllers', ['project/init'], function() {
                 alertWarn('请输入大于0的数量。');
                 return false;
             }
-            if (!addDataItem.strike_price) {
-                alertWarn('请输入成交价格。');
-                return false;
-            }
+            // if (!addDataItem.strike_price) {
+            //     alertWarn('请输入成交价格。');
+            //     return false;
+            // }
             if(addDataItem.quantity>medical.quantity){//库存不足情况
                 addDataItem.handleFlag =false;//默认添加到订单
             }
@@ -1574,7 +1574,7 @@ define('project/controllers', ['project/init'], function() {
               var _data = results[1];
               console.log(_data);
             $scope.tr.productionDate =_data.data.productionDate;
-            
+
             })
             .catch(function (error) {
               alertError(error || '出错');
