@@ -1,7 +1,6 @@
 <div class="content-wrapper purchase-order"
-  ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus"
-
->
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus"
+     ng-controller="PurchasePayOrderController">
   <table-list list-data="rest/authen/purchasePayOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
@@ -39,7 +38,7 @@
           <p class="text-center">什么也没有</p>
         </div>
         <ul class="">
-          <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+          <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList" ng-controller="ScreenFinanceApprovalController">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
               <div class="pd-m">
                 <div class="flex-column" style="height:22px;line-height:22px;">
@@ -86,7 +85,7 @@
                           <em class="inline-block pdl pdr pdt">
                             <a href="javascript:;"
                                modal-center="500"
-                               modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                               modal-data='{"toUser":{{tr.approverUser.n}},"userIds":["{{tr.approverUser.id}}"]}'
                                modal-url="views/notice/sendToUser.html">发送消息
                             </a>
                           </em>
@@ -95,15 +94,15 @@
                     </p>
                     <p class="mgb-s relative">财务审批：
                       <span ng-if="tr.orderStatus=='待批款'" class="color-6" style="position:absolute;height:25px;">暂无</span>
-                      <span ng-if="tr.orderStatus!='待批款'" run-popovers class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.saleUser.n || '测试'}}</span>
+                      <span ng-if="tr.orderStatus!='待批款'" run-popovers class="color-custom-orange cur-pot" style="position:absolute;height:25px;">{{tr.approvalUser.inputUser}}</span>
                       <span class="purchaseorder-buyer-info">
-                        <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
+                        <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.approvalUser.inputUserPhone}}</em></i>
                         <i class="block pdb-s text-normal">
                           <em class="fa fa-comment-o mgl"></em>
                           <em class="inline-block pdl pdr pdt">
                             <a href="javascript:;"
                                modal-center="500"
-                               modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
+                               modal-data='{"toUser":{{tr.approvalUser.inputUser}},"userIds":["{{tr.approvalUser.inputUserId}}"]}'
                                modal-url="views/notice/sendToUser.html">发送消息
                             </a>
                           </em>
