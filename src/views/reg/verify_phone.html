@@ -37,6 +37,7 @@
                ng-model="formData.tel" required autofocus name="tel"
                ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
                data-content="请输入11位手机号码"
+               maxlength="11"
                invalid-popover="{{editForm.tel.$invalid}}">
       </div>
 
@@ -47,7 +48,7 @@
                  ng-maxlength="4" required >
         </span>
         <span interval-countdown>
-          <button  ng-if="sendVerifyCodeCountdown<=0"  type="button" class="btn btn-primary btn-sm pr-btn"
+          <button  ng-show="sendVerifyCodeCountdown<=0"  type="button" class="btn btn-primary btn-sm pr-btn"
                   ajax-url-submit="rest/sms/sendVerificationCode.json"
                   http-method="GET"
                                       params='{"isNewUser":true,"tel":"{{formData.tel}}"}'
@@ -56,7 +57,7 @@
                                           error-callback="countdown('sendVerifyCodeCountdown',60);"
                    ng-disabled="!canRegPhone">{{sendVerifyCodeCountdown<0?"获取验证码":"重发验证码"}}
           </button>
-          <button  ng-if="sendVerifyCodeCountdown>0"  type="button" class="btn btn-primary btn-sm pr-btn"
+          <button  ng-show="sendVerifyCodeCountdown>0"  type="button" class="btn btn-primary btn-sm pr-btn"
                   disabled="disabled">{{sendVerifyCodeCountdown}} 秒后重发
           </button>
         </span>
