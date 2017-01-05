@@ -223,7 +223,7 @@
         </div>
 
       <!-- 其他信息 -->
-      <div class="relative" style="margin-bottom:60px;">
+      <div class="relative">
           <!-- 收货方信息 -->
           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
             <header class="text-n text-bold color-3">收货方信息
@@ -300,24 +300,23 @@
           </div>
           <!-- 备注 -->
           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-            <h1>备注</h1>
+            <h1 class="text-bold color-3">备注</h1>
             <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
           </div>
-          <!-- 流程图 -->
-          <div ng-if="formData.id" class="modal-content pr-modal-content pr-modal-process"
-                 ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
-                 scope-data="businessFlowData"
-                 callback="businessFlowDataInitFlag=true;"
-                 error-callback="businessFlowDataInitFlag=true;">
-             <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{formData.id}}"
-                     width="{{$root.utils.getMainBodyWidth()}}"
-                     base-image-url="images/canvasBusinessFlow/"
-                     spacing-height="80" spacing-width="40">
-             </canvas>
-           </div>
-
       </div>
     </div>
+    <!-- 流程图 -->
+    <div ng-if="formData.id" class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
+           ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
+           scope-data="businessFlowData"
+           callback="businessFlowDataInitFlag=true;"
+           error-callback="businessFlowDataInitFlag=true;">
+       <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{formData.id}}"
+               width="{{$root.utils.getMainBodyWidth()}}"
+               base-image-url="images/canvasBusinessFlow/"
+               spacing-height="80" spacing-width="40">
+       </canvas>
+     </div>
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
