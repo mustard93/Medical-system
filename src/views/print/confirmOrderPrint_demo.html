@@ -13,13 +13,20 @@
 
 <!--body wrapper start-->
 
-    <div style="width=680px;height=397px;color:black;font-size:12px;font-family:'Microsoft YaHei'"
+    <div style="position:absolute;width:680px;height:397px;color:black;font-size:12px;font-family:'Microsoft YaHei';border:1px solid #000000;"
     ajax-url="rest/authen/distributor/getCurrentOrganization"
     scope-data="organizationName">
          <div id="Print_Div_id" >
-         <div style="width:100%;height:100%;border:1px solid #000000;">
-           <h2 style="width=100%;text-align:center;font-size:16px;padding:10px;">{{organizationName.name}}</h2>
-           <table width="100%" style="text-align:center;border-collapse:collapse;">
+         <div style="width:100%;height:100%;font-family:'Microsoft YaHei'">
+           <div>
+                <span style="float:right;position:relative;right:10px;top:0px;font-size:9px;"> 第<font tdata="PageNO" format="0">##</font>页</span>
+             <p style="text-align:center;font-size:16px;padding:10px;font-weight:bold;">{{organizationName.name}}销售单  </p>
+
+
+           </div>
+
+
+           <table width="100%" style="text-align:left;border-collapse:collapse;">
                <tbody>
                <tr>
                    <td>发货仓库：</td>
@@ -32,7 +39,6 @@
                    </td>
                    <td>单据编号：</td>
                    <td >
-                      <!-- GYM20161306 -->
                       {{showData.orderNo}}
                    </td>
                </tr>
@@ -55,18 +61,18 @@
            <table border=1 style="text-align:center;width:100%;border:1px solid #000000;border-collapse:collapse;">
              <thead >
                <tr>
-                 <th style="text-align:center;">商品编号</th>
-                 <th style="text-align:center;">商品全名</th>
-                 <th style="text-align:center;">规格</th>
-                 <th style="text-align:center;">单位</th>
-                 <th style="text-align:center;">数量</th>
-                 <th style="text-align:center;">单价</th>
-                 <th style="text-align:center;">金额</th>
-                 <th style="text-align:center;">生产批号</th>
-                 <th style="text-align:center;">有效日期</th>
-                 <th style="text-align:center;">生厂商</th>
-                 <th style="text-align:center;">产品注册证</th>
-                 <th style="text-align:center;">产地品牌</th>
+                 <td style="text-align:center;">商品编号</td>
+                 <td style="text-align:center;">商品全名</td>
+                 <td style="text-align:center;">规格</td>
+                 <td style="text-align:center;">单位</td>
+                 <td style="text-align:center;">数量</td>
+                 <td style="text-align:center;">单价</td>
+                 <td style="text-align:center;">金额</td>
+                 <td style="text-align:center;">生产批号</td>
+                 <td style="text-align:center;">有效日期</td>
+                 <td style="text-align:center;">生厂商</td>
+                 <td style="text-align:center;">产品注册证</td>
+                 <td style="text-align:center;">产地品牌</td>
                </tr>
              </thead>
              <tbody>
@@ -107,7 +113,7 @@
              <tbody>
                <tr>
                  <td>地址：</td>
-                 <td colspan="7" style="text-align:left">{{showData.address.address}}</td>
+                 <td colspan="7" style="text-align:left">{{showData.address.prov}}{{showData.address.city}}{{showData.address.area}}{{showData.address.address}}</td>
                  <td>邮编：</td>
                  <td>{{showData.address.zipCode}}</td>
                </tr>
@@ -115,13 +121,13 @@
                  <td>制单人：</td>
                  <td>{{showData.inputUser.n}}</td>
                  <td>库房：</td>
-                 <td>&nbsp;&nbsp;</td>
+                 <td></td>
                  <td>复核:</td>
                  <td >{{showData.approverUser.n}}</td>
                  <td>送货人:</td>
-                 <td>&nbsp;&nbsp;</td>
+                 <td></td>
                  <td>收货人(签字):</td>
-                 <td>&nbsp;&nbsp;</td>
+                 <td></td>
                </tr>
              </tbody>
            </table>

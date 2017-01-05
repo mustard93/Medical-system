@@ -89,6 +89,8 @@ define('main/controllers', ['main/init'], function () {
         $rootScope.OPrinter=OPrinter;
           //自定义table工具类
         $rootScope.UICustomTable=UICustomTable;
+        //当前服务器根上下文路径 http://localhost:3000/src/
+        $rootScope.curServerPath=utils.getCurServerPath();
         $scope.httpGet = function(url) {
           if (Config.serverPath) {
               if (url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0) {
@@ -162,6 +164,8 @@ define('main/controllers', ['main/init'], function () {
                   $scope.mainStatus.serverPath = Config.serverPath;
                 //解决 配置同服务器请。/dt/。废弃该参数：mainStatus.requestPath
                   $scope.mainStatus.requestPath="";
+
+                    // require.dir = loaderScript.src.match(/[^?#]*\//)[0];
               }
 
               $.ajax({

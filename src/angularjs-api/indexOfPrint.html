@@ -26,5 +26,26 @@
 
 <body  ng-controller="mainCtrl" nice-scroll>
     <div id="main_body" ng-view autoscroll="true"></div>
+
+    利用ADD_PRINT_TABLE专用超文本元素属性可以轻松实现分页小计、累计、分类统计、页数及总合计等功能，
+这四个属性是：tdata、format、tclass、tindex 它们可以用在table内任何元素上，详细解释和演示如下：
+
+一、属性“tdata”：设置统计类型，属性值及对应含义如下:
+SubCount(本页行数)	SubDistinctCount(本页非重复行数)	SubSum(本页合计)	SubAverage(本页平均数)	SubMax(本页最大值)	SubMin(本页最小值)
+Count(目前累计行数)	DistinctCount(目前累计非重复行数)	Sum(目前累计数)	Average(目前累计平均数)	Max(目前最大值)	 Min(目前最小值)
+AllCount(全表总行数)	AllDistinctCount(全表非重复行数)	AllSum(全表总合计)	AllAverage(全表总平均)	AllMax(全表最大值)	AllMin(全表最小值)
+PageNO(页号)	PageCount(页数)
+
+二、属性“format”：设置数据格式，属性值样式如下：
+   “0” “0.00” “#.##” “#,##0.00”“0.000E+00”“#.###E-0 ”“UpperMoney(大写金额)”“ChineseNum(中文数字)”等等...
+
+三、属性“tclass”：设置统计分组(也就是分类统计)，属性值任意，参见本演示的“A型”“B型”个数统计。
+
+四、属性“tindex”：设置统计的目标列，默认情况下是同列统计，也就是统计结果与目标列一致，如果无法一致 时，
+     可以用其指定具体列，属性值是数字型的列序号，从1起始。
+
+五、占位符：统计结果的占位符是任意个“#”组成的字符串，当结果值较大时，注意占位符要足够多,除非周围有空白区。
+
+ 第<font tdata="PageNO" format="0" color="blue">##</font>页
 </body>
 </html>
