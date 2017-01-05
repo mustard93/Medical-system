@@ -888,8 +888,21 @@ define('project/controllers', ['project/init'], function() {
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
         $('#' + fromId).trigger('submit');
-
       };
+
+      // ...
+      $scope.$watch('formData.orderMedicalNos', function (newVal, oldVal) {
+        // console.log(newVal);
+        $scope.formData.thisPageTotal = 0;
+        angular.forEach(newVal, function (val) {
+          if (val.quantity <= 0) {
+            $scope.formData.thisPageTotal += 0;
+          } else {
+            $scope.formData.thisPageTotal += val.quantity * val.price;
+          }
+
+        });
+      }, true);
 
     }
 
@@ -898,8 +911,6 @@ define('project/controllers', ['project/init'], function() {
      * @param {[type]} $scope [description]
      */
     function ConfirmOrderMedicalController ($scope) {
-
-
 
       // 当用户选择某条目的生产批号后，将该条目设置为已选择状态
       $scope.choiseProductionBatch = function (item,stockBatchsItem,selectData) {
@@ -930,8 +941,8 @@ define('project/controllers', ['project/init'], function() {
 
       //监听批次销售数量变化。
       $scope.$watch('item.stockBatchs', function (newVal,oldVal) {
-              console.log("item.stockBatchs");
-              console.log(newVal);
+              // console.log("item.stockBatchs");
+              // console.log(newVal);
               var item=$scope.item;
               item.quantity=0;//根据批次的销售数量，计算销售的总数量。
               //记录批次中是否有空的数量没填写，没有则根据，批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
@@ -957,23 +968,11 @@ define('project/controllers', ['project/init'], function() {
                     item.stockBatchs.push({});
                 }
               }else{//数量选择够了后，删除未选择批号的数据
-
                   if(noSelectproductionBatchValIndex>-1){
                       item.stockBatchs.splice(noSelectproductionBatchValIndex,1);
                   }
-
               }
-
-      },true);//$scope.$watch
-
-      // 监视条目状态，如果改变为真，则将该条目加入到formData对象的orderMedicalNos数组中
-      // $scope.$watch('isAddItemData', function () {
-      //   if ($scope.isAddItemData) {
-      //     $scope.formData.orderMedicalNos.push($scope.orderMedicalNosList[$scope.$index]);
-      //   } else {
-      //     $scope.formData.orderMedicalNos.splice($scope.$index,1);
-      //   }
-      // });
+      },true);
     }
 
     /**
