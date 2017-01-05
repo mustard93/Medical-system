@@ -6,7 +6,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable) {
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList) {
       //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
@@ -89,6 +89,14 @@ define('main/controllers', ['main/init'], function () {
         $rootScope.OPrinter=OPrinter;
           //自定义table工具类
         $rootScope.UICustomTable=UICustomTable;
+        //当前服务器根上下文路径 http://localhost:3000/src/
+        $rootScope.curServerPath=utils.getCurServerPath();
+
+        //底部菜单（业务相关）
+        $rootScope.bottomButtonList=bottomButtonList;
+
+
+
         $scope.httpGet = function(url) {
           if (Config.serverPath) {
               if (url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0) {
@@ -162,6 +170,8 @@ define('main/controllers', ['main/init'], function () {
                   $scope.mainStatus.serverPath = Config.serverPath;
                 //解决 配置同服务器请。/dt/。废弃该参数：mainStatus.requestPath
                   $scope.mainStatus.requestPath="";
+
+                    // require.dir = loaderScript.src.match(/[^?#]*\//)[0];
               }
 
               $.ajax({
@@ -317,7 +327,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);

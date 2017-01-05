@@ -301,7 +301,7 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
             if(this.options.node.clickCallback){
                   var that=this;
                   //：click,dbclick,mousedown,mouseup,mouseover,mouseout,mousemove,mousedrag,mousewheel
-                  node.addEventListener('dbclick', function(event){
+                  node.addEventListener('click', function(event){
                      that.currentNode = this;
                      that.options.node.clickCallback(event,that);
                  });
