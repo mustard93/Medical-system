@@ -16,7 +16,50 @@ define('project/services', ['project/init'], function () {
   }
 
 
-  angular.module('manageApp.project')
 
+
+          //Loading  bottomButtonList
+          function bottomButtonList () {
+              return  {
+                  //获取首营企业菜单定义
+                    get_firstEnterpriseApplication:function(showData){
+                      var arr=[];
+                      //aclass ：样式，ahref：连接，showName：显示名
+                      var bottomButton={"aclass":"","ahref":"#/firstEnterpriseApplication/query.html","showName":"返回申请单列表"};
+                      arr.push(bottomButton);
+
+                      if(showData){
+                        bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                          "ahref":Config.serverPath+"rest/authen/firstEnterpriseApplication/exportWord?id="+showData.id,
+                          "showName":"打印"};
+                          arr.push(bottomButton);
+                      }
+
+                      return arr;
+                    }//get_firstEnterpriseApplication
+                    //获取首营药械菜单定义
+                      ,get_firstMedicalApplication:function(showData){
+
+                        var arr=[];
+                        //aclass ：样式，ahref：连接，showName：显示名
+                        var bottomButton={"aclass":"","ahref":"#/firstMedicalApplication/query.html","showName":"返回申请单列表"};
+                        arr.push(bottomButton);
+
+                        if(showData){
+                          bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                            "ahref":Config.serverPath+"rest/authen/firstMedicalApplication/exportWord?id="+showData.id,
+                            "showName":"打印"};
+                            arr.push(bottomButton);
+                        }
+
+                        return arr;
+                      }//get_firstEnterpriseApplication
+                };//end return
+
+        }
+
+
+  angular.module('manageApp.project')
+    .factory('bottomButtonList', [bottomButtonList])
     .factory('proMessageTips', [proMessageTips]);
 });

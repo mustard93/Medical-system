@@ -425,6 +425,19 @@ function alertOk($rootScope, modal) {
           };
 
           var  utilsObj = {
+            //获取当前服务器的路径，用于异步请求当前数据的
+            getCurServerPath:function(){
+              //例：http://localhost:8086/topic/index?topicId=361
+              // alert(window.location.pathname); 则输出：/topic/index
+
+                // 例：http://localhost:8086/topic/index?topicId=361
+                // alert(window.location.host); 则输出：http:localhost:8086
+                  var context=  window.location.pathname.split("/")[1];
+                  var path=window.location.protocol+"//"+window.location.host+"/"+context+"/";
+                console.log(path);
+
+                return path;
+            },
             //获取当前时间
             getNowTime: function (inputId) {
               return new Date().getTime();
