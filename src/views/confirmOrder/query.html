@@ -1,76 +1,84 @@
+<!-- 主内容头部 -->
+<div class="content-wrapper-heading pdb-m mgb-l relative">
+  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxxl">销售中心 / <em class="color-custom-orange">销售单</em></p>
+  <div class="pd-c-xxxxxxl">
+    <div class="pos-rel-tl inline-block fl-l">
+      <h1 class="pr-font-20 color-black">销售单</h1>
+    </div>
+    <!-- 新建按钮及状态按钮 -->
+    <div class="full-width mgb-m">
+      <!-- <div class="pos-abs order-create-btn">
+        <a href="#/confirmOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a>
+      </div> -->
+      <div class="order-status-btn pos-rel-tr text-right"
+           ajax-url="rest/authen/confirmOrder/countByOrderStatus.json"
+           scope-data="countByOrderStatus"
+           alert-error>
+          <div class=""></div>
+          <div class="btn btn-group">
+
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="待审核"  count-map="countByOrderStatus">  </button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="待发单"  count-map="countByOrderStatus">  </button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="待发货"  count-map="countByOrderStatus">  </button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="已发货"  count-map="countByOrderStatus">  </button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="未收款"  count-map="countByOrderStatus">  </button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="已完成" >  </button>
+
+
+
+
+              <!--
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待审批'">待审批
+              <span class="pj-badge" ng-if='countByOrderStatus["待审批"]'>{{countByOrderStatus["待审批"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发单'">待发单
+              <span class="pj-badge" ng-if='countByOrderStatus["待发单"]'>{{countByOrderStatus["待发单"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发货'">待发货
+              <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">已发货
+              <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已收货</button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未收款'">未收款
+              <span class="pj-badge" ng-if='countByOrderStatus["未收款"]' >{{countByOrderStatus["未收款"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已完成'">已完成</button> -->
+          </div>
+          <!-- <div class="inline-block relative">
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg">预测订单</button>
+          </div> -->
+          <div class="inline-block relative">
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg">异常销售单</button>
+          </div>
+          <div class="inline-block relative">
+
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="已作废"  count-map="countByOrderStatus">  </button>
+
+          <!-- <span class="pj-badge" ng-if='countByOrderStatus["已作废"]'>{{countByOrderStatus["已作废"]}}</span>
+          <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已作废'">已作废</button> -->
+        </div>
+      </div>
+    </div>
+    <!-- 右侧搜索 -->
+    <div class="text-right order-list-search pos-rel-tr inline-block fl-r">
+      <input type="text" class="ipt pdr-xxl" placeholder="客户名/销售单号/销售人员" ng-model="listParams.q">
+      <i class=""></i>
+    </div>
+  </div>
+
+</div>
+
 <div class="content-wrapper order-center"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/confirmOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
-    <!-- 主内容头部 -->
-    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgl mgr relative">
-      <!-- 新建按钮及状态按钮 -->
-      <div class="full-width">
-        <!-- <div class="pos-abs order-create-btn">
-          <a href="#/confirmOrder/edit.html" title="新建订单"><i></i><span class="text-s"></span></a>
-        </div> -->
-        <div class="order-status-btn pos-tr text-right"
-             ajax-url="rest/authen/confirmOrder/countByOrderStatus.json"
-             scope-data="countByOrderStatus"
-             alert-error>
-            <div class=""></div>
-            <div class="btn btn-group">
 
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="待审核"  count-map="countByOrderStatus">  </button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="待发单"  count-map="countByOrderStatus">  </button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="待发货"  count-map="countByOrderStatus">  </button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="已发货"  count-map="countByOrderStatus">  </button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="未收款"  count-map="countByOrderStatus">  </button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="已完成" >  </button>
-
-
-
-
-                <!--
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待审批'">待审批
-                <span class="pj-badge" ng-if='countByOrderStatus["待审批"]'>{{countByOrderStatus["待审批"]}}</span>
-              </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发单'">待发单
-                <span class="pj-badge" ng-if='countByOrderStatus["待发单"]'>{{countByOrderStatus["待发单"]}}</span>
-              </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发货'">待发货
-                <span class="pj-badge" ng-if='countByOrderStatus["待发货"]'>{{countByOrderStatus["待发货"]}}</span>
-              </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发货'">已发货
-                <span class="pj-badge" ng-if='countByOrderStatus["已发货"]'>{{countByOrderStatus["已发货"]}}</span>
-              </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已收货'">已收货</button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='未收款'">未收款
-                <span class="pj-badge" ng-if='countByOrderStatus["未收款"]' >{{countByOrderStatus["未收款"]}}</span>
-              </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已完成'">已完成</button> -->
-            </div>
-            <!-- <div class="inline-block relative">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg">预测订单</button>
-            </div> -->
-            <div class="inline-block relative">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg">异常销售单</button>
-            </div>
-            <div class="inline-block relative">
-
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="已作废"  count-map="countByOrderStatus">  </button>
-
-            <!-- <span class="pj-badge" ng-if='countByOrderStatus["已作废"]'>{{countByOrderStatus["已作废"]}}</span>
-            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已作废'">已作废</button> -->
-          </div>
-        </div>
-      </div>
-      <!-- 右侧搜索 -->
-      <div class="text-right order-list-search pos-rb">
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/销售单号/销售人员" ng-model="listParams.q">
-        <i class=""></i>
-      </div>
-
-    </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <div ng-if="!status.isLoading">

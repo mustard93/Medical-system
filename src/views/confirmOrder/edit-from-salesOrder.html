@@ -15,33 +15,34 @@
         scope-data="formData"
         callback="submitFormAfter();watchFormChange('formData')">
     <!-- 头部信息 -->
-    <div class="relative">
+    <div class="content-wrapper-heading pdb-m mgb-l relative">
+      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 > <em class="color-custom-orange">销售单</em></p>
       <!-- 标题 -->
-      <div class="mgb-m pd-c-l">
-        <p class="mgb-m mgt-m crumbs pr-indent-10">销售中心 > <em class="color-custom-orange">销售单</em></p>
-        <h1 class="pr-font-22 mgt-l">销售单</h1>
-        <p class="mgt-l text-n text-bold">{{formData.customerName}}</p>
+      <div class="pd-c-xxxxxl">
+        <div class="pos-rel-tl inline-block fl-l">
+          <h1 class="pr-font-20 color-black">销售单</h1>
+          <p class="mgt-l text-n color-3 text-bold">{{formData.customerName}}</p>
+        </div>
       </div>
     </div>
     <!-- 药械列表 -->
-    <div class="pd-l">
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-n">
+    <div class="content-wrapper">
+
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <!-- 单据信息 -->
-        <div class="bb-line">
-          <div class="flex-column color-9 pd-l">
-            <div class="flex-item-6">
-              <span class="mgr">单据编号：<em class="color-6">{{formData.orderNo}}</em></span>
-              <span class="mgr">制单人：<em class="color-6">{{formData.inputUser.n}}</em></span>
-              <span class="mgr">审核人：<em class="color-6">暂无</em></span>
-            </div>
-            <div class="flex-item-6 text-right">
-              <span class="mgr">录单日期：<em class="color-6">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
-              <span class="mgr">状态：<em class="color-6">{{formData.orderStatus}}</em></span>
-            </div>
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+          <div class="flex-item-6">
+            <span class="mgr">单据编号：<em class="color-6">{{formData.orderNo}}</em></span>
+            <span class="mgr">制单人：<em class="color-6">{{formData.inputUser.n}}</em></span>
+            <span class="mgr">审核人：<em class="color-6">暂无</em></span>
+          </div>
+          <div class="flex-item-6 text-right">
+            <span class="mgr">录单日期：<em class="color-6">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+            <span class="mgr">状态：<em class="color-6">{{formData.orderStatus}}</em></span>
           </div>
         </div>
         <!-- 类别选择 -->
-        <div class="pd-l">
+        <div class="pd-c-l pdt-m pdb-m">
           <span class="mgr">销售部门：
             <select class="ipt pr-short-ipt color-6" style="width:120px;"
                     data-placeholder=" "
@@ -264,7 +265,7 @@
               </tbody>
             </table>
           </div>
-          <div class="flex-column pd-v-l">
+          <div class="flex-column pd-v-m pdr-l pdl-l">
             <div class="flex-item-9 color-red pr-indent-20">
               <p ng-if="selectData2.note.salesQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
             </div>
@@ -276,13 +277,11 @@
 
         </div>
       </div>
-    </div>
-    <!-- 其他信息 -->
-    <div class="relative" style="margin-bottom:60px;">
-      <div class="pd-c-l">
+      <!-- 其他信息 -->
+      <div class="relative">
         <!-- 收货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold">收货方信息
+          <header class="text-n color-3 text-bold">收货方信息
             <span class="tools pull-right">
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
@@ -325,7 +324,7 @@
         </div>
         <!-- 发货方信息 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold">发货方信息
+          <header class="text-n color-3 text-bold">发货方信息
             <span class="tools pull-right">
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
@@ -360,23 +359,23 @@
         </div>
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <h1 class="pd-v-s">备注</h1>
+          <h1 class="pd-v-s text-bold color-3">备注</h1>
           <p>{{showData.note}}</p>
         </div>
-        <!-- 流程图 -->
-        <div ng-if="formData.id" class="modal-content pr-modal-content pr-modal-process"
-               ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
-               scope-data="businessFlowData"
-               callback="businessFlowDataInitFlag=true;"
-               error-callback="businessFlowDataInitFlag=true;">
-           <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{formData.id}}"
-                   width="{{$root.utils.getMainBodyWidth()}}"
-                   height="300" base-image-url="images/canvasBusinessFlow/"
-                   spacing-height="80" spacing-width="40">
-           </canvas>
-         </div>
       </div>
     </div>
+    <!-- 流程图 -->
+    <div ng-if="formData.id" class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
+           ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
+           scope-data="businessFlowData"
+           callback="businessFlowDataInitFlag=true;"
+           error-callback="businessFlowDataInitFlag=true;">
+       <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData" cur-rel-id="{{formData.id}}"
+               width="{{$root.utils.getMainBodyWidth()}}"
+base-image-url="images/canvasBusinessFlow/"
+               spacing-height="80" spacing-width="40">
+       </canvas>
+     </div>
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
@@ -393,7 +392,7 @@
 
         <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
-           class="pr-color-red mgr-l"
+           class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
            dialog-content="您确认删除这条购需单吗?"
@@ -404,18 +403,18 @@
 
         <button ng-if="formData.orderStatus=='待审核'"
                 type="button"
-                class="pr-btn-save-glodbg mgr-l"
+                class="pr-btn-save-glodbg mgr"
                 ng-disabled="!changeFlag"
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button type="button" class="pr-btn-save-glodbg mgr-l">
+        <button type="button" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}" target="_blank">打印预览</a>
         </button>
 
         <button ng-if="formData.orderBusinessType=='普通销售'"
                 type="button"
-                class="pr-btn-save-glodbg mgr-l"
+                class="pr-btn-save-glodbg mgr"
                 ng-disabled="($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0) ||
                              ($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
                 ng-click="submitForm('editForm','submit')">审核
@@ -435,7 +434,7 @@
               custom-menu-arr="{{formData.didateFilter.buttons}}">
         </span> -->
       </div>
-      <div ng-if="formData.orderBusinessType=='普通销售'" class="btn-area relative" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+      <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
         popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
           ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}
@@ -443,7 +442,7 @@
       </div>
 
       <div ng-if="formData.orderBusinessType=='直运销售'"
-           class="btn-area relative"
+           class="price-area relative fl-r mgr-l"
            style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">
           ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}
