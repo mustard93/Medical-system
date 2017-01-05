@@ -2,9 +2,8 @@
      ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');orderMedicalNos=formData.orderMedicalNos;"
-     alert-error
-     ng-init="formData.exchangeRate='1.00';">
+     callback="initFlag=true;watchFormChange('formData');orderMedicalNos=formData.orderMedicalNos;formData.exchangeRate='1.00';formData.thisPageTotal=0"
+     alert-error>
   <form id="editForm"
         name="editForm"
         form-validator
@@ -33,19 +32,19 @@
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
-            <span class="mgr">单据编号：<em class="color-6">{{formData.orderNo}}</em></span>
-            <span class="mgr">制单人：<em class="color-6">{{formData.inputUser.n}}</em></span>
-            <span class="mgr">审核人：<em class="color-6">暂无</em></span>
+            <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo}}</em></span>
+            <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">暂无</em></span>
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">录单日期：<em class="color-6">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
-            <span class="mgr">状态：<em class="color-6">{{formData.orderStatus}}</em></span>
+            <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+            <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
           </div>
         </div>
         <!-- 类别选择 -->
-        <div class="pd-c-l pdt-m pdb-m">
+        <div class="pd-c-l pdt-m pdb-m color-9">
           <span class="mgr">销售部门：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.salesDepartmentId"
@@ -53,7 +52,7 @@
             </select>
           </span>
           <span class="mgr">业务人员：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.saleUserId"
@@ -61,7 +60,7 @@
             </select>
           </span>
           <span class="mgr">业务类型：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.orderBusinessType"
@@ -69,7 +68,7 @@
             </select>
           </span>
           <span class="mgr">销售类型：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.salesType"
@@ -77,7 +76,7 @@
             </select>
           </span>
           <span class="mgr">付款条件：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.paymentType"
@@ -85,7 +84,7 @@
             </select>
           </span>
           <span class="mgr">币种：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.currencyType"
@@ -93,12 +92,12 @@
             </select>
           </span>
           <span class="mgr">汇率：
-            <input type="text" class="ipt pr-ipt-60 text-right" ng-model="formData.exchangeRate">
+            <input type="text" class="ipt pr-ipt-60 text-right color-3" ng-model="formData.exchangeRate">
           </span>
           <span class="mgr">预发货日期：
             <input type="text"
                    datepicker
-                   class="ipt pr-short-ipt color-6"
+                   class="ipt pr-short-ipt color-3"
                    style="width:110px;"
                    placeholder=""
                    ng-readonly="true"
@@ -150,7 +149,7 @@
                     </select>
                   </td>
                   <td class="text-center">
-                    <div ng-repeat="stockBatchsItem in item.stockBatchs">
+                    <div ng-repeat="stockBatchsItem in item.stockBatchs" class="mgb">
                       <select class="select pr-select pr-select-sm text-left"
                               chosen
                               default-empty
@@ -190,9 +189,16 @@
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate}}%</td>
                   <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*(1-item.taxRate)*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.taxRate-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
+                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity">￥{{item.price*(1-item.taxRate)*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity>0">￥{{item.price*(1-item.taxRate)*formData.orderMedicalNos[$index].quantity-item.discountPrice*formData.orderMedicalNos[$index].quantity | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
+                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity">￥{{item.price*item.planQuantity*item.taxRate | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity>0">￥{{item.price*formData.orderMedicalNos[$index].quantity*item.taxRate | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
+                  <!-- <td class="text-center">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td> -->
+                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity>0">￥{{formData.orderMedicalNos[$index].quantity*item.price | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
                 </tr>
               </tbody>
               <tbody ng-if="formData.orderBusinessType=='直运销售'">
@@ -263,9 +269,10 @@
             <div class="flex-item-9 color-red pr-indent-20">
               <p ng-if="selectData2.note.salesQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
             </div>
-            <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
+            <!-- <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
               本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}</em>
-            </div>
+              本页小计：<em class="color-6 mgr">￥{{formData.thisPageTotal | number:2}}</em>
+            </div> -->
           </div>
 
         </div>
@@ -323,7 +330,11 @@
             </span>
           </header>
           <div class="panel-body" style="display:none;padding:15px 0;">
-            <div class="consignee-info"
+            <h1 class="mgb">发货方：{{formData.invoicesContacts.name}}</h1>
+            <p class="">发货方信息：
+              {{formData.invoicesContacts.prov}}&nbsp;&nbsp;{{formData.invoicesContacts.city}}&nbsp;&nbsp;{{formData.invoicesContacts.area}}&nbsp;&nbsp;{{formData.invoicesContacts.address}}&nbsp;&nbsp;{{formData.invoicesContacts.name}}&nbsp;&nbsp;{{formData.invoicesContacts.tel}}
+            </p>
+            <!-- <div class="consignee-info"
                  ajax-url="rest/authen/invoicesAddress/get.json"
                  scope-data="invoicesAddress"
                  callback="customerAddressGetCallBack(formData,invoicesAddress)"
@@ -347,12 +358,12 @@
                   </button>
                 </span>
               </ul>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <h1 class="pd-v-s text-bold color-3">备注</h1>
+          <h1 class="text-bold color-3">备注</h1>
           <p>{{showData.note}}</p>
         </div>
       </div>
@@ -415,7 +426,7 @@ base-image-url="images/canvasBusinessFlow/"
 
         <button ng-if="formData.orderBusinessType=='直运销售'"
                 type="button"
-                class="pr-btn-save-glodbg mgr-l"
+                class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
                 ng-click="submitForm('editForm','submit')">审核
         </button>

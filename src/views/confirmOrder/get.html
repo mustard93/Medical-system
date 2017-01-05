@@ -15,41 +15,41 @@
         scope-data="formData"
         callback="submitFormAfter();watchFormChange('formData')">
     <!-- 头部信息 -->
-    <div class="relative">
+    <div class="content-wrapper-heading pdb-m mgb-l relative">
+      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 > <em class="color-custom-orange">销售单</em></p>
       <!-- 标题 -->
-      <div class="mgb-m pd-c-l">
-        <p class="mgb-m mgt-m crumbs pr-indent-20">销售中心 > <em class="color-custom-orange">销售单</em></p>
-        <h1 class="pr-font-22 mgt-l">销售单</h1>
-        <p class="mgt-l text-n text-bold">{{scopeData.customerName}}</p>
+      <div class="pd-c-xxxxxl">
+        <div class="pos-rel-tl inline-block fl-l">
+          <h1 class="pr-font-20 color-black">销售单</h1>
+          <p class="mgt-l text-n color-3 text-bold">{{scopeData.customerName}}</p>
+        </div>
       </div>
     </div>
     <!-- 药械列表 -->
-    <div class="pd-l">
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-n">
+    <div class="content-wrapper">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <!-- 单据信息 -->
-        <div class="bb-line">
-          <div class="flex-column color-9 pd-l">
-            <div class="flex-item-6">
-              <span class="mgr">单据编号：<em class="color-6">{{scopeData.orderNo}}</em></span>
-              <span class="mgr">制单人：<em class="color-6">{{scopeData.inputUser.n}}</em></span>
-              <span class="mgr">审核人：<em class="color-6">{{scopeData.approverUser.n}}</em></span>
-            </div>
-            <div class="flex-item-6 text-right">
-              <span class="mgr">录单日期：<em class="color-6">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-              <span class="mgr">状态：<em class="color-6">{{scopeData.orderStatus}}</em></span>
-            </div>
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+          <div class="flex-item-6">
+            <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
+            <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n}}</em></span>
+          </div>
+          <div class="flex-item-6 text-right">
+            <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+            <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
           </div>
         </div>
         <!-- 类别选择 -->
-        <div class="pd-l">
-          <span class="mgr-l">销售部门：<em class="color-6">{{scopeData.departmentName}}</em></span>
-          <span class="mgr-l">业务人员：<em class="color-6">{{scopeData.saleUser.n}}</em></span>
-          <span class="mgr-l">业务类型：<em class="color-6">{{scopeData.orderBusinessType}}</em></span>
-          <span class="mgr-l">销售类型：<em class="color-6">{{scopeData.salesType}}</em></span>
-          <span class="mgr-l">付款条件：<em class="color-6">{{scopeData.paymentType}}</em></span>
-          <span class="mgr-l">币种：<em class="color-6">{{scopeData.currencyType}}</em></span>
+        <div class="pd-c-l pdt-m pdb-m color-9">
+          <span class="mgr-l">销售部门：<em class="color-3">{{scopeData.departmentName}}</em></span>
+          <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n}}</em></span>
+          <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessType}}</em></span>
+          <span class="mgr-l">销售类型：<em class="color-3">{{scopeData.salesType}}</em></span>
+          <span class="mgr-l">付款条件：<em class="color-3">{{scopeData.paymentType}}</em></span>
+          <span class="mgr-l">币种：<em class="color-3">{{scopeData.currencyType}}</em></span>
           <span class="mgr-l">汇率：1.00</span>
-          <span class="mgr-l">预发货日期：<em class="color-6">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+          <span class="mgr-l">预发货日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
         </div>
         <!-- 商品列表 -->
         <div class="">
@@ -113,115 +113,117 @@
           </div>
         </div>
       </div>
-    </div>
+
     <!-- 其他信息 -->
-    <div class="relative" style="margin-bottom:60px;">
-      <div class="pd-c-l">
-        <!-- 收货方信息 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold">收货方信息
-            <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-            </span>
-          </header>
-          <div class="panel-body" style="display:none;padding:15px 0;">
-            <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
-            <p class="">收货人信息：
-              {{scopeData.address.prov}}&nbsp;&nbsp;{{scopeData.address.city}}&nbsp;&nbsp;{{scopeData.address.area}}&nbsp;&nbsp;{{scopeData.address.address}}&nbsp;&nbsp;{{scopeData.address.name}}&nbsp;&nbsp;{{scopeData.address.tel}}
-            </p>
-            <!-- <div class="consignee-info pd-c-m pdt-m pdb-m"
-                 ajax-if-eval="formData.customerId"
-                 ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
-                 scope-data="customerAddress"
-                 callback="customerAddressGetCallBack(formData,customerAddress)"
-                 ng-class="{'static': customerAddress.contacts}">
-              <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
-                <li class="mgr-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
-                  <p class="pdb">{{item.name}} </p>
-                  <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
-                  <p class="text-s">{{item.tel}}</p>
-                  <p><a href="javacript:;" modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
-                  <i class="consignee-default-label" ng-if="customerAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label" ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-                </li>
-                <span>
-                  <button  class="pr-add-item-whitebg"
-                   type="button"
-                          style="min-height:136px;"
-                          modal-right="700"
-                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                          modal-scope="this"
-                          modal-url="views/customerAddress/contact/edit.html"
-                          ng-class="{'static':!customerAddress.contacts}">
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </span>
-              </ul>
-            </div> -->
-          </div>
+    <div class="relative">
+      <!-- 收货方信息 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <header class="text-n color-3 text-bold">收货方信息
+          <span class="tools pull-right">
+            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+          </span>
+        </header>
+        <div class="panel-body" style="display:none;padding:15px 0;">
+          <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
+          <p class="">收货人信息：
+            {{scopeData.address.prov}}&nbsp;&nbsp;{{scopeData.address.city}}&nbsp;&nbsp;{{scopeData.address.area}}&nbsp;&nbsp;{{scopeData.address.address}}&nbsp;&nbsp;{{scopeData.address.name}}&nbsp;&nbsp;{{scopeData.address.tel}}
+          </p>
+          <!-- <div class="consignee-info pd-c-m pdt-m pdb-m"
+               ajax-if-eval="formData.customerId"
+               ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
+               scope-data="customerAddress"
+               callback="customerAddressGetCallBack(formData,customerAddress)"
+               ng-class="{'static': customerAddress.contacts}">
+            <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
+              <li class="mgr-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
+                <p class="pdb">{{item.name}} </p>
+                <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
+                <p class="text-s">{{item.tel}}</p>
+                <p><a href="javacript:;" modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
+                <i class="consignee-default-label" ng-if="customerAddress.defaultContactId==item.id">默认</i>
+                <i class="consignee-choise-label" ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+              </li>
+              <span>
+                <button  class="pr-add-item-whitebg"
+                 type="button"
+                        style="min-height:136px;"
+                        modal-right="700"
+                        modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                        modal-scope="this"
+                        modal-url="views/customerAddress/contact/edit.html"
+                        ng-class="{'static':!customerAddress.contacts}">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </span>
+            </ul>
+          </div> -->
         </div>
-        <!-- 发货方信息 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold">发货方信息
-            <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-            </span>
-          </header>
-          <div class="panel-body" style="display:none;padding:15px 0;">
-            <h1 class="mgb">发货方：</h1>
-            <p class="">发货人信息：
-              {{scopeData.invoicesContacts.prov}}&nbsp;&nbsp;{{scopeData.invoicesContacts.city}}&nbsp;&nbsp;{{scopeData.invoicesContacts.area}}&nbsp;&nbsp;{{scopeData.invoicesContacts.address}}&nbsp;&nbsp;{{scopeData.invoicesContacts.name}}&nbsp;&nbsp;{{scopeData.invoicesContacts.tel}}
-            </p>
-            <!-- <div class="consignee-info"
-                 ajax-url="rest/authen/invoicesAddress/get.json"
-                 scope-data="invoicesAddress"
-                 callback="customerAddressGetCallBack(formData,invoicesAddress)"
-                 ng-class="{'static': invoicesAddress.contacts}">
-              <ul style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.contactsId=item.id">
-                  <p class="pdb">{{item.name}} </p>
-                  <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
-                  <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
-                  <i class="consignee-default-label"  ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-                </li>
-                <span>
-                  <button class="pr-add-item-whitebg" style="min-height:136px;"
-                          modal-right="700"
-                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                          modal-scope="this"
-                          modal-url="views/salesOrder/contact/edit.html"
-                          ng-class="{'static':!invoicesAddress.contacts}">
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </span>
-              </ul>
-            </div> -->
-          </div>
+      </div>
+      <!-- 发货方信息 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <header class="text-n color-3 text-bold">发货方信息
+          <span class="tools pull-right">
+            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+          </span>
+        </header>
+        <div class="panel-body" style="display:none;padding:15px 0;">
+          <h1 class="mgb">发货方：</h1>
+          <p class="">发货人信息：
+            {{scopeData.invoicesContacts.prov}}&nbsp;&nbsp;{{scopeData.invoicesContacts.city}}&nbsp;&nbsp;{{scopeData.invoicesContacts.area}}&nbsp;&nbsp;{{scopeData.invoicesContacts.address}}&nbsp;&nbsp;{{scopeData.invoicesContacts.name}}&nbsp;&nbsp;{{scopeData.invoicesContacts.tel}}
+          </p>
+          <!-- <div class="consignee-info"
+               ajax-url="rest/authen/invoicesAddress/get.json"
+               scope-data="invoicesAddress"
+               callback="customerAddressGetCallBack(formData,invoicesAddress)"
+               ng-class="{'static': invoicesAddress.contacts}">
+            <ul style="min-height:136px;">
+              <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.contactsId=item.id">
+                <p class="pdb">{{item.name}} </p>
+                <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
+                <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
+                <i class="consignee-default-label"  ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
+                <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
+              </li>
+              <span>
+                <button class="pr-add-item-whitebg" style="min-height:136px;"
+                        modal-right="700"
+                        modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                        modal-scope="this"
+                        modal-url="views/salesOrder/contact/edit.html"
+                        ng-class="{'static':!invoicesAddress.contacts}">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </span>
+            </ul>
+          </div> -->
         </div>
-        <!-- 备注 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <h1 class="pd-v-s">备注</h1>
-          <p>{{scopeData.note}}</p>
-        </div>
-        <!-- 流程图 -->
-        <div ng-if="scopeData.id" class="modal-content pr-modal-content pr-modal-process"
-               ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{scopeData.id}}"
-               scope-data="businessFlowData"
-               callback="businessFlowDataInitFlag=true;"
-               error-callback="businessFlowDataInitFlag=true;">
-           <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{scopeData.id}}"
-                   width="{{$root.utils.getMainBodyWidth()}}"
-                   height="300" base-image-url="images/canvasBusinessFlow/"
-                   spacing-height="80" spacing-width="40">
-           </canvas>
-         </div>
+      </div>
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <h1 class="text-bold color-3">备注</h1>
+        <p>{{scopeData.note}}</p>
+      </div>
+
       </div>
     </div>
+
+    <!-- 流程图 -->
+    <div ng-if="scopeData.id" class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
+           ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{scopeData.id}}"
+           scope-data="businessFlowData"
+           callback="businessFlowDataInitFlag=true;"
+           error-callback="businessFlowDataInitFlag=true;">
+       <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{scopeData.id}}"
+               width="{{$root.utils.getMainBodyWidth()}}"
+               base-image-url="images/canvasBusinessFlow/"
+               spacing-height="80" spacing-width="40">
+       </canvas>
+     </div>
+
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+        <a ng-if="changeFlag" href="javascript:;" class="mgr"
            handle-this-click
            dialog-title="确认返回?"
            dialog-content="该购需单存在未保存数据，是否保存?"
@@ -234,7 +236,7 @@
 
         <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
-           class="pr-color-red mgr-l"
+           class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
            dialog-content="您确认删除这条购需单吗?"
@@ -243,9 +245,9 @@
            call-back="$root.goTo('#/salesOrder/query.html')">删除
         </a>
 
-        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr-l" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
 
-        <button type="button" class="pr-btn-save-glodbg mgr-l">
+        <button type="button" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{scopeData.id}}" target="_blank">打印预览</a>
         </button>
 
@@ -268,7 +270,7 @@
               custom-menu-arr="{{formData.didateFilter.buttons}}">
         </span>
       </div>
-      <div class="btn-area relative" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+      <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">{{scopeData.totalPrice | number:2}}</em>
       </div>
     </div>
