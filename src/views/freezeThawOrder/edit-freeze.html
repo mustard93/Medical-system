@@ -88,16 +88,19 @@
 
                 </div>
 
-              <span class="flex-item-4  pd">
-                <!-- 单据编号：<em >{{formData.orderNo || '暂无'}}</em> -->
-                <em  class="mgl">制单人：</em><em class="color-black">{{formData.inputUser.n|| '暂无'}}</em>
-                <em  class="mgl">审批人：</em><em class="color-black">{{formData.approverUser || '暂无'}}</em>
-              </span>
+                <span class="flex-item-4  pd">
+                  <!-- 单据编号：<em >{{formData.orderNo || '暂无'}}</em> -->
+                  <em  class="mgl">制单人：</em>
+                  <em ng-class="{'color-black':formData.inputUser.n}">{{formData.inputUser.n|| '暂无'}}</em>
+                  <em  class="mgl">审批人：</em>
+                  <em ng-class="{'color-black':formData.approverUser}">
+                    {{formData.approverUser || '暂无'}}</em>
+                </span>
             </div>
 
             <div class="flex-item-3">
               <span class="flex-item-7 text-right pd">
-                申请日期：<em >{{formData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
+                申请日期：<em >{{formData.applyDate ||'暂无' | date : 'yyyy-MM-dd'}}</em>
               </span>
               <span class="flex-item-5 text-right pd">状态：<em>{{formData.orderStatus}}</em></span>
             </div>
