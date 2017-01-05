@@ -63,10 +63,50 @@
         </div>
       </div>
       <!-- 已发货部分列表 -->
-      <div class="order-details pdb-l">
-        <div order-medicals ng-model="showData.orderMedicalNos"></div>
+      <div class="order-details pdb-l mgt">
+        <!-- <div order-medicals ng-model="showData.orderMedicalNos"></div> -->
+        <table class="table pr-table pr-new-table mgb-n">
+          <thead>
+            <tr>
+              <th class="text-center">商品编号</th>
+              <th>商品全名</th>
+              <th class="text-center">规格型号</th>
+              <th class="text-center">单位</th>
+              <th class="text-center">数量</th>
+              <th class="text-center w-110">批号要求</th>
+              <th class="text-center w-160">生产批号/灭菌批号</th>
+              <th class="text-center">含税单价</th>
+              <th class="text-center">税率</th>
+              <th class="text-center">折扣额</th>
+              <th class="text-center">折扣率</th>
+              <th class="text-center">无税单价</th>
+              <th class="text-center">无税金额</th>
+              <th class="text-center">税额</th>
+              <th class="text-center">价税合计</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in tbodyList[0].orderMedicalNos">
+              <td class="text-center">{{item.code}}</td>
+              <td>{{item.name}}</td>
+              <td class="text-center">{{item.specification}}</td>
+              <td class="text-center">{{item.unit}}</td>
+              <td class="text-center">{{item.quantity}}</td>
+              <td class="text-center">{{item.batchRequirement}}</td>
+              <td class="text-center">{{item.productionBatch}}</td>
+              <td class="text-center">{{item.price | currency:'￥'}}</td>
+              <td class="text-center">{{item.taxRate*100}}%</td>
+              <td class="text-center">￥{{item.discountPrice | number:2}}</td>
+              <td class="text-center">{{item.discountRate}}%</td>
+              <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
+              <td class="text-center">￥{{(item.price*(1-item.taxRate)-item.discountPrice)*item.quantity | number:2}}</td>
+              <td class="text-center">￥{{item.price*item.quantity*item.taxRate | number:2}}</td>
+              <td class="text-center">￥{{item.price*item.quantity | number:2}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div><!--tbodyList -->
+    </div>
   </div>
   <table-list>
 
