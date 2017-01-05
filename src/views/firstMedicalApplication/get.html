@@ -207,7 +207,8 @@
                      style="width:120px;height:120px;margin-bottom:10px;"/>
               </td>
               <td ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
-                {{item.fileName}}
+
+                  <a  href="{{item.attachmentUrl}}" >{{item.fileName}}</a>
               </td>
               <td ng-if="!item.attachmentUrl && !utils.isPicture(item.fileName)">
 
@@ -249,11 +250,7 @@
              ng-href="#/firstMedicalApplication/edit.html?copyId={{showData.id}}">新建</a>
         </span>
         <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span>
-        <span class="mgl text-right" ng-if="showData.orderStatus!='未提交'">
-          <!-- <button type="button" class="pr-btn-save-glodbg"><a class="color-white" ng-href="{{mainStatus.requestPath}}rest/authen/firstMedicalApplication/exportWord?id={{showData.id}}">打印</a></button> -->
-          <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg"
-          ng-href="{{mainStatus.requestPath}}rest/authen/firstMedicalApplication/exportWord?id={{showData.id}}">打印</a>
-        </span>
+
       </div>
 
 
@@ -284,4 +281,12 @@
         </button>
       </span>
     </div>
+
+    <div class="mgb text-right">
+      <span class="mgl">
+        <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg"
+        ng-href="{{mainStatus.requestPath}}rest/authen/firstMedicalApplication/exportWord?id={{showData.id}}">打印</a>
+      </span>
+        </div>
+
 </div>

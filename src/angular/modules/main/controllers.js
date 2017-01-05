@@ -159,8 +159,8 @@ define('main/controllers', ['main/init'], function () {
                   _url = Config.serverPath + _url;
                 }
                 // 定义服务器请求路径
-                // $scope.mainStatus.requestPath = Config.serverPath;
-                //解决 配置同服务器请。/dt/
+                  $scope.mainStatus.serverPath = Config.serverPath;
+                //解决 配置同服务器请。/dt/。废弃该参数：mainStatus.requestPath
                   $scope.mainStatus.requestPath="";
               }
 
