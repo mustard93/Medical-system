@@ -6,7 +6,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList) {
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable) {
       //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
@@ -92,8 +92,7 @@ define('main/controllers', ['main/init'], function () {
         //当前服务器根上下文路径 http://localhost:3000/src/
         $rootScope.curServerPath=utils.getCurServerPath();
 
-        //底部菜单（业务相关）
-        $rootScope.bottomButtonList=bottomButtonList;
+
 
 
 
@@ -327,7 +326,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
