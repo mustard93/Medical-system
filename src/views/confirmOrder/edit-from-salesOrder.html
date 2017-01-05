@@ -2,9 +2,8 @@
      ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');orderMedicalNos=formData.orderMedicalNos;"
-     alert-error
-     ng-init="formData.exchangeRate='1.00';">
+     callback="initFlag=true;watchFormChange('formData');orderMedicalNos=formData.orderMedicalNos;formData.exchangeRate='1.00';formData.thisPageTotal=0"
+     alert-error>
   <form id="editForm"
         name="editForm"
         form-validator
@@ -189,9 +188,16 @@
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate}}%</td>
                   <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*(1-item.taxRate)*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.taxRate-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
+                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity">￥{{item.price*(1-item.taxRate)*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity>0">￥{{item.price*(1-item.taxRate)*formData.orderMedicalNos[$index].quantity-item.discountPrice*formData.orderMedicalNos[$index].quantity | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
+                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity">￥{{item.price*item.planQuantity*item.taxRate | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity>0">￥{{item.price*formData.orderMedicalNos[$index].quantity*item.taxRate | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
+                  <!-- <td class="text-center">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td> -->
+                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity>0">￥{{formData.orderMedicalNos[$index].quantity*item.price | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
                 </tr>
               </tbody>
               <tbody ng-if="formData.orderBusinessType=='直运销售'">
@@ -262,9 +268,10 @@
             <div class="flex-item-9 color-red pr-indent-20">
               <p ng-if="selectData2.note.salesQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
             </div>
-            <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
+            <!-- <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
               本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}</em>
-            </div>
+              本页小计：<em class="color-6 mgr">￥{{formData.thisPageTotal | number:2}}</em>
+            </div> -->
           </div>
 
         </div>
