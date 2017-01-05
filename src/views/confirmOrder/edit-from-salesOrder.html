@@ -32,19 +32,19 @@
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
-            <span class="mgr">单据编号：<em class="color-6">{{formData.orderNo}}</em></span>
-            <span class="mgr">制单人：<em class="color-6">{{formData.inputUser.n}}</em></span>
-            <span class="mgr">审核人：<em class="color-6">暂无</em></span>
+            <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo}}</em></span>
+            <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">暂无</em></span>
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">录单日期：<em class="color-6">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
-            <span class="mgr">状态：<em class="color-6">{{formData.orderStatus}}</em></span>
+            <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+            <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
           </div>
         </div>
         <!-- 类别选择 -->
-        <div class="pd-c-l pdt-m pdb-m">
+        <div class="pd-c-l pdt-m pdb-m color-9">
           <span class="mgr">销售部门：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.salesDepartmentId"
@@ -52,7 +52,7 @@
             </select>
           </span>
           <span class="mgr">业务人员：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.saleUserId"
@@ -60,7 +60,7 @@
             </select>
           </span>
           <span class="mgr">业务类型：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.orderBusinessType"
@@ -68,7 +68,7 @@
             </select>
           </span>
           <span class="mgr">销售类型：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.salesType"
@@ -76,7 +76,7 @@
             </select>
           </span>
           <span class="mgr">付款条件：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.paymentType"
@@ -84,7 +84,7 @@
             </select>
           </span>
           <span class="mgr">币种：
-            <select class="ipt pr-short-ipt color-6" style="width:120px;"
+            <select class="ipt pr-short-ipt color-3" style="width:120px;"
                     data-placeholder=" "
                     chosen
                     ng-model="formData.currencyType"
@@ -92,12 +92,12 @@
             </select>
           </span>
           <span class="mgr">汇率：
-            <input type="text" class="ipt pr-ipt-60 text-right" ng-model="formData.exchangeRate">
+            <input type="text" class="ipt pr-ipt-60 text-right color-3" ng-model="formData.exchangeRate">
           </span>
           <span class="mgr">预发货日期：
             <input type="text"
                    datepicker
-                   class="ipt pr-short-ipt color-6"
+                   class="ipt pr-short-ipt color-3"
                    style="width:110px;"
                    placeholder=""
                    ng-readonly="true"
@@ -363,7 +363,7 @@
         </div>
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <h1 class="pd-v-s text-bold color-3">备注</h1>
+          <h1 class="text-bold color-3">备注</h1>
           <p>{{showData.note}}</p>
         </div>
       </div>
@@ -426,7 +426,7 @@ base-image-url="images/canvasBusinessFlow/"
 
         <button ng-if="formData.orderBusinessType=='直运销售'"
                 type="button"
-                class="pr-btn-save-glodbg mgr-l"
+                class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
                 ng-click="submitForm('editForm','submit')">审核
         </button>
