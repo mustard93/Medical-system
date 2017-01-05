@@ -106,16 +106,20 @@
                 <div class="col-sm-2">
                   <select class="form-control"
                           ng-model="formData.hospital.level"
+                          name="level"
                           chosen
-                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalLevel">
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalLevel"
+                          relative-select relative-initload relative-to="#hospitalGrade">
                   </select>
                 </div>
                 <label for="" class="col-sm-2 control-label">等级：</label>
                 <div class="col-sm-2">
-                  <select class="form-control"
+                  <select id="hospitalGrade"
+                          class="form-control"
+                          name="grade"
                           ng-model="formData.hospital.grade"
-                          chosen
-                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalGrade">
+                          
+                          relative-select="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption">
                   </select>
                 </div>
               </div>

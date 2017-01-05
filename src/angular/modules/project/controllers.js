@@ -2,9 +2,6 @@
  * Created by hao on 15/11/5.
  */
 define('project/controllers', ['project/init'], function() {
-
-
-
     /**
      * 主控
      */
@@ -530,10 +527,10 @@ define('project/controllers', ['project/init'], function() {
                 alertWarn('请输入大于0的数量。');
                 return false;
             }
-            if (!addDataItem.strike_price) {
-                alertWarn('请输入成交价格。');
-                return false;
-            }
+            // if (!addDataItem.strike_price) {
+            //     alertWarn('请输入成交价格。');
+            //     return false;
+            // }
             if(addDataItem.quantity>medical.quantity){//库存不足情况
                 addDataItem.handleFlag =false;//默认添加到订单
             }
@@ -1574,7 +1571,7 @@ define('project/controllers', ['project/init'], function() {
               var _data = results[1];
               console.log(_data);
             $scope.tr.productionDate =_data.data.productionDate;
-            
+
             })
             .catch(function (error) {
               alertError(error || '出错');
@@ -1602,7 +1599,34 @@ define('project/controllers', ['project/init'], function() {
 
     }
 
+    /**
+     * [PurchasePayOrderController 付款申请单模块控制器]
+     * @param {[type]} $scope [description]
+     */
+    function PurchasePayOrderController ($scope) {
+
+    }
+
+    /**
+     * [ScreenFinanceApprovalController 财务审批模块中queyr页面获取当前财务审批人]
+     * @param {[type]} $scope [description]
+     */
+    function ScreenFinanceApprovalController ($scope) {
+      if ($scope.tr.operationFlowSet) {
+        // 获取当前订单状态
+        var _status = $scope.tr.orderStatus;
+        // 查找流程数组里符合当前订单状态的
+        angular.forEach($scope.tr.operationFlowSet, function (val) {
+          if(val.status === _status) {
+            $scope.tr.approvalUser = val;
+          }
+        });
+      }
+    }
+
     angular.module('manageApp.project')
+    .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
+    .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
     .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
     .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl])
     .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'watchFormChange', confirmOrderEditCtrl2])
