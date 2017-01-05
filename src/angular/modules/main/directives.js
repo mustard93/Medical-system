@@ -2401,6 +2401,19 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             event.stopPropagation();
                             return false;
                         });
+
+                        var clickHideEvent=function(event) {
+                            if(!popup)return;
+                              popup.hide();
+                              event.stopPropagation();
+                              return false;
+                          };
+
+                      $(document).unbind('click', clickHideEvent);
+
+                      $(document).bind('click', clickHideEvent);
+
+
 //                        $(window).on('click', (function(_this) {
 //                            return function() {
 //                                return _this.hide();
