@@ -148,7 +148,9 @@ function workflowTaskRunWithAttchments(utils) {
     //     ngModel: "="
     // },
     // replace: true,
-      scope: true,
+      scope: {
+        workflowBottomButton:"=?"
+      },
     templateUrl:  Config.tplPath +'tpl/project/workflowTaskRunWithAttchments.html',
 
       link: function ($scope, element, $attrs) {
@@ -2068,6 +2070,29 @@ function customTablePrint() {
   };
 }
 
+
+
+/**
+  底部按钮列表
+*/
+function bottomButtonList() {
+  return {
+    restrict: 'EA',
+    scope: {
+       spanClass:"=?",
+        bottomButtonList:"=?"
+      },
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
+
+          link: function ($scope, element, $attrs) {
+            console.log($scope.bottomButtonList);
+            if(!$scope.spanClass)$scope.spanClass="mgl";
+            $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
+          }
+  };
+}
+
 /**
     用户自定义表结构-打印显示
 */
@@ -2087,6 +2112,7 @@ function resizableColumns() {
 }
 
 angular.module('manageApp.project')
+  .directive("bottomButtonList", [bottomButtonList])//底部自定义菜单
   .directive("customTablePrint", [customTablePrint])
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
