@@ -1,4 +1,4 @@
-<div class="lossOverOrder-edit"
+<div class="loss-over-order"
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
@@ -12,6 +12,7 @@
         action="rest/authen/lossOverOrder/save.json"
         alert-error
         alert-ok
+        onkeydown="if(window.event.keyCode==13) return false;"
         scope-extend="scopeExtend"
         scope-error-msg="errorMsg"
         scope-data="formData"
@@ -23,18 +24,20 @@
       <div class="pd-l">
         <!-- 标题 -->
         <div class="mgb-m">
-          <p class="mgb-m crumbs pr-indent-10">库存管理 / <em class="color-custom-black">报溢单</em>/ 新建报溢申请单</p>
-          <h1 class="pr-font-22 ">新建报溢申请单</h1>
+          <p class="mgb-m crumbs pr-indent-20">库存管理 >
+            <a href="#/lossOverOrder/query-overflow.html">
+            <em class="color-custom-orange">报溢单</em>
+            </a>
+            > 新建报溢申请单</p>
+          <h1 class="pr-font-22 color-black">新建报溢申请单</h1>
           <div class="mgt-l">
-            <select class="pr-select select-wd"
-             chosen
-              ng-model="listParams.warehouseCode"
-              default-empty="仓库名"
-              select-source="rest/authen/warehouse/queryForSelectOption">
-            </select>
-
+              <select class="pr-select select-wd"
+               chosen
+                ng-model="formData.warehouseCode"
+                default-empty="仓库名"
+                select-source="rest/authen/warehouse/queryForSelectOption">
+              </select>
           </div>
-
         </div>
 
       </div>
@@ -45,7 +48,7 @@
         <!-- 信息 -->
         <div class="pd-c-l view-medical" flash-add-medical
              ng-model="data1"
-             ajax-url="rest/authen/medicalStock/query.json?hospitalId={{formData.customerId}}"
+             ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseStocksCode}}"
              add-data-callback-fn="flashAddDataCallbackFn(data1)">
         </div>
         <!-- 列表 -->
@@ -56,19 +59,8 @@
                   单据编号：<em >{{formData.orderNo || '暂无'}}</em>
               </span>
                 <div class="pd-v-s flex-item-4 ">
-                  <div class="flex-item-6 text-left">
-                    <span class="mgl-x-l">申请人：</span>
-                    <select class="pd-select pd-s mgb-m inline"
-                            data-placeholder=" "
-                            chosen
-                            ng-model="formData.saleUserId"
-                            default-empty
-                            alert-error
-                            select-source="rest/authen/user/queryForSelectOption">
-                    </select>
-                  </div>
                   <div class="flex-item-6">
-                    <span class="mgl-x-l">部门：</span>
+                    <span >部门</span>
                     <select class="pd-select pd-s mgb-m inline"
                             data-placeholder=" "
                             chosen
@@ -76,6 +68,17 @@
                             default-empty
                             alert-error
                             select-source="rest/authen/department/queryForSelectOption.json">
+                    </select>
+                  </div>
+                  <div class="flex-item-6 text-left">
+                    <span >申请人</span>
+                    <select class="pd-select pd-s mgb-m inline"
+                            data-placeholder=" "
+                            chosen
+                            ng-model="formData.saleUserId"
+                            default-empty
+                            alert-error
+                            select-source="rest/authen/user/queryForSelectOption">
                     </select>
                   </div>
                 </div>
@@ -134,7 +137,7 @@
           <!-- </div> -->
           <!-- 下拉款内容end-->
           <div> <!-- class="outside-table-d"-->
-            <table class="table pr-table pr-new-table " > <!--table-wid-->
+            <table class="table pr-table pr-new-table" > <!--table-wid-->
               <thead>
                 <tr>
                   <th class="text-center">商品编码</th>
@@ -157,7 +160,10 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="tr in formData.orderMedicalNos" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                <tr ng-repeat="tr in formData.orderMedicalNos"
+                salesorder-edit-show-delbtn
+                ng-init="orderMedicalNoIds.push(tr.relId)"
+                ng-controller="SalesOrderDetailsController">
                   <td class="text-center">{{tr.code}}</td>
                   <td class="text-center">{{tr.goodsCode}}</td>
                   <td class="text-center">
@@ -194,10 +200,13 @@
                             params='{"relMedicalStockId":"{{tr.relId}}"}'
                             default-empty
                             alert-error
-                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption">
+                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption"
+                            ng-change="getCurrentProductionDate(tr.relId, tr.productionBatch)">
                     </select>
-                  </td>        
-                  <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                  </td>
+                  <td class="text-center">
+                    {{tr.productionDate | date : 'yyyy-MM-dd'}}
+                  </td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
@@ -214,11 +223,11 @@
                   </td>
 
                   <td class="text-center">
-                  {{tr.productionEnterpriseLicenseNo}}
+                  {{tr.drugAdministrationCode}}
                   </td>
 
                   <td class="text-center relative">
-                    {{tr.productionEnterpriseLicensePeriod}}
+                    {{tr.drugAdministrationCodeGuaranteePeriod}}
                     <div class="sales-order-item-delbtn">
                       <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
                       <div class="bg-white">
@@ -257,7 +266,9 @@
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/lossOverOrder/query-overflow.html')"
-             save-callback="submitForm('editForm','exit')">返回报溢单列表
+             save-callback="submitForm('editForm','exit');
+             $root.goTo('#/lossOverOrder/query-overflow.html')
+             ">返回报溢单列表
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-overflow.html" >返回报溢单列表</a>
@@ -278,7 +289,7 @@
           </button>
 
           <button
-                  class="btn pr-btn-bg-gold mgl"
+                  class=" mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认通过?"
@@ -286,6 +297,7 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="通过"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
+                  ng-disabled="!formData.orderMedicalNos.length"
                   >审核
           </button>
 

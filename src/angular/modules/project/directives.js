@@ -2061,12 +2061,11 @@ function customTablePrint() {
     scope: false,
     replace: true,
     templateUrl:  Config.tplPath +'tpl/project/customTablePrint.html',
-
-          link: function ($scope, element, $attrs) {
-            if ($attrs.customTablePrint) {
-                $scope.customTablePrintName=$attrs.customTablePrint;
-            }
-          }
+      link: function ($scope, element, $attrs) {
+        if ($attrs.customTablePrint) {
+            $scope.customTablePrintName=$attrs.customTablePrint;
+        }
+      }
   };
 }
 
