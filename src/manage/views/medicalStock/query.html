@@ -19,6 +19,14 @@
           </button>
         </div>
         <div class="form-group col-lg-2">
+          <label class="col-lg-2 col-sm-2 control-label">机构</label>
+          <div class="col-lg-10 col-sm-10">
+            <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="listParams.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+
+            </select>
+          </div>
+        </div>
+        <div class="form-group col-lg-2">
           <!-- <tags-input ng-model="tags11" key-property="id" display-property="text"  add-fom-autocomplete-only="true"
           on-tag-adding="!tags11||tags11.length<1"
           on-tag-added="listParams.q=$tag.text"
@@ -58,9 +66,19 @@
                               <th>名称</th>
                               <th>单位</th>
                               <th>价格</th>
-                              <th>创建时间</th>
-                              <th>库存</th>
-                              <th>状态</th>
+
+                              <th>可用数量</th>
+                        <th>现存数量</th>
+                        <th>其中冻结数量</th>
+                        <th>其中锁定数量</th>
+                        <th>其中待处理数量</th>
+                        <th>到货/在检数量</th>
+                        <th>采购在途数量</th>
+                        <th>已请购数量</th>
+                        <th>预计入库数量</th>
+                        <th>销售订单数量</th>
+                        <th>代发货数量</th>
+                        <th>预计出库数量</th>
                               <th>操作</th>
                               <th></th>
                           </tr>
@@ -72,17 +90,39 @@
                               <td>{{tr.name}}</td>
                               <td>{{tr.unit}}</td>
                               <td>{{tr.price}}</td>
-                              <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-                              <td>{{tr.quantity}}</td>
-                              <td>{{tr.status}}</td>
+
+                              <td>{{tr.stockModel.salesQuantity}}</td>
+                         <td>{{tr.stockModel.quantity}}</td>
+                         <td>{{tr.stockModel.freezeQuantity}}</td>
+                         <td>{{tr.stockModel.lockingQuantity}}</td>
+                         <td>{{tr.stockModel.handleQuantity}}</td>
+                         <td>{{tr.stockModel.beingCheckedQuantity}}</td>
+                         <td>{{tr.stockModel.purchaseInWayQuantity}}</td>
+                         <td>{{tr.stockModel.purchaseRequisitionQuantity}}</td>
+                         <td>{{tr.stockModel.inStockQuantity}}</td>
+                         <td>{{tr.stockModel.confirmOrderQuantity}}</td>
+                         <td>{{tr.stockModel.shippedQuantity}}</td>
+                         <td>{{tr.stockModel.outStockQuantity}}</td>
                               <td>
-                                  <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html">
+                                  <!-- <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html">
                                       <i class="fa fa-folder-open-o"></i>
                                       查看
-                                  </button>
+                                  </button> -->
                                   <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/medicalStock/edit.html?id={{tr.id}}">
                                       <i class="fa fa-edit"></i>
                                       编辑
+                                  </button>
+                                  <button type="button" class="btn btn-primary"
+                                    ajax-url-submit="rest/authen/medicalStock/checkStock"
+                                    params='{"id":"{{tr.id}}"}'
+                                    alert-error
+                                    callback="listParams.refreshId=tr.id">
+                                      <i class="fa fa-edit"></i>
+                                      校验库存
+                                  </button>
+                                  <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/medicalStock/editOfStockBatch.html?id={{tr.id}}">
+                                      <i class="fa fa-edit"></i>
+                                      添加库存
                                   </button>
                                   <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/medicalStock/delete', tr.id)">
                                       <i class="fa fa-trash-o"></i>

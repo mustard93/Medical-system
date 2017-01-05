@@ -2405,13 +2405,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         var clickHideEvent=function(event) {
                             if(!popup)return;
                               popup.hide();
-                              event.stopPropagation();
-                              return false;
+                              // event.stopPropagation();
+                              // return false;//导致form表单不能提交
                           };
 
-                      $(document).unbind('click', clickHideEvent);
+                      // $(document).unbind('click', clickHideEvent);
 
-                      $(document).bind('click', clickHideEvent);
+                      $(document).on('click', clickHideEvent);
 
 
 //                        $(window).on('click', (function(_this) {
@@ -2419,9 +2419,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 //                                return _this.hide();
 //                            };
 //                        })(this));
-                        this.element.on('click', function() {
-                            return event.stopPropagation();
-                        });
+
                         return setTimeout((function(_this) {
                             return function() {
                                 _this.element.show();

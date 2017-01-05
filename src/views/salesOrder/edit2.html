@@ -109,7 +109,7 @@
                              class="ipt pr-ipt-60 text-right"
                              name="price"
                              ng-model="tr.price"
-                             ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/"
                              required
                              invalid-popover
                              popover-show="!editForm.price.$valid"
@@ -128,7 +128,7 @@
                              name="discountPrice"
                              ng-init="tr.discountPrice='0'"
                              ng-model="tr.discountPrice"
-                             ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
                              required
                              invalid-popover
                              popover-show="!editForm.discountPrice.$valid"
@@ -142,7 +142,7 @@
                              name="discountRate"
                              ng-init="tr.discountRate='100'"
                              ng-model="tr.discountRate"
-                             ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/"
                              required
                              invalid-popover
                              popover-show="!editForm.discountRate.$valid"
@@ -334,7 +334,7 @@
                     <p>
                       <a href="javacript:;"
                          modal-right="600"
-                         modal-data='{"invoicesAddressId":"{{formData.customerId}}","contact":{{item}}}'
+                         modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}'
                          modal-scope="this"
                          modal-url="views/customerAddress/contact/edit.html">修改
                       </a>
