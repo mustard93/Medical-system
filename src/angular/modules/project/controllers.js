@@ -1570,6 +1570,7 @@ define('project/controllers', ['project/init'], function() {
               var _data = results[1];
               console.log(_data);
             $scope.tr.productionDate =_data.data.productionDate;
+            $scope.tr.validTill =_data.data.validTill;
 
             })
             .catch(function (error) {
