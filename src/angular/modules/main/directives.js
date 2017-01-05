@@ -2461,15 +2461,20 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         scope.p = null;
                         scope.c = null;
                         scope.a = null;
-                        return scope.d = null;
+                        scope.d = null;
+
+                          scope.cities=[];
+                          scope.dists=[];
+
                     };
                     scope.submitAddress = function() {
                         return popup.hide();
                     };
                     scope.$watch('p', function(newV) {
                         var v, _i, _len, _results;
+                        _results = [];
                         if (newV) {
-                            _results = [];
+
                             for (_i = 0, _len = data.length; _i < _len; _i++) {
                                 v = data[_i];
                                 if (v.p === newV) {
@@ -2477,8 +2482,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 }
                             }
 
-
                         }
+
                         if(!scope.cities ){
                             scope.cities=[];
                             return scope.cities;
