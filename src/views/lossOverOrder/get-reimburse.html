@@ -1,4 +1,4 @@
-<div class="content-wrapper loss-over-order"
+<div class="content-wrapper"
      ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
@@ -8,23 +8,23 @@
        <div class="pd-l">
          <!-- 标题 -->
          <div class="mgb-m">
-           <p class="mgb-m crumbs pr-indent-20">库存管理 >
-            <a href="#/lossOverOrder/query-reimburse.html">
-              <em class="color-orange">报损单</em>
-            </a>
-              > 报损申请单详情</p>
+           <p class="mgb-m crumbs pr-indent-10">库存管理 >
+             <a href="#/freezeThawOrder/query-freeze.html">
+               <em class="color-custom-orange">报损单</em>
+             </a>
+             > 报损申请单详情</p>
            <h1 class="pr-font-22 color-black">报损申请单详情</h1>
          </div>
          <h1 class="color-black text-l">
            <!-- 昆明库 -->
            {{showData.warehouseName}}
-         </h1>
+       </h1>
        </div>
        <div ng-if="showData.orderStatus=='未通过'"
         class="pr-panel pr-panel-height mgb">
          <em class="color-red">原因:</em>
-         <em>{{showData.key}}</em>
-         <em>{{showData.message}}</em>
+         <em>{{showData.operationFlowSet[1].key}}</em>
+         <em>{{showData.operationFlowSet[1].message}}</em>
        </div>
      </div>
      <!-- 主内容区域 -->

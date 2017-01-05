@@ -76,7 +76,7 @@
        ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;
         formData.applyType='报溢';listParams.applyType='报溢'
         ">
-  
+
       <!-- 主内容区域 -->
       <div class="content-wrapper-main">
         <div ng-if="!status.isLoading">
@@ -178,7 +178,11 @@
 
                           <p ng-if="tr.orderStatus=='未通过'"
                           class="loss-over-order-details-note">
-                            <span class="pdl">原因：</span><span class="color-6">{{tr.message || '暂无'}}</span>
+                            <span class="pdl">原因：</span>
+                            <span class="color-6">
+                              {{tr.operationFlowSet[1].key || '暂无'}}
+                              {{tr.operationFlowSet[1].message}}
+                            </span>
                           </p>
 
                         </div>
