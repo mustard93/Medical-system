@@ -1,3 +1,35 @@
+<!-- 主内容头部 -->
+<div class="content-wrapper-heading pdb-m mgb-l relative">
+  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxxl">采购中心 / <em class="color-custom-orange">付款申请单</em></p>
+  <div class="pd-c-xxxxxxl">
+    <div class="pos-rel-tl inline-block fl-l">
+      <h1 class="pr-font-20 color-black">付款申请单</h1>
+    </div>
+    <!-- 新建按钮及状态按钮 -->
+    <div class="full-width mgb-m">
+      <div class="order-status-btn pos-rel-tr text-right"
+           ajax-url="rest/authen/purchasePayOrder/countByOrderStatus.json"
+           scope-data="countByOrderStatus"
+           alert-error>
+        <div class="btn btn-group" scope-data="statusList">
+
+
+          <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="待批款"  count-map="countByOrderStatus">  </button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="待付款"  count-map="countByOrderStatus">  </button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="已付款" >  </button>
+
+        </div>
+      </div>
+    </div>
+    <!-- 右侧搜索 -->
+    <div class="text-right order-list-search pos-rel-tr inline-block fl-r">
+      <input type="text" class="ipt pdr-xxl" placeholder="客户名/付款申请单号" ng-model="listParams.q">
+      <i class=""></i>
+    </div>
+  </div>
+</div>
+
 <div class="content-wrapper purchase-order"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus"
      ng-controller="PurchasePayOrderController">
@@ -5,31 +37,6 @@
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
-    <!-- 主内容头部 -->
-    <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s line-b mgr-m relative">
-      <!-- 新建按钮及状态按钮 -->
-      <div class="full-width">
-        <div class="order-status-btn pos-tr text-right"
-             ajax-url="rest/authen/purchasePayOrder/countByOrderStatus.json"
-             scope-data="countByOrderStatus"
-             alert-error>
-          <div class="btn btn-group" scope-data="statusList">
-
-
-            <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="待批款"  count-map="countByOrderStatus">  </button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="待付款"  count-map="countByOrderStatus">  </button>
-              <button query-order-status-button  ng-model="listParams.orderStatus" key="已付款" >  </button>
-
-          </div>
-        </div>
-      </div>
-      <!-- 右侧搜索 -->
-      <div class="text-right order-list-search pos-rb">
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/付款申请单号" ng-model="listParams.q">
-        <i class=""></i>
-      </div>
-    </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <div ng-if="!status.isLoading">

@@ -109,7 +109,7 @@
                              class="ipt pr-ipt-60 text-right"
                              name="price"
                              ng-model="tr.price"
-                             ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/"
                              required
                              invalid-popover
                              popover-show="!editForm.price.$valid"
@@ -128,7 +128,7 @@
                              name="discountPrice"
                              ng-init="tr.discountPrice='0'"
                              ng-model="tr.discountPrice"
-                             ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
                              required
                              invalid-popover
                              popover-show="!editForm.discountPrice.$valid"
@@ -142,7 +142,7 @@
                              name="discountRate"
                              ng-init="tr.discountRate='100'"
                              ng-model="tr.discountRate"
-                             ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/"
                              required
                              invalid-popover
                              popover-show="!editForm.discountRate.$valid"
@@ -154,8 +154,8 @@
                     <td class="text-center">￥{{tr.price*tr.taxRate-tr.discountPrice | number:2}}</td>
                     <td class="text-center relative">￥{{tr.price*tr.quantity-tr.discountPrice*tr.quantity | number:2}}
                       <div class="sales-order-item-delbtn">
-                        <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
-                        <div class="bg-white">
+                        <!-- <div class="sales-order-del-btn"><a href="javascript:;"></a></div> -->
+                        <div class="sales-order-confirm-del-area bg-white">
                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                           <p class="pd-v-s">
                             <a href="" ng-click="return;">取消</a>
