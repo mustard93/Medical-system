@@ -96,9 +96,9 @@
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate}}%</td>
                   <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*(1-item.taxRate)*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.taxRate-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
+                  <td class="text-center">￥{{(item.price*(1-item.taxRate)-item.discountPrice)*item.quantity | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.quantity*item.taxRate | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.quantity | number:2}}</td>
                 </tr>
               </tbody>
             </table>
@@ -107,9 +107,9 @@
             <div class="flex-item-9 color-red pr-indent-20">
               <p ng-if="selectData2.note.salesQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
             </div>
-            <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
+            <!-- <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
               本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(scopeData.orderMedicalNos,['price','planQuantity']) | number:2}}</em>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
