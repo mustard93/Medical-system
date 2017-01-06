@@ -715,7 +715,7 @@ function alertOk($rootScope, modal) {
             isPicture : function (fileName) {
               if(!fileName)return false;
               //http://pangu16.aliyuncs.com/d0a2dcabd56e418ebb001ff137e3ea00.PNG@108w
-              var re = new RegExp("(\.png)|(\.jpg)|(\.jpeg)",["i"])
+              var re = new RegExp("(\.png)|(\.jpg)|(\.jpeg)|(\.gif)",["i"])
               if (!re.exec(fileName)) return false;
 
               return true;
