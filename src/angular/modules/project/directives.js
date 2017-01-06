@@ -1542,7 +1542,7 @@ function medicalStockMouseOver(utils){
             var bt=mouseOverButtons[i];
               //bt.url; 跳转url
               //bt.className;
-              var tmp="<a style='width:32px;height:32px;display:inline-block' href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
+              var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
               // 特殊处理
               // if('pos-s pr-arrow-r'==bt.className){
               //   tmp="<a href='"+bt.url+"'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>";
