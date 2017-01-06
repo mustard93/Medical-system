@@ -1,39 +1,43 @@
+<!-- 主内容头部 -->
+<div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxxl">我的部门 / <em class="color-custom-orange">账号审核</em></p>
+  <div class="pd-c-xxxxxxl">
+    <!-- 区块标题 -->
+    <div class="pos-rel-tl inline-block fl-l">
+      <h1 class="pr-font-20 color-black">账号审核</h1>
+    </div>
+    <!-- 右侧功能按钮及搜索 -->
+    <div class="text-right order-list-search pos-rel-tr inline-block fl-r">
+
+
+      <label>  <input type="checkbox" class="selectAll">全选</label>
+
+
+      <span  ng-if="listSelected.length==0"> <a ng-disabled="listSelected.length==0" href="javascript:;" class="btn pr-btn-save-glodbg pr-color mgl"
+
+        disabled="disabled">批量通过</a></span>
+      <span ng-if="listSelected.length==0"> <a ng-disabled="listSelected.length==0"  href="javascript:;" class="btn pr-btn-save-glodbg pr-color mgr"
+
+        disabled="disabled">批量拒绝</a></span>
+
+      <span  ng-if="listSelected.length>0"> <a href="javascript:;" class="btn pr-btn-save-glodbg pr-color mgl"
+        modal-center
+        modal-scope="this"
+        modal-url="views/distributor/dialog-check-ok-batch.html"
+        >批量通过</a></span>
+      <span ng-if="listSelected.length>0"> <a href="javascript:;" class="btn pr-btn-save-glodbg pr-color mgl"
+        modal-center
+        modal-scope="this"
+        modal-url="views/distributor/dialog-check-reject-batch.html"
+
+        >批量拒绝</a></span>
+    </div>
+  </div>
+</div>
+
 <div class="content-wrapper queryUserApplyCurDepartment" ng-init="listSelected=[];listParams.uaoStatus='等待认证'">
 
   <table-list list-data="rest/authen/distributor/queryUserApplyCurDepartment.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
-    <!-- 主内容头部 -->
-    <div class="content-wrapper-heading line-b mgr-m mgb-l relative flex-column" style="height:75px;line-height:75px;">
-      <!-- 区块标题 -->
-      <div class="flex-item-4">
-        <span class="pr-font-20">我部门待审核账号</span>
-      </div>
-      <!-- 右侧功能按钮及搜索 -->
-      <div class="text-right order-list-search flex-item-8 relative">
-
-
-        <label>  <input type="checkbox" class="selectAll">全选</label>
-
-
-        <span  ng-if="listSelected.length==0"> <a ng-disabled="listSelected.length==0" href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl"
-
-          >批量通过</a></span>
-        <span ng-if="listSelected.length==0"> <a ng-disabled="listSelected.length==0"  href="javascript:;" class="btn btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl mgr"
-
-          >批量拒绝</a></span>
-
-        <span  ng-if="listSelected.length>0"> <a href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl"
-          modal-center
-          modal-scope="this"
-          modal-url="views/distributor/dialog-check-ok-batch.html"
-          >批量通过</a></span>
-        <span ng-if="listSelected.length>0"> <a   href="javascript:;" class="btn btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color mgl mgr"
-          modal-center
-          modal-scope="this"
-          modal-url="views/distributor/dialog-check-reject-batch.html"
-
-          >批量拒绝</a></span>
-      </div>
-    </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper-main" >
       <ul class="">
