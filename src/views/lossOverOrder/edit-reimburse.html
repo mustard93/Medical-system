@@ -46,17 +46,16 @@
     </div>
     <!-- 药械列表 -->
     <div class="pd-loss-l">
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb" style="padding:15px 0">
         <!-- 信息 -->
-        <div class="pd-c-l view-medical" flash-add-medical
+        <div class="pd-c view-medical" flash-add-medical
              ng-model="data1"
              ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
              add-data-callback-fn="flashAddDataCallbackFn(data1)">
         </div>
-
         <!-- 列表 -->
-        <div class="pd-c-l ">
-          <div class="flex-column mgb ">
+        <div class="">
+          <div class="flex-column mgb pd-c">
             <div class="flex-item-9">
               <span class="flex-item-2 pd">
                   单据编号：<em >{{formData.orderNo || '暂无'}}</em>
@@ -95,36 +94,33 @@
                     {{formData.approverUser || '暂无'}}</em>
                 </span>
             </div>
-
             <div class="flex-item-3">
               <span class="flex-item-7 text-right pd">
                 申请日期：<em >{{formData.applyDate ||'暂无' | date : 'yyyy-MM-dd' }}</em>
               </span>
               <span class="flex-item-5 text-right pd">状态：<em>{{formData.orderStatus}}</em></span>
             </div>
-
           </div>
-
-          <div >
+          <div>
             <table class="table pr-table pr-new-table" >
               <thead>
                 <tr>
-                  <th class="text-center w-50">商品编码</th>
-                  <th class="text-center w-50">商品代码</th>
-                  <th class="text-left ">商品名称</th>
-                  <th class="text-center w-80">规格型号</th>
-                  <th class="text-center w-50">单位</th>
-                  <th class="text-center w-160">数量</th>
-                  <th class="text-center w-160">生产批号/灭菌批号</th>
+                  <th class="text-center">商品编码</th>
+                  <th class="text-center">商品代码</th>
+                  <th class="text-left">商品名称</th>
+                  <th class="text-center">规格型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">数量</th>
+                  <th class="text-center">生产批号/灭菌批号</th>
                   <!-- <th class="text-center"></th> -->
-                  <th class="text-center w-100">生产日期</th>
-                  <th class="text-center w-160">保质期</th>
-                  <th class="text-center w-160">失效日期</th>
-                  <th class="text-center w-160">产品执行标准</th>
-                  <th class="text-center w-160">保存温度</th>
-                  <th class="text-center w-160">产地品牌</th>
-                  <th class="text-center w-160">产品注册证号</th>
-                  <th class="text-center w-160">注册证有效期</th>
+                  <th class="text-center">生产日期</th>
+                  <th class="text-center">保质期</th>
+                  <th class="text-center">失效日期</th>
+                  <th class="text-center">产品执行标准</th>
+                  <th class="text-center">保存温度</th>
+                  <th class="text-center">产地品牌</th>
+                  <th class="text-center">产品注册证号</th>
+                  <th class="text-center">注册证有效期</th>
 
                 </tr>
               </thead>
@@ -183,10 +179,11 @@
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
                   <td class="text-center">
+                    {{tr.productStandard}}
                     <!-- 产品执行标准 -->
                   </td>
-
                   <td class="text-center">
+                    {{tr.storedTemperature}}
                     <!-- 保存温度 -->
                   </td>
 
