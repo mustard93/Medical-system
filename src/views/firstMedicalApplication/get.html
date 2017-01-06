@@ -179,49 +179,8 @@
         <span>{{showData.applyReason}}</span>
       </div>
       <!-- 审核资料 -->
-      <div class="panel pr-panel pr-panel-height mgb">
-        <h1 class="pr-font-18 mgb">审核资料</h1>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>资料名称</th>
-              <th>上传人</th>
-              <th>上传时间</th>
-              <th>有效日期</th>
-              <th>附件</th>
-              <th>备注</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="item in showData.attachments">
-              <td>{{$index + 1}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.uploadUserName}}</td>
-              <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
-              <td>{{item.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
+      <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
 
-              <td ng-if="item.attachmentUrl && utils.isPicture(item.fileName)">
-                <img title="{{item.fileName}}"
-                     alt="{{item.fileName}}"
-                     ng-src="{{item.attachmentUrl}}"
-                      modal-img-show
-                     style="width:120px;height:120px;margin-bottom:10px;"/>
-              </td>
-              <td ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
-
-                  <a  href="{{item.attachmentUrl}}" >{{item.fileName}}</a>
-              </td>
-              <td ng-if="!item.attachmentUrl && !utils.isPicture(item.fileName)">
-
-              </td>
-              <td style="height:113px;overflow:hidden;"
-               handle-text-overflow
-               type="block">{{item.note}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
       <!-- 审批 -->
       <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">

@@ -19,8 +19,12 @@ define('project/services', ['project/init'], function () {
 
 
           //Loading  bottomButtonList
+          //  <a class="{{tr.aclass}}" href="{{tr.ahref}}">{{tr.showName}}</a>
           function bottomButtonList () {
               return  {
+
+
+
                   //获取首营企业菜单定义
                     get_firstEnterpriseApplication:function(showData){
                       var arr=[];
@@ -54,6 +58,40 @@ define('project/services', ['project/init'], function () {
 
                         return arr;
                       }//get_firstEnterpriseApplication
+
+
+                      //获取医院资格声请菜单定义
+                        ,get_hospitalApplication:function(showData){
+                          var arr=[];
+                          //aclass ：样式，ahref：连接，showName：显示名
+                          var bottomButton={"aclass":"","ahref":"#/hospitalApplication/query.html","showName":"返回申请单列表"};
+                          arr.push(bottomButton);
+
+                          if(showData){
+                            bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                              "ahref":Config.serverPath+"rest/authen/hospitalApplication/exportWord?id="+showData.id,
+                              "showName":"打印"};
+                              arr.push(bottomButton);
+                          }
+
+                          return arr;
+                        }//get_hospitalApplication
+                        //获取医院资格声请菜单定义
+                          ,get_otherCustomerApplication:function(showData){
+                            var arr=[];
+                            //aclass ：样式，ahref：连接，showName：显示名
+                            var bottomButton={"aclass":"","ahref":"#/otherCustomerApplication/query.html","showName":"返回申请单列表"};
+                            arr.push(bottomButton);
+
+                            if(showData){
+                              bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                                "ahref":Config.serverPath+"rest/authen/otherCustomerApplication/exportWord?id="+showData.id,
+                                "showName":"打印"};
+                                arr.push(bottomButton);
+                            }
+
+                            return arr;
+                          }//get_otherCustomerApplication
                 };//end return
 
         }
