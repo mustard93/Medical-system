@@ -50,7 +50,6 @@
                ajax-url="rest/authen/medicalStock/query?hospitalId={{formData.customerId}}"
                add-data-callback-fn="flashAddDataCallbackFn(data1)">
           </div>
-
           <!-- 列表 -->
           <div class="bt-dashed-line">
             <p class="flex-column mgb mgt-m pd-c-l">
@@ -229,7 +228,6 @@
 
           </div>
         </div>
-
       <!-- 其他信息 -->
       <div class="relative">
           <!-- 收货方信息 -->
@@ -272,59 +270,17 @@
             </div>
           </div>
           <!-- 发货方信息 -->
-          <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
             <header class="text-n text-bold color-3">发货方信息
               <span class="tools pull-right">
                 <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
               </span>
             </header>
             <div class="panel-body" style="display:none;padding:15px 0;">
-              <div class="consignee-info"
+              <div class="consignee-info pdt-m pdb-m"
                    ajax-url="rest/authen/invoicesAddress/get.json"
                    scope-data="invoicesAddress"
                    callback="invoicesGetCallBack(formData,invoicesAddress)"
-                   ng-class="{'static': invoicesAddress.contacts}">
-                <ul clear-info-list style="min-height:136px;">
-                  <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.invoicesId=item.id;formData.invoicesContacts=item;">
-                    <p class="pdb">{{item.name}} </p>
-                    <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
-                    <p>
-                      <a href="javacript:;"
-                          modal-right="600"
-                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}'
-                          modal-scope="this"
-                          modal-url="views/purchaserAddress/contact/edit.html">修改
-                      </a>
-                    </p>
-                    <i class="consignee-default-label"  ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
-                    <i class="consignee-choise-label"   ng-if="formData.invoicesId==item.id"><em class="fa fa-check color-white"></em></i>
-                  </li>
-                  <span>
-                    <button class="pr-add-item-whitebg" style="min-height:136px;"
-                            modal-right="700"
-                            modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                            modal-scope="this"
-                            modal-url="views/salesOrder/contact/edit.html"
-                            ng-class="{'static':!invoicesAddress.contacts}">
-                      <i class="fa fa-plus"></i>
-                    </button>
-                  </span>
-                </ul>
-              </div>
-            </div>
-          </div> -->
-          <!-- 备注 -->
-          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-            <header class="text-n text-bold color-3">收货方信息
-              <span class="tools pull-right">
-                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-              </span>
-            </header>
-            <div class="panel-body" style="display:none;padding:15px 0;">
-              <div class="consignee-info pdt-m pdb-m"
-                   ajax-url="rest/authen/invoicesAddress/get.json&t={{$root.reloadTime}}"
-                   scope-data="invoicesAddress"
-                   callback="customerAddressGetCallBack(formData,invoicesAddress)"
                    ng-class="{'static': invoicesAddress.contacts}">
                 <ul clear-info-list style="min-height:136px;">
                   <li class="mgr-m mgb-m" style="min-height:136px;" ng-repeat="item in invoicesAddress.contacts" ng-click="formData.invoicesId=item.id;formData.invoicesContacts=item">
@@ -334,9 +290,9 @@
                     <p>
                       <a href="javacript:;"
                          modal-right="600"
-                         modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}'
+                         modal-data='{"invoicesAddressId":"{{invoicesAddress.id}}","contact":{{item}}}'
                          modal-scope="this"
-                         modal-url="views/customerAddress/contact/edit.html">修改
+                         modal-url="views/invoicesAddress/contact/edit.html">修改
                       </a>
                     </p>
                     <i class="consignee-default-label" ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
@@ -346,21 +302,21 @@
                     <button class="pr-add-item-whitebg static"
                             style="min-height:136px;"
                             modal-right="700"
-                            modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                            modal-data='{"invoicesAddressId":"{{formData.customerId}}","contact":{}}'
                             modal-scope="this"
-                            modal-url="views/salesOrder/contact/edit.html">
+                            modal-url="views/invoicesAddress/contact/edit.html">
                       <i class="fa fa-plus"></i>
                     </button>
-                  </span>
+                  </span>{{formData.invoicesContacts}}
                 </ul>
               </div>
             </div>
           </div>
+          <!-- 备注 -->
           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
             <h1 class="text-bold color-3">备注</h1>
             <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
           </div>
-
           <!-- 已生成销售单部分 -->
           <table-list  ng-if="formData.id" list-data="rest/authen/confirmOrder/getListByRelId.json?relId={{formData.id}}">
           <div ng-if="tbodyList.length>0" class="mgt mgb-l pd-m content-wrapper-main pr-bg-white pr-fuzzy-boundary">

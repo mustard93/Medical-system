@@ -84,8 +84,11 @@
                 <div class="col-sm-4">
                   <input type="text"
                          class="form-control"
+                         name="legalRepresentativeIdentityNo"
                          ng-model="formData.firstEnterprise.legalRepresentativeIdentityNo"
-                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" />
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!firstEnterpriseEditForm.legalRepresentativeIdentityNo.$valid}}"  />
                 </div>
               </div>
             </div>
@@ -174,7 +177,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">开户账号：</label>
                 <div class="col-sm-6">
-                  <input type="number" class="form-control" ng-model="formData.firstEnterprise.accountNumber">
+                  <input type="text" class="form-control"
+                  ng-model="formData.firstEnterprise.accountNumber"
+                  name="accountNumber"
+                  ng-pattern="/^(\d{16}|\d{19})$/"
+                  data-content="* 请输入正确开户账号"
+                  invalid-popover="{{!firstEnterpriseEditForm.accountNumber.$valid}}"
+                  >
                 </div>
               </div>
             </div>
@@ -214,8 +223,11 @@
                   <input type="text" class="form-control flex-item-3" ng-model="formData.firstEnterprise.salesman">
                   <input type="text"
                          class="form-control flex-item-8 flex-offset-1"
+                         name="salesmanIdentityNo"
                          ng-model="formData.firstEnterprise.salesmanIdentityNo"
-                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/">
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!firstEnterpriseEditForm.salesmanIdentityNo.$valid}}" >
                 </div>
               </div>
             </div>
@@ -223,7 +235,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">座机：</label>
                 <div class="col-sm-6">
-                  <input type="number" class="form-control" ng-model="formData.firstEnterprise.tel">
+                  <input type="text" class="form-control"
+                  ng-model="formData.firstEnterprise.tel"
+                  name="telname"
+                  ng-pattern="/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/"
+                  data-content="* 请输入正确座机号"
+                  invalid-popover="{{!firstEnterpriseEditForm.telname.$valid}}"
+                  >
                 </div>
               </div>
             </div>
@@ -241,7 +259,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">手机：</label>
                 <div class="col-sm-6">
-                  <input type="number" class="form-control" ng-model="formData.firstEnterprise.phone">
+                  <input type="text" class="form-control"
+                  ng-model="formData.firstEnterprise.phone"
+                  name="phonename"
+                  ng-pattern="/^1[34578]\d{9}$/"
+                  data-content="* 请输入正确手机号"
+                  invalid-popover="{{!firstEnterpriseEditForm.phonename.$valid}}"
+                  >
                 </div>
               </div>
             </div>
@@ -288,7 +312,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                
+
                   ng-click="submitForm('first-enterprise-editForm','submit')">下一步
           </button>
         </span>
