@@ -1,7 +1,8 @@
 
         <div class="modal-content pr-modal-content" ng-controller="editCtrl"
 
-           ajax-url="rest/authen/manageDepartment/getOfEdit.json?id={{tr.id}}"  scope-data="formData" callback="initFlag=true" alert-error >
+           ajax-url="rest/authen/manageDepartment/getOfEdit.json?id={{tr.id}}"  scope-data="formData"
+           callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId" alert-error >
 
           <form class="add-department-form form-horizontal"
                 action="rest/authen/manageDepartment/save"
@@ -9,7 +10,7 @@
                 form-validator>
             <div class="modal-header">
                 <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
-                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}部门</h4>
+                <h4 class="modal-title">{{formData&& formData.id?"编辑":"添加"}}部门</h4>
             </div>
             <div class="modal-body">
               <div class="form-group">
