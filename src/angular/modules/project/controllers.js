@@ -701,10 +701,7 @@ define('project/controllers', ['project/init'], function() {
                 alertWarn('请输入大于0的数量。');
                 return false;
             }
-            if (!addDataItem.strike_price) {
-                alertWarn('请输入成交价格。');
-                return false;
-            }
+        
             if(addDataItem.quantity>medical.quantity){//库存不足情况
                 addDataItem.handleFlag =false;//默认添加到订单
             }
@@ -1553,12 +1550,15 @@ define('project/controllers', ['project/init'], function() {
 
     }
 
-    /**
-     * [新版购需单商品条目控制器]
-     * @param {[type]} $scope [依赖项]
-     */
+/**
+ * [报损报溢批次冻结解冻模块选择生产批号/灭菌批号后显示生产日期和失效日期]
+ */
     function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, requestData) {
-      // 根据用户选择批号获取当前药品的生产日期
+      /**
+       * [getCurrentProductionDate 根据药品id和批号查询生产日期和失效日期]
+       * @param  {[type]} relMedicalStockId [药品id]
+       * @param  {[type]} p_and_s           [生产批号/灭菌批号]
+       */
       $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
 
         if (relMedicalStockId && p_and_s) {
@@ -1568,7 +1568,7 @@ define('project/controllers', ['project/init'], function() {
           requestData(url,data,'get')
             .then(function (results) {
               var _data = results[1];
-              console.log(_data);
+            // 根据药品id和批号查询到的生产日期和失效日期赋给对应字段以供页面显示
             $scope.tr.productionDate =_data.data.productionDate;
             $scope.tr.validTill =_data.data.validTill;
 
