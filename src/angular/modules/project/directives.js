@@ -2,6 +2,42 @@
  * 项目自定义指令
  */
 define('project/directives', ['project/init'], function () {
+
+
+  /**
+    附件列表-只读显示
+    attachmentsExtend={"title":"审核资料"}
+    title：显示标题
+  */
+  function attachmentsShow() {
+    return {
+      restrict: 'EA',
+      scope: {
+          attachmentsExtend:"=",
+          ngModel: "="
+      },
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/project/attachmentsShow.html'
+    };
+  }
+  /**
+    附件列表-编辑
+    attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":true}
+    title：显示标题
+    usege：上传附件用途说明
+    addFlag：是否允许添加额外附件
+  */
+  function attachmentsEdit() {
+    return {
+      restrict: 'EA',
+      scope: {
+          attachmentsExtend:"=",
+          ngModel: "="
+      },
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/project/attachmentsEdit.html'
+    };
+  }
 /**
   药械订单列表
 */
@@ -2111,6 +2147,8 @@ function resizableColumns() {
 }
 
 angular.module('manageApp.project')
+  .directive("attachmentsShow", [attachmentsShow])//附件只读显示
+  .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑
   .directive("bottomButtonList", [bottomButtonList])//底部自定义菜单
   .directive("customTablePrint", [customTablePrint])
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令

@@ -2,6 +2,8 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/otherCustomerApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
+     callback='bottomButtonList=$root.bottomButtonList.get_otherCustomerApplication(showData);'
+
      alert-error>
   <div class="page-header-info">
     <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
@@ -172,47 +174,8 @@
         <span>{{showData.applyReason}}</span>
       </div>
       <!-- 审核资料 -->
-      <div class="panel pr-panel pr-panel-height mgb">
-        <h1 class="pr-font-18 mgb">审核资料</h1>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>序号</th>
-              <th>资料名称</th>
-              <th>上传人</th>
-              <th>上传时间</th>
-              <th>有效日期</th>
-              <th>附件</th>
-              <th>备注</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="item in showData.attachments">
-              <td>{{$index + 1}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.uploadUserName}}</td>
-              <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
-              <td>{{item.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-              <td ng-if="item.attachmentUrl && utils.isPicture(item.fileName)">
-                <img title="{{item.fileName}}"
-                     alt="{{item.fileName}}"
-                     ng-src="{{item.attachmentUrl}}"
-                     modal-img-show
-                     style="width:120px;height:120px;margin-bottom:10px;"/>
-              </td>
-              <td ng-if="item.attachmentUrl && !utils.isPicture(item.fileName)" class="mgb">
-                {{item.fileName}}
-              </td>
-              <td ng-if="!item.attachmentUrl && !utils.isPicture(item.fileName)">
+      <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
 
-              </td>
-              <td style="height:113px;overflow:hidden;"
-               handle-text-overflow
-               type="block">{{item.note}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
       <!-- 审批 -->
       <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">
         <div class="mgb-l">
@@ -227,23 +190,26 @@
         <div class="mgb-l"></div>
       </div>
 
-      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(showData.didateFilter.buttons,'通过')"
+      <div ng-if="showData.didateFilter.buttons.length>0&& showData.orderStatus!='未提交'"
            workflow-task-run-with-attchments
            custom-menu-arr="{{showData.didateFilter.buttons}}"
            return-button='{"buttonName":"返回申请单列表","requestUrl":"#/otherCustomerApplication/query.html"}'
+            workflow-bottom-button="bottomButtonList"
            attchment-usege="经销商/零售商资格申请">
       </div>
 
-      <div ng-if="!showData.didateFilter.buttons.length>0 && showData.orderStatus=='待审批' || showData.orderStatus=='未通过' || showData.orderStatus=='已通过'" class="mgb text-right">
+      <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'" class="mgb text-right">
         <span>
           <a class="mgl"
              ng-if="showData.orderStatus=='未通过'"
              ng-href="#/otherCustomerApplication/edit.html?copyId={{showData.id}}">新建</a>
         </span>
-        <span class="mgl"><a href="#/otherCustomerApplication/query.html">返回申请单列表</a></span>
+
+        <span  bottom-button-list="bottomButtonList">  </span>
+        <!-- <span class="mgl"><a href="#/otherCustomerApplication/query.html">返回申请单列表</a></span>
         <span class="mgl">
           <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" ng-href="{{mainStatus.requestPath}}rest/authen/otherCustomerApplication/exportWord?id={{showData.id}}">打印</a>
-        </span>
+        </span> -->
       </div>
     </div>
 
