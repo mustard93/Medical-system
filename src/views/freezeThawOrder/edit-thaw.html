@@ -31,7 +31,7 @@
             </a>
 
             > 新建批次解冻申请单</p>
-          <h1 class="pr-font-22 ">新建批次解冻申请单</h1>
+          <h1 class="pr-font-22 color-black">新建批次解冻申请单</h1>
           <div class="mgt-l">
               <select class="pr-select select-wd"
                chosen
@@ -87,16 +87,19 @@
                   </div>
                 </div>
 
-              <span class="flex-item-4  pd">
-                <!-- 单据编号：<em >{{formData.orderNo || '暂无'}}</em> -->
-                <em  class="mgl">制单人：</em><em class="color-black">{{formData.inputUser.n|| '暂无'}}</em>
-                <em  class="mgl">审批人：</em><em class="color-black">{{formData.approverUser || '暂无'}}</em>
-              </span>
+                <span class="flex-item-4  pd">
+                  <!-- 单据编号：<em >{{formData.orderNo || '暂无'}}</em> -->
+                  <em  class="mgl">制单人：</em>
+                  <em ng-class="{'color-black':formData.inputUser.n}">{{formData.inputUser.n|| '暂无'}}</em>
+                  <em  class="mgl">审批人：</em>
+                  <em ng-class="{'color-black':formData.approverUser}">
+                    {{formData.approverUser || '暂无'}}</em>
+                </span>
             </div>
 
             <div class="flex-item-3">
               <span class="flex-item-7 text-right pd">
-                申请日期：<em >{{formData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
+                申请日期：<em >{{formData.applyDate ||'暂无' | date : 'yyyy-MM-dd'}}</em>
               </span>
               <span class="flex-item-5 text-right pd">状态：<em>{{formData.orderStatus}}</em></span>
             </div>
@@ -168,7 +171,8 @@
                             params='{"relMedicalStockId":"{{tr.relId}}"}'
                             default-empty
                             alert-error
-                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption">
+                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption"
+                            ng-change="getCurrentProductionDate(tr.relId, tr.productionBatch)">
                     </select>
 
                   </td>
@@ -190,11 +194,11 @@
                   </td>
 
                   <td class="text-center">
-                  {{tr.productionEnterpriseLicenseNo}}
+                  {{tr.drugAdministrationCode}}
                   </td>
 
                   <td class="text-center relative">
-                    {{tr.productionEnterpriseLicensePeriod}}
+                    {{tr.drugAdministrationCodeGuaranteePeriod}}
                     <div class="sales-order-item-delbtn">
                       <div class="sales-order-del-btn"><a href="javascript:;"></a></div>
                       <div class="bg-white">
@@ -202,7 +206,8 @@
                         <p class="pd-v-s">
                           <a href="" ng-click="return;">取消</a>
                           <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                                  ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
+                                  ng-click="formData.orderMedicalNos.splice($index,1);
+                                  formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
                           </button>
                         </p>
                       </div>
@@ -253,7 +258,7 @@
           </button>
 
           <button
-                  class="btn pr-btn-bg-gold mgl"
+                  class=" mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认通过?"
@@ -261,6 +266,7 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="通过"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
+                  ng-disabled="!formData.orderMedicalNos.length"
                   >审核
           </button>
 

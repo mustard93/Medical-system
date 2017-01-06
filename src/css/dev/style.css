@@ -2720,9 +2720,7 @@ body.ngdialog-open {
 .content-wrapper-heading.line-b {
   border-bottom: 1px solid rgba(199, 167, 123, .7);
 }
-/* .content-wrapper-heading .order-create-btn {
-  bottom: 10px;
-} */
+
 .content-wrapper-heading .order-create-btn a {
   display: inline-block;
   height: 30px;
@@ -4309,7 +4307,8 @@ border: 1px solid #ddd;
 }
 .salesOrder-edit .sales-order-item-delbtn,
 .view-medical .sales-order-item-delbtn,
-.loss-over-order .sales-order-item-delbtn
+.loss-over-order .sales-order-item-delbtn,
+.freeze-thaw-order .sales-order-item-delbtn
 {
   display: inline-block;
   position: absolute;
@@ -4333,7 +4332,8 @@ border: 1px solid #ddd;
 }
 .salesOrder-edit .sales-order-item-delbtn > div.sales-order-confirm-del-area,
 .view-medical .sales-order-item-delbtn > div:first-child,
-.loss-over-order .sales-order-item-delbtn > div:first-child
+.loss-over-order .sales-order-item-delbtn > div:first-child,
+.freeze-thaw-order .sales-order-item-delbtn > div:first-child
  {
 
   margin-top: 10px;
@@ -4364,15 +4364,23 @@ border: 1px solid #ddd;
 }
 .salesOrder-edit .sales-order-item-delbtn > div:last-child,
 .view-medical .sales-order-item-delbtn > div:last-child,
-.loss-over-order .sales-order-item-delbtn > div:last-child
+.loss-over-order .sales-order-item-delbtn > div:last-child,
+.freeze-thaw-order .sales-order-item-delbtn > div:last-child
  {
   /*margin-top: 10px;
   border: 1px solid #c7a77b;
   display: none;*/
 }
+<<<<<<< HEAD
+.salesOrder-edit .sales-order-item-delbtn > div:last-child:before,
+.view-medical .sales-order-item-delbtn > div:last-child:before,
+.loss-over-order .sales-order-item-delbtn > div:last-child:before,
+.freeze-thaw-order .sales-order-item-delbtn > div:last-child:before
+=======
 .salesOrder-edit .sales-order-item-delbtn > div.sales-order-confirm-del-area:before,
 .view-medical .sales-order-item-delbtn > div:first-child:before,
 .loss-over-order .sales-order-item-delbtn > div:first-child:before
+>>>>>>> V1.00.05_Alpha
 
  {
   content: ' ';
@@ -4468,6 +4476,31 @@ border: 1px solid #ddd;
   border-radius: 50%;
 
 }
+/* 操作结果提示 */
+.toast-top-center {
+	top: 45px !important;
+	text-align: center;
+}
+#toast-container>div {
+	padding: 8px 15px 8px 50px !important;
+}
+#toast-container.toast-top-center>div {
+	display: inline-block;
+	width: auto !important;
+	min-width: 118px;
+}
+.toast-success {
+	background-color: rgba(90, 195, 0, .8) !important;
+	-moz-box-shadow: 0 0 12px rgba(90, 195, 0, .8) !important;
+	-webkit-box-shadow: 0 0 12px rgba(90, 195, 0, .8) !important;
+	box-shadow: 0 0 12px rgba(90, 195, 0, .8) !important;
+}
+.toast-warning {
+	background-color: rgba(255, 140, 0, .8) !important;
+	-moz-box-shadow: 0 0 12px rgba(255, 140, 0, .8) !important;
+	-webkit-box-shadow: 0 0 12px rgba(255, 140, 0, .8) !important;
+	box-shadow: 0 0 12px rgba(255, 140, 0, .8) !important;
+}
 
 /*关于报损报溢模块*/
 .loss-over-order .ipt-date,
@@ -4522,8 +4555,8 @@ border: 1px solid #ddd;
 }
 .loss-over-order .purchaseorder-buyer-info,
 .freeze-thaw-order .purchaseorder-buyer-info{
-    top: 20px;
-    left:74%;
+    top: 35px;
+    left:84%;
 }
 .loss-over-order .purchaseorder-buyer-info:before,
 .freeze-thaw-order .purchaseorder-buyer-info:before
@@ -5406,7 +5439,7 @@ input[type="number"] {
     border-right: 1px solid rgba(218, 216, 201, .9);
 }
 
-.notification-menu>li:nth-child(2) a {
+.notification-menu>li:nth-child(1) a {
   text-indent: 30px;
   color: #ff8c00;
 }
@@ -5421,7 +5454,7 @@ input[type="number"] {
 }
 
 .notification-menu .dropdown-toggle {
-    padding: 0 20px;
+    padding: 0 15px;
     background-color: transparent;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
@@ -5445,6 +5478,9 @@ input[type="number"] {
 .notification-menu .open .dropdown-toggle.dropdown-toggle > i {
   background-position: -189px -556px;
 }
+.notification-menu .open {
+  background: rgba(210, 202, 182, .9);
+}
 
 .notification-menu .dropdown-toggle img {
     vertical-align: middle;
@@ -5454,6 +5490,8 @@ input[type="number"] {
     -webkit-border-radius: 50%;
     border-radius: 50%;
     margin-left: -30px;
+    margin-top: -1px;
+    border: 1px solid rgba(218, 216, 201, .9);
 }
 
 .notification-menu .dropdown-toggle .caret {
@@ -5525,7 +5563,7 @@ input[type="number"] {
 }
 
 .notification-menu .info-number {
-    padding: 0 20px;
+    padding: 0 15px;
     height: 39px;
     line-height: 39px;
     font-size: 14px;
