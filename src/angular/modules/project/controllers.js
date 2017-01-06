@@ -5,7 +5,7 @@ define('project/controllers', ['project/init'], function() {
 
 
 
-  
+
       /**
        * 主控（业务模块级别）
        */
@@ -300,11 +300,6 @@ define('project/controllers', ['project/init'], function() {
           if(!hasContactsId){
               formData.contactsId=customerAddress.defaultContactId;
           }
-
-          // 新版购需单中处理发货方信息
-          if (!formData.invoicesId) {
-            formData.invoicesId = customerAddress.defaultContactId;
-          }
         };
 
         // 发货方信息回调方法
@@ -312,23 +307,16 @@ define('project/controllers', ['project/init'], function() {
 
           // 新版购需单中处理发货方信息
           if (!formData.invoicesId) {
-            formData.invoicesId = invoicesAddress.defaultContactId;
+            $scope.formData.invoicesId = invoicesAddress.defaultContactId;
           }
 
           var _contacts = invoicesAddress.contacts;
 
           for (var i=0; i<_contacts.length; i++) {
-            if (invoicesAddress.defaultContactId == _contacts[i].id) {
+            if (invoicesAddress.defaultContactId === _contacts[i].id) {
               formData.invoicesContacts = _contacts[i];
-              break;
             }
           }
-
-          // angular.forEach(_contacts, function (data, index, array) {
-          //   if (formData.invoicesId === data.id) {
-          //     formData.invoicesContacts = data;
-          //   }
-          // });
 
         };
 
