@@ -54,7 +54,7 @@
           <!-- 列表 -->
           <div class="bt-dashed-line">
             <p class="flex-column mgb mgt-m pd-c-l">
-              <span class="flex-item-6 color-9">购需单号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+              <span class="flex-item-6 color-9">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
               <span class="flex-item-6 text-right color-9">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
             </p>
 
@@ -64,7 +64,7 @@
                   <tr>
                     <th class="text-center">商品编号</th>
                     <th class="text-left">商品全名</th>
-                    <th class="text-center">规格型号</th>
+                    <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
                     <th class="text-center">数量</th>
                     <th class="text-center">批次要求</th>
@@ -82,7 +82,7 @@
                   <tr ng-repeat="tr in formData.orderMedicalNos" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                     <td class="text-center">{{tr.code}}</td>
                     <td class="text-left">{{tr.name}}</td>
-                    <td class="text-center">{{tr.specification}}</td>
+                    <td class="text-center">{{tr.specificationAndModelType}}</td>
                     <td class="text-center">{{tr.unit}}</td>
                     <td class="text-center">
                       <div class="order-goods-num">
@@ -109,7 +109,7 @@
                              class="ipt pr-ipt-60 text-right"
                              name="price"
                              ng-model="tr.price"
-                             ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/"
                              required
                              invalid-popover
                              popover-show="!editForm.price.$valid"
@@ -128,7 +128,7 @@
                              name="discountPrice"
                              ng-init="tr.discountPrice='0'"
                              ng-model="tr.discountPrice"
-                             ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
                              required
                              invalid-popover
                              popover-show="!editForm.discountPrice.$valid"
@@ -142,7 +142,7 @@
                              name="discountRate"
                              ng-init="tr.discountRate='100'"
                              ng-model="tr.discountRate"
-                             ng-pattern="/^([-]){0,1}([0-9]){1,}([.]){0,1}([0-9]){0,}$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/"
                              required
                              invalid-popover
                              popover-show="!editForm.discountRate.$valid"
@@ -334,7 +334,7 @@
                     <p>
                       <a href="javacript:;"
                          modal-right="600"
-                         modal-data='{"invoicesAddressId":"{{formData.customerId}}","contact":{{item}}}'
+                         modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}'
                          modal-scope="this"
                          modal-url="views/customerAddress/contact/edit.html">修改
                       </a>

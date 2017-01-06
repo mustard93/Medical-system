@@ -1,31 +1,18 @@
 
-        <div class="modal-content" ng-controller="editCtrl"
-   ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{tr.id}}"  scope-data="formData" alert-error callback="initFlag=true"
+        <div class="modal-content" ng-controller="editCtrl"   ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{tr.id}}"  scope-data="formData"
+        callback="formData.stockBatchs=formData.stockBatchs||[]"
         >
 
           <form class="add-medical-form form-horizontal"
                 action="rest/authen/medicalStock/save"
-                    parameter-body
-                  scope-data="formData" alert-error alert-ok
+                 alert-error
                 form-validator>
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
                 <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}药械</h4>
             </div>
             <div class="modal-body">
-              <div class="form-group">
-                <label class="col-lg-2 col-sm-2 control-label">机构</label>
-                <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="select select-w"
-                          data-placeholder="选择机构"
-                          chosen
-                          ng-model="formData.organizationId"
-                          default-empty="无"
-                          alert-error
-                          select-source="rest/index/distributor/queryForSelectOption.json">
-                  </select>
-                </div>
-              </div>
+
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">药品名称</label>
                   <div class="col-lg-10 col-sm-10">
@@ -51,15 +38,9 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">药品单位</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择单位" chosen default-empty="无" ng-model="formData.unit" select-source="rest/baseData/queryForSelectOptionByType" params='{"type":"单位"}'>
+                    <select class="ipt pr-short-ipt" data-placeholder="选择单位" chosen default-empty="无" ng-model="formData.unit" select-source="rest/baseData/queryForSelectOptionByType?typeCode=unit">
 
                     </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">药品简称</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.shortName" />
                   </div>
                 </div>
                 <div class="form-group">
@@ -69,15 +50,9 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">药品编号</label>
+                  <label class="col-lg-2 col-sm-2 control-label">药品编码</label>
                   <div class="col-lg-10 col-sm-10">
                     <input type="text" class="form-control" placeholder="" ng-model="formData.code" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">药品代码</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.goodsCode" />
                   </div>
                 </div>
                 <div class="form-group">
@@ -99,7 +74,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">注册证号</label>
+                  <label class="col-lg-2 col-sm-2 control-label">药监编码</label>
                   <div class="col-lg-10 col-sm-10">
                     <input type="text" class="form-control" placeholder="" ng-model="formData.drugAdministrationCode" />
                   </div>
@@ -117,41 +92,25 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">保质期</label>
+                  <label class="col-lg-2 col-sm-2 control-label">有效期</label>
                   <div class="col-lg-10 col-sm-10">
                     <input type="text" class="form-control" placeholder="" ng-model="formData.guaranteePeriod" />
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">冷链属性</label>
+                  <label class="col-lg-2 col-sm-2 control-label">属性</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择属性" chosen default-empty="无" ng-model="formData.deliveryPlus" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DeliveryPlus">
-
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">品种属性</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择属性" chosen default-empty="无" ng-model="formData.medicalAttribute.id" select-source="rest/authen/medicalAttribute/queryForSelectOption">
+                    <select class="ipt pr-short-ipt" data-placeholder="选择属性" chosen default-empty="无" ng-model="formData.deliveryPlus" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DeliveryPlus">
 
                     </select>
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">型号</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择型号" chosen default-empty="无" ng-model="formData.modelType" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"型号"}'>
-
-                    </select>
-                  </div>
-                </div>
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">规格</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择规格" chosen default-empty="无" ng-model="formData.specification" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"规格"}'>
+                    <select class="ipt pr-short-ipt" data-placeholder="选择规格" chosen default-empty="无" ng-model="formData.specification" select-source="rest/baseData/queryForSelectOptionByType?typeCode=specification">
 
                     </select>
                   </div>
@@ -159,19 +118,39 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">剂型</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择剂型" chosen default-empty="无" ng-model="formData.dosageForms" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"剂型"}'>
+                    <select class="ipt pr-short-ipt" data-placeholder="选择剂型" chosen default-empty="无" ng-model="formData.dosageForms" select-source="rest/baseData/queryForSelectOptionByType?typeCode=dosageForms">
 
                     </select>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">供货商</label>
+                  <label class="col-lg-2 col-sm-2 control-label">库存</label>
                   <div class="col-lg-10 col-sm-10">
-                    <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择供货商" chosen default-empty="无" ng-model="formData.supplierId" select-source="rest/authen/supplier/queryForSelectOption">
-
-                    </select>
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.quantity" />
                   </div>
                 </div>
+
+
+                <div class="form-group"   ng-repeat="item in formData.stockBatchs"  >
+                  <label class="col-lg-2 col-sm-2 control-label">批次</label>
+                  <div class="col-lg-2 col-sm-2">
+                    <input type="text" class="form-control" placeholder="" ng-model="item.productionBatch" />
+                  </div>
+                  <label class="col-lg-2 col-sm-2 control-label">数量</label>
+                  <div class="col-lg-2 col-sm-2">
+                    <input type="number" class="form-control" placeholder="" ng-model="item.quantity" />
+                  </div>
+                  <label class="col-lg-2 col-sm-2 control-label">备注</label>
+                  <div class="col-lg-1 col-sm-1">
+                    <input type="text" class="form-control" placeholder="" ng-model="item.note" />
+                  </div>
+                  <span class="col-lg-1 col-sm-1" ng-click="formData.stockBatchs.splice($index,1)">
+                    <a href="javascript:;"><i class="fa fa-trash-o pr-color text-l"></i></a>
+                  </span>
+                </div>
+                <span class="block" ng-click="formData.stockBatchs.push({})">
+                  <a href="javascript:;">添加批次</a>
+                </span>
 
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label"></label>
