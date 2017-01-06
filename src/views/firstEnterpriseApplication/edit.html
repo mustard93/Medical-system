@@ -84,8 +84,11 @@
                 <div class="col-sm-4">
                   <input type="text"
                          class="form-control"
+                         name="legalRepresentativeIdentityNo"
                          ng-model="formData.firstEnterprise.legalRepresentativeIdentityNo"
-                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" />
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!firstEnterpriseEditForm.legalRepresentativeIdentityNo.$valid}}"  />
                 </div>
               </div>
             </div>
@@ -214,8 +217,11 @@
                   <input type="text" class="form-control flex-item-3" ng-model="formData.firstEnterprise.salesman">
                   <input type="text"
                          class="form-control flex-item-8 flex-offset-1"
-                         ng-model="formData.firstEnterprise.salesmanIdentityNo"
-                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/">
+                         name="salesmanIdentityNo"
+                         ng-model="formData.firstEnterprise.salesmanIdentityNo"                         
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!firstEnterpriseEditForm.salesmanIdentityNo.$valid}}" >
                 </div>
               </div>
             </div>
@@ -288,7 +294,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                
+
                   ng-click="submitForm('first-enterprise-editForm','submit')">下一步
           </button>
         </span>
