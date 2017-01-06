@@ -10,14 +10,15 @@
       </div>
 
       <div class="flex-column">
-        <div class="flex-item-2">
+        <div class="flex-item-3">
           拒绝理由：
         </div>
-        <div class="flex-item-10">
+        <div class="flex-item-9">
           <p class="mgb"
           ajax-url="rest/baseData/queryForSelectOptionByType"
             params='{"type":"审核帐号驳回理由"}'
           scope-data="selectOptions"
+              callback="formData.key=selectOptions[0].value"
           >
             <select ng-if="selectOptions" class="select" ng-model="formData.key" ng-options="item.text as item.text   for item in selectOptions">
             </select>

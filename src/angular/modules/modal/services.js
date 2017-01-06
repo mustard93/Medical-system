@@ -35,7 +35,7 @@ define('modal/services', ['modal/init'], function () {
             preCloseCallback: false,
             overlay: true,
             cache: true,
-            trapFocus: false,
+            trapFocus: true,
             preserveFocus: true,
             ariaAuto: true,
             ariaRole: null,
