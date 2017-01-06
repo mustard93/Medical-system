@@ -136,7 +136,7 @@
                            ng-if="tr.orderStatus=='未通过'"
                            ng-href="#/freezeThawOrder/edit-freeze.html?copyId={{tr.id}}">新建</a> -->
                          <a class="mgl"
-                            ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='未通过' || tr.orderStatus=='待审批' && !$root.hasAuthor('批次冻结解冻单审批')"
+                            ng-if="tr.orderStatus=='待审批' && !$root.hasAuthor('批次冻结解冻单审批') || tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
                             ng-href="#/freezeThawOrder/get-freeze.html?id={{tr.id}}">查看详情</a>
                         <a ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('批次冻结解冻单审批')"
                            class=" mgl"
@@ -176,10 +176,14 @@
                           </p>
 
                           <p ng-if="tr.orderStatus=='未通过'"
+                          title="{{tr.operationFlowSet[1].key}}{{tr.operationFlowSet[1].message}}"
                           class="loss-over-order-details-note">
-                            <span class="pdl">原因：</span><span class="color-6">{{tr.message || '暂无'}}</span>
+                            <span class="pdl">原因：</span>
+                            <span class="color-6">
+                              {{tr.operationFlowSet[1].key || '暂无'}}
+                              {{tr.operationFlowSet[1].message}}
+                            </span>
                           </p>
-
                         </div>
                     </div>
 
