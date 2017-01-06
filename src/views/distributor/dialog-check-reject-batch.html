@@ -1,20 +1,20 @@
-<div class="pr-page-dialog-wrap"      ng-controller="auditUserApplyOrganizationCtrl"
+<div class="pr-page-dialog-wrap"   style="height:540px"   ng-controller="auditUserApplyOrganizationCtrl"
 ng-init="checkUserArr=getCheckUserApplyArr(tbodyList,listSelected);"
 >
   <div class="pr-page-dialog-title bb-line">
     <i></i><span>审核确认</span>
   </div>
-  <div class="pr-page-dialog-content bb-line">
+  <div class="pr-page-dialog-content bb-line"  style="height:340px">
       <div class="mgb-l">拒绝通过以下帐号的审核申请？</div>
       <div class="flex-column">
-          <span ng-repeat="tr in checkUserArr">{{$index + 1}}. {{tr.applyUser.name}}</span>&nbsp;
+          <span  class="col-xs-4"  ng-repeat="tr in checkUserArr">{{$index + 1}}. {{tr.applyUser.name}}</span>&nbsp;
       </div>
 
       <div class="flex-column">
-        <div class="flex-item-2">
+        <div class="flex-item-3">
           拒绝理由：
         </div>
-        <div class="flex-item-10">
+        <div class="flex-item-9">
           <p class="mgb"
           ajax-url="rest/baseData/queryForSelectOptionByType"
               params='{"type":"审核帐号驳回理由"}'

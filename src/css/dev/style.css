@@ -844,6 +844,18 @@ html[xmlns] .clearfix {
   background-color: #ddd;
 }
 
+.clearfix:before, .clearfix:after {
+	content:"";
+	display:table;
+}
+.clearfix:after{
+	clear:both;
+	overflow:hidden;
+}
+.clearfix{
+    zoom:1;
+}
+
 .ipt-l {
     height: 36px;
     width: 286px;
@@ -2699,9 +2711,8 @@ body.ngdialog-open {
   margin: 0 30px;
 }
 .content-wrapper-heading {
-  min-height: 20px;
-  background: rgba(236, 231, 220, .9);
-  overflow: hidden;
+  min-height: 40px;
+  background: rgba(230, 226, 215, .9);
 }
 .content-wrapper-heading.h-l {
   height: 90px;
@@ -3272,7 +3283,7 @@ div.order-goods-num > button.right {
 }
 /* 页面头部信息 */
 .header-info {
-  background: rgba(236, 231, 220, .9);
+  background: rgba(230, 226, 215, .9);
 }
 /* 表格灰色填充 */
 .pr-table-greyfill {
@@ -4304,15 +4315,6 @@ border: 1px solid #ddd;
   position: absolute;
   top: 0;
   right: 0;
-  width: 135px;
-  height: 115px;
-  background-color: transparent;
-  z-index: 100;
-}
-.salesOrder-edit .sales-order-item-delbtn > div:first-child,
-.view-medical .sales-order-item-delbtn > div:first-child,
-.loss-over-order .sales-order-item-delbtn > div:first-child
- {
   width: 32px;
   height: 32px;
   background: rgba(255,56,56,0.95);
@@ -4329,22 +4331,53 @@ border: 1px solid #ddd;
   cursor: pointer;
   display: none;
 }
+.salesOrder-edit .sales-order-item-delbtn > div.sales-order-confirm-del-area,
+.view-medical .sales-order-item-delbtn > div:first-child,
+.loss-over-order .sales-order-item-delbtn > div:first-child
+ {
+
+  margin-top: 10px;
+  border: 1px solid #c7a77b;
+  width: 150px;
+  height: 85px;
+  position: absolute;
+  top: 32px;
+  left: -108px;
+  z-index: 110;
+  display: none;
+
+  /*width: 32px;
+  height: 32px;
+  background: rgba(255,56,56,0.95);
+  box-shadow: 0 1px 4px 0 #F54440;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background-image: url(../../images/pr-sprites.png);
+  background-repeat: no-repeat;
+  background-position: -184px -432px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: 10px;
+  cursor: pointer;
+  display: none;*/
+}
 .salesOrder-edit .sales-order-item-delbtn > div:last-child,
 .view-medical .sales-order-item-delbtn > div:last-child,
 .loss-over-order .sales-order-item-delbtn > div:last-child
  {
-  margin-top: 10px;
+  /*margin-top: 10px;
   border: 1px solid #c7a77b;
-  display: none;
+  display: none;*/
 }
-.salesOrder-edit .sales-order-item-delbtn > div:last-child:before,
-.view-medical .sales-order-item-delbtn > div:last-child:before,
-.loss-over-order .sales-order-item-delbtn > div:last-child:before
+.salesOrder-edit .sales-order-item-delbtn > div.sales-order-confirm-del-area:before,
+.view-medical .sales-order-item-delbtn > div:first-child:before,
+.loss-over-order .sales-order-item-delbtn > div:first-child:before
 
  {
   content: ' ';
   position: absolute;
-  top: 47px;
+  top: -6px;
   right: 20px;
   width: 10px;
   height: 10px;
@@ -4377,7 +4410,7 @@ border: 1px solid #ddd;
 /* 新版面包屑样式 */
 .crumbs {
   border-bottom: 1px solid rgba(226,222,202,.9);
-  background: rgba(243, 238, 226, 0.8);
+  background: rgba(241, 236, 224, 0.8);
 }
 
 /*关于销售单小红图标*/
@@ -5277,7 +5310,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     color: rgb(0, 0, 0);
 }
 .min-w {
-  min-width: 1300px;
+  min-width: 1100px;
 }
 /* 移除number类型input下右边的上下箭头 */
 input::-webkit-outer-spin-button,
@@ -5309,8 +5342,8 @@ input[type="number"] {
 }
 
 .header-section {
-    background-color: rgba(236, 231, 220, .9);
-    border-bottom: 1px solid rgba(226, 222, 202, .75);
+    background-color: rgba(230, 226, 215, .9);
+    border-bottom: 1px solid rgba(226, 222, 202, .9);
 }
 
 .header-section::after {
@@ -5370,7 +5403,7 @@ input[type="number"] {
     float: left;
     position: relative;
     padding: 0;
-    border-right: 1px solid rgba(199,167,123,.3);
+    border-right: 1px solid rgba(218, 216, 201, .9);
 }
 
 .notification-menu>li:nth-child(2) a {
@@ -5503,7 +5536,7 @@ input[type="number"] {
     transition: all 0.2s ease-out 0s;
 }
 .notification-menu li:first-child {
-  border-left: 1px solid rgba(199,167,123,.3);
+  border-left: 1px solid rgba(218, 216, 201, .9);
 }
 
 .notification-menu .dropdown-menu-usermenu {

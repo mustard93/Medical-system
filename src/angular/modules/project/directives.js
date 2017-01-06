@@ -1633,25 +1633,25 @@ function salesorderEditShowDelbtn () {
       // 绑定鼠标移入移出事件
       $element.hover(function () {
         $(_lastChild).find('div.sales-order-item-delbtn').each(function () {
-          $(this).css('z-index','110').find('div.sales-order-del-btn').show();
+          $(this).css('z-index','110').show();
         });
       }, function () {
         $(_lastChild).find('div.sales-order-item-delbtn').each(function () {
-          $(this).css('z-index','100').find('div.sales-order-del-btn').hide().next().hide();
+          $(this).css('z-index','100').hide();
         });
       });
 
       //为删除按钮绑定点击事件
-      $(_lastChild).find('div.sales-order-del-btn').each(function () {
+      $(_lastChild).find('div.sales-order-item-delbtn').each(function () {
         $(this).on('click', function () {
-          $(this).next().show();
+          $(this).find('div.sales-order-confirm-del-area').show();
+        });
+
+        $element.on('mouseleave', function () {
+          $(this).find('div.sales-order-confirm-del-area').hide();
         });
       });
     }
-    // ng1里如果指令中controller属性没有内容，则不能添加，否则编译会出错
-    // controller: function ($scope, $element) {
-    //   // ...
-    // }
   };
 }
 

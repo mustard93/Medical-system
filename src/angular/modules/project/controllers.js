@@ -2,6 +2,19 @@
  * Created by hao on 15/11/5.
  */
 define('project/controllers', ['project/init'], function() {
+
+
+
+  
+      /**
+       * 主控（业务模块级别）
+       */
+      function mainCtrlProject($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList) {
+
+        //底部菜单（业务相关）
+        $rootScope.bottomButtonList=bottomButtonList;
+      }
+
     /**
      * 主控
      */
@@ -1624,6 +1637,7 @@ define('project/controllers', ['project/init'], function() {
     }
 
     angular.module('manageApp.project')
+      .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList", mainCtrlProject])
     .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
     .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
     .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])

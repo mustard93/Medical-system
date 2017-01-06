@@ -1,0 +1,177 @@
+<div ng-controller="pageCtrl"
+     class="pd-c-xxxl left-se-side-par "
+     ng-init="listParams.medicalStockId=mainStatus.pageParams.medicalStockId"
+     ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;"><!-- pageCtrl-->
+    <div class="page-main-content left-se-side-par" ng-controller="MedicalStockController">
+        <!--body wrapper start-->
+        <div class="pd-c-xxl"
+             ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{urlInfo.search.warehouseCode}}"
+             scope-data="warehouseName">
+           <div class="page-header-info ">
+             <p class="mgb-l crumbs pr-indent-20 pdb-s relative  ">
+
+               <em >库存报表 </em>/
+               <a href="#/medicalStock/query-stock.html?warehouseCode={{urlInfo.search.warehouseCode}}">
+                  <em class="color-custom-orange">库存查询</em>
+               </a>
+               /<em >库存变动明细</em>
+             </p>
+
+             <p>
+               <em>仓库：</em>
+               <em ng-if="warehouseName.name">{{warehouseName.name}}</em>
+               <em ng-if="!warehouseName.name">全部</em>
+             </p>
+
+           </div>
+
+           <!-- 主体内容 start-->
+           <table-list list-data="rest/authen/medicalStock/queryInoutstockDetailChange"
+                       list-params="listParams"
+                       search-mode="noCaseSensitive"
+                       callback="totalObj=$root.utils.sumTotalByArray(tbodyList,['price','quantity','actualQuantity','storageQuantity','outgoingQuantity']);total_quantity_price=$root.utils.sumTotalByArrayMul(tbodyList,['price','quantity'])"
+                       search-param="q">
+          <p class="mg-m pdb-s relative">
+            <a href="#/medicalStock/query-stock.html?warehouseCode={{urlInfo.search.warehouseCode}}">
+              <span class="circle ">
+                   <span class="pr-arrow-l"></span>
+              </span>
+            </a>
+            <em class="color-black text-l pd mgl-l">{{tbodyList[0].name}}</em>
+          </p>
+
+          <p ajax-url="rest/authen/medicalStock/queryInoutstockDetailChangeForTerminal" params="listParams" scope-data="stocks">
+
+            <em class="mgl-stock-l">此前库存：</em><em>{{stocks.startQuantity}}</em>
+            <em class="mgl-xxxl">期末库存：</em><em>{{stocks.terminalQuantity}}</em>
+          </p>
+          <div class="content-wrapper-main mgt">
+              <div class="pd-c">
+                           <!-- 搜索框 start-->
+                           <div class="text-left order-list-search relative" ng-init="queryDatePeriod='最近7天'">
+                               <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
+                                date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
+                                 <option value="最近7天">最近7天</option>
+
+                                 <option  value="最近10天">最近10天</option>
+                                 <option  value="最近一个月">最近一个月</option>
+                               </select>
+
+                                 <input type="text"
+                                        datepicker
+                                        class="ipt pr-short-ipt color-6 mgr"
+                                        ng-readonly="true"
+                                        placeholder="日期"
+                                        ng-model="listParams.createAtBeg">
+                                  <span class="mgr">至</span>
+                                  <input type="text"
+                                        datepicker
+                                        class="ipt pr-short-ipt color-6 mgr-l"
+                                        ng-readonly="true"
+                                        placeholder="日期"
+                                        ng-model="listParams.createAtEnd">
+                           <input type="text" class="ipt pdr-xxl" placeholder="单据编号/业务员" ng-model="listParams.q">
+                             <i class="ipt-i"></i>
+                           </div>
+                            <!-- 搜索框 end-->
+
+                 <!-- 主内容头部 -->
+                 <div class="content-wrapper-heading h-l mgb-m mgt-m pdb-s mgr relative">
+                   <!-- 主内容区域 -->
+                   <div class="content-wrapper-main outside-table-d">
+                       <div>
+                         <table  class="table pr-table pr-new-table pr-table-content table-ss-wid">
+                           <thead class="pr-bg-side">
+                             <tr>
+                               <!-- <th>序号</th> -->
+                               <th>单据日期</th>
+                               <th>单据类型</th>
+                               <th>单据编号</th>
+                               <th class="w-220">仓库</th>
+                               <th>单位</th>
+                               <th>业务员</th>
+                               <th>入库数量</th>
+                               <th>出库数量</th>
+                               <th>库存余量</th>
+                               <th>成本价</th>
+                               <th>成本金额</th>
+                             </tr>
+                           </thead>
+                           <tbody class="pr-bg-white">
+                             <tr ng-repeat="tr in tbodyList track by $index">
+                               <!-- <td>{{$index + 1}}</td> -->
+                               <td>{{tr.createAt | date:'yyyy-MM-dd'}}</td>
+                               <td class="text-ellips-s">{{tr.type}}</td>
+                               <td class="color-orange">
+                                 <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='销售入库单'" href="#">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='采购来货通知单'" href="#">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='采购退货出库单'" href="#">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='销售退货入库单'" href="#">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='报损出库单'" href="#">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='报溢入库单'" href="#">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='批次冻结出库单'" href="#">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='批次解冻入库单'" href="#">
+                                 {{tr.orderNo}}
+                                 </a>
+                               </td>
+                               <td class="text-left">
+                                 <div class="autocut" title="{{tr.warehouseName}}">
+                                     {{tr.warehouseName}}
+                                 </div>
+                               </td>
+                               <td>{{tr.unit}}</td>
+                               <td>{{!tr.inputUser.n?'&nbsp;':tr.inputUser.n}}</td>
+                               <td class="text-right">{{tr.storageQuantity?tr.storageQuantity:'0'}}</td>
+                               <td class="text-right">{{tr.outgoingQuantity?tr.outgoingQuantity:'0'}}</td>
+                               <td class="text-right">{{tr.quantity?tr.quantity:'0'}}</td>
+                               <td class="text-right">￥{{tr.price?tr.price:'0'}}</td>
+                               <td class="text-right">￥{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
+                             </tr>
+
+                             <tr class="bgco-orange color-white">
+                               <td colspan="6" class="text-right">合计：</td>
+                               <td class="text-right">{{totalObj.storageQuantity ||'0'}}</td>
+                               <td class="text-right">{{totalObj.outgoingQuantity ||'0'}}</td>
+                               <td class="text-right">{{totalObj.quantity ||'0'}}</td>
+                               <td class="text-right">￥{{totalObj.price ||'0'}}</td>
+                               <td class="text-right">￥{{total_quantity_price}}</td>
+                             </tr>
+                           </tbody>
+                         </table>
+                         <!-- 分页 -->
+                       </div>
+                   </div>
+                   <div class="clearfix">
+                       <div class="fr">
+                           <pagination status="status"></pagination>
+                       </div>
+                   </div>
+                   <!-- 主体内容 end -->
+                 </div>
+               </div>
+          <!--body wrapper end-->
+          </div>
+        </table-list>
+      </div>
+    </div>
+  </div>
