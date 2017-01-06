@@ -282,7 +282,11 @@
                          class="form-control text-left"
                          placeholder="￥0.00"
                          ng-model="formData.firstMedical.purchasePrice"
-                         required="true">
+                         name="purchasePriceName"
+                         required
+                         ng-pattern="/^(([0-9]+[\.]?[0-9]{1,3})|[1-9])$/"
+                         data-content="* 必填字段且不能为0"
+                         invalid-popover="{{!firstMedicalEditForm.purchasePriceName.$valid}}">
                 </div>
               </div>
             </div>
@@ -294,8 +298,12 @@
                          class="form-control text-left"
                          placeholder="￥0.00"
                          ng-model="formData.firstMedical.retailPrice"
-                         required="true"
-                         ng-keyup="chkQuoteAndRetail()">
+                         ng-keyup="chkQuoteAndRetail()"
+                         name="retailPriceName"
+                         required
+                         ng-pattern="/^(([0-9]+[\.]?[0-9]{1,3})|[1-9])$/"
+                         data-content="* 必填字段且不能为0"
+                         invalid-popover="{{!firstMedicalEditForm.retailPriceName.$valid}}">
                 </div>
               </div>
             </div>
