@@ -1765,7 +1765,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     var text=data[i].text;
                       if(suffixKey){//添加额外属性
                         suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
-                        if(suffixKeyVal)text+=suffixConnection+suffixKeyVal;
+                        if(suffixKeyVal!=null||suffixKeyVal!=undefined){
+                          text+=suffixConnection+suffixKeyVal;
+                        }
                       }
                       _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + text + '</option>';
                   }
