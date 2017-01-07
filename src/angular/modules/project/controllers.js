@@ -1617,11 +1617,11 @@ define('project/controllers', ['project/init'], function() {
     function ScreenFinanceApprovalController ($scope) {
       if ($scope.tr.operationFlowSet) {
         // 获取当前订单状态
-        var _status = $scope.tr.orderStatus;
+        // var _status = $scope.tr.orderStatus;
         // 查找流程数组里符合当前订单状态的
-        angular.forEach($scope.tr.operationFlowSet, function (val) {
-          if(val.status === _status) {
-            $scope.tr.approvalUser = val;
+        angular.forEach($scope.tr.operationFlowSet, function (item, index) {
+          if(item.status === '待付款') {
+            $scope.tr.approvalPayUser = item;
           }
         });
       }
