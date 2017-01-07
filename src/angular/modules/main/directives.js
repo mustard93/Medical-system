@@ -2403,14 +2403,31 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             },
             link: function(scope, element, attrs) {
                 var popup;
+                var clickHideEvent=function(e) {
+
+                    // console.log("clickHideEvent");
+                    if($(e.target).closest(".select-address").length == 0){
+                        //实现点击某元素之外触发事件
+                              if(popup){
+                                    popup.hide();
+                              };
+
+                        }
+
+
+                      // event.stopPropagation();
+                      // return false;//导致form表单不能提交
+                  };
                 popup = {
                     element: null,
                     backdrop: null,
                     show: function() {
+                        $(document).on('click', clickHideEvent);
                         return this.element.addClass('active');
                     },
                     hide: function() {
                         this.element.removeClass('active');
+                          $(document).unbind('click', clickHideEvent);
                         return false;
                     },
                     resize: function() {
@@ -2434,16 +2451,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             return false;
                         });
 
-                        var clickHideEvent=function(event) {
-                            if(!popup)return;
-                              popup.hide();
-                              // event.stopPropagation();
-                              // return false;//导致form表单不能提交
-                          };
+
 
                       // $(document).unbind('click', clickHideEvent);
 
-                      $(document).on('click', clickHideEvent);
+
 
 
 //                        $(window).on('click', (function(_this) {
