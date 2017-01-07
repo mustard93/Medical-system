@@ -15,7 +15,12 @@
              class="ipt-l pr-w-100"
              ng-model="ngModel.quantity"
              ng-keyup="handleAddThisItem($event)"
-             placeholder="数量" />
+             placeholder="数量"
+             ng-maxlength="7"
+             required
+             invalid-popover
+             popover-show="!editForm.quantity.$valid"
+             popover-options='{"content":"数额过大", "placement":"right", "trigger":"manual"}' />
     </span>
     <span class="mgr-l">
       <a href="" ng-click="addDataFn();" class="add-medical-list" title="添加药械"></a>
