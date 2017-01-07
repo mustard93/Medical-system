@@ -279,7 +279,7 @@
             <div class="panel-body" style="display:none;padding:15px 0;">
               <div ng-if="initFlag"
                    class="consignee-info pdt-m pdb-m"
-                   ajax-url="rest/authen/invoicesAddress/get.json"
+                   ajax-url="rest/authen/invoicesAddress/get.json&t={{$root.reloadTime}}"
                    scope-data="invoicesAddress"
                    callback="invoicesGetCallBack(formData,invoicesAddress)"
                    ng-class="{'static': invoicesAddress.contacts}">
@@ -299,7 +299,7 @@
                     <i class="consignee-default-label" ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
                     <i class="consignee-choise-label" ng-if="formData.invoicesId==item.id"><em class="fa fa-check color-white"></em></i>
                   </li>
-                  <span>
+                  <span style="position:relative;top:-42px;">
                     <button class="pr-add-item-whitebg static"
                             style="min-height:136px;"
                             modal-right="700"
