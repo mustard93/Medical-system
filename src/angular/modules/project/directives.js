@@ -1968,9 +1968,47 @@ function datePeriodSelect () {
   }
 
 
+  /**
+   * 自动补全-药械 生产批次/灭菌批次/数量
+   */
+  function autocompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
+      return {
+          restrict: 'EA',
+          scope: {
+              "placeholder": "@",
+              "selectedItem": "=?",
+              "url": "@",
+              "titleField": "@",
+              "descriptionField": "@",
+              //"localData": "=?",
+              "searchFields": "@",
+              "matchClass": "@",
+              "ngDisabled": "=?"
+          },
+          require: "?^ngModel",
+          templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStockBatch.html',
+          link: function($scope, elem, attrs, ngModel) {
+              $scope.lastSearchTerm = null;
+              $scope.currentIndex = null;
+              $scope.justChanged = false;
+              $scope.searchTimer = null;
+              $scope.hideTimer = null;
+              $scope.searching = false;
+              $scope.pause = 300;
+              $scope.minLength = 1;
+              $scope.searchStr = null;
+
+              require(['project/angucomplete'], function(angucomplete) {
+                    $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+
+              });//angucomplete
+
+          }
+      };
+  }//autocompleteMedicalStockBatch
 
       /**
-       * 自动补全
+       * 自动补全-药械
        */
       function angucompleteMedical($parse, requestData, $sce, $timeout) {
           return {
@@ -2154,6 +2192,7 @@ angular.module('manageApp.project')
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
   .directive("flashAddMedical", [flashAddMedical])
+    .directive("autocompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",autocompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])

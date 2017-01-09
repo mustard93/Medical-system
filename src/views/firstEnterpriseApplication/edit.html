@@ -127,7 +127,11 @@
                   <input type="text"
                          class="form-control"
                          ng-model="formData.firstEnterprise.registeredCapital"
-                         ng-pattern="/^\d+$/">
+                         ng-pattern="/^\d+$/"
+                         name="registeredCapital"
+                         data-content="注册资金格式有误!"
+                         invalid-popover="{{!firstEnterpriseEditForm.registeredCapital.$valid}}"
+                         >
                 </div>
               </div>
             </div>
@@ -312,7 +316,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-
+                  ng-disabled="firstEnterpriseEditForm.$invalid"
                   ng-click="submitForm('first-enterprise-editForm','submit')">下一步
           </button>
         </span>
