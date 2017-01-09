@@ -31,12 +31,22 @@
 
 
           <td>
-            <p ng-if="item.attachmentUrl && $root.utils.isPicture(item.fileName)">
+            <p ng-if="item.attachmentUrl && $root.utils.isPicture(item.fileName)" class="relative show-mask">
               <img title="{{item.fileName}}"
                    alt="{{item.fileName}}"
                    ng-src="{{item.attachmentUrl}}"
                    modal-img-shows
-                   style="width:120px;height:120px;margin-bottom:10px;"/>
+                   style="width:120px;height:120px;margin-bottom:10px;position:absolute;"/>
+             <span class="span-mask pos-abs">
+               <span class="">查看大图</span>
+                 <span class=""
+                   ng-init="upFile={}"
+                   uploader-one="rest/authen/fileUpload/upload2.json"
+                   usege="{{attachmentsExtend.addFlag}}"
+                   callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"
+                   up-file="upFile" ng-model="item.attachmentUrl">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                 </span>
+             <span>
             </p>
             <p ng-if="item.attachmentUrl && !$root.utils.isPicture(item.fileName)" class="mgb">
                   <a  href="{{item.attachmentUrl}}" >{{item.fileName}}</a>
