@@ -1,5 +1,5 @@
 <div class="content-wrapper"
-     ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/wOutstockOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
      alert-error>
@@ -37,7 +37,7 @@
               审批人：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em> -->
           </span>
           <span class="flex-item-6 text-right">
-            申请日期：<em >{{showData.applyDate | date : 'yyyy-MM-dd' || '暂无'}}</em>
+            出库日期：<em >{{showData.applyDate || '暂无' | date : 'yyyy-MM-dd' }}</em>
           </span>
           <span class="flex-item-1 text-right">状态：
             <em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">
@@ -73,7 +73,7 @@
 
                     <tbody class="pr-bg-white" >
 
-                      <tr ng-repeat="tr in showData.orderMedicalNos" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                      <tr ng-repeat="tr in showData.inoutstockDetails" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                         <td class="text-center">{{tr.code}}</td>
                         <td class="text-center">{{tr.goodsCode}}</td>
                         <td class="text-center">
@@ -137,7 +137,7 @@
 <div class="handle-btn-area relative">
   <div class="btn-area-new over-write-wid">
       <span class="mgr-l">
-        <a  href="#/lossOverOrder/query-reimburse.html">返回报损单列表</a>
+        <a  href="#/wOutstockOrder/query.html">返回其他出库单列表</a>
       </span>
       <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
        custom-menu-list

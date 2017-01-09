@@ -1,5 +1,5 @@
 <div class="woutstock-order">
-<table-list list-data="{{mainStatus.requestPath}}rest/authen/lossOverOrder/query.json"
+<table-list list-data="rest/wOutstockOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -11,13 +11,6 @@
       <div class="full-width mgb-m">
         <div class="pos-rel-tl inline-block fl-l">
         <h1 class="pr-font-22 color-black">其他出库单</h1>
-        </div>
-        <div class="order-status-btn pos-rel-tr text-right"
-             ajax-url="rest/authen/lossOverOrder/countByOrderStatus.json?applyType=报损"
-             scope-data="countByOrderStatus"
-             alert-error>
-            <div class="btn btn-group">
-            </div>
         </div>
       </div>
     </div>
@@ -63,11 +56,10 @@
   </div>
 </div>
 
-<div class="content-wrapper loss-over-order"
+<div class="content-wrapper woutstock-order"
      ng-controller="QualificationApplyCtrl"
-     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;
-     formData.applyType='报损';listParams.applyType='报损'
-     ">
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;">
+        <!-- formData.type='报损';listParams.type='报损出库单' -->
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <div ng-if="!status.isLoading">
@@ -82,8 +74,9 @@
               <div class="relative">
                 <div class="flex-column mgb-m card-title-height pd-m" style="height:24px;line-height:24px;">
                   <span class="flex-item-6 title-states text-bold">
-                    <em ng-class="{'color-black':tr.orderStatus=='待审批','color-green':tr.orderStatus=='已通过','color-gray':tr.orderStatus=='未通过'}">
-                    {{tr.orderStatus}}</em>
+                    <em class="color-black">
+                    {{tr.type}}
+                    </em>
                   </span>
                 <span class="flex-item-6 text-right">
                        <a class="mgl"
@@ -102,19 +95,23 @@
                     <div class="flex-column qurey text-s color-9 bt-dashed-line">
                       <span class="flex-item-6 pdl mgb-s text-left">出库日期</span>
                       <span class="flex-item-6 text-right">
-                          <strong class="color-6 text-normal">{{tr.applyDate | date : 'yyyy-MM-dd'}}</strong>
+                          <strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd'}}</strong>
                       </span>
                     </div>
                     <div class="flex-column qurey text-s color-9 bt-dashed-line">
                       <span class="flex-item-6 pdl mgb-s text-left">出库条目数</span>
                       <span class="flex-item-6 text-right">
-                          <strong class="color-6 text-normal">{{tr.orderMedicalNos.length|| '0'}}</strong>
+                          <strong class="color-6 text-normal">{{tr.inoutstockDetails.length|| '0'}}</strong>
                       </span>
                     </div>
                     <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                      <span class="flex-item-6 pdl mgb-s text-left">参考单</span>
+                      <span ng-if="tr.type=='报损出库单'"
+                      class="flex-item-6 pdl mgb-s text-left">参考报损单</span>
+                      <span ng-if="tr.type=='批次冻结出库单'"
+                      class="flex-item-6 pdl mgb-s text-left">参考批次冻结单</span>
+
                       <span class="flex-item-6 text-right">
-                          <strong class="color-6 text-normal">{{tr.orderMedicalNos.length|| '0'}}</strong>
+                          <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
                       </span>
                     </div>
 
@@ -126,7 +123,7 @@
                       class="loss-over-order-details-note">
                         <span class="pdl">备注：</span><span class="color-6">{{tr.note || '暂无'}}</span>
                       </p>
-                      <p ng-if="tr.orderStatus=='未通过'"
+                      <!-- <p ng-if="tr.orderStatus=='未通过'"
                       title="{{tr.operationFlowSet[1].key}}{{tr.operationFlowSet[1].message}}"
                       class="loss-over-order-details-note">
                         <span class="pdl">原因：</span>
@@ -134,8 +131,7 @@
                           {{tr.operationFlowSet[1].key || '暂无'}}
                           {{tr.operationFlowSet[1].message}}
                         </span>
-                      </p>
-
+                      </p> -->
                     </div>
                 </div>
               </div>
