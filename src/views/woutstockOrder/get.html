@@ -1,5 +1,5 @@
 <div class="content-wrapper"
-     ajax-url="rest/wOutstockOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/wOutstockOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
      alert-error>
@@ -37,7 +37,7 @@
               审批人：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em> -->
           </span>
           <span class="flex-item-6 text-right">
-            出库日期：<em >{{showData.applyDate || '暂无' | date : 'yyyy-MM-dd' }}</em>
+            出库日期：<em >{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
           </span>
           <span class="flex-item-1 text-right">状态：
             <em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">
@@ -77,8 +77,8 @@
                         <td class="text-center">{{tr.code}}</td>
                         <td class="text-center">{{tr.goodsCode}}</td>
                         <td class="text-center">
-                        <div class="autocut-l" title="{{tr.name}}">
-                          {{tr.name}}
+                        <div class="autocut-l" title="{{tr.medicalStockName}}">
+                          {{tr.medicalStockName}}
                         </div>
                         </td>
                         <td class="text-center">
