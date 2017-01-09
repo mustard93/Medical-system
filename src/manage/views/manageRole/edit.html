@@ -30,37 +30,50 @@
         <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label">角色类型</label>
           <div class="col-lg-10 col-sm-10">
+
             <select  ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择角色类型" chosen  ng-model="formData.type" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_RoleType">
 
             </select>
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">权限集</label>
-          <div class="col-lg-10 col-sm-10">
+
+
+                        <!-- <div class="form-group"
+                        ajax-if="{{formData.organizationId}}"
+                        ajax-url="rest/authen/distributor/get.json?id={{formData.organizationId}}"  scope-data="distributor" alert-error
+                        callback="formData.type=distributor.type"
+                        >
+                      </div> -->
+
+                <div class="form-group">
+                 <h3>权限集 <label class="">
+                   <input type="checkbox" value="authorityItem_name{{keyName}}" onclick=" $('.click-reverse-selection').click();"/>
+                   反选</label>
+                 </h3>
+                  <div class="form-ctrl"
+                   ajax-url="rest/index/queryAuthoritys2"  scope-data="authoritys" alert-error
+                   params='{"roleType":"{{formData.type}}"}'
+                   callback="groupMap=$root.utils.getGroupArrayByKeyOfArr(authoritys,'type')"
+                   >
+
+                    <fieldset  class="fieldset" ng-repeat=" keyName in groupMap.keyArr">
+                        <legend>
+                            {{keyName}}  <label class="">
+                              <input type="checkbox" value="authorityItem_name{{keyName}}" onclick=" $('[name='+this.value+']').click();"/>
+                              反选</label>
+                        </legend>
+
+                          <label class="" ng-repeat="authorityItem in groupMap.map[keyName]" title="{{authorityItem.description}}">
+                             <input type="checkbox" name="authorityItem_name{{keyName}}" value="{{authorityItem.name}}" class="click-reverse-selection"
+                           checkbox-group="formData.authoritys" /> {{authorityItem.name}}</label>
+                    </fieldset>
+
+                  </div>
+                  <!--end Authoritys -->
+                </div>
 
 
 
-            <div class="form-ctrl"
-             ajax-url="rest/index/queryAuthoritys"  scope-data="authoritys" alert-error>
-
-              <fieldset  class="fieldset">
-                  <legend>
-                      权限  <label class="">
-                        <input type="checkbox" onclick=" $('[name=authorityItem_name]').click();"/>
-                        反选</label>
-                  </legend>
-
-                    <label class="" ng-repeat="authorityItem in authoritys">
-                       <input type="checkbox" name="authorityItem_name" value="{{authorityItem.value}}"
-                     checkbox-group="formData.authoritys" /> {{authorityItem.text}}</label>
-              </fieldset>
-
-            </div>
-            <!--end Authoritys -->
-
-          </div>
-        </div>
         <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label"></label>
           <div class="col-lg-10 col-sm-10">
