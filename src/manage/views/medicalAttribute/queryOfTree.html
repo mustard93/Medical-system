@@ -1,4 +1,4 @@
-<div   ng-controller="pageCtrl"><!-- pageCtrl-->
+<div   ng-controller="pageCtrl" ng-init="listParams={pageSize:1000}"><!-- pageCtrl-->
 <!-- page heading start-->
 <div class="page-heading">
     <h3>分类属性管理</h3>
@@ -14,22 +14,31 @@
     <li><a href="#/medicalAttribute/queryOfTree.html"><i class="fa fa-home active"></i> <span>分类属性管理(树形展示)</span></a></li>
 </ul>
 <!--body wrapper start-->
+<div class="mg-m col-lg-12 col-sm-12">
+  <div class="col-lg-1">
+    <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"  modal-data='{"organizationId":"{{listParams.organizationId}}"}' modal-url="views/medicalAttribute/edit.html"><i
+            class="fa fa-plus"></i> 新建
+    </button>
+  </div>
+  <div class="form-group col-lg-2">
+    <label class="col-lg-2 col-sm-2 control-label">机构</label>
+    <div class="col-lg-10 col-sm-10">
+      <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="listParams.organizationId" select-source="rest/index/distributor/queryForSelectOption">
 
-  <div class="tree-org" tree-list2="rest/authen/medicalAttribute/query.json?pageSize=1000" pid-key="parentId">
-    <div class="mg-m">
-      <div>
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/medicalAttribute/edit.html"><i
-                class="fa fa-plus"></i> 新建
-        </button>
-      </div>
+      </select>
     </div>
+  </div>
+
+</div>
+  <div class="tree-org" style="margin-top:75px;height:800px" tree-list2="rest/authen/medicalAttribute/query.json" pid-key="parentId">
+
 
     <script id="recursion" type="text/ng-template">
 
         <li ng-repeat="tr in treeList_recursion" ng-init="isOpen=tree_index<2" class="{{isOpen?'fold':''}}">
           <span class="name">
               <span class="text-bold" modal-right="800" modal-scope="this" modal-url="views/medicalAttribute/edit.html?id={{::tr.id}}">{{tr.name}}  <span class="text-s text-muted text-italic label">{{tr.descript}}  </span> </span>
-                <span ng-if="tree_index>0&&tr.nodes.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
+                <span ng-if="tree_index>0&& tr.nodes.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
                  <span class="operate">
                        <i class="iconfont icon-plus" modal-right="800" modal-scope="this" modal-url="views/medicalAttribute/edit.html?parentId={{::tr.id}}"></i>
                                  <i class="iconfont icon-settings" modal-right="800" modal-scope="this" modal-url="views/medicalAttribute/edit.html?id={{::tr.id}}"></i>
@@ -45,7 +54,7 @@
       <span class="name"  ajax-url="rest/authen/distributor/get.json?id={{$root.curUser.additional.Organization.organizationId}}"  scope-data="formData">
 
 
-          <span class="text-bold">{{formData.name?formData.name:"公司"}}  <span class="text-s text-muted text-italic label"></span> </span>
+          <span class="text-bold">{{formData.name?formData.name:"分类属性"}}  <span class="text-s text-muted text-italic label"></span> </span>
             <span ng-if="tree.nodes.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
                      <span class="operate">
                            <i class="iconfont icon-plus" modal-right="800" modal-scope="this" modal-url="/medicalAttribute/edit.html?parentId="></i>

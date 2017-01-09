@@ -1964,6 +1964,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 $element.trigger("chosen:updated");
                                 var keyRight = $.Event('keydown');
                                 keyRight.which = 39;
+                                //0000879: 输入客户名后删除以正常速度（1S删除一个字）删除完所有字后会自动再带出第一个字
+                                // console.log(q);
+                                  searchStr=q;
                                 $input.val(q).trigger(keyRight);
 
                                 if (_data.data.length > 0) {
@@ -2035,11 +2038,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       $chosenContainer.find('.no-results').hide();
 
                       var q = $.trim(field.val());
-
-                      if (!q && searchStr == q) {
+                      //0000879: 输入客户名后删除以正常速度（1S删除一个字）删除完所有字后会自动再带出第一个字
+                      // if (!q && searchStr == q) {
+                      //   return false;
+                      // }
+                      if (searchStr == q) {
                         return false;
                       }
-
                       typing = true;
 
                       if ($scope.searchTimer) {
@@ -2403,14 +2408,31 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             },
             link: function(scope, element, attrs) {
                 var popup;
+                var clickHideEvent=function(e) {
+
+                    // console.log("clickHideEvent");
+                    if($(e.target).closest(".select-address").length == 0){
+                        //实现点击某元素之外触发事件
+                              if(popup){
+                                    popup.hide();
+                              };
+
+                        }
+
+
+                      // event.stopPropagation();
+                      // return false;//导致form表单不能提交
+                  };
                 popup = {
                     element: null,
                     backdrop: null,
                     show: function() {
+                        $(document).on('click', clickHideEvent);
                         return this.element.addClass('active');
                     },
                     hide: function() {
                         this.element.removeClass('active');
+                          $(document).unbind('click', clickHideEvent);
                         return false;
                     },
                     resize: function() {
@@ -2434,16 +2456,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             return false;
                         });
 
-                        var clickHideEvent=function(event) {
-                            if(!popup)return;
-                              popup.hide();
-                              // event.stopPropagation();
-                              // return false;//导致form表单不能提交
-                          };
+
 
                       // $(document).unbind('click', clickHideEvent);
 
-                      $(document).on('click', clickHideEvent);
+
 
 
 //                        $(window).on('click', (function(_this) {
