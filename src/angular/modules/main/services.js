@@ -642,6 +642,49 @@ function alertOk($rootScope, modal) {
               if(index<0)     return null;
               return arr[index];
             },
+
+
+            /**
+              遍历数组，满足属性值等于val，分组返回。 utils.getGroupArrayByKeyOfArr(arr,key) ;
+            [{"id","1","pid":"0"},{"id","2","pid":"0"}],]=>
+            retrun  groupMap={
+                  keyArr:["0","1"],//分组的key数组
+                  map:{"0",[{"id","1","pid":"0"},{"id","2","pid":"0"}],"11":[{"id","2","pid":"11"}]}//分组map<key（分组key）,dataArray（分组key相同的数据集合）>
+              };
+            */
+            getGroupArrayByKeyOfArr : function (arr,key) {
+
+              var groupMap={
+                  keyArr:[],//分组的key数组
+                  map:{}//分组map<key（分组key）,dataArray（分组key相同的数据集合）>
+              };
+
+              if(!angular.isArray(arr))return groupMap;
+
+              for(var i=0;i<arr.length;i++){
+
+                var tmpkey=utilsObj.getObjectVal(arr[i],key);
+                tmpkey+="";//转换为字符串类型
+                if(tmpkey==undefined||tmpkey==""){
+                    tmpkey="null";
+                }
+                //根据key获取分组数组，放在该元素
+                tmpMapArray=groupMap.map[tmpkey];
+                if(!tmpMapArray){
+                  tmpMapArray=[];
+                  groupMap.map[tmpkey]=tmpMapArray;
+                }
+
+                tmpMapArray.push(arr[i]);
+              }
+
+              //分组的key生成数组，返回，用于遍历。
+              for (var tmpKey in groupMap.map)
+                {
+                  groupMap.keyArr.push(tmpKey);
+                }
+              return groupMap;
+            },
             //遍历数组，删除满足属性值等于val的。utils.removeObjectByKeyOfArr(arr,key,val)
             removeObjectByKeyOfArr : function (arr,key,val) {
               var index=utilsObj.getObjectIndexByKeyOfArr(arr,key,val);
