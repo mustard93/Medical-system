@@ -1,6 +1,6 @@
 <div class="modal-content pr-modal-content" ng-controller="editCtrl"
  ajax-url="rest/authen/manageRole/getOfEdit.json?id={{tr.id}}" scope-data="formData" alert-error
- callback="initFlag=true"
+ callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId;formData.type=formData.type||dialogData.type"
  >
 
   <form class="add-medical-form form-horizontal"
@@ -9,7 +9,7 @@
         form-validator>
     <div class="modal-header">
         <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
-        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}角色</h4>
+        <h4 class="modal-title">{{formData&& formData.id?"编辑":"添加"}}角色</h4>
     </div>
     <div class="modal-body">
 

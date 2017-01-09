@@ -80,8 +80,11 @@
                      params='{"id":tr.id}'
                      request-url="rest/authen/otherCustomerApplication/delete"></a>
                 </td>
-                <td ng-if="tr.orderStatus=='待审批'">
-                  <a class="btn btn-primary pr-btn-xsm pr-btn-bg-gold" ng-href="#/otherCustomerApplication/get.html?id={{tr.id}}">审批</a>
+                <td ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')">
+                  <a class="" ng-href="#/otherCustomerApplication/get.html?id={{tr.id}}">审批</a>
+                </td>
+                <td ng-if="tr.orderStatus=='待审批' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')">
+                  <a href="javascript:;" ng-href="#/hospitalApplication/get.html?id={{tr.id}}">查看详情</a>
                 </td>
                 <td ng-if="tr.orderStatus=='未通过'">
                   <p><a href="javascript:;" ng-href="#/otherCustomerApplication/edit.html?copyId={{tr.id}}">新建</a></p>

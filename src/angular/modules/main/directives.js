@@ -1752,6 +1752,32 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               var suffixConnection=$attrs.suffixConnection||"";
               //后缀连接数据得key
              var suffixKey=$attrs.suffixKey||"";
+
+
+             //设置选中值。1.设置优先级为：ngModel》defaultEmpty》data[0]
+             //data 是返回的option 对象数组
+             function getInitSelected (data){
+               var _selected=null;
+               var data0Val=data[0]?data[0].value:null;
+               if(angular.isDefined($attrs.multiple)){
+                   if (angular.isDefined($attrs.defaultEmpty)) {
+                      _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
+                   } else {
+                       _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
+                   }
+               } else {
+                  if (angular.isDefined($attrs.defaultEmpty)) {
+                   _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
+                  } else {
+                    _selected= ngModel.$viewValue ? ngModel.$viewValue : data0Val;
+
+                  }
+               }
+                ngModel.$setViewValue(_selected);
+                if(_selected==null)_selected="";
+
+                 return _selected;
+             }
              //创建option数据
              function createOptionsStr(data,_selected){
                       var _options = '';
@@ -1765,9 +1791,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     var text=data[i].text;
                       if(suffixKey){//添加额外属性
                         suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
-                        if(suffixKeyVal)text+=suffixConnection+suffixKeyVal;
+                        if(suffixKeyVal!=null||suffixKeyVal!=undefined){
+                          text+=suffixConnection+suffixKeyVal;
+                        }
                       }
-                      _options += '<option value="' + data[i].value + '"' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + text + '</option>';
+                      _options += '<option value="' + data[i].value + '" ' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + text + '</option>';
                   }
                   return _options;
 
@@ -1914,10 +1942,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
                                 var _length = _data.data.length;
-                                var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [ngModel.$viewValue];
+
                                 var data= _data.data;
 
-                                  var _options=createOptionsStr(data,_selected);
+
+                                var _selected=getInitSelected(data);
+
+                                var _options=createOptionsStr(data,_selected);
 
                                 // for (var i = 0; i < _length; i++) {
                                 //     // var data= _data.data;
@@ -1933,6 +1964,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 $element.trigger("chosen:updated");
                                 var keyRight = $.Event('keydown');
                                 keyRight.which = 39;
+                                //0000879: 输入客户名后删除以正常速度（1S删除一个字）删除完所有字后会自动再带出第一个字
+                                // console.log(q);
+                                  searchStr=q;
                                 $input.val(q).trigger(keyRight);
 
                                 if (_data.data.length > 0) {
@@ -2004,11 +2038,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       $chosenContainer.find('.no-results').hide();
 
                       var q = $.trim(field.val());
-
-                      if (!q && searchStr == q) {
+                      //0000879: 输入客户名后删除以正常速度（1S删除一个字）删除完所有字后会自动再带出第一个字
+                      // if (!q && searchStr == q) {
+                      //   return false;
+                      // }
+                      if (searchStr == q) {
                         return false;
                       }
-
                       typing = true;
 
                       if ($scope.searchTimer) {
@@ -2124,24 +2160,25 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                               var _length = data.length;
                               //  var _selected = angular.isArray(ngModel.$viewValue) ? ngModel.$viewValue : [data[0].value];
 
-                              var _selected=null;
-                              var data0Val=data[0]?data[0].value:null;
-                              if(angular.isDefined($attrs.multiple)){
-                                  if (angular.isDefined($attrs.defaultEmpty)) {
-                                     _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
-                                  } else {
-                                      _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
-                                  }
-                              } else {
-                                 if (angular.isDefined($attrs.defaultEmpty)) {
-                                  _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
-                                 } else {
-                                   _selected= ngModel.$viewValue ? ngModel.$viewValue : data0Val;
+                              // var _selected=null;
+                              // var data0Val=data[0]?data[0].value:null;
+                              // if(angular.isDefined($attrs.multiple)){
+                              //     if (angular.isDefined($attrs.defaultEmpty)) {
+                              //        _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
+                              //     } else {
+                              //         _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
+                              //     }
+                              // } else {
+                              //    if (angular.isDefined($attrs.defaultEmpty)) {
+                              //     _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
+                              //    } else {
+                              //      _selected= ngModel.$viewValue ? ngModel.$viewValue : data0Val;
+                              //
+                              //    }
+                              // }
+                              // if(_selected==null)_selected="";
 
-                                 }
-                              }
-                              if(_selected==null)_selected="";
-
+                              var _selected=getInitSelected(data);
                               var _options=createOptionsStr(data,_selected);
                               //
                               // if (angular.isDefined($attrs.defaultEmpty)) {
@@ -2371,14 +2408,31 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             },
             link: function(scope, element, attrs) {
                 var popup;
+                var clickHideEvent=function(e) {
+
+                    // console.log("clickHideEvent");
+                    if($(e.target).closest(".select-address").length == 0){
+                        //实现点击某元素之外触发事件
+                              if(popup){
+                                    popup.hide();
+                              };
+
+                        }
+
+
+                      // event.stopPropagation();
+                      // return false;//导致form表单不能提交
+                  };
                 popup = {
                     element: null,
                     backdrop: null,
                     show: function() {
+                        $(document).on('click', clickHideEvent);
                         return this.element.addClass('active');
                     },
                     hide: function() {
                         this.element.removeClass('active');
+                          $(document).unbind('click', clickHideEvent);
                         return false;
                     },
                     resize: function() {
@@ -2402,16 +2456,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             return false;
                         });
 
-                        var clickHideEvent=function(event) {
-                            if(!popup)return;
-                              popup.hide();
-                              // event.stopPropagation();
-                              // return false;//导致form表单不能提交
-                          };
+
 
                       // $(document).unbind('click', clickHideEvent);
 
-                      $(document).on('click', clickHideEvent);
+
 
 
 //                        $(window).on('click', (function(_this) {

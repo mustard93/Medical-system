@@ -702,7 +702,7 @@ define('project/controllers', ['project/init'], function() {
                 alertWarn('请输入大于0的数量。');
                 return false;
             }
-        
+
             if(addDataItem.quantity>medical.quantity){//库存不足情况
                 addDataItem.handleFlag =false;//默认添加到订单
             }
@@ -888,20 +888,22 @@ define('project/controllers', ['project/init'], function() {
         $('#' + fromId).trigger('submit');
       };
 
-      // ...
-      $scope.$watch('formData.orderMedicalNos', function (newVal, oldVal) {
-        // console.log(newVal);
-        $scope.formData.thisPageTotal = 0;
-        angular.forEach(newVal, function (val) {
-          if (val.quantity <= 0) {
-            $scope.formData.thisPageTotal += 0;
-          } else {
-            $scope.formData.thisPageTotal += val.quantity * val.price;
-          }
-
-        });
-      }, true);
-
+      // 全选与全不选
+      $scope.isChoiseAll = function (choiseStatus) {
+        if (choiseStatus) {
+          angular.forEach($scope.orderMedicalNos, function (item, index) {
+            if (!item.handleFlag) {
+              item.handleFlag = true;
+            }
+          });
+        } else {
+          angular.forEach($scope.orderMedicalNos, function (item, index) {
+            if (item.handleFlag) {
+              item.handleFlag = false;
+            }
+          });
+        }
+      };
     }
 
     /**
@@ -1615,11 +1617,11 @@ define('project/controllers', ['project/init'], function() {
     function ScreenFinanceApprovalController ($scope) {
       if ($scope.tr.operationFlowSet) {
         // 获取当前订单状态
-        var _status = $scope.tr.orderStatus;
+        // var _status = $scope.tr.orderStatus;
         // 查找流程数组里符合当前订单状态的
-        angular.forEach($scope.tr.operationFlowSet, function (val) {
-          if(val.status === _status) {
-            $scope.tr.approvalUser = val;
+        angular.forEach($scope.tr.operationFlowSet, function (item, index) {
+          if(item.status === '待付款') {
+            $scope.tr.approvalPayUser = item;
           }
         });
       }

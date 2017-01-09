@@ -1,6 +1,7 @@
 
         <div class="modal-content" ng-controller="editCtrl"
-   ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{tr.id}}"  scope-data="formData" alert-error callback="initFlag=true"
+   ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{tr.id}}"  scope-data="formData" alert-error
+    callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId"
         >
 
           <form class="add-medical-form form-horizontal"
@@ -120,6 +121,18 @@
                   <label class="col-lg-2 col-sm-2 control-label">保质期</label>
                   <div class="col-lg-10 col-sm-10">
                     <input type="text" class="form-control" placeholder="" ng-model="formData.guaranteePeriod" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">产品执行标准</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.productStandard" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">保存温度</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.storedTemperature" />
                   </div>
                 </div>
 
