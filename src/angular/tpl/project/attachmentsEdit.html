@@ -30,7 +30,7 @@
           </td>
 
 
-          <td>
+          <td class="relative">
             <p ng-if="item.attachmentUrl && $root.utils.isPicture(item.fileName)" class="relative show-mask">
               <img title="{{item.fileName}}"
                    alt="{{item.fileName}}"
@@ -38,24 +38,36 @@
                    modal-img-shows
                    style="width:120px;height:120px;margin-bottom:10px;position:absolute;"/>
              <span class="span-mask pos-abs">
-               <span class="">查看大图</span>
-                 <span class=""
+                  <span class="show-big-img">查看大图</span>
+                   <span class="reupload"
+                     ng-init="upFile={}"
+                     uploader-one="rest/authen/fileUpload/upload2.json"
+                     usege="{{attachmentsExtend.addFlag}}"
+                     callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"
+                     up-file="upFile" ng-model="item.attachmentUrl">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                   </span>
+                <!-- <i class="fa fa-times-circle del-btn"></i> -->
+                <span class="circle-s del-btn"><i ng-click="deleteUploader()" class=" fa fa-times-circle"></i></span>
+              <span>
+            </p>
+
+            <p ng-if="item.attachmentUrl && !$root.utils.isPicture(item.fileName)" class="mgb relative p-mask-text">
+                <a  href="{{item.attachmentUrl}}" >{{item.fileName}}
+                </a>
+                <span class="circle-s del-btn"><i class=" fa fa-times-circle"></i></span>
+                 <span class="reupload-text"
                    ng-init="upFile={}"
                    uploader-one="rest/authen/fileUpload/upload2.json"
                    usege="{{attachmentsExtend.addFlag}}"
                    callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"
                    up-file="upFile" ng-model="item.attachmentUrl">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}
                  </span>
-             <span>
-            </p>
-            <p ng-if="item.attachmentUrl && !$root.utils.isPicture(item.fileName)" class="mgb">
-                  <a  href="{{item.attachmentUrl}}" >{{item.fileName}}</a>
-
             </p>
             <p>
               <button type="button"
+                      ng-if="!item.fileName"
                       class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
-                        ng-init="upFile={}"
+                      ng-init="upFile={}"
                       uploader-one="rest/authen/fileUpload/upload2.json"
                       usege="{{attachmentsExtend.addFlag}}"
                       callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"

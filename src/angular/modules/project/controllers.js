@@ -1625,6 +1625,7 @@ define('project/controllers', ['project/init'], function() {
         });
       }
     }
+    
 
     angular.module('manageApp.project')
       .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList", mainCtrlProject])
