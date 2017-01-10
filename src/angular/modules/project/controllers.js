@@ -1592,6 +1592,29 @@ define('project/controllers', ['project/init'], function() {
     }
 
     /**
+     * [deleteUploaderController 删除上传的附件]
+     */
+    function deleteUploaderController($scope, $timeout, alertOk, alertError, requestData){
+      $scope.deleteUploader = function (_key) {
+
+        if (_key) {
+          var url='rest/authen/fileUpload/delete';
+          var data= {key:_key};
+          requestData(url,data,'post')
+            .then(function (results) {
+              
+            })
+            .catch(function (error) {
+              alertError(error || '出错');
+            });
+
+        }
+      };
+    }
+
+
+
+    /**
      * [MedicalStockController 库存明细查询模块控制器]
      * @param {[type]} $scope   [description]
      * @param {[type]} $timeout [description]
@@ -1633,6 +1656,8 @@ define('project/controllers', ['project/init'], function() {
       }
     }
 
+
+
     angular.module('manageApp.project')
       .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList", mainCtrlProject])
     .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
@@ -1654,5 +1679,6 @@ define('project/controllers', ['project/init'], function() {
     .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
     .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
     .controller('MedicalStockController', ['$scope', '$timeout', MedicalStockController])
-    .controller('CalculateTotalController', ['$scope', CalculateTotalController]);
+    .controller('CalculateTotalController', ['$scope', CalculateTotalController])
+    .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController]);
 });

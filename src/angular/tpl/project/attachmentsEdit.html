@@ -15,7 +15,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel">
+        <tr ng-repeat="item in ngModel"
+        ng-controller="deleteUploaderController"
+        >
           <td>{{$index + 1}}</td>
           <td>{{item.name}}</td>
           <td>{{item.uploadUserName}}</td>
@@ -46,22 +48,28 @@
                      callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"
                      up-file="upFile" ng-model="item.attachmentUrl">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}
                    </span>
-                  <span class="circle-s del-btn"><i class="fa fa-times-circle"></i></span>
+                <!-- <i class="fa fa-times-circle del-btn"></i> -->
+                <span ng-click="deleteUploader(item.attachmentUrl)" class="circle-s del-btn"><i class=" fa fa-times-circle"></i></span>
               <span>
             </p>
 
-            <p ng-if="item.attachmentUrl && !$root.utils.isPicture(item.fileName)" class="mgb relative">
-
-                  <a  href="{{item.attachmentUrl}}">{{item.fileName}}
-                  </a>
-                  <i class="fa fa-times-circle"></i>
-
-
+            <p ng-if="item.attachmentUrl && !$root.utils.isPicture(item.fileName)" class="mgb relative p-mask-text">
+                <a  href="{{item.attachmentUrl}}" >{{item.fileName}}
+                </a>
+                <span ng-click="deleteUploader(item.attachmentUrl)" class="circle-s del-btn"><i class=" fa fa-times-circle"></i></span>
+                 <span class="reupload-text"
+                   ng-init="upFile={}"
+                   uploader-one="rest/authen/fileUpload/upload2.json"
+                   usege="{{attachmentsExtend.addFlag}}"
+                   callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"
+                   up-file="upFile" ng-model="item.attachmentUrl">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+                 </span>
             </p>
             <p>
               <button type="button"
+                      ng-if="!item.fileName"
                       class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
-                        ng-init="upFile={}"
+                      ng-init="upFile={}"
                       uploader-one="rest/authen/fileUpload/upload2.json"
                       usege="{{attachmentsExtend.addFlag}}"
                       callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"
