@@ -1608,11 +1608,17 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
   // 监控价格变化并验证
   // $scope.$watch('tr.price', function (newVal) {
   //
-  //   var _pattern = "/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/";
+  //   // console.log($scope.tr);
+  //   //
+  //   $scope.price = {
+  //     _valid : true
+  //   };
   //
-  //   if (!_pattern.test(newVal)) {
-  //     $scope.editForm.price.$valid = false;
-  //   }
+  //   // var _pattern = "/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/";
+  //   var pattern = new RegExp("/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/");
+  //
+  //   $scope.price._valid = pattern.test(newVal) ? false : true;
+  //
   // });
 
 }
