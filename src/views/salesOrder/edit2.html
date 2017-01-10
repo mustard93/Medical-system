@@ -19,8 +19,8 @@
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs pd-c-xxxxxl">销售中心 / <em class="color-custom-orange">购需单</em></p>
-      <div class="pdt-l pdb-l pd-c-xxxxxl">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">销售中心 / <em class="color-custom-orange">购需单</em></p>
+      <div class="pdt-l pdb-l pd-c-xxl">
         <!-- 标题 -->
         <div class="mgb-l">
           <h1 class="pr-font-20 color-black">新建购需单</h1>
@@ -92,12 +92,10 @@
                                  style="width:60px;"
                                  ng-model="tr.quantity"
                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                                 ng-maxlength="7"
-                                 ng-pattern="/^[1-9]\d*$/"
-                                 required
+                                 ng-pattern="/[0-9]{1,7}/"
                                  invalid-popover
                                  popover-show="!editForm.quantity.$valid"
-                                 popover-options='{"content":"数量不正确或数额过大", "placement":"right", "trigger":"manual"}'>
+                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                       </div>
@@ -120,7 +118,7 @@
                              required
                              invalid-popover
                              popover-show="!editForm.price.$valid"
-                             popover-options='{"content":"单价不能为0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                             popover-options='{"content":"单价不能为0且不能过大或格式不正确", "placement":"top", "trigger":"manual"}' />
                     </td>
                     <td class="text-center" ng-init="tr.taxRate='0.17'">
                       <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
