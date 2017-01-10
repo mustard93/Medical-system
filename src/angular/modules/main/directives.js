@@ -1774,30 +1774,40 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
                }
                 ngModel.$setViewValue(_selected);
-                if(_selected==null)_selected="";
+                if(_selected===null)_selected="";
 
                  return _selected;
              }
              //创建option数据
              function createOptionsStr(data,_selected){
-                      var _options = '';
+                var _options = '';
 
-                      if(_selected==null)_selected="";
-                      _selected=_selected+"";//解决true 的情况
-                  if (angular.isDefined($attrs.defaultEmpty)) {
-                      _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
+                if(_selected===null) _selected = "";
+                    _selected=_selected+"";//解决true 的情况
+                if (angular.isDefined($attrs.defaultEmpty)) {
+                    _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
+                }
+
+                // 支持在options中插入对象参数
+                if (!angular.isDefined($attrs.defaultEmpty) && angular.isDefined($attrs.customOption)) {
+                  var _tmpObj = JSON.parse($attrs.customOption);
+
+                  for (var i in _tmpObj) {
+                    _options += '<option value="'+ _tmpObj[i] +'">' + i + '</option>';
                   }
-                  for (var i = 0; i < data.length; i++) {
-                    var text=data[i].text;
-                      if(suffixKey){//添加额外属性
-                        suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
-                        if(suffixKeyVal!=null||suffixKeyVal!=undefined){
-                          text+=suffixConnection+suffixKeyVal;
-                        }
+                }
+
+                for (var i = 0; i < data.length; i++) {
+                  var text=data[i].text;
+                    if(suffixKey){//添加额外属性
+                      suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
+                      if(suffixKeyVal!==null||suffixKeyVal!==undefined){
+                        text+=suffixConnection+suffixKeyVal;
                       }
-                      _options += '<option value="' + data[i].value + '" ' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + text + '</option>';
-                  }
-                  return _options;
+                    }
+                    _options += '<option value="' + data[i].value + '" ' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + text + '</option>';
+                }
+                return _options;
 
              }//createOptionsStr
 
