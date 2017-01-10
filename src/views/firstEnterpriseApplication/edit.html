@@ -123,15 +123,19 @@
             <div class="flex-item-6">
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">注册资金：</label>
-                <div class="col-sm-6">
-                  <input type="text"
-                         class="form-control"
-                         ng-model="formData.firstEnterprise.registeredCapital"
-                         ng-pattern="/^\d+$/"
-                         name="registeredCapital"
-                         data-content="注册资金格式有误!"
-                         invalid-popover="{{!firstEnterpriseEditForm.registeredCapital.$valid}}"
-                         >
+                <div class="col-sm-6 flex-column">
+                  <span class="flex-item-8">
+                    <input type="text"
+                           class="form-control"
+                           ng-model="formData.firstEnterprise.registeredCapital"
+                           name="registeredCapital"
+                           ng-maxlength="8"
+                           ng-pattern="/^(\d)|(\d+\.\d+)$/"
+                           invalid-popover
+                           popover-show="!firstEnterpriseEditForm.registeredCapital.$valid"
+                           popover-options='{"content":"注册资金格式不正确", "placement":"right", "trigger":"manual"}'>
+                  </span>
+                  <span class="control-label flex-item-1 text-left">万元</span>
                 </div>
               </div>
             </div>
@@ -181,13 +185,17 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">开户账号：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control"
-                  ng-model="formData.firstEnterprise.accountNumber"
-                  name="accountNumber"
-                  ng-pattern="/^(\d{16}|\d{19})$/"
-                  data-content="* 请输入正确开户账号"
-                  invalid-popover="{{!firstEnterpriseEditForm.accountNumber.$valid}}"
-                  >
+                  <!-- <input type="text"
+                         class="form-control"
+                         ng-model="formData.firstEnterprise.accountNumber"
+                         name="accountNumber"
+                         ng-pattern="/^(\d{16}|\d{19})$/"
+                         data-content="* 请输入正确开户账号"
+                         invalid-popover="{{!firstEnterpriseEditForm.accountNumber.$valid}}"> -->
+                  <input type="text"
+                         class="form-control"
+                         ng-model="formData.firstEnterprise.accountNumber"
+                         name="accountNumber" />
                 </div>
               </div>
             </div>
@@ -239,13 +247,17 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">座机：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control"
-                  ng-model="formData.firstEnterprise.tel"
-                  name="telname"
-                  ng-pattern="/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/"
-                  data-content="* 请输入正确座机号"
-                  invalid-popover="{{!firstEnterpriseEditForm.telname.$valid}}"
-                  >
+                  <!-- <input type="text"
+                         class="form-control"
+                         ng-model="formData.firstEnterprise.tel"
+                         name="telname"
+                         ng-pattern="/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/"
+                         data-content="* 请输入正确座机号"
+                         invalid-popover="{{!firstEnterpriseEditForm.telname.$valid}}" /> -->
+                  <input type="text"
+                         class="form-control"
+                         ng-model="formData.firstEnterprise.tel"
+                         name="telname" />
                 </div>
               </div>
             </div>
@@ -311,7 +323,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
-                  ng-disabled="!changeFlag "
+                  ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
                   ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
         </span>
         <span class="mgl">

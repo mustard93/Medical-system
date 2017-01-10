@@ -914,7 +914,11 @@ define('project/controllers', ['project/init'], function() {
 
       // 当用户选择某条目的生产批号后，将该条目设置为已选择状态
       $scope.choiseProductionBatch = function (item,stockBatchsItem,selectData) {
+
+        console.log(item.quantity);
+
         if(stockBatchsItem&&!stockBatchsItem.quantity){
+
           //库存批次数量，满足则数量设置为计划数量。
           if(!item.quantity)item.quantity=0;
 
@@ -926,6 +930,7 @@ define('project/controllers', ['project/init'], function() {
           }
 
           if(selectData&&selectData.note&&selectData.note.salesQuantity){
+
             //批次库存不满足计划销售数量
             if(stockBatchsItem.quantity>selectData.note.salesQuantity){
               stockBatchsItem.quantity= selectData.note.salesQuantity;
@@ -1087,14 +1092,21 @@ define('project/controllers', ['project/init'], function() {
 
        };//noticeClick
 
-       //启动消息定时获取
+
+
+       //刷新未读消息通知
+       function refreshNotice(){
+           $rootScope.noticeRefreshTime=new Date().getTime();
+       }
+
+       //启动消息定时获取未读消息通知
        $rootScope.startGetMsg = function(){
            if(Config.stopIntervalNotice===true){
               return;
            }
            if($rootScope.startGetMsgObj)return;
              $rootScope.startGetMsgObj=$interval(function(){
-                $rootScope.noticeRefreshTime=new Date().getTime();
+               refreshNotice();
              }, 10000);
          };
           $rootScope.startGetMsg();
@@ -1105,7 +1117,7 @@ define('project/controllers', ['project/init'], function() {
          var data= {id:id};
          requestData(url,data, 'POST')
            .then(function (results) {
-
+               refreshNotice();
            })
            .catch(function (error) {
 
@@ -1555,24 +1567,55 @@ define('project/controllers', ['project/init'], function() {
 /**
  * [报损报溢批次冻结解冻模块选择生产批号/灭菌批号后显示生产日期和失效日期]
  */
-    function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, requestData) {
-      /**
-       * [getCurrentProductionDate 根据药品id和批号查询生产日期和失效日期]
-       * @param  {[type]} relMedicalStockId [药品id]
-       * @param  {[type]} p_and_s           [生产批号/灭菌批号]
-       */
-      $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
 
-        if (relMedicalStockId && p_and_s) {
+/**
+ * [getCurrentProductionDate 根据药品id和批号查询生产日期和失效日期]
+ * @param  {[type]} relMedicalStockId [药品id]
+ * @param  {[type]} p_and_s           [生产批号/灭菌批号]
+ */
+function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, requestData) {
 
-          var url='rest/authen/medicalStock/getStockBatch?relMedicalStockId='+relMedicalStockId+'&p_and_s='+p_and_s;
-          var data= {};
-          requestData(url,data,'get')
+  $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
+
+    if (relMedicalStockId && p_and_s) {
+      var url='rest/authen/medicalStock/getStockBatch?relMedicalStockId='+relMedicalStockId+'&p_and_s='+p_and_s;
+      var data= {};
+      requestData(url,data,'get')
+        .then(function (results) {
+          var _data = results[1];
+        // 根据药品id和批号查询到的生产日期和失效日期赋给对应字段以供页面显示
+        $scope.tr.productionDate =_data.data.productionDate;
+        $scope.tr.validTill =_data.data.validTill;
+        })
+        .catch(function (error) {
+          alertError(error || '出错');
+        });
+    }
+  };
+
+  // 监控价格变化并验证
+  // $scope.$watch('tr.price', function (newVal) {
+  //
+  //   var _pattern = "/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/";
+  //
+  //   if (!_pattern.test(newVal)) {
+  //     $scope.editForm.price.$valid = false;
+  //   }
+  // });
+
+}
+
+    /**
+     * [deleteUploaderController 删除上传的附件]
+     */
+    function deleteUploaderController($scope, $timeout, alertOk, alertError, requestData){
+      $scope.deleteUploader = function (_key) {
+
+        if (_key) {
+          var url='rest/authen/fileUpload/delete';
+          var data= {key:_key};
+          requestData(url,data,'post')
             .then(function (results) {
-              var _data = results[1];
-            // 根据药品id和批号查询到的生产日期和失效日期赋给对应字段以供页面显示
-            $scope.tr.productionDate =_data.data.productionDate;
-            $scope.tr.validTill =_data.data.validTill;
 
             })
             .catch(function (error) {
@@ -1581,8 +1624,9 @@ define('project/controllers', ['project/init'], function() {
 
         }
       };
-
     }
+
+
 
     /**
      * [MedicalStockController 库存明细查询模块控制器]
@@ -1625,7 +1669,8 @@ define('project/controllers', ['project/init'], function() {
         });
       }
     }
-    
+
+
 
     angular.module('manageApp.project')
       .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList", mainCtrlProject])
@@ -1648,5 +1693,6 @@ define('project/controllers', ['project/init'], function() {
     .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
     .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
     .controller('MedicalStockController', ['$scope', '$timeout', MedicalStockController])
-    .controller('CalculateTotalController', ['$scope', CalculateTotalController]);
+    .controller('CalculateTotalController', ['$scope', CalculateTotalController])
+    .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController]);
 });
