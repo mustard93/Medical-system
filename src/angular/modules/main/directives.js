@@ -2712,7 +2712,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
     //验证失败的提示窗口
     function invalidPopover () {
-
         return {
             restrict: 'A',
             scope: {
@@ -2721,43 +2720,39 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             },
             link: function ($scope, element,$attrs) {
 
-            // console.log($scope.popoverOptions);
-
               function showDo(show){
                 if ( element.data("isFocus")&&show=="true") {
-                    element.popover('show');
-                      // console.log("element.popover('show');");
+                  element.popover('show');
                 } else {
-                    element.popover('hide');
-                      // console.log("element.popover('hide');");
+                  element.popover('hide');
                 }
               }
-                var placement="right";
-                if($attrs.placement)placement=$attrs.placement;
-                var popoverOptions='{ "placement": "'+placement+'", "trigger": "manual" }';
-                if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
-                element.popover(JSON.parse(popoverOptions));
 
-                if ($attrs.popoverShow) {
-                  $scope.$watch('popoverShow', function (val) {
-                    //val ? element.popover('show') : element.popover('hide');
-                    if (val) {
-                      element.popover('show');
-                    } else {
-                      element.popover('hide');
-                    }
-                  });
-                }
+              var placement="right";
+              if($attrs.placement)placement=$attrs.placement;
+              var popoverOptions='{ "placement": "'+placement+'", "trigger": "manual" }';
+              if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
+              element.popover(JSON.parse(popoverOptions));
 
-                element.focus(function(){
-                  //获取焦点时才条件验证。
-                    element.data("isFocus", true);
-                        showDo($attrs.invalidPopover);
-                  });
-
-                $attrs.$observe('invalidPopover', function (show) {
-                    showDo(show);
+              if ($attrs.popoverShow) {
+                $scope.$watch('popoverShow', function (newVal, oldVal) {
+                  if (newVal) {
+                    element.popover('show');
+                  } else {
+                    element.popover('hide');
+                  }
                 });
+              }
+
+              element.focus(function(){
+                //获取焦点时才条件验证。
+                element.data("isFocus", true);
+                showDo($attrs.invalidPopover);
+              });
+
+              $attrs.$observe('invalidPopover', function (show) {
+                showDo(show);
+              });
             }
         };
     }

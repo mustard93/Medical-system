@@ -1562,34 +1562,34 @@ define('project/controllers', ['project/init'], function() {
 /**
  * [报损报溢批次冻结解冻模块选择生产批号/灭菌批号后显示生产日期和失效日期]
  */
-    function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, requestData) {
-      /**
-       * [getCurrentProductionDate 根据药品id和批号查询生产日期和失效日期]
-       * @param  {[type]} relMedicalStockId [药品id]
-       * @param  {[type]} p_and_s           [生产批号/灭菌批号]
-       */
-      $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
 
-        if (relMedicalStockId && p_and_s) {
+/**
+ * [getCurrentProductionDate 根据药品id和批号查询生产日期和失效日期]
+ * @param  {[type]} relMedicalStockId [药品id]
+ * @param  {[type]} p_and_s           [生产批号/灭菌批号]
+ */
+function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, requestData) {
 
-          var url='rest/authen/medicalStock/getStockBatch?relMedicalStockId='+relMedicalStockId+'&p_and_s='+p_and_s;
-          var data= {};
-          requestData(url,data,'get')
-            .then(function (results) {
-              var _data = results[1];
-            // 根据药品id和批号查询到的生产日期和失效日期赋给对应字段以供页面显示
-            $scope.tr.productionDate =_data.data.productionDate;
-            $scope.tr.validTill =_data.data.validTill;
+  $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
 
-            })
-            .catch(function (error) {
-              alertError(error || '出错');
-            });
-
-        }
-      };
+    if (relMedicalStockId && p_and_s) {
+      var url='rest/authen/medicalStock/getStockBatch?relMedicalStockId='+relMedicalStockId+'&p_and_s='+p_and_s;
+      var data= {};
+      requestData(url,data,'get')
+        .then(function (results) {
+          var _data = results[1];
+        // 根据药品id和批号查询到的生产日期和失效日期赋给对应字段以供页面显示
+        $scope.tr.productionDate =_data.data.productionDate;
+        $scope.tr.validTill =_data.data.validTill;
+        })
+        .catch(function (error) {
+          alertError(error || '出错');
+        });
 
     }
+  };
+
+}
 
     /**
      * [deleteUploaderController 删除上传的附件]
@@ -1602,7 +1602,7 @@ define('project/controllers', ['project/init'], function() {
           var data= {key:_key};
           requestData(url,data,'post')
             .then(function (results) {
-              
+
             })
             .catch(function (error) {
               alertError(error || '出错');
