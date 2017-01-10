@@ -15,7 +15,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel">
+        <tr ng-repeat="item in ngModel"
+        ng-controller="deleteUploaderController"
+        >
           <td>{{$index + 1}}</td>
           <td>{{item.name}}</td>
           <td>{{item.uploadUserName}}</td>
@@ -47,14 +49,14 @@
                      up-file="upFile" ng-model="item.attachmentUrl">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}
                    </span>
                 <!-- <i class="fa fa-times-circle del-btn"></i> -->
-                <span class="circle-s del-btn"><i ng-click="deleteUploader()" class=" fa fa-times-circle"></i></span>
+                <span ng-click="deleteUploader(item.attachmentUrl)" class="circle-s del-btn"><i class=" fa fa-times-circle"></i></span>
               <span>
             </p>
 
             <p ng-if="item.attachmentUrl && !$root.utils.isPicture(item.fileName)" class="mgb relative p-mask-text">
                 <a  href="{{item.attachmentUrl}}" >{{item.fileName}}
                 </a>
-                <span class="circle-s del-btn"><i class=" fa fa-times-circle"></i></span>
+                <span ng-click="deleteUploader(item.attachmentUrl)" class="circle-s del-btn"><i class=" fa fa-times-circle"></i></span>
                  <span class="reupload-text"
                    ng-init="upFile={}"
                    uploader-one="rest/authen/fileUpload/upload2.json"
