@@ -914,7 +914,11 @@ define('project/controllers', ['project/init'], function() {
 
       // 当用户选择某条目的生产批号后，将该条目设置为已选择状态
       $scope.choiseProductionBatch = function (item,stockBatchsItem,selectData) {
+
+        console.log(item.quantity);
+
         if(stockBatchsItem&&!stockBatchsItem.quantity){
+
           //库存批次数量，满足则数量设置为计划数量。
           if(!item.quantity)item.quantity=0;
 
@@ -926,6 +930,7 @@ define('project/controllers', ['project/init'], function() {
           }
 
           if(selectData&&selectData.note&&selectData.note.salesQuantity){
+
             //批次库存不满足计划销售数量
             if(stockBatchsItem.quantity>selectData.note.salesQuantity){
               stockBatchsItem.quantity= selectData.note.salesQuantity;
@@ -1585,9 +1590,18 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
         .catch(function (error) {
           alertError(error || '出错');
         });
-
     }
   };
+
+  // 监控价格变化并验证
+  // $scope.$watch('tr.price', function (newVal) {
+  //
+  //   var _pattern = "/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/";
+  //
+  //   if (!_pattern.test(newVal)) {
+  //     $scope.editForm.price.$valid = false;
+  //   }
+  // });
 
 }
 
