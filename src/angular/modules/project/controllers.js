@@ -1087,14 +1087,21 @@ define('project/controllers', ['project/init'], function() {
 
        };//noticeClick
 
-       //启动消息定时获取
+
+
+       //刷新未读消息通知
+       function refreshNotice(){
+           $rootScope.noticeRefreshTime=new Date().getTime();
+       }
+
+       //启动消息定时获取未读消息通知
        $rootScope.startGetMsg = function(){
            if(Config.stopIntervalNotice===true){
               return;
            }
            if($rootScope.startGetMsgObj)return;
              $rootScope.startGetMsgObj=$interval(function(){
-                $rootScope.noticeRefreshTime=new Date().getTime();
+               refreshNotice();
              }, 10000);
          };
           $rootScope.startGetMsg();
@@ -1105,7 +1112,7 @@ define('project/controllers', ['project/init'], function() {
          var data= {id:id};
          requestData(url,data, 'POST')
            .then(function (results) {
-
+               refreshNotice();
            })
            .catch(function (error) {
 
