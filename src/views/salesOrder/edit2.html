@@ -121,10 +121,17 @@
                              popover-options='{"content":"单价不能为0且不能过大或格式不正确", "placement":"top", "trigger":"manual"}' />
                     </td>
                     <td class="text-center" ng-init="tr.taxRate='0.17'">
-                      <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
+                      <!-- <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
                         <option value="0.17" ng-selected="true">17%</option>
                         <option value="0.03">3%</option>
-                      </select>
+                      </select> -->
+                      <select class="ipt pr-short-ipt"
+                              data-placeholder="选择税率"
+                              chosen
+                              width="60px"
+                              ng-model="tr.taxRate"
+                              select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
+                      </select>%
                     </td>
                     <td class="text-center">￥
                       <input type="text"
@@ -152,9 +159,9 @@
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountPrice=tr.price*(1-tr.discountRate/100)"/>%
                     </td>
-                    <td class="text-center">￥{{tr.price*(1-tr.taxRate)-tr.discountPrice | number:2}}</td>
-                    <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity-tr.discountPrice*tr.quantity | number:2}}</td>
-                    <td class="text-center">￥{{tr.price*tr.taxRate*tr.quantity | number:2}}</td>
+                    <td class="text-center">￥{{(tr.price*tr.discountRate)/100*(1-tr.taxRate) | number:2}}</td>
+                    <td class="text-center">￥{{(tr.price*tr.discountRate)/100*(1-tr.taxRate)*tr.quantity | number:2}}</td>
+                    <td class="text-center">￥{{(tr.price*tr.discountRate)/100*tr.taxRate*tr.quantity | number:2}}</td>
                     <td class="text-center relative">￥{{tr.price*tr.quantity-tr.discountPrice*tr.quantity | number:2}}
                       <div class="sales-order-item-delbtn" ng-init="areaStatus==false" ng-hide="areaStatus">
                         <!-- <div class="sales-order-del-btn"><a href="javascript:;"></a></div> -->
@@ -367,7 +374,10 @@
              call-back="$root.goTo('#/salesOrder/query.html')">删除
           </a>
 
-          <button class="pr-btn-save-glodbg mgr-s" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+          <button class="pr-btn-save-glodbg mgr-s"
+                  ng-disabled="!changeFlag || !editForm.$valid"
+                  ng-click="submitForm('editForm','save')">保存
+          </button>
 
           <button ng-click="submitForm('editForm','submit')"
                   class="pr-btn-create-glodbg"
