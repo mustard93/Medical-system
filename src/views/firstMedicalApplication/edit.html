@@ -275,12 +275,17 @@
                   <span class="flex-item-8 flex-offset-1">
                     <label for="" class="col-sm-4 control-label">牌价：</label>
                     <div class="col-sm-8">
-                      <input type="number"
+                      <input type="text"
                              class="form-control text-left"
                              placeholder="￥0.00"
                              ng-model="formData.firstMedical.quoteprice"
                              ng-disabled="formData.firstMedical.isBasicMedicine=='否'"
-                             ng-keyup="chkQuoteAndRetail()">
+                             ng-keyup="chkQuoteAndRetail()"
+                             name="quoteprice"
+                             ng-pattern="/^(\d)|(\d+\.\d+)$/"
+                             invalid-popover
+                             popover-show="!firstMedicalEditForm.quoteprice.$valid"
+                             popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                     </div>
                   </span>
 
@@ -293,15 +298,16 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">采购价：</label>
                 <div class="col-sm-6">
-                  <input type="number"
+                  <input type="text"
                          class="form-control text-left"
                          placeholder="￥0.00"
                          ng-model="formData.firstMedical.purchasePrice"
-                         name="purchasePriceName"
+                         name="purchasePrice"
                          required
-                         ng-pattern="/^(([0-9]+[\.]?[0-9]{1,3})|[1-9])$/"
-                         data-content="* 必填字段且不能为0"
-                         invalid-popover="{{!firstMedicalEditForm.purchasePriceName.$valid}}">
+                         ng-pattern="/^(\d)|(\d+\.\d+)$/"
+                         invalid-popover
+                         popover-show="!firstMedicalEditForm.purchasePrice.$valid"
+                         popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}'>
                 </div>
               </div>
             </div>
@@ -309,16 +315,17 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">零售价：</label>
                 <div class="col-sm-6">
-                  <input type="number"
+                  <input type="text"
                          class="form-control text-left"
                          placeholder="￥0.00"
                          ng-model="formData.firstMedical.retailPrice"
                          ng-keyup="chkQuoteAndRetail()"
-                         name="retailPriceName"
+                         name="retailPrice"
                          required
-                         ng-pattern="/^(([0-9]+[\.]?[0-9]{1,3})|[1-9])$/"
-                         data-content="* 必填字段且不能为0"
-                         invalid-popover="{{!firstMedicalEditForm.retailPriceName.$valid}}">
+                         ng-pattern="/^(\d)|(\d+\.\d+)$/"
+                         invalid-popover
+                         popover-show="!firstMedicalEditForm.retailPrice.$valid"
+                         popover-options='{"content":"零售价格式不正确", "placement":"right", "trigger":"manual"}'>
                 </div>
               </div>
             </div>
