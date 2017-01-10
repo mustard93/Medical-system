@@ -84,7 +84,7 @@
                     <td class="text-center">{{tr.unit}}</td>
                     <td class="text-center">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-disabled="tr.quantity==1">-</button>
                         <span class="inline-block">
                           <input type="text"
                                  name="quantity"
@@ -97,7 +97,7 @@
                                  popover-show="!editForm.quantity.$valid"
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
-                        <button type="button" class="inline-block right" ng-click="tr.quantity=Number(tr.quantity)+1">+</button>
+                        <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>
                       </div>
                     </td>
                     <td class="text-center">
