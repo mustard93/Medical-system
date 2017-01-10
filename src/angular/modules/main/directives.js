@@ -1780,6 +1780,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
              }
              //创建option数据
              function createOptionsStr(data,_selected){
+
                       var _options = '';
 
                       if(_selected==null)_selected="";
@@ -1787,7 +1788,27 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   if (angular.isDefined($attrs.defaultEmpty)) {
                       _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
                   }
+
+                    //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                    var hideSelectValueArray=null;
+
+                    if( $attrs.callbackFilterReturnData){
+                              hideSelectValueArray=   $scope.$eval($attrs.callbackFilterReturnData);
+                             console.log(hideSelectValueArray);
+                    }
+
                   for (var i = 0; i < data.length; i++) {
+                      var selectedFlag=_selected.indexOf(data[i].value)> -1;
+
+                      //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                      if(!selectedFlag&&hideSelectValueArray){
+                        if(hideSelectValueArray.indexOf(data[i].value)> -1){
+                             console.log(data[i].value);
+                            continue;
+                        }
+                      }
+
+
                     var text=data[i].text;
                       if(suffixKey){//添加额外属性
                         suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
@@ -1795,7 +1816,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           text+=suffixConnection+suffixKeyVal;
                         }
                       }
-                      _options += '<option value="' + data[i].value + '" ' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + text + '</option>';
+                      _options += '<option value="' + data[i].value + '" ' + (selectedFlag? 'selected' : '') + '>' + text + '</option>';
                   }
                   return _options;
 

@@ -904,7 +904,19 @@ define('project/controllers', ['project/init'], function() {
           });
         }
       };
-    }
+
+      //获取一个药械，已经选中的批次，返回成数组格式，用于同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+      //用于chosen 回调过滤数据用。
+      $scope.getProductionBatchValueArray = function (stockBatchs) {
+          var arr=[];
+          if(!stockBatchs)return arr;
+          for(var i=0;i<stockBatchs.length;i++){
+              arr.push(stockBatchs[i].productionBatch);
+          }
+          return arr;
+      };
+
+    }//confirmOrderEditCtrl2
 
     /**
      * [ConfirmOrderMedicalController 新版销售单药品列表行控制器]
@@ -946,7 +958,7 @@ define('project/controllers', ['project/init'], function() {
               item.quantity=0;//根据批次的销售数量，计算销售的总数量。
               //记录批次中是否有空的数量没填写，没有则根据，批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
 
-              if(!newVal)newVal=[];
+              if(!newVal)newVal=[{}];
 
               //记录添加新的批号选择下拉框的索引号。
               var noSelectproductionBatchValIndex=-1;
