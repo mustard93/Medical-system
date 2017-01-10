@@ -1,9 +1,15 @@
 var conf={
   //stopIntervalNotice:false,//false|true.是否停止监听消息
   //serverPath:"http://120.76.232.188:8080/dt/",    //外部地址，系统api调用接口地址
+<<<<<<< HEAD
   //serverPath:"http://192.168.0.211:8080/dt/",    //系统api调用接口地址
   //serverPath:"http://localhost:8080/dt/",    //系统api调用接口地址
   serverPath:"http://118.113.147.105:33333/dt/",
+=======
+  serverPath:"http://192.168.0.211:8080/dt/",    //系统api调用接口地址
+  //serverPath:"http://localhost:8080/dt/",    //系统api调用接口地址
+  //serverPath:"http://118.113.147.113:33333/dt/",
+>>>>>>> 198f8ea0c0b27621fc34c4da6f98fdf3b3a664e4
   //serverPath:"",    //系统api调用接口地址
   ver:"1.0.0"
 };

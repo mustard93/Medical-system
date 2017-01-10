@@ -15,7 +15,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel">
+        <tr ng-repeat="item in ngModel"
+        ng-controller="deleteUploaderController"
+        >
           <td>{{$index + 1}}</td>
           <td>{{item.name}}</td>
           <td>{{item.uploadUserName}}</td>
@@ -31,28 +33,10 @@
 
 
           <td>
-            <p ng-if="item.attachmentUrl && $root.utils.isPicture(item.fileName)">
-              <img title="{{item.fileName}}"
-                   alt="{{item.fileName}}"
-                   ng-src="{{item.attachmentUrl}}"
-                   modal-img-shows
-                   style="width:120px;height:120px;margin-bottom:10px;"/>
-            </p>
-            <p ng-if="item.attachmentUrl && !$root.utils.isPicture(item.fileName)" class="mgb">
-                  <a  href="{{item.attachmentUrl}}" >{{item.fileName}}</a>
 
-            </p>
-            <p>
-              <button type="button"
-                      class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
-                        ng-init="upFile={}"
-                      uploader-one="rest/authen/fileUpload/upload2.json"
-                      usege="{{attachmentsExtend.addFlag}}"
-                      callback="item.uploadUserId=upFile.data.userId;item.uploadUserName=upFile.data.userName;item.uploadTime=upFile.data.createAt;item.fileName=upFile.data.originalFileName"
-                      up-file="upFile" ng-model="item.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
-              </button>
+            <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
 
-            </p>
+
           </td>
 
           <td>
@@ -77,24 +61,10 @@
           <td>{{addAttachment.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
           <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效日期至" ng-readonly="true" ng-model="addAttachment.guaranteePeriod"></td>
           <td>
-            <p ng-if="addAttachment.attachmentUrl && $root.utils.isPicture(addAttachment.fileName)">
-              <img title="{{addAttachment.fileName}}"
-                   alt="{{addAttachment.fileName}}"
-                   ng-src="{{addAttachment.attachmentUrl}}"
-                   modal-img-show
-                   style="width:120px;height:120px;margin-bottom:10px;"/>
-            </p>
-            <p ng-if="addAttachment.attachmentUrl && !$root.utils.isPicture(addAttachment.fileName)" class="mgb">
-                <a  href="{{addAttachment.attachmentUrl}}" >{{addAttachment.fileName}}</a>
-            </p>
-            <button type="button"
-                    class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
-                    ng-init="upFile={}"
-                    uploader-one="rest/authen/fileUpload/upload2.json"
-                    usege="{{attachmentsExtend.usege}}"
-                    callback="addAttachment.uploadUserId=upFile.data.userId;addAttachment.uploadUserName=upFile.data.userName;addAttachment.uploadTime=upFile.data.createAt;addAttachment.fileName=upFile.data.originalFileName"
-                    up-file="upFile" ng-model="addAttachment.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
-            </button>
+
+
+            <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="addAttachment"></div>
+
           </td>
           <td>
             <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="addAttachment.note"></textarea>

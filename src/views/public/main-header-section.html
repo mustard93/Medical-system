@@ -7,14 +7,14 @@
 
   <!--通知菜单 start -->
   <div class="menu-right"
-       ajax-url="rest/authen/notice/getUnRead.json?t={{$root.noticeRefreshTime}}"
-       noshow-loading="true"
-       scope-response="scopeResponse">
+  ajax-url="rest/authen/notice/getUnReadSize.json?t={{$root.noticeRefreshTime}}"
+  noshow-loading="true"
+  scope-response="scopeResponse2"  >
 
     <ul class="notification-menu"
-        ajax-url="rest/authen/notice/getUnReadSize.json"
-        noshow-loading="true"
-        scope-response="scopeResponse2">
+    ajax-url="rest/authen/notice/getUnRead.json?t={{scopeResponse2.data}}"
+    noshow-loading="true"
+    scope-response="scopeResponse">
         <li>
           <a href="#/personalCenter/personal-info.html"  class="btn btn-default dropdown-toggle text-s" >
               <img ng-src="{{$root.curUser.headUrl || 'images/default-user-face.png'}}" alt="" /> {{$root.curUser.name}}

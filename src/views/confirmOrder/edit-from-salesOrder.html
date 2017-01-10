@@ -115,7 +115,7 @@
                   </th>
                   <th class="text-center">商品编号</th>
                   <th>商品全名</th>
-                  <th class="text-center">规格型号</th>
+                  <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
@@ -138,7 +138,7 @@
                   </td>
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
-                  <td class="text-center">{{item.specification}}</td>
+                  <td class="text-center">{{item.specificationAndModelType}}</td>
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.planQuantity}}</td>
                   <td class="text-center">
@@ -158,7 +158,8 @@
                               suffix-connection="/"
                               suffix-key="note.salesQuantity"
                               ng-model="stockBatchsItem.productionBatch"
-                              callback="choiseProductionBatch(item,stockBatchsItem,selectData);item.handleFlag=true"
+                              callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
+                              callback-filter-return-data="getProductionBatchValueArray(item.stockBatchs)"
                               select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
                       </select>
                       <p class="mgt-s text-right relative" ng-if="stockBatchsItem.productionBatch">
@@ -167,8 +168,7 @@
                                ng-model="stockBatchsItem.quantity"
                                data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
                                invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}" />
-
-                        <span class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                               <span class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                       </p>
                       <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)">{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}缺货：{{stockBatchsItem.quantity-selectData.note.salesQuantity}}</p> -->
                     </div>

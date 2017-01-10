@@ -8,6 +8,43 @@
   </div>
   <h1 class="pd-c-l pdt-m pdb-m">自动补齐</h1>
   <div class="pd-c-l">
+
+    <ul>
+      <li>
+        <div class="panel">
+          <div class="panel-heading">
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+              <a href="javascript:;" class="fa fa-times"></a>
+            </span>
+            <div class="form-tr">
+                <div class="form-th">自动补全-药械</div>
+                <div class="form-td">
+                  <span angucomplete placeholder="输入"
+                  title-field="text"
+                   url="data/autocomplete.json" class="inline-block"
+                    ng-model="angucomplete_data1"></span>
+
+                    <span angucomplete-medical-stock-batch placeholder="输入"
+                     url="data/autocomplete_stockBatch.json" class="inline-block"
+                      ng-model="angucomplete_data2"></span>
+                      <p>    angucomplete_data2={{angucomplete_data2}}</p>
+                </div>
+            </div>
+          </div>
+          <div class="panel-body" style="display:none;">
+
+            <textarea class="form-control" style="min-height:200px;" readonly="true">
+              <span angucomplete-medical placeholder="输入"     title-field="name"
+               url="data/medicalStockList.json" class="inline-block"
+
+                ng-model="angucomplete_data"></span>
+            </textarea>
+          </div>
+        </div>
+      </li>
+
+
       <ul>
         <li>
           <div class="panel">
@@ -22,8 +59,9 @@
 
                       <span angucomplete-medical placeholder="输入"     title-field="name"
                        url="data/medicalStockList.json" class="inline-block"
-
-                        ng-model="angucomplete_data"></span>
+                         ng-model="angucomplete_data"
+                       add-data-callback-fn="flashAddDataCallbackFn(angucomplete_data)"
+                      ></span>
 
                         <p>    angucomplete_data={{angucomplete_data}}</p>
                   </div>

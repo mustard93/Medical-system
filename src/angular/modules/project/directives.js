@@ -3,7 +3,22 @@
  */
 define('project/directives', ['project/init'], function () {
 
-
+  /**
+    附件文件显示
+    attachmentsExtend={"edit":true}
+    edit：是否可编辑
+  */
+  function attachmentsItemShow() {
+    return {
+      restrict: 'EA',
+      scope: {
+          attachmentsItemExtend:"=",
+          ngModel: "="
+      },
+      replace: true,
+      templateUrl:  Config.tplPath +'tpl/project/attachmentsItemShow.html'
+    };
+  }
   /**
     附件列表-只读显示
     attachmentsExtend={"title":"审核资料"}
@@ -1940,13 +1955,15 @@ function datePeriodSelect () {
           link: function ($scope, $elem, $attrs) {
 
               $elem.on('click', function (e) {
-                  e.preventDefault();
-                  if(!$attrs.ngSrc)return;
 
-                  var url=$attrs.ngSrc.split("@")[0];
 
+                  var url=$attrs.ngSrc||$attrs.src;
+                  if(!url){
+                    console.log("url is null");
+                    return;
+                  }
+                  url=url.split("@")[0];
                     var modalData='{"url":"'+url+'"}';
-
                     console.log(modalData);
 
                   ngDialog.open({
@@ -1962,15 +1979,56 @@ function datePeriodSelect () {
                             $(".ngdialog-content", $element).height(utils.getwindowHeight());
                       }]
                   });
+
+
+                e.preventDefault();
               });
           }
       };
   }
 
 
+  /**
+   * 自动补全-药械 生产批次/灭菌批次/数量
+   */
+  function autocompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
+      return {
+          restrict: 'EA',
+          scope: {
+              "placeholder": "@",
+              "selectedItem": "=?",
+              "url": "@",
+              "titleField": "@",
+              "descriptionField": "@",
+              //"localData": "=?",
+              "searchFields": "@",
+              "matchClass": "@",
+              "ngDisabled": "=?"
+          },
+          require: "?^ngModel",
+          templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStockBatch.html',
+          link: function($scope, elem, attrs, ngModel) {
+              $scope.lastSearchTerm = null;
+              $scope.currentIndex = null;
+              $scope.justChanged = false;
+              $scope.searchTimer = null;
+              $scope.hideTimer = null;
+              $scope.searching = false;
+              $scope.pause = 300;
+              $scope.minLength = 1;
+              $scope.searchStr = null;
+
+              require(['project/angucomplete'], function(angucomplete) {
+                    $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+
+              });//angucomplete
+
+          }
+      };
+  }//autocompleteMedicalStockBatch
 
       /**
-       * 自动补全
+       * 自动补全-药械
        */
       function angucompleteMedical($parse, requestData, $sce, $timeout) {
           return {
@@ -2147,6 +2205,7 @@ function resizableColumns() {
 }
 
 angular.module('manageApp.project')
+  .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑
   .directive("bottomButtonList", [bottomButtonList])//底部自定义菜单
@@ -2154,6 +2213,7 @@ angular.module('manageApp.project')
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
   .directive("flashAddMedical", [flashAddMedical])
+    .directive("autocompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",autocompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])

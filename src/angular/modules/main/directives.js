@@ -1780,6 +1780,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
              }
              //创建option数据
              function createOptionsStr(data,_selected){
+
                       var _options = '';
 
                       if(_selected==null)_selected="";
@@ -1787,7 +1788,27 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   if (angular.isDefined($attrs.defaultEmpty)) {
                       _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
                   }
+
+                    //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                    var hideSelectValueArray=null;
+
+                    if( $attrs.callbackFilterReturnData){
+                              hideSelectValueArray=   $scope.$eval($attrs.callbackFilterReturnData);
+                             console.log(hideSelectValueArray);
+                    }
+
                   for (var i = 0; i < data.length; i++) {
+                      var selectedFlag=_selected.indexOf(data[i].value)> -1;
+
+                      //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                      if(!selectedFlag&&hideSelectValueArray){
+                        if(hideSelectValueArray.indexOf(data[i].value)> -1){
+                             console.log(data[i].value);
+                            continue;
+                        }
+                      }
+
+
                     var text=data[i].text;
                       if(suffixKey){//添加额外属性
                         suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
@@ -1795,7 +1816,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           text+=suffixConnection+suffixKeyVal;
                         }
                       }
-                      _options += '<option value="' + data[i].value + '" ' + (_selected.indexOf(data[i].value) > -1 ? 'selected' : '') + '>' + text + '</option>';
+                      _options += '<option value="' + data[i].value + '" ' + (selectedFlag? 'selected' : '') + '>' + text + '</option>';
                   }
                   return _options;
 
@@ -2712,7 +2733,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
     //验证失败的提示窗口
     function invalidPopover () {
-
         return {
             restrict: 'A',
             scope: {
@@ -2721,43 +2741,39 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             },
             link: function ($scope, element,$attrs) {
 
-            // console.log($scope.popoverOptions);
-
               function showDo(show){
                 if ( element.data("isFocus")&&show=="true") {
-                    element.popover('show');
-                      // console.log("element.popover('show');");
+                  element.popover('show');
                 } else {
-                    element.popover('hide');
-                      // console.log("element.popover('hide');");
+                  element.popover('hide');
                 }
               }
-                var placement="right";
-                if($attrs.placement)placement=$attrs.placement;
-                var popoverOptions='{ "placement": "'+placement+'", "trigger": "manual" }';
-                if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
-                element.popover(JSON.parse(popoverOptions));
 
-                if ($attrs.popoverShow) {
-                  $scope.$watch('popoverShow', function (val) {
-                    //val ? element.popover('show') : element.popover('hide');
-                    if (val) {
-                      element.popover('show');
-                    } else {
-                      element.popover('hide');
-                    }
-                  });
-                }
+              var placement="right";
+              if($attrs.placement)placement=$attrs.placement;
+              var popoverOptions='{ "placement": "'+placement+'", "trigger": "manual" }';
+              if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
+              element.popover(JSON.parse(popoverOptions));
 
-                element.focus(function(){
-                  //获取焦点时才条件验证。
-                    element.data("isFocus", true);
-                        showDo($attrs.invalidPopover);
-                  });
-
-                $attrs.$observe('invalidPopover', function (show) {
-                    showDo(show);
+              if ($attrs.popoverShow) {
+                $scope.$watch('popoverShow', function (newVal, oldVal) {
+                  if (newVal) {
+                    element.popover('show');
+                  } else {
+                    element.popover('hide');
+                  }
                 });
+              }
+
+              element.focus(function(){
+                //获取焦点时才条件验证。
+                element.data("isFocus", true);
+                showDo($attrs.invalidPopover);
+              });
+
+              $attrs.$observe('invalidPopover', function (show) {
+                showDo(show);
+              });
             }
         };
     }
@@ -2983,7 +2999,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           // 为当前元素设置固定宽度和高度
           $element.css({'width':_w, 'height':'auto', 'margin-left':'auto', 'margin-right':'auto'});
           // 获取需要显示的字符数
-          var _showCharNum = parseInt(_w/17);
+          var _showCharNum = parseInt(_w/19);
 
           var _resStr,
               // _str = $scope.tr.firstMedical.name;
