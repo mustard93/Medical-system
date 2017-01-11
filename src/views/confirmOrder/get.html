@@ -92,13 +92,19 @@
                   <td class="text-center">{{item.productionBatch}}</td>
                   <!-- <td class="text-center">{{item.expectDate | date:'yyyy-MM-dd'}}</td> -->
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
-                  <td class="text-center">{{item.taxRate*100}}%</td>
+                  <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate}}%</td>
-                  <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
+
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+
+                  <!-- <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
                   <td class="text-center">￥{{item.price*(1-item.taxRate)*item.quantity | number:2}}</td>
                   <td class="text-center">￥{{item.price*item.taxRate*item.quantity | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.quantity | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.quantity | number:2}}</td> -->
                 </tr>
               </tbody>
             </table>

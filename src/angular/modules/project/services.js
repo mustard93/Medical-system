@@ -96,8 +96,50 @@ define('project/services', ['project/init'], function () {
 
         }
 
+        /**
+         *  项目自定义顶部fixed消息提示tips
+         *  Mode: 1.success 2.error 3.prompt(提示)
+         */
+        function saleOrderUtils (utils) {
+          var  tmpObj = {
+            //无税单价
+            getWuSuiDanJian:function(item){
+                //item.price*(100-item.taxRate)/100-item.discountPrice;
+                var tmp=utils.numberSub(100,item.taxRate);
+                tmp=utils.numberDiv(tmp,100);
+                 tmp=utils.numberMul(tmp,item.price);
+                    tmp=utils.numberSub(tmp,item.discountPrice);
+               return tmp;
+            },
+            //无税金额 item.price*(1-item.taxRate)*item.quantity
+            getWuSuiJinE:function(item){
+                //item.price*(100-item.taxRate)/100*item.quantity
+                //100-item.taxRate
+                var tmp=tmpObj.getWuSuiDanJian(item);
+                    tmp=utils.numberMul(tmp,item.quantity);
+               return tmp;
+            },
+            //税额 item.price*item.taxRate/100*item.quantity
+            getSuiE:function(item){
+                //100-item.taxRate
+                var tmp=utils.numberMul(item.price,item.taxRate);
+                 tmp=utils.numberDiv(tmp,100);
+                    tmp=utils.numberMul(tmp,item.quantity);
+               return tmp;
+            },
+            //价税合计 item.price*item.quantity
+            getJiaSuiHeJi:function(item){
+              //item.price*item.quantity
+                var tmp=utils.numberMul(item.price,item.quantity);
+               return tmp;
+            }
 
+          };//tmpObj
+
+          return tmpObj;
+        }//SaleOrderUtils
   angular.module('manageApp.project')
+    .factory('saleOrderUtils', ["utils",saleOrderUtils])
     .factory('bottomButtonList', [bottomButtonList])
     .factory('proMessageTips', [proMessageTips]);
 });
