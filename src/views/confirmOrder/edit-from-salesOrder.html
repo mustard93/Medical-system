@@ -120,7 +120,6 @@
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
                   <th class="text-center w-160">生产批号/灭菌批号</th>
-                  <!-- <th class="text-center w-140">预发货日期</th> -->
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -185,7 +184,7 @@
                            ng-model="item.expectDate" />
                   </td> -->
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
-                  <td class="text-center">{{item.taxRate*100}}%</td>
+                  <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate | number:2}}%</td>
                   <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
@@ -405,7 +404,7 @@ base-image-url="images/canvasBusinessFlow/"
            call-back="$root.goTo('#/salesOrder/query.html')">删除
         </a>
 
-        <button ng-if="formData.orderStatus=='待审核'"
+        <button
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="!changeFlag"

@@ -1777,51 +1777,61 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
                }
                 ngModel.$setViewValue(_selected);
-                if(_selected==null)_selected="";
+                if (_selected===null) {
+                  _selected = "";
+                }
 
                  return _selected;
              }
              //创建option数据
              function createOptionsStr(data,_selected){
 
-                      var _options = '';
+                var _options = '';
 
-                      if(_selected==null)_selected="";
-                      _selected=_selected+"";//解决true 的情况
-                  if (angular.isDefined($attrs.defaultEmpty)) {
-                      _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
-                  }
+                if(_selected==null) _selected="";
+                _selected=_selected+"";//解决true 的情况
 
-                    //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
-                    var hideSelectValueArray=null;
+                if (angular.isDefined($attrs.defaultEmpty)) {
+                    _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
+                }
 
-                    if( $attrs.callbackFilterReturnData){
-                              hideSelectValueArray=   $scope.$eval($attrs.callbackFilterReturnData);
-                             console.log(hideSelectValueArray);
+                //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                var hideSelectValueArray=null;
+
+                if( $attrs.callbackFilterReturnData){
+                  hideSelectValueArray = $scope.$eval($attrs.callbackFilterReturnData);
+                  // console.log(hideSelectValueArray);
+                }
+
+                for (var i = 0; i < data.length; i++) {
+                    var selectedFlag=false;
+                    if(angular.isArray(_selected)){
+                       selectedFlag=_selected.indexOf(data[i].value)> -1;
+                    }else{
+                         selectedFlag=(_selected==data[i].value);
                     }
 
-                  for (var i = 0; i < data.length; i++) {
-                      var selectedFlag=_selected.indexOf(data[i].value)> -1;
 
-                      //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
-                      if(!selectedFlag&&hideSelectValueArray){
-                        if(hideSelectValueArray.indexOf(data[i].value)> -1){
-                             console.log(data[i].value);
-                            continue;
-                        }
+                    //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                    if(!selectedFlag&&hideSelectValueArray){
+                      if(hideSelectValueArray.indexOf(data[i].value)> -1){
+                           console.log(data[i].value);
+                          continue;
                       }
+                    }
 
 
-                    var text=data[i].text;
-                      if(suffixKey){//添加额外属性
-                        suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
-                        if(suffixKeyVal!=null||suffixKeyVal!=undefined){
-                          text+=suffixConnection+suffixKeyVal;
-                        }
+                  var text=data[i].text;
+                    if(suffixKey){//添加额外属性
+                      suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
+                      if(suffixKeyVal!=null||suffixKeyVal!=undefined){
+                        text+=suffixConnection+suffixKeyVal;
                       }
-                      _options += '<option value="' + data[i].value + '" ' + (selectedFlag? 'selected' : '') + '>' + text + '</option>';
-                  }
-                  return _options;
+                    }
+                    _options += '<option value="' + data[i].value + '" ' + (selectedFlag ? 'selected' : '') + '>' + text + '</option>';
+                }
+
+                return _options;
 
              }//createOptionsStr
 
