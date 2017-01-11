@@ -109,21 +109,16 @@
                       </select>
                     </td>
                     <td class="text-center">￥
-
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="price{{$index}}"
                              ng-model="tr.price"
                              required
-                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
+                             ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                              invalid-popover
                              valid-value="{{!editForm['price'+$index].$valid}}"
                              popover-show
                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
-                     <!-- <input type="text"
-                            class="ipt pr-ipt-60 text-right"
-                            name="price"
-                            ng-model="tr.price" /> -->
                     </td>
                     <td class="text-center">
                       <select class="ipt pr-short-ipt"
