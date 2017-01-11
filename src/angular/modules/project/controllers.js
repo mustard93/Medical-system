@@ -869,8 +869,6 @@ define('project/controllers', ['project/init'], function() {
               alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
           }
 
-
-
           return;
         }
 
