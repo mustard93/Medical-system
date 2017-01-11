@@ -19,18 +19,9 @@
         <td>{{item.uploadUserName}}</td>
         <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
         <td>{{item.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-        <td ng-if="item.attachmentUrl && $root.utils.isPicture(item.fileName)">
-          <img title="{{item.fileName}}"
-               alt="{{item.fileName}}"
-               ng-src="{{item.attachmentUrl}}"
-               modal-img-show
-               style="width:120px;height:120px;margin-bottom:10px;"/>
-        </td>
-        <td ng-if="item.attachmentUrl && !$root.utils.isPicture(item.fileName)" class="mgb">
 
-          <a  href="{{item.attachmentUrl}}" >{{item.fileName}}</a>
-        </td>
-        <td ng-if="!item.attachmentUrl">
+        <td  class="relative">
+          <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
 
         </td>
         <td style="height:113px;overflow:hidden;"
