@@ -91,8 +91,8 @@
                     select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_CurrencyType">
             </select>
           </span>
-          <span class="mgr">汇率：
-            <input type="text" class="ipt pr-ipt-60 text-right color-3" ng-model="formData.exchangeRate">
+          <span class="mgr">汇率：<em class="color-6">1.00</em>
+            <!-- <input type="text" class="ipt pr-ipt-60 text-right color-3" ng-model="formData.exchangeRate"> -->
           </span>
           <span class="mgr">预发货日期：
             <input type="text"
@@ -412,9 +412,20 @@ base-image-url="images/canvasBusinessFlow/"
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button type="button" class="pr-btn-save-glodbg mgr">
-          <a class="color-white" ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}" target="_blank">打印预览</a>
+        <button ng-disabled="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0"
+                type="button"
+                class="pr-btn-save-glodbg mgr">
+          <a class="color-white"
+             ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}" target="_blank">打印预览
+          </a>
         </button>
+
+        <!-- <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0) ||
+                             ($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
+                ng-click="$root.utils.goTo('indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}')">打印预览
+        </button> -->
 
         <button ng-if="formData.orderBusinessType=='普通销售'"
                 type="button"
