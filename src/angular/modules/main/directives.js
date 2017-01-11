@@ -2772,12 +2772,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
               element.popover(JSON.parse(popoverOptions));
 
-
-<<<<<<< HEAD
-                if(angular.isDefined($attrs.validValue)){
-=======
                 if(  angular.isDefined($attrs.validValue)){
->>>>>>> V1.00.05_Alpha
                   $scope.$watch('ngModel', function (newVal, oldVal) {
                     if ($attrs.validValue=="true") {
                       element.popover('show');
