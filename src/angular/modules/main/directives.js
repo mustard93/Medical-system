@@ -2790,17 +2790,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     element.popover('hide');
                   }
                 });
+
+                $scope.$watch('element.focus', function (val) {
+                  console.log(val);
+                });
+              } else {
+                element.focus(function(){
+                  //获取焦点时才条件验证。
+                  element.data("isFocus", true);
+                  showDo($attrs.invalidPopover);
+                });
+
+                $attrs.$observe('invalidPopover', function (show) {
+                  showDo(show);
+                });
               }
-
-              element.focus(function(){
-                //获取焦点时才条件验证。
-                element.data("isFocus", true);
-                showDo($attrs.invalidPopover);
-              });
-
-              $attrs.$observe('invalidPopover', function (show) {
-                showDo(show);
-              });
             }
         };
     }
