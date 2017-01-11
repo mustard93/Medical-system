@@ -102,13 +102,13 @@ define('project/services', ['project/init'], function () {
          */
         function saleOrderUtils (utils) {
           var  tmpObj = {
-            //无税单价
+            //无税单价  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
             getWuSuiDanJian:function(item){
                 //item.price*(100-item.taxRate)/100-item.discountPrice;
-                var tmp=utils.numberSub(100,item.taxRate);
+                //tr.price/(100+tr.taxRate)/100
+                var tmp=utils.numberAdd(100,item.taxRate);
                 tmp=utils.numberDiv(tmp,100);
-                 tmp=utils.numberMul(tmp,item.price);
-                    tmp=utils.numberSub(tmp,item.discountPrice);
+                tmp=utils.numberDiv(item.price,tmp);
                return tmp;
             },
             //无税金额 item.price*(1-item.taxRate)*item.quantity
@@ -119,12 +119,13 @@ define('project/services', ['project/init'], function () {
                     tmp=utils.numberMul(tmp,item.quantity);
                return tmp;
             },
-            //税额 item.price*item.taxRate/100*item.quantity
+            //税额 tr.price*tr.quantity-(tr.price*tr.quantity/(1+tr.taxRate/100)
             getSuiE:function(item){
                 //100-item.taxRate
-                var tmp=utils.numberMul(item.price,item.taxRate);
-                 tmp=utils.numberDiv(tmp,100);
-                    tmp=utils.numberMul(tmp,item.quantity);
+                var tmp=tmpObj.getWuSuiDanJian(item);
+                tmp=utils.numberMul(tmp,item.quantity);
+                var total=tmpObj.getJiaSuiHeJi(item);
+                 tmp=utils.numberSub(total,tmp);
                return tmp;
             },
             //价税合计 item.price*item.quantity

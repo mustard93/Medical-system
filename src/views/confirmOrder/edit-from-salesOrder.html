@@ -188,7 +188,12 @@
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate | number:2}}%</td>
 
-                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity || formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+
+                  <!-- <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity || formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
                   <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity && formData.orderMedicalNos[$index].quantity>0">￥{{item.price*formData.orderMedicalNos[$index].quantity/(1+item.taxRate/100)/formData.orderMedicalNos[$index].quantity | number:2}}</td>
 
                   <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity || formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
@@ -198,7 +203,7 @@
                   <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity && formData.orderMedicalNos[$index].quantity>0">￥{{item.price*formData.orderMedicalNos[$index].quantity-(item.price*formData.orderMedicalNos[$index].quantity/(1+item.taxRate/100)) | number:2}}</td>
 
                   <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity || formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
-                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity>0">￥{{formData.orderMedicalNos[$index].quantity*item.price | number:2}}</td>
+                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity>0">￥{{formData.orderMedicalNos[$index].quantity*item.price | number:2}}</td> -->
 
                 </tr>
               </tbody>

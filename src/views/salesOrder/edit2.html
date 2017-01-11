@@ -161,10 +161,16 @@
                              ng-keyup="tr.discountPrice=tr.price*(1-tr.discountRate/100)"
                              ng-readonly="true"/> %
                     </td>
-                    <td class="text-center">￥{{tr.price*tr.quantity/(1+tr.taxRate/100)/tr.quantity | number:3}}</td>
+
+                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td>
+                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td>
+                    <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(tr) | number:2}}</td>
+                    <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) | number:2}}</td>
+
+                    <!-- <td class="text-center">￥{{tr.price*tr.quantity/(1+tr.taxRate/100)/tr.quantity | number:3}}</td>
                     <td class="text-center">￥{{tr.price*tr.quantity/(1+tr.taxRate/100) | number:3}}</td>
                     <td class="text-center">￥{{tr.price*tr.quantity-(tr.price*tr.quantity/(1+tr.taxRate/100)) | number:3}}</td>
-                    <td class="text-center relative">￥{{tr.price*tr.quantity | number:3}}
+                    <td class="text-center relative">￥{{tr.price*tr.quantity | number:3}} -->
                       <div class="sales-order-item-delbtn" ng-init="areaStatus==false" ng-hide="areaStatus">
                         <!-- <div class="sales-order-del-btn"><a href="javascript:;"></a></div> -->
                         <div class="sales-order-confirm-del-area bg-white">
