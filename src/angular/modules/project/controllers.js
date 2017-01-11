@@ -861,7 +861,19 @@ define('project/controllers', ['project/init'], function() {
         if ($scope.submitForm_type == 'exit') {
           $scope.goTo('#/invoicesOrder/query.html');
          return;
-       }
+       }else   if ($scope.submitForm_type == 'print') {
+         var url="indexOfPrint.html#/print/confirmOrderPrint.html?id="+$scope.formData.id;
+           win1=window.open(url);
+
+          if(!win1||!win1.location){
+              alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
+          }
+
+
+
+          return;
+        }
+
 
        if ($scope.submitForm_type == 'submit') {
          var url='rest/authen/confirmOrder/updateStatus';
