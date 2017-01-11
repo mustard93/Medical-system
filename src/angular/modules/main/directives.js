@@ -2773,7 +2773,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               element.popover(JSON.parse(popoverOptions));
 
 
-                if(  angular.isDefined($attrs.validValue)){
+                if(angular.isDefined($attrs.validValue)){
                   $scope.$watch('ngModel', function (newVal, oldVal) {
                     if ($attrs.validValue=="true") {
                       element.popover('show');
@@ -2792,15 +2792,20 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     element.popover('hide');
                   }
                 });
-
-                $scope.$watch('element.focus', function (val) {
-                  console.log(val);
-                });
               } else {
                 element.focus(function(){
                   //获取焦点时才条件验证。
                   element.data("isFocus", true);
-                  showDo($attrs.invalidPopover);
+                  if(angular.isDefined($attrs.validValue)){
+                      if ($attrs.validValue=="true") {
+                        element.popover('show');
+                      } else {
+                        element.popover('hide');
+                      }
+                  }else{
+                    showDo($attrs.invalidPopover);
+                  }
+
                 });
 
                 $attrs.$observe('invalidPopover', function (show) {
