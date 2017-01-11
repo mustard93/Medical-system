@@ -92,7 +92,11 @@
             </select>
           </span>
           <span class="mgr">汇率：<em class="color-6">1.00</em>
+<<<<<<< HEAD
             <!-- <input type="text" class="ipt pr-ipt-60 text-right color-3" ng-model="formData.exchangeRate" ng-readonly="true"> -->
+=======
+            <!-- <input type="text" class="ipt pr-ipt-60 text-right color-3" ng-model="formData.exchangeRate"> -->
+>>>>>>> V1.00.05_Alpha
           </span>
           <span class="mgr">预发货日期：
             <input type="text"
@@ -120,7 +124,6 @@
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
                   <th class="text-center w-160">生产批号/灭菌批号</th>
-                  <!-- <th class="text-center w-140">预发货日期</th> -->
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -185,7 +188,7 @@
                            ng-model="item.expectDate" />
                   </td> -->
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
-                  <td class="text-center">{{item.taxRate*100}}%</td>
+                  <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate | number:2}}%</td>
                   <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
@@ -405,16 +408,36 @@ base-image-url="images/canvasBusinessFlow/"
            call-back="$root.goTo('#/salesOrder/query.html')">删除
         </a>
 
-        <button ng-if="formData.orderStatus=='待审核'"
+        <button
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="!changeFlag"
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button type="button" class="pr-btn-save-glodbg mgr">
-          <a class="color-white" ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}" target="_blank">打印预览</a>
+
+        <button
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="submitForm('editForm','print')">打印预览
         </button>
+
+
+        <!-- <button ng-if="!changeFlag && !($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0)"
+                type="button"
+                class="pr-btn-save-glodbg mgr">
+
+          <a class="color-white"
+             ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}" target="_blank">打印预览
+          </a>
+        </button> -->
+
+        <!-- <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0) ||
+                             ($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
+                ng-click="$root.utils.goTo('indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}')">打印预览
+        </button> -->
 
         <button ng-if="formData.orderBusinessType=='普通销售'"
                 type="button"

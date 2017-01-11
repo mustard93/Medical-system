@@ -1,5 +1,5 @@
 <div class="sale-return-order">
-<table-list list-data="rest/authen/lossOverOrder/query.json"
+<table-list list-data="rest/authen/saleReturnOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -42,14 +42,14 @@
              datepicker
              class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
              ng-readonly="true"
-             ng-model="listParams.beginDate"
+             ng-model="listParams.createAtBeg"
              placeholder="">
        <span class="mgr color-999">至</span>
        <input type="text"
              datepicker
              class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
              ng-readonly="true"
-             ng-model="listParams.endDate"
+             ng-model="listParams.createAtEnd"
              placeholder="">
 
       <input type="text" class="ipt pdr-xxl color-placeholder" placeholder="单据编号" ng-model="listParams.q">
@@ -79,7 +79,7 @@
                     <em ng-if="tr.orderStatus=='待审核'" class="color-black pd-m">
                     {{tr.orderStatus}}
                     </em>
-                    <em ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='未通过'" class="color-black pd-m">
+                    <em ng-if="tr.orderStatus=='待出库' || tr.orderStatus=='已出库'" class="color-black pd-m">
                     {{tr.orderStatus}}<em class="color-red">(红字)</em>
                     </em>
                   </span>
@@ -92,9 +92,9 @@
                      dialog-title="确认删除?"
                      dialog-content="删除后将无法恢复,确认删除?"
                      dialog-template="pr-dialog-submit.html"
-                     callback="$root.goTo('#/lossOverOrder/query-reimburse.html')"
+                     callback="$root.goTo('#/saleReturnOrder/query-pinBack.html')"
                      params='{"id":tr.id}'
-                     request-url="rest/authen/lossOverOrder/delete">
+                     request-url="rest/authen/saleReturnOrder/delete">
                      <span class="rect-s"><span class="delete-link-icon"></span></span>
                    </a>
 
@@ -106,20 +106,20 @@
                      dialog-title="确认删除?"
                      dialog-content="删除后将无法恢复,确认删除?"
                      dialog-template="pr-dialog-submit.html"
-                     callback="$root.goTo('#/lossOverOrder/query-reimburse.html')"
+                     callback="$root.goTo('#/saleReturnOrder/query-pinBack.html')"
                      params='{"id":tr.id}'
-                     request-url="rest/authen/lossOverOrder/delete">
+                     request-url="rest/authen/saleReturnOrder/delete">
                      <span class="rect-s"><span class="nav-ico"></span></span>
                    </a>
 
                     <a
                      ng-if="tr.orderStatus=='待审核'"
-                     ng-href="#/lossOverOrder/edit-reimburse.html?id={{tr.id}}">
+                     ng-href="#/saleReturnOrder/edit-pinBack.html?id={{tr.id}}">
                      <span class="rect-s"><span class="edit-link-icon"></span></span>
                    </a>
                     <a
-                      ng-if="tr.orderStatus=='已通过'||tr.orderStatus=='待审核'"
-                      ng-href="#/lossOverOrder/get-reimburse.html?id={{tr.id}}">
+                      ng-if="tr.orderStatus=='已出库'||tr.orderStatus=='待审核'"
+                      ng-href="#/saleReturnOrder/get-pinBack.html?id={{tr.id}}">
                       <span class="rect-s"><span class="pr-icon-bg12"></span></span>
                     </a>
                   </span>

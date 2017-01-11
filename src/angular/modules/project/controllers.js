@@ -861,7 +861,19 @@ define('project/controllers', ['project/init'], function() {
         if ($scope.submitForm_type == 'exit') {
           $scope.goTo('#/invoicesOrder/query.html');
          return;
-       }
+       }else   if ($scope.submitForm_type == 'print') {
+         var url="indexOfPrint.html#/print/confirmOrderPrint.html?id="+$scope.formData.id;
+           win1=window.open(url);
+
+          if(!win1||!win1.location){
+              alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
+          }
+
+
+
+          return;
+        }
+
 
        if ($scope.submitForm_type == 'submit') {
          var url='rest/authen/confirmOrder/updateStatus';
@@ -927,8 +939,6 @@ define('project/controllers', ['project/init'], function() {
       // 当用户选择某条目的生产批号后，将该条目设置为已选择状态
       $scope.choiseProductionBatch = function (item,stockBatchsItem,selectData) {
 
-        console.log(item.quantity);
-
         if(stockBatchsItem&&!stockBatchsItem.quantity){
 
           //库存批次数量，满足则数量设置为计划数量。
@@ -952,6 +962,7 @@ define('project/controllers', ['project/init'], function() {
             stockBatchsItem.quantity=null;
           }
         }
+
 
       };
 
@@ -988,6 +999,8 @@ define('project/controllers', ['project/init'], function() {
                       item.stockBatchs.splice(noSelectproductionBatchValIndex,1);
                   }
               }
+
+              if(item.quantity>0)item.handleFlag=true;
       },true);
     }
 
@@ -1604,22 +1617,6 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
         });
     }
   };
-
-  // 监控价格变化并验证
-  // $scope.$watch('tr.price', function (newVal) {
-  //
-  //   // console.log($scope.tr);
-  //   //
-  //   $scope.price = {
-  //     _valid : true
-  //   };
-  //
-  //   // var _pattern = "/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/";
-  //   var pattern = new RegExp("/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/");
-  //
-  //   $scope.price._valid = pattern.test(newVal) ? false : true;
-  //
-  // });
 
 }
 
