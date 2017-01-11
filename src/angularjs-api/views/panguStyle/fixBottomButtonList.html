@@ -1,0 +1,104 @@
+<div class="page-main-content text-n">
+  <div class="page-heading">
+      <h3>主面板</h3>
+      <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">首页</li>
+      </ul>
+  </div>
+  <h1 class="pd-c-l pdt-m pdb-m">底部固定菜单按钮</h1>
+  <div class="pd-c-l">
+    <div class="handle-btn-area" ng-init="changeFlag=true">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该销售单存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/salesOrder/query.html')"
+           save-callback="submitForm('editForm','exit')">返回购需单
+        </a>
+
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/salesOrder/edit2.html?id={{formData.relId}}" >返回购需单</a>
+
+        <a
+           href="javascript:;"
+           class="pr-color-red mgr"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条购需单吗?"
+           dialog-template="dialog-confirm.html"
+           request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+           call-back="$root.goTo('#/salesOrder/query.html')">删除
+        </a>
+
+        <button
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="!changeFlag"
+                ng-click="submitForm('editForm','save')">保存
+        </button>
+
+
+        <button
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="submitForm('editForm','print')">打印预览
+        </button>
+
+
+        <!-- <button ng-if="!changeFlag && !($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0)"
+                type="button"
+                class="pr-btn-save-glodbg mgr">
+
+          <a class="color-white"
+             ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}" target="_blank">打印预览
+          </a>
+        </button> -->
+
+        <!-- <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0) ||
+                             ($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
+                ng-click="$root.utils.goTo('indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}')">打印预览
+        </button> -->
+
+        <button ng-if="formData.orderBusinessType=='普通销售'"
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0) ||
+                             ($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
+                ng-click="submitForm('editForm','submit')">审核
+        </button>
+
+        <button ng-if="formData.orderBusinessType=='直运销售'"
+                type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+                ng-click="submitForm('editForm','submit')">审核
+        </button>
+
+
+
+        <!-- <span ng-if="formData.didateFilter.buttons.length>0"
+              custom-menu-list
+              custom-menu-arr="{{formData.didateFilter.buttons}}">
+        </span> -->
+      </div>
+      <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+        popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
+          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}
+        </em>
+      </div>
+
+      <div ng-if="formData.orderBusinessType=='直运销售'"
+           class="price-area relative fl-r mgr-l"
+           style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white">
+          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}
+        </em>
+      </div>
+    </div>
+    </div>
+</div>
