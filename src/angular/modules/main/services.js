@@ -791,6 +791,10 @@ function alertOk($rootScope, modal) {
             $scope.changeFlag=false;
           },500);
 
+          if($scope._watchNameFalg===true){
+              return;
+          }
+          $scope._watchNameFalg=true;
           $scope.$watch(watchName,function(newValue,oldValue, scope){
             $scope.changeFlag=true;
           },true);
