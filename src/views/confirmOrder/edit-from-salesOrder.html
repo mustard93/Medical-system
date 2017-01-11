@@ -412,7 +412,7 @@ base-image-url="images/canvasBusinessFlow/"
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button ng-disabled="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0"
+        <button ng-if="!changeFlag && !($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0)"
                 type="button"
                 class="pr-btn-save-glodbg mgr">
           <a class="color-white"
