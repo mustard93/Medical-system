@@ -6,7 +6,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable) {
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange) {
       //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
@@ -89,6 +89,9 @@ define('main/controllers', ['main/init'], function () {
         $rootScope.OPrinter=OPrinter;
           //自定义table工具类
         $rootScope.UICustomTable=UICustomTable;
+
+        //自定义table工具类
+      $rootScope.watchFormChange=watchFormChange;
         //当前服务器根上下文路径 http://localhost:3000/src/
         $rootScope.curServerPath=utils.getCurServerPath();
 
@@ -326,7 +329,7 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","watchFormChange", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);

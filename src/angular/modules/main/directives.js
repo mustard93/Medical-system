@@ -322,7 +322,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       formStatus.submitInfo = "";
 
                       if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                      if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                      if ($attrs.scopeData&&$attrs.scopeData!="formData"){//$attrs.scopeData=="formData"   解决这种情况下，changeFlag 保存后失效bug。
+                          if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
+                          angular.extend(  $scope[$attrs.scopeData], data);
+                      }
 
                       if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
                       if ($attrs.scopeOkMsg) $scope[$attrs.scopeOkMsg] =results[1].msg;
@@ -2746,8 +2749,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         return {
             restrict: 'A',
             scope: {
+                ngModel: '=?',
                 popoverOptions: '@',
-                popoverShow: '='
+                validValue: '@',
+                popoverShow: '=?'
             },
             link: function ($scope, element,$attrs) {
 
@@ -2764,6 +2769,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               var popoverOptions='{ "placement": "'+placement+'", "trigger": "manual" }';
               if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
               element.popover(JSON.parse(popoverOptions));
+
+
+                if(  angular.isDefined($attrs.validValue)){
+                  $scope.$watch('ngModel', function (newVal, oldVal) {            
+                    if ($attrs.validValue=="true") {
+                      element.popover('show');
+                    } else {
+                      element.popover('hide');
+                    }
+                  });
+                }
+
 
               if ($attrs.popoverShow) {
                 $scope.$watch('popoverShow', function (newVal, oldVal) {
