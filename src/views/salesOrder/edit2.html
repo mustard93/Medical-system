@@ -84,7 +84,7 @@
                     <td class="text-center">{{tr.unit}}</td>
                     <td class="text-center">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-disabled="tr.quantity==1">-</button>
                         <span class="inline-block">
                           <input type="text"
                                  name="quantity"
@@ -97,13 +97,13 @@
                                  popover-show="!editForm.quantity.$valid"
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
-                        <button type="button" class="inline-block right" ng-click="tr.quantity=Number(tr.quantity)+1">+</button>
+                        <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>
                       </div>
                     </td>
                     <td class="text-center">
                       <select class="select pr-select pr-select-sm text-left"
                               chosen
-                              width="135px"
+                              width="90px"
                               ng-model="tr.batchRequirement"
                               select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
                       </select>
@@ -114,15 +114,16 @@
                              name="price"
                              ng-model="tr.price"
                              required
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
                              invalid-popover
                              popover-show="!editForm.price.$valid"
                              popover-options='{"content":"单价不能为0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                     <!-- <input type="text"
+                            class="ipt pr-ipt-60 text-right"
+                            name="price"
+                            ng-model="tr.price" /> -->
                     </td>
                     <td class="text-center" ng-init="tr.taxRate='0.17'">
-                      <!-- <select ng-model="tr.taxRate" class="select pr-select pr-select-sm" style="width:60px;">
-                        <option value="0.17" ng-selected="true">17%</option>
-                        <option value="0.03">3%</option>
-                      </select> -->
                       <select class="ipt pr-short-ipt"
                               data-placeholder="选择税率"
                               chosen

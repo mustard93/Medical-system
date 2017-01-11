@@ -529,8 +529,6 @@ function alertOk($rootScope, modal) {
                     window.location.assign(url);
                 }
             },
-
-
             //递归 获取：data.data.data 获取子属性值
             getObjectVal:function (obj,key){
                 if(!key)return null;
@@ -707,8 +705,7 @@ function alertOk($rootScope, modal) {
                }
            },
            //乘法
-           numberMul:function (arg1,arg2)
-           {
+           numberMul:function (arg1,arg2) {
               if(!arg1)arg1=0;
                 if(!arg2)arg2=0;
                var m=0,s1=arg1.toString(),s2=arg2.toString();
@@ -753,33 +750,37 @@ function alertOk($rootScope, modal) {
                    //不精确bug
               //  return ((arg1*m-arg2*m)/m).toFixed(n);
           },
+          // 对文件名后缀进行判断以区分用户上传的文件类型
+          isPicture : function (fileName) {
+            if(!fileName)return false;
+            //http://pangu16.aliyuncs.com/d0a2dcabd56e418ebb001ff137e3ea00.PNG@108w
+            var re = new RegExp("(\.png)|(\.jpg)|(\.jpeg)|(\.gif)",["i"]);
+            if (!re.exec(fileName)) return false;
 
-            // 对文件名后缀进行判断以区分用户上传的文件类型
-            isPicture : function (fileName) {
-              if(!fileName)return false;
-              //http://pangu16.aliyuncs.com/d0a2dcabd56e418ebb001ff137e3ea00.PNG@108w
-              var re = new RegExp("(\.png)|(\.jpg)|(\.jpeg)|(\.gif)",["i"])
-              if (!re.exec(fileName)) return false;
+            return true;
 
-              return true;
-
-              if (angular.isString(fileName) && fileName.indexOf('.') !== -1) {
-                //img.png@100h
-                var _suffix = fileName.split('.')[1];
-                   _suffix = fileName.split('@')[0];//解决缩略图情况
-                  return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
-                // if (_suffix !== 'png' || _suffix !== 'jpg' || _suffix !== 'jpeg' || _suffix !== 'gif') {
-                //   return false;
-                // } else {
-                //   return true;
-                // }
-              } else {
-                throw new Error('params fileName is must type of String');
-              }
+            if (angular.isString(fileName) && fileName.indexOf('.') !== -1) {
+              //img.png@100h
+              var _suffix = fileName.split('.')[1];
+                 _suffix = fileName.split('@')[0];//解决缩略图情况
+                return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
+              // if (_suffix !== 'png' || _suffix !== 'jpg' || _suffix !== 'jpeg' || _suffix !== 'gif') {
+              //   return false;
+              // } else {
+              //   return true;
+              // }
+            } else {
+              throw new Error('params fileName is must type of String');
             }
-          };
+          },
 
-          return utilsObj;
+          // 将字符串类型数字转换为number类型
+          transformToNumber : function (str) {
+            return angular.isString(str) ? Number(str) : str;
+          }
+        };
+
+        return utilsObj;
     }
 
     //监听内容修改标志

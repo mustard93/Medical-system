@@ -1,0 +1,55 @@
+<div  class="relative"  style="width:90px;height:90px;">
+  <p  href="javacript:;" ng-if="ngModel.attachmentUrl && $root.utils.isPicture(ngModel.fileName)" class="relative show-mask">
+    <img title="{{ngModel.fileName}}"
+         alt="{{ngModel.fileName}}"
+         ng-src="{{ngModel.attachmentUrl}}"
+         style="width:80px;height:80px;position:absolute;"/>
+   <span class="span-mask pos-abs" style="width:80px;height:80px;backgroundColor:rgba(229, 229, 229, .8)">
+        <a href="javascript:void(0); " class="show-big-img"    ng-src="{{ngModel.attachmentUrl}}"    modal-img-show>查看大图</a>
+         <a class="reupload"
+          ng-if="attachmentsItemExtend.edit"
+         href="javascript:void(0); "
+           ng-init="upFile={}"
+           uploader-one="rest/authen/fileUpload/upload2.json"
+           usege="{{attachmentsExtend.addFlag}}"
+           callback="ngModel.uploadUserId=upFile.data.userId;ngModel.uploadUserName=upFile.data.userName;ngModel.uploadTime=upFile.data.createAt;ngModel.fileName=upFile.data.originalFileName"
+           up-file="upFile" ng-model="ngModel.attachmentUrl">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+         </a>
+      <!-- <i class="fa fa-times-circle del-btn"></i> -->
+      <span
+        ng-if="attachmentsItemExtend.edit"
+       ng-click="deleteUploader(ngModel.attachmentUrl);ngModel.attachmentUrl='';ngModel.fileName=''" class="circle-s del-btn"><i class=" fa fa-times-circle"></i></span>
+    <span>
+  </p>
+
+  <p ng-if="ngModel.attachmentUrl && !$root.utils.isPicture(ngModel.fileName)" class="mgb relative p-mask-text ">
+      <a  href="{{ngModel.attachmentUrl}}" >{{ngModel.fileName}}
+      </a>
+        <span ng-if="attachmentsItemExtend.edit" ng-click="deleteUploader(ngModel.attachmentUrl);ngModel.attachmentUrl='';ngModel.fileName=''" class="circle-s del-btn"><i class=" fa fa-times-circle"></i></span>
+        <span class="reupload-text color-custom-orange"
+        ng-if="!attachmentsItemExtend.edit"
+        >  <a  href="{{ngModel.attachmentUrl}}" >点击下载
+          </a>
+        </span>
+       <span class="reupload-text color-custom-orange"
+        ng-if="attachmentsItemExtend.edit"
+         ng-init="upFile={}"
+            href="javascript:void(0); "
+         uploader-one="rest/authen/fileUpload/upload2.json"
+         usege="{{attachmentsExtend.addFlag}}"
+         callback="ngModel.uploadUserId=upFile.data.userId;ngModel.uploadUserName=upFile.data.userName;ngModel.uploadTime=upFile.data.createAt;ngModel.fileName=upFile.data.originalFileName"
+         up-file="upFile" ng-model="ngModel.attachmentUrl">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+       </span>
+  </p>
+  <p>
+    <button type="button"
+            ng-if="attachmentsItemExtend.edit&& !ngModel.attachmentUrl"
+            class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+            ng-init="upFile={}"
+            uploader-one="rest/authen/fileUpload/upload2.json"
+            usege="{{attachmentsExtend.addFlag}}"
+            callback="ngModel.uploadUserId=upFile.data.userId;ngModel.uploadUserName=upFile.data.userName;ngModel.uploadTime=upFile.data.createAt;ngModel.fileName=upFile.data.originalFileName"
+            up-file="upFile" ng-model="ngModel.attachmentUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+    </button>
+  </p>
+</div>
