@@ -1,0 +1,98 @@
+<div   ng-controller="pageCtrl"><!-- pageCtrl-->
+<div class="page-main-content">
+  <!-- page heading start-->
+  <div class="page-heading">
+      <h3>日志操作拦截记录</h3>
+      <ul class="breadcrumb">
+          <li><a href="#">主面板</a></li>
+          <li class="active">日志操作拦截记录</li>
+      </ul>
+  </div>
+  <!-- page heading end-->
+
+  <!--body wrapper start-->
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/logInterceptorRecord/query.json" list-params="listParams">
+      <div class="mg-m col-lg-12 col-sm-12">
+        <!-- <div class="col-lg-1">
+          <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/medical/edit.html">
+              <i class="fa fa-plus"></i>新建
+          </button>
+        </div> -->
+        <div class="form-group col-lg-2">
+          <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
+        </div>
+      </div>
+
+      <div class="wrapper">
+          <div class="loader" ng-if="status.isLoading">
+              <div class="loader-inner pacman">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+              </div>
+          </div>
+          <div ng-if="!status.isLoading">
+              <div class="empty-wrap" ng-if="tbodyList.length==0">
+                  <span>
+                      <i class="fa fa-inbox">
+                          <em>什么也没有</em>
+                      </i>
+                  </span>
+              </div>
+              <div ng-if="tbodyList.length">
+
+                  <table class="table table-hover table-striped">
+                      <thead>
+                          <tr>
+                              <th><input type="checkbox" class="selectAll"></th>
+                              <th>序号</th>
+                              <th>记录类名</th>
+                              <th>记录方法名</th>
+                              <th>操作人</th>
+                              <th>操作时间</th>
+                              <th>创建时间</th>
+                              <th>操作</th>
+                              <th></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
+                              <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                              <td>{{$index + 1}}</td>
+                              <td>{{tr.className}}</td>
+                              <td>{{tr.methodName}}</td>
+                              <td ng-if="tr.user">{{tr.user.n}}</td>
+                              <td ng-if="!tr.user"></td>
+                              <td>{{tr.timeOut}} ms</td>
+                              <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                              <td>
+                                  <button type="button" class="btn btn-default" modal-center="1100" modal-scope="this" modal-data='{"refreshPage":"true"}' modal-url="views/logInterceptorRecord/retVal.html">
+                                      <i class="fa fa-folder-open-o"></i>
+                                      查看返回值
+                                  </button>
+                                  <button type="button" class="btn btn-default" modal-center="1100" modal-scope="this" modal-data='{"refreshPage":"true"}' modal-url="views/logInterceptorRecord/args.html">
+                                      <i class="fa fa-folder-open-o"></i>
+                                      查看参数
+                                  </button>
+
+                                  <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/logInterceptorRecord/delete', tr.id)">
+                                      <i class="fa fa-trash-o"></i>
+                                      删除</button>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <div class="clearfix">
+                      <div class="fr">
+                          <pagination status="status"></pagination>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </table-list>
+  <!--body wrapper end-->
+</div>
+</div><!-- pageCtrl-->
