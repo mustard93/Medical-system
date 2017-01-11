@@ -250,29 +250,20 @@
                     </div>
                     <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p> -->
                   </td>
-                  <!-- <td class="text-center">
-                    <input type="text"
-                           datepicker
-                           class="ipt pr-short-ipt color-6"
-                           style="width:110px;"
-                           placeholder=""
-                           ng-readonly="true"
-                           ng-model="item.expectDate" />
-                  </td> -->
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
                   <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate}}%</td>
 
-                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                  <!-- <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
-                  <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td> -->
 
-                  <!-- <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*(1-item.taxRate)*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.taxRate-item.discountPrice | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.planQuantity-item.discountPrice*item.planQuantity | number:2}}</td> -->
+                  <td class="text-center">￥{{item.price/(1+item.taxRate/100) | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.planQuantity/(1+item.taxRate/100) | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.planQuantity-(item.price*item.planQuantity/(1+item.taxRate/100)) | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.planQuantity | number:2}}</td>
                 </tr>
               </tbody>
             </table>
