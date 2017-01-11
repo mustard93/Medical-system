@@ -1991,7 +1991,7 @@ function datePeriodSelect () {
   /**
    * 自动补全-药械 生产批次/灭菌批次/数量
    */
-  function autocompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
+  function angucompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
       return {
           restrict: 'EA',
           scope: {
@@ -2025,7 +2025,7 @@ function datePeriodSelect () {
 
           }
       };
-  }//autocompleteMedicalStockBatch
+  }//angucompleteMedicalStockBatch
 
       /**
        * 自动补全-药械
@@ -2213,7 +2213,7 @@ angular.module('manageApp.project')
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
   .directive("flashAddMedical", [flashAddMedical])
-    .directive("autocompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",autocompleteMedicalStockBatch])
+    .directive("angucompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])
