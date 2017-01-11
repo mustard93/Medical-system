@@ -69,7 +69,7 @@
                  <td style="text-align:center;">单价</td>
                  <td style="text-align:center;">金额</td>
                  <td style="text-align:center;">生产批号</td>
-                 <td style="text-align:center;">保质期</td>
+                 <td style="text-align:center;">有效期至</td>
                  <td style="text-align:center;">生厂商</td>
                  <td style="text-align:center;">产品注册证</td>
                  <td style="text-align:center;">产地品牌</td>
@@ -85,7 +85,12 @@
                  <td>{{tr.strike_price}}</td>
                  <td>{{(tr.quantity*tr.strike_price).toFixed(2)}}</td>
                  <td>{{tr.productionBatch}}</td>
-                 <td>{{tr.guaranteePeriod}}</td>
+                 <td
+                 ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{tr.relId}}&p_and_s={{tr.productionBatch}}"
+                 scope-data="guaranteePeriodData"
+                 >
+                   {{guaranteePeriodData.validTill | date:'yyyy-MM-dd'}}
+                 </td>
                  <td>{{tr.manufacturer}}</td>
                  <td>{{tr.drugAdministrationCode}}</td>
                  <td>{{tr.brand}}</td>
