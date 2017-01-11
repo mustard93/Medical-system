@@ -1778,13 +1778,20 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                  return _selected;
              }
+
              //创建option数据
-             function createOptionsStr(data,_selected){
+             function createOptionsStr(data, _selected){
+
+               console.log(data);
 
                 var _options = '';
 
-                if(_selected===null) _selected = "";
-                    _selected=_selected+"";//解决true 的情况
+                if(_selected === null) {
+                  _selected = "";
+                }
+
+                _selected = _selected + "";  //解决true的情况
+
                 if (angular.isDefined($attrs.defaultEmpty)) {
                     _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
                 }
@@ -1794,7 +1801,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   var _tmpObj = JSON.parse($attrs.customOption);
 
                   for (var j in _tmpObj) {
-                    _options += '<option value="'+ _tmpObj[j] +'">' + j + '</option>';
+                    _options += '<option value="' + _tmpObj[j] + '">' + j + '</option>';
                   }
                 }
 
@@ -1802,30 +1809,30 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 var hideSelectValueArray=null;
 
                 if( $attrs.callbackFilterReturnData){
-                          hideSelectValueArray=   $scope.$eval($attrs.callbackFilterReturnData);
-                         console.log(hideSelectValueArray);
+                  hideSelectValueArray=   $scope.$eval($attrs.callbackFilterReturnData);
+                  //  console.log(hideSelectValueArray);
                 }
 
                 for (var i = 0; i < data.length; i++) {
-                    var selectedFlag=_selected.indexOf(data[i].value)> -1;
+                  var selectedFlag = _selected.indexOf(data[i].value) > -1;
 
-                    //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
-                    if(!selectedFlag&&hideSelectValueArray){
-                      if(hideSelectValueArray.indexOf(data[i].value)> -1){
-                           console.log(data[i].value);
-                          continue;
-                      }
+                  //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                  if(!selectedFlag&&hideSelectValueArray){
+                    if(hideSelectValueArray.indexOf(data[i].value)> -1){
+                         console.log(data[i].value);
+                        continue;
                     }
+                  }
 
 
                   var text=data[i].text;
-                    if(suffixKey){//添加额外属性
-                      suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
-                      if(suffixKeyVal!=null||suffixKeyVal!=undefined){
-                        text+=suffixConnection+suffixKeyVal;
-                      }
+                  if(suffixKey){//添加额外属性
+                    suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
+                    if(suffixKeyVal !== null || suffixKeyVal !== undefined){
+                      text+=suffixConnection+suffixKeyVal;
                     }
-                    _options += '<option value="' + data[i].value + '" ' + (selectedFlag? 'selected' : '') + '>' + text + '</option>';
+                  }
+                  _options += '<option value="' + data[i].value + '" ' + (selectedFlag? 'selected' : '') + '>' + text + '</option>';
                 }
 
                 return _options;
