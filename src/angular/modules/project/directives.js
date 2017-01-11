@@ -1070,7 +1070,7 @@ function leftMenuSecondToggle ($location) {
             LeftMenuObj.last1MenuShowObj=_parent.parent();
         }
         //
-          $(element).parents('ul.sub-menu-list').prev().children().eq(2).removeClass('pr-arrow-down').addClass('pr-arrow-up');
+        $(element).parents('ul.sub-menu-list').prev().children().eq(2).removeClass('pr-arrow-down').addClass('pr-arrow-up');
       },
       //LeftMenuObj.doRoute();
       //根据优先级路由定位菜单
