@@ -2749,8 +2749,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         return {
             restrict: 'A',
             scope: {
+                ngModel: '=?',
                 popoverOptions: '@',
-                popoverShow: '='
+                validValue: '@',
+                popoverShow: '=?'
             },
             link: function ($scope, element,$attrs) {
 
@@ -2767,6 +2769,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               var popoverOptions='{ "placement": "'+placement+'", "trigger": "manual" }';
               if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
               element.popover(JSON.parse(popoverOptions));
+
+
+                if(  angular.isDefined($attrs.validValue)){
+                  $scope.$watch('ngModel', function (newVal, oldVal) {            
+                    if ($attrs.validValue=="true") {
+                      element.popover('show');
+                    } else {
+                      element.popover('hide');
+                    }
+                  });
+                }
+
 
               if ($attrs.popoverShow) {
                 $scope.$watch('popoverShow', function (newVal, oldVal) {
