@@ -3036,18 +3036,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           // 为当前元素设置固定宽度和高度
           $element.css({'width':_w, 'height':'auto', 'margin-left':'auto', 'margin-right':'auto'});
           // 获取需要显示的字符数
-          var _showCharNum = parseInt(_w/19);
+          var _showCharNum = parseInt(_w/19, 10);
 
           var _resStr,
-              // _str = $scope.tr.firstMedical.name;
               _str = $attrs.textInterception;
+
           if (_str.length > _showCharNum) {
             _resStr = _str.slice(0, _showCharNum) + '...';
             $scope.tr.firstMedical.name = _resStr;
+            // $scope[$attrs.fieldName] = _resStr;
           }
-
-          // console.log(_resStr);
-
+        
         }
       }
     }
