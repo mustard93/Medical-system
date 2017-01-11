@@ -9,10 +9,12 @@ define('project/controllers', ['project/init'], function() {
       /**
        * 主控（业务模块级别）
        */
-      function mainCtrlProject($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList) {
+      function mainCtrlProject($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList,saleOrderUtils) {
 
         //底部菜单（业务相关）
         $rootScope.bottomButtonList=bottomButtonList;
+  $rootScope.saleOrderUtils=saleOrderUtils;
+
       }
 
     /**
@@ -1686,7 +1688,7 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
 
 
     angular.module('manageApp.project')
-      .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList", mainCtrlProject])
+      .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils", mainCtrlProject])
     .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
     .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
     .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
