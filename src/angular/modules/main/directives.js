@@ -322,7 +322,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       formStatus.submitInfo = "";
 
                       if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                      if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                      if ($attrs.scopeData&&$attrs.scopeData!="formData"){//$attrs.scopeData=="formData"   解决这种情况下，changeFlag 保存后失效bug。
+                          if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
+                          angular.extend(  $scope[$attrs.scopeData], data);
+                      }
 
                       if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
                       if ($attrs.scopeOkMsg) $scope[$attrs.scopeOkMsg] =results[1].msg;
@@ -1774,65 +1777,60 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   }
                }
                 ngModel.$setViewValue(_selected);
-                if(_selected===null)_selected="";
 
-                 return _selected;
+                if (_selected===null) {
+                  _selected = "";
+                }
+
+                return _selected;
              }
 
              //创建option数据
              function createOptionsStr(data, _selected){
 
-              //  console.log(data);
-
                 var _options = '';
 
-                if(_selected === null) {
-                  _selected = "";
-                }
-
-                _selected = _selected + "";  //解决true的情况
+                if(_selected===null) _selected="";
+                _selected=_selected+"";//解决true 的情况
 
                 if (angular.isDefined($attrs.defaultEmpty)) {
                     _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
-                }
-
-                // 支持在options中插入对象参数
-                if (!angular.isDefined($attrs.defaultEmpty) && angular.isDefined($attrs.customOption)) {
-                  var _tmpObj = JSON.parse($attrs.customOption);
-
-                  for (var j in _tmpObj) {
-                    _options += '<option value="' + _tmpObj[j] + '">' + j + '</option>';
-                  }
                 }
 
                 //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
                 var hideSelectValueArray=null;
 
                 if( $attrs.callbackFilterReturnData){
-                  hideSelectValueArray=   $scope.$eval($attrs.callbackFilterReturnData);
-                  //  console.log(hideSelectValueArray);
+                  hideSelectValueArray = $scope.$eval($attrs.callbackFilterReturnData);
+                  // console.log(hideSelectValueArray);
                 }
 
                 for (var i = 0; i < data.length; i++) {
-                  var selectedFlag = _selected.indexOf(data[i].value) > -1;
-
-                  //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
-                  if(!selectedFlag&&hideSelectValueArray){
-                    if(hideSelectValueArray.indexOf(data[i].value)> -1){
-                         console.log(data[i].value);
-                        continue;
+                    var selectedFlag=false;
+                    if(angular.isArray(_selected)){
+                       selectedFlag=_selected.indexOf(data[i].value)> -1;
+                    }else{
+                         selectedFlag=(_selected==data[i].value);
                     }
-                  }
+
+
+                    //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                    if(!selectedFlag&&hideSelectValueArray){
+                      if(hideSelectValueArray.indexOf(data[i].value)> -1){
+                           console.log(data[i].value);
+                          continue;
+                      }
+                    }
 
 
                   var text=data[i].text;
-                  if(suffixKey){//添加额外属性
-                    suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
-                    if(suffixKeyVal !== null || suffixKeyVal !== undefined){
-                      text+=suffixConnection+suffixKeyVal;
+                    if(suffixKey){//添加额外属性
+                      suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
+                      if(suffixKeyVal!=null||suffixKeyVal!=undefined){
+                        text+=suffixConnection+suffixKeyVal;
+                      }
                     }
-                  }
-                  _options += '<option value="' + data[i].value + '" ' + (selectedFlag? 'selected' : '') + '>' + text + '</option>';
+                    _options += '<option value="' + data[i].value + '" ' + (selectedFlag ? 'selected' : '') + '>' + text + '</option>';
                 }
 
                 return _options;
@@ -2753,8 +2751,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         return {
             restrict: 'A',
             scope: {
+                ngModel: '=?',
                 popoverOptions: '@',
-                popoverShow: '='
+                validValue: '@',
+                popoverShow: '=?'
             },
             link: function ($scope, element,$attrs) {
 
@@ -2772,6 +2772,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
               element.popover(JSON.parse(popoverOptions));
 
+
+                if(  angular.isDefined($attrs.validValue)){
+                  $scope.$watch('ngModel', function (newVal, oldVal) {
+                    if ($attrs.validValue=="true") {
+                      element.popover('show');
+                    } else {
+                      element.popover('hide');
+                    }
+                  });
+                }
+
+
               if ($attrs.popoverShow) {
                 $scope.$watch('popoverShow', function (newVal, oldVal) {
                   if (newVal) {
@@ -2780,17 +2792,21 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     element.popover('hide');
                   }
                 });
+
+                $scope.$watch('element.focus', function (val) {
+                  console.log(val);
+                });
+              } else {
+                element.focus(function(){
+                  //获取焦点时才条件验证。
+                  element.data("isFocus", true);
+                  showDo($attrs.invalidPopover);
+                });
+
+                $attrs.$observe('invalidPopover', function (show) {
+                  showDo(show);
+                });
               }
-
-              element.focus(function(){
-                //获取焦点时才条件验证。
-                element.data("isFocus", true);
-                showDo($attrs.invalidPopover);
-              });
-
-              $attrs.$observe('invalidPopover', function (show) {
-                showDo(show);
-              });
             }
         };
     }

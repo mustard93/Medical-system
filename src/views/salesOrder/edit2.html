@@ -2,7 +2,7 @@
      ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
+     callback="initFlag=true;$root.watchFormChange('formData',this)"
      alert-error>
 
   <form id="editForm"
@@ -15,7 +15,7 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         onkeydown="if(window.event.keyCode==13) return false;"
-        callback="submitFormAfter();watchFormChange('formData')"
+        callback="submitFormAfter();$root.watchFormChange('formData',this)"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
@@ -109,15 +109,17 @@
                       </select>
                     </td>
                     <td class="text-center">￥
+
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
-                             name="price"
+                             name="price{{$index}}"
                              ng-model="tr.price"
                              required
                              ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
                              invalid-popover
-                             popover-show="!editForm.price.$valid"
-                             popover-options='{"content":"单价不能为0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                             valid-value="{{!editForm['price'+$index].$valid}}"
+                             popover-show
+                             popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                      <!-- <input type="text"
                             class="ipt pr-ipt-60 text-right"
                             name="price"
@@ -129,7 +131,7 @@
                               width="60px"
                               ng-model="tr.taxRate"
                               select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
-                      </select> % 
+                      </select> %
                     </td>
                     <td class="text-center">￥
                       <input type="text"

@@ -11,24 +11,24 @@
             autocomplete="off"
            ng-disabled="ngDisabled"/>
 
-    <div class="angucomplete-dropdown" ng-if="showDropdown">
+    <div class="angucomplete-dropdown " >
         <div class="angucomplete-searching" ng-show="searching">正在查询...</div>
         <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)">没有结果</div>
 
+          <div class="row" >
 
-
-                <div class="flex-item-8">生成批号/灭菌批号</div>
-                 <div class="flex-item-4">数量</div>
-
-        <div class="angucomplete-row"
+                          <div class="col-xs-8 text-left">生成批号/灭菌批号</div>
+                           <div class="col-xs-4 text-right ">数量</div>
+          </div>
+        <div class="angucomplete-row row"
              ng-repeat="result in results"
              ng-mousedown="angucomplete1.selectResult(result)"
              ng-mouseover="angucomplete1.hoverRow()"
              ng-class="{'angucomplete-selected-row': $index == currentIndex}">
 
+             <div class="col-xs-8 text-left">{{result.text||'20161201001/20161201001'}}</div>
+              <div class="col-xs-4 text-right ">{{result.note.a||'100000'}}</div>
 
-             <div class="flex-item-8">{{result.text}}</div>
-              <div class="flex-item-4">{{result.note.a}}</div>
 
         </div>
     </div>
