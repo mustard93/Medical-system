@@ -322,9 +322,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       formStatus.submitInfo = "";
 
                       if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                      if ($attrs.scopeData){//$attrs.scopeData=="formData"   解决这种情况下，changeFlag 保存后失效bug。
+                      if ($attrs.scopeData){
                           if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
-                          angular.extend(  $scope[$attrs.scopeData],  results[0]);
+                          $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                          // angular.extend(  $scope[$attrs.scopeData],  results[0]);//
                       }
 
                       if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
