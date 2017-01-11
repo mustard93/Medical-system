@@ -2,7 +2,7 @@
      ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');orderMedicalNos=formData.orderMedicalNos;formData.exchangeRate='1.00';formData.thisPageTotal=0"
+     callback="initFlag=true;$root.watchFormChange('formData',this);orderMedicalNos=formData.orderMedicalNos;formData.exchangeRate='1.00';formData.thisPageTotal=0"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -13,7 +13,7 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter();watchFormChange('formData')">
+        callback="submitFormAfter();$root.watchFormChange('formData',this)">
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
       <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 > <em class="color-custom-orange">销售单</em></p>
