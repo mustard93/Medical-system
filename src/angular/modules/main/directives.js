@@ -1762,6 +1762,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
              function getInitSelected (data){
                var _selected=null;
                var data0Val=data[0]?data[0].value:null;
+
+
+               if(angular.isDefined($attrs.chosenAjax)){//解决展开后，默认选中一个，导致只显示一个数据bug
+                 data0Val=null;
+               }
+
                if(angular.isDefined($attrs.multiple)){
                    if (angular.isDefined($attrs.defaultEmpty)) {
                       _selected= ngModel.$viewValue ? ngModel.$viewValue : [];

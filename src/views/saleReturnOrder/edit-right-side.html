@@ -22,25 +22,26 @@
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative">
-      <div class="pd-l">
+      <div class="pd-m">
         <!-- 标题 -->
         <div class="mgb-m">
-          <p class="mgb-m crumbs pr-indent-20">销售中心 >
-            <a href="#/lossOverOrder/query-reimburse.html">
-            <em class="color-custom-orange">销售退货单</em>
-            </a>
-             >新建销售退货单</p>
-          <h1 class="pr-font-22 color-black">新建销售退货单</h1>
-          <div class="mgt-l text-right">
-            <span class="color-orange add-return-order"
-            modal-right="1300" modal-scope="this" modal-url="views/saleReturnOrder/edit-right-side.html"
-            >
-              增加退货条目
+          <div class="mgb">
+            <span class="pdb-m">参照发货单</span>
+          </div>
+          <div class="mgb">
+            <span angucomplete-medical
+                  placeholder="发货单号"
+                  title-field="name"
+                  url="{{ajaxUrl}}"
+                  ng-model="ngModel.data"
+                  class="inline-block mgr-s medical-search"
+                  ng-change="$root.utils.focusByInputId('flashAddMedical_input_count')">
             </span>
           </div>
 
-        </div>
 
+          <h1 class="pr-font-22 color-black pdt-m">云南省第一人民医院</h1>
+        </div>
       </div>
     </div>
     <!-- 药械列表 -->
@@ -215,7 +216,7 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+          <!-- <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
              handle-this-click
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
@@ -224,37 +225,17 @@
              save-callback="submitForm('editForm','exit');
              $root.goTo('#/lossOverOrder/query-reimburse.html')"
              >返回销售退货单列表
-          </a>
+          </a>-->
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-reimburse.html" >返回销售退货单列表</a>
-          <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
-             href="javascript:;"
-             class="pr-color-red mgr-l"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="您确认删除这条报损单吗?"
-             dialog-template="dialog-confirm.html"
-             request-url="rest/authen/lossOverOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/lossOverOrder/query-reimburse.html')">删除
-          </a>
-
+          <a class="mgr-l">取消</a>
 
           <button type="submit" class="pr-btn-save-glodbg mgr-l"
-                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
+
+                  ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">
+                  <a class="color-white" href="#/saleReturnOrder/get-pinBack.html">确定</a>
           </button>
 
-          <button
-                  class=" mgl pr-btn-create-glodbg"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认通过?"
-                  dialog-content="审核后,将提交审批，确认审核?"
-                  dialog-template="pr-dialog-submit.html"
-                  confirm-btn-txt="通过"
-                  callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!formData.orderMedicalNos.length"
-                  >审核
-          </button>
+
 
       </div>
     </div>
