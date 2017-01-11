@@ -2,7 +2,7 @@
      ng-controller="freezeThawOrderEditCtrl"
      ajax-url="rest/authen/freezeThawOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");formData.applyType="批次冻结"'
+     callback='initFlag=true;watchFormChange("formData");formData.type="批次冻结"'
      alert-error>
 
   <form id="editForm"
@@ -18,7 +18,7 @@
         scope-data="formData"
         callback='updateStatus={"type":"submit","url":"rest/authen/freezeThawOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/freezeThawOrder/get-freeze.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
         novalidate="novalidate"
-        ng-init="formData.applyType='批次冻结'">
+        ng-init="formData.type='批次冻结'">
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative">
@@ -100,7 +100,7 @@
 
             <div class="flex-item-3">
               <span class="flex-item-7 text-right pd">
-                申请日期：<em >{{formData.applyDate ||'暂无' | date : 'yyyy-MM-dd'}}</em>
+                申请日期：<em >{{formData.createAt ||'暂无' | date : 'yyyy-MM-dd'}}</em>
               </span>
               <span class="flex-item-5 text-right pd">状态：<em>{{formData.orderStatus}}</em></span>
             </div>
