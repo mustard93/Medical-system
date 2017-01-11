@@ -1782,7 +1782,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
              //创建option数据
              function createOptionsStr(data, _selected){
 
-               console.log(data);
+              //  console.log(data);
 
                 var _options = '';
 
