@@ -77,6 +77,7 @@
             <table class="table pr-table pr-new-table table-wid" >
               <thead>
                 <tr>
+                  <th><input type="checkbox" class="selectAll"></th>
                   <th class="text-center">商品编号</th>
                   <th>商品全名</th>
                   <th class="text-center">规格/型号</th>
@@ -94,12 +95,11 @@
                   <th class="text-center">税额</th>
                   <th class="text-center">价税合计</th>
                   <th>报价</th>
-                  <th>仓库名称</th>
                   <th>产地</th>
                   <th>失效日期</th>
                   <th>退补标志</th>
                   <th>保存温度</th>
-                  <th>产地品牌</th>
+                  <th>品牌</th>
                   <th>产地注册证号</th>
                   <th>注册证有效期</th>
                   <th>医保编码</th>
@@ -107,7 +107,8 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="item in formData[0].orderMedicalNos">
+                <tr ng-repeat="item in formData[0].orderMedicalNos" ng-click="selectThis()">
+                  <td class="select-td"><input type="checkbox" class="selectOne" value="{{item.relId}}"></td>
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
@@ -126,16 +127,20 @@
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
                   <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{item.productionPlace}}</td>
+                  <td
+                  ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
+                  scope-data="validTilldata"
+                  >
+                  {{validTilldata.validTill | date : 'yyyy-MM-dd'}}
+                  </td>
+                  <td>{{item.withdrawalSign}}</td>
+                  <td>{{item.storedTemperature}}</td>
+                  <td>{{item.brand}}</td>
+                  <td>{{item.drugAdministrationCode}}</td>
+                  <td>{{item.drugAdministrationCodeGuaranteePeriod}}</td>
+                  <td>{{item.medicalInsuranceCode}}</td>
+                  <td>{{item.hospitalCode}}</td>
                 </tr>
               </tbody>
             </table>
