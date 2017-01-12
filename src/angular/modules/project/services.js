@@ -102,37 +102,81 @@ define('project/services', ['project/init'], function () {
          */
         function saleOrderUtils (utils) {
           var  tmpObj = {
+            // 含税单价：tr.price*tr.discountRate/100
+            getHanShuiDanJian : function (item) {
+              var tmp;
+              tmp = utils.numberDiv(item.discountRate, 100);
+              tmp = utils.numberMul(item.price, tmp);
+              return tmp;
+            },
+
+
             //无税单价  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
             getWuSuiDanJian:function(item){
                 //item.price*(100-item.taxRate)/100-item.discountPrice;
                 //tr.price/(100+tr.taxRate)/100
-                var tmp=utils.numberAdd(100,item.taxRate);
-                tmp=utils.numberDiv(tmp,100);
-                tmp=utils.numberDiv(item.price,tmp);
-               return tmp;
+
+                // var tmp=utils.numberAdd(100,item.taxRate);
+                // tmp=utils.numberDiv(tmp,100);
+                // tmp=utils.numberDiv(item.taxPrice,tmp);
+
+              var tmp;
+              tmp = utils.numberDiv(item.taxRate,100);
+              tmp = 1 + tmp;
+              tmp = utils.numberDiv(tmpObj.getHanShuiDanJian(item),tmp);
+              return tmp;
             },
             //无税金额 item.price*(1-item.taxRate)*item.quantity
-            getWuSuiJinE:function(item){
-                //item.price*(100-item.taxRate)/100*item.quantity
-                //100-item.taxRate
-                var tmp=tmpObj.getWuSuiDanJian(item);
-                    tmp=utils.numberMul(tmp,item.quantity);
-               return tmp;
+            getWuSuiJinE:function(item, orderBusinessType){
+              //item.price*(100-item.taxRate)/100*item.quantity
+              //100-item.taxRate
+              var tmp;
+              tmp = tmpObj.getWuSuiDanJian(item);
+
+              if (!orderBusinessType) {
+                tmp = utils.numberMul(tmp,item.quantity);
+                return tmp;
+              } else {
+                // 如果用户选择直运直销
+                tmp = utils.numberMul(tmp,item.planQuantity);
+                return tmp;
+              }
             },
             //税额 tr.price*tr.quantity-(tr.price*tr.quantity/(1+tr.taxRate/100)
-            getSuiE:function(item){
+            getSuiE:function(item, orderBusinessType){
                 //100-item.taxRate
-                var tmp=tmpObj.getWuSuiDanJian(item);
-                tmp=utils.numberMul(tmp,item.quantity);
-                var total=tmpObj.getJiaSuiHeJi(item);
-                 tmp=utils.numberSub(total,tmp);
-               return tmp;
+                var tmp = tmpObj.getWuSuiDanJian(item),
+                    total;
+
+
+                if (!orderBusinessType) {
+                  tmp=utils.numberMul(tmp,item.quantity);
+                  total = tmpObj.getJiaSuiHeJi(item);
+                  tmp=utils.numberSub(total,tmp);
+                  return tmp;
+                } else {
+                  tmp=utils.numberMul(tmp,item.planQuantity);
+                  total = tmpObj.getJiaSuiHeJi(item, orderBusinessType);
+                  tmp=utils.numberSub(total,tmp);
+                  return tmp;
+                }
+
             },
             //价税合计 item.price*item.quantity
-            getJiaSuiHeJi:function(item){
+            getJiaSuiHeJi:function(item, orderBusinessType){
               //item.price*item.quantity
-                var tmp=utils.numberMul(item.price,item.quantity);
-               return tmp;
+              // var tmp=utils.numberMul(item.taxPrice,item.quantity);
+              var tmp;
+              tmp = tmpObj.getHanShuiDanJian(item);
+
+              if (!orderBusinessType) {
+                tmp = utils.numberMul(tmp, item.quantity);
+                return tmp;
+              } else {
+                tmp = utils.numberMul(tmp, item.planQuantity);
+                return tmp;
+              }
+
             }
 
           };//tmpObj
