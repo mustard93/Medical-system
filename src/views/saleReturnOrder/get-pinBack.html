@@ -49,84 +49,81 @@
 
         <p class="flex-column mgb  pd">
           <span class="flex-item-12">
-            销售部门：<em >{{showData.orderNo || '暂无'}}</em>
+            销售部门：<em >{{showData.salesDepartmentName || '暂无'}}</em>
             <em  class="mgl">制单人：</em><em class="color-orange">{{showData.inputUser.n|| '暂无'}}</em>
             <em  class="mgl">业务员：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
-            <em  class="mgl">业务类型：</em><em >{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
-            <em  class="mgl">销售类型：</em><em >{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
+            <em  class="mgl">业务类型：</em><em >{{showData.orderBusinessType || '暂无' | date : 'yyyy-MM-dd' }}</em>
+            <em  class="mgl">销售类型：</em><em >{{showData.salesType || '暂无' | date : 'yyyy-MM-dd' }}</em>
           </span>
         </p>
 
           <!-- 主内容头部 -->
             <!-- 主内容区域 -->
             <div class="content-wrapper-main ">
-              <div>
-                <table class="table pr-table pr-new-table" >    <!-- table-wid -->
+              <div class="outside-table-d">
+                <table class="table pr-table pr-new-table table-wid" >
                     <thead class="pr-bg-side">
                       <tr>
-                        <th class="text-center">商品编码</th>
-                        <th class="text-center">商品代码</th>
-                        <th class="text-left">商品名称</th>
-                        <th class="text-center">规格型号</th>
+                        <th class="text-center">商品编号</th>
+                        <th>商品全名</th>
+                        <th class="text-center">规格/型号</th>
                         <th class="text-center">单位</th>
                         <th class="text-center">数量</th>
-                        <th class="text-center">生产批号/灭菌批号</th>
-                        <th class="text-center">生产日期</th>
-                        <th class="text-center">保质期</th>
-                        <th class="text-center">失效日期</th>
-                        <th class="text-center">产品执行标准</th>
-                        <th class="text-center">保存温度</th>
-                        <th class="text-center">产地品牌</th>
-                        <th class="text-center">产品注册证号</th>
-                        <th class="text-center">注册证有效期</th>
+                        <th class="text-center w-110">批号要求</th>
+                        <th class="text-center w-160">生产批号/灭菌批号</th>
+                        <!-- <th class="text-center w-140">预发货日期</th> -->
+                        <th class="text-center">含税单价</th>
+                        <th class="text-center">税率</th>
+                        <th class="text-center">折扣额</th>
+                        <th class="text-center">折扣率</th>
+                        <th class="text-center">无税单价</th>
+                        <th class="text-center">无税金额</th>
+                        <th class="text-center">税额</th>
+                        <th class="text-center">价税合计</th>
+                        <th>报价</th>
+                        <th>仓库名称</th>
+                        <th>产地</th>
+                        <th>失效日期</th>
+                        <th>退补标志</th>
+                        <th>保存温度</th>
+                        <th>产地品牌</th>
+                        <th>产地注册证号</th>
+                        <th>注册证有效期</th>
+                        <th>医保编码</th>
+                        <th>院内编码</th>
                       </tr>
                     </thead>
 
                     <tbody class="pr-bg-white" >
+                      <tr ng-repeat="item in scopeData.orderMedicalNos">
+                        <td class="text-center">{{item.code}}</td>
+                        <td>{{item.name}}</td>
+                        <td class="text-center">{{item.specificationAndModelType}}</td>
+                        <td class="text-center">{{item.unit}}</td>
+                        <td class="text-center">{{item.quantity}}</td>
+                        <td class="text-center">{{item.batchRequirement}}</td>
+                        <td class="text-center">{{item.productionBatch}}</td>
+                        <!-- <td class="text-center">{{item.expectDate | date:'yyyy-MM-dd'}}</td> -->
+                        <td class="text-center">{{item.price | currency:'￥'}}</td>
+                        <td class="text-center">{{item.taxRate}}%</td>
+                        <td class="text-center">￥{{item.discountPrice | number:2}}</td>
+                        <td class="text-center">{{item.discountRate}}%</td>
 
-                      <tr ng-repeat="tr in showData.orderMedicalNos" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
-                        <td class="text-center">{{tr.code}}</td>
-                        <td class="text-center">{{tr.goodsCode}}</td>
-                        <td class="text-center">
-                          {{tr.name}}
-                        </td>
-                        <td class="text-center">
-                          {{tr.modelType}}
-                        </td>
-                        <td class="text-center">
-                          {{tr.unit}}
-                        </td>
-
-                        <td class="text-center">
-                        {{tr.quantity}}
-                        </td>
-
-                        <td class="text-center">
-                          <!-- 生产批号 -->
-                        {{tr.productionBatch}}
-                        </td>
-                        <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
-                        <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-                        <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
-
-                        <td class="text-center">
-                          <!-- 产品执行标准 -->
-                        </td>
-
-                        <td class="text-center">
-                          <!-- 保存温度 -->
-                        </td>
-
-                        <td class="text-center">
-                          {{tr.brand}}
-                        </td>
-
-                        <td class="text-center">
-                        {{tr.drugAdministrationCode}}
-                        </td>
-                        <td>
-                          {{tr.drugAdministrationCodeGuaranteePeriod}}
-                        </td>
+                        <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                        <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
+                        <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
+                        <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                       </tr>
                     </tbody>
                 </table>
