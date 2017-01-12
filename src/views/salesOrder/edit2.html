@@ -66,10 +66,11 @@
                     <th class="text-center">单位</th>
                     <th class="text-center">数量</th>
                     <th class="text-center">批次要求</th>
-                    <th class="text-center">含税单价</th>
+                    <th class="text-center">报价</th>
                     <th class="text-center">税率</th>
                     <th class="text-center">折扣额</th>
                     <th class="text-center">折扣率</th>
+                    <th class="text-center">含税单价</th>
                     <th class="text-center">无税单价</th>
                     <th class="text-center">无税金额</th>
                     <th class="text-center">税额</th>
@@ -121,7 +122,7 @@
                              popover-show
                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" ng-init="tr.taxRate=17">
                       <select class="ipt pr-short-ipt"
                               chosen
                               width="60px"
@@ -157,7 +158,9 @@
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountPrice=tr.price*(1-tr.discountRate/100)"/> %
                     </td>
+                    <!-- <td class="text-center">￥{{tr.taxPrice | number:2}}</td> -->
 
+                    <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) | number:2}}</td>
                     <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td>
                     <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td>
                     <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(tr) | number:2}}</td>

@@ -120,10 +120,11 @@
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
                   <th class="text-center w-160">生产批号/灭菌批号</th>
-                  <th class="text-center">含税单价</th>
+                  <th class="text-center">报价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
                   <th class="text-center">折扣率</th>
+                  <th class="text-center">含税单价</th>
                   <th class="text-center">无税单价</th>
                   <th class="text-center">无税金额</th>
                   <th class="text-center">税额</th>
@@ -187,8 +188,12 @@
                   <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate | number:2}}%</td>
+<<<<<<< HEAD
 
 
+=======
+                  <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
+>>>>>>> V1.00.05_Alpha
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
@@ -255,16 +260,16 @@
                   <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate}}%</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item, formData.orderBusinessType) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item, formData.orderBusinessType) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item, formData.orderBusinessType) | number:2}}</td>
 
-                  <!-- <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
-                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
-                  <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
-                  <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td> -->
-
-                  <td class="text-center">￥{{item.price/(1+item.taxRate/100) | number:2}}</td>
+                  <!-- <td class="text-center">￥{{item.price/(1+item.taxRate/100) | number:2}}</td>
                   <td class="text-center">￥{{item.price*item.planQuantity/(1+item.taxRate/100) | number:2}}</td>
                   <td class="text-center">￥{{item.price*item.planQuantity-(item.price*item.planQuantity/(1+item.taxRate/100)) | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.planQuantity | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.planQuantity | number:2}}</td> -->
                 </tr>
               </tbody>
             </table>

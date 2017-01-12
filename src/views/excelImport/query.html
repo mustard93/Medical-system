@@ -1,0 +1,55 @@
+<div class="modal-content" ng-controller="editCtrl" scope-data="formData" alert-error callback="initFlag=true"><!-- pageCtrl-->
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>导入数据管理</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">导入数据管理</li>
+    </ul>
+</div>
+<!-- page heading end-->
+<form class="add-medical-form form-horizontal"
+  action="rest/authen/medicalStock/save"
+  scope-data="formData"
+      alert-error
+      form-validator>
+  <div class="modal-header">
+      <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+      <h4 class="modal-title">EXCEL数据导入</h4>
+  </div>
+
+    <div class="form-group col-lg-2">
+      <label class="col-lg-2 col-sm-2 control-label">导入类型</label>
+      <div class="col-lg-10 col-sm-10">
+        <select class="ipt pr-short-ipt" data-placeholder="选择导入的类型" chosen default-empty="无" ng-model="listParams.importExcelType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Utils_ImportExcelType">
+
+        </select>
+      </div>
+    </div>
+
+
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">上传文件</label>
+        <div class="col-lg-10 col-sm-10">
+          <p class="mgb">
+            {{formData.fileName}}
+          </p>
+          <button type="button"
+                  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                    ng-init="upFile={}"
+                  uploader-one="rest/authen/excelImport/upload.json"
+                  params="listParams"
+                  callback="formData.fileName=upFile.data.originalFileName"
+                  usege="EXCEL数据上传"
+                  up-file="upFile" ng-model="formData.loadUrl">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+          </button>
+        </div>
+      </div>
+
+
+  </div>
+
+  </form>
+
+<!--body wrapper end-->
+</div><!-- pageCtrl-->
