@@ -1,5 +1,5 @@
 <div class="sale-return-order"
-     ng-controller="lossOverOrderEditCtrl"
+     ng-controller="saleReturnOrderEditCtrl"
      ajax-url="rest/authen/saleReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");'
@@ -65,11 +65,11 @@
 
         <p class="flex-column mgb  pd">
           <span class="flex-item-12">
-            销售部门：<em >{{showData.orderNo || '暂无'}}</em>
-            <em  class="mgl">制单人：</em><em class="color-orange">{{showData.inputUser.n|| '暂无'}}</em>
-            <em  class="mgl">业务员：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
-            <em  class="mgl">业务类型：</em><em >{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
-            <em  class="mgl">销售类型：</em><em >{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
+            销售部门：<em >{{formData[0].salesDepartmentName || '暂无'}}</em>
+            <em  class="mgl">制单人：</em><em class="color-orange">{{formData[0].inputUser.n|| '暂无'}}</em>
+            <em  class="mgl">业务员：</em><em class="color-black">{{formData[0].inputUser.n || '暂无'}}</em>
+            <em  class="mgl">业务类型：</em><em >{{formData[0].orderBusinessType || '暂无'}}</em>
+            <em  class="mgl">销售类型：</em><em >{{formData[0].salesType || '暂无'}}</em>
           </span>
         </p>
           <div class="outside-table-d">
@@ -118,7 +118,6 @@
                   <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate}}%</td>
-
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>

@@ -1,5 +1,5 @@
 <div class="sale-return-order right-side"
-     ng-controller="lossOverOrderEditCtrl"
+     ng-controller="saleReturnOrderEditCtrl"
      ajax-url="rest/authen/invoicesOrder/query?orderStatus=已发货"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");'
@@ -38,38 +38,38 @@
                   ng-change="$root.utils.focusByInputId('flashAddMedical_input_count')">
             </span>
           </div>
-          <h1 class="pr-font-22 color-black pdt-m">云南省第一人民医院</h1>
+          <h1 class="pr-font-22 color-black pdt-m">{{formData[0].customerName}}</h1>
         </div>
       </div>
     </div>
     <!-- 药械列表 -->
     <div class="pd-loss-l">
-      <!-- {{formData}} -->
+      <!-- {{formData[0]}} -->
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <p class="flex-column mgb  pd bb-dashed-line">
           <span class="flex-item-5">
-            单据编号：<em >{{formData.orderNo || '暂无'}}</em>
-            <em  class="mgl">制单人：</em><em class="color-orange">{{formData.inputUser.n|| '暂无'}}</em>
+            单据编号：<em >{{formData[0].orderNo || '暂无'}}</em>
+            <em  class="mgl">制单人：</em><em class="color-orange">{{formData[0].inputUser.n|| '暂无'}}</em>
             <em  class="mgl">
-              审核人：</em><em class="color-black">{{formData.inputUser.n || '暂无'}}</em>
+              审核人：</em><em class="color-black">{{formData[0].inputUser.n || '暂无'}}</em>
           </span>
           <span class="flex-item-6 text-right">
-            录单日期：<em >{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
+            录单日期：<em >{{formData[0].createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
           </span>
           <span class="flex-item-1 text-right">状态：
-            <em class="color-black" ng-class="{'color-green':formData.orderStatus=='已通过'}">
-            {{formData.orderStatus}}
+            <em class="color-black" ng-class="{'color-green':formData[0].orderStatus=='已通过'}">
+            {{formData[0].orderStatus}}
           </em>
         </span>
         </p>
 
         <p class="flex-column mgb  pd">
           <span class="flex-item-12">
-            销售部门：<em >{{formData.orderNo || '暂无'}}</em>
-            <em  class="mgl">制单人：</em><em class="color-orange">{{formData.inputUser.n|| '暂无'}}</em>
-            <em  class="mgl">业务员：</em><em class="color-black">{{formData.inputUser.n || '暂无'}}</em>
-            <em  class="mgl">业务类型：</em><em >{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
-            <em  class="mgl">销售类型：</em><em >{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
+            销售部门：<em >{{formData[0].salesDepartmentName || '暂无'}}</em>
+            <em  class="mgl">制单人：</em><em class="color-orange">{{formData[0].inputUser.n|| '暂无'}}</em>
+            <em  class="mgl">业务员：</em><em class="color-black">{{formData[0].inputUser.n || '暂无'}}</em>
+            <em  class="mgl">业务类型：</em><em >{{formData[0].orderBusinessType || '暂无'}}</em>
+            <em  class="mgl">销售类型：</em><em >{{formData[0].salesType || '暂无'}}</em>
           </span>
         </p>
         <div>
@@ -107,7 +107,7 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="item in formData.orderMedicalNos">
+                <tr ng-repeat="item in formData[0].orderMedicalNos">
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
@@ -159,9 +159,8 @@
           <a class="mgr-l">取消</a>
 
           <button type="submit" class="pr-btn-save-glodbg mgr-l"
-
                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">
-                  <a class="color-white" href="#/saleReturnOrder/get-pinBack.html">确定</a>
+                  <a class="color-white">确定</a>
           </button>
 
 
