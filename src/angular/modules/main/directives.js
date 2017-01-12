@@ -1667,7 +1667,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.searching = false;
                 $scope.pause = 300;
                 $scope.minLength = 1;
-                $scope.searchStr = null;
+                $scope.searchStr = $scope.searchFields;
 
               require(['project/angucomplete'], function(angucomplete) {
                     $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
@@ -3053,7 +3053,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             $scope.tr.firstMedical.name = _resStr;
             // $scope[$attrs.fieldName] = _resStr;
           }
-        
+
         }
       }
     }
