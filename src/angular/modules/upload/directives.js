@@ -204,6 +204,7 @@ define('upload/directives', ['upload/init'], function () {
               scope: {
                   ngModel: "=?",
                   upFile:"=?",
+                  params:"=?",
                   uploadSize: "@",
                   width: "@",
                   height: "@"
@@ -313,6 +314,12 @@ define('upload/directives', ['upload/init'], function () {
                       var fd = new FormData();
                       //关联表单数据,可以是自定义参数
 
+                      //添加自定义参数
+                      if(  angular.isObject($scope.params)){
+                        for (var variable in $scope.params) {
+                            fd.append(variable,$scope.params[variable]);
+                        }
+                      }
                         if($attrs.usege){
                             fd.append("usege", $attrs.usege);
                         }

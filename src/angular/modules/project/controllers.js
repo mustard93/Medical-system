@@ -340,6 +340,10 @@ define('project/controllers', ['project/init'], function() {
         // 添加一条。并缓存数据。返回true表示成功。会处理数据。
         $scope.flashAddDataCallbackFn = function(flashAddData) {
 
+          if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+            alertWarn("请选择药品");
+            return ;
+          }
           var medical=flashAddData.data.data;
           var addDataItem = $.extend(true,{},medical);
 
@@ -514,6 +518,10 @@ define('project/controllers', ['project/init'], function() {
         // 添加一条。并缓存数据。返回true表示成功。会处理数据。
         $scope.flashAddDataCallbackFn = function(flashAddData) {
 
+          if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+            alertWarn("请选择药品");
+            return ;
+          }
           var medical=flashAddData.data.data;
           var addDataItem = $.extend(true,{},medical);
 
@@ -687,7 +695,10 @@ define('project/controllers', ['project/init'], function() {
 
         // 添加一条。并缓存数据。返回true表示成功。会处理数据。
         $scope.flashAddDataCallbackFn = function(flashAddData) {
-
+          if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+            alertWarn("请选择药品");
+            return ;
+          }
           var medical=flashAddData.data.data;
           var addDataItem = $.extend(true,{},medical);
 
