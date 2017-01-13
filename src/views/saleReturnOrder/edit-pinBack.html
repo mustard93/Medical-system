@@ -6,40 +6,35 @@
      alert-error>
 
   <form>
-        <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative">
       <div class="pd-l">
         <!-- 标题 -->
         <div class="mgb-m">
           <p class="mgb-m crumbs pr-indent-20">销售中心 >
-            <a href="#/saleReturnOrder/query-pinBack.html">
-            <em class="color-custom-orange">销售退货单</em>
-            </a>
+            <a href="#/saleReturnOrder/query-pinBack.html"><em class="color-custom-orange">销售退货单</em></a>
              >新建销售退货单</p>
           <h1 class="pr-font-22 color-black">新建销售退货单</h1>
           <div class="mgt-l text-right">
-            <span class="color-orange add-return-order"
+            <span ng-if="initFlag" class="color-orange add-return-order"
                   modal-right="1000"
-                  modal-open-auto=true
+                  modal-open-auto="{{!formData.orderMedicalNos.length}}"
                   modal-scope="this"
                   modal-url="views/saleReturnOrder/edit-right-side.html">增加退货条目
             </span>
           </div>
-
         </div>
-
       </div>
     </div>
     <!-- 单据基本信息 -->
     <div class="pd-loss-l">
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
-        <div class="empty-panel" ng-if="!formData">
+        <div class="empty-panel" ng-if="!formData.orderMedicalNos.length">
             <span></span>
             <span></span>
             <span></span>
         </div>
-        <div ng-if="formData">
+        <div ng-if="formData.orderMedicalNos.length">
           <p class="flex-column mgb  pd bb-dashed-line">
             <span class="flex-item-5">
               单据编号：<em >{{formData[0].orderNo || '暂无'}}</em>
@@ -99,7 +94,7 @@
                   <th>院内编码</th>
                 </tr>
               </thead>
-              <tbody class="bg-white" ng-if="formData">
+              <tbody class="bg-white" ng-if="formData.orderMedicalNos.length">
                 <tr ng-repeat="item in scopeData.orderMedicalNos">
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
@@ -132,7 +127,7 @@
               </tbody>
             </table>
           </div>
-            <div class="empty-table" ng-if="!formData">
+            <div class="empty-table" ng-if="!formData.orderMedicalNos.length">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -147,8 +142,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">

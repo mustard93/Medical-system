@@ -434,7 +434,7 @@ function alertOk($rootScope, modal) {
                 // alert(window.location.host); 则输出：http:localhost:8086
                   var context=  window.location.pathname.split("/")[1];
                   var path=window.location.protocol+"//"+window.location.host+"/"+context+"/";
-                console.log(path);
+                // console.log(path);
 
                 return path;
             },
@@ -792,12 +792,12 @@ function alertOk($rootScope, modal) {
           },500);
 
           if($scope._watchFn){
-            console.log("$scope._watchFn="+watchName);
+            // console.log("$scope._watchFn="+watchName);
               return;
           }
 
           $scope._watchFn=$scope.$watch(watchName,function(newValue,oldValue, scope){
-                console.log("changeFlag=true,"+watchName);
+                // console.log("changeFlag=true,"+watchName);
             $scope.changeFlag=true;
           },true);
       };
