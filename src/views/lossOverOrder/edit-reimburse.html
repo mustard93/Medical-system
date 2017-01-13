@@ -2,7 +2,7 @@
      ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");formData.applyType="报损"'
+     callback='initFlag=true;watchFormChange("formData");formData.type="报损"'
      alert-error>
 
   <form id="editForm"
@@ -18,7 +18,7 @@
         onkeydown="if(window.event.keyCode==13) return false;"
         callback='updateStatus={"type":"submit","url":"rest/authen/lossOverOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/lossOverOrder/get-reimburse.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
         novalidate="novalidate"
-        ng-init="formData.applyType='报损'">
+        ng-init="formData.type='报损'">
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative">
