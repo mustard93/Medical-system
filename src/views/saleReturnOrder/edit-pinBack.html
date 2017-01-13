@@ -5,20 +5,7 @@
      callback='initFlag=true;watchFormChange("formData");'
      alert-error>
 
-  <form id="editForm"
-        name="editForm"
-        form-validator
-        parameter-body
-        action="rest/authen/lossOverOrder/save.json"
-        alert-error
-        alert-ok
-        scope-extend="scopeExtend"
-        scope-error-msg="errorMsg"
-        scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
-        callback='updateStatus={"type":"submit","url":"rest/authen/saleReturnOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/lossOverOrder/get-reimburse.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
-        novalidate="novalidate"
-        >
+  <form>
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative">
@@ -46,15 +33,15 @@
     <!-- 单据基本信息 -->
     <div class="pd-loss-l">
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
-        <div class="empty-panel" >
+        <div class="empty-panel" ng-if="!formData">
             <span></span>
             <span></span>
             <span></span>
         </div>
-        <div ng-if="!formData">
+        <div ng-if="formData">
           <p class="flex-column mgb  pd bb-dashed-line">
             <span class="flex-item-5">
-              单据编号：<em >{{showData.orderNo || '暂无'}}</em>
+              单据编号：<em >{{formData[0].orderNo || '暂无'}}</em>
               <em  class="mgl">制单人：</em><em>{{showData.inputUser.n|| '暂无'}}</em>
               <em  class="mgl">
                 审核人：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
@@ -144,7 +131,7 @@
               </tbody>
             </table>
           </div>
-            <div ng-if="!formData" class="empty-table">
+            <div class="empty-table" ng-if="!formData">
                 <span></span>
                 <span></span>
                 <span></span>
