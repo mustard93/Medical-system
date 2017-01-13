@@ -1876,14 +1876,17 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
      */
     function saleReturnOrderDetailsController ($scope) {
 
-      $scope.choiseThisItem = function (item) {
-        // console.log($scope.itemSelected);
-        // 被选中
-        if ($scope.itemSelected) {
-          $scope.addDataArray.push(item);
-          console.log($scope.addDataArray);
+      $scope.$watch('itemSelected', function (newVal) {
+        if (newVal) {
+          $scope.addDataArray.push($scope.item);
+        } else {
+          angular.forEach($scope.addDataArray, function (data, index) {
+            if (data.relId === $scope.item.relId) {
+              $scope.addDataArray.splice(index, 1);
+            }
+          });
         }
-      };
+      });
 
     }
 

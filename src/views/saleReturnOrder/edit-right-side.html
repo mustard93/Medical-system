@@ -95,7 +95,7 @@
               </thead>
               <tbody class="bg-white">
                 <tr ng-repeat="item in angucomplete_data1.data.orderMedicalNos" ng-init="itemSelected=false" ng-controller="saleReturnOrderDetailsController">
-                  <td class="select-td"><input type="checkbox" class="selectOne" ng-model="itemSelected" ng-click="!itemSelected;choiseThisItem(item);"></td>
+                  <td class="select-td"><input type="checkbox" class="selectOne" ng-model="itemSelected" ng-click="!itemSelected"></td>
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
@@ -137,11 +137,8 @@
       <!-- 功能按钮 -->
       <div class="handle-btn-area relative">
         <div class="btn-area">
-            <a class="mgr-l">取消</a>
-            <button type="submit" class="pr-btn-save-glodbg mgr-l"
-                    >
-                    <a class="color-white">确定</a>
-            </button>
+            <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
+            <button ng-disabled="!addDataArray.length" ng-click="" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
         </div>
       </div>
     </div>
