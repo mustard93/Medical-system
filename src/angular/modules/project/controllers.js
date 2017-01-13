@@ -1869,10 +1869,29 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
 
     }
 
+    /**
+     * [saleReturnOrderDetailsController 销售退货单弹出框内表格项目控制器]
+     * @param  {[type]} $scope [description]
+     * @return {[type]}        [description]
+     */
+    function saleReturnOrderDetailsController ($scope) {
+
+      $scope.choiseThisItem = function (item) {
+        // console.log($scope.itemSelected);
+        // 被选中
+        if ($scope.itemSelected) {
+          $scope.addDataArray.push(item);
+          console.log($scope.addDataArray);
+        }
+      };
+
+    }
+
 
 
     angular.module('manageApp.project')
-      .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils", mainCtrlProject])
+    .controller('saleReturnOrderDetailsController', ["$scope", saleReturnOrderDetailsController])
+    .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils", mainCtrlProject])
     .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
     .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
     .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])

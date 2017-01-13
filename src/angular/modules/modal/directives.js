@@ -47,7 +47,7 @@ define('modal/directives', ['modal/init'], function () {
       return {
           restrict: 'A',
           scope: {
-              modalScope: '='
+              modalScope: '=',
           },
           link: function ($scope, $elem, $attrs) {
               var dialogWidth = $attrs.modalRight || "50%";
@@ -67,8 +67,9 @@ define('modal/directives', ['modal/init'], function () {
                       });
               };
 
-              if ($attrs.modalOpenAuto) {
-                dialogOpen();
+              // 增加属性modalOpenAuto,其为一表达式，若返回为字符串true，则自动打开右侧模态框
+              if (angular.isDefined($attrs.modalOpenAuto) && $attrs.modalOpenAuto == "true") {
+                  dialogOpen();
               }
 
               $elem.on('click', function (e) {
