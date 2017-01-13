@@ -57,9 +57,6 @@
             <table class="table pr-table pr-new-table mgb-n">
               <thead>
                 <tr>
-                  <!-- <th class="text-center w-50">
-                    <label for=""><input type="checkbox" name="" value=""></label>
-                  </th> -->
                   <th class="text-center">商品编号</th>
                   <th>商品全名</th>
                   <th class="text-center">规格/型号</th>
@@ -67,11 +64,11 @@
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
                   <th class="text-center w-160">生产批号/灭菌批号</th>
-                  <!-- <th class="text-center w-140">预发货日期</th> -->
-                  <th class="text-center">含税单价</th>
+                  <th class="text-center">报价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
                   <th class="text-center">折扣率</th>
+                  <th class="text-center">含税单价</th>
                   <th class="text-center">无税单价</th>
                   <th class="text-center">无税金额</th>
                   <th class="text-center">税额</th>
@@ -80,9 +77,6 @@
               </thead>
               <tbody>
                 <tr ng-repeat="item in scopeData.orderMedicalNos">
-                  <!-- <td class="text-center w-50">
-                    <label for=""><input type="checkbox" ng-model="item.handleFlag"></label>
-                  </td> -->
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
@@ -95,7 +89,7 @@
                   <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-center">{{item.discountRate}}%</td>
-
+                  <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
