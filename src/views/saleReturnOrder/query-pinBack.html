@@ -164,8 +164,6 @@
 <div class="content-wrapper sale-return-order"
      ng-controller="QualificationApplyCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;">
-
-
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <div ng-if="!status.isLoading">
@@ -199,13 +197,13 @@
                      callback="$root.goTo('#/saleReturnOrder/query-pinBack.html')"
                      params='{"id":tr.id}'
                      request-url="rest/authen/saleReturnOrder/delete">
-                     <span class="rect-s"><span class="delete-link-icon"></span></span>
+                      <span class="rect-s" title="删除"><span class="delete-link-icon"></span></span>
                    </a>
 
                   <a
                      ng-if="tr.orderStatus=='待出库'"
                      href="javascript:;"
-                     class="color-red"
+                     class="color-red mr--4"
                      handle-this-click
                      dialog-title="确认删除?"
                      dialog-content="删除后将无法恢复,确认删除?"
@@ -213,18 +211,18 @@
                      callback="$root.goTo('#/saleReturnOrder/query-pinBack.html')"
                      params='{"id":tr.id}'
                      request-url="rest/authen/saleReturnOrder/delete">
-                     <span class="rect-s"><span class="nav-ico"></span></span>
+                     <span class="rect-s" title="生成出库"><span class="outStork-icon"></span></span>
                    </a>
 
                     <a
                      ng-if="tr.orderStatus=='待审核'"
-                     ng-href="#/saleReturnOrder/edit-pinBack.html?id={{tr.id}}">
-                     <span class="rect-s"><span class="edit-link-icon"></span></span>
+                     ng-href="#/saleReturnOrder/edit-pinBack.html?id={{tr.id}}" class="mr--4">
+                     <span class="rect-s" title="编辑"><span class="edit-link-icon"></span></span>
                    </a>
                     <a
                       ng-if="tr.orderStatus=='已出库'||tr.orderStatus=='待审核'"
-                      ng-href="#/saleReturnOrder/get-pinBack.html?id={{tr.id}}">
-                      <span class="rect-s"><span class="pr-icon-bg12"></span></span>
+                      ng-href="#/saleReturnOrder/get-pinBack.html?id={{tr.id}}" class="mr--4">
+                      <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
                     </a>
                   </span>
                 </div>

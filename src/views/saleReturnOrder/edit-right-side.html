@@ -4,22 +4,8 @@
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");'
      alert-error>
-
-  <form id="editForm"
-        name="editForm"
-        form-validator
-        parameter-body
-        action="rest/authen/lossOverOrder/save.json"
-        alert-error
-        alert-ok
-        scope-extend="scopeExtend"
-        scope-error-msg="errorMsg"
-        scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
-        callback='updateStatus={"type":"submit","url":"rest/authen/lossOverOrder/updateStatus","param":{"id":formData.id,orderStatus:"待审批"}};goToUrlMap={"submit":"#/lossOverOrder/get-reimburse.html?id="+formData.id};submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
-        novalidate="novalidate"
-        >
-        <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
+  <form>
+  <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
     <div class="relative">
       <div class="pd-m">
@@ -29,14 +15,15 @@
             <span class="pdb-m">参照发货单</span>
           </div>
           <div class="mgb">
-            <span angucomplete-medical
-                  placeholder="发货单号"
-                  title-field="name"
-                  url="{{ajaxUrl}}"
-                  ng-model="ngModel.data"
-                  class="inline-block mgr-s medical-search"
-                  ng-change="$root.utils.focusByInputId('flashAddMedical_input_count')">
+            <span angucomplete placeholder="输入"
+              title-field="confirmOrderNo"
+              description-field="customerName"
+              search-fields="F"
+              url="rest/authen/invoicesOrder/query?orderStatus=已发货"
+              class="inline-block"
+              ng-model="angucomplete_data1">
             </span>
+            <!-- {{angucomplete_data1}} -->
           </div>
           <h1 class="pr-font-22 color-black pdt-m">{{formData[0].customerName}}</h1>
         </div>
@@ -44,7 +31,7 @@
     </div>
     <!-- 药械列表 -->
     <div class="pd-loss-l">
-      <!-- {{formData[0]}} -->
+      <!-- {{formData}} -->
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <p class="flex-column mgb  pd bb-dashed-line">
           <span class="flex-item-5">
@@ -85,7 +72,6 @@
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
                   <th class="text-center w-160">生产批号/灭菌批号</th>
-                  <!-- <th class="text-center w-140">预发货日期</th> -->
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -150,26 +136,11 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <!-- <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
-             handle-this-click
-             dialog-title="确认返回?"
-             dialog-content="该申请单存在未保存数据，是否保存?"
-             dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/lossOverOrder/query-reimburse.html')"
-             save-callback="submitForm('editForm','exit');
-             $root.goTo('#/lossOverOrder/query-reimburse.html')"
-             >返回销售退货单列表
-          </a>-->
-
           <a class="mgr-l">取消</a>
-
           <button type="submit" class="pr-btn-save-glodbg mgr-l"
-                  ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">
+                  >
                   <a class="color-white">确定</a>
           </button>
-
-
-
       </div>
     </div>
   </form>
