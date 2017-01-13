@@ -51,28 +51,46 @@ define('modal/directives', ['modal/init'], function () {
           },
           link: function ($scope, $elem, $attrs) {
               var dialogWidth = $attrs.modalRight || "50%";
+
+              var dialogOpen = function () {
+                return ngDialog.open({
+                          template: $attrs.modalUrl,
+                          className: 'ngdialog-theme-right',
+                          cache: false,
+                          trapFocus: false,
+                          overlay: ($attrs.modalOverlay == "true"),
+                          data: $attrs.modalData || $scope.modalScope.tr,
+                          scope: $scope.modalScope,
+                          controller: ["$scope", "$element", function ($scope, $element) {
+                              $(".ngdialog-content", $element).width(dialogWidth);
+                          }]
+                      });
+              };
+
+              if ($attrs.modalOpenAuto) {
+                dialogOpen();
+              }
+
               $elem.on('click', function (e) {
                   e.preventDefault(); //取消默认事件
                   e.stopPropagation();  //阻止事件冒泡
 
                   ngDialog.closeAll();
-                  //var _dialogs = ngDialog.getOpenDialogs();
-                  //if (_dialogs.length) {
-                  //    return;
-                  //};
 
-                  ngDialog.open({
-                      template: $attrs.modalUrl,
-                      className: 'ngdialog-theme-right',
-                      cache: false,
-                      trapFocus: false,
-                      overlay: ($attrs.modalOverlay == "true"),
-                      data: $attrs.modalData || $scope.modalScope.tr,
-                      scope: $scope.modalScope,
-                      controller: ["$scope", "$element", function ($scope, $element) {
-                          $(".ngdialog-content", $element).width(dialogWidth);
-                      }]
-                  });
+                  dialogOpen();
+
+                  // ngDialog.open({
+                  //     template: $attrs.modalUrl,
+                  //     className: 'ngdialog-theme-right',
+                  //     cache: false,
+                  //     trapFocus: false,
+                  //     overlay: ($attrs.modalOverlay == "true"),
+                  //     data: $attrs.modalData || $scope.modalScope.tr,
+                  //     scope: $scope.modalScope,
+                  //     controller: ["$scope", "$element", function ($scope, $element) {
+                  //         $(".ngdialog-content", $element).width(dialogWidth);
+                  //     }]
+                  // });
               });
           }
       };
