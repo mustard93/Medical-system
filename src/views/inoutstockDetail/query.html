@@ -94,7 +94,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
+                        <tr ng-if="tbodyList.length"
+                        ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
                             <!-- <td>{{$index + 1}}</td> -->
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.type}}</td>
@@ -162,6 +163,13 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+              <div class="empty-table">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </div>
             <div class="clearfix ">
                 <div class="fr">

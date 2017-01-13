@@ -98,7 +98,9 @@
                              </tr>
                            </thead>
                            <tbody class="pr-bg-white">
-                             <tr ng-repeat="tr in tbodyList track by $index">
+                             <tr ng-repeat="tr in tbodyList track by $index"
+                             ng-if="tbodyList.length"
+                             >
                                <!-- <td>{{$index + 1}}</td> -->
                                <td>{{tr.createAt | date:'yyyy-MM-dd'}}</td>
                                <td class="text-ellips-s">{{tr.type}}</td>
@@ -148,7 +150,7 @@
                                <td class="text-right">￥{{$root.utils.numberMul(tr.quantity,tr.price)}}</td>
                              </tr>
 
-                             <tr class="bgco-orange color-white">
+                             <tr class="bgco-orange color-white" ng-if="tbodyList.length">
                                <td colspan="6" class="text-right">合计：</td>
                                <td class="text-right">{{totalObj.storageQuantity ||'0'}}</td>
                                <td class="text-right">{{totalObj.outgoingQuantity ||'0'}}</td>
@@ -160,6 +162,13 @@
                          </table>
                          <!-- 分页 -->
                        </div>
+                   </div>
+                   <div class="pr-bg-white" ng-if="!tbodyList.length">
+                     <div class="empty-table">
+                       <span></span>
+                       <span></span>
+                       <span></span>
+                     </div>
                    </div>
                    <div class="clearfix">
                        <div class="fr">
