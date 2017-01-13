@@ -46,31 +46,39 @@
     <!-- 单据基本信息 -->
     <div class="pd-loss-l">
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
-        <p class="flex-column mgb  pd bb-dashed-line">
-          <span class="flex-item-5">
-            单据编号：<em >{{showData.orderNo || '暂无'}}</em>
-            <em  class="mgl">制单人：</em><em>{{showData.inputUser.n|| '暂无'}}</em>
-            <em  class="mgl">
-              审核人：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
+        <div class="empty-panel" >
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div ng-if="!formData">
+          <p class="flex-column mgb  pd bb-dashed-line">
+            <span class="flex-item-5">
+              单据编号：<em >{{showData.orderNo || '暂无'}}</em>
+              <em  class="mgl">制单人：</em><em>{{showData.inputUser.n|| '暂无'}}</em>
+              <em  class="mgl">
+                审核人：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
+            </span>
+            <span class="flex-item-6 text-right">
+              录单日期：<em class="color-black">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
+            </span>
+            <span class="flex-item-1 text-right">状态：
+              <em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">
+              {{showData.orderStatus}}
+            </em>
           </span>
-          <span class="flex-item-6 text-right">
-            录单日期：<em class="color-black">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
-          </span>
-          <span class="flex-item-1 text-right">状态：
-            <em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">
-            {{showData.orderStatus}}
-          </em>
-        </span>
-        </p>
+          </p>
 
-        <p class="flex-column mgb  pd">
-          <span class="flex-item-12">
-            销售部门：<em >{{formData[0].salesDepartmentName || '暂无'}}</em>
-            <em  class="mgl">业务人员：</em><em  class="color-orange">{{formData[0].inputUser.n || '暂无'}}</em>
-            <em  class="mgl">业务类型：</em><em class="color-black">{{formData[0].orderBusinessType || '暂无'}}</em>
-            <em  class="mgl">销售类型：</em><em class="color-black">{{formData[0].salesType || '暂无'}}</em>
-          </span>
-        </p>
+          <p class="flex-column mgb  pd">
+            <span class="flex-item-12">
+              销售部门：<em >{{formData[0].salesDepartmentName || '暂无'}}</em>
+              <em  class="mgl">业务人员：</em><em  class="color-orange">{{formData[0].inputUser.n || '暂无'}}</em>
+              <em  class="mgl">业务类型：</em><em class="color-black">{{formData[0].orderBusinessType || '暂无'}}</em>
+              <em  class="mgl">销售类型：</em><em class="color-black">{{formData[0].salesType || '暂无'}}</em>
+            </span>
+          </p>
+      </div>
+
           <div class="outside-table-d">
             <table class="table pr-table pr-new-table table-wid" >
               <thead>
@@ -103,7 +111,7 @@
                   <th>院内编码</th>
                 </tr>
               </thead>
-              <tbody class="bg-white">
+              <tbody class="bg-white" ng-if="formData">
                 <tr ng-repeat="item in scopeData.orderMedicalNos">
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
@@ -136,11 +144,16 @@
               </tbody>
             </table>
           </div>
+            <div ng-if="!formData" class="empty-table">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
         <!-- 其他信息 -->
-        <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
+        <div ng-if="!formData" class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
             <!-- 备注 -->
-            <div class='mgb'>
+            <div class='mgb' >
               <h1>备注</h1>
               <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
             </div>
