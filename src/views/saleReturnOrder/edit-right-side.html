@@ -1,5 +1,5 @@
 <div class="sale-return-order right-side"
-     ng-controller="saleReturnOrderEditCtrl"
+     ng-controller="saleReturnOrderAddController"
      ajax-url="rest/authen/invoicesOrder/query?orderStatus=已发货"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");addDataArray=[];'
@@ -65,7 +65,9 @@
           <table class="table pr-table pr-new-table table-wid" >
               <thead>
                 <tr>
-                  <th><input type="checkbox" class="selectAll"></th>
+                  <th>
+                    <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                  </th>
                   <th class="text-center">商品编号</th>
                   <th>商品全名</th>
                   <th class="text-center">规格/型号</th>
@@ -94,8 +96,10 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="item in angucomplete_data1.data.orderMedicalNos" ng-init="itemSelected=false" ng-controller="saleReturnOrderDetailsController">
-                  <td class="select-td"><input type="checkbox" class="selectOne" ng-model="itemSelected" ng-click="!itemSelected"></td>
+                <tr ng-repeat="item in angucomplete_data1.data.orderMedicalNos" ng-init="item.itemSelected=false">
+                  <td class="select-td">
+                    <input type="checkbox" class="selectOne" ng-model="item.itemSelected" ng-click="handleItemClickEvent(item);">
+                  </td>
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
@@ -138,7 +142,7 @@
       <div class="handle-btn-area relative">
         <div class="btn-area">
             <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
-            <button ng-disabled="!addDataArray.length" ng-click="" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
+            <button ng-disabled="!addDataArray.length" ng-click="handleAddDataArray()" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
         </div>
       </div>
     </div>

@@ -1699,7 +1699,7 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
     /**
      * 销售退货
      */
-    function saleReturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData) {
+    function saleReturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope) {
         $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
         };
@@ -1870,30 +1870,60 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
     }
 
     /**
-     * [saleReturnOrderDetailsController 销售退货单弹出框内表格项目控制器]
+     * [saleReturnOrderAddController 销售退货单弹出模态框添加项目控制器]
      * @param  {[type]} $scope [description]
      * @return {[type]}        [description]
      */
-    function saleReturnOrderDetailsController ($scope) {
+    function saleReturnOrderAddController ($scope, $rootScope, modal) {
 
-      $scope.$watch('itemSelected', function (newVal) {
-        if (newVal) {
-          $scope.addDataArray.push($scope.item);
+      // 单个药品点击添加与取消添加事件处理
+      $scope.handleItemClickEvent = function (item) {
+        var _dataSource = $scope.angucomplete_data1.data.orderMedicalNos;
+        if (item.itemSelected) {
+          $scope.addDataArray.push(item);
+          if ($scope.addDataArray.length === _dataSource.length) {
+            $scope.isChoiseAll = true;
+          }
         } else {
           angular.forEach($scope.addDataArray, function (data, index) {
-            if (data.relId === $scope.item.relId) {
+            if (data.relId === item.relId) {
               $scope.addDataArray.splice(index, 1);
             }
           });
+          $scope.isChoiseAll = false;
         }
-      });
 
+      };
+
+      // 全选与全不选
+      $scope.handleChoiseAllEvent = function () {
+        var _dataSource = $scope.angucomplete_data1.data.orderMedicalNos;
+        if ($scope.isChoiseAll) {
+          $scope.addDataArray = [];
+          angular.forEach(_dataSource, function (data, index) {
+            data.itemSelected = true;
+            $scope.addDataArray.push(data);
+          });
+        } else  {
+          angular.forEach(_dataSource, function (data, index) {
+            data.itemSelected = false;
+            $scope.addDataArray = [];
+          });
+        }
+      };
+
+      // 添加选择项到编辑页
+      $scope.handleAddDataArray = function () {
+        if ($scope.addDataArray) {
+          $rootScope.addDataArray = angular.copy($scope.addDataArray);
+          modal.closeAll();
+        }
+      };
     }
 
 
-
     angular.module('manageApp.project')
-    .controller('saleReturnOrderDetailsController', ["$scope", saleReturnOrderDetailsController])
+    .controller('saleReturnOrderAddController', ["$scope", "$rootScope", "modal", saleReturnOrderAddController])
     .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils", mainCtrlProject])
     .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
     .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
@@ -1913,7 +1943,7 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
     .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl])
     .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
     .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
-    .controller('saleReturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', saleReturnOrderEditCtrl])
+    .controller('saleReturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', '$rootScope', saleReturnOrderEditCtrl])
     .controller('MedicalStockController', ['$scope', '$timeout', MedicalStockController])
     .controller('CalculateTotalController', ['$scope', CalculateTotalController])
     .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController]);

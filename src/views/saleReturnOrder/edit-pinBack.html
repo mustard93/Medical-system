@@ -29,12 +29,12 @@
     <!-- 单据基本信息 -->
     <div class="pd-loss-l">
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
-        <div class="empty-panel" ng-if="!formData.orderMedicalNos.length">
+        <div class="empty-panel" ng-if="!addDataArray">
             <span></span>
             <span></span>
             <span></span>
         </div>
-        <div ng-if="formData.orderMedicalNos.length">
+        <div ng-if="addDataArray">
           <p class="flex-column mgb  pd bb-dashed-line">
             <span class="flex-item-5">
               单据编号：<em >{{formData[0].orderNo || '暂无'}}</em>
@@ -94,8 +94,8 @@
                   <th>院内编码</th>
                 </tr>
               </thead>
-              <tbody class="bg-white" ng-if="formData.orderMedicalNos.length">
-                <tr ng-repeat="item in scopeData.orderMedicalNos">
+              <tbody class="bg-white">
+                <tr ng-repeat="item in addDataArray">
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
@@ -127,7 +127,7 @@
               </tbody>
             </table>
           </div>
-            <div class="empty-table" ng-if="!formData.orderMedicalNos.length">
+            <div class="empty-table" ng-if="!addDataArray">
                 <span></span>
                 <span></span>
                 <span></span>
