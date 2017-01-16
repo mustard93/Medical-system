@@ -28,7 +28,7 @@
           scope-error-msg="errorMsg"
           scope-data="formData"
           novalidate="true"
-          callback="submitFormAfter('#/firstMedicalApplication/edit-step-2.html');watchFormChange('formData');">
+          callback="submitFormAfter('#/firstMedicalApplication/edit-step-2.html');watchFormChange('formData');formData.firstMedical.isBasicMedicine='是'">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
@@ -225,6 +225,7 @@
                          data-content="请输入正整数"
                          invalid-popover="{{firstMedicalEditForm.numberOfPackages.$invalid}}"
                          >
+                         
                 </div>
               </div>
             </div>
@@ -267,9 +268,9 @@
                 <label for="" class="col-sm-2 control-label">是否基药：</label>
                 <div class="col-sm-6 flex-column" >
                   <span class="flex-item-3">
-                    <select ng-init="formData.firstMedical.isBasicMedicine='是'" class="form-control" name="" ng-model="formData.firstMedical.isBasicMedicine">
-                      <option value="是" ng-selected="true">是</option>
-                      <option value="否">否</option>
+                    <select class="form-control" name="" ng-init="formData.firstMedical.isBasicMedicine='是'" ng-model="formData.firstMedical.isBasicMedicine">
+                      <option value="是" ng-selected="formData.firstMedical.isBasicMedicine=='是'">是</option>
+                      <option value="否" ng-selected="formData.firstMedical.isBasicMedicine=='否'">否</option>
                     </select>
                   </span>
                   <span class="flex-item-8 flex-offset-1">

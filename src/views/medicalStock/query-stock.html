@@ -62,7 +62,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="tr in tbodyList track by $index"
+                  <tr ng-if="tbodyList.length"
+                      ng-repeat="tr in tbodyList track by $index"
                       ng-init=''
                       medical-stock-mouse-over
                       mouse-over-buttons-json=
@@ -95,10 +96,17 @@
                     <td class="text-right">{{tr.stockModel.shippedQuantity || '0'}}</td>
                     <td class="text-right">{{tr.stockModel.outStockQuantity || '0'}}</td>
                   </tr>
-
                 </tbody>
               </table>
             </div>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+              <div class="empty-table">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
 
             <!-- 分页 -->
             <div class="clearfix body-bg">

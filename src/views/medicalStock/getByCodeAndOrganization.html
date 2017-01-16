@@ -94,7 +94,8 @@
                         </tr>
                       </thead>
                       <tbody class="pr-bg-white">
-                        <tr ng-repeat="tr in tbodyList track by $index" >
+                        <tr ng-if="tbodyList.length"
+                        ng-repeat="tr in tbodyList track by $index" >
                           <!-- <td>{{$index + 1}}</td> -->
                           <td>{{showData.code}}</td>
                           <td>{{showData.goodsCode}}</td>
@@ -127,7 +128,8 @@
                           <td class="text-right">{{tr.stockModel.outStockQuantity || '0'}}</td>
 
                         </tr>
-                        <tr class="bgco-orange color-white">
+                        <tr ng-if="tbodyList.length"
+                        class="bgco-orange color-white">
                           <td colspan="13" class="text-right">合计：</td>
                           <td class="text-right"class="text-right">{{totalObj['stockModel.salesQuantity']}}</td>
                           <td class="text-right">{{totalObj['stockModel.quantity'] ||'0'}}</td>
@@ -145,6 +147,13 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                  <div class="pr-bg-white" ng-if="!tbodyList.length">
+                    <div class="empty-table">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
                   </div>
                   <!-- 分页 -->
                   <div class="clearfix">

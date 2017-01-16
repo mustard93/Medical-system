@@ -125,7 +125,8 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="tr in formData.orderMedicalNos"
+                <tr ng-if="formData.orderMedicalNos.length"
+                ng-repeat="tr in formData.orderMedicalNos"
                 salesorder-edit-show-delbtn
                 ng-init="orderMedicalNoIds.push(tr.relId)"
                 ng-controller="SalesOrderDetailsController">
@@ -216,6 +217,13 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+        <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+          <div class="empty-table">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<div ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
+<div ng-controller="pageCtrl" class="pd-c-xxxl inoutstockDetail"><!-- pageCtrl-->
 
   <div class="page-header-info ">
     <p class="mgb-l crumbs pr-indent-20">
@@ -30,25 +30,31 @@
           <option  value="最近一个月">最近一个月</option>
         </select>
 
+        <div class="date-icon-outside">
           <input type="text"
                  datepicker
-                 class="ipt pr-short-ipt color-6 mgr"
+                 class="ipt pr-new-short-ipt color-6 mgr"
                  ng-readonly="true"
                  placeholder="日期"
                  ng-model="listParams.createAtBeg">
+                 <span class="date-icon"></span>
+        </div>
            <span class="mgr">至</span>
+        <div class="date-icon-outside">
            <input type="text"
                  datepicker
-
-                 class="ipt pr-short-ipt color-6 mgr-l"
+                 class="ipt pr-new-short-ipt color-6 mgr-l"
                  ng-readonly="true"
                  placeholder="日期"
                  ng-model="listParams.createAtEnd"/>
-                   <select class="pr-select select-wd mgr-l" chosen default-empty="所有单据"
-                   ng-model="listParams.type"
-                   select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
+                <span class="date-icon"></span>
+        </div>
 
-                   </select>
+           <select class="pr-select select-wd mgr-l" chosen default-empty="所有单据"
+           ng-model="listParams.type"
+           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
+
+           </select>
 
         <div class="out-ipt-div">
           <input type="text" class="ipt pdr-xl ipt-r-i" placeholder="商品名称/单据编号" ng-model="listParams.q">
@@ -68,7 +74,7 @@
             </div>
         </div>
         <div ng-if="!status.isLoading">
-            <div ng-if="tbodyList.length" class="outside-table-d">
+            <div class="outside-table-d">
                 <table class="table pr-table pr-new-table pr-table-content table-s-wid">
                     <thead class="pr-bg-side">
                         <tr>
@@ -94,7 +100,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
+                        <tr ng-if="tbodyList.length"
+                        ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
                             <!-- <td>{{$index + 1}}</td> -->
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.type}}</td>
@@ -162,6 +169,13 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+              <div class="empty-table">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </div>
             <div class="clearfix ">
                 <div class="fr">
