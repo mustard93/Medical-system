@@ -135,7 +135,7 @@
                   // 记住电话号码
                   if ($('input[name="remeberNumber"]').is(':checked')) {  //如果用户选择保存手机号码
                     if (window.localStorage) {    //如果当前用户浏览器支持localstorage
-                      window.localStorage.setItem('remeberNumber', _paramsObj.phone);
+                      window.localStorage.setItem('manage_remeberNumber', _paramsObj.phone);
                     }
                   }
                   window.location.href = "index.html#/main.html";
@@ -168,8 +168,8 @@
           increaseArea: '20%' // optional
         });
         // 读取用户设置的手机号码
-        if (window.localStorage.remeberNumber) {
-          $('input[name="phone"]').val(window.localStorage.remeberNumber);
+        if (window.localStorage&&window.localStorage.manage_remeberNumber) {
+          $('input[name="phone"]').val(window.localStorage.manage_remeberNumber);
         }
       });
     </script>
