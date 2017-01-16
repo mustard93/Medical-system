@@ -125,7 +125,8 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="tr in formData.orderMedicalNos"
+                <tr ng-if="formData.orderMedicalNos.length"
+                ng-repeat="tr in formData.orderMedicalNos"
                 salesorder-edit-show-delbtn
                 ng-init="orderMedicalNoIds.push(tr.relId)"
                 ng-controller="SalesOrderDetailsController">
@@ -218,6 +219,13 @@
             </table>
           </div>
         </div>
+        <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+          <div class="empty-table">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
     </div>
     <!-- 其他信息 -->
     <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
@@ -255,11 +263,9 @@
              call-back="$root.goTo('#/lossOverOrder/query-reimburse.html')">删除
           </a>
 
-
           <button type="submit" class="pr-btn-save-glodbg mgr-l"
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
-
           <button
                   class=" mgl pr-btn-create-glodbg"
                   type="button"
@@ -272,7 +278,6 @@
                   ng-disabled="!formData.orderMedicalNos.length"
                   >审核
           </button>
-
       </div>
     </div>
   </form>
