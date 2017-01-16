@@ -92,7 +92,6 @@
             </select>
           </span>
           <span class="mgr">汇率：<em class="color-6">1.00</em>
-            <!-- <input type="text" class="ipt pr-ipt-60 text-right color-3" ng-model="formData.exchangeRate" ng-readonly="true"> -->
           </span>
           <span class="mgr">预发货日期：
             <input type="text"
@@ -175,15 +174,7 @@
 
                     <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
                   </td>
-                  <!-- <td class="text-center">
-                    <input type="text"
-                           datepicker
-                           class="ipt pr-short-ipt color-6"
-                           style="width:110px;"
-                           placeholder=""
-                           ng-readonly="true"
-                           ng-model="item.expectDate" />
-                  </td> -->
+
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
                   <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
@@ -193,20 +184,8 @@
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
-
-                  <!-- <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity || formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
-                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity && formData.orderMedicalNos[$index].quantity>0">￥{{item.price*formData.orderMedicalNos[$index].quantity/(1+item.taxRate/100)/formData.orderMedicalNos[$index].quantity | number:2}}</td>
-
-                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity || formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
-                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity && formData.orderMedicalNos[$index].quantity>0">￥{{item.price*formData.orderMedicalNos[$index].quantity/(1+item.taxRate/100) | number:2}}</td>
-
-                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity || formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
-                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity && formData.orderMedicalNos[$index].quantity>0">￥{{item.price*formData.orderMedicalNos[$index].quantity-(item.price*formData.orderMedicalNos[$index].quantity/(1+item.taxRate/100)) | number:2}}</td>
-
-                  <td class="text-center" ng-if="!formData.orderMedicalNos[$index].quantity || formData.orderMedicalNos[$index].quantity<0">&nbsp;</td>
-                  <td class="text-center" ng-if="formData.orderMedicalNos[$index].quantity&&formData.orderMedicalNos[$index].quantity>0">￥{{formData.orderMedicalNos[$index].quantity*item.price | number:2}}</td> -->
-
                 </tr>
+
               </tbody>
               <tbody ng-if="formData.orderBusinessType=='直运销售'">
                 <tr ng-repeat="item in orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
@@ -384,6 +363,7 @@ base-image-url="images/canvasBusinessFlow/"
                spacing-height="80" spacing-width="40">
        </canvas>
      </div>
+
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
@@ -412,10 +392,9 @@ base-image-url="images/canvasBusinessFlow/"
         <button
                 type="button"
                 class="pr-btn-save-glodbg mgr"
- ng-disabled="!changeFlag"
+                ng-disabled="!changeFlag"
                 ng-click="submitForm('editForm','save')">保存
         </button>
-
 
         <button
                 type="button"
@@ -423,22 +402,6 @@ base-image-url="images/canvasBusinessFlow/"
                 ng-click="submitForm('editForm','print')">打印预览
         </button>
 
-
-        <!-- <button ng-if="!changeFlag && !($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0)"
-                type="button"     ng-disabled="!changeFlag"
-                class="pr-btn-save-glodbg mgr">
-
-          <a class="color-white"
-             ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}" target="_blank">打印预览
-          </a>
-        </button> -->
-
-        <!-- <button type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-disabled="($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<=0) ||
-                             ($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
-                ng-click="$root.utils.goTo('indexOfPrint.html#/print/confirmOrderPrint.html?id={{formData.id}}')">打印预览
-        </button> -->
 
         <button ng-if="formData.orderBusinessType=='普通销售'"
                 type="button"
