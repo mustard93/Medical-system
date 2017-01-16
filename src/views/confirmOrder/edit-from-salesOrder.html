@@ -239,25 +239,10 @@
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item, formData.orderBusinessType) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item, formData.orderBusinessType) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item, formData.orderBusinessType) | number:2}}</td>
-
-                  <!-- <td class="text-center">￥{{item.price/(1+item.taxRate/100) | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.planQuantity/(1+item.taxRate/100) | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.planQuantity-(item.price*item.planQuantity/(1+item.taxRate/100)) | number:2}}</td>
-                  <td class="text-center">￥{{item.price*item.planQuantity | number:2}}</td> -->
                 </tr>
               </tbody>
             </table>
           </div>
-          <!--<div class="flex-column pd-v-m pdr-l pdl-l">
-            <div class="flex-item-9 color-red pr-indent-20">
-              <p ng-if="selectData2.note.salesQuantity">确认商品中，存在缺货品种。该品种缺货部分将回退并保留在购需单 <a href="javascript:;">GX1234567001</a></p>
-            </div>
-             <div class="flex-item-3 text-right color-9 confirm-order-toatl text-m">
-              本页小计：<em class="color-6 mgr">￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}</em>
-              本页小计：<em class="color-6 mgr">￥{{formData.thisPageTotal | number:2}}</em>
-            </div>
-          </div>-->
-
         </div>
       </div>
       <!-- 其他信息 -->
@@ -274,35 +259,7 @@
             <p class="">收货人信息：
               {{formData.address.prov}}&nbsp;&nbsp;{{formData.address.city}}&nbsp;&nbsp;{{formData.address.area}}&nbsp;&nbsp;{{formData.address.address}}&nbsp;&nbsp;{{formData.address.name}}&nbsp;&nbsp;{{formData.address.tel}}
             </p>
-            <!-- <div class="consignee-info pd-c-m pdt-m pdb-m"
-                 ajax-if-eval="formData.customerId"
-                 ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
-                 scope-data="customerAddress"
-                 callback="customerAddressGetCallBack(formData,customerAddress)"
-                 ng-class="{'static': customerAddress.contacts}">
-              <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
-                <li class="mgr-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
-                  <p class="pdb">{{item.name}} </p>
-                  <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
-                  <p class="text-s">{{item.tel}}</p>
-                  <p><a href="javacript:;" modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
-                  <i class="consignee-default-label" ng-if="customerAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label" ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-                </li>
-                <span>
-                  <button  class="pr-add-item-whitebg"
-                   type="button"
-                          style="min-height:136px;"
-                          modal-right="700"
-                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                          modal-scope="this"
-                          modal-url="views/customerAddress/contact/edit.html"
-                          ng-class="{'static':!customerAddress.contacts}">
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </span>
-              </ul>
-            </div> -->
+
           </div>
         </div>
         <!-- 发货方信息 -->
@@ -317,31 +274,7 @@
             <p class="">发货方信息：
               {{formData.invoicesContacts.prov}}&nbsp;&nbsp;{{formData.invoicesContacts.city}}&nbsp;&nbsp;{{formData.invoicesContacts.area}}&nbsp;&nbsp;{{formData.invoicesContacts.address}}&nbsp;&nbsp;{{formData.invoicesContacts.name}}&nbsp;&nbsp;{{formData.invoicesContacts.tel}}
             </p>
-            <!-- <div class="consignee-info"
-                 ajax-url="rest/authen/invoicesAddress/get.json"
-                 scope-data="invoicesAddress"
-                 callback="customerAddressGetCallBack(formData,invoicesAddress)"
-                 ng-class="{'static': invoicesAddress.contacts}">
-              <ul style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.contactsId=item.id">
-                  <p class="pdb">{{item.name}} </p>
-                  <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
-                  <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
-                  <i class="consignee-default-label"  ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-                </li>
-                <span>
-                  <button class="pr-add-item-whitebg" style="min-height:136px;"
-                          modal-right="700"
-                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                          modal-scope="this"
-                          modal-url="views/salesOrder/contact/edit.html"
-                          ng-class="{'static':!invoicesAddress.contacts}">
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </span>
-              </ul>
-            </div> -->
+
           </div>
         </div>
         <!-- 备注 -->
@@ -418,12 +351,6 @@ base-image-url="images/canvasBusinessFlow/"
                 ng-click="submitForm('editForm','submit')">审核
         </button>
 
-
-
-        <!-- <span ng-if="formData.didateFilter.buttons.length>0"
-              custom-menu-list
-              custom-menu-arr="{{formData.didateFilter.buttons}}">
-        </span> -->
       </div>
       <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"

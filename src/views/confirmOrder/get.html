@@ -226,20 +226,22 @@
         <a ng-if="changeFlag" href="javascript:;" class="mgr"
            handle-this-click
            dialog-title="确认返回?"
-           dialog-content="该购需单存在未保存数据，是否保存?"
+           dialog-content="该销售单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/salesOrder/query.html')"
-           save-callback="submitForm('editForm','exit')">返回购需单
+           nosave-callback="goTo('#/confirmOrder/query.html')"
+           save-callback="submitForm('editForm','exit')">返回销售单列表
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/salesOrder/edit2.html?id={{scopeData.relId}}" >返回购需单</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/confirmOrder/query.html?id={{scopeData.relId}}" >返回销售单列表</a>
+
+
 
         <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
-           dialog-content="您确认删除这条购需单吗?"
+           dialog-content="您确认删除这条销售单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
            call-back="$root.goTo('#/salesOrder/query.html')">删除
