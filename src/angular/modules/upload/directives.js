@@ -198,13 +198,14 @@ define('upload/directives', ['upload/init'], function () {
 
 
 
-    function uploaderOne(alertError) {
+    function uploaderOne(alertError,alertOk,proLoading) {
           return {
               restrict: 'EA',
               scope: {
                   ngModel: "=?",
                   upFile:"=?",
                   params:"=?",
+                  responseList:"=?",
                   uploadSize: "@",
                   width: "@",
                   height: "@"
@@ -326,6 +327,14 @@ define('upload/directives', ['upload/init'], function () {
 
                       fd.append("fileData", _fileObj.file);
 
+
+
+                      var maskObj=null;
+                      if (!$attrs.noshowLoading) {
+                        maskObj=proLoading($element);
+                        //  if(maskObj)maskObj.hide();
+                      }
+
                       //监听事件
                       xhr.upload.addEventListener("progress", function (evt) {
                           var tmp = Math.round(evt.loaded * 100 / evt.total);
@@ -335,16 +344,26 @@ define('upload/directives', ['upload/init'], function () {
                           $scope.$digest();
                       }, false);
                       xhr.addEventListener("load", function (evt) {
-
+                            if(maskObj)maskObj.hide();
                         //解决文件上传成功后，删除文件，再上传相同文件失败
                        $fileIpt.val("");
 
                           var _data = angular.fromJson(evt.target.responseText);
 
+                            if (angular.isDefined($attrs.responseList)){
+                                if(!$scope.responseList)  $scope.responseList=[];
+                                _data._responseTime=new Date().getTime();
+                                $scope.responseList.push(_data);
+                            }
+
                             if (!_data || _data.code != 200) {
                                 alertError(_data.msg || '出错了');
                                 return;
                             }
+
+
+                            if (angular.isDefined($attrs.alertOk)) alertOk(_data.msg);
+
 
 
                           _fileObj.progress = 100;
@@ -356,7 +375,8 @@ define('upload/directives', ['upload/init'], function () {
                           if(angular.isString(_data.data)){
                                 $scope.ngModel=_data.data;
                           }else{
-                            $scope.ngModel=_data.data.key;
+                            if(_data.data) 
+                                $scope.ngModel=_data.data.key;
                           }
 
                           if($scope.upFile)$scope.upFile.data=_data.data;
@@ -371,6 +391,9 @@ define('upload/directives', ['upload/init'], function () {
 
                       }, false);
                       xhr.addEventListener("loadend", function (evt) {
+
+                            if(maskObj)maskObj.hide();
+
                           if (evt.target.status != 200) {
                               _fileObj.status = "error";
                               _fileObj.text = '上传失败！';
@@ -397,6 +420,6 @@ define('upload/directives', ['upload/init'], function () {
 
 //
     angular.module('manageApp.upload')
-    .directive("uploaderOne", ["alertError",uploaderOne])
+    .directive("uploaderOne", ["alertError","alertOk","proLoading",uploaderOne])
     .directive("uploader", uploader);
 });
