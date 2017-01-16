@@ -1,4 +1,4 @@
-<div class="modal-content" ng-controller="editCtrl" scope-data="formData" alert-error callback="initFlag=true"><!-- pageCtrl-->
+<div class="modal-content" ng-controller="editCtrl" scope-data="formData" alert-error callback="initFlag=true" ><!-- pageCtrl-->
 <!-- page heading start-->
 <div class="page-heading">
     <h3>导入数据管理</h3>
@@ -17,6 +17,34 @@
       <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
       <h4 class="modal-title">EXCEL数据导入</h4>
   </div>
+
+<table-list list-data="rest/baseData/query.json?type=EXCEL数据导入模板" list-params="listParams">
+  <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+            <th>序号</th>
+            <th>模板名</th>
+            <th>模板日期</th>
+            <th>操作</th>
+
+        </tr>
+      </thead>
+        <tbody>
+          <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
+              <td>{{$index + 1}}</td>
+              <td>{{tr.name}}</td>
+
+              <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+              <td>
+                  <a href="{{tr.code}}">{{tr.code}}</a>
+
+              </td>
+          </tr>
+        </tbody>
+    </table>
+</table-list>
+
+
   <div class="modal-body">
     <div class="form-group col-lg-2">
       <label class="col-lg-2 col-sm-2 control-label">机构</label>
@@ -37,7 +65,7 @@
     </div>
 
 
-      <div class="form-group">
+      <div class="form-group  col-lg-2">
         <label class="col-lg-2 col-sm-2 control-label">上传文件</label>
         <div class="col-lg-10 col-sm-10">
           <p class="mgb">
@@ -46,6 +74,7 @@
           <button type="button"
                   class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                     ng-init="upFile={}"
+                  response-list="responseList"
                   uploader-one="rest/authen/manageExcelImport/upload.json"
                   params="listParams"
                   callback="formData.fileName=upFile.data.originalFileName"
@@ -56,7 +85,10 @@
       </div>
 
 
-
+      <div  class="form-group  col-lg-12">
+          <h3>当前上传记录</h3>
+          <p  ng-repeat="tr in responseList"> {{tr._responseTime|date : 'yyyy-MM-dd HH:mm:ss'}}|{{tr.code==200?'成功':"失败："+tr.code}}|{{tr.msg||"无返回消息"}} </p>
+      </div>
   </div>
 
   </form>

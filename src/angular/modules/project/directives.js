@@ -53,6 +53,7 @@ define('project/directives', ['project/init'], function () {
       templateUrl:  Config.tplPath +'tpl/project/attachmentsEdit.html'
     };
   }
+
 /**
   药械订单列表
 */
