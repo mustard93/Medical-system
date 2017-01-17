@@ -1798,7 +1798,7 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
     /**
      * 销售退货
      */
-    function saleReturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope) {
+    function saleReturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk) {
 
       $scope.watchFormChange=function(watchName){
         watchFormChange(watchName,$scope);
@@ -1808,130 +1808,45 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
       // $scope.formData={};
       $scope.addDataItem = {};
 
-      //需要重新家长地址方法。编辑新建后
-      $scope.customerAddressReload=function (){
-        $scope.reloadTime=new Date().getTime();
-          modal.closeAll();
-      };
-
-      // 医院地址加载后，回调方法
-      $scope.customerAddressGetCallBack = function(formData,customerAddress) {
-        formData.customerName=customerAddress.name;
-
-        if(!customerAddress||!customerAddress.contacts||customerAddress.contacts.length===0){
-          formData.contactsId=null;
-          return;
-        }
-
-        if(!formData.contactsId){
-            formData.contactsId=customerAddress.defaultContactId;
-        }
-
-        //判断当前地址列表是否包含，选中地址。不包含则设置为默认
-        var hasContactsId=false;
-        for(var i=0;i<customerAddress.contacts.length;i++){
-            if(formData.contactsId==customerAddress.contacts[i].id){
-                hasContactsId=true;
-            }
-        }
-
-        if(!hasContactsId){
-            formData.contactsId=customerAddress.defaultContactId;
-        }
-      };
-
-      // 拆分药品数量
-      $scope.caifenQuantity = function(tr, num) {
-        tr.quantity_noInvoice_show = true;
-        if (!num || tr.quantity < num) return;
-        //点击拆分逻辑,不能发货数量为0,并且库存不足时,根据库存自动拆分数量.
-        if (!tr.quantity_noInvoice || tr.quantity_noInvoice === 0) {
-          tr.quantity_noInvoice = tr.quantity - num;
-          tr.quantity = num;
-        }
-        //加入订单按钮状态变化
-        if (tr.quantity <= num) {
-          tr.handleFlag = true;
-        }
-      };
-
-      // 添加一条。并缓存数据。返回true表示成功。会处理数据。
-      $scope.flashAddDataCallbackFn = function(flashAddData) {
-
-        var medical=flashAddData.data.data;
-        var addDataItem = $.extend(true,{},medical);
-
-            addDataItem.quantity=flashAddData.quantity;
-            addDataItem.relId=medical.id;
-
-            addDataItem.strike_price=addDataItem.price;
-            addDataItem.id=null;
-          if (!(addDataItem.relId && addDataItem.name)) {
-              alertWarn('请选择药品。');
-              return false;
-          }
-          if (!addDataItem.quantity||addDataItem.quantity<1) {
-              alertWarn('请输入大于0的数量。');
-              return false;
-          }
-          // if (!addDataItem.strike_price) {
-          //     alertWarn('请输入成交价格。');
-          //     return false;
-          // }
-          if(addDataItem.quantity>medical.quantity){//库存不足情况
-              addDataItem.handleFlag =false;//默认添加到订单
-          }
-          if (!$scope.formData.orderMedicalNos) {
-            $scope.formData.orderMedicalNos = [];
-          }
-          // 如果已添加
-          if ($scope.formData.orderMedicalNos.length !== 0) {
-            var _len = $scope.formData.orderMedicalNos.length;
-            // console.log(_len);
-            // 未使用forEach方法，因为IE不兼容
-            for (var i=0; i<_len; i++) {
-              if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-                alertWarn('此药械已添加到列表');
-                return false;
-              }
-            }
-          }
-          //添加到列表
-          $scope.formData.orderMedicalNos.push(addDataItem);
-          //计算价格
-          $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-          return true;
-      };
-
       // 保存  type:save-草稿,submit-提交订单。
-      $scope.submitFormAfter = function() {
+      $scope.submitFormAfter = function(scopeResponse) {
 
         $scope.formData.validFlag = false;
 
         if ($scope.submitForm_type == 'exit') {
-          $scope.goTo('#/salesOrder/query.html');
+          $scope.goTo('#/saleReturnOrder/query.html');
+          alertOk(scopeResponse.msg);
           return;
         }
 
         if ($scope.submitForm_type == 'submit') {
-          // $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
 
           var url='rest/authen/saleReturnOrder/updateStatus';
           var data= {id:$scope.formData.id,status:'待出库'};
+
           requestData(url, data, 'POST')
             .then(function (results) {
-              var _data = results[1].data;
-              // console.log(_data);
-              $scope.goTo('#/saleReturnOrder/get.html?id='+_data.confirmOrder.id);
-
+              if (results[1].code !== 200) {
+                alertWarn(results[1].msg || '未知错误!');
+              } else {
+                $scope.goTo('#/saleReturnOrder/get-pinBack.html?id='+$scope.formData.id);
+              }
             })
             .catch(function (error) {
-              // alertError(error || '出错');
+              if (error) {
+                alertWarn(error || '未知错误!');
+                return;
+              }
             });
+
+
+            return;
         }
 
         if ($scope.submitForm_type == 'save') {
-          // console.log(this);
+          if (scopeResponse) {
+            alertOk(scopeResponse.msg);
+          }
         }
       };
 
@@ -1969,7 +1884,7 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
 
       //
       $scope.$watch('addDataObj', function (newVal) {
-        if (newVal) {
+        if (newVal && $scope.formData) {
           $scope.formData.relId = $scope.addDataObj.id;
           $scope.formData.orderMedicalNos = angular.copy($scope.addDataObj.choisedMedicalList);
         }
@@ -2050,13 +1965,18 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
       // 监视值变化
       $scope.$watch('item.quantity', function (newVal) {
 
-        if ($scope.item.outgoingQuantity) {         // 如果后端同学很赞，解决这个wms返回数据的问题
-          if (newVal > $scope.item.outgoingQuantity) {
-            $scope.$parent.$parent.quantityError = newVal > $scope.item.planQuantity ? false : true;
-          }
-        } else {                                    // 如果后端同学很懒，没有解决，使用planQuantity字段判断
+        if ($scope.item.outgoingQuantity && newVal > $scope.item.outgoingQuantity) {         // 如果解决这个wms返回数据的问题
+          $scope.quantityError = true;
+          $scope.$parent.$parent.quantityError = true;
+        } else {                                    // 如果没有，使用planQuantity字段判断
           if ($scope.item.planQuantity) {
-            $scope.$parent.$parent.quantityError = newVal > $scope.item.planQuantity ? false : true;
+            if (newVal > $scope.item.planQuantity) {
+              $scope.quantityError = true;
+              $scope.$parent.$parent.quantityError = true;
+            } else {
+              $scope.quantityError = false;
+              $scope.$parent.$parent.quantityError = false;
+            }
           }
         }
       });
@@ -2085,7 +2005,7 @@ function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, req
     .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl])
     .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
     .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
-    .controller('saleReturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope', saleReturnOrderEditCtrl])
+    .controller('saleReturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk', saleReturnOrderEditCtrl])
     .controller('MedicalStockController', ['$scope', '$timeout', MedicalStockController])
     .controller('CalculateTotalController', ['$scope', CalculateTotalController])
     .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController]);

@@ -1,155 +1,174 @@
-<div class="content-wrapper"
-     ajax-url="rest/authen/lossOverOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
+<div class="sale-return-order"
+     ng-controller="saleReturnOrderEditCtrl"
+     ajax-url="rest/authen/saleReturnOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="formData={};formData.id=showData.id"
      alert-error>
-     <!-- 头部信息 -->
-     <div class="relative bb-line">
-       <div class="pd-l">
-         <!-- 标题 -->
-         <div class="mgb-m">
-           <p class="mgb-m crumbs pr-indent-10">销售中心 >
-             <a href="#/saleReturnorder/query-pinBack.html">
-               <em class="color-custom-orange">销售退货单</em>
-             </a>
-             > 销售退货单详情</p>
-           <h1 class="pr-font-22 color-black">销售退货单详情</h1>
-         </div>
-         <h1 class="color-black text-l">
-           <!-- 昆明库 -->
-           {{showData.warehouseName}}
-       </h1>
-       </div>
-       <div ng-if="showData.orderStatus=='未通过'"
-        class="pr-panel pr-panel-height mgb">
-         <em class="color-red">原因:</em>
-         <em>{{showData.operationFlowSet[1].key}}</em>
-         <em>{{showData.operationFlowSet[1].message}}</em>
-       </div>
-     </div>
-     <!-- 主内容区域 -->
-    <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-      <div class=" color-9">
-        <p class="flex-column mgb  pd bb-dashed-line">
-          <span class="flex-item-5">
-            单据编号：<em >{{showData.orderNo || '暂无'}}</em>
-            <em  class="mgl">制单人：</em><em class="color-orange">{{showData.inputUser.n|| '暂无'}}</em>
-            <em  class="mgl">
-              审核人：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
-          </span>
-          <span class="flex-item-6 text-right">
-            录单日期：<em >{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
-          </span>
-          <span class="flex-item-1 text-right">状态：
-            <em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">
-            {{showData.orderStatus}}
-          </em>
-        </span>
-        </p>
-
-        <p class="flex-column mgb  pd">
-          <span class="flex-item-12">
-            销售部门：<em >{{showData.salesDepartmentName || '暂无'}}</em>
-            <em  class="mgl">制单人：</em><em class="color-orange">{{showData.inputUser.n|| '暂无'}}</em>
-            <em  class="mgl">业务员：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
-            <em  class="mgl">业务类型：</em><em >{{showData.orderBusinessType || '暂无' | date : 'yyyy-MM-dd' }}</em>
-            <em  class="mgl">销售类型：</em><em >{{showData.salesType || '暂无' | date : 'yyyy-MM-dd' }}</em>
-          </span>
-        </p>
-
-          <!-- 主内容头部 -->
-            <!-- 主内容区域 -->
-            <div class="content-wrapper-main ">
-              <div class="outside-table-d">
-                <table class="table pr-table pr-new-table table-wid" >
-                    <thead class="pr-bg-side">
-                      <tr>
-                        <th class="text-center">商品编号</th>
-                        <th>商品全名</th>
-                        <th class="text-center">规格/型号</th>
-                        <th class="text-center">单位</th>
-                        <th class="text-center">数量</th>
-                        <th class="text-center w-110">批号要求</th>
-                        <th class="text-center w-160">生产批号/灭菌批号</th>
-                        <!-- <th class="text-center w-140">预发货日期</th> -->
-                        <th class="text-center">含税单价</th>
-                        <th class="text-center">税率</th>
-                        <th class="text-center">折扣额</th>
-                        <th class="text-center">折扣率</th>
-                        <th class="text-center">无税单价</th>
-                        <th class="text-center">无税金额</th>
-                        <th class="text-center">税额</th>
-                        <th class="text-center">价税合计</th>
-                        <th>报价</th>
-                        <th>仓库名称</th>
-                        <th>产地</th>
-                        <th>失效日期</th>
-                        <th>退补标志</th>
-                        <th>保存温度</th>
-                        <th>产地品牌</th>
-                        <th>产地注册证号</th>
-                        <th>注册证有效期</th>
-                        <th>医保编码</th>
-                        <th>院内编码</th>
-                      </tr>
-                    </thead>
-
-                    <tbody class="pr-bg-white" >
-                      <tr ng-repeat="item in scopeData.orderMedicalNos">
-                        <td class="text-center">{{item.code}}</td>
-                        <td>{{item.name}}</td>
-                        <td class="text-center">{{item.specificationAndModelType}}</td>
-                        <td class="text-center">{{item.unit}}</td>
-                        <td class="text-center">{{item.quantity}}</td>
-                        <td class="text-center">{{item.batchRequirement}}</td>
-                        <td class="text-center">{{item.productionBatch}}</td>
-                        <!-- <td class="text-center">{{item.expectDate | date:'yyyy-MM-dd'}}</td> -->
-                        <td class="text-center">{{item.price | currency:'￥'}}</td>
-                        <td class="text-center">{{item.taxRate}}%</td>
-                        <td class="text-center">￥{{item.discountPrice | number:2}}</td>
-                        <td class="text-center">{{item.discountRate}}%</td>
-
-                        <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
-                        <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
-                        <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
-                        <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                </table>
-              </div>
-            </div>
+    <!-- 头部信息 -->
+    <div class="relative">
+      <div class="pd-l">
+        <!-- 标题 -->
+        <div class="mgb-m">
+          <p class="mgb-m crumbs pr-indent-20">销售中心 >
+            <a href="#/saleReturnOrder/query-pinBack.html"><em class="color-custom-orange">销售退货单</em></a> > 销售退货单详情</p>
+          <h1 class="pr-font-22 color-black">销售退货单详情</h1>
+        </div>
       </div>
     </div>
+    <!-- 单据基本信息 -->
+    <div class="pd-loss-l">
+      <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
+        <div>
+          <div class="flex-column mgb pd bb-dashed-line">
+            <div class="flex-item-6">
+              <span class="mgr-l">单据编号：<em class="color-black">{{showData.orderNo || '暂无'}}</em></span>
+              <span class="mgr-l">制单人：<em class="color-black">{{showData.inputUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">审核人：<em class="color-black">{{showData.approverUser.n || '暂无'}}</em></span>
+            </div>
+            <div class="flex-item-6 text-right">
+              <span class="mgl-l">录单日期：<em class="color-black">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
+              <span class="mgl-l">状态：<em class="color-black">{{showData.orderStatus || '暂无'}}</span>
+            </div>
+          </div>
 
-      <!-- 备注 -->
-      <div class="note">
-        <p class="pd-v-l">备注：{{showData.note}}</p>
+          <div class="flex-column mgb  pd">
+            <span class="mgr-l">销售部门：<em class="color-black">{{showData.salesDepartmentName || '暂无'}}</em></span>
+            <span class="mgr-l">业务人员：<em class="color-orange">{{showData.inputUser.n || '暂无'}}</em></span>
+            <span class="mgr-l">业务类型：<em class="color-black">{{showData.orderBusinessType || '暂无'}}</em></span>
+            <span class="mgr-l">销售类型：<em class="color-black">{{showData.salesType || '暂无'}}</em></span>
+          </div>
+        </div>
+        <div class="outside-table-d">
+          <table class="table pr-table pr-new-table table-wid" >
+              <thead>
+                <tr>
+                  <th class="text-center">商品编号</th>
+                  <th>商品全名</th>
+                  <th class="text-center">规格/型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">数量</th>
+                  <th class="text-center w-110">批号要求</th>
+                  <th class="text-center w-160">生产批号/灭菌批号</th>
+                  <th class="text-center">含税单价</th>
+                  <th class="text-center">税率</th>
+                  <th class="text-center">折扣额</th>
+                  <th class="text-center">折扣率</th>
+                  <th class="text-center">无税单价</th>
+                  <th class="text-center">无税金额</th>
+                  <th class="text-center">税额</th>
+                  <th class="text-center">价税合计</th>
+                  <th>报价</th>
+                  <th>仓库名称</th>
+                  <th>产地</th>
+                  <th>失效日期</th>
+                  <th>退补标志</th>
+                  <th>保存温度</th>
+                  <th>产地品牌</th>
+                  <th>产地注册证号</th>
+                  <th>注册证有效期</th>
+                  <th>医保编码</th>
+                  <th>院内编码</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white">
+                <tr ng-repeat="item in showData.orderMedicalNos">
+                  <td class="text-center">{{item.code}}</td>
+                  <td>{{item.name}}</td>
+                  <td class="text-center">{{item.specificationAndModelType}}</td>
+                  <td class="text-center">{{item.unit}}</td>
+                  <td class="text-center">{{item.quantity}}</td>
+                  <td class="text-center">{{item.batchRequirement}}</td>
+                  <td class="text-center">{{item.productionBatch}}</td>
+                  <td class="text-center">{{item.price | currency:'￥'}}</td>
+                  <td class="text-center">{{item.taxRate}}%</td>
+                  <td class="text-center">￥{{item.discountPrice | number:2}}</td>
+                  <td class="text-center">{{item.discountRate}}%</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
       </div>
-</div>
+      <!-- 其他信息 -->
+      <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
+          <!-- 备注 -->
+          <div class='mgb'>
+            <h1>备注</h1>
+            <p class="mgt-m">{{showData.note}}</p>
+          </div>
+      </div>
 
-<div class="bt-dashed-line full-width">
+        <!-- 流程图 -->
+        <div ng-if="showData.id"
+             class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
+             ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
+             scope-data="businessFlowData"
+             callback="businessFlowDataInitFlag=true;"
+             error-callback="businessFlowDataInitFlag=true;">
+           <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{formData.id}}"
+                   width="{{$root.utils.getMainBodyWidth()}}"
+                   base-image-url="images/canvasBusinessFlow/"
+                   spacing-height="80" spacing-width="40">
+           </canvas>
+         </div>
+    </div>
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area relative">
+      <div class="btn-area">
+          <!-- <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="该申请单存在未保存数据，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo('#/saleReturnOrder/query-pinBack.html')"
+             save-callback="submitForm('editForm','exit');
+             $root.goTo('#/saleReturnOrder/query-pinBack.html')">返回销售退货单列表
+          </a> -->
 
-</div>
+          <a class="mgr-l" ng-if="!changeFlag" href="#/saleReturnOrder/query-pinBack.html" >返回销售退货单列表</a>
+          <!-- <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
+             href="javascript:;"
+             class="pr-color-red mgr-l"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="您确认删除这条销售退货单吗?"
+             dialog-template="dialog-confirm.html"
+             request-url="rest/authen/saleReturnOrder/delete?id={{formData.id}}"
+             call-back="$root.goTo('#/saleReturnOrder/query-pinBack.html')">删除
+          </a> -->
 
-<div class="handle-btn-area relative">
-  <div class="btn-area-new over-write-wid">
-      <span class="mgr-l">
-        <a  href="#/saleReturnOrder/query-pinBack.html">返回销售退货单列表</a>
-      </span>
-      <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
-       custom-menu-list
-       custom-menu-arr="{{showData.didateFilter.buttons}}">
-      </span>
-  </div>
+
+          <!-- <button type="submit"
+                  class="pr-btn-save-glodbg mgr-l"
+                  ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();"
+                  ng-disabled="!changeFlag || !saleReturnEditForm.$valid || quantityError">保存
+          </button>-->
+
+          <button ng-if="showData.orderStatus=='待出库'"
+                  class="mgl pr-btn-create-glodbg"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认生成出库单?"
+                  dialog-content="生成出库单(红字)后,将完成销退出库"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="$root.utils.goTo('#/saleReturnOrder/get-pinBack.html?id={{showData.id}}')"
+                  params='{"id":showData.id, "status":"已出库"}'
+                  request-url="rest/authen/saleReturnOrder/updateStatus">生成出库单
+          </button>
+
+      </div>
+    </div>
 </div>

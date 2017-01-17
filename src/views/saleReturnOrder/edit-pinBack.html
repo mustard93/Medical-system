@@ -2,7 +2,7 @@
      ng-controller="saleReturnOrderEditCtrl"
      ajax-url="rest/authen/saleReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");formData.relId=addDataObj.id;quantityError=true;'
+     callback='initFlag=true;watchFormChange("formData");formData.relId=addDataObj.id;quantityError=false;'
      alert-error>
 
   <form id="saleReturnEditForm"
@@ -11,10 +11,10 @@
         parameter-body
         action="rest/authen/saleReturnOrder/save"
         alert-error
-        alert-ok
+        scope-response="scopeResponse"
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        callback="submitFormAfter(scopeResponse);$root.watchFormChange('formData',this)"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="relative">
@@ -200,7 +200,7 @@
           <button type="submit"
                   class="pr-btn-save-glodbg mgr-l"
                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();"
-                  ng-disabled="!changeFlag || !quantityError">保存
+                  ng-disabled="!changeFlag || !saleReturnEditForm.$valid || quantityError">保存
           </button>
 
           <button class="mgl pr-btn-create-glodbg"
@@ -211,7 +211,7 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!saleReturnEditForm.$valid || !quantityError">审核
+                  ng-disabled="!saleReturnEditForm.$valid || quantityError">审核
           </button>
 
       </div>
