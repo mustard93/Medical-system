@@ -270,44 +270,65 @@
         </div>
       <!-- 其他信息 -->
       <div class="relative">
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold color-3">收货方信息
-            <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-            </span>
-          </header>
-          <div class="panel-body" style="display:none;padding:15px 0;">
+        <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
+          <div class="pd-c-v-l">
+            <header class="text-n text-bold color-3">收货方信息
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+              </span>
+            </header>
+          </div>
+
+          <div class="panel-body" style="display:none;">
             <div class="consignee-info pdt-m pdb-m"
                  ajax-if-eval="formData.customerId"
                  ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{$root.reloadTime}}"
                  scope-data="customerAddress"
                  callback="customerAddressGetCallBack(formData,customerAddress)"
                  ng-class="{'static': customerAddress.contacts}">
-              <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
-                  <p class="pdb">{{item.name}} </p>
-                  <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
-                  <p class="text-s">{{item.tel}}</p>
-                  <p><a href="javacript:;" modal-right="600"
+              <div clear-info-list style="min-height:36px;">
+
+                <div class="flex-column address-div mgb-m color-black relative" ng-repeat="item in customerAddress.contacts" ng-click="formData.invoicesId=tr.id;formData.invoicesContacts=tr">
+                  <div class="inline flex-item-3">
+                    <label ng-if="customerAddress.defaultContactId!=item.id && customerAddress.contacts.length>1" class="radio">
+                        <input type="radio" class="default-radio" name="blankRadio" id="blankRadio1" value="option1"><i></i>
+                    </label>
+                    <label ng-if="customerAddress.defaultContactId==item.id && customerAddress.contacts.length>1" class="radio">
+                        <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
+                    </label>
+                    <span class="pdb">{{item.name}} </span>
+                    <span class="text-s">{{item.tel}}</span>
+                    <span class="text-s ">{{item.prov}} {{item.city}} {{item.area}}</span>
+                  </div>
+                <div class="inline flex-item-7">
+                  <span class="address-span">
+                    {{item.address}}
+                    <i class="consignee-default-label mgl-m" ng-if="customerAddress.defaultContactId==tr.id">默认</i>
+                    <em ng-if="customerAddress.defaultContactId!=tr.id" class="mgl-m set-defualt-text">设为默认收货方信息</em>
+                  </span>
+                </div>
+                <span class="pos-abs posr">
+                  <a href="javacript:;" modal-right="600"
                     modal-data='{"customerAddressId":"{{formData.customerId}}",
                     "defaultContactId":"{{customerAddress.defaultContactId}}",
                     "contact":{{item}}}'
                      modal-scope="this"
-                     modal-url="views/customerAddress/contact/edit.html">修改</a></p>
-                  <i class="consignee-default-label" ng-if="customerAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label" ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-                </li>
-
-                  <span  style="min-height:136px;"
+                     modal-url="views/customerAddress/contact/edit.html">修改
+                   </a>
+              </span>
+            </div>
+                <div class="pd-c-l">
+                  <span  class="cur-pot color-href"
+                          style="min-height:136px;"
                           modal-right="700"
                           modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
                           modal-scope="this"
                           modal-url="views/customerAddress/contact/edit.html"
                           ng-class="{'static':!customerAddress.contacts}">
-                    新增收货地址
+                    +新增收货地址
                   </span>
-
-              </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -321,8 +342,7 @@
               </span>
             </header>
           </div>
-
-          <div class="panel-body" style="display:none;padding:15px 0;">
+          <div class="panel-body" style="display:none;">
             <div ng-if="initFlag"
                  class="consignee-info pdt-m pdb-m relative"
                  ajax-url="rest/authen/invoicesAddress/get.json&t={{$root.reloadTime}}"
@@ -330,19 +350,27 @@
                  callback="invoicesGetCallBack(formData,invoicesAddress)"
                  ng-class="{'static': invoicesAddress.contacts}">
               <div clear-info-list style="min-height:136px;">
-                <div class="address-div mgb-m color-black relative" ng-repeat="tr in invoicesAddress.contacts" ng-click="formData.invoicesId=tr.id;formData.invoicesContacts=tr">
-                  <span class="circle-icon-orange">
-                    <span ng-if="invoicesAddress.defaultContactId==tr.id" class="disc-circle"></span>
-                  </span>
-                  <span class="pdb">{{tr.name}} </span>
-                  <span class="text-s">{{tr.tel}}</span>
-                  <span class="text-s ">{{tr.prov}} {{tr.city}} {{tr.area}}</span>
+
+                <div class="flex-column address-div mgb-m color-black relative" ng-repeat="tr in invoicesAddress.contacts" ng-click="formData.invoicesId=tr.id;formData.invoicesContacts=tr">
+                  <div class="inline flex-item-3">
+                    <label ng-if="invoicesAddress.defaultContactId!=tr.id && invoicesAddress.contacts.length>1" class="radio">
+                        <input type="radio" class="default-radio" name="blankRadio" id="blankRadio1" value="option1"><i></i>
+                    </label>
+                    <label ng-if="invoicesAddress.defaultContactId==tr.id && invoicesAddress.contacts.length>1" class="radio">
+                        <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
+                    </label>
+                    <span class="pdb">{{tr.name}} </span>
+                    <span class="text-s">{{tr.tel}}</span>
+                    <span class="text-s ">{{tr.prov}} {{tr.city}} {{tr.area}}</span>
+                  </div>
+                <div class="inline flex-item-8">
                   <span class="address-span">
                     {{tr.address}}
+                    <em ng-if="invoicesAddress.defaultContactId!=tr.id" class="mgl-m set-defualt-text">设为默认发货方信息</em>
+                    <i class="consignee-default-label mgl-m" ng-if="invoicesAddress.defaultContactId==tr.id">默认</i>
                   </span>
-                  <i class="consignee-default-label" ng-if="invoicesAddress.defaultContactId==tr.id">默认</i>
-                  <i class="consignee-choise-label" ng-if="formData.invoicesId==tr.id"><em class="fa fa-check color-white"></em></i>
-
+                </div>
+                  <!-- <i class="consignee-choise-label" ng-if="formData.invoicesId==tr.id"><em class="fa fa-check color-white"></em></i> -->
                   <span class="pos-abs posr">
                   <a href="javacript:;"
                      modal-right="600"
@@ -351,10 +379,9 @@
                      modal-url="views/invoicesAddress/contact/edit.html">修改
                   </a>
                 </span>
-                <span class="set-defualt-text">设为默认收货方信息</span>
               </div>
 
-              <div class="">
+              <div class="pd-c-l">
                 <span  class="cur-pot color-href"
                         style="min-height:136px;"
                         modal-right="700"
