@@ -93,13 +93,13 @@
           <p class="text-center">什么也没有</p>
         </div>
         <ul ng-if="tbodyList.length" class="li-min-h">
-          <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
+          <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
               <!-- ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}" -->
               <div class="relative">
                 <div class="flex-column mgb-m card-title-height min-h-m" style="height:24px;line-height:24px;">
                   <span class="flex-item-6 title-states text-bold pdt-m">
-                    <em ng-if="tr.orderStatus=='待审核' ||tr.orderStatus=='待发单'||tr.orderStatus=='已发货'||tr.orderStatus=='待收款' " class="color-black pd-m">
+                    <em class="color-black pd-m">
                     {{tr.orderStatus}}
                     </em>
                   </span>
@@ -125,7 +125,7 @@
                      <a ng-if="tr.orderStatus=='已发货'" href="#/confirmOrder/get.html?id={{tr.id}}" class="mr--4">
                        <span class="rect-s" title="查看物流"><span class="View-Logistics-icon"></span></span>
                      </a>
-                    <a ng-if="tr.orderStatus=='已发货'" href="#/confirmOrder/get.html?id={{tr.id}}">
+                    <a ng-if="tr.orderStatus=='已发货' || tr.orderStatus=='待发货'" href="#/confirmOrder/get.html?id={{tr.id}}">
                       <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
                     </a>
 

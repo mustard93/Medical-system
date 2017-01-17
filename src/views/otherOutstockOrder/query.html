@@ -37,19 +37,25 @@
       </select>
 
       <span class="mgr color-999">出库日期</span>
-      <input type="text"
-             datepicker
-             class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-             ng-readonly="true"
-             ng-model="listParams.createAtBeg"
-             placeholder="">
+      <div class="date-icon-outside">
+        <input type="text"
+               datepicker
+               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+               ng-readonly="true"
+               ng-model="listParams.createAtBeg"
+               placeholder="">
+        <span class="date-icon"></span>
+      </div>
        <span class="mgr color-999">至</span>
+    <div class="date-icon-outside">
        <input type="text"
              datepicker
              class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
              ng-readonly="true"
              ng-model="listParams.createAtEnd"
              placeholder="">
+      <span class="date-icon"></span>
+    </div>
 
       <input type="text" class="ipt pdr-xxl color-placeholder" placeholder="客户名/单据编号" ng-model="listParams.q">
       <i class="serch-i"></i>
@@ -70,7 +76,7 @@
           <p class="text-center">什么也没有</p>
         </div>
         <ul ng-if="tbodyList.length" class="li-min-h">
-          <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
+          <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
               <!-- ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}" -->
               <div class="relative">
@@ -82,7 +88,7 @@
                   </span>
                 <span class="flex-item-6 text-right">
                        <a class="mgl"
-                          ng-href="#/wOutstockOrder/get.html?id={{tr.id}}">查看详情
+                          ng-href="#/otherOutstockOrder/get.html?id={{tr.id}}">查看详情
                         </a>
                   </span>
                 </div>
