@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<a href="javascript:;" id="J_light">点我打开新窗口</a>
+<a href="javascript:;" id="J_lightIn">点我在页面上打开</a>
+<div id="J_lightDemoWrap" style="width: 700px;height: 500px;position:fixed;right:0;bottom:0;"></div>
+<!--[if lt IE 9]>
+<script src="//g.alicdn.com/aliww/ww/json/json.js"></script>
+<![endif]-->
+<script src="https://g.alicdn.com/aliww/??h5.openim.sdk/0.1.4/scripts/wsdk.js,h5.openim.kit/0.0.5/scripts/kit.js" charset="utf-8"></script>
+
+<script>
+    document.getElementById('J_light').onclick = function(){
+        window.open('http://www.taobao.com/market/seller/openim/kit.php?uid=test0&to=test1&appkey=23018936&pwd=123456&fullscreen', 'webcall', 'toolbar=no, status=no,scrollbars=0,resizable=0,menubar＝0,location=0,width=700,height=500');
+    };
+    document.getElementById('J_lightIn').onclick = function(){
+        WKIT.init({
+            container: document.getElementById('J_lightDemoWrap'),
+            uid: 'test5',
+            appkey: 23018936,
+            credential: '123456',
+            touid: 'test6',
+            theme: 'orange',
+            pluginUrl: '//www.taobao.com/market/seller/openim/plugindemo.php',
+            customUrl: '//www.taobao.com/market/seller/openim/customdemo.php'
+        });
+    }
+</script>
+</body>
+</html>
