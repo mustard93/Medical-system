@@ -2129,11 +2129,63 @@ function flashAddMedical() {
 function customTable() {
   return {
     restrict: 'EA',
-    scope: false,
+
     replace: true,
+    //  transclude: true,
     templateUrl:  Config.tplPath +'tpl/project/customTable.html',
+    // compile: function() {
+    //            return function (scope, element, attrs,$ctrl,transcludeFn) {
+    //                transcludeFn(scope, function(clone) {
+    //
+    //
+    //                  console.log(clone);
+    //
+    //                    var title= element.find('title');
+    //                    var time = clone.find('.time');
+    //                    var type = clone.find('.type');
+    //                    var text= clone.find('.content');
+    //
+    //                    title.append(time);
+    //                    element.append(type);
+    //                    element.append(text)
+    //                });
+    //            };
+    //        },
+          link: function ($scope, $element, $attrs,$ctrl,$transclude) {
+
+            //
+            //   $transclude($scope,function(clone){
+            //     console.log(clone);
+            //     $element.append(clone);
+            // })
+
+            if ($attrs.customTable) {
+                $scope.customTableName=$attrs.customTable;
+            }
+
+            if ($attrs.mouseOverButtonsJson) {
+                $scope.mouseOverButtonsJson=$attrs.mouseOverButtonsJson;
+            }
+          }
+  };
+}
+
+
+/**
+  用户自定义表结构显示。
+*/
+function customTableTd($sce) {
+  return {
+    restrict: 'EA',
+    scope: {
+      item:"=",
+    },
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/customTableTd.html',
 
           link: function ($scope, element, $attrs) {
+            post.trustedBody = $sce.trustAsHtml(post.html_body);
+
             if ($attrs.customTable) {
                 $scope.customTableName=$attrs.customTable;
             }
