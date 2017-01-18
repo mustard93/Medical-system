@@ -1,7 +1,8 @@
 <div class="wrapper"
-  ajax-url="rest/authen/uICustomTable/get.json?name={{customTableName}}" style="min-height:600px;"
+  ajax-url="rest/authen/uiCustomTable/getByClassName.json?className={{customTableName}}" style="min-height:600px;"
   scope-data="uICustomTable"
 >
+
     <div class="loader" ng-if="status.isLoading">
         <div class="loader-inner pacman">
             <div></div>
@@ -16,17 +17,34 @@
         <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
         <p class="text-center">什么也没有</p>
       </div>
-        <div ng-if="tbodyList.length">
-            <table class='{{uICustomTable.className||"table table-hover table-striped"}}' style='{{uICustomTable.style}}' >
+        <div ng-if="tbodyList.length" class="outside-table-d pr-bg-white pr-fuzzy-boundary mgt">
+            <table class='{{uICustomTable.className||"table pr-table pr-new-table pr-table-content  table-wid"}}' style='{{uICustomTable.style}}' >
                 <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}}'>
                     <tr >
-                        <th  class='{{item.thCss}}' style='{{item.thStyle}}'   ng-repeat="item in uICustomTable.items">{{item.propertyName}}</th>
+                      <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th>
+
+                        <th  class='{{item.thCss}}' style='{{item.thStyle}}'   ng-repeat="item in uICustomTable.items">
+                          <div ng-if="item.thHtml"  ng-compile2="item.thHtml"></div>
+                          <div ng-if="!item.thHtml" >{{item.propertyName}} </div>
+                        </th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered ">
-                        <td  class='{{item.tdCss}}' style='{{item.tdStyle}}'  ng-repeat="item in uICustomTable.items">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</td>
+                    <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered "
+
+                    medical-stock-mouse-over
+                    mouse-over-buttons-json={{mouseOverButtonsJson}}
+                    >
+                      <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th>
+
+                        <td  class='{{item.tdCss}}' style='{{item.tdStyle}}'  ng-repeat="item in uICustomTable.items">
+                            <div ng-if="item.tdHtml"  ng-compile2="item.tdHtml"></div>
+                            <div ng-if="!item.tdHtml" >{{$root.UICustomTable.getShowValue(tr,item,$index)}}</div>
+
+                        </td>
+
+
                     </tr>
                 </tbody>
             </table>

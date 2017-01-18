@@ -184,8 +184,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           }
 
                           if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                          if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
-                          else $scope.scopeData = data;
+                          // if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                          // else $scope.scopeData = data;
+
+
+                          if ($attrs.scopeData){
+                              if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
+                              $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                              // angular.extend(  $scope[$attrs.scopeData],  results[0]);//
+                          }
+
                           if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
                           //回调父级的处理事件;
@@ -282,7 +290,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 $scope.$watch($attrs.source, function(value) {
                     if (value && angular.isObject(value)) {
-                        angular.extend($scope.formData, value);
+                        // angular.extend($scope.formData, value);
+                          $.extend( true,$scope.formData, value);//解决监听fromdata失败bug。
                     }
                 });
 
@@ -2692,8 +2701,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                          }
 
                          if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
-                         if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
-
+                        //  if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
+                         if ($attrs.scopeData){
+                             if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
+                             $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                             // angular.extend(  $scope[$attrs.scopeData],  results[0]);//
+                         }
                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
 
                          //回调父级的处理事件;
@@ -2896,139 +2909,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         };
 
 
-
-        var ngInclude2 = ['$templateRequest', '$anchorScroll', '$animate','requestData','$templateCache',
-                          function($templateRequest,   $anchorScroll,   $animate,requestData,$templateCache) {
-          return {
-            restrict: 'ECA',
-            priority: 400,
-            terminal: true,
-            transclude: 'element',
-            controller: angular.noop,
-            compile: function(element, attr) {
-              var srcExp = attr.ngInclude || attr.src,
-                  onloadExp = attr.onload || '',
-                  autoScrollExp = attr.autoscroll;
-
-              return function(scope, $element, $attr, ctrl, $transclude) {
-                var changeCounter = 0,
-                    currentScope,
-                    previousElement,
-                    currentElement;
-
-                var cleanupLastIncludeContent = function() {
-                  if (previousElement) {
-                    previousElement.remove();
-                    previousElement = null;
-                  }
-                  if (currentScope) {
-                    currentScope.$destroy();
-                    currentScope = null;
-                  }
-                  if (currentElement) {
-                    $animate.leave(currentElement).then(function() {
-                      previousElement = null;
-                    });
-                    previousElement = currentElement;
-                    currentElement = null;
-                  }
-                };
-
-                scope.$watch(srcExp, function ngIncludeWatchAction(src) {
-                  var afterAnimation = function() {
-                    if (angular.isDefined(autoScrollExp) && (!autoScrollExp || scope.$eval(autoScrollExp))) {
-                      $anchorScroll();
-                    }
-                  };
-                  var thisChangeId = ++changeCounter;
-
-                  if (src) {
-                    //set the 2nd param to true to ignore the template request error so that the inner
-                    //contents and scope can be cleaned up.
-
-
-                    requestData(src, null)
-                      .then(function(results) {
-
-
-                        if (scope.$$destroyed) return;
-
-                        if (thisChangeId !== changeCounter) return;
-                        var newScope = scope.$new();
-                        ctrl.template = results[0];
-                          $templateCache.put(src, results[0]);
-
-                        // Note: This will also link all children of ng-include that were contained in the original
-                        // html. If that content contains controllers, ... they could pollute/change the scope.
-                        // However, using ng-include on an element with additional content does not make sense...
-                        // Note: We can't remove them in the cloneAttchFn of $transclude as that
-                        // function is called before linking the content, which would apply child
-                        // directives to non existing elements.
-                        var clone = $transclude(newScope, function(clone) {
-                          cleanupLastIncludeContent();
-                          $animate.enter(clone, null, $element).then(afterAnimation);
-
-                            // $element.append(clone);
-                        });
-
-                        currentScope = newScope;
-                        currentElement = clone;
-
-                        currentScope.$emit('$includeContentLoaded', src);
-                        scope.$eval(onloadExp);
-
-                      })
-                      .catch(function(msg) {
-                        if (scope.$$destroyed) return;
-
-                        if (thisChangeId === changeCounter) {
-                          cleanupLastIncludeContent();
-                          scope.$emit('$includeContentError', src);
-                        }
-                      });
-
-                //     $templateRequest(src, true).then(function(response) {
-                //       if (scope.$$destroyed) return;
-                //
-                //       if (thisChangeId !== changeCounter) return;
-                //       var newScope = scope.$new();
-                //       ctrl.template = response;
-                //
-                //       // Note: This will also link all children of ng-include that were contained in the original
-                //       // html. If that content contains controllers, ... they could pollute/change the scope.
-                //       // However, using ng-include on an element with additional content does not make sense...
-                //       // Note: We can't remove them in the cloneAttchFn of $transclude as that
-                //       // function is called before linking the content, which would apply child
-                //       // directives to non existing elements.
-                //       var clone = $transclude(newScope, function(clone) {
-                //         cleanupLastIncludeContent();
-                //         $animate.enter(clone, null, $element).then(afterAnimation);
-                //       });
-                //
-                //       currentScope = newScope;
-                //       currentElement = clone;
-                //
-                //       currentScope.$emit('$includeContentLoaded', src);
-                //       scope.$eval(onloadExp);
-                //     }, function() {
-                //       if (scope.$$destroyed) return;
-                //
-                //       if (thisChangeId === changeCounter) {
-                //         cleanupLastIncludeContent();
-                //         scope.$emit('$includeContentError', src);
-                //       }
-                //     });
-                //     scope.$emit('$includeContentRequested', src);
-              } else {//if (src)
-                    cleanupLastIncludeContent();
-                    ctrl.template = null;
-                  }
-                });
-              };
-            }
-          };
-        }];
-
     /**
      * [textInterception 自定义指令为过长内容进行截取，解决CSS3里ellipsis属性会将下划线隐藏掉的问题]
      * @return {[type]} [description]
@@ -3059,13 +2939,43 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }
       }
     }
+    //AngularJS动态显示不同的html内容。
+    function ngCompile2($compile) {
+          // directive factory creates a link function
+          return function($scope, $element, attrs) {
+            $scope.$watch(
+              function($scope) {
+                 // watch the 'compile' expression for changes
+                return $scope.$eval(attrs.ngCompile2);
+                //
+                // if(tmp){
+                //   console.log(tmp);
+                // }
+                //  return tmp;
+              },
+              function(value) {
+                // when the 'compile' expression changes
+                // assign it into the current DOM
+                // if(value){
+                //   console.log(value);
+                // }
+                $element.html(value);
+                // compile the new DOM and link it to the current
+                // scope.
+                // NOTE: we only compile .childNodes so that
+                // we don't get into infinite loop compiling ourselves
 
+                $compile($element.contents())($scope );
+              }
+            );
+          };
+        }
     /**
      * 加入项目
      */
     angular.module('manageApp.main')
       .directive("textInterception", textInterception)
-      .directive("ngInclude2", ngInclude2)
+      .directive("ngCompile2", ngCompile2)
       .directive("datepicker", ['$filter',datepicker])
       .directive("watchFormChange", ["watchFormChange", watchFormChange])
       .directive("invalidPopover", ["$route", "$templateCache", "$routeParams", invalidPopover])
