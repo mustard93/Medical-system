@@ -1651,10 +1651,10 @@ function handleTextOverflow () {
 
       // 处理动态宽度的一行超出范围
       if (attrs.type === 'line') {      // 行内超出
-        var _w = $(element).width(),
+        var _w = $(element).width() ? $(element).width() : '100%',
             _h = attrs.height;
 
-        $(element).attr('style', 'width:'+_w+'px;height:'+_h+'px;').addClass('overhide').addClass('w-space-nowrap');
+        $(element).attr('style', 'width:'+_w+';'+'height:'+_h+';').addClass('overhide').addClass('w-space-nowrap');
       }
 
       // 处理动态宽度的块级元素超出范围
@@ -1706,7 +1706,6 @@ function salesorderEditShowDelbtn () {
     }
   };
 }
-
 
 /**
   	 *
@@ -1873,27 +1872,27 @@ function umeditor ($timeout) {
 }
 
 /**
-  	 *
-  	* @Description: TODO(监听日期下拉选择值，来设置开始时间和结束时间)
-  	* @method sayMsgToOther
-  	* @param peopleA
-  	* @param peopleB
-  	* @param msg
-  	* @return
-  	* @author ecolouds-01
-  	* @date 2016年12月15日 下午5:16:02
+	 *
+	* @Description: TODO(监听日期下拉选择值，来设置开始时间和结束时间)
+	* @method sayMsgToOther
+	* @param peopleA
+	* @param peopleB
+	* @param msg
+	* @return
+	* @author ecolouds-01
+	* @date 2016年12月15日 下午5:16:02
 
-  	  修改记录：
-  	   @Description: TODO(修改了什么)
-  	* @author ecolouds-01
-  	* @date 2016年12月15日 下午5:16:02
+	  修改记录：
+	   @Description: TODO(修改了什么)
+	* @author ecolouds-01
+	* @date 2016年12月15日 下午5:16:02
 
-  	    关键步骤：
-  	    //1.传如参数：人A，人B
-  		//2.如果人B==null，则返回失败标准。
-  		//3.A对B说。 该逻辑很复杂，或变化多则单独写成方法
-  		//4.返回成功标志。
-  	 */
+	    关键步骤：
+	    //1.传如参数：人A，人B
+		//2.如果人B==null，则返回失败标准。
+		//3.A对B说。 该逻辑很复杂，或变化多则单独写成方法
+		//4.返回成功标志。
+	 */
 function datePeriodSelect () {
   return{
     scope:{
@@ -1946,188 +1945,183 @@ function datePeriodSelect () {
 }
 
 
-  //显示原图
-  function modalImgShow(ngDialog,utils) {
-      return {
-          restrict: 'A',
-          // scope: {
-          //     modalScope: '='
-          // },
-          link: function ($scope, $elem, $attrs) {
+//显示原图
+function modalImgShow(ngDialog,utils) {
+    return {
+        restrict: 'A',
+        // scope: {
+        //     modalScope: '='
+        // },
+        link: function ($scope, $elem, $attrs) {
 
-              $elem.on('click', function (e) {
-
-
-                  var url=$attrs.ngSrc||$attrs.src;
-                  if(!url){
-                    console.log("url is null");
-                    return;
-                  }
-                  url=url.split("@")[0];
-                    var modalData='{"url":"'+url+'"}';
-                    console.log(modalData);
-
-                  ngDialog.open({
-                      template:  Config.tplPath +"tpl/show-original-image.html",
-                      //className: 'ngdialog-theme-right',
-                      cache: false,
-                      trapFocus: false,
-                      //overlay: false,
-                      data:modalData,
-                      scope: $scope,
-                      controller: ["$scope", "$element", function ($scope, $element) {
-                          $(".ngdialog-content", $element).width(utils.getMainBodyWidth());
-                            $(".ngdialog-content", $element).height(utils.getwindowHeight());
-                      }]
-                  });
+            $elem.on('click', function (e) {
 
 
-                e.preventDefault();
-              });
-          }
-      };
-  }
+                var url=$attrs.ngSrc||$attrs.src;
+                if(!url){
+                  console.log("url is null");
+                  return;
+                }
+                url=url.split("@")[0];
+                  var modalData='{"url":"'+url+'"}';
+                  console.log(modalData);
+
+                ngDialog.open({
+                    template:  Config.tplPath +"tpl/show-original-image.html",
+                    //className: 'ngdialog-theme-right',
+                    cache: false,
+                    trapFocus: false,
+                    //overlay: false,
+                    data:modalData,
+                    scope: $scope,
+                    controller: ["$scope", "$element", function ($scope, $element) {
+                        $(".ngdialog-content", $element).width(utils.getMainBodyWidth());
+                          $(".ngdialog-content", $element).height(utils.getwindowHeight());
+                    }]
+                });
 
 
-  /**
-   * 自动补全-药械 生产批次/灭菌批次/数量
-   */
-  function angucompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
-      return {
-          restrict: 'EA',
-          scope: {
-              "placeholder": "@",
-              "selectedItem": "=?",
-              "url": "@",
-              "titleField": "@",
-              "descriptionField": "@",
-              //"localData": "=?",
-              "searchFields": "@",
-              "matchClass": "@",
-              "ngDisabled": "=?"
-          },
-          require: "?^ngModel",
-          templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStockBatch.html',
-          link: function($scope, elem, attrs, ngModel) {
-              $scope.lastSearchTerm = null;
-              $scope.currentIndex = null;
-              $scope.justChanged = false;
-              $scope.searchTimer = null;
-              $scope.hideTimer = null;
-              $scope.searching = false;
-              $scope.pause = 300;
-              $scope.minLength = 1;
-              $scope.searchStr = null;
+              e.preventDefault();
+            });
+        }
+    };
+}
 
-              require(['project/angucomplete'], function(angucomplete) {
-                    $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+/**
+ * 自动补全-药械 生产批次/灭菌批次/数量
+ */
+function angucompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
+    return {
+        restrict: 'EA',
+        scope: {
+            "placeholder": "@",
+            "selectedItem": "=?",
+            "url": "@",
+            "titleField": "@",
+            "descriptionField": "@",
+            //"localData": "=?",
+            "searchFields": "@",
+            "matchClass": "@",
+            "ngDisabled": "=?"
+        },
+        require: "?^ngModel",
+        templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStockBatch.html',
+        link: function($scope, elem, attrs, ngModel) {
+            $scope.lastSearchTerm = null;
+            $scope.currentIndex = null;
+            $scope.justChanged = false;
+            $scope.searchTimer = null;
+            $scope.hideTimer = null;
+            $scope.searching = false;
+            $scope.pause = 300;
+            $scope.minLength = 1;
+            $scope.searchStr = null;
 
-              });//angucomplete
+            require(['project/angucomplete'], function(angucomplete) {
+                  $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
 
-          }
-      };
-  }//angucompleteMedicalStockBatch
+            });//angucomplete
 
-      /**
-       * 自动补全-药械
-       */
-      function angucompleteMedical($parse, requestData, $sce, $timeout) {
-          return {
-              restrict: 'EA',
-              scope: {
-                  "placeholder": "@",
-                  "selectedItem": "=?",
-                  "url": "@",
-                  "titleField": "@",
-                  "descriptionField": "@",
-                  //"localData": "=?",
-                  "searchFields": "@",
-                  "matchClass": "@",
-                  "ngDisabled": "=?"
-              },
-              require: "?^ngModel",
-              templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
-              link: function($scope, elem, attrs, ngModel) {
-                  $scope.lastSearchTerm = null;
-                  $scope.currentIndex = null;
-                  $scope.justChanged = false;
-                  $scope.searchTimer = null;
-                  $scope.hideTimer = null;
-                  $scope.searching = false;
-                  $scope.pause = 300;
-                  $scope.minLength = 1;
-                  $scope.searchStr = null;
+        }
+    };
+}//angucompleteMedicalStockBatch
 
-                  require(['project/angucomplete'], function(angucomplete) {
-                        $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+/**
+ * 自动补全-药械
+ */
+function angucompleteMedical($parse, requestData, $sce, $timeout) {
+    return {
+        restrict: 'EA',
+        scope: {
+            "placeholder": "@",
+            "selectedItem": "=?",
+            "url": "@",
+            "titleField": "@",
+            "descriptionField": "@",
+            //"localData": "=?",
+            "searchFields": "@",
+            "matchClass": "@",
+            "ngDisabled": "=?"
+        },
+        require: "?^ngModel",
+        templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
+        link: function($scope, elem, attrs, ngModel) {
+            $scope.lastSearchTerm = null;
+            $scope.currentIndex = null;
+            $scope.justChanged = false;
+            $scope.searchTimer = null;
+            $scope.hideTimer = null;
+            $scope.searching = false;
+            $scope.pause = 300;
+            $scope.minLength = 1;
+            $scope.searchStr = null;
 
-                  });//angucomplete
+            require(['project/angucomplete'], function(angucomplete) {
+                  $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+
+            });//angucomplete
+
+        }
+    };
+}
+
+/**
+ * 闪加药械
+ ngModel={
+ data:{},//药械基本信息
+ count：10 //输入数量
+}
+ */
+function flashAddMedical() {
+    return {
+        restrict: 'EA',
+        scope: {
+            "ngModel": "=",
+            "addDataCallbackFn":"&",
+            "formData": "="
+        },
+        require: "?^ngModel",
+        templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
+        link: function($scope, elem, $attrs, ngModel) {
+
+             $attrs.$observe("ajaxUrl", function(value) {
+                  $scope.ajaxUrl=value;
+             });
+
+            //添加业务数据
+            $scope.addDataFn = function () {
+              if(!  $scope.addDataCallbackFn){
+                console.log("scope.addDataCallback function is null!");
+                return true;
+              }
+
+              var  flag=$scope.addDataCallbackFn($scope.ngModel);
+              if(!flag){//业务逻辑判断添加失败，则不清空数据。
+                return false;
+              }
+                //清空输入数据
+              $scope.ngModel={};
+              //自动补全查询输入框获得焦点
+              $('#angucompleteMedical_searchInputId').val("");
+              $('#angucompleteMedical_searchInputId').trigger('focus');
+
+              return false;
+
+            };
+
+            //input输入框回车事件。
+            $scope.handleAddThisItem = function (e) {
+              var keycode = window.event ? e.keyCode : e.which;
+              if (keycode == 13) {
+                $scope.addDataFn();
 
               }
-          };
-      }
+                return false;
+            };
 
-
-      /**
-       * 闪加药械
-
-       ngModel={
-       data:{},//药械基本信息
-       count：10 //输入数量
-     }
-       */
-      function flashAddMedical() {
-          return {
-              restrict: 'EA',
-              scope: {
-                  "ngModel": "=",
-                  "addDataCallbackFn":"&",
-                  "formData": "="
-              },
-              require: "?^ngModel",
-              templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
-              link: function($scope, elem, $attrs, ngModel) {
-
-                   $attrs.$observe("ajaxUrl", function(value) {
-                        $scope.ajaxUrl=value;
-                   });
-
-                  //添加业务数据
-                  $scope.addDataFn = function () {
-                    if(!  $scope.addDataCallbackFn){
-                      console.log("scope.addDataCallback function is null!");
-                      return true;
-                    }
-
-                    var  flag=$scope.addDataCallbackFn($scope.ngModel);
-                    if(!flag){//业务逻辑判断添加失败，则不清空数据。
-                      return false;
-                    }
-                      //清空输入数据
-                    $scope.ngModel={};
-                    //自动补全查询输入框获得焦点
-                    $('#angucompleteMedical_searchInputId').val("");
-                    $('#angucompleteMedical_searchInputId').trigger('focus');
-
-                    return false;
-
-                  };
-
-                  //input输入框回车事件。
-                  $scope.handleAddThisItem = function (e) {
-                    var keycode = window.event ? e.keyCode : e.which;
-                    if (keycode == 13) {
-                      $scope.addDataFn();
-
-                    }
-                      return false;
-                  };
-
-              }
-          };
-      }
-
-
+        }
+    };
+}
 
 /**
   用户自定义表结构显示。
@@ -2163,8 +2157,6 @@ function customTablePrint() {
       }
   };
 }
-
-
 
 /**
   底部按钮列表
@@ -2214,7 +2206,7 @@ angular.module('manageApp.project')
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
   .directive("flashAddMedical", [flashAddMedical])
-    .directive("angucompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedicalStockBatch])
+  .directive("angucompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])
