@@ -33,6 +33,8 @@
               <button query-order-status-button  ng-model="listParams.orderStatus" key="待审批"  count-map="countByOrderStatus">  </button>
               <button query-order-status-button  ng-model="listParams.orderStatus" key="已通过" >  </button>
               <button query-order-status-button  ng-model="listParams.orderStatus" key="未通过"  count-map="countByOrderStatus">  </button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="已终止"  count-map="countByOrderStatus">  </button>
+              <button query-order-status-button  ng-model="listParams.orderStatus" key="已冻结"  count-map="countByOrderStatus">  </button>
             </div>
         </div>
       </div>
@@ -74,19 +76,19 @@
                           <span class="rect-s" title="删除" style="margin-right:-14px;"><span class="delete-link-icon"></span></span>
                         </a>
 
-                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过')}"
-                       ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='已通过'"
+                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
+                       ng-if="tr.orderStatus=='未提交' || tr.orderStatus=='已通过' || tr.orderStatus=='已冻结'"
                        ng-href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}">
                      <span class="rect-s" title="编辑"><span class="edit-link-icon"></span></span>
                    </a>
 
-                    <a
-                       ng-if="tr.orderStatus=='未通过'"
-                       ng-href="#/firstEnterpriseApplication/edit.html?copyId={{tr.id}}">
-                        <span class="rect-s" title="新建" style="margin-right:-14px;"><span class="watch-detail-icon"></span></span>
+                    <a ng-if="tr.orderStatus=='未通过'"
+                       ng-href="#/firstEnterpriseApplication/edit.html">
+                        <span class="rect-s" title="新建" style="margin-right:-4px;"><span class="watch-detail-icon"></span></span>
                      </a>
-                    <a  class="mr--4"
-                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')) || tr.orderStatus=='未通过'"
+                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
+                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))
+                       || tr.orderStatus=='未通过' || tr.orderStatus=='已冻结' || tr.orderStatus=='已终止'"
                        ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">
                        <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
                      </a>
@@ -96,7 +98,7 @@
                      </a>
 
                      <span class="text-right rect-m"
-                      ng-if="tr.orderStatus=='已通过'">
+                      ng-if="tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结'">
                          <span class="circle-ss-outspan">
                            <span run-popovers class="circle-ss">
                              <span ></span>
@@ -106,8 +108,11 @@
                          <span class="purchaseorder-buyer-info">
                            <i class="block bb-dashed-line pd-c-l text-normal">
                              <em class="inline-block pd-v-s">
-                               <a class=""
-                                ng-href="#/freezeThawOrder/edit-thaw.html?id={{tr.id}}">冻结
+                               <a ng-if="tr.orderStatus=='已冻结'"
+                                ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">解冻
+                              </a>
+                               <a ng-if="tr.orderStatus=='已通过'"
+                                ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">冻结
                               </a>
                             </em>
                           </i>
@@ -116,12 +121,12 @@
                              <a href="javascript:;"
                                 class="color-red"
                                 handle-this-click
-                                dialog-title="确认删除?"
-                                dialog-content="删除后将无法恢复,确认删除?"
+                                dialog-title="确定终止?"
+                                dialog-content="终止后，该企业资格将被取消。确定终止?"
                                 dialog-template="pr-dialog-submit.html"
-                                callback="$root.goTo('#/freezeThawOrder/query-thaw.html')"
+                                callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
                                 params='{"id":tr.id}'
-                                request-url="rest/authen/freezeThawOrder/delete">终止
+                                request-url="rest/authen/firstEnterpriseApplication/delete">终止
                               </a>
                              </em>
                            </i>
