@@ -13,13 +13,21 @@
       <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label text-left">发货人</label>
           <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="请填写发货人姓名" ng-model="formData.name"/>
+              <input type="text"
+                     class="form-control"
+                     placeholder="请填写发货人姓名"
+                     ng-model="formData.name"
+                     name="name"
+                     ng-pattern="/^.{1,10}$/"
+                     data-content="收货人最多5个字符"
+                     invalid-popover="{{editForm.name.$invalid}}"
+                     placement="top"/>
           </div>
       </div>
       <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label">手机</label>
           <div class="col-lg-10 col-sm-10">
-              <input type="text"
+              <input type="tel"
                      class="form-control"
                      placeholder="请填写联系手机号码"
                      ng-model="formData.tel"
@@ -43,7 +51,15 @@
       <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label">详细地址</label>
           <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="详细发货地址" ng-model="formData.address"/>
+              <input type="text"
+                     class="form-control"
+                     placeholder="详细发货地址"
+                     ng-model="formData.address"
+                     name="address"
+                     ng-pattern="/^.{1,50}$/"
+                     data-content="详细地址信息过长"
+                     invalid-popover="{{editForm.address.$invalid}}"
+                     placement="top"/>
           </div>
       </div>
       <div class="form-group mgb">
