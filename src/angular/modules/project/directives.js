@@ -226,8 +226,9 @@ function workflowTaskRunWithAttchments(utils) {
 
           //按钮名字优先去passButton
               $scope.showButton=$scope.passButton||$scope.rejectButton;
-
-               $scope.formData=  $scope.showButton.params;
+              if($scope.showButton)
+                  $scope.formData=  $scope.showButton.params;
+                  if(!  $scope.formData)  $scope.formData={};
                 $scope.formData.attachments=[];
 
               $scope.scopeExtend={};
@@ -2221,12 +2222,25 @@ function bottomButtonList() {
         bottomButtonList:"=?"
       },
     replace: true,
+    controller: function($scope, $element){
+
+                  $scope.ngClick2=function(ngClick){
+                      console.log("ngClick2",ngClick);
+                      var tmp=$scope.$parent.$eval(ngClick);
+                      console.log("ngClick2",tmp);
+                  }
+                  $scope.tmp111="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
+
+        },
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
 
           link: function ($scope, element, $attrs) {
             console.log($scope.bottomButtonList);
             if(!$scope.spanClass)$scope.spanClass="mgl";
             $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
+
+
+
           }
   };
 }

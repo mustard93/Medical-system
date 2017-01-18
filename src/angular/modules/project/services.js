@@ -23,10 +23,34 @@ define('project/services', ['project/init'], function () {
           function bottomButtonList () {
               return  {
 
+                  //前台自定义按钮 样例
+                  get_ButtonListDemo:function(showData){
+                    var arr=[];
+                    //aclass ：样式，ahref：连接，showName：显示名
+                    var bottomButton={"aclass":"","ahref":"#/firstEnterpriseApplication/query.html","showName":"返回申请单列表"};
+                    arr.push(bottomButton);
 
 
+                     bottomButton={"type":"modalRight","modalWidth":"1000","aclass":"color-orange add-return-order","ahref":"#/firstEnterpriseApplication/query.html","showName":"右侧弹出层"};
+                    arr.push(bottomButton);
+
+                     bottomButton={"type":"modalCenter","modalWidth":"1000","aclass":"color-orange add-return-order","ahref":"#/firstEnterpriseApplication/query.html","showName":"中间弹出层"};
+                    arr.push(bottomButton);
+
+                    bottomButton={"type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"$root.goTo('#/hospitalApplication/query.html?tt='+showData.id)","showName":"自定义方法"};
+                   arr.push(bottomButton);
+
+                    if(showData){
+                      bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                        "ahref":Config.serverPath+"rest/authen/firstEnterpriseApplication/exportWord?id="+showData.id,
+                        "showName":"打印"};
+                        arr.push(bottomButton);
+                    }
+                    console.log(arr);
+                    return arr;
+                  }
                   //获取首营企业菜单定义
-                    get_firstEnterpriseApplication:function(showData){
+                    ,get_firstEnterpriseApplication:function(showData){
                       var arr=[];
                       //aclass ：样式，ahref：连接，showName：显示名
                       var bottomButton={"aclass":"","ahref":"#/firstEnterpriseApplication/query.html","showName":"返回申请单列表"};
