@@ -283,10 +283,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 var scopeForm = $scope.$eval($attrs.name);
                 var dialogData = $scope.ngDialogData;
 
+
                 // $scope.formData = angular.extend({}, $scope.formData);
                 if(!$scope.formData)$scope.formData = angular.extend({}, $scope.formData);
-
-
 
                 $scope.$watch($attrs.source, function(value) {
                     if (value && angular.isObject(value)) {
@@ -761,9 +760,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.tbodyList = [];
                     formData = angular.copy($scope.listParams);
 
-                    if (formData.q) {
-                      formData.q = "(?i)" + formData.q;
-                    }
+                    // if (formData.q) {
+                    //   formData.q = "(?i)" + formData.q;
+                    // }
 
                     getListData(setSelectedValue);
                     //清除选择框

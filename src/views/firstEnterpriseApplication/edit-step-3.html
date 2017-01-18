@@ -15,7 +15,7 @@
     <span class="active">添加审核资料</span>
   </div>
   <!-- 主体内容 -->
-  <div class="content-wrapper-main mgt">
+  <div class="content-wrapper-main mgt" style="margin-bottom:80px;">
     <form class="form-horizontal"
           id="first-enterprise-editForm"
           name="firstEnterpriseEditForm"
@@ -39,10 +39,11 @@
       <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":true}'  attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
 
-
+  </div>
 
       <!-- 功能按钮 -->
-      <div class="mgb text-right">
+    <div class="handle-btn-area relative">
+      <div class="mgb text-right btn-area">
         <span class="mgl">
           <a   ng-if="changeFlag"  href="javascript:;"
              handle-this-click
@@ -53,10 +54,10 @@
              save-callback="submitForm('editForm','exit')">返回申请单列表</a>
           <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
         </span>
-        <span class="mgl">
+        <span class="mgl ">
           <a ng-if="formData.id && formData.proposerName==mainStatus.name"
              href="javascript:;"
-             class="color-red"
+             class="color-red mgt"
              handle-this-click
              dialog-title="确认删除?"
              dialog-content="删除后将无法恢复,确认删除?"
@@ -66,20 +67,22 @@
              request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg"
+          <button class="pr-btn-save-glodbg mgt"
                   ng-disabled="!changeFlag"
                   ng-click="submitForm('first-enterprise-editForm','save')">保存
           </button>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg" ng-click="pageTo('#/firstEnterpriseApplication/edit-step-2.html?id='+formData.id)">上一步</button>
+          <button class="pr-btn-save-glodbg mgt" ng-click="pageTo('#/firstEnterpriseApplication/edit-step-2.html?id='+formData.id)">上一步</button>
         </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg"
+          <button class="pr-btn-save-glodbg mgt"
                   ng-click="submitForm('first-enterprise-editForm','submit')">预览申请单
           </button>
         </span>
       </div>
+
+    </div>
     </form>
-  </div>
+
 </div>
