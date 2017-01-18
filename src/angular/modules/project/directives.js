@@ -1533,23 +1533,18 @@ function hospitalPurchaseComeinEdit () {
    	    //1.传入参数:url(跳转路径)，className(控制样式的class)
    		//2.mouseenter:表示鼠标移入之后要执行的步骤。
    		//3.mouseleave:表示鼠标移出后执行的步骤。
-
-
 function medicalStockMouseOver(utils){
-
   return{
     restrict: 'A',
-
       link: function ($scope, $element, $attrs) {
-
         // var btnArray=[];
         //按钮数量，用于计算弹出菜单的div宽度
         var btnCount=0;
-        //弹出菜单的div
+        //弹出菜单的div(装两个按钮的div)
         var moveBtnDiv=null;
-        //按钮基础数据
+        //按钮基础数据(mouse-over-buttons-json传入的相关参数，以Jason的数据格式传入)
+        // 把按钮基础数据转化为数组类型
         var mouseOverButtons=  $scope.$eval($attrs.mouseOverButtonsJson);
-
         if(mouseOverButtons && mouseOverButtons.length>0){
           moveBtnDiv=$("<div></div>");
           btnCount=mouseOverButtons.length;
@@ -1590,7 +1585,7 @@ function medicalStockMouseOver(utils){
              "width":moveBtnDivWidth,
              "height":$element.height(),
              "top": y,
-             "left": x
+             "left": x,
            });
           //  console.log("moveBtnDivWidth="+moveBtnDivWidth+",x="+x+",y="+y+",utils.getMainBodyWidth()="+utils.getMainBodyWidth());
           //  console.log("e.pageX="+e.pageX+",e.pageY"+e.pageY);
