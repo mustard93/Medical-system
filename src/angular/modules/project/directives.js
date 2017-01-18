@@ -226,8 +226,9 @@ function workflowTaskRunWithAttchments(utils) {
 
           //按钮名字优先去passButton
               $scope.showButton=$scope.passButton||$scope.rejectButton;
-
-               $scope.formData=  $scope.showButton.params;
+              if($scope.showButton)
+                  $scope.formData=  $scope.showButton.params;
+                  if(!  $scope.formData)  $scope.formData={};
                 $scope.formData.attachments=[];
 
               $scope.scopeExtend={};
@@ -1532,23 +1533,18 @@ function hospitalPurchaseComeinEdit () {
    	    //1.传入参数:url(跳转路径)，className(控制样式的class)
    		//2.mouseenter:表示鼠标移入之后要执行的步骤。
    		//3.mouseleave:表示鼠标移出后执行的步骤。
-
-
 function medicalStockMouseOver(utils){
-
   return{
     restrict: 'A',
-
       link: function ($scope, $element, $attrs) {
-
         // var btnArray=[];
         //按钮数量，用于计算弹出菜单的div宽度
         var btnCount=0;
-        //弹出菜单的div
+        //弹出菜单的div(装两个按钮的div)
         var moveBtnDiv=null;
-        //按钮基础数据
+        //按钮基础数据(mouse-over-buttons-json传入的相关参数，以Jason的数据格式传入)
+        // 把按钮基础数据转化为数组类型
         var mouseOverButtons=  $scope.$eval($attrs.mouseOverButtonsJson);
-
         if(mouseOverButtons && mouseOverButtons.length>0){
           moveBtnDiv=$("<div></div>");
           btnCount=mouseOverButtons.length;
@@ -1589,7 +1585,7 @@ function medicalStockMouseOver(utils){
              "width":moveBtnDivWidth,
              "height":$element.height(),
              "top": y,
-             "left": x
+             "left": x,
            });
           //  console.log("moveBtnDivWidth="+moveBtnDivWidth+",x="+x+",y="+y+",utils.getMainBodyWidth()="+utils.getMainBodyWidth());
           //  console.log("e.pageX="+e.pageX+",e.pageY"+e.pageY);
@@ -2129,11 +2125,63 @@ function flashAddMedical() {
 function customTable() {
   return {
     restrict: 'EA',
-    scope: false,
+
     replace: true,
+    //  transclude: true,
     templateUrl:  Config.tplPath +'tpl/project/customTable.html',
+    // compile: function() {
+    //            return function (scope, element, attrs,$ctrl,transcludeFn) {
+    //                transcludeFn(scope, function(clone) {
+    //
+    //
+    //                  console.log(clone);
+    //
+    //                    var title= element.find('title');
+    //                    var time = clone.find('.time');
+    //                    var type = clone.find('.type');
+    //                    var text= clone.find('.content');
+    //
+    //                    title.append(time);
+    //                    element.append(type);
+    //                    element.append(text)
+    //                });
+    //            };
+    //        },
+          link: function ($scope, $element, $attrs,$ctrl,$transclude) {
+
+            //
+            //   $transclude($scope,function(clone){
+            //     console.log(clone);
+            //     $element.append(clone);
+            // })
+
+            if ($attrs.customTable) {
+                $scope.customTableName=$attrs.customTable;
+            }
+
+            if ($attrs.mouseOverButtonsJson) {
+                $scope.mouseOverButtonsJson=$attrs.mouseOverButtonsJson;
+            }
+          }
+  };
+}
+
+
+/**
+  用户自定义表结构显示。
+*/
+function customTableTd($sce) {
+  return {
+    restrict: 'EA',
+    scope: {
+      item:"=",
+    },
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/customTableTd.html',
 
           link: function ($scope, element, $attrs) {
+            post.trustedBody = $sce.trustAsHtml(post.html_body);
+
             if ($attrs.customTable) {
                 $scope.customTableName=$attrs.customTable;
             }
@@ -2169,12 +2217,25 @@ function bottomButtonList() {
         bottomButtonList:"=?"
       },
     replace: true,
+    controller: function($scope, $element){
+
+                  $scope.ngClick2=function(ngClick){
+                      console.log("ngClick2",ngClick);
+                      var tmp=$scope.$parent.$eval(ngClick);
+                      console.log("ngClick2",tmp);
+                  }
+                  $scope.tmp111="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
+
+        },
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
 
           link: function ($scope, element, $attrs) {
             console.log($scope.bottomButtonList);
             if(!$scope.spanClass)$scope.spanClass="mgl";
             $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
+
+
+
           }
   };
 }

@@ -6,15 +6,25 @@
 
      callback='bottomButtonList= $root.bottomButtonList.get_firstEnterpriseApplication(showData);'
      alert-error>
+
   <div class="page-header-info">
+    <div class="pd-l">
     <h1>首营企业申请</h1>
     <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
+    </div>
+    <div ng-if="showData.orderStatus=='已冻结'"
+     class="pr-panel pr-panel-height mgb">
+      <em class="color-red">原因:</em>
+      <em>{{showData.operationFlowSet[1].key}}</em>
+      <em>{{showData.operationFlowSet[1].message}}</em>
+    </div>
+
   </div>
   <!-- 主体内容 -->
-  <div class="content-wrapper-main mgt" style="margin-bottom:80px;">
+  <div class="content-wrapper-main mgt"  style="margin-bottom:80px;">
 
       <!-- 单号 -->
-      <div class="panel pr-panel pr-panel-height mgb bb-line color-9 flex-column">
+      <div class="panel pr-panel pr-panel-height mgb bb-line color-9 flex-column" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
         <div class="flex-item-8">
           <span class="mgr-l">申请单：<em class="color-6">{{showData.orderNo}}</em></span>
           <span class="mgr-l">申请人：<em class="color-custom-orange">{{showData.proposerName}}</em></span>
@@ -25,19 +35,22 @@
              modal-data='{"businessKey":"{{showData.id}}"}'
              modal-scope="this"
              modal-url="views/workflowTask/getOfDialog.html">
-            <strong>状态：{{showData.orderStatus}}</strong>
+
+            <strong  >状态：
+              <em ng-class="{'color-red':(showData.orderStatus=='已终止')}">{{showData.orderStatus}}</em>
+            </strong>
           </a>
         </span>
       </div>
       <!-- 审核信息 -->
-      <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
+      <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
         <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
           <span>{{eventRecord.event.id}}：</span>
           <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</em>
         </span>
       </div>
       <!-- 基本信息 -->
-      <div class="panel pr-panel pr-panel-height mgb">
+      <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
         <h1 class="pr-font-18 mgb">基本信息</h1>
         <div class="">
         <h1 class="pr-font-14 bb-line pd-v text-bold mgb">企业信息：</h1>
@@ -157,15 +170,15 @@
 
       </div>
       <!-- 申请原因 -->
-      <div class="panel pr-panel pr-panel-height mgb">
+      <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
         <h1 class="pr-font-18 mgb">申请原因</h1>
         <span>{{showData.applyReason}}</span>
       </div>
       <!-- 审核资料-附件信息 -->
-      <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
+      <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}"></div>
 
       <!-- 审批 -->
-      <div ng-if="!showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">
+      <div ng-if="!showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
         <div class="mgb-l">
           <h1 class="pr-font-18 mgb">审批意见</h1>
           <div class="mgb" ng-repeat="item in showData.eventRecords">
@@ -178,14 +191,16 @@
         <div class="mgb-l"></div>
       </div>
 
+
       <div ng-if="showData.didateFilter.buttons.length>0&& showData.orderStatus!='未提交'"
            workflow-task-run-with-attchments
            custom-menu-arr="{{showData.didateFilter.buttons}}"
            workflow-bottom-button="bottomButtonList"
            attchment-usege="首营企业申请">
-
       </div>
+
       <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'" class="handle-btn-area relative">
+
             <div class="mgb text-right btn-area">
               <span>
                 <a class="mgl mgt"
@@ -193,11 +208,61 @@
                    ng-href="#/firstEnterpriseApplication/edit.html?copyId={{showData.id}}">新建</a>
               </span>
               <span  bottom-button-list="bottomButtonList">  </span>
+              <span>
+                <span ng-if="showData.orderStatus=='已通过' ||showData.orderStatus=='已冻结'">
+                  <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
+                      ng-href="#/firstEnterpriseApplication/edit.html?copyId={{showData.id}}"
+                     >编辑</a>
+                </span>
+
+                <span ng-if="showData.orderStatus!='已冻结'&&showData.orderStatus!='已终止'">
+                     <button class="btn-reject mgl mgt color-white text-center"
+                             type="button"
+                             ajax-url-submit="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
+                             params='{"id":showData.id,"orderStatus":"已冻结"}'
+                             alert-error
+                             scope-data="showData"
+                             callback="$root.utils.refreshHref()"
+                             >冻结
+                             <!-- modal-center="490"
+                             modal-scope="this"
+                             modal-url="views/public/dialog-check-reject-customMenu.html" -->
+                              <!-- callback="$root.utils.refreshHref()" -->
+
+                     </button>
+                </span>
+                <span ng-if="showData.orderStatus=='已冻结'">
+                  <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
+                          type="button"
+                          ajax-url-submit="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
+                          params='{"id":showData.id,"orderStatus":"解冻"}'
+                          alert-error
+                          scope-data="showData"
+                          callback="$root.utils.refreshHref()">解冻
+                  </button>
+
+                </span>
+                <span class="line-hei-36" ng-if="showData.orderStatus!='已终止'">
+                  <button class="btn-reject mgl mgt color-white text-center"
+                          type="button"
+                          handle-this-click
+                          dialog-title="确认终止?"
+                          dialog-content="终止后，该企业资格将被取消，确定终止?"
+                          dialog-template="pr-dialog-submit.html"
+                          request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
+                          params='{"id":showData.id,"orderStatus":"已终止"}'
+                          alert-error
+                          callback="$root.utils.refreshHref()"
+
+                          >终止
+                  </button>
+                </span>
+
+              </span>
+
             </div>
       </div>
   </div>
-
-
   <div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
     <div  class="mgb text-right btn-area">
       <span class="mgl"><a href="#/firstEnterpriseApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
