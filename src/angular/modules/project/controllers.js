@@ -945,49 +945,57 @@ define('project/controllers', ['project/init'], function() {
         alertWarn("请选择药品");
         return ;
       }
+
       var medical=flashAddData.data.data;
       var addDataItem = $.extend(true,{},medical);
 
-          addDataItem.quantity=flashAddData.quantity;
-          addDataItem.relId=medical.id;
+      addDataItem.relId=medical.id;
 
-          addDataItem.strike_price=addDataItem.price;
-          addDataItem.id=null;
-        if (!(addDataItem.relId && addDataItem.name)) {
-            alertWarn('请选择药品。');
+      addDataItem.strike_price=addDataItem.price;
+      addDataItem.id=null;
+
+      if (!addDataItem.quantity) {
+        addDataItem.quantity = flashAddData.quantity;
+      }
+
+      if (!(addDataItem.relId && addDataItem.name)) {
+          alertWarn('请选择药品。');
+          return false;
+      }
+      if (!addDataItem.quantity||addDataItem.quantity<1) {
+          alertWarn('请输入大于0的数量。');
+          return false;
+      }
+      // if (!addDataItem.strike_price) {
+      //     alertWarn('请输入成交价格。');
+      //     return false;
+      // }
+
+      if(addDataItem.quantity>medical.quantity){//库存不足情况
+          addDataItem.handleFlag =false;//默认添加到订单
+      }
+
+      if (!$scope.formData.orderMedicalNos) {
+        $scope.formData.orderMedicalNos = [];
+      }
+      // 如果已添加
+      if ($scope.formData.orderMedicalNos.length !== 0) {
+        var _len = $scope.formData.orderMedicalNos.length;
+        // console.log(_len);
+        // 未使用forEach方法，因为IE不兼容
+        for (var i=0; i<_len; i++) {
+          if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+            alertWarn('此药械已添加到列表');
             return false;
-        }
-        if (!addDataItem.quantity||addDataItem.quantity<1) {
-            alertWarn('请输入大于0的数量。');
-            return false;
-        }
-        // if (!addDataItem.strike_price) {
-        //     alertWarn('请输入成交价格。');
-        //     return false;
-        // }
-        if(addDataItem.quantity>medical.quantity){//库存不足情况
-            addDataItem.handleFlag =false;//默认添加到订单
-        }
-        if (!$scope.formData.orderMedicalNos) {
-          $scope.formData.orderMedicalNos = [];
-        }
-        // 如果已添加
-        if ($scope.formData.orderMedicalNos.length !== 0) {
-          var _len = $scope.formData.orderMedicalNos.length;
-          // console.log(_len);
-          // 未使用forEach方法，因为IE不兼容
-          for (var i=0; i<_len; i++) {
-            if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-              alertWarn('此药械已添加到列表');
-              return false;
-            }
           }
         }
-        //添加到列表
-        $scope.formData.orderMedicalNos.push(addDataItem);
-        //计算价格
-        $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-        return true;
+      }
+
+      //添加到列表
+      $scope.formData.orderMedicalNos.push(addDataItem);
+      //计算价格
+      $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+      return true;
     };
 
     //获取一个药械，已经选中的批次，返回成数组格式，用于同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
@@ -1173,39 +1181,39 @@ define('project/controllers', ['project/init'], function() {
 
     //监听批次销售数量变化。
     $scope.$watch('item.stockBatchs', function (newVal,oldVal) {
-            // console.log("item.stockBatchs");
-            // console.log(newVal);
-            var item=$scope.item;
-            item.quantity=0;//根据批次的销售数量，计算销售的总数量。
-            //记录批次中是否有空的数量没填写，没有则根据，批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
+      if (newVal !== undefined) {
+        var item=$scope.item;
+        item.quantity=0;//根据批次的销售数量，计算销售的总数量。
+        //记录批次中是否有空的数量没填写，没有则根据，批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
 
-            if(!newVal)newVal=[{}];
+        if(!newVal)newVal=[{}];
 
-            //记录添加新的批号选择下拉框的索引号。
-            var noSelectproductionBatchValIndex=-1;
-            for(var i=0;i<newVal.length;i++){
-              if(!newVal[i].productionBatch){
-                newVal[i].quantity=0;
-                noSelectproductionBatchValIndex=i;
-              }
-              if(newVal[i].quantity){
-                  item.quantity+=newVal[i].quantity;
-              }
+        //记录添加新的批号选择下拉框的索引号。
+        var noSelectproductionBatchValIndex=-1;
+        for(var i=0;i<newVal.length;i++){
+          if(!newVal[i].productionBatch){
+            newVal[i].quantity=0;
+            noSelectproductionBatchValIndex=i;
+          }
+          if(newVal[i].quantity){
+              item.quantity+=newVal[i].quantity;
+          }
 
+        }
+
+
+        if(item.quantity<item.planQuantity){//批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
+          if(noSelectproductionBatchValIndex==-1){
+              item.stockBatchs.push({});
+          }
+        }else{//数量选择够了后，删除未选择批号的数据
+            if(noSelectproductionBatchValIndex>-1){
+                item.stockBatchs.splice(noSelectproductionBatchValIndex,1);
             }
+        }
 
-
-            if(item.quantity<item.planQuantity){//批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
-              if(noSelectproductionBatchValIndex==-1){
-                  item.stockBatchs.push({});
-              }
-            }else{//数量选择够了后，删除未选择批号的数据
-                if(noSelectproductionBatchValIndex>-1){
-                    item.stockBatchs.splice(noSelectproductionBatchValIndex,1);
-                }
-            }
-
-            if(item.quantity>0)item.handleFlag=true;
+        if(item.quantity>0) item.handleFlag=true;
+      }
     },true);
   }
 
