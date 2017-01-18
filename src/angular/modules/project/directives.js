@@ -2258,7 +2258,33 @@ function resizableColumns() {
   };
 }
 
+/**
+ * [addressManageComponent 地址管理组件，包含待选、已选地址列表]
+ * @return {[type]} [description]
+ */
+function addressManageComponent () {
+  'use strict';
+  return {
+    restrict: 'EA',
+    scope: {
+      formData: '=?',
+      invoicesGetCallBack: '&'
+    },
+    replace: true,
+    transclude: true,
+    templateUrl: Config.tplPath + 'tpl/project/addressManageComponent.html',
+    link: function (scope, element, attrs) {
+      scope.componentName = attrs.compnentName;   // 名称
+      scope.requestUrl = attrs.requestUrl;        // 地址列表请求URL
+      scope.scopeData = attrs.scopeData;          // 请求后返回的数据体
+
+
+    }
+  };
+}
+
 angular.module('manageApp.project')
+  .directive("addressManageComponent", [addressManageComponent])  //地址管理组件，包含待选、已选地址列表
   .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑
