@@ -31,7 +31,6 @@ define('project/services', ['project/init'], function () {
                       //aclass ：样式，ahref：连接，showName：显示名
                       var bottomButton={"aclass":"","ahref":"#/firstEnterpriseApplication/query.html","showName":"返回申请单列表"};
                       arr.push(bottomButton);
-
                       if(showData){
                         bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
                           "ahref":Config.serverPath+"rest/authen/firstEnterpriseApplication/exportWord?id="+showData.id,
