@@ -1585,7 +1585,7 @@ function medicalStockMouseOver(utils){
              "width":moveBtnDivWidth,
              "height":$element.height(),
              "top": y,
-             "left": x,
+             "left": x
            });
           //  console.log("moveBtnDivWidth="+moveBtnDivWidth+",x="+x+",y="+y+",utils.getMainBodyWidth()="+utils.getMainBodyWidth());
           //  console.log("e.pageX="+e.pageX+",e.pageY"+e.pageY);
@@ -1904,6 +1904,7 @@ function datePeriodSelect () {
        * @param {[type]} val [description]
        */
       function  setStartAndEndTime (val){
+        // 运用第三方插件moment
             var moment = require('moment');
             var startTime=moment().format("x");
             var endTime=moment().format("x");
