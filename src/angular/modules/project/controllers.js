@@ -954,15 +954,15 @@ define('project/controllers', ['project/init'], function() {
       addDataItem.strike_price=addDataItem.price;
       addDataItem.id=null;
 
-      if (!addDataItem.quantity) {
-        addDataItem.quantity = flashAddData.quantity;
+      if (!addDataItem.planQuantity) {
+        addDataItem.planQuantity = flashAddData.quantity;
       }
 
       if (!(addDataItem.relId && addDataItem.name)) {
           alertWarn('请选择药品。');
           return false;
       }
-      if (!addDataItem.quantity||addDataItem.quantity<1) {
+      if (!flashAddData.quantity||flashAddData.quantity<1) {
           alertWarn('请输入大于0的数量。');
           return false;
       }
@@ -971,7 +971,7 @@ define('project/controllers', ['project/init'], function() {
       //     return false;
       // }
 
-      if(addDataItem.quantity>medical.quantity){//库存不足情况
+      if(addDataItem.planQuantity>medical.quantity){//库存不足情况
           addDataItem.handleFlag =false;//默认添加到订单
       }
 
@@ -990,11 +990,11 @@ define('project/controllers', ['project/init'], function() {
           }
         }
       }
-
+      addDataItem.stockBatchs=[];
       //添加到列表
       $scope.formData.orderMedicalNos.push(addDataItem);
       //计算价格
-      $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+      $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.planQuantity;
       return true;
     };
 
