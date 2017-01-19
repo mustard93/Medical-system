@@ -86,7 +86,8 @@
                         data-placeholder=" "
                         chosen
                         ng-model="formData.orderBusinessType"
-                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
+                        ng-change="chgOrderBusinessType(formData.orderBusinessType)">
                 </select>
               </span>
               <span class="mgr">销售类型：
@@ -151,7 +152,7 @@
                     <th class="text-center">价税合计</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody ng-if="formData.orderBusinessType=='普通销售'">
                   <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
                     <td class="text-center w-50">
                       <label for=""><input type="checkbox" ng-model="item.handleFlag"></label>
@@ -162,21 +163,21 @@
                     <td class="text-center">{{item.unit}}</td>
                     <td class="text-center">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1" ng-disabled="item.quantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
                         <span class="inline-block">
                           <input type="text"
-                                 name="quantity{{$index}}"
-                                 class="inline pr-table-input text-center item-quantity"
-                                 style="width:60px;"
-                                 ng-model="item.quantity"
-                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
+                                 name="planQuantity{{$index}}"
+                                 class="inline pr-table-input text-center item-planQuantity"
+                                 style="width:60px;background-color:transparent;"
+                                 ng-model="item.planQuantity"
+                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].planQuantity<item.planQuantity}"
                                  ng-pattern="/^[1-9]\d*$/"
                                  invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
+                                 valid-value="{{!editForm['planQuantity'+$index].$valid}}"
                                  popover-show
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1">+</button>
+                        <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>
                       </div>
                     </td>
                     <td class="text-center">
@@ -187,7 +188,7 @@
                               select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
                       </select>
                     </td>
-                    <td class="text-center" ng-if="item.stockBatchs">
+                    <td class="text-center">
                       <div ng-repeat="stockBatchsItem in item.stockBatchs" class="mgb">
                         <select class="select pr-select pr-select-sm text-left"
                                 chosen
@@ -212,44 +213,6 @@
                       </div>
                       <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
                     </td>
-
-                    <td class="text-center" ng-if="!item.stockBatchs">
-                      <select class="select pr-select pr-select-sm text-left"
-                              chosen
-                              default-empty
-                              data-placeholder=" "
-                              select-data="selectData"
-                              suffix-connection="/"
-                              suffix-key="note.salesQuantity"
-                              ng-model="stockBatchsItem.productionBatch"
-                              callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
-                              callback-filter-return-data="getProductionBatchValueArray(item.stockBatchs)"
-                              select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
-                      </select>
-                      <p class="mgt-s text-right relative" ng-if="stockBatchsItem.productionBatch">
-                        <input type="number"
-                               class="ipt pr-short-ipt color-6 text-right"
-                               ng-model="stockBatchsItem.quantity"
-                               data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
-                               invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}" />
-                               <span class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
-                      </p>
-                      <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
-                    </td>
-
-
-                    <!-- <select ng-if="tr.relId" class="pd-select pd-s mgb-m inline"
-                            data-placeholder=" "
-                            is-empty-query
-                            chosen
-                            ng-model="tr.productionBatch"
-                            params='{"relMedicalStockId":"{{tr.relId}}"}'
-                            default-empty
-                            alert-error
-                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption"
-                            ng-change="getCurrentProductionDate(tr.relId, tr.productionBatch)">
-                    </select> -->
-
                     <td class="text-center">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
@@ -303,6 +266,114 @@
                     <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                     <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
                     <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody ng-if="formData.orderBusinessType=='直运销售'">
+                  <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
+                    <td class="text-center w-50">
+                      <label for=""><input type="checkbox" ng-model="item.handleFlag"></label>
+                    </td>
+                    <td class="text-center">{{item.code}}</td>
+                    <td class="text-left">{{item.name}}</td>
+                    <td class="text-center">{{item.specificationAndModelType}}</td>
+                    <td class="text-center">{{item.unit}}</td>
+                    <td class="text-center">
+                      <div class="order-goods-num">
+                        <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
+                        <span class="inline-block">
+                          <input type="text"
+                                 name="planQuantity{{$index}}"
+                                 class="inline pr-table-input text-center item-planQuantity"
+                                 style="width:60px;background-color:transparent;"
+                                 ng-model="item.planQuantity"
+                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].planQuantity<item.planQuantity}"
+                                 ng-pattern="/^[1-9]\d*$/"
+                                 invalid-popover
+                                 valid-value="{{!editForm['planQuantity'+$index].$valid}}"
+                                 popover-show
+                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
+                        </span>
+                        <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <select class="select pr-select pr-select-sm text-left"
+                              chosen
+                              width="90px"
+                              ng-model="item.batchRequirement"
+                              select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
+                      </select>
+                    </td>
+                    <td class="text-center">
+                      <div ng-repeat="stockBatchsItem in item.stockBatchs" class="mgb">
+                        <select ng-disabled="true" class="select pr-select pr-select-sm text-left"
+                                chosen
+                                default-empty
+                                data-placeholder=" "
+                                select-data="selectData"
+                                suffix-connection="/"
+                                suffix-key="note.salesQuantity"
+                                ng-model="stockBatchsItem.productionBatch"
+                                callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
+                                callback-filter-return-data="getProductionBatchValueArray(item.stockBatchs)"
+                                select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
+                        </select>
+                      </div>
+                    </td>
+                    <td class="text-center">￥
+                      <input type="text"
+                             class="ipt pr-ipt-60 text-right"
+                             name="price{{$index}}"
+                             ng-model="item.price"
+                             required
+                             ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                             invalid-popover
+                             valid-value="{{!editForm['price'+$index].$valid}}"
+                             popover-show
+                             popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                    </td>
+                    <td class="text-center" ng-init="item.taxRate=17">
+                      <select class="ipt pr-short-ipt"
+                              chosen
+                              width="60px"
+                              ng-model="item.taxRate"
+                              select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
+                      </select> %
+                    </td>
+                    <td class="text-center">￥
+                      <input type="text"
+                             class="ipt pr-ipt-60 text-right"
+                             name="discountPrice{{$index}}"
+                             ng-init="item.discountPrice='0'"
+                             ng-model="item.discountPrice"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
+                             required
+                             invalid-popover
+                             valid-value="{{!editForm['discountPrice'+$index].$valid}}"
+                             popover-show
+                             popover-options='{"content":"必须为数字", "placement":"top", "trigger":"manual"}'
+                             ng-keyup="item.discountRate=(item.price-item.discountPrice)/item.price*100"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="text"
+                             class="ipt pr-ipt-60 text-right"
+                             name="discountRate{{$index}}"
+                             ng-init="item.discountRate='100'"
+                             ng-model="item.discountRate"
+                             ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
+                             required
+                             invalid-popover
+                             valid-value="{{!editForm['discountRate'+$index].$valid}}"
+                             popover-show
+                             popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
+                             ng-keyup="item.discountPrice=item.price*(1-item.discountRate/100)"/> %
+                    </td>
+                    <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
+                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item, formData.orderBusinessType) | number:2}}</td>
+                    <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item, formData.orderBusinessType) | number:2}}</td>
+                    <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item, formData.orderBusinessType) | number:2}}</td>
                     </td>
                   </tr>
                 </tbody>
