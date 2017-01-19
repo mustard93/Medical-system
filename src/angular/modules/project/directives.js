@@ -2217,27 +2217,45 @@ function bottomButtonList() {
        spanClass:"=?",
         bottomButtonList:"=?"
       },
-    replace: true,
-    controller: function($scope, $element){
-
-                  $scope.ngClick2=function(ngClick){
-                      console.log("ngClick2",ngClick);
-                      var tmp=$scope.$parent.$eval(ngClick);
-                      console.log("ngClick2",tmp);
-                  }
-                  $scope.tmp111="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
-
-        },
+      // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
+    link: function ($scope, $element, $attrs) {
+      //点击按钮事件，
+      $scope.ngClick2=function(ngClick){
+                     console.log("ngClick2",ngClick);
+                     var tmp=$scope.$parent.$eval(ngClick);
+                       console.log("ngDisabled2",ngClick,tmp);
+                 }
+      //弹出确认框，取消事件
+   $scope.cancelCallback=function(ngClick){
+                  console.log("ngClick2",ngClick);
+                  var tmp=$scope.$parent.$eval(ngClick);
+                    console.log("ngDisabled2",ngClick,tmp);
+              }
+        //按钮显示执行脚本事件
+     $scope.ngShow2=function(ngIf){
+              //不填写默认true，允许显示
+              if(!ngIf)return true;
 
-          link: function ($scope, element, $attrs) {
-            console.log($scope.bottomButtonList);
-            if(!$scope.spanClass)$scope.spanClass="mgl";
-            $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
+            console.log("ngIf2",ngIf);
+            var tmp= $scope.$parent.$eval(ngIf);
+              console.log("ngDisabled2",ngIf,tmp);
+                 return tmp;
+                }
+                  //按钮是否可操作执行脚本事件
+    $scope.ngDisabled2=function(ngIf){
+          //不填写默认false，允许操作
+            if(!ngIf)return false;
+                  var tmp= $scope.$parent.$eval(ngIf);
+                   console.log("ngDisabled2",ngIf,tmp);
+                   return tmp;
+               }
+
+          if(!$scope.spanClass)$scope.spanClass="mgl";
+          $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
 
 
-
-          }
+    }
   };
 }
 
@@ -2259,7 +2277,33 @@ function resizableColumns() {
   };
 }
 
+/**
+ * [addressManageComponent 地址管理组件，包含待选、已选地址列表]
+ * @return {[type]} [description]
+ */
+function addressManageComponent () {
+  'use strict';
+  return {
+    restrict: 'EA',
+    scope: {
+      formData: '=?',
+      invoicesGetCallBack: '&'
+    },
+    replace: true,
+    transclude: true,
+    templateUrl: Config.tplPath + 'tpl/project/addressManageComponent.html',
+    link: function (scope, element, attrs) {
+      scope.componentName = attrs.compnentName;   // 名称
+      scope.requestUrl = attrs.requestUrl;        // 地址列表请求URL
+      scope.scopeData = attrs.scopeData;          // 请求后返回的数据体
+
+
+    }
+  };
+}
+
 angular.module('manageApp.project')
+  .directive("addressManageComponent", [addressManageComponent])  //地址管理组件，包含待选、已选地址列表
   .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑
