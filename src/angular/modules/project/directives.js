@@ -2215,20 +2215,20 @@ function bottomButtonList() {
     scope: {
        spanClass:"=?",
         bottomButtonList:"=?"
-      },  
+      },
+      // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
+    link: function ($scope, $element, $attrs) {
+        $scope.ngClick2=function(ngClick){
+                       console.log("ngClick2",ngClick);
+                       var tmp=$scope.$parent.$eval(ngClick);
+                      //  console.log("ngClick2",tmp);
+                   }
+      if(!$scope.spanClass)$scope.spanClass="mgl";
+      $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
 
-          link: function ($scope, element, $attrs) {
-            console.log($scope.bottomButtonList);
-            if(!$scope.spanClass)$scope.spanClass="mgl";
-            $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
 
-                $scope.ngClick2=function(ngClick){
-                                 console.log("ngClick2",ngClick);
-                                 var tmp=$scope.$parent.$eval(ngClick);
-                                //  console.log("ngClick2",tmp);
-                             }
-          }
+    }
   };
 }
 

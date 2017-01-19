@@ -65,8 +65,8 @@ define('project/services', ['project/init'], function () {
                     bottomButton={"type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"$root.goTo('#/hospitalApplication/query.html?tt='+showData.id)","showName":"自定义方法"};
                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                 bottomButton={"showName":"自定义ctr方法","type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"openIm('123','fff')"};
-               if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                   bottomButton={"showName":"自定义ctr方法","type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"openIm('123','fff')"};
+                 if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
                     if(showData){
                       bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
