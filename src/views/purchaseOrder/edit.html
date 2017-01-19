@@ -4,16 +4,33 @@
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
+     <!-- <div class="content-wrapper-heading mg-l">
+        <h1 class="pr-title-color pr-font-24">{{!formData.id?'新建':'编辑'}}订单</h1>
+       <h1 class="pr-title-color pr-font-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
+     </div> -->
+
+
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">采购中心 >
+         <a href="#/purchaseOrder/query.html">
+            <em class="color-custom-orange">采购单</em>
+         </a>
+        <em>>新建采购单</em>
+       </p>
+       <div class="pd-c-xl pdt-l pdb-l">
+         <!-- 标题 -->
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20 pr-indent-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
+         </div>
+       </div>
+     </div>
 
   <div class="content-wrapper create-new-order"
        ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus"
        scope-data="batchRequirementStatus"
        alert-error>
   <!-- 主内容头部 -->
-  <div class="content-wrapper-heading mg-l">
-    <!-- <h1 class="pr-title-color pr-font-24">{{!formData.id?'新建':'编辑'}}订单</h1> -->
-    <h1 class="pr-title-color pr-font-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
-  </div>
+
   <!-- 主内容区域 -->
   <form id="editForm"
         name="purchaseForm"

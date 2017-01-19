@@ -1,6 +1,6 @@
 <!-- 主内容头部 -->
 <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxxl">采购中心 / <em class="color-custom-orange">采购单</em></p>
+  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxxl">采购中心 ><em class="color-custom-orange">采购单</em></p>
   <div class="pd-c-xxxxxxl">
     <div class="pos-rel-tl inline-block fl-l">
       <h1 class="pr-font-20 color-black">采购单</h1>
@@ -147,7 +147,7 @@
                       <a ng-if="tr.orderStatus=='待采购'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="mr--14">
                         <span class="rect-s" title="生成来货通知单"><span class="create-arrive-icon"></span></span>
                       </a>
-                      <a ng-if="tr.orderStatus!='待审批'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="mgl">
+                      <a ng-if="tr.orderStatus!='待审批'&&tr.orderStatus!='未提交'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="mgl">
                         <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
                       </a>
                       <a ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
@@ -168,9 +168,9 @@
                               callback="$root.goTo('#/purchaseVoucher/get.html?relId={{tr.id}}')">生成采购凭证
                       </button> -->
 
-                      <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgl">新建</a>
+                      <!-- <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgl">新建</a>
 
-                                    </span>
+                                    </span> -->
 
                   </span>
 
