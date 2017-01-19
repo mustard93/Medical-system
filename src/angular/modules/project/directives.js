@@ -2215,18 +2215,7 @@ function bottomButtonList() {
     scope: {
        spanClass:"=?",
         bottomButtonList:"=?"
-      },
-    replace: true,
-    controller: function($scope, $element){
-
-                  $scope.ngClick2=function(ngClick){
-                      console.log("ngClick2",ngClick);
-                      var tmp=$scope.$parent.$eval(ngClick);
-                      console.log("ngClick2",tmp);
-                  }
-                  $scope.tmp111="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
-
-        },
+      },  
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
 
           link: function ($scope, element, $attrs) {
@@ -2234,8 +2223,11 @@ function bottomButtonList() {
             if(!$scope.spanClass)$scope.spanClass="mgl";
             $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
 
-
-
+                $scope.ngClick2=function(ngClick){
+                                 console.log("ngClick2",ngClick);
+                                 var tmp=$scope.$parent.$eval(ngClick);
+                                //  console.log("ngClick2",tmp);
+                             }
           }
   };
 }
