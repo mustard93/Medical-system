@@ -2219,13 +2219,39 @@ function bottomButtonList() {
       // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
     link: function ($scope, $element, $attrs) {
-        $scope.ngClick2=function(ngClick){
-                       console.log("ngClick2",ngClick);
-                       var tmp=$scope.$parent.$eval(ngClick);
-                      //  console.log("ngClick2",tmp);
-                   }
-      if(!$scope.spanClass)$scope.spanClass="mgl";
-      $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
+      //点击按钮事件，
+      $scope.ngClick2=function(ngClick){
+                     console.log("ngClick2",ngClick);
+                     var tmp=$scope.$parent.$eval(ngClick);
+                       console.log("ngDisabled2",ngClick,tmp);
+                 }
+      //弹出确认框，取消事件
+   $scope.cancelCallback=function(ngClick){
+                  console.log("ngClick2",ngClick);
+                  var tmp=$scope.$parent.$eval(ngClick);
+                    console.log("ngDisabled2",ngClick,tmp);
+              }
+        //按钮显示执行脚本事件
+     $scope.ngShow2=function(ngIf){
+              //不填写默认true，允许显示
+              if(!ngIf)return true;
+
+            console.log("ngIf2",ngIf);
+            var tmp= $scope.$parent.$eval(ngIf);
+              console.log("ngDisabled2",ngIf,tmp);
+                 return tmp;
+                }
+                  //按钮是否可操作执行脚本事件
+    $scope.ngDisabled2=function(ngIf){
+          //不填写默认false，允许操作
+            if(!ngIf)return false;
+                  var tmp= $scope.$parent.$eval(ngIf);
+                   console.log("ngDisabled2",ngIf,tmp);
+                   return tmp;
+               }
+
+          if(!$scope.spanClass)$scope.spanClass="mgl";
+          $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
 
 
     }
