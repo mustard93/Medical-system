@@ -260,7 +260,6 @@ define('project/services', ['project/init'], function () {
             getWuSuiJinE:function(item){
               //item.price*(100-item.taxRate)/100*item.quantity
               //100-item.taxRate
-              if(!item.purchasePrice)return 0;
               var tmp;
               tmp = tmpObj.getWuSuiDanJian(item);
               tmp = utils.numberMul(tmp,item.quantity);
@@ -268,7 +267,6 @@ define('project/services', ['project/init'], function () {
             },
             //原币单价(无税单价)  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
             getWuSuiDanJian:function(item){
-              if(!item.purchasePrice)return 0;
               var tmp;
               tmp = utils.numberDiv(item.taxRate,100);
               tmp = 1 + tmp;
@@ -279,7 +277,6 @@ define('project/services', ['project/init'], function () {
             getJiaSuiHeJi:function(item){
               //item.purchasePrice*item.quantity
               // var tmp=utils.numberMul(item.taxPrice,item.quantity);
-              if(!item.purchasePrice)return 0;
               var tmp;
               tmp = utils.numberMul(item.purchasePrice, item.quantity);
               return tmp;

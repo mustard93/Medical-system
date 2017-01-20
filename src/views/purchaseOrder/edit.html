@@ -199,13 +199,13 @@
                               popover-options='{"content":"原币含税单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                    </td>
                    <td class="text-right">
-                     ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) | number:2}}
+                     ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
                    </td>
                    <td class="text-right">
-                     ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) | number:2}}
+                     ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
                    </td>
                    <td class="text-right">
-                     ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) | number:2}}
+                     ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
                    </td>
                    <td class="text-center" ng-init="tr.taxRate=17">
                      <select class="ipt pr-short-ipt"
