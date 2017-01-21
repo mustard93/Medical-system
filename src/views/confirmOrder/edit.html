@@ -391,7 +391,17 @@
       <!-- 其他信息 -->
       <div class="relative">
         <!-- 收货方信息 -->
-        <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
+        <address-manage-component ng-if="formData.customerId"
+                                  compnent-title="收货方信息"
+                                  request-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{$root.reloadTime}}"
+                                  scope-data-prefix="customer"
+                                  form-data="formData"
+                                  modify-modal-url="views/customerAddress/contact/edit.html"
+                                  create-modal-url="views/customerAddress/contact/edit.html"
+                                  set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
+                                  del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
+        </address-manage-component>
+        <!-- <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
           <div class="pd-c-v-l">
             <header class="text-n text-bold color-3">收货方信息
               <span class="tools pull-right">
@@ -407,7 +417,6 @@
                  callback="customerAddressGetCallBack(formData,customerAddress)"
                  ng-class="{'static': customerAddress.contacts}">
               <div clear-info-list style="min-height:36px;">
-
                 <div class="flex-column address-div mgb-m color-black relative" ng-repeat="item in customerAddress.contacts" ng-click="formData.invoicesId=tr.id;formData.invoicesContacts=tr">
                   <div class="inline flex-item-3">
                     <label ng-if="customerAddress.defaultContactId!=item.id && customerAddress.contacts.length>1" class="radio">
@@ -451,10 +460,19 @@
               </div>
             </div>
           </div>
-        </div>
-
+        </div> -->
         <!-- 发货方信息 -->
-        <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
+        <address-manage-component compnent-title="发货方信息"
+                                  request-url="rest/authen/invoicesAddress/get.json"
+                                  scope-data-prefix="invoices"
+                                  form-data="formData"
+                                  modify-modal-url="views/invoicesAddress/contact/edit.html"
+                                  create-modal-url="views/invoicesAddress/contact/edit.html"
+                                  set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
+                                  del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
+        </address-manage-component>
+        <!-- <p style="width:90%;overflow:scroll;">{{formData}}</p> -->
+        <!-- <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
           <div class="pd-c-v-l">
             <header class="text-n text-bold color-3">发货方信息
               <span class="tools pull-right">
@@ -511,8 +529,7 @@
             </div>
             </div>
           </div>
-        </div>
-
+        </div> -->
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
           <h1 class="text-bold color-3">备注</h1>

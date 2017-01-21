@@ -1,6 +1,6 @@
 <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
   <div class="pd-c-v-l">
-    <header class="text-n text-bold color-3">{{componentName}}
+    <header class="text-n text-bold color-3">{{compnentTitle}}
       <span class="tools pull-right">
         <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
       </span>
@@ -9,45 +9,51 @@
   <div class="panel-body" style="display:none;padding:0;">
     <div class="consignee-info relative"
          ajax-url="{{requestUrl}}&t={{$root.reloadTime}}"
-         scope-data="{{scopeData}}"
-         callback="invoicesGetCallBack(formData,invoicesAddress)">
+         scope-data="returnAddressObj"
+         callback="addressGetCallBack()">
       <div clear-info-list>
-        <div class="flex-column address-div color-black relative" ng-repeat="tr in invoicesAddress.contacts" ng-click="formData.invoicesId=tr.id;formData.invoicesContacts=tr">
-          <div class="inline flex-item-4">
-            <label ng-if="invoicesAddress.defaultContactId!=tr.id && invoicesAddress.contacts.length>1" class="radio">
-                <input type="radio" class="default-radio" name="blankRadio" id="blankRadio1" value="option1"><i></i>
-            </label>
-            <label ng-if="invoicesAddress.defaultContactId==tr.id && invoicesAddress.contacts.length>1" class="radio">
-                <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
-            </label>
-            <span class="pdb mgr">{{tr.name}} </span>
-            <span class="text-s mgr">{{tr.tel}}</span>
-            <span class="text-s mgr">{{tr.prov}}&nbsp;&nbsp;{{tr.city}}&nbsp;&nbsp;{{tr.area}}</span>
-          </div>
-        <div class="inline-block flex-item-7" style="line-height:2.4">
+        <div class=" address-div color-black relative" ng-repeat="tr in returnAddressObj.contacts" ng-click="choiseOtherItem(tr)">
+          <label ng-if="returnAddressObj.defaultContactId!=tr.id && returnAddressObj.contacts.length>1" class="radio">
+              <input type="radio" class="default-radio" name="blankRadio" id="blankRadio1" value="option1"><i></i>
+          </label>
+          <label ng-if="returnAddressObj.defaultContactId==tr.id && returnAddressObj.contacts.length>1" class="radio">
+              <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
+          </label>
+          <span class="pdb mgr-s">{{tr.name}}</span>
+          <span class="text-s mgr-s">{{tr.tel}}</span>
+          <span class="text-s mgr-s">{{tr.prov}}&nbsp;{{tr.city}}&nbsp;{{tr.area}}</span>
           <span class="address-span" title="{{tr.address}}">{{tr.address}}
-            <a ng-if="invoicesAddress.defaultContactId!=tr.id" class="mgl-m set-defualt-text">设为默认发货方信息</a>
-            <i class="consignee-default-label mgl-m" ng-if="invoicesAddress.defaultContactId==tr.id">默认</i>
+            <a ng-if="returnAddressObj.defaultContactId!=tr.id" class="mgl-m set-defualt-text" ng-click="setThisAddressToDefault(tr.id);$root.reloadTime=$root.utils.getNowTime();">设为默认</a>
+            <i class="consignee-default-label mgl-m" ng-if="returnAddressObj.defaultContactId==tr.id">默认</i>
           </span>
-        </div>
+
           <span class="pos-abs posr">
-          <a href="javacript:;"
+          <a class="mgr" href="javacript:;"
              modal-right="600"
-             modal-data='{"invoicesAddressId":"{{invoicesAddress.id}}","defaultContactId":"{{invoicesAddress.defaultContactId}}","contact":{{tr}}}'
+             modal-data='{{getCurrentIndexAddress($index)}}'
              modal-scope="this"
-             modal-url="views/invoicesAddress/contact/edit.html">修改
+             modal-url="{{modifyModalUrl}}">修改
           </a>
+
+          <a ng-if="returnAddressObj.defaultContactId!==tr.id"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="确认删除?"
+             dialog-template="pr-dialog-submit.html"
+             callback="$root.reloadTime=$root.utils.getNowTime();$root.modal.closeAll();"
+             emitted="reloadAddressList"
+             params='{"contactId":"{{tr.id}}"}'
+             request-url="{{delThisAddressRequesturl}}">删除
+          </a>
+
         </span>
       </div>
       <div class="pd-c-l mgt mgb">
         <span  class="cur-pot color-href"
-                style="min-height:136px;"
-                modal-right="700"
-                modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
+                modal-right="600"
+                modal-data='{{returnCreateNewAddressObj()}}'
                 modal-scope="this"
-                modal-url="views/invoicesAddress/contact/edit.html"
-                ng-class="{'static':!invoicesAddress.contacts}">
-          +新增发货方信息
+                modal-url="{{createModalUrl}}"><em class="fa fa-plus"></em> 新增发货方信息
         </span>
       </div>
     </div>
