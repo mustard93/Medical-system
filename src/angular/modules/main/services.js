@@ -693,6 +693,7 @@ function alertOk($rootScope, modal) {
             },
             //除法.javascript解决小数的加减乘除精度丢失的方案
             numberDiv:function (arg1,arg2){
+              if(!arg1||!arg2)return 0;
                var t1=0,t2=0,r1,r2;
                  try{t1=arg1.toString().split(".")[1].length}catch(e){};
                  try{t2=arg2.toString().split(".")[1].length}catch(e){};

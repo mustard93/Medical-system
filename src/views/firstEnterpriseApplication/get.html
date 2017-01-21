@@ -224,21 +224,20 @@
                              scope-data="showData"
                              callback="$root.utils.refreshHref()"
                              >冻结
-                             <!-- modal-center="490"
-                             modal-scope="this"
-                             modal-url="views/public/dialog-check-reject-customMenu.html" -->
-                              <!-- callback="$root.utils.refreshHref()" -->
-
                      </button>
                 </span>
                 <span ng-if="showData.orderStatus=='已冻结'">
                   <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
                           type="button"
-                          ajax-url-submit="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
-                          params='{"id":showData.id,"orderStatus":"解冻"}'
+                          handle-this-click
+                          dialog-title="确认解冻?"
+                          dialog-content="解冻后，该企业资格将恢复，确认解冻?"
+                          dialog-template="pr-dialog-submit-message.html"
+                          request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
+                          params='{"id":showData.id,"orderStatus":"解冻","message":showData.message}'
                           alert-error
-                          scope-data="showData"
-                          callback="$root.utils.refreshHref()">解冻
+                          callback="$root.utils.refreshHref()"
+                          >解冻
                   </button>
 
                 </span>

@@ -14,10 +14,6 @@ define('project/services', ['project/init'], function () {
       $(html).append(_html);
     };
   }
-
-
-
-
           //Loading  bottomButtonList
           //  <a class="{{tr.aclass}}" href="{{tr.ahref}}">{{tr.showName}}</a>
           /**
@@ -25,8 +21,11 @@ define('project/services', ['project/init'], function () {
           aclass ："",//样式，
           ahref："",//连接，
           showName："",必填。显示名
-          type:"",modalRight(右侧弹出框)，modalCenter（中间弹出框），不填写则为跳转类型。
+          type:"",modalRight(右侧弹出框)，modalCenter（中间弹出框），button（button按钮标签）不填写则为跳转类型。
           authority:""，不为空，当前用户有该权限，才能显示。
+          ngShow:"",//根据计算脚本布尔值是否显示按钮，angluarjs 模版语法脚本。不填写默认显示
+          ngDisabled:""//根据计算脚本布尔值是否可点击按钮,angluarjs 模版语法脚本。不填写默认 可操作。仅type=button
+
         } 属性说明：
           */
           function bottomButtonList ($rootScope) {
@@ -65,8 +64,25 @@ define('project/services', ['project/init'], function () {
                     bottomButton={"type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"$root.goTo('#/hospitalApplication/query.html?tt='+showData.id)","showName":"自定义方法"};
                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                 bottomButton={"showName":"自定义ctr方法","type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"openIm('123','fff')"};
-               if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                   bottomButton={"showName":"自定义ctr方法","type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"openIm('123','fff')"};
+                 if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                 //button
+                 bottomButton={"ngDisabled":"!!ngDisabled", "showName":"ngDisabled_button","type":"button","modalWidth":"1000","ngClick":"openIm('123','fff')"};
+                 if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                 bottomButton={"ngShow":"!!ngShow", "showName":"ngShow","type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"openIm('123','fff')"};
+                 if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                 //button
+                 bottomButton={"ngDisabled":"!!ngDisabled", "showName":"handleThisClick","type":"handleThisClick","alertTemplate":"pr-dialog-return.html","ngClick":"openIm('123','fff')"};
+                 if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+                 bottomButton={"ngShow":"editForm.$valid", "showName":"保存","type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"openIm('123','fff')"};
+                 if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
 
                     if(showData){
                       bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
@@ -157,13 +173,12 @@ define('project/services', ['project/init'], function () {
           var  tmpObj = {
             // 含税单价：tr.price*tr.discountRate/100
             getHanShuiDanJian : function (item) {
+              // if(!item.discountRate)return 0;
               var tmp;
               tmp = utils.numberDiv(item.discountRate, 100);
               tmp = utils.numberMul(item.price, tmp);
               return tmp;
             },
-
-
             //无税单价  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
             getWuSuiDanJian:function(item){
                 //item.price*(100-item.taxRate)/100-item.discountPrice;
@@ -236,8 +251,44 @@ define('project/services', ['project/init'], function () {
 
           return tmpObj;
         }//SaleOrderUtils
+
+
+        // 采购单编辑页面计算原币单价，原币金额，原币价税合计字段
+        function purchaseOrderUtils (utils) {
+          var  tmpObj = {
+            //原币金额（无税金额） item.price*(1-item.taxRate)*item.quantity
+            getWuSuiJinE:function(item){
+              //item.price*(100-item.taxRate)/100*item.quantity
+              //100-item.taxRate
+              var tmp;
+              tmp = tmpObj.getWuSuiDanJian(item);
+              tmp = utils.numberMul(tmp,item.quantity);
+              return tmp;
+            },
+            //原币单价(无税单价)  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
+            getWuSuiDanJian:function(item){
+              var tmp;
+              tmp = utils.numberDiv(item.taxRate,100);
+              tmp = 1 + tmp;
+              tmp = utils.numberDiv(item.purchasePrice,tmp);
+              return tmp;
+            },
+            //价税合计 item.price*item.quantity
+            getJiaSuiHeJi:function(item){
+              //item.purchasePrice*item.quantity
+              // var tmp=utils.numberMul(item.taxPrice,item.quantity);
+              var tmp;
+              tmp = utils.numberMul(item.purchasePrice, item.quantity);
+              return tmp;
+            }
+          };//tmpObj
+
+          return tmpObj;
+        }
+
   angular.module('manageApp.project')
     .factory('saleOrderUtils', ["utils",saleOrderUtils])
+    .factory('purchaseOrderUtils', ["utils",purchaseOrderUtils])
     .factory('bottomButtonList', ["$rootScope",bottomButtonList])
     .factory('proMessageTips', [proMessageTips]);
 });

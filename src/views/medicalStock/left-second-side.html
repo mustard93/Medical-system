@@ -17,6 +17,7 @@
 
     <div tree-list2="rest/authen/medicalAttribute/query?pageSize=9999" pid-key="parentId" list-params-key="listParams1"
      alert-error>
+
      <ul class="sub-menu-list">
        <li class="relative">
          <a href="" class="nav-order color-or left-se-side-link"
@@ -29,11 +30,10 @@
     </ul>
      <!--递归模版 -->
      <script id="recursion" type="text/ng-template" >
-      
+
          <li ng-repeat="item in treeList_recursion " ng-init="childrenDivId='parent_'+item.id;foldClassId='foldClassId_'+item.id"
           class='relative '>
            <a  href="" class="nav-order color-or left-se-side-link"
-
            ng-click="item.nodes.length>0&&extendTree2($event,childrenDivId,foldClassId,'pr-arrow-se-up');listParams.medicalAttributeId=item.id">
              <span title="{{item.name}}" class=" menu-ellips-s"> {{item.name}}</span>
              <span id="{{foldClassId}}" class="pos-abs posr text-center"
@@ -50,6 +50,7 @@
      <ul class="out-li" ng-if="treeList.length"  ng-include="'recursion'"  ng-init="treeList_recursion=treeList;tree_index=1">
 
     </ul>
+
     </div><!--tree-list2-->
   </div>
 </div>

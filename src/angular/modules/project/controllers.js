@@ -1398,6 +1398,57 @@ define('project/controllers', ['project/init'], function() {
              formData.contactsId=customerAddress.defaultContactId;
          }
        };
+       $scope.flashAddDataCallbackFn = function(flashAddData) {
+
+         if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+           alertWarn("请选择药品");
+           return ;
+         }
+         var medical=flashAddData.data.data;
+         var addDataItem = $.extend(true,{},medical);
+
+             addDataItem.quantity=flashAddData.quantity;
+             addDataItem.relId=medical.id;
+
+             addDataItem.strike_price=addDataItem.price;
+             addDataItem.id=null;
+           if (!(addDataItem.relId && addDataItem.name)) {
+               alertWarn('请选择药品。');
+               return false;
+           }
+           if (!addDataItem.quantity||addDataItem.quantity<1) {
+               alertWarn('请输入大于0的数量。');
+               return false;
+           }
+           // if (!addDataItem.strike_price) {
+           //     alertWarn('请输入成交价格。');
+           //     return false;
+           // }
+           if(addDataItem.quantity>medical.quantity){//库存不足情况
+               addDataItem.handleFlag =false;//默认添加到订单
+           }
+           if (!$scope.formData.orderMedicalNos) {
+             $scope.formData.orderMedicalNos = [];
+           }
+           // 如果已添加
+           if ($scope.formData.orderMedicalNos.length !== 0) {
+             var _len = $scope.formData.orderMedicalNos.length;
+             // console.log(_len);
+             // 未使用forEach方法，因为IE不兼容
+             for (var i=0; i<_len; i++) {
+               if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+                 alertWarn('此药械已添加到列表');
+                 return false;
+               }
+             }
+           }
+           //添加到列表
+           $scope.formData.orderMedicalNos.push(addDataItem);
+           //计算价格
+           $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+           return true;
+       };
+
 
 
        /**

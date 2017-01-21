@@ -1,13 +1,29 @@
-<span class=" mgt-m {{spanClass}}" ng-repeat="tr in bottomButtonList"  ng-switch="tr.type" ng-click="ngClick2(tr.ngClick)">
+<span class=" mgt-m {{spanClass}}" ng-repeat="tr in bottomButtonList"  ng-switch="tr.type">
 
-  <a  ng-switch-when="modalRight" class="{{tr.aclass}}" modal-right="{{tr.modalWidth}}" href="javascript:void(0); "
+  <a ng-show="ngShow2(tr.ngShow)" ng-disabled="ngDisabled2(tr.ngDisabled)"  ng-switch-when="modalRight" class="{{tr.aclass}}" modal-right="{{tr.modalWidth}}" href="javascript:void(0); "
    modal-scope="this"
    modal-url="{{tr.ahref}}">{{tr.showName}} </a>
-   <a  ng-switch-when="modalCenter" class="{{tr.aclass}}" modal-center="{{tr.modalWidth}}" href="javascript:void(0); "
+
+   <a  ng-show="ngShow2(tr.ngShow)" ng-disabled="ngDisabled2(tr.ngDisabled)" ng-switch-when="modalCenter" class="{{tr.aclass}}" modal-center="{{tr.modalWidth}}" href="javascript:void(0); "
     modal-scope="this"
     modal-url="{{tr.ahref}}">{{tr.showName}} </a>
-    <!-- <a  ng-switch-when="ngClick" class="{{tr.aclass}}"  href="javascript:void(0); "
-     ng-click="ngClick2(tr.ngClick)"
-     modal-url="{{tr.ahref}}">{{tr.showName}}{{tr.ngClick}} </a> -->
-  <a ng-switch-default class=" mgl-l {{tr.aclass}}" href="{{tr.ahref}}">{{tr.showName}}</a>
+
+    <a ng-show="ngShow2(tr.ngShow)" ng-disabled="ngDisabled2(tr.ngDisabled)" ng-switch-when="ngClick" class="{{tr.aclass}}"  href="javascript:void(0); "
+     ng-click="ngClick2(tr.ngClick)">{{tr.showName}}</a>
+
+     <button ng-show="ngShow2(tr.ngShow)" ng-disabled="ngDisabled2(tr.ngDisabled)" ng-switch-when="button" class="{{tr.aclass}}"  href="javascript:void(0); "
+      ng-click="ngClick2(tr.ngClick)">{{tr.showName}}</button>
+
+
+      <a ng-show="ngShow2(tr.ngShow)" ng-disabled="ngDisabled2(tr.ngDisabled)" ng-switch-when="handleThisClick" class="{{tr.aclass}}"  href="javascript:void(0); "
+       href="javascript:void(0); "
+         handle-this-click
+         dialog-title="{{tr.alertTitle||'确认'}}"
+         dialog-content="{{tr.alertMsg||'确定该操作'}}"
+         dialog-template="{{tr.alertTemplate||'pr-dialog-confirm.html'}}"
+         nosave-callback="cancelCallback(tr.cancelCallback)"
+         save-callback="ngClick2(tr.ngClick)">{{tr.showName}}
+      </a>
+
+  <a ng-show="ngShow2(tr.ngShow)" ng-disabled="ngDisabled2(tr.ngDisabled)" ng-switch-default class=" mgl-l {{tr.aclass}}" href="{{tr.ahref||'javascript:void(0);'}}">{{tr.showName}}</a>
 </span>
