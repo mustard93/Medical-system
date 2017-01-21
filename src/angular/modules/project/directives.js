@@ -2212,10 +2212,7 @@ function bottomButtonList() {
        spanClass:"=?",
         bottomButtonList:"=?"
       },
-<<<<<<< HEAD
-=======
-      // replace: true,// true时 导致$scope作用域下，属性添加失效。
->>>>>>> bf5c4327a7e9a3e0a4327e5f85830351f37838c2
+    // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
     link: function ($scope, $element, $attrs) {
       //点击按钮事件，
@@ -2223,13 +2220,13 @@ function bottomButtonList() {
                      console.log("ngClick2",ngClick);
                      var tmp=$scope.$parent.$eval(ngClick);
                        console.log("ngDisabled2",ngClick,tmp);
-                 }
+                 };
       //弹出确认框，取消事件
    $scope.cancelCallback=function(ngClick){
                   console.log("ngClick2",ngClick);
                   var tmp=$scope.$parent.$eval(ngClick);
                     console.log("ngDisabled2",ngClick,tmp);
-              }
+              };
         //按钮显示执行脚本事件
      $scope.ngShow2=function(ngIf){
               //不填写默认true，允许显示
@@ -2239,7 +2236,7 @@ function bottomButtonList() {
             var tmp= $scope.$parent.$eval(ngIf);
               console.log("ngDisabled2",ngIf,tmp);
                  return tmp;
-                }
+               };
                   //按钮是否可操作执行脚本事件
     $scope.ngDisabled2=function(ngIf){
           //不填写默认false，允许操作
@@ -2247,7 +2244,7 @@ function bottomButtonList() {
                   var tmp= $scope.$parent.$eval(ngIf);
                    console.log("ngDisabled2",ngIf,tmp);
                    return tmp;
-               }
+               };
 
           if(!$scope.spanClass)$scope.spanClass="mgl";
           $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
@@ -2300,7 +2297,19 @@ function addressManageComponent (requestData, utils) {
       scope.setDefaultAddressRequesturl = attrs.setDefaultAddressRequesturl;  // 默认地址设置
       scope.delThisAddressRequesturl = attrs.delThisAddressRequesturl;    // 删除地址
 
-
+      scope.$on('reloadAddressList', function () {
+        requestData(scope.requestUrl, {}, 'get')
+        .then(function (results) {
+          // console.log(results);
+          var _data = results[1];
+          if (_data.code === 200 && _data.data.contacts) {
+            scope.returnAddressObj.contacts = _data.data.contacts;
+          }
+        })
+        .catch(function (error) {
+          console.log(error || '出错');
+        });
+      });
 
     },
     controller: function ($scope, $element) {
