@@ -341,68 +341,16 @@
              </div>
            </div>
 
-
         <!-- 收货方信息 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold">采购方信息
-            <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-            </span>
-          </header>
-          <div class="panel-body" style="display:none;">
-            <div class="mgb-l">
-              <select ng-if="formData.createAt"
-                      class="ipt pr-long-ipt"
-                      data-placeholder="采购方名称"
-                      chosen
-                      width="280px"
-                      ng-model="formData.customerId"
-                      select-source="rest/authen/purchaserAddress/queryForSelectOption.json">
-              </select>
-            </div>
-            <div class="consignee-info"
-                 ajax-if-eval="formData.customerId"
-                 ajax-url="rest/authen/purchaserAddress/get.json?id={{formData.customerId}}&t={{$root.reloadTime}}"
-                 scope-data="purchaserAddress"
-                 callback="customerAddressGetCallBack(formData,purchaserAddress)"
-                 ng-class="{'static': purchaserAddress.contacts}">
-              <h1 class="color-9 text-n mgb">收货人信息</h1>
-              <ul ng-if="formData.customerId" style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in purchaserAddress.contacts" ng-click="formData.contactsId=item.id">
-                  <p class="pdb">{{item.name}} </p>
-                  <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
-                  <p><a href="javacript:;"  modal-right="600" modal-data='{"purchaserAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
-                  <i class="consignee-default-label"  ng-if="purchaserAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-                </li>
-                <!-- 0001085: 采购单里，“采购方信息”展开和收起操作，增加按钮有延迟- style="position: relative;-->
-                <span style="position: relative;">
-
-                  <button class="pr-add-item-whitebg" style="min-height:136px;"
-                          modal-right="700"
-                          modal-data='{"purchaserAddressId":"{{formData.customerId}}","contact":{}}'
-                          modal-scope="this"
-                          modal-url="views/purchaserAddress/contact/edit.html"
-                          ng-class="{'static':!purchaserAddress.contacts}">
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </span>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- 收货方信息 -->
-        <!-- <address-manage-component compnent-title="收货方信息"
-                                  request-url="rest/authen/invoicesAddress/get.json"
+        <address-manage-component compnent-title="收货方信息"
+                                  request-url="rest/authen/invoicesAddress/get.json?type=采购"
                                   scope-data-prefix="invoices"
                                   form-data="formData"
                                   modify-modal-url="views/invoicesAddress/contact/edit.html"
                                   create-modal-url="views/invoicesAddress/contact/edit.html"
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
-        </address-manage-component> -->
+        </address-manage-component>
 
 
 
