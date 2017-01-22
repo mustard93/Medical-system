@@ -2297,6 +2297,7 @@ function addressManageComponent (requestData, utils) {
       scope.setDefaultAddressRequesturl = attrs.setDefaultAddressRequesturl;  // 默认地址设置
       scope.delThisAddressRequesturl = attrs.delThisAddressRequesturl;    // 删除地址
 
+      //响应重新加载列表数据的操作
       scope.$on('reloadAddressList', function () {
         requestData(scope.requestUrl, {}, 'get')
         .then(function (results) {
