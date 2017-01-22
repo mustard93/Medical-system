@@ -256,6 +256,14 @@ define('project/services', ['project/init'], function () {
         // 采购单编辑页面计算原币单价，原币金额，原币价税合计字段
         function purchaseOrderUtils (utils) {
           var  tmpObj = {
+            //原币单价(无税单价)  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
+            getWuSuiDanJian:function(item){
+              var tmp;
+              tmp = utils.numberDiv(item.taxRate,100);
+              tmp = 1 + tmp;
+              tmp = utils.numberDiv(item.purchasePrice,tmp);
+              return tmp;
+            },
             //原币金额（无税金额） item.price*(1-item.taxRate)*item.quantity
             getWuSuiJinE:function(item){
               //item.price*(100-item.taxRate)/100*item.quantity
@@ -263,14 +271,6 @@ define('project/services', ['project/init'], function () {
               var tmp;
               tmp = tmpObj.getWuSuiDanJian(item);
               tmp = utils.numberMul(tmp,item.quantity);
-              return tmp;
-            },
-            //原币单价(无税单价)  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
-            getWuSuiDanJian:function(item){
-              var tmp;
-              tmp = utils.numberDiv(item.taxRate,100);
-              tmp = 1 + tmp;
-              tmp = utils.numberDiv(item.purchasePrice,tmp);
               return tmp;
             },
             //价税合计 item.price*item.quantity
@@ -282,7 +282,7 @@ define('project/services', ['project/init'], function () {
               return tmp;
             }
           };//tmpObj
-
+          console.log(tmpObj)
           return tmpObj;
         }
 

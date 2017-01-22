@@ -30,7 +30,15 @@
                   modal-right="1000"
                   modal-open-auto="{{!formData.orderMedicalNos.length}}"
                   modal-scope="this"
-                  modal-url="views/saleReturnOrder/edit-right-side.html">增加退货条目
+                  modal-url="views/saleReturnOrder/edit-right-side.html">
+                  <em ng-if="!formData.orderMedicalNos.length">
+                    增加退货条目
+                  </em>
+
+                  <em ng-if="formData.orderMedicalNos.length">
+                    修改退货条目
+                  </em>
+
             </span>
           </div>
         </div>
@@ -39,7 +47,7 @@
     <!-- 单据基本信息 -->
     <div class="pd-loss-l">
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
-        <div class="empty-panel" ng-if="!formData.orderMedicalNos">
+        <div class="empty-panel" ng-if="!formData.orderMedicalNos.length">
             <span></span>
             <span></span>
             <span></span>
@@ -85,12 +93,11 @@
                   <th class="text-center">税额</th>
                   <th class="text-center">价税合计</th>
                   <th>报价</th>
-                  <th>仓库名称</th>
                   <th>产地</th>
                   <th>失效日期</th>
                   <th>退补标志</th>
                   <th>保存温度</th>
-                  <th>产地品牌</th>
+                  <th>品牌</th>
                   <th>产地注册证号</th>
                   <th>注册证有效期</th>
                   <th>医保编码</th>
@@ -126,22 +133,36 @@
                   <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td class="text-right">
+                    ￥
+                      <input type="text"
+                             class="ipt pr-ipt-60 text-right"
+                             name="price{{$index}}"
+                             ng-model="item.price"
+                             required
+                             ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                             invalid-popover
+                             valid-value="{{!editForm['price'+$index].$valid}}"
+                             popover-show
+                             popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                  </td>
+                  <td>{{item.productionPlace}}</td>
+                  <td ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
+                      scope-data="validTilldata">
+                      {{validTilldata.validTill | date : 'yyyy-MM-dd'}}
+                  </td>
+                  <td>{{item.withdrawalSign}}</td>
+                  <td>{{item.storedTemperature}}</td>
+                  <td>{{item.brand}}</td>
+                  <td>{{item.drugAdministrationCode}}</td>
+                  <td>{{item.drugAdministrationCodeGuaranteePeriod}}</td>
+                  <td>{{item.medicalInsuranceCode}}</td>
+                  <td>{{item.hospitalCode}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-            <div class="empty-table" ng-if="!formData.orderMedicalNos">
+            <div class="empty-table" ng-if="!formData.orderMedicalNos.length">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -211,7 +232,7 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!saleReturnEditForm.$valid || quantityError">审核
+                  ng-disabled="!saleReturnEditForm.$valid || quantityError ||!formData.orderMedicalNos.length">审核
           </button>
 
       </div>
