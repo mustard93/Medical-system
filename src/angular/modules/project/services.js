@@ -317,7 +317,6 @@ define('project/services', ['project/init'], function () {
               return tmp;
             }
           };//tmpObj
-          console.log(tmpObj)
           return tmpObj;
         }
 
