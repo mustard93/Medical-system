@@ -2,8 +2,6 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-
-
      callback='bottomButtonList= $root.bottomButtonList.get_firstEnterpriseApplication(showData);'
      alert-error>
 
@@ -207,15 +205,15 @@
                    ng-if="showData.orderStatus=='未通过'"
                    ng-href="#/firstEnterpriseApplication/edit.html?copyId={{showData.id}}">新建</a>
               </span>
-              <span  bottom-button-list="bottomButtonList">  </span>
+              <span bottom-button-list="bottomButtonList">  </span>
               <span>
-                <span ng-if="showData.orderStatus=='已通过' ||showData.orderStatus=='已冻结'">
+                <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus=='已通过' ||showData.orderStatus=='已冻结'">
                   <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
                       ng-href="#/firstEnterpriseApplication/edit.html?copyId={{showData.id}}"
                      >编辑</a>
                 </span>
 
-                <span ng-if="showData.orderStatus!='已冻结'&&showData.orderStatus!='已终止'">
+                <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus!='已冻结'&&showData.orderStatus!='已终止'">
                      <button class="btn-reject mgl mgt color-white text-center"
                              type="button"
                              ajax-url-submit="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
@@ -226,7 +224,7 @@
                              >冻结
                      </button>
                 </span>
-                <span ng-if="showData.orderStatus=='已冻结'">
+                <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus=='已冻结'">
                   <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
                           type="button"
                           handle-this-click
@@ -241,7 +239,7 @@
                   </button>
 
                 </span>
-                <span class="line-hei-36" ng-if="showData.orderStatus!='已终止'">
+                <span class="line-hei-36" ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus!='已终止'">
                   <button class="btn-reject mgl mgt color-white text-center"
                           type="button"
                           handle-this-click

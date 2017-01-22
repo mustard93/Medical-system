@@ -136,7 +136,11 @@ define('project/services', ['project/init'], function () {
                       //aclass ：样式，ahref：连接，showName：显示名
                       var bottomButton={"aclass":"","ahref":"#/firstEnterpriseApplication/query.html","showName":"返回申请单列表"};
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-                      bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s","ahref":"views/firstEnterpriseApplication/right-side.html","showName":"查看操作记录"};
+                      bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
+                      // "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
+                      // "httpMethod":"GET",
+                      "ahref":"views/firstEnterpriseApplication/right-side.html?businessKey="+showData.id,
+                      "showName":"查看操作记录"};
                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
                       if(showData){
                         bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
