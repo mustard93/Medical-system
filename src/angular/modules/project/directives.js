@@ -773,6 +773,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
   return {
     restrict: 'A',
     link: function ($scope, element, $attrs) {
+
       element.on('click', function () {
         //对话框标题
         var _dialogTitle = angular.isDefined($attrs.dialogTitle) ? $attrs.dialogTitle : '询问对话框';
@@ -792,6 +793,9 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           if( !angular.isDefined($attrs.dialogTitle)) _dialogTitle = '取消修改?';
           if( !angular.isDefined($attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';
         }
+
+
+
         //回调方法
         function callback(){
 
@@ -2296,10 +2300,13 @@ function addressManageComponent (requestData, utils) {
       scope.createModalUrl = attrs.createModalUrl;  // 创建地址信息模板url
       scope.setDefaultAddressRequesturl = attrs.setDefaultAddressRequesturl;  // 默认地址设置
       scope.delThisAddressRequesturl = attrs.delThisAddressRequesturl;    // 删除地址
+      scope.createAddressType = attrs.createAddressType;    //类型，销售or采购
 
       //响应重新加载列表数据的操作
       scope.$on('reloadAddressList', function () {
-        requestData(scope.requestUrl, {}, 'get')
+        // var _params = {"type":scope.createAddressType};
+        var _reqUrl = scope.requestUrl + '?type=' + scope.createAddressType;
+        requestData(_reqUrl, {}, 'get')
         .then(function (results) {
           // console.log(results);
           var _data = results[1];
@@ -2350,6 +2357,7 @@ function addressManageComponent (requestData, utils) {
         _tmpObj[_moduleAddressId] = $scope.returnAddressObj.id;
         _tmpObj.defaultContactId = $scope.returnAddressObj.defaultContactId;
         _tmpObj.contact = _contact;
+        _tmpObj.type = $scope.createAddressType;  // 类型
 
         return _tmpObj;
       };
@@ -2364,6 +2372,8 @@ function addressManageComponent (requestData, utils) {
           _tmpObj[_moduleAddressId] = $scope.returnAddressObj.id;
         }
 
+        _tmpObj.type = $scope.createAddressType;
+
         _tmpObj.contact = {};
 
         return _tmpObj;
@@ -2371,9 +2381,10 @@ function addressManageComponent (requestData, utils) {
 
       // 用户点击后选择其他地址
       $scope.choiseOtherItem = function (item) {
-
         $scope.formData[$scope.scopeDataId] = item.id;
         $scope.formData[$scope.scopeDataContacts] = item;
+
+        // console.log($scope.formData);
       };
 
       // 设置当前地址为默认地址

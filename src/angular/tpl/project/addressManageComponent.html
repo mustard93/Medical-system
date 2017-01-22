@@ -8,17 +8,17 @@
   </div>
   <div class="panel-body" style="display:none;padding:0;">
     <div class="consignee-info relative"
-         ajax-url="{{requestUrl}}&t={{$root.reloadTime}}"
+         ajax-url="{{requestUrl}}?type={{createAddressType}}&t={{$root.reloadTime}}"
          scope-data="returnAddressObj"
          callback="addressGetCallBack()">
       <div clear-info-list>
         <div class=" address-div color-black relative" ng-repeat="tr in returnAddressObj.contacts" ng-click="choiseOtherItem(tr)">
-          <label ng-if="returnAddressObj.defaultContactId!=tr.id && returnAddressObj.contacts.length>1" class="radio">
-              <input type="radio" class="default-radio" name="blankRadio" id="blankRadio1" value="option1"><i></i>
+          <label ng-if="returnAddressObj.contacts.length>1" class="radio">
+              <input type="radio" class="default-radio" name="blankRadio" ng-checked="returnAddressObj.defaultContactId==tr.id"><i></i>
           </label>
-          <label ng-if="returnAddressObj.defaultContactId==tr.id && returnAddressObj.contacts.length>1" class="radio">
+          <!-- <label ng-if="returnAddressObj.defaultContactId==tr.id && returnAddressObj.contacts.length>1" class="radio">
               <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
-          </label>
+          </label> -->
           <span class="pdb mgr-s">{{tr.name}}</span>
           <span class="text-s mgr-s">{{tr.tel}}</span>
           <span class="text-s mgr-s">{{tr.prov}}&nbsp;{{tr.city}}&nbsp;{{tr.area}}</span>
@@ -42,7 +42,7 @@
              dialog-template="pr-dialog-submit.html"
              callback="$root.reloadTime=$root.utils.getNowTime();$root.modal.closeAll();"
              emitted="reloadAddressList"
-             params='{"contactId":"{{tr.id}}","customerAddressId":"{{returnAddressObj.id}}"}'
+             params='{"contactId":"{{tr.id}}","customerAddressId":"{{returnAddressObj.id}}","type":"{{createAddressType}}"}'
              request-url="{{delThisAddressRequesturl}}">删除
           </a>
 
@@ -53,7 +53,7 @@
                 modal-right="600"
                 modal-data='{{returnCreateNewAddressObj()}}'
                 modal-scope="this"
-                modal-url="{{createModalUrl}}"><em class="fa fa-plus"></em> 新增发货方信息
+                modal-url="{{createModalUrl}}"><em class="fa fa-plus"></em> 新增地址信息
         </span>
       </div>
     </div>

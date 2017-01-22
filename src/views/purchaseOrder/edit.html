@@ -76,7 +76,7 @@
              </div>
 
              <div class="pd-c-l pdt-m pdb-m color-9">
-               <span class="mgr">销售部门：
+               <span class="mgr">部门：
                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
                          data-placeholder=" "
                          chosen
@@ -106,7 +106,7 @@
                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
                          chosen
-                         ng-model="formData.salesType"
+                         ng-model="formData.purchaseType"
                          select-source="rest/baseData/queryForSelectOptionByType?type=采购类型">
                  </select>
                </span>
@@ -187,7 +187,7 @@
                    <td class="text-center">￥
                      <input type="text"
                             class="ipt pr-ipt-60 text-right"
-                            ng-model="tr.purchasePrice"
+                            ng-model="tr.price"
                             />
                             <!-- required
                             name="purchasePrice{{$index}}"
@@ -341,67 +341,16 @@
              </div>
            </div>
 
-
         <!-- 收货方信息 -->
-        <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
-          <div class="pd-c-v-l">
-            <header class="text-n text-bold color-3">收货方信息
-              <span class="tools pull-right">
-                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-              </span>
-            </header>
-          </div>
-          <div class="panel-body" style="display:none;padding:0;">
-            <div ng-if="initFlag"
-                 class="consignee-info relative"
-                 ajax-url="rest/authen/invoicesAddress/get.json&t={{$root.reloadTime}}"
-                 scope-data="invoicesAddress"
-                 callback="invoicesGetCallBack(formData,invoicesAddress)"
-                 ng-class="{'static': invoicesAddress.contacts}">
-              <div clear-info-list>
-                <div class="flex-column address-div color-black relative" ng-repeat="tr in invoicesAddress.contacts" ng-click="formData.invoicesId=tr.id;formData.invoicesContacts=tr">
-                  <div class="inline flex-item-4">
-                    <label ng-if="invoicesAddress.defaultContactId!=tr.id && invoicesAddress.contacts.length>1" class="radio">
-                        <input type="radio" class="default-radio" name="blankRadio" id="blankRadio1" value="option1"><i></i>
-                    </label>
-                    <label ng-if="invoicesAddress.defaultContactId==tr.id && invoicesAddress.contacts.length>1" class="radio">
-                        <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
-                    </label>
-                    <span class="pdb mgr">{{tr.name}} </span>
-                    <span class="text-s mgr">{{tr.tel}}</span>
-                    <span class="text-s mgr">{{tr.prov}}&nbsp;&nbsp;{{tr.city}}&nbsp;&nbsp;{{tr.area}}</span>
-                  </div>
-                <div class="inline-block flex-item-7" style="line-height:2.4">
-                  <span class="address-span" title="{{tr.address}}">{{tr.address}}
-                    <a ng-if="invoicesAddress.defaultContactId!=tr.id" class="mgl-m set-defualt-text">设为默认收货方信息</a>
-                    <i class="consignee-default-label mgl-m" ng-if="invoicesAddress.defaultContactId==tr.id">默认</i>
-                  </span>
-                </div>
-                  <span class="pos-abs posr">
-                  <a href="javacript:;"
-                     modal-right="600"
-                     modal-data='{"invoicesAddressId":"{{invoicesAddress.id}}","defaultContactId":"{{invoicesAddress.defaultContactId}}","contact":{{tr}}}'
-                     modal-scope="this"
-                     modal-url="views/invoicesAddress/contact/edit.html">修改
-                  </a>
-                </span>
-              </div>
-              <div class="pd-c-l mgt mgb">
-                <span  class="cur-pot color-href"
-                        style="min-height:136px;"
-                        modal-right="700"
-                        modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                        modal-scope="this"
-                        modal-url="views/invoicesAddress/contact/edit.html"
-                        ng-class="{'static':!invoicesAddress.contacts}">
-                  +新增收货方信息
-                </span>
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
-
+        <address-manage-component compnent-title="收货方信息"
+                                  request-url="rest/authen/invoicesAddress/get.json?type=采购"
+                                  scope-data-prefix="invoices"
+                                  form-data="formData"
+                                  modify-modal-url="views/invoicesAddress/contact/edit.html"
+                                  create-modal-url="views/invoicesAddress/contact/edit.html"
+                                  set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
+                                  del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
+        </address-manage-component>
 
 
 
@@ -467,15 +416,12 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="formData.payAndDelivery.prepaidRatio>100 ||
-                               formData.payAndDelivery.prepaidRatio<0 ||
-                               !formData.orderMedicalNos.length ||
-                               !formData.customerId ||
-                               !formData.saleUserId ||
-                               !formData.expectDate">提交
-
+                  ng-disabled="!formData.orderMedicalNos.length">提交
           </button>
         </span>
+      </div>
+      <div class="total-div">
+          <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice | number:2}}</span></p>
       </div>
     </div>
 </form>

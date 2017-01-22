@@ -1,103 +1,179 @@
-<div class="content-wrapper color-9 pd-v-xl"
-     ajax-url="rest/authen/purchaseVoucher/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
-     scope-data="showData"
-     alert-error>
-  <!-- 凭证头部信息 -->
-  <div class="panel pr-panel pr-panel-height mgb flex-column">
-    <span class="flex-item-6">对应采购单号：<em class="color-6">
-      <a href="#/purchaseOrder/get.html?id={{showData.relId}}">{{showData.relOrderNo}}</a>
-    </em></span>
-    <span class="flex-item-6 text-right">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
-  </div>
-  <!-- 凭证主内容 -->
-  <div class="panel pr-panel pr-panel-height mgb">
-    <h1 class="text-center pr-font-22 pd-v bb-line mgb-m color-6">采购凭证</h1>
-    <div class="flex-column">
-      <div class="flex-item-8">
-        <p class="mgb">供货商：<em class="color-6">{{showData.supplier.name}}</em></p>
-        <p class="mgb">订货单位：<em class="color-6">{{showData.customerName}}</em></p>
-        <p class="mgb">联系人：<em class="color-6">{{showData.address.name}}</em></p>
-        <p>到货地址：<em class="color-6">{{showData.address.prov}} {{showData.address.city}} {{showData.address.area}} {{showData.address.address}}</em></p>
-      </div>
-      <div class="flex-item-4">
-        <p class="mgb">凭证号：<em class="color-6">{{showData.orderNo}}</em></p>
-        <p class="mgb">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></p>
-        <p class="mgb">电话：<em class="color-6">{{showData.address.tel}}</em></p>
-        <p>采购员：<em class="color-6">{{showData.saleUser.n}}</em></p>
-      </div>
-    </div>
-    <div class="order-details">
-      <table class="mgt-l pr-table" style="width:100%;table-layout:auto;">
-        <thead>
-          <th class="pdl-m">药品名称/生产厂家</th>
-          <th class="text-center">型号规格</th>
-          <th class="text-center">单位</th>
-          <th class="text-center">数量</th>
-          <th class="text-center">单价</th>
-          <th class="text-center">金额</th>
-          <th class="text-center">注册证号</th>
-        </thead>
-        <tbody>
-          <tr class="tr-interval"><td colspan="9"></td></tr>
-          <tr  ng-repeat="tr in showData.orderMedicalNos" >
-            <td class="goods-name has-border text-v-t pd-m color-6">
-              <div class="pr-table-td-m relative">
-                <span class="block">
-                  <p class="mgb-s color-6 text-n text-bold"><span>{{tr.name}}</span></p>
-                  <p class="mgb-s color-9 text-s"><span>{{tr.manufacturer}}</span></p>
-                  <!-- <p class="mgl-m color-9 text-s"><span>{{tr.specification||"无规格"}}</span></p> -->
-                </span>
-              </div>
-            </td>
-            <td class="has-border text-center text-v-t pd-m color-6">
-              <span ng-if="tr.modelType && !tr.specification">{{tr.modelType}}</span>
-              <span ng-if="!tr.modelType && tr.specification">{{tr.specification}}</span>
-              <span ng-if="tr.modelType && tr.specification">{{tr.modelType}}/{{tr.specification}}</span>
-            </td>
-            <td class="has-border text-center text-v-t pd-m color-6">{{tr.unit}}</td>
-            <td class="has-border text-center text-v-t pd-m color-6">{{tr.quantity}}</td>
-            <td class="has-border text-center text-v-t pd-m color-6">￥{{tr.strike_price | number:2}}</td>
-            <td class="has-border text-center text-v-t pd-m color-6">￥{{tr.quantity*tr.strike_price | number:2}}</td>
-            <td class="has-border text-center text-v-t pd-m color-6">{{tr.drugAdministrationCode}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="text-right pd-v-l bb-line">
-      <span class="mgr-l pr-font-22 color-9">合计：<span class="color-6">￥{{showData.totalPrice | number:2}}</span></span>
+<div class="create-new-order"
+      ng-controller="purchaseOrderEditCtrl"
+       ajax-url="rest/authen/purchaseVoucher/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
+       scope-data="scopeData"
+      callback="initFlag=true;rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
+      alert-error>
 
-      <span class="pr-font-22 color-9">人民币大写: <span class="color-6">￥{{showData.totalPrice | upDigit}}</span></span>
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/purchaseOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter();watchFormChange('formData')">
+    <!-- 头部信息 -->
+    <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+      <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">采购中心 >
+        <a href="#/purchaseOrder/query.html">
+           <em class="color-custom-orange">采购凭证</em>
+        </a>
+       <em>>采购凭证详情</em>
+      </p>
+      <!-- 标题 -->
+      <div class="pd-c-v-l">
+        <div class="pos-rel-tl inline-block fl-l mgl-l">
+          <h1 class="pr-font-20 color-black">采购凭证详情</h1>
+        </div>
+      </div>
     </div>
-    <div class="pd-v">
-      备注：{{showData.note}}
-    </div>
-  </div>
-  <!-- 凭证功能按钮 -->
-  <div class="flex-column">
-    <div class="flex-item-2">
-        <a href="{{showData.voucherUrl}}">下载PDF文件</a>
+    <!-- 药械列表 -->
+    <div class="content-wrapper">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+        <!-- 单据信息 -->
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+          <div class="flex-item-6">
+            <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
+            <span class="mgr">参照采购单：
+              <em class="color-6">
+                <a href="#/purchaseOrder/get.html?id={{scopeData.relId}}">{{scopeData.relOrderNo}}</a>
+              </em>
+            </span>
+            <span class="mgr">制单人：<em class="color-3">{{scopeData.approverUser.n}}</em></span>
+          </div>
+          <div class="flex-item-6 text-right">
+            <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+            <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
+          </div>
+        </div>
 
+
+        <!-- 类别选择 -->
+        <div class="">
+            <h1 class="text-center pr-font-22 pd-v bb-line mgb-m color-6">采购凭证</h1>
+        </div>
+        <div class=" pd-c-l pdb-m">
+
+          <span class="mgr-l">供应商：<em class="color-3">{{scopeData.supplier.name}}</em></span>
+          <span class="mgr-l">联系人：<em class="color-3">{{scopeData.saleUser.n}}</em></span>
+          <span class="mgr-l">手机：<em class="color-3">{{scopeData.address.tel}}</em></span>
+          <span class="mgr-l">座机：<em class="color-3">{{scopeData.purchaseType}}</em></span>
+        </div>
+
+        <!-- 商品列表 -->
+          <div class="">
+            <table class="table pr-table pr-new-table mgb-n">
+              <thead>
+              <tr>
+               <th  class="text-center w-110">商品全名</th>
+               <th  class="text-center w-110">生产厂家</th>
+               <th class="text-center">规格/型号</th>
+               <th class="text-center">单位</th>
+               <th class="text-center">数量</th>
+               <th class="text-center">含税单价</th>
+               <th class="text-center w-110">含税金额</th>
+               <th class="text-center">注册证号</th>
+             </tr>
+              </thead>
+              <tbody>
+                <tr
+                ng-repeat="tr in scopeData.orderMedicalNos"
+                salesorder-edit-show-delbtn
+                ng-init="orderMedicalNoIds.push(tr.relId)"
+                ng-controller="purchaseOrderEditCtrl">
+                  <td class="text-center">
+                    <div class="autocut-l" title="{{tr.name}}">
+                        {{tr.name}}
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    {{tr.manufacturer}}
+                  </td>
+                  <td class="text-center">
+                    {{tr.modelType}}
+                  </td>
+                  <td class="text-center">
+                    {{tr.unit}}
+                  </td>
+                  <td class="text-center">
+                    {{tr.quantity}}
+                  </td>
+
+                  <td class="text-center">
+                    ￥{{tr.price| number:2}}
+                  </td>
+
+                  <td class="text-center">
+                    ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
+                  </td>
+
+                  <td class="text-center">
+                  {{tr.drugAdministrationCode}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-right pd-c-v-l bb-line">
+              <span class="mgr-l pr-font-18 color-6">合计：<span class="color-black">￥{{scopeData.totalPrice | number:2}}</span></span>
+              <span class="pr-font-18 color-6">人民币大写: <span class="color-black">￥{{scopeData.totalPrice | upDigit}}</span></span>
+            </div>
+          </div>
+        </div>
+
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <h1 class="text-bold color-3">备注</h1>
+        <p>{{scopeData.note}}</p>
+      </div>
+
+      </div>
     </div>
-    <div class="flex-item-10 text-right">
-      <span><a href="#/purchaseVoucher/query.html">返回采购凭证列表</a></span>
-      <span ng-if="$root.hasAuthor('采购凭证编辑')" class="mgl">
-        <button ng-if="showData.orderStatus=='待发送'"
-           href="javascript:;"
-           class="pr-btn-save-glodbg"
-           modal-center="490"
-           modal-scope="this"
-           modal-data='{"refreshPage":"true"}'
-           modal-url="views/purchaseVoucher/sendEmail.html">发送至厂家
-        </button>
-        <button ng-if="showData.orderStatus=='已发送'"
-           href="javascript:;"
-           class="pr-btn-save-glodbg"
-           modal-center="490"
-           modal-scope="this"
-           modal-data='{"refreshPage":"true"}'
-           modal-url="views/purchaseVoucher/sendEmail.html">再次发送
-        </button>
-      </span>
+
+    <!-- 流程图 -->
+    <div ng-if="scopeData.id" class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
+           ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{scopeData.id}}"
+           scope-data="businessFlowData"
+           callback="businessFlowDataInitFlag=true;"
+           error-callback="businessFlowDataInitFlag=true;">
+       <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{scopeData.id}}"
+               width="{{$root.utils.getMainBodyWidth()}}"
+               base-image-url="images/canvasBusinessFlow/"
+               spacing-height="80" spacing-width="40">
+       </canvas>
+     </div>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+            <span><a href="#/purchaseVoucher/query.html">返回采购凭证列表</a></span>
+
+            <span ng-if="$root.hasAuthor('采购凭证编辑')" class="mgl">
+              <button
+                 href="javascript:;"
+                 class="pr-btn-save-glodbg mgt"
+                 modal-center="490"
+                 modal-scope="this"
+                 modal-data='{"refreshPage":"true"}'
+                 modal-url="views/purchaseVoucher/sendEmail.html">立即发送至厂家
+              </button>
+              <!-- <button ng-if="showData.orderStatus=='已发送'"
+                 href="javascript:;"
+                 class="pr-btn-save-glodbg"
+                 modal-center="490"
+                 modal-scope="this"
+                 modal-data='{"refreshPage":"true"}'
+                 modal-url="views/purchaseVoucher/sendEmail.html">再次发送
+              </button> -->
+            </span>
+
+        <span ng-if="formData.orderStatus=='待审核'&&scopeData.didateFilter.buttons.length>0"
+              custom-menu-list
+              custom-menu-arr="{{scopeData.didateFilter.buttons}}">
+        </span>
+      </div>
     </div>
-  </div>
+  </form>
 </div>
