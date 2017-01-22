@@ -2300,6 +2300,7 @@ function addressManageComponent (requestData, utils) {
       scope.createModalUrl = attrs.createModalUrl;  // 创建地址信息模板url
       scope.setDefaultAddressRequesturl = attrs.setDefaultAddressRequesturl;  // 默认地址设置
       scope.delThisAddressRequesturl = attrs.delThisAddressRequesturl;    // 删除地址
+      scope.createAddressType = attrs.createAddressType;    //类型，销售or采购
 
       //响应重新加载列表数据的操作
       scope.$on('reloadAddressList', function () {
@@ -2354,6 +2355,7 @@ function addressManageComponent (requestData, utils) {
         _tmpObj[_moduleAddressId] = $scope.returnAddressObj.id;
         _tmpObj.defaultContactId = $scope.returnAddressObj.defaultContactId;
         _tmpObj.contact = _contact;
+        _tmpObj.type = $scope.createAddressType;  // 类型
 
         return _tmpObj;
       };
@@ -2367,6 +2369,8 @@ function addressManageComponent (requestData, utils) {
         if ($scope.returnAddressObj) {
           _tmpObj[_moduleAddressId] = $scope.returnAddressObj.id;
         }
+
+        _tmpObj.type = $scope.createAddressType;
 
         _tmpObj.contact = {};
 
