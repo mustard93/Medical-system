@@ -787,6 +787,39 @@ function alertOk($rootScope, modal) {
             }
           },
 
+          // 将对象数据清空。
+          clearObject : function (object) {
+             for (var variable in object) {
+               delete object[variable];
+             }
+          },
+
+          // 将对象数据清空。
+          replaceObject : function (dest,source) {
+
+
+            if(angular.isArray(source)){
+
+              if(!angular.isArray(dest))dest=[];
+              //清空
+              dest.splice(0,dest.length);
+
+                for(var i=0;i<source.length;i++){
+                  dest.push(source[i]);
+                }
+                return dest;
+            }
+
+                
+              if(!dest)dest={};
+              utilsObj.clearObject(dest);
+              if(!source)return;
+
+               $.extend( true,dest,  source);//解决监听fromdata失败bug。
+
+            return dest;
+          },
+
           // 将字符串类型数字转换为number类型
           transformToNumber : function (str) {
             return angular.isString(str) ? Number(str) : str;

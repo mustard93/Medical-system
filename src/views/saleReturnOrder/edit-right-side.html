@@ -1,8 +1,9 @@
 <div class="sale-return-order right-side"
      ng-controller="saleReturnOrderAddController"
-     ajax-url="rest/authen/invoicesOrder/query?orderStatus=已发货"
-     scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");'
+     ajax-If-eval="selectedData.id||formData.relId"
+     ajax-url="rest/authen/invoicesOrder/get?id={{selectedData.id||formData.relId}}"
+     scope-data="addDataObj"
+      callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos)"
      alert-error>
   <form>
     <!-- 头部信息 -->
@@ -15,16 +16,16 @@
           </div>
           <div class="mgb">
             <span angucomplete placeholder="输入"
-                  title-field="confirmOrderNo"
+                  title-field="orderNo"
                   description-field="customerName"
-                  search-fields="F"
+                  search-fields=""
                   search-str-class="ipt"
                   url="rest/authen/invoicesOrder/query?orderStatus=已发货"
                   class="inline-block"
-                  ng-model="addDataObj">
+                  ng-model="selectedData">
             </span>
           </div>
-          <h1 class="pr-font-22 color-black pdt-m">{{addDataObj.data.customerName}}</h1>
+          <h1 class="pr-font-22 color-black pdt-m">{{addDataObj.customerName}}</h1>
         </div>
       </div>
     </div>
@@ -39,25 +40,25 @@
         <div class="" ng-if="addDataObj">
           <p class="flex-column mgb  pd bb-dashed-line">
             <span class="flex-item-5">
-              单据编号：<em >{{addDataObj.data.orderNo || '暂无'}}</em>
-              <em  class="mgl">制单人：</em><em class="color-orange">{{addDataObj.data.inputUser.n || '暂无'}}</em>
+              单据编号：<em >{{addDataObj.orderNo || '暂无'}}</em>
+              <em  class="mgl">制单人：</em><em class="color-orange">{{addDataObj.inputUser.n || '暂无'}}</em>
               <em  class="mgl">
-                审核人：</em><em class="color-black">{{addDataObj.data.inputUser.n || '暂无'}}</em>
+                审核人：</em><em class="color-black">{{addDataObj.inputUser.n || '暂无'}}</em>
             </span>
             <span class="flex-item-6 text-right">
-              录单日期：<em >{{addDataObj.data.createAt | date : 'yyyy-MM-dd' }}</em>
+              录单日期：<em >{{addDataObj.createAt | date : 'yyyy-MM-dd' }}</em>
             </span>
             <span class="flex-item-1 text-right">状态：
-              <em class="color-black" ng-class="{'color-green':addDataObj.data.orderStatus=='已通过'}">{{addDataObj.data.orderStatus}}</em>
+              <em class="color-black" ng-class="{'color-green':addDataObj.orderStatus=='已通过'}">{{addDataObj.orderStatus}}</em>
             </span>
           </p>
           <p class="flex-column mgb  pd">
             <span class="flex-item-12">
-              销售部门：<em >{{addDataObj.data.salesDepartmentName || '暂无'}}</em>
-              <em  class="mgl">制单人：</em><em class="color-orange">{{addDataObj.data.inputUser.n|| '暂无'}}</em>
-              <em  class="mgl">业务员：</em><em class="color-black">{{addDataObj.data.inputUser.n || '暂无'}}</em>
-              <em  class="mgl">业务类型：</em><em >{{addDataObj.data.orderBusinessType || '暂无'}}</em>
-              <em  class="mgl">销售类型：</em><em >{{addDataObj.data.salesType || '暂无'}}</em>
+              销售部门：<em >{{addDataObj.salesDepartmentName || '暂无'}}</em>
+              <em  class="mgl">制单人：</em><em class="color-orange">{{addDataObj.inputUser.n|| '暂无'}}</em>
+              <em  class="mgl">业务员：</em><em class="color-black">{{addDataObj.inputUser.n || '暂无'}}</em>
+              <em  class="mgl">业务类型：</em><em >{{addDataObj.orderBusinessType || '暂无'}}</em>
+              <em  class="mgl">销售类型：</em><em >{{addDataObj.salesType || '暂无'}}</em>
             </span>
           </p>
         </div>
@@ -96,7 +97,7 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="item in addDataObj.data.orderMedicalNos" ng-init="item.itemSelected=false">
+                <tr ng-repeat="item in addDataObj.orderMedicalNos" >
                   <td class="select-td">
                     <input type="checkbox" class="selectOne" ng-model="item.itemSelected" ng-click="handleItemClickEvent(item);">
                   </td>
@@ -116,17 +117,7 @@
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
                   <td class="text-right">
-                    ￥
-                      <input type="text"
-                             class="ipt pr-ipt-60 text-right"
-                             name="price{{$index}}"
-                             ng-model="item.price"
-                             required
-                             ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
-                             invalid-popover
-                             valid-value="{{!editForm['price'+$index].$valid}}"
-                             popover-show
-                             popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                    ￥{{item.price | number:2}}
                   </td>
                   <td>{{item.productionPlace}}</td>
                   <td ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
@@ -154,7 +145,7 @@
       <div class="handle-btn-area relative">
         <div class="btn-area">
             <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
-            <button ng-disabled="!addDataObj.choisedMedicalList.length" ng-click="handleAddDataArray()" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
+            <button ng-disabled="!choisedMedicalList.length>0" ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList)" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
         </div>
       </div>
     </div>

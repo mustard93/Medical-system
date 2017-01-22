@@ -116,7 +116,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }
 
      */
-     function ajaxUrl($timeout, requestData, alertOk, alertError, proLoading) {
+     function ajaxUrl($timeout, requestData, alertOk, alertError, proLoading,utils) {
          return {
              restrict: 'AE',
              // scope: true,
@@ -189,12 +189,23 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
 
                           if ($attrs.scopeData){
-                              if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
+
+                            if(!$scope[$attrs.scopeData]) {
                               if(angular.isArray(results[0])){
-                                $scope[$attrs.scopeData]=results[0];//数组extend 会把数组转化成对象。
+                                $scope[$attrs.scopeData]=[];//数组extend 会把数组转化成对象。
                               }else{
-                                $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                                $scope[$attrs.scopeData]={};
                               }
+
+                            }
+                            utils.replaceObject($scope[$attrs.scopeData],results[0]);
+
+                              // if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
+                              // if(angular.isArray(results[0])){
+                              //   $scope[$attrs.scopeData]=results[0];//数组extend 会把数组转化成对象。
+                              // }else{
+                              //   $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                              // }
 
                               // angular.extend(  $scope[$attrs.scopeData],  results[0]);//
                           }
@@ -336,12 +347,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                       if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
                       if ($attrs.scopeData){
-                          if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
+                        if(!$scope[$attrs.scopeData]) {
                           if(angular.isArray(results[0])){
-                            $scope[$attrs.scopeData]=results[0];//数组extend 会把数组转化成对象。
+                            $scope[$attrs.scopeData]=[];//数组extend 会把数组转化成对象。
                           }else{
-                            $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                            $scope[$attrs.scopeData]={};
                           }
+
+                        }
+                        utils.replaceObject($scope[$attrs.scopeData],results[0]);
                           // $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
                           // angular.extend(  $scope[$attrs.scopeData],  results[0]);//
                       }
@@ -2659,7 +2673,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope， callback="formData.courseId=details[0].value"
 
     */
-    function ajaxUrlSubmit($timeout, requestData, alertOk, alertError, proLoading, modal) {
+    function ajaxUrlSubmit($timeout, requestData, alertOk, alertError, proLoading, modal,utils) {
         return {
             restrict: 'AE',
             // scope: true,
@@ -2712,12 +2726,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                          if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
                         //  if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
                          if ($attrs.scopeData){
-                             if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
-                             if(angular.isArray(results[0])){
-                               $scope[$attrs.scopeData]=results[0];//数组extend 会把数组转化成对象。
-                             }else{
-                               $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                             if(!$scope[$attrs.scopeData]) {
+                               if(angular.isArray(results[0])){
+                                 $scope[$attrs.scopeData]=[];//数组extend 会把数组转化成对象。
+                               }else{
+                                 $scope[$attrs.scopeData]={};
+                               }
+
                              }
+                             utils.replaceObject($scope[$attrs.scopeData],results[0]);
                              // angular.extend(  $scope[$attrs.scopeData],  results[0]);//
                          }
                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
@@ -2996,8 +3013,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("convertToDate",  ['$filter', convertToDate])
       .directive("convertToNumber", convertToNumber)
       .directive("convertJsonToObject", convertJsonToObject)
-      .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","modal", ajaxUrlSubmit])
-      .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading", ajaxUrl])
+      .directive("ajaxUrlSubmit", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","modal","utils", ajaxUrlSubmit])
+      .directive("ajaxUrl", ["$timeout", "requestData", "alertOk", "alertError", "proLoading","utils", ajaxUrl])
       .directive("formValidator", ["requestData", "modal", "alertOk", "alertError","dialogConfirm", "$timeout","utils", formValidator])
       .directive("tableList",  ['requestData', 'modal', 'dialogConfirm', '$timeout', 'proLoading','alertError',tableList])
       .directive("tableCell", tableCell)
