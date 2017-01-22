@@ -27,10 +27,12 @@ define('project/services', ['project/init'], function () {
           authority:""，不为空，当前用户有该权限，才能显示。
           ngShow:"",//根据计算脚本布尔值是否显示按钮，angluarjs 模版语法脚本。不填写默认显示
           ngDisabled:""//根据计算脚本布尔值是否可点击按钮,angluarjs 模版语法脚本。不填写默认 可操作。仅type=button
+              alertTemplate：type=handleThisClick,填写弹出框的模版地址。
           requestUrl:type=handleThisClick,填写确认后调用请求。
           httpMethod:POST|GET，type=handleThisClick,填写确认后调用请求的请求方式，默认POST
           alertTitle:'确认',type=handleThisClick,标题，默认POST
           alertMsg:"确定该操作",type=handleThisClick,内容，默认POST
+
 
 
         } 属性说明：
