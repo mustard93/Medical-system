@@ -810,18 +810,13 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
 
           }
 
+          if ($attrs.callback) {
+              $scope.$eval($attrs.callback);
+          }
 
-
-                    if ($attrs.callBack) {
-                        $scope.$eval($attrs.callBack);
-                    }
-                    if ($attrs.callback) {
-                        $scope.$eval($attrs.callback);
-                    }
-
-                    if ($attrs.parentCallback) {
-                      $scope.$parent.$eval($attrs.parentCallback);
-                    }
+          if ($attrs.parentCallback) {
+            $scope.$parent.$eval($attrs.parentCallback);
+          }
 
 
         }//end callback
@@ -906,7 +901,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
                     }
                   }
 
-                  var httpMethod="POST"
+                  var httpMethod="POST";
                   if($attrs.beforeAjaxHttpMethod){
                     httpMethod=$attrs.beforeAjaxHttpMethod;
                   }
@@ -2217,7 +2212,7 @@ function bottomButtonList() {
        spanClass:"=?",
         bottomButtonList:"=?"
       },
-      // replace: true,// true时 导致$scope作用域下，属性添加失效。
+    // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
     link: function ($scope, $element, $attrs) {
       //点击按钮事件，
@@ -2225,13 +2220,13 @@ function bottomButtonList() {
                      console.log("ngClick2",ngClick);
                      var tmp=$scope.$parent.$eval(ngClick);
                        console.log("ngDisabled2",ngClick,tmp);
-                 }
+                 };
       //弹出确认框，取消事件
    $scope.cancelCallback=function(ngClick){
                   console.log("ngClick2",ngClick);
                   var tmp=$scope.$parent.$eval(ngClick);
                     console.log("ngDisabled2",ngClick,tmp);
-              }
+              };
         //按钮显示执行脚本事件
      $scope.ngShow2=function(ngIf){
               //不填写默认true，允许显示
@@ -2241,7 +2236,7 @@ function bottomButtonList() {
             var tmp= $scope.$parent.$eval(ngIf);
               console.log("ngDisabled2",ngIf,tmp);
                  return tmp;
-                }
+               };
                   //按钮是否可操作执行脚本事件
     $scope.ngDisabled2=function(ngIf){
           //不填写默认false，允许操作
@@ -2249,7 +2244,7 @@ function bottomButtonList() {
                   var tmp= $scope.$parent.$eval(ngIf);
                    console.log("ngDisabled2",ngIf,tmp);
                    return tmp;
-               }
+               };
 
           if(!$scope.spanClass)$scope.spanClass="mgl";
           $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
@@ -2281,29 +2276,130 @@ function resizableColumns() {
  * [addressManageComponent 地址管理组件，包含待选、已选地址列表]
  * @return {[type]} [description]
  */
-function addressManageComponent () {
+function addressManageComponent (requestData, utils) {
   'use strict';
   return {
     restrict: 'EA',
     scope: {
       formData: '=?',
-      invoicesGetCallBack: '&'
+      invoicesGetCallBack: '&',
+      reloadTime: '@'
     },
     replace: true,
     transclude: true,
     templateUrl: Config.tplPath + 'tpl/project/addressManageComponent.html',
     link: function (scope, element, attrs) {
-      scope.componentName = attrs.compnentName;   // 名称
+      scope.compnentTitle = attrs.compnentTitle;   // 名称
       scope.requestUrl = attrs.requestUrl;        // 地址列表请求URL
-      scope.scopeData = attrs.scopeData;          // 请求后返回的数据体
+      scope.scopeDataPrefix = attrs.scopeDataPrefix;  //数据命名前缀 ，后跟 Address
+      scope.modifyModalUrl = attrs.modifyModalUrl;  // 修改地址信息模板url
+      scope.createModalUrl = attrs.createModalUrl;  // 创建地址信息模板url
+      scope.setDefaultAddressRequesturl = attrs.setDefaultAddressRequesturl;  // 默认地址设置
+      scope.delThisAddressRequesturl = attrs.delThisAddressRequesturl;    // 删除地址
 
+      scope.$on('reloadAddressList', function () {
+        requestData(scope.requestUrl, {}, 'get')
+        .then(function (results) {
+          // console.log(results);
+          var _data = results[1];
+          if (_data.code === 200 && _data.data.contacts) {
+            scope.returnAddressObj.contacts = _data.data.contacts;
+          }
+        })
+        .catch(function (error) {
+          console.log(error || '出错');
+        });
+      });
 
+    },
+    controller: function ($scope, $element) {
+
+      //页面加载数据请求成功后立即执行的回调函数
+      $scope.addressGetCallBack = function () {
+
+        if (!$scope.returnAddressObj) return false;
+
+        $scope.scopeDataId = $scope.scopeDataPrefix + 'Id';   // 构建地址id名
+        $scope.scopeDataContacts = $scope.scopeDataPrefix + 'Contacts';  // 构建地址对象名
+
+        // 创建发送数据体中的地址id
+        if (!$scope.formData[$scope.scopeDataId]) {
+          $scope.formData[$scope.scopeDataId] = $scope.returnAddressObj.defaultContactId;
+        }
+
+        // 将默认地址信息存入formData数据体
+        var _contacts = $scope.returnAddressObj.contacts;
+
+        for (var i=0; i<_contacts.length; i++) {
+          if ($scope.returnAddressObj.defaultContactId === _contacts[i].id) {
+            $scope.formData[$scope.scopeDataContacts] = _contacts[i];
+          }
+        }
+      };
+
+      // 构建方法返回当前循环的地址item，用于修改地址信息
+      $scope.getCurrentIndexAddress = function (index) {
+
+        if (!$scope.returnAddressObj) return false;
+
+        var _tmpObj = {},   // 返回的数据对象
+            _contact = $scope.returnAddressObj.contacts[index],
+            _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
+
+        _tmpObj[_moduleAddressId] = $scope.returnAddressObj.id;
+        _tmpObj.defaultContactId = $scope.returnAddressObj.defaultContactId;
+        _tmpObj.contact = _contact;
+
+        return _tmpObj;
+      };
+
+      // 返回新建地址信息数据对象
+      $scope.returnCreateNewAddressObj = function () {
+
+        var _tmpObj = {},   // 返回的数据对象
+            _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
+
+        if ($scope.returnAddressObj) {
+          _tmpObj[_moduleAddressId] = $scope.returnAddressObj.id;
+        }
+
+        _tmpObj.contact = {};
+
+        return _tmpObj;
+      };
+
+      // 用户点击后选择其他地址
+      $scope.choiseOtherItem = function (item) {
+
+        $scope.formData[$scope.scopeDataId] = item.id;
+        $scope.formData[$scope.scopeDataContacts] = item;
+      };
+
+      // 设置当前地址为默认地址
+      $scope.setThisAddressToDefault = function (contactId) {
+
+        var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
+        var _data = {};
+        _data[_moduleAddressId] = $scope.returnAddressObj.id;
+        _data.contactId = contactId;
+        // console.log(_data);
+
+        requestData($scope.setDefaultAddressRequesturl, _data, 'POST')
+        .then(function (results) {
+          // ....
+        })
+        .catch(function (error) {
+          if (error) {
+            console.log(error || '出错!');
+          }
+        });
+      };
     }
   };
 }
 
 angular.module('manageApp.project')
-  .directive("addressManageComponent", [addressManageComponent])  //地址管理组件，包含待选、已选地址列表
+  .directive("addressManageComponent", ['requestData', 'utils', addressManageComponent])  //地址管理组件，包含待选、已选地址列表
   .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑
