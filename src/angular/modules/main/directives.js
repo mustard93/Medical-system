@@ -190,7 +190,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                           if ($attrs.scopeData){
                               if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
-                              $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                              if(angular.isArray(results[0])){
+                                $scope[$attrs.scopeData]=results[0];//数组extend 会把数组转化成对象。
+                              }else{
+                                $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                              }
+
                               // angular.extend(  $scope[$attrs.scopeData],  results[0]);//
                           }
 
@@ -332,7 +337,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if ($attrs.scopeResponse) $scope[$attrs.scopeResponse] = results[1];
                       if ($attrs.scopeData){
                           if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
-                          $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                          if(angular.isArray(results[0])){
+                            $scope[$attrs.scopeData]=results[0];//数组extend 会把数组转化成对象。
+                          }else{
+                            $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                          }
+                          // $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
                           // angular.extend(  $scope[$attrs.scopeData],  results[0]);//
                       }
 
@@ -2703,7 +2713,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                         //  if ($attrs.scopeData) $scope[$attrs.scopeData] = data;
                          if ($attrs.scopeData){
                              if(!$scope[$attrs.scopeData])  $scope[$attrs.scopeData]={};
-                             $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                             if(angular.isArray(results[0])){
+                               $scope[$attrs.scopeData]=results[0];//数组extend 会把数组转化成对象。
+                             }else{
+                               $.extend( true,$scope[$attrs.scopeData],  results[0]);//解决监听fromdata失败bug。
+                             }
                              // angular.extend(  $scope[$attrs.scopeData],  results[0]);//
                          }
                          if (angular.isDefined($attrs.alertOk)) alertOk(results[1].msg);
