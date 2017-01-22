@@ -1,0 +1,111 @@
+<div ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
+
+  <div class="page-header-info ">
+    <p class="mgb-l crumbs pr-indent-20">
+      系统管理 / <em class="color-custom-orange">捷科WMS接口出入库原始数据</em>
+    </p>
+    <p class="mgb-l">
+        <em class="color-black text-l ">捷科WMS接口出入库原始数据</em>
+    </p>
+  </div>
+
+<!--body wrapper start-->
+<table-list list-data="rest/authen/jiekeWmsInoutstock/query.json" class="table pr-table pr-new-table" list-params="listParams"
+  callback="wmsKeyArray=$root.utils.getPropertysArrayOfObject(tbodyList[0].wmsValues)"
+>
+
+      <div class="mg col-lg-12 col-sm-12 panel">
+
+      <div class="text-left order-list-search relative order-list-i mg-l mgl-l" ng-init="queryDatePeriod='最近7天'">
+        <!-- <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
+         date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
+          <option value="最近7天" >最近7天</option>
+          <option  value="最近10天">最近10天</option>
+          <option  value="最近一个月">最近一个月</option>
+        </select> -->
+
+        <div class="date-icon-outside">
+          <input type="text"
+                 datepicker
+                 class="ipt pr-new-short-ipt color-6 mgr"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtBeg">
+                 <span class="date-icon"></span>
+        </div>
+           <span class="mgr">至</span>
+        <div class="date-icon-outside">
+           <input type="text"
+                 datepicker
+                 class="ipt pr-new-short-ipt color-6 mgr-l"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtEnd"/>
+                <span class="date-icon"></span>
+        </div>
+
+           <select class="pr-select select-wd mgr-l" chosen default-empty="所有单据"
+           ng-model="listParams.finishStatus"
+           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_JiekeWmsInoutstockStatus">
+
+           </select>
+
+        <div class="out-ipt-div">
+          <input type="text" class="ipt pdr-xl ipt-r-i" placeholder="单据编号" ng-model="listParams.q">
+          <i></i>
+        </div>
+
+      </div>
+
+    <div>
+        <div class="loader" ng-if="status.isLoading">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div ng-if="!status.isLoading">
+            <div class="outside-table-d">
+                <table class="table pr-table pr-new-table pr-table-content table-s-wid">
+                    <thead class="pr-bg-side">
+                        <tr>
+                            <!-- <th>序号</th> -->
+                            <th>完成状态</th>
+                            <th>单据日期</th>
+                            <th>单据编号</th>
+                            <th   ng-repeat="wmstr in wmsKeyArray">[{{wmstr}}]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="tbodyList.length"
+                        ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'pr-icon-bg-red':tr.finishStatus=='未处理'}">
+                            <!-- <td>{{$index + 1}}</td> -->
+                              <td>{{tr.finishStatus}}</td>
+                            <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
+                            <td>{{tr.orderNo}}</td>
+                            <td  ng-repeat="wmstr in wmsKeyArray">{{tr.wmsValues[wmstr]}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+              <div class="empty-table">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <div class="clearfix ">
+                <div class="fr">
+                    <pagination status="status"></pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</table-list>
+<!--body wrapper end-->
+</div>

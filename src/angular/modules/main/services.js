@@ -536,6 +536,18 @@ function alertOk($rootScope, modal) {
                return getObjectValByKeyArr(obj,arr,0);
             },
 
+            //对象的所有属性转换为数组。
+            //data={ "拒收数量": "0.0000",  "收货数量": "1.0000"}==>["拒收数量","收货数量"]
+            getPropertysArrayOfObject:function (obj){
+                   var arr=[];
+                if(!obj)return arr;
+                for (var key in obj) {
+                  arr.push(key);
+                }
+               return arr;
+            },
+
+
             /**
 
             *
@@ -651,7 +663,7 @@ function alertOk($rootScope, modal) {
               };
             */
             getGroupArrayByKeyOfArr : function (arr,key) {
-
+              console.log("getGroupArrayByKeyOfArr",arr,key);
               var groupMap={
                   keyArr:[],//分组的key数组
                   map:{}//分组map<key（分组key）,dataArray（分组key相同的数据集合）>

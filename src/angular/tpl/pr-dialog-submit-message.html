@@ -1,4 +1,4 @@
-<div class="pr-page-dialog-wrap">
+<!-- <div class="pr-page-dialog-wrap">
   <div class="pr-page-dialog-title bb-line">
     <i></i><span>{{confirmTitle}}</span>
   </div>
@@ -6,7 +6,7 @@
       <div class="mgb-l">{{confirmText}}</div>
       <div class="text-center pd-v-s">
         <p>
-          <textarea class="pr-textarea" ng-model="showData.message" placeholder="原因"></textarea>
+          <textarea class="pr-textarea" ng-model="message" placeholder="原因"></textarea>
         </p>
       </div>
   </div>
@@ -14,4 +14,28 @@
     <button type="button" class="pr-btn-save-glodbg" ng-click="confirm()">{{confirmBtnTxt||'确定'}}</button>
     <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">{{cancelBtnTxt||'取消'}}</button>
   </div>
+</div> -->
+
+<div class="pr-page-dialog-wrap" >
+    <form class="confirmOrder-reject-form"
+          ng-init="formData.id=dialogData.id;formData.orderStatus=dialogData.orderStatus;"
+          action="{{dialogData.url}}"
+          callback="goTo('{{dialogData.goUrl}}')"
+          auto-close-dialog
+          form-validator>
+  <div class="pr-page-dialog-title bb-line">
+    <i></i><span>{{dialogData.title}}</span>
+  </div>
+  <div class="pr-page-dialog-content bb-line">
+    <div class="mgb-l">{{dialogData.content}}</div>
+    <p>
+      <textarea class="pr-textarea" ng-model="formData.message" placeholder="原因"></textarea>
+    </p>
+  </div>
+  <div class="pr-page-dialog-footer text-center mg-m">
+    <button type="submit"  class="pr-btn-save-glodbg">{{dialogData.btnConfirm}}</button>
+    <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">{{dialogData.btnCancel}}</button>
+  </div>
+  </form>
+  {{formData}}
 </div>

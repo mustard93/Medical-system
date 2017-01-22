@@ -37,7 +37,7 @@ require.config({
 
           'resizableColumns': '../libs/resizableColumns/jquery.resizableColumns',     //jQuery拖动调整表格列宽度
           'store': '../libs/store.min',     //本地存储
-      'ZeroClipboard': '../libs/ueditor1_4_3_3-utf8-jsp/third-party/zeroclipboard/ZeroClipboard',//html编辑器
+          'ZeroClipboard': '../libs/ueditor1_4_3_3-utf8-jsp/third-party/zeroclipboard/ZeroClipboard',//html编辑器
 
         'ueditor': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.all',//html编辑器
         'ueditor_config': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.config',//编辑器。require 不支持。
@@ -51,8 +51,8 @@ require.config({
         'underscore': '../libs/underscore/underscore-1.5.2.min',
         'moment': '../libs/moment.min',                         //日历插件
         'echarts': '../libs/echarts/echarts-3.2.3.min',         // echars v3.2.3
-        'chosen': '../libs/chosen.jquery',                  //下拉筛选插件
-        'angular': '../libs/angular',                           //Angular
+        'chosen': '../libs/chosen.jquery.min',                  //下拉筛选插件
+        'angular': '../libs/angular.min',                           //Angular
         'ngRoute': '../libs/angular-route',                     //路由
         'autocomplete': '../libs/jquery.autocomplete.min',      //自动补齐
         'bootstrap': '../libs/bootstrap.min',                   //bootstrap
