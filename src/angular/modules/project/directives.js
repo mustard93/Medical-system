@@ -841,7 +841,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
             httpMethod=$attrs.httpMethod;
           }
 
-            if (!angular.isDefined($attrs.requestUrl)) {
+            if (!$attrs.requestUrl) {
                 callback();
                 return;
             }
