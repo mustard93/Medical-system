@@ -14,17 +14,26 @@ define('project/services', ['project/init'], function () {
       $(html).append(_html);
     };
   }
+
           //Loading  bottomButtonList
           //  <a class="{{tr.aclass}}" href="{{tr.ahref}}">{{tr.showName}}</a>
           /**
           bottomButton ={
           aclass ："",//样式，
           ahref："",//连接，
+          "target":"_blank" //_blank|_self|_parent|_top
           showName："",必填。显示名
-          type:"",modalRight(右侧弹出框)，modalCenter（中间弹出框），button（button按钮标签）不填写则为跳转类型。
+          type:"",modalRight(右侧弹出框)，modalCenter（中间弹出框），button（button按钮标签）不填写则为跳转类型。handleThisClick(确认操作框)
           authority:""，不为空，当前用户有该权限，才能显示。
           ngShow:"",//根据计算脚本布尔值是否显示按钮，angluarjs 模版语法脚本。不填写默认显示
           ngDisabled:""//根据计算脚本布尔值是否可点击按钮,angluarjs 模版语法脚本。不填写默认 可操作。仅type=button
+              alertTemplate：type=handleThisClick,填写弹出框的模版地址。
+          requestUrl:type=handleThisClick,填写确认后调用请求。
+          httpMethod:POST|GET，type=handleThisClick,填写确认后调用请求的请求方式，默认POST
+          alertTitle:'确认',type=handleThisClick,标题，默认POST
+          alertMsg:"确定该操作",type=handleThisClick,内容，默认POST
+
+
 
         } 属性说明：
           */
@@ -93,6 +102,34 @@ define('project/services', ['project/init'], function () {
                     console.log(arr);
                     return arr;
                   }
+                  //获取销售单详细页面菜单定义
+                    ,get_confirmOrder:function(showData){
+                      var arr=[];
+                      var bottomButton={"aclass":"mgr-l","ahref":"#/confirmOrder/query.html","showName":"返回销售单列表"};
+                      if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+                      bottomButton={"ngShow":"formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id", "showName":"删除",
+                      "type":"handleThisClick",
+                      "alertTemplate":"dialog-confirm.html",
+                      "requestUrl":"rest/authen/salesOrder/delete?id="+showData.id,
+                      "aclass":"pr-color-red mgr",
+                      "alertTitle":"确认删除?",
+                      "alertMsg":"您确认删除这条销售单吗?",
+                      "ngClick":"$root.goTo('#/confirmOrder/query.html')"};
+
+                      if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+                      bottomButton={"aclass":"pr-btn-save-glodbg mgr color-white",
+                      "ahref":"indexOfPrint.html#/print/confirmOrderPrint.html?id="+showData.id,
+                      "target":"_blank",
+                      "showName":"打印预览"};
+                      if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+                      return arr;
+                    }//get_firstEnterpriseApplication
                   //获取首营企业菜单定义
                     ,get_firstEnterpriseApplication:function(showData){
                       var arr=[];
@@ -256,6 +293,14 @@ define('project/services', ['project/init'], function () {
         // 采购单编辑页面计算原币单价，原币金额，原币价税合计字段
         function purchaseOrderUtils (utils) {
           var  tmpObj = {
+            //原币单价(无税单价)  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
+            getWuSuiDanJian:function(item){
+              var tmp;
+              tmp = utils.numberDiv(item.taxRate,100);
+              tmp = 1 + tmp;
+              tmp = utils.numberDiv(item.purchasePrice,tmp);
+              return tmp;
+            },
             //原币金额（无税金额） item.price*(1-item.taxRate)*item.quantity
             getWuSuiJinE:function(item){
               //item.price*(100-item.taxRate)/100*item.quantity
@@ -263,14 +308,6 @@ define('project/services', ['project/init'], function () {
               var tmp;
               tmp = tmpObj.getWuSuiDanJian(item);
               tmp = utils.numberMul(tmp,item.quantity);
-              return tmp;
-            },
-            //原币单价(无税单价)  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
-            getWuSuiDanJian:function(item){
-              var tmp;
-              tmp = utils.numberDiv(item.taxRate,100);
-              tmp = 1 + tmp;
-              tmp = utils.numberDiv(item.purchasePrice,tmp);
               return tmp;
             },
             //价税合计 item.price*item.quantity
@@ -282,7 +319,7 @@ define('project/services', ['project/init'], function () {
               return tmp;
             }
           };//tmpObj
-
+          console.log(tmpObj)
           return tmpObj;
         }
 
