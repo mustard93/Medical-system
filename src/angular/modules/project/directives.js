@@ -2304,7 +2304,9 @@ function addressManageComponent (requestData, utils) {
 
       //响应重新加载列表数据的操作
       scope.$on('reloadAddressList', function () {
-        requestData(scope.requestUrl, {}, 'get')
+        // var _params = {"type":scope.createAddressType};
+        var _reqUrl = scope.requestUrl + '?type=' + scope.createAddressType;
+        requestData(_reqUrl, {}, 'get')
         .then(function (results) {
           // console.log(results);
           var _data = results[1];
