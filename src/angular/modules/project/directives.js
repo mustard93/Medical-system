@@ -773,6 +773,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
   return {
     restrict: 'A',
     link: function ($scope, element, $attrs) {
+
       element.on('click', function () {
         //对话框标题
         var _dialogTitle = angular.isDefined($attrs.dialogTitle) ? $attrs.dialogTitle : '询问对话框';
@@ -792,6 +793,9 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           if( !angular.isDefined($attrs.dialogTitle)) _dialogTitle = '取消修改?';
           if( !angular.isDefined($attrs.dialogContent)) _dialogContent = '有修改还未保存,是否保存?';
         }
+
+
+
         //回调方法
         function callback(){
 
@@ -2371,9 +2375,10 @@ function addressManageComponent (requestData, utils) {
 
       // 用户点击后选择其他地址
       $scope.choiseOtherItem = function (item) {
-
         $scope.formData[$scope.scopeDataId] = item.id;
         $scope.formData[$scope.scopeDataContacts] = item;
+
+        // console.log($scope.formData);
       };
 
       // 设置当前地址为默认地址
