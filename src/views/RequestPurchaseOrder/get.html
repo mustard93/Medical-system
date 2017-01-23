@@ -78,7 +78,10 @@
                    <th class="text-center">合同号</th>
                  </tr>
                  </thead>
-                 <tbody class="bg-white">
+                 <tbody class="bg-white"
+                 ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus"
+                 scope-data="batchRequirementSelectOptions"
+                 >
                    <tr
                    ng-repeat="tr in formData.orderMedicalNos"
                    salesorder-edit-show-delbtn>
@@ -107,13 +110,19 @@
                          <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                        </div>
                      </td>
-                     <td>
+                     <td
+
+                     ng-init="tr.batchRequirement=tr.batchRequirement||batchRequirementSelectOptions[0].value" >
+
+                     <select  class="select" ng-model="tr.batchRequirement" ng-options="item.value as  item.text   for item in batchRequirementSelectOptions">
+                     </select>
+                     <!--
                        <select class="select pr-select pr-select-sm text-left"
                                chosen
                                width="90px"
                                ng-model="item.batchRequirement"
                                select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
-                       </select>
+                       </select> -->
                      </td>
                      <td class="text-center">￥
                        <input type="text"
