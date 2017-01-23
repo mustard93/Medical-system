@@ -137,8 +137,8 @@ define('project/services', ['project/init'], function () {
                       var bottomButton={"aclass":"","ahref":"#/firstEnterpriseApplication/query.html","showName":"返回申请单列表"};
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
                       bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
-                      // "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
-                      // "httpMethod":"GET",
+                      "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
+                      "httpMethod":"GET",
                       "ahref":"views/firstEnterpriseApplication/right-side.html?businessKey="+showData.id,
                       "showName":"查看操作记录"};
                       console.log(showData);
