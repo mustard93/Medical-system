@@ -113,21 +113,32 @@
                            <i class="block bb-dashed-line pd-c-l text-normal">
                              <em class="inline-block pd-v-s">
                                <a ng-if="tr.orderStatus=='已冻结'"
-                                handle-this-click
-                                dialog-title="确认解冻?"
-                                dialog-content="解冻后，该企业资格将恢复，确认解冻?"
-                                dialog-template="pr-dialog-submit.html"
-                                request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
-                                params='{"id":tr.id,"orderStatus":"解冻"}'
-                                alert-error
-                                callback="$root.utils.refreshHref()"
-                                >
-                                解冻
+                                  modal-center="490"
+                                  modal-scope="this"
+                                  modal-data='{"title":"确认解冻?",
+                                               "content":"解冻后，该企业资格将恢复，确认解冻?",
+                                               "btnConfirm":"确定",
+                                               "btnCancel":"取消",
+                                               "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
+                                               "goUrl":"",
+                                               "id":"{{tr.id}}",
+                                               "orderStatus":"解冻"
+                                              }'
+                                  modal-url="angular/tpl/pr-dialog-submit-message.html"> 解冻
                               </a>
-                               <a ng-if="tr.orderStatus=='已通过'"
-
-                               >
-                                冻结
+                              <a ng-if="tr.orderStatus=='已通过'"
+                                 modal-center="490"
+                                 modal-scope="this"
+                                 modal-data='{"title":"确认",
+                                              "content":"冻结后，该企业资格将被暂停，直到解冻，确认冻结?",
+                                              "btnConfirm":"确定",
+                                              "btnCancel":"取消",
+                                              "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
+                                              "goUrl":"",
+                                              "id":"{{tr.id}}",
+                                              "orderStatus":"已冻结"
+                                             }'
+                                 modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
                               </a>
                             </em>
                           </i>

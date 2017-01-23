@@ -101,9 +101,9 @@ define('project/services', ['project/init'], function () {
                     }
                     console.log(arr);
                     return arr;
-                  }
+                  },
                   //获取销售单详细页面菜单定义
-                    ,get_confirmOrder:function(showData){
+                  get_confirmOrder:function(showData){
                       var arr=[];
                       var bottomButton={"aclass":"mgr-l","ahref":"#/confirmOrder/query.html","showName":"返回销售单列表"};
                       if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
@@ -129,18 +129,19 @@ define('project/services', ['project/init'], function () {
 
 
                       return arr;
-                    }//get_firstEnterpriseApplication
+                    },//get_firstEnterpriseApplication
                   //获取首营企业菜单定义
-                    ,get_firstEnterpriseApplication:function(showData){
+                  get_firstEnterpriseApplication:function(showData){
                       var arr=[];
                       //aclass ：样式，ahref：连接，showName：显示名
                       var bottomButton={"aclass":"","ahref":"#/firstEnterpriseApplication/query.html","showName":"返回申请单列表"};
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
                       bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
-                      // "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
-                      // "httpMethod":"GET",
+                      "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
+                      "httpMethod":"GET",
                       "ahref":"views/firstEnterpriseApplication/right-side.html?businessKey="+showData.id,
                       "showName":"查看操作记录"};
+                      console.log(showData);
                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
                       if(showData){
                         bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
