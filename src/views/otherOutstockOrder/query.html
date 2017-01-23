@@ -116,6 +116,8 @@
                       class="flex-item-6 pdl mgb-s text-left">参考报损单</span>
                       <span ng-if="tr.type=='批次冻结出库单'||tr.type=='WMS批次冻结出库单'"
                       class="flex-item-6 pdl mgb-s text-left">参考批次冻结单</span>
+                      <span ng-if="tr.type=='移库出库单'"
+                      class="flex-item-6 pdl mgb-s text-left">参考wms移库单</span>
                       <span class="flex-item-6 text-right">
                         <a
                         ng-if="tr.type=='报损出库单'||tr.type=='WMS报损出库单'"
@@ -127,7 +129,7 @@
                         href="#/freezeThawOrder/get-freeze.html?orderNo={{tr.sourceOrderNo}}">
                           <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
                         </a>
-
+                          <strong  ng-if="tr.type=='移库出库单'" class="text-normal">{{tr.sourceOrderNo}}</strong>
                       </span>
                     </div>
 

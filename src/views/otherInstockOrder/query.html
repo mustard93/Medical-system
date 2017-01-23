@@ -1,4 +1,4 @@
-<div class="wInstock-order">
+<div class="woutstock-order">
 <table-list list-data="rest/authen/wInstockOrder/otherInstock/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
@@ -31,7 +31,7 @@
                             chosen
                             ng-model="listParams.type"
                             default-empty="全部"
-                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OutstockOrderType">
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InstockOrderType">
                     </select>
 
                     <span class="mgr color-999">入库日期</span>
@@ -116,6 +116,8 @@
                       class="flex-item-6 pdl mgb-s text-left">参考报溢单</span>
                       <span ng-if="tr.type=='批次解冻入库单'||tr.type=='WMS批次解冻入库单'"
                       class="flex-item-6 pdl mgb-s text-left">参考批次解冻单</span>
+                      <span ng-if="tr.type=='移库入库单'"
+                      class="flex-item-6 pdl mgb-s text-left">参考wms移库单</span>
                       <span class="flex-item-6 text-right">
                         <a
                         ng-if="tr.type=='报溢入库单'||tr.type=='WMS报溢入库单'"
@@ -127,6 +129,8 @@
                         href="#/freezeThawOrder/get-thaw.html?orderNo={{tr.sourceOrderNo}}">
                           <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
                         </a>
+
+                          <strong  ng-if="tr.type=='移库入库单'" class="text-normal">{{tr.sourceOrderNo}}</strong>
 
                       </span>
                     </div>
