@@ -147,9 +147,34 @@
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
+      <div class="btn-left-area">
+        <span class="uploader-PDF-icon"></span>
+          <a href="{{scopeData.voucherUrl}}">下载PDF文件</a>
+      </div>
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
             <span><a href="#/purchaseVoucher/query.html">返回采购凭证列表</a></span>
-
+            <span class="mgl mgt">
+              <a class="color-red"
+              modal-center="490"
+              modal-scope="this"
+              modal-data='{"title":"确认",
+                           "content":"撤销后，该采购凭证将作废，确认撤销?",
+                           "btnConfirm":"确定",
+                           "btnCancel":"取消",
+                           "url":"rest/authen/purchaseVoucher/proposerUpdateStatus",
+                           "goUrl":"",
+                           "id":"{{scopeData.id}}",
+                           "orderStatus":"已冻结"
+                          }'
+              modal-url="angular/tpl/pr-dialog-submit-message.html">撤销
+              </a>
+            </span>
+            <span class="mgr mgl mgt">
+              <button class="pr-btn-save-glodbg"
+                      type="submit"
+                      ng-disabled="!changeFlag">保存
+              </button>
+            </span>
             <span ng-if="$root.hasAuthor('采购凭证编辑')" class="mgl">
               <button
                  href="javascript:;"
@@ -173,6 +198,7 @@
               custom-menu-list
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span>
+
       </div>
     </div>
   </form>
