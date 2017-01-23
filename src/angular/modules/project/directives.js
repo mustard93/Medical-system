@@ -110,7 +110,6 @@ function workflowPassButton(utils) {
     // scope: true,
     scope: {
         beforeAjaxParams: "=?",
-
         beforeIfEval:"=?"
     },
     replace: true,
