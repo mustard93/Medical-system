@@ -173,7 +173,7 @@
               <em class="color-3">{{scopeData.payAndDelivery.kuaidiType}}</em>
           </span>
           <span class="mgr">预入仓库：
-            <em class="color-3">{{scopeData.warehouseCode}}</em>
+            <em class="color-3">{{scopeData.warehouseName}}</em>
           </span>
         </div>
       </div>
@@ -256,10 +256,6 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-
-
-            <!-- <span  bottom-button-list="bottomButtonList">  </span> -->
-
         <a ng-if="changeFlag" href="javascript:;" class="mgr"
            handle-this-click
            dialog-title="确认返回?"
@@ -268,33 +264,13 @@
            nosave-callback="goTo('#/purchaseOrder/query.html')"
            save-callback="submitForm('editForm','exit')">返回采购单列表
         </a>
-
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/purchaseOrder/query.html?id={{scopeData.relId}}" >返回采购单列表</a>
-
-
-<!--
-        <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
-           href="javascript:;"
-           class="pr-color-red mgr"
-           handle-this-click
-           dialog-title="确认删除?"
-           dialog-content="您确认删除这条采购单吗?"
-           dialog-template="dialog-confirm.html"
-           request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-           call-back="$root.goTo('#/salesOrder/query.html')">删除
-        </a> -->
-
-        <!-- <button ng-if="formData.orderStatus=='待审核'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button> -->
-
-        <button ng-if="formData.orderStatus=='待审核'" type="button" class="pr-btn-save-glodbg mgr">
+        <button ng-if="scopeData.orderStatus=='待审核'" type="button" class="pr-btn-save-glodbg mgr">
           <a class="color-white" target="_blank">导出采购合同</a>
         </button>
 
-        <!-- <button type="button" class="pr-btn-save-glodbg mgr">
-          <a class="color-white" ng-href="indexOfPrint.html#/print/purchaseOrderPrint.html?id={{scopeData.id}}" target="_blank">打印预览</a>
-        </button> -->
-
-        <span ng-if="formData.orderStatus=='待审核'&&scopeData.didateFilter.buttons.length>0"
+        </span>
+        <span ng-if="scopeData.didateFilter.buttons.length>0"
               custom-menu-list
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span>
