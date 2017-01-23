@@ -1,0 +1,95 @@
+<!-- 主内容头部 -->
+<div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxxl">采购中心 / <em class="color-custom-orange">采购凭证</em></p>
+  <div class="pd-c-xxxxxxl">
+    <div class="pos-rel-tl inline-block fl-l">
+      <h1 class="pr-font-20 color-black">采购凭证</h1>
+    </div>
+    <!-- 新建按钮及状态按钮 -->
+    <div class="full-width mgb-m">
+      <div class="order-status-btn pos-rel-tr text-right"
+           ajax-url="rest/authen/purchaseVoucher/countByOrderStatus.json"
+           scope-data="countByOrderStatus"
+           alert-error>
+          <div class=""></div>
+          <div class="btn btn-group"   scope-data="statusList">
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发送'">待发送
+              <span class="pj-badge" ng-if='countByOrderStatus["待发送"]'>{{countByOrderStatus["待发送"]}}</span>
+            </button>
+            <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发送'">已发送
+              <!-- <span class="pj-badge" ng-if='countByOrderStatus["已发送"]'>{{countByOrderStatus["已发送"]}}</span> -->
+            </button>
+          </div>
+      </div>
+    </div>
+    <!-- 右侧搜索 -->
+    <div class="text-right order-list-search pos-rel-tr inline-block fl-r">
+      <input type="text" class="ipt pdr-xxl" placeholder="客户名/凭证号" ng-model="listParams.q">
+      <i class=""></i>
+    </div>
+  </div>
+
+</div>
+
+<div class="content-wrapper purchase-order">
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/purchaseVoucher/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <div ng-if="!status.isLoading">
+        <div ng-if="!tbodyList.length">
+          <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+          <p class="text-center">什么也没有</p>
+        </div>
+        <ul class="">
+          <li class="pdr-m relative confirm-order-list color-9" ng-repeat="tr in tbodyList">
+            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative color-9">
+              <div class="pd-c-m">
+                <div class="flex-column pd-v mgb" style="height:22px;line-height:22px;">
+                  <span class="flex-item-2 title-states text-bold">{{tr.orderStatus}}</span>
+                  <span class="flex-item-10 text-right">
+                    <a href="#/purchaseVoucher/get.html?id={{tr.id}}" class="mgl">查看详情</a>
+                    <a href="javascript:;"
+                       type="button"
+                       class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                       ng-init="showData.id=tr.id"
+                       modal-center="490"
+                       modal-scope="this"
+                       modal-url="views/purchaseVoucher/sendEmail.html">{{tr.orderStatus=='待发送'?'立即发送':'再次发送'}}
+                    </a>
+                  </span>
+                </div>
+                <div class="flex-column text-s pd-v">
+                  <span class="flex-item-6">凭证号：
+                    <em class="color-6">{{tr.orderNo}}
+                      <!-- <a href="#/purchaseVoucher/get.html?id={{tr.id}}">{{tr.orderNo}}</a> -->
+                    </em>
+                  </span>
+                  <span class="flex-item-6 text-right">创建时间：<em class="color-6">{{tr.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+                </div>
+              </div>
+              <div class="pr-ele-height-auto pd-c-m text-m" style="padding-top:10px!important;padding-bottom:10px!important;min-height:1px;">
+                <span>供货商：<em class="color-6">{{tr.supplier.name}}</em></span>
+              </div>
+              <div class="text-s pd-c-m">
+                <p class="pd-v-s">订货单位：<em class="color-6">{{tr.customerName}}</em></p>
+                <p class="pdb-s">到货地址：<em class="color-6">{{tr.address.prov}} {{tr.address.city}} {{tr.address.area}} {{tr.address.address}}</em></p>
+                <p class="pdb-s">联系人：<em class="color-6">{{tr.address.name}}</em></p>
+                <p class="pdb-s">电话：<em class="color-6">{{tr.address.tel}}</em></p>
+              </div>
+              <div class="text-right text-s pd-c-l pdt pdb">
+                <a href="{{tr.voucherUrl}}">下载PDF文件</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>
