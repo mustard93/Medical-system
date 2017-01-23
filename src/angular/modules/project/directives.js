@@ -102,7 +102,7 @@ function workflowRejectButton(utils) {
 
 
 /**
-  药械订单列表-采购
+  工作流-通过菜单
 */
 function workflowPassButton(utils) {
   return {
@@ -147,8 +147,45 @@ function workflowPassButton(utils) {
   };
 }
 
+
 /**
-  药械订单列表-采购
+  工作流-通过菜单
+*/
+function workflowButtonQueryCard(utils) {
+  return {
+    restrict: 'EA',
+    // scope: true,
+    scope: {
+        beforeAjaxParams: "=?",
+        beforeIfEval:"=?"
+    },
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/workflowButtonQueryCard.html',
+
+      link: function ($scope, element, $attrs) {
+        if ($attrs.customMenu) {
+            $scope.customMenu=utils.fromJson($attrs.customMenu);
+        }
+        if ($attrs.passCallback) {
+            $scope.passCallback=$attrs.passCallback;
+
+        }
+        if ($attrs.beforeAjaxParameterBody) {
+            $scope.beforeAjaxParameterBody=$attrs.beforeAjaxParameterBody;
+
+        }
+
+        if ($attrs.beforeAjaxUrlSubmit) {
+            $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
+
+        }
+
+      }
+  };
+}
+
+/**
+  工作流菜单列表
 */
 function customMenuList(utils) {
   return {
@@ -2206,6 +2243,35 @@ function customTablePrint() {
   };
 }
 
+   //添加scope 的公共事件，是否显示，点击事件，等
+ function addCommonsEventFnToSope($scope){
+   //点击按钮事件，
+   $scope.ngClick2=function(ngClick){
+        var tmp=$scope.$parent.$eval(ngClick);
+          console.log("ngDisabled2",ngClick,tmp);
+    };
+       //弹出确认框，取消事件
+    $scope.cancelCallback=function(ngClick){
+         var tmp=$scope.$parent.$eval(ngClick);
+           console.log("ngDisabled2",ngClick,tmp);
+     };
+         //按钮显示执行脚本事件
+      $scope.ngShow2=function(ngIf){
+         //不填写默认true，允许显示
+         if(!ngIf)return true;
+         var tmp= $scope.$parent.$eval(ngIf);
+         console.log("ngDisabled2",ngIf,tmp);
+            return tmp;
+      };
+                   //按钮是否可操作执行脚本事件
+     $scope.ngDisabled2=function(ngIf){
+       //不填写默认false，允许操作
+          if(!ngIf)return false;
+         var tmp= $scope.$parent.$eval(ngIf);
+          console.log("ngDisabled2",ngIf,tmp);
+          return tmp;
+    };
+ }
 /**
   底部按钮列表
 */
@@ -2219,41 +2285,36 @@ function bottomButtonList() {
     // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
     link: function ($scope, $element, $attrs) {
-      //点击按钮事件，
-      $scope.ngClick2=function(ngClick){
-                     console.log("ngClick2",ngClick);
-                     var tmp=$scope.$parent.$eval(ngClick);
-                       console.log("ngDisabled2",ngClick,tmp);
-                 };
-      //弹出确认框，取消事件
-   $scope.cancelCallback=function(ngClick){
-                  console.log("ngClick2",ngClick);
-                  var tmp=$scope.$parent.$eval(ngClick);
-                    console.log("ngDisabled2",ngClick,tmp);
-              };
-        //按钮显示执行脚本事件
-     $scope.ngShow2=function(ngIf){
-              //不填写默认true，允许显示
-              if(!ngIf)return true;
-
-            console.log("ngIf2",ngIf);
-            var tmp= $scope.$parent.$eval(ngIf);
-              console.log("ngDisabled2",ngIf,tmp);
-                 return tmp;
-               };
-                  //按钮是否可操作执行脚本事件
-    $scope.ngDisabled2=function(ngIf){
-          //不填写默认false，允许操作
-            if(!ngIf)return false;
-                  var tmp= $scope.$parent.$eval(ngIf);
-                   console.log("ngDisabled2",ngIf,tmp);
-                   return tmp;
-               };
+           //添加scope 的公共事件，是否显示，点击事件，等
+          addCommonsEventFnToSope($scope);
 
           if(!$scope.spanClass)$scope.spanClass="mgl";
           $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
 
 
+    }
+  };
+}
+
+
+
+/**
+  查询列表(卡片)条目列表
+*/
+function queryItemCardButtonList() {
+  return {
+    restrict: 'EA',
+    scope: {
+       spanClass:"=?",
+        queryItemCardButtonList:"=?"
+      },
+    // replace: true,// true时 导致$scope作用域下，属性添加失效。
+    templateUrl:  Config.tplPath +'tpl/project/queryItemCardButtonList.html',
+    link: function ($scope, $element, $attrs) {
+          //添加scope 的公共事件，是否显示，点击事件，等
+         addCommonsEventFnToSope($scope);
+          if(!$scope.spanClass)$scope.spanClass="mgl";
+          $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
     }
   };
 }
@@ -2416,6 +2477,7 @@ angular.module('manageApp.project')
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑
   .directive("bottomButtonList", [bottomButtonList])//底部自定义菜单
+  .directive("queryItemCardButtonList", [queryItemCardButtonList])//查询页面菜单
   .directive("customTablePrint", [customTablePrint])
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
@@ -2433,8 +2495,9 @@ angular.module('manageApp.project')
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
-  .directive("workflowRejectButton",  ['utils', workflowRejectButton])//自定义菜单 驳回
-  .directive("workflowPassButton",  ['utils', workflowPassButton])//自定义菜单 通过
+  .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回
+  .directive("workflowPassButton",  ['utils', workflowPassButton])//工作流配置自定义菜单 通过
+    .directive("workflowButtonQueryCard",  ['utils', workflowButtonQueryCard])//工作流配置菜单 查询列表使用
   .directive("customMenuList",  ['utils', customMenuList])//自定义菜单。列表显示
   .directive("workflowTaskRunWithAttchments",  ['utils', workflowTaskRunWithAttchments])//待附件审查
   .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
