@@ -207,6 +207,134 @@ define('project/services', ['project/init'], function () {
               return tmpUtils;
         }
 
+
+
+
+        //Loading  bottomButtonList
+        //  <a class="{{tr.aclass}}" href="{{tr.ahref}}">{{tr.showName}}</a>
+        /**
+        bottomButton ={
+        aclass ："",//样式，
+        ahref："",//连接，
+        "target":"_blank" //_blank|_self|_parent|_top
+        showName："",必填。显示名
+        type:"",modalRight(右侧弹出框)，modalCenter（中间弹出框），button（button按钮标签）不填写则为跳转类型。handleThisClick(确认操作框)
+        authority:""，不为空，当前用户有该权限，才能显示。
+        ngShow:"",//根据计算脚本布尔值是否显示按钮，angluarjs 模版语法脚本。不填写默认显示
+        ngDisabled:""//根据计算脚本布尔值是否可点击按钮,angluarjs 模版语法脚本。不填写默认 可操作。仅type=button
+            alertTemplate：type=handleThisClick,填写弹出框的模版地址。
+        requestUrl:type=handleThisClick,填写确认后调用请求。
+        httpMethod:POST|GET，type=handleThisClick,填写确认后调用请求的请求方式，默认POST
+        alertTitle:'确认',type=handleThisClick,标题，默认POST
+        alertMsg:"确定该操作",type=handleThisClick,内容，默认POST
+
+
+
+      } 属性说明：
+        */
+        function queryItemCardButtonList ($rootScope) {
+
+            var tmpUtils=  {
+                //业务逻辑判断，是否显示菜单
+                canShowButton:function(bottomButton){
+                  if(bottomButton.authority){//当前用户有权限才添加
+                    if($rootScope.hasAuthor(bottomButton.authority)){
+                         return true;
+                    }else{  //没有权限不添加
+                      return false;
+                    }
+                  }
+                  return true;
+                },
+
+                //前台自定义按钮 样例
+                get_ButtonListDemo:function(showData){
+                  var arr=[];
+                  //aclass ：样式，ahref：连接，showName：显示名
+                  var bottomButton={"aclass":"","ahref":"#/firstEnterpriseApplication/query.html","showName":"返回申请单列表"};
+                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                  //权限控制
+                  bottomButton={"authority":"采购单新建权限","aclass":"color-orange add-return-order","ahref":"#/firstEnterpriseApplication/query.html","showName":"新建权限"};
+                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                   bottomButton={"type":"modalRight","modalWidth":"1000","aclass":"color-orange add-return-order","ahref":"#/firstEnterpriseApplication/query.html","showName":"右侧弹出层"};
+                if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                   bottomButton={"type":"modalCenter","modalWidth":"1000","aclass":"color-orange add-return-order","ahref":"#/firstEnterpriseApplication/query.html","showName":"中间弹出层"};
+                if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                  bottomButton={"type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"$root.goTo('#/hospitalApplication/query.html?tt='+showData.id)","showName":"自定义方法"};
+               if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                 bottomButton={"showName":"自定义ctr方法","type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"openIm('123','fff')"};
+               if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+               //button
+               bottomButton={"ngDisabled":"!!ngDisabled", "showName":"ngDisabled_button","type":"button","modalWidth":"1000","ngClick":"openIm('123','fff')"};
+               if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+               bottomButton={"ngShow":"!!ngShow", "showName":"ngShow","type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"openIm('123','fff')"};
+               if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+               //button
+               bottomButton={"ngDisabled":"!!ngDisabled", "showName":"handleThisClick","type":"handleThisClick","alertTemplate":"pr-dialog-return.html","ngClick":"openIm('123','fff')"};
+               if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+               bottomButton={"ngShow":"editForm.$valid", "showName":"保存","type":"ngClick","modalWidth":"1000","aclass":"color-orange add-return-order","ngClick":"openIm('123','fff')"};
+               if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                  if(showData){
+                    bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                      "ahref":Config.serverPath+"rest/authen/firstEnterpriseApplication/exportWord?id="+showData.id,
+                      "showName":"打印"};
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                  }
+                  console.log(arr);
+                  return arr;
+                },
+                //获取销售单详细页面菜单定义
+                getQuery_confirmOrder:function(showData){
+
+                    var arr=[];
+
+                  var   bottomButton={"ngShow":"tr.orderStatus=='待审核'", "showName":"删除",
+                    "iconClass":"delete-link-icon",
+                    "type":"handleThisClick",
+                    "alertTemplate":"pr-dialog-submit.html",
+                    "requestUrl":"rest/authen/confirmOrder/delete?id="+showData.id,
+                    "aclass":"",
+                    "alertTitle":"确认删除?",
+                    "alertMsg":"删除后将无法恢复,确认删除?",
+                    "ngClick":"$root.goTo('#/confirmOrder/query.html')"};
+
+
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    var bottomButton={  "iconClass":"edit-link-icon","showName":"查看物流",
+                    "ngShow":"tr.orderStatus=='已发货'",
+                    "ahref":"#/confirmOrder/get.html?openWuliu=true&id="+showData.id};
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+                    var bottomButton={  "iconClass":"edit-link-icon","showName":"编辑",
+                    "ngShow":"tr.orderStatus=='待审核'",
+                    "ahref":"#/confirmOrder/edit.html?id="+showData.id};
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    var bottomButton={  "iconClass":"watch-detail-icon","showName":"查看详情",
+                    "ngShow":"tr.orderStatus!='待审核'",
+                    "ahref":"#/confirmOrder/get.html?id="+showData.id};
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+                    return arr;
+                  },//get_firstEnterpriseApplication
+
+              };//end return
+            return tmpUtils;
+      }
+
         /**
          *  项目自定义顶部fixed消息提示tips
          *  Mode: 1.success 2.error 3.prompt(提示)
@@ -331,5 +459,7 @@ define('project/services', ['project/init'], function () {
     .factory('saleOrderUtils', ["utils",saleOrderUtils])
     .factory('purchaseOrderUtils', ["utils",purchaseOrderUtils])
     .factory('bottomButtonList', ["$rootScope",bottomButtonList])
+    .factory('queryItemCardButtonList', ["$rootScope",queryItemCardButtonList])
+
     .factory('proMessageTips', [proMessageTips]);
 });
