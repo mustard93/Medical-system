@@ -259,7 +259,6 @@
          </div>
        <!-- 其他信息 -->
        <div class="relative">
-
         <!-- 付款 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
           <h1 class="text-bold color-3">付款</h1>
@@ -313,38 +312,43 @@
             </span>
           </div>
         </div>
-           <!-- 发货方信息 -->
-           <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
-             <div class="pd-c-v-l">
-               <header class="text-n text-bold color-3">发货方信息
-                 <span class="tools pull-right">
-                   <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-                 </span>
-               </header>
-             </div>
-             <div class="panel-body" style="display:none;">
-               <div class="consignee-info">
-                 <div clear-info-list>
-                   <div class="flex-column address-div color-black relative" >
-                     <div class="inline flex-item-3">
-                       <span class="pdb">{{formData.supplier.shipperName}} </span>
-                       <span class="text-s">{{formData.supplier.tel}}</span>
-                     </div>
-                   <div class="inline flex-item-7">
-                     <span class="address-span">
-                       {{formData.supplier.address}}
-                     </span>
-                   </div>
-               </div>
+       <!-- 发货方信息 -->
+       <div class="panel pr-fuzzy-boundary pr-panel-height mgb"
+            ajax-if-eval="formData.supplier.id"
+            ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
+            scope-data="supplier"
+            callback="formData.supplier=supplier"
+            alert-error>
+         <div class="pd-c-v-l">
+           <header class="text-n text-bold color-3">发货方信息
+             <span class="tools pull-right">
+               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+             </span>
+           </header>
+         </div>
+         <div class="panel-body" style="display:none;">
+           <div class="consignee-info">
+             <div clear-info-list>
+               <div class="flex-column address-div color-black relative" >
+                 <div class="inline flex-item-3">
+                   <span class="pdb">{{formData.supplier.shipperName}} </span>
+                   <span class="text-s">{{formData.supplier.tel}}</span>
                  </div>
+               <div class="inline flex-item-7">
+                 <span class="address-span">
+                   {{formData.supplier.address}}
+                 </span>
                </div>
+           </div>
              </div>
            </div>
+         </div>
+       </div>
 
         <!-- 收货方信息 -->
         <address-manage-component compnent-title="收货方信息"
                                   request-url="rest/authen/invoicesAddress/get.json"
-                                  scope-data-prefix="invoices"
+                                  scope-data-prefix="customer"
                                   form-data="formData"
                                   modify-modal-url="views/invoicesAddress/contact/edit.html"
                                   create-modal-url="views/invoicesAddress/contact/edit.html"
