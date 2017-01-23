@@ -1,34 +1,31 @@
 <div class="modal-content right-side-new" ng-controller="editCtrl">
   <form class="add-customerAddress-form form-horizontal"
-        ajax-url="rest/authen/versionFlow/query?businessKey={{urlInfo.search.businessKey}}"
+        ajax-url="{{dialogData.requestUrl}}"
         scope-data="showData"
-        alert-error
-        >
-           <!-- 标题 -->
-     <div class="bb-line-gold pr-bg-black2 min-h-l">
-
+        alert-error>
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
        <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">操作记录</h1>
      </div>
-      <div >
+    <div>
         <table class="full-width another-table" >
-                <thead>
-                  <tr class="bb-line-gold">
-                    <th class="text-left pr-indent-20">操作人</th>
-                    <th>操作日期</th>
-                    <th class="text-left w-220">操作内容</th>
-                    <th class="text-left">原因</th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white">
-                  <tr ng-repeat="item in showData" class="pr-bg-black3">
-                    <!-- ng-repeat="item in formData" -->
-                    <td class="text-left pr-indent-20 color-white"> {{item.inputUser.n}}</td>
-                    <td class="color-white">{{item.createAt | date:'yyyy-MM-dd'}}</td>
-                    <td class="text-left color-white">{{item.versionStatus}}</td>
-                    <td class="text-left color-white">{{item.message}}</td>
-                  </tr>
-                </tbody>
-              </table>
+          <thead>
+            <tr class="bb-line-gold">
+              <th class="text-left pr-indent-20">操作人</th>
+              <th>操作日期</th>
+              <th class="text-left w-220">操作内容</th>
+              <th class="text-left">原因</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            <tr ng-repeat="item in showData" class="pr-bg-black3">
+              <!-- ng-repeat="item in formData" -->
+              <td class="text-left pr-indent-20 color-white"> {{item.inputUser.n}}</td>
+              <td class="color-white">{{item.createAt | date:'yyyy-MM-dd'}}</td>
+              <td class="text-left color-white">{{item.versionStatus}}</td>
+              <td class="text-left color-white">{{item.message}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
   </form>
 </div>
