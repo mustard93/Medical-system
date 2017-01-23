@@ -5,10 +5,8 @@
               search-param="q">
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading pdb-m mgb-l relative">
-    <div class="">
-      <p class="pdb-s pdt-s mgb-l crumbs pr-indent-35">管理中心 / <em class="color-custom-orange">首营管理</em></p>
-    </div>
-          <div class="pd-c-xxxxl">
+      <p class="pdb-s pdt-s mgb-l crumbs pdl-xxxxxxl">管理中心 > <em class="color-custom-orange">首营管理</em></p>
+          <div class="pd-c-xxxxxxl">
             <div class="full-width mgb-m">
               <div class="pos-rel-tl inline-block fl-l ">
                 <select ng-init="itemChooise='#/firstEnterpriseApplication/query.html'"
@@ -36,17 +34,18 @@
                   </div>
               </div>
             </div>
+            <div class="text-right order-list-search relative full-width">
+              <div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l">
+                <a ng-if="$root.hasAuthor('首营企业申请')" href="#/firstEnterpriseApplication/edit.html" title="新建首营品种"><i></i><span class="text-s">新建首营企业申请</span></a>
+              </div>
+              <div class="relative">
+              <input type="text" class="ipt pdr-xxl" placeholder="企业名/编号/申请人" ng-model="listParams.q">
+              <i class="serch-i"></i>
+              </div>
+            </div>
           </div>
 
-          <div class="text-right order-list-search relative full-width">
-            <div class="pos-rel-tl order-create-btn inline-block fl-l left-40 z-index-l">
-              <a ng-if="$root.hasAuthor('首营企业申请')" href="#/firstEnterpriseApplication/edit.html" title="新建首营品种"><i></i><span class="text-s">新建首营企业申请</span></a>
-            </div>
-            <div class="relative left--40">
-            <input type="text" class="ipt pdr-xxl" placeholder="企业名/编号/申请人" ng-model="listParams.q">
-            <i class="serch-i"></i>
-            </div>
-          </div>
+
         </div>
   <!-- 主内容区域 -->
   <div class="content-wrapper ">
@@ -114,21 +113,32 @@
                            <i class="block bb-dashed-line pd-c-l text-normal">
                              <em class="inline-block pd-v-s">
                                <a ng-if="tr.orderStatus=='已冻结'"
-                                handle-this-click
-                                dialog-title="确认解冻?"
-                                dialog-content="解冻后，该企业资格将恢复，确认解冻?"
-                                dialog-template="pr-dialog-submit.html"
-                                request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
-                                params='{"id":tr.id,"orderStatus":"解冻"}'
-                                alert-error
-                                callback="$root.utils.refreshHref()"
-                                >
-                                解冻
+                                  modal-center="490"
+                                  modal-scope="this"
+                                  modal-data='{"title":"确认解冻?",
+                                               "content":"解冻后，该企业资格将恢复，确认解冻?",
+                                               "btnConfirm":"确定",
+                                               "btnCancel":"取消",
+                                               "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
+                                               "goUrl":"",
+                                               "id":"{{tr.id}}",
+                                               "orderStatus":"解冻"
+                                              }'
+                                  modal-url="angular/tpl/pr-dialog-submit-message.html"> 解冻
                               </a>
-                               <a ng-if="tr.orderStatus=='已通过'"
-
-                               >
-                                冻结
+                              <a ng-if="tr.orderStatus=='已通过'"
+                                 modal-center="490"
+                                 modal-scope="this"
+                                 modal-data='{"title":"确认",
+                                              "content":"冻结后，该企业资格将被暂停，直到解冻，确认冻结?",
+                                              "btnConfirm":"确定",
+                                              "btnCancel":"取消",
+                                              "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
+                                              "goUrl":"",
+                                              "id":"{{tr.id}}",
+                                              "orderStatus":"已冻结"
+                                             }'
+                                 modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
                               </a>
                             </em>
                           </i>
