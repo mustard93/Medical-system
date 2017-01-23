@@ -1,0 +1,167 @@
+<div class="wInstock-order">
+<table-list list-data="rest/authen/wInstockOrder/otherInstock/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q"
+              >
+<!-- 主内容头部 -->
+<div class="content-wrapper-heading pdb-m mgb-l relative">
+    <!-- 模块标题及面包屑 -->
+    <p class="pdb-s pdt-s mgb-l crumbs pr-indent-35">库存管理 > <em>其他入库单</em></p>
+    <div class="pd-c-xxxxl">
+      <div class="full-width mgb-m">
+        <div class="pos-rel-tl inline-block fl-l">
+        <h1 class="pr-font-22 color-black">其他入库单</h1>
+        </div>
+      </div>
+    </div>
+
+
+  <!-- 搜索 -->
+  <div class="text-right order-list-search relative full-width">
+    <div class="relative left--40">
+      <span class="mgr color-999">仓库</span>
+      <select class="pr-select select-wd mgr-xl"
+       chosen
+        ng-model="listParams.warehouseCode"
+        default-empty="全部"
+        select-source="rest/authen/warehouse/queryForSelectOption">
+      </select>
+      <span class="mgr color-999">其他入库类型</span>
+      <select class="pr-select select-wd mgr-xl"
+              chosen
+              ng-model="listParams.type"
+              default-empty="全部"
+              select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InstockOrderType">
+      </select>
+
+      <span class="mgr color-999">入库日期</span>
+      <div class="date-icon-Inside">
+        <input type="text"
+               datepicker
+               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+               ng-readonly="true"
+               ng-model="listParams.createAtBeg"
+               placeholder="">
+        <span class="date-icon"></span>
+      </div>
+       <span class="mgr color-999">至</span>
+    <div class="date-icon-Inside">
+       <input type="text"
+             datepicker
+             class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+             ng-readonly="true"
+             ng-model="listParams.createAtEnd"
+             placeholder="">
+      <span class="date-icon"></span>
+    </div>
+
+      <input type="text" class="ipt pdr-xxl color-placeholder" placeholder="客户名/单据编号" ng-model="listParams.q">
+      <i class="serch-i"></i>
+    </div>
+
+  </div>
+</div>
+
+<div class="content-wrapper wInstock-order"
+     ng-controller="QualificationApplyCtrl"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;">
+        <!-- formData.type='报溢';listParams.type='报溢入库单' -->
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <div ng-if="!status.isLoading">
+        <div ng-if="tbodyList.length==0">
+          <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+          <p class="text-center">什么也没有</p>
+        </div>
+        <ul ng-if="tbodyList.length" class="li-min-h">
+          <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
+              <!-- ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}" -->
+              <div class="relative">
+                <div class="flex-column mgb-m card-title-height pd-m" style="height:24px;line-height:24px;">
+                  <span class="flex-item-6 title-states text-bold">
+                    <em class="color-black">
+                    {{tr.type}}
+                    </em>
+                  </span>
+                <span class="flex-item-6 text-right">
+                       <a class="mgl"
+                          ng-href="#/otherInstockOrder/get.html?id={{tr.id}}">查看详情
+                        </a>
+                  </span>
+                </div>
+                <div class="card-new">
+                    <div class="bt-line">
+                      <h1 class="text-center text-m color-black text-ellips-s">{{tr.warehouseName || '暂无'}}</h1>
+                    </div>
+                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                      <span class="flex-item-6 mgb-s pr-indent-10">单据编号</span>
+                      <span class="flex-item-6 text-right pr-indent-10"><strong class="color-6 text-normal">{{tr.orderNo}}</strong></span>
+                    </div>
+                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                      <span class="flex-item-6 pdl mgb-s text-left">入库日期</span>
+                      <span class="flex-item-6 text-right">
+                          <strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd'}}</strong>
+                      </span>
+                    </div>
+                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                      <span class="flex-item-6 pdl mgb-s text-left">入库条目数</span>
+                      <span class="flex-item-6 text-right">
+                          <strong class="color-6 text-normal">{{tr.inInstockDetails.length|| '0'}}</strong>
+                      </span>
+                    </div>
+                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                      <span ng-if="tr.type=='报溢入库单'||tr.type=='WMS报溢入库单'"
+                      class="flex-item-6 pdl mgb-s text-left">参考报溢单</span>
+                      <span ng-if="tr.type=='批次解冻入库单'||tr.type=='WMS批次解冻入库单'"
+                      class="flex-item-6 pdl mgb-s text-left">参考批次解冻单</span>
+                      <span class="flex-item-6 text-right">
+                        <a
+                        ng-if="tr.type=='报溢入库单'||tr.type=='WMS报溢入库单'"
+                        href="#/lossOverOrder/get-overflow.html?orderNo={{tr.sourceOrderNo}}">
+                          <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
+                        </a>
+                        <a
+                        ng-if="tr.type=='批次解冻入库单'||tr.type=='WMS批次解冻入库单'"
+                        href="#/freezeThawOrder/get-thaw.html?orderNo={{tr.sourceOrderNo}}">
+                          <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
+                        </a>
+
+                      </span>
+                    </div>
+
+                    <div class="flex-column qurey text-s color-9 mgb bt-line"
+                    style="height50px;overflow:hidden"
+                      >
+                      <p ng-if="tr.orderStatus!='未通过'"
+                      title="{{tr.note}}"
+                      class="loss-over-order-details-note">
+                        <span class="pdl">备注：</span><span class="color-6">{{tr.note || '暂无'}}</span>
+                      </p>
+                      <!-- <p ng-if="tr.orderStatus=='未通过'"
+                      title="{{tr.operationFlowSet[1].key}}{{tr.operationFlowSet[1].message}}"
+                      class="loss-over-order-details-note">
+                        <span class="pdl">原因：</span>
+                        <span class="color-6">
+                          {{tr.operationFlowSet[1].key || '暂无'}}
+                          {{tr.operationFlowSet[1].message}}
+                        </span>
+                      </p> -->
+                    </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </div>
+</table-list>
+</div>
