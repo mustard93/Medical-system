@@ -4,64 +4,64 @@
               search-mode="noCaseSensitive"
               search-param="q"
               >
-<!-- 主内容头部 -->
-<div class="content-wrapper-heading pdb-m mgb-l relative">
-    <!-- 模块标题及面包屑 -->
-    <p class="pdb-s pdt-s mgb-l crumbs pr-indent-35">库存管理 > <em>其他入库单</em></p>
-    <div class="pd-c-xxxxl">
-      <div class="full-width mgb-m">
-        <div class="pos-rel-tl inline-block fl-l">
-        <h1 class="pr-font-22 color-black">其他入库单</h1>
-        </div>
-      </div>
-    </div>
+              <div class="content-wrapper-heading pdb-m mgb-l relative">
+                  <!-- 模块标题及面包屑 -->
+                  <p class="pdb-s pdt-s mgb-l crumbs pr-indent-35">库存管理 > <em>其他入库单</em></p>
+                  <div class="pd-c-xxxxl">
+                    <div class="full-width mgb-m">
+                      <div class="pos-rel-tl inline-block fl-l">
+                      <h1 class="pr-font-22 color-black">其他入库单</h1>
+                      </div>
+                    </div>
+                  </div>
 
 
-  <!-- 搜索 -->
-  <div class="text-right order-list-search relative full-width">
-    <div class="relative left--40">
-      <span class="mgr color-999">仓库</span>
-      <select class="pr-select select-wd mgr-xl"
-       chosen
-        ng-model="listParams.warehouseCode"
-        default-empty="全部"
-        select-source="rest/authen/warehouse/queryForSelectOption">
-      </select>
-      <span class="mgr color-999">其他入库类型</span>
-      <select class="pr-select select-wd mgr-xl"
-              chosen
-              ng-model="listParams.type"
-              default-empty="全部"
-              select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InstockOrderType">
-      </select>
+                <!-- 搜索 -->
+                <div class="text-right order-list-search relative full-width">
+                  <div class="relative left--40">
+                    <span class="mgr color-999">仓库</span>
+                    <select class="pr-select select-wd mgr-xl"
+                     chosen
+                      ng-model="listParams.warehouseCode"
+                      default-empty="全部"
+                      select-source="rest/authen/warehouse/queryForSelectOption">
+                    </select>
+                    <span class="mgr color-999">其他入库类型</span>
+                    <select class="pr-select select-wd mgr-xl"
+                            chosen
+                            ng-model="listParams.type"
+                            default-empty="全部"
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OutstockOrderType">
+                    </select>
 
-      <span class="mgr color-999">入库日期</span>
-      <div class="date-icon-Inside">
-        <input type="text"
-               datepicker
-               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-               ng-readonly="true"
-               ng-model="listParams.createAtBeg"
-               placeholder="">
-        <span class="date-icon"></span>
-      </div>
-       <span class="mgr color-999">至</span>
-    <div class="date-icon-Inside">
-       <input type="text"
-             datepicker
-             class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-             ng-readonly="true"
-             ng-model="listParams.createAtEnd"
-             placeholder="">
-      <span class="date-icon"></span>
-    </div>
+                    <span class="mgr color-999">入库日期</span>
+                    <div class="date-icon-outside">
+                      <input type="text"
+                             datepicker
+                             class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                             ng-readonly="true"
+                             ng-model="listParams.createAtBeg"
+                             placeholder="">
+                      <span class="date-icon"></span>
+                    </div>
+                     <span class="mgr color-999">至</span>
+                  <div class="date-icon-outside">
+                     <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                           ng-readonly="true"
+                           ng-model="listParams.createAtEnd"
+                           placeholder="">
+                    <span class="date-icon"></span>
+                  </div>
 
-      <input type="text" class="ipt pdr-xxl color-placeholder" placeholder="客户名/单据编号" ng-model="listParams.q">
-      <i class="serch-i"></i>
-    </div>
+                    <input type="text" class="ipt pdr-xxl color-placeholder" placeholder="客户名/单据编号" ng-model="listParams.q">
+                    <i class="serch-i"></i>
+                  </div>
 
-  </div>
-</div>
+                </div>
+              </div>
+
 
 <div class="content-wrapper wInstock-order"
      ng-controller="QualificationApplyCtrl"
