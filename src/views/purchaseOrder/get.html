@@ -52,7 +52,7 @@
           <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n}}</em></span>
           <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessType}}</em></span>
           <span class="mgr-l">采购类型：<em class="color-3">{{scopeData.purchaseType}}</em></span>
-          <span class="mgr-l">预发货日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+          <span class="mgr-l">计划到货时间：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
         </div>
         <!-- 商品列表 -->
         <div class="">
@@ -172,24 +172,9 @@
           <span class="mgr">承运公司：
               <em class="color-3">{{scopeData.payAndDelivery.kuaidiType}}</em>
           </span>
-          <span class="mgr">预入仓库：
-            <em class="color-3">{{scopeData.warehouseCode}}</em>
-          </span>
-        </div>
-      </div>
-
-      <!-- 收货方信息 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-        <header class="text-n color-3 text-bold">收货方信息
-          <span class="tools pull-right">
-            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-          </span>
-        </header>
-        <div class="panel-body" style="display:none;padding:15px 0;">
-          <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
-          <p class="">收货人信息：
-            {{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}&nbsp;&nbsp;{{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}
-          </p>
+          <!-- <span class="mgr">预入仓库：
+            <em class="color-3">{{scopeData.warehouseName}}</em>
+          </span> -->
         </div>
       </div>
       <!-- 发货方信息 -->
@@ -231,6 +216,21 @@
           </div> -->
         </div>
       </div>
+      <!-- 收货方信息 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <header class="text-n color-3 text-bold">收货方信息
+          <span class="tools pull-right">
+            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+          </span>
+        </header>
+        <div class="panel-body" style="display:none;padding:15px 0;">
+          <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
+          <p class="">收货人信息：
+            {{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}&nbsp;&nbsp;{{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}
+          </p>
+        </div>
+      </div>
+
       <!-- 备注 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
         <h1 class="text-bold color-3">备注</h1>
@@ -256,10 +256,6 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-
-
-            <!-- <span  bottom-button-list="bottomButtonList">  </span> -->
-
         <a ng-if="changeFlag" href="javascript:;" class="mgr"
            handle-this-click
            dialog-title="确认返回?"
@@ -268,33 +264,20 @@
            nosave-callback="goTo('#/purchaseOrder/query.html')"
            save-callback="submitForm('editForm','exit')">返回采购单列表
         </a>
-
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/purchaseOrder/query.html?id={{scopeData.relId}}" >返回采购单列表</a>
-
-
-<!--
-        <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
-           href="javascript:;"
-           class="pr-color-red mgr"
-           handle-this-click
-           dialog-title="确认删除?"
-           dialog-content="您确认删除这条采购单吗?"
-           dialog-template="dialog-confirm.html"
-           request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
-           call-back="$root.goTo('#/salesOrder/query.html')">删除
-        </a> -->
-
-        <!-- <button ng-if="formData.orderStatus=='待审核'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button> -->
-
-        <button ng-if="formData.orderStatus=='待审核'" type="button" class="pr-btn-save-glodbg mgr">
+        <button ng-if="scopeData.orderStatus=='待审核'" type="button" class="pr-btn-save-glodbg mgr">
           <a class="color-white" target="_blank">导出采购合同</a>
         </button>
+        </span>
 
-        <!-- <button type="button" class="pr-btn-save-glodbg mgr">
-          <a class="color-white" ng-href="indexOfPrint.html#/print/purchaseOrderPrint.html?id={{scopeData.id}}" target="_blank">打印预览</a>
-        </button> -->
-
-        <span ng-if="formData.orderStatus=='待审核'&&scopeData.didateFilter.buttons.length>0"
+        <button ng-if="scopeData.orderStatus=='待采购'"
+                        class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                        type="button"
+                        ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{scopeData.id}}"
+                        alert-error
+                        callback="$root.goTo('#/purchaseVoucher/get.html?relId={{scopeData.id}}')">生成采购凭证
+      </button>
+        <span ng-if="scopeData.didateFilter.buttons.length>0 && scopeData.orderStatus=='待采购'"
               custom-menu-list
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span>
