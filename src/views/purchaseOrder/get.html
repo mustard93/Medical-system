@@ -265,8 +265,15 @@
            save-callback="submitForm('editForm','exit')">返回采购单列表
         </a>
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/purchaseOrder/query.html?id={{scopeData.relId}}" >返回采购单列表</a>
-        <button ng-if="scopeData.orderStatus=='待审核'" type="button" class="pr-btn-save-glodbg mgr">
-          <a class="color-white" target="_blank">导出采购合同</a>
+
+        <button  type="button" class="pr-btn-save-glodbg mgr"
+        modal-center="400"
+        modal-data='{"id":"{{scopeData.id}}"}'
+        modal-scope="this"
+        modal-url="views/purchaseOrder/dialog-export-word.html"
+
+        >
+        导出采购合同
         </button>
         </span>
 
