@@ -311,7 +311,7 @@ define('project/services', ['project/init'], function () {
 
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                    var bottomButton={  "iconClass":"edit-link-icon","showName":"查看物流",
+                    var bottomButton={  "iconClass":"View-Logistics-icon","showName":"查看物流",
                     "ngShow":"tr.orderStatus=='已发货'",
                     "ahref":"#/confirmOrder/get.html?openWuliu=true&id="+showData.id};
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
