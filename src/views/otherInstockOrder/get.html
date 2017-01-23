@@ -1,0 +1,144 @@
+<div class="content-wrapper"
+     ajax-url="rest/authen/wInstockOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback="formData={};formData.id=showData.medicalStockId"
+     alert-error>
+     <!-- 头部信息 -->
+     <div class="relative bb-line">
+       <div class="pd-l">
+         <!-- 标题 -->
+         <div class="mgb-m">
+           <p class="mgb-m crumbs pr-indent-10">库存管理 >
+             其它入库单详情</p>
+           <h1 class="pr-font-22 color-black">其它入库单详情</h1>
+         </div>
+         <h1 class="color-black text-l">
+           <!-- 昆明库 -->
+           {{showData.warehouseName}}
+       </h1>
+       </div>
+       <!-- <div ng-if="showData.orderStatus=='未通过'"
+        class="pr-panel pr-panel-height mgb">
+         <em class="color-red">原因:</em>
+         <em>{{showData.operationFlowSet[1].key}}</em>
+         <em>{{showData.operationFlowSet[1].message}}</em>
+       </div> -->
+     </div>
+     <!-- 主内容区域 -->
+    <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
+      <div class=" color-9">
+        <p class="flex-column mgb  pd">
+          <span class="flex-item-5">
+            单据编号：<em >{{showData.orderNo || '暂无'}}</em>
+            <em  class="mgl">部门：</em><em>{{showData.departmentName|| '暂无'}}</em>
+            <em  class="mgl">入库类型：</em><em class="color-black">{{showData.type|| '暂无'}}</em>
+          </span>
+          <span class="flex-item-6 text-right">
+            入库日期：<em >{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
+          </span>
+          <span class="flex-item-1 text-right">状态：
+            <em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">
+            {{showData.orderStatus}}
+          </em>
+        </span>
+        </p>
+
+          <!-- 主内容头部 -->
+            <!-- 主内容区域 -->
+            <div class="content-wrapper-main ">
+              <div class="Inside-table-d">
+                <table class="table pr-table pr-new-table table-s-wid" >    <!-- table-wid -->
+                    <thead class="pr-bg-side">
+                      <tr>
+                        <th class="text-center">商品编码</th>
+                        <th class="text-center">商品代码</th>
+                        <th class="text-left w-100">商品名称</th>
+                        <th class="text-center">规格型号</th>
+                        <th class="text-center">单位</th>
+                        <th class="text-center">数量</th>
+                        <th class="text-center">生产批号/灭菌批号</th>
+                        <th class="text-center">生产日期</th>
+                        <th class="text-center">保质期</th>
+                        <th class="text-center">失效日期</th>
+                        <th class="text-center">产品执行标准</th>
+                        <th class="text-center">保存温度</th>
+                        <th class="text-center">产地品牌</th>
+                        <th class="text-center">产品注册证号</th>
+                        <th class="text-center">注册证有效期</th>
+                      </tr>
+                    </thead>
+
+                    <tbody class="pr-bg-white" >
+
+                      <tr ng-repeat="tr in showData.inInstockDetails" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                        <td class="text-center">{{tr.code}}</td>
+                        <td class="text-center">{{tr.goodsCode}}</td>
+                        <td class="text-center">
+                        <div class="autocut-l" title="{{tr.medicalStockName}}">
+                          {{tr.name}}
+                        </div>
+                        </td>
+                        <td class="text-center">
+                          {{tr.modelType}}
+                        </td>
+                        <td class="text-center">
+                          {{tr.unit}}
+                        </td>
+
+                        <td class="text-center">
+                        {{tr.quantity}}
+                        </td>
+
+                        <td class="text-center">
+                          <!-- 生产批号 -->
+                        {{tr.productionBatch}}
+                        </td>
+                        <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                        <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
+                        <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
+
+                        <td class="text-center">
+                          <!-- 产品执行标准 -->
+                        </td>
+
+                        <td class="text-center">
+                          <!-- 保存温度 -->
+                        </td>
+
+                        <td class="text-center">
+                          {{tr.brand}}
+                        </td>
+
+                        <td class="text-center">
+                        {{tr.drugAdministrationCode}}
+                        </td>
+                        <td>
+                          {{tr.drugAdministrationCodeGuaranteePeriod}}
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+
+      </div>
+    </div>
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
+      <!-- 备注 -->
+      <div class="note">
+        <p class="pd-v-l">备注：{{showData.note}}</p>
+      </div>
+    </div>
+</div>
+
+<div class="handle-btn-area relative">
+  <div class="btn-area-new over-write-wid">
+      <span class="mgr-l">
+        <a  href="#/otherInstockOrder/query.html">返回其他入库单列表</a>
+      </span>
+      <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
+       custom-menu-list
+       custom-menu-arr="{{showData.didateFilter.buttons}}">
+      </span>
+  </div>
+</div>
