@@ -62,31 +62,27 @@
               <span class="flex-item-2 pd">
                   单据编号：<em >{{formData.orderNo || '暂无'}}</em>
               </span>
-                <div class="pd-v-s flex-item-4 ">
-                  <div class="flex-item-6">
-                    <span>部门：</span>
-                    <select class="pd-select pd-s mgb-m inline"
-                            data-placeholder=" "
-                            chosen
-                            ng-model="formData.departmentId"
-                            default-empty
-                            alert-error
-                            select-source="rest/authen/department/queryForSelectOption.json">
-                    </select>
-                  </div>
-                  <div class="flex-item-6 text-left">
-                    <span>申请人：</span>
-                    <select class="pd-select pd-s mgb-m inline"
-                            data-placeholder=" "
-                            chosen
-                            ng-model="formData.saleUserId"
-                            default-empty
-                            alert-error
-                            select-source="rest/authen/user/queryForSelectOption">
-                    </select>
-                  </div>
-
+              <div class="pd-v-s flex-item-4 ">
+                <div class="flex-item-6">
+                  <span >部门</span>
+                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                          data-placeholder=" "
+                          chosen
+                          ng-model="formData.salesDepartmentId"
+                          select-source="rest/authen/department/queryForSelectOption">
+                  </select>
                 </div>
+                <div class="flex-item-6 text-left">
+                  <span >申请人</span>
+                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                          data-placeholder=" "
+                          chosen
+                          ng-model="formData.saleUserId"
+                          select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                  </select>
+                </div>
+
+              </div>
 
                 <span class="flex-item-4  pd">
                   <!-- 单据编号：<em >{{formData.orderNo || '暂无'}}</em> -->
@@ -165,18 +161,21 @@
                   </td>
 
                   <td class="text-center">
-                    <select ng-if="tr.relId" class="pd-select pd-s mgb-m inline"
-                            data-placeholder=" "
-                            is-empty-query
+                    <!-- 生产批号 -->
+                    <select class="select pr-select pr-select-sm text-left"
                             chosen
-                            ng-model="tr.productionBatch"
-                            params='{"relMedicalStockId":"{{tr.relId}}"}'
                             default-empty
-                            alert-error
-                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption"
-                            ng-change="getCurrentProductionDate(tr.relId, tr.productionBatch)">
+                            data-placeholder=" "
+                            select-data="selectData"
+                            suffix-connection="/"
+                            suffix-key="note.salesQuantity"
+                            ng-model="tr.productionBatch"
+                            callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
+                            callback-filter-return-data="getProductionBatchValueArray(tr.stockBatchs)"
+                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{tr.relId}}"
+                            ng-change="getCurrentProductionDate(tr.relId, tr.productionBatch)"
+                            >
                     </select>
-
                   </td>
                   <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
