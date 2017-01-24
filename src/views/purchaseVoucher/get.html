@@ -2,14 +2,14 @@
       ng-controller="purchaseOrderEditCtrl"
       ajax-url="rest/authen/purchaseVoucher/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
       scope-data="scopeData"
-      callback="initFlag=true;rejectButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'驳回');passButton=$root.utils.getcustomMenuByKeyOfArr(showData.customMenu,'通过');"
-      alert-error>
+      callback="initFlag=true;watchFormChange('formData');formData.id=scopeData.id;formData.note=scopeData.note;"
+      alert-error>{{formData}}
 
   <form id="editForm"
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/purchaseOrder/save.json"
+        action="rest/authen/purchaseVoucher/updateNote"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
@@ -150,18 +150,10 @@
         <span class="mgl mgt">
           <a href="javascript:;"
              ng-if="scopeData.orderStatus=='已发送'"
-             modal-right="690"
+             modal-right="490"
              modal-scope="this"
-             modal-data='{"title":"确认",
-                          "content":"撤销后，该采购凭证将作废，确认撤销?",
-                          "btnConfirm":"确定",
-                          "btnCancel":"取消",
-                          "url":"rest/authen/purchaseVoucher/updateStatus",
-                          "goUrl":"",
-                          "id":"{{mainStatus.pageParams.id}}",
-                          "status":"已作废"
-                        }'
-             modal-url="views/purchaseVoucher/show-send-message-list.html">查看发送记录
+             modal-data='{}'
+             modal-url="angular/tpl/pr-dialog-show-message.html">查看发送记录
           </a>
         </span>
         <span class="mgl mgt">
@@ -182,9 +174,9 @@
           </a>
         </span>
         <span class="mgr mgl mgt">
-          <button class="pr-btn-save-glodbg"
-                  type="submit"
-                  ng-disabled="!changeFlag">保存
+          <button class="pr-btn-save-glodbg mgt"
+                  ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
+                  ng-click="submitForm('first-enterprise-editForm','save')">保存
           </button>
         </span>
         <span ng-if="$root.hasAuthor('采购凭证编辑')" class="mgl">
@@ -195,14 +187,6 @@
                   modal-data='{"refreshPage":"true","id":"{{scopeData.id}}"}'
                   modal-url="views/purchaseVoucher/sendEmail.html">{{scopeData.orderStatus=='待发送'?'立即发送至厂家':'再次发送'}}
           </button>
-          <!-- <button ng-if="showData.orderStatus=='已发送'"
-             href="javascript:;"
-             class="pr-btn-save-glodbg"
-             modal-center="490"
-             modal-scope="this"
-             modal-data='{"refreshPage":"true"}'
-             modal-url="views/purchaseVoucher/sendEmail.html">再次发送
-          </button> -->
         </span>
         <span ng-if="formData.orderStatus=='待审核'&&scopeData.didateFilter.buttons.length>0"
               custom-menu-list
