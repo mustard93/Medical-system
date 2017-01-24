@@ -179,17 +179,7 @@
       </div>
 
       <!-- 流程图 -->
-      <div ng-if="showData.id" class="modal-content pr-modal-content pr-modal-process"
-             ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{showData.id}}"
-             scope-data="businessFlowData"
-             callback="businessFlowDataInitFlag=true;"
-             error-callback="businessFlowDataInitFlag=true;">
-         <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{showData.id}}"
-                 width="{{$root.utils.getMainBodyWidth()}}"
-                 height="300" base-image-url="images/canvasBusinessFlow/"
-                 spacing-height="80" spacing-width="40">
-         </canvas>
-       </div>
+      <business-flow-show business-key="{{showData.id}}" business-type="销售单"></business-flow-show>
 
 
       <div class="text-right">
