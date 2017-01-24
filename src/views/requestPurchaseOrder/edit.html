@@ -1,6 +1,6 @@
 <div class="create-new-order"
      ng-controller="requestPurchaseOrderEditCtrl"
-     ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;"
      alert-error>
@@ -55,7 +55,8 @@
              <table class="table pr-table pr-new-table table-ss-wid" >
                <thead>
                 <tr>
-                 <th><input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-change="handleChoiseAllEvent(formData.orderMedicalNos)" ng-disabled="formData.orderStatus=='已处理'"></th>
+                 <th><input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll"
+                   ng-change="handleChoiseAllEvent(formData.orderMedicalNos)" ng-disabled="formData.orderStatus=='已处理'"></th>
                  <th class="text-center">商品编号</th>
                  <th>商品全名</th>
                  <th>供应商</th>
@@ -78,7 +79,8 @@
                <tbody class="bg-white">
                  <tr ng-repeat="tr in formData.orderMedicalNos" salesorder-edit-show-delbtn>
                  <td class="select-td">
-                   <input type="checkbox" class="selectOne" ng-model="tr.handleFlag" ng-change="chkChoiseMedicals(tr,formData.orderMedicalNos);" ng-disabled="formData.orderStatus=='已处理'">
+                   <input type="checkbox" class="selectOne" ng-model="tr.handleFlag"
+                   ng-change="chkChoiseMedicals(tr,formData.orderMedicalNos);" ng-disabled="formData.orderStatus=='已处理'">
                  </td>
                    <td class="text-center">{{tr.code}}</td>
                    <td class="text-center">
@@ -138,7 +140,7 @@
                             popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'  -->
                    </td>
                    <td class="text-center">
-                     <select class="ipt pr-short-ipt" name="" ng-disabled="formData.orderStatus=='已处理'">
+                     <select class="ipt pr-short-ipt" name="" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.taxRate">
                        <option>17</option>
                        <option>3</option>
                      </select>%
@@ -150,15 +152,14 @@
                      </select> % -->
                    </td>
                    <td class="text-right">
-                     ￥{{$root.requestPurchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
+                     ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
                    </td>
                    <td class="text-right">
-                     ￥{{$root.requestPurchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
+                     ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
                    </td>
                    <td class="text-right">
-                     ￥{{$root.requestPurchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
+                     ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
                    </td>
-
                    <td class="text-center">
                      {{tr.storedTemperature}}
                      <!-- 保存温度 -->
@@ -166,14 +167,11 @@
                    <td class="text-center">
                      {{tr.brand}}
                    </td>
-
                    <td class="text-center">
                    {{tr.drugAdministrationCode}}
                    </td>
-
                    <td class="text-center relative">
                      {{tr.drugAdministrationCodeGuaranteePeriod}}
-
                    </td>
                    <td>
 
@@ -194,6 +192,91 @@
          <h1 class="text-bold color-3">备注</h1>
          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note" ng-disabled="formData.orderStatus=='已处理'"></textarea>
        </div>
+       <div class="">
+         <table-list ng-if="formData.id" list-data="rest/authen/purchaseOrder/getListByRelId?relId={{formData.id}}">
+           <h1 class="mgb pdb text-n text-bold">已生成采购单部分</h1>
+           <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+             <header class="text-n color-3 flex-column">
+               <span class="flex-item-11">
+                 <div class=" color-9 text-s">
+                   <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
+                   <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
+                   <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
+                   <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                   <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
+                   <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+                 </div>
+               </span>
+               <span class="tools pull-right flex-item-1">
+                 <a href="javascript:;" class="fa fa-chevron-down" toggle-panel style="float:right"></a>
+               </span>
+             </header>
+
+              <div class="panel-body" style="display:none;padding:15px 0;margin:0 -20px;">
+                 <div class=" outside-table-d">
+                 <table class="table pr-table pr-new-table table-ss-wid">
+                   <thead>
+                     <tr>
+                       <th class="text-center">商品编号</th>
+                       <th>商品全名</th>
+                       <th>供应商</th>
+                       <th class="text-center">规格/型号</th>
+                       <th class="text-center">单位</th>
+                       <th class="text-center">数量</th>
+                       <th class="text-center w-110">批号要求</th>
+                       <th class="text-center">原币含税单价</th>
+                       <th class="text-center">税率</th>
+                       <th class="text-center">原币单价</th>
+                       <th class="text-center">原币金额</th>
+                       <th class="text-center">原币价税合计</th>
+                       <th class="text-center">保存温度</th>
+                       <th class="text-center">产地品牌</th>
+                       <th class="text-center">产品注册证号</th>
+                       <th class="text-center">产品注册证有效期</th>
+                       <th class="text-center">合同号</th>
+                     </tr>
+                   </thead>
+                   <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
+                     <tr ng-repeat="tr in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                       <td class="text-center">{{tr.code}}</td>
+                       <td class="text-center">
+                         <div class="autocut-l" title="{{tr.name}}">
+                             {{tr.name}}
+                         </div>
+                       </td>
+                       <td>{{tr.supplierName}}</td>
+                       <td class="text-center">{{tr.modelType}}</td>
+                       <td class="text-center">{{tr.unit}}</td>
+                       <td class="text-center">{{tr.quantity}}</td>
+                       <td class="text-center">{{tr.batchRequirement}}</td>
+                       <td class="text-center">{{tr.price | currency:'￥'}}</td>
+                       <td class="text-center">{{tr.taxRate}}%</td>
+                       <td class="text-right">
+                         ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
+                       </td>
+                       <td class="text-right">
+                         ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
+                       </td>
+                       <td class="text-right">
+                         ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
+                       </td>
+                       <td class="text-center">{{tr.storedTemperature}}</td>
+                       <td class="text-center">{{tr.brand}}</td>
+                       <td class="text-center">{{tr.drugAdministrationCode}}</td>
+                       <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}</td>
+                       <td></td>
+                     </tr>
+                   </tbody>
+                 </table>
+                 <div ng-if="!showData.orderMedicalNos.length" class="empty-table">
+                   <span></span>
+                   <span></span>
+                   <span></span>
+                 </div>
+               </div>
+               </div>
+       </div>
+
     </div>
     <!-- 流程图 -->
     <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
@@ -213,29 +296,37 @@
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
 
-        <button ng-disabled="formData.orderStatus=='已处理'"
-                class="btn-reject mgl mgt mgr color-white text-center"
-                type="button"
-                handle-this-click
-                dialog-title="确认关闭?"
-                dialog-content="关闭后，该请购单将变为已处理状态，确定关闭?"
-                dialog-template="pr-dialog-submit.html"
-                request-url="rest/authen/requestPurchaseOrder/updateStatus"
-                params='{"id":"{{formData.id}}","status":"已处理"}'
-                alert-error
-                callback="$root.utils.refreshHref()">关闭
-        </button>
+        <span ajax-if-eval="true"
+              ajax-url="rest/authen/requestPurchaseOrder/isCanClose?id={{mainStatus.pageParams.id}}"
+              scope-data="scopeData">
+            <button ng-if="scopeData.code==200"
+                    ng-disabled="formData.orderStatus=='已处理'"
+                    class="btn-reject mgl mgt mgr color-white text-center"
+                    type="button"
+                    handle-this-click
+                    dialog-title="确认关闭?"
+                    dialog-content="关闭后，该请购单将变为已处理状态，确定关闭?"
+                    dialog-template="pr-dialog-submit.html"
+                    request-url="rest/authen/requestPurchaseOrder/updateStatus"
+                    params='{"id":"{{formData.id}}","status":"已处理"}'
+                    alert-error
+                    callback="$root.utils.refreshHref()">关闭
+            </button>
+        </span>
 
+        <span class="mgt-m">
+          <button ng-disabled="!changeFlag"
+                  class="pr-btn-save-glodbg mgr-s"
+                  ng-click="submitForm('purchaseForm','save')">保存
+          </button>
+        </span>
+        <span class="mgt-m">
+          <button ng-disabled="!choisedMedicals"
+                  ng-click="submitForm('purchaseForm','submit')"
+                  class="pr-btn-create-glodbg">生成采购单
+          </button>
+        </span>
 
-        <button ng-disabled="!changeFlag"
-                class="pr-btn-save-glodbg mgr-s"
-                ng-click="submitForm('purchaseForm','save')">保存
-        </button>
-
-        <button ng-disabled="!choisedMedicals"
-                ng-click="submitForm('purchaseForm','submit')"
-                class="pr-btn-create-glodbg">生成采购单
-        </button>
       </div>
       <div class="total-div">
           <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice ||'0' | number:2}}</span></p>

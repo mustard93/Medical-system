@@ -2,7 +2,7 @@
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;"
      alert-error>
 <form id="editForm"
      name="purchaseForm"
@@ -125,6 +125,11 @@
              <table class="table pr-table pr-new-table" >
                <thead>
                   <tr>
+                 <th>
+                     <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false"
+                    ng-model="isChoiseAll" ng-change="handleChoiseAllEvent(formData.orderMedicalNos)"
+                    >
+                </th>
                  <th class="text-center">商品编号</th>
                  <th>商品全名</th>
                  <th class="text-center">规格/型号</th>
@@ -150,6 +155,11 @@
                  salesorder-edit-show-delbtn
                  ng-init="orderMedicalNoIds.push(tr.relId)"
                  ng-controller="purchaseOrderEditCtrl">
+                 <td class="select-td">
+                   <input type="checkbox" class="selectOne" ng-model="tr.handleFlag"
+                   ng-change="chkChoiseMedicals(tr,formData.orderMedicalNos);"
+                   >
+                 </td>
                    <td class="text-center">{{tr.code}}</td>
                    <td class="text-center">
                      <div class="autocut-l" title="{{tr.name}}">
