@@ -1,7 +1,47 @@
-/**
+7/**
  * 项目自定义指令
  */
 define('project/directives', ['project/init'], function () {
+
+  /**
+    json编辑器
+
+  */
+  function textareaJson(utils,alertError) {
+    return {
+      restrict: 'EA',
+      scope: {
+          ngModel: "="
+      },
+      templateUrl:  Config.tplPath +'tpl/project/textareaJson.html',
+      link: function ($scope, element, $attrs) {
+
+        $scope.jsonFromNgModel= function () {
+          try{
+
+            $scope.jsonString=JSON.stringify(  $scope.ngModel, null, "\t");
+
+          }catch(e){
+                console.log(e);
+                $scope.jsonString=utils.toJson($scope.ngModel);
+
+          }
+
+        };
+
+          $scope.jsonToNgModel= function (str) {
+            try{
+                $scope.ngModel=  $.parseJSON(str);
+                $scope.jsonString="";
+            }catch(e){
+              console.log(e);
+              alertError("转换错误："+e.message);
+            }
+
+          };
+      }
+    };
+  }
 
   /**
     附件文件显示
@@ -1322,6 +1362,7 @@ function intervalCountdown ($interval) {
 
 /**
  * []
+ canvas-workflow
  */
 function canvasWorkflow (modal,utils) {
   'use strict';
@@ -1333,9 +1374,16 @@ function canvasWorkflow (modal,utils) {
           ngModel:"=?"
       },
     link: function ($scope, element, $attrs) {
+      var workflow=null;
 
       // $scope.ngModel;
       // var data=$scope[$attrs.ngModel];
+
+      $scope.$watch("ngModel", function(value) {
+        console.log("watch.workflow.ngModel",value);
+        if(workflow)workflow.reload(value);
+      }, true);
+
           var data= $scope.ngModel;
           console.log(data);
           require(['WorkflowProcess'], function(WorkflowProcess) {
@@ -1371,7 +1419,7 @@ function canvasWorkflow (modal,utils) {
                 }
             };
 
-            var workflow=new WorkflowProcess($attrs.id,option);
+             workflow=new WorkflowProcess($attrs.id,option);
 
 
 
@@ -2488,6 +2536,7 @@ function addressManageComponent (requestData, utils) {
 }
 
 angular.module('manageApp.project')
+  .directive("textareaJson", ['utils', 'alertError', textareaJson]) //textarea-json
   .directive("addressManageComponent", ['requestData', 'utils', addressManageComponent])  //地址管理组件，包含待选、已选地址列表
   .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示
