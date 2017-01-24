@@ -2,8 +2,7 @@
 /**
 业务单流程图形展示
 */
-define('CanvasBusinessFlow',['JTopo'], function(JTopo){
-
+define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
       var defaultOptions={
 
            spacingWidth:20,
@@ -56,9 +55,9 @@ define('CanvasBusinessFlow',['JTopo'], function(JTopo){
         };
         function CanvasBusinessFlow(divId,option){
           if(option){
-              this.options=$.extend(true,{},defaultOptions,option);
+              this.options=jQuery.extend(true,{},defaultOptions,option);
           }else{
-              this.options=$.extend(true,{},defaultOptions);
+              this.options=jQuery.extend(true,{},defaultOptions);
           }
 
           var canvas = document.getElementById(divId);
