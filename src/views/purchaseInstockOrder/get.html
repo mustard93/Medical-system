@@ -17,11 +17,13 @@
              >采购入库单详情</p>
            <h1 class="pr-font-22 color-black">采购入库单详情</h1>
          </div>
-         <h1 class="color-black pr-font-14 text-bold">
-           客户：{{showData.customerName}}
+         <h1 class="color-black pr-font-14 text-bold"
+         ajax-url="rest/authen/arrivalNoticeOrder/get.json?orderNo={{urlInfo.search.orderNo}}"
+         scope-data="scopedata"
+         >
+           供应商：{{scopedata.supplier.name}}
          </h1>
          <h1 class="color-black pr-font-14 pdt-m">
-           昆明库
            {{showData.warehouseName}}
        </h1>
        </div>
@@ -61,10 +63,14 @@
                         <th class="text-center">商品编码</th>
                         <th class="text-center">商品代码</th>
                         <th class="text-left w-100">商品名称</th>
-                        <th class="text-center">规格型号</th>
+                        <th class="text-center">规格/型号</th>
                         <th class="text-center">单位</th>
                         <th class="text-center">数量</th>
-                        <th class="text-center">生产批号/灭菌批号</th>
+                        <th class="text-center">含税单价</th>
+                        <th class="text-center">含税金额</th>
+                        <th class="text-center">税率</th>
+                        <th class="text-center">生产批号</th>
+                        <th class="text-center">灭菌批号</th>
                         <th class="text-center">生产日期</th>
                         <th class="text-center">保质期</th>
                         <th class="text-center">失效日期</th>
@@ -77,7 +83,6 @@
                     </thead>
 
                     <tbody class="pr-bg-white" >
-
                       <tr ng-repeat="tr in showData.inoutstockDetails" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                         <td class="text-center">{{tr.code}}</td>
                         <td class="text-center">{{tr.goodsCode}}</td>
@@ -93,24 +98,38 @@
                           {{tr.unit}}
                         </td>
 
-                        <td class="text-center">
+                        <td class="text-right">
                         {{tr.quantity}}
                         </td>
-
+                        <td class="text-right">
+                          {{tr.price}}
+                        </td>
+                        <td class="text-right" >
+                          <!-- 含税金额-->
+                        </td>
+                        <td class="text-right">
+                        {{tr.taxRate}}%
+                        </td>
                         <td class="text-center">
                           <!-- 生产批号 -->
                         {{tr.productionBatch}}
                         </td>
+                        <td class="text-center">
+                        {{tr.sterilizationBatchNumber}}
+                        </td>
+
                         <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                         <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                         <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
                         <td class="text-center">
                           <!-- 产品执行标准 -->
+                          {{tr.productStandard}}
                         </td>
 
                         <td class="text-center">
                           <!-- 保存温度 -->
+                          {{tr.storedTemperature}}
                         </td>
 
                         <td class="text-center">
