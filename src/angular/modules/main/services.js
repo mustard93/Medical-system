@@ -42,6 +42,7 @@ define('main/services', ['toastr','main/init'], function (toastr) {
         var config={
             method: method,
             url: _url,
+            cache:false,//屏蔽angluar 请求数据的 的缓存，避免脏数据
             data: _params || {},
             withCredentials: true,
             headers: {
