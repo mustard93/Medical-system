@@ -5,7 +5,11 @@
      scope-data="businessFlowData"
      callback="businessFlowDataInitFlag=true;"
      error-callback="businessFlowDataInitFlag=true;">
-   <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"
+
+     <div ng-if="businessFlowDataInitFlag && !(businessFlowData.events.length>0)">
+            无业务流程数据
+     </div>
+   <canvas ng-if="businessFlowDataInitFlag&& (businessFlowData.events.length>0)"  id="canvas" canvas-business-flow ng-model="businessFlowData"
     cur-rel-id="{{businessKey}}"
            width="{{$root.utils.getMainBodyWidth()}}" height="400px"
            base-image-url="images/canvasBusinessFlow/"
