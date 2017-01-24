@@ -46,7 +46,14 @@
                <div class="flex-item-6 text-right">
                  <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
                  <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
-                 <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+                 <a
+                 modal-center="1000px"
+                 modal-data='{"businessKey":"{{formData.id}}"}'
+                 modal-scope="this"
+                 modal-url="views/workflowTask/getOfDialog.html"
+                 >
+               <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+                 </a>
                </div>
              </div>
 
@@ -216,7 +223,7 @@
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
 
-          <button 
+          <button
                   class="btn-reject mgl mgt color-white text-center"
                   type="button"
                   handle-this-click

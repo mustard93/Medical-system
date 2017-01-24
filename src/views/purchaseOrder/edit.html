@@ -134,7 +134,9 @@
                  <th>商品全名</th>
                  <th class="text-center">规格/型号</th>
                  <th class="text-center">单位</th>
-                 <th class="text-center">数量</th>
+                 <th class="text-center" ng-if="formData.relId">请购数量</th>
+                 <th class="text-center" ng-if="!formData.relId">数量</th>
+                 <th class="text-center" ng-if="formData.relId">实际数量数量</th>
                  <th class="text-center w-110">批号要求</th>
                  <th class="text-center">原币含税单价</th>
                  <th class="text-center">税率</th>
@@ -172,6 +174,9 @@
                    <td class="text-center">
                      {{tr.unit}}
                    </td>
+                   <td class="text-right" ng-if="formData.relId">
+                     {{tr.planQuantity}}
+                   </td>
                    <td class="text-center">
                      <!-- <input type="text" class="ipt ipt-w text-right" ng-model="tr.quantity"> -->
                      <div class="order-goods-num">
@@ -185,6 +190,9 @@
                        </span>
                        <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                      </div>
+                     <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId">
+                       待采购数量：{{tr.planQuantity-tr.quantity}}
+                     </p>
                    </td>
                    <td>
                      <select class="select pr-select pr-select-sm text-left"
@@ -258,6 +266,14 @@
                  </tr>
                </tbody>
              </table>
+             <div class="color-red pd-c-v-l">
+               <p class="color-red">
+                 选中商品中，存在少于请购数量品种。该部分将被退回并保留在请购单
+                 <a href="#/requestPurchaseOrder/edit.html?id={{formData.relId}}">
+                   <em class="color-href">{{formData.relOrderNo}}</em>
+                 </a>
+               </p>
+             </div>
              <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
                <div class="empty-table">
                  <span></span>

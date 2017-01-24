@@ -23,7 +23,14 @@
         <span class="mgr-l color-9">采购审批：<em class="color-custom-orange">{{showData.approverUser.n}}</em></span>
         <span ng-if="showData.orderStatus=='待批款'" class="mgr-l color-9">财务审批：<em class="color-6">暂无</em></span>
         <span ng-if="showData.orderStatus=='待付款'" class="mgr-l color-9">财务审批：<em class="color-custom-orange">{{showData.approverUser.n}}</em></span>
-        <span class="color-9">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
+        <a
+        modal-center="1000px"
+        modal-data='{"businessKey":"{{showData.id}}"}'
+        modal-scope="this"
+        modal-url="views/workflowTask/getOfDialog.html"
+        >
+      <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+        </a>
       </div>
     </div>
     <!-- 供货商信息 -->
