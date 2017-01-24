@@ -1,7 +1,8 @@
-<div class="content-wrapper"
+<div ng-controller="saleOutstockOrderController"
+     class="woutstock-order content-wrapper"
      ajax-url="rest/authen/wOutstockOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback="formData={};formData.id=showData.medicalStockId"
+     callback="formData={};formData.wOutstockOrderId=showData.id;formData.id=showData.medicalStockId;addAreaisShow=false;"
      alert-error>
      <!-- 头部信息 -->
      <div class="relative">
@@ -118,6 +119,54 @@
      <!-- 物流信息 -->
      <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);margin-left:-20px;margin-right:-20px;">
        <h1 class="pd-v-m">物流信息</h1>
+       <div class="woutstock-order-express">
+         <ul>
+           <li class="express-list" ng-repeat="item in showData.kuaidiSet" ng-init="editDelIsShow=false">
+             <div class="flex-column pd-v-s bb-line">
+               <div class="flex-item-6 pr-indent-10" style="margin-top:3px;"></div>
+               <div class="flex-item-6 text-right pdt-s relative">
+                 <a href="javascript:;">
+                   <em class="circle"></em>
+                   <em class="circle"></em>
+                   <em class="circle"></em>
+                 </a>
+                 <div class="edit-del-btn text-center" ng-if="editDelIsShow">
+                   <p class="pdt-s pdb-s bb-dashed-line"><a href="#">编辑</a></p>
+                   <p class="pdt-s pdb-s"><a href="#" class="color-red">删除</a></p>
+                 </div>
+               </div>
+             </div>
+             <div class="text-center pdt-l">
+               <p class="mgb-s">{{item.type}}</p>
+               <p class="color-orange">{{item.nu}}</p>
+             </div>
+           </li>
+           <!-- 添加物流信息li -->
+           <li class="express-info express-list" ng-if="addAreaisShow">
+             <div class="mgt">
+               <select class="select pr-select"
+                       ng-model="formData.type"
+                       chosen
+                       select-source="rest/baseData/queryForSelectOptionByType?type=快递类型">
+              </select>
+               <!-- <select class="select pr-select" style="height:33px">
+                 <option value="全一快递">全一快递</option>
+               </select> -->
+             </div>
+             <div class="mgt">
+               <input type="text" class="ipt" ng-model="formData.nu" />
+             </div>
+             <div class="flex-column mgt">
+               <span class="flex-item-6"><a href="javascript:;" ng-click="addAreaisShow=false;">取消</a></span>
+               <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xsm">保存</a></span>
+             </div>
+           </li>
+           <!-- 添加按钮 -->
+           <li class="add-btn express-list">
+             <a href="" ng-click="addAreaisShow=!addAreaisShow"><span class="fa fa-plus"></span></a>
+           </li>
+         </ul>
+       </div>
      </div>
      <!-- 流程图 -->
      <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
