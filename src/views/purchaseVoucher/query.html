@@ -1,47 +1,29 @@
 <!-- 主内容头部 -->
 <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxxl">采购中心 ><em class="color-custom-orange">采购单</em></p>
+  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxxl">采购中心 / <em class="color-custom-orange">采购凭证</em></p>
   <div class="pd-c-xxxxxxl">
     <div class="pos-rel-tl inline-block fl-l">
-      <h1 class="pr-font-20 color-black">采购单</h1>
+      <h1 class="pr-font-20 color-black">采购凭证</h1>
     </div>
     <!-- 新建按钮及状态按钮 -->
     <div class="full-width mgb-m">
-
-       <div class="order-status-btn pos-rel-tr text-right"
-             ajax-url="rest/authen/purchaseOrder/countByOrderStatus.json"
-             scope-data="countByOrderStatus"
-             alert-error>
-            <div class=""></div>
-
-            <div class="btn btn-group"   scope-data="statusList">
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold" ng-click="listParams.orderStatus=''">全部</button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='待发送'">待发送
-                <span class="pj-badge" ng-if='countByOrderStatus["待发送"]'>{{countByOrderStatus["待发送"]}}</span>
-              </button>
-              <button order-status-choise type="button" class="btn pr-btn-transparentbg" ng-click="listParams.orderStatus='已发送'">已发送
-                <!-- <span class="pj-badge" ng-if='countByOrderStatus["已发送"]'>{{countByOrderStatus["已发送"]}}</span> -->
-              </button>
-            </div>
-        </div>
-    </div>
-
-    <div ng-if="$root.hasAuthor('采购单编辑')" class="pos-rel-tl order-create-btn inline-block fl-l">
-      <a href="#/purchaseOrder/edit.html" title="新建采购单"><i></i><span class="text-s">新建采购单</span></a>
+      <div class="order-status-btn pos-rel-tr text-right"
+           ajax-url="rest/authen/purchaseVoucher/countByOrderStatus.json"
+           scope-data="countByOrderStatus"
+           alert-error>
+          <div class=""></div>
+          <div class="btn btn-group">
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="待发送"  count-map="countByOrderStatus">  </button>
+            <button query-order-status-button  ng-model="listParams.orderStatus" key="已发送"  count-map="countByOrderStatus">  </button>
+          </div>
+          <button query-order-status-button  ng-model="listParams.orderStatus" key="已作废" count-map="countByOrderStatus">  </button>
+      </div>
     </div>
 
     <!-- 右侧搜索 -->
     <div class="text-right order-list-search pos-rel-tr inline-block fl-r">
       <div class="relative">
-        <span class="mgr color-999">业务类型</span>
-        <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                data-placeholder=" "
-                chosen
-                ng-model="formData.orderBusinessType"
-                select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PurchaseOrderBusinessType"
-                ng-change="chgOrderBusinessType(formData.orderBusinessType)">
-        </select>
-
         <span class="mgr color-999">录单日期</span>
         <div class="date-icon-outside">
           <input type="text"
@@ -66,17 +48,16 @@
          <input type="text" class="ipt pdr-xxl" placeholder="客户名/单据编号/销售人员" ng-model="listParams.q">
            <i class="serch-i"></i>
        </div>
-
       </div>
-
     </div>
   </div>
 </div>
 
-<div class="content-wrapper purchase-order"
-  ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus"
->
-  <table-list list-data="{{mainStatus.requestPath}}rest/authen/purchaseOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+<div class="content-wrapper purchase-order" ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+  <table-list list-data="rest/authen/purchaseVoucher/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <div ng-if="!status.isLoading">
@@ -90,63 +71,28 @@
               <div class="relative">
                 <div class="flex-column mgb-m card-title-height min-h-m" style="height:24px;line-height:24px;">
                   <span class="flex-item-6 title-states text-bold pdt-m">
-                    <em class="pd-m">
-                        {{tr.orderStatus}}
-                    </em>
-
+                    <em class="pd-m">{{tr.orderStatus}}</em>
                   </span>
                   <span class="flex-item-6 text-right">
-                    <span ng-if="tr.orderStatus=='未提交'" >
-                      <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
-                         href="javascript:;"
-                         class="mr--14"
-                         handle-this-click
-                         dialog-title="确认删除 ?"
-                         dialog-content="您确认删除这条采购单吗?"
-                         dialog-template="dialog-confirm.html"
-                         request-url="rest/authen/purchaseOrder/delete?id={{tr.id}}"
-                         emitted="reloadList">
-                      <span class="rect-s " title="删除"><span class="delete-link-icon"></span></span>
-                      </a>
-                      <a href="#/purchaseOrder/edit.html?id={{tr.id}}" class="mgl">
-                      <span class="rect-s" title="编辑"><span class="edit-link-icon"></span></span>
-                      </a>
-                    </span>
-                    <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
-                      <a ng-if="tr.orderStatus=='待采购'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="mr--14">
-                        <span class="rect-s" title="生成来货通知单"><span class="create-arrive-icon"></span></span>
-                      </a>
-                      <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未提交'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="mgl">
-                        <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
-                      </a>
-                      <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                         ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">
-                         <span class="rect-s" title="立即审批"><span class="examine-approve"></span></span>
-                       </a>
-                      <!-- <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" class="mgl">查看来货通知</a> -->
-
-
-                      <!--工作流控制菜单 -->
-                        <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')" workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}" ></button>
-
-                      <!-- <button ng-if="tr.orderStatus!='已作废'&&tr.orderStatus!='未提交'&&tr.orderStatus!='待审核'&&!tr.purchaseVoucherNo&&$root.hasAuthor('采购凭证编辑')"
-                              class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                              type="button"
-                              ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{tr.id}}"
-                              alert-error
-                              callback="$root.goTo('#/purchaseVoucher/get.html?relId={{tr.id}}')">生成采购凭证
-                      </button> -->
-
-                      <!-- <a ng-if="tr.orderStatus=='已作废'"  href="#/purchaseOrder/edit.html?copyId={{tr.id}}" class="mgl">新建</a>
-
-                                    </span> -->
-
+                    <a href="javascript:;"
+                       ng-init="showData.id=tr.id"
+                       modal-center="490"
+                       modal-scope="this"
+                       modal-url="views/purchaseVoucher/sendEmail.html">
+                      <span class="rect-s" title="{{tr.orderStatus=='待发送'?'立即发送':'再次发送'}}"><span class="watch-detail-icon"></span></span>
+                    </a>
+                    <a href="#/purchaseVoucher/get.html?id={{tr.id}}">
+                      <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
+                    </a>
+                    <!--工作流控制菜单 -->
+                    <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
+                            workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}" >
+                    </button>
                   </span>
-
                 </div>
                 <div class="card-new">
                     <div class="bt-line">
-                      <h1 class="text-center text-m color-black text-ellips-s">{{tr.customerName || '暂无'}}</h1>
+                      <h1 class="text-center text-m color-black text-ellips-s" style="line-height:1.8;">{{tr.supplier.name}}</h1>
                     </div>
                     <div class="flex-column qurey text-s color-9 bt-dashed-line">
                       <span class="flex-item-6 mgb-s pr-indent-10">单据编号</span>
@@ -159,15 +105,15 @@
                       </span>
                     </div>
                     <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                      <span class="flex-item-6 pdl mgb-s text-left">采购类型</span>
+                      <span class="flex-item-6 pdl mgb-s text-left">采购条目数</span>
                       <span class="flex-item-6 text-right">
-                          <strong class="color-6 text-normal">{{tr.purchaseType}}</strong>
+                          <strong class="color-6 text-normal">{{tr.orderMedicalNos.length}}</strong>
                       </span>
                     </div>
                     <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                      <span class="flex-item-6 pdl mgb-s text-left">业务类型</span>
+                      <span class="flex-item-6 pdl mgb-s text-left">参照采购单</span>
                       <span class="flex-item-6 text-right">
-                          <strong class="text-normal">{{tr.orderBusinessType}}</strong>
+                          <strong class="text-normal color-custom-orange"><a href="#/purchaseOrder/get.html?id={{tr.relId}}">{{tr.relOrderNo}}</a> </strong>
                       </span>
                     </div>
                     <div class="flex-column qurey text-s color-9 bt-dashed-line">

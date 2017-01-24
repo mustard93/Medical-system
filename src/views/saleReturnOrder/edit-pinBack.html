@@ -169,18 +169,23 @@
         </div>
 
         <!-- 流程图 -->
-        <div ng-if="formData.id"
+
+        <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
+        <!-- <div ng-if="formData.id"
              class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
-             ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
+             ajax-url="rest/authen/businessFlow/getByBusinessKey.json"
+             params='{"businessKey":"{{formData.id}}","businessType":"销售单"}'
              scope-data="businessFlowData"
              callback="businessFlowDataInitFlag=true;"
              error-callback="businessFlowDataInitFlag=true;">
            <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{formData.id}}"
-                   width="{{$root.utils.getMainBodyWidth()}}"
+                   width="{{$root.utils.getMainBodyWidth()}}" height="300px"
                    base-image-url="images/canvasBusinessFlow/"
                    spacing-height="80" spacing-width="40">
            </canvas>
-         </div>
+         </div> -->
+
+
     </div>
 
     <!-- 功能按钮 -->

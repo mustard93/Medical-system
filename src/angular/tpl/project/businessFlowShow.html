@@ -1,0 +1,14 @@
+<div ng-if="businessKey"
+     class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
+     ajax-url="rest/authen/businessFlow/getByBusinessKey.json"
+     params='{"businessKey":"{{businessKey}}","businessType":"{{businessType}}"}'
+     scope-data="businessFlowData"
+     callback="businessFlowDataInitFlag=true;"
+     error-callback="businessFlowDataInitFlag=true;">
+   <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"
+    cur-rel-id="{{businessKey}}"
+           width="{{$root.utils.getMainBodyWidth()}}" height="400px"
+           base-image-url="images/canvasBusinessFlow/"
+           spacing-height="80" spacing-width="40">
+   </canvas>
+ </div>
