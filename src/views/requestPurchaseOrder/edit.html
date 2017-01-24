@@ -34,6 +34,7 @@
      </div>
 
      <div class="content-wrapper">
+       <!-- {{formData}} -->
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
            <!-- 列表 -->
@@ -97,7 +98,7 @@
                        </div>
                      </td>
                      <td>
-                       <!-- 供应商 -->
+                       {{tr.supplierName}}
                      </td>
                      <td class="text-center">
                        {{tr.modelType}}
@@ -240,11 +241,12 @@
                   dialog-content="关闭后，该请购单将变为已处理状态，确定关闭?"
                   dialog-template="pr-dialog-submit.html"
                   request-url="rest/authen/requestPurchaseOrder/updateStatus"
-                  params='{"id":formData.id,"status":"已处理"}'
+                  params='{"id":"{{formData.id}}","status":"已处理"}'
                   alert-error
                   callback="$root.utils.refreshHref()"
                   >关闭
           </button>
+
 
           <button class="pr-btn-save-glodbg mgr-s"
                   ng-click="submitForm('editForm','save')">保存
@@ -259,5 +261,6 @@
           <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice ||'0' | number:2}}</span></p>
       </div>
     </div>
+
 </form>
 </div>
