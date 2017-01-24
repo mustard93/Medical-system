@@ -2,14 +2,14 @@
       ng-controller="purchaseOrderEditCtrl"
       ajax-url="rest/authen/purchaseVoucher/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
       scope-data="scopeData"
-      callback="initFlag=true;watchFormChange('formData');formData.id=scopeData.id;formData.note=scopeData.note;"
-      alert-error>{{formData}}
+      callback="initFlag=true;watchFormChange('formData');formData=scopeData;"
+      alert-error>
 
   <form id="editForm"
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/purchaseVoucher/updateNote"
+        action="rest/authen/purchaseVoucher/update"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
