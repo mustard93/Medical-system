@@ -4,18 +4,19 @@
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
-<form id="editForm"
-     name="purchaseForm"
-     form-validator
-     parameter-body
-     action="rest/authen/requestPurchaseOrder/save.json"
-     alert-error
-     alert-ok
-     scope-error-msg="errorMsg"
-     scope-data="formData"
-     callback="submitFormAfter();watchFormChange('formData')"
-     onkeydown="if(window.event.keyCode==13) return false;"
-     novalidate="novalidate">
+
+     <form id="editForm"
+           name="purchaseForm"
+           form-validator
+           parameter-body
+           action="rest/authen/requestPurchaseOrder/save.json"
+           alert-error
+           alert-ok
+           scope-error-msg="errorMsg"
+           scope-data="formData"
+           onkeydown="if(window.event.keyCode==13) return false;"
+           callback="submitFormAfter();$root.watchFormChange('formData',this)"
+           novalidate="true">
 
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">采购中心 >
@@ -106,21 +107,21 @@
                      </td>
                      <td class="text-center">
                        <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1 || formData.orderStatus=='已处理'">-</button>
+                         <button type="button" ng-if=" formData.orderStatus=='已处理'" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1 || formData.orderStatus=='已处理'">-</button>
                          <span class="inline-block">
                            <input type="number"
                                   class="inline pr-table-input text-center item-quantity"
                                   style="width:60px;"
                                   ng-model="tr.quantity"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                                  ng-disabled="formData.orderStatus!='已处理'"
+                                  ng-disabled="formData.orderStatus=='已处理'"
                                   >
                          </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1 || formData.orderStatus=='已处理'">+</button>
+                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="formData.orderStatus=='已处理'">+</button>
                        </div>
                      </td>
                      <td>
-                       <select class="select pr-select pr-select-sm text-left" name="" ng-disabled="formData.orderStatus!='已处理'">
+                       <select class="select pr-select pr-select-sm text-left" name="" ng-disabled="formData.orderStatus=='已处理'">
                          <option> 无</option>
                          <option> 单一批号</option>
                          <option> 单一新批号</option>
@@ -137,7 +138,7 @@
                        <input type="text"
                               class="ipt pr-ipt-60 text-right"
                               ng-model="tr.price"
-                              ng-disabled="formData.orderStatus!='已处理'" />
+                              ng-disabled="formData.orderStatus=='已处理'" />
                               <!-- required
                               name="purchasePrice{{$index}}"
                               ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
@@ -147,7 +148,7 @@
                               popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'  -->
                      </td>
                      <td class="text-center">
-                       <select class="ipt pr-short-ipt" name="" ng-disabled="formData.orderStatus!='已处理'">
+                       <select class="ipt pr-short-ipt" name="" ng-disabled="formData.orderStatus=='已处理'">
                          <option>17</option>
                          <option>3</option>
                        </select>%
@@ -201,10 +202,12 @@
        <!-- 其他信息 -->
        <div class="relative">
          <!-- 备注 -->
-         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l" >
            <h1 class="text-bold color-3">备注</h1>
-           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note" ng-disabled="formData.orderStatus!='已处理'"></textarea>
+           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note" ng-disabled="formData.orderStatus=='已处理'"></textarea>
          </div>
+       </div>
+
        </div>
      </div>
      <!-- 流程图 -->
@@ -229,7 +232,7 @@
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
 
-          <button ng-if="formData.orderStatus!='已处理'"
+          <button ng-disabled="formData.orderStatus=='已处理'"
                   class="btn-reject mgl mgt color-white text-center"
                   type="button"
                   handle-this-click
@@ -243,26 +246,17 @@
                   >关闭
           </button>
 
-        <span class="mgr mgl mgt">
-          <button class="pr-btn-save-glodbg"
-                  type="submit"
-                  >保存
+          <button class="pr-btn-save-glodbg mgr-s"
+                  ng-click="submitForm('editForm','save')">保存
           </button>
-        </span>
-        <span>
-          <button class="pr-btn-create-glodbg mgt"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认提交?"
-                  dialog-content="提交后，将无法修改。确认提交?"
-                  dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length">生成采购单
+
+          <button ng-click="submitForm('editForm','submit')"
+                  class="pr-btn-create-glodbg"
+              >生成采购单
           </button>
-        </span>
       </div>
       <div class="total-div">
-          <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice | number:2}}</span></p>
+          <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice ||'0' | number:2}}</span></p>
       </div>
     </div>
 </form>
