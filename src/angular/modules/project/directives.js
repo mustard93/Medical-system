@@ -1414,6 +1414,23 @@ function canvasWorkflow (modal,utils) {
 
 
 
+
+/**
+  药械订单列表-采购
+*/
+function businessFlowShow() {
+  return {
+    restrict: 'EA',
+    scope: {
+        businessKey:"@",
+        businessType: "@"
+    },
+    templateUrl:  Config.tplPath +'tpl/project/businessFlowShow.html',
+    link: function ($scope, element, $attrs,ngModel) {
+
+    }//link
+  };
+}
  /**
   * 业务单流程展示
   */
@@ -2490,7 +2507,8 @@ angular.module('manageApp.project')
   .directive("handleTextOverflow", [handleTextOverflow])  // 卡片式列表页面内容超出范围的处理(动态宽度)
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
-  .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示
+  .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
+    .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
