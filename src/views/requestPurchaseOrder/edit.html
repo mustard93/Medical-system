@@ -61,7 +61,7 @@
                  <thead>
                     <tr>
                   <th>
-                    <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                    <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()" ng-disabled="formData.orderStatus=='已处理'">
                   </th>
                    <th class="text-center">商品编号</th>
                    <th>商品全名</th>
@@ -87,7 +87,7 @@
                    ng-repeat="tr in formData.orderMedicalNos"
                    salesorder-edit-show-delbtn>
                    <td class="select-td">
-                     <input type="checkbox" class="selectOne" ng-model="tr.handleFlag">
+                     <input type="checkbox" class="selectOne" ng-model="tr.handleFlag" ng-disabled="formData.orderStatus=='已处理'">
                    </td>
                      <td class="text-center">{{tr.code}}</td>
                      <td class="text-center">
@@ -106,19 +106,21 @@
                      </td>
                      <td class="text-center">
                        <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
+                         <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1 || formData.orderStatus=='已处理'">-</button>
                          <span class="inline-block">
                            <input type="number"
                                   class="inline pr-table-input text-center item-quantity"
                                   style="width:60px;"
                                   ng-model="tr.quantity"
-                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                                  ng-disabled="formData.orderStatus!='已处理'"
+                                  >
                          </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
+                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1 || formData.orderStatus=='已处理'">+</button>
                        </div>
                      </td>
                      <td>
-                       <select class="select pr-select pr-select-sm text-left" name="">
+                       <select class="select pr-select pr-select-sm text-left" name="" ng-disabled="formData.orderStatus!='已处理'">
                          <option> 无</option>
                          <option> 单一批号</option>
                          <option> 单一新批号</option>
@@ -135,7 +137,7 @@
                        <input type="text"
                               class="ipt pr-ipt-60 text-right"
                               ng-model="tr.price"
-                              />
+                              ng-disabled="formData.orderStatus!='已处理'" />
                               <!-- required
                               name="purchasePrice{{$index}}"
                               ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
@@ -145,7 +147,7 @@
                               popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'  -->
                      </td>
                      <td class="text-center">
-                       <select class="ipt pr-short-ipt" name="">
+                       <select class="ipt pr-short-ipt" name="" ng-disabled="formData.orderStatus!='已处理'">
                          <option>17</option>
                          <option>3</option>
                        </select>%
@@ -201,7 +203,7 @@
          <!-- 备注 -->
          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
            <h1 class="text-bold color-3">备注</h1>
-           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note" ng-disabled="formData.orderStatus!='已处理'"></textarea>
          </div>
        </div>
      </div>
@@ -235,7 +237,7 @@
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
 
-          <button ng-if="formData.orderStatus=='待处理'"
+          <button ng-if="formData.orderStatus!='已处理'"
                   class="btn-reject mgl mgt color-white text-center"
                   type="button"
                   handle-this-click
