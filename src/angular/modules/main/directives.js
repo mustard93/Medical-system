@@ -2403,6 +2403,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 require: "?^ngModel",
                 link: function($scope, $element, $attrs, ngModel, $transclude) {
                     var config = {
+                      cacheLength:0,
                         parse: function(data){
                           var parsed = [];
                           if(!data||!data.data)return parsed;
