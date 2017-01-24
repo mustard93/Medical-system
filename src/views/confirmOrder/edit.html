@@ -139,8 +139,8 @@
               <table class="table pr-table pr-new-table mgb-n">
                 <thead>
                   <tr>
-                    <th class="text-center w-50">
-                      <label for=""><input type="checkbox" ng-model="choiseStatus" ng-click="isChoiseAll(choiseStatus)"></label>
+                    <th>
+                      <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
                     </th>
                     <th class="text-center">商品编号</th>
                     <th>商品全名</th>
@@ -162,8 +162,8 @@
                 </thead>
                 <tbody ng-if="formData.orderBusinessType=='普通销售'">
                   <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
-                    <td class="text-center w-50">
-                      <label for=""><input type="checkbox" ng-model="item.handleFlag"></label>
+                    <td class="select-td">
+                      <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
                     </td>
                     <td class="text-center">{{item.code}}</td>
                     <td class="text-left">{{item.name}}</td>
@@ -279,8 +279,8 @@
                 </tbody>
                 <tbody ng-if="formData.orderBusinessType=='直运销售'">
                   <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
-                    <td class="text-center w-50">
-                      <label for=""><input type="checkbox" ng-model="item.handleFlag"></label>
+                    <td class="select-td">
+                      <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
                     </td>
                     <td class="text-center">{{item.code}}</td>
                     <td class="text-left">{{item.name}}</td>

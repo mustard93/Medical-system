@@ -926,6 +926,25 @@ define('project/controllers', ['project/init'], function() {
         });
       }
     };
+    $scope.handleChoiseAllEvent = function () {
+      var _dataSource = $scope.formData.orderMedicalNos;
+
+      if (!$scope.choisedMedicalList) {
+        $scope.choisedMedicalList = [];
+      }
+
+      if ($scope.isChoiseAll) {
+        angular.forEach(_dataSource, function (data, index) {
+          data.handleFlag = true;
+          $scope.choisedMedicalList.push(data);
+        });
+      } else  {
+        angular.forEach(_dataSource, function (data, index) {
+          data.handleFlag = false;
+          $scope.choisedMedicalList = [];
+        });
+      }
+    };
 
     $scope.caifenQuantity = function(tr, num) {
       tr.quantity_noInvoice_show = true;
@@ -1660,6 +1679,46 @@ define('project/controllers', ['project/init'], function() {
            //计算价格
            $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
            return true;
+       };
+
+       $scope.handleItemClickEvent = function (tr) {
+         var _dataSource = $scope.formData.orderMedicalNos;
+         if (!$scope.choisedMedicalList) {
+           $scope.choisedMedicalList = [];
+         }
+         if (tr.handleFlag) {
+           $scope.choisedMedicalList.push(tr);
+           if ($scope.choisedMedicalList.length === _dataSource.length) {
+             $scope.isChoiseAll = true;
+           }
+         } else {
+           angular.forEach($scope.choisedMedicalList, function (data, index) {
+             if (data.relId === tr.relId) {
+               $scope.choisedMedicalList.splice(index, 1);
+             }
+           });
+           $scope.isChoiseAll = false;
+         }
+       };
+
+       $scope.handleChoiseAllEvent = function () {
+         var _dataSource = $scope.formData.orderMedicalNos;
+
+         if (!$scope.choisedMedicalList) {
+           $scope.choisedMedicalList = [];
+         }
+
+         if ($scope.isChoiseAll) {
+           angular.forEach(_dataSource, function (data, index) {
+             data.handleFlag = true;
+             $scope.choisedMedicalList.push(data);
+           });
+         } else  {
+           angular.forEach(_dataSource, function (data, index) {
+             data.handleFlag = false;
+             $scope.choisedMedicalList = [];
+           });
+         }
        };
 
 
