@@ -29,15 +29,37 @@
         <a href="#/saleReturnOrder/edit-pinBack.html" title="新建销售退货单"><i></i><span class="text-s ">新建销售退货单</span></a>
       </div>
       <div class="relative">
-        <span class="mgr color-999">仓库</span>
+        <!-- <span class="mgr color-999">仓库</span>
         <select class="pr-select select-wd mgr-xl"
          chosen
           ng-model="listParams.warehouseCode"
           default-empty="全部"
           select-source="rest/authen/warehouse/queryForSelectOption">
-        </select>
+        </select> -->
 
         <span class="mgr color-999">退货日期</span>
+
+        <div class="date-icon-outside">
+          <input type="text"
+                 datepicker
+                 class="ipt pr-new-short-ipt color-6 mgr"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtBeg">
+                 <span class="date-icon"></span>
+        </div>
+           <span class="mgr">至</span>
+        <div class="date-icon-outside">
+           <input type="text"
+                 datepicker
+                 class="ipt pr-new-short-ipt color-6 mgr-l"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtEnd"/>
+                <span class="date-icon"></span>
+        </div>
+
+<!--
         <input type="text"
                datepicker
                class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -50,7 +72,7 @@
                class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
                ng-readonly="true"
                ng-model="listParams.createAtEnd"
-               placeholder="">
+               placeholder=""> -->
 
         <input type="text" class="ipt pdr-xxl color-placeholder" placeholder="单据编号" ng-model="listParams.q">
         <i class="serch-i"></i>
