@@ -2101,9 +2101,6 @@ define('project/controllers', ['project/init'], function() {
 
       console.log(event1);
 
-      if($scope.scopeExtend&&$scope.scopeExtend.workflow){
-        $scope.scopeExtend.workflow.reload($scope.formData);
-      }
       modal.closeAll();
     };
 
@@ -2116,9 +2113,7 @@ define('project/controllers', ['project/init'], function() {
           alertError('没有该节点，id='+event1.id);
           return;
       }
-      if($scope.scopeExtend&&$scope.scopeExtend.workflow){
-        $scope.scopeExtend.workflow.reload();
-      }
+
 
         modal.closeAll();
     };

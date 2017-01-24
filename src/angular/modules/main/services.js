@@ -470,11 +470,16 @@ function alertOk($rootScope, modal) {
                 // console.log("main_body="+t);
                 return t;
             },
-            //json字符串转换为js 对象。
+            //json字符串=>为js 对象。
             fromJson  : function (jsonString) {
               var firstLetter = jsonString.replace(/^\s*/, '')[0];
               return (firstLetter === '{' || firstLetter === '[') ? angular.fromJson(jsonString) : new String(jsonString);
             },
+            //json字符串<=为js 对象。
+            toJson  : function (obj) {
+              return angular.toJson(obj);
+            },
+
             //获取有指定key的scope作用域。
             getAppointScope  : function ($scope,scopeKey) {
                 if($scope[scopeKey]){
@@ -810,7 +815,7 @@ function alertOk($rootScope, modal) {
                 return dest;
             }
 
-                
+
               if(!dest)dest={};
               utilsObj.clearObject(dest);
               if(!source)return;

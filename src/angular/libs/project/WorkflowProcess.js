@@ -118,6 +118,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
 
           //添加流程图定义数据，用于图形展示
           addWorkflowProcess:function(data){
+            this.scene.clear();
             if(!data)return;
             this.data=data;
             if(!data.events)return;
