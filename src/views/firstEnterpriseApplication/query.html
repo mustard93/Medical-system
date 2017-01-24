@@ -58,6 +58,7 @@
         <ul ng-if="tbodyList.length">
           <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过'||tr.orderStatus=='已终止'),'pr-bg-whiteblue':(tr.orderStatus=='已冻结')}">
+              <!--菜单 -->
               <div class="relative">
                 <div class="flex-column mgb card-title-height" style="height:24px;line-height:24px;">
                   <span class="flex-item-6 title-states text-bold pdt-m">
@@ -151,7 +152,7 @@
                                 dialog-content="终止后，该企业资格将被取消，确定终止?"
                                 dialog-template="pr-dialog-submit.html"
                                 request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
-                                params='{"id":tr.id,"orderStatus":"已终止"}'
+                                params='{"id":tr.id,"status":"已终止"}'
                                 alert-error
                                 callback="$root.utils.refreshHref()"
                                 >
@@ -166,7 +167,7 @@
                 </div>
               <div class="card-new mgt-l">
                   <div class="bt-line">
-                    <h1 class="text-center text-m color-black text-ellips-s">{{tr.customerName || '暂无'}}</h1>
+                    <h1 class="text-center text-m color-black text-ellips-s">{{tr.firstEnterprise.fullName || '未知名称'}}</h1>
                   </div>
                   <div class="flex-column qurey text-s color-9 bt-dashed-line">
                     <span class="flex-item-6 ">单据编号</span>

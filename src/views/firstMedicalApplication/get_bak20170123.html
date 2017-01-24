@@ -5,23 +5,10 @@
      callback='bottomButtonList=$root.bottomButtonList.get_firstMedicalApplication(showData);'
 
      alert-error>
-
-
-
-       <div class="page-header-info">
-         <div class="pd-l">
-           <h1>首营品种申请</h1>
-           <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
-         </div>
-         <!-- <div ng-if="showData.orderStatus=='已冻结'"
-          class="pr-panel pr-panel-height mgb">
-           <em class="color-red">原因:</em>
-           <em>{{showData.operationFlowSet[0].key}}</em>
-           <em>{{showData.operationFlowSet[0].message}}</em>
-         </div> -->
-
-       </div>
-
+  <div class="page-header-info">
+    <h1>首营品种申请</h1>
+    <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
+  </div>
   <!-- 主体内容 -->
   <div class="content-wrapper-main mgt">
 
@@ -220,102 +207,46 @@
       </div>
 
 
-            <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'" class="handle-btn-area relative">
+      <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'"
+        class="mgb text-right" >
+        <span>
+          <a class="mgl"
+             ng-if="showData.orderStatus=='未通过'"
+             ng-href="#/firstMedicalApplication/edit.html?copyId={{showData.id}}">新建</a>
+        </span>
 
-                  <div class="mgb text-right btn-area">
-                    <span>
-                      <a class="mgl mgt"
-                         ng-if="showData.orderStatus=='未通过'"
-                         ng-href="#/firstMedicalApplication/edit.html?copyId={{showData.id}}">新建</a>
-                    </span>
-                    <span bottom-button-list="bottomButtonList">  </span>
-                    <span>
-                      <span ng-if="$root.hasAuthor('首营品种维护')&&showData.orderStatus=='已通过' ||showData.orderStatus=='已冻结'">
-                        <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
-                            ng-href="#/firstMedicalApplication/edit.html?id={{showData.id}}"
-                           >编辑</a>
-                      </span>
+            <span  bottom-button-list="bottomButtonList">  </span>
+        <!-- <span class="mgl"><a href="#/firstMedicalApplication/query.html">返回申请单列表</a></span> -->
 
-                      <span ng-if="$root.hasAuthor('首营品种维护')&&showData.orderStatus!='已冻结'&&showData.orderStatus!='已终止'">
-                        <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
-                                type="button"
-                                modal-center="490"
-                                modal-scope="this"
-                                modal-data='{"title":"确认",
-                                             "content":"冻结后，该企业资格将被暂停，直到解冻，确认冻结?",
-                                             "btnConfirm":"确定",
-                                             "btnCancel":"取消",
-                                             "url":"rest/authen/firstMedicalApplication/proposerUpdateStatus",
-                                             "goUrl":"",
-                                             "id":"{{showData.id}}",
-                                             "orderStatus":"已冻结"
-                                            }'
-                                modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
-                        </button>
-                      </span>
-                      <span ng-if="$root.hasAuthor('首营品种维护')&&showData.orderStatus=='已冻结'">
-                        <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
-                                type="button"
-                                modal-center="490"
-                                modal-scope="this"
-                                modal-data='{"title":"确认解冻?",
-                                             "content":"解冻后，该企业资格将恢复，确认解冻?",
-                                             "btnConfirm":"确定",
-                                             "btnCancel":"取消",
-                                             "url":"rest/authen/firstMedicalApplication/proposerUpdateStatus",
-                                             "goUrl":"",
-                                             "id":"{{showData.id}}",
-                                             "orderStatus":"解冻"
-                                            }'
-                                modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
-                        </button>
-                      </span>
-                      <span class="line-hei-36" ng-if="$root.hasAuthor('首营品种维护')&&showData.orderStatus!='已终止'">
-                        <button class="btn-reject mgl mgt color-white text-center"
-                                type="button"
-                                handle-this-click
-                                dialog-title="确认终止?"
-                                dialog-content="终止后，该企业资格将被取消，确定终止?"
-                                dialog-template="pr-dialog-submit.html"
-                                request-url="rest/authen/firstMedicalApplication/proposerUpdateStatus"
-                                params='{"id":showData.id,"status":"已终止"}'
-                                alert-error
-                                callback="$root.utils.refreshHref()"
+      </div>
 
-                                >终止
-                        </button>
-                      </span>
 
-                    </span>
+    </div>
 
-                  </div>
-            </div>
-        </div>
-        <div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
-          <div  class="mgb text-right btn-area">
-            <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
-            <span class="mgl">
-              <a ng-if="showData.id && showData.proposerName==mainStatus.name"
-                 href="javascript:;"
-                 class="color-red mgt"
-                 handle-this-click
-                 dialog-title="确认删除?"
-                 dialog-content="删除后将无法恢复,确认删除?"
-                 dialog-template="pr-dialog-submit.html"
-                 callback="$root.goTo('#/firstMedicalApplication/query.html')"
-                 params='{"id":showData.id}'
-                 request-url="rest/authen/firstMedicalApplication/delete">删除</a>
-            </span>
-            <span class="mgl">
-              <button class="pr-btn-save-glodbg mgt"
-                      type="button"
-                      ajax-url-submit="rest/authen/firstMedicalApplication/proposerUpdateStatus"
-                      params='{"id":showData.id,"orderStatus":"待审批"}'
-                      alert-error
-                      scope-data="showData"
-                      callback="$root.utils.refreshHref()">提交审批
-              </button>
-            </span>
-          </div>
+    <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
+      <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+      <span class="mgl">
+        <a ng-if="showData.id && showData.proposerName==mainStatus.name"
+           href="javascript:;"
+           class="color-red"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="删除后将无法恢复,确认删除?"
+           dialog-template="pr-dialog-submit.html"
+           callback="$root.goTo('#/firstMedicalApplication/query.html')"
+           params='{"id":showData.id}'
+           request-url="rest/authen/firstMedicalApplication/delete">删除</a>
+      </span>
+      <span class="mgl">
+        <button class="pr-btn-save-glodbg"
+                type="button"
+                ajax-url-submit="rest/authen/firstMedicalApplication/proposerUpdateStatus"
+                params='{"id":showData.id,"orderStatus":"待审批"}'
+                alert-error
+                scope-data="showData"
+                callback="$root.utils.refreshHref()">提交审批
+        </button>
+      </span>
+    </div>
 
 </div>
