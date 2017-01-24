@@ -1,17 +1,18 @@
-<div ng-controller="pageCtrl" class="pd-c-xxxl inoutstockDetail"><!-- pageCtrl-->
+<div ng-controller="pageCtrl" class="inoutstockDetail clearfix"><!-- pageCtrl-->
 
-  <div class="page-header-info ">
-    <p class="mgb-l crumbs pr-indent-20">
-      库存报表 / <em class="color-custom-orange">出入库明细</em>
-    </p>
-    <p class="mgb-l">
-        <em class="color-black text-l ">出入库明细</em>
-    </p>
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+    <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxl">库存报表 / <em class="color-custom-orange">出入库明细</em></p>
+    <div class="pd-c-xxxl">
+      <div class="pos-rel-tl inline-block fl-l">
+        <h1 class="pr-font-20 color-black">出入库明细</h1>
+      </div>
+    </div>
   </div>
 
 <!--body wrapper start-->
 <table-list list-data="rest/authen/inoutstockDetail/query.json" class="table pr-table pr-new-table" list-params="listParams">
-    <div>
+    <div class="pd-c-xxxl mgb-l">
         <select class="pr-select select-wd"
           chosen
            ng-model="listParams.warehouseCode"
@@ -20,9 +21,9 @@
          </select>
     </div>
 
-    <div class="mg col-lg-12 col-sm-12 panel">
+    <div class="panel pr-fuzzy-boundary clearfix">
 
-      <div class="text-left order-list-search relative order-list-i mg-l mgl-l" ng-init="queryDatePeriod='最近7天'">
+      <div class="text-left order-list-search relative order-list-i pdt-m pdb-m pd-c-xxxl" ng-init="queryDatePeriod='最近7天'">
         <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
          date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
           <option value="最近7天" >最近7天</option>
@@ -186,4 +187,5 @@
     </div>
 </table-list>
 <!--body wrapper end-->
+</div>
 </div>
