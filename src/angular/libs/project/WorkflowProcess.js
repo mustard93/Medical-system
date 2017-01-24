@@ -1,4 +1,4 @@
-define('WorkflowProcess',['JTopo'], function(JTopo){
+define('WorkflowProcess',['JTopo',"jQuery"], function(JTopo,jQuery){
 
 
 
@@ -45,9 +45,9 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
         };
         function WorkflowProcess(divId,option){
           if(option){
-              this.options=$.extend(true,{},defaultOptions,option);
+              this.options=jQuery.extend(true,{},defaultOptions,option);
           }else{
-              this.options=$.extend(true,{},defaultOptions);
+              this.options=jQuery.extend(true,{},defaultOptions);
           }
 
           var canvas = document.getElementById(divId);
@@ -276,7 +276,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
           //添加工作流节点
 
           addStartNode:function(key){
-            node = new JTopo.Node(key);
+            var node = new JTopo.Node(key);
               node.setSize(120, 120);  // 尺寸
                 // node.fontColor = event1.fontColor||this.options.node.fontColor;
             node.borderRadius = 4; // 圆角
@@ -292,7 +292,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
           // return node;
           },
           addNode:function(key){
-            node = new JTopo.Node(key);
+            var node = new JTopo.Node(key);
               node.setSize(120, 44);  // 尺寸
             // node.fontColor = event1.fontColor||this.options.node.fontColor;
             node.borderRadius = 4; // 圆角
@@ -306,7 +306,7 @@ define('WorkflowProcess',['JTopo'], function(JTopo){
             // node.radius = 24; // 半径
             // node.fillColor = '0,0,255'; // 填充颜色
             //   return node;
-            node = new JTopo.Node(key);
+              var node = new JTopo.Node(key);
             node.setSize(120, 120);  // 尺寸
             // node.fontColor = event1.fontColor||this.options.node.fontColor;
             node.borderRadius = 4; // 圆角

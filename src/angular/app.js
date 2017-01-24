@@ -35,25 +35,25 @@ require.config({
     baseUrl: require.dir + 'modules',
     paths: {
 
-          'resizableColumns': '../libs/resizableColumns/jquery.resizableColumns',     //jQuery拖动调整表格列宽度
+          'resizableColumns': '../libs/resizableColumns/jquery.resizableColumns.min',     //jQuery拖动调整表格列宽度
           'store': '../libs/store.min',     //本地存储
           'ZeroClipboard': '../libs/ueditor1_4_3_3-utf8-jsp/third-party/zeroclipboard/ZeroClipboard',//html编辑器
 
-        'ueditor': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.all',//html编辑器
+        'ueditor': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.all.min',//html编辑器
         'ueditor_config': '../libs/ueditor1_4_3_3-utf8-jsp/ueditor.config',//编辑器。require 不支持。
         'ueditor_lang': '../libs/ueditor1_4_3_3-utf8-jsp/lang/zh-cn/zh-cn',//编辑器
-        'CanvasBusinessFlow': '../libs/project/CanvasBusinessFlow',//业务单图展示
-        'WorkflowProcess': '../libs/project/WorkflowProcess',//工作流
-          'CanvasTreeLayout':"../libs/project/CanvasTreeLayout",//流程图布局定义
+        'CanvasBusinessFlow': '../libs/project/CanvasBusinessFlow.min',//业务单图展示
+        'WorkflowProcess': '../libs/project/WorkflowProcess.min',//工作流
+          'CanvasTreeLayout':"../libs/project/CanvasTreeLayout.min",//流程图布局定义
         'LodopFuncs': '../libs/LodopFuncs_amd',     //打印功能
         'JTopo': '../libs/jtopo-0.4.8.min',
         'jQuery': '../libs/jquery.min',                         //jQuery
         'underscore': '../libs/underscore/underscore-1.5.2.min',
         'moment': '../libs/moment.min',                         //日历插件
         'echarts': '../libs/echarts/echarts-3.2.3.min',         // echars v3.2.3
-        'chosen': '../libs/chosen.jquery.min',                  //下拉筛选插件
+        'chosen': '../libs/chosen.jquery.pg.min',                  //下拉筛选插件.已修改源码
         'angular': '../libs/angular.min',                           //Angular
-        'ngRoute': '../libs/angular-route',                     //路由
+        'ngRoute': '../libs/angular-route.min',                     //路由
         'autocomplete': '../libs/jquery.autocomplete.min',      //自动补齐
         'bootstrap': '../libs/bootstrap.min',                   //bootstrap
         'jquery-ui': '../libs/jquery-ui.min',
