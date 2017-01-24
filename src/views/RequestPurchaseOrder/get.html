@@ -196,17 +196,8 @@
        </div>
      </div>
      <!-- 流程图 -->
-     <div ng-if="formData.id" class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
-            ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{formData.id}}"
-            scope-data="businessFlowData"
-            callback="businessFlowDataInitFlag=true;"
-            error-callback="businessFlowDataInitFlag=true;">
-        <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{formData.id}}"
-                width="{{$root.utils.getMainBodyWidth()}}"
-                base-image-url="images/canvasBusinessFlow/"
-                spacing-height="80" spacing-width="40">
-        </canvas>
-    </div>
+     <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
+
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
@@ -225,7 +216,8 @@
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
 
-          <button class="btn-reject mgl mgt color-white text-center"
+          <button 
+                  class="btn-reject mgl mgt color-white text-center"
                   type="button"
                   handle-this-click
                   dialog-title="确认终止?"

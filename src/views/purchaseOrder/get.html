@@ -241,17 +241,8 @@
     </div>
 
     <!-- 流程图 -->
-    <div ng-if="scopeData.id" class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
-           ajax-url="rest/authen/businessFlow/getByBusinessKey.json?businessKey={{scopeData.id}}"
-           scope-data="businessFlowData"
-           callback="businessFlowDataInitFlag=true;"
-           error-callback="businessFlowDataInitFlag=true;">
-       <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{scopeData.id}}"
-               width="{{$root.utils.getMainBodyWidth()}}"
-               base-image-url="images/canvasBusinessFlow/"
-               spacing-height="80" spacing-width="40">
-       </canvas>
-     </div>
+    <business-flow-show business-key="{{scopeData.id}}" business-type="采购单"></business-flow-show>
+
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
