@@ -1720,10 +1720,7 @@ define('project/controllers', ['project/init'], function() {
            });
          }
        };
-
-
-
-       /**
+   /**
        * 添加一条。并缓存数据。
        */
        $scope.selectRelIdCallBack = function(data) {
@@ -1802,12 +1799,12 @@ define('project/controllers', ['project/init'], function() {
            $scope.formData.validFlag = false;
 
          if ($scope.submitForm_type == 'exit') {
-           $scope.goTo('#/purchaseOrder/query.html');
+           $scope.goTo('#/requestPurchaseOrder/query.html');
           return;
         }
          if ($scope.submitForm_type == 'submit') {
-           var url='rest/authen/purchaseOrder/updateStatus';
-           var data= {id:$scope.formData.id,status:'待审核'};
+           var url='rest/authen/requestPurchaseOrder/confirm';
+           var data= {id:$scope.formData.id};
            requestData(url,data, 'POST')
              .then(function (results) {
                var _data = results[1];
@@ -1827,16 +1824,12 @@ define('project/controllers', ['project/init'], function() {
        type:save-草稿,submit-提交订单。
        */
        $scope.submitForm = function(fromId, type) {
-          $scope.submitForm_type = type;
-          if ($scope.submitForm_type == 'submit') {
-            $scope.formData.validFlag = true;
-          }
-         $('#' + fromId).trigger('submit');
-
-         // addDataItem_opt.submitUrl='';
-         // $scope.formData.orderMedicalNos.push($scope.addDataItem);
-         // $scope.addDataItem={};
-       };
+           $scope.submitForm_type = type;
+           if ($scope.submitForm_type == 'submit') {
+             $scope.formData.validFlag = true;
+           }
+           $('#' + fromId).trigger('submit');
+         };
        /**
         *取消订单
         */
