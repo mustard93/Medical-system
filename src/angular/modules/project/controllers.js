@@ -1701,25 +1701,25 @@ define('project/controllers', ['project/init'], function() {
          }
        };
 
-       $scope.handleChoiseAllEvent = function () {
-         var _dataSource = $scope.formData.orderMedicalNos;
-
-         if (!$scope.choisedMedicalList) {
-           $scope.choisedMedicalList = [];
-         }
-
-         if ($scope.isChoiseAll) {
-           angular.forEach(_dataSource, function (data, index) {
-             data.handleFlag = true;
-             $scope.choisedMedicalList.push(data);
-           });
-         } else  {
-           angular.forEach(_dataSource, function (data, index) {
-             data.handleFlag = false;
-             $scope.choisedMedicalList = [];
-           });
-         }
-       };
+      //  $scope.handleChoiseAllEvent = function () {
+      //    var _dataSource = $scope.formData.orderMedicalNos;
+       //
+      //    if (!$scope.choisedMedicalList) {
+      //      $scope.choisedMedicalList = [];
+      //    }
+       //
+      //    if ($scope.isChoiseAll) {
+      //      angular.forEach(_dataSource, function (data, index) {
+      //        data.handleFlag = true;
+      //        $scope.choisedMedicalList.push(data);
+      //      });
+      //    } else  {
+      //      angular.forEach(_dataSource, function (data, index) {
+      //        data.handleFlag = false;
+      //        $scope.choisedMedicalList = [];
+      //      });
+      //    }
+      //  };
    /**
        * 添加一条。并缓存数据。
        */
@@ -1808,9 +1808,7 @@ define('project/controllers', ['project/init'], function() {
            requestData(url,data, 'POST')
              .then(function (results) {
                var _data = results[1];
-              //  alertOk(_data.message || '操作成功');
                $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
-
              })
              .catch(function (error) {
                alertError(error || '出错');
@@ -1841,6 +1839,60 @@ define('project/controllers', ['project/init'], function() {
         $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
         };
+
+      /**
+       * [chkChoiseMedicals 请购单中检查用户是否已选择部分药品]
+       * @param  {[type]} item [description]
+       * @return {[type]}      [description]
+       */
+      $scope.chkChoiseMedicals = function (item,medicalsObj) {
+        if (item.handleFlag) {
+
+          $scope.choisedMedicals = true;  // 标识为true，底部生成采购单按钮可用
+
+          for (var i=0; i<medicalsObj.length; i++) {
+            if (medicalsObj[i].handleFlag === false) {
+              $scope.isChoiseAll = false;
+              return;
+            }
+          }
+
+          $scope.isChoiseAll = true;
+        } else {      // 处理用户取消选择,需遍历药品列表，判断是否还有没有取消的药品
+
+          $scope.isChoiseAll = false;
+
+          for (var j=0; j<medicalsObj.length; j++) {
+            if (medicalsObj[j].handleFlag === true) {
+              $scope.choisedMedicals = true;
+              return;
+            }
+          }
+
+          $scope.choisedMedicals = false;   // 没有药品被选中，设置按钮不可用
+        }
+      };
+
+      /**
+       * [handleChoiseAllEvent 处理全选与全不选]
+       * @param  {[type]} medicalsObj [description]
+       * @return {[type]}             [description]
+       */
+      $scope.handleChoiseAllEvent = function (medicalsObj) {
+        if (medicalsObj && angular.isArray(medicalsObj)) {
+          if ($scope.isChoiseAll) {   // 全选被选中
+            angular.forEach(medicalsObj, function (data, index) {
+              data.handleFlag = true;
+              $scope.choisedMedicals = true;    // 生成按钮可用
+            });
+          } else {    //取消了全部选中
+            angular.forEach(medicalsObj, function (data, index) {
+              data.handleFlag = false;
+              $scope.choisedMedicals = false;   // 生成按钮不可用
+            });
+          }
+        }
+      };
 
    }//end salesOrderEditCtrl
 
