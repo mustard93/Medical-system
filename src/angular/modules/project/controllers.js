@@ -1419,6 +1419,7 @@ define('project/controllers', ['project/init'], function() {
              formData.contactsId=customerAddress.defaultContactId;
          }
        };
+
        $scope.flashAddDataCallbackFn = function(flashAddData) {
 
          if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
@@ -1470,6 +1471,58 @@ define('project/controllers', ['project/init'], function() {
            return true;
        };
 
+       $scope.handleItemClickEvent = function (tr) {
+                var _dataSource = $scope.formData.orderMedicalNos;
+                if (!$scope.choisedMedicalList) {
+                  $scope.choisedMedicalList = [];
+                }
+                if (tr.handleFlag) {
+                  $scope.choisedMedicalList.push(tr);
+                  if ($scope.choisedMedicalList.length === _dataSource.length) {
+                    $scope.isChoiseAll = true;
+                  }
+                } else {
+                  angular.forEach($scope.choisedMedicalList, function (data, index) {
+                    if (data.relId === tr.relId) {
+                      $scope.choisedMedicalList.splice(index, 1);
+                    }
+                  });
+                  $scope.isChoiseAll = false;
+                }
+              };
+
+          /**
+              * 添加一条。并缓存数据。
+              */
+              $scope.selectRelIdCallBack = function(data) {
+                $scope.addDataItem.relId = data.id;
+                $scope.addDataItem.name = data.name;
+                $scope.addDataItem.brand = data.brand;
+                $scope.addDataItem.unit = data.unit;
+                $scope.addDataItem.price = data.price;
+                // $scope.addDataItem.isSameBatch = '否';
+                $scope.addDataItem.strike_price = data.price;
+                $scope.addDataItem.headUrl = data.headUrl;
+                $scope.addDataItem.specification = data.specification;
+                $scope.addDataItem.manufacturer = data.manufacturer;
+                $scope.addDataItem.handleFlag =true;//默认添加到订单
+                $scope.addDataItem.productionBatch = '无';
+                $scope.addDataItem.dosageForms = data.dosageForms;
+                $scope.addDataItem.code = data.code;
+                $scope.addDataItem.productionBatch = data.productionBatch;
+                $scope.addDataItem.productionDate = data.productionDate;
+                $scope.addDataItem.guaranteePeriod = data.guaranteePeriod;
+                $scope.addDataItem.licenseNumber = data.licenseNumber;
+                $scope.addDataItem.deliveryPlus = data.deliveryPlus;
+                $scope.addDataItem.drugAdministrationCode = data.drugAdministrationCode;
+
+                // alert($('#addDataItem_quantity').length);
+                // $('#addDataItem_quantity').trigger('focus');
+                $('#addDataItem_quantity').trigger('focus');
+              };
+              /**
+              * 添加一条。并缓存数据。
+              */
 
 
        /**
@@ -1598,6 +1651,60 @@ define('project/controllers', ['project/init'], function() {
           watchFormChange(watchName,$scope);
         };
 
+        /**
+         * [chkChoiseMedicals 请购单中检查用户是否已选择部分药品]
+         * @param  {[type]} item [description]
+         * @return {[type]}      [description]
+         */
+        $scope.chkChoiseMedicals = function (item,medicalsObj) {
+          if (item.handleFlag) {
+
+            $scope.choisedMedicals = true;  // 标识为true，底部生成采购单按钮可用
+
+            for (var i=0; i<medicalsObj.length; i++) {
+              if (medicalsObj[i].handleFlag === false) {
+                $scope.isChoiseAll = false;
+                return;
+              }
+            }
+
+            $scope.isChoiseAll = true;
+          } else {      // 处理用户取消选择,需遍历药品列表，判断是否还有没有取消的药品
+
+            $scope.isChoiseAll = false;
+
+            for (var j=0; j<medicalsObj.length; j++) {
+              if (medicalsObj[j].handleFlag === true) {
+                $scope.choisedMedicals = true;
+                return;
+              }
+            }
+
+            $scope.choisedMedicals = false;   // 没有药品被选中，设置按钮不可用
+          }
+        };
+
+        /**
+         * [handleChoiseAllEvent 处理全选与全不选]
+         * @param  {[type]} medicalsObj [description]
+         * @return {[type]}             [description]
+         */
+        $scope.handleChoiseAllEvent = function (medicalsObj) {
+          if (medicalsObj && angular.isArray(medicalsObj)) {
+            if ($scope.isChoiseAll) {   // 全选被选中
+              angular.forEach(medicalsObj, function (data, index) {
+                data.handleFlag = true;
+                $scope.choisedMedicals = true;    // 生成按钮可用
+              });
+            } else {    //取消了全部选中
+              angular.forEach(medicalsObj, function (data, index) {
+                data.handleFlag = false;
+                $scope.choisedMedicals = false;   // 生成按钮不可用
+              });
+            }
+          }
+        };
+
    }//end salesOrderEditCtrl
    function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
        modal.closeAll();
@@ -1681,6 +1788,35 @@ define('project/controllers', ['project/init'], function() {
            return true;
        };
 
+       $scope.chkChoiseMedicals = function (item,medicalsObj) {
+         if (item.handleFlag) {
+
+           $scope.choisedMedicals = true;  // 标识为true，底部生成采购单按钮可用
+
+           for (var i=0; i<medicalsObj.length; i++) {
+             if (medicalsObj[i].handleFlag === false) {
+               $scope.isChoiseAll = false;
+               return;
+             }
+           }
+
+           $scope.isChoiseAll = true;
+         } else {      // 处理用户取消选择,需遍历药品列表，判断是否还有没有取消的药品
+
+           $scope.isChoiseAll = false;
+
+           for (var j=0; j<medicalsObj.length; j++) {
+             if (medicalsObj[j].handleFlag === true) {
+               $scope.choisedMedicals = true;
+               return;
+             }
+           }
+
+           $scope.choisedMedicals = false;   // 没有药品被选中，设置按钮不可用
+         }
+       };
+
+
        $scope.handleItemClickEvent = function (tr) {
          var _dataSource = $scope.formData.orderMedicalNos;
          if (!$scope.choisedMedicalList) {
@@ -1701,25 +1837,6 @@ define('project/controllers', ['project/init'], function() {
          }
        };
 
-      //  $scope.handleChoiseAllEvent = function () {
-      //    var _dataSource = $scope.formData.orderMedicalNos;
-       //
-      //    if (!$scope.choisedMedicalList) {
-      //      $scope.choisedMedicalList = [];
-      //    }
-       //
-      //    if ($scope.isChoiseAll) {
-      //      angular.forEach(_dataSource, function (data, index) {
-      //        data.handleFlag = true;
-      //        $scope.choisedMedicalList.push(data);
-      //      });
-      //    } else  {
-      //      angular.forEach(_dataSource, function (data, index) {
-      //        data.handleFlag = false;
-      //        $scope.choisedMedicalList = [];
-      //      });
-      //    }
-      //  };
    /**
        * 添加一条。并缓存数据。
        */
@@ -1808,7 +1925,7 @@ define('project/controllers', ['project/init'], function() {
            requestData(url,data, 'POST')
              .then(function (results) {
                var _data = results[1];
-               $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
+               $scope.goTo('#/purchaseOrder/edit.html?id='+_data.data.purchaseOrder.id);
              })
              .catch(function (error) {
                alertError(error || '出错');
