@@ -2381,7 +2381,7 @@ define('project/controllers', ['project/init'], function() {
   /**
    * 销售退货
    */
-  function saleReturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
+  function returnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
 
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
@@ -2514,11 +2514,11 @@ define('project/controllers', ['project/init'], function() {
   }
 
   /**
-   * [saleReturnOrderAddController 销售退货单弹出模态框添加项目控制器]
+   * [returnOrderAddController 销售退货单弹出模态框添加项目控制器]
    * @param  {[type]} $scope [description]
    * @return {[type]}        [description]
    */
-  function saleReturnOrderAddController ($scope, $rootScope, modal,utils) {
+  function returnOrderAddController ($scope, $rootScope, modal,utils) {
 
     $scope.addDataObj={};
     //1.初始化选择状态。
@@ -2651,7 +2651,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('saleOutstockOrderController', ['$scope', 'requestData', saleOutstockOrderController])
   .controller('imTaobaoCtr', ['$scope',"requestData",'alertError',"$rootScope", imTaobaoCtr])
   .controller('saleReturnMedicalItemController', ['$scope', saleReturnMedicalItemController])
-  .controller('saleReturnOrderAddController', ["$scope", "$rootScope", "modal","utils", saleReturnOrderAddController])
+  .controller('returnOrderAddController', ["$scope", "$rootScope", "modal","utils", returnOrderAddController])
   .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","queryItemCardButtonList", mainCtrlProject])
   .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
   .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
@@ -2672,7 +2672,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl])
   .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
   .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
-  .controller('saleReturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', saleReturnOrderEditCtrl])
+  .controller('returnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', returnOrderEditCtrl])
   .controller('MedicalStockController', ['$scope', '$timeout', MedicalStockController])
   .controller('CalculateTotalController', ['$scope', CalculateTotalController])
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController]);
