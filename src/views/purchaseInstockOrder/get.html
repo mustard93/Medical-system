@@ -1,5 +1,5 @@
 <div class="content-wrapper"
-     ajax-url="rest/authen/wInstockOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/wInstockOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.medicalStockId"
      alert-error>
@@ -102,10 +102,10 @@
                         {{tr.quantity}}
                         </td>
                         <td class="text-right">
-                          {{tr.price}}
+                          ￥{{tr.price}}
                         </td>
                         <td class="text-right" >
-                          <!-- 含税金额-->
+                          ￥{{(tr.price*tr.quantity).toFixed(2)}}
                         </td>
                         <td class="text-right">
                         {{tr.taxRate}}%

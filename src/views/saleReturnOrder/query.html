@@ -94,21 +94,18 @@
           <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
           <p class="text-center">什么也没有</p>
         </div>
-        <ul ng-if="tbodyList.length" class="li-min-h">
-          <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
-            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
+        <ul ng-if="tbodyList.length">
+          <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+            <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative" >
               <div class="relative">
                 <div class="flex-column">
-                  <span ng-if="tr.orderStatus=='待审核'" class="flex-item-4 title-states text-bold pdt-m">
-                    <em class="color-black pd-m">{{tr.orderStatus}}</em>
+                  <span ng-if="tr.orderStatus=='待审核'" class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
+                  <span ng-if="tr.orderStatus=='待出库' || tr.orderStatus=='已出库'" class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}} <em class="color-red">(红字)</em>
                   </span>
-                  <span ng-if="tr.orderStatus=='待出库' || tr.orderStatus=='已出库'" class="flex-item-4 title-states text-bold pdt-m">
-                    <em class="color-black pd-m">{{tr.orderStatus}} <em class="color-red">(红字)</em></em>
-                  </span>
-                  <span class="flex-item-8 text-right">
+                  <span class="flex-item-6 text-right">
                     <a ng-if="tr.orderStatus=='待审核'"
                        href="javascript:;"
-                       class="btn-link mr--4 pd-m rect-s"
+                       class="btn-link pd-m rect-s"
                        handle-this-click
                        title="删除"
                        dialog-title="确认删除?"
@@ -117,12 +114,12 @@
                        callback="$root.goTo('#/saleReturnOrder/query.html')"
                        params='{"id":tr.id}'
                        request-url="rest/authen/saleReturnOrder/delete">
-                       <span class="delete-link-icon"></span>
+                       <span class="delete-link-icon">&nbsp;</span>
                      </a>
 
                     <a ng-if="tr.orderStatus=='待出库'"
                        href="javascript:;"
-                       class="btn-link mr--4 pd-m rect-s"
+                       class="btn-link pd-m rect-s"
                        handle-this-click
                        title="生成出库"
                        dialog-title="确认生成出库单?"
@@ -131,20 +128,20 @@
                        callback="$root.utils.goTo('#/saleReturnOrder/query.html')"
                        params='{"id":tr.id, "status":"已出库"}'
                        request-url="rest/authen/saleReturnOrder/updateStatus">
-                       <span class="outStork-icon"></span>
+                       <span class="outStork-icon">&nbsp;</span>
                      </a>
 
                       <a ng-if="tr.orderStatus=='待审核'"
                         class="btn-link pd-m rect-s"
                         title="编辑"
                         ng-href="#/saleReturnOrder/edit.html?id={{tr.id}}" >
-                      <span class="edit-link-icon"></span>
+                      <span class="edit-link-icon">&nbsp;</span>
                      </a>
                       <a ng-if="tr.orderStatus!='待审核'"
                           title="查看详情"
                           class="btn-link pd-m rect-s"
                          ng-href="#/saleReturnOrder/get.html?id={{tr.id}}" >
-                        <span class="watch-detail-icon"></span>
+                        <span class="watch-detail-icon">&nbsp;</span>
                       </a>
                     </span>
                   </div>
