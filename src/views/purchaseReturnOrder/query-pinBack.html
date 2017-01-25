@@ -17,9 +17,9 @@
                 <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
                 <!-- <button query-order-status-button  ng-model="listParams.orderStatus" key="待提交" count-map="countByOrderStatus">  </button> -->
                 <button query-order-status-button  ng-model="listParams.orderStatus" key="待审核" count-map="countByOrderStatus">  </button>
-                <button query-order-status-button  ng-model="listParams.orderStatus" key="待出库" count-map="countByOrderStatus">  </button>
-                <button query-order-status-button  ng-model="listParams.orderStatus" key="出库中" count-map="countByOrderStatus">  </button>
-                <button query-order-status-button  ng-model="listParams.orderStatus" key="已出库" count-map="countByOrderStatus">  </button>
+                <button query-order-status-button  ng-model="listParams.orderStatus" key="待入库" count-map="countByOrderStatus">  </button>
+                <!-- <button query-order-status-button  ng-model="listParams.orderStatus" key="入库中" count-map="countByOrderStatus">  </button> -->
+                <button query-order-status-button  ng-model="listParams.orderStatus" key="已入库" count-map="countByOrderStatus">  </button>
               </div>
           </div>
         </div>
@@ -101,17 +101,18 @@
           <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
               <div class="relative">
-                <div class="flex-column mgb-m card-title-height min-h-m" style="height:24px;line-height:24px;">
+                <div class="flex-column">
                   <span ng-if="tr.orderStatus=='待审核'" class="flex-item-4 title-states text-bold pdt-m">
                     <em class="color-black pd-m">{{tr.orderStatus}}</em>
                   </span>
-                  <span ng-if="tr.orderStatus=='待出库' || tr.orderStatus=='已出库'" class="flex-item-4 title-states text-bold pdt-m">
+                  <span ng-if="tr.orderStatus=='待入库' || tr.orderStatus=='已入库'" class="flex-item-4 title-states text-bold pdt-m">
                     <em class="color-black pd-m">{{tr.orderStatus}} <em class="color-red">(红字)</em></em>
                   </span>
                   <span class="flex-item-8 text-right">
                     <a ng-if="tr.orderStatus=='待审核'"
                        href="javascript:;"
-                       class="color-red mr--4"
+                       class="mr--4 btn-link pd-m rect-s "
+                       title="删除"
                        handle-this-click
                        dialog-title="确认删除?"
                        dialog-content="删除后将无法恢复,确认删除?"
@@ -119,29 +120,34 @@
                        callback="$root.goTo('#/purchaseReturnOrder/query-pinBack.html')"
                        params='{"id":tr.id}'
                        request-url="rest/authen/purchaseReturnOrder/delete">
-                      <span class="rect-s" title="删除"><span class="delete-link-icon"></span></span>
+                       <span class="delete-link-icon"></span>
                      </a>
 
-                    <a ng-if="tr.orderStatus=='待出库'"
+                    <a ng-if="tr.orderStatus=='待入库'"
                        href="javascript:;"
-                       class="color-red mr--4"
+                       class="mr--4 btn-link pd-m rect-s "
+                       title="生成入库"
                        handle-this-click
-                       dialog-title="确认生成出库单?"
-                       dialog-content="生成出库单(红字)后,将完成销退出库"
+                       dialog-title="确认生成入库单?"
+                       dialog-content="生成入库单(红字)后,将完成销退入库"
                        dialog-template="pr-dialog-submit.html"
                        callback="$root.utils.goTo('#/purchaseReturnOrder/query-pinBack.html')"
-                       params='{"id":tr.id, "status":"已出库"}'
+                       params='{"id":tr.id, "status":"已入库"}'
                        request-url="rest/authen/purchaseReturnOrder/updateStatus">
-                       <span class="rect-s" title="生成出库"><span class="outStork-icon"></span></span>
+                       <span class="outStork-icon"></span>
                      </a>
 
                       <a ng-if="tr.orderStatus=='待审核'"
+                         class="btn-link pd-m rect-s "
+                         title="编辑"
                          ng-href="#/purchaseReturnOrder/edit-pinBack.html?id={{tr.id}}" >
-                        <span class="rect-s" title="编辑"><span class="edit-link-icon"></span></span>
+                         <span class="edit-link-icon"></span>
                      </a>
                       <a ng-if="tr.orderStatus!='待审核'"
+                         title="查看详情"
+                         class="btn-link pd-m rect-s "
                          ng-href="#/purchaseReturnOrder/get-pinBack.html?id={{tr.id}}" >
-                        <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
+                        <span class="watch-detail-icon"></span>
                       </a>
                     </span>
                   </div>
