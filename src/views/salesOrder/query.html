@@ -40,17 +40,17 @@
       <a href="#/salesOrder/edit2.html" title="新建购需单"><i></i><span class="text-s">新建购需单</span></a>
     </div>
     <div class="relative">
-      <span class="mgr color-999">录单日期</span>
+      <span class="color-999">录单日期：</span>
       <div class="date-icon-outside">
         <input type="text"
                datepicker
-               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+               class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
                ng-readonly="true"
                ng-model="listParams.createAtBeg"
                placeholder="">
         <span class="date-icon"></span>
       </div>
-       <span class="mgr color-999">至</span>
+       <span class="mgr-s color-999">至</span>
     <div class="date-icon-outside">
        <input type="text"
              datepicker
@@ -83,9 +83,19 @@
             <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative">
               <div class="relative">
                 <div class="flex-column">
-                  <span class="flex-item-6 title-states text-bold color-black pd-m">{{tr.orderStatus}}</span>
+                  <span class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
-                    <a class="btn-link pd-m rect-s mr--4" title="删除" ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
+
+                    <a class="btn-link pd-m rect-s" title="查看详情" ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')"
+                    href="#/salesOrder/get.html?id={{tr.id}}">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                    </a>
+
+                    <a class="btn-link pd-m rect-s" title="编辑" ng-if="tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit2.html?id={{tr.id}}">
+                     <span class="edit-link-icon">&nbsp;</span>
+                    </a>
+
+                    <a class="btn-link pd-m rect-s" title="删除" ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
                        href="javascript:;"
                        class="pr-color-red mgl mr--4"
                        handle-this-click
@@ -96,15 +106,7 @@
                        emitted="reloadList">
                        <span class="delete-link-icon">&nbsp;</span>
                     </a>
-                    <a class="btn-link pd-m rect-s" title="查看详情" ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')"
-                    href="#/salesOrder/get.html?id={{tr.id}}">
-                      <span class="watch-detail-icon"></span>
-                    </a>
 
-
-                    <a class="btn-link pd-m rect-s" title="编辑" ng-if="tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit2.html?id={{tr.id}}">
-                     <span class="edit-link-icon">&nbsp;</span>
-                    </a>
                     <!-- <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a> -->
                   </span>
                 </div>
