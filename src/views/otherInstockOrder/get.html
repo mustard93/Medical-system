@@ -175,8 +175,11 @@
                         <td>{{tr.specificationAndModelType}}</td>
                         <td>{{tr.drugAdministrationCode}}</td>
                         <td>{{tr.unit}}</td>
-                        <td class="text-right">
+                        <td ng-if="tr.type!='采购入库单'" class="text-right">
                         {{tr.storageQuantity?tr.storageQuantity:"—"}}
+                        </td>
+                        <td ng-if="tr.type=='采购入库单'" class="text-right">
+                        {{tr.storageQuantity?-tr.storageQuantity:"—"}}
                         </td>
                         <td class="text-right">
                         {{tr.refuseQuantity?tr.refuseQuantity:"—"}}

@@ -149,8 +149,11 @@
                         <td class="text-right">
                         {{tr.refuseQuantity?tr.refuseQuantity:"—"}}
                         </td>
-                        <td class="text-right">
+                        <td ng-if="tr.type!='销售退货出库单'" class="text-right">
                         {{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}
+                        </td>
+                        <td ng-if="tr.type=='销售退货出库单'" class="text-right">
+                        {{tr.outgoingQuantity?-tr.outgoingQuantity:"—"}}
                         </td>
                         <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
                         <td>{{tr.productionBatch}}</td>
