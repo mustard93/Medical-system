@@ -2624,8 +2624,31 @@ define('project/controllers', ['project/init'], function() {
     });
   }
 
+  /**
+   * [saleOutstockOrderController 销售出库单控制器]
+   * @param  {[type]} $scope [description]
+   * @return {[type]}        [description]
+   */
+  function saleOutstockOrderController ($scope, requestData) {
+    // 添加物流信息
+    $scope.saveExpressInfo = function (params) {
+      var _data = angular.isObject(params) ? params : '';
+      var saveUrl = 'rest/authen/wOutstockOrder/kuaidi/save';
+      if (_data) {
+        requestData(saveUrl, _data, 'POST')
+        .then(function (results) {
+          console.log(results);
+        })
+        .catch(function (error) {
+          console.log(error || '出错');
+        });
+      }
+    };
+  }
+
 
   angular.module('manageApp.project')
+  .controller('saleOutstockOrderController', ['$scope', 'requestData', saleOutstockOrderController])
   .controller('imTaobaoCtr', ['$scope',"requestData",'alertError',"$rootScope", imTaobaoCtr])
   .controller('saleReturnMedicalItemController', ['$scope', saleReturnMedicalItemController])
   .controller('saleReturnOrderAddController', ["$scope", "$rootScope", "modal","utils", saleReturnOrderAddController])
