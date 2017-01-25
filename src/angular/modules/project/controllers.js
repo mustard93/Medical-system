@@ -2425,6 +2425,7 @@ define('project/controllers', ['project/init'], function() {
 
         var url='rest/authen/saleReturnOrder/updateStatus';
         var data= {id:$scope.formData.id,status:'待出库'};
+          console.log($scope.formData);
 
         requestData(url, data, 'POST')
           .then(function (results) {
@@ -2531,6 +2532,143 @@ define('project/controllers', ['project/init'], function() {
     };
 
   }
+
+  // 采购退货单
+
+  function purchasereturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
+    $scope.watchFormChange=function(watchName){
+      watchFormChange(watchName,$scope);
+
+    };
+
+    modal.closeAll();
+    // $scope.formData={};
+    $scope.addDataItem = {};
+
+    // 保存  type:save-草稿,submit-提交订单。
+    $scope.submitFormAfter = function(scopeResponse) {
+
+      $scope.formData.validFlag = false;
+
+      if ($scope.submitForm_type == 'exit') {
+        $scope.goTo('#/purchaseReturnOrder/query.html');
+        alertOk(scopeResponse.msg);
+        return;
+      }
+
+      if ($scope.submitForm_type == 'submit') {
+
+        var url='rest/authen/purchaseReturnOrder/updateStatus';
+        var data= {id:$scope.formData.id,status:'待入库'};
+          console.log($scope.formData);
+
+        requestData(url, data, 'POST')
+          .then(function (results) {
+            if (results[1].code !== 200) {
+              alertWarn(results[1].msg || '未知错误!');
+            } else {
+              $scope.goTo('#/purchaseReturnOrder/get-pinBack.html?id='+$scope.formData.id);
+            }
+          })
+          .catch(function (error) {
+            if (error) {
+              alertWarn(error || '未知错误!');
+              return;
+            }
+          });
+
+
+          return;
+      }
+
+      if ($scope.submitForm_type == 'save') {
+        if (scopeResponse) {
+          alertOk(scopeResponse.msg);
+        }
+      }
+    };
+
+    // 能否提交验证 type:save-草稿,submit-提交订单。
+    $scope.canSubmitForm = function() {
+      //必须有1条是勾选加入订单的。
+      var arr=$scope.formData.orderMedicalNos;
+      for(var i=0;i<arr.length;i++){
+         if(arr[i].handleFlag){
+           return true;
+         }
+      }
+
+      return false;
+
+    };
+
+    // 保存 type:save-草稿,submit-提交订单。
+    $scope.submitForm = function(fromId, type) {
+      $scope.submitForm_type = type;
+      if ($scope.submitForm_type == 'submit') {
+        $scope.formData.validFlag = true;
+      }
+      $('#' + fromId).trigger('submit');
+
+      // addDataItem_opt.submitUrl='';
+      // $scope.formData.orderMedicalNos.push($scope.addDataItem);
+      // $scope.addDataItem={};
+    };
+
+    // 取消订单
+    $scope.cancelForm = function(fromId, url) {
+      alertWarn('cancelForm');
+    };
+
+    //
+    // $scope.$watch('addDataObj', function (newVal) {
+    //   if (newVal && $scope.formData) {
+    //     $scope.formData.relId = $scope.addDataObj.id;
+    //     $scope.formData.orderMedicalNos = angular.copy($scope.choisedMedicalList);
+    //   }
+    // }, true);
+
+
+    // 添加选择项到编辑页
+    $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList) {
+      if(!addDataObj_id){//发货单id不能为空
+        return ;
+      }
+      if(!choisedMedicalList||choisedMedicalList.length==0){//至少选择1条数据
+        return ;
+      }
+
+      //切换发货单时，清空原有数据
+      if($scope.formData.relId!=addDataObj_id){
+        $scope.formData.orderMedicalNos=[];
+      }else{
+        //否则删除没选中,再添加选中的
+        for(var i=$scope.formData.orderMedicalNos.length-1;i>=0;i--){
+          var data=$scope.formData.orderMedicalNos[i];
+          if(utils.getObjectIndexByKeyOfArr(choisedMedicalList,"relId",data.relId)==-1){
+              $scope.formData.orderMedicalNos.splice(i,1);
+          }
+        }
+      }
+      //重新绑定数据
+      $scope.formData.relId = addDataObj_id;
+      //已经添加过的不在添加。（保留已经修改的数据）
+        angular.forEach(choisedMedicalList, function (data, index) {
+          if(utils.getObjectIndexByKeyOfArr($scope.formData.orderMedicalNos,"relId",data.relId)==-1){
+              $scope.formData.orderMedicalNos.push(data);
+          }
+
+        });
+
+      // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);
+        modal.closeAll();
+
+
+    };
+
+  }
+
+
 
   /**
    * [returnOrderAddController 销售退货单弹出模态框添加项目控制器]
@@ -2692,6 +2830,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
   .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
   .controller('returnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', returnOrderEditCtrl])
+  .controller('purchasereturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', purchasereturnOrderEditCtrl])
   .controller('MedicalStockController', ['$scope', '$timeout', MedicalStockController])
   .controller('CalculateTotalController', ['$scope', CalculateTotalController])
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController]);
