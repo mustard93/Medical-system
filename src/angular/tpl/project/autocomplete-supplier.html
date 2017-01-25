@@ -1,0 +1,31 @@
+<div class="angucomplete-holder">
+    <input id="autocomplete-supplier_searchInputId"
+           ng-model="searchStr"
+           type="text"
+           placeholder="{{placeholder}}"
+           class="ipt-l pr-w-100"
+           autofocus="true"
+           onmouseup="this.select();"
+           ng-focus="angucomplete1.resetHideResults()"
+           ng-blur="angucomplete1.hideResults()"
+           autocomplete="off"
+           ng-disabled="ngDisabled"/>
+
+    <div class="angucomplete-dropdown" ng-if="showDropdown">
+        <div class="angucomplete-searching" ng-show="searching">正在查询...</div>
+        <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)">没有结果</div>
+        <div class="angucomplete-row"
+             ng-repeat="result in results"
+             ng-mousedown="angucomplete1.selectResult(result)"
+             ng-mouseover="angucomplete1.hoverRow()"
+             ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+            <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+            <div class="angucomplete-title" ng-if="!matchClass">{{ result.data.name }}/
+                <em ng-if="result.data.businessApplication.businessStatus=='已冻结'" class="color-4">
+                {{result.data.businessApplication.businessStatus}}
+              </em></div>
+            <div  ng-if="result.data.businessApplication.businessStatus=='已冻结'" class="angucomplete-description color-9">{{ result.data.businessApplication.businessNote }}</div>
+            <div class="angucomplete-description"></div>
+        </div>
+    </div>
+</div>
