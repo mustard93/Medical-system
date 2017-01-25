@@ -1905,12 +1905,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                   //监听变化
                   function watchNgModel(callback){
 
-                    //只有异步 并且不是复选框 的时候才调用该方法
+                    //只有复选框 的时候才调用该方法
                     // 监听一个model 当一个model清空时,重置chosen 选择数据
                     //model 变化时，触发回调方法。
                     if ($attrs.ngModel
-                      &&angular.isDefined($attrs.chosenAjax)
-                     &&angular.isDefined($attrs.multiple)) {
+                     &&(!angular.isDefined($attrs.multiple))) {
                       $scope.$watch($attrs.ngModel, function(newValue, oldValue) {
 
                             // console.log("watch,$attrs.ngModel1");

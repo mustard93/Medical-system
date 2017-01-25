@@ -2123,6 +2123,58 @@ function angucompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
     };
 }//angucompleteMedicalStockBatch
 
+
+
+/**
+ * 自动补全-供应商
+ */
+function angucompleteSupplier($parse, requestData, $sce, $timeout) {
+    return {
+        restrict: 'EA',
+        scope: {
+            "placeholder": "@",
+            "selectedItem": "=?",
+            "url": "@",
+            "titleField": "@",
+            "descriptionField": "@",
+            "ngModelId": "=?",//绑定返回对象id
+            "ngModel": "=",
+            "searchFields": "@",
+            "matchClass": "@",
+            "ngDisabled": "=?"
+        },
+        require: "?^ngModel",
+        templateUrl: Config.tplPath + 'tpl/project/autocomplete-supplier.html',
+        link: function($scope, elem, $attrs, ngModel) {
+            $scope.lastSearchTerm = null;
+            $scope.currentIndex = null;
+            $scope.justChanged = false;
+            $scope.searchTimer = null;
+            $scope.hideTimer = null;
+            $scope.searching = false;
+            $scope.pause = 300;
+            $scope.minLength = 1;
+            $scope.searchStr = $scope.searchFields;
+            console.log("$scope.searchFields",$scope.searchFields);
+            //绑定返回对象的某个属性值。
+            if($attrs.ngModelId){
+              $scope.$watch("ngModel", function(value) {
+                console.log("ngModelProperty.watch.ngModel",value);
+                if(!value)return;
+                $scope.ngModelId=value.id;
+                $scope.searchStr=value.data.name;
+              }, true);
+            }
+
+            require(['project/angucomplete'], function(angucomplete) {
+                  $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+
+            });//angucomplete
+
+        }
+    };
+}
+
 /**
  * 自动补全-药械
  */
@@ -2161,6 +2213,9 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
         }
     };
 }
+
+
+
 
 /**
  * 闪加药械
@@ -2549,6 +2604,7 @@ angular.module('manageApp.project')
   .directive("flashAddMedical", [flashAddMedical])
   .directive("angucompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
+    .directive("angucompleteSupplier", ["$parse", "requestData", "$sce", "$timeout",angucompleteSupplier])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])
   .directive("umeditor", ["$timeout",umeditor])  // html编辑器

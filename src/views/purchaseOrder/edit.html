@@ -36,7 +36,21 @@
               scope-data="supplier"
               callback="formData.supplier=supplier"
               alert-error>
-           <span chosen-ajax>
+           <span>
+             <span ng-if="initFlag==true" angucomplete-supplier
+                   placeholder="供应商输入"
+                   title-field="name"
+                   search-fields="{{formData.supplier.name}}"
+                   url="rest/authen/supplier/query.json"
+                   ng-model="tmp_supplier"
+                   ng-model-id="formData.supplier.id"
+                   class="inline-block mgr-s medical-search">
+             </span>
+             <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
+             {{formData.supplier.businessApplication.businessStatus}}
+           </em>
+
+<!--
              <select ng-if="initFlag"
                      class="ipt pr-long-ipt"
                      data-placeholder="供应商"
@@ -45,7 +59,7 @@
                      is-empty-query="true"
                      ng-model="formData.supplier.id"
                      select-source="rest/authen/supplier/queryForSelectOption.json">
-             </select>
+             </select> -->
            </span>
          </div>
        </div>
