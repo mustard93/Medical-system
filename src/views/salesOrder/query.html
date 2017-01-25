@@ -85,6 +85,16 @@
                 <div class="flex-column">
                   <span class="flex-item-6 title-states text-bold color-black pd-m">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
+
+                    <a class="btn-link pd-m rect-s" title="查看详情" ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')"
+                    href="#/salesOrder/get.html?id={{tr.id}}">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                    </a>
+                    
+                    <a class="btn-link pd-m rect-s" title="编辑" ng-if="tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit2.html?id={{tr.id}}">
+                     <span class="edit-link-icon">&nbsp;</span>
+                    </a>
+
                     <a class="btn-link pd-m rect-s" title="删除" ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
                        href="javascript:;"
                        class="pr-color-red mgl mr--4"
@@ -96,15 +106,7 @@
                        emitted="reloadList">
                        <span class="delete-link-icon">&nbsp;</span>
                     </a>
-                    <a class="btn-link pd-m rect-s" title="查看详情" ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')"
-                    href="#/salesOrder/get.html?id={{tr.id}}">
-                      <span class="watch-detail-icon">&nbsp;</span>
-                    </a>
 
-
-                    <a class="btn-link pd-m rect-s" title="编辑" ng-if="tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit2.html?id={{tr.id}}">
-                     <span class="edit-link-icon">&nbsp;</span>
-                    </a>
                     <!-- <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a> -->
                   </span>
                 </div>
