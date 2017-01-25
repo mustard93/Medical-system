@@ -2445,7 +2445,7 @@ function addressManageComponent (requestData, utils) {
       });
 
     },
-    controller: function ($scope, $element) {
+    controller: ["$scope", "$element", function ($scope, $element) {
 
       //页面加载数据请求成功后立即执行的回调函数
       $scope.addressGetCallBack = function () {
@@ -2531,7 +2531,7 @@ function addressManageComponent (requestData, utils) {
           }
         });
       };
-    }
+    }]//controller
   };
 }
 
