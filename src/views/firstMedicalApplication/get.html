@@ -13,12 +13,15 @@
            <h1>首营品种申请</h1>
            <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
          </div>
-         <!-- <div ng-if="showData.orderStatus=='已冻结'"
-          class="pr-panel pr-panel-height mgb">
+         <div ng-if="showData.orderStatus=='已冻结'"
+          class="pr-panel pr-panel-height mgb"
+          ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{showData.id}}"
+          scope-data="versionFlowList"
+          alert-error
+          >
            <em class="color-red">原因:</em>
-           <em>{{showData.operationFlowSet[0].key}}</em>
-           <em>{{showData.operationFlowSet[0].message}}</em>
-         </div> -->
+           <em>{{ versionFlowList[0].message }}</em>
+         </div>
 
        </div>
 

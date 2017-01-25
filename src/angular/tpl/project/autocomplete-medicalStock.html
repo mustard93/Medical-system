@@ -20,7 +20,12 @@
              ng-mouseover="angucomplete1.hoverRow()"
              ng-class="{'angucomplete-selected-row': $index == currentIndex}">
             <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
-            <div class="angucomplete-title" ng-if="!matchClass">{{ result.data.name }}&nbsp;&nbsp;{{ result.data.specification }}/{{ result.data.modelType }}</div>
+            <div class="angucomplete-title" ng-if="!matchClass">{{ result.data.name }}&nbsp;&nbsp;{{ result.data.specification }}/{{ result.data.modelType }}
+              <em ng-if="result.data.businessApplication.businessStatus=='已冻结'" class="color-4">
+              {{result.data.businessApplication.businessStatus}}
+              </em>
+            
+            </div>
             <div class="angucomplete-description color-9">{{ result.data.manufacturer }}</div>
             <div class="angucomplete-description"></div>
         </div>
