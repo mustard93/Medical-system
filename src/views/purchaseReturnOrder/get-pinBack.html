@@ -156,16 +156,16 @@
                   ng-disabled="!changeFlag || !saleReturnEditForm.$valid || quantityError">保存
           </button>-->
 
-          <button ng-if="showData.orderStatus=='待出库'"
+          <button ng-if="showData.orderStatus=='待入库'"
                   class="mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
-                  dialog-title="确认生成出库单?"
-                  dialog-content="生成出库单(红字)后,将完成销退出库"
+                  dialog-title="确认生成入库单?"
+                  dialog-content="生成入库单(红字)后,将完成采购退货入库"
                   dialog-template="pr-dialog-submit.html"
                   callback="$root.utils.goTo('#/purchaseReturnOrder/get-pinBack.html?id={{showData.id}}')"
-                  params='{"id":showData.id, "status":"已出库"}'
-                  request-url="rest/authen/purchaseReturnOrder/updateStatus">生成出库单
+                  params='{"id":showData.id, "status":"已入库"}'
+                  request-url="rest/authen/purchaseReturnOrder/updateStatus">生成入库单
           </button>
 
       </div>
