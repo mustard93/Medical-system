@@ -55,7 +55,7 @@
              <table class="table pr-table pr-new-table table-ss-wid" >
                <thead>
                 <tr>
-                 <th><input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll"
+                 <th><input type="checkbox" class="selectAll" ng-init="isChoiseAll=true" ng-model="isChoiseAll"
                    ng-change="handleChoiseAllEvent(formData.orderMedicalNos)" ng-disabled="formData.orderStatus=='已处理'"></th>
                  <th class="text-center">商品编号</th>
                  <th>商品全名</th>
@@ -279,8 +279,7 @@
        </div>
 
     </div>
-    <!-- 流程图 -->
-    <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
+
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
@@ -333,5 +332,8 @@
           <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice ||'0' | number:2}}</span></p>
       </div>
     </div>
+    <!-- 流程图 -->
+    <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
+
   </form>
 </div>

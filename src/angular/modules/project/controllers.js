@@ -1707,6 +1707,25 @@ define('project/controllers', ['project/init'], function() {
 
    }//end salesOrderEditCtrl
    function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
+
+     //页面Loading时初始化数据
+     $scope.$watch('initFlag', function (newVal) {
+       if (newVal && $scope.formData.orderMedicalNos) {
+        //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+        //    if (data.handleFlag)
+        //  })
+        for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+          if ($scope.formData.orderMedicalNos[i].handleFlag) {
+            $scope.choisedMedicals = true;
+          }
+          if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+            $scope.isChoiseAll = false;
+          }
+        }
+        // $scope.isChoiseAll = true;
+       }
+     });
+
        modal.closeAll();
        // $scope.formData={};
        $scope.addDataItem = {};
