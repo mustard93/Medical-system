@@ -1506,10 +1506,9 @@ function businessFlowShow() {
                  if(angular.isDefined($attrs.disableClick)){
                      return;
                  }
-
-
                var moduleType=that.currentNode.data.moduleType;
                var relId= that.currentNode.data.relId;
+                var subModuleAttribute= that.currentNode.data.subModuleAttribute;
                if(!moduleType||!relId){
                  console.log("moduleType="+moduleType+",relId="+relId);
                  return;
@@ -1520,6 +1519,22 @@ function businessFlowShow() {
                }
                // var url="/salesOrder/get.html?id="+relId;
                var url="#/"+moduleType+"/get.html?id="+relId;
+
+
+               if(moduleType=="outstockOrder"){
+
+                    if(subModuleAttribute=="销售出库单"){
+                           url="#/saleOutstockOrder/get.html?id="+relId;
+                    }else{
+                         url="#/otherOutstockOrder/get.html?id="+relId;
+                    }
+               }else   if(moduleType=="instockOrder"){
+                    if(subModuleAttribute=="采购入库单"){
+                        url="#/purchaseInstockOrder/get.html?id="+relId;
+                    }else{
+                         url="#/otherInstockOrder/get.html?id="+relId;
+                    }
+               }
 
                utils.goTo(url);
              }//end clickCallback
