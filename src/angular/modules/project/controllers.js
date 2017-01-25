@@ -1389,6 +1389,72 @@ define('project/controllers', ['project/init'], function() {
     *编辑、新建采购单
     */
    function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
+     $scope.$watch('initFlag', function (newVal) {
+       if (newVal && $scope.formData.orderMedicalNos) {
+        //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+        //    if (data.handleFlag)
+        //  })
+        for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+          if ($scope.formData.orderMedicalNos[i].handleFlag) {
+            $scope.choisedMedicals = true;
+          }
+          if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+            $scope.isChoiseAll = false;
+          }
+        }
+        // $scope.isChoiseAll = true;
+       }
+     });
+
+     $scope.chkChoiseMedicals = function (item,medicalsObj) {
+       if (item.handleFlag) {
+
+         $scope.choisedMedicals = true;  // 标识为true，底部生成采购单按钮可用
+
+         for (var i=0; i<medicalsObj.length; i++) {
+           if (medicalsObj[i].handleFlag === false) {
+             $scope.isChoiseAll = false;
+             return;
+           }
+         }
+
+         $scope.isChoiseAll = true;
+       } else {      // 处理用户取消选择,需遍历药品列表，判断是否还有没有取消的药品
+
+         $scope.isChoiseAll = false;
+
+         for (var j=0; j<medicalsObj.length; j++) {
+           if (medicalsObj[j].handleFlag === true) {
+             $scope.choisedMedicals = true;
+             return;
+           }
+         }
+
+         $scope.choisedMedicals = false;   // 没有药品被选中，设置按钮不可用
+       }
+     };
+
+
+     $scope.handleItemClickEvent = function (tr) {
+       var _dataSource = $scope.formData.orderMedicalNos;
+       if (!$scope.choisedMedicalList) {
+         $scope.choisedMedicalList = [];
+       }
+       if (tr.handleFlag) {
+         $scope.choisedMedicalList.push(tr);
+         if ($scope.choisedMedicalList.length === _dataSource.length) {
+           $scope.isChoiseAll = true;
+         }
+       } else {
+         angular.forEach($scope.choisedMedicalList, function (data, index) {
+           if (data.relId === tr.relId) {
+             $scope.choisedMedicalList.splice(index, 1);
+           }
+         });
+         $scope.isChoiseAll = false;
+       }
+     };
+
        modal.closeAll();
        // $scope.formData={};
        $scope.addDataItem = {};
@@ -1471,26 +1537,7 @@ define('project/controllers', ['project/init'], function() {
            return true;
        };
 
-       $scope.handleItemClickEvent = function (tr) {
-                var _dataSource = $scope.formData.orderMedicalNos;
-                if (!$scope.choisedMedicalList) {
-                  $scope.choisedMedicalList = [];
-                }
-                if (tr.handleFlag) {
-                  $scope.choisedMedicalList.push(tr);
-                  if ($scope.choisedMedicalList.length === _dataSource.length) {
-                    $scope.isChoiseAll = true;
-                  }
-                } else {
-                  angular.forEach($scope.choisedMedicalList, function (data, index) {
-                    if (data.relId === tr.relId) {
-                      $scope.choisedMedicalList.splice(index, 1);
-                    }
-                  });
-                  $scope.isChoiseAll = false;
-                }
-              };
-
+      
           /**
               * 添加一条。并缓存数据。
               */

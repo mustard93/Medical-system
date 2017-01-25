@@ -119,6 +119,7 @@ define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
 
           //添加流程图定义数据，用于图形展示
           addCanvasBusinessFlow:function(data,curRelId){
+             this.scene.clear();
             if(!data)return;
             this.data=data;
             this.curRelId=curRelId;
