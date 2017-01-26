@@ -14,39 +14,24 @@
 </div>
 <!-- page heading end-->
 
+
 <!--body wrapper start-->
 <!-- 收货方信息 -->
 <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-  <header class="text-n text-bold">收货方名：{{purchaserAddress.name}}
-    <span class="tools pull-right">
-      <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
-    </span>
-  </header>
-  <div class="panel-body" style="display:;padding:15px 0;">
-    <div class="consignee-info pd-c-m pdt-m pdb-m">
-      <ul clear-info-list style="min-height:136px;">
-        <li class="mgr-m" style="min-height:136px;" ng-repeat="item in purchaserAddress.contacts" >
-          <p class="pdb">{{item.name}} </p>
-          <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
-          <p class="text-s">{{item.tel}}</p>
-          <p><a href="javacript:;" modal-right="600" modal-data='{"purchaserAddressId":"{{purchaserAddress.id}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
-          <i class="consignee-default-label" ng-if="purchaserAddress.defaultContactId==item.id">默认</i>
-        </li>
-        <span>
-          <button class="pr-add-item-whitebg"
-                  type="button"
-                  style="min-height:136px;"
-                  modal-right="700"
-                  modal-data='{"purchaserAddressId":"{{purchaserAddress.id}}","contact":{}}'
-                  modal-scope="this"
-                  modal-url="views/purchaserAddress/contact/edit.html"
-                  ng-class="{'static':!purchaserAddress.contacts}">
-            <i class="fa fa-plus"></i>
-          </button>
-        </span>
-      </ul>
-    </div>
-  </div>
+  <h1 class="text-n text-bold">采购方：{{purchaserAddress.name}}
+
+  </h1>
+  <address-manage-component ng-if="purchaserAddress.id" ng-init="formData={}"
+                            compnent-title="采购方收货地址信息"
+                            request-url="rest/authen/purchaserAddress/get.json?id={{purchaserAddress.id}}&t={{$root.reloadTime}}"
+                            scope-data-prefix="purchaser"
+                            form-data="formData"
+                            modify-modal-url="views/purchaserAddress/contact/edit.html"
+                            create-modal-url="views/purchaserAddress/contact/edit.html"
+                            create-address-type="销售"
+                            set-default-address-requesturl="rest/authen/purchaserAddress/contact/setDefaultContactId"
+                            del-this-address-requesturl="rest/authen/purchaserAddress/contact/delete">
+  </address-manage-component>
 </div>
 <!--body wrapper end-->
 </div>
