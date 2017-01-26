@@ -28,7 +28,7 @@
     <div class="text-right order-list-search relative full-width">
       <div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l">
         <!-- ng-if="$root.hasAuthor('采购退货单新建')"  -->
-        <a href="#/purchaseReturnOrder/edit-pinBack.html" title="新建采购退货单"><i></i><span class="text-s ">新建采购退货单</span></a>
+        <a href="#/purchaseReturnOrder/edit.html" title="新建采购退货单"><i></i><span class="text-s ">新建采购退货单</span></a>
       </div>
       <div class="relative">
         <!-- <span class="mgr color-999">仓库</span>
@@ -117,7 +117,7 @@
                        dialog-title="确认删除?"
                        dialog-content="删除后将无法恢复,确认删除?"
                        dialog-template="pr-dialog-submit.html"
-                       callback="$root.goTo('#/purchaseReturnOrder/query-pinBack.html')"
+                       callback="$root.goTo('#/purchaseReturnOrder/query.html')"
                        params='{"id":tr.id}'
                        request-url="rest/authen/purchaseReturnOrder/delete">
                        <span class="delete-link-icon"></span>
@@ -131,7 +131,7 @@
                        dialog-title="确认生成入库单?"
                        dialog-content="生成入库单(红字)后,将完成采购入库"
                        dialog-template="pr-dialog-submit.html"
-                       callback="$root.utils.goTo('#/purchaseReturnOrder/query-pinBack.html')"
+                       callback="$root.utils.goTo('#/purchaseReturnOrder/query.html')"
                        params='{"id":tr.id, "status":"已入库"}'
                        request-url="rest/authen/purchaseReturnOrder/updateStatus">
                        <span class="outStork-icon"></span>
@@ -140,13 +140,13 @@
                       <a ng-if="tr.orderStatus=='待审核'"
                          class="btn-link pd-m rect-s "
                          title="编辑"
-                         ng-href="#/purchaseReturnOrder/edit-pinBack.html?id={{tr.id}}" >
+                         ng-href="#/purchaseReturnOrder/edit.html?id={{tr.id}}" >
                          <span class="edit-link-icon"></span>
                      </a>
                       <a ng-if="tr.orderStatus!='待审核'"
                          title="查看详情"
                          class="btn-link pd-m rect-s "
-                         ng-href="#/purchaseReturnOrder/get-pinBack.html?id={{tr.id}}" >
+                         ng-href="#/purchaseReturnOrder/get.html?id={{tr.id}}" >
                         <span class="watch-detail-icon"></span>
                       </a>
                     </span>

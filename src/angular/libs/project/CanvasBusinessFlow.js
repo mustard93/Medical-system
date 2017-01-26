@@ -264,11 +264,11 @@ define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
              //子分类，特定图片显示。
               if(event1.moduleType=="outstockOrder"){
                    if(event1.subModuleAttribute=="销售退货出库单"){
-                        imageName+="-销售退货出库单";
+                        imageName+="-hongzi";
                    }
               }else   if(event1.moduleType=="instockOrder"){
                    if(event1.subModuleAttribute=="采购退货入库单"){
-                        imageName+="-采购退货入库单";
+                        imageName+="-hongzi";
                    }
               }
 

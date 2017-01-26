@@ -1,6 +1,6 @@
 <div class="sale-return-order"
-     ng-controller="returnOrderEditCtrl"
-     ajax-url="rest/authen/saleReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ng-controller="purchasereturnOrderEditCtrl"
+     ajax-url="rest/authen/purchaseReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");quantityError=false;'
      alert-error>
@@ -8,7 +8,7 @@
         name="saleReturnEditForm"
         form-validator
         parameter-body
-        action="rest/authen/saleReturnOrder/save"
+        action="rest/authen/purchaseReturnOrder/save"
         alert-error
         scope-response="scopeResponse"
         scope-error-msg="errorMsg"
@@ -20,16 +20,16 @@
       <div class="pd-l">
         <!-- 标题 -->
         <div class="mgb-m">
-          <p class="mgb-m crumbs pr-indent-20">销售中心 >
-            <a href="#/saleReturnOrder/query-pinBack.html"><em class="color-custom-orange">销售退货单</em></a>
-             >新建销售退货单</p>
-          <h1 class="pr-font-22 color-black">新建销售退货单</h1>
+          <p class="mgb-m crumbs pr-indent-20">采购中心 >
+            <a href="#/purchaseReturnOrder/query.html"><em class="color-custom-orange">采购退货单</em></a>
+             >新建采购退货单</p>
+          <h1 class="pr-font-22 color-black">新建采购退货单</h1>
           <div class="mgt-l text-right">
             <span ng-if="initFlag" class="color-orange add-return-order"
                   modal-right="1000"
                   modal-open-auto="{{!formData.orderMedicalNos.length}}"
                   modal-scope="this"
-                  modal-url="views/saleReturnOrder/edit-right-side.html">
+                  modal-url="views/purchaseReturnOrder/edit-right-side.html">
                   <em ng-if="!formData.orderMedicalNos.length">
                     增加退货条目
                   </em>
@@ -65,10 +65,10 @@
           </div>
 
           <div class="flex-column mgb  pd">
-            <span class="mgr-l">销售部门：<em class="color-black">{{formData.salesDepartmentName || '暂无'}}</em></span>
+            <span class="mgr-l">采购部门：<em class="color-black">{{formData.salesDepartmentName || '暂无'}}</em></span>
             <span class="mgr-l">业务人员：<em class="color-orange">{{formData.inputUser.n || '暂无'}}</em></span>
             <span class="mgr-l">业务类型：<em class="color-black">{{formData.orderBusinessType || '暂无'}}</em></span>
-            <span class="mgr-l">销售类型：<em class="color-black">{{formData.salesType || '暂无'}}</em></span>
+            <span class="mgr-l">采购类型：<em class="color-black">{{formData.salesType || '暂无'}}</em></span>
           </div>
       </div>
 
@@ -169,11 +169,11 @@
 
         <!-- 流程图 -->
 
-        <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
+        <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
         <!-- <div ng-if="formData.id"
              class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
              ajax-url="rest/authen/businessFlow/getByBusinessKey.json"
-             params='{"businessKey":"{{formData.id}}","businessType":"销售单"}'
+             params='{"businessKey":"{{formData.id}}","businessType":"采购单"}'
              scope-data="businessFlowData"
              callback="businessFlowDataInitFlag=true;"
              error-callback="businessFlowDataInitFlag=true;">
@@ -195,21 +195,21 @@
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/saleReturnOrder/query-pinBack.html')"
+             nosave-callback="goTo('#/purchaseReturnOrder/query.html')"
              save-callback="submitForm('editForm','exit');
-             $root.goTo('#/saleReturnOrder/query-pinBack.html')">返回销售退货单列表
+             $root.goTo('#/purchaseReturnOrder/query.html')">返回采购退货单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/saleReturnOrder/query-pinBack.html" >返回销售退货单列表</a>
+          <a class="mgr-l" ng-if="!changeFlag" href="#/purchaseReturnOrder/query.html" >返回采购退货单列表</a>
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
              handle-this-click
              dialog-title="确认删除?"
-             dialog-content="您确认删除这条销售退货单吗?"
+             dialog-content="您确认删除这条采购退货单吗?"
              dialog-template="dialog-confirm.html"
-             request-url="rest/authen/saleReturnOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/saleReturnOrder/query-pinBack.html')">删除
+             request-url="rest/authen/purchaseReturnOrder/delete?id={{formData.id}}"
+             call-back="$root.goTo('#/purchaseReturnOrder/query.html')">删除
           </a>
 
 
@@ -223,7 +223,7 @@
                   type="button"
                   handle-this-click
                   dialog-title="确认审核退货单"
-                  dialog-content="审核后,对应的销售出库单(红字)将由WMS自动生成"
+                  dialog-content="审核后,对应的采购入库单(红字)将由WMS自动生成"
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
