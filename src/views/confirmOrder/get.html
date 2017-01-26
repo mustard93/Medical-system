@@ -2,7 +2,7 @@
      ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="scopeData"
-        callback='bottomButtonList= $root.bottomButtonList.get_confirmOrder(scopeData);'
+     callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_confirmOrder(scopeData);'
      alert-error>
 
   <form id="editForm"
@@ -28,7 +28,6 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
@@ -122,104 +121,113 @@
           </div> -->
         </div>
       </div>
-
-    <!-- 其他信息 -->
-    <div class="relative">
-      <!-- 收货方信息 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-        <header class="text-n color-3 text-bold">收货方信息
-          <span class="tools pull-right">
-            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-          </span>
-        </header>
-        <div class="panel-body" style="display:none;padding:15px 0;">
-          <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
-          <p class="">收货人信息：
-            {{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}&nbsp;&nbsp;{{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}
-          </p>
-          <!-- <div class="consignee-info pd-c-m pdt-m pdb-m"
-               ajax-if-eval="formData.customerId"
-               ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{reloadTime}}"
-               scope-data="customerAddress"
-               callback="customerAddressGetCallBack(formData,customerAddress)"
-               ng-class="{'static': customerAddress.contacts}">
-            <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
-              <li class="mgr-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
-                <p class="pdb">{{item.name}} </p>
-                <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
-                <p class="text-s">{{item.tel}}</p>
-                <p><a href="javacript:;" modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/customerAddress/contact/edit.html">修改</a></p>
-                <i class="consignee-default-label" ng-if="customerAddress.defaultContactId==item.id">默认</i>
-                <i class="consignee-choise-label" ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-              </li>
-              <span>
-                <button  class="pr-add-item-whitebg"
-                 type="button"
-                        style="min-height:136px;"
-                        modal-right="700"
-                        modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                        modal-scope="this"
-                        modal-url="views/customerAddress/contact/edit.html"
-                        ng-class="{'static':!customerAddress.contacts}">
-                  <i class="fa fa-plus"></i>
-                </button>
-              </span>
-            </ul>
-          </div> -->
+      <!-- 其他信息 -->
+      <div class="relative">
+        <!-- 收货方信息 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <header class="text-n color-3 text-bold">收货方信息
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+            </span>
+          </header>
+          <div class="panel-body" style="display:none;padding:15px 0;">
+            <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
+            <p class="">收货人信息：
+              {{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}&nbsp;&nbsp;{{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}
+            </p>
+          </div>
         </div>
-      </div>
-      <!-- 发货方信息 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-        <header class="text-n color-3 text-bold">发货方信息
-          <span class="tools pull-right">
-            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-          </span>
-        </header>
-        <div class="panel-body" style="display:none;padding:15px 0;">
-          <h1 class="mgb">发货方：</h1>
-          <p class="">发货人信息：
-            {{scopeData.invoicesContacts.prov}}&nbsp;&nbsp;{{scopeData.invoicesContacts.city}}&nbsp;&nbsp;{{scopeData.invoicesContacts.area}}&nbsp;&nbsp;{{scopeData.invoicesContacts.address}}&nbsp;&nbsp;{{scopeData.invoicesContacts.name}}&nbsp;&nbsp;{{scopeData.invoicesContacts.tel}}
-          </p>
-          <!-- <div class="consignee-info"
-               ajax-url="rest/authen/invoicesAddress/get.json"
-               scope-data="invoicesAddress"
-               callback="customerAddressGetCallBack(formData,invoicesAddress)"
-               ng-class="{'static': invoicesAddress.contacts}">
-            <ul style="min-height:136px;">
-              <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.contactsId=item.id">
-                <p class="pdb">{{item.name}} </p>
-                <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
-                <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
-                <i class="consignee-default-label"  ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
-                <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-              </li>
-              <span>
-                <button class="pr-add-item-whitebg" style="min-height:136px;"
-                        modal-right="700"
-                        modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                        modal-scope="this"
-                        modal-url="views/salesOrder/contact/edit.html"
-                        ng-class="{'static':!invoicesAddress.contacts}">
-                  <i class="fa fa-plus"></i>
-                </button>
-              </span>
-            </ul>
-          </div> -->
+        <!-- 发货方信息 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <header class="text-n color-3 text-bold">发货方信息
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+            </span>
+          </header>
+          <div class="panel-body" style="display:none;padding:15px 0;">
+            <h1 class="mgb">发货方：{{$root.curUser.additional.HabbitOrganizationName}}</h1>
+            <p class="">发货人信息：
+              {{scopeData.invoicesContacts.prov}}&nbsp;&nbsp;{{scopeData.invoicesContacts.city}}&nbsp;&nbsp;{{scopeData.invoicesContacts.area}}&nbsp;&nbsp;{{scopeData.invoicesContacts.address}}&nbsp;&nbsp;{{scopeData.invoicesContacts.name}}&nbsp;&nbsp;{{scopeData.invoicesContacts.tel}}
+            </p>
+          </div>
         </div>
-      </div>
-      <!-- 备注 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-        <h1 class="text-bold color-3">备注</h1>
-        <p>{{scopeData.note}}</p>
-      </div>
-
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <h1 class="text-bold color-3">备注</h1>
+          <p>{{scopeData.note}}</p>
+        </div>
+        <!-- 已发货状态单据显示物流信息 -->
+        <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);margin-left:-20px;margin-right:-20px;"
+             ajax-url="rest/authen/confirmOrder/getKuaidi?id={{mainStatus.pageParams.id}}"
+             scope-data="kuaidiData">
+          <h1 class="pd-v-m">物流信息</h1>
+          <div class="woutstock-order-express">
+            <ul>
+              <li class="express-list" ng-repeat="item in kuaidiData">
+                <div class="flex-column pd-v-s bb-line">
+                  <div class="flex-item-6 pr-indent-10" style="margin-top:3px;"></div>
+                  <div class="flex-item-6 text-right pdt-s relative">
+                    <a express-btn-toggle class="origin-ele" href="javascript:;">
+                      <em class="circle"></em>
+                      <em class="circle"></em>
+                      <em class="circle"></em>
+                    </a>
+                    <!-- <div class="edit-del-btn text-center">
+                      <p class="pdt-s pdb-s bb-dashed-line">
+                        <a href="javascript:;" ng-click="editThisAreaInfo(item)">编辑</a>
+                      </p>
+                      <p class="pdt-s pdb-s">
+                        <a href="javascript:;" class="color-red"
+                           handle-this-click
+                           dialog-title="确认删除?"
+                           dialog-content="您确认删除这条购需单吗?"
+                           dialog-template="dialog-confirm.html"
+                           request-url="rest/authen/wOutstockOrder/kuaidi/delete?wOutstockOrderId={{showData.id}}&kuaidiId={{item.id}}"
+                           callback="$root.utils.goOrRefreshHref()">删除</a>
+                      </p>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="text-center pdt-l">
+                  <p class="mgb-s">{{item.type}}</p>
+                  <p class="color-orange">
+                    <a href="javascript:;"
+                       modal-right="600"
+                       modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
+                       modal-scope="this"
+                       modal-url="views/kuaidi/query3.html">{{item.nu}}
+                    </a>
+                  </p>
+                </div>
+              </li>
+              <!-- 添加物流信息li -->
+              <li class="express-info express-list" ng-show="addAreaisShow==true">
+                <div class="mgt">
+                  <select ng-if="addAreaisShow" class="select pr-select"
+                          ng-model="formData.type"
+                          chosen
+                          select-source="rest/baseData/queryForSelectOptionByType?type=快递类型">
+                 </select>
+                </div>
+                <div class="mgt">
+                  <input type="text" class="ipt" ng-model="formData.nu" />
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-6"><a href="javascript:;" ng-click="addAreaisShow=false;">取消</a></span>
+                  <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xsm">保存</a></span>
+                </div>
+              </li>
+              <!-- 添加按钮 -->
+              <!-- <li class="add-btn express-list" ng-class="{'express-info-empty':(!showData.kuaidiSet.length), 'add-btn':showData.kuaidiSet.length}">
+                <a href="" ng-click="addAreaisShow=true;formData.nu=''"><span class="fa fa-plus"></span></a>
+              </li> -->
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-
     <!-- 流程图 -->
-
     <business-flow-show business-key="{{scopeData.id}}" business-type="销售单"></business-flow-show>
-
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
