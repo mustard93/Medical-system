@@ -1506,10 +1506,9 @@ function businessFlowShow() {
                  if(angular.isDefined($attrs.disableClick)){
                      return;
                  }
-
-
                var moduleType=that.currentNode.data.moduleType;
                var relId= that.currentNode.data.relId;
+                var subModuleAttribute= that.currentNode.data.subModuleAttribute;
                if(!moduleType||!relId){
                  console.log("moduleType="+moduleType+",relId="+relId);
                  return;
@@ -1520,6 +1519,22 @@ function businessFlowShow() {
                }
                // var url="/salesOrder/get.html?id="+relId;
                var url="#/"+moduleType+"/get.html?id="+relId;
+
+
+               if(moduleType=="outstockOrder"){
+
+                    if(subModuleAttribute=="销售出库单"){
+                           url="#/saleOutstockOrder/get.html?id="+relId;
+                    }else{
+                         url="#/otherOutstockOrder/get.html?id="+relId;
+                    }
+               }else   if(moduleType=="instockOrder"){
+                    if(subModuleAttribute=="采购入库单"){
+                        url="#/purchaseInstockOrder/get.html?id="+relId;
+                    }else{
+                         url="#/otherInstockOrder/get.html?id="+relId;
+                    }
+               }
 
                utils.goTo(url);
              }//end clickCallback
@@ -2123,6 +2138,58 @@ function angucompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
     };
 }//angucompleteMedicalStockBatch
 
+
+
+/**
+ * 自动补全-供应商
+ */
+function angucompleteSupplier($parse, requestData, $sce, $timeout) {
+    return {
+        restrict: 'EA',
+        scope: {
+            "placeholder": "@",
+            "selectedItem": "=?",
+            "url": "@",
+            "titleField": "@",
+            "descriptionField": "@",
+            "ngModelId": "=?",//绑定返回对象id
+            "ngModel": "=",
+            "searchFields": "@",
+            "matchClass": "@",
+            "ngDisabled": "=?"
+        },
+        require: "?^ngModel",
+        templateUrl: Config.tplPath + 'tpl/project/autocomplete-supplier.html',
+        link: function($scope, elem, $attrs, ngModel) {
+            $scope.lastSearchTerm = null;
+            $scope.currentIndex = null;
+            $scope.justChanged = false;
+            $scope.searchTimer = null;
+            $scope.hideTimer = null;
+            $scope.searching = false;
+            $scope.pause = 300;
+            $scope.minLength = 1;
+            $scope.searchStr = $scope.searchFields;
+            console.log("$scope.searchFields",$scope.searchFields);
+            //绑定返回对象的某个属性值。
+            if($attrs.ngModelId){
+              $scope.$watch("ngModel", function(value) {
+                console.log("ngModelProperty.watch.ngModel",value);
+                if(!value)return;
+                $scope.ngModelId=value.id;
+                $scope.searchStr=value.data.name;
+              }, true);
+            }
+
+            require(['project/angucomplete'], function(angucomplete) {
+                  $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+
+            });//angucomplete
+
+        }
+    };
+}
+
 /**
  * 自动补全-药械
  */
@@ -2161,6 +2228,9 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
         }
     };
 }
+
+
+
 
 /**
  * 闪加药械
@@ -2445,7 +2515,7 @@ function addressManageComponent (requestData, utils) {
       });
 
     },
-    controller: function ($scope, $element) {
+    controller: ["$scope", "$element", function ($scope, $element) {
 
       //页面加载数据请求成功后立即执行的回调函数
       $scope.addressGetCallBack = function () {
@@ -2531,7 +2601,7 @@ function addressManageComponent (requestData, utils) {
           }
         });
       };
-    }
+    }]//controller
   };
 }
 
@@ -2628,6 +2698,7 @@ angular.module('manageApp.project')
   .directive("flashAddMedical", [flashAddMedical])
   .directive("angucompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
+    .directive("angucompleteSupplier", ["$parse", "requestData", "$sce", "$timeout",angucompleteSupplier])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])
   .directive("umeditor", ["$timeout",umeditor])  // html编辑器

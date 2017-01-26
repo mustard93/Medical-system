@@ -10,19 +10,23 @@
     <h1>首营企业申请</h1>
     <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
     </div>
-    <!-- <div ng-if="showData.orderStatus=='已冻结'"
-     class="pr-panel pr-panel-height mgb">
+
+    <div ng-if="showData.orderStatus=='已冻结'"
+     class="pr-panel pr-panel-height mgb"
+     ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{showData.id}}"
+     scope-data="versionFlowList"
+     alert-error
+     >
       <em class="color-red">原因:</em>
-      <em>{{showData.operationFlowSet[1].key}}</em>
-      <em>{{showData.operationFlowSet[1].message}}</em>
-    </div> -->
+      <em>{{ versionFlowList[0].message }}</em>
+    </div>
 
   </div>
   <!-- 主体内容 -->
   <div class="content-wrapper-main mgt"  style="margin-bottom:80px;">
 
       <!-- 单号 -->
-      <div class="panel pr-panel pr-panel-height mgb bb-line color-9 flex-column" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
+      <div class="panel pr-panel pr-panel-height mgb bb-line color-9 flex-column" ng-class="{'pr-bg-grey3':(showData.status=='已终止')}">
         <div class="flex-item-8">
           <span class="mgr-l">申请单：<em class="color-6">{{showData.orderNo}}</em></span>
           <span class="mgr-l">申请人：<em class="color-custom-orange">{{showData.proposerName}}</em></span>
@@ -286,7 +290,7 @@
         <button class="pr-btn-save-glodbg mgt"
                 type="button"
                 ajax-url-submit="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
-                params='{"id":showData.id,"orderStatus":"待审批"}'
+                params='{"id":showData.id,"status":"待审批"}'
                 alert-error
                 scope-data="showData"
                 callback="$root.utils.refreshHref()">提交审批

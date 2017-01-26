@@ -1389,6 +1389,72 @@ define('project/controllers', ['project/init'], function() {
     *编辑、新建采购单
     */
    function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
+     $scope.$watch('initFlag', function (newVal) {
+       if (newVal && $scope.formData.orderMedicalNos) {
+        //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+        //    if (data.handleFlag)
+        //  })
+        for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+          if ($scope.formData.orderMedicalNos[i].handleFlag) {
+            $scope.choisedMedicals = true;
+          }
+          if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+            $scope.isChoiseAll = false;
+          }
+        }
+        // $scope.isChoiseAll = true;
+       }
+     });
+
+     $scope.chkChoiseMedicals = function (item,medicalsObj) {
+       if (item.handleFlag) {
+
+         $scope.choisedMedicals = true;  // 标识为true，底部生成采购单按钮可用
+
+         for (var i=0; i<medicalsObj.length; i++) {
+           if (medicalsObj[i].handleFlag === false) {
+             $scope.isChoiseAll = false;
+             return;
+           }
+         }
+
+         $scope.isChoiseAll = true;
+       } else {      // 处理用户取消选择,需遍历药品列表，判断是否还有没有取消的药品
+
+         $scope.isChoiseAll = false;
+
+         for (var j=0; j<medicalsObj.length; j++) {
+           if (medicalsObj[j].handleFlag === true) {
+             $scope.choisedMedicals = true;
+             return;
+           }
+         }
+
+         $scope.choisedMedicals = false;   // 没有药品被选中，设置按钮不可用
+       }
+     };
+
+
+     $scope.handleItemClickEvent = function (tr) {
+       var _dataSource = $scope.formData.orderMedicalNos;
+       if (!$scope.choisedMedicalList) {
+         $scope.choisedMedicalList = [];
+       }
+       if (tr.handleFlag) {
+         $scope.choisedMedicalList.push(tr);
+         if ($scope.choisedMedicalList.length === _dataSource.length) {
+           $scope.isChoiseAll = true;
+         }
+       } else {
+         angular.forEach($scope.choisedMedicalList, function (data, index) {
+           if (data.relId === tr.relId) {
+             $scope.choisedMedicalList.splice(index, 1);
+           }
+         });
+         $scope.isChoiseAll = false;
+       }
+     };
+
        modal.closeAll();
        // $scope.formData={};
        $scope.addDataItem = {};
@@ -1471,26 +1537,7 @@ define('project/controllers', ['project/init'], function() {
            return true;
        };
 
-       $scope.handleItemClickEvent = function (tr) {
-                var _dataSource = $scope.formData.orderMedicalNos;
-                if (!$scope.choisedMedicalList) {
-                  $scope.choisedMedicalList = [];
-                }
-                if (tr.handleFlag) {
-                  $scope.choisedMedicalList.push(tr);
-                  if ($scope.choisedMedicalList.length === _dataSource.length) {
-                    $scope.isChoiseAll = true;
-                  }
-                } else {
-                  angular.forEach($scope.choisedMedicalList, function (data, index) {
-                    if (data.relId === tr.relId) {
-                      $scope.choisedMedicalList.splice(index, 1);
-                    }
-                  });
-                  $scope.isChoiseAll = false;
-                }
-              };
-
+      
           /**
               * 添加一条。并缓存数据。
               */
@@ -1707,6 +1754,25 @@ define('project/controllers', ['project/init'], function() {
 
    }//end salesOrderEditCtrl
    function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
+
+     //页面Loading时初始化数据
+     $scope.$watch('initFlag', function (newVal) {
+       if (newVal && $scope.formData.orderMedicalNos) {
+        //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+        //    if (data.handleFlag)
+        //  })
+        for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+          if ($scope.formData.orderMedicalNos[i].handleFlag) {
+            $scope.choisedMedicals = true;
+          }
+          if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+            $scope.isChoiseAll = false;
+          }
+        }
+        // $scope.isChoiseAll = true;
+       }
+     });
+
        modal.closeAll();
        // $scope.formData={};
        $scope.addDataItem = {};
@@ -2381,7 +2447,7 @@ define('project/controllers', ['project/init'], function() {
   /**
    * 销售退货
    */
-  function saleReturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
+  function returnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
 
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
@@ -2406,6 +2472,7 @@ define('project/controllers', ['project/init'], function() {
 
         var url='rest/authen/saleReturnOrder/updateStatus';
         var data= {id:$scope.formData.id,status:'待出库'};
+          console.log($scope.formData);
 
         requestData(url, data, 'POST')
           .then(function (results) {
@@ -2513,12 +2580,149 @@ define('project/controllers', ['project/init'], function() {
 
   }
 
+  // 采购退货单
+
+  function purchasereturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
+    $scope.watchFormChange=function(watchName){
+      watchFormChange(watchName,$scope);
+
+    };
+
+    modal.closeAll();
+    // $scope.formData={};
+    $scope.addDataItem = {};
+
+    // 保存  type:save-草稿,submit-提交订单。
+    $scope.submitFormAfter = function(scopeResponse) {
+
+      $scope.formData.validFlag = false;
+
+      if ($scope.submitForm_type == 'exit') {
+        $scope.goTo('#/purchaseReturnOrder/query.html');
+        alertOk(scopeResponse.msg);
+        return;
+      }
+
+      if ($scope.submitForm_type == 'submit') {
+
+        var url='rest/authen/purchaseReturnOrder/updateStatus';
+        var data= {id:$scope.formData.id,status:'待入库'};
+          console.log($scope.formData);
+
+        requestData(url, data, 'POST')
+          .then(function (results) {
+            if (results[1].code !== 200) {
+              alertWarn(results[1].msg || '未知错误!');
+            } else {
+              $scope.goTo('#/purchaseReturnOrder/get-pinBack.html?id='+$scope.formData.id);
+            }
+          })
+          .catch(function (error) {
+            if (error) {
+              alertWarn(error || '未知错误!');
+              return;
+            }
+          });
+
+
+          return;
+      }
+
+      if ($scope.submitForm_type == 'save') {
+        if (scopeResponse) {
+          alertOk(scopeResponse.msg);
+        }
+      }
+    };
+
+    // 能否提交验证 type:save-草稿,submit-提交订单。
+    $scope.canSubmitForm = function() {
+      //必须有1条是勾选加入订单的。
+      var arr=$scope.formData.orderMedicalNos;
+      for(var i=0;i<arr.length;i++){
+         if(arr[i].handleFlag){
+           return true;
+         }
+      }
+
+      return false;
+
+    };
+
+    // 保存 type:save-草稿,submit-提交订单。
+    $scope.submitForm = function(fromId, type) {
+      $scope.submitForm_type = type;
+      if ($scope.submitForm_type == 'submit') {
+        $scope.formData.validFlag = true;
+      }
+      $('#' + fromId).trigger('submit');
+
+      // addDataItem_opt.submitUrl='';
+      // $scope.formData.orderMedicalNos.push($scope.addDataItem);
+      // $scope.addDataItem={};
+    };
+
+    // 取消订单
+    $scope.cancelForm = function(fromId, url) {
+      alertWarn('cancelForm');
+    };
+
+    //
+    // $scope.$watch('addDataObj', function (newVal) {
+    //   if (newVal && $scope.formData) {
+    //     $scope.formData.relId = $scope.addDataObj.id;
+    //     $scope.formData.orderMedicalNos = angular.copy($scope.choisedMedicalList);
+    //   }
+    // }, true);
+
+
+    // 添加选择项到编辑页
+    $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList) {
+      if(!addDataObj_id){//发货单id不能为空
+        return ;
+      }
+      if(!choisedMedicalList||choisedMedicalList.length==0){//至少选择1条数据
+        return ;
+      }
+
+      //切换发货单时，清空原有数据
+      if($scope.formData.relId!=addDataObj_id){
+        $scope.formData.orderMedicalNos=[];
+      }else{
+        //否则删除没选中,再添加选中的
+        for(var i=$scope.formData.orderMedicalNos.length-1;i>=0;i--){
+          var data=$scope.formData.orderMedicalNos[i];
+          if(utils.getObjectIndexByKeyOfArr(choisedMedicalList,"relId",data.relId)==-1){
+              $scope.formData.orderMedicalNos.splice(i,1);
+          }
+        }
+      }
+      //重新绑定数据
+      $scope.formData.relId = addDataObj_id;
+      //已经添加过的不在添加。（保留已经修改的数据）
+        angular.forEach(choisedMedicalList, function (data, index) {
+          if(utils.getObjectIndexByKeyOfArr($scope.formData.orderMedicalNos,"relId",data.relId)==-1){
+              $scope.formData.orderMedicalNos.push(data);
+          }
+
+        });
+
+      // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);
+        modal.closeAll();
+
+
+    };
+
+  }
+
+
+
   /**
-   * [saleReturnOrderAddController 销售退货单弹出模态框添加项目控制器]
+   * [returnOrderAddController 销售退货单弹出模态框添加项目控制器]
    * @param  {[type]} $scope [description]
    * @return {[type]}        [description]
    */
-  function saleReturnOrderAddController ($scope, $rootScope, modal,utils) {
+  function returnOrderAddController ($scope, $rootScope, modal,utils) {
 
     $scope.addDataObj={};
     //1.初始化选择状态。
@@ -2687,7 +2891,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('saleOutstockOrderController', ['$scope', 'requestData', 'utils', saleOutstockOrderController])
   .controller('imTaobaoCtr', ['$scope',"requestData",'alertError',"$rootScope", imTaobaoCtr])
   .controller('saleReturnMedicalItemController', ['$scope', saleReturnMedicalItemController])
-  .controller('saleReturnOrderAddController', ["$scope", "$rootScope", "modal","utils", saleReturnOrderAddController])
+  .controller('returnOrderAddController', ["$scope", "$rootScope", "modal","utils", returnOrderAddController])
   .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","queryItemCardButtonList", mainCtrlProject])
   .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
   .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
@@ -2708,7 +2912,8 @@ define('project/controllers', ['project/init'], function() {
   .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl])
   .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
   .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
-  .controller('saleReturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', saleReturnOrderEditCtrl])
+  .controller('returnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', returnOrderEditCtrl])
+  .controller('purchasereturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', purchasereturnOrderEditCtrl])
   .controller('MedicalStockController', ['$scope', '$timeout', MedicalStockController])
   .controller('CalculateTotalController', ['$scope', CalculateTotalController])
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController]);

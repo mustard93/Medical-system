@@ -72,7 +72,7 @@
           <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
               <div class="relative">
-                <div class="flex-column mgb-m card-title-height min-h-m" style="height:24px;line-height:24px;">
+                <div class="flex-column">
                   <span class="flex-item-6 title-states text-bold pdt-m">
                     <em class="pd-m" ng-class="{'color-green2':tr.orderStatus=='已处理'}">
                         {{tr.orderStatus}}
@@ -83,22 +83,29 @@
                     <span ng-if="tr.orderStatus=='待处理'||tr.orderStatus=='处理中'" >
                       <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
-                         class="mr--14"
+                         title="删除"
+                         class="btn-link pd-m rect-s mr--4"
                          handle-this-click
                          dialog-title="确认删除 ?"
                          dialog-content="您确认删除这条请购单吗?"
                          dialog-template="dialog-confirm.html"
                          request-url="rest/authen/requestPurchaseOrder/delete?id={{tr.id}}"
                          emitted="reloadList">
-                      <span class="rect-s " title="删除"><span class="delete-link-icon"></span></span>
+                         <span class="delete-link-icon"></span>
                       </a>
-                      <a href="#/requestPurchaseOrder/edit.html?id={{tr.id}}" class="mgl">
-                      <span class="rect-s" title="编辑"><span class="edit-link-icon"></span></span>
+                      <a
+                      class="btn-link pd-m rect-s"
+                      title="编辑"
+                      href="#/requestPurchaseOrder/edit.html?id={{tr.id}}" class="mgl">
+                      <span class="edit-link-icon"></span>
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus=='已处理'" class=" text-right">
-                      <a  href="#/requestPurchaseOrder/edit.html?id={{tr.id}}" class="mgl">
-                        <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
+                      <a
+                      class="btn-link pd-m rect-s"
+                      title="查看详情"
+                      href="#/requestPurchaseOrder/edit.html?id={{tr.id}}" class="mgl">
+                      <span class="watch-detail-icon"></span>
                       </a>
                   </span>
 

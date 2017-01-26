@@ -13,12 +13,15 @@
            <h1>首营品种申请</h1>
            <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
          </div>
-         <!-- <div ng-if="showData.orderStatus=='已冻结'"
-          class="pr-panel pr-panel-height mgb">
+         <div ng-if="showData.orderStatus=='已冻结'"
+          class="pr-panel pr-panel-height mgb"
+          ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{showData.id}}"
+          scope-data="versionFlowList"
+          alert-error
+          >
            <em class="color-red">原因:</em>
-           <em>{{showData.operationFlowSet[0].key}}</em>
-           <em>{{showData.operationFlowSet[0].message}}</em>
-         </div> -->
+           <em>{{ versionFlowList[0].message }}</em>
+         </div>
 
        </div>
 
@@ -242,13 +245,13 @@
                                 modal-center="490"
                                 modal-scope="this"
                                 modal-data='{"title":"确认",
-                                             "content":"冻结后，该企业资格将被暂停，直到解冻，确认冻结?",
+                                             "content":"冻结后，该品种资格将被暂停，直到解冻，确认冻结?",
                                              "btnConfirm":"确定",
                                              "btnCancel":"取消",
                                              "url":"rest/authen/firstMedicalApplication/proposerUpdateStatus",
                                              "goUrl":"",
                                              "id":"{{showData.id}}",
-                                             "orderStatus":"已冻结"
+                                             "status":"已冻结"
                                             }'
                                 modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
                         </button>
@@ -259,13 +262,13 @@
                                 modal-center="490"
                                 modal-scope="this"
                                 modal-data='{"title":"确认解冻?",
-                                             "content":"解冻后，该企业资格将恢复，确认解冻?",
+                                             "content":"解冻后，该品种资格将恢复，确认解冻?",
                                              "btnConfirm":"确定",
                                              "btnCancel":"取消",
                                              "url":"rest/authen/firstMedicalApplication/proposerUpdateStatus",
                                              "goUrl":"",
                                              "id":"{{showData.id}}",
-                                             "orderStatus":"解冻"
+                                             "status":"解冻"
                                             }'
                                 modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
                         </button>
@@ -275,7 +278,7 @@
                                 type="button"
                                 handle-this-click
                                 dialog-title="确认终止?"
-                                dialog-content="终止后，该企业资格将被取消，确定终止?"
+                                dialog-content="终止后，该品种资格将被取消，确定终止?"
                                 dialog-template="pr-dialog-submit.html"
                                 request-url="rest/authen/firstMedicalApplication/proposerUpdateStatus"
                                 params='{"id":showData.id,"status":"已终止"}'
@@ -310,7 +313,7 @@
               <button class="pr-btn-save-glodbg mgt"
                       type="button"
                       ajax-url-submit="rest/authen/firstMedicalApplication/proposerUpdateStatus"
-                      params='{"id":showData.id,"orderStatus":"待审批"}'
+                      params='{"id":showData.id,"status":"待审批"}'
                       alert-error
                       scope-data="showData"
                       callback="$root.utils.refreshHref()">提交审批

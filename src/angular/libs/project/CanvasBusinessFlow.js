@@ -119,6 +119,7 @@ define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
 
           //添加流程图定义数据，用于图形展示
           addCanvasBusinessFlow:function(data,curRelId){
+             this.scene.clear();
             if(!data)return;
             this.data=data;
             this.curRelId=curRelId;
@@ -263,11 +264,11 @@ define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
              //子分类，特定图片显示。
               if(event1.moduleType=="outstockOrder"){
                    if(event1.subModuleAttribute=="销售退货出库单"){
-                        imageName+="-销售退货出库单";
+                        imageName+="-hongzi";
                    }
               }else   if(event1.moduleType=="instockOrder"){
                    if(event1.subModuleAttribute=="采购退货入库单"){
-                        imageName+="-采购退货入库单";
+                        imageName+="-hongzi";
                    }
               }
 

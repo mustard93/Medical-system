@@ -1,5 +1,5 @@
 <div class="content-wrapper"
-     ajax-url="rest/authen/wInstockOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/wInstockOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.medicalStockId"
      alert-error>
@@ -175,8 +175,11 @@
                         <td>{{tr.specificationAndModelType}}</td>
                         <td>{{tr.drugAdministrationCode}}</td>
                         <td>{{tr.unit}}</td>
-                        <td class="text-right">
+                        <td ng-if="tr.type!='采购入库单'" class="text-right">
                         {{tr.storageQuantity?tr.storageQuantity:"—"}}
+                        </td>
+                        <td ng-if="tr.type=='采购入库单'" class="text-right">
+                        {{tr.storageQuantity?-tr.storageQuantity:"—"}}
                         </td>
                         <td class="text-right">
                         {{tr.refuseQuantity?tr.refuseQuantity:"—"}}

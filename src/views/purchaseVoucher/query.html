@@ -69,20 +69,23 @@
           <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
               <div class="relative">
-                <div class="flex-column mgb-m card-title-height min-h-m" style="height:24px;line-height:24px;">
+                <div class="flex-column">
                   <span class="flex-item-6 title-states text-bold pdt-m">
                     <em class="pd-m">{{tr.orderStatus}}</em>
                   </span>
                   <span class="flex-item-6 text-right">
-                    <a href="javascript:;"
+                    <a 
+                      href="javascript:;"
+                      class="btn-link pd-m rect-s mr--4"
                        ng-init="showData.id=tr.id"
                        modal-center="490"
                        modal-scope="this"
+                       title="{{tr.orderStatus=='待发送'?'立即发送':'再次发送'}}"
                        modal-url="views/purchaseVoucher/sendEmail.html">
-                      <span class="rect-s" title="{{tr.orderStatus=='待发送'?'立即发送':'再次发送'}}"><span class="watch-detail-icon"></span></span>
+                      <span class="send-icon"></span>
                     </a>
-                    <a href="#/purchaseVoucher/get.html?id={{tr.id}}">
-                      <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
+                    <a title="查看详情" class="btn-link pd-m rect-s " href="#/purchaseVoucher/get.html?id={{tr.id}}">
+                    <span class="watch-detail-icon"></span>
                     </a>
                     <!--工作流控制菜单 -->
                     <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"

@@ -1,10 +1,9 @@
 <div class="sale-return-order"
-     ng-controller="saleReturnOrderEditCtrl"
+     ng-controller="returnOrderEditCtrl"
      ajax-url="rest/authen/saleReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");quantityError=false;'
      alert-error>
-
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
         form-validator
@@ -22,7 +21,7 @@
         <!-- 标题 -->
         <div class="mgb-m">
           <p class="mgb-m crumbs pr-indent-20">销售中心 >
-            <a href="#/saleReturnOrder/query-pinBack.html"><em class="color-custom-orange">销售退货单</em></a>
+            <a href="#/saleReturnOrder/query.html"><em class="color-custom-orange">销售退货单</em></a>
              >新建销售退货单</p>
           <h1 class="pr-font-22 color-black">新建销售退货单</h1>
           <div class="mgt-l text-right">
@@ -114,11 +113,11 @@
                     <input type="number"
                            class="ipt pr-ipt-60 text-right"
                            name="quantity{{$index}}"
-                           ng-model="item.quantity"
+                           ng-model="item.returnQuantity"
                            required
                            ng-pattern="/^[0-9]{1,10}?$/"
                            invalid-popover
-                           valid-value="{{!saleReturnEditForm['quantity'+$index].$valid}}"
+                           valid-value="{{!saleReturnEditForm['returnQuantity'+$index].$valid}}"
                            popover-show
                            popover-options='{"content":"数量不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'/>
                     <p class="mgt-s color-red" ng-if="quantityError">退货数量不能大于当前发货数量:{{item.outgoingQuantity||item.planQuantity}}</p>
@@ -196,12 +195,12 @@
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/saleReturnOrder/query-pinBack.html')"
+             nosave-callback="goTo('#/saleReturnOrder/query.html')"
              save-callback="submitForm('editForm','exit');
-             $root.goTo('#/saleReturnOrder/query-pinBack.html')">返回销售退货单列表
+             $root.goTo('#/saleReturnOrder/query.html')">返回销售退货单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/saleReturnOrder/query-pinBack.html" >返回销售退货单列表</a>
+          <a class="mgr-l" ng-if="!changeFlag" href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
@@ -210,7 +209,7 @@
              dialog-content="您确认删除这条销售退货单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/saleReturnOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/saleReturnOrder/query-pinBack.html')">删除
+             call-back="$root.goTo('#/saleReturnOrder/query.html')">删除
           </a>
 
 
