@@ -12,9 +12,9 @@
          scope-data="returnAddressObj"
          callback="addressGetCallBack()">
       <div clear-info-list>
-        <div class=" address-div color-black relative" ng-repeat="tr in returnAddressObj.contacts" ng-click="choiseOtherItem(tr)">
+        <div class="address-div color-black relative" ng-repeat="tr in returnAddressObj.contacts" ng-click="choiseOtherItem(tr)">
           <label ng-if="returnAddressObj.contacts.length>1" class="radio">
-              <input type="radio" class="default-radio" name="blankRadio" ng-checked="returnAddressObj.defaultContactId==tr.id"><i></i>
+            <input type="radio" class="default-radio" name="blankRadio" ng-checked="returnAddressObj.defaultContactId==tr.id"><i></i>
           </label>
           <!-- <label ng-if="returnAddressObj.defaultContactId==tr.id && returnAddressObj.contacts.length>1" class="radio">
               <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
@@ -28,12 +28,6 @@
           </span>
 
           <span class="pos-abs posr">
-          <a class="mgr" href="javacript:;"
-             modal-right="600"
-             modal-data='{{getCurrentIndexAddress($index)}}'
-             modal-scope="this"
-             modal-url="{{modifyModalUrl}}">修改
-          </a>
 
           <a ng-if="returnAddressObj.defaultContactId!==tr.id"
              handle-this-click
@@ -44,6 +38,13 @@
              emitted="reloadAddressList"
              params='{"contactId":"{{tr.id}}","customerAddressId":"{{returnAddressObj.id}}","type":"{{createAddressType}}"}'
              request-url="{{delThisAddressRequesturl}}">删除
+          </a>
+
+          <a class="mgl" href="javacript:;"
+             modal-right="600"
+             modal-data='{{getCurrentIndexAddress($index)}}'
+             modal-scope="this"
+             modal-url="{{modifyModalUrl}}">修改
           </a>
 
         </span>

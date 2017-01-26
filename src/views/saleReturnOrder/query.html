@@ -83,28 +83,33 @@
         </div>
         <ul ng-if="tbodyList.length">
           <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
-            <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative" >
+            <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
+                 ng-init="bottomButtonList= $root.queryItemCardButtonList.getQuery_saleReturnOrder(tr);">
               <div class="relative">
                 <div class="flex-column">
                   <span ng-if="tr.orderStatus=='待审核'" class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
-                  <span ng-if="tr.orderStatus=='待出库' || tr.orderStatus=='已出库'" class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}} <em class="color-red">(红字)</em>
-                  </span>
+                  <span ng-if="tr.orderStatus=='待出库' || tr.orderStatus=='已出库'" class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}} <em class="color-red">(红字)</em></span>
                   <span class="flex-item-6 text-right">
 
-                    <a ng-if="tr.orderStatus!='待审核'"
+                    <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
+                       workflow-button-query-card
+                       custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
+                    </a>
+
+                    <span query-item-card-button-list="bottomButtonList"></span>
+
+                    <!-- <a ng-if="tr.orderStatus!='待审核'"
                         title="查看详情"
                         class="btn-link pd-m rect-s"
                        ng-href="#/saleReturnOrder/get.html?id={{tr.id}}" >
                       <span class="watch-detail-icon">&nbsp;</span>
                     </a>
-
                     <a ng-if="tr.orderStatus=='待审核'"
                       class="btn-link pd-m rect-s"
                       title="编辑"
                       ng-href="#/saleReturnOrder/edit.html?id={{tr.id}}" >
                     <span class="edit-link-icon">&nbsp;</span>
                    </a>
-
                    <a ng-if="tr.orderStatus=='待出库'"
                       href="javascript:;"
                       class="btn-link pd-m rect-s"
@@ -131,10 +136,9 @@
                        params='{"id":tr.id}'
                        request-url="rest/authen/saleReturnOrder/delete">
                        <span class="delete-link-icon">&nbsp;</span>
-                     </a>
-
+                     </a> -->
                     </span>
-                  </div>
+                </div>
                 <div class="card-new">
                     <div class="bt-line">
                       <h1 class="text-center text-m color-black text-ellips-s">{{tr.customerName || '暂无'}}</h1>
