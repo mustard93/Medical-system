@@ -625,7 +625,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 };
 
                 var formData = {};
-
+                var timestamp=null;
                 function getListData(_callback) {
                   if(!$attrs.listData)return;
 
@@ -666,7 +666,12 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       //  if(maskObj)maskObj.hide();
                     }
 
+                      //时间戳(用于分页查询时避免翻页时数据变动造成重复数据)
+                        if(!(statusInfo.currentPage >1)){
+                          timestamp=new Date().getTime();
+                        }
                     requestData($attrs.listData, angular.merge({}, formData, {
+                            timestamp:timestamp,
                             pageNo: statusInfo.currentPage
                         }))
                         .then(function(results) {

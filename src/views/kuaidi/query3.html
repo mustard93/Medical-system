@@ -1,0 +1,33 @@
+<div ng-controller="getAllExpressController" class="express-dialog-info-details">
+  <!-- 头部标题 -->
+  <div class="page-heading">
+      <h1 class="color-white pr-font-14">物流详细信息</h1>
+  </div>
+  <!-- 主内容区域 -->
+  <div class="page-content">
+    <!-- tab导航 -->
+    <div class="tab-heading">
+      <ul>
+        <li ng-repeat="t in dialogData.kuaidiSet">
+          <a request-express-info-tab id="{{$index+1}}" express-type="{{t.type}}" express-nu="{{t.nu}}" href="javascript:;" ng-class="{'active':t.nu==dialogData.nu}">快递{{$index+1}}</a>
+        </li>
+      </ul>
+    </div>
+    <!-- tab主内容区域 -->
+    <div class="tab-content"
+         id="tabContent{{$index+1}}"
+         ng-repeat="con in expressInfoArray"
+         ng-class="{'pr-dpy-none':con.nu!=dialogData.nu}">
+      <ul>
+        <li ng-repeat="item in con.data">
+          <span ng-class="{'first-info':$last,'last-info':$first}"></span>{{item.updateAt | date:'yyyy-MM-dd HH:mm'}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.context}}
+        </li>
+      </ul>
+      <!-- 物流单号信息 -->
+      <p class="exp-bill-info mgt-xl">
+        <span class="mgr-xl">物流公司：<em class="color-3">{{con.type}}</em></span>
+        <span>快递单号：<em class="color-3">{{con.nu}}</em></span>
+      </p>
+    </div>
+  </div>
+</div>
