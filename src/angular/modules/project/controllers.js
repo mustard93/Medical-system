@@ -2502,7 +2502,7 @@ define('project/controllers', ['project/init'], function() {
             if (results[1].code !== 200) {
               alertWarn(results[1].msg || '未知错误!');
             } else {
-              $scope.goTo('#/saleReturnOrder/get-pinBack.html?id='+$scope.formData.id);
+              $scope.goTo('#/saleReturnOrder/get.html?id='+$scope.formData.id);
             }
           })
           .catch(function (error) {
@@ -2637,7 +2637,7 @@ define('project/controllers', ['project/init'], function() {
             if (results[1].code !== 200) {
               alertWarn(results[1].msg || '未知错误!');
             } else {
-              $scope.goTo('#/purchaseReturnOrder/get-pinBack.html?id='+$scope.formData.id);
+              $scope.goTo('#/purchaseReturnOrder/get.html?id='+$scope.formData.id);
             }
           })
           .catch(function (error) {

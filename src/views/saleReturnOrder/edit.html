@@ -46,10 +46,10 @@
     <!-- 单据基本信息 -->
     <div class="pd-loss-l">
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
-        <div class="empty-panel" ng-if="!formData.orderMedicalNos.length">
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="empty-panel clearfix" ng-if="!formData.orderMedicalNos.length">
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
         <div ng-if="formData.orderMedicalNos.length">
           <div class="flex-column mgb pd bb-dashed-line">
@@ -112,12 +112,12 @@
                   <td class="text-center">
                     <input type="number"
                            class="ipt pr-ipt-60 text-right"
-                           name="returnQuantity{{$index}}"
-                           ng-model="item.returnQuantity"
+                           name="quantity{{$index}}"
+                           ng-model="item.quantity"
                            required
                            ng-pattern="/^[0-9]{1,10}?$/"
                            invalid-popover
-                           valid-value="{{!saleReturnEditForm['returnQuantity'+$index].$valid}}"
+                           valid-value="{{!saleReturnEditForm['quantity'+$index].$valid}}"
                            popover-show
                            popover-options='{"content":"数量不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'/>
                     <p class="mgt-s color-red" ng-if="quantityError">退货数量不能大于当前发货数量:{{item.outgoingQuantity||item.planQuantity}}</p>
@@ -152,10 +152,10 @@
               </tbody>
             </table>
           </div>
-            <div class="empty-table" ng-if="!formData.orderMedicalNos.length">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="empty-table clearfix" ng-if="!formData.orderMedicalNos.length">
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
         </div>
         <!-- 其他信息 -->
@@ -209,7 +209,7 @@
              dialog-content="您确认删除这条销售退货单吗?"
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/saleReturnOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/saleReturnOrder/query.html')">删除
+             callback="$root.goTo('#/saleReturnOrder/query.html')">删除
           </a>
 
 
