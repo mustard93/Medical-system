@@ -103,6 +103,35 @@
                   <span ng-if="tr.orderStatus=='待出库' || tr.orderStatus=='已出库'" class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}} <em class="color-red">(红字)</em>
                   </span>
                   <span class="flex-item-6 text-right">
+
+                    <a ng-if="tr.orderStatus!='待审核'"
+                        title="查看详情"
+                        class="btn-link pd-m rect-s"
+                       ng-href="#/saleReturnOrder/get-pinBack.html?id={{tr.id}}" >
+                      <span class="watch-detail-icon">&nbsp;</span>
+                    </a>
+
+                    <a ng-if="tr.orderStatus=='待审核'"
+                      class="btn-link pd-m rect-s"
+                      title="编辑"
+                      ng-href="#/saleReturnOrder/edit-pinBack.html?id={{tr.id}}" >
+                    <span class="edit-link-icon">&nbsp;</span>
+                   </a>
+
+                   <a ng-if="tr.orderStatus=='待出库'"
+                      href="javascript:;"
+                      class="btn-link pd-m rect-s"
+                      handle-this-click
+                      title="生成出库"
+                      dialog-title="确认生成出库单?"
+                      dialog-content="生成出库单(红字)后,将完成销退出库"
+                      dialog-template="pr-dialog-submit.html"
+                      callback="$root.utils.goTo('#/saleReturnOrder/query-pinBack.html')"
+                      params='{"id":tr.id, "status":"已出库"}'
+                      request-url="rest/authen/saleReturnOrder/updateStatus">
+                      <span class="outStork-icon">&nbsp;</span>
+                    </a>
+
                     <a ng-if="tr.orderStatus=='待审核'"
                        href="javascript:;"
                        class="btn-link pd-m rect-s"
@@ -117,32 +146,6 @@
                        <span class="delete-link-icon">&nbsp;</span>
                      </a>
 
-                    <a ng-if="tr.orderStatus=='待出库'"
-                       href="javascript:;"
-                       class="btn-link pd-m rect-s"
-                       handle-this-click
-                       title="生成出库"
-                       dialog-title="确认生成出库单?"
-                       dialog-content="生成出库单(红字)后,将完成销退出库"
-                       dialog-template="pr-dialog-submit.html"
-                       callback="$root.utils.goTo('#/saleReturnOrder/query-pinBack.html')"
-                       params='{"id":tr.id, "status":"已出库"}'
-                       request-url="rest/authen/saleReturnOrder/updateStatus">
-                       <span class="outStork-icon">&nbsp;</span>
-                     </a>
-
-                      <a ng-if="tr.orderStatus=='待审核'"
-                        class="btn-link pd-m rect-s"
-                        title="编辑"
-                        ng-href="#/saleReturnOrder/edit-pinBack.html?id={{tr.id}}" >
-                      <span class="edit-link-icon">&nbsp;</span>
-                     </a>
-                      <a ng-if="tr.orderStatus!='待审核'"
-                          title="查看详情"
-                          class="btn-link pd-m rect-s"
-                         ng-href="#/saleReturnOrder/get-pinBack.html?id={{tr.id}}" >
-                        <span class="watch-detail-icon">&nbsp;</span>
-                      </a>
                     </span>
                   </div>
                 <div class="card-new">
