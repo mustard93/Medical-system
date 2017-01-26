@@ -301,12 +301,63 @@ define('project/services', ['project/init'], function () {
                   console.log(arr);
                   return arr;
                 },
+                //购需单列表页
+                getQuery_salesOrder:function(showData){
+
+                  var arr=[];
+
+                  var bottomButton = {
+                    "ngShow":"tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id",
+                    "showName":"删除",
+                    "iconClass":"delete-link-icon",
+                    "type":"handleThisClick",
+                    "alertTemplate":"pr-dialog-submit.html",
+                    "requestUrl":"rest/authen/salesOrder/delete?id="+showData.id,
+                    "aclass":"btn-link pd-m rect-s mr--4",
+                    "alertTitle":"确认删除?",
+                    "alertMsg":"删除后将无法恢复,确认删除?",
+                    "ngClick":"$root.goTo('#/salesOrder/query.html')"
+                  };
+
+
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    bottomButton = {
+                      "iconClass":"View-Logistics-icon","showName":"查看物流",
+                      "ngShow":"tr.orderStatus=='已发货'",
+                      "aclass":"btn-link pd-m rect-s mr--4",
+                      "ahref":"#/confirmOrder/get.html?openWuliu=true&id="+showData.id
+                    };
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+                    bottomButton = {
+                      "iconClass":"edit-link-icon",
+                      "showName":"编辑",
+                      "ngShow":"tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')",
+                      "aclass":"btn-link pd-m rect-s",
+                      "ahref":"#/confirmOrder/edit.html?id="+showData.id
+                    };
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    bottomButton = {
+                      "iconClass":"watch-detail-icon",
+                      "showName":"查看详情",
+                      "ngShow":"tr.orderStatus=='已处理' || !$root.hasAuthor('购需单编辑')",
+                      "aclass":"btn-link pd-m rect-s",
+                      "ahref":"#/salesOrder/get.html?id="+showData.id
+                    };
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+                    return arr;
+                  },
                 //获取销售单详细页面菜单定义
                 getQuery_confirmOrder:function(showData){
 
-                    var arr=[];
+                  var arr=[];
 
-                  var   bottomButton={"ngShow":"tr.orderStatus=='待审核'", "showName":"删除",
+                  var bottomButton={"ngShow":"tr.orderStatus=='待审核'", "showName":"删除",
                     "iconClass":"delete-link-icon",
                     "type":"handleThisClick",
                     "alertTemplate":"pr-dialog-submit.html",
@@ -319,28 +370,87 @@ define('project/services', ['project/init'], function () {
 
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                    var bottomButton={  "iconClass":"View-Logistics-icon","showName":"查看物流",
-                    "ngShow":"tr.orderStatus=='已发货'",
-                    "aclass":"btn-link pd-m rect-s mr--4",
-                    "ahref":"#/confirmOrder/get.html?openWuliu=true&id="+showData.id};
+                    bottomButton = {
+                      "iconClass":"View-Logistics-icon","showName":"查看物流",
+                      "ngShow":"tr.orderStatus=='已发货'",
+                      "aclass":"btn-link pd-m rect-s mr--4",
+                      "ahref":"#/confirmOrder/get.html?openWuliu=true&id="+showData.id
+                    };
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
 
-                    var bottomButton={  "iconClass":"edit-link-icon","showName":"编辑",
-                    "ngShow":"tr.orderStatus=='待审核'",
-                    "aclass":"btn-link pd-m rect-s",
-                    "ahref":"#/confirmOrder/edit.html?id="+showData.id};
+                    bottomButton = {
+                      "iconClass":"edit-link-icon","showName":"编辑",
+                      "ngShow":"tr.orderStatus=='待审核'",
+                      "aclass":"btn-link pd-m rect-s",
+                      "ahref":"#/confirmOrder/edit.html?id="+showData.id
+                    };
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                    var bottomButton={  "iconClass":"watch-detail-icon","showName":"查看详情",
-                    "ngShow":"tr.orderStatus!='待审核'",
-                    "aclass":"btn-link pd-m rect-s",
-                    "ahref":"#/confirmOrder/get.html?id="+showData.id};
+                    bottomButton = {
+                      "iconClass":"watch-detail-icon","showName":"查看详情",
+                      "ngShow":"tr.orderStatus!='待审核'",
+                      "aclass":"btn-link pd-m rect-s",
+                      "ahref":"#/confirmOrder/get.html?id="+showData.id};
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
 
                     return arr;
-                  },//get_firstEnterpriseApplication
+                  },
+                //销售退货单列表页
+                getQuery_saleReturnOrder:function(showData){
+
+                  var arr=[];
+
+                  var bottomButton = {
+                    "ngShow":"tr.orderStatus=='待审核'",
+                    "showName":"删除",
+                    "iconClass":"delete-link-icon",
+                    "type":"handleThisClick",
+                    "alertTemplate":"pr-dialog-submit.html",
+                    "requestUrl":"rest/authen/saleReturnOrder/delete?id="+showData.id,
+                    "aclass":"btn-link pd-m rect-s mr--4",
+                    "alertTitle":"确认删除?",
+                    "alertMsg":"删除后将无法恢复,确认删除?",
+                    "ngClick":"$root.goTo('#/saleReturnOrder/query.html')"
+                  };
+                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                  bottomButton = {
+                    "ngShow":"tr.orderStatus=='待出库'",
+                    "showName":"生成出库",
+                    "iconClass":"outStork-icon",
+                    "type":"handleThisClick",
+                    "alertTemplate":"pr-dialog-submit.html",
+                    "requestUrl":"rest/authen/saleReturnOrder/updateStatus?id="+showData.id+"&status=已出库",
+                    "aclass":"btn-link pd-m rect-s",
+                    "alertTitle":"确认生成出库单?",
+                    "alertMsg":"生成出库单(红字)后,将完成销退出库?",
+                    "ngClick":"$root.utils.goTo('#/saleReturnOrder/query.html')"
+                  };
+                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                  bottomButton = {
+                    "iconClass":"edit-link-icon",
+                    "showName":"编辑",
+                    "ngShow":"tr.orderStatus=='待审核'",
+                    "aclass":"btn-link pd-m rect-s",
+                    "ahref":"#/saleReturnOrder/edit.html?id="+showData.id
+                  };
+                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                  bottomButton = {
+                    "iconClass":"watch-detail-icon",
+                    "showName":"查看详情",
+                    "ngShow":"tr.orderStatus=='待出库' || tr.orderStatus=='已出库'",
+                    "aclass":"btn-link pd-m rect-s",
+                    "ahref":"#/saleReturnOrder/get.html?id="+showData.id
+                  };
+                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+
+                    return arr;
+                  },
 
               };//end return
             return tmpUtils;
