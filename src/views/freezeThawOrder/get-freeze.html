@@ -1,5 +1,5 @@
 <div class="content-wrapper"
-     ajax-url="rest/authen/freezeThawOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
+     ajax-url="rest/authen/freezeThawOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
      alert-error>
@@ -101,10 +101,12 @@
                         <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
                         <td class="text-center">
+                            {{tr.productStandard}}
                           <!-- 产品执行标准 -->
                         </td>
 
                         <td class="text-center">
+                            {{tr.storedTemperature}}
                           <!-- 保存温度 -->
                         </td>
 
@@ -113,10 +115,10 @@
                         </td>
 
                         <td class="text-center">
-                        {{tr.productionEnterpriseLicenseNo}}
+                        {{tr.drugAdministrationCode}}
                         </td>
                         <td>
-                          {{tr.productionEnterpriseLicensePeriod}}
+                          {{tr.drugAdministrationCodeGuaranteePeriod}}
                         </td>
                       </tr>
                     </tbody>

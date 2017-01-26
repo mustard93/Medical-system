@@ -372,20 +372,11 @@
              </span>
            </header>
          </div>
-         <div class="panel-body" style="display:none;">
+         <div class="panel-body" style="display:none;padding:0 0 15px 20px;">
            <div class="consignee-info">
              <div clear-info-list>
-               <div class="flex-column address-div color-black relative" >
-                 <div class="inline flex-item-3">
-                   <span class="pdb">{{formData.supplier.shipperName}} </span>
-                   <span class="text-s">{{formData.supplier.tel}}</span>
-                 </div>
-               <div class="inline flex-item-7">
-                 <span class="address-span">
-                   {{formData.supplier.address}}
-                 </span>
-               </div>
-           </div>
+               <div><span class="pdb">发货方：{{formData.supplier.name}} </span></div>
+               <div class="">发货方信息：{{formData.supplier.contact.prov}}&nbsp;&nbsp;{{formData.supplier.contact.city}}&nbsp;&nbsp;{{formData.supplier.contact.area}}&nbsp;&nbsp;{{formData.supplier.contact.address}}&nbsp;&nbsp;{{formData.supplier.contact.name}}&nbsp;&nbsp;{{formData.supplier.contact.tel}}</div>
              </div>
            </div>
          </div>
@@ -457,7 +448,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length||!choisedMedicals">提交
+                  ng-disabled="!formData.orderMedicalNos.length||!canSubmitForm()">提交
           </button>
         </span>
       </div>
