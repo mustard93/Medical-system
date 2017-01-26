@@ -121,37 +121,51 @@
        <h1 class="pd-v-m">物流信息</h1>
        <div class="woutstock-order-express">
          <ul>
-           <li class="express-list" ng-repeat="item in showData.kuaidiSet" ng-init="editDelIsShow=false">
+           <li class="express-list" ng-repeat="item in showData.kuaidiSet">
              <div class="flex-column pd-v-s bb-line">
                <div class="flex-item-6 pr-indent-10" style="margin-top:3px;"></div>
                <div class="flex-item-6 text-right pdt-s relative">
-                 <a href="javascript:;">
+                 <a express-btn-toggle class="origin-ele" href="javascript:;">
                    <em class="circle"></em>
                    <em class="circle"></em>
                    <em class="circle"></em>
                  </a>
-                 <div class="edit-del-btn text-center" ng-if="editDelIsShow">
-                   <p class="pdt-s pdb-s bb-dashed-line"><a href="#">编辑</a></p>
-                   <p class="pdt-s pdb-s"><a href="#" class="color-red">删除</a></p>
+                 <div class="edit-del-btn text-center">
+                   <p class="pdt-s pdb-s bb-dashed-line">
+                     <a href="javascript:;" ng-click="editThisAreaInfo(item)">编辑</a>
+                   </p>
+                   <p class="pdt-s pdb-s">
+                     <a href="javascript:;" class="color-red"
+                        handle-this-click
+                        dialog-title="确认删除?"
+                        dialog-content="您确认删除这条购需单吗?"
+                        dialog-template="dialog-confirm.html"
+                        request-url="rest/authen/wOutstockOrder/kuaidi/delete?wOutstockOrderId={{showData.id}}&kuaidiId={{item.id}}"
+                        callback="$root.utils.goOrRefreshHref()">删除</a>
+                   </p>
                  </div>
                </div>
              </div>
              <div class="text-center pdt-l">
                <p class="mgb-s">{{item.type}}</p>
-               <p class="color-orange">{{item.nu}}</p>
+               <p class="color-orange">
+                 <a href="javascript:;"
+                    modal-right="600"
+                    modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
+                    modal-scope="this"
+                    modal-url="views/kuaidi/query3.html">{{item.nu}}
+                 </a>
+               </p>
              </div>
            </li>
            <!-- 添加物流信息li -->
-           <li class="express-info express-list" ng-if="addAreaisShow">
+           <li class="express-info express-list" ng-show="addAreaisShow==true">
              <div class="mgt">
-               <select class="select pr-select"
+               <select ng-if="addAreaisShow" class="select pr-select"
                        ng-model="formData.type"
                        chosen
                        select-source="rest/baseData/queryForSelectOptionByType?type=快递类型">
               </select>
-               <!-- <select class="select pr-select" style="height:33px">
-                 <option value="全一快递">全一快递</option>
-               </select> -->
              </div>
              <div class="mgt">
                <input type="text" class="ipt" ng-model="formData.nu" />
@@ -162,8 +176,8 @@
              </div>
            </li>
            <!-- 添加按钮 -->
-           <li class="add-btn express-list">
-             <a href="" ng-click="addAreaisShow=!addAreaisShow"><span class="fa fa-plus"></span></a>
+           <li class="add-btn express-list" ng-class="{'express-info-empty':(!showData.kuaidiSet.length), 'add-btn':showData.kuaidiSet.length}">
+             <a href="" ng-click="addAreaisShow=true;formData.nu=''"><span class="fa fa-plus"></span></a>
            </li>
          </ul>
        </div>
