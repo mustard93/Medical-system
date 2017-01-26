@@ -1,4 +1,4 @@
-7/**
+/**
  * 项目自定义指令
  */
 define('project/directives', ['project/init'], function () {
@@ -2605,7 +2605,86 @@ function addressManageComponent (requestData, utils) {
   };
 }
 
+/**
+ * [expressBtnToggle 销售出库单中快递模块的删除和编辑域响应hover事件]
+ * @return {[type]} [description]
+ */
+function expressBtnToggle () {
+  'use strict';
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      $(element).hover(function () {
+        $(this).next().show();
+      }, function () {
+        $(this).next().hide();
+      });
+      $(element).next().hover(function () {
+        $(this).show();
+      }, function () {
+        $(this).hide();
+      });
+    }
+  };
+}
+
+/**
+ * [requestExpressInfoTab 销售出库单中物流信息dialog切换快递请求数据]
+ * @return {[type]} [description]
+ */
+function requestExpressInfoTab (requestData, alertError) {
+  'use strict';
+  return {
+    restrict: 'A',
+    scope: {
+      expressInfoList: '='
+    },
+    link: function (scope, element, attrs) {
+
+      $(element).on('click', function (e) {
+        //阻止事件冒泡
+        e.stopPropagation();
+        //替换样式
+        $(this).addClass('active').parent().siblings().each(function () {
+          $(this).children().removeClass('active');
+        });
+        //切换
+        var _idArray = [];
+        $(element).parent().siblings().each(function () {
+          var _childId = $(this).children().attr('id');
+          _idArray.push('tabContent' + _childId);
+        });
+
+        //隐藏其他页面信息
+        angular.forEach(_idArray, function (data, index) {
+          $('#'+data).addClass('pr-dpy-none');
+        });
+
+        //显示当前列表
+        $('#tabContent' + attrs.id).removeClass('pr-dpy-none');
+
+        //请求数据
+        // var _url = 'rest/index/kuaidi/query2.json?type=' + attrs.expressType + '&nu=' + attrs.expressNu;
+        // requestData(_url, {}, 'get')
+        // .then(function (results) {
+        //   var _data = results[1];
+        //   if (_data.code === 200) {
+        //     // console.log(scope.expressInfoList);
+        //   }
+        // })
+        // .catch(function (error) {
+        //   if (error) {
+        //     alertError(error || '请求物流信息出错...');
+        //   }
+        // });
+      });
+    }
+  };
+}
+
 angular.module('manageApp.project')
+  .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
+  .directive("expressBtnToggle", [expressBtnToggle])
   .directive("textareaJson", ['utils', 'alertError', textareaJson]) //textarea-json
   .directive("addressManageComponent", ['requestData', 'utils', addressManageComponent])  //地址管理组件，包含待选、已选地址列表
   .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示
@@ -2628,13 +2707,13 @@ angular.module('manageApp.project')
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
   .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
-    .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
+  .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
   .directive("canvasWorkflow", ["modal","utils",canvasWorkflow])//工作流编辑
   .directive("queryOrderStatusButton", queryOrderStatusButton)//查询页面，查询条件：状态按钮
   .directive("intervalCountdown", ["$interval",intervalCountdown])//倒计时标签
   .directive("workflowRejectButton",  ['utils', workflowRejectButton])//工作流配置自定义菜单 驳回
   .directive("workflowPassButton",  ['utils', workflowPassButton])//工作流配置自定义菜单 通过
-    .directive("workflowButtonQueryCard",  ['utils', workflowButtonQueryCard])//工作流配置菜单 查询列表使用
+  .directive("workflowButtonQueryCard",  ['utils', workflowButtonQueryCard])//工作流配置菜单 查询列表使用
   .directive("customMenuList",  ['utils', customMenuList])//自定义菜单。列表显示
   .directive("workflowTaskRunWithAttchments",  ['utils', workflowTaskRunWithAttchments])//待附件审查
   .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购

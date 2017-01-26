@@ -2833,7 +2833,7 @@ define('project/controllers', ['project/init'], function() {
    * @param  {[type]} $scope [description]
    * @return {[type]}        [description]
    */
-  function saleOutstockOrderController ($scope, requestData) {
+  function saleOutstockOrderController ($scope, requestData, utils) {
     // 添加物流信息
     $scope.saveExpressInfo = function (params) {
       var _data = angular.isObject(params) ? params : '';
@@ -2841,18 +2841,54 @@ define('project/controllers', ['project/init'], function() {
       if (_data) {
         requestData(saveUrl, _data, 'POST')
         .then(function (results) {
-          console.log(results);
+          if (results[1].code === 200) {
+            utils.goOrRefreshHref();
+          }
         })
         .catch(function (error) {
           console.log(error || '出错');
         });
       }
     };
+
+    // 编辑物流信息
+    $scope.editThisAreaInfo = function (item) {
+      $scope.addAreaisShow = true;
+      $scope.formData.type = item.type;
+      $scope.formData.nu = item.nu;
+      $scope.formData.id = item.id;
+    };
   }
 
+  /**
+   * [getAllExpressController 获取当前单据的所有物流信息]
+   * @param  {[type]} $scope [description]
+   * @return {[type]}        [description]
+   */
+  function getAllExpressController ($scope, requestData) {
+
+    var _kuaidiSet = $scope.dialogData.kuaidiSet;
+    var _url = 'rest/index/kuaidi/query2.json';
+    $scope.expressInfoArray = [];
+
+    angular.forEach(_kuaidiSet, function (data, index) {
+      requestData(_url + '?type=' + data.type + '&nu=' + data.nu, {}, 'get')
+      .then(function (results) {
+        // console.log(results[1]);
+        var _tmpObj = results[1];
+        _tmpObj.index = index;
+        _tmpObj.type = data.type;
+        _tmpObj.nu = data.nu;
+        $scope.expressInfoArray.push(_tmpObj);
+      });
+    });
+
+    // console.log($scope.expressInfoArray);
+  }
 
   angular.module('manageApp.project')
-  .controller('saleOutstockOrderController', ['$scope', 'requestData', saleOutstockOrderController])
+  .controller('getAllExpressController', ['$scope', 'requestData', getAllExpressController])
+  .controller('saleOutstockOrderController', ['$scope', 'requestData', 'utils', saleOutstockOrderController])
   .controller('imTaobaoCtr', ['$scope',"requestData",'alertError',"$rootScope", imTaobaoCtr])
   .controller('saleReturnMedicalItemController', ['$scope', saleReturnMedicalItemController])
   .controller('returnOrderAddController', ["$scope", "$rootScope", "modal","utils", returnOrderAddController])
