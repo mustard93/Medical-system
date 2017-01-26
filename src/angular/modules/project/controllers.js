@@ -389,6 +389,8 @@ define('project/controllers', ['project/init'], function() {
         var addDataItem = $.extend(true,{},medical);
 
             addDataItem.quantity=flashAddData.quantity;
+            addDataItem.discountPrice='0';
+            addDataItem.discountRate='100';
             addDataItem.relId=medical.id;
 
             addDataItem.strike_price=addDataItem.price;
@@ -567,6 +569,8 @@ define('project/controllers', ['project/init'], function() {
         var addDataItem = $.extend(true,{},medical);
 
             addDataItem.quantity=flashAddData.quantity;
+            addDataItem.discountPrice='0';
+            addDataItem.discountRate='100';
             addDataItem.relId=medical.id;
 
             addDataItem.strike_price=addDataItem.price;
@@ -744,6 +748,8 @@ define('project/controllers', ['project/init'], function() {
         var addDataItem = $.extend(true,{},medical);
 
             addDataItem.quantity=flashAddData.quantity;
+            addDataItem.discountPrice='0';
+            addDataItem.discountRate='100';
             addDataItem.relId=medical.id;
 
             addDataItem.strike_price=addDataItem.price;
@@ -971,7 +977,8 @@ define('project/controllers', ['project/init'], function() {
       var addDataItem = $.extend(true,{},medical);
 
       addDataItem.relId=medical.id;
-
+      addDataItem.discountPrice='0';
+      addDataItem.discountRate='100';
       addDataItem.strike_price=addDataItem.price;
       addDataItem.id=null;
 
@@ -1405,6 +1412,16 @@ define('project/controllers', ['project/init'], function() {
         // $scope.isChoiseAll = true;
        }
      });
+     $scope.canSubmitForm = function() {
+       //必须有1条是勾选加入订单的。
+       var arr=$scope.formData.orderMedicalNos;
+       for(var i=0;i<arr.length;i++){
+          if(arr[i].handleFlag){
+            return true;
+          }
+       }
+       return false;
+     };
 
      $scope.chkChoiseMedicals = function (item,medicalsObj) {
        if (item.handleFlag) {
@@ -1496,6 +1513,10 @@ define('project/controllers', ['project/init'], function() {
          var addDataItem = $.extend(true,{},medical);
 
              addDataItem.quantity=flashAddData.quantity;
+             addDataItem.discountPrice='0';
+             addDataItem.discountRate='100';
+             addDataItem.taxRate='17';
+             addDataItem.batchRequirement='无';
              addDataItem.relId=medical.id;
 
              addDataItem.strike_price=addDataItem.price;
@@ -1537,7 +1558,7 @@ define('project/controllers', ['project/init'], function() {
            return true;
        };
 
-      
+
           /**
               * 添加一条。并缓存数据。
               */
@@ -1813,6 +1834,8 @@ define('project/controllers', ['project/init'], function() {
          var addDataItem = $.extend(true,{},medical);
 
              addDataItem.quantity=flashAddData.quantity;
+             addDataItem.discountPrice='0';
+             addDataItem.discountRate='100';
              addDataItem.relId=medical.id;
 
              addDataItem.strike_price=addDataItem.price;
