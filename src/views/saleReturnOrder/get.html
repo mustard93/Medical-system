@@ -3,47 +3,50 @@
      ajax-url="rest/authen/saleReturnOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
      alert-error>
-    <!-- 头部信息 -->
-    <div class="relative">
-      <div class="pd-l">
-        <!-- 标题 -->
-        <div class="mgb-m">
-          <p class="mgb-m crumbs pr-indent-20">销售中心 >
-            <a href="#/saleReturnOrder/query.html"><em class="color-custom-orange">销售退货单</em></a> > 销售退货单详情</p>
-          <h1 class="pr-font-22 color-black">销售退货单详情</h1>
-        </div>
-      </div>
-    </div>
-    <!-- 单据基本信息 -->
-    <div class="pd-loss-l">
-      <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
-        <div>
-          <div class="flex-column mgb pd bb-dashed-line">
-            <div class="flex-item-6">
-              <span class="mgr-l">单据编号：<em class="color-black">{{showData.orderNo || '暂无'}}</em></span>
-              <span class="mgr-l">制单人：<em class="color-black">{{showData.inputUser.n || '暂无'}}</em></span>
-              <span class="mgr-l">审核人：<em class="color-black">{{showData.approverUser.n || '暂无'}}</em></span>
-            </div>
-            <div class="flex-item-6 text-right">
-              <span class="mgl-l">录单日期：<em class="color-black">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
-              <a
-              modal-center="1000px"
-              modal-data='{"businessKey":"{{showData.id}}"}'
-              modal-scope="this"
-              modal-url="views/workflowTask/getOfDialog.html"
-              >
-            <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-              </a>
-            </div>
-          </div>
+     <!-- 头部信息 -->
+     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+       <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 >
+         <a href="#/saleReturnOrder/query.html">销售退货单</a>
+         > 销售退货单详情
+       </p>
+         <!-- 标题 -->
+         <div class="pd-c-xxxxxl">
+           <div class="pos-rel-tl inline-block fl-l">
+             <h1 class="pr-font-20 color-black">销售退货单详情</h1>
+           </div>
+         </div>
+     </div>
 
-          <div class="flex-column mgb  pd">
-            <span class="mgr-l">销售部门：<em class="color-black">{{showData.salesDepartmentName || '暂无'}}</em></span>
-            <span class="mgr-l">业务人员：<em class="color-orange">{{showData.inputUser.n || '暂无'}}</em></span>
-            <span class="mgr-l">业务类型：<em class="color-black">{{showData.orderBusinessType || '暂无'}}</em></span>
-            <span class="mgr-l">销售类型：<em class="color-black">{{showData.salesType || '暂无'}}</em></span>
+    <!-- 药械列表 -->
+    <div class="content-wrapper">
+      <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
+        <!-- 单据信息 -->
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+          <div class="flex-item-6">
+            <span class="mgr-l">单据编号：<em class="color-black">{{showData.orderNo || '暂无'}}</em></span>
+            <span class="mgr-l">制单人：<em class="color-black">{{showData.inputUser.n || '暂无'}}</em></span>
+            <span class="mgr-l">审核人：<em class="color-black">{{showData.approverUser.n || '暂无'}}</em></span>
+          </div>
+          <div class="flex-item-6 text-right">
+            <span class="mgl-l">录单日期：<em class="color-black">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
+            <a
+            modal-center="1000px"
+            modal-data='{"businessKey":"{{showData.id}}"}'
+            modal-scope="this"
+            modal-url="views/workflowTask/getOfDialog.html"
+            >
+          <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+            </a>
           </div>
         </div>
+        <!-- 类别选择 -->
+        <div class="pd-c-l pdt-m pdb-m color-9">
+          <span class="mgr-l">销售部门：<em class="color-black">{{showData.salesDepartmentName || '暂无'}}</em></span>
+          <span class="mgr-l">业务人员：<em class="color-orange">{{showData.inputUser.n || '暂无'}}</em></span>
+          <span class="mgr-l">业务类型：<em class="color-black">{{showData.orderBusinessType || '暂无'}}</em></span>
+          <span class="mgr-l">销售类型：<em class="color-black">{{showData.salesType || '暂无'}}</em></span>
+        </div>
+
         <div class="outside-table-d">
           <table class="table pr-table pr-new-table table-wid" >
               <thead>
