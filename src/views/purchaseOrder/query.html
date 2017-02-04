@@ -137,7 +137,7 @@
                     <span ng-if="tr.orderStatus=='未提交'" >
                       <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
-                         class="btn-link pd-m rect-s mr--4"
+                         class="btn-link pd-m rect-s"
                          title="删除"
                          handle-this-click
                          dialog-title="确认删除 ?"
@@ -145,25 +145,25 @@
                          dialog-template="dialog-confirm.html"
                          request-url="rest/authen/purchaseOrder/delete?id={{tr.id}}"
                          emitted="reloadList">
-                      <span class="delete-link-icon"></span>
+                      <span class="delete-link-icon">&nbsp;</span>
                       </a>
                       <a href="#/purchaseOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
-                      <span class="edit-link-icon"></span>
+                      <span class="edit-link-icon">&nbsp;</span>
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
-                      <a ng-if="tr.orderStatus=='待采购'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s mr--4" title="生成来货通知单">
-                      <span class="create-arrive-icon"></span>
+                      <a ng-if="tr.orderStatus=='待采购'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s" title="生成来货通知单">
+                      <span class="create-arrive-icon">&nbsp;</span>
                       </a>
                       <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未提交'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
-                      <span class="watch-detail-icon"></span>
+                      <span class="watch-detail-icon">&nbsp;</span>
                       </a>
                       <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
                          ng-href="#/purchaseOrder/get.html?id={{tr.id}}"
                          title="立即审核"
                          class="btn-link pd-m rect-s "
                          >
-                        <span class="examine-approve"></span>
+                        <span class="examine-approve">&nbsp;</span>
                        </a>
                       <!-- <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" class="mgl">查看来货通知</a> -->
 
