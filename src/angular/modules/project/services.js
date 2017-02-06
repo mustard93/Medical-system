@@ -336,7 +336,7 @@ define('project/services', ['project/init'], function () {
                       "showName":"编辑",
                       "ngShow":"tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')",
                       "aclass":"btn-link pd-m rect-s",
-                      "ahref":"#/salesOrder/edit.html?id="+showData.id
+                      "ahref":"#/salesOrder/edit2.html?id="+showData.id
                     };
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
