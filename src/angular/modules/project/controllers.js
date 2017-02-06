@@ -2221,20 +2221,31 @@ define('project/controllers', ['project/init'], function() {
       watchFormChange(watchName,$scope);
     };
 
-    $scope.submitForm = function(fromId, type) {
-       $scope.submitForm_type = type;
 
-       if ($scope.submitForm_type == 'submit') {
-         $scope.formData.validFlag = true;
-       }
-      $('#' + fromId).trigger('submit');
-    };
+          // 保存 type:save-草稿,submit-提交订单。
+          $scope.submitForm = function(fromId, type) {
+            $scope.submitForm_type = type;
+            if ($scope.submitForm_type == 'submit') {
+              $scope.formData.validFlag = true;
+            }
+            $('#' + fromId).trigger('submit');
 
-    $scope.submitFormAfter = function (_url) {
-      if ($scope.submitForm_type === 'submit') {
-        $scope.goTo(_url + '?id=' + $scope.formData.id);
-      }
-    };
+            // addDataItem_opt.submitUrl='';
+            // $scope.formData.orderMedicalNos.push($scope.addDataItem);
+            // $scope.addDataItem={};
+          };
+
+          // 取消订单
+          $scope.cancelForm = function(fromId, url) {
+            alertWarn('cancelForm');
+          };
+          $scope.submitFormAfter = function() {
+
+            $scope.formData.validFlag = false;
+              $scope.goTo('#/hospitalPurchaseContents/query.html');
+              return;
+
+          };
 
     //判断当前审核意见是否可见
     $scope.showAuditOpinion = function (returnArr, pipeKey) {

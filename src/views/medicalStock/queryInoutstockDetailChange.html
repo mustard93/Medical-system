@@ -1,6 +1,6 @@
 <div ng-controller="pageCtrl"
      class="pd-c-xxxl left-se-side-par "
-     ng-init="listParams.medicalStockId=mainStatus.pageParams.medicalStockId"
+     ng-init="listParams.code=mainStatus.pageParams.code"
      ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;"><!-- pageCtrl-->
     <div class="page-main-content left-se-side-par" ng-controller="MedicalStockController">
         <!--body wrapper start-->
@@ -37,7 +37,7 @@
                    <span class="pr-arrow-l"></span>
               </span>
             </a>
-            <em class="color-black text-l pd mgl-l">{{tbodyList[0].name}}</em>
+            <em class="color-black text-l pd mgl-l">{{mainStatus.pageParams.name}}</em>
           </p>
 
           <p ajax-url="rest/authen/medicalStock/queryInoutstockDetailChangeForTerminal" params="listParams" scope-data="stocks">
@@ -48,7 +48,7 @@
           <div class="content-wrapper-main mgt">
               <div class="pd-c">
                            <!-- 搜索框 start-->
-                           <div class="text-left order-list-search relative" ng-init="queryDatePeriod='最近7天'">
+                           <div class="text-left " ng-init="queryDatePeriod='最近7天'">
                                <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
                                 date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
                                  <option value="最近7天">最近7天</option>
@@ -59,7 +59,7 @@
                                <div class="date-icon-outside">
                                  <input type="text"
                                         datepicker
-                                        class="ipt pr-new-short-ipt color-6 mgr"
+                                        class="ipt-date pr-new-short-ipt color-6 mgr"
                                         ng-readonly="true"
                                         placeholder="日期"
                                         ng-model="listParams.createAtBeg">
@@ -69,16 +69,18 @@
                                <div class="date-icon-outside">
                                   <input type="text"
                                         datepicker
-                                        class="ipt pr-new-short-ipt color-6 mgr-l"
+                                        class="ipt-date pr-new-short-ipt color-6 mgr-l"
                                         ng-readonly="true"
                                         placeholder="日期"
                                         ng-model="listParams.createAtEnd"/>
                                        <span class="date-icon"></span>
                                </div>
+                          <div class="order-list-search text-left  pos-rel-tr inline-block ">
+                            <input type="text" class="ipt pdr-xxl" placeholder="单据编号/业务员" ng-model="listParams.q">
+                              <i class=""></i>
+                            </div>
+                          </div>
 
-                           <input type="text" class="ipt pdr-xxl" placeholder="单据编号/业务员" ng-model="listParams.q">
-                             <i class="ipt-i"></i>
-                           </div>
                             <!-- 搜索框 end-->
 
                  <!-- 主内容头部 -->
@@ -170,10 +172,10 @@
                        </div>
                    </div>
                    <div class="pr-bg-white" ng-if="!tbodyList.length">
-                     <div class="empty-table">
-                       <span></span>
-                       <span></span>
-                       <span></span>
+                     <div class="empty-table clearfix">
+                       <div>&nbsp;</div>
+                       <div>&nbsp;</div>
+                       <div>&nbsp;</div>
                      </div>
                    </div>
                    <div class="clearfix">
