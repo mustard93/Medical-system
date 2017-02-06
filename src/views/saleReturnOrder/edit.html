@@ -16,40 +16,43 @@
         callback="submitFormAfter(scopeResponse);$root.watchFormChange('formData',this)"
         novalidate="true">
     <!-- 头部信息 -->
-    <div class="relative">
-      <div class="pd-l">
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">销售中心 >
+         <a href="#/confirmOrder/query.html">销售退货单</a>
+         > 新建销售退货单
+      </p>
+      <div class="pd-c-xl pdt-l pdb-l">
         <!-- 标题 -->
-        <div class="mgb-m">
-          <p class="mgb-m crumbs pr-indent-20">销售中心 >
-            <a href="#/saleReturnOrder/query.html"><em class="color-custom-orange">销售退货单</em></a>
-             >新建销售退货单</p>
-          <h1 class="pr-font-22 color-black">新建销售退货单</h1>
-          <div class="mgt-l text-right">
-            <span ng-if="initFlag" class="color-orange add-return-order"
-                  modal-right="1000"
-                  modal-open-auto="{{!formData.orderMedicalNos.length}}"
-                  modal-scope="this"
-                  modal-url="views/saleReturnOrder/edit-right-side.html">
-                  <em ng-if="!formData.orderMedicalNos.length">
-                    增加退货条目
-                  </em>
-
-                  <em ng-if="formData.orderMedicalNos.length">
-                    修改退货条目
-                  </em>
-
-            </span>
-          </div>
+        <div>
+          <h1 class="pr-font-20 color-black pr-indent-20">新建销售退货单</h1>
         </div>
       </div>
     </div>
+
     <!-- 单据基本信息 -->
-    <div class="pd-loss-l">
+    <div class="content-wrapper">
+      <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
+        <a ng-if="initFlag"
+              modal-right="1000"
+              modal-open-auto="{{!formData.orderMedicalNos.length}}"
+              modal-scope="this"
+              modal-url="views/saleReturnOrder/edit-right-side.html">
+              <i></i>
+              <span ng-if="!formData.orderMedicalNos.length">
+                增加退货条目
+              </span>
+
+              <span ng-if="formData.orderMedicalNos.length">
+                修改退货条目
+              </span>
+        </a>
+      </div>
+
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <div class="empty-panel clearfix" ng-if="!formData.orderMedicalNos.length">
-            <div></div>
-            <div></div>
-            <div></div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
         </div>
         <div ng-if="formData.orderMedicalNos.length">
           <div class="flex-column mgb pd bb-dashed-line">
@@ -64,7 +67,7 @@
             </div>
           </div>
 
-          <div class="flex-column mgb  pd">
+          <div class="flex-column mgb pd">
             <span class="mgr-l">销售部门：<em class="color-black">{{formData.salesDepartmentName || '暂无'}}</em></span>
             <span class="mgr-l">业务人员：<em class="color-orange">{{formData.inputUser.n || '暂无'}}</em></span>
             <span class="mgr-l">业务类型：<em class="color-black">{{formData.orderBusinessType || '暂无'}}</em></span>
@@ -153,9 +156,9 @@
             </table>
           </div>
             <div class="empty-table clearfix" ng-if="!formData.orderMedicalNos.length">
-                <div></div>
-                <div></div>
-                <div></div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
             </div>
         </div>
         <!-- 其他信息 -->
@@ -203,7 +206,7 @@
           <a class="mgr-l" ng-if="!changeFlag" href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
-             class="pr-color-red mgr-l"
+             class="pr-color-red mgr"
              handle-this-click
              dialog-title="确认删除?"
              dialog-content="您确认删除这条销售退货单吗?"
@@ -214,12 +217,12 @@
 
 
           <button type="submit"
-                  class="pr-btn-save-glodbg mgr-l"
+                  class="pr-btn-save-glodbg mgr"
                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();"
                   ng-disabled="!changeFlag || !saleReturnEditForm.$valid || quantityError">保存
           </button>
 
-          <button class="mgl pr-btn-create-glodbg"
+          <button class="pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认审核退货单"

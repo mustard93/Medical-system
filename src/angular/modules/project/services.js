@@ -326,7 +326,7 @@ define('project/services', ['project/init'], function () {
                       "iconClass":"View-Logistics-icon","showName":"查看物流",
                       "ngShow":"tr.orderStatus=='已发货'",
                       "aclass":"btn-link pd-m rect-s mr--4",
-                      "ahref":"#/confirmOrder/get.html?openWuliu=true&id="+showData.id
+                      "ahref":"#/salesOrder/get.html?openWuliu=true&id="+showData.id
                     };
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
@@ -336,7 +336,7 @@ define('project/services', ['project/init'], function () {
                       "showName":"编辑",
                       "ngShow":"tr.orderStatus!='已处理' && $root.hasAuthor('购需单编辑')",
                       "aclass":"btn-link pd-m rect-s",
-                      "ahref":"#/confirmOrder/edit.html?id="+showData.id
+                      "ahref":"#/salesOrder/edit2.html?id="+showData.id
                     };
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 

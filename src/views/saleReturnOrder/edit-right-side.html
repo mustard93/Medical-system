@@ -8,56 +8,51 @@
   <form>
     <!-- 头部信息 -->
     <div class="relative">
-      <div class="pd-m">
-        <!-- 标题 -->
-        <div class="mgb-m">
-          <div class="mgb">
-            <span class="pdb-m">参照发货单</span>
-          </div>
-          <div class="mgb">
-            <span angucomplete placeholder="输入"
-                  title-field="orderNo"
-                  description-field="customerName"
-                  search-fields=""
-                  search-str-class="ipt"
-                  url="rest/authen/invoicesOrder/query?orderStatus=已发货"
-                  class="inline-block"
-                  ng-model="selectedData">
-            </span>
-          </div>
-          <h1 class="pr-font-22 color-black pdt-m">{{addDataObj.customerName}}</h1>
-        </div>
+      <!-- 标题 -->
+      <div class="mgb-l pd-c-l pdt pdb color-white pr-font-14 bg-page-header-2nd">
+        参照发货单
+      </div>
+      <div class="mgb-m pd-c-l">
+        <span angucomplete placeholder="发货单号"
+              title-field="orderNo"
+              description-field="customerName"
+              search-fields=""
+              search-str-class="ipt"
+              url="rest/authen/invoicesOrder/query?orderStatus=已发货"
+              class="inline-block"
+              ng-model="selectedData">
+        </span>
       </div>
     </div>
     <!-- 药械列表 -->
-    <div class="pd-loss-l">
-      <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
+    <div>
+      <div class="panel pr-panel pd-n pr-panel-height mgb">
         <div class="empty-panel" ng-if="!addDataObj">
           <span></span>
           <span></span>
           <span></span>
         </div>
         <div class="" ng-if="addDataObj">
-          <p class="flex-column mgb  pd bb-dashed-line">
+          <p class="flex-column color-9 pd bb-dashed-line">
             <span class="flex-item-5">
-              单据编号：<em >{{addDataObj.orderNo || '暂无'}}</em>
+              单据编号：<em>{{addDataObj.orderNo || '暂无'}}</em>
               <em  class="mgl">制单人：</em><em class="color-orange">{{addDataObj.inputUser.n || '暂无'}}</em>
               <em  class="mgl">
-                审核人：</em><em class="color-black">{{addDataObj.inputUser.n || '暂无'}}</em>
+                审核人：</em><em class="color-3">{{addDataObj.inputUser.n || '暂无'}}</em>
             </span>
             <span class="flex-item-6 text-right">
-              录单日期：<em >{{addDataObj.createAt | date : 'yyyy-MM-dd' }}</em>
+              录单日期：<em class="color-3">{{addDataObj.createAt | date : 'yyyy-MM-dd' }}</em>
             </span>
             <span class="flex-item-1 text-right">状态：
-              <em class="color-black" ng-class="{'color-green':addDataObj.orderStatus=='已通过'}">{{addDataObj.orderStatus}}</em>
+              <em class="color-3" ng-class="{'color-green':addDataObj.orderStatus=='已通过'}">{{addDataObj.orderStatus}}</em>
             </span>
           </p>
-          <p class="flex-column mgb  pd">
+          <p class="flex-column color-9 pd">
             <span class="flex-item-12">
               销售部门：<em >{{addDataObj.salesDepartmentName || '暂无'}}</em>
               <em  class="mgl">制单人：</em><em class="color-orange">{{addDataObj.inputUser.n|| '暂无'}}</em>
-              <em  class="mgl">业务员：</em><em class="color-black">{{addDataObj.inputUser.n || '暂无'}}</em>
-              <em  class="mgl">业务类型：</em><em >{{addDataObj.orderBusinessType || '暂无'}}</em>
+              <em  class="mgl">业务员：</em><em class="color-3">{{addDataObj.inputUser.n || '暂无'}}</em>
+              <em  class="mgl">业务类型：</em><em class="color-3">{{addDataObj.orderBusinessType || '暂无'}}</em>
               <em  class="mgl">销售类型：</em><em >{{addDataObj.salesType || '暂无'}}</em>
             </span>
           </p>
@@ -134,19 +129,20 @@
                 </tr>
               </tbody>
             </table>
-          <div class="empty-table" ng-if="!addDataObj">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+            <div class="empty-table clearfix" ng-if="!addDataObj">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
         </div>
       </div>
-      <!-- 功能按钮 -->
-      <div class="handle-btn-area relative">
-        <div class="btn-area">
-            <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
-            <button ng-disabled="!choisedMedicalList.length>0" ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList)" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
-        </div>
+    </div>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area-2nd relative">
+      <div class="btn-area">
+          <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
+          <button ng-disabled="!choisedMedicalList.length>0" ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList)" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
       </div>
     </div>
   </form>
