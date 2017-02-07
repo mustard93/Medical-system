@@ -12,7 +12,7 @@
                 <select ng-init="itemChooise='#/firstEnterpriseApplication/query.html'"
                 class="select pr-select pr-select-sm z-index-l relative" style="width:120px;"
                 ng-model="itemChooise" ng-change="$root.utils.goTo(itemChooise)">
-                  <option value="#/firstMedicalApplication/query.html">首营品种申请</option>
+                  <option value="#/firstEnterpriseApplication/query.html">首营企业申请</option>
                   <option value="#/firstEnterpriseApplication/query.html">首营企业申请</option>
                 </select>
               </div>
@@ -36,7 +36,7 @@
             </div>
             <div class="text-right relative full-width">
               <div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l">
-                <a ng-if="$root.hasAuthor('首营企业申请')" href="#/firstEnterpriseApplication/edit.html" title="新建首营品种"><i></i><span class="text-s">新建首营企业申请</span></a>
+                <a ng-if="$root.hasAuthor('首营企业申请')" href="#/firstEnterpriseApplication/edit.html" title="新建首营企业"><i></i><span class="text-s">新建首营企业申请</span></a>
               </div>
               <div class="order-list-search text-left pos-rel-tr inline-block pdl-l">
                 <input type="text" class="ipt pdr-xxl" placeholder="企业名/编号/申请人" ng-model="listParams.q">
@@ -60,7 +60,7 @@
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过'||tr.orderStatus=='已终止'),'pr-bg-whiteblue':(tr.orderStatus=='已冻结')}">
               <!--菜单 -->
               <div class="relative">
-                <div class="flex-column mgb card-title-height" style="height:24px;line-height:24px;">
+                <div class="flex-column">
                   <span class="flex-item-6 title-states text-bold pdt-m">
                   <em class="pd-m" ng-class="{'color-6':tr.orderStatus=='待审批','color-4':tr.orderStatus=='已冻结','color-green':tr.orderStatus=='已通过','color-red':(tr.orderStatus=='未通过'||tr.orderStatus=='已终止')}">
                     {{tr.orderStatus}}
@@ -68,42 +68,9 @@
                   </span>
 
                   <span class="flex-item-6 text-right">
-                       <a  ng-if="tr.orderStatus=='未提交' && mainStatus.id==tr.proposerId"
-                          href="javascript:;"
-                          class="color-red mgr"
-                          handle-this-click
-                          dialog-title="确认删除?"
-                          dialog-content="删除后将无法恢复,确认删除?"
-                          dialog-template="pr-dialog-submit.html"
-                          callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
-                          params='{"id":tr.id}'
-                          request-url="rest/authen/firstEnterpriseApplication/delete">
-                          <span class="rect-s" title="删除" style="margin-right:-14px;"><span class="delete-link-icon"></span></span>
-                        </a>
 
-                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
-                       ng-if="$root.hasAuthor('首营企业维护')&&tr.orderStatus=='未提交' || tr.orderStatus=='已通过' || tr.orderStatus=='已冻结'"
-                       ng-href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}">
-                     <span class="rect-s" title="编辑"><span class="edit-link-icon"></span></span>
-                   </a>
-
-                    <a ng-if="tr.orderStatus=='未通过'"
-                       ng-href="#/firstEnterpriseApplication/edit.html">
-                        <span class="rect-s" title="新建" style="margin-right:-4px;"><span class="watch-detail-icon"></span></span>
-                     </a>
-                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
-                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))
-                       || tr.orderStatus=='未通过' || tr.orderStatus=='已冻结' || tr.orderStatus=='已终止'"
-                       ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">
-                       <span class="rect-s" title="查看详情"><span class="watch-detail-icon"></span></span>
-                     </a>
-                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                       ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}">
-                       <span class="rect-s" title="立即审批"><span class="examine-approve"></span></span>
-                     </a>
-
-                     <span class="text-right rect-m"
-                      ng-if="$root.hasAuthor('首营企业维护')&&tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结'">
+                     <span class="text-right rect-m fl-r"
+                      ng-if="$root.hasAuthor('首营企业维护')&&tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结'" >
                          <span class="circle-ss-outspan">
                            <span run-popovers class="circle-ss">
                              <span ></span>
@@ -117,7 +84,7 @@
                                   modal-center="490"
                                   modal-scope="this"
                                   modal-data='{"title":"确认解冻?",
-                                               "content":"解冻后，该企业资格将恢复，确认解冻?",
+                                               "content":"解冻后，该品种资格将恢复，确认解冻?",
                                                "btnConfirm":"确定",
                                                "btnCancel":"取消",
                                                "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
@@ -131,7 +98,7 @@
                                  modal-center="490"
                                  modal-scope="this"
                                  modal-data='{"title":"确认",
-                                              "content":"冻结后，该企业资格将被暂停，直到解冻，确认冻结?",
+                                              "content":"冻结后，该品种资格将被暂停，直到解冻，确认冻结?",
                                               "btnConfirm":"确定",
                                               "btnCancel":"取消",
                                               "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
@@ -149,14 +116,13 @@
                                 class="color-orange"
                                 handle-this-click
                                 dialog-title="确认终止?"
-                                dialog-content="终止后，该企业资格将被取消，确定终止?"
+                                dialog-content="终止后，该品种资格将被取消，确定终止?"
                                 dialog-template="pr-dialog-submit.html"
                                 request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
                                 params='{"id":tr.id,"status":"已终止"}'
                                 alert-error
                                 callback="$root.utils.refreshHref()"
                                 >
-
                                 终止
                               </a>
                              </em>
@@ -164,8 +130,43 @@
                          </span>
                        </span>
                     </span>
+                       <a  ng-if="tr.orderStatus=='未提交' && mainStatus.id==tr.proposerId"
+                          href="javascript:;"
+                          class="btn-link pd-m rect-s "
+                          handle-this-click
+                          dialog-title="确认删除?"
+                          dialog-content="删除后将无法恢复,确认删除?"
+                          dialog-template="pr-dialog-submit.html"
+                          callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+                          params='{"id":tr.id}'
+                          title="删除"
+                          request-url="rest/authen/firstEnterpriseApplication/delete">
+                        <span class="delete-link-icon">&nbsp;</span>
+                        </a>
+
+                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
+                       ng-if="$root.hasAuthor('首营企业维护')&&tr.orderStatus=='未提交' || tr.orderStatus=='已通过' || tr.orderStatus=='已冻结'"
+                       ng-href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                     <span class="edit-link-icon">&nbsp;</span>
+                   </a>
+
+                    <a ng-if="tr.orderStatus=='未通过'"
+                       ng-href="#/firstEnterpriseApplication/edit.html" title="新建" class="btn-link pd-m rect-s ">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                     </a>
+                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
+                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))
+                       || tr.orderStatus=='未通过' || tr.orderStatus=='已冻结' || tr.orderStatus=='已终止'"
+                       ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}"  class="btn-link pd-m rect-s" title="查看详情">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                     </a>
+                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                       ng-href="#/firstEnterpriseApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
+                       <span class="examine-approve">&nbsp;</span>
+                     </a>
+
                 </div>
-              <div class="card-new mgt-l">
+              <div class="card-new ">
                   <div class="bt-line">
                     <h1 class="text-center text-m color-black text-ellips-s">{{tr.firstEnterprise.fullName || '未知名称'}}</h1>
                   </div>
