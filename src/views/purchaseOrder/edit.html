@@ -35,7 +35,7 @@
               ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
               scope-data="supplier"
               callback="formData.supplier=supplier"
-              alert-error>
+              alert-error>{{formData.supplier.id}}
            <span>
              <span ng-if="initFlag==true" angucomplete-supplier
 
@@ -426,7 +426,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length||!formData.expectDate">提交
+                  ng-disabled="!formData.orderMedicalNos.length || !formData.expectDate || !formData.supplier.id">提交
           </button>
         </span>
       </div>
