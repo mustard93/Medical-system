@@ -109,7 +109,11 @@
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
                             <td>{{tr.type}}</td>
                             <td class="color-orange">
-                              <span ng-if="tr.type=='移库入库单'">{{tr.sourceOrderNo}}</span>
+                              <a ng-if="tr.type=='采购入库单'" href="#/purchaseInstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                              <a ng-if="tr.type=='销售出库单'" href="#/saleOutstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                              <a ng-if="tr.type!='销售出库单' && tr.type!='采购入库单' && tr.type.indexOf('入')!=-1" href="#/otherInstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                              <a ng-if="tr.type!='销售出库单' && tr.type!='采购入库单' && tr.type.indexOf('出')!=-1" href="#/otherOutstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
+                              <!-- <span ng-if="tr.type=='移库入库单'">{{tr.sourceOrderNo}}</span>
                               <span ng-if="tr.type=='移库出库单'">{{tr.sourceOrderNo}}</span>
                                 <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.sourceOrderNo}}">
                                 {{tr.sourceOrderNo}}
@@ -128,7 +132,7 @@
                                 </a>
                                 <a ng-if="tr.type=='报溢入库单'||tr.type=='批次解冻入库单'" href="#/otherInstockOrder/get.html?orderNo={{tr.orderNo}}">
                                 {{tr.sourceOrderNo}}
-                                </a>
+                                </a> -->
                             </td>
                             <td class="text-left">
                                 <div class="autocut" title="{{tr.warehouseName}}">
