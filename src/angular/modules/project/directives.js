@@ -1661,33 +1661,24 @@ function medicalStockMouseOver(utils){
         // 把按钮基础数据转化为数组类型
         var mouseOverButtons=  $scope.$eval($attrs.mouseOverButtonsJson);
         if(mouseOverButtons && mouseOverButtons.length>0){
-          moveBtnDiv=$("<div></div>");
+          moveBtnDiv=$("<div id='moveBtnDiv'></div>");
           btnCount=mouseOverButtons.length;
         }
 
         for(var i=0;i<mouseOverButtons.length;i++){
             var bt=mouseOverButtons[i];
-              //bt.url; 跳转url
-              //bt.className;
+            if (bt.progress=='0') {
+              return;
+            }else{
               var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
-              // 特殊处理
-              // if('pos-s pr-arrow-r'==bt.className){
-              //   tmp="<a href='"+bt.url+"'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>";
-              // }
-
-            var btn1=$(tmp);
-            // btn1.appendto(moveBtnDiv);
-            moveBtnDiv.append(btn1);
-            // btnArray.push(btn1);
+              var btn1=$(tmp);
+              // btn1.appendto(moveBtnDiv);
+              moveBtnDiv.append(btn1);
+            }
         }
 
-        //  var btn1=$("<a class='relative' href='#/medicalStock/get.html?relMedicalStockId="+attrs.medicalId+"'><span class='circle-icon pos-icon1 pos-abs pr-icon-bg11'></span></a>");
-        //  var btn2=$("<a class='relative' href='#/medicalStock/get1.html'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>");
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
-
-          console.log(utils.getMainBodyWidth());
-
           $element.addClass("bg-c");
           if(!moveBtnDiv)return;
           //+document.body.scrollLeft+
