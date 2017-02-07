@@ -61,16 +61,17 @@
               <thead>
               <tr>
                <th class="text-center">商品编号</th>
-               <th>商品全名</th>
+               <th class="text-center">商品全名</th>
                <th class="text-center">规格/型号</th>
                <th class="text-center">单位</th>
-               <th class="text-center">数量</th>
-               <th class="text-center">实际完成数量</th>
+               <th class="text-center">计划数量</th>
+               <th class="text-center">正常数量</th>
                <th class="text-center w-110">批号要求</th>
                <th class="text-center">原币含税单价</th>
                <th class="text-center">税率</th>
                <th class="text-center">原币单价</th>
                <th class="text-center">原币金额</th>
+               <th class="text-center">原币税额</th>
                <th class="text-center">原币价税合计</th>
                <th class="text-center">保存温度</th>
                <th class="text-center">产地品牌</th>
@@ -97,21 +98,21 @@
                   <td class="text-center">
                     {{tr.unit}}
                   </td>
-                  <td class="text-center">
+                  <td class="text-right">
                     {{tr.quantity || '0'}}
                   </td>
-                  <td class="text-center"
+                  <td class="text-right"
                   ng-class="{'pr-bg-orange3':tr.quantity!=tr.storageQuantity}"
                   >
                     {{tr.storageQuantity || '0'}}
                   </td>
-                  <td>
+                  <td class="text-center">
                     {{tr.batchRequirement}}
                   </td>
-                  <td class="text-center">
-                    ￥{{tr.price}}
+                  <td class="text-right">
+                    ￥{{tr.price || '0'  | number:2}}
                   </td>
-                  <td class="text-center" >
+                  <td class="text-right" >
                     {{tr.taxRate}}%
                   </td>
                   <td class="text-right">
@@ -119,6 +120,9 @@
                   </td>
                   <td class="text-right">
                     ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
+                  </td>
+                  <td class="text-right">
+                    ￥{{tr.taxPrice| number:2}}
                   </td>
                   <td class="text-right">
                     ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
@@ -140,8 +144,8 @@
                     {{tr.drugAdministrationCodeGuaranteePeriod}}
 
                   </td>
-                  <td>
-
+                  <td class="text-center">
+                    {{tr.contractNo}}
                   </td>
                 </tr>
               </tbody>
