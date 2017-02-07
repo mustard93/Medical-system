@@ -1819,6 +1819,37 @@ function salesorderEditShowDelbtn () {
 }
 
 /**
+ * [purchaseorderEditShowDelbtn 新版采购单新建页药品列表中删除功能按钮]
+ * @return {[type]} [description]
+ */
+function tableItemHandlebtnComponent (utils) {
+  return {
+    restrict: 'A',
+    scope: true,
+    link: function (scope, element, attrs) {
+      $(element).hover(function () {
+        // 计算当前tr距离顶部的高度
+        var _offsetTop = $(element).offset().top - document.body.scrollTop;
+        // 计算当前页面宽度
+        var _pageWidth = utils.getMainBodyWidth() + 65;
+        // 修改定位
+        $('.table-item-handle-btn').css({'top':_offsetTop, 'left':_pageWidth}).show();
+      }, function () {
+        $('.table-item-handle-btn').hide();
+        scope.showHandleArea = false;
+      });
+    },
+    controller: ['$scope', '$element', function ($scope, $element) {
+      $scope.hideThisBtn = function () {
+        // console.log($element);
+        $('.table-item-handle-btn').hide();
+        $scope.showHandleArea = false;
+      };
+    }]
+  };
+}
+
+/**
   	 *
   	* @Description: html编辑器
   	* @method sayMsgToOther
@@ -2138,8 +2169,6 @@ function angucompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
     };
 }//angucompleteMedicalStockBatch
 
-
-
 /**
  * 自动补全-供应商
  */
@@ -2228,9 +2257,6 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
         }
     };
 }
-
-
-
 
 /**
  * 闪加药械
@@ -2429,8 +2455,6 @@ function bottomButtonList() {
     }
   };
 }
-
-
 
 /**
   查询列表(卡片)条目列表
@@ -2683,6 +2707,7 @@ function requestExpressInfoTab (requestData, alertError) {
 }
 
 angular.module('manageApp.project')
+  .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
   .directive("expressBtnToggle", [expressBtnToggle])
   .directive("textareaJson", ['utils', 'alertError', textareaJson]) //textarea-json
@@ -2698,7 +2723,7 @@ angular.module('manageApp.project')
   .directive("flashAddMedical", [flashAddMedical])
   .directive("angucompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
-    .directive("angucompleteSupplier", ["$parse", "requestData", "$sce", "$timeout",angucompleteSupplier])
+  .directive("angucompleteSupplier", ["$parse", "requestData", "$sce", "$timeout",angucompleteSupplier])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])
   .directive("umeditor", ["$timeout",umeditor])  // html编辑器
