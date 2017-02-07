@@ -38,6 +38,7 @@
               alert-error>
            <span>
              <span ng-if="initFlag==true" angucomplete-supplier
+
                    placeholder="供应商输入"
                    title-field="name"
                    search-fields="{{formData.supplier.name}}"
@@ -70,9 +71,10 @@
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
            <!-- 信息 -->
            <div flash-add-medical
+           ng-if="!formData.relId"
                 ng-model="data1"
                 class="pd-c-l pdt-m"
-                ajax-url="rest/authen/medicalStock/query?hospitalId={{formData.supplier.id}}"
+                ajax-url="rest/authen/medicalStock/query?supplierId={{formData.supplier.id}}"
                 add-data-callback-fn="flashAddDataCallbackFn(data1)">
            </div>
            <!-- 列表 -->
@@ -132,7 +134,7 @@
                         style="width:90px;"
                         placeholder=""
                         ng-readonly="true"
-                        ng-model="formData.expectDate" />
+                        ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
                </span>
              </div>
              <div class="outside-table-d">
@@ -171,33 +173,39 @@
                  </thead>
                  <tbody class="bg-white">
                         <!-- ng-if="formData.orderMedicalNos.length" -->
-                   <tr
-                   ng-repeat="tr in formData.orderMedicalNos"
-                   salesorder-edit-show-delbtn
-                   ng-init="orderMedicalNoIds.push(tr.relId)"
-                   ng-controller="purchaseOrderEditCtrl">
-                   <td class="select-td">
-                     <input type="checkbox" class="selectOne" ng-model="tr.handleFlag"
-                     ng-change="chkChoiseMedicals(tr,formData.orderMedicalNos);"
-                     >
-                   </td>
-                     <td class="text-center">{{tr.code}}</td>
-                     <td class="text-center">
-                       <div class="autocut-l" title="{{tr.name}}">
-                           {{tr.name}}
+                   <tr ng-repeat="tr in formData.orderMedicalNos"
+                       salesorder-edit-show-delbtn
+                       ng-init="orderMedicalNoIds.push(tr.relId)"
+                       ng-controller="purchaseOrderEditCtrl">
+
+                     <td class="select-td">
+                       <input type="checkbox" class="selectOne" ng-model="tr.handleFlag" ng-change="chkChoiseMedicals(tr,formData.orderMedicalNos);">
+
+                       <div class="sales-order-item-delbtn" ng-init="areaStatus==false" ng-hide="areaStatus">
+                         <div class="sales-order-confirm-del-area bg-white">
+                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                           <p class="pd-v-s">
+                             <a href="" ng-click="areaStatus=true">取消</a>
+                             <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
+                                     ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
+                             </button>
+                           </p>
+                         </div>
                        </div>
+
+                       <!-- <div class="" style="position:absolute;top:0;left:0;width:60px;height:60px;background-color:#ccc;">
+
+                       </div> -->
+
                      </td>
+                     <td class="text-center">{{tr.code}}</td>
+                     <td class="text-left">{{tr.name}}
+                       <!-- <div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div> -->
+                     </td>
+                     <td class="text-center">{{tr.modelType}}</td>
+                     <td class="text-center">{{tr.unit}}</td>
+                     <td class="text-right" ng-if="formData.relId">{{tr.planQuantity}}</td>
                      <td class="text-center">
-                       {{tr.modelType}}
-                     </td>
-                     <td class="text-center">
-                       {{tr.unit}}
-                     </td>
-                     <td class="text-right" ng-if="formData.relId">
-                       {{tr.planQuantity}}
-                     </td>
-                     <td class="text-center">
-                       <!-- <input type="text" class="ipt ipt-w text-right" ng-model="tr.quantity"> -->
                        <div class="order-goods-num">
                          <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
                          <span class="inline-block">
@@ -228,10 +236,7 @@
                        </select> -->
                      </td>
                      <td class="text-center">￥
-                       <input type="text"
-                              class="ipt pr-ipt-60 text-right"
-                              ng-model="tr.price"
-                              />
+                       <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price" />
                               <!-- required
                               name="purchasePrice{{$index}}"
                               ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
@@ -241,7 +246,7 @@
                               popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'  -->
                      </td>
                      <td class="text-center">
-                       <select class="ipt pr-short-ipt" name="" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.taxRate">
+                       <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.taxRate">
                          <option value="17" ng-selected="tr.taxRate==17">17</option>
                          <option value="3" ng-selected="tr.taxRate==3">3</option>
                        </select>%
@@ -252,35 +257,14 @@
                                select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
                        </select> % -->
                      </td>
-                     <td class="text-right">
-                       ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
-                     </td>
-                     <td class="text-right">
-                       ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
-                     </td>
-                     <td class="text-right">
-                       ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
-                     </td>
-
-                     <td class="text-center">
-                       {{tr.storedTemperature}}
-                       <!-- 保存温度 -->
-                     </td>
-                     <td class="text-center">
-                       {{tr.brand}}
-                     </td>
-
-                     <td class="text-center">
-                     {{tr.drugAdministrationCode}}
-                     </td>
-
-                     <td class="text-center relative">
-                       {{tr.drugAdministrationCodeGuaranteePeriod}}
-
-                     </td>
-                     <td>
-
-                     </td>
+                     <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
+                     <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
+                     <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
+                     <td class="text-center">{{tr.storedTemperature}}</td>
+                     <td class="text-center">{{tr.brand}}</td>
+                     <td class="text-center">{{tr.drugAdministrationCode}}</td>
+                     <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}</td>
+                     <td></td>
                    </tr>
                  </tbody>
                </table>
@@ -448,7 +432,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length||!canSubmitForm()">提交
+                  ng-disabled="!formData.orderMedicalNos.length||!formData.expectDate">提交
           </button>
         </span>
       </div>

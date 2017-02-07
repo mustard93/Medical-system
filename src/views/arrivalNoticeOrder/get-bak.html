@@ -1,0 +1,239 @@
+<div class="content-wrapper"
+     ajax-url="rest/authen/arrivalNoticeOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="showData"
+     callback="formData.note=showData.note;formData.id=showData.id;"
+     alert-error>
+
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading mgt-l mgb-xl">
+    <h1 class="pr-title-color pr-font-20">来货通知单</h1>
+  </div>
+
+  <!-- 主内容区域 -->
+  <div class="content-wrapper-main">
+    <!-- 作废原因： -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height flex-column mgb"
+         ng-if="showData.orderStatus=='已作废'"
+         ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+    </div>
+
+    <!-- 通知单信息 -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height flex-column mgb color-9" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <div class="flex-item-7">
+        <span class="mgr">通知单号：<em class="color-6">{{showData.orderNo}}</em></span>
+        <span class="mgr">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+        <span>对应采购单号：<em class="color-custom-orange"> <a href="#/purchaseOrder/get.html?id={{showData.relId}}">{{showData.relOrderNo}}</a></em></span>
+      </div>
+      <div class="flex-item-5 text-right">
+        <span class="mgr">采购员：<a href="javascript:;">{{showData.saleUser.n}}</a></span>
+        <!-- <span class="mgr">电话：<em class="color-6">{{showData.saleUser.p}}</em></span> -->
+
+
+
+        <span class="mgr">审批人：<a href="javascript:;">{{showData.approverUser.n||"暂无"}}</a></span>
+
+
+        <a
+        modal-center="1000px"
+        modal-data='{"businessKey":"{{showData.relId}}"}'
+        modal-scope="this"
+        modal-url="views/workflowTask/getOfDialog.html"
+        >
+                <span class="mgr">状态：<em class="color-6">{{showData.orderStatus}}</em></span>
+              </a>
+
+
+      </div>
+    </div>
+    <!-- 供货商信息 -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height flex-column mgb color-9" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <div class="flex-item-6">
+        <span class="mgr">供货商类型：<em class="color-6">厂家</em></span>
+        <span class="mgr">供货商名：<em class="color-6">{{showData.supplier.name}}</em></span>
+      </div>
+      <div class="flex-item-6 text-right">
+        <span class="mgr">期望到货时间：<em class="color-6">{{showData.expectDate | date: 'yyyy-MM-dd'}}</em></span>
+      </div>
+    </div>
+    <!-- 采购清单 -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <!-- 清单 -->
+      <div class="order-details">
+        <!-- <h1>采购清单</h1> -->
+        <table class="pr-table" style="width:100%;max-width:none;">
+          <thead>
+            <th class="w-70 text-center">货品编号</th>
+            <th class="pr-indent-20">药械名称/生产厂家/规格</th>
+            <th class="w-70 text-center">单位</th>
+            <th class="w-80 text-center">数量</th>
+            <th class="w-80 text-center">批号</th>
+            <th class="w-70 text-center">灭菌批号</th>
+            <th class="w-186 text-center">注册证号</th>
+            <th class="w-80 text-center">生产日期</th>
+            <th class="w-80 text-center">有效期至</th>
+            <th class="w-90 text-center">库类型</th>
+            <th class="w-120 text-center">入库状态</th>
+            <th>正常数量</th>
+            <th>拒绝数量</th>
+            <th>其他数量</th>
+            <th>计划数量</th>
+          </thead>
+          <tbody>
+            <tr class="tr-interval"><td colspan="9"></td></tr>
+            <tr ng-repeat="tr in showData.orderMedicalNos" >
+              <td class="has-border text-center text-v-t pd-m">{{tr.code}}</td>
+              <td class="goods-name has-border pd-m">
+                <div class="relative">
+                  <span class="goods-thumbnail inline-block">
+                    <!-- <img ng-src="{{tr.headUrl}}" alt=""> -->
+                    <img ng-src="{{tr.headUrl}}" alt="药械图片" width="80px" height="80px" />
+                  </span>
+                  <span class="inline-block">
+                    <p class="pdl-l mgb color-6 text-n pr-fw-500"><span>{{tr.name}}</span></p>
+                    <p class="pdl-l mgb color-9 text-s"><span>{{tr.manufacturer}}</span></p>
+                    <p class="mgt-s color-9 text-s"><span class="mgl-l">{{tr.specification||"无规格"}}</span></p>
+                  </span>
+                </div>
+              </td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.unit}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.quantity}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.batchNumber}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.sterilizationBatchNumber}}</td><!--灭菌批号-->
+              <td class="has-border text-center text-v-t pd-m">{{tr.drugAdministrationCode}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.productionDate | date: 'yyyy-MM-dd'}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.validTill | date: 'yyyy-MM-dd'}}</td>
+              <td class="has-border text-center text-v-t pd-m">{{tr.stockType}}</td>
+              <td class="has-border text-center text-v-t pd-m">
+                <p class="text-s color-6">{{tr.progress}}%</p>
+                <div class="progress pr-progress"
+                     data-toggle="tooltip"
+                     data-placement="top"
+                     title="{{tr.progress}}%">
+                  <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
+                       aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                       aria-valuemax="100"
+                       ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'
+                       >
+                  </div>
+                  <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
+                       aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                        ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
+                       aria-valuemax="100" >
+                  </div>
+                </div>
+              </td>
+              <td>{{tr.storageQuantity}} </td>
+              <td>{{tr.refuseQuantity}} </td>
+              <td>{{tr.otherQuantity}} </td>
+              <td>{{tr.quantity}} </td>
+          </tbody>
+        </table>
+      </div>
+      <!-- 备注 -->
+      <div class="mgt pd-v bt-line">
+        <div ng-if="showData.orderStatus=='未提交'">
+          <span>备注：</span><textarea class="pr-textarea mgt" ng-value="showData.note" ng-model="formData.note"></textarea>
+        </div>
+        <div ng-if="showData.orderStatus!='未提交'">
+          <span>备注：{{showData.note}}</span>
+        </div>
+      </div>
+
+      <!-- 价格 -->
+      <!-- <div class="text-right pr-font-16">
+        <p class="pdt pdb">合计：￥{{showData.totalPrice | number:2}}</p>
+        <p class="pdb">税额：￥{{showData.totalPrice*showData.tax | number:2}}</p>
+        <p class="pdb">预付款：￥{{showData.prepaidPrice | number:2}}</p>
+      </div> -->
+    </div>
+    <!-- 操作 -->
+    <div class="mgt-m text-right">
+      <span class="">
+          <a href="#/arrivalNoticeOrder/query.html">返回来货通知单列表</a>
+      </span>
+      <span class="mgl-m">
+          <span class="mgr-l" ng-if="showData.orderStatus=='未提交'">
+            <button class="pr-btn-save-glodbg"
+                    type="button"
+                    ajax-url-submit="rest/authen/arrivalNoticeOrder/updateNote"
+                    params="formData"
+                    alert-error
+                    callback="showData.note=formData.note"
+                    ng-disabled="!formData.id||formData.note==showData.note">保存
+            </button>
+          </span>
+
+
+
+          <!-- <button ng-if="showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
+                ng-disabled="formData.note!=showData.note"
+                  class="pr-btn-save-glodbg"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认提交?"
+                  dialog-content="提交后，将无法修改，确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  params='{"id":showData.id,"status":"待审批"}'
+                  request-url="rest/authen/arrivalNoticeOrder/updateStatus.json"
+                  call-back="$root.goTo('#/arrivalNoticeOrder/get.html?id={{showData.id}}&t=1')">提交到库管
+          </button> -->
+<!--
+          <button ng-if="(!showData.didateFilter.buttons.length>0 )&&showData.orderStatus=='未提交' && $root.hasAuthor('来货通知单编辑')"
+                ng-disabled="formData.note!=showData.note"
+                  class="pr-btn-save-glodbg"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认提交?"
+                  dialog-content="提交后，将无法修改，确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  params='{"businessKey":showData.relId,"type":"来货通知单"}'
+                  request-url="rest/authen/workflowTask/run.json"
+                  call-back="$root.utils.refreshHref()">提交到库管
+          </button>
+
+          <span class="mgr-l"
+                ng-if="!showData.didateFilter.buttons && showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+                ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'来货通知单驳回理由',msg:'驳回后，该来货通知单将作废。确认驳回?',formData:{businessKey:showData.relId,conditionType:'驳回',type:'来货通知单',key:'仓库已满'},goUrl:'#/arrivalNoticeOrder/get.html?t=1&id='+showData.id}">
+                <a href="javascript:;"
+                   modal-center="490"
+                   modal-scope="this"
+                   modal-url="views/public/dialog-check-reject.html">驳回</a>
+          </span> -->
+
+    <!--
+        <button ng-if="(!showData.didateFilter.buttons.length>0 )&& showData.orderStatus=='待审批' && $root.hasAuthor('来货通知单审批')"
+                  class="pr-btn-save-glodbg"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认通过?"
+                  dialog-content="通过后，该来货通知单将生效。确认通过?"
+                  dialog-template="pr-dialog-submit.html"
+                  params='{"businessKey":showData.relId,"type":"来货通知单","ConditionType":"通过"}'
+                  request-url="rest/authen/workflowTask/run.json"
+                  call-back="$root.utils.refreshHref()">审批通过
+        </button>
+        <button ng-if="(!showData.didateFilter.buttons.length>0 )&& showData.orderStatus=='待入库' && $root.hasAuthor('确认入库')"
+                  class="pr-btn-save-glodbg"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认提交?"
+                  dialog-content="提交后，数据同步到库存?"
+                  dialog-template="pr-dialog-submit.html"
+                  params='{"businessKey":showData.relId,"type":"来货通知单"}'
+                  request-url="rest/authen/workflowTask/run.json"
+                  call-back="$root.utils.refreshHref()">确认入库
+        </button> -->
+
+        <span ng-if="formData&& showData.didateFilter.buttons.length>0"
+
+          before-if-eval="formData.id&& formData.note!=showData.note"
+          before-ajax-url-submit="rest/authen/arrivalNoticeOrder/updateNote"
+          before-ajax-params="formData"
+
+           custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
+
+      </span>  <!-- 操作 -->
+    </div>
+  </div><!-- class="content-wrapper-main"-->
+</div>
