@@ -1,204 +1,185 @@
-<div   ng-controller="invoicesOrderCtrl"
-class="content-wrapper invoices-order"
-         ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
-     scope-data="showData"
-     callback="formData=showData.distributionInfo;formData.id=showData.id"
-     alert-error>
-  <!-- 主内容头部 -->
-  <div class="content-wrapper-heading mgt-m mgb-m">
-    <h1 class="pr-title-color pr-font-20">发货单</h1>
-  </div>
-  <!-- 主内容区域 -->
-  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-    <!-- 单据信息 -->
-    <div class="flex-column pd-c-m pdt-m pdb-m bb-line">
+<!-- <div class="confirm-order-edit"
+     ng-controller="invoicesOrderCtrl"
+     ajax-url="rest/authen/invoicesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&invoicesOrderId={{mainStatus.pageParams.invoicesOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="scopeData"
+     callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_invoicesOrder(scopeData);'
+     alert-error> -->
+     <div   ng-controller="invoicesOrderCtrl"
+     class="invoices-order"
+           ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+          scope-data="scopeData"
+          callback="formData=scopeData.distributionInfo;formData.id=scopeData.id"
+          alert-error>
 
-      <div   class="flex-item-10">
-        <span class="mgr-m">发货单：{{showData.orderNo}}</span>
-        <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
-
-        <span class="mgr-m">对应订单：
-          <a href="#/confirmOrder/get.html?id={{showData.confirmOrderId}}">{{showData.confirmOrderNo}}</a>
-        </span>
-        <span>对应出库单：
-  <a href="#/outstockOrder/get.html?id={{showData.outStockOrderId}}">  {{showData.outStockOrderNo}}</a>
-
-        </span>
-      </div>
-      <div class="flex-item-2 text-right">
-        <span>状态：{{showData.orderStatus}}</span>
-      </div>
-    </div>
-    <!-- 用户信息 -->
-    <div class="pd-c-m pdt-m pdb-m bb-line">
-      <p class="flex-column mgb">
-        <span class="flex-item-6">客户名：{{showData.customerName}}</span>
-        <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：{{showData.expectDate | date: 'yyyy-MM-dd'}}</span>
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/invoicesOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter();watchFormChange('formData')">
+    <!-- 头部信息 -->
+    <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 >
+        <a href="#/invoicesOrder/query.html">
+            <em class="color-custom-orange">发货单</em>
+        </a>
+        <em>>编辑发货单</em>
       </p>
-      <p>收货人信息：{{showData.address.name}} {{showData.address.prov}}{{showData.address.city}}{{showData.address.area}}{{showData.address.address}} {{showData.address.tel}}</p>
-    </div>
-    <!-- 商品列表 -->
-    <div class="pd-c-m pdt">
-      <!-- 可发货 -->
-      <div class="confirm-order bb-line pdb-l">
-        <!-- <h1 class="pdt-m color-6 text-m pr-fw-500">订购清单</h1> -->
-        <div order-medicals  ng-model="showData.orderMedicalNos"></div>
-
-      </div>
-      <div class="pd-v-m">
-        <p>备注：{{showData.note}}</p>
+      <!-- 标题 -->
+      <div class="pd-c-xxxxxl">
+        <div class="pos-rel-tl inline-block fl-l">
+          <h1 class="pr-font-20 color-black">发货单</h1>
+          <p class="mgt-l text-n color-3 text-bold">{{scopeData.customerName}}</p>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- 配送信息 -->
-  <form id="editForm" class="add-medical-form form-horizontal"
-        action="rest/authen/invoicesOrder/updateDistributionInfo.json"
-         alert-error
-         alert-ok
-        callback="submitFormAfter()"
-        form-validator>
-  <div class="panel pr-panel pr-fuzzy-boundary mgt">
-      <h1 class="pdb-l text-m color-6">配送信息</h1>
-      <div class="flex-column bb-line text-s">
-        <div class="flex-item-3">
-          <div class="form-group">
-            <label class="mgr">发货方式</label>
-            <select class="ipt pr-short-ipt" ng-model="formData.type"  chosen select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OrderDistributionType">
-              <!-- <option value="付费送货">付费送货</option>
-              <option value="定时到达">定时到达</option>
-              <option value="快速发送">快速发送</option>
-              <option value="拼车发送">拼车发送</option> -->
-            </select>
+    <!-- 药械列表 -->
+    <div class="content-wrapper">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+        <!-- 单据信息 -->
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+          <div class="flex-item-6">
+            <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
+            <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n}}</em></span>
+          </div>
+          <div class="flex-item-6 text-right">
+            <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+            <a
+            modal-center="1000px"
+            modal-data='{"businessKey":"{{scopeData.id}}"}'
+            modal-scope="this"
+            modal-url="views/workflowTask/getOfDialog.html"
+            >
+          <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
+            </a>
           </div>
         </div>
-        <div class="flex-item-3">
-          <div class="form-group">
-            <label class="mgr">原件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.originalParts">
-          </div>
+        <!-- 类别选择 -->
+        <div class="pd-c-l pdt-m pdb-m color-9">
+          <span class="mgr-l">销售部门：<em class="color-3">{{scopeData.salesDepartmentName}}</em></span>
+          <span class="mgr-l">业务人员：<em class="color-3">{{scopeData.saleUser.n}}</em></span>
+          <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessType}}</em></span>
+          <span class="mgr-l">销售类型：<em class="color-3">{{scopeData.salesType}}</em></span>
+          <span class="mgr-l">付款条件：<em class="color-3">{{scopeData.paymentType}}</em></span>
+          <span class="mgr-l">币种：<em class="color-3">{{scopeData.currencyType}}</em></span>
+          <span class="mgr-l">汇率：<em class="color-3">1.00</em></span>
+          <span class="mgr-l">预发货日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
         </div>
-        <div class="flex-item-3">
-          <div class="form-group">
-            <label class="mgr">散件</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.spareParts">
+        <!-- 商品列表 -->
+        <div class="">
+          <div class="">
+            <table class="table pr-table pr-new-table mgb-n">
+              <thead>
+                <tr>
+                  <th class="text-center">商品编号</th>
+                  <th>商品全名</th>
+                  <th class="text-center">规格/型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">数量</th>
+                  <th class="text-center w-110">批号要求</th>
+                  <th class="text-center w-160">生产批号/灭菌批号</th>
+                  <th class="text-center">报价</th>
+                  <th class="text-center">税率</th>
+                  <th class="text-center">折扣额</th>
+                  <th class="text-center">折扣率</th>
+                  <th class="text-center">含税单价</th>
+                  <th class="text-center">无税单价</th>
+                  <th class="text-center">无税金额</th>
+                  <th class="text-center">税额</th>
+                  <th class="text-center">价税合计</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in scopeData.orderMedicalNos">
+                  <td class="text-center">{{item.code}}</td>
+                  <td>{{item.name}}</td>
+                  <td class="text-center">{{item.specificationAndModelType}}</td>
+                  <td class="text-center">{{item.unit}}</td>
+                  <td class="text-center">{{item.quantity}}</td>
+                  <td class="text-center">{{item.batchRequirement}}</td>
+                  <td class="text-right">{{item.productionBatch}}</td>
+                  <!-- <td class="text-center">{{item.expectDate | date:'yyyy-MM-dd'}}</td> -->
+                  <td class="text-right">{{item.price | currency:'￥'}}</td>
+                  <td class="text-right">{{item.taxRate}}%</td>
+                  <td class="text-right">￥{{item.discountPrice | number:2}}</td>
+                  <td class="text-right">{{item.discountRate | number:2}}%</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-        <div class="flex-item-3">
-          <div class="form-group">
-            <label class="mgr">备货位</label>
-            <input type="text" class="ipt pr-short-ipt" ng-model="formData.storageLocation">
-          </div>
+
         </div>
       </div>
-      <h1 class="pdt-l pdb-l">附件</h1>
-      <div class="flex-column text-s">
-        <div class="flex-item-7">
-          <div class="flex-column bb-line">
-            <div class="flex-item-6">
-              <div class="form-group">
-                <label class="mgr">发票</label>
-                <input type="text" class="ipt pr-short-ipt" ng-model="formData.invoiceNo">
-              </div>
-            </div>
-            <div class="flex-item-6">
-              <div class="form-group">
-                <label class="mgr">检测报告</label>
-                <a ng-if="formData.attachment" href="{{formData.attachment}}" >下载</a>
-
-                <button type="button" class="btn btn-default" ng-init="upFile={}"
-                                    uploader-one="rest/authen/fileUpload/upload.json" usege="检测报告"
-                                     up-file="upFile" ng-model="formData.attachment">
-
-                                        浏览{{upFile.progress<100?"("+upFile.progress+"%)":""}}
-                                    </button>
-
-              </div>
-            </div>
-          </div>
-          <div class="flex-column mgt">
-            <div class="flex-item-12">
-              <div class="form-group">
-                <label class="mgr">备注</label>
-                <textarea class="pr-textarea" ng-model="formData.note"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="flex-item-5" style="text-aligncenter;">
-          <!-- <div>
-            <img src="images/temp/tiaoxingma.jpg" alt="" style="height:135px;margin-left:50px;width:450px">
-          </div> -->
-        </div>
-
+      <!-- 其他信息 -->
+      <div class="relative">
+      <!-- 收货方信息 -->
+      <address-manage-component ng-if="scopeData.customerId"
+                                compnent-title="收货方信息"
+                                request-url="rest/authen/customerAddress/get.json?id={{scopeData.customerId}}&t={{$root.reloadTime}}"
+                                scope-data-prefix="customer"
+                                form-data="formData"
+                                modify-modal-url="views/customerAddress/contact/edit.html"
+                                create-modal-url="views/customerAddress/contact/edit.html"
+                                create-address-type="发货"
+                                set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
+                                del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
+      </address-manage-component>
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+        <h1 class="text-bold color-3">备注</h1>
+        <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="scopeData.note"></textarea>
       </div>
-
     </div>
+
     <!-- 流程图 -->
+    <business-flow-show business-key="{{scopeData.id}}" business-type="销售单"></business-flow-show>
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
 
-    <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
+        <a ng-if="changeFlag" href="javascript:;" class="mgr"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该发货单存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/invoicesOrder/query.html')"
+           save-callback="submitForm('editForm','exit')">返回发货单列表
+        </a>
 
-    <!-- 提交按钮 -->
-    <div class="pdb-xxl text-right">
-      <span class="mgr">
-        <!-- <a href="javascript:;"
-               handle-this-click
-               nosave-callback="goTo('#/invoicesOrder/query.html')"
-               save-callback="submitForm('editForm','exit')"
-               dialog-template="pr-dialog-return.html">返回
-        </a> -->
-        <a href="#/invoicesOrder/query.html">返回发货单列表</a>
-      </span>
-      <span ng-if="$root.hasAuthor('发货单编辑')" class="mgr">
-        <button class="pr-btn-save-glodbg"
-                type="submit">保存
-        </button>
-      </span>
-      <span>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/invoicesOrder/query.html?id={{scopeData.relId}}" >返回发货单列表</a>
+        <a ng-if="formData.orderStatus=='未提交' && formData.inputUserId==mainStatus.id"
+           href="javascript:;"
+           class="pr-color-red mgr"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条发货单吗?"
+           dialog-template="dialog-confirm.html"
+           request-url="rest/authen/invoicesOrder/delete?id={{formData.id}}"
+           call-back="$root.goTo('#/invoicesOrder/query.html')">删除
+        </a>
 
-      <!-- <button ng-if="$root.hasAuthor('发货单编辑')"
-              type="button"
-              class="pr-btn-create-glodbg"
-              handle-this-click
-              dialog-title="确认提交发货单?"
-              dialog-content="提交后,您将无法修改发货单,确认提交?"
-              dialog-template="pr-dialog-submit.html"
-              call-back="submitForm('editForm','submit')">提交发货</button>
-      </span> -->
+        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
 
-      <!-- <span ng-if="formData&& showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
-
-        before-if-eval="formData"
-          before-ajax-parameter-body="true"
-        before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
-        before-ajax-params="formData"
-
-        ></span> -->
-        <!-- <span ng-if="formData&& showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
-
-          ></span>
- -->
-
-
-          <span ng-if="formData&& showData.didateFilter.buttons.length>0"
-                    before-if-eval="formData"
-                      before-ajax-parameter-body="true"
-                    before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
-                    before-ajax-params="formData"
-              custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
-
-            ></span>
-
-      <!-- <button class="pr-btn-save-glodbg"
-              ng-if="$root.hasAuthor('发货单编辑')"
-              type="button"
-              handle-this-click
-              dialog-title="确认提交发货单?"
-              dialog-content="提交后,您将无法修改发货单,确认提交?"
-              dialog-template="pr-dialog-submit.html"
-              params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"发货单"}'
-                request-url="rest/authen/workflowTask/run.json"
-              call-back="goTo('#/invoicesOrder/get.html?id={{showData.id}}&t=1')">提交发货</button> -->
+        <span ng-if="formData&& scopeData.didateFilter.buttons.length>0"
+                  before-if-eval="formData"
+                    before-ajax-parameter-body="true"
+                  before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
+                  before-ajax-params="formData"
+            custom-menu-list custom-menu-arr="{{scopeData.didateFilter.buttons}}"
+          >
+        </span>
+      </div>
 
     </div>
-    </form><!-- 配送信息 -->
+  </form>
 </div>

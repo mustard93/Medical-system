@@ -1,0 +1,222 @@
+<div ng-controller="invoicesOrderCtrl"
+     ng-init="outstockOrderForm={}"
+     ng-app=""
+     class="content-wrapper invoices-order"
+     ajax-url="rest/authen/invoicesOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="showData"
+     callback="distributionInfo=showData.distributionInfo;distributionInfo.id=showData.id;outstockOrderForm.invoicesId=showData.id"
+     alert-error>
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading mgt-m mgb-m">
+    <h1 class="pr-title-color pr-font-20">发货单</h1>
+  </div>
+  <!-- 主内容区域 -->
+  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+    <!-- 作废原因： -->
+    <div class="panel pr-panel pr-panel-height flex-column mgb"
+         ng-if="showData.orderStatus=='已作废'"
+         ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <span class="mgr-xl" ng-init="operItem=showData.operationFlowSet[showData.operationFlowSet.length-1]">作废原因：<em style="color:red">[{{operItem.inputUser}}]{{operItem.key}} {{operItem.message}}</em></span>
+    </div>
+
+    <!-- 单据信息 -->
+    <div class="flex-column pd-c-m pdt-m pdb-m bb-line" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <div class="flex-item-10">
+        <span class="mgr-m">发货单号：{{showData.orderNo}}</span>
+        <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
+
+        <span class="mgr-m">对应销售单：
+          <a href="#/confirmOrder/get.html?id={{showData.confirmOrderId}}">{{showData.confirmOrderNo}}</a>
+        </span>
+        <span>对应出库单：
+          <a href="#/outstockOrder/get.html?id={{showData.outStockOrderId}}">  {{showData.outStockOrderNo}}</a>
+          <!-- <button ng-if="!showData.outStockOrderNo&&showData.orderStatus!='已作废'&&$root.hasAuthor('出库单编辑')"
+                  ng-disabled="showData.orderStatus=='待发货'"
+                  class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                  type="button"
+                  ajax-url-submit="rest/authen/workflowTask/run.json"
+                  alert-error
+                  params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"销售单"}'
+                  callback="$root.goTo('#/outstockOrder/get.html?confirmOrderId='+showData.confirmOrderId)">生成出库单
+          </button> -->
+        </span>
+      </div>
+
+      <div class="flex-item-2 text-right">
+        <a
+        modal-center="1000px"
+        modal-data='{"businessKey":"{{showData.id}}"}'
+        modal-scope="this"
+        modal-url="views/workflowTask/getOfDialog.html"
+        >
+      <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 用户信息 -->
+    <div class="pd-c-m pdt-m pdb-m bb-line" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <p class="flex-column mgb">
+        <span class="flex-item-6">客户名：{{showData.customerName}}</span>
+        <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：{{showData.expectDate | date: 'yyyy-MM-dd'}}</span>
+      </p>
+      <p>收货人信息：{{showData.address.name}} {{showData.address.prov}}{{showData.address.city}}{{showData.address.area}}{{showData.address.address}} {{showData.address.tel}}</p>
+    </div>
+    <!-- 商品列表 -->
+    <div class="pd-c-m" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <!-- 可发货 -->
+      <div class="confirm-order bb-line pdb-l mgt-m">
+        <!-- <h1 class="pdt-l color-6 text-m pr-fw-500">订购清单</h1> -->
+
+        <div order-medicals  ng-model="showData.orderMedicalNos"></div>
+
+      </div>
+      <div class="pd-v-m">
+        <p>备注：{{showData.note}}</p>
+      </div>
+    </div>
+  </div>
+  <!-- 配送信息 -->
+
+
+  <!-- 配送信息 -->
+  <div class="panel pr-panel pr-fuzzy-boundary pd-m mgt" ng-class="{'pr-bg-grey2':(showData.orderStatus=='已作废')}">
+      <h1 class="pdb-l text-m color-6">配送信息</h1>
+      <div class="flex-column bb-line text-s">
+        <div class="flex-item-3">
+          <div class="form-group">
+            <label class="mgr">发货方式</label>
+            {{distributionInfo.type}}
+          </div>
+        </div>
+        <div class="flex-item-3">
+          <div class="form-group">
+            <label class="mgr">原件</label>
+            {{distributionInfo.originalParts}}
+          </div>
+        </div>
+        <div class="flex-item-3">
+          <div class="form-group">
+            <label class="mgr">散件</label>
+            {{distributionInfo.spareParts}}
+          </div>
+        </div>
+        <div class="flex-item-3">
+          <div class="form-group">
+            <label class="mgr">备货位</label>
+            {{distributionInfo.storageLocation}}
+          </div>
+        </div>
+      </div>
+      <!-- <h1 class="pdt-l pdb-l">附件</h1> -->
+      <div class="flex-column text-s mgt-m">
+        <div class="flex-item-7">
+          <div class="flex-column bb-line">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label class="mgr">发票</label>
+                {{distributionInfo.invoiceNo}}
+              </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label class="mgr">检测报告</label>
+                <a ng-if="distributionInfo.attachment" href="{{distributionInfo.attachment}}" >下载</a>
+
+              </div>
+            </div>
+          </div>
+          <div class="flex-column mgt">
+            <div class="flex-item-12">
+              <div class="form-group">
+                <label class="mgr">备注</label>
+                  {{distributionInfo.note}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex-item-5">
+          <div>
+            <!-- <img src="images/temp/tiaoxingma.jpg" alt="" style="height:105px;margin-left:100px;width:350px"> -->
+          </div>
+        </div>
+      </div>
+      <!-- 物流信息 -->
+
+      <div class="pd-v bt-line bb-line mgb" >
+
+        <h1 class="pd-v">物流信息</h1>
+        <div class="flex-column">
+          <div class="flex-item-8 text-s"  ng-repeat="item in showData.kuaidiSet" >
+           <span class="mgr">{{item.type}}：  <a    href="javacript:;"
+                class="mgr"
+                modal-center="600"
+                modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}"}'
+                modal-scope="this"
+                modal-url="views/kuaidi/query2.html"> {{item.nu}}</a></span>
+
+            <!-- <a ng-if="showData.orderStatus=='待发货'"
+               href="javacript:;"
+               class="mgr"
+               modal-right="600"
+               modal-data='{"invoicesOrderId":"{{distributionInfo.id}}","distributionInfo.type":"item.type","distributionInfo.nu":"item.nu"}'
+               modal-scope="this"
+               modal-url="views/invoicesOrder/kuaidi/edit.html">编辑</a> -->
+
+              <a ng-if="showData.orderStatus=='待发货'"
+                 href="javacript:;"
+                 class="mgr"
+                 modal-right="600"
+                 modal-data='{"id":"{{item.id}}","invoicesOrderId":"{{showData.id}}","type":"{{item.type}}","nu":"{{item.nu}}"}'
+                 modal-scope="this"
+                 modal-url="views/invoicesOrder/kuaidi/edit.html">编辑</a>
+
+            <a ng-if="showData.orderStatus=='待发货'" href="javacript:;" ng-click="deleteKuaidi(item,showData.id)" >删除</a>
+          </div>
+          <div ng-if="showData.orderStatus=='待发货'" class="flex-item-4 text-right text-s">
+            <button ng-if="$root.hasAuthor('发货单确认')"
+                    class="pr-add-item-whitebg"
+                    modal-right="600"
+                    modal-data='{"invoicesOrderId":"{{showData.id}}","formData":{},"addFlag":true}'
+                    modal-scope="this"
+                    modal-url="views/invoicesOrder/kuaidi/edit.html">添加...
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 流程图 -->
+      <business-flow-show business-key="{{showData.id}}" business-type="销售单"></business-flow-show>
+
+
+      <div class="text-right">
+        <span class="mgr-l"><a class="" href="#/invoicesOrder/query.html">返回</a></span>
+        <span ng-if="showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"></span>
+        <!-- <span class="mgr-l">
+          <span class="mgr-l"
+                ng-if="!showData.didateFilter.buttons&&showData.orderStatus=='待发货' && $root.hasAuthor('发货单确认')"
+                ng-init="rejectObj={url:'rest/authen/workflowTask/run.json',typeCode:'发货单驳回理由',formData:{businessKey:showData.confirmOrderId,conditionType:'驳回',type:'销售单',key:'缺货'},goUrl:'#/invoicesOrder/get.html?t=1&id='+showData.id}">
+            <a href="javascript:;"
+               modal-center="490"
+               modal-scope="this"
+               modal-url="views/public/dialog-check-reject.html">驳回</a>
+          </span>
+
+
+
+
+          <button class="pr-btn-save-glodbg"
+                  ng-if="!showData.didateFilter.buttons&&showData.orderStatus=='待发货' && $root.hasAuthor('发货单确认')"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认发货?"
+                  dialog-content="确认通知库房发货?此操作会同时打印发货单"
+                  dialog-template="pr-dialog-submit.html"
+                  params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"销售单"}'
+                    request-url="rest/authen/workflowTask/run.json"
+                  call-back="goTo('#/invoicesOrder/get.html?id={{showData.id}}&t=1')">确认发货</button>
+        </span> -->
+      </div>
+    </div><!-- 配送信息 -->
+
+</div>
