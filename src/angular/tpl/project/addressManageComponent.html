@@ -11,24 +11,20 @@
          ajax-url="{{requestUrl}}?type={{createAddressType}}&t={{$root.reloadTime}}"
          scope-data="returnAddressObj"
          callback="addressGetCallBack()">
-      <div clear-info-list>
-        <div class="address-div color-black relative" ng-repeat="tr in returnAddressObj.contacts" ng-click="choiseOtherItem(tr)">
-          <label ng-if="returnAddressObj.contacts.length>1" class="radio">
-            <input type="radio" class="default-radio" name="blankRadio" ng-checked="returnAddressObj.defaultContactId==tr.id"><i></i>
-          </label>
-          <!-- <label ng-if="returnAddressObj.defaultContactId==tr.id && returnAddressObj.contacts.length>1" class="radio">
-              <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
-          </label> -->
-          <span class="pdb mgr-s">{{tr.name}}</span>
-          <span class="text-s mgr-s">{{tr.tel}}</span>
-          <span class="text-s mgr-s">{{tr.prov}}&nbsp;{{tr.city}}&nbsp;{{tr.area}}</span>
-          <span class="address-span" title="{{tr.address}}">{{tr.address}}
-            <a ng-if="returnAddressObj.defaultContactId!=tr.id" class="mgl-m set-defualt-text" ng-click="setThisAddressToDefault(tr.id);$root.reloadTime=$root.utils.getNowTime();">设为默认</a>
-            <i class="consignee-default-label mgl-m" ng-if="returnAddressObj.defaultContactId==tr.id">默认</i>
-          </span>
-
-          <span class="pos-abs posr">
-
+      <div class="address-div color-black relative"
+           ng-class="{'addressComponent-active-bg':returnAddressObj.defaultContactId==tr.id}"
+           ng-repeat="tr in returnAddressObj.contacts">
+        <label ng-if="returnAddressObj.contacts.length>1" class="radio">
+          <input type="radio" class="default-radio" name="{{scopeDataPrefix}}" ng-checked="returnAddressObj.defaultContactId==tr.id" ng-click="choiseOtherItem(tr)"><i></i>
+        </label>
+        <span class="pdb mgr-s">{{tr.name}}</span>
+        <span class="text-s mgr-s">{{tr.tel}}</span>
+        <span class="text-s mgr-s">{{tr.prov}}&nbsp;{{tr.city}}&nbsp;{{tr.area}}</span>
+        <span class="address-span" title="{{tr.address}}">{{tr.address}}
+          <a ng-if="returnAddressObj.defaultContactId!=tr.id" class="mgl-m set-defualt-text" ng-click="setThisAddressToDefault(tr.id);$root.reloadTime=$root.utils.getNowTime();">设为默认</a>
+          <i class="consignee-default-label mgl-m" ng-if="returnAddressObj.defaultContactId==tr.id">默认</i>
+        </span>
+        <span class="pos-abs posr">
           <a ng-if="returnAddressObj.defaultContactId!==tr.id"
              handle-this-click
              dialog-title="确认删除?"
@@ -39,25 +35,22 @@
              params='{"contactId":"{{tr.id}}","customerAddressId":"{{returnAddressObj.id}}","type":"{{createAddressType}}"}'
              request-url="{{delThisAddressRequesturl}}">删除
           </a>
-
           <a class="mgl" href="javacript:;"
              modal-right="600"
              modal-data='{{getCurrentIndexAddress($index)}}'
              modal-scope="this"
              modal-url="{{modifyModalUrl}}">修改
           </a>
-
         </span>
       </div>
       <div class="pd-c-l mgt mgb">
-        <span  class="cur-pot color-href"
-                modal-right="600"
-                modal-data='{{returnCreateNewAddressObj()}}'
-                modal-scope="this"
-                modal-url="{{createModalUrl}}"><em class="fa fa-plus"></em> 新增地址信息
-        </span>
-      </div>
+      <span  class="cur-pot color-href"
+              modal-right="600"
+              modal-data='{{returnCreateNewAddressObj()}}'
+              modal-scope="this"
+              modal-url="{{createModalUrl}}"><em class="fa fa-plus"></em> 新增地址信息
+      </span>
     </div>
-  </div>
+    </div>
   </div>
 </div>
