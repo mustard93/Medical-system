@@ -2355,6 +2355,81 @@ function customTable() {
 }
 
 
+
+// tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
+/**
+   *
+  	* @Description: 鼠标移入高亮并显示两个按钮
+  	* @author liumingquan
+  	* @date 2016年12月19日 下午4:32:59
+   */
+
+   	   //  关键步骤：
+   	    //1.传入参数:url(跳转路径)，className(控制样式的class)
+   		//2.mouseenter:表示鼠标移入之后要执行的步骤。
+   		//3.mouseleave:表示鼠标移出后执行的步骤。
+function tableTrMouseOverMenu(utils,$compile){
+  return{
+    scope: {
+        tableTrMouseOverMenu:"="
+      },
+    restrict: 'A',
+      link: function ($scope, $element, $attrs) {
+
+        //弹出菜单的div(装两个按钮的div)
+        var  moveBtnDiv=$("<div></div>");
+        var tmp_template='<span query-item-card-button-list="tableTrMouseOverMenu"></span>';
+        moveBtnDiv.html(tmp_template);
+        $compile(moveBtnDiv.contents())($scope);
+        // console.log("html"+ moveBtnDiv.html());
+
+        // 鼠标移入显示按钮
+        $($element).mouseenter(function(e){
+          console.log(utils.getMainBodyWidth());
+
+          // var btnArray=[];
+          //按钮数量，用于计算弹出菜单的div宽度
+          var btnCount=0;
+          if($scope.tableTrMouseOverMenu){
+            btnCount=$scope.tableTrMouseOverMenu.length;
+          }
+          $element.addClass("bg-c");
+          if(!moveBtnDiv)return;
+          //+document.body.scrollLeft+
+          moveBtnDivWidth=34*btnCount;
+          // console.log("moveBtnDivWidth",moveBtnDivWidth);
+          var y =$element.offset().top -document.body.scrollTop;
+          var x= utils.getwindowWidth()-80-moveBtnDivWidth;
+
+          if(x<0)x=0;
+          //
+          moveBtnDiv.css({
+             "position": "fixed",
+             "width":moveBtnDivWidth,
+             "height":$element.height(),
+             "top": y,
+             "left": x
+           });
+          //  console.log("moveBtnDivWidth="+moveBtnDivWidth+",x="+x+",y="+y+",utils.getMainBodyWidth()="+utils.getMainBodyWidth());
+          //  console.log("e.pageX="+e.pageX+",e.pageY"+e.pageY);
+
+           $(this).append(moveBtnDiv);
+          
+
+        });//mouseenter
+        // 鼠标移出按钮消失
+        $($element).mouseleave(function(){
+          $(this).removeClass("bg-c");
+          moveBtnDiv.remove();
+          // for(var i=0;i<btnArray.length;i++){
+          //     // $(btnArray[i]).remove();
+          // }
+
+        });//mouseleave
+      }//link
+  };
+}
+
 /**
   用户自定义表结构显示。
 */
@@ -2750,5 +2825,6 @@ angular.module('manageApp.project')
   .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
+    .directive("tableTrMouseOverMenu",["utils","$compile",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
   .directive("medicalStockMouseOver",["utils",medicalStockMouseOver]);// 库存明细模块，鼠标移入高亮并显示两个按钮
 });
