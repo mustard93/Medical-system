@@ -1,6 +1,7 @@
 <div class="wrapper"
   ajax-url="rest/authen/uiCustomTable/getByClassName.json?className={{customTableName}}" style="min-height:600px;"
   scope-data="uICustomTable"
+  ng-init="bottomButtonList=[]"
 >
 
     <div class="loader" ng-if="status.isLoading">
@@ -17,11 +18,14 @@
         <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
         <p class="text-center">什么也没有</p>
       </div>
-        <div ng-if="tbodyList.length" class="outside-table-d pr-bg-white pr-fuzzy-boundary mgt">
+        <div ng-if="tbodyList.length" class="outside-table-d pr-bg-white pr-fuzzy-boundary mgt"
+        ajax-url="rest/authen/uICustomMenu/get_confirmOrder.json?name={{uICustomMenuName}}"
+  scope-data="uICustomMenu" alert-error  callback="bottomButtonList=uICustomMenu.items"
+        >
             <table class='{{uICustomTable.className||"table pr-table pr-new-table pr-table-content  table-wid"}}' style='{{uICustomTable.style}}' >
                 <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}}'>
                     <tr >
-                      <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th>
+                      <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
 
                         <th  class='{{item.thCss}}' style='{{item.thStyle}}'   ng-repeat="item in uICustomTable.items">
                           <div ng-if="item.thHtml"  ng-compile2="item.thHtml"></div>
@@ -33,10 +37,9 @@
                 <tbody>
                     <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered "
 
-                    medical-stock-mouse-over
-                    mouse-over-buttons-json={{mouseOverButtonsJson}}
+                    table-tr-mouse-over-menu="bottomButtonList"
                     >
-                      <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th>
+                      <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
 
                         <td  class='{{item.tdCss}}' style='{{item.tdStyle}}'  ng-repeat="item in uICustomTable.items">
                             <div ng-if="item.tdHtml"  ng-compile2="item.tdHtml"></div>
