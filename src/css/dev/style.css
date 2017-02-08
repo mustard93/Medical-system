@@ -402,6 +402,7 @@
     -webkit-border-radius: 3px;
     border-radius: 3px;
     margin-bottom: 0;
+    overflow: visible!important;
 }
 
 .progress-bar {
@@ -410,6 +411,7 @@
     text-align: right;
     padding-right: 10px;
     font-size: 11px;
+    border-radius: 5px;
 }
 
 /*alert*/
@@ -2598,7 +2600,7 @@ background-color: #e5e5e5!important;
 .pr-btn-bg-gold[disabled]:hover{
   background-color: #ccc;
 }
-input[disabled],button[disabled],textarea[disabled],select[disabled]{
+input[disabled],button[disabled],textarea[disabled],select[disabled],div[disabled],span[disabled]{
 	cursor: not-allowed!important;
 }
 /* 白色按钮 */
@@ -2907,7 +2909,7 @@ input[disabled],button[disabled],textarea[disabled],select[disabled]{
   height: 20px;
   background-image: url(../../images/pr-sprites.png);
   background-repeat: no-repeat;
-  background-position: -251px -809px;
+  background-position: -253px -810px;
 }
 
 /* 空数据 */
@@ -3783,6 +3785,34 @@ span.pr-icon-detail2 {
   border-radius: 5px;
   cursor: pointer;
 }
+.pr-progress:hover .purchaseorder-buyer-info{
+	display: block;
+	color: black;
+}
+.pr-progress .purchaseorder-buyer-info{
+	position:absolute;
+	top: -27px;
+	right: -10%;
+  display: none;
+  background-color: white;
+  z-index: 1;
+  -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+}
+.pr-progress .purchaseorder-buyer-info:before {
+  content: ' ';
+  position:absolute;
+  top:20px;
+  left:47%;
+  display:inline-block;
+  width:8px;
+  height:8px;
+  transform:translate(-50%) rotate(-45deg);
+  border:none;
+  z-index:1;
+  background-color:#fff;
+}
 .pr-progress-bar {
   background-color: #ff5e3a!important;
   border-top-right-radius: 5px;
@@ -3882,6 +3912,7 @@ span.popovers:hover, span.popovers > .purchaseorder-buyer-info:hover {
   z-index:1;
   background-color:#fff;
 }
+
 .panel-heading {
   border-bottom: none;
 }
@@ -5060,25 +5091,24 @@ padding-right: 10px;
 
 /*修改首映企业查询列表页面样式*/
 .first-enterprise-application .circle-ss-outspan{
-  width: 46px;
-  height: 46px;
+  width: 50px;
+  height: 50px;
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   position: relative;
   display: inline-block;
-  top: -30px;
 }
 
 .first-enterprise-application .circle-ss{
   position: relative;
-  right: 12px;
-  top: 10px;
+  right: 15px;
+  top: 13px;
 }
 .first-enterprise-application .purchaseorder-buyer-info{
   top: 33px;
   right:-33px;
 }
 .first-enterprise-application .purchaseorder-buyer-info-outside .purchaseorder-buyer-info{
-  top: 222px;
+  top: 235px;
   right: -60px;
 }
 .right-side-new{
@@ -5306,6 +5336,60 @@ padding-right: 10px;
   margin-left: -20px;
   margin-right: -20px;
   padding-left: 20px;
+}
+/* 表格行功能按钮样式新版 */
+.table-item-handle-btn {
+	display: inline-block;
+  position: fixed;
+	top: 0;
+	left: 0;
+  width: 32px;
+  height: 32px;
+  background: rgba(255,56,56,0.95);
+  box-shadow: 0 1px 4px 0 #F54440;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background-image: url(../../images/pr-sprites.png);
+  background-repeat: no-repeat;
+  background-position: -184px -432px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: 10px;
+  cursor: pointer;
+	z-index: 1;
+	/*display: none;*/
+}
+.table-item-handle-btn > div.table-item-confirm-del-area {
+	margin-top: 10px;
+  border: 1px solid #c7a77b;
+  width: 150px;
+  height: 85px;
+  position: absolute;
+  top: 28px;
+  left: -108px;
+  z-index: 110;
+	text-align: center;
+  /*display: none;*/
+}
+.table-item-handle-btn > div:last-child {
+	margin-top: 12px;
+	border: 1px solid #c7a77b;
+	/*display: none;*/
+}
+.table-item-handle-btn > div.table-item-confirm-del-area:before {
+	content: ' ';
+	position: absolute;
+	top: -6px;
+	right: 20px;
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+	background-color: #fff;
+	transform: rotate(-45deg);
+	border-color: #c7a77b;
+	border-top: 1px solid #c7a77b;
+	border-right: 1px solid #c7a77b;
 }
 
 /* datepicker */

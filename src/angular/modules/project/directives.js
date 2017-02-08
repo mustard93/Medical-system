@@ -1661,33 +1661,24 @@ function medicalStockMouseOver(utils){
         // 把按钮基础数据转化为数组类型
         var mouseOverButtons=  $scope.$eval($attrs.mouseOverButtonsJson);
         if(mouseOverButtons && mouseOverButtons.length>0){
-          moveBtnDiv=$("<div></div>");
+          moveBtnDiv=$("<div id='moveBtnDiv'></div>");
           btnCount=mouseOverButtons.length;
         }
 
         for(var i=0;i<mouseOverButtons.length;i++){
             var bt=mouseOverButtons[i];
-              //bt.url; 跳转url
-              //bt.className;
+            if (bt.progress=='0') {
+              return;
+            }else{
               var tmp="<a style='width:32px;height:32px;display:inline-block;margin-top:8px;' href='"+bt.url+"' title='"+bt.title+"'><span class='"+bt.className+"'></span></a>";
-              // 特殊处理
-              // if('pos-s pr-arrow-r'==bt.className){
-              //   tmp="<a href='"+bt.url+"'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>";
-              // }
-
-            var btn1=$(tmp);
-            // btn1.appendto(moveBtnDiv);
-            moveBtnDiv.append(btn1);
-            // btnArray.push(btn1);
+              var btn1=$(tmp);
+              // btn1.appendto(moveBtnDiv);
+              moveBtnDiv.append(btn1);
+            }
         }
 
-        //  var btn1=$("<a class='relative' href='#/medicalStock/get.html?relMedicalStockId="+attrs.medicalId+"'><span class='circle-icon pos-icon1 pos-abs pr-icon-bg11'></span></a>");
-        //  var btn2=$("<a class='relative' href='#/medicalStock/get1.html'><span class='circle-icon pos-icon2'><span class='pos-s pr-arrow-r'></span></span></a>");
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
-
-          console.log(utils.getMainBodyWidth());
-
           $element.addClass("bg-c");
           if(!moveBtnDiv)return;
           //+document.body.scrollLeft+
@@ -1815,6 +1806,37 @@ function salesorderEditShowDelbtn () {
         });
       });
     }
+  };
+}
+
+/**
+ * [purchaseorderEditShowDelbtn 新版采购单新建页药品列表中删除功能按钮]
+ * @return {[type]} [description]
+ */
+function tableItemHandlebtnComponent (utils) {
+  return {
+    restrict: 'A',
+    scope: true,
+    link: function (scope, element, attrs) {
+      $(element).hover(function () {
+        // 计算当前tr距离顶部的高度
+        var _offsetTop = $(element).offset().top - document.body.scrollTop;
+        // 计算当前页面宽度
+        var _pageWidth = utils.getMainBodyWidth() + 65;
+        // 修改定位
+        $('.table-item-handle-btn').css({'top':_offsetTop, 'left':_pageWidth}).show();
+      }, function () {
+        $('.table-item-handle-btn').hide();
+        scope.showHandleArea = false;
+      });
+    },
+    controller: ['$scope', '$element', function ($scope, $element) {
+      $scope.hideThisBtn = function () {
+        // console.log($element);
+        $('.table-item-handle-btn').hide();
+        $scope.showHandleArea = false;
+      };
+    }]
   };
 }
 
@@ -2138,8 +2160,6 @@ function angucompleteMedicalStockBatch($parse, requestData, $sce, $timeout) {
     };
 }//angucompleteMedicalStockBatch
 
-
-
 /**
  * 自动补全-供应商
  */
@@ -2228,9 +2248,6 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
         }
     };
 }
-
-
-
 
 /**
  * 闪加药械
@@ -2505,8 +2522,6 @@ function bottomButtonList() {
   };
 }
 
-
-
 /**
   查询列表(卡片)条目列表
 */
@@ -2758,6 +2773,7 @@ function requestExpressInfoTab (requestData, alertError) {
 }
 
 angular.module('manageApp.project')
+  .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
   .directive("expressBtnToggle", [expressBtnToggle])
   .directive("textareaJson", ['utils', 'alertError', textareaJson]) //textarea-json
@@ -2773,7 +2789,7 @@ angular.module('manageApp.project')
   .directive("flashAddMedical", [flashAddMedical])
   .directive("angucompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
-    .directive("angucompleteSupplier", ["$parse", "requestData", "$sce", "$timeout",angucompleteSupplier])
+  .directive("angucompleteSupplier", ["$parse", "requestData", "$sce", "$timeout",angucompleteSupplier])
   .directive("modalImgShow", ["modal","utils",modalImgShow])//显示原图
   .directive("datePeriodSelect", [datePeriodSelect])
   .directive("umeditor", ["$timeout",umeditor])  // html编辑器

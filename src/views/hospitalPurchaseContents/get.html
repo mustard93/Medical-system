@@ -5,6 +5,17 @@
      callback=""
      alert-error
      style="min-height:2300px;">
+     <form id="editForm"
+           name="editForm"
+           form-validator
+           parameter-body
+           action="rest/authen/customerAddress/save.json"
+           alert-error
+           alert-ok
+           scope-error-msg="errorMsg"
+           callback="submitFormAfter();$root.watchFormChange('formData',this)"
+           novalidate="true">
+
   <div class="page-header-info">
     <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
     <h1>医院采购目录</h1>
@@ -16,7 +27,7 @@
       <div class="flex-item-6">
         <span class="mgr-l">医院名称：<em class="color-6">{{showData.name || '未知名称'}}</em></span>
         <span class="mgr-l">系统编号：<em class="color-6">{{showData.code}}</em></span>
-        <span class="mgr-l">采购周期：<em class="color-6">{{}}</em></span>
+
       </div>
       <div class="flex-item-6 text-right">
         <span class="mgr-l">修改人：<em class="color-custom-orange">{{showData.updateUserName}}</em></span>
@@ -28,8 +39,20 @@
                 search-mode="noCaseSensitive"
                 search-param="q">
       <!-- 采购目录 -->
-      <div class="content-wrapper-heading" style="height:35px;">
-        <div class="text-right order-list-search mgb">
+      <div class="pd-v-l">
+        <div class="inline-block">
+        <em class="fl-l">录单有效期至：</em>
+          <div class="date-icon-outside">
+            <input type="text"
+                   datepicker
+                   class="ipt-date color-6 mgr pr-indent-10"
+                   ng-readonly="true"
+                   ng-model="formData.guaranteePeriod"
+                   placeholder="">
+            <span class="date-icon"></span>
+          </div>{{formData}}
+        </div>
+      <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
           <input type="text" class="ipt pdr-xxl" placeholder="药械名称/编号" ng-model="listParams.q">
           <i class=""></i>
         </div>
@@ -138,7 +161,15 @@
       </table>
     </div>
     <p class="text-right pd-v-m">
-      <a href="#/hospitalPurchaseContents/query.html">返回医院采购目录列表</a>
+    <a href="javascript:;" class="mgr"
+         handle-this-click
+         dialog-title="确认返回?"
+         dialog-content="该采购单存在未保存数据，是否保存?"
+         dialog-template="pr-dialog-return.html"
+         nosave-callback="goTo('#/hospitalPurchaseContents/query.html')"
+         save-callback="submitForm('editForm','submit')">返回医院采购目录列表
+      </a>
     </p>
   </div>
+</form>
 </div>
