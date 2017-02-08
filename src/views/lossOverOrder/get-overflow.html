@@ -1,35 +1,36 @@
-<div class="content-wrapper"
+<div
      ajax-url="rest/authen/lossOverOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
      alert-error>
      <!-- 头部信息 -->
-     <div class="relative bb-line">
-       <div class="pd-l">
-         <!-- 标题 -->
-         <div class="mgb-m">
-           <p class="mgb-m crumbs pr-indent-20">库存管理 >
-           <a href="#/lossOverOrder/query-overflow.html">
-             <em class="color-orange">报溢单</em>
-           </a>
-             > 报溢申请单详情</p>
-           <h1 class="pr-font-22 color-black">报溢申请单详情</h1>
-         </div>
-         <h1 class="color-black text-l">
-           <!-- 昆明库 -->
-           {{showData.warehouseName}}
-       </h1>
-       </div>
-       <div ng-if="showData.orderStatus=='未通过'"
-        class="pr-panel pr-panel-height mgb">
-         <em class="color-red">原因:</em>
-         <em>{{showData.operationFlowSet[1].key}}</em>
-         <em>{{showData.operationFlowSet[1].message}}</em>
-       </div>
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">库存管理 >
+        <a href="#/lossOverOrder/query-overflow.html"><em class="color-custom-orange">报溢单</em></a>
+        <em>>报溢申请单详情</em>
+       </p>
+       <div class="pd-c-xl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb-l">
+          <h1 class="color-black pr-font-20 pr-indent-20">报溢申请单详情</h1>
+        </div>
+        <div class="mgb-l">
+          <h1 class="color-black text-l pr-indent-20">
+            <!-- 昆明库 -->
+            {{showData.warehouseName}}
+        </h1>
+        </div>
+      </div>
+      <div ng-if="showData.orderStatus=='未通过'"
+       class="pr-panel pr-panel-height mgb">
+        <em class="color-red">原因:</em>
+        <em>{{showData.operationFlowSet[1].key}}</em>
+        <em>{{showData.operationFlowSet[1].message}}</em>
+      </div>
      </div>
      <!-- 主内容区域 -->
-    <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-      <div class=" color-9">
+    <div class="content-wrapper  pr-fuzzy-boundary text-s">
+      <div class=" color-9 pr-bg-white">
         <p class="flex-column mgb  pd">
           <span class="flex-item-5">
             单据编号：<em >{{showData.orderNo || '暂无'}}</em>
@@ -128,12 +129,13 @@
             </div>
 
       </div>
-    </div>
-    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
-      <!-- 备注 -->
-      <div class="note">
-        <p class="pd-v-l">备注：{{showData.note}}</p>
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
+        <!-- 备注 -->
+        <div class="note">
+          <p class="pd-v-l">备注：{{showData.note}}</p>
+        </div>
       </div>
+
     </div>
 </div>
 
