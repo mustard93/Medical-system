@@ -80,7 +80,13 @@
 
                   </span>
                   <span class="flex-item-6 text-right">
-                    <span ng-if="tr.orderStatus=='待处理'||tr.orderStatus=='处理中'" >
+                    <span ng-if="tr.orderStatus=='待处理'||tr.orderStatus=='处理中'" >  
+                      <a
+                      class="btn-link pd-m rect-s"
+                      title="编辑"
+                      href="#/requestPurchaseOrder/edit.html?id={{tr.id}}" class="mgl">
+                      <span class="edit-link-icon">&nbsp;</span>
+                      </a>
                       <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
                          title="删除"
@@ -92,12 +98,6 @@
                          request-url="rest/authen/requestPurchaseOrder/delete?id={{tr.id}}"
                          emitted="reloadList">
                          <span class="delete-link-icon">&nbsp;</span>
-                      </a>
-                      <a
-                      class="btn-link pd-m rect-s"
-                      title="编辑"
-                      href="#/requestPurchaseOrder/edit.html?id={{tr.id}}" class="mgl">
-                      <span class="edit-link-icon">&nbsp;</span>
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus=='已处理'" class=" text-right">

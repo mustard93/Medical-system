@@ -1,6 +1,6 @@
-<div   ng-controller="invoicesOrderCtrl"
-class="content-wrapper invoices-order"
-         ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+<div  ng-controller="invoicesOrderCtrl"
+      class="content-wrapper invoices-order"
+      ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="showData"
      callback="formData=showData.distributionInfo;formData.id=showData.id"
      alert-error>
@@ -140,12 +140,6 @@ class="content-wrapper invoices-order"
     <!-- 提交按钮 -->
     <div class="pdb-xxl text-right">
       <span class="mgr">
-        <!-- <a href="javascript:;"
-               handle-this-click
-               nosave-callback="goTo('#/invoicesOrder/query.html')"
-               save-callback="submitForm('editForm','exit')"
-               dialog-template="pr-dialog-return.html">返回
-        </a> -->
         <a href="#/invoicesOrder/query.html">返回发货单列表</a>
       </span>
       <span ng-if="$root.hasAuthor('发货单编辑')" class="mgr">
@@ -153,51 +147,15 @@ class="content-wrapper invoices-order"
                 type="submit">保存
         </button>
       </span>
-      <span>
-
-      <!-- <button ng-if="$root.hasAuthor('发货单编辑')"
-              type="button"
-              class="pr-btn-create-glodbg"
-              handle-this-click
-              dialog-title="确认提交发货单?"
-              dialog-content="提交后,您将无法修改发货单,确认提交?"
-              dialog-template="pr-dialog-submit.html"
-              call-back="submitForm('editForm','submit')">提交发货</button>
-      </span> -->
-
-      <!-- <span ng-if="formData&& showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
-
-        before-if-eval="formData"
-          before-ajax-parameter-body="true"
-        before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
-        before-ajax-params="formData"
-
-        ></span> -->
-        <!-- <span ng-if="formData&& showData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
-
-          ></span>
- -->
-
-
-          <span ng-if="formData&& showData.didateFilter.buttons.length>0"
-                    before-if-eval="formData"
-                      before-ajax-parameter-body="true"
-                    before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
-                    before-ajax-params="formData"
-              custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
-
-            ></span>
-
-      <!-- <button class="pr-btn-save-glodbg"
-              ng-if="$root.hasAuthor('发货单编辑')"
-              type="button"
-              handle-this-click
-              dialog-title="确认提交发货单?"
-              dialog-content="提交后,您将无法修改发货单,确认提交?"
-              dialog-template="pr-dialog-submit.html"
-              params='{"businessKey":showData.confirmOrderId,"conditionType":"通过","type":"发货单"}'
-                request-url="rest/authen/workflowTask/run.json"
-              call-back="goTo('#/invoicesOrder/get.html?id={{showData.id}}&t=1')">提交发货</button> -->
+    <span>
+    <span ng-if="formData&& showData.didateFilter.buttons.length>0"
+              before-if-eval="formData"
+                before-ajax-parameter-body="true"
+              before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
+              before-ajax-params="formData"
+        custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
+      >
+    </span>
 
     </div>
     </form><!-- 配送信息 -->

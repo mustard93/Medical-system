@@ -676,6 +676,13 @@ define('project/controllers', ['project/init'], function() {
         alertWarn('cancelForm');
       };
 
+      // 取消删除表格中一条数据
+      $scope.hideThisBtn = function () {
+        // console.log($element);
+        $('.sales-order-item-delbtn').hide();
+        $scope.showHandleArea = false;
+      };
+
   }
 
   /**
@@ -851,6 +858,12 @@ define('project/controllers', ['project/init'], function() {
       $scope.cancelForm = function(fromId, url) {
         alertWarn('cancelForm');
       };
+      // 取消删除表格中一条数据
+      $scope.hideThisBtn = function () {
+        // console.log($element);
+        $('.sales-order-item-delbtn').hide();
+        $scope.showHandleArea = false;
+      };
 
   }
 
@@ -866,7 +879,7 @@ define('project/controllers', ['project/init'], function() {
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
-        $scope.goTo('#/invoicesOrder/query.html');
+        $scope.goTo('#/confirmOrder/query.html');
        return;
      }else   if ($scope.submitForm_type == 'print') {
        var url="indexOfPrint.html#/print/confirmOrderPrint.html?id="+$scope.formData.id;
