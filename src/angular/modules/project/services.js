@@ -392,6 +392,43 @@ define('project/services', ['project/init'], function () {
 
                     return arr;
                   },
+                getQuery_invoicesOrder:function(showData){
+                  var arr=[];
+                  var  bottomButton={"ngShow":"tr.orderStatus=='未提交'", "showName":"删除",
+                    "iconClass":"delete-link-icon",
+                    "type":"handleThisClick",
+                    "alertTemplate":"pr-dialog-submit.html",
+                    "requestUrl":"rest/authen/invoicesOrder/delete?id="+showData.id,
+                    "aclass":"btn-link pd-m rect-s mr--4",
+                    "alertTitle":"确认删除?",
+                    "alertMsg":"删除后将无法恢复,确认删除?",
+                    "ngClick":"$root.goTo('#/invoicesOrder/query.html')"};
+                    // if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    // bottomButton = {
+                    //   "iconClass":"View-Logistics-icon","showName":"查看物流",
+                    //   "ngShow":"tr.orderStatus=='已发货'",
+                    //   "aclass":"btn-link pd-m rect-s mr--4",
+                    //   "ahref":"#/invoicesOrder/get.html?openWuliu=true&id="+showData.id
+                    // };
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    bottomButton = {
+                      "iconClass":"edit-link-icon","showName":"编辑",
+                      "ngShow":"tr.orderStatus=='未提交'",
+                      "aclass":"btn-link pd-m rect-s",
+                      "ahref":"#/invoicesOrder/edit.html?id="+showData.id
+                    };
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    bottomButton = {
+                      "iconClass":"watch-detail-icon","showName":"查看详情",
+                      "ngShow":"tr.orderStatus!='未提交'",
+                      "aclass":"btn-link pd-m rect-s",
+                      "ahref":"#/invoicesOrder/get.html?id="+showData.id};
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                    return arr;
+                  },
                 //销售退货单列表页
                 getQuery_saleReturnOrder:function(showData){
                   var arr=[];

@@ -4,29 +4,31 @@
      callback="formData={};formData.id=showData.id"
      alert-error>
      <!-- 头部信息 -->
-     <div class="relative bb-line">
-       <div class="pd-l">
-         <!-- 标题 -->
-         <div class="mgb-m">
-           <p class="mgb-m crumbs pr-indent-10">库存管理 >
-             <a href="#/freezeThawOrder/query-freeze.html">
-               <em class="color-custom-orange">批次冻结单</em>
-             </a>
-             > 批次冻结申请单详情</p>
-           <h1 class="pr-font-22 color-black">批次冻结申请单详情</h1>
-         </div>
-         <h1 class="color-black text-l">
-           <!-- 昆明库 -->
-           {{showData.warehouseName}}
-       </h1>
-       </div>
-       <div ng-if="showData.orderStatus=='未通过'"
-        class="pr-panel pr-panel-height mgb">
-         <em class="color-red">原因:</em>
-         <em>{{showData.operationFlowSet[1].key}}</em>
-         <em>{{showData.operationFlowSet[1].message}}</em>
-       </div>
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">库存管理 >
+        <a href="#/requestPurchaseOrder/query.html"><em class="color-custom-orange">批次冻结单</em></a>
+        <em>>批次冻结申请单详情</em>
+       </p>
+       <div class="pd-c-xl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb-l">
+          <h1 class="color-black pr-font-20 pr-indent-20">批次冻结申请单详情</h1>
+        </div>
+        <div class="mgb-l">
+          <h1 class="color-black text-l">
+            <!-- 昆明库 -->
+            {{showData.warehouseName}}
+        </h1>
+        </div>
+      </div>
+      <div ng-if="showData.orderStatus=='未通过'"
+       class="pr-panel pr-panel-height mgb">
+        <em class="color-red">原因:</em>
+        <em>{{showData.operationFlowSet[1].key}}</em>
+        <em>{{showData.operationFlowSet[1].message}}</em>
+      </div>
      </div>
+
      <!-- 主内容区域 -->
     <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
       <div class=" color-9">
@@ -58,7 +60,7 @@
                         <th class="text-center">商品编码</th>
                         <th class="text-center">商品代码</th>
                         <th class="text-left">商品名称</th>
-                        <th class="text-center">规格型号</th>
+                        <th class="text-center">规格/型号</th>
                         <th class="text-center">单位</th>
                         <th class="text-center">数量</th>
                         <th class="text-center">生产批号/灭菌批号</th>
@@ -82,7 +84,7 @@
                           {{tr.name}}
                         </td>
                         <td class="text-center">
-                          {{tr.modelType}}
+                          {{tr.specificationAndModelType}}
                         </td>
                         <td class="text-center">
                           {{tr.unit}}
