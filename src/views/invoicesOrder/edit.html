@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <!-- <div class="confirm-order-edit"
      ng-controller="invoicesOrderCtrl"
      ajax-url="rest/authen/invoicesOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&invoicesOrderId={{mainStatus.pageParams.invoicesOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
@@ -29,44 +29,6 @@
             <em class="color-custom-orange">发货单</em>
         </a>
         <em>>编辑发货单</em>
-=======
-<div  ng-controller="invoicesOrderCtrl"
-      class="content-wrapper invoices-order"
-      ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
-     scope-data="showData"
-     callback="formData=showData.distributionInfo;formData.id=showData.id"
-     alert-error>
-  <!-- 主内容头部 -->
-  <div class="content-wrapper-heading mgt-m mgb-m">
-    <h1 class="pr-title-color pr-font-20">发货单</h1>
-  </div>
-  <!-- 主内容区域 -->
-  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-    <!-- 单据信息 -->
-    <div class="flex-column pd-c-m pdt-m pdb-m bb-line">
-
-      <div   class="flex-item-10">
-        <span class="mgr-m">发货单：{{showData.orderNo}}</span>
-        <span class="mgr-m">创建时间：{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span>
-
-        <span class="mgr-m">对应订单：
-          <a href="#/confirmOrder/get.html?id={{showData.confirmOrderId}}">{{showData.confirmOrderNo}}</a>
-        </span>
-        <span>对应出库单：
-  <a href="#/outstockOrder/get.html?id={{showData.outStockOrderId}}">  {{showData.outStockOrderNo}}</a>
-
-        </span>
-      </div>
-      <div class="flex-item-2 text-right">
-        <span>状态：{{showData.orderStatus}}</span>
-      </div>
-    </div>
-    <!-- 用户信息 -->
-    <div class="pd-c-m pdt-m pdb-m bb-line">
-      <p class="flex-column mgb">
-        <span class="flex-item-6">客户名：{{showData.customerName}}</span>
-        <span class="flex-item-6 text-right"><em class="mgr-m">销售人员：{{showData.saleUser.n}}</em> 期望到货时间：{{showData.expectDate | date: 'yyyy-MM-dd'}}</span>
->>>>>>> V1.00.06.2_Beta
       </p>
       <!-- 标题 -->
       <div class="pd-c-xxxxxl">
@@ -179,7 +141,6 @@
         <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="scopeData.note"></textarea>
       </div>
     </div>
-<<<<<<< HEAD
 
     <!-- 流程图 -->
     <business-flow-show business-key="{{scopeData.id}}" business-type="销售单"></business-flow-show>
@@ -219,31 +180,7 @@
           >
         </span>
       </div>
-=======
-    <!-- 流程图 -->
 
-    <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
-
-    <!-- 提交按钮 -->
-    <div class="pdb-xxl text-right">
-      <span class="mgr">
-        <a href="#/invoicesOrder/query.html">返回发货单列表</a>
-      </span>
-      <span ng-if="$root.hasAuthor('发货单编辑')" class="mgr">
-        <button class="pr-btn-save-glodbg"
-                type="submit">保存
-        </button>
-      </span>
-    <span>
-    <span ng-if="formData&& showData.didateFilter.buttons.length>0"
-              before-if-eval="formData"
-                before-ajax-parameter-body="true"
-              before-ajax-url-submit="rest/authen/invoicesOrder/updateDistributionInfo.json"
-              before-ajax-params="formData"
-        custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}"
-      >
-    </span>
->>>>>>> V1.00.06.2_Beta
 
     </div>
   </form>
