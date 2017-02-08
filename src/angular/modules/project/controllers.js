@@ -879,7 +879,7 @@ define('project/controllers', ['project/init'], function() {
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
-        $scope.goTo('#/invoicesOrder/query.html');
+        $scope.goTo('#/confirmOrder/query.html');
        return;
      }else   if ($scope.submitForm_type == 'print') {
        var url="indexOfPrint.html#/print/confirmOrderPrint.html?id="+$scope.formData.id;
