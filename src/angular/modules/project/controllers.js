@@ -676,6 +676,13 @@ define('project/controllers', ['project/init'], function() {
         alertWarn('cancelForm');
       };
 
+      // 取消删除表格中一条数据
+      $scope.hideThisBtn = function () {
+        // console.log($element);
+        $('.sales-order-item-delbtn').hide();
+        $scope.showHandleArea = false;
+      };
+
   }
 
   /**
@@ -850,6 +857,12 @@ define('project/controllers', ['project/init'], function() {
       // 取消订单
       $scope.cancelForm = function(fromId, url) {
         alertWarn('cancelForm');
+      };
+      // 取消删除表格中一条数据
+      $scope.hideThisBtn = function () {
+        // console.log($element);
+        $('.sales-order-item-delbtn').hide();
+        $scope.showHandleArea = false;
       };
 
   }

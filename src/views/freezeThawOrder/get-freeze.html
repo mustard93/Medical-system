@@ -1,35 +1,37 @@
-<div class="content-wrapper"
+<div
      ajax-url="rest/authen/freezeThawOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.id"
      alert-error>
      <!-- 头部信息 -->
-     <div class="relative bb-line">
-       <div class="pd-l">
-         <!-- 标题 -->
-         <div class="mgb-m">
-           <p class="mgb-m crumbs pr-indent-10">库存管理 >
-             <a href="#/freezeThawOrder/query-freeze.html">
-               <em class="color-custom-orange">批次冻结单</em>
-             </a>
-             > 批次冻结申请单详情</p>
-           <h1 class="pr-font-22 color-black">批次冻结申请单详情</h1>
-         </div>
-         <h1 class="color-black text-l">
-           <!-- 昆明库 -->
-           {{showData.warehouseName}}
-       </h1>
-       </div>
-       <div ng-if="showData.orderStatus=='未通过'"
-        class="pr-panel pr-panel-height mgb">
-         <em class="color-red">原因:</em>
-         <em>{{showData.operationFlowSet[1].key}}</em>
-         <em>{{showData.operationFlowSet[1].message}}</em>
-       </div>
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">库存管理 >
+        <a href="#/freezeThawOrder/query-freeze.html"><em class="color-custom-orange">批次冻结单</em></a>
+        <em>>批次冻结申请单详情</em>
+       </p>
+       <div class="pd-c-xl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb-l">
+          <h1 class="color-black pr-font-20 pr-indent-20">批次冻结申请单详情</h1>
+        </div>
+        <div class="mgb-l">
+          <h1 class="color-black text-l pr-indent-20">
+            <!-- 昆明库 -->
+            {{showData.warehouseName}}
+        </h1>
+        </div>
+      </div>
+      <div ng-if="showData.orderStatus=='未通过'"
+       class="pr-panel pr-panel-height mgb">
+        <em class="color-red">原因:</em>
+        <em>{{showData.operationFlowSet[1].key}}</em>
+        <em>{{showData.operationFlowSet[1].message}}</em>
+      </div>
      </div>
+
      <!-- 主内容区域 -->
-    <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-      <div class=" color-9">
+    <div class="content-wrapper pr-fuzzy-boundary text-s">
+      <div class=" color-9 bg-white">
         <p class="flex-column mgb  pd">
           <span class="flex-item-5">
             单据编号：<em >{{showData.orderNo || '暂无'}}</em>
@@ -37,7 +39,7 @@
             <em  class="mgl">部门：</em><em>{{showData.departmentName|| '暂无'}}</em>
             <em  class="mgl">制单人：</em><em class="color-black">{{showData.inputUser.n|| '暂无'}}</em>
             <em  class="mgl">
-              审批人：</em><em class="color-black">{{showData.inputUser.n || '暂无'}}</em>
+              审批人：</em><em class="color-black">{{showData.approverUser.n || '暂无'}}</em>
           </span>
           <span class="flex-item-6 text-right">
             申请日期：<em >{{showData.createAt | date : 'yyyy-MM-dd' || '暂无'}}</em>
@@ -50,90 +52,89 @@
 
           <!-- 主内容头部 -->
             <!-- 主内容区域 -->
-            <div class="content-wrapper-main ">
-              <div>
-                <table class=" table pr-table pr-new-table" >    <!-- table-wid -->
-                    <thead class="pr-bg-side">
-                      <tr>
-                        <th class="text-center">商品编码</th>
-                        <th class="text-center">商品代码</th>
-                        <th class="text-left">商品名称</th>
-                        <th class="text-center">规格/型号</th>
-                        <th class="text-center">单位</th>
-                        <th class="text-center">数量</th>
-                        <th class="text-center">生产批号/灭菌批号</th>
-                        <th class="text-center">生产日期</th>
-                        <th class="text-center">保质期</th>
-                        <th class="text-center">失效日期</th>
-                        <th class="text-center">产品执行标准</th>
-                        <th class="text-center">保存温度</th>
-                        <th class="text-center">产地品牌</th>
-                        <th class="text-center">产品注册证号</th>
-                        <th class="text-center">注册证有效期</th>
-                      </tr>
-                    </thead>
+    <div class="content-wrapper-main ">
+      <div>
+        <table class=" table pr-table pr-new-table" >    <!-- table-wid -->
+            <thead class="pr-bg-side">
+              <tr>
+                <th class="text-center">商品编码</th>
+                <th class="text-center">商品代码</th>
+                <th class="text-left">商品名称</th>
+                <th class="text-center">规格/型号</th>
+                <th class="text-center">单位</th>
+                <th class="text-center">数量</th>
+                <th class="text-center">生产批号/灭菌批号</th>
+                <th class="text-center">生产日期</th>
+                <th class="text-center">保质期</th>
+                <th class="text-center">失效日期</th>
+                <th class="text-center">产品执行标准</th>
+                <th class="text-center">保存温度</th>
+                <th class="text-center">产地品牌</th>
+                <th class="text-center">产品注册证号</th>
+                <th class="text-center">注册证有效期</th>
+              </tr>
+            </thead>
 
-                    <tbody class="pr-bg-white" >
+            <tbody class="pr-bg-white" >
 
-                      <tr ng-repeat="tr in showData.orderMedicalNos" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
-                        <td class="text-center">{{tr.code}}</td>
-                        <td class="text-center">{{tr.goodsCode}}</td>
-                        <td class="text-center">
-                          {{tr.name}}
-                        </td>
-                        <td class="text-center">
-                          {{tr.specificationAndModelType}}
-                        </td>
-                        <td class="text-center">
-                          {{tr.unit}}
-                        </td>
+              <tr ng-repeat="tr in showData.orderMedicalNos" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                <td class="text-center">{{tr.code}}</td>
+                <td class="text-center">{{tr.goodsCode}}</td>
+                <td class="text-center">
+                  {{tr.name}}
+                </td>
+                <td class="text-center">
+                  {{tr.specificationAndModelType}}
+                </td>
+                <td class="text-center">
+                  {{tr.unit}}
+                </td>
 
-                        <td class="text-center">
-                        {{tr.quantity}}
-                        </td>
-                        <td class="text-center">
-                          <!-- 生产批号 -->
-                        {{tr.productionBatch}}
-                        </td>
+                <td class="text-center">
+                {{tr.quantity}}
+                </td>
+                <td class="text-center">
+                  <!-- 生产批号 -->
+                {{tr.productionBatch}}
+                </td>
 
-                        <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
-                        <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-                        <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
-                        <td class="text-center">
-                            {{tr.productStandard}}
-                          <!-- 产品执行标准 -->
-                        </td>
+                <td class="text-center">
+                    {{tr.productStandard}}
+                  <!-- 产品执行标准 -->
+                </td>
 
-                        <td class="text-center">
-                            {{tr.storedTemperature}}
-                          <!-- 保存温度 -->
-                        </td>
+                <td class="text-center">
+                    {{tr.storedTemperature}}
+                  <!-- 保存温度 -->
+                </td>
 
-                        <td class="text-center">
-                          {{tr.brand}}
-                        </td>
+                <td class="text-center">
+                  {{tr.brand}}
+                </td>
 
-                        <td class="text-center">
-                        {{tr.drugAdministrationCode}}
-                        </td>
-                        <td>
-                          {{tr.drugAdministrationCodeGuaranteePeriod}}
-                        </td>
-                      </tr>
-                    </tbody>
-                </table>
-              </div>
-            </div>
-
+                <td class="text-center">
+                {{tr.drugAdministrationCode}}
+                </td>
+                <td>
+                  {{tr.drugAdministrationCodeGuaranteePeriod}}
+                </td>
+              </tr>
+            </tbody>
+        </table>
       </div>
     </div>
+  </div>
     <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
       <!-- 备注 -->
       <div class="note">
         <p class="pd-v-l">备注：{{showData.note}}</p>
       </div>
     </div>
+  </div>
 </div>
 
 
