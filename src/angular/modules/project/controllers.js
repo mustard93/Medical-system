@@ -2703,7 +2703,7 @@ define('project/controllers', ['project/init'], function() {
 
         requestData('rest/authen/customerAddress/save', $scope.showData, 'POST', 'parameter-body')
         .then(function (results) {
-          console.log(results);
+          // console.log(results);
         })
         .catch(function (error) {
           if (error) {
