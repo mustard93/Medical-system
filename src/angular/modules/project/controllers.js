@@ -2699,18 +2699,11 @@ define('project/controllers', ['project/init'], function() {
           return;
         }
 
-        //获取时间并格式化
-        var _t = new Date(parseInt(newVal)).toLocaleString();
-        var _timeData = _t.split(' ')[0].split('/').join("-");
+        $scope.showData.guaranteePeriod = newVal;
 
-        var _data = {
-          id: $scope.mainStatus.pageParams.id,
-          guaranteePeriod: _timeData
-        };
-
-        requestData('rest/authen/customerAddress/save', _data, 'POST')
+        requestData('rest/authen/customerAddress/save', $scope.showData, 'POST', 'parameter-body')
         .then(function (results) {
-          console.log(results);
+          // console.log(results);
         })
         .catch(function (error) {
           if (error) {

@@ -2631,6 +2631,14 @@ function addressManageComponent (requestData, utils) {
             $scope.formData[$scope.scopeDataContacts] = _contacts[i];
           }
         }
+
+        //根据用户定义标题定义新增和修改地址信息模态框的标题信息
+        if ($scope.compnentTitle.indexOf('发') !== -1) {
+          $scope.titlePrefix = '发';
+        } else {
+          $scope.titlePrefix = '收';
+        }
+
       };
 
       // 构建方法返回当前循环的地址item，用于修改地址信息
