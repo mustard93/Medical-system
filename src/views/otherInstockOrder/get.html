@@ -51,24 +51,23 @@
                     <thead class="pr-bg-side">
                       <tr>
                           <!-- <th>序号</th> -->
-                          <th>单据日期</th>
-                          <th>单据类型</th>
-                          <th>单据编号</th>
-                          <th class="w-140">仓库</th>
-                          <th class="w-220">库类型</th>
-                          <th>商品编号</th>
-                          <th class="w-220">商品名称</th>
-                          <th>规格/型号</th>
-                          <th>注册证号</th>
-                          <th>单位</th>
-                          <th>实收数量</th>
-                          <th>拒收数量</th>
-                          <th>出库数量</th>
-                          <th>差异数量</th>
-                          <th>批号</th>
-                          <th>灭菌批号</th>
-                          <th>有效期至</th>
-                          <th>生产日期</th>
+                          <th class="text-center">单据日期</th>
+                          <th class="text-center">单据类型</th>
+                          <th class="text-center">单据编号</th>
+                          <th class="w-140 text-center">仓库</th>
+                          <th class="w-220 text-center">库类型</th>
+                          <th class="text-center">商品编号</th>
+                          <th class="w-220 text-center">商品名称</th>
+                          <th class="text-center">规格/型号</th>
+                          <th class="text-center">注册证号</th>
+                          <th class="text-center">单位</th>
+                          <th class="text-center">实收数量</th>
+                          <th class="text-center">拒收数量</th>
+                          <th class="text-center">其他数量</th>
+                          <th class="text-center">批号</th>
+                          <th class="text-center">灭菌批号</th>
+                          <th class="text-center">有效期至</th>
+                          <th class="text-center">生产日期</th>
                           <th class="w-260">备注</th>
                       </tr>
                     </thead>
@@ -122,8 +121,8 @@
                         </td>
  -->
 
-                        <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
-                        <td>{{tr.type}}</td>
+                        <td class="text-center">{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
+                        <td class="text-center">{{tr.type}}</td>
                         <!-- <td class="color-orange">
                             <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.sourceOrderNo}}">
                             {{tr.sourceOrderNo}}
@@ -155,7 +154,7 @@
                             <a ng-if="tr.type=='批次解冻入库单'" href="#">
                             {{tr.sourceOrderNo}}
                             </a> -->
-                            <td class="color-orange">
+                            <td class="color-orange text-center">
                               <span ng-if="tr.type=='移库入库单'">{{tr.sourceOrderNo}}</span>
 
                                 <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.sourceOrderNo}}">
@@ -183,16 +182,16 @@
                                 {{tr.repositoryTypeName}}
                             </div>
                         </td>
-                        <td>{{tr.code}}</td>
+                        <td class="text-center">{{tr.code}}</td>
                         <td class="text-left">
                           <div class="autocut" title="{{tr.medicalStockName}}">
                               {{tr.medicalStockName}}
                           </div>
                         </td>
-                        <td>{{tr.specificationAndModelType}}</td>
-                        <td>{{tr.drugAdministrationCode}}</td>
+                        <td class="text-center">{{tr.specificationAndModelType}}</td>
+                        <td class="text-center">{{tr.drugAdministrationCode}}</td>
                         <td>{{tr.unit}}</td>
-                        <td ng-if="tr.type!='采购入库单'" class="text-right">
+                        <td class="text-center" ng-if="tr.type!='采购入库单'" class="text-right">
                         {{tr.storageQuantity?tr.storageQuantity:"—"}}
                         </td>
                         <td ng-if="tr.type=='采购入库单'" class="text-right">
@@ -201,15 +200,12 @@
                         <td class="text-right">
                         {{tr.refuseQuantity?tr.refuseQuantity:"—"}}
                         </td>
-                        <td class="text-right">
-                        {{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}
-                        </td>
-                        <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
-                        <td>{{tr.productionBatch}}</td>
-                        <td>{{tr.sterilizationBatchNumber}}</td>
-                        <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
-                        <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
-                        <td>{{tr.note}}</td>
+                        <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td>
+                        <td class="text-center">{{tr.productionBatch}}</td>
+                        <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
+                        <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
+                        <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                        <td class="text-center">{{tr.note}}</td>
                       </tr>
                     </tbody>
                 </table>
