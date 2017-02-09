@@ -74,12 +74,12 @@
         </div>
         <!-- 商品列表 -->
         <div class="">
-          <div class="">
-            <table class="table pr-table pr-new-table mgb-n">
+          <div class="outside-table-d">
+            <table class="table table-s-wid pr-table pr-new-table mgb-n">
               <thead>
                 <tr>
-                  <th class="text-center">商品编号</th>
-                  <th>商品全名</th>
+                  <!-- <th class="text-center">商品编号</th>
+                  <th class="text-center">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
@@ -93,7 +93,32 @@
                   <th class="text-center">无税单价</th>
                   <th class="text-center">无税金额</th>
                   <th class="text-center">税额</th>
+                  <th class="text-center">价税合计</th> -->
+                  <th class="text-center">商品编号</th>
+                  <th>商品全名</th>
+                  <th class="text-center">规格/型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">数量</th>
+                  <th class="text-center w-110">批号要求</th>
+                  <th class="text-center w-160">生产批号/灭菌批号</th>
+                  <th class="text-center">含税单价</th>
+                  <th class="text-center">税率</th>
+                  <th class="text-center">折扣额</th>
+                  <th class="text-center">折扣率</th>
+                  <th class="text-center">无税单价</th>
+                  <th class="text-center">无税金额</th>
+                  <th class="text-center">税额</th>
                   <th class="text-center">价税合计</th>
+                  <th>报价</th>
+                  <th>产地</th>
+                  <th>失效日期</th>
+                  <th>退补标志</th>
+                  <th>保存温度</th>
+                  <th>品牌</th>
+                  <th>产地注册证号</th>
+                  <th>注册证有效期</th>
+                  <th>医保编码</th>
+                  <th>院内编码</th>
                 </tr>
               </thead>
               <tbody>
@@ -104,8 +129,36 @@
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
                   <td class="text-center">{{item.batchRequirement}}</td>
+                  <td class="text-center">{{item.productionBatch}}</td>
+                  <td class="text-center">{{item.price | currency:'￥'}}</td>
+                  <td class="text-center">{{item.taxRate}}%</td>
+                  <td class="text-center">￥{{item.discountPrice | number:2}}</td>
+                  <td class="text-center">{{item.discountRate}}%</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
+                  <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+                  <td class="text-right">
+                    ￥{{item.price}}</td>
+                  <td>{{item.productionPlace}}</td>
+                  <td ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
+                      scope-data="validTilldata">
+                      {{validTilldata.validTill | date : 'yyyy-MM-dd'}}
+                  </td>
+                  <td>{{item.withdrawalSign}}</td>
+                  <td>{{item.storedTemperature}}</td>
+                  <td>{{item.brand}}</td>
+                  <td>{{item.drugAdministrationCode}}</td>
+                  <td>{{item.drugAdministrationCodeGuaranteePeriod}}</td>
+                  <td>{{item.medicalInsuranceCode}}</td>
+                  <td>{{item.hospitalCode}}</td>
+                  <!-- <td class="text-center">{{item.code}}</td>
+                  <td>{{item.name}}</td>
+                  <td class="text-center">{{item.specificationAndModelType}}</td>
+                  <td class="text-center">{{item.unit}}</td>
+                  <td class="text-center">{{item.quantity}}</td>
+                  <td class="text-center">{{item.batchRequirement}}</td>
                   <td class="text-right">{{item.productionBatch}}</td>
-                  <!-- <td class="text-center">{{item.expectDate | date:'yyyy-MM-dd'}}</td> -->
                   <td class="text-right">{{item.price | currency:'￥'}}</td>
                   <td class="text-right">{{item.taxRate}}%</td>
                   <td class="text-right">￥{{item.discountPrice | number:2}}</td>
@@ -114,7 +167,7 @@
                   <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
                   <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                   <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
-                  <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td> -->
                 </tr>
               </tbody>
             </table>
@@ -159,7 +212,56 @@
           <h1 class="text-bold color-3">备注</h1>
           <p>{{scopeData.note}}</p>
         </div>
-        <!-- 已发货状态单据显示物流信息 -->
+        <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);margin-left:-20px;margin-right:-20px;"
+             ajax-url="rest/authen/invoicesOrder/getKuaidi?id={{mainStatus.pageParams.id}}"
+             scope-data="kuaidiData">
+          <h1 class="pd-v-m">物流信息</h1>
+          <div class="woutstock-order-express">
+            <ul>
+              <li class="express-list" ng-repeat="item in kuaidiData">
+                <div class="flex-column pd-v-s bb-line">
+                  <div class="flex-item-6 pr-indent-10" style="margin-top:3px;"></div>
+                  <div class="flex-item-6 text-right pdt-s relative">
+                    <a express-btn-toggle class="origin-ele" href="javascript:;">
+                      <em class="circle"></em>
+                      <em class="circle"></em>
+                      <em class="circle"></em>
+                    </a>
+                  </div>
+                </div>
+                <div class="text-center pdt-l">
+                  <p class="mgb-s">{{item.type}}</p>
+                  <p class="color-orange">
+                    <a href="javascript:;"
+                       modal-right="600"
+                       modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
+                       modal-scope="this"
+                       modal-url="views/kuaidi/query3.html">{{item.nu}}
+                    </a>
+                  </p>
+                </div>
+              </li>
+              <!-- 添加物流信息li -->
+              <li class="express-info express-list" ng-show="addAreaisShow==true">
+                <div class="mgt">
+                  <select ng-if="addAreaisShow" class="select pr-select"
+                          ng-model="formData.type"
+                          chosen
+                          select-source="rest/baseData/queryForSelectOptionByType?type=快递类型">
+                 </select>
+                </div>
+                <div class="mgt">
+                  <input type="text" class="ipt" ng-model="formData.nu" />
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-6"><a href="javascript:;" ng-click="addAreaisShow=false;">取消</a></span>
+                  <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xsm">保存</a></span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
       </div>
 
     <!-- 流程图 -->
