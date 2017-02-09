@@ -50,6 +50,9 @@ define('main/controllers', ['main/init'], function () {
           } else {
             $scope.leftSideisShow = true;
           }
+
+          // 关闭所有已打开的modal窗体
+          modal.closeAll();
         });
 
         $scope.mainConfig = window.Config || {};
