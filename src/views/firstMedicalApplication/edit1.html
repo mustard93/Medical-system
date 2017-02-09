@@ -28,7 +28,7 @@
           scope-error-msg="errorMsg"
           scope-data="formData"
           novalidate="true"
-          callback="submitFormAfter('#/firstMedicalApplication/query.html');watchFormChange('formData');formData.firstMedical.isBasicMedicine='是'">
+          callback="submitFormAfter('#/firstMedicalApplication/edit-step-2.html');watchFormChange('formData');formData.firstMedical.isBasicMedicine='是'">
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
@@ -46,13 +46,13 @@
                 <label for="" class="col-sm-2 control-label">类别：</label>
                 <div class="col-sm-10">
                   <label class="radio-inline">
-                    <input type="radio" name="type" value="药械" ng-model="formData.firstMedical.type" ng-disabled="formData.orderStatus=='已通过'" required> 药械
+                    <input type="radio" name="type" value="药械" ng-model="formData.firstMedical.type" required> 药械
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="type" value="中药及饮片" ng-model="formData.firstMedical.type" ng-disabled="formData.orderStatus=='已通过'" required> 中药及饮片
+                    <input type="radio" name="type" value="中药及饮片" ng-model="formData.firstMedical.type" required> 中药及饮片
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="type" value="其他药品" ng-model="formData.firstMedical.type" ng-disabled="formData.orderStatus=='已通过'" required> 其他药品
+                    <input type="radio" name="type" value="其他药品" ng-model="formData.firstMedical.type" required> 其他药品
                     <!-- <span class="color-red text-bold mgl">*</span> -->
                   </label>
                 </div>
@@ -72,7 +72,6 @@
                   <input type="text"
                          class="form-control"
                          name="genericName"
-                         ng-disabled="formData.orderStatus=='已通过'"
                          ng-model="formData.firstMedical.genericName"
                          required />
                 </div>
@@ -106,7 +105,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">品种编号：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.code" ng-disabled="formData.orderStatus=='已通过'">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.code">
                 </div>
               </div>
             </div>
@@ -148,7 +147,6 @@
                   <!-- {{formData.firstMedical.dosageForms}} -->
                   <div class="col-lg-10 col-sm-10">
                     <select class="ipt pr-short-ipt" data-placeholder="选择剂型"
-                    ng-disabled="formData.orderStatus=='已通过'"
                     chosen
                     default-empty="无"
                     ng-model="formData.firstMedical.dosageForms"
@@ -178,7 +176,7 @@
                 <div class="col-sm-2">
                   <div class="col-lg-10 col-sm-10">
 
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.specification" ng-disabled="formData.orderStatus=='已通过'"
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.firstMedical.specification"
                      auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=specification"/>
 
                     <!-- <select class="ipt pr-short-ipt"
@@ -345,7 +343,7 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">生产企业：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.firstMedical.produceEnterprise" ng-disabled="formData.orderStatus=='已通过'">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.produceEnterprise">
                 </div>
               </div>
             </div>
@@ -387,7 +385,7 @@
                 <label for="" class="col-sm-2 control-label">供应单位：</label>
                 <div class="col-sm-6">
                   <!-- <input type="text" class="form-control" ng-model="formData.firstMedical.supplierName"> -->
-                  <select class="form-control" name="" ng-model="formData.firstMedical.supplierId" ng-disabled="formData.orderStatus=='已通过'"
+                  <select class="form-control" name="" ng-model="formData.firstMedical.supplierId"
                   chosen select-source="rest/authen/supplier/queryForSelectOption">
                   </select>
                 </div>
@@ -423,18 +421,6 @@
           <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstMedical.message"></textarea>
         </div>
       </div>
-      <!-- 申请原因-->
-      <div class="panel pr-panel pr-panel-height mgb">
-        <h1 class="pr-font-18 mgb">申请原因</h1>
-        <div class="">
-          <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
-        </div>
-      </div>
-      <!-- 审核资料 -->
-      <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营品种申请","addFlag":true}'
-       attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" >
-
-     </div>
       <!-- 功能按钮 -->
       <div class="handle-btn-area relative">
         <div class="mgb text-right btn-area">
@@ -444,17 +430,36 @@
                dialog-title="确认返回?"
                dialog-content="该申请单存在未保存数据，是否保存?"
                dialog-template="pr-dialog-return.html"
-               nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
+               nosave-callback="goTo('#/firstMedicalApplication/query.html')"
                save-callback="submitForm('editForm','exit');
-               $root.goTo('#/firstMedicalApplication/query.html')">返回申请单列表</a>
-            <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
+               $root.goTo('#/firstMedicalApplication/query.html')"
+              >返回申请单列表</a>
+
+            <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回申请单列表</a>
+          </span>
+          <span class="mgl">
+            <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+               href="javascript:;"
+               class="color-red mgt"
+               handle-this-click
+               dialog-title="确认删除?"
+               dialog-content="删除后将无法恢复,确认删除?"
+               dialog-template="pr-dialog-submit.html"
+               callback="$root.goTo('#/firstMedicalApplication/query.html')"
+               params='{"id":formData.id}'
+               request-url="rest/authen/firstMedicalApplication/delete">删除</a>
           </span>
           <span class="mgl">
             <button class="pr-btn-save-glodbg mgt"
-                    ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
+                    ng-disabled="!changeFlag || firstMedicalApplication.$invalid"
                     ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
           </span>
-
+          <span class="mgl">
+            <button class="pr-btn-save-glodbg mgt"
+                    ng-disabled="firstMedicalApplication.$invalid"
+                    ng-click="submitForm('first-enterprise-editForm','submit')">下一步
+            </button>
+          </span>
         </div>
       </div>
     </form>
