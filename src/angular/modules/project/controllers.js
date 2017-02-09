@@ -677,6 +677,13 @@ define('project/controllers', ['project/init'], function() {
         alertWarn('cancelForm');
       };
 
+      // 取消删除表格中一条数据
+      $scope.hideThisBtn = function () {
+        // console.log($element);
+        $('.sales-order-item-delbtn').hide();
+        $scope.showHandleArea = false;
+      };
+
   }
 
   /**
@@ -852,6 +859,12 @@ define('project/controllers', ['project/init'], function() {
       $scope.cancelForm = function(fromId, url) {
         alertWarn('cancelForm');
       };
+      // 取消删除表格中一条数据
+      $scope.hideThisBtn = function () {
+        // console.log($element);
+        $('.sales-order-item-delbtn').hide();
+        $scope.showHandleArea = false;
+      };
 
   }
 
@@ -867,7 +880,7 @@ define('project/controllers', ['project/init'], function() {
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
-        $scope.goTo('#/invoicesOrder/query.html');
+        $scope.goTo('#/confirmOrder/query.html');
        return;
      }else   if ($scope.submitForm_type == 'print') {
        var url="indexOfPrint.html#/print/confirmOrderPrint.html?id="+$scope.formData.id;
@@ -2678,6 +2691,33 @@ define('project/controllers', ['project/init'], function() {
           });
         }
       };
+
+      //医院采购目录增加采购目录有效期设置
+      $scope.$watch('listParams.guaranteePeriod', function (newVal) {
+
+        if (newVal === undefined) {
+          return;
+        }
+
+        //获取时间并格式化
+        var _t = new Date(parseInt(newVal)).toLocaleString();
+        var _timeData = _t.split(' ')[0].split('/').join("-");
+
+        var _data = {
+          id: $scope.mainStatus.pageParams.id,
+          guaranteePeriod: _timeData
+        };
+
+        requestData('rest/authen/customerAddress/save', _data, 'POST')
+        .then(function (results) {
+          console.log(results);
+        })
+        .catch(function (error) {
+          if (error) {
+            alertError(error || '出错');
+          }
+        });
+      });
     }
 
   /**
@@ -2950,7 +2990,7 @@ define('project/controllers', ['project/init'], function() {
       if(!addDataObj_id){//发货单id不能为空
         return ;
       }
-      if(!choisedMedicalList||choisedMedicalList.length==0){//至少选择1条数据
+      if(!choisedMedicalList || choisedMedicalList.length===0){//至少选择1条数据
         return ;
       }
 
@@ -2968,13 +3008,24 @@ define('project/controllers', ['project/init'], function() {
       }
       //重新绑定数据
       $scope.formData.relId = addDataObj_id;
-      //已经添加过的不在添加。（保留已经修改的数据）
-        angular.forEach(choisedMedicalList, function (data, index) {
-          if(utils.getObjectIndexByKeyOfArr($scope.formData.orderMedicalNos,"relId",data.relId)==-1){
-              $scope.formData.orderMedicalNos.push(data);
-          }
 
-        });
+      //清空原有数据，重新绑定到主页面
+      $scope.formData.orderMedicalNos=[];
+      angular.forEach(choisedMedicalList, function (data, index) {
+        $scope.formData.orderMedicalNos.push(data);
+      });
+
+      //已经添加过的不在添加。（保留已经修改的数据）
+      // angular.forEach(choisedMedicalList, function (data, index) {
+      //   if ($scope.formData.orderMedicalNos.length !== 0) {
+      //     if(utils.getObjectIndexByKeyOfArr($scope.formData.orderMedicalNos,"relId",data.relId)==-1){
+      //       $scope.formData.orderMedicalNos.push(data);
+      //     }
+      //   } else {
+      //     $scope.formData.orderMedicalNos.push(data);
+      //   }
+      // });
+
 
       // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);
         modal.closeAll();
@@ -3145,7 +3196,7 @@ define('project/controllers', ['project/init'], function() {
 
           });
         return choisedMedicalList;
-    }
+    };
 
     // 单个药品点击添加与取消添加事件处理
     $scope.handleItemClickEvent = function (item) {
@@ -3169,10 +3220,14 @@ define('project/controllers', ['project/init'], function() {
         });
         $scope.isChoiseAll = false;
       }
+
     };
 
     // 全选与全不选
     $scope.handleChoiseAllEvent = function () {
+
+      $scope.choisedMedicalList = [];
+
       var _dataSource = $scope.addDataObj.orderMedicalNos;
 
       if (!$scope.choisedMedicalList) {
@@ -3190,6 +3245,7 @@ define('project/controllers', ['project/init'], function() {
           $scope.choisedMedicalList = [];
         });
       }
+
     };
 
     // // 添加选择项到编辑页

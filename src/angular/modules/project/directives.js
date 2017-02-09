@@ -2601,7 +2601,6 @@ function addressManageComponent (requestData, utils) {
           console.log(error || '出错');
         });
       });
-
     },
     controller: ["$scope", "$element", function ($scope, $element) {
 
@@ -2664,10 +2663,9 @@ function addressManageComponent (requestData, utils) {
 
       // 用户点击后选择其他地址
       $scope.choiseOtherItem = function (item) {
+        // console.log(item);
         $scope.formData[$scope.scopeDataId] = item.id;
         $scope.formData[$scope.scopeDataContacts] = item;
-
-        // console.log($scope.formData);
       };
 
       // 设置当前地址为默认地址
@@ -2677,7 +2675,7 @@ function addressManageComponent (requestData, utils) {
         var _data = {};
         _data[_moduleAddressId] = $scope.returnAddressObj.id;
         _data.contactId = contactId;
-        // console.log(_data);
+        // console.log(contactId);
 
         requestData($scope.setDefaultAddressRequesturl, _data, 'POST')
         .then(function (results) {

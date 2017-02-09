@@ -64,14 +64,46 @@
 
       </div>
     </div>
-    <!-- 右侧搜索 -->
-    <div  class="pos-rel-tl order-create-btn inline-block fl-l z-index-l">
-      <!-- ng-if="$root.hasAuthor('销售单新建')" -->
-      <a href="#/confirmOrder/edit.html" title="新建销售单"><i></i><span class="text-s ">新建销售单</span></a>
-    </div>
-    <div class="text-right order-list-search pos-rel-tr inline-block fl-r">
-      <input type="text" class="ipt pdr-xxl" placeholder="客户名/单据编号" ng-model="listParams.q">
-      <i class=""></i>
+
+    <div class="text-right relative full-width">
+
+      <div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l">
+        <a href="#/confirmOrder/edit.html" title="新建销售单"><i></i><span class="text-s">新建销售单</span></a>
+      </div>
+      <div class="relative">
+        <span class="color-9">业务类型:</span>
+        <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                data-placeholder=" "
+                chosen
+                ng-model="listParams.orderBusinessType"
+                select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
+                ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+        </select>
+        <span class="color-9">录单日期:</span>
+        <div class="date-icon-outside">
+          <input type="text"
+                 datepicker
+                 class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                 ng-readonly="true"
+                 ng-model="listParams.createAtBeg"
+                 placeholder="">
+          <span class="date-icon"></span>
+        </div>
+         <span class="color-9">至</span>
+        <div class="date-icon-outside">
+           <input type="text"
+                 datepicker
+                 class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                 ng-readonly="true"
+                 ng-model="listParams.createAtEnd"
+                 placeholder="">
+          <span class="date-icon"></span>
+        </div>
+      <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/单据编号" ng-model="listParams.q">
+        <i class=""></i>
+      </div>
+      </div>
     </div>
   </div>
 
@@ -101,14 +133,11 @@
                 <div class="flex-column">
                   <span class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
-
+                  <span query-item-card-button-list="bottomButtonList"></span>
                   <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
                      workflow-button-query-card
                      custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
                   </a>
-
-                  <span query-item-card-button-list="bottomButtonList"></span>
-
 
 <!--
                   <a
@@ -176,7 +205,7 @@
                       </span>
                     </div>
 
-                    <div class="flex-column qurey text-s color-9 mgb bt-line"                    
+                    <div class="flex-column qurey text-s color-9 mgb bt-line"
                       >
                       <p
                       title="{{tr.note}}"
