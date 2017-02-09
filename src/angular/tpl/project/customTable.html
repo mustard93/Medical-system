@@ -20,9 +20,9 @@
       </div>
         <div ng-if="tbodyList.length" class="outside-table-d pr-bg-white pr-fuzzy-boundary mgt"
         ajax-url="rest/authen/uICustomMenu/get_confirmOrder.json?name={{_customTrMenus}}"
-  scope-data="uICustomMenu" alert-error  callback="bottomButtonList=uICustomMenu.items"
+  scope-data="_uICustomMenu" alert-error  callback="_menuList=_uICustomMenu.items"
         >
-            <table  ng-if="uICustomMenu" class='{{uICustomTable.className||"table pr-table pr-new-table pr-table-content  table-wid"}}' style='{{uICustomTable.style}}' >
+            <table  ng-if="_customTrMenus&& _menuList" class='{{uICustomTable.className||"table pr-table pr-new-table pr-table-content  table-wid"}}' style='{{uICustomTable.style}}' >
                 <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}}'>
                     <tr >
                       <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
@@ -36,8 +36,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered "
-                    ng-init="menuList=$root.customMenuUtils.parseVariableMenuList(bottomButtonList,tr)"
-                    table-tr-mouse-over-menu="menuList"
+                    table-tr-mouse-over-menu="_menuList"   business-data="tr"
                     >
                       <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
 

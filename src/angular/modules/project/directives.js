@@ -2367,7 +2367,7 @@ function customTable() {
    	    //1.传入参数:url(跳转路径)，className(控制样式的class)
    		//2.mouseenter:表示鼠标移入之后要执行的步骤。
    		//3.mouseleave:表示鼠标移出后执行的步骤。
-function tableTrMouseOverMenu(utils,$compile){
+function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
   return{
 
     restrict: 'A',
@@ -2375,21 +2375,27 @@ function tableTrMouseOverMenu(utils,$compile){
 
         //弹出菜单的div(装两个按钮的div)
         var  moveBtnDiv=$("<div></div>");
-        var tmp_template='<span query-item-card-button-list="'+$attrs.tableTrMouseOverMenu+'"></span>';
-        var tableTrMouseOverMenuArray=$scope[$attrs.tableTrMouseOverMenu];
-        moveBtnDiv.html(tmp_template);
-        $compile(moveBtnDiv.contents())($scope);
+
         // console.log("html"+ moveBtnDiv.html());
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
-          console.log(utils.getMainBodyWidth());
+          // console.log(utils.getMainBodyWidth());
+
+          var bottomButtonList=$scope[$attrs.tableTrMouseOverMenu];
+          var dataObj=$scope[$attrs.businessData];
+
+          $scope._tableTrMouseOverMenus=customMenuUtils.parseVariableMenuList(bottomButtonList,dataObj);
+          //创建菜单按钮。
+          var tmp_template='<span query-item-card-button-list="_tableTrMouseOverMenus"></span>';
+          moveBtnDiv.html(tmp_template);
+          $compile(moveBtnDiv.contents())($scope);
 
           // var btnArray=[];
           //按钮数量，用于计算弹出菜单的div宽度
           var btnCount=0;
-          if(tableTrMouseOverMenuArray){
-            btnCount=tableTrMouseOverMenuArray.length;
+          if($scope._tableTrMouseOverMenus){
+            btnCount=$scope._tableTrMouseOverMenus.length;
           }
           $element.addClass("bg-c");
           if(!moveBtnDiv)return;
@@ -2821,6 +2827,6 @@ angular.module('manageApp.project')
   .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
-    .directive("tableTrMouseOverMenu",["utils","$compile",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
+    .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
   .directive("medicalStockMouseOver",["utils",medicalStockMouseOver]);// 库存明细模块，鼠标移入高亮并显示两个按钮
 });

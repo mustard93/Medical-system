@@ -451,7 +451,7 @@ define('project/services', ['project/init'], function () {
                     "ahref":"#/saleReturnOrder/get.html?id="+showData.id
                   };
                   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-                  
+
                   bottomButton={
                     "ngShow":"tr.orderStatus=='待审核'",
                     "showName":"删除",
@@ -647,20 +647,17 @@ define('project/services', ['project/init'], function () {
                  */
             parseVariableMenuList:function(buttonList,obj){
               if(!buttonList)return buttonList;
+                var returnArr=[];
                for(var i=0;i<buttonList.length;i++){
-
-                 var tmpMenu= buttonList[i];
+                 var tmpMenu=$.extend( true,{},  buttonList[i]);
                  for(var propterty in tmpMenu){
-
                   var tmp=utils.parseVariableString(tmpMenu[propterty],obj);
                   // if(tmp)  console.log(tmpMenu[propterty],"=>",tmp);
                   tmpMenu[propterty]=tmp;
-
                  }
-
-
+                 returnArr.push(tmpMenu);
                }
-               return buttonList;
+               return returnArr;
             }
           };//tmpObj
           return tmpObj;
