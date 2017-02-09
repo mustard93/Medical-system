@@ -5,12 +5,11 @@
      callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_invoicesOrder(scopeData);'
      alert-error> -->
      <div ng-controller="invoicesOrderCtrl"
-          ng-init="outstockOrderForm={}"
-          ng-app=""
+          ng-init="outstockOrderForm={};initFlag=false;"
           class="invoices-order"
           ajax-url="rest/authen/invoicesOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
           scope-data="scopeData"
-          callback="distributionInfo=scopeData.distributionInfo;distributionInfo.id=scopeData.id;outstockOrderForm.invoicesId=scopeData.id"
+          callback="distributionInfo=scopeData.distributionInfo;distributionInfo.id=scopeData.id;outstockOrderForm.invoicesId=scopeData.id;initFlag=true"
           alert-error>
 
   <form id="editForm"
@@ -139,7 +138,8 @@
                   <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
                   <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
                   <td class="text-right">
-                    ￥{{item.price}}</td>
+                    ￥{{item.price | number:2}}
+                  </td>
                   <td>{{item.productionPlace}}</td>
                   <td ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
                       scope-data="validTilldata">
@@ -213,7 +213,8 @@
           <p>{{scopeData.note}}</p>
         </div>
         <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);margin-left:-20px;margin-right:-20px;"
-             ajax-url="rest/authen/invoicesOrder/getKuaidi?id={{mainStatus.pageParams.id}}"
+             ajax-if-eval="initFlag"
+             ajax-url="rest/authen/wOutstockOrder/getKuaidi?invoicesOrderNo={{scopeData.orderNo}}"
              scope-data="kuaidiData">
           <h1 class="pd-v-m">物流信息</h1>
           <div class="woutstock-order-express">
@@ -258,6 +259,10 @@
                   <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xsm">保存</a></span>
                 </div>
               </li>
+              <!-- 添加按钮 -->
+              <!-- <li class="add-btn express-list" ng-class="{'express-info-empty':(!showData.kuaidiSet.length), 'add-btn':showData.kuaidiSet.length}">
+                <a href="" ng-click="addAreaisShow=true;formData.nu=''"><span class="fa fa-plus"></span></a>
+              </li> -->
             </ul>
           </div>
         </div>
