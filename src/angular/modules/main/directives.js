@@ -1951,7 +1951,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 //销毁组件
                 function destroyChosen(chosenObj){
-                    console.log("destroyChosen");
+                    // console.log("destroyChosen");
                   try{
                       chosenObj&&chosenObj.data("chosen").destroy();
                   }catch(e){}
