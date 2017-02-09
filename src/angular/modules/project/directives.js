@@ -2344,11 +2344,10 @@ function customTable() {
             // })
 
             if ($attrs.customTable) {
-                $scope.customTableName=$attrs.customTable;
+                $scope._customTableName=$attrs.customTable;
             }
-
-            if ($attrs.mouseOverButtonsJson) {
-                $scope.mouseOverButtonsJson=$attrs.mouseOverButtonsJson;
+            if ($attrs.customTrMenus) {
+                $scope._customTrMenus=$attrs.customTrMenus;
             }
           }
   };
@@ -2370,15 +2369,14 @@ function customTable() {
    		//3.mouseleave:表示鼠标移出后执行的步骤。
 function tableTrMouseOverMenu(utils,$compile){
   return{
-    scope: {
-        tableTrMouseOverMenu:"="
-      },
+
     restrict: 'A',
       link: function ($scope, $element, $attrs) {
 
         //弹出菜单的div(装两个按钮的div)
         var  moveBtnDiv=$("<div></div>");
-        var tmp_template='<span query-item-card-button-list="tableTrMouseOverMenu"></span>';
+        var tmp_template='<span query-item-card-button-list="'+$attrs.tableTrMouseOverMenu+'"></span>';
+        var tableTrMouseOverMenuArray=$scope[$attrs.tableTrMouseOverMenu];
         moveBtnDiv.html(tmp_template);
         $compile(moveBtnDiv.contents())($scope);
         // console.log("html"+ moveBtnDiv.html());
@@ -2390,8 +2388,8 @@ function tableTrMouseOverMenu(utils,$compile){
           // var btnArray=[];
           //按钮数量，用于计算弹出菜单的div宽度
           var btnCount=0;
-          if($scope.tableTrMouseOverMenu){
-            btnCount=$scope.tableTrMouseOverMenu.length;
+          if(tableTrMouseOverMenuArray){
+            btnCount=tableTrMouseOverMenuArray.length;
           }
           $element.addClass("bg-c");
           if(!moveBtnDiv)return;
@@ -2414,7 +2412,7 @@ function tableTrMouseOverMenu(utils,$compile){
           //  console.log("e.pageX="+e.pageX+",e.pageY"+e.pageY);
 
            $(this).append(moveBtnDiv);
-          
+
 
         });//mouseenter
         // 鼠标移出按钮消失
@@ -2474,19 +2472,19 @@ function customTablePrint() {
    //点击按钮事件，
    $scope.ngClick2=function(ngClick){
         var tmp=$scope.$parent.$eval(ngClick);
-          console.log("ngDisabled2",ngClick,tmp);
+          console.log("ngClick2",ngClick,tmp);
     };
        //弹出确认框，取消事件
     $scope.cancelCallback=function(ngClick){
          var tmp=$scope.$parent.$eval(ngClick);
-           console.log("ngDisabled2",ngClick,tmp);
+           console.log("cancelCallback",ngClick,tmp);
      };
          //按钮显示执行脚本事件
       $scope.ngShow2=function(ngIf){
          //不填写默认true，允许显示
          if(!ngIf)return true;
          var tmp= $scope.$parent.$eval(ngIf);
-         console.log("ngDisabled2",ngIf,tmp);
+         console.log("ngShow2",ngIf,tmp);
             return tmp;
       };
                    //按钮是否可操作执行脚本事件

@@ -605,7 +605,82 @@ define('project/services', ['project/init'], function () {
           return tmpObj;
         }
 
+
+        // 自定义菜单服务
+
+
+
+        function customMenuUtils (utils) {
+          var  tmpObj = {
+            /**
+                 *
+                * @Description: 将模版变量字符串转化为具体数据。模版变量定义为：{{id}}
+                * @method parseVariableMenuList
+                * @param buttonList 菜单定义列表
+                * @param obj 业务对象
+                * @return 输出html格式
+                * @author liumingquan
+                样例：
+              buttonList=[{
+                "type":"" ,
+                  "aclass":"",
+                  "ahref":"#/uICustomMenu/edit.html?id={{id}}",
+                  "showName":"编辑",
+                  "authority":"",
+                  "ngShow":"",
+                  "ngDisabled":"",
+                  "alertTemplate":"",
+                  "requestUrl":"",
+                  "httpMethod":"",
+                  "alertTitle":"",
+                  "alertMsg":"",
+                  "target":"_blank"
+                }]
+                obj={"id":"1234"}
+
+                =>
+
+                [{
+                  "type":"" ,
+                    "aclass":"",
+                    "ahref":"#/uICustomMenu/edit.html?id=1234",
+                    "showName":"编辑",
+                    "authority":"",
+                    "ngShow":"",
+                    "ngDisabled":"",
+                    "alertTemplate":"",
+                    "requestUrl":"",
+                    "httpMethod":"",
+                    "alertTitle":"",
+                    "alertMsg":"",
+                    "target":"_blank"
+                  }]
+                * @date 2017年2月8日
+                 */
+            parseVariableMenuList:function(buttonList,obj){
+              if(!buttonList)return buttonList;
+               for(var i=0;i<buttonList.length;i++){
+
+                 var tmpMenu= buttonList[i];
+                 for(var propterty in tmpMenu){
+
+                  var tmp=utils.parseVariableString(tmpMenu[propterty],obj);
+                  // if(tmp)  console.log(tmpMenu[propterty],"=>",tmp);
+                  tmpMenu[propterty]=tmp;
+
+                 }
+
+
+               }
+               return buttonList;
+            }
+          };//tmpObj
+          return tmpObj;
+        }
+
   angular.module('manageApp.project')
+  .factory('customMenuUtils', ["utils",customMenuUtils])
+
     .factory('saleOrderUtils', ["utils",saleOrderUtils])
     .factory('purchaseOrderUtils', ["utils",purchaseOrderUtils])
     .factory('bottomButtonList', ["$rootScope",bottomButtonList])
