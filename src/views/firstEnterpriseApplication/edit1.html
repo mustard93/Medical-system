@@ -37,7 +37,7 @@
         </span>
       </div>
       <!-- 基本信息 -->
-      <div class="panel pr-panel pr-panel-height mgb">
+      <div class="panel pr-panel pr-panel-height mgb" style="margin-bottom:80px;">
         <h1 class="pr-font-18 mgb mgt">基本信息</h1>
         <div>
           <h3 class="bb-line pd-v text-bold">企业信息：</h3>
@@ -296,16 +296,6 @@
           <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.provideProducts"></textarea>
         </div>
       </div>
-      <!-- 申请原因 -->
-      <div class="panel pr-panel pr-panel-height mgb">
-        <h1 class="pr-font-18 mgb">申请原因</h1>
-        <div class="">
-          <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
-        </div>
-      </div>
-      <!-- 上传附件 -->
-      <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":true}'
-       attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" style="margin-bottom:60px;"></div>
       <!-- 功能按钮 -->
       <div class="handle-btn-area relative">
         <div class="mgb text-right btn-area">
@@ -322,11 +312,28 @@
             <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
           </span>
           <span class="mgl">
+            <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+               href="javascript:;"
+               class="color-red mgt"
+               handle-this-click
+               dialog-title="确认删除?"
+               dialog-content="删除后将无法恢复,确认删除?"
+               dialog-template="pr-dialog-submit.html"
+               callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+               params='{"id":formData.id}'
+               request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
+          </span>
+          <span class="mgl">
             <button class="pr-btn-save-glodbg mgt"
                     ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
                     ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
           </span>
-
+          <span class="mgl">
+            <button class="pr-btn-save-glodbg mgt"
+                    ng-disabled="firstEnterpriseEditForm.$invalid"
+                    ng-click="submitForm('first-enterprise-editForm','submit')">下一步
+            </button>
+          </span>
         </div>
       </div>
     </form>
