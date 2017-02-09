@@ -825,6 +825,40 @@ function alertOk($rootScope, modal) {
 
             return dest;
           },
+          /**
+               *
+              * @Description: 将模版变量字符串转化为具体数据。模版变量定义为：{{id}}
+              * @method to_trusted
+              * @param variableString html格式
+              * @param obj html格式
+              * @return 输出html格式
+              * @author liumingquan
+
+              样例：
+              variableString="#/uICustomMenu/edit.html?id={{id}}"
+              obj={"id":"1234"}
+              =>
+              #/uICustomMenu/edit.html?id=1234
+              * @date 2017年2月8日
+               */
+          parseVariableString : function (variableString,obj) {
+              var returnString="";
+              if(!variableString)return returnString;
+                returnString=variableString;
+              var arr = variableString.match(/(\{\{){1}[^\{\}]+(\}\}){1}/);
+              if(!arr)return returnString; //无匹配直接返回
+            
+              if(!obj)obj={};
+             for (var i=0;i<arr.length;i++) {
+               var tmp=arr[i];//{{id}}
+               if(tmp.length<5)continue;//去掉不满足条件的。"{{","}}"
+              var key=tmp.substring(2,tmp.length-2);//id
+              var keyValue=obj[key];//obj[id]
+              if(!keyValue)keyValue="";
+              returnString=returnString.replace(tmp,keyValue);
+             }
+             return returnString;
+          },
 
           // 将字符串类型数字转换为number类型
           transformToNumber : function (str) {

@@ -48,13 +48,14 @@ define('project/controllers', ['project/init'], function() {
   /**
    * 主控（业务模块级别）
    */
-  function mainCtrlProject($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList,saleOrderUtils,purchaseOrderUtils,queryItemCardButtonList) {
+  function mainCtrlProject($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList,saleOrderUtils,purchaseOrderUtils,queryItemCardButtonList,customMenuUtils) {
 
     //底部菜单（业务相关）
     $rootScope.bottomButtonList=bottomButtonList;
     $rootScope.saleOrderUtils=saleOrderUtils;
     $rootScope.purchaseOrderUtils=purchaseOrderUtils;
     $rootScope.queryItemCardButtonList=queryItemCardButtonList;
+    $rootScope.customMenuUtils=customMenuUtils;
 
   }
 
@@ -3344,7 +3345,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('imTaobaoCtr', ['$scope',"requestData",'alertError',"$rootScope", imTaobaoCtr])
   .controller('saleReturnMedicalItemController', ['$scope', saleReturnMedicalItemController])
   .controller('returnOrderAddController', ["$scope", "$rootScope", "modal","utils", returnOrderAddController])
-  .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","queryItemCardButtonList", mainCtrlProject])
+  .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
   .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
   .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
   .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])

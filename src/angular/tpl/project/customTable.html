@@ -1,5 +1,5 @@
 <div class="wrapper"
-  ajax-url="rest/authen/uiCustomTable/getByClassName.json?className={{customTableName}}" style="min-height:600px;"
+  ajax-url="rest/authen/uiCustomTable/getByClassName.json?className={{_customTableName}}" style="min-height:600px;"
   scope-data="uICustomTable"
   ng-init="bottomButtonList=[]"
 >
@@ -19,10 +19,10 @@
         <p class="text-center">什么也没有</p>
       </div>
         <div ng-if="tbodyList.length" class="outside-table-d pr-bg-white pr-fuzzy-boundary mgt"
-        ajax-url="rest/authen/uICustomMenu/get_confirmOrder.json?name={{uICustomMenuName}}"
+        ajax-url="rest/authen/uICustomMenu/get_confirmOrder.json?name={{_customTrMenus}}"
   scope-data="uICustomMenu" alert-error  callback="bottomButtonList=uICustomMenu.items"
         >
-            <table class='{{uICustomTable.className||"table pr-table pr-new-table pr-table-content  table-wid"}}' style='{{uICustomTable.style}}' >
+            <table  ng-if="uICustomMenu" class='{{uICustomTable.className||"table pr-table pr-new-table pr-table-content  table-wid"}}' style='{{uICustomTable.style}}' >
                 <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}}'>
                     <tr >
                       <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
@@ -36,8 +36,8 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered "
-
-                    table-tr-mouse-over-menu="bottomButtonList"
+                    ng-init="menuList=$root.customMenuUtils.parseVariableMenuList(bottomButtonList,tr)"
+                    table-tr-mouse-over-menu="menuList"
                     >
                       <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
 
