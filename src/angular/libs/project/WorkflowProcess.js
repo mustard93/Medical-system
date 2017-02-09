@@ -141,7 +141,8 @@ define('WorkflowProcess',['JTopo',"jQuery"], function(JTopo,jQuery){
 
 
             require(['CanvasTreeLayout'],function(CanvasTreeLayout){
-                var rootNodes=that.getNodesByEventType("StartEvent");
+                // var rootNodes=that.getNodesByEventType("StartEvent");
+                  var rootNodes=null;
                 that.scene.doLayout(CanvasTreeLayout.TreeLayout2(JTopo,'right-center', that.options.spacingWidth, that.options.spacingHeight,rootNodes));
 
             });
