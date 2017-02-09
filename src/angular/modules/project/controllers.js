@@ -2741,6 +2741,18 @@ define('project/controllers', ['project/init'], function() {
       formData1.didateFilter.buttons.push(btnForm);
     };
 
+      //当一个节点的name改变后，需要更新对应的关联关系。
+      function updateEventRelations(events,oldId,newId){
+
+         for(var i=0;i<events.length;i++){
+           if(events[i].sourceRef==oldId){
+             events[i].sourceRef=newId;
+           }
+           if(events[i].targetRef==oldId){
+             events[i].targetRef=newId;
+           }
+         }
+       }
     // 保存节点信息（新建or创建）
     $scope.saveEvent = function(event1) {
       if(!$scope.formData.events)$scope.formData.events=[];
@@ -2750,7 +2762,10 @@ define('project/controllers', ['project/init'], function() {
       if(!event1.conditionType)event1.conditionType=null;
       if(event1.id){
           var ind=$rootScope.utils.getObjectIndexByKeyOfArr(events,'id',event1.id);
-            event1.id=event1.name;
+          if(event1.id!=event1.name){
+              updateEventRelations(events,event1.id,event1.name);
+          }
+          event1.id=event1.name;
           if(ind>-1){
               events[ind]=event1;
 
@@ -2778,7 +2793,8 @@ define('project/controllers', ['project/init'], function() {
           alertError('没有该节点，id='+event1.id);
           return;
       }
-
+      //删除关联关系
+      updateEventRelations(events,id,null);
 
         modal.closeAll();
     };

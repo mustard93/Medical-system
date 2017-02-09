@@ -62,10 +62,12 @@
                       <tr>
                         <th class="text-center">商品编码</th>
                         <th class="text-center">商品代码</th>
-                        <th class="text-left w-100">商品名称</th>
+                        <th class="text-center w-100">商品名称</th>
                         <th class="text-center">规格/型号</th>
                         <th class="text-center">单位</th>
-                        <th class="text-center">数量</th>
+                        <th class="text-center">正常数量</th>
+                        <th class="text-center">其他数量</th>
+                        <th class="text-center">拒收数量</th>
                         <th class="text-center">含税单价</th>
                         <th class="text-center">含税金额</th>
                         <th class="text-center">税率</th>
@@ -97,9 +99,16 @@
                         <td class="text-center">
                           {{tr.unit}}
                         </td>
-
+                        <td class="text-right"
+                        ng-class="{'pr-bg-orange3':tr.quantity!=tr.storageQuantity}"
+                        >
+                          {{tr.storageQuantity || '0'}}
+                        </td>
                         <td class="text-right">
-                        {{tr.quantity}}
+                          {{tr.otherQuantity || '0'}}
+                        </td>
+                        <td class="text-right">
+                          {{tr.refuseQuantity || '0'}}
                         </td>
                         <td class="text-right">
                           ￥{{tr.price}}
