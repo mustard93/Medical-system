@@ -2703,19 +2703,19 @@ define('project/controllers', ['project/init'], function() {
         var _timeData = _t.split(' ')[0].split('/').join("-");
 
         var _data = {
-          "id": $scope.mainStatus.pageParams.id,
-          "guaranteePeriod": _timeData
+          id: $scope.mainStatus.pageParams.id,
+          guaranteePeriod: _timeData
         };
 
-        // requestData('rest/authen/customerAddress/save', _data, 'POST')
-        // .then(function (results) {
-        //   console.log(results);
-        // })
-        // .catch(function (error) {
-        //   if (error) {
-        //     alertError(error || '出错');
-        //   }
-        // });
+        requestData('rest/authen/customerAddress/save', _data, 'POST')
+        .then(function (results) {
+          console.log(results);
+        })
+        .catch(function (error) {
+          if (error) {
+            alertError(error || '出错');
+          }
+        });
       });
     }
 
