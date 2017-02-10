@@ -2490,7 +2490,7 @@ function customTablePrint() {
          //不填写默认true，允许显示
          if(!ngIf)return true;
          var tmp= $scope.$parent.$eval(ngIf);
-         console.log("ngShow2",ngIf,tmp);
+        //  console.log("ngShow2",ngIf,tmp);
             return tmp;
       };
                    //按钮是否可操作执行脚本事件
@@ -2539,6 +2539,7 @@ function queryItemCardButtonList() {
     // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/queryItemCardButtonList.html',
     link: function ($scope, $element, $attrs) {
+
           //添加scope 的公共事件，是否显示，点击事件，等
          addCommonsEventFnToSope($scope);
           if(!$scope.spanClass)$scope.spanClass="mgl";
@@ -2676,10 +2677,7 @@ function addressManageComponent (requestData, utils) {
       };
 
       // 用户点击后选择其他地址
-      $scope.choiseOtherItem = function (item, event) {
-        //阻止冒泡
-        event.stopPropagation();
-        // console.log(item);
+      $scope.choiseOtherItem = function (item) {
         $scope.formData[$scope.scopeDataId] = item.id;
         $scope.formData[$scope.scopeDataContacts] = item;
       };

@@ -3,7 +3,7 @@
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;"
-     alert-error>
+     alert-error>{{formData.orderMedicalNos.handleFlag}}
 <form id="editForm"
      name="purchaseForm"
      form-validator
@@ -174,7 +174,7 @@
                  <tbody class="bg-white">
                    <tr ng-repeat="tr in formData.orderMedicalNos"
                        table-item-handlebtn-component
-                       ng-init="orderMedicalNoIds.push(tr.relId)"
+                       ng-init="orderMedicalNoIds.push(tr.relId);tr.handleFlag=true;"
                        ng-controller="purchaseOrderEditCtrl">
                      <!-- <td class="select-td">
                        <input type="checkbox" class="selectOne" ng-model="tr.handleFlag" ng-change="chkChoiseMedicals(tr,formData.orderMedicalNos);">
@@ -351,7 +351,7 @@
         <!-- 收货方信息 -->
         <address-manage-component compnent-title="收货方信息"
                                   request-url="rest/authen/invoicesAddress/get.json"
-                                  scope-data-prefix="invoices"
+                                  scope-data-prefix="customer"
                                   form-data="formData"
                                   modify-modal-url="views/invoicesAddress/contact/edit.html"
                                   create-modal-url="views/invoicesAddress/contact/edit.html"
