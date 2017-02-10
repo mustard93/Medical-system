@@ -3190,6 +3190,7 @@ define('project/controllers', ['project/init'], function() {
   function returnOrderAddController ($scope, $rootScope, modal,utils) {
 
     $scope.addDataObj={};
+
     //1.初始化选择状态。
     //addDataObj_orderMedicalNos:发货单细表，saleReturnOrder_orderMedicalNos 销售退货单细表
     $scope.initChoisedMedicalList=function(addDataObj_orderMedicalNos,saleReturnOrder_orderMedicalNos){
@@ -3248,11 +3249,17 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach(_dataSource, function (data, index) {
           data.itemSelected = true;
           $scope.choisedMedicalList.push(data);
+
+          $scope.formData.orderMedicalNoSet.push(data);
+
         });
       } else  {
         angular.forEach(_dataSource, function (data, index) {
           data.itemSelected = false;
           $scope.choisedMedicalList = [];
+
+          $scope.formData.orderMedicalNoSet = [];
+
         });
       }
 
