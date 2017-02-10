@@ -102,61 +102,42 @@
               <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
                 <!-- ng-class="{'pr-bg-grey2':(tr.orderStatus=='未通过')}" -->
                 <div class="relative ">
-                  <div class="flex-column mgb-m pd-m card-title-height" style="height:24px;line-height:24px;">
-                    <span class="flex-item-6 title-states text-bold">
-                      <em ng-class="{'color-black':tr.orderStatus=='待审批','color-green':tr.orderStatus=='已通过','color-gray':tr.orderStatus=='未通过'}">
-                      {{tr.orderStatus}}</em>
+                  <div class="flex-column">
+                    <span class="flex-item-6 title-states text-bold color-3 pd-m">
+                      <em>
+                          {{tr.orderStatus}}
+                      </em>
                     </span>
-                    <span
-                    ng-if="tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id"
-                    class="flex-item-6 text-right">
-                      <span >
-                        <span run-popovers class="circle-ss">
-                        <span ></span>
-                        <span ></span>
-                        <span ></span>
-                      </span>
-                      <span class="purchaseorder-buyer-info">
-                        <i class="block bb-dashed-line pd-c-l text-normal">
-                          <em class="inline-block pd-v-s">
-                            <a class=""
-                             ng-href="#/lossOverOrder/edit-overflow.html?id={{tr.id}}">编辑
-                           </a>
-                         </em>
-                       </i>
-                        <i class="block pd-c-l text-normal">
-                          <em class="inline-block pd-v-s">
-                          <a href="javascript:;"
-                             class="color-red"
-                             handle-this-click
-                             dialog-title="确认删除?"
-                             dialog-content="删除后将无法恢复,确认删除?"
-                             dialog-template="pr-dialog-submit.html"
-                             callback="$root.goTo('#/lossOverOrder/query-overflow.html')"
-                             params='{"id":tr.id}'
-                             request-url="rest/authen/lossOverOrder/delete">删除
-                           </a>
-                          </em>
-                        </i>
-                      </span>
-                    </span>
+                    <span ng-if="tr.orderStatus=='待审核' && mainStatus.id==tr.inputUser.id"
+                    class="flex-item-6 text-right ">
+                    <a href="#/lossOverOrder/edit-overflow.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                    <span class="edit-link-icon">&nbsp;</span></a>
+                    <a ng-if="tr.orderStatus=='待审核' && tr.inputUserId==mainStatus.id"
+                       href="javascript:;"
+                       class="btn-link pd-m rect-s"
+                       title="删除"
+                       handle-this-click
+                       dialog-title="确认删除?"
+                       dialog-content="删除后将无法恢复,确认删除?"
+                       dialog-template="pr-dialog-submit.html"
+                       callback="$root.goTo('#/lossOverOrder/query-overflow.html')"
+                       params='{"id":tr.id}'
+                       request-url="rest/authen/lossOverOrder/delete">
+                    <span class="delete-link-icon">&nbsp;</span>
+                    </a>
                   </span>
                   <span class="flex-item-6 text-right">
-                      <a class="mgl"
-                         ng-if="tr.orderStatus=='待审核'&& mainStatus.id!=tr.inputUser.id"
-                         ng-href="#/lossOverOrder/edit-overflow.html?id={{tr.id}}">编辑
-                       </a>
-                      <!-- <a class="mgl"
-                         ng-if="tr.orderStatus=='未通过'"
-                         ng-href="#/lossOverOrder/edit-overflow.html?copyId={{tr.id}}">新建</a> -->
-                      <a class="mgl"
-                            ng-if="tr.orderStatus=='待审批' && !$root.hasAuthor('报损报溢单审批') || tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
-                            ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">查看详情</a>
-                      <a ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('报损报溢单审批')"
-                         class=" mgl"
-                         ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}">立即审批</a>
-                      <!--工作流控制菜单 -->
-                      <!-- <button ng-if="$root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')" workflow-pass-button custom-menu="{{$root.utils.get-overflowcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')}}" ></button> -->
+                      <a ng-if="tr.orderStatus=='待审批' && !$root.hasAuthor('报损报溢单审批') || tr.orderStatus=='已通过' || tr.orderStatus=='未通过'"
+                       href="#/lossOverOrder/get-overflow.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                      </a>
+                     <a ng-if="tr.orderStatus=='待审批' && $root.hasAuthor('报损报溢单审批')"
+                        ng-href="#/lossOverOrder/get-overflow.html?id={{tr.id}}"
+                        title="立即审批"
+                        class="btn-link pd-m rect-s "
+                        >
+                       <span class="examine-approve">&nbsp;</span>
+                      </a>
                     </span>
                   </div>
 
