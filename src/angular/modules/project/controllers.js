@@ -1787,6 +1787,7 @@ define('project/controllers', ['project/init'], function() {
    }//end salesOrderEditCtrl
 
    function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
+
      $scope.$watch('initFlag', function (newVal) {
        if (newVal && $scope.formData.orderMedicalNos) {
         //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {

@@ -2677,10 +2677,8 @@ function addressManageComponent (requestData, utils) {
       };
 
       // 用户点击后选择其他地址
-      $scope.choiseOtherItem = function (item, event) {
-        //阻止冒泡
-        event.stopPropagation();
-        // console.log(item);
+      $scope.choiseOtherItem = function (item) {
+
         $scope.formData[$scope.scopeDataId] = item.id;
         $scope.formData[$scope.scopeDataContacts] = item;
       };
