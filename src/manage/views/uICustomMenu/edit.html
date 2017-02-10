@@ -1,0 +1,136 @@
+
+<div class="modal-content" ng-controller="editCtrl"
+  ng-init="className_getOfEdit=false"
+  ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+  scope-data="formData"
+  callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId;formData.items=formData.items||[]">
+    <form class="add-customerAddress-form form-horizontal"
+        action="rest/authen/uICustomMenu/save"
+
+        alert-error
+        alert-ok
+        parameter-body
+        form-validator>
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}用户自定义菜单</h4>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">机构</label>
+            <div class="col-lg-10 col-sm-10">
+              <select ng-if="initFlag"  class="select select-w"
+                      data-placeholder="选择机构"
+                      chosen
+                      ng-model="formData.organizationId"
+                      default-empty="全局"
+                      alert-error
+                      select-source="rest/index/distributor/queryForSelectOption.json">
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">获取模版唯一标识</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.key"/>
+              </div>
+
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">模版名</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.name"/>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">排序号</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.sortNo"/>
+              </div>
+          </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">样式名</label>
+                    <div class="col-lg-10 col-sm-10">
+                        <input type="text" class="form-control" placeholder="" ng-model="formData.css"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">样式</label>
+                    <div class="col-lg-10 col-sm-10">
+                        <input type="text" class="form-control" placeholder="" ng-model="formData.style"/>
+                    </div>
+                </div>
+
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">描述</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.desc"/>
+              </div>
+          </div>
+
+
+          <table class="table table-hover table-striped">
+              <thead>
+                  <tr>
+                      <th><input type="checkbox" class="selectAll"></th>
+                      <th>序号</th>
+                      <th>类型</th>
+                      <th>显示名</th>
+                      <th>图标样式</th>
+                      <th>显示样式</th>
+                      <th>满足权限才显示</th>
+                      <th>显示表达式</th>
+                      <th>禁用表达式</th>
+                      <th>操作</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="tr in formData.items" ng-click="selectThis()">
+
+                      <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                      <td>{{$index + 1}}</td>
+                      <td>{{tr.type}}</td>
+                      <td>{{tr.showName}}</td>
+                      <td>{{tr.iconClass}}</td>
+                      <td>{{tr.aclass}}</td>
+                      <td>{{tr.authority}}</td>
+                      <td>{{tr.ngShow}}</td>
+                      <td>{{tr.ngDisabled}}</td>
+                      <td>
+                          <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/uICustomMenu/uICustomMenuItemVO/edit.html">
+                              <i class="fa fa-edit"></i>
+                              编辑
+                          </button>
+                          <button type="button" class="btn btn-danger" ng-click="formData.items.splice($index,1);">
+                              <i class="fa fa-trash-o"></i>
+                              删除</button>
+                      </td>
+
+                  </tr>
+              </tbody>
+          </table>
+          <button type="button" class="btn btn-primary"
+          ng-click="formData.items.push({})"
+          >
+              <i class="fa fa-plus"></i>添加菜单
+          </button>
+
+            <textarea-json ng-model="formData"></textarea-json>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="submit" class="btn pr-btn-create-glodbg" value="提交" >
+          </div>
+      </div>
+    </div>
+  </form>
+</div>

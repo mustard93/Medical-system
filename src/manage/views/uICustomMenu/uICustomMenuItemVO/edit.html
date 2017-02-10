@@ -1,0 +1,123 @@
+<div class="modal-content" ng-controller="editCtrl"
+  ng-init="formData1=tr"
+>
+
+
+    <div class="modal-body">
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">类型</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData1.type"/>
+          </div>
+
+      </div>
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">显示名</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData1.showName"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">图标样式</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData1.iconClass"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">跳转地址</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData1.ahref"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">显示样式名</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData1.aclass"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">样式</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData1.style"/>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">满足权限才显示</label>
+          <div class="col-lg-10 col-sm-10">
+              <select ng-if="initFlagEvent"  class="select select-w" data-placeholder="选择一个..."
+               chosen default-empty multiple ng-model="formData1.authoritys"
+                select-source="rest/index/queryAuthoritys.json">
+              </select>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">显示表达式</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData1.ngShow"/>
+          </div>
+      </div>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">禁用表达式</label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="text" class="form-control" placeholder="" ng-model="formData1.ngDisabled"/>
+          </div>
+      </div>
+      <!--handleThisClick  -->
+      <div ng-show="formData1.type=='handleThisClick'">
+        <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">弹出框-模版地址</label>
+            <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="formData1.alertTemplate"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">弹出框-请求接口地址</label>
+            <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="formData1.requestUrl"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">弹出框-请求方式</label>
+            <div class="col-lg-10 col-sm-10">
+              <select   class="ipt pr-short-ipt" data-placeholder="选择请求方式" ng-model="tr.httpMethod"
+              chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Http_HttpRequestEnmus"
+              >
+            </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">弹出框-提示标题</label>
+            <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="formData1.alertTitle"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">弹出框-提示内容</label>
+            <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="formData1.alertMsg"/>
+            </div>
+        </div>
+
+      </div>
+          <!--handleThisClick  -->
+
+          <textarea-json ng-model="formData1"></textarea-json>
+
+
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+              <input type="button" class="btn pr-btn-create-glodbg" value="提交"   ng-click="$root.modal.close()">
+          </div>
+      </div>
+    </div>
+</div>
