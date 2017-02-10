@@ -45,7 +45,8 @@
                           <th class="text-center">规格型号</th>
                           <th class="text-center">单位</th>
                           <th class="text-center">数量</th>
-                          <th class="text-center">生产批号/灭菌批号</th>
+                          <th class="text-center">生产批号</th>
+                          <th class="text-center">灭菌批号</th>
                           <th class="text-center">生产日期</th>
                           <th class="text-center">保质期</th>
                           <th class="text-center">失效日期</th>
@@ -76,10 +77,8 @@
                           {{tr.outgoingQuantity}}
                           </td>
 
-                          <td class="text-center">
-                            <!-- 生产批号 -->
-                          {{tr.productionBatch || '暂无'}}/{{tr.sterilizationBatchNumber || '暂无'}}
-                          </td>
+                          <td class="text-center">{{tr.productionBatch}}</td>
+                          <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
                           <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                           <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                           <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
@@ -123,16 +122,16 @@
          <ul class="clearfix">
            <li class="express-list" ng-repeat="item in showData.kuaidiSet">
              <div class="flex-column pd-v-s bb-line">
-               <div class="flex-item-6 text-center" style="margin-top:3px;">
+               <div class="flex-item-9 text-center" style="margin-top:3px;">
                 {{item.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}
                </div>
-               <div class="flex-item-6 text-right pdt-s relative">
+               <div class="flex-item-3 text-right pdt-s relative">
                  <a express-btn-toggle class="origin-ele" href="javascript:;">
                    <em class="circle"></em>
                    <em class="circle"></em>
                    <em class="circle"></em>
                  </a>
-                 <div class="edit-del-btn text-center">
+                 <div class="edit-del-btn text-center z-index-l">
                    <p class="pdt-s pdb-s bb-dashed-line">
                      <a href="javascript:;" ng-click="editThisAreaInfo(item)">编辑</a>
                    </p>

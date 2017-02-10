@@ -1,16 +1,10 @@
-<!-- <div class="confirm-order-edit"
-     ng-controller="confirmOrderEditCtrl2"
-     ajax-url="rest/authen/invoicesOrder/get.json?id={{mainStatus.pageParams.id}}&invoicesOrderId={{mainStatus.pageParams.invoicesOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
-     scope-data="scopeData"
-     callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_invoicesOrder(scopeData);'
-     alert-error> -->
-     <div ng-controller="invoicesOrderCtrl"
-          ng-init="outstockOrderForm={};initFlag=false;"
-          class="invoices-order"
-          ajax-url="rest/authen/invoicesOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
-          scope-data="scopeData"
-          callback="distributionInfo=scopeData.distributionInfo;distributionInfo.id=scopeData.id;outstockOrderForm.invoicesId=scopeData.id;initFlag=true"
-          alert-error>
+<div ng-controller="invoicesOrderCtrl"
+        ng-init="outstockOrderForm={};initFlag=false;"
+        class="invoices-order"
+        ajax-url="rest/authen/invoicesOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+        scope-data="scopeData"
+        callback="distributionInfo=scopeData.distributionInfo;distributionInfo.id=scopeData.id;outstockOrderForm.invoicesId=scopeData.id;initFlag=true"
+        alert-error>
 
   <form id="editForm"
         name="editForm"
@@ -83,7 +77,8 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
-                  <th class="text-center w-160">生产批号/灭菌批号</th>
+                  <th class="text-center">生产批号</th>
+                  <th class="text-center">灭菌批号</th>
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -113,6 +108,8 @@
                   <td class="text-center">{{item.quantity}}</td>
                   <td class="text-center">{{item.batchRequirement}}</td>
                   <td class="text-center">{{item.productionBatch}}</td>
+                  <td class="text-center">{{tr.productionBatch}}</td>
+                  <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
                   <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
@@ -184,70 +181,69 @@
           <h1 class="text-bold color-3">备注</h1>
           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="scopeData.note"></textarea>
         </div>
-        <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);margin-left:-20px;margin-right:-20px;"
-             ajax-if-eval="initFlag"
-             ajax-url="rest/authen/wOutstockOrder/getKuaidi?invoicesOrderNo={{scopeData.orderNo}}"
-             scope-data="kuaidiData">
-          <h1 class="pd-v-m">物流信息</h1>
-          <div ng-if="kuaidiData.length" class="woutstock-order-express">
-            <ul class="clearfix">
-              <li class="express-list" ng-repeat="item in kuaidiData" ng-class="{'br-dotted-line':(kuaidiData.length>1)}">
-                <div class="flex-column pd-v-s bb-line">
-                  <div class="flex-item-12 text-center" style="margin-top:3px;">
-                      {{item.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}
-                  </div>
-                </div>
-                <div class="text-center pdt">
-                  <p class="mgb-s">{{item.type}}</p>
-                  <p class="color-orange">
-                    <a href="javascript:;"
-                       modal-right="600"
-                       modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
-                       modal-scope="this"
-                       modal-url="views/kuaidi/query3.html">{{item.nu}}
-                    </a>
-                  </p>
-                </div>
-              </li>
-              <!-- 添加物流信息li -->
-              <li class="express-info express-list" ng-show="addAreaisShow==true">
-                <div class="mgt">
-                  <select ng-if="addAreaisShow" class="select pr-select"
-                          ng-model="formData.type"
-                          chosen
-                          select-source="rest/baseData/queryForSelectOptionByType?type=快递类型">
-                 </select>
-                </div>
-                <div class="mgt">
-                  <input type="text" class="ipt" ng-model="formData.nu" />
-                </div>
-                <div class="flex-column mgt">
-                  <span class="flex-item-6"><a href="javascript:;" ng-click="addAreaisShow=false;">取消</a></span>
-                  <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xsm">保存</a></span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div ng-if="!kuaidiData.length" class="woutstock-order-express">
-            <ul class="clearfix">
-              <li class="express-list">
-                <div class="flex-column empty-kuaidi clearfix pd-v-s bb-line">
-                    <div>&nbsp;</div>
-                    <div style="margin-bottom: 0;">&nbsp;</div>
-                  </div>
-                <div class="flex-column empty-kuaidi clearfix pd-v-s">
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
-                    <div>&nbsp;</div>
-                  </div>
-              </li>
-              <!-- 添加物流信息li -->
-            </ul>
-          </div>
-        </div>
-
       </div>
-
+    </div>
+    <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);"
+         ajax-if-eval="initFlag"
+         ajax-url="rest/authen/wOutstockOrder/getKuaidi?invoicesOrderNo={{scopeData.orderNo}}"
+         scope-data="kuaidiData">
+      <h1 class="pd-v-m mgl-x-l">物流信息</h1>
+      <div ng-if="kuaidiData.length" class="woutstock-order-express">
+        <ul class="clearfix mgl-mxx-l">
+          <li class="express-list" ng-repeat="item in kuaidiData" ng-class="{'br-dotted-line':(kuaidiData.length>1)}">
+            <div class="flex-column pd-v-s bb-line">
+              <div class="flex-item-12 text-center" style="margin-top:3px;">
+                  {{item.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}
+              </div>
+            </div>
+            <div class="text-center pdt">
+              <p class="mgb-s">{{item.type}}</p>
+              <p class="color-orange">
+                <a href="javascript:;"
+                   modal-right="600"
+                   modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
+                   modal-scope="this"
+                   modal-url="views/kuaidi/query3.html">{{item.nu}}
+                </a>
+              </p>
+            </div>
+          </li>
+          <!-- 添加物流信息li -->
+          <li class="express-info express-list" ng-show="addAreaisShow==true">
+            <div class="mgt">
+              <select ng-if="addAreaisShow" class="select pr-select"
+                      ng-model="formData.type"
+                      chosen
+                      select-source="rest/baseData/queryForSelectOptionByType?type=快递类型">
+             </select>
+            </div>
+            <div class="mgt">
+              <input type="text" class="ipt" ng-model="formData.nu" />
+            </div>
+            <div class="flex-column mgt">
+              <span class="flex-item-6"><a href="javascript:;" ng-click="addAreaisShow=false;">取消</a></span>
+              <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xsm">保存</a></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div ng-if="!kuaidiData.length" class="woutstock-order-express">
+        <ul class="clearfix mgl-mxx-l">
+          <li class="express-list">
+            <div class="flex-column empty-kuaidi clearfix pd-v-s bb-line">
+                <div>&nbsp;</div>
+                <div style="margin-bottom: 0;">&nbsp;</div>
+              </div>
+            <div class="flex-column empty-kuaidi clearfix pd-v-s">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+              </div>
+          </li>
+          <!-- 添加物流信息li -->
+        </ul>
+      </div>
+    </div>
     <!-- 流程图 -->
     <business-flow-show business-key="{{scopeData.id}}" business-type="销售单"></business-flow-show>
     <!-- 功能按钮 -->
