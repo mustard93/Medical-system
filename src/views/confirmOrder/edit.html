@@ -408,67 +408,7 @@
                                   set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
         </address-manage-component>
-        <!-- <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
-          <div class="pd-c-v-l">
-            <header class="text-n text-bold color-3">收货方信息
-              <span class="tools pull-right">
-                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-              </span>
-            </header>
-          </div>
-          <div class="panel-body" style="display:none;">
-            <div class="consignee-info pdt-m pdb-m"
-                 ajax-if-eval="formData.customerId"
-                 ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{$root.reloadTime}}"
-                 scope-data="customerAddress"
-                 callback="customerAddressGetCallBack(formData,customerAddress)"
-                 ng-class="{'static': customerAddress.contacts}">
-              <div clear-info-list style="min-height:36px;">
-                <div class="flex-column address-div mgb-m color-black relative" ng-repeat="item in customerAddress.contacts" ng-click="formData.invoicesId=tr.id;formData.invoicesContacts=tr">
-                  <div class="inline flex-item-3">
-                    <label ng-if="customerAddress.defaultContactId!=item.id && customerAddress.contacts.length>1" class="radio">
-                        <input type="radio" class="default-radio" name="blankRadio" id="blankRadio1" value="option1"><i></i>
-                    </label>
-                    <label ng-if="customerAddress.defaultContactId==item.id && customerAddress.contacts.length>1" class="radio">
-                        <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
-                    </label>
-                    <span class="pdb">{{item.name}} </span>
-                    <span class="text-s">{{item.tel}}</span>
-                    <span class="text-s ">{{item.prov}} {{item.city}} {{item.area}}</span>
-                  </div>
-                <div class="inline flex-item-7">
-                  <span class="address-span">
-                    {{item.address}}
-                    <i class="consignee-default-label mgl-m" ng-if="customerAddress.defaultContactId==tr.id">默认</i>
-                    <em ng-if="customerAddress.defaultContactId!=tr.id" class="mgl-m set-defualt-text">设为默认收货方信息</em>
-                  </span>
-                </div>
-                <span class="pos-abs posr">
-                  <a href="javacript:;" modal-right="600"
-                    modal-data='{"customerAddressId":"{{formData.customerId}}",
-                    "defaultContactId":"{{customerAddress.defaultContactId}}",
-                    "contact":{{item}}}'
-                     modal-scope="this"
-                     modal-url="views/customerAddress/contact/edit.html">修改
-                   </a>
-              </span>
-            </div>
-                <div class="pd-c-l">
-                  <span  class="cur-pot color-href"
-                          style="min-height:136px;"
-                          modal-right="700"
-                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                          modal-scope="this"
-                          modal-url="views/customerAddress/contact/edit.html"
-                          ng-class="{'static':!customerAddress.contacts}">
-                    +新增收货地址
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <!-- 发货方信息 -->
+
         <address-manage-component compnent-title="发货方信息"
                                   request-url="rest/authen/invoicesAddress/get.json"
                                   scope-data-prefix="invoices"
@@ -479,65 +419,7 @@
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
         </address-manage-component>
-        <!-- <p style="width:90%;overflow:scroll;">{{formData}}</p> -->
-        <!-- <div class="panel pr-fuzzy-boundary pr-panel-height mgb">
-          <div class="pd-c-v-l">
-            <header class="text-n text-bold color-3">发货方信息
-              <span class="tools pull-right">
-                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-              </span>
-            </header>
-          </div>
-          <div class="panel-body" style="display:none;padding:0;">
-            <div ng-if="initFlag"
-                 class="consignee-info relative"
-                 ajax-url="rest/authen/invoicesAddress/get.json&t={{$root.reloadTime}}"
-                 scope-data="invoicesAddress"
-                 callback="invoicesGetCallBack(formData,invoicesAddress)"
-                 ng-class="{'static': invoicesAddress.contacts}">
-              <div clear-info-list>
-                <div class="flex-column address-div color-black relative" ng-repeat="tr in invoicesAddress.contacts" ng-click="formData.invoicesId=tr.id;formData.invoicesContacts=tr">
-                  <div class="inline flex-item-4">
-                    <label ng-if="invoicesAddress.defaultContactId!=tr.id && invoicesAddress.contacts.length>1" class="radio">
-                        <input type="radio" class="default-radio" name="blankRadio" id="blankRadio1" value="option1"><i></i>
-                    </label>
-                    <label ng-if="invoicesAddress.defaultContactId==tr.id && invoicesAddress.contacts.length>1" class="radio">
-                        <input type="radio" class="default-radio" name="blankRadio" checked="checked" value="option1"><i></i>
-                    </label>
-                    <span class="pdb mgr">{{tr.name}} </span>
-                    <span class="text-s mgr">{{tr.tel}}</span>
-                    <span class="text-s mgr">{{tr.prov}}&nbsp;&nbsp;{{tr.city}}&nbsp;&nbsp;{{tr.area}}</span>
-                  </div>
-                <div class="inline-block flex-item-7" style="line-height:2.4">
-                  <span class="address-span" title="{{tr.address}}">{{tr.address}}
-                    <a ng-if="invoicesAddress.defaultContactId!=tr.id" class="mgl-m set-defualt-text">设为默认发货方信息</a>
-                    <i class="consignee-default-label mgl-m" ng-if="invoicesAddress.defaultContactId==tr.id">默认</i>
-                  </span>
-                </div>
-                  <span class="pos-abs posr">
-                  <a href="javacript:;"
-                     modal-right="600"
-                     modal-data='{"invoicesAddressId":"{{invoicesAddress.id}}","defaultContactId":"{{invoicesAddress.defaultContactId}}","contact":{{tr}}}'
-                     modal-scope="this"
-                     modal-url="views/invoicesAddress/contact/edit.html">修改
-                  </a>
-                </span>
-              </div>
-              <div class="pd-c-l mgt mgb">
-                <span  class="cur-pot color-href"
-                        style="min-height:136px;"
-                        modal-right="700"
-                        modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                        modal-scope="this"
-                        modal-url="views/invoicesAddress/contact/edit.html"
-                        ng-class="{'static':!invoicesAddress.contacts}">
-                  +新增发货方信息
-                </span>
-              </div>
-            </div>
-            </div>
-          </div>
-        </div> -->
+    
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
           <h1 class="text-bold color-3">备注</h1>
