@@ -120,10 +120,12 @@
      <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);margin-left:-20px;margin-right:-20px;">
        <h1 class="pd-v-m">物流信息</h1>
        <div class="woutstock-order-express">
-         <ul>
+         <ul class="clearfix">
            <li class="express-list" ng-repeat="item in showData.kuaidiSet">
              <div class="flex-column pd-v-s bb-line">
-               <div class="flex-item-6 pr-indent-10" style="margin-top:3px;"></div>
+               <div class="flex-item-6 text-center" style="margin-top:3px;">
+                {{item.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}
+               </div>
                <div class="flex-item-6 text-right pdt-s relative">
                  <a express-btn-toggle class="origin-ele" href="javascript:;">
                    <em class="circle"></em>
@@ -146,7 +148,7 @@
                  </div>
                </div>
              </div>
-             <div class="text-center pdt-l">
+             <div class="text-center pdt">
                <p class="mgb-s">{{item.type}}</p>
                <p class="color-orange">
                  <a href="javascript:;"
@@ -160,19 +162,19 @@
            </li>
            <!-- 添加物流信息li -->
            <li class="express-info express-list" ng-show="addAreaisShow==true">
-             <div class="mgt">
+             <div class="mgt-s">
                <select ng-if="addAreaisShow" class="select pr-select"
                        ng-model="formData.type"
                        chosen
                        select-source="rest/baseData/queryForSelectOptionByType?type=快递类型">
               </select>
              </div>
-             <div class="mgt">
+             <div class="mgt-s">
                <input type="text" class="ipt" ng-model="formData.nu" />
              </div>
-             <div class="flex-column mgt">
+             <div class="flex-column mgt-s">
                <span class="flex-item-6"><a href="javascript:;" ng-click="addAreaisShow=false;">取消</a></span>
-               <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xsm">保存</a></span>
+               <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xxsm">保存</a></span>
              </div>
            </li>
            <!-- 添加按钮 -->

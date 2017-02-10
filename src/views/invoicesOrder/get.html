@@ -176,29 +176,28 @@
           </div>
         </div> -->
         <!-- 备注 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <div ng-if="scopeData.orderStatus=='已收货'" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
           <h1 class="text-bold color-3">备注</h1>
           <p>{{scopeData.note}}</p>
+        </div>
+        <div ng-if="scopeData.orderStatus!='已收货'" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <h1 class="text-bold color-3">备注</h1>
+          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="scopeData.note"></textarea>
         </div>
         <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);margin-left:-20px;margin-right:-20px;"
              ajax-if-eval="initFlag"
              ajax-url="rest/authen/wOutstockOrder/getKuaidi?invoicesOrderNo={{scopeData.orderNo}}"
              scope-data="kuaidiData">
           <h1 class="pd-v-m">物流信息</h1>
-          <div class="woutstock-order-express">
-            <ul>
-              <li class="express-list" ng-repeat="item in kuaidiData">
+          <div ng-if="kuaidiData.length" class="woutstock-order-express">
+            <ul class="clearfix">
+              <li class="express-list" ng-repeat="item in kuaidiData" ng-class="{'br-dotted-line':(kuaidiData.length>1)}">
                 <div class="flex-column pd-v-s bb-line">
-                  <div class="flex-item-6 pr-indent-10" style="margin-top:3px;"></div>
-                  <div class="flex-item-6 text-right pdt-s relative">
-                    <a express-btn-toggle class="origin-ele" href="javascript:;">
-                      <em class="circle"></em>
-                      <em class="circle"></em>
-                      <em class="circle"></em>
-                    </a>
+                  <div class="flex-item-12 text-center" style="margin-top:3px;">
+                      {{item.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}
                   </div>
                 </div>
-                <div class="text-center pdt-l">
+                <div class="text-center pdt">
                   <p class="mgb-s">{{item.type}}</p>
                   <p class="color-orange">
                     <a href="javascript:;"
@@ -227,10 +226,22 @@
                   <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xsm">保存</a></span>
                 </div>
               </li>
-              <!-- 添加按钮 -->
-              <!-- <li class="add-btn express-list" ng-class="{'express-info-empty':(!showData.kuaidiSet.length), 'add-btn':showData.kuaidiSet.length}">
-                <a href="" ng-click="addAreaisShow=true;formData.nu=''"><span class="fa fa-plus"></span></a>
-              </li> -->
+            </ul>
+          </div>
+          <div ng-if="!kuaidiData.length" class="woutstock-order-express">
+            <ul class="clearfix">
+              <li class="express-list">
+                <div class="flex-column empty-kuaidi clearfix pd-v-s bb-line">
+                    <div>&nbsp;</div>
+                    <div style="margin-bottom: 0;">&nbsp;</div>
+                  </div>
+                <div class="flex-column empty-kuaidi clearfix pd-v-s">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                  </div>
+              </li>
+              <!-- 添加物流信息li -->
             </ul>
           </div>
         </div>
@@ -242,27 +253,6 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-
-        <!-- <a ng-if="changeFlag" href="javascript:;" class="mgr"
-           handle-this-click
-           dialog-title="确认返回?"
-           dialog-content="该发货单存在未保存数据，是否保存?"
-           dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/invoicesOrder/query.html')"
-           save-callback="submitForm('editForm','exit')">返回发货单列表
-        </a>
-
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/invoicesOrder/query.html?id={{scopeData.relId}}" >返回发货单列表</a>
-        <a ng-if="formData.orderStatus=='未提交' && formData.inputUserId==mainStatus.id"
-           href="javascript:;"
-           class="pr-color-red mgr"
-           handle-this-click
-           dialog-title="确认删除?"
-           dialog-content="您确认删除这条发货单吗?"
-           dialog-template="dialog-confirm.html"
-           request-url="rest/authen/invoicesOrder/delete?id={{formData.id}}"
-           call-back="$root.goTo('#/invoicesOrder/query.html')">删除
-        </a> -->
 
         <a class="mgr-l" href="#/invoicesOrder/query.html?id={{scopeData.relId}}">返回发货单列表</a>
         <span ng-if="scopeData.didateFilter.buttons.length>0"  custom-menu-list custom-menu-arr="{{scopeData.didateFilter.buttons}}"></span>
