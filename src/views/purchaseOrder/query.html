@@ -131,12 +131,11 @@
                     <em>
                         {{tr.orderStatus}}
                     </em>
-
                   </span>
                   <span class="flex-item-6 text-right">
                     <span ng-if="tr.orderStatus=='未提交'" >
                       <a href="#/purchaseOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
-                      <span class="edit-link-icon">&nbsp;</span>
+                      <span class="edit-link-icon">&nbsp;</span></a>
                       <a ng-if="tr.orderStatus=='未提交' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
@@ -148,8 +147,7 @@
                          request-url="rest/authen/purchaseOrder/delete?id={{tr.id}}"
                          emitted="reloadList">
                       <span class="delete-link-icon">&nbsp;</span>
-                      </a>
-                      </a>
+                      </a>                    
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
                       <a ng-if="tr.orderStatus=='待采购'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s" title="生成来货通知单">
