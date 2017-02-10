@@ -80,7 +80,7 @@
               <thead>
                 <tr>
                   <th class="text-center">商品编号</th>
-                  <th>商品全名</th>
+                  <th class="text-left">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
@@ -94,22 +94,22 @@
                   <th class="text-center">无税金额</th>
                   <th class="text-center">税额</th>
                   <th class="text-center">价税合计</th>
-                  <th>报价</th>
-                  <th>产地</th>
-                  <th>失效日期</th>
-                  <th>退补标志</th>
-                  <th>保存温度</th>
-                  <th>品牌</th>
-                  <th>产地注册证号</th>
-                  <th>注册证有效期</th>
-                  <th>医保编码</th>
-                  <th>院内编码</th>
+                  <th class="text-center">报价</th>
+                  <th class="text-center">产地</th>
+                  <th class="text-center">失效日期</th>
+                  <th class="text-center">退补标志</th>
+                  <th class="text-center">保存温度</th>
+                  <th class="text-center">品牌</th>
+                  <th class="text-center">产地注册证号</th>
+                  <th class="text-center">注册证有效期</th>
+                  <th class="text-center">医保编码</th>
+                  <th class="text-center">院内编码</th>
                 </tr>
               </thead>
               <tbody class="bg-white">
                 <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="saleReturnMedicalItemController">
                   <td class="text-center">{{item.code}}</td>
-                  <td>{{item.name}}</td>
+                  <td class="text-left">{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">
@@ -127,30 +127,30 @@
                   </td>
                   <td class="text-center">{{item.batchRequirement}}</td>
                   <td class="text-center">{{item.productionBatch}}</td>
-                  <td class="text-center">{{item.price | currency:'￥'}}</td>
-                  <td class="text-center">{{item.taxRate}}%</td>
-                  <td class="text-center">￥{{item.discountPrice | number:2}}</td>
-                  <td class="text-center">{{item.discountRate}}%</td>
-                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
-                  <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
-                  <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
-                  <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+                  <td class="text-right">{{item.price | currency:'￥'}}</td>
+                  <td class="text-right">{{item.taxRate}}%</td>
+                  <td class="text-right">￥{{item.discountPrice | number:2}}</td>
+                  <td class="text-right">{{item.discountRate}}%</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
                   <td class="text-right">
                     ￥{{item.price}}
 
                   </td>
-                  <td>{{item.productionPlace}}</td>
-                  <td ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
+                  <td class="text-center">{{item.productionPlace}}</td>
+                  <td class="text-center" ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
                       scope-data="validTilldata">
                       {{validTilldata.validTill | date : 'yyyy-MM-dd'}}
                   </td>
-                  <td>{{item.withdrawalSign}}</td>
-                  <td>{{item.storedTemperature}}</td>
-                  <td>{{item.brand}}</td>
-                  <td>{{item.drugAdministrationCode}}</td>
-                  <td>{{item.drugAdministrationCodeGuaranteePeriod}}</td>
-                  <td>{{item.medicalInsuranceCode}}</td>
-                  <td>{{item.hospitalCode}}</td>
+                  <td class="text-center">{{item.withdrawalSign}}</td>
+                  <td class="text-center">{{item.storedTemperature}}</td>
+                  <td class="text-center">{{item.brand}}</td>
+                  <td class="text-center">{{item.drugAdministrationCode}}</td>
+                  <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
+                  <td class="text-center">{{item.medicalInsuranceCode}}</td>
+                  <td class="text-center">{{item.hospitalCode}}</td>
                 </tr>
               </tbody>
             </table>
