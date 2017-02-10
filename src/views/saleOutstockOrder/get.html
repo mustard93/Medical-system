@@ -1,29 +1,32 @@
 <div ng-controller="saleOutstockOrderController"
-     class="woutstock-order content-wrapper"
+     class="woutstock-order"
      ajax-url="rest/authen/wOutstockOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
      callback="formData={};formData.wOutstockOrderId=showData.id;formData.id=showData.medicalStockId;addAreaisShow=false;"
      alert-error>
      <!-- 头部信息 -->
      <div class="relative">
-       <div class="pd-v-l">
-         <!-- 标题 -->
-         <div class="mgb-m">
-           <p class="pdb-s pdt-s crumbs pr-indent-20" style="margin-left:-20px;margin-right:-20px;">库存管理 >
-             <a href="#/confirmOrder/query.html">
-                <em class="color-custom-orange">销售单</em>
-             </a>
-              <em>> 销售出库单详情</em>
-            </p>
-           <h1 class="pr-font-22 color-black mgt-l">销售出库单详情</h1>
+     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+       <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">库存管理 >
+         <a href="#/purchaseOrder/query.html">
+            <em class="color-custom-orange">销售单</em>
+         </a>
+        <em>>销售出库单详情</em>
+       </p>
+       <!-- 标题 -->
+       <div class="pd-c-v-l">
+         <div class="pos-rel-tl inline-block fl-l mgl-l">
+           <h1 class="pr-font-20 color-black">销售出库单详情</h1>
+           <p class="mgt-l text-n color-3 text-bold">客户：{{showData.customerName}}</p>
+           <p class="mgt-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
          </div>
-         <h1 class="color-black pr-font-14 text-bold">客户：{{showData.customerName}}</h1>
-         <h1 class="color-black pr-font-14 pdt-m">{{showData.warehouseName}}</h1>
        </div>
      </div>
+
      <!-- 主内容区域 -->
-     <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-       <div class="color-9">
+     <div class="content-wrapper">
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+       <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <p class="flex-column mgb  pd">
             <span class="flex-item-5">
               单据编号：<em class="color-black">{{showData.orderNo || '暂无'}}</em>
@@ -33,8 +36,10 @@
             <span class="flex-item-6 text-right">出库日期：<em >{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
             <span class="flex-item-1 text-right">状态：<em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">{{showData.orderStatus}}</em></span>
           </p>
+        </div>
+
           <!-- 主内容头部 -->
-          <div class="content-wrapper-main ">
+          <div class="">
             <div class="outside-table-d">
               <table class="table pr-table pr-new-table table-s-wid" >    <!-- table-wid -->
                 <thead class="pr-bg-side">
@@ -114,20 +119,21 @@
               </table>
             </div>
           </div>
-        </div>
-     </div>
+      </div>
+
      <!-- 备注 -->
      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
         <!-- 备注 -->
         <div class="note">
           <p>备注：{{showData.note}}</p>
         </div>
-      </div>
+    </div>
+  </div>
      <!-- 物流信息 -->
-     <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);margin-left:-20px;margin-right:-20px;">
-       <h1 class="pd-v-m">物流信息</h1>
+     <div class="pr-indent-20" style="background:rgba(215,215,215,0.37);">
+       <h1 class="pd-v-m mgl-x-l">物流信息</h1>
        <div class="woutstock-order-express">
-         <ul class="clearfix">
+         <ul class="clearfix mgl-mxx-l">
            <li class="express-list" ng-repeat="item in showData.kuaidiSet">
              <div class="flex-column pd-v-s bb-line">
                <div class="flex-item-9 text-center" style="margin-top:3px;">
@@ -192,7 +198,7 @@
        </div>
      </div>
      <!-- 流程图 -->
-     <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
+     <business-flow-show business-key="{{showData.id}}" business-type="销售单"></business-flow-show>
      <!-- 功能按钮 -->
      <div class="handle-btn-area relative">
        <div class="btn-area">
