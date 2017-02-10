@@ -189,35 +189,10 @@
           </span>
         </header>
         <div class="panel-body" style="display:none;padding:15px 0;">
-          <h1 class="mgb">发货方：</h1>
+          <h1 class="mgb">发货方：{{scopeData.supplier.name}}</h1>
           <p class="">发货人信息：
-            {{scopeData.supplier.prov}}&nbsp;&nbsp;{{scopeData.supplier.city}}&nbsp;&nbsp;{{scopeData.supplier.area}}&nbsp;&nbsp;{{scopeData.supplier.address}}&nbsp;&nbsp;{{scopeData.supplier.name}}&nbsp;&nbsp;{{scopeData.supplier.tel}}
+            {{scopeData.supplier.contact.prov}}&nbsp;&nbsp;{{scopeData.supplier.contact.city}}&nbsp;&nbsp;{{scopeData.supplier.contact.area}}&nbsp;&nbsp;{{scopeData.supplier.contact.address}}&nbsp;&nbsp;{{scopeData.supplier.contact.name}}&nbsp;&nbsp;{{scopeData.supplier.contact.tel}}
           </p>
-          <!-- <div class="consignee-info"
-               ajax-url="rest/authen/invoicesAddress/get.json"
-               scope-data="invoicesAddress"
-               callback="customerAddressGetCallBack(formData,invoicesAddress)"
-               ng-class="{'static': invoicesAddress.contacts}">
-            <ul style="min-height:136px;">
-              <li class="mgr-m mgb-m" style="min-height:136px;"  ng-repeat="item in invoicesAddress.contacts" ng-click="formData.contactsId=item.id">
-                <p class="pdb">{{item.name}} </p>
-                <p class="text-n color-6 mgb-s">{{item.prov}} {{item.city}} {{item.area}} {{item.address}} {{item.tel}}</p>
-                <p><a href="javacript:;"  modal-right="600" modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{{item}}}' modal-scope="this" modal-url="views/purchaserAddress/contact/edit.html">修改</a></p>
-                <i class="consignee-default-label"  ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
-                <i class="consignee-choise-label"   ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-              </li>
-              <span>
-                <button class="pr-add-item-whitebg" style="min-height:136px;"
-                        modal-right="700"
-                        modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                        modal-scope="this"
-                        modal-url="views/salesOrder/contact/edit.html"
-                        ng-class="{'static':!invoicesAddress.contacts}">
-                  <i class="fa fa-plus"></i>
-                </button>
-              </span>
-            </ul>
-          </div> -->
         </div>
       </div>
       <!-- 收货方信息 -->
@@ -228,7 +203,7 @@
           </span>
         </header>
         <div class="panel-body" style="display:none;padding:15px 0;">
-          <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
+          <h1 class="mgb">收货方：{{scopeData.customerName || scopeData.customerContacts.name}}</h1>
           <p class="">收货人信息：
             {{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}&nbsp;&nbsp;{{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}
           </p>
