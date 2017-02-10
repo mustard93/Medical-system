@@ -1,9 +1,9 @@
 <div class="sale-return-order right-side"
      ng-controller="returnOrderAddController"
-     ajax-If-eval="selectedData.id||formData.relId"
-     ajax-url="rest/authen/arrivalNoticeOrder/get?id={{selectedData.id||formData.relId}}"
+     ajax-If-eval="selectedData.id||responseData.relId||dialogData.id"
+     ajax-url="rest/authen/arrivalNoticeOrder/get?id={{selectedData.id||responseData.relId||dialogData.id}}"
      scope-data="addDataObj"
-     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos);"
+     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,dialogData.medicalList);"
      alert-error>
   <form id="saleReturnAddForm"
         name="saleReturnAddForm"
@@ -11,8 +11,8 @@
         parameter-body
         action="rest/authen/purchaseReturnOrder/splitOrderMedicalNos"
         alert-error
-        scope-data="formData"
-        callback="submitFormAfter(scopeResponse);$root.watchFormChange('formData',this)"
+        scope-data="responseData"
+        callback="submitFormAfter(scopeResponse);$root.watchFormChange('responseData',this)"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="relative">
@@ -153,7 +153,7 @@
       <div class="handle-btn-area relative">
         <div class="btn-area">
             <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
-            <button ng-disabled="!choisedMedicalList.length>0" ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList)" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
+            <button ng-disabled="!choisedMedicalList.length>0" ng-click="handleAddData(addDataObj.id, addDataObj.orderNo, choisedMedicalList)" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
         </div>
       </div>
     </div>
