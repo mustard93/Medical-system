@@ -16,50 +16,47 @@
             <a href="javascript:;" class="text-s">更多低库存药品...</a>
           </span>
         </div>
-    <table-list
-      list-data="rest/authen/medicalStock/queryByLowStock"
-      list-params="listParams"
-      search-mode="noCaseSensitive"
-      search-param="q">
-        <div class="pd-c-l">
-          <table class="table tabel-layout-fixed index-table-th text-s">
-            <thead>
-              <tr>
-                <th class="w-50">
-                  <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
-                </th>
-                <th class="pr-panel-title-color color-6 pr-label-bold text-center w-120">药械编号</th>
-                <th class="pr-panel-title-color color-6 pr-label-bold">药械名</th>
-                <th class="pr-panel-title-color color-6 pr-label-bold">厂家名</th>
-                <th class="pr-panel-title-color color-6 pr-label-bold text-center w-120">规格/型号</th>
-                <th class="pr-panel-title-color color-6 pr-label-bold text-center w-160">注册证号</th>
-                <th class="pr-panel-title-color color-6 pr-label-bold text-center w-160">批准文号</th>
-                <th class="pr-panel-title-color color-6 pr-label-bold text-center w-100">库存数</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bb-dashed-line" ng-repeat="tr in tbodyList">
-                <td class="select-td">
-                  <input type="checkbox" class="selectOne" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
-                </td>
-                <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.code}}">{{tr.code}}</td>
-                <td class="color-6 overhide w-space-nowrap" title="{{tr.name}}">{{tr.name}}</td>
-                <td class="color-6 overhide w-space-nowrap" title="{{tr.manufacturer}}">{{tr.manufacturer}}</td>
-                <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.specificationAndModelType}}">{{tr.specificationAndModelType}}</td>
-                <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.drugAdministrationCode}}">{{tr.drugAdministrationCode}}</td>
-                <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.licenseNumber}}">{{tr.licenseNumber}}</td>
-                <td class="color-6 overhide w-space-nowrap text-right" title="{{tr.stockModel.salesQuantity}}">{{tr.stockModel.salesQuantity || '0'}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- 分页 -->
-        <div class="clearfix body-bg">
-          <div class="fr body-bg">
-            <pagination status="status"></pagination>
+          <div class=""
+              ng-init="listParams.pageSize=5">
+            <table-list
+              list-data="rest/authen/medicalStock/queryByLowStock"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+                <div class="pd-c-l">
+                  <table class="table tabel-layout-fixed index-table-th text-s">
+                    <thead>
+                      <tr>
+                        <th class="w-50">
+                          <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                        </th>
+                        <th class="pr-panel-title-color color-6 pr-label-bold text-center w-120">药械编号</th>
+                        <th class="pr-panel-title-color color-6 pr-label-bold">药械名</th>
+                        <th class="pr-panel-title-color color-6 pr-label-bold">厂家名</th>
+                        <th class="pr-panel-title-color color-6 pr-label-bold text-center w-120">规格/型号</th>
+                        <th class="pr-panel-title-color color-6 pr-label-bold text-center w-160">注册证号</th>
+                        <th class="pr-panel-title-color color-6 pr-label-bold text-center w-160">批准文号</th>
+                        <th class="pr-panel-title-color color-6 pr-label-bold text-center w-100">库存数</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="bb-dashed-line" ng-repeat="tr in tbodyList">
+                        <td class="select-td">
+                          <input type="checkbox" class="selectOne" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                        </td>
+                        <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.code}}">{{tr.code}}</td>
+                        <td class="color-6 overhide w-space-nowrap" title="{{tr.name}}">{{tr.name}}</td>
+                        <td class="color-6 overhide w-space-nowrap" title="{{tr.manufacturer}}">{{tr.manufacturer}}</td>
+                        <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.specificationAndModelType}}">{{tr.specificationAndModelType}}</td>
+                        <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.drugAdministrationCode}}">{{tr.drugAdministrationCode}}</td>
+                        <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.licenseNumber}}">{{tr.licenseNumber}}</td>
+                        <td class="color-6 overhide w-space-nowrap text-right" title="{{tr.stockModel.salesQuantity}}">{{tr.stockModel.salesQuantity || '0'}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </table-list>
           </div>
-        </div>
-    </table-list>
       </div>
     </div>
   </div>
