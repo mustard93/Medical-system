@@ -2986,15 +2986,6 @@ define('project/controllers', ['project/init'], function() {
       alertWarn('cancelForm');
     };
 
-    //
-    // $scope.$watch('addDataObj', function (newVal) {
-    //   if (newVal && $scope.formData) {
-    //     $scope.formData.relId = $scope.addDataObj.id;
-    //     $scope.formData.orderMedicalNos = angular.copy($scope.choisedMedicalList);
-    //   }
-    // }, true);
-
-
     // 添加选择项到编辑页
     $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList) {
       if(!addDataObj_id){//发货单id不能为空
@@ -3187,7 +3178,7 @@ define('project/controllers', ['project/init'], function() {
    * @param  {[type]} $scope [description]
    * @return {[type]}        [description]
    */
-  function returnOrderAddController ($scope, $rootScope, modal,utils) {
+  function returnOrderAddController ($scope, $rootScope, modal, utils, requestData, alertError) {
 
     $scope.addDataObj={};
 
@@ -3197,15 +3188,20 @@ define('project/controllers', ['project/init'], function() {
         var choisedMedicalList = [];
         if(!addDataObj_orderMedicalNos)return choisedMedicalList;
 
-              //如果销售退货细表中有该条目则选中
-          angular.forEach(addDataObj_orderMedicalNos, function (data, index) {
+        $scope.isChoiseAll = true;
 
-            if(utils.getObjectIndexByKeyOfArr(saleReturnOrder_orderMedicalNos,"relId",data.relId)>-1){
-              data.itemSelected = true;
-              choisedMedicalList.push(data);
-            }
+        //如果销售退货细表中有该条目则选中
+        angular.forEach(addDataObj_orderMedicalNos, function (data, index) {
+          if(utils.getObjectIndexByKeyOfArr(saleReturnOrder_orderMedicalNos,"relId",data.relId)>-1){
+            data.itemSelected = true;
+            choisedMedicalList.push(data);
+          }
 
-          });
+          if (!data.itemSelected) {
+            $scope.isChoiseAll = false;
+          }
+        });
+
         return choisedMedicalList;
     };
 
@@ -3249,30 +3245,58 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach(_dataSource, function (data, index) {
           data.itemSelected = true;
           $scope.choisedMedicalList.push(data);
-
-          $scope.formData.orderMedicalNoSet.push(data);
-
         });
       } else  {
         angular.forEach(_dataSource, function (data, index) {
           data.itemSelected = false;
           $scope.choisedMedicalList = [];
-
-          $scope.formData.orderMedicalNoSet = [];
-
         });
       }
 
     };
 
-    // // 添加选择项到编辑页
-    // $scope.handleAddDataArray = function () {
-    //   if ($scope.choisedMedicalList) {
-    //        $rootScope.addDataObj = angular.copy($scope.addDataObj);
-    //         $rootScope.addDataObj.planQuantity=$rootScope.addDataObj.quantity;
-    //     modal.closeAll();
-    //   }
-    // };
+    // 根据设计变更重写hanleAddDataArray方法,需将选中的数据及id发送到后端进行拆分后将返回数据加载到主页面
+    $scope.handleAddData = function (addDataObj_id, addDataObj_orderNo,choisedMedicalList) {
+
+      // 发货单id不能为空,至少选择1条数据
+      if (!addDataObj_id || !addDataObj_orderNo || !choisedMedicalList || choisedMedicalList.length === 0) {
+        return ;
+      }
+
+      // 清空原有数据
+      $scope.formData.relId = addDataObj_id;
+      $scope.formData.orderMedicalNos = [];
+
+      // 初始化
+      var _data = {
+        'arrivalNoticeOrderNo': '',
+        'orderMedicalNoSet': []
+      };
+
+      _data.arrivalNoticeOrderNo = addDataObj_orderNo;
+      angular.forEach(choisedMedicalList, function (data, index) {
+        _data.orderMedicalNoSet.push(data);
+      });
+
+      var _url = 'rest/authen/purchaseReturnOrder/splitOrderMedicalNos';
+      requestData(_url, _data, 'POST', 'parameter-body')
+      .then(function (results) {
+
+        var _resultData = results[1].data;
+
+        angular.forEach(_resultData, function (data, index) {
+          $scope.formData.orderMedicalNos.push(data);
+        });
+
+        modal.closeAll();
+
+      })
+      .catch(function (error) {
+        if (error) {
+          alertError(error || '出错');
+        }
+      });
+    };
   }
 
   /**
@@ -3368,7 +3392,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('saleOutstockOrderController', ['$scope', 'requestData', 'utils', saleOutstockOrderController])
   .controller('imTaobaoCtr', ['$scope',"requestData",'alertError',"$rootScope", imTaobaoCtr])
   .controller('saleReturnMedicalItemController', ['$scope', saleReturnMedicalItemController])
-  .controller('returnOrderAddController', ["$scope", "$rootScope", "modal","utils", returnOrderAddController])
+  .controller('returnOrderAddController', ["$scope", "$rootScope", "modal","utils", "requestData", "alertError", returnOrderAddController])
   .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
   .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
   .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
