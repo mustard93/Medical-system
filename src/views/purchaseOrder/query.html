@@ -114,7 +114,11 @@
 <div class="content-wrapper purchase-order"
   ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus"
 >
-  <table-list list-data="{{mainStatus.requestPath}}rest/authen/purchaseOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+  <table-list
+    list-data="{{mainStatus.requestPath}}rest/authen/purchaseOrder/query.json"
+    list-params="listParams"
+    search-mode="noCaseSensitive"
+    search-param="q">
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <div ng-if="!status.isLoading">
@@ -147,7 +151,7 @@
                          request-url="rest/authen/purchaseOrder/delete?id={{tr.id}}"
                          emitted="reloadList">
                       <span class="delete-link-icon">&nbsp;</span>
-                      </a>                    
+                      </a>
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
                       <a ng-if="tr.orderStatus=='待采购'" href="#/purchaseOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s" title="生成来货通知单">
