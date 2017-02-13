@@ -51,62 +51,89 @@
                     <thead class="pr-bg-side">
                       <tr>
                           <!-- <th>序号</th> -->
-                          <th class="text-center">单据日期</th>
-                          <th class="text-center">单据类型</th>
-                          <th class="text-center">单据编号</th>
-                          <th class="w-140 text-center">仓库</th>
-                          <th class="w-220 text-center">库类型</th>
-                          <th class="text-center">商品编号</th>
-                          <th class="w-220 text-left">商品名称</th>
+                          <th class="text-center">商品编码</th>
+                          <th class="text-center">商品代码</th>
+                          <th class="text-center w-100">商品名称</th>
+                          <th class="text-center">库类型</th>
                           <th class="text-center">规格/型号</th>
-                          <th class="text-center">注册证号</th>
                           <th class="text-center">单位</th>
-                          <th class="text-center">实收数量</th>
+                          <th class="text-center">正常数量</th>
                           <th class="text-center">拒收数量</th>
                           <th class="text-center">其他数量</th>
+                          <th class="text-center">含税单价</th>
+                          <th class="text-center">含税金额</th>
+                          <th class="text-center">税率</th>
                           <th class="text-center">批号</th>
                           <th class="text-center">灭菌批号</th>
-                          <th class="text-center">有效期至</th>
                           <th class="text-center">生产日期</th>
-                          <th class="w-260">备注</th>
+                          <th class="text-center">保质期</th>
+                          <th class="text-center">失效日期</th>
+                          <th class="text-center">产品执行标准</th>
+                          <th class="text-center">保存温度</th>
+                          <th class="text-center">产地品牌</th>
+                          <th class="text-center">产品注册证号</th>
+                          <th class="text-center">注册证有效期</th>
                       </tr>
                     </thead>
 
                     <tbody class="pr-bg-white" >
 
                       <tr ng-repeat="tr in showData.inoutstockDetails" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
-                        <!-- <td class="text-center">{{tr.code}}</td>
+                        <td class="text-center">{{tr.code}}</td>
                         <td class="text-center">{{tr.goodsCode}}</td>
                         <td class="text-center">
-                        <div class="autocut-l" title="{{tr.medicalStockName}}">
-                          {{tr.name}}
-                        </div>
+                          <div class="autocut" title="{{tr.name}}">
+                            {{tr.name}}
+                          </div>
                         </td>
                         <td class="text-center">
-                          {{tr.modelType}}
+                          {{tr.repositoryTypeName}}
+                        </td>
+                        <td class="text-center">
+                          {{tr.specificationAndModelType}}
                         </td>
                         <td class="text-center">
                           {{tr.unit}}
                         </td>
-
-                        <td class="text-center">
-                        {{tr.quantity}}
+                        <td class="text-right"
+                        ng-class="{'pr-bg-orange3':tr.quantity!=tr.storageQuantity}"
+                        >
+                          {{tr.storageQuantity || '0'}}
                         </td>
-
+                        <td class="text-right">
+                          {{tr.refuseQuantity || '0'}}
+                        </td>
+                        <td class="text-right">
+                          {{tr.otherQuantity || '0'}}
+                        </td>
+                        <td class="text-right">
+                          ￥{{tr.price}}
+                        </td>
+                        <td class="text-right" >
+                          ￥{{(tr.price*tr.quantity).toFixed(2)}}
+                        </td>
+                        <td class="text-right">
+                        {{tr.taxRate}}%
+                        </td>
                         <td class="text-center">
-
+                          <!-- 生产批号 -->
                         {{tr.productionBatch}}
+                        </td>
+                        <td class="text-center">
+                        {{tr.sterilizationBatchNumber}}
                         </td>
                         <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                         <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                         <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
 
                         <td class="text-center">
-
+                          <!-- 产品执行标准 -->
+                          {{tr.productStandard}}
                         </td>
 
                         <td class="text-center">
-
+                          <!-- 保存温度 -->
+                          {{tr.storedTemperature}}
                         </td>
 
                         <td class="text-center">
@@ -119,57 +146,24 @@
                         <td>
                           {{tr.drugAdministrationCodeGuaranteePeriod}}
                         </td>
- -->
-
-                        <td class="text-center">{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
+                        <!-- <td class="text-center">{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
                         <td class="text-center">{{tr.type}}</td>
-                        <!-- <td class="color-orange">
+                        <td class="color-orange text-center">
+                          <span ng-if="tr.type=='移库入库单'">{{tr.sourceOrderNo}}</span>
+
                             <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.sourceOrderNo}}">
                             {{tr.sourceOrderNo}}
                             </a>
-                            <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.sourceOrderNo}}">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='销售入库单'" href="#">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='采购来货通知单'" href="#">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='采购退货出库单'" href="#">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='销售退货入库单'" href="#">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='报损出库单'" href="#">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='报溢入库单'" href="#">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='批次冻结出库单'" href="#">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='批次解冻入库单'" href="#">
-                            {{tr.sourceOrderNo}}
-                            </a> -->
-                            <td class="color-orange text-center">
-                              <span ng-if="tr.type=='移库入库单'">{{tr.sourceOrderNo}}</span>
 
-                                <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.sourceOrderNo}}">
-                                {{tr.sourceOrderNo}}
-                                </a>
-
-                                <a ng-if="tr.type=='采购退货入库单'" href="#purchaseReturnOrder/get.html?orderNo={{tr.sourceOrderNo}}">
-                                {{tr.sourceOrderNo}}
-                                </a>
-                                <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?orderNo={{tr.sourceOrderNo}}">
-                                {{tr.sourceOrderNo}}
-                                </a>
-                                <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThaworder/get-thaw.html?orderNo={{tr.sourceOrderNo}}">
-                                {{tr.sourceOrderNo}}
-                                </a>
+                            <a ng-if="tr.type=='采购退货入库单'" href="#purchaseReturnOrder/get.html?orderNo={{tr.sourceOrderNo}}">
+                            {{tr.sourceOrderNo}}
+                            </a>
+                            <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?orderNo={{tr.sourceOrderNo}}">
+                            {{tr.sourceOrderNo}}
+                            </a>
+                            <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThaworder/get-thaw.html?orderNo={{tr.sourceOrderNo}}">
+                            {{tr.sourceOrderNo}}
+                            </a>
 
                         </td>
                         <td class="text-center">
@@ -205,7 +199,7 @@
                         <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
                         <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
                         <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
-                        <td class="text-center">{{tr.note}}</td>
+                        <td class="text-center">{{tr.note}}</td> -->
                       </tr>
                     </tbody>
                 </table>
