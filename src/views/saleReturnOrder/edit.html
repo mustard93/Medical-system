@@ -114,6 +114,7 @@
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">
                     <input type="number"
+                           style="width:60px;"
                            class="ipt pr-ipt-60 text-right"
                            name="quantity{{$index}}"
                            ng-model="item.quantity"
@@ -135,10 +136,7 @@
                   <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                   <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
                   <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
-                  <td class="text-right">
-                    ￥{{item.price}}
-
-                  </td>
+                  <td class="text-right">￥{{item.price}}</td>
                   <td class="text-center">{{item.productionPlace}}</td>
                   <td class="text-center" ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
                       scope-data="validTilldata">
@@ -171,23 +169,7 @@
         </div>
 
         <!-- 流程图 -->
-
         <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
-        <!-- <div ng-if="formData.id"
-             class="modal-content pr-modal-content pr-modal-process pd-c-xxxl mgb-xxxl"
-             ajax-url="rest/authen/businessFlow/getByBusinessKey.json"
-             params='{"businessKey":"{{formData.id}}","businessType":"销售单"}'
-             scope-data="businessFlowData"
-             callback="businessFlowDataInitFlag=true;"
-             error-callback="businessFlowDataInitFlag=true;">
-           <canvas ng-if="businessFlowDataInitFlag"  id="canvas" canvas-business-flow ng-model="businessFlowData"   cur-rel-id="{{formData.id}}"
-                   width="{{$root.utils.getMainBodyWidth()}}" height="300px"
-                   base-image-url="images/canvasBusinessFlow/"
-                   spacing-height="80" spacing-width="40">
-           </canvas>
-         </div> -->
-
-
     </div>
 
     <!-- 功能按钮 -->
