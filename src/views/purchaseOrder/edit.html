@@ -160,10 +160,10 @@
                    <th class="text-center" ng-if="formData.relId">实际数量</th>
                    <th class="text-center w-130">批号要求</th>
                    <th class="text-center">原币含税单价</th>
-                   <th class="text-center">税率</th>
                    <th class="text-center">原币单价</th>
                    <th class="text-center">原币金额</th>
                    <th class="text-center">原币价税合计</th>
+                   <th class="text-center">税率</th>
                    <th class="text-center">保存温度</th>
                    <th class="text-center">产地品牌</th>
                    <th class="text-center">产品注册证号</th>
@@ -236,15 +236,15 @@
                               popover-show
                               popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'  -->
                      </td>
+                     <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
+                     <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
+                     <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
                      <td class="text-center">
                        <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.taxRate">
                          <option value="17" ng-selected="tr.taxRate==17">17</option>
                          <option value="3" ng-selected="tr.taxRate==3">3</option>
                        </select>%
                      </td>
-                     <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
-                     <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
-                     <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
                      <td class="text-center">{{tr.storedTemperature}}</td>
                      <td class="text-center">{{tr.brand}}</td>
                      <td class="text-center">{{tr.drugAdministrationCode}}</td>
