@@ -1841,6 +1841,61 @@ function tableItemHandlebtnComponent (utils) {
 }
 
 /**
+ * [tableItemHandlebtnComponent2 description]
+ * @param  {[type]} utils [description]
+ * @return {[type]}       [description]
+ */
+function tableItemHandlebtnComponent2 (utils) {
+  'use strict';
+  return {
+    restrict: 'A',
+    scope: true,
+    link: function (scope, element, attrs) {
+
+      element.hover(function () {
+
+        // 当前行序号
+        var _index = attrs.tableItemIndex,
+            _orderMedicalNos = scope.formData.orderMedicalNos;
+
+        // 计算当前tr距离顶部的高度
+        var _offsetTop = $(element).offset().top - document.body.scrollTop;
+        // 计算当前页面宽度
+        var _pageWidth = utils.getMainBodyWidth() + 65;
+
+        var _html = '<div class="table-item-handle-btn" style="top:'+_offsetTop+'px;left:'+_pageWidth+'px;">' +
+                      '<div class="table-item-confirm-del-area bg-white" style="display:none;">' +
+                        '<p class="bb-line color-red pd-v-s">确认删除本条数据?</p>' +
+                        '<p class="pdt-s">' +
+                          '<a href="javascript:;" class="cancelHandle">取消</a>' +
+                          '<a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl" onClick="alert('+scope+')">确认</a>' +
+                        '</p>' +
+                      '</div>' +
+                    '</div>';
+
+        $(element).append(_html).find('div.table-item-handle-btn').on('click', function () {
+          $('div.table-item-confirm-del-area').show();
+        }).find('a.cancelHandle').on('click', function () {
+          $(element).find('div.table-item-handle-btn').hide();
+        });
+
+        // $(element).find('a.confirm-del-this').on('click', function () {
+        //   angular.forEach(scope.formData.orderMedicalNos, function (data, index) {
+        //     if (index === scope._index) {
+        //       scope.formData.orderMedicalNos.splice(index,1);
+        //     }
+        //   });
+        // });
+
+
+      }, function () {
+        $(element).find('div.table-item-handle-btn').remove();
+      });
+    }
+  };
+}
+
+/**
   	 *
   	* @Description: html编辑器
   	* @method sayMsgToOther
@@ -2783,6 +2838,7 @@ function requestExpressInfoTab (requestData, alertError) {
 }
 
 angular.module('manageApp.project')
+  .directive("tableItemHandlebtnComponent2", ['utils', tableItemHandlebtnComponent2])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
   .directive("expressBtnToggle", [expressBtnToggle])
