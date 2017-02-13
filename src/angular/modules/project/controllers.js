@@ -895,8 +895,8 @@ define('project/controllers', ['project/init'], function() {
 
 
      if ($scope.submitForm_type == 'submit') {
-       var url='rest/authen/confirmOrder/updateStatus';
-       var data= {id:$scope.formData.id,status:'待审核'};
+       var url='rest/authen/confirmOrder/startProcessInstance';
+       var data= {businessKey:$scope.formData.id};
        requestData(url, data, 'POST')
          .then(function (results) {
            var _data = results[1];
