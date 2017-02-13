@@ -207,50 +207,6 @@
                                   set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
         </address-manage-component>
-        <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold color-3">收货方信息
-            <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-            </span>
-          </header>
-          <div class="panel-body" style="display:none;padding:15px 0;">
-            <div class="consignee-info pdt-m pdb-m"
-                 ajax-if-eval="formData.customerId"
-                 ajax-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{$root.reloadTime}}"
-                 scope-data="customerAddress"
-                 callback="customerAddressGetCallBack(formData,customerAddress)"
-                 ng-class="{'static': customerAddress.contacts}">
-              <ul ng-if="formData.customerId" clear-info-list style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;" ng-repeat="item in customerAddress.contacts" ng-click="formData.contactsId=item.id">
-                  <p class="pdb">{{item.name}} </p>
-                  <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
-                  <p class="text-s">{{item.tel}}</p>
-                  <p><a href="javacript:;" modal-right="600"
-                    modal-data='{"customerAddressId":"{{formData.customerId}}",
-                    "defaultContactId":"{{customerAddress.defaultContactId}}",
-                    "contact":{{item}}}'
-                     modal-scope="this"
-                     modal-url="views/customerAddress/contact/edit.html">修改</a></p>
-                  <i class="consignee-default-label" ng-if="customerAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label" ng-if="formData.contactsId==item.id"><em class="fa fa-check color-white"></em></i>
-                </li>
-                <span>
-                  <button  class="pr-add-item-whitebg"
-                   type="button"
-                          style="min-height:136px;"
-                          modal-right="700"
-                          modal-data='{"customerAddressId":"{{formData.customerId}}","contact":{}}'
-                          modal-scope="this"
-                          modal-url="views/customerAddress/contact/edit.html"
-                          ng-class="{'static':!customerAddress.contacts}">
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </span>
-              </ul>
-            </div>
-          </div>
-        </div> -->
-        <!-- 发货方信息 -->
         <address-manage-component compnent-title="发货方信息"
                                   request-url="rest/authen/invoicesAddress/get.json"
                                   scope-data-prefix="invoices"
@@ -261,50 +217,6 @@
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
         </address-manage-component>
-        <!-- <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n text-bold color-3">发货方信息
-            <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-            </span>
-          </header>
-          <div class="panel-body" style="display:none;padding:15px 0;">
-            <div ng-if="initFlag"
-                 class="consignee-info pdt-m pdb-m"
-                 ajax-url="rest/authen/invoicesAddress/get.json&t={{$root.reloadTime}}"
-                 scope-data="invoicesAddress"
-                 callback="invoicesGetCallBack(formData,invoicesAddress)"
-                 ng-class="{'static': invoicesAddress.contacts}">
-              <ul clear-info-list style="min-height:136px;">
-                <li class="mgr-m mgb-m" style="min-height:136px;" ng-repeat="item in invoicesAddress.contacts" ng-click="formData.invoicesId=item.id;formData.invoicesContacts=item">
-                  <p class="pdb">{{item.name}} </p>
-                  <p class="text-s color-6">{{item.prov}} {{item.city}} {{item.area}} {{item.address}}</p>
-                  <p class="text-s">{{item.tel}}</p>
-                  <p>
-                    <a href="javacript:;"
-                       modal-right="600"
-                       modal-data='{"invoicesAddressId":"{{invoicesAddress.id}}","defaultContactId":"{{invoicesAddress.defaultContactId}}","contact":{{item}}}'
-                       modal-scope="this"
-                       modal-url="views/invoicesAddress/contact/edit.html">修改
-                    </a>
-                  </p>
-                  <i class="consignee-default-label" ng-if="invoicesAddress.defaultContactId==item.id">默认</i>
-                  <i class="consignee-choise-label" ng-if="formData.invoicesId==item.id"><em class="fa fa-check color-white"></em></i>
-                </li>
-                <span style="position:relative;top:-43px;">
-                  <button class="pr-add-item-whitebg static"
-                          style="min-height:136px;"
-                          modal-right="700"
-                          modal-data='{"invoicesAddressId":"{{formData.customerId}}","contact":{}}'
-                          modal-scope="this"
-                          modal-url="views/invoicesAddress/contact/edit.html">
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </span>
-              </ul>
-            </div>
-          </div>
-        </div> -->
-        <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
           <h1 class="text-bold color-3">备注</h1>
           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
@@ -401,6 +313,20 @@
              request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
              callback="$root.goTo('#/salesOrder/query.html')">删除
           </a>
+
+          <span class="alink-likeBtn">
+            <a href=""
+               ng-if="formData.orderStatus=='处理中'"
+               class="btn mgr-s"
+               handle-this-click
+               dialog-title="确认?"
+               dialog-content="还有药械未处理,确认关闭?"
+               dialog-template="pr-dialog-confirm.html"
+               request-url="rest/authen/salesOrder/updateStatus?id={{formData.id}}&status=已处理"
+               callback="$root.goTo('#/salesOrder/get.html?id={{formData.id}}')">关闭
+            </a>
+          </span>
+
 
           <button class="pr-btn-save-glodbg mgr-s"
                   ng-disabled="!changeFlag || !editForm.$valid"

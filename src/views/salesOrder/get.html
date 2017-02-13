@@ -1,47 +1,39 @@
-<!-- 头部信息 -->
-<div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 > <em class="color-custom-orange">购需单</em></p>
-  <!-- 标题 -->
-  <div class="pd-c-xxxxxl">
-    <div class="pos-rel-tl inline-block fl-l">
-      <h1 class="pr-font-20 color-black">购需单详情</h1>
+<div class="sales-order-details">
+  <!-- 头部信息 -->
+  <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+    <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 > <em class="color-custom-orange">购需单</em></p>
+    <!-- 标题 -->
+    <div class="pd-c-xxxxxl">
+      <div class="pos-rel-tl inline-block fl-l">
+        <h1 class="pr-font-20 color-black">购需单详情</h1>
+      </div>
     </div>
   </div>
-</div>
-
-<div class="content-wrapper"
-     ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
-     scope-data="showData"
-     callback="formData={};formData.id=showData.id"
-     alert-error>
   <!-- 主内容区域 -->
-  <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-    <!-- 单据信息 -->
-    <div class="flex-column pd-c-m pdt pdb bb-line">
-      <div class="flex-item-4">
-        <span class="mgr-m color-9">单据编号：<span class="color-6">{{showData.orderNo}}</span></span>
+  <div class="content-wrapper"
+       ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
+       scope-data="showData"
+       callback="formData={};formData.id=showData.id"
+       alert-error>
+    <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
+      <!-- 单据信息 -->
+      <div class="flex-column pd-c-m pdt-m pdb">
+        <div class="flex-item-4">
+          <span class="mgr-m color-9">单据编号：<span class="color-6">{{showData.orderNo}}</span></span>
+        </div>
+        <div class="flex-item-8 text-right">
+          <span class="mgr-xl color-9">创建时间：<span class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span></span>
+          <a modal-center="1000px"
+             modal-data='{"businessKey":"{{showData.id}}"}'
+             modal-scope="this"
+             modal-url="views/workflowTask/getOfDialog.html">
+          <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+          </a>
+        </div>
       </div>
-      <div class="flex-item-8 text-right">
-        <span class="mgr-xl color-9">创建时间：<span class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span></span>
-        <a
-        modal-center="1000px"
-        modal-data='{"businessKey":"{{showData.id}}"}'
-        modal-scope="this"
-        modal-url="views/workflowTask/getOfDialog.html"
-        >
-        <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-        </a>
-      </div>
-    </div>
-    <!-- 商品列表 -->
-    <div class="">
-      <!-- 可发货 -->
-      <div class="confirm-order bb-line pdb-l" ng-if="showData.orderMedicalNos.length>0">
-        <h1 class="pdt-l color-6 text-m pr-fw-500">药械清单</h1>
-        <div order-medicals  ng-model="showData.orderMedicalNos"></div>
-      </div>
-      <div class="confirm-order bb-line pdb" ng-if="showData.orderMedicalNos.length==0">
-        <table class="table pr-table pr-new-table mgb-n mgt" style="">
+      <!-- 未处理药械清单 -->
+      <div class="confirm-order bb-line">
+        <table class="table pr-table pr-new-table mgt">
           <thead>
             <tr>
               <th class="text-center">商品编号</th>
@@ -62,6 +54,31 @@
               <th class="text-center">价税合计</th>
             </tr>
           </thead>
+          <tbody ng-if="showData.orderMedicalNos.length>0">
+            <tr ng-repeat="item in showData.orderMedicalNos">
+              <td class="text-center">{{item.code}}</td>
+              <td>{{item.name}}</td>
+              <td class="text-center">{{item.specificationAndModelType}}</td>
+              <td class="text-center">{{item.unit}}</td>
+              <td class="text-right">{{item.quantity}}</td>
+              <td class="text-center">{{item.batchRequirement}}</td>
+              <td class="text-center">{{item.productionBatch}}</td>
+              <td class="text-right">￥{{item.price | number:2}}</td>
+              <td class="text-right">{{item.taxRate}}%</td>
+              <td class="text-right">￥{{item.discountPrice | number:2}}</td>
+              <td class="text-right">{{item.discountRate}}%</td>
+              <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
+              <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+              <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
+              <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
+              <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+
+              <!-- <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
+              <td class="text-center">￥{{(item.price*(1-item.taxRate)-item.discountPrice)*item.quantity | number:2}}</td>
+              <td class="text-center">￥{{item.price*item.quantity*item.taxRate | number:2}}</td>
+              <td class="text-center">￥{{item.price*item.quantity | number:2}}</td> -->
+            </tr>
+          </tbody>
         </table>
         <div class="empty-table clearfix" ng-if="!showData.orderMedicalNos.length">
             <div>&nbsp;</div>
@@ -70,118 +87,125 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- 收货方信息 -->
-  <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb mgt">
-    <header class="text-n color-3 text-bold">收货方信息
-      <span class="tools pull-right">
-        <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-      </span>
-    </header>
-    <div class="panel-body" style="display:none;padding:15px 0;">
-      <h1 class="mgb">收货方：{{showData.customerName}}</h1>
-      <p class="">收货人信息：
-        {{showData.customerContacts.prov}}&nbsp;&nbsp;{{showData.customerContacts.city}}&nbsp;&nbsp;{{showData.customerContacts.area}}&nbsp;&nbsp;{{showData.customerContacts.address}}&nbsp;&nbsp;{{showData.customerContacts.name}}&nbsp;&nbsp;{{showData.customerContacts.tel}}
-      </p>
-    </div>
-  </div>
-
-  <!-- 发货方信息 -->
-  <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-    <header class="text-n color-3 text-bold">发货方信息
-      <span class="tools pull-right">
-        <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-      </span>
-    </header>
-    <div class="panel-body" style="display:none;padding:15px 0;">
-      <h1 class="mgb">发货方：{{$root.curUser.additional.HabbitOrganizationName}}</h1>
-      <p class="">发货人信息：
-        {{showData.invoicesContacts.prov}}&nbsp;&nbsp;{{showData.invoicesContacts.city}}&nbsp;&nbsp;{{showData.invoicesContacts.area}}&nbsp;&nbsp;{{showData.invoicesContacts.address}}&nbsp;&nbsp;{{showData.invoicesContacts.name}}&nbsp;&nbsp;{{showData.invoicesContacts.tel}}
-      </p>
-    </div>
-  </div>
-
-  <!-- 备注 -->
-  <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-    <h1 class="text-bold color-3">备注</h1>
-    <p>{{showData.note}}</p>
-  </div>
-
-  <!-- 附属信息 -->
-  <table-list  ng-if="formData.id" list-data="rest/authen/confirmOrder/getListByRelId.json?relId={{formData.id}}">
-    <div ng-if="tbodyList.length>0" class="mgt mgb-l pd-v-m content-wrapper-main pr-bg-white pr-fuzzy-boundary">
-      <!-- 标题 -->
-      <h1 class="pdb-m text-n text-bold pdl-m pdr-m">已生成销售单部分</h1>
-      <div ng-repeat="tr in tbodyList">
-        <div class="flex-column text-s pdl-m pdr-m">
-          <div class="flex-item-8 color-9">
-            <span class="mgr-l">单据编号：<a href="#/confirmOrder/get.html?id={{showData.id}}">{{tr.orderNo}}</a>
-              </span>
-            <span>创建时间：<em class="text-normal"><span class="color-6">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</span></em></span>
-          </div>
-          <div class="flex-item-4 text-right color-9">
-            <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{tr.orderStatus}}</span></em></span>
-            <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{tr.orderStatus}}</em></span>
-          </div>
-        </div>
-        <div class="order-details pdb-l mgt">
-          <table class="table pr-table pr-new-table mgb-n">
-            <thead>
-              <tr>
-                <th class="text-center">商品编号</th>
-                <th>商品全名</th>
-                <th class="text-center">规格/型号</th>
-                <th class="text-center">单位</th>
-                <th class="text-center">数量</th>
-                <th class="text-center w-110">批号要求</th>
-                <th class="text-center w-160">生产批号/灭菌批号</th>
-                <th class="text-center">报价</th>
-                <th class="text-center">税率</th>
-                <th class="text-center">折扣额</th>
-                <th class="text-center">折扣率</th>
-                <th class="text-center">含税单价</th>
-                <th class="text-center">无税单价</th>
-                <th class="text-center">无税金额</th>
-                <th class="text-center">税额</th>
-                <th class="text-center">价税合计</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="item in tbodyList[$index].orderMedicalNos">
-                <td class="text-center">{{item.code}}</td>
-                <td>{{item.name}}</td>
-                <td class="text-center">{{item.specificationAndModelType}}</td>
-                <td class="text-center">{{item.unit}}</td>
-                <td class="text-right">{{item.quantity}}</td>
-                <td class="text-center">{{item.batchRequirement}}</td>
-                <td class="text-center">{{item.productionBatch}}</td>
-                <td class="text-right">￥{{item.price | number:2}}</td>
-                <td class="text-right">{{item.taxRate}}%</td>
-                <td class="text-right">￥{{item.discountPrice | number:2}}</td>
-                <td class="text-right">{{item.discountRate}}%</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
-
-                <!-- <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
-                <td class="text-center">￥{{(item.price*(1-item.taxRate)-item.discountPrice)*item.quantity | number:2}}</td>
-                <td class="text-center">￥{{item.price*item.quantity*item.taxRate | number:2}}</td>
-                <td class="text-center">￥{{item.price*item.quantity | number:2}}</td> -->
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    <!-- 收货方信息 -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb mgt">
+      <header class="text-n color-3 text-bold">收货方信息
+        <span class="tools pull-right">
+          <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+        </span>
+      </header>
+      <div class="panel-body" style="display:none;padding:15px 0;">
+        <h1 class="mgb">收货方：{{showData.customerName}}</h1>
+        <p class="">收货人信息：
+          {{showData.customerContacts.prov}}&nbsp;&nbsp;{{showData.customerContacts.city}}&nbsp;&nbsp;{{showData.customerContacts.area}}&nbsp;&nbsp;{{showData.customerContacts.address}}&nbsp;&nbsp;{{showData.customerContacts.name}}&nbsp;&nbsp;{{showData.customerContacts.tel}}
+        </p>
       </div>
     </div>
-  <table-list>
-</div>
+    <!-- 发货方信息 -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+      <header class="text-n color-3 text-bold">发货方信息
+        <span class="tools pull-right">
+          <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+        </span>
+      </header>
+      <div class="panel-body" style="display:none;padding:15px 0;">
+        <h1 class="mgb">发货方：{{$root.curUser.additional.HabbitOrganizationName}}</h1>
+        <p class="">发货人信息：
+          {{showData.invoicesContacts.prov}}&nbsp;&nbsp;{{showData.invoicesContacts.city}}&nbsp;&nbsp;{{showData.invoicesContacts.area}}&nbsp;&nbsp;{{showData.invoicesContacts.address}}&nbsp;&nbsp;{{showData.invoicesContacts.name}}&nbsp;&nbsp;{{showData.invoicesContacts.tel}}
+        </p>
+      </div>
+    </div>
+    <!-- 备注 -->
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+      <h1 class="text-bold color-3">备注</h1>
+      <p>{{showData.note}}</p>
+    </div>
+    <!-- 已生成销售单部分 -->
+    <table-list  ng-if="formData.id" list-data="rest/authen/confirmOrder/getListByRelId.json?relId={{formData.id}}">
+      <div ng-if="tbodyList.length>0" class="mgt mgb-l pd-v-m content-wrapper-main pr-bg-white pr-fuzzy-boundary">
+        <!-- 标题 -->
+        <h1 class="pdb-m text-n text-bold pdl-m pdr-m">已生成销售单部分</h1>
+        <div ng-repeat="tr in tbodyList">
+          <div class="flex-column text-s pdl-m pdr-m">
+            <div class="flex-item-8 color-9">
+              <span class="mgr-l">单据编号：<a href="#/confirmOrder/get.html?id={{showData.id}}">{{tr.orderNo}}</a>
+                </span>
+              <span>创建时间：<em class="text-normal"><span class="color-6">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</span></em></span>
+            </div>
+            <div class="flex-item-4 text-right color-9">
+              <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{tr.orderStatus}}</span></em></span>
+              <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{tr.orderStatus}}</em></span>
+            </div>
+          </div>
+          <div class="order-details pdb-l mgt">
+            <table class="table pr-table pr-new-table mgb-n">
+              <thead>
+                <tr>
+                  <th class="text-center">商品编号</th>
+                  <th>商品全名</th>
+                  <th class="text-center">规格/型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">数量</th>
+                  <th class="text-center w-110">批号要求</th>
+                  <th class="text-center w-160">生产批号/灭菌批号</th>
+                  <th class="text-center">报价</th>
+                  <th class="text-center">税率</th>
+                  <th class="text-center">折扣额</th>
+                  <th class="text-center">折扣率</th>
+                  <th class="text-center">含税单价</th>
+                  <th class="text-center">无税单价</th>
+                  <th class="text-center">无税金额</th>
+                  <th class="text-center">税额</th>
+                  <th class="text-center">价税合计</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in tbodyList[$index].orderMedicalNos">
+                  <td class="text-center">{{item.code}}</td>
+                  <td>{{item.name}}</td>
+                  <td class="text-center">{{item.specificationAndModelType}}</td>
+                  <td class="text-center">{{item.unit}}</td>
+                  <td class="text-right">{{item.quantity}}</td>
+                  <td class="text-center">{{item.batchRequirement}}</td>
+                  <td class="text-center">{{item.productionBatch}}</td>
+                  <td class="text-right">￥{{item.price | number:2}}</td>
+                  <td class="text-right">{{item.taxRate}}%</td>
+                  <td class="text-right">￥{{item.discountPrice | number:2}}</td>
+                  <td class="text-right">{{item.discountRate}}%</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
+                  <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
 
-<div class="content-wrapper">
+                  <!-- <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
+                  <td class="text-center">￥{{(item.price*(1-item.taxRate)-item.discountPrice)*item.quantity | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.quantity*item.taxRate | number:2}}</td>
+                  <td class="text-center">￥{{item.price*item.quantity | number:2}}</td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <table-list>
+  </div>
   <!-- 流程图 -->
   <business-flow-show business-key="{{showData.id}}" business-type="销售单"></business-flow-show>
   <!-- 功能按钮 -->
-  <div class="text-right mgr-m mgb"><a href="#/salesOrder/query.html">返回购需单列表</a></div>
+  <div class="handle-btn-area relative">
+    <div class="btn-area">
+        <a ng-if="changeFlag" href="javascript:;" class="mgr"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该购需单存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/salesOrder/query.html')"
+           save-callback="submitForm('editForm','exit')">返回购需单列表
+        </a>
+
+        <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
+    </div>
+  </div>
 </div>
