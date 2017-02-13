@@ -1,4 +1,6 @@
-<div class="index-order-create">
+<div class="index-order-create"
+  ng-controller="indexPageController"
+>
   <!-- 标题 -->
   <div class="index-order-create-title pr-index-line-title flex-column">
     <span class="flex-item-5"></span>
@@ -12,7 +14,7 @@
         <div class="pd-c-l pdt-m pdb text-n pr-panel-title-color bb-line flex-column">
           <h4 class="flex-item-6">低库存药械</h4>
           <span class="flex-item-6 text-right">
-            <a class="text-s mgr-m" href="#/purchaseOrder/edit.html">发起采购</a>
+            <a class="text-s mgr-m" href="#/purchaseOrder/edit.html?relMedicalStockIdSet='relMedicalStockIdSet'">发起采购</a>
             <a href="javascript:;" class="text-s">更多低库存药品...</a>
           </span>
         </div>
@@ -28,7 +30,7 @@
                     <thead>
                       <tr>
                         <th class="w-50">
-                          <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                          <input type="checkbox" class="selectAll" ng-init="isChoiseAll1=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent1()">
                         </th>
                         <th class="pr-panel-title-color color-6 pr-label-bold text-center w-120">药械编号</th>
                         <th class="pr-panel-title-color color-6 pr-label-bold">药械名</th>
@@ -42,7 +44,7 @@
                     <tbody>
                       <tr class="bb-dashed-line" ng-repeat="tr in tbodyList">
                         <td class="select-td">
-                          <input type="checkbox" class="selectOne" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                          <input type="checkbox" class="selectOne" ng-model="tr.handleFlag" ng-click="handleItemClickEvent1(tr);">
                         </td>
                         <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.code}}">{{tr.code}}</td>
                         <td class="color-6 overhide w-space-nowrap" title="{{tr.name}}">{{tr.name}}</td>
