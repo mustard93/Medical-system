@@ -39,6 +39,7 @@ define('CanvasTreeLayout',['JTopo'], function(JTopo){
                 return nodes;
               }
             }
+
           return nodes;
         }
           //根据name返回node节点
@@ -47,10 +48,15 @@ define('CanvasTreeLayout',['JTopo'], function(JTopo){
             if(!parentKey)return nodes;
               for(var i=0;i<childs.length;i++){
                 var e=childs[i];
+                if(e instanceof JTopo.Node&&e.parentKey){
+                  if(e.parentKey.indexOf(parentKey)>-1){
+                      nodes.push(e);
+                  }
 
-                if(e instanceof JTopo.Node&&e.parentKey==parentKey){
-                  nodes.push(e);
                 }
+                // if(e instanceof JTopo.Node&&e.parentKey==parentKey){
+                //   nodes.push(e);
+                // }
               }
             return nodes;
           }
@@ -71,7 +77,6 @@ define('CanvasTreeLayout',['JTopo'], function(JTopo){
             //   tmpY=10;
             // }
 
-
             //默认居中
             if(dirtion=="right-center"){
                 var addHeight2=rootNodes[0].height+lineHeight;
@@ -84,6 +89,9 @@ define('CanvasTreeLayout',['JTopo'], function(JTopo){
             for(var i=0;i<rootNodes.length;i++){
               var rootNode=rootNodes[i];
               //标记已经设置过位置了，防止一直循环。
+              if(rootNode.key=="反审"){
+                var tmp=1;
+              };
               if(rootNode.hasSetLocation)continue;
                 rootNode.hasSetLocation=true;
                 // console.log("location1,name="+rootNode.key+",x="+curNodeX+",y="+curNodeY);

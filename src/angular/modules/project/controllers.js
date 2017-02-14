@@ -2164,8 +2164,6 @@ define('project/controllers', ['project/init'], function() {
 
    }//end salesOrderEditCtrl
 
-
-
    function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      //页面Loading时初始化数据
@@ -2921,8 +2919,8 @@ define('project/controllers', ['project/init'], function() {
 
       if ($scope.submitForm_type == 'submit') {
 
-        var url='rest/authen/saleReturnOrder/updateStatus';
-        var data= {id:$scope.formData.id,status:'待出库'};
+        var url='rest/authen/saleReturnOrder/startProcessInstance';
+        var data= {businessKey:$scope.formData.id};
           console.log($scope.formData);
 
         requestData(url, data, 'POST')
@@ -2973,9 +2971,6 @@ define('project/controllers', ['project/init'], function() {
       }
       $('#' + fromId).trigger('submit');
 
-      // addDataItem_opt.submitUrl='';
-      // $scope.formData.orderMedicalNos.push($scope.addDataItem);
-      // $scope.addDataItem={};
     };
 
     // 取消订单
@@ -3058,8 +3053,8 @@ define('project/controllers', ['project/init'], function() {
 
       if ($scope.submitForm_type == 'submit') {
 
-        var url='rest/authen/purchaseReturnOrder/updateStatus';
-        var data= {id:$scope.formData.id,status:'待入库'};
+        var url='rest/authen/purchaseReturnOrder/startProcessInstance';
+        var data= {businessKey:$scope.formData.id};
           console.log($scope.formData);
 
         requestData(url, data, 'POST')

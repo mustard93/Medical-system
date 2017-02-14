@@ -21,9 +21,10 @@ define('project/services', ['project/init'], function () {
           bottomButton ={
           aclass ："",//样式，
           ahref："",//连接，
+          ngClick:"",//执行函数
           "target":"_blank" //_blank|_self|_parent|_top
           showName："",必填。显示名
-          type:"",modalRight(右侧弹出框)，modalCenter（中间弹出框），button（button按钮标签）不填写则为跳转类型。handleThisClick(确认操作框)
+          type:"",modalRight(右侧弹出框)，modalCenter（中间弹出框），button（button按钮标签）不填写则为跳转类型。handleThisClick(确认操作框),ngClick(执行函数)
           authority:""，不为空，当前用户有该权限，才能显示。
           ngShow:"",//根据计算脚本布尔值是否显示按钮，angluarjs 模版语法脚本。不填写默认显示
           ngDisabled:""//根据计算脚本布尔值是否可点击按钮,angluarjs 模版语法脚本。不填写默认 可操作。仅type=button
@@ -361,9 +362,17 @@ define('project/services', ['project/init'], function () {
 
                     bottomButton = {
                       "iconClass":"edit-link-icon","showName":"编辑",
-                      "ngShow":"tr.orderStatus=='待审核'||tr.orderStatus=='未提交'",
+                      "ngShow":"tr.orderStatus=='未提交'",
                       "aclass":"btn-link pd-m rect-s",
                       "ahref":"#/confirmOrder/edit.html?id="+showData.id
+                    };
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    bottomButton = {
+                      "iconClass":"examine-approve","showName":"立即审核",
+                      "ngShow":"tr.orderStatus=='待审核'",
+                      "aclass":"btn-link pd-m rect-s",
+                      "ahref":"#/confirmOrder/get.html?id="+showData.id
                     };
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
@@ -375,7 +384,7 @@ define('project/services', ['project/init'], function () {
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
                     bottomButton={
-                     "ngShow":"tr.orderStatus=='待审核' || tr.orderStatus=='未提交'", "showName":"删除",
+                     "ngShow":"tr.orderStatus=='未提交'", "showName":"删除",
                      "iconClass":"delete-link-icon",
                      "type":"handleThisClick",
                      "alertTemplate":"pr-dialog-submit.html",
