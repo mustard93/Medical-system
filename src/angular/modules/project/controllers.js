@@ -22,7 +22,7 @@ define('project/controllers', ['project/init'], function() {
       var param="?uid="+imTaobaoUserInfo.userid+"&to="+toUserId+"&toUserName="+toUserName+"&appkey=23588140&pwd="+imTaobaoUserInfo.password+"&fullscreen";
       window.open('imtaobao/kit.html'+param, 'webcall', 'toolbar=no, status=no,scrollbars=0,resizable=0,menubar＝0,location=0,width=700,height=530');
 
-    }
+    };
 
     //获取我的聊天帐号信息
     function imTaobaoUserInfo_getMy(callback) {
@@ -2164,8 +2164,6 @@ define('project/controllers', ['project/init'], function() {
 
    }//end salesOrderEditCtrl
 
-
-
    function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      //页面Loading时初始化数据
@@ -2921,8 +2919,8 @@ define('project/controllers', ['project/init'], function() {
 
       if ($scope.submitForm_type == 'submit') {
 
-        var url='rest/authen/saleReturnOrder/updateStatus';
-        var data= {id:$scope.formData.id,status:'待出库'};
+        var url='rest/authen/saleReturnOrder/startProcessInstance';
+        var data= {businessKey:$scope.formData.id};
           console.log($scope.formData);
 
         requestData(url, data, 'POST')
@@ -2973,9 +2971,6 @@ define('project/controllers', ['project/init'], function() {
       }
       $('#' + fromId).trigger('submit');
 
-      // addDataItem_opt.submitUrl='';
-      // $scope.formData.orderMedicalNos.push($scope.addDataItem);
-      // $scope.addDataItem={};
     };
 
     // 取消订单
@@ -3036,13 +3031,13 @@ define('project/controllers', ['project/init'], function() {
   // 采购退货单
 
   function purchasereturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
+
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
 
     };
 
     modal.closeAll();
-    // $scope.formData={};
     $scope.addDataItem = {};
 
     // 保存  type:save-草稿,submit-提交订单。
@@ -3058,8 +3053,8 @@ define('project/controllers', ['project/init'], function() {
 
       if ($scope.submitForm_type == 'submit') {
 
-        var url='rest/authen/purchaseReturnOrder/updateStatus';
-        var data= {id:$scope.formData.id,status:'待入库'};
+        var url='rest/authen/purchaseReturnOrder/startProcessInstance';
+        var data= {businessKey:$scope.formData.id};
           console.log($scope.formData);
 
         requestData(url, data, 'POST')
@@ -3120,21 +3115,12 @@ define('project/controllers', ['project/init'], function() {
       alertWarn('cancelForm');
     };
 
-    //
-    // $scope.$watch('addDataObj', function (newVal) {
-    //   if (newVal && $scope.formData) {
-    //     $scope.formData.relId = $scope.addDataObj.id;
-    //     $scope.formData.orderMedicalNos = angular.copy($scope.choisedMedicalList);
-    //   }
-    // }, true);
-
-
     // 添加选择项到编辑页
     $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList) {
       if(!addDataObj_id){//发货单id不能为空
         return ;
       }
-      if(!choisedMedicalList||choisedMedicalList.length==0){//至少选择1条数据
+      if(!choisedMedicalList||choisedMedicalList.length===0){//至少选择1条数据
         return ;
       }
 
@@ -3384,7 +3370,74 @@ define('project/controllers', ['project/init'], function() {
     // console.log($scope.expressInfoArray);
   }
 
+  /**
+   * [indexPageController 首页控制器]
+   * @param  {[type]} $socpe [description]
+   * @return {[type]}        [description]
+   */
+  function indexPageController ($socpe, utils) {
+    // 首页采购部分低库存报警区块发起采购方法
+
+  }
+
+  /**
+   * [indexPurchaseSuppleController 首页采购辅助信息处理欲发起采购的动作]
+   * @param  {[type]} $scope [注入项]
+   * @param  {[type]} utils  [注入项]
+   * @return {[type]}        [description]
+   */
+  function indexPurchaseSuppleController ($scope, utils) {
+
+    $scope.relMedicalStockIdSet = '';
+
+    // 全选与全不选
+    $scope.handleChoiseAllEvent = function (data) {
+      if ($scope.isChoiseAll && angular.isArray(data)) {
+        angular.forEach(data, function (item, index) {
+          item.handleFlag = true;
+          if (!$scope.relMedicalStockIdSet) {
+            $scope.relMedicalStockIdSet += item.id;
+          } else {
+            $scope.relMedicalStockIdSet += ',' + item.id;
+          }
+        });
+      } else {
+        angular.forEach(data, function (item, index) {
+          item.handleFlag = false;
+          $scope.relMedicalStockIdSet = '';
+        });
+      }
+    };
+
+    // 单选
+    $scope.handleItemClickEvent = function (obj) {
+      if (obj.handleFlag) {
+        if (!$scope.relMedicalStockIdSet) {
+          $scope.relMedicalStockIdSet += obj.id;
+        } else {
+          $scope.relMedicalStockIdSet += ',' + obj.id;
+        }
+        // console.log($scope.relMedicalStockIdSet);
+      } else {
+        var _tmp = $scope.relMedicalStockIdSet.split(',');
+
+        angular.forEach(_tmp, function (data, index) {
+          if (data === obj.id) {
+            _tmp.splice(index, 1);
+            return false;
+          }
+        });
+
+        $scope.relMedicalStockIdSet = _tmp.toString();
+        // console.log($scope.relMedicalStockIdSet);
+      }
+    };
+
+  }
+
   angular.module('manageApp.project')
+  .controller('indexPurchaseSuppleController', ['$scope', 'utils', indexPurchaseSuppleController])
+  .controller('indexPageController', ['$scope', 'utils', indexPageController])
   .controller('getAllExpressController', ['$scope', 'requestData', getAllExpressController])
   .controller('saleOutstockOrderController', ['$scope', 'requestData', 'utils', saleOutstockOrderController])
   .controller('imTaobaoCtr', ['$scope',"requestData",'alertError',"$rootScope", imTaobaoCtr])
