@@ -98,9 +98,10 @@
                      {{tr.unit}}
                    </td>
                    <td class="text-center">
-                     <div class="order-goods-num">
+                     {{tr.quantity}}
+                     <!-- <div class="order-goods-num">
                        <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1 || formData.orderStatus=='已处理'">-</button>
-                       <span class="inline-block">
+                       <span class="inline-block" ng-init="startQuantity=tr.quantity">
                          <input type="number"
                                 class="inline ipt pr-ipt-60 text-center item-quantity"
                                 style="width:60px;"
@@ -109,8 +110,8 @@
                                 ng-disabled="formData.orderStatus=='已处理'"
                                 >
                        </span>
-                       <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="formData.orderStatus=='已处理'">+</button>
-                     </div>
+                       <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="formData.orderStatus=='已处理' || tr.quantity>=startQuantity ">+</button>
+                     </div> -->
                    </td>
                    <td>
                      <select class="select pr-select pr-select-sm text-left"  ng-model="tr.batchRequirement">

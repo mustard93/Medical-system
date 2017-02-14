@@ -895,8 +895,8 @@ define('project/controllers', ['project/init'], function() {
 
 
      if ($scope.submitForm_type == 'submit') {
-       var url='rest/authen/confirmOrder/updateStatus';
-       var data= {id:$scope.formData.id,status:'待发单'};
+       var url='rest/authen/confirmOrder/startProcessInstance';
+       var data= {businessKey:$scope.formData.id};
        requestData(url, data, 'POST')
          .then(function (results) {
            var _data = results[1];
@@ -907,10 +907,7 @@ define('project/controllers', ['project/init'], function() {
          .catch(function (error) {
            alertError(error || '出错');
          });
-
-
       }
-
     };
 
     // 保存type:save-草稿,submit-提交订单。

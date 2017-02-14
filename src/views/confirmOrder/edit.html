@@ -444,7 +444,7 @@
 
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/confirmOrder/query.html?id={{formData.relId}}" >返回销售单</a>
 
-        <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+        <a ng-if="formData.orderStatus=='待审核' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
@@ -467,19 +467,19 @@
                 class="pr-btn-save-glodbg mgr"
                 ng-click="submitForm('editForm','print')">打印预览
         </button>
-        <button ng-if="formData.orderBusinessType=='普通销售'"
+        <button ng-if="formData.orderBusinessType=='普通销售'&&formData.orderStatus=='未提交'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
-                ng-click="submitForm('editForm','submit')">审核
+                ng-click="submitForm('editForm','submit')">提交
         </button>
 
-        <button ng-if="formData.orderBusinessType=='直运销售'"
+        <button ng-if="formData.orderBusinessType=='直运销售'&&formData.orderStatus=='未提交'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
-                ng-click="submitForm('editForm','submit')">审核
+                ng-click="submitForm('editForm','submit')">提交
         </button>
       </div>
       <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：

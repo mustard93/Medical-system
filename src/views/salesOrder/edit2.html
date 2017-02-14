@@ -83,8 +83,18 @@
                   </tr>
                 </thead>
                 <tbody ng-if="formData.orderMedicalNos.length" class="bg-white">
-                  <tr ng-repeat="tr in formData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
-                    <td class="text-center">{{tr.code}}</td>
+                  <tr ng-repeat="tr in formData.orderMedicalNos" ng-mouseenter="areaStatus=false" table-item-handlebtn-component ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                    <td class="text-center">{{tr.code}}
+                      <div class="table-item-handle-btn">
+                        <div class="table-item-confirm-del-area bg-white">
+                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                          <p class="pdt-s">
+                            <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                            <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
                     <td class="text-left">{{tr.name}}</td>
                     <td class="text-center">{{tr.specificationAndModelType}}</td>
                     <td class="text-center">{{tr.unit}}</td>
@@ -167,19 +177,7 @@
                     <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td>
                     <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td>
                     <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(tr) | number:2}}</td>
-                    <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) | number:2}}
-                      <div class="sales-order-item-delbtn" ng-init="areaStatus==false" ng-hide="areaStatus">
-                        <div class="sales-order-confirm-del-area bg-white">
-                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                          <p class="pd-v-s">
-                            <a href="" ng-click="areaStatus=true">取消</a>
-                            <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                                    ng-click="formData.orderMedicalNos.splice($index,1);formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
-                            </button>
-                          </p>
-                        </div>
-                      </div>
-                    </td>
+                    <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) | number:2}}</td>
                   </tr>
                 </tbody>
               </table>
