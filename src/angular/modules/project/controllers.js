@@ -2065,8 +2065,8 @@ define('project/controllers', ['project/init'], function() {
           return;
         }
          if ($scope.submitForm_type == 'submit') {
-           var url='rest/authen/purchaseOrder/updateStatus';
-           var data= {id:$scope.formData.id,status:'待审核'};
+           var url='rest/authen/purchaseOrder/startProcessInstance';
+           var data= {businessKey:$scope.formData.id};
            requestData(url,data, 'POST')
              .then(function (results) {
                var _data = results[1];
@@ -2410,6 +2410,7 @@ define('project/controllers', ['project/init'], function() {
                alertError(error || '出错');
              });
          }
+
 
        };
 

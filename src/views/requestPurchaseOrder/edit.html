@@ -300,12 +300,9 @@
           </a>
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
-
-        <span ajax-if-eval="true"
-              ajax-url="rest/authen/requestPurchaseOrder/isCanClose?id={{mainStatus.pageParams.id}}"
-              scope-data="scopeData">
-            <button ng-if="scopeData.code==200"
-                    ng-disabled="formData.orderStatus=='已处理'"
+        <!-- <span id="isclosed">
+            <button
+                    ng-disabled="formData.orderStatus!='已处理'"
                     class="btn-reject mgl mgt mgr color-white text-center"
                     type="button"
                     handle-this-click
@@ -317,8 +314,7 @@
                     alert-error
                     callback="$root.utils.refreshHref()">关闭
             </button>
-        </span>
-
+        </span> -->
         <span class="mgt-m">
           <button ng-disabled="!changeFlag"
                   class="pr-btn-save-glodbg mgr-s"
