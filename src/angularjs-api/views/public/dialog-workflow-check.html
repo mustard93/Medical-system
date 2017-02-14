@@ -1,0 +1,55 @@
+<div class="pr-page-dialog-wrap" >
+    <form class="confirmOrder-reject-form"
+          ng-init="formData=dialogData.params"
+          action="{{dialogData.requestUrl}}"
+          callback="$root.utils.goOrRefreshHref(dialogData.callBackUrl)"
+          auto-close-dialog
+          parameter-body="{{dialogData.requestParam=='JSON'}}"
+          alert-error
+          alert-ok
+          form-validator
+        >
+  <div class="pr-page-dialog-title bb-line">
+    <i></i><span>审核</span>
+
+  </div>
+  <div class="pr-page-dialog-content bb-line" ng-init="_checkStatus='通过';formData.conditionType='通过'"
+  ajax-url="rest/baseData/queryForSelectOptionByType.json"
+  params='{"type":"工作流审核不通过"}'
+  scope-data="selectOptions"
+
+  >
+    <div class="mgb-m">
+      <label class="radio-inline" >
+        <input type="radio" name="type" value="通过" ng-click="formData.conditionType='通过'" ng-model="_checkStatus"> 通过
+      </label>
+      <label  class="radio-inline" >
+        <input type="radio" name="type" value="驳回" ng-click="formData.conditionType=selectOptions[0].text" ng-model="_checkStatus"> 不通过
+      </label>
+    </div>
+
+
+      <div class="flex-column">
+        <div class="flex-item-2">
+          处理方式：
+        </div>
+        <div class="flex-item-10" >
+          <p class="mgb" ng-show="_checkStatus=='驳回'" >  <select ng-if="selectOptions" class="select" ng-model="formData.conditionType" ng-options="item.text as item.text   for item in selectOptions">
+  </select>
+          </p>
+
+        </div>
+
+
+      </div>
+      <div class="flex-column" >
+
+          <textarea class="pr-textarea" ng-model="formData.message" placeholder="补充说明"></textarea>
+      </div>
+  </div>
+  <div class="pr-page-dialog-footer text-center mg-m">
+    <button type="submit"  class="pr-btn-save-glodbg">确定</button>
+
+  </div>
+  </form>
+</div>
