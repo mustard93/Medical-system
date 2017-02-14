@@ -845,9 +845,10 @@ function alertOk($rootScope, modal) {
               var returnString="";
               if(!variableString)return returnString;
                 returnString=variableString;
+                if(typeof variableString.match!='function')return returnString;
               var arr = variableString.match(/(\{\{){1}[^\{\}]+(\}\}){1}/);
               if(!arr)return returnString; //无匹配直接返回
-            
+
               if(!obj)obj={};
              for (var i=0;i<arr.length;i++) {
                var tmp=arr[i];//{{id}}

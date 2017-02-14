@@ -217,7 +217,14 @@ define('CanvasBusinessFlow',['JTopo',"jQuery"], function(JTopo,jQuery){
               link.nodeA=nodeA;
               link.nodeZ=nodeZ;
               nodeA.key=nodeA.data[this.options.parentKeyName];
-              nodeZ.parentKey=nodeA.key;//多个父类时，记录最后一个，用于布局。
+
+              if(!nodeZ.parentKey)nodeZ.parentKey=[];
+              nodeZ.parentKey.push(nodeA.key);//多个父类时，都记录解决布局bug。
+
+
+              // nodeZ.parentKey=nodeA.key;//多个父类时，记录最后一个，用于布局。
+
+
                 // link.strokeColor = JTopo.util.randomColor(); // 线条颜色随机
                 //  node.fillColor=this.options.status.fillColor_done;
               link.direction = this.options.link.direction;

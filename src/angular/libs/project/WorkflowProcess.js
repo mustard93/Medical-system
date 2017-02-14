@@ -141,8 +141,8 @@ define('WorkflowProcess',['JTopo',"jQuery"], function(JTopo,jQuery){
 
 
             require(['CanvasTreeLayout'],function(CanvasTreeLayout){
-                // var rootNodes=that.getNodesByEventType("StartEvent");
-                  var rootNodes=null;
+                var rootNodes=that.getNodesByEventType("StartEvent");
+                  // var rootNodes=null;
                 that.scene.doLayout(CanvasTreeLayout.TreeLayout2(JTopo,'right-center', that.options.spacingWidth, that.options.spacingHeight,rootNodes));
 
             });
@@ -239,17 +239,17 @@ define('WorkflowProcess',['JTopo',"jQuery"], function(JTopo,jQuery){
              if(!node)return;
            if(event1.sourceRef){
                var nodeA=this.getNodesByName(event1.sourceRef);
-               if(nodeA)this.addLink(nodeA,node);
+               if(nodeA)this.addLink(nodeA,node,"horizontal",'204,204,204');
            }
            if(event1.targetRef){
                var nodeZ=this.getNodesByName(event1.targetRef);
-               if(nodeZ)this.addLink(node,nodeZ);
+               if(nodeZ)this.addLink(node,nodeZ,"horizontal",'255,0,0');
            }
             console.log(node);
          },
             //添加2个节点得链接
-           addLink:function(nodeA, nodeZ, dashedPattern){
-
+           addLink:function(nodeA, nodeZ, direction,strokeColor){
+             if(!direction)direction=this.options.link.direction;//horizontal|vertical
              var key=nodeA.text+"-"+nodeZ.text;
              //连线之添加一次
              if(this.getLinkByKey(key)){
@@ -257,18 +257,27 @@ define('WorkflowProcess',['JTopo',"jQuery"], function(JTopo,jQuery){
                return;
               }
               var link = new JTopo.FlexionalLink(nodeA, nodeZ);
-              // var direction="vertical";
 
+
+              //   link.offsetGap = 35;
+              //  link.bundleGap = 15; // 线条之间的间隔
+              // link.bundleOffset =30; // 折线拐角处的长度
+              // link.offsetGap = 35;
+              link.bundleGap = 15; // 线条之间的间隔
                link.arrowsRadius = 15;
                link.key=key;
               link.nodeA=nodeA;
               link.nodeZ=nodeZ;
-              nodeZ.parentKey=nodeA.key;//多个父类时，记录最后一个，用于布局。
+              if(!nodeZ.parentKey)nodeZ.parentKey=[];
+              nodeZ.parentKey.push(nodeA.key);//多个父类时，都记录解决布局bug。
+
+              // nodeZ.parentKey=nodeA.key;//多个父类时，记录最后一个，用于布局。=[]; 201702
                 // link.strokeColor = JTopo.util.randomColor(); // 线条颜色随机
                 //  node.fillColor=this.options.status.fillColor_done;
-              link.direction = this.options.link.direction;
+              link.direction = direction;
+
               // link.strokeColor =this.options.status.fillColor_done;
-              link.strokeColor = '204,204,204';//连线之间的颜色
+              link.strokeColor =strokeColor;//连线之间的颜色 '204,204,204'
               link.lineWidth = 1;//线段的粗细
               link.dashedPattern = 2;
               this.scene.add(link);
