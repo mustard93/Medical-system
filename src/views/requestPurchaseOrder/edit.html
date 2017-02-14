@@ -17,14 +17,14 @@
         callback="submitFormAfter();$root.watchFormChange('formData',this)"
         novalidate="true">
     <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">采购中心 >
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
        <a href="#/requestPurchaseOrder/query.html"><em class="color-custom-orange">请购单</em></a>
        <em>>请购单详情</em>
       </p>
-      <div class="pd-c-xl pdt-l pdb-l">
+      <div class="pd-c-xxl pdt-l pdb-l">
        <!-- 标题 -->
        <div class="mgb-l">
-         <h1 class="color-black pr-font-20 pr-indent-20">请购单详情</h1>
+         <h1 class="color-black pr-font-20">请购单详情</h1>
        </div>
      </div>
     </div>
@@ -300,21 +300,21 @@
           </a>
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
-        <!-- <span id="isclosed">
-            <button
-                    ng-disabled="formData.orderStatus!='已处理'"
-                    class="btn-reject mgl mgt mgr color-white text-center"
-                    type="button"
-                    handle-this-click
-                    dialog-title="确认关闭?"
-                    dialog-content="关闭后，该请购单将变为已处理状态，确定关闭?"
-                    dialog-template="pr-dialog-submit.html"
-                    request-url="rest/authen/requestPurchaseOrder/updateStatus"
-                    params='{"id":"{{formData.id}}","status":"已处理"}'
-                    alert-error
-                    callback="$root.utils.refreshHref()">关闭
-            </button>
-        </span> -->
+
+        <span>
+          <button ng-if="isShowCancelBtn && formData.orderStatus!='已处理'"
+                  class="btn-reject mgl mgt mgr color-white text-center"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认关闭?"
+                  dialog-content="关闭后，该请购单将变为已处理状态，确定关闭?"
+                  dialog-template="pr-dialog-submit.html"
+                  request-url="rest/authen/requestPurchaseOrder/updateStatus"
+                  params='{"id":"{{formData.id}}","status":"已处理"}'
+                  alert-error
+                  callback="$root.utils.refreshHref()">关闭
+          </button>
+        </span>
         <span class="mgt-m">
           <button ng-disabled="!changeFlag"
                   class="pr-btn-save-glodbg mgr-s"
