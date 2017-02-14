@@ -328,19 +328,19 @@
         </button>
 
 
-        <button ng-if="formData.orderBusinessType=='普通销售'"
+        <button ng-if="formData.orderBusinessType=='普通销售'&&formData.orderStatus=='未提交'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
-                             ($root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
-                ng-click="submitForm('editForm','submit')">审核
+                ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
+                             ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
+                ng-click="submitForm('editForm','submit')">提交
         </button>
 
-        <button ng-if="formData.orderBusinessType=='直运销售'"
+        <button ng-if="formData.orderBusinessType=='直运销售'&&formData.orderStatus=='未提交'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
-                ng-click="submitForm('editForm','submit')">审核
+                ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+                ng-click="submitForm('editForm','submit')">提交
         </button>
 
       </div>

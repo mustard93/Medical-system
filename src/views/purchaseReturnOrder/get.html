@@ -129,36 +129,14 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <!-- <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
-             handle-this-click
-             dialog-title="确认返回?"
-             dialog-content="该申请单存在未保存数据，是否保存?"
-             dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/purchaseReturnOrder/query.html')"
-             save-callback="submitForm('editForm','exit');
-             $root.goTo('#/purchaseReturnOrder/query.html')">返回采购退货单列表
-          </a> -->
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/purchaseReturnOrder/query.html" >返回采购退货单列表</a>
-          <!-- <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
-             href="javascript:;"
-             class="pr-color-red mgr-l"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="您确认删除这条采购退货单吗?"
-             dialog-template="dialog-confirm.html"
-             request-url="rest/authen/purchaseReturnOrder/delete?id={{formData.id}}"
-             call-back="$root.goTo('#/purchaseReturnOrder/query.html')">删除
-          </a> -->
+          <span ng-if="showData.didateFilter.buttons.length>0"
+                custom-menu-list
+                custom-menu-arr="{{showData.didateFilter.buttons}}">
+          </span>
 
-
-          <!-- <button type="submit"
-                  class="pr-btn-save-glodbg mgr-l"
-                  ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();"
-                  ng-disabled="!changeFlag || !saleReturnEditForm.$valid || quantityError">保存
-          </button>-->
-
-          <button ng-if="showData.orderStatus=='待入库'"
+          <!-- <button ng-if="showData.orderStatus=='待入库'"
                   class="mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
@@ -168,7 +146,7 @@
                   callback="$root.utils.goTo('#/purchaseReturnOrder/get.html?id={{showData.id}}')"
                   params='{"id":showData.id, "status":"已入库"}'
                   request-url="rest/authen/purchaseReturnOrder/updateStatus">生成入库单
-          </button>
+          </button> -->
 
       </div>
     </div>

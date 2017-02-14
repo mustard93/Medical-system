@@ -361,9 +361,17 @@ define('project/services', ['project/init'], function () {
 
                     bottomButton = {
                       "iconClass":"edit-link-icon","showName":"编辑",
-                      "ngShow":"tr.orderStatus=='待审核'||tr.orderStatus=='未提交'",
+                      "ngShow":"tr.orderStatus=='未提交'",
                       "aclass":"btn-link pd-m rect-s",
                       "ahref":"#/confirmOrder/edit.html?id="+showData.id
+                    };
+                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    bottomButton = {
+                      "iconClass":"examine-approve","showName":"立即审核",
+                      "ngShow":"tr.orderStatus=='待审核'",
+                      "aclass":"btn-link pd-m rect-s",
+                      "ahref":"#/confirmOrder/get.html?id="+showData.id
                     };
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
@@ -375,7 +383,7 @@ define('project/services', ['project/init'], function () {
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
                     bottomButton={
-                     "ngShow":"tr.orderStatus=='待审核' || tr.orderStatus=='未提交'", "showName":"删除",
+                     "ngShow":"tr.orderStatus=='未提交'", "showName":"删除",
                      "iconClass":"delete-link-icon",
                      "type":"handleThisClick",
                      "alertTemplate":"pr-dialog-submit.html",
