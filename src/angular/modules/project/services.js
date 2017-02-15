@@ -429,21 +429,21 @@ define('project/services', ['project/init'], function () {
                 //销售退货单列表页
                 getQuery_saleReturnOrder:function(showData){
                   var arr=[];
-                  var  bottomButton = {
-                    "ngShow":"tr.orderStatus=='待出库'",
-                    "showName":"生成出库",
-                    "iconClass":"outStork-icon",
-                    "type":"handleThisClick",
-                    "alertTemplate":"pr-dialog-submit.html",
-                    "requestUrl":"rest/authen/saleReturnOrder/updateStatus?id="+showData.id+"&status=已出库",
-                    "aclass":"btn-link pd-m rect-s",
-                    "alertTitle":"确认生成出库单?",
-                    "alertMsg":"生成出库单(红字)后,将完成销退出库?",
-                    "ngClick":"$root.utils.goTo('#/saleReturnOrder/query.html')"
-                  };
-                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                  // var  bottomButton = {
+                  //   "ngShow":"tr.orderStatus=='待出库'",
+                  //   "showName":"生成出库",
+                  //   "iconClass":"outStork-icon",
+                  //   "type":"handleThisClick",
+                  //   "alertTemplate":"pr-dialog-submit.html",
+                  //   "requestUrl":"rest/authen/saleReturnOrder/updateStatus?id="+showData.id+"&status=已出库",
+                  //   "aclass":"btn-link pd-m rect-s",
+                  //   "alertTitle":"确认生成出库单?",
+                  //   "alertMsg":"生成出库单(红字)后,将完成销退出库?",
+                  //   "ngClick":"$root.utils.goTo('#/saleReturnOrder/query.html')"
+                  // };
+                  // if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                  bottomButton = {
+                  var bottomButton = {
                     "iconClass":"edit-link-icon",
                     "showName":"编辑",
                     "ngShow":"tr.orderStatus=='未提交'",
