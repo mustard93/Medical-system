@@ -2823,7 +2823,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 validValue: '@',
                 popoverShow: '=?'
             },
-            link: function ($scope, element,$attrs) {
+            link: function ($scope, element, $attrs) {
 
               function showDo(show){
                 if ( element.data("isFocus")&&show=="true") {
@@ -2833,14 +2833,15 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 }
               }
 
-              var placement="right";
-              if($attrs.placement)placement=$attrs.placement;
+              var placement = $attrs.placement ? $attrs.placement : "right";
               var popoverOptions='{ "placement": "'+placement+'", "trigger": "manual" }';
+
               if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
               element.popover(JSON.parse(popoverOptions));
 
-                if(  angular.isDefined($attrs.validValue)){
+                if(angular.isDefined($attrs.validValue)){
                   $scope.$watch('ngModel', function (newVal, oldVal) {
+                    console.log($attrs.validValue);
                     if ($attrs.validValue=="true") {
                       element.popover('show');
                     } else {

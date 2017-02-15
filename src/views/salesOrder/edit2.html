@@ -110,7 +110,7 @@
                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                  ng-pattern="/^[1-9]\d*$/"
                                  invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
+                                 valid-value="{{!editForm['quantity'+$index].$valid || tr.quantity>100000}}"
                                  popover-show="tr.quantity>100000"
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
