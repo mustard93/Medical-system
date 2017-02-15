@@ -2620,14 +2620,13 @@ function addressManageComponent (requestData, utils) {
       scope.setDefaultAddressRequesturl = attrs.setDefaultAddressRequesturl;  // 默认地址设置
       scope.delThisAddressRequesturl = attrs.delThisAddressRequesturl;    // 删除地址
       scope.createAddressType = attrs.createAddressType;    //类型，销售or采购
+      scope.requestDataId = attrs.requestDataId;    // 请求数据id
 
-      //响应重新加载列表数据的操作
-      scope.$on('reloadAddressList', function () {
-        // var _params = {"type":scope.createAddressType};
-        var _reqUrl = scope.requestUrl + '?type=' + scope.createAddressType;
+      // 加载数据
+      var reLoadData = function (scope) {
+        var _reqUrl = scope.requestUrl + '?type=' + scope.createAddressType + '&id=' + scope.requestDataId;
         requestData(_reqUrl, {}, 'get')
         .then(function (results) {
-          // console.log(results);
           var _data = results[1];
           if (_data.code === 200 && _data.data.contacts) {
             scope.returnAddressObj.contacts = _data.data.contacts;
@@ -2636,6 +2635,18 @@ function addressManageComponent (requestData, utils) {
         .catch(function (error) {
           console.log(error || '出错');
         });
+      };
+
+      scope.$watch('formData.customerId', function (newVal, oldVal) {
+        if (newVal && oldVal !== null) {
+          scope.requestDataId = newVal;
+          reLoadData(scope);
+        }
+      });
+
+      //响应重新加载列表数据的操作
+      scope.$on('reloadAddressList', function () {
+        reLoadData(scope);
       });
     },
     controller: ["$scope", "$element", function ($scope, $element) {

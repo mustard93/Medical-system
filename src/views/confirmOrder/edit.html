@@ -103,7 +103,7 @@
                         data-placeholder=" "
                         chosen
                         ng-model="formData.salesType"
-                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_SalesType">
+                        select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
                 </select>
               </span>
               <span class="mgr">付款条件：
@@ -173,7 +173,7 @@
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
                         <span class="inline-block">
-                          <input type="text"
+                          <input type="number"
                                  name="planQuantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
@@ -182,7 +182,7 @@
                                  ng-pattern="/^[1-9]\d*$/"
                                  invalid-popover
                                  valid-value="{{!editForm['planQuantity'+$index].$valid}}"
-                                 popover-show
+                                 popover-show="item.planQuantity>100000"
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>
@@ -455,30 +455,33 @@
            call-back="$root.goTo('#/confirmOrder/query.html')">删除
         </a>
 
-        <button
-                type="button"
+        <button type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="!changeFlag"
+                ng-disabled="!changeFlag || editForm.$invalid"
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button
-                type="button"
+        <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="submitForm('editForm','print')">打印预览
         </button>
-        <button ng-if="formData.orderBusinessType=='普通销售'&&formData.orderStatus=='未提交'"
+
+        <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
-                             ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
+                             ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
+                             editForm.$invalid ||
+                             !formData.customerId"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
-        <button ng-if="formData.orderBusinessType=='直运销售'&&formData.orderStatus=='未提交'"
+        <button ng-if="formData.orderBusinessType=='直运销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+                ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
+                             editForm.$invalid ||
+                             !formData.customerId"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
       </div>

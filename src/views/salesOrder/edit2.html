@@ -102,7 +102,7 @@
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-disabled="tr.quantity==1">-</button>
                         <span class="inline-block">
-                          <input type="text"
+                          <input type="number"
                                  name="quantity{{$index}}"
                                  class="inline pr-table-input text-center item-quantity"
                                  style="width:60px;"
@@ -110,8 +110,8 @@
                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                  ng-pattern="/^[1-9]\d*$/"
                                  invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
-                                 popover-show
+                                 valid-value="{{!editForm['quantity'+$index].$valid || tr.quantity>100000}}"
+                                 popover-show="tr.quantity>100000"
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>
@@ -196,7 +196,8 @@
         <!-- 收货方信息 -->
         <address-manage-component ng-if="formData.customerId"
                                   compnent-title="收货方信息"
-                                  request-url="rest/authen/customerAddress/get.json?id={{formData.customerId}}&t={{$root.reloadTime}}"
+                                  request-url="rest/authen/customerAddress/get.json"
+                                  request-data-id="{{formData.customerId}}"
                                   scope-data-prefix="customer"
                                   form-data="formData"
                                   modify-modal-url="views/customerAddress/contact/edit.html"
