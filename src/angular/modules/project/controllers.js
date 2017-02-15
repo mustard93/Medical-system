@@ -1126,9 +1126,42 @@ define('project/controllers', ['project/init'], function() {
    */
   function confirmOrderEditCtrl2($scope, modal, alertWarn, requestData, alertOk, alertError, watchFormChange) {
 
-    $scope.watchFormChange = function (watchName) {
-      watchFormChange(watchName,$scope);
-    };
+    // $scope.watchFormChange = function (watchName) {
+    //   watchFormChange(watchName,$scope);
+    // };
+    /**
+     * 作废理由显示
+     */
+    $scope.$watch('initFlag', function () {
+      var operationFlowSetMessage=[];
+      var operationFlowSetKey=[];
+      if ($scope.scopeData) {
+        // 选择出当前状态相同的驳回理由，并放入一个数组中
+       for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
+         if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
+           operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message)
+           operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key)
+         }
+       }
+      //  选择当前状态最近的一个驳回理由用于显示
+       $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+       $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+       return;
+      }
+      if ($scope.tr) {
+        // 选择出当前状态相同的驳回理由，并放入一个数组中
+       for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+         if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
+           operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message)
+           operationFlowSetKey.push($scope.tr.operationFlowSet[i].key)
+         }
+       }
+      //  选择当前状态最近的一个驳回理由用于显示
+       $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+       $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+
+      }
+    });
 
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
@@ -1806,6 +1839,37 @@ define('project/controllers', ['project/init'], function() {
    function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      $scope.$watch('initFlag', function (newVal) {
+         console.log('1');
+         console.log($scope.tr.operationFlowSet);
+       var operationFlowSetMessage=[];
+       var operationFlowSetKey=[];
+       if ($scope.scopeData) {
+         // 选择出当前状态相同的驳回理由，并放入一个数组中
+        for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
+          if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
+            operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message)
+            operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key)
+          }
+        }
+       //  选择当前状态最近的一个驳回理由用于显示
+        $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+        $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+
+       }
+       if ($scope.tr) {
+         // 选择出当前状态相同的驳回理由，并放入一个数组中
+        for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+          if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
+            operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message)
+            operationFlowSetKey.push($scope.tr.operationFlowSet[i].key)
+          }
+        }
+       //  选择当前状态最近的一个驳回理由用于显示
+        $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+        $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+
+       }
+
        if (newVal && $scope.formData.orderMedicalNos) {
         //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
         //    if (data.handleFlag)
@@ -1820,6 +1884,7 @@ define('project/controllers', ['project/init'], function() {
         }
         // $scope.isChoiseAll = true;
        }
+
      });
      $scope.canSubmitForm = function() {
        //必须有1条是勾选加入订单的。
@@ -2190,6 +2255,8 @@ define('project/controllers', ['project/init'], function() {
 
      //页面Loading时初始化数据
      $scope.$watch('initFlag', function (newVal) {
+
+
        // 初始化商品列表的状态为选中
        if (newVal && $scope.formData.orderMedicalNos) {
          for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
