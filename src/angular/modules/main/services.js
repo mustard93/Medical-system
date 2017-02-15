@@ -1082,15 +1082,17 @@ e
                     if(!LODOP)console.log("need exe:$root.OPrinter.init()");
                   }
                   // 若strTaskName空，控件则不保存本地化信息，打印全部由页面程序控制。
-                  taskName="";
+                  taskName="taskName";
                   if(!taskName)taskName="";
                   // (扩展型)打印初始化
                   // 格式：PRINT_INITA(Top,Left,Width,Height,strPrintName)
                   // 功能：打印初始化、设定纸张整体偏移量、设定可视编辑区域大小
                         var p=this.print_param;
-                        LODOP.SET_PRINT_PAGESIZE(p.print_orient,p.paper_width,p.paper_height,taskName);
+
                       LODOP.PRINT_INITA(p.paper_top,p.paper_left,p.paper_width,p.paper_height,taskName);
-                  
+                      //必须在格式：PRINT_INITA 后面才生效。
+                      LODOP.SET_PRINT_PAGESIZE(p.print_orient,p.paper_width,p.paper_height,taskName);
+
                   if(!content)content=this.getPrintHtmlContent();
 
                   //设定纸张大小

@@ -2638,8 +2638,6 @@ function addressManageComponent (requestData, utils) {
       };
 
       scope.$watch('formData.customerId', function (newVal, oldVal) {
-        console.log(newVal + '-' +oldVal);
-
         if (newVal && oldVal !== null) {
           scope.requestDataId = newVal;
           reLoadData(scope);
@@ -2648,7 +2646,7 @@ function addressManageComponent (requestData, utils) {
 
       //响应重新加载列表数据的操作
       scope.$on('reloadAddressList', function () {
-        // reLoadData(scope);
+        reLoadData(scope);
       });
     },
     controller: ["$scope", "$element", function ($scope, $element) {
