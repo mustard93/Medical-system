@@ -102,7 +102,7 @@
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1" ng-disabled="tr.quantity==1">-</button>
                         <span class="inline-block">
-                          <input type="text"
+                          <input type="number"
                                  name="quantity{{$index}}"
                                  class="inline pr-table-input text-center item-quantity"
                                  style="width:60px;"
@@ -111,7 +111,7 @@
                                  ng-pattern="/^[1-9]\d*$/"
                                  invalid-popover
                                  valid-value="{{!editForm['quantity'+$index].$valid}}"
-                                 popover-show
+                                 popover-show="tr.quantity>100000"
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>
