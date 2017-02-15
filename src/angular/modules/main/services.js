@@ -426,6 +426,21 @@ function alertOk($rootScope, modal) {
           };
 
           var  utilsObj = {
+            //
+            /**
+                 *
+                * @Description: 切换数组中2个条目顺序
+                * @method switchArrayOrder
+                * @param sourceIndex  切换顺序的位置1
+                * @param sourceIndex  切换顺序的位置2
+                * @return 输出html格式
+                * @author liumingquan
+                */
+            switchArrayOrder:function(arr,sourceIndex,destIndex){
+              var tmp=arr[sourceIndex];
+              arr[sourceIndex]=arr[destIndex];
+              arr[destIndex]=tmp;
+            },
             //获取当前服务器的路径，用于异步请求当前数据的
             getCurServerPath:function(){
               //例：http://localhost:8086/topic/index?topicId=361
