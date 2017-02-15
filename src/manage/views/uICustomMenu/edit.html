@@ -1,7 +1,7 @@
 
 <div class="modal-content" ng-controller="editCtrl"
   ng-init="className_getOfEdit=false"
-  ajax-url="rest/authen/uICustomMenu/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+  ajax-url="rest/authen/uICustomMenu/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
   scope-data="formData"
   callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId;formData.items=formData.items||[]">
     <form class="add-customerAddress-form form-horizontal"
@@ -113,6 +113,18 @@
                           <button type="button" class="btn btn-danger" ng-click="formData.items.splice($index,1);">
                               <i class="fa fa-trash-o"></i>
                               删除</button>
+
+                        <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,$index-1)"  type="button"
+                          class="btn btn-default" > 上移  </button>
+                        <button  ng-if="$index+1<formData.items.length"
+                         ng-click="$root.utils.switchArrayOrder(formData.items,$index,$index+1)" type="button" class="btn btn-default" > 下移  </button>
+
+                         <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,0)"  type="button"
+                           class="btn btn-default" > 顶部  </button>
+
+                         <button ng-if="$index<formData.items.length-1"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,formData.items.length-1)"  type="button"
+                           class="btn btn-default" > 底部  </button>
+
                       </td>
 
                   </tr>

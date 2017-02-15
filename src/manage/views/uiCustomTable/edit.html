@@ -1,6 +1,6 @@
 <div class="modal-content" ng-controller="editCtrl"
   ng-init="className_getOfEdit=false"
-  ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&className={{className}}"
+  ajax-url="rest/authen/uiCustomTable/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&className={{className}}"
   scope-data="formData"
   callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
   <form class="add-customerAddress-form form-horizontal"
@@ -155,7 +155,7 @@
               </tr>
           </thead>
           <tbody>
-              <tr ng-repeat="tr in formData.items" ng-click="selectThis()">
+              <tr ng-repeat="tr in formData.items" ng-click="selectThis()"  ng-class='{"active":tr.showFlag}'>
 
                   <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                   <td>{{$index + 1}}</td>
@@ -177,6 +177,19 @@
                           <i class="fa fa-edit"></i>
                           编辑
                       </button>
+
+
+                      <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,$index-1)"  type="button"
+                        class="btn btn-default" > 上移  </button>
+                      <button  ng-if="$index+1<formData.items.length"
+                       ng-click="$root.utils.switchArrayOrder(formData.items,$index,$index+1)" type="button" class="btn btn-default" > 下移  </button>
+
+                       <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,0)"  type="button"
+                         class="btn btn-default" > 顶部  </button>
+
+                       <button ng-if="$index<formData.items.length-1"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,formData.items.length-1)"  type="button"
+                         class="btn btn-default" > 底部  </button>
+
                   </td>
 
               </tr>

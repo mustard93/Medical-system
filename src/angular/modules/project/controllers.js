@@ -308,6 +308,26 @@ define('project/controllers', ['project/init'], function() {
       // $scope.formData={};
       $scope.addDataItem = {};
 
+      // 是否显示关闭按钮
+      $scope.isShowCancelBtn = false;
+      $scope.$watch('initFlag', function (newVal) {
+         //发送请求判断当前订单状态是否可显示关闭按钮
+         if (newVal) {
+           var _url = 'rest/authen/salesOrder/isCanClose?id=' + $scope.formData.id;
+           requestData(_url, {}, 'get')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               $scope.isShowCancelBtn = true;
+             }
+           })
+           .catch(function (error) {
+            //  if (error) {
+            //    alertError(error);
+            //  }
+           });
+         }
+      });
+
       // 监视表单内子项目变化
       $scope.watchFormChange=function(watchName){
         watchFormChange(watchName,$scope);
@@ -2184,7 +2204,7 @@ define('project/controllers', ['project/init'], function() {
 
         //发送请求判断当前订单状态是否可显示关闭按钮
         if (newVal) {
-          var _url = 'rest/authen/requestPurchaseOrder/isCanClose?id=' + $scope.mainStatus.pageParams.id;
+          var _url = 'rest/authen/requestPurchaseOrder/isCanClose?id=' + $scope.formData.id;
           requestData(_url, {}, 'get')
           .then(function (results) {
             if (results[1].code === 200) {
@@ -2192,9 +2212,9 @@ define('project/controllers', ['project/init'], function() {
             }
           })
           .catch(function (error) {
-            if (error) {
-              alertError(error);
-            }
+            // if (error) {
+            //   alertError(error);
+            // }
           });
         }
      });
