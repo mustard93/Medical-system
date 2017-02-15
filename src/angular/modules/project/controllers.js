@@ -1063,7 +1063,7 @@ define('project/controllers', ['project/init'], function() {
         var arr=[];
         if(!stockBatchs)return arr;
         for(var i=0;i<stockBatchs.length;i++){
-            arr.push(stockBatchs[i].productionBatch);
+            arr.push(stockBatchs[i].batchNumber);
         }
         return arr;
     };
@@ -1228,7 +1228,7 @@ define('project/controllers', ['project/init'], function() {
         var arr=[];
         if(!stockBatchs)return arr;
         for(var i=0;i<stockBatchs.length;i++){
-            arr.push(stockBatchs[i].productionBatch);
+            arr.push(stockBatchs[i].batchNumber);
         }
         return arr;
     };
@@ -1283,7 +1283,7 @@ define('project/controllers', ['project/init'], function() {
         //记录添加新的批号选择下拉框的索引号。
         var noSelectproductionBatchValIndex=-1;
         for(var i=0;i<newVal.length;i++){
-          if(!newVal[i].productionBatch){
+          if(!newVal[i].batchNumber){
             newVal[i].quantity=0;
             noSelectproductionBatchValIndex=i;
           }

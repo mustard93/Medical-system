@@ -79,26 +79,20 @@
                <tbody class="bg-white">
                  <tr ng-repeat="tr in formData.orderMedicalNos" salesorder-edit-show-delbtn>
                  <td class="select-td">
-                   <input type="checkbox" class="selectOne" ng-model="tr.handleFlag"
-                   ng-change="chkChoiseMedicals(tr,formData.orderMedicalNos);" ng-disabled="formData.orderStatus=='已处理'">
+                   <input type="checkbox"
+                          class="selectOne"
+                          ng-model="tr.handleFlag"
+                          ng-change="chkChoiseMedicals(tr,formData.orderMedicalNos);"
+                          ng-disabled="formData.orderStatus=='已处理'">
                  </td>
                    <td class="text-center">{{tr.code}}</td>
                    <td  class="text-left">
-                     <div class="autocut-l" title="{{tr.name}}">
-                         {{tr.name}}
-                     </div>
+                     <div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div>
                    </td>
-                   <td>
-                     {{tr.supplierName}}
-                   </td>
-                   <td class="text-center">
-                     {{tr.specificationAndModelType}}
-                   </td>
-                   <td class="text-center">
-                     {{tr.unit}}
-                   </td>
-                   <td class="text-center">
-                     {{tr.quantity}}
+                   <td>{{tr.supplierName}}</td>
+                   <td class="text-center">{{tr.specificationAndModelType}}</td>
+                   <td class="text-center">{{tr.unit}}</td>
+                   <td class="text-center">{{tr.quantity}}
                      <!-- <div class="order-goods-num">
                        <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1 || formData.orderStatus=='已处理'">-</button>
                        <span class="inline-block" ng-init="startQuantity=tr.quantity">
@@ -130,7 +124,7 @@
                    <td class="text-center">￥
                      <input type="text"
                             class="ipt pr-ipt-60 text-right"
-                            ng-model="tr.price"
+                            ng-model="tr.purchasePrice"
                             ng-disabled="formData.orderStatus=='已处理'" />
                             <!-- required
                             name="purchasePrice{{$index}}"
