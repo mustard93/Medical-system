@@ -61,84 +61,82 @@
            <table border=1 style="text-align:center;font-size:14px;width:100%;border:1px solid #000000;border-collapse:collapse;">
              <thead>
                <tr>
-                      <td style="text-align:center;max-width:8%;">
+                      <td style="text-align:center;max-width:7%; white-space: nowrap;">
                          商品编号
                      </td>
-                     <td style="text-align:center;max-width:8%;">
+                     <td style="text-align:center;max-width:7%;white-space: nowrap;">
                          商品全名
                      </td>
-                     <td style="text-align:center;max-width:10%;">
+                     <td style="text-align:center;max-width:10%; white-space: nowrap;">
                          规格/型号
                      </td>
-                     <td style="text-align:center;max-width:5%;">
+                     <td style="text-align:center;max-width:5%; white-space: nowrap;">
                          单位
                      </td>
-                     <td style="text-align:center;max-width:5%;">
+                     <td style="text-align:center;max-width:5%; white-space: nowrap;">
                          数量
                      </td>
-                     <td style="text-align:center;max-width:5%;">
+                     <td style="text-align:center;max-width:5%; white-space: nowrap;">
                          单价
                      </td>
-                     <td style="text-align:center;max-width:5%;">
+                     <td style="text-align:center;max-width:5%; white-space: nowrap;">
                          金额
                      </td>
-                     <td style="text-align:center;max-width:8%;">
+                     <td style="text-align:center;max-width:8%; white-space: nowrap;">
                          生产批号
                      </td>
-                     <td style="text-align:center;max-width:8%;">
+                     <td style="text-align:center;max-width:8%; white-space: nowrap;">
                          有效期至
                      </td>
-                   <td style="text-align:center;max-width:6%;">
+                   <td style="text-align:center;max-width:6%; white-space: nowrap;">
                          生厂商
                      </td>
-                     <td style="text-align:center;max-width:10%;">
+                     <td style="text-align:center;max-width:9%; white-space: nowrap;">
                          产品注册证
                      </td>
-                   <td style="text-align:center;max-width:8%;">
+                   <td style="text-align:center;max-width:8%; white-space: nowrap;">
                          产地品牌
                    </td>
                </tr>
              </thead>
              <tbody>
                <tr  ng-repeat="tr in showData.orderMedicalNos ">
-                 <td style="text-align:center;max-width:30px;">
-                   <div class="">
+                 <td style="text-align:center;max-width:7%;word-wrap:break-word;">
                      {{tr.code}}
-                   </div>
                  </td>
-                 <td style="text-align:center;max-width:8%;">{{tr.name}}</td>
-                 <td style="text-align:center;max-width:8%;">{{tr.specificationAndModelType}}</td>
-                 <td style="text-align:center;max-width:10%;">{{tr.unit}}</td>
-                 <td style="text-align:center;max-width:5%;">{{tr.quantity}}</td>
-                 <td style="text-align:center;max-width:5%;">{{tr.strike_price}}</td>
-                 <td style="text-align:center;max-width:5%;">{{(tr.quantity*tr.strike_price).toFixed(2)}}</td>
-                 <td style="text-align:center;max-width:8%;">{{tr.productionBatch}}</td>
-                 <td style="text-align:center;max-width:8%;"
+                 <td style="text-align:center;white-space: nowrap;">{{tr.name}}</td>
+                 <td style="text-align:center;max-width:8%;word-wrap:break-word;">{{tr.specificationAndModelType}}</td>
+                 <td style="text-align:center;max-width:10%;word-wrap:break-word;">{{tr.unit}}</td>
+                 <td style="text-align:center;max-width:5%;word-wrap:break-word;">{{tr.quantity}}</td>
+                 <td style="text-align:center;max-width:5%;word-wrap:break-word;">{{tr.strike_price}}</td>
+                 <td style="text-align:center;max-width:5%;word-wrap:break-word;">{{(tr.quantity*tr.strike_price).toFixed(2)}}</td>
+                 <td style="text-align:center;max-width:8%;word-wrap:break-word;">{{tr.productionBatch}}</td>
+                 <td style="text-align:center;max-width:8%;word-wrap:break-word;"
                  ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{tr.relId}}&p_and_s={{tr.productionBatch}}"
                  scope-data="guaranteePeriodData"
                  >
                    {{guaranteePeriodData.validTill | date:'yyyy-MM-dd'}}
                  </td>
-                 <td style="text-align:center;max-width:6%;">{{tr.manufacturer}}</td>
-                 <td style="text-align:center;max-width:10%;">{{tr.drugAdministrationCode}}</td>
-                 <td style="text-align:center;max-width:8%;">{{tr.brand}}</td>
+                 <td style="text-align:center;max-width:6%;word-wrap:break-word;">{{tr.manufacturer}}</td>
+                 <td style="text-align:center;max-width:9%;word-wrap:break-word;">{{tr.drugAdministrationCode}}</td>
+                 <td style="text-align:center;max-width:8%;word-wrap:break-word;">{{tr.brand}}</td>
                </tr>
                <tr>
                  <td>总计大写</td>
-                 <td colspan="7">{{showData.totalPriceCN}}</td>
+                 <td colspan="7" style="word-wrap:break-word;">{{showData.totalPriceCN}}</td>
                  <td colspan="2">本页小计</td>
-                 <td colspan="2">{{showData.totalPrice}}
+                 <td colspan="2" style="word-wrap:break-word;">{{showData.totalPrice}}
                  </td>
                </tr>
                <tr>
                  <td>发货单位</td>
-                 <td colspan="2">{{organizationName.name}}</td>
+                 <td colspan="2" style="word-wrap:break-word;">{{organizationName.name}}</td>
                  <td colspan="2">联系人</td>
-                 <td colspan="2">{{showData.invoicesContacts.name}}</td>
+                 <td colspan="2" style="word-wrap:break-word;">{{showData.invoicesContacts.name}}</td>
                  <td >电话</td>
-                 <td colspan="2">{{showData.invoicesContacts.tel}}</td>
+                 <td colspan="2" style="word-wrap:break-word;">{{showData.invoicesContacts.tel}}</td>
                  <td>传真</td>
-                 <td>{{showData.invoicesContacts.fax}}</td>
+                 <td style="word-wrap:break-word;">{{showData.invoicesContacts.fax}}</td>
                </tr>
              </tbody>
            </table>
