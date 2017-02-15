@@ -1,10 +1,10 @@
 <div ng-controller="invoicesOrderCtrl"
-        ng-init="outstockOrderForm={};initFlag=false;"
-        class="invoices-order"
-        ajax-url="rest/authen/invoicesOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
-        scope-data="scopeData"
-        callback="distributionInfo=scopeData.distributionInfo;distributionInfo.id=scopeData.id;outstockOrderForm.invoicesId=scopeData.id;initFlag=true"
-        alert-error>
+     ng-init="outstockOrderForm={};initFlag=false;"
+     class="invoices-order"
+     ajax-url="rest/authen/invoicesOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="scopeData"
+     callback="distributionInfo=scopeData.distributionInfo;distributionInfo.id=scopeData.id;outstockOrderForm.invoicesId=scopeData.id;initFlag=true"
+     alert-error>
 
   <form id="editForm"
         name="editForm"
@@ -18,14 +18,14 @@
         callback="submitFormAfter();watchFormChange('formData')">
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 >
+      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">销售中心 >
         <a href="#/invoicesOrder/query.html">
             <em class="color-custom-orange">发货单</em>
         </a>
         <em>>发货单详情</em>
       </p>
       <!-- 标题 -->
-      <div class="pd-c-xxxxxl">
+      <div class="pd-c-xxl">
         <div class="pos-rel-tl inline-block fl-l">
           <h1 class="pr-font-20 color-black">发货单</h1>
           <p class="mgt-l text-n color-3 text-bold">{{scopeData.customerName}}</p>
@@ -201,7 +201,7 @@
               <p class="color-orange">
                 <a href="javascript:;"
                    modal-right="600"
-                   modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
+                   modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{kuaidiData}}}'
                    modal-scope="this"
                    modal-url="views/kuaidi/query3.html">{{item.nu}}
                 </a>

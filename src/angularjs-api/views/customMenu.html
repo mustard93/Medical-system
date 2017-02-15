@@ -11,7 +11,7 @@
       <ul>
         <li>
           <div class="panel">
-            <div class="panel-heading" ng-init='tr.didateFilter.buttons=[{"type":"通过","buttonName":"审批通过"}]'>
+            <div class="panel-heading" ng-init='tr.didateFilter.buttons=[{"type":"通过","buttonName":"审批通过","alertTemplate":"views/public/dialog-workflow-check.html"}]'>
               <span class="tools pull-right">
                 <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
                 <a href="javascript:;" class="fa fa-times"></a>
@@ -74,16 +74,26 @@
             </div>
           </div>
         </li>
+
         <li>
           <div class="panel">
-            <div class="panel-heading">
+            <div class="panel-heading"
+
+            ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
+            scope-data="scopeData"
+            alert-error
+             >
               <span class="tools pull-right">
                 <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
                 <a href="javascript:;" class="fa fa-times"></a>
               </span>
 
-              详细页面审批：
-              <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr"
+              详细页面审批：              
+                      <span ng-if="scopeData.didateFilter.buttons.length>0"
+                            custom-menu-list
+                            custom-menu-arr="{{scopeData.didateFilter.buttons}}">
+                      </span>
+              <!-- <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgr"
                       type="button"
                       handle-this-click
                       dialog-title="确认通过?"
@@ -102,7 +112,7 @@
                       emitted="reloadList"
                       params='{"id":tr.id,"status":"待采购"}'
                       request-url="rest/authen/purchaseOrder/updateStatus.json">立即审批
-              </button>
+              </button> -->
 
             </div>
             <div class="panel-body" style="display:none;">

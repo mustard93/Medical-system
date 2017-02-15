@@ -3,7 +3,7 @@
      ng-controller="requestPurchaseOrderEditCtrl"
      ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
+     callback="initFlag=true;watchFormChange('formData');"
      alert-error>
 <form id="editForm"
      name="purchaseForm"
@@ -19,16 +19,16 @@
      novalidate="novalidate">
 
      <div class="header-info relative mgb-l">
-       <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">采购中心 >
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
          <a href="#/requestPurchaseOrder/query.html">
             <em class="color-custom-orange">请购单</em>
          </a>
         <em>>请购单详情</em>
        </p>
-       <div class="pd-c-xl pdt-l pdb-l">
+       <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
          <div class="mgb-l">
-           <h1 class="color-black pr-font-20 pr-indent-20">请购单详情</h1>
+           <h1 class="color-black pr-font-20">请购单详情</h1>
          </div>
        </div>
      </div>
@@ -222,20 +222,6 @@
 
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
-
-          <button
-                  class="btn-reject mgl mgt color-white text-center"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认关闭?"
-                  dialog-content="关闭后，该请购单将变为已处理状态，确定关闭?"
-                  dialog-template="pr-dialog-submit.html"
-                  request-url="rest/authen/requestPurchaseOrder/updateStatus"
-                  params='{"id":formData.id,"orderStatus":"已关闭"}'
-                  alert-error
-                  callback="$root.utils.refreshHref()"
-                  >关闭
-          </button>
 
         <span class="mgr mgl mgt">
           <button class="pr-btn-save-glodbg"
