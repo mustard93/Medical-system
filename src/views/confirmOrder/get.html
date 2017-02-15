@@ -15,6 +15,7 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         callback="submitFormAfter();watchFormChange('formData')">
+
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
       <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">销售中心 > <em class="color-custom-orange">销售单</em></p>
@@ -28,6 +29,14 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
+      <div ng-if="scopeData.orderStatus=='未通过'||scopeData.orderStatus=='已作废'"
+       class="pr-panel pr-panel-height mgb">
+      <em class="color-red">原因:</em>
+       <p ng-repeat="tr in scopeData.operationFlowSet" class="inline-block">
+       <em ng-if="tr.status==scopeData.orderStatus">{{tr.key}}</em>
+       <em ng-if="tr.status==scopeData.orderStatus">{{tr.message}}</em>
+       </p>
+      </div>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
@@ -92,8 +101,8 @@
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
                   <td class="text-center">{{item.batchRequirement}}</td>
-                  <td class="text-center">{{tr.productionBatch}}</td>
-                  <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
+                  <td class="text-center">{{item.productionBatch}}</td>
+                  <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-right">{{item.price | currency:'￥'}}</td>
                   <td class="text-right">{{item.taxRate}}%</td>
                   <td class="text-right">￥{{item.discountPrice | number:2}}</td>
@@ -259,21 +268,14 @@
            call-back="$root.goTo('#/salesOrder/query.html')">删除
         </a>
 
-        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
-
-        <button type="button" class="pr-btn-save-glodbg">
+        <button ng-if="scopeData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <button ng-show="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{scopeData.id}}" target="_blank">打印预览</a>
         </button>
-
         <span ng-if="scopeData.didateFilter.buttons.length>0"
               custom-menu-list
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span>
-
-        <!-- <span ng-if="formData.didateFilter.buttons.length>0"
-              custom-menu-list
-              custom-menu-arr="{{formData.didateFilter.buttons}}">
-        </span> -->
       </div>
       <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white">￥{{scopeData.totalPrice | number:2}}</em>

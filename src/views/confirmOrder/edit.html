@@ -103,7 +103,7 @@
                         data-placeholder=" "
                         chosen
                         ng-model="formData.salesType"
-                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_SalesType">
+                        select-source="rest/baseData/queryForSelectOptionByType?type=销售类型">
                 </select>
               </span>
               <span class="mgr">付款条件：
@@ -467,7 +467,7 @@
                 class="pr-btn-save-glodbg mgr"
                 ng-click="submitForm('editForm','print')">打印预览
         </button>
-        <button ng-if="formData.orderBusinessType=='普通销售'&&formData.orderStatus=='未提交'"
+        <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
@@ -475,7 +475,7 @@
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
-        <button ng-if="formData.orderBusinessType=='直运销售'&&formData.orderStatus=='未提交'"
+        <button ng-if="formData.orderBusinessType=='直运销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"

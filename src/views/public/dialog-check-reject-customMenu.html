@@ -10,30 +10,31 @@
           alert-ok
           form-validator>
 
-  <div class="pr-page-dialog-title bb-line">
+  <div class="pr-page-dialog-title  bb-line">
     <i></i><span>{{dialogData.alertTitle||"确认驳回?"}}</span>
   </div>
-  <div class="pr-page-dialog-content bb-line">
+  <div class="pr-page-dialog-content pd-c-l bb-line">
       <div class="mgb-l">{{dialogData.alertMsg||"驳回后,将作废"}}</div>
-      <div class="flex-column">
-        <div class="flex-item-2">
+      <div class="content-textaere">
+        <div class="flex-item-3">
           驳回理由：
         </div>
-        <div class="flex-item-10" ng-if="dialogData.alertSelect">
+        <div class="flex-item-9" ng-if="dialogData.alertSelect">
           <p class="mgb"
           ajax-url="rest/baseData/queryForSelectOptionByType"
           params='{"type":dialogData.alertSelect}'
           scope-data="selectOptions"
           error-callback="selectOptions=[]"
           callback="formData.key=selectOptions[0].text">
-            <select ng-if="selectOptions" class="select" ng-model="formData.key" ng-options="item.text as item.text   for item in selectOptions">
+            <select ng-if="selectOptions" class="pr-select-sm" ng-model="formData.key" ng-options="item.text as item.text   for item in selectOptions">
             </select>
           </p>
-          <p>
-            <textarea class="pr-textarea" ng-model="formData.message" placeholder="补充说明"></textarea>
-          </p>
+        </div>
+        <div >
+          <textarea class="pr-textarea " ng-model="formData.message" placeholder="补充说明"></textarea>
         </div>
       </div>
+
   </div>
   <div class="pr-page-dialog-footer text-center mg-m">
     <button type="submit"  class="pr-btn-save-glodbg">驳回</button>
