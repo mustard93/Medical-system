@@ -1,10 +1,10 @@
 <div ng-controller="invoicesOrderCtrl"
-        ng-init="outstockOrderForm={};initFlag=false;"
-        class="invoices-order"
-        ajax-url="rest/authen/invoicesOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
-        scope-data="scopeData"
-        callback="distributionInfo=scopeData.distributionInfo;distributionInfo.id=scopeData.id;outstockOrderForm.invoicesId=scopeData.id;initFlag=true"
-        alert-error>
+     ng-init="outstockOrderForm={};initFlag=false;"
+     class="invoices-order"
+     ajax-url="rest/authen/invoicesOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&confirmOrderId={{mainStatus.pageParams.confirmOrderId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="scopeData"
+     callback="distributionInfo=scopeData.distributionInfo;distributionInfo.id=scopeData.id;outstockOrderForm.invoicesId=scopeData.id;initFlag=true"
+     alert-error>
 
   <form id="editForm"
         name="editForm"
@@ -201,7 +201,7 @@
               <p class="color-orange">
                 <a href="javascript:;"
                    modal-right="600"
-                   modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
+                   modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{kuaidiData}}}'
                    modal-scope="this"
                    modal-url="views/kuaidi/query3.html">{{item.nu}}
                 </a>
