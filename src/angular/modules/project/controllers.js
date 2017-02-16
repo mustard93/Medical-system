@@ -1179,23 +1179,20 @@ define('project/controllers', ['project/init'], function() {
         return;
       }
 
+      if ($scope.submitForm_type == 'submit') {
+        var url='rest/authen/confirmOrder/startProcessInstance';
+        var data= {businessKey:$scope.formData.id};
+        requestData(url, data, 'POST')
+          .then(function (results) {
+            var _data = results[1];
+           //  alertOk(_data.message || '操作成功');
+            $scope.goTo('#/confirmOrder/get.html?id='+$scope.formData.id);
 
-     if ($scope.submitForm_type == 'submit') {
-       var url='rest/authen/confirmOrder/updateStatus';
-       var data= {id:$scope.formData.id,status:'待发单'};
-       requestData(url, data, 'POST')
-         .then(function (results) {
-           var _data = results[1];
-          //  alertOk(_data.message || '操作成功');
-           $scope.goTo('#/confirmOrder/get.html?id='+$scope.formData.id);
-
-         })
-         .catch(function (error) {
-           alertError(error || '出错');
-         });
-
-
-      }
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+       }
 
     };
 
