@@ -1,7 +1,7 @@
 <div class="content-wrapper"
      ajax-url="rest/authen/wOutstockOrder/get.json?id={{mainStatus.pageParams.id}}&sourceOrderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
-     callback="formData={};formData.id=showData.medicalStockId"
+     callback="formData={};formData.id=showData.medicalStockId;"
      alert-error>
      <!-- 头部信息 -->
      <div class="relative bb-line">
@@ -126,57 +126,7 @@
                         <td class="text-center">
                           {{tr.drugAdministrationCodeGuaranteePeriod}}
                         </td>
-                        <!-- <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
-                        <td>{{tr.type}}</td>
-                        <td class="color-orange">
-
-                          <span ng-if="tr.type=='移库出库单'">{{tr.sourceOrderNo}}</span>
-                            <a ng-if="tr.type=='销售出库单'" href="#/invoicesOrder/get.html?orderNo={{tr.sourceOrderNo}}">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='销售退货出库单'" href="#saleReturnOrder/get.html?orderNo={{tr.sourceOrderNo}}">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='报损出库单'" href="#/lossOverOrder/get-reimburse.html?orderNo={{tr.sourceOrderNo}}">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                            <a ng-if="tr.type=='批次冻结出库单'" href="#/freezeThaworder/get-freeze.html?orderNo={{tr.sourceOrderNo}}">
-                            {{tr.sourceOrderNo}}
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <div class="autocut" title="{{tr.warehouseName}}">
-                                {{tr.warehouseName}}
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <div class="autocut" title="{{tr.warehouseName}}">
-                                {{tr.repositoryTypeName}}
-                            </div>
-                        </td>
-                        <td>{{tr.code}}</td>
-                        <td class="text-left">
-                          <div class="autocut" title="{{tr.medicalStockName}}">
-                              {{tr.medicalStockName}}
-                          </div>
-                        </td>
-                        <td class="text-center">{{tr.specificationAndModelType}}</td>
-                        <td class="text-center">{{tr.drugAdministrationCode}}</td>
-                        <td class="text-center">{{tr.unit}}</td>
-
-                        <td ng-if="tr.type!='销售退货出库单'" class="text-right">
-                        {{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}
-                        </td>
-                        <td ng-if="tr.type=='销售退货出库单'" class="text-right">
-                        {{tr.outgoingQuantity?-tr.outgoingQuantity:"—"}}
-                        </td>
-                        <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
-                        <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td>
-                        <td class="text-center">{{tr.productionBatch}}</td>
-                        <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
-                        <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
-                        <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
-                        <td class="text-center">{{tr.note}}</td> -->
+                        <td>
                       </tr>
                     </tbody>
                 </table>
@@ -191,6 +141,16 @@
         <p class="pd-v-l">备注：{{showData.note}}</p>
       </div>
     </div>
+</div>
+<!-- 流程图 -->
+<div class="" ng-if="showData.type=='销售退货出库单'">
+    <business-flow-show business-key="{{showData.id}}" business-type="销退单"></business-flow-show>
+</div>
+<div class="" ng-if="showData.type=='报损出库单'">
+    <business-flow-show business-key="{{showData.id}}" business-type="报损单"></business-flow-show>
+</div>
+<div class="" ng-if="showData.type=='批次冻结出库单'">
+    <business-flow-show business-key="{{showData.id}}" business-type="批次冻结单"></business-flow-show>
 </div>
 
 <div class="handle-btn-area relative">

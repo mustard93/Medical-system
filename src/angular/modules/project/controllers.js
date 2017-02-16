@@ -1836,8 +1836,6 @@ define('project/controllers', ['project/init'], function() {
    function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      $scope.$watch('initFlag', function (newVal) {
-         console.log('1');
-         console.log($scope.tr.operationFlowSet);
        var operationFlowSetMessage=[];
        var operationFlowSetKey=[];
        if ($scope.scopeData) {
