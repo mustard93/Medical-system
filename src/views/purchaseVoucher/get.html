@@ -146,12 +146,12 @@
         <span class="uploader-PDF-icon"></span>
           <a href="{{scopeData.voucherUrl}}">下载PDF文件</a>
       </div>
-      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+      <div class="btn-area mgb-s" style="background:rgba(54,48,44,0.30);">
         <span><a href="#/purchaseVoucher/query.html">返回采购凭证列表</a></span>
         <span class="mgl mgt">
           <a href="javascript:;"
              ng-if="scopeData.orderStatus=='已发送'"
-             modal-right="490"
+             modal-right="350"
              modal-scope="this"
              modal-data='{}'
              modal-url="angular/tpl/pr-dialog-show-message.html">查看发送记录
@@ -160,7 +160,7 @@
         <span class="mgl mgt">
           <a ng-if="scopeData.orderStatus!='已作废'"
              class="color-red"
-             modal-center="490"
+             modal-center="350"
              modal-scope="this"
              modal-data='{"title":"确认",
                           "content":"撤销后，该采购凭证将作废，确认撤销?",
@@ -174,6 +174,9 @@
              modal-url="angular/tpl/pr-dialog-submit-message.html">作废
           </a>
         </span>
+        <button class="pr-btn-save-glodbg mgr">
+          <a class="color-white" ng-href="indexOfPrint.html#/print/confirmOrderPrint.html?id={{scopeData.id}}" target="_blank">打印预览</a>
+        </button>
         <span class="mgr mgl mgt">
           <button class="pr-btn-save-glodbg mgt"
                   ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
