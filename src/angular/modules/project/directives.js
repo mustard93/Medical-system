@@ -2432,8 +2432,8 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           moveBtnDivWidth=34*btnCount;
           // console.log("moveBtnDivWidth",moveBtnDivWidth);
           var y =$element.offset().top -document.body.scrollTop;
-          var x= utils.getwindowWidth()-80-moveBtnDivWidth;
-
+          // var x= utils.getwindowWidth()-80-moveBtnDivWidth; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。
+          var x=e.clientX+10; //根据鼠标位置定位，解决上面bug。
           if(x<0)x=0;
           //
           moveBtnDiv.css({
