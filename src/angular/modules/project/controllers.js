@@ -3502,14 +3502,22 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 单选
-    $scope.handleItemClickEvent = function (obj) {
+    $scope.handleItemClickEvent = function (obj,dataList) {
       if (obj.handleFlag) {
+        //获取当前点击选项的厂家id
+        var _supplierId = obj.supplierId;
+        //遍历列表判断那些药品跟当前点击选中的药品列不是一个厂家的
+        angular.forEach(dataList, function (item, index) {
+          if (item.supplierId !== _supplierId) {
+            item.isCloseChiose = true;
+          }
+        });
+
         if (!$scope.relMedicalStockIdSet) {
           $scope.relMedicalStockIdSet += obj.id;
         } else {
           $scope.relMedicalStockIdSet += ',' + obj.id;
         }
-        // console.log($scope.relMedicalStockIdSet);
       } else {
         var _tmp = $scope.relMedicalStockIdSet.split(',');
 
@@ -3521,7 +3529,12 @@ define('project/controllers', ['project/init'], function() {
         });
 
         $scope.relMedicalStockIdSet = _tmp.toString();
-        // console.log($scope.relMedicalStockIdSet);
+
+        if (!$scope.relMedicalStockIdSet) {
+          angular.forEach(dataList, function (item, index) {
+            item.isCloseChiose = false;
+          });
+        }
       }
     };
 
