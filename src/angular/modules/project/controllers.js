@@ -3392,7 +3392,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 监视值变化
     $scope.$watch('item.quantity', function (newVal) {
-        if ($scope.item.returnQuantity) {
+        if ($scope.item.returnQuantity >= 0) {
           if (newVal > $scope.item.returnQuantity) {
             $scope.quantityError = true;
             $scope.$parent.$parent.quantityError = true;
