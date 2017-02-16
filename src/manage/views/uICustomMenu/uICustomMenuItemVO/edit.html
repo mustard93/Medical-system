@@ -8,12 +8,35 @@
       <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label">类型</label>
           <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData1.type"/>
+
+
+            <select  class="ipt pr-short-ipt"
+             data-placeholder="选择类型" chosen
+              ng-model="formData1.type" select-source="rest/baseData/queryForSelectOptionByType?type=UICustomMenuItemVO.type">
+            </select>
+
+
           </div>
 
       </div>
 
 
+            <div  ng-if="formData1.type=='href'"  class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">跳转方式</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select class="ipt pr-short-ipt"
+                   data-placeholder="选择" chosen
+                    ng-model="formData1.target" default-empty="默认" select-source="rest/baseData/queryForSelectOptionByType?type=UICustomMenuItemVO.target">
+                  </select>
+                </div>
+            </div>
+            <div  ng-show="formData1.type=='modalRight'||formData1.type=='modalCenter'" class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">弹出框宽度</label>
+                <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="弹出框宽度" ng-model="formData1.modalWidth"/>
+
+                </div>
+            </div>
       <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label">显示名</label>
           <div class="col-lg-10 col-sm-10">
@@ -24,7 +47,12 @@
       <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label">图标样式</label>
           <div class="col-lg-10 col-sm-10">
-              <input type="text" class="form-control" placeholder="" ng-model="formData1.iconClass"/>
+
+              <select  class="ipt pr-short-ipt"
+               data-placeholder="选择" chosen
+                ng-model="formData1.iconClass" default-empty="无" select-source="rest/baseData/queryForSelectOptionByType?type=UICustomMenuItemVO.iconClass">
+              </select>
+
           </div>
       </div>
 
@@ -35,7 +63,7 @@
           </div>
       </div>
 
-      
+
         <div class="form-group" >
             <label class="col-lg-2 col-sm-2 control-label">执行函数</label>
             <div class="col-lg-10 col-sm-10">

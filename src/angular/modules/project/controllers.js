@@ -1179,23 +1179,20 @@ define('project/controllers', ['project/init'], function() {
         return;
       }
 
+      if ($scope.submitForm_type == 'submit') {
+        var url='rest/authen/confirmOrder/startProcessInstance';
+        var data= {businessKey:$scope.formData.id};
+        requestData(url, data, 'POST')
+          .then(function (results) {
+            var _data = results[1];
+           //  alertOk(_data.message || '操作成功');
+            $scope.goTo('#/confirmOrder/get.html?id='+$scope.formData.id);
 
-     if ($scope.submitForm_type == 'submit') {
-       var url='rest/authen/confirmOrder/updateStatus';
-       var data= {id:$scope.formData.id,status:'待发单'};
-       requestData(url, data, 'POST')
-         .then(function (results) {
-           var _data = results[1];
-          //  alertOk(_data.message || '操作成功');
-           $scope.goTo('#/confirmOrder/get.html?id='+$scope.formData.id);
-
-         })
-         .catch(function (error) {
-           alertError(error || '出错');
-         });
-
-
-      }
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+       }
 
     };
 
@@ -1839,8 +1836,6 @@ define('project/controllers', ['project/init'], function() {
    function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      $scope.$watch('initFlag', function (newVal) {
-         console.log('1');
-         console.log($scope.tr.operationFlowSet);
        var operationFlowSetMessage=[];
        var operationFlowSetKey=[];
        if ($scope.scopeData) {
@@ -3395,13 +3390,8 @@ define('project/controllers', ['project/init'], function() {
 
     // 监视值变化
     $scope.$watch('item.quantity', function (newVal) {
-
-      if ($scope.item.outgoingQuantity && newVal > $scope.item.outgoingQuantity) {         // 如果解决这个wms返回数据的问题
-        $scope.quantityError = true;
-        $scope.$parent.$parent.quantityError = true;
-      } else {                                    // 如果没有，使用planQuantity字段判断
-        if ($scope.item.planQuantity) {
-          if (newVal > $scope.item.planQuantity) {
+        if ($scope.item.returnQuantity >= 0) {
+          if (newVal > $scope.item.returnQuantity) {
             $scope.quantityError = true;
             $scope.$parent.$parent.quantityError = true;
           } else {
@@ -3409,7 +3399,6 @@ define('project/controllers', ['project/init'], function() {
             $scope.$parent.$parent.quantityError = false;
           }
         }
-      }
     });
   }
 

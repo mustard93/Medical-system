@@ -1,11 +1,11 @@
 <div class="modal-content pr-modal-content" ng-controller="editCtrl"
  ajax-url="rest/baseData/getOfEdit.json?id={{tr.id}}"
-   scope-data="formData" callback="initFlag=true"
+   scope-data="formData" callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId;formData.type=formData.type||dialogData.type"
 >
 
   <form class="add-medical-form form-horizontal"
         action="rest/baseData/save"
-        scope-data="formData" alert-error
+        scope-data="formData" alert-error alert-ok
         form-validator>
     <div class="modal-header">
         <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
