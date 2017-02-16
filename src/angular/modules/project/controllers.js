@@ -3395,13 +3395,8 @@ define('project/controllers', ['project/init'], function() {
 
     // 监视值变化
     $scope.$watch('item.quantity', function (newVal) {
-
-      if ($scope.item.outgoingQuantity && newVal > $scope.item.outgoingQuantity) {         // 如果解决这个wms返回数据的问题
-        $scope.quantityError = true;
-        $scope.$parent.$parent.quantityError = true;
-      } else {                                    // 如果没有，使用planQuantity字段判断
-        if ($scope.item.planQuantity) {
-          if (newVal > $scope.item.planQuantity) {
+        if ($scope.item.returnQuantity) {
+          if (newVal > $scope.item.returnQuantity) {
             $scope.quantityError = true;
             $scope.$parent.$parent.quantityError = true;
           } else {
@@ -3409,7 +3404,6 @@ define('project/controllers', ['project/init'], function() {
             $scope.$parent.$parent.quantityError = false;
           }
         }
-      }
     });
   }
 
