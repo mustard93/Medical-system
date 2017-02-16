@@ -204,9 +204,9 @@
                                   ng-model="tr.quantity"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
                          </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
+                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="tr.quantity>=tr.planQuantity">+</button>
                        </div>
-                       <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId">
+                       <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                          待采购数量：{{tr.planQuantity-tr.quantity}}
                        </p>
                      </td>
