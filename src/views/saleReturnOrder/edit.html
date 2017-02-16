@@ -77,7 +77,7 @@
                 <th class="text-left">商品全名</th>
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
-                <th class="text-center">数量</th>
+                <th class="text-center">退货数量</th>
                 <th class="text-center w-110">批号要求</th>
                 <th class="text-center ">生产批号</th>
                 <th class="text-center ">灭菌批号</th>
@@ -126,6 +126,7 @@
                              class="ipt pr-ipt-60 text-right"
                              name="quantity{{$index}}"
                              ng-model="item.quantity"
+                             ng-init="item.quantity=item.returnQuantity"
                              required
                              ng-pattern="/^[1-9]{1,10}?$/"
                              invalid-popover
@@ -135,7 +136,7 @@
                     </span>
                     <button type="button" class="inline-block right" ng-click="item.quantity=item.quantity+1">+</button>
                   </div>
-                  <p class="mgt-s color-red" ng-if="quantityError">退货数量不能大于当前发货数量:{{item.outgoingQuantity||item.planQuantity}}</p>
+                  <p class="mgt-s color-red" ng-if="quantityError">退货数量不能大于当前可退货数量:{{item.returnQuantity}}</p>
                   <!-- <input type="number"
                          style="width:60px;"
                          class="ipt pr-ipt-60 text-right"

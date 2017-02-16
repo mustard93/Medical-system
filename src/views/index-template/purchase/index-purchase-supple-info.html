@@ -23,7 +23,7 @@
               <thead>
                 <tr>
                   <th class="w-50">
-                    <input type="checkbox" class="index-purchase-select-all" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(showData)">
+                    <!-- <input type="checkbox" class="index-purchase-select-all" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(showData)"> -->
                   </th>
                   <th class="pr-panel-title-color color-6 pr-label-bold text-center w-120">药械编号</th>
                   <th class="pr-panel-title-color color-6 pr-label-bold">药械名</th>
@@ -35,9 +35,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="bb-dashed-line" ng-repeat="tr in showData" ng-init="tr.handleFlag=false;">
+                <tr class="bb-dashed-line" ng-repeat="tr in showData" ng-init="tr.handleFlag=false;tr.isCloseChiose=false;">
                   <td class="select-td">
-                    <input type="checkbox" class="index-purchase-select-one" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr)">
+                    <input type="checkbox"
+                           class="index-purchase-select-one"
+                           ng-model="tr.handleFlag"
+                           ng-click="handleItemClickEvent(tr,showData)"
+                           ng-disabled="tr.isCloseChiose">
                   </td>
                   <td class="color-6 overhide w-space-nowrap text-center" title="{{tr.code}}">{{tr.code}}</td>
                   <td class="color-6 overhide w-space-nowrap" title="{{tr.name}}">{{tr.name}}</td>
