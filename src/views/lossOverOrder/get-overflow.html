@@ -1,7 +1,8 @@
 <div class="loss-over-order"
+     ng-controller="lossOverOrderEditCtrl"
      ajax-url="rest/authen/lossOverOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
-     callback="formData={};formData.id=showData.id"
+     callback="initFlag=true;formData={};formData.id=showData.id"
      alert-error>
      <!-- 头部信息 -->
      <div class="header-info relative mgb-l">
@@ -26,10 +27,12 @@
      <!-- 主内容区域 -->
     <div class="content-wrapper  pr-fuzzy-boundary text-s">
       <div ng-if="showData.orderStatus=='未通过'"
-       class="pr-panel pr-panel-height mgb">
-        <em class="color-red">原因:</em>
-        <em>{{showData.operationFlowSet[1].key}}</em>
-        <em>{{showData.operationFlowSet[1].message}}</em>
+       class="pr-panel pr-panel-height mgb pr-bg-pink">
+      <em class="color-red">原因:</em>
+       <p class="inline-block color-red">
+      <em ng-model="showData.operationFlowSet.key">{{showData.operationFlowSet.key}}</em>
+       <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
+       </p>
       </div>
       <div class=" color-9 pr-bg-white">
         <p class="flex-column mgb  pd">
@@ -137,21 +140,21 @@
           <p class="pd-v-l">备注：{{showData.note}}</p>
         </div>
       </div>
-
     </div>
-</div>
+
 
 <!-- 流程图 -->
   <business-flow-show business-key="{{showData.id}}" business-type="报溢单"></business-flow-show>
 
-<div class="handle-btn-area relative">
-  <div class="btn-area-new over-write-wid pdt">
-      <span class="mgr-l">
-        <a  href="#/lossOverOrder/query-overflow.html">返回报溢单列表</a>
-      </span>
-      <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
-       custom-menu-list
-       custom-menu-arr="{{showData.didateFilter.buttons}}">
-      </span>
+  <div class="handle-btn-area relative">
+    <div class="btn-area-new over-write-wid pdt">
+        <span class="mgr-l">
+          <a  href="#/lossOverOrder/query-overflow.html">返回报溢单列表</a>
+        </span>
+        <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
+         custom-menu-list
+         custom-menu-arr="{{showData.didateFilter.buttons}}">
+        </span>
+    </div>
   </div>
 </div>
