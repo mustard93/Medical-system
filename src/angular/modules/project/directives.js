@@ -1517,19 +1517,23 @@ function businessFlowShow() {
                if(curRelId==relId){//当前页面节点点击不做跳转
                  return;
                }
-               // var url="/salesOrder/get.html?id="+relId;
                var url="#/"+moduleType+"/get.html?id="+relId;
 
-
-               if(moduleType=="outstockOrder"){
+               if(moduleType=='lossOrder'){
+                   url="#/lossOverOrder/get-reimburse.html?id="+relId;
+               }
+               else if(moduleType=="outstockOrder"){
                     if(subModuleAttribute=="销售出库单"){
                            url="#/saleOutstockOrder/get.html?id="+relId;
                     }
                     else{
                          url="#/otherOutstockOrder/get.html?id="+relId;
                     }
-               }else
-               if(moduleType=="instockOrder"){
+               }
+               if(moduleType=='overOrder'){
+                   url="#/lossOverOrder/get-overflow.html?id="+relId;
+               }
+               else if(moduleType=="instockOrder"){
                     if(subModuleAttribute=="采购入库单"){
                         url="#/purchaseInstockOrder/get.html?id="+relId;
                     }
