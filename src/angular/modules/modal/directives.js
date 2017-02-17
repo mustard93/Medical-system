@@ -43,7 +43,7 @@ define('modal/directives', ['modal/init'], function () {
   modal.$inject = ['modal'];
 
   //右侧遮罩层
-  function modalRight(ngDialog) {
+  function modalRight(ngDialog,utils) {
       return {
           restrict: 'A',
           scope: {
@@ -53,6 +53,15 @@ define('modal/directives', ['modal/init'], function () {
               var dialogWidth = $attrs.modalRight || "50%";
 
               var dialogOpen = function () {
+
+
+                //增加url参数解析，放到  $scope.modalScope.mainStatus.pageParams 中，与 ng-view 保持一致
+                if(  $scope.modalScope){
+                   $scope.modalScope.mainStatus={};
+                    $scope.modalScope.mainStatus.pageParams=utils.parseQueryString($attrs.modalUrl);
+                }
+
+
                 return ngDialog.open({
                           template: $attrs.modalUrl,
                           className: 'ngdialog-theme-right',
@@ -99,7 +108,7 @@ define('modal/directives', ['modal/init'], function () {
 
 
   //中间遮罩层
-  function modalCenter(ngDialog) {
+  function modalCenter(ngDialog,utils) {
       return {
           restrict: 'A',
           scope: {
@@ -112,6 +121,11 @@ define('modal/directives', ['modal/init'], function () {
 
                   //ngDialog.close();
 
+                  //增加url参数解析，放到  $scope.modalScope.mainStatus.pageParams 中，与 ng-view 保持一致
+                  if(  $scope.modalScope){
+                     $scope.modalScope.mainStatus={};
+                      $scope.modalScope.mainStatus.pageParams=utils.parseQueryString($attrs.modalUrl);
+                  }
                   ngDialog.open({
                       template: $attrs.modalUrl,
                       //className: 'ngdialog-theme-right',
@@ -132,6 +146,6 @@ define('modal/directives', ['modal/init'], function () {
 
   angular.module('manageApp.modal')
       .directive("modal", modal)
-      .directive("modalRight",  ['modal',modalRight])
-      .directive("modalCenter", ['modal',modalCenter]);
+      .directive("modalRight",  ['modal','utils',modalRight])
+      .directive("modalCenter", ['modal','utils',modalCenter]);
 });

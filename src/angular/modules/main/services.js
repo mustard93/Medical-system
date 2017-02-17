@@ -427,6 +427,26 @@ function alertOk($rootScope, modal) {
 
           var  utilsObj = {
             //
+
+            /**
+
+            URL参数转换对象
+
+            */
+            parseQueryString :function (url) {
+                  var reg_url = /^[^\?]+\?([\w\W]+)$/,
+                          reg_para = /([^&=]+)=([\w\W]*?)(&|$)/g, //g is very important
+                          arr_url = reg_url.exec(url),
+                          ret = {};
+                  if (arr_url && arr_url[1]) {
+                      var str_para = arr_url[1], result;
+                      while ((result = reg_para.exec(str_para)) != null) {
+                          ret[result[1]] = result[2];
+                      }
+                  }
+                  console.dir(ret);
+                  return ret;
+              },
             /**
                  *
                 * @Description: 切换数组中2个条目顺序
@@ -1082,7 +1102,7 @@ e
                     if(!LODOP)console.log("need exe:$root.OPrinter.init()");
                   }
                   // 若strTaskName空，控件则不保存本地化信息，打印全部由页面程序控制。
-              
+
                   if(!taskName)taskName="";
                   // (扩展型)打印初始化
                   // 格式：PRINT_INITA(Top,Left,Width,Height,strPrintName)

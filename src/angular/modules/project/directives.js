@@ -31,7 +31,8 @@ define('project/directives', ['project/init'], function () {
 
           $scope.jsonToNgModel= function (str) {
             try{
-                $scope.ngModel=  $.parseJSON(str);
+              
+                utils.replaceObject($scope.ngModel, $.parseJSON(str));
                 $scope.jsonString="";
             }catch(e){
               console.log(e);
