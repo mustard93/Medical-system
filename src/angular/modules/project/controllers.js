@@ -2328,35 +2328,36 @@ define('project/controllers', ['project/init'], function() {
    function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      $scope.isShowCancelBtn = false;
+     $scope.tempDataList = [];
 
      //页面Loading时初始化数据
      $scope.$watch('initFlag', function (newVal) {
 
        // 初始化商品列表的状态为选中
-       if (newVal && $scope.formData.orderMedicalNos) {
-         for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
-           if ($scope.formData.orderMedicalNos[i].handleFlag) {
-             $scope.choisedMedicals = true;
-           }
-           if (!$scope.formData.orderMedicalNos[i].handleFlag) {
-             $scope.isChoiseAll = false;
-           }
-         }
-        }
+      //  if (newVal && $scope.formData.orderMedicalNos) {
+      //    for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+      //      if ($scope.formData.orderMedicalNos[i].handleFlag) {
+      //        $scope.choisedMedicals = true;
+      //      }
+      //      if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+      //        $scope.isChoiseAll = false;
+      //      }
+      //    }
+      //   }
 
-        //发送请求判断当前订单状态是否可显示关闭按钮
+
         if (newVal) {
+          //创建临时变量存储商品列表，并将数据对象orderMedicalNos置空
+          $scope.tempDataList = $scope.formData.orderMedicalNos;
+          $scope.formData.orderMedicalNos = [];
+
+          //发送请求判断当前订单状态是否可显示关闭按钮
           var _url = 'rest/authen/requestPurchaseOrder/isCanClose?id=' + $scope.formData.id;
           requestData(_url, {}, 'get')
           .then(function (results) {
             if (results[1].code === 200) {
               $scope.isShowCancelBtn = true;
             }
-          })
-          .catch(function (error) {
-            // if (error) {
-            //   alertError(error);
-            // }
           });
         }
      });
@@ -2443,54 +2444,6 @@ define('project/controllers', ['project/init'], function() {
          //计算价格
          $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
          return true;
-     };
-
-     $scope.chkChoiseMedicals = function (item,medicalsObj) {
-       if (item.handleFlag) {
-
-         $scope.choisedMedicals = true;  // 标识为true，底部生成采购单按钮可用
-
-         for (var i=0; i<medicalsObj.length; i++) {
-           if (medicalsObj[i].handleFlag === false) {
-             $scope.isChoiseAll = false;
-             return;
-           }
-         }
-
-         $scope.isChoiseAll = true;
-       } else {      // 处理用户取消选择,需遍历药品列表，判断是否还有没有取消的药品
-
-         $scope.isChoiseAll = false;
-
-         for (var j=0; j<medicalsObj.length; j++) {
-           if (medicalsObj[j].handleFlag === true) {
-             $scope.choisedMedicals = true;
-             return;
-           }
-         }
-
-         $scope.choisedMedicals = false;   // 没有药品被选中，设置按钮不可用
-       }
-     };
-
-     $scope.handleItemClickEvent = function (tr) {
-       var _dataSource = $scope.formData.orderMedicalNos;
-       if (!$scope.choisedMedicalList) {
-         $scope.choisedMedicalList = [];
-       }
-       if (tr.handleFlag) {
-         $scope.choisedMedicalList.push(tr);
-         if ($scope.choisedMedicalList.length === _dataSource.length) {
-           $scope.isChoiseAll = true;
-         }
-       } else {
-         angular.forEach($scope.choisedMedicalList, function (data, index) {
-           if (data.relId === tr.relId) {
-             $scope.choisedMedicalList.splice(index, 1);
-           }
-         });
-         $scope.isChoiseAll = false;
-       }
      };
      /**
      * 添加一条。并缓存数据。
@@ -2587,8 +2540,6 @@ define('project/controllers', ['project/init'], function() {
            });
        }
      };
-
-
      /**
      *保存
      type:save-草稿,submit-提交订单。
@@ -2612,24 +2563,22 @@ define('project/controllers', ['project/init'], function() {
         watchFormChange(watchName,$scope);
       };
 
-    /**
-     * [chkChoiseMedicals 请购单中检查用户是否已选择部分药品]
-     * @param  {[type]} item [description]
-     * @return {[type]}      [description]
-     */
+    //请购单中检查用户是否已选择部分药品
     $scope.chkChoiseMedicals = function (item,medicalsObj) {
+      //定义存放厂家id数组
+      var _supplierArray = [];
+
+      // 如果用户选中药品
       if (item.handleFlag) {
 
-        $scope.choisedMedicals = true;  // 标识为true，底部生成采购单按钮可用
+        $scope.formData.orderMedicalNos.push(item);
 
-        for (var i=0; i<medicalsObj.length; i++) {
-          if (medicalsObj[i].handleFlag === false) {
-            $scope.isChoiseAll = false;
-            return;
-          }
+        if (_supplierArray.length === 0 && item.supplierId) {
+          _supplierArray.push(item.supplierId);
         }
 
-        $scope.isChoiseAll = true;
+        console.log(_supplierArray);
+
       } else {      // 处理用户取消选择,需遍历药品列表，判断是否还有没有取消的药品
 
         $scope.isChoiseAll = false;
@@ -2645,11 +2594,7 @@ define('project/controllers', ['project/init'], function() {
       }
     };
 
-    /**
-     * [handleChoiseAllEvent 处理全选与全不选]
-     * @param  {[type]} medicalsObj [description]
-     * @return {[type]}             [description]
-     */
+    //处理全选与全不选
     $scope.handleChoiseAllEvent = function (medicalsObj) {
       if (medicalsObj && angular.isArray(medicalsObj)) {
         if ($scope.isChoiseAll) {   // 全选被选中
