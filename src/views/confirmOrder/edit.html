@@ -52,7 +52,7 @@
       <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'"
        class="pr-panel pr-panel-height mgb pr-bg-pink">
       <em class="color-red">原因:</em>
-       <p class="inline-block">
+       <p class="inline-block color-red">
       <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
        <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
        </p>
@@ -178,7 +178,7 @@
                     <td class="text-left">{{item.name}}</td>
                     <td class="text-center">{{item.specificationAndModelType}}</td>
                     <td class="text-center">{{item.unit}}</td>
-                    <td class="text-center">
+                    <td class="text-center" style="white-space: nowrap;">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
                         <span class="inline-block">
@@ -230,7 +230,7 @@
                       </div>
                       <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
                     </td>
-                    <td class="text-center">￥
+                    <td class="text-center" style="white-space: nowrap;">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="price{{$index}}"
@@ -242,7 +242,7 @@
                              popover-show
                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                     </td>
-                    <td class="text-center" >
+                    <td class="text-center" style="white-space: nowrap;">
                       <select class="ipt pr-short-ipt"
                               chosen
                               width="60px"
@@ -250,7 +250,7 @@
                               select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
                       </select> %
                     </td>
-                    <td class="text-center">￥
+                    <td class="text-center" style="white-space: nowrap;">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="discountPrice{{$index}}"
@@ -263,7 +263,7 @@
                              popover-options='{"content":"必须为数字", "placement":"top", "trigger":"manual"}'
                              ng-keyup="item.discountRate=(item.price-item.discountPrice)/item.price*100"/>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" style="white-space: nowrap;">
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="discountRate{{$index}}"
@@ -293,7 +293,7 @@
                     <td class="text-left">{{item.name}}</td>
                     <td class="text-center">{{item.specificationAndModelType}}</td>
                     <td class="text-center">{{item.unit}}</td>
-                    <td class="text-center">
+                    <td class="text-center" style="white-space: nowrap;">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
                         <span class="inline-block">
@@ -336,7 +336,7 @@
                         </select>
                       </div>
                     </td> -->
-                    <td class="text-center">￥
+                    <td class="text-center" style="white-space: nowrap;">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="price{{$index}}"
@@ -348,7 +348,7 @@
                              popover-show
                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" style="white-space: nowrap;">
                       <select class="ipt pr-short-ipt"
                               chosen
                               width="60px"
@@ -356,7 +356,7 @@
                               select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
                       </select> %
                     </td>
-                    <td class="text-center">￥
+                    <td class="text-center" style="white-space: nowrap;">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="discountPrice{{$index}}"
@@ -369,7 +369,7 @@
                              popover-options='{"content":"必须为数字", "placement":"top", "trigger":"manual"}'
                              ng-keyup="item.discountRate=(item.price-item.discountPrice)/item.price*100"/>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" style="white-space: nowrap;">
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="discountRate{{$index}}"
