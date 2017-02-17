@@ -310,6 +310,7 @@ define('project/controllers', ['project/init'], function() {
 
       // 是否显示关闭按钮
       $scope.isShowCancelBtn = false;
+
       $scope.$watch('initFlag', function (newVal) {
          //发送请求判断当前订单状态是否可显示关闭按钮
          if (newVal) {
@@ -2278,13 +2279,22 @@ define('project/controllers', ['project/init'], function() {
 
    }//end salesOrderEditCtrl
 
+   /**
+    * [requestPurchaseOrderEditCtrl 请购单控制器]
+    * @param  {[type]} $scope          [description]
+    * @param  {[type]} modal           [description]
+    * @param  {[type]} alertWarn       [description]
+    * @param  {[type]} alertError      [description]
+    * @param  {[type]} requestData     [description]
+    * @param  {[type]} watchFormChange [description]
+    * @return {[type]}                 [description]
+    */
    function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      $scope.isShowCancelBtn = false;
 
      //页面Loading时初始化数据
      $scope.$watch('initFlag', function (newVal) {
-
 
        // 初始化商品列表的状态为选中
        if (newVal && $scope.formData.orderMedicalNos) {
@@ -2938,6 +2948,12 @@ define('project/controllers', ['project/init'], function() {
    */
   function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, requestData) {
 
+    // 监视price价格变化，并赋值给strick_price字段
+    $scope.$watch('tr.price', function (newVal) {
+      $scope.tr.strike_price = newVal;
+      console.log($scope.formData);
+    });
+
     $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
 
       if (relMedicalStockId && p_and_s) {
@@ -2955,7 +2971,6 @@ define('project/controllers', ['project/init'], function() {
           });
       }
     };
-
   }
 
   /**

@@ -2,7 +2,7 @@
      ng-controller="requestPurchaseOrderEditCtrl"
      ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false"
      alert-error>
   <form id="editForm"
         name="purchaseForm"
@@ -55,8 +55,13 @@
              <table class="table pr-table pr-new-table table-ss-wid" >
                <thead>
                 <tr>
-                 <th><input type="checkbox" class="selectAll" ng-init="isChoiseAll=true" ng-model="isChoiseAll"
-                   ng-change="handleChoiseAllEvent(formData.orderMedicalNos)" ng-disabled="formData.orderStatus=='已处理'"></th>
+                 <th><!-- <input type="checkbox"
+                            class="selectAll"
+                            ng-init="isChoiseAll=true"
+                            ng-model="isChoiseAll"
+                            ng-change="handleChoiseAllEvent(formData.orderMedicalNos)"
+                            ng-disabled="formData.orderStatus=='已处理'"> -->
+                 </th>
                  <th class="text-center">商品编号</th>
                  <th class="text-left">商品全名</th>
                  <th class="text-center">供应商</th>
@@ -77,13 +82,13 @@
                 </tr>
                </thead>
                <tbody class="bg-white">
-                 <tr ng-repeat="tr in formData.orderMedicalNos" salesorder-edit-show-delbtn>
+                 <tr ng-repeat="tr in formData.orderMedicalNos" salesorder-edit-show-delbtn ng-init="tr.handleFlag=false">
                    <td class="select-td">
                      <input type="checkbox"
                             class="selectOne"
                             ng-model="tr.handleFlag"
                             ng-change="chkChoiseMedicals(tr,formData.orderMedicalNos);"
-                            ng-disabled="formData.orderStatus=='已处理'">
+                            ng-disabled="formData.orderStatus=='已处理'">{{tr.handleFlag}}
                    </td>
                    <td class="text-center">{{tr.code}}</td>
                    <td  class="text-left"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td>

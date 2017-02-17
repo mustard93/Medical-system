@@ -2841,7 +2841,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 if(angular.isDefined($attrs.validValue)){
                   $scope.$watch('ngModel', function (newVal, oldVal) {
-                    console.log($attrs.validValue);
+                    // console.log($attrs.validValue);
                     if ($attrs.validValue=="true") {
                       element.popover('show');
                     } else {
