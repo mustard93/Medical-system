@@ -3066,6 +3066,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 保存 type:save-草稿,submit-提交订单。
     $scope.submitForm = function(fromId, type) {
+
       $scope.submitForm_type = type;
       if ($scope.submitForm_type == 'submit') {
         $scope.formData.validFlag = true;

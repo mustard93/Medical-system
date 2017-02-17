@@ -1,5 +1,5 @@
 <div ng-controller="pageCtrl"
- ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id')"
+ ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');htmlString=''"
  ajax-url="rest/authen/confirmOrder/getPrint.json?id={{mainStatus.pageParams.id}}" style="min-height:600px;"
  scope-data="showData"
 ><!-- pageCtrl-->
@@ -9,6 +9,7 @@
     <button  ng-click="$root.OPrinter.print(null)">打印</button>
      <button  ng-click="$root.OPrinter.printSetup(null,'templateName1')">打印设置</button>
       <button  ng-click="$root.OPrinter.printDesign(null,'templateName1')">打印设计</button>
+     <button id="htmlStringButtionId"  type="button"  class="btn" >编辑</button>
 
 
 <!--body wrapper start-->
@@ -16,11 +17,23 @@
     <div
       ajax-url="rest/authen/distributor/getCurrentOrganization"
     scope-data="organizationName">
-         <div id="Print_Div_id" >
 
-           <ng-include src="'views/print/confirmOrderPrint_demo_html.html'"></ng-include>
 
+
+
+
+      <!--在线编辑后的数据展示-->
+    <div ng-if="htmlString&&uiCustomHtmlId" id="Print_Div_id" >
+      <div id="htmlString_divId" ng-bind-html="htmlString|to_trusted"></div>
      </div><!--Print_Div_id-->
+  <!--在线编辑前的数据展示-->
+    <div  ng-if="!htmlString&&uiCustomHtmlId" id="Print_Div_id" >
+     <ng-include id="htmlString_divId" src="'views/print/confirmOrderPrint_demo_html.html'"></ng-include>
+    </div><!--Print_Div_id-->
+    <!--在线编辑-->
+    <html-edit open-button-id="htmlStringButtionId" ng-model="htmlString"  div-id="htmlString_divId"></html-edit>
+
+
     </div>
 <!--body wrapper end-->
 </div>

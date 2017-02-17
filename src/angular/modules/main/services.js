@@ -1082,7 +1082,7 @@ e
                     if(!LODOP)console.log("need exe:$root.OPrinter.init()");
                   }
                   // 若strTaskName空，控件则不保存本地化信息，打印全部由页面程序控制。
-                  taskName="taskName";
+              
                   if(!taskName)taskName="";
                   // (扩展型)打印初始化
                   // 格式：PRINT_INITA(Top,Left,Width,Height,strPrintName)
