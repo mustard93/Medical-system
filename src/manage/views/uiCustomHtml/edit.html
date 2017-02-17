@@ -1,7 +1,8 @@
 <div class="modal-content" ng-controller="editCtrl"
-  ajax-url="rest/authen/uiCustomHtml/getOfEdit.json?id={{tr.id}}"
+  ajax-url="rest/authen/uiCustomHtml/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
   scope-data="formData"
-  callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId">
+  callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
+
   <form class="add-customerAddress-form form-horizontal"
         action="rest/authen/uiCustomHtml/save"
 
@@ -9,7 +10,7 @@
         alert-ok
         parameter-body
         form-validator>
-        <div class="modal-header">
+        <div class="modal-header" >
             <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
             <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}用户自定义表头</h4>
         </div>
@@ -135,7 +136,7 @@
 
 
             <label class="col-lg-2 col-sm-2 control-label">输出内容模版编辑</label>
-          <script id="editor" type="text/plain" style="width:1024px;height:500px;" umeditor="umeditor" ng-model="formData.html"></script>
+          <script ng-if="initFlag" id="editor" type="text/plain" style="width:1024px;height:500px;" umeditor="$parent.umeditor" ng-model="formData.html"></script>
 
           <p>备注：</p>
           <p>打印方向及纸张类型，数字型打印方向及纸张类型，数字型，	1---纵(正)向打印，固定纸张； 	2---横向打印，固定纸张；  	3---纵(正)向打印，宽度固定，高度按打印内容的高度自适应；	0(或其它)----打印方向由操作者自行选择或按打印机缺省设置；</p>
@@ -146,7 +147,7 @@
       <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label"></label>
           <div class="col-lg-10 col-sm-10">
-              <input type="submit" class="btn pr-btn-create-glodbg" value="提交" >
+            <button type="button" class="pr-btn-save-glodbg mgr" ng-click="formData.html=umeditor.getContent();submitForm1()">保存</button>
           </div>
       </div>
     </div>
