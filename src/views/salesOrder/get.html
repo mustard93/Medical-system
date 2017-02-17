@@ -123,73 +123,67 @@
       <p>{{showData.note}}</p>
     </div>
     <!-- 已生成销售单部分 -->
-    <table-list  ng-if="formData.id" list-data="rest/authen/confirmOrder/getListByRelId.json?relId={{formData.id}}">
-      <div ng-if="tbodyList.length>0" class="mgt mgb-l pd-v-m content-wrapper-main pr-bg-white pr-fuzzy-boundary">
-        <!-- 标题 -->
-        <h1 class="pdb-m text-n text-bold pdl-m pdr-m">已生成销售单部分</h1>
-        <div ng-repeat="tr in tbodyList">
-          <div class="flex-column text-s pdl-m pdr-m">
-            <div class="flex-item-8 color-9">
-              <span class="mgr-l">单据编号：<a href="#/confirmOrder/get.html?id={{showData.id}}">{{tr.orderNo}}</a>
-                </span>
-              <span>创建时间：<em class="text-normal"><span class="color-6">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</span></em></span>
+    <table-list ng-if="formData.id" list-data="rest/authen/confirmOrder/getListByRelId.json?relId={{formData.id}}">
+      <h1 class="mgb pdb text-n text-bold">已生成销售单部分</h1>
+      <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+        <header class="text-n color-3 flex-column">
+          <span class="flex-item-11">
+            <div class=" color-9 text-s">
+              <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
+              <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
+              <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
+              <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
+              <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
+              <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
             </div>
-            <div class="flex-item-4 text-right color-9">
-              <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{tr.orderStatus}}</span></em></span>
-              <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{tr.orderStatus}}</em></span>
-            </div>
-          </div>
-        </div>
-        <div class="order-details pdb-l mgt">
-          <table class="table pr-table pr-new-table mgb-n">
+          </span>
+          <span class="tools pull-right flex-item-1">
+            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel style="float:right"></a>
+          </span>
+        </header>
+        <div class="panel-body" style="display:none;padding:15px 0;margin:0 -20px;">
+          <table class="table pr-table pr-new-table">
             <thead>
               <tr>
                 <th class="text-center">商品编号</th>
-                <th class="text-left">商品全名</th>
+                <th>商品全名</th>
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
                 <th class="text-center">数量</th>
                 <th class="text-center w-110">批号要求</th>
                 <th class="text-center">生产批号</th>
                 <th class="text-center">灭菌批号</th>
-                <th class="text-center">报价</th>
+                <th class="text-center">含税单价</th>
                 <th class="text-center">税率</th>
                 <th class="text-center">折扣额</th>
                 <th class="text-center">折扣率</th>
-                <th class="text-center">含税单价</th>
                 <th class="text-center">无税单价</th>
                 <th class="text-center">无税金额</th>
                 <th class="text-center">税额</th>
                 <th class="text-center">价税合计</th>
               </tr>
             </thead>
-            <tbody>
-              <tr ng-repeat="item in tbodyList[$index].orderMedicalNos">
-                <td class="text-center">{{item.code}}</td>
-                <td class="text-left">
-                <div class="autocut-l" title="{{tr.name}}">
-                  {{tr.name}}
-                </div>
-                </td>
-                <td class="text-center">{{item.specificationAndModelType}}</td>
-                <td class="text-center">{{item.unit}}</td>
-                <td class="text-right">{{item.quantity}}</td>
-                <td class="text-center">{{item.batchRequirement}}</td>
+            <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
+              <tr ng-repeat="tr in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                <td class="text-center">{{tr.code}}</td>
+                <td>{{tr.name}}</td>
+                <td class="text-center">{{tr.specificationAndModelType}}</td>
+                <td class="text-center">{{tr.unit}}</td>
+                <td class="text-center">{{tr.quantity}}</td>
+                <td class="text-center">{{tr.batchRequirement}}</td>
                 <td class="text-center">{{tr.productionBatch}}</td>
                 <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
-                <td class="text-right">￥{{item.price | number:2}}</td>
-                <td class="text-right">{{item.taxRate}}%</td>
-                <td class="text-right">￥{{item.discountPrice | number:2}}</td>
-                <td class="text-right">{{item.discountRate}}%</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+                <td class="text-center">{{tr.price | currency:'￥'}}</td>
+                <td class="text-center">{{tr.taxRate*100}}%</td>
+                <td class="text-center">￥{{tr.discountPrice | number:2}}</td>
+                <td class="text-center">{{tr.discountRate}}%</td>
+                <td class="text-center">￥{{tr.price*(1-tr.taxRate)-tr.discountPrice | number:2}}</td>
+                <td class="text-center">￥{{tr.price*(1-tr.taxRate)*tr.quantity | number:2}}</td>
+                <td class="text-center">￥{{tr.price*tr.taxRate*tr.quantity | number:2}}</td>
+                <td class="text-center">￥{{tr.price*tr.quantity | number:2}}</td>
               </tr>
             </tbody>
-            </table>
-          </div>
+          </table>
         </div>
       </div>
     <table-list>
