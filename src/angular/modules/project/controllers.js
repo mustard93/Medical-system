@@ -3000,6 +3000,13 @@ define('project/controllers', ['project/init'], function() {
    */
   function returnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
 
+    //如果是新建，没有id下，将后端返回的returnQuantity字段值赋值给quantity
+    // if (!$scope.formData) {
+    //   angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+    //     item.quantity = item.returnQuantity;
+    //   });
+    // }
+
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
     };
@@ -3044,9 +3051,9 @@ define('project/controllers', ['project/init'], function() {
       }
 
       if ($scope.submitForm_type == 'save') {
-        if (scopeResponse) {
-          alertOk(scopeResponse.msg);
-        }
+        // if (scopeResponse) {
+        //   alertOk(scopeResponse.msg);
+        // }
       }
     };
 
@@ -3107,6 +3114,7 @@ define('project/controllers', ['project/init'], function() {
       //清空原有数据，重新绑定到主页面
       $scope.formData.orderMedicalNos=[];
       angular.forEach(choisedMedicalList, function (data, index) {
+        data.quantity = data.returnQuantity;    // 将可退数量赋值给显示的数量
         $scope.formData.orderMedicalNos.push(data);
       });
 
