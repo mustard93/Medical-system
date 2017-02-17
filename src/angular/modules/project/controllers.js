@@ -489,7 +489,7 @@ define('project/controllers', ['project/init'], function() {
             }
           })
           .catch(function (error) {
-            
+
           });
         }
       };
@@ -3009,7 +3009,7 @@ define('project/controllers', ['project/init'], function() {
     $scope.addDataItem = {};
 
     // 保存  type:save-草稿,submit-提交订单。
-    $scope.submitFormAfter = function(scopeResponse) {
+    $scope.submitFormAfter = function(formData) {
 
       $scope.formData.validFlag = false;
 
@@ -3023,7 +3023,6 @@ define('project/controllers', ['project/init'], function() {
 
         var url='rest/authen/saleReturnOrder/startProcessInstance';
         var data= {businessKey:$scope.formData.id};
-          console.log($scope.formData);
 
         requestData(url, data, 'POST')
           .then(function (results) {
