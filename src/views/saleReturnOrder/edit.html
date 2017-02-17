@@ -1,6 +1,6 @@
 <div class="sale-return-order"
      ng-controller="returnOrderEditCtrl"
-     ajax-url="rest/authen/saleReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/saleReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");quantityError=false;'
      alert-error>
@@ -102,7 +102,7 @@
               </tr>
             </thead>
             <tbody class="bg-white">
-              <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="saleReturnMedicalItemController" table-item-handlebtn-component>
+              <tr ng-repeat="item in formData.orderMedicalNos | repeatFilter:'formData.orderMedicalNos'" ng-controller="saleReturnMedicalItemController" table-item-handlebtn-component>
                 <td class="text-center">{{item.code}}
                   <div class="table-item-handle-btn">
                     <div class="table-item-confirm-del-area">
@@ -126,7 +126,6 @@
                              class="ipt pr-ipt-60 text-right"
                              name="quantity{{$index}}"
                              ng-model="item.quantity"
-                             ng-init="item.quantity=item.returnQuantity"
                              required
                              ng-pattern="/^[1-9]{1,10}?$/"
                              invalid-popover
@@ -148,7 +147,6 @@
                          valid-value="{{!saleReturnEditForm['quantity'+$index].$valid}}"
                          popover-show
                          popover-options='{"content":"数量不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'/> -->
-
                 </td>
                 <td class="text-center">{{item.batchRequirement}}</td>
                 <td class="text-center">{{item.productionBatch}}</td>
@@ -223,9 +221,9 @@
           </a>
 
 
-          <button type="submit"
+          <button type="button"
                   class="pr-btn-save-glodbg mgr"
-                  ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();"
+                  ng-click="submitForm('saleReturnEditForm','save')"
                   ng-disabled="!changeFlag || !saleReturnEditForm.$valid || quantityError">保存
           </button>
 

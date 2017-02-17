@@ -899,9 +899,24 @@ define('project/controllers', ['project/init'], function() {
    */
   function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
 
-    $scope.watchFormChange = function (watchName) {
-      watchFormChange(watchName,$scope);
-    };
+    $scope.$watch('initFlag', function () {
+      var operationFlowSetMessage=[];
+      var operationFlowSetKey=[];
+      if ($scope.formData) {
+        // 选择出当前状态相同的驳回理由，并放入一个数组中
+       for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+         if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+           operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message)
+           operationFlowSetKey.push($scope.formData.operationFlowSet[i].key)
+         }
+       }
+      //  选择当前状态最近的一个驳回理由用于显示
+       $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+       $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+       return;
+      }
+
+    });
 
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
@@ -1855,6 +1870,19 @@ define('project/controllers', ['project/init'], function() {
        //  选择当前状态最近的一个驳回理由用于显示
         $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
         $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+
+       }
+       if ($scope.formData) {
+         // 选择出当前状态相同的驳回理由，并放入一个数组中
+        for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+          if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+            operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message)
+            operationFlowSetKey.push($scope.formData.operationFlowSet[i].key)
+          }
+        }
+       //  选择当前状态最近的一个驳回理由用于显示
+        $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+        $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
 
        }
        if ($scope.tr) {
@@ -3000,6 +3028,13 @@ define('project/controllers', ['project/init'], function() {
    */
   function returnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
 
+    //如果是新建，没有id下，将后端返回的returnQuantity字段值赋值给quantity
+    // if (!$scope.formData) {
+    //   angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+    //     item.quantity = item.returnQuantity;
+    //   });
+    // }
+
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
     };
@@ -3044,9 +3079,9 @@ define('project/controllers', ['project/init'], function() {
       }
 
       if ($scope.submitForm_type == 'save') {
-        if (scopeResponse) {
-          alertOk(scopeResponse.msg);
-        }
+        // if (scopeResponse) {
+        //   alertOk(scopeResponse.msg);
+        // }
       }
     };
 
@@ -3066,6 +3101,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 保存 type:save-草稿,submit-提交订单。
     $scope.submitForm = function(fromId, type) {
+
       $scope.submitForm_type = type;
       if ($scope.submitForm_type == 'submit') {
         $scope.formData.validFlag = true;
@@ -3106,6 +3142,7 @@ define('project/controllers', ['project/init'], function() {
       //清空原有数据，重新绑定到主页面
       $scope.formData.orderMedicalNos=[];
       angular.forEach(choisedMedicalList, function (data, index) {
+        data.quantity = data.returnQuantity;    // 将可退数量赋值给显示的数量
         $scope.formData.orderMedicalNos.push(data);
       });
 

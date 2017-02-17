@@ -49,6 +49,14 @@
     </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper">
+      <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'"
+       class="pr-panel pr-panel-height mgb pr-bg-pink">
+      <em class="color-red">原因:</em>
+       <p class="inline-block">
+      <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+       <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+       </p>
+      </div>
       <!-- 药械列表 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
           <!-- 信息 -->
@@ -60,6 +68,7 @@
           </div>
           <!-- 列表 -->
           <div class="">
+
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
               <div class="flex-item-6">
                 <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo}}</em></span>
@@ -148,7 +157,7 @@
                     <th class="text-center">单位</th>
                     <th class="text-center">数量</th>
                     <th class="text-center w-110">批号要求</th>
-                    <th class="text-center w-160">生产批号/灭菌批号</th>
+                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-160">生产批号/灭菌批号</th>
                     <th class="text-center">报价</th>
                     <th class="text-center">税率</th>
                     <th class="text-center">折扣额</th>
@@ -311,7 +320,7 @@
                               select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
                       </select>
                     </td>
-                    <td class="text-center">
+                    <!-- <td class="text-center">
                       <div ng-repeat="stockBatchsItem in item.stockBatchs" class="mgb">
                         <select ng-disabled="true" class="select pr-select pr-select-sm text-left"
                                 chosen
@@ -326,7 +335,7 @@
                                 select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
                         </select>
                       </div>
-                    </td>
+                    </td> -->
                     <td class="text-center">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"

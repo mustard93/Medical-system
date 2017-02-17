@@ -1,9 +1,9 @@
 <div class="create-new-order"
      ng-controller="purchaseOrderEditCtrl"
-     ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}"
+     ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;"
-     alert-error>{{formData.orderMedicalNos.handleFlag}}
+     alert-error>
 <form id="editForm"
      name="purchaseForm"
      form-validator
@@ -67,6 +67,14 @@
      </div>
 
      <div class="content-wrapper">
+       <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'"
+        class="pr-panel pr-panel-height mgb pr-bg-pink">
+       <em class="color-red">原因:</em>
+        <p class="inline-block">
+       <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+        <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        </p>
+       </div>
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
            <!-- 信息 -->
