@@ -5,9 +5,11 @@
 ><!-- pageCtrl-->
 <!-- {{showData}} -->
 
-  <button  ng-click="$root.OPrinter.preview(null)">打印预览</button>
+   <button  ng-click="$root.OPrinter.preview(null)">打印预览</button>
     <button  ng-click="$root.OPrinter.print(null)">立即打印</button>
      <button  ng-click="$root.OPrinter.printSetup(null)">打印设置</button>
+     <button id="htmlStringButtionId"  type="button"  class="btn" >编辑</button>
+
 
       <select
       ajax-url="rest/authen/uiCustomHtml/queryForSelectOptionByKey.json?key=confirmOrderPrint"
@@ -22,7 +24,7 @@
       <div
       ajax-url="rest/authen/uiCustomHtml/get.json?id={{uiCustomHtmlId}}"
       scope-data="uiCustomHtml"
-      callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml)"
+      callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml);htmlString=''"
   ></div>
 <!--body wrapper start-->
 
@@ -32,12 +34,24 @@
 
     <div ng-if="!uiCustomHtmlId">请选择模版,无模版选择，请先配置模版</div>
 
-         <div id="Print_Div_id"  ng-if="uiCustomHtmlId">
 
-         <ng-include src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtml.html?id='+uiCustomHtmlId"></ng-include>
+  <!--在线编辑后的数据展示-->
+        <div ng-if="htmlString&&uiCustomHtmlId" id="Print_Div_id" >
+          <div id="htmlString_divId" ng-bind-html="htmlString|to_trusted"></div>
+         </div><!--Print_Div_id-->
+  <!--在线编辑前的数据展示-->
+       <div  ng-if="!htmlString&&uiCustomHtmlId" id="Print_Div_id" >
+
+         <ng-include id="htmlString_divId" src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtml.html?id='+uiCustomHtmlId"></ng-include>
+
+       </div><!--Print_Div_id-->
 
 
-     </div><!--Print_Div_id-->
+<!--在线编辑-->
+       <html-edit open-button-id="htmlStringButtionId" ng-model="htmlString"  div-id="htmlString_divId"></html-edit>
+
+
+
     </div>
 <!--body wrapper end-->
 </div>

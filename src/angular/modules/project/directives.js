@@ -43,6 +43,56 @@ define('project/directives', ['project/init'], function () {
     };
   }
 
+
+
+    /**
+      html-edit编辑器
+
+      <html-edit ng-model="htmlString"  div-id="divId"></html-edit>
+    */
+
+    function htmlEdit() {
+      return {
+        restrict: 'EA',
+        scope: {
+              ngModel: "=",
+              openButtonId:"@?",//绑定开启弹出编辑模式按钮。
+              divId: "@"
+        },
+        templateUrl:  Config.tplPath +'tpl/project/htmlEdit.html',
+        link: function ($scope, element, $attrs) {
+
+          $scope.htmlFromDivId= function () {
+            $scope._htmlString=$("#"+$scope.divId).html();
+
+          };
+
+          //绑定开启弹出编辑模式按钮。
+          if($scope.openButtonId){
+            $('#'+$scope.openButtonId).on('click', function (e) {
+              $scope.htmlFromDivId();
+              $scope.$digest();
+            });
+          }
+
+          $scope.cancel= function () {
+              $scope._htmlString='';
+              $scope.ngModel=    $scope._htmlString;
+
+
+          };
+            $scope.htmlToNgModel= function () {
+
+              $scope._htmlString=$scope.umeditor.getContent();
+              console.log("$scope._htmlString",$scope._htmlString);
+                $scope.ngModel=    $scope._htmlString;
+                $scope._htmlString='';
+
+            };
+        }
+      };
+    }
+
   /**
     附件文件显示
     attachmentsExtend={"edit":true}
@@ -1892,21 +1942,38 @@ function tableItemHandlebtnComponent (utils) {
   		//4.返回成功标志。
   	 */
 function umeditor ($timeout) {
+
+  var defaultConfig={
+          //这里可以选择自己需要的工具按钮名称,此处仅选择如下七个
+          toolbar: ['source undo redo bold italic underline'],
+          //focus时自动清空初始化时的内容
+          autoClearinitialContent: true,
+          //关闭字数统计
+          wordCount: false,
+          //关闭elementPath
+          elementPathEnabled: false,
+
+          autoHeightEnabled:false,
+          //frame高度
+          initialFrameHeight: 400
+      };
+
   return {
     restrict: 'A',
     scope: {
       ngModel:"=?",
+      config:"=",
       umeditor:"="
 
   },
     // replace: true,
-      transclude: true,
+      // transclude: true,
     require: 'ngModel',
     // templateUrl:  Config.tplPath +'tpl/umeditor.html',
     link: function ($scope, $element, $attrs,ngModel) {
       var _dom = $element[0];
       //默认样式
-      $scope.umStyle={"width":'1000px',"height":"240px"};
+      $scope.umStyle={"width":'1000px',"height":"440px"};
 
       if ($attrs.umStyle) {
           if ($attrs.umStyle.indexOf("{") === 0) {
@@ -1922,8 +1989,6 @@ function umeditor ($timeout) {
         function initEditor(){
             if(_umeditor)return;
            //获取当前的DOM元素
-
-
                    var _id = '_' + Math.floor(Math.random() * 100).toString() + new Date().getTime().toString();
                    var placeholder= $attrs.placeholder;
                    if(!placeholder)placeholder="";
@@ -1931,18 +1996,13 @@ function umeditor ($timeout) {
                        placeholder +
                        '</p>';
 
-                   var _config = $scope.config || {
-                           //这里可以选择自己需要的工具按钮名称,此处仅选择如下七个
-                           toolbar: ['source undo redo bold italic underline'],
-                           //focus时自动清空初始化时的内容
-                           autoClearinitialContent: true,
-                           //关闭字数统计
-                           wordCount: false,
-                           //关闭elementPath
-                           elementPathEnabled: false,
-                           //frame高度
-                           //initialFrameHeight: 300
-                       };
+                        var _config=null;
+
+                       if($scope.config){
+                          _config=jQuery.extend(true,{},defaultConfig,$scope.config);
+                       }else{
+                           _config=jQuery.extend(true,{},defaultConfig);
+                       }
 
                    _dom.setAttribute('id', _id);
                    var _umeditor = UE.getEditor(_id, _config);
@@ -2826,6 +2886,9 @@ angular.module('manageApp.project')
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
   .directive("expressBtnToggle", [expressBtnToggle])
+
+
+    .directive("htmlEdit", [ htmlEdit]) //html-edit
   .directive("textareaJson", ['utils', 'alertError', textareaJson]) //textarea-json
   .directive("addressManageComponent", ['requestData', 'utils', addressManageComponent])  //地址管理组件，包含待选、已选地址列表
   .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示
