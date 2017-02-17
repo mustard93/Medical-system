@@ -37,7 +37,25 @@ define('project/filters', ['project/init'], function () {
           }
         }//end upDigit
 
+        /**
+         * [repeatFilter 应用于ng-repeat中的过滤器，过滤掉值等于0的项]
+         * @return {[type]} [description]
+         */
+        function repeatFilter () {
+          return function (array) {
+            var tmp = [];
+            angular.forEach(array, function (item, index) {
+              // return item.returnQuantity !== 0;
+              if (item.returnQuantity !== 0) {
+                tmp.push(item);
+              }
+            });
+            return tmp;
+          };
+        }
+
 
     angular.module('manageApp.project')
-    .filter('upDigit',upDigit);
+    .filter('upDigit',upDigit)
+    .filter('repeatFilter', repeatFilter);
 });
