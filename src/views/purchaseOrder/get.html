@@ -72,11 +72,11 @@
                <th class="text-left">商品全名</th>
                <th class="text-center">规格/型号</th>
                <th class="text-center">单位</th>
-               <th ng-if="scopeData.orderStatus=='待审核'" class="text-center">数量</th>
-               <th ng-if="scopeData.orderStatus!='待审核'" class="text-center">计划数量</th>
-               <th ng-if="scopeData.orderStatus!='待审核'"  class="text-center">正常数量</th>
-               <th ng-if="scopeData.orderStatus!='待审核'"  class="text-center">其他数量</th>
-               <th ng-if="scopeData.orderStatus!='待审核'"  class="text-center">拒收数量</th>
+               <th ng-if="scopeData.orderStatus!='已完成'" class="text-center">数量</th>
+               <th ng-if="scopeData.orderStatus=='已完成'" class="text-center">计划数量</th>
+               <th ng-if="scopeData.orderStatus=='已完成'"  class="text-center">正常数量</th>
+               <th ng-if="scopeData.orderStatus=='已完成'"  class="text-center">其他数量</th>
+               <th ng-if="scopeData.orderStatus=='已完成'"  class="text-center">拒收数量</th>
                <th class="text-center w-110">批号要求</th>
                <th class="text-center">原币含税单价</th>
                <th class="text-center">原币单价</th>
@@ -112,17 +112,17 @@
                   <td  class="text-right">
                     {{tr.quantity || '0'}}
                   </td>
-                  <td ng-if="scopeData.orderStatus!='待审核'" class="text-right"
+                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right"
                   >
                     <!-- ng-class="{'pr-bg-orange3':tr.quantity!=tr.storageQuantity}" -->
                     {{tr.storageQuantity || '0'}}
                   </td>
-                  <td ng-if="scopeData.orderStatus!='待审核'" class="text-right"
+                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right"
                   >
                     <!-- ng-class="{'pr-bg-orange3':tr.quantity!=tr.storageQuantity}" -->
                       {{tr.otherQuantity || '0'}}
                   </td>
-                  <td ng-if="scopeData.orderStatus!='待审核'" class="text-right"
+                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right"
                   >
                     <!-- ng-class="{'pr-bg-orange3':tr.quantity!=tr.storageQuantity}" -->
                      {{tr.refuseQuantity || '0'}}

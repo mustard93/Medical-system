@@ -110,52 +110,15 @@
                        {{tr.unit}}
                      </td>
                      <td class="text-center">
-                       <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
-                         <span class="inline-block">
-                           <input type="number"
-                                  class="inline pr-table-input text-center item-quantity"
-                                  style="width:60px;"
-                                  ng-model="tr.quantity"
-                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
-                         </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
-                       </div>
+                       {{tr.quantity}}
                      </td>
-                     <td
-
-                     ng-init="tr.batchRequirement=tr.batchRequirement||batchRequirementSelectOptions[0].value" >
-
-                     <select  class="select" ng-model="tr.batchRequirement" ng-options="item.value as  item.text   for item in batchRequirementSelectOptions">
-                     </select>
-                     <!--
-                       <select class="select pr-select pr-select-sm text-left"
-                               chosen
-                               width="90px"
-                               ng-model="item.batchRequirement"
-                               select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
-                       </select> -->
+                     <td>
+                      {{tr.batchRequirement}}
                      </td>
                      <td class="text-center">￥
-                       <input type="text"
-                              class="ipt pr-ipt-60 text-right"
-                              ng-model="tr.price"
-                              />
-                              <!-- required
-                              name="purchasePrice{{$index}}"
-                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
-                              invalid-popover
-                              valid-value="{{!editForm['purchasePrice'+$index].$valid}}"
-                              popover-show
-                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'  -->
-                     </td>
+                      {{tr.price}}
                      <td class="text-right" ng-init="tr.taxRate=17">
-                       <select class="ipt pr-short-ipt"
-                               chosen
-                               width="60px"
-                               ng-model="tr.taxRate"
-                               select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
-                       </select> %
+                       {{tr.taxRate}}%
                      </td>
                      <td class="text-right">
                        ￥{{$root.requestPurchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
@@ -204,6 +167,89 @@
            <h1 class="text-bold color-3">备注</h1>
            <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
          </div>
+         <table-list ng-if="formData.id" list-data="rest/authen/purchaseOrder/getListByRelId?relId={{formData.id}}">
+           <h1 class="mgb pdb text-n text-bold">已生成采购单部分</h1>
+           <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+             <header class="text-n color-3 flex-column">
+               <span class="flex-item-11">
+                 <div class=" color-9 text-s">
+                   <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
+                   <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
+                   <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
+                   <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                   <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
+                   <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+                 </div>
+               </span>
+               <span class="tools pull-right flex-item-1">
+                 <a href="javascript:;" class="fa fa-chevron-down" toggle-panel style="float:right"></a>
+               </span>
+             </header>
+
+              <div class="panel-body" style="display:none;padding:15px 0;margin:0 -20px;">
+                 <div class=" outside-table-d">
+                 <table class="table pr-table pr-new-table table-ss-wid">
+                   <thead>
+                     <tr>
+                       <th class="text-center">商品编号</th>
+                       <th>商品全名</th>
+                       <th>供应商</th>
+                       <th class="text-center">规格/型号</th>
+                       <th class="text-center">单位</th>
+                       <th class="text-center">数量</th>
+                       <th class="text-center w-110">批号要求</th>
+                       <th class="text-center">原币含税单价</th>
+                       <th class="text-center">税率</th>
+                       <th class="text-center">原币单价</th>
+                       <th class="text-center">原币金额</th>
+                       <th class="text-center">原币价税合计</th>
+                       <th class="text-center">保存温度</th>
+                       <th class="text-center">产地品牌</th>
+                       <th class="text-center">产品注册证号</th>
+                       <th class="text-center">产品注册证有效期</th>
+                       <th class="text-center">合同号</th>
+                     </tr>
+                   </thead>
+                   <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
+                     <tr ng-repeat="tr in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                       <td class="text-center">{{tr.code}}</td>
+                       <td class="text-center">
+                         <div class="autocut-l" title="{{tr.name}}">
+                             {{tr.name}}
+                         </div>
+                       </td>
+                       <td>{{tr.supplierName}}</td>
+                       <td class="text-center">{{tr.modelType}}</td>
+                       <td class="text-center">{{tr.unit}}</td>
+                       <td class="text-center">{{tr.quantity}}</td>
+                       <td class="text-center">{{tr.batchRequirement}}</td>
+                       <td class="text-center">{{tr.price | currency:'￥'}}</td>
+                       <td class="text-center">{{tr.taxRate}}%</td>
+                       <td class="text-right">
+                         ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
+                       </td>
+                       <td class="text-right">
+                         ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
+                       </td>
+                       <td class="text-right">
+                         ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
+                       </td>
+                       <td class="text-center">{{tr.storedTemperature}}</td>
+                       <td class="text-center">{{tr.brand}}</td>
+                       <td class="text-center">{{tr.drugAdministrationCode}}</td>
+                       <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}</td>
+                       <td></td>
+                     </tr>
+                   </tbody>
+                 </table>
+                 <div class="empty-table clearfix"  ng-if="!showData.orderMedicalNos.length" >
+                   <div>&nbsp;</div>
+                   <div>&nbsp;</div>
+                   <div>&nbsp;</div>
+                 </div>
+               </div>
+               </div>
+
        </div>
      </div>
      <!-- 流程图 -->
@@ -212,37 +258,8 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-        <span>
-          <a
-           ng-if="changeFlag"
-           href="javascript:;"
-           handle-this-click
-           dialog-title="确认返回?"
-           dialog-content="有修改数据还未保存，是否保存?"
-           dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/requestPurchaseOrder/query.html')"
-           save-callback="submitForm('editForm','exit')">返回请购单列表
-          </a>
-
+        <span class="mgt-l">
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
-        </span>
-
-        <span class="mgr mgl mgt">
-          <button class="pr-btn-save-glodbg"
-                  type="submit"
-                  >保存
-          </button>
-        </span>
-        <span>
-          <button class="pr-btn-create-glodbg mgt"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认提交?"
-                  dialog-content="提交后，将无法修改。确认提交?"
-                  dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length">生成采购单
-          </button>
         </span>
       </div>
       <div class="total-div">

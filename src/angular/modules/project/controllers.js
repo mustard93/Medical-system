@@ -899,9 +899,24 @@ define('project/controllers', ['project/init'], function() {
    */
   function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
 
-    $scope.watchFormChange = function (watchName) {
-      watchFormChange(watchName,$scope);
-    };
+    $scope.$watch('initFlag', function () {
+      var operationFlowSetMessage=[];
+      var operationFlowSetKey=[];
+      if ($scope.formData) {
+        // 选择出当前状态相同的驳回理由，并放入一个数组中
+       for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+         if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+           operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message)
+           operationFlowSetKey.push($scope.formData.operationFlowSet[i].key)
+         }
+       }
+      //  选择当前状态最近的一个驳回理由用于显示
+       $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+       $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+       return;
+      }
+
+    });
 
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
@@ -1855,6 +1870,19 @@ define('project/controllers', ['project/init'], function() {
        //  选择当前状态最近的一个驳回理由用于显示
         $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
         $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+
+       }
+       if ($scope.formData) {
+         // 选择出当前状态相同的驳回理由，并放入一个数组中
+        for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+          if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+            operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message)
+            operationFlowSetKey.push($scope.formData.operationFlowSet[i].key)
+          }
+        }
+       //  选择当前状态最近的一个驳回理由用于显示
+        $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+        $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
 
        }
        if ($scope.tr) {
