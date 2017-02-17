@@ -530,9 +530,27 @@ define('project/controllers', ['project/init'], function() {
    */
   function lossOverOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData) {
 
-      $scope.watchFormChange=function(watchName){
-        watchFormChange(watchName,$scope);
-      };
+    $scope.watchFormChange=function(watchName){
+      watchFormChange(watchName,$scope);
+    };
+    $scope.$watch('initFlag', function () {
+      var operationFlowSetMessage=[];
+      var operationFlowSetKey=[];
+      if ($scope.showData) {
+        // 选择出当前状态相同的驳回理由，并放入一个数组中
+       for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+         if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
+           operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message)
+           operationFlowSetKey.push($scope.showData.operationFlowSet[i].key)
+         }
+       }
+      //  选择当前状态最近的一个驳回理由用于显示
+       $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+       $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+       return;
+      }
+
+    });
 
       modal.closeAll();
       // $scope.formData={};
@@ -720,6 +738,24 @@ define('project/controllers', ['project/init'], function() {
       $scope.watchFormChange=function(watchName){
         watchFormChange(watchName,$scope);
       };
+      $scope.$watch('initFlag', function () {
+        var operationFlowSetMessage=[];
+        var operationFlowSetKey=[];
+        if ($scope.showData) {
+          // 选择出当前状态相同的驳回理由，并放入一个数组中
+         for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+           if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
+             operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message)
+             operationFlowSetKey.push($scope.showData.operationFlowSet[i].key)
+           }
+         }
+        //  选择当前状态最近的一个驳回理由用于显示
+         $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
+         $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+         return;
+        }
+
+      });
 
       modal.closeAll();
       // $scope.formData={};
