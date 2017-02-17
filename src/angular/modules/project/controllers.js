@@ -2328,35 +2328,36 @@ define('project/controllers', ['project/init'], function() {
    function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      $scope.isShowCancelBtn = false;
+     $scope.tempDataList = [];
 
      //页面Loading时初始化数据
      $scope.$watch('initFlag', function (newVal) {
 
        // 初始化商品列表的状态为选中
-       if (newVal && $scope.formData.orderMedicalNos) {
-         for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
-           if ($scope.formData.orderMedicalNos[i].handleFlag) {
-             $scope.choisedMedicals = true;
-           }
-           if (!$scope.formData.orderMedicalNos[i].handleFlag) {
-             $scope.isChoiseAll = false;
-           }
-         }
-        }
+      //  if (newVal && $scope.formData.orderMedicalNos) {
+      //    for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+      //      if ($scope.formData.orderMedicalNos[i].handleFlag) {
+      //        $scope.choisedMedicals = true;
+      //      }
+      //      if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+      //        $scope.isChoiseAll = false;
+      //      }
+      //    }
+      //   }
 
-        //发送请求判断当前订单状态是否可显示关闭按钮
+
         if (newVal) {
+          //创建临时变量存储商品列表，并将数据对象orderMedicalNos置空
+          $scope.tempDataList = $scope.formData.orderMedicalNos;
+          $scope.formData.orderMedicalNos = [];
+
+          //发送请求判断当前订单状态是否可显示关闭按钮
           var _url = 'rest/authen/requestPurchaseOrder/isCanClose?id=' + $scope.formData.id;
           requestData(_url, {}, 'get')
           .then(function (results) {
             if (results[1].code === 200) {
               $scope.isShowCancelBtn = true;
             }
-          })
-          .catch(function (error) {
-            // if (error) {
-            //   alertError(error);
-            // }
           });
         }
      });
@@ -2446,6 +2447,7 @@ define('project/controllers', ['project/init'], function() {
      };
 
      $scope.chkChoiseMedicals = function (item,medicalsObj) {
+
        if (item.handleFlag) {
 
          $scope.choisedMedicals = true;  // 标识为true，底部生成采购单按钮可用
