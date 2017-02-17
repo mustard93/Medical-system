@@ -1,38 +1,29 @@
-<div class="content-wrapper"
+<div class=""
      ajax-url="rest/authen/wOutstockOrder/get.json?id={{mainStatus.pageParams.id}}&sourceOrderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
      callback="formData={};formData.id=showData.medicalStockId;"
      alert-error>
      <!-- 头部信息 -->
-     <div class="relative bb-line">
-       <div class="pd-l">
-         <!-- 标题 -->
-         <div class="mgb-m">
-           <p class="mgb-m crumbs pr-indent-10">库存管理 >
+     <div class="content-wrapper-heading mgb-l relative clearfix">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">库存管理 >
+         <em ng-if="showData.type!='销售出库单_红字'">其它出库单详情</em>
+         <em ng-if="showData.type=='销售出库单_红字'">销售出库单<em class="color-red">(红字)</em>详情</em>
+       </p>
+       <!-- 标题 -->
+       <div class="pd-c-xxl pdt-l pdb-l clearfix">
+         <div class="pos-rel-tl inline-block fl-l">
+           <h1 class="pr-font-20 color-black">
              <em ng-if="showData.type!='销售出库单_红字'">其它出库单详情</em>
-             <em ng-if="showData.type=='销售出库单_红字'">销售出库单详情</em>
-           </p>
-           <h1 class="pr-font-22 color-black">
-             <em ng-if="showData.type!='销售出库单_红字'">其它出库单详情</em>
-             <em ng-if="showData.type=='销售出库单_红字'">销售出库单详情</em>
+             <em ng-if="showData.type=='销售出库单_红字'">销售出库单<em class="color-red">(红字)</em>详情</em>
            </h1>
+           <p class="mgt-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
          </div>
-         <h1 class="color-black text-l">
-           <!-- 昆明库 -->
-           {{showData.warehouseName}}
-       </h1>
        </div>
-       <!-- <div ng-if="showData.orderStatus=='未通过'"
-        class="pr-panel pr-panel-height mgb">
-         <em class="color-red">原因:</em>
-         <em>{{showData.operationFlowSet[1].key}}</em>
-         <em>{{showData.operationFlowSet[1].message}}</em>
-       </div> -->
      </div>
      <!-- 主内容区域 -->
-    <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
-      <div class=" color-9">
-        <p class="flex-column mgb  pd">
+    <div class="content-wrapper">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+        <div class="flex-column pd" >
           <span class="flex-item-5">
             单据编号：<em >{{showData.orderNo || '暂无'}}</em>
             <em  class="mgl">部门：</em><em>{{showData.departmentName|| '暂无'}}</em>
@@ -48,7 +39,7 @@
             {{showData.orderStatus}}
           </em>
         </span>
-        </p>
+      </div>
 
           <!-- 主内容头部 -->
             <!-- 主内容区域 -->
@@ -142,12 +133,12 @@
 
       </div>
     </div>
-    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
-      <!-- 备注 -->
-      <div class="note">
-        <p class="pd-v-l">备注：{{showData.note}}</p>
-      </div>
-    </div>
+
+</div>
+<div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l" style="margin-left:30px;margin-right:30px;">
+  <!-- 备注 -->
+  <h1 class="text-bold color-3">备注</h1>
+  <p>{{showData.note}}</p>
 </div>
 <!-- 流程图 -->
 <div class="" ng-if="showData.type=='销售出库单_红字'||showData.type=='销售出库单'">
