@@ -112,7 +112,9 @@
                              >
                                <!-- <td>{{$index + 1}}</td> -->
                                <td>{{tr.createAt | date:'yyyy-MM-dd'}}</td>
-                               <td class="text-ellips-s">{{tr.type}}</td>
+                               <td class="text-ellips-s" ng-if="tr.type!='采购入库单_红字'&&tr.type!='销售出库单_红字'">{{tr.type}}</td>
+                               <td class="text-ellips-s" ng-if="tr.type=='采购入库单_红字'">采购入库单<em class="color-red">(红字)</em></td>
+                               <td class="text-ellips-s" ng-if="tr.type=='销售出库单_红字'">销售出库单<em class="color-red">(红字)</em></td>
                                <td class="color-orange">
                                  <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.orderNo}}">
                                  {{tr.orderNo}}

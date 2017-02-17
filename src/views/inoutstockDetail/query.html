@@ -85,7 +85,7 @@
                         <tr>
                             <!-- <th>序号</th> -->
                             <th>单据日期</th>
-                            <th>单据类型</th>
+                            <th class="w-106">单据类型</th>
                             <th>单据编号</th>
                             <th class="w-140">仓库</th>
                             <th class="w-220">库类型</th>
@@ -111,7 +111,9 @@
                         ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
                             <!-- <td>{{$index + 1}}</td> -->
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
-                            <td>{{tr.type}}</td>
+                            <td ng-if="tr.type!='采购入库单_红字'&&tr.type!='销售出库单_红字'">{{tr.type}}</td>
+                            <td ng-if="tr.type=='采购入库单_红字'">采购入库单<em class="color-red">(红字)</em></td>
+                            <td ng-if="tr.type=='销售出库单_红字'">销售出库单<em class="color-red">(红字)</em></td>
                             <td class="color-orange">
                               <a ng-if="tr.type=='采购入库单'" href="#/purchaseInstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
                               <a ng-if="tr.type=='销售出库单'" href="#/saleOutstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>

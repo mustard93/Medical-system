@@ -9,8 +9,13 @@
          <!-- 标题 -->
          <div class="mgb-m">
            <p class="mgb-m crumbs pr-indent-10">库存管理 >
-             其它出库单详情</p>
-           <h1 class="pr-font-22 color-black">其它出库单详情</h1>
+             <em ng-if="showData.type!='销售出库单_红字'">其它出库单详情</em>
+             <em ng-if="showData.type=='销售出库单_红字'">销售出库单详情</em>
+           </p>
+           <h1 class="pr-font-22 color-black">
+             <em ng-if="showData.type!='销售出库单_红字'">其它出库单详情</em>
+             <em ng-if="showData.type=='销售出库单_红字'">销售出库单详情</em>
+           </h1>
          </div>
          <h1 class="color-black text-l">
            <!-- 昆明库 -->
@@ -31,7 +36,9 @@
           <span class="flex-item-5">
             单据编号：<em >{{showData.orderNo || '暂无'}}</em>
             <em  class="mgl">部门：</em><em>{{showData.departmentName|| '暂无'}}</em>
-            <em  class="mgl">出库类型：</em><em class="color-black">{{showData.type|| '暂无'}}</em>
+            <em  class="mgl">出库类型：</em>
+            <em ng-if="showData.type!='销售出库单_红字'" class="color-black">{{showData.type|| '暂无'}}</em>
+            <em ng-if="showData.type=='销售出库单_红字'" class="color-black">销售出库单<em class="color-red">(红字)</em></em>
           </span>
           <span class="flex-item-6 text-right">
             出库日期：<em >{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em>
@@ -143,7 +150,7 @@
     </div>
 </div>
 <!-- 流程图 -->
-<div class="" ng-if="showData.type=='销售退货出库单'||showData.type=='销售出库单'">
+<div class="" ng-if="showData.type=='销售出库单_红字'||showData.type=='销售出库单'">
     <business-flow-show business-key="{{showData.id}}" business-type="销售单"></business-flow-show>
 </div>
 <div class="" ng-if="showData.type=='报损出库单'">

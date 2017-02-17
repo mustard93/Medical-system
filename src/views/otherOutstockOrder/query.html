@@ -86,7 +86,10 @@
               <div class="relative">
                   <div class="flex-column">
                     <span class="flex-item-6 title-states text-bold color-3 pd-m">
-                      <em class="color-black">
+                      <em ng-if="tr.type=='销售出库单_红字'" class="color-black">
+                          销售出库单<em class="color-red">(红字)</em>
+                      </em>
+                      <em ng-if="tr.type!='销售出库单_红字'" class="color-black">
                           {{tr.type}}
                       </em>
                     </span>
@@ -127,7 +130,7 @@
                       class="flex-item-6 pdl mgb-s text-left">参考批次冻结单</span>
                       <span ng-if="tr.type=='移库出库单'"
                       class="flex-item-6 pdl mgb-s text-left">参考wms移库单</span>
-                      <span ng-if="tr.type=='销售退货出库单'"
+                      <span ng-if="tr.type=='销售出库单_红字'"
                       class="flex-item-6 pdl mgb-s text-left">参考销售退货单</span>
 
 
@@ -143,7 +146,7 @@
                           <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
                         </a>
                         <a
-                        ng-if="tr.type=='销售退货出库单'"
+                        ng-if="tr.type=='销售出库单_红字'"
                         href="#/saleReturnOrder/get.html?orderNo={{tr.sourceOrderNo}}">
                           <strong class="color-orange text-normal">{{tr.sourceOrderNo}}</strong>
                         </a>
