@@ -1572,16 +1572,18 @@ function businessFlowShow() {
 
 
                if(moduleType=="outstockOrder"){
-
                     if(subModuleAttribute=="销售出库单"){
                            url="#/saleOutstockOrder/get.html?id="+relId;
-                    }else{
+                    }
+                    else{
                          url="#/otherOutstockOrder/get.html?id="+relId;
                     }
-               }else   if(moduleType=="instockOrder"){
+               }else
+               if(moduleType=="instockOrder"){
                     if(subModuleAttribute=="采购入库单"){
                         url="#/purchaseInstockOrder/get.html?id="+relId;
-                    }else{
+                    }
+                    else{
                          url="#/otherInstockOrder/get.html?id="+relId;
                     }
                }

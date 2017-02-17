@@ -481,7 +481,16 @@ define('project/controllers', ['project/init'], function() {
         }
 
         if ($scope.submitForm_type == 'save') {
-          // console.log(this);
+          var _url = 'rest/authen/salesOrder/isCanClose?id=' + $scope.formData.id;
+          requestData(_url, {}, 'get')
+          .then(function (results) {
+            if (results[1].code === 200) {
+              $scope.isShowCancelBtn = true;
+            }
+          })
+          .catch(function (error) {
+
+          });
         }
       };
 
@@ -507,9 +516,6 @@ define('project/controllers', ['project/init'], function() {
         }
         $('#' + fromId).trigger('submit');
 
-        // addDataItem_opt.submitUrl='';
-        // $scope.formData.orderMedicalNos.push($scope.addDataItem);
-        // $scope.addDataItem={};
       };
 
       // 取消订单
@@ -3003,7 +3009,7 @@ define('project/controllers', ['project/init'], function() {
     $scope.addDataItem = {};
 
     // 保存  type:save-草稿,submit-提交订单。
-    $scope.submitFormAfter = function(scopeResponse) {
+    $scope.submitFormAfter = function(formData) {
 
       $scope.formData.validFlag = false;
 
@@ -3017,7 +3023,6 @@ define('project/controllers', ['project/init'], function() {
 
         var url='rest/authen/saleReturnOrder/startProcessInstance';
         var data= {businessKey:$scope.formData.id};
-          console.log($scope.formData);
 
         requestData(url, data, 'POST')
           .then(function (results) {
