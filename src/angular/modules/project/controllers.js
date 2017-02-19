@@ -2328,6 +2328,7 @@ define('project/controllers', ['project/init'], function() {
    function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      $scope.isShowCancelBtn = false;
+     $scope.isGoNextStep = false;
      $scope.tempDataList = [];
 
      //页面Loading时初始化数据
@@ -2566,31 +2567,45 @@ define('project/controllers', ['project/init'], function() {
     //请购单中检查用户是否已选择部分药品
     $scope.chkChoiseMedicals = function (item,medicalsObj) {
       //定义存放厂家id数组
-      var _supplierArray = [];
+      if (!$scope._supplierArray) {
+        $scope._supplierArray = [];
+      }
 
       // 如果用户选中药品
       if (item.handleFlag) {
-
+        // 数据对象中加入该项药品
         $scope.formData.orderMedicalNos.push(item);
-
-        if (_supplierArray.length === 0 && item.supplierId) {
-          _supplierArray.push(item.supplierId);
-        }
-
-        console.log(_supplierArray);
-
-      } else {      // 处理用户取消选择,需遍历药品列表，判断是否还有没有取消的药品
-
-        $scope.isChoiseAll = false;
-
-        for (var j=0; j<medicalsObj.length; j++) {
-          if (medicalsObj[j].handleFlag === true) {
-            $scope.choisedMedicals = true;
-            return;
+        // 将厂家id作为标识放入数组
+        $scope._supplierArray.push(item.supplierId);
+        //判断是否可进行下一步
+        $scope.isGoNextStep = chkMultipleId($scope._supplierArray) ? true : false;
+      } else {      // 取消选中
+        // 删除当前项
+        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+          if (data.id === item.id) {
+            $scope.formData.orderMedicalNos.splice(index,1);
           }
-        }
+        });
 
-        $scope.choisedMedicals = false;   // 没有药品被选中，设置按钮不可用
+        // 删除标识
+        angular.forEach($scope._supplierArray, function (data, index) {
+          if (data === item.supplierId) {
+            $scope._supplierArray.splice(index, 1);
+          }
+        });
+
+        //判断是否可进行下一步
+        $scope.isGoNextStep = chkMultipleId($scope._supplierArray) ? true : false;
+      }
+
+      //检测用户是否选择了多个厂家的药品
+      function chkMultipleId (arr) {
+        if (arr.length > 0) {
+          var _bool = arr.every(function (item, index, array) {
+            return item === arr[0];
+          });
+          return _bool;
+        }
       }
     };
 

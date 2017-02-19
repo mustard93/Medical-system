@@ -135,7 +135,7 @@
              </table>
            </div>
          </div>
-         <div class="empty-table clearfix"  ng-if="!formData.orderMedicalNos.length" >
+         <div class="empty-table clearfix"  ng-if="!tempDataList">
            <div>&nbsp;</div>
            <div>&nbsp;</div>
            <div>&nbsp;</div>
@@ -231,7 +231,7 @@
                </div>
        </div>
 
-    </div>{{formData}}
+    </div>
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
@@ -270,9 +270,13 @@
           </button>
         </span>
         <span class="mgt-m">
-          <button ng-disabled="!formData.orderMedicalNos.length"
+          <button class="pr-btn-create-glodbg"
+                  ng-disabled="!isGoNextStep"
                   ng-click="submitForm('purchaseForm','submit')"
-                  class="pr-btn-create-glodbg">生成采购单
+                  invalid-popover
+                  valid-value=""
+                  popover-show="formData.orderMedicalNos.length!=0&&!isGoNextStep"
+                  popover-options='{"content":"不同生产厂家的药械不能合并生成采购单", "placement":"top", "trigger":"manual"}'>生成采购单
           </button>
         </span>
 
