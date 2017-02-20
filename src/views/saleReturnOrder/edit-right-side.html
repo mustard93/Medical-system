@@ -3,7 +3,7 @@
      ajax-If-eval="selectedData.id||formData.relId"
      ajax-url="rest/authen/invoicesOrder/get?id={{selectedData.id||formData.relId}}"
      scope-data="addDataObj"
-      callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos)"
+     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos)"
      alert-error>
   <form>
     <!-- 头部信息 -->
@@ -62,7 +62,12 @@
               <thead>
                 <tr>
                   <th>
-                    <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                    <input type="checkbox"
+                           class="selectAll"
+                           ng-init="isChoiseAll=false"
+                           ng-model="isChoiseAll"
+                           ng-click="handleChoiseAllEvent()"
+                           ng-disabled="!hasReturnList">
                   </th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left">商品全名</th>
