@@ -2332,7 +2332,7 @@ define('project/controllers', ['project/init'], function() {
 
      $scope.isShowCancelBtn = false;
      $scope.isGoNextStep = false;
-     $scope.tempDataList = [];
+    //  $scope.tempDataList = [];
 
      //页面Loading时初始化数据
      $scope.$watch('initFlag', function (newVal) {
@@ -2352,8 +2352,8 @@ define('project/controllers', ['project/init'], function() {
 
         if (newVal) {
           //创建临时变量存储商品列表，并将数据对象orderMedicalNos置空
-          $scope.tempDataList = $scope.formData.orderMedicalNos;
-          $scope.formData.orderMedicalNos = [];
+          // $scope.tempDataList = $scope.formData.orderMedicalNos;
+          // $scope.formData.orderMedicalNos = [];
 
           //发送请求判断当前订单状态是否可显示关闭按钮
           var _url = 'rest/authen/requestPurchaseOrder/isCanClose?id=' + $scope.formData.id;
@@ -2577,18 +2577,20 @@ define('project/controllers', ['project/init'], function() {
       // 如果用户选中药品
       if (item.handleFlag) {
         // 数据对象中加入该项药品
-        $scope.formData.orderMedicalNos.push(item);
+        // $scope.formData.orderMedicalNos.push(item);
         // 将厂家id作为标识放入数组
         $scope._supplierArray.push(item.supplierId);
+        // 设置标识为true，表示选中此项
+        item.handleFlag = true;
         //判断是否可进行下一步
         $scope.isGoNextStep = chkMultipleId($scope._supplierArray) ? true : false;
       } else {      // 取消选中
         // 删除当前项
-        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-          if (data.id === item.id) {
-            $scope.formData.orderMedicalNos.splice(index,1);
-          }
-        });
+        // angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+        //   if (data.id === item.id) {
+        //     $scope.formData.orderMedicalNos.splice(index,1);
+        //   }
+        // });
 
         // 删除标识
         angular.forEach($scope._supplierArray, function (data, index) {
@@ -2596,6 +2598,9 @@ define('project/controllers', ['project/init'], function() {
             $scope._supplierArray.splice(index, 1);
           }
         });
+
+        // 设置标识为false，表示取消此项
+        item.handleFlag = false;
 
         //判断是否可进行下一步
         $scope.isGoNextStep = chkMultipleId($scope._supplierArray) ? true : false;
