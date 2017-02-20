@@ -3321,6 +3321,19 @@ define('project/controllers', ['project/init'], function() {
   function returnOrderAddController ($scope, $rootScope, modal, utils, requestData, alertError) {
 
     $scope.addDataObj={};
+    $scope.hasReturnList = false;
+
+    // 监控用户选择的返货单，发生变化后立即检查当前单据中是否有可退的商品
+    $scope.$watch('addDataObj.orderMedicalNos', function (newVal) {
+      if (newVal) {
+        $scope.hasReturnList = false;
+        angular.forEach(newVal, function (item, index, array) {
+          if (item.returnQuantity !== 0) {
+            $scope.hasReturnList = true;
+          }
+        });
+      }
+    });
 
     //1.初始化选择状态。
     //addDataObj_orderMedicalNos:发货单细表，saleReturnOrder_orderMedicalNos 销售退货单细表
