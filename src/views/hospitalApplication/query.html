@@ -90,17 +90,18 @@
                          request-url="rest/authen/hospitalApplication/delete"></a>
                     </td>
                     <td ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')">
-                      <a class="" ng-href="#/hospitalApplication/get.html?id={{tr.id}}">审批</a>
+                      <a class="examine-approve-link-icon" ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"></a>
                     </td>
                     <td ng-if="tr.orderStatus=='待审批' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')">
-                      <a href="javascript:;" ng-href="#/hospitalApplication/get.html?id={{tr.id}}">查看详情</a>
+                      <a href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
                     </td>
                     <td ng-if="tr.orderStatus=='未通过'">
-                      <p><a href="javascript:;" ng-href="#/hospitalApplication/edit.html?copyId={{tr.id}}">新建</a></p>
-                      <p><a href="javascript:;" ng-href="#/hospitalApplication/get.html?id={{tr.id}}">查看详情</a></p>
+                          <a href="#/hospitalApplication/edit.html?copyId={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
+                          <a href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
+                          <!-- <a href="javascript:;" ng-href="#/hospitalApplication/get.html?id={{tr.id}}">查看详情</a> -->
                     </td>
                     <td ng-if="tr.orderStatus=='已通过'">
-                      <p><a href="javascript:;" ng-href="#/hospitalApplication/get.html?id={{tr.id}}">查看详情</a></p>
+                    <a href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
                     </td>
                   </tr>
                 </tbody>
