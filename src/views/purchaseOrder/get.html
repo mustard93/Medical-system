@@ -256,26 +256,23 @@
            nosave-callback="goTo('#/purchaseOrder/query.html')"
            save-callback="submitForm('editForm','exit')">返回采购单列表
         </a>
+
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/purchaseOrder/query.html?id={{scopeData.relId}}" >返回采购单列表</a>
 
-        <button  type="button" class="pr-btn-save-glodbg mgr"
-        modal-center="400"
-        modal-data='{"id":"{{scopeData.id}}"}'
-        modal-scope="this"
-        modal-url="views/purchaseOrder/dialog-export-word.html"
-
-        >
-        导出采购合同
+        <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                modal-center="400"
+                modal-data='{"id":"{{scopeData.id}}"}'
+                modal-scope="this"
+                modal-url="views/purchaseOrder/dialog-export-word.html">导出采购合同
         </button>
-        </span>
 
-        <button ng-if="scopeData.orderStatus=='待采购'"
-                        class="pr-btn-save-glodbg mgr mgl"
-                        type="button"
-                        ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{scopeData.id}}"
-                        alert-error
-                        callback="$root.goTo('#/purchaseVoucher/get.html?relId={{scopeData.id}}')">生成采购凭证
-                </button>
+        <button ng-if="!scopeData.purchaseVoucherId" class="pr-btn-save-glodbg mgr mgl"
+                type="button"
+                ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{scopeData.id}}"
+                alert-error
+                callback="$root.goTo('#/purchaseVoucher/get.html?relId={{scopeData.id}}')">生成采购凭证
+        </button>
         <span ng-if="scopeData.didateFilter.buttons.length>0"
               custom-menu-list
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
