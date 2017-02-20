@@ -163,24 +163,16 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr
-                ng-if="formData.orderMedicalNos.length"
-                ng-repeat="tr in formData.orderMedicalNos"
-                salesorder-edit-show-delbtn
-                ng-init="orderMedicalNoIds.push(tr.relId)"
-                ng-controller="SalesOrderDetailsController">
+                <tr ng-if="formData.orderMedicalNos.length"
+                    ng-repeat="tr in formData.orderMedicalNos"
+                    salesorder-edit-show-delbtn
+                    ng-init="orderMedicalNoIds.push(tr.relId)"
+                    ng-controller="SalesOrderDetailsController">
                   <td class="text-center">{{tr.code}}</td>
                   <td class="text-center">{{tr.goodsCode}}</td>
-                  <td class="text-left">
-                    {{tr.name}}
-                  </td>
-                  <td class="text-center">
-                    {{tr.specificationAndModelType}}
-                  </td>
-                  <td class="text-center">
-                    {{tr.unit}}
-                  </td>
-
+                  <td class="text-left">{{tr.name}}</td>
+                  <td class="text-center">{{tr.specificationAndModelType}}</td>
+                  <td class="text-center">{{tr.unit}}</td>
                   <td class="text-center" style="white-space: nowrap;">
                     <div class="order-goods-num">
                       <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
@@ -194,9 +186,7 @@
                       <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                     </div>
                   </td>
-
                   <td class="text-center">
-                    <!-- 生产批号 -->
                     <select class="pr-select select-wd"
                             chosen
                             default-empty
@@ -212,42 +202,26 @@
                             >
                     </select>
                   </td>
-
-                  <td class="text-center">
-                    {{tr.productionDate | date : 'yyyy-MM-dd'}}
-                  </td>
+                  <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
-                  <td class="text-center">
-                    {{tr.productStandard}}
-                    <!-- 产品执行标准 -->
-                  </td>
-                  <td class="text-center">
-                    {{tr.storedTemperature}}
-                    <!-- 保存温度 -->
-                  </td>
-                  <td class="text-center">
-                    {{tr.brand}}
-                  </td>
-
-                  <td class="text-center">
-                  {{tr.drugAdministrationCode}}
-                  </td>
-
-                  <td class="text-center relative">
-                    {{tr.drugAdministrationCodeGuaranteePeriod}}
+                  <td class="text-center">{{tr.productStandard}}</td>
+                  <td class="text-center">{{tr.storedTemperature}}<!-- 保存温度 --></td>
+                  <td class="text-center">{{tr.brand}}</td>
+                  <td class="text-center">{{tr.drugAdministrationCode}}</td>
+                  <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}
                     <div class="sales-order-item-delbtn">
-                    <div class="sales-order-confirm-del-area bg-white">
-                      <p class="bb-line color-red pd-v">确认删除本条数据?</p>
-                      <p class="pd-v-s">
-                        <a href="" ng-click="hideThisBtn()">取消</a>
-                        <button class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl"
-                                ng-click="formData.orderMedicalNos.splice($index,1);
-                                formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
-                        </button>
-                      </p>
+                      <div class="sales-order-confirm-del-area bg-white">
+                        <p class="bb-line color-red pd-v">确认删除本条数据?</p>
+                        <p class="pd-v-s">
+                          <a href="" ng-click="hideThisBtn()">取消</a>
+                          <button class="btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl"
+                                  ng-click="formData.orderMedicalNos.splice($index,1);
+                                  formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
+                          </button>
+                        </p>
+                      </div>
                     </div>
-                  </div>
                   </td>
                 </tr>
               </tbody>
