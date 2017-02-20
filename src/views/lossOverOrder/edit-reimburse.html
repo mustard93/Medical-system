@@ -127,43 +127,51 @@
               </thead>
               <tbody class="bg-white">
                 <tr ng-if="formData.orderMedicalNos.length"
-                ng-repeat="tr in formData.orderMedicalNos"
-                salesorder-edit-show-delbtn
-                ng-init="orderMedicalNoIds.push(tr.relId)"
-                ng-controller="SalesOrderDetailsController">
-                  <td class="text-center">{{tr.code}}
-
-                  </td>
+                    ng-repeat="tr in formData.orderMedicalNos"
+                    salesorder-edit-show-delbtn
+                    ng-init="orderMedicalNoIds.push(tr.relId)"
+                    ng-controller="SalesOrderDetailsController">
+                  <td class="text-center">{{tr.code}}</td>
                   <td class="text-center">{{tr.goodsCode}}</td>
-                  <td class="text-left w-50">
-                    <div class="autocut-l" title="{{tr.name}}">
-                        {{tr.name}}
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    {{tr.specificationAndModelType}}
-                  </td>
-                  <td class="text-center">
-                    {{tr.unit}}
-                  </td>
-
-                  <td class="text-center" style="white-space: nowrap;">
-                    <!-- <input type="text" class="ipt ipt-w text-right" ng-model="tr.quantity"> -->
+                  <td class="text-left w-50"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td>
+                  <td class="text-center">{{tr.specificationAndModelType}}</td>
+                  <td class="text-center">{{tr.unit}}</td>
+                  <td class="text-center" style="white-space:nowrap;">
                     <div class="order-goods-num">
                       <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
                       <span class="inline-block">
                         <input type="number"
                                class="inline pr-table-input text-center item-quantity"
-                               style="width:60px;"
+                               style="width:60px;background:transparent;"
                                ng-model="tr.quantity"
                                ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
                       </span>
                       <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                     </div>
                   </td>
-
                   <td class="text-center">
-                    <!-- 生产批号 -->
+                    <!-- <div ng-repeat="stockBatchsItem in tr.stockBatchs" class="mgb">
+                      <select class="select pr-select pr-select-sm text-left"
+                              chosen
+                              default-empty
+                              data-placeholder=" "
+                              select-data="selectData"
+                              suffix-connection="/"
+                              suffix-key="note.salesQuantity"
+                              ng-model="stockBatchsItem.batchNumber"
+                              callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
+                              callback-filter-return-data="getProductionBatchValueArray(item.stockBatchs)"
+                              select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
+                      </select>
+                      <p class="mgt-s text-right relative" ng-if="stockBatchsItem.batchNumber">
+                        <input type="number"
+                               class="ipt pr-short-ipt color-6 text-right"
+                               ng-model="stockBatchsItem.quantity"
+                               data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
+                               invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}" />
+                               <span class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                      </p>
+                    </div> -->
                     <select class="pr-select select-wd"
                             chosen
                             default-empty
