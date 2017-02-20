@@ -2,18 +2,18 @@
   <h1 class="pr-font-18 mgb">{{attachmentsExtend.title||"审核资料"}}</h1>
   <div style="margin-bottom:50px;">
     <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>序号</th>
-          <th>资料名称</th>
-          <th>上传人</th>
-          <th>上传时间</th>
-          <th>有效日期</th>
-          <th>附件</th>
-          <th>备注</th>
-          <th class="text-center">操作</th>
-        </tr>
-      </thead>
+        <thead>
+            <tr >
+                <th>序号</th>
+                <th>资料名称</th>
+                <th>上传人</th>
+                <th>上传时间</th>
+                <th>有效日期</th>
+                <th>附件</th>
+                <th>备注</th>
+                <th class="text-center">操作</th>
+            </tr>
+        </thead>
       <tbody>
         <tr ng-repeat="item in ngModel"
         ng-controller="deleteUploaderController"
@@ -23,12 +23,15 @@
           <td>{{item.uploadUserName}}</td>
           <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
           <td>
-            <input type="text"
-                   datepicker
-                   class="ipt pr-short-ipt color-6"
-                   placeholder="有效日期至"
-                   ng-readonly="true"
-                   ng-model="item.guaranteePeriod">
+            <div class="date-icon-outside">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     ng-model="item.guaranteePeriod"
+                     placeholder="有效日期至">
+              <span class="date-icon"></span>
+            </div>
           </td>
 
 
@@ -59,7 +62,17 @@
           <td><input type="text" name="name" class="ipt" placeholder="资料名称" ng-model="addAttachment.name"></td>
           <td>  {{addAttachment.uploadUserName}}</td>
           <td>{{addAttachment.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
-          <td><input type="text" datepicker class="ipt pr-short-ipt color-6" placeholder="有效日期至" ng-readonly="true" ng-model="addAttachment.guaranteePeriod"></td>
+          <td>
+            <div class="date-icon-outside">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     ng-model="item.guaranteePeriod"
+                     placeholder="有效日期至">
+              <span class="date-icon"></span>
+            </div>
+          </td>
           <td>
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="addAttachment"></div>
           </td>

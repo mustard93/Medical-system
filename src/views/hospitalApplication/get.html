@@ -1,186 +1,215 @@
-<div class="content-wrapper first-medical-application"
+<div class="first-medical-application"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/hospitalApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
       callback='bottomButtonList= $root.bottomButtonList.get_hospitalApplication(showData);'
      alert-error>
-  <div class="page-header-info">
-    <p class="mgb">管理中心 / <em class="color-custom-orange">客户管理</em></p>
-    <h1>医院资格申请</h1>
+
+  <div class="header-info relative mgb-l">
+    <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
+      <a href="#/hospitalApplication/query.html">
+         <em class="color-custom-orange">客户管理</em>
+      </a>
+     <em>>医院资格申请详情</em>
+    </p>
+    <div class="pd-c-xxl pdt-l pdb-l">
+      <!-- 标题 -->
+      <div class="mgb-l">
+        <h1 class="color-black pr-font-20">医院资格申请详情</h1>
+      </div>
+    </div>
   </div>
   <!-- 主体内容 -->
-  <div class="content-wrapper-main mgt">
+  <div class="content-wrapper ">
+    <div class="content-wrapper-main mgt">
 
-      <!-- 单号 -->
-      <div class="panel pr-panel pr-panel-height mgb color-9 flex-column bb-line">
-        <div class="flex-item-8 ">
-          <span class="mgr-l">申请单：<em class="color-6">{{showData.orderNo}}</em></span>
-          <span class="mgr-l">申请人：<em class="color-custom-orange">{{showData.proposerName}}</em></span>
-          <span>申请时间：{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span>
+        <!-- 单号 -->
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column bb-line">
+          <div class="flex-item-8 ">
+            <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
+            <span class="mgr-l">申请人：<em class="color-custom-orange">{{showData.proposerName}}</em></span>
+          </div>
+          <div class="flex-item-4 text-right">
+            <span class="flex-item-10">录单日期：
+              <em class="color-black">
+                    {{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}
+              </em>
+          </span>
+            <span class="flex-item-2">
+              状态：<em class="color-black">{{showData.orderStatus}}</em>
+            </span>
+          </div>
+
         </div>
-        <span class="current-status flex-item-4 text-right">
-          <strong>状态：{{showData.orderStatus}}</strong>
+        <!-- 审核信息 -->
+        <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
+          <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
+            <span>{{eventRecord.event.id}}：</span>
+            <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">
+              {{eventRecord.event.status}}</em>
+          </span>
+        </div>
+        <!-- 基本信息 -->
+        <div class="panel pr-panel pr-panel-height mgb">
+          <h1 class="pr-font-18 mgb">基本信息</h1>
+          <div class="">
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">医院信息：</h1>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">医院名称：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.name}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">医院系统编号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.systemNumber}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">经营性质：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.managementType}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">法人代表：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.legalRepresentative}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">地址：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.address}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">级别：</span>
+                <span class="flex-item-1 pr-indent-10">{{showData.hospital.level}}</span>
+                <span class="flex-item-1 text-right">等级：</span>
+                <span class="flex-item-1 pr-indent-10">{{showData.hospital.grade}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">座机：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.hospitalTel}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">邮编：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.zipCode}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">执业许可证号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.practiceLicenseNo}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">有效期：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.guaranteePeriod | date: 'yyyy-MM-dd'}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">医院采购员信息</h1>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">采购员/身份证号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserName}}&nbsp;&nbsp;{{showData.hospital.purchaserIdentityNo}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">座机：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserTel}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">E-mail：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.email}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">手机：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserPhone}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">许可项目范围</h1>
+            <p class="mgb">{{showData.hospital.permissionItem || '暂无'}}</p>
+          </div>
+
+        </div>
+        <!-- 申请原因 -->
+        <div class="panel pr-panel pr-panel-height mgb">
+          <h1 class="pr-font-18 mgb">申请原因</h1>
+          <span>{{showData.applyReason}}</span>
+        </div>
+        <!-- 审核资料 -->
+        <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
+
+
+        <!-- 审批 -->
+        <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">
+          <div class="mgb-l">
+            <h1 class="pr-font-18 mgb">审批意见</h1>
+            <div class="mgb" ng-repeat="item in showData.eventRecords">
+              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
+              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人/部门：</em> <em>{{item.inputUser}}/{{item.departmentName}}</em></span>
+              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+              <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
+            </div>
+          </div>
+          <div class="mgb-l"></div>
+        </div>
+
+        <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus!='未提交'"
+             workflow-task-run-with-attchments
+             custom-menu-arr="{{showData.didateFilter.buttons}}"
+              workflow-bottom-button="bottomButtonList"
+             attchment-usege="医院资格申请">
+        </div>
+
+      <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'" class="handle-btn-area">
+        <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <div  class="mgb text-right">
+          <span class="mgl-l">
+            <a class="mgl"
+               ng-if="showData.orderStatus=='未通过'"
+               ng-href="#/hospitalApplication/edit.html?copyId={{showData.id}}">新建</a>
+          </span>
+
+              <span  bottom-button-list="bottomButtonList">  </span>
+        </div>
+      </div>
+     </div>
+
+  </div>
+  <div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area">
+    <div class="btn-area" >
+      <div  class="mgb text-right">
+        <span class="mgl mgt"><a href="#/hospitalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+        <span class="mgl mgt">
+          <a ng-if="showData.id && showData.proposerName==mainStatus.name"
+             href="javascript:;"
+             class="color-red"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="删除后将无法恢复,确认删除?"
+             dialog-template="pr-dialog-submit.html"
+             callback="$root.goTo('#/hospitalApplication/query.html')"
+             params='{"id":showData.id}'
+             request-url="rest/authen/hospitalApplication/delete">删除</a>
         </span>
-      </div>
-      <!-- 审核信息 -->
-      <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
-        <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
-          <span>{{eventRecord.event.id}}：</span>
-          <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">
-            {{eventRecord.event.status}}</em>
+        <span class="mgl mgt">
+          <button class="pr-btn-save-glodbg"
+                  type="button"
+                  ajax-url-submit="rest/authen/hospitalApplication/proposerUpdateStatus"
+                  params='{"id":showData.id,"status":"待审批"}'
+                  alert-error
+                  scope-data="showData"
+                  callback="$root.utils.refreshHref()">提交
+          </button>
         </span>
-      </div>
-      <!-- 基本信息 -->
-      <div class="panel pr-panel pr-panel-height mgb">
-        <h1 class="pr-font-18 mgb">基本信息</h1>
-        <div class="">
-          <h1 class="pr-font-14 bb-line pd-v text-bold mgb">医院信息：</h1>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">医院名称：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.name}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">医院系统编号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.systemNumber}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">经营性质：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.managementType}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">法人代表：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.legalRepresentative}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">地址：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.address}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">级别：</span>
-              <span class="flex-item-1 pr-indent-10">{{showData.hospital.level}}</span>
-              <span class="flex-item-1 text-right">等级：</span>
-              <span class="flex-item-1 pr-indent-10">{{showData.hospital.grade}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">座机：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.hospitalTel}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">邮编：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.zipCode}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">执业许可证号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.practiceLicenseNo}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">有效期：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.guaranteePeriod | date: 'yyyy-MM-dd'}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <h1 class="pr-font-14 bb-line pd-v text-bold mgb">医院采购员信息</h1>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">采购员/身份证号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserName}}&nbsp;&nbsp;{{showData.hospital.purchaserIdentityNo}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">座机：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserTel}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">E-mail：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.email}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">手机：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserPhone}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="">
-          <h1 class="pr-font-14 bb-line pd-v text-bold mgb">许可项目范围</h1>
-          <p class="mgb">{{showData.hospital.permissionItem}}</p>
-        </div>
-
-      </div>
-      <!-- 申请原因 -->
-      <div class="panel pr-panel pr-panel-height mgb">
-        <h1 class="pr-font-18 mgb">申请原因</h1>
-        <span>{{showData.applyReason}}</span>
-      </div>
-      <!-- 审核资料 -->
-      <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
-
-
-      <!-- 审批 -->
-      <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">
-        <div class="mgb-l">
-          <h1 class="pr-font-18 mgb">审批意见</h1>
-          <div class="mgb" ng-repeat="item in showData.eventRecords">
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人/部门：</em> <em>{{item.inputUser}}/{{item.departmentName}}</em></span>
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
-            <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
-          </div>
-        </div>
-        <div class="mgb-l"></div>
-      </div>
-
-      <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus!='未提交'"
-           workflow-task-run-with-attchments
-           custom-menu-arr="{{showData.didateFilter.buttons}}"
-            workflow-bottom-button="bottomButtonList"
-           attchment-usege="医院资格申请">
-      </div>
-
-      <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'" class="mgb text-right">
-        <span class="mgl-l">
-          <a class="mgl"
-             ng-if="showData.orderStatus=='未通过'"
-             ng-href="#/hospitalApplication/edit.html?copyId={{showData.id}}">新建</a>
-        </span>
-
-            <span  bottom-button-list="bottomButtonList">  </span>
       </div>
     </div>
+  </div>
 
-    <div ng-if="showData.orderStatus=='未提交'" class="mgb text-right">
-      <span class="mgl"><a href="#/hospitalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
-      <span class="mgl">
-        <a ng-if="showData.id && showData.proposerName==mainStatus.name"
-           href="javascript:;"
-           class="color-red"
-           handle-this-click
-           dialog-title="确认删除?"
-           dialog-content="删除后将无法恢复,确认删除?"
-           dialog-template="pr-dialog-submit.html"
-           callback="$root.goTo('#/hospitalApplication/query.html')"
-           params='{"id":showData.id}'
-           request-url="rest/authen/hospitalApplication/delete">删除</a>
-      </span>
-      <span class="mgl">
-        <button class="pr-btn-save-glodbg"
-                type="button"
-                ajax-url-submit="rest/authen/hospitalApplication/proposerUpdateStatus"
-                params='{"id":showData.id,"status":"待审批"}'
-                alert-error
-                scope-data="showData"
-                callback="$root.utils.refreshHref()">提交审批
-        </button>
-      </span>
-    </div>
+  </div>
 </div>
