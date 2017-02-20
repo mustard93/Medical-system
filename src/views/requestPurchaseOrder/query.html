@@ -57,9 +57,7 @@
   </div>
 </div>
 
-<div class="content-wrapper purchase-order"
-  ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus"
->
+<div class="content-wrapper purchase-order" ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
   <table-list list-data="rest/authen/requestPurchaseOrder/query.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
@@ -87,7 +85,7 @@
                       href="#/requestPurchaseOrder/edit.html?id={{tr.id}}" class="mgl">
                       <span class="edit-link-icon">&nbsp;</span>
                       </a>
-                      <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
+                      <!-- <a ng-if="tr.orderStatus=='待处理' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
                          title="删除"
                          class="btn-link pd-m rect-s mr--4"
@@ -98,7 +96,7 @@
                          request-url="rest/authen/requestPurchaseOrder/delete?id={{tr.id}}"
                          emitted="reloadList">
                          <span class="delete-link-icon">&nbsp;</span>
-                      </a>
+                      </a> -->
                     </span>
                     <span ng-if="tr.orderStatus=='已处理'" class=" text-right">
                       <a
