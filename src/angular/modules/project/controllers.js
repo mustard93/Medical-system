@@ -3397,7 +3397,9 @@ define('project/controllers', ['project/init'], function() {
       if ($scope.isChoiseAll) {
         angular.forEach(_dataSource, function (data, index) {
           data.itemSelected = true;
-          $scope.choisedMedicalList.push(data);
+          if (data.returnQuantity !== 0) {
+            $scope.choisedMedicalList.push(data);
+          }
         });
       } else  {
         angular.forEach(_dataSource, function (data, index) {
