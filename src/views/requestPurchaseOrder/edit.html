@@ -82,7 +82,7 @@
                 </tr>
                </thead>
                <tbody class="bg-white">
-                 <tr ng-repeat="tr in tempDataList" ng-init="tr.handleFlag=false">
+                 <tr ng-repeat="tr in formData.orderMedicalNos" ng-init="tr.handleFlag=false">
                    <td class="select-td">
                      <input type="checkbox"
                             class="selectOne"
@@ -231,7 +231,7 @@
                </div>
        </div>
 
-    </div>
+    </div>{{_supplierArray}}
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
@@ -275,7 +275,7 @@
                   ng-click="submitForm('purchaseForm','submit')"
                   invalid-popover
                   valid-value=""
-                  popover-show="formData.orderMedicalNos.length!=0&&!isGoNextStep"
+                  popover-show="_supplierArray&&!isGoNextStep"
                   popover-options='{"content":"不同生产厂家的药械不能合并生成采购单", "placement":"top", "trigger":"manual"}'>生成采购单
           </button>
         </span>
