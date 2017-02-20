@@ -1,6 +1,6 @@
 <div class="panel pr-panel pr-panel-height mgb">
   <h1 class="pr-font-18 mgb">{{attachmentsExtend.title||"审核资料"}}</h1>
-  <div>
+  <div style="margin-bottom:50px;">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -48,13 +48,13 @@
         </tr>
       </tbody>
       <!-- 添加资料 -->
-      <tfoot ng-if="attachmentsExtend.addFlag" ng-init="addAttachment={}">
+      <tfoot  ng-if="attachmentsExtend.addFlag" ng-init="addAttachment={}">
         <tr>
           <td colspan="7">
             <h1 class="pr-font-16">添加附件</h1>
           </td>
         </tr>
-        <tr>
+        <tr class="relative bb-line">
           <td>&nbsp;</td>
           <td><input type="text" name="name" class="ipt" placeholder="资料名称" ng-model="addAttachment.name"></td>
           <td>  {{addAttachment.uploadUserName}}</td>
@@ -67,10 +67,13 @@
             <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="addAttachment.note"></textarea>
           </td>
           <td>
-            <a ng-click="addAttachment.canDeleteFlag=true;ngModel.push(addAttachment);addAttachment={}" href="javascript:;" class="pr-add-circle"><span class="fa fa-plus-circle"></span></a>
+            <div class="order-create-btn pos-l" style="margin-top: 180px;margin-left: 20px;">
+              <a class="relative" ng-click="addAttachment.canDeleteFlag=true;ngModel.push(addAttachment);addAttachment={}" href="javascript:;"><i></i><span class="text-s">增加附件</span></a>
+            </div>
           </td>
         </tr>
       </tfoot>
     </table>
+
   </div>
 </div>
