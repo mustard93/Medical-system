@@ -50,23 +50,23 @@
             <div>&nbsp;</div>
         </div>
         <div ng-if="formData.orderMedicalNos.length">
-          <div class="flex-column mgb pd bb-dashed-line">
+          <div class="flex-column pdt-m pdb-m pd-c-l color-9 bb-dashed-line">
             <div class="flex-item-6">
-              <span class="mgr-l">单据编号：<em class="color-black">{{formData.orderNo || '暂无'}}</em></span>
-              <span class="mgr-l">制单人：<em class="color-black">{{formData.inputUser.n || '暂无'}}</em></span>
-              <span class="mgr-l">审核人：<em class="color-black">{{'暂无'}}</em></span>
+              <span class="mgr-l">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+              <span class="mgr-l">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">审核人：<em class="color-3">{{'暂无'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
-              <span class="mgl-l">录单日期：<em class="color-black">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
-              <span class="mgl-l">状态：<em class="color-black">{{formData.orderStatus || '暂无'}}</span>
+              <span class="mgl-l">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
+              <span class="mgl-l">状态：<em class="color-3">{{formData.orderStatus || '暂无'}}</span>
             </div>
           </div>
 
-          <div class="flex-column mgb pd">
-            <span class="mgr-l">销售部门：<em class="color-black">{{formData.salesDepartmentName || '暂无'}}</em></span>
-            <span class="mgr-l">业务人员：<em class="color-orange">{{formData.inputUser.n || '暂无'}}</em></span>
-            <span class="mgr-l">业务类型：<em class="color-black">{{formData.orderBusinessType || '暂无'}}</em></span>
-            <span class="mgr-l">销售类型：<em class="color-black">{{formData.salesType || '暂无'}}</em></span>
+          <div class="flex-column color-9 pdt-m pdb-m pd-c-l">
+            <span class="mgr-l">销售部门：<em class="color-3">{{formData.salesDepartmentName || '暂无'}}</em></span>
+            <span class="mgr-l">业务人员：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+            <span class="mgr-l">业务类型：<em class="color-3">{{formData.orderBusinessType || '暂无'}}</em></span>
+            <span class="mgr-l">销售类型：<em class="color-3">{{formData.salesType || '暂无'}}</em></span>
           </div>
       </div>
         <div class="outside-table-d">
@@ -77,7 +77,8 @@
                 <th class="text-left">商品全名</th>
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
-                <th class="text-center">退货数量</th>
+                <th class="text-center">可退数量</th>
+                <th class="text-center">实退数量</th>
                 <th class="text-center w-110">批号要求</th>
                 <th class="text-center ">生产批号</th>
                 <th class="text-center ">灭菌批号</th>
@@ -117,6 +118,7 @@
                 <td class="text-left">{{item.name}}</td>
                 <td class="text-center">{{item.specificationAndModelType}}</td>
                 <td class="text-center">{{item.unit}}</td>
+                <td class="text-center">{{item.returnQuantity}}</td>
                 <td class="text-center">
                   <div class="order-goods-num">
                     <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1" ng-disabled="item.quantity==1">-</button>

@@ -57,7 +57,7 @@
           </div>
           <!-- 列表 -->
           <div class="bt-dashed-line">
-            <p class="flex-column mgb mgt-m pd-c-l">
+            <p class="flex-column pdb-m pdt-m pd-c-l">
               <span class="flex-item-6 color-9">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
               <span class="flex-item-6 text-right color-9">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
             </p>
@@ -83,7 +83,11 @@
                   </tr>
                 </thead>
                 <tbody ng-if="formData.orderMedicalNos.length" class="bg-white">
-                  <tr ng-repeat="tr in formData.orderMedicalNos" ng-mouseenter="areaStatus=false" table-item-handlebtn-component ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                  <tr ng-repeat="tr in formData.orderMedicalNos"
+                      ng-mouseenter="areaStatus=false"
+                      table-item-handlebtn-component
+                      ng-init="orderMedicalNoIds.push(tr.relId)"
+                      ng-controller="SalesOrderDetailsController">
                     <td class="text-center">{{tr.code}}
                       <div class="table-item-handle-btn">
                         <div class="table-item-confirm-del-area bg-white">
@@ -107,6 +111,7 @@
                                  class="inline ipt pr-ipt-60 text-center"
                                  style="width:60px;"
                                  ng-model="tr.quantity"
+                                 required
                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                  ng-pattern="/^[1-9]\d*$/"
                                  invalid-popover
@@ -150,7 +155,7 @@
                              class="ipt pr-ipt-60 text-right"
                              name="discountPrice{{$index}}"
                              ng-model="tr.discountPrice"
-                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
+                             ng-pattern="/^(\d\.\d)|\d$/"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountPrice'+$index].$valid}}"
@@ -167,12 +172,10 @@
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountRate'+$index].$valid}}"
-                             popover-show
+                             popover-show="tr.discountRate>100"
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountPrice=(tr.price*(1-tr.discountRate/100)).toFixed(2)"/> %
                     </td>
-                    <!-- <td class="text-center">￥{{tr.taxPrice | number:2}}</td> -->
-
                     <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) | number:2}}</td>
                     <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td>
                     <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td>

@@ -1,6 +1,33 @@
 define(['project/angucomplete'], function(){
       function Angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel){
 
+
+
+        function getObjectValByKeyArr(obj,keyArr,index){
+          if(!keyArr)return null;
+
+            if(keyArr.length-index==1){//直到取最后一个节点
+              var key=keyArr[index];
+                if(!key)return null;
+                return obj[key];
+            }
+            var key=keyArr[index];
+              if(!key)return null;
+            if(!obj[key])return null;
+            return getObjectValByKeyArr(obj[key],keyArr,(1+index));
+
+        };
+
+      var utils={
+        //递归 获取：data.data.data 获取子属性值
+        getObjectVal:function (obj,key){
+            if(!key)return null;
+           var arr=key.split(".");
+           return getObjectValByKeyArr(obj,arr,0);
+        }
+      };
+
+  
         var isNewSearchNeeded = function(newTerm, oldTerm) {
             return newTerm.length >= $scope.minLength && newTerm != oldTerm
         };
@@ -24,7 +51,9 @@ define(['project/angucomplete'], function(){
 
                     var description = "";
                     if ($scope.descriptionField) {
-                        description = responseData[i][$scope.descriptionField];
+
+                        description =  utils.getObjectVal(responseData[i],$scope.descriptionField);
+                        // description = responseData[i][$scope.descriptionField];
                     }
 
                     var text = titleCode.join(' ');
