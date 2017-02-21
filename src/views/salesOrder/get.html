@@ -22,7 +22,15 @@
           <span class="mgr-m color-9">单据编号：<span class="color-6">{{showData.orderNo}}</span></span>
         </div>
         <div class="flex-item-8 text-right">
-          <span class="mgr-xl color-9">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+          <span class="mgr">录单日期：<em class="color-3">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
+          <a ng-if="initFlag"
+             modal-center="1000px"
+             modal-data='{"businessKey":"{{showData.id}}"}'
+             modal-scope="this"
+             modal-url="views/workflowTask/getOfDialog.html">
+             <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+          </a>
+          <!-- <span class="mgr-xl color-9">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
           <span class="mgr-xl color-9">状态：
             <a ng-if="initFlag"
                href="javascript:;"
@@ -30,13 +38,7 @@
                modal-data='{"businessKey":"{{showData.id}}"}'
                modal-scope="this"
                modal-url="views/workflowTask/getOfDialog.html">{{showData.orderStatus}}</a>
-          </span>
-          <!-- <a modal-center="1000px"
-             modal-data='{"businessKey":"{{showData.id}}"}'
-             modal-scope="this"
-             modal-url="views/workflowTask/getOfDialog.html">
-          <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-          </a> -->
+          </span> -->
         </div>
       </div>
       <!-- 未处理药械清单 -->
