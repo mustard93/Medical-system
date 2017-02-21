@@ -1182,14 +1182,8 @@ define('project/controllers', ['project/init'], function() {
    * @param  {[type]} alertError  [description]
    * @return {[type]}             [description]
    */
-  function confirmOrderEditCtrl2($scope, modal, alertWarn, requestData, alertOk, alertError, watchFormChange) {
+  function confirmOrderEditCtrl2($scope, modal, alertWarn, requestData, alertOk, alertError, watchFormChange, saleOrderUtils) {
 
-    // $scope.watchFormChange = function (watchName) {
-    //   watchFormChange(watchName,$scope);
-    // };
-    /**
-     * 作废理由显示
-     */
     $scope.$watch('initFlag', function () {
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
@@ -1208,15 +1202,15 @@ define('project/controllers', ['project/init'], function() {
       }
       if ($scope.tr) {
         // 选择出当前状态相同的驳回理由，并放入一个数组中
-       for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
-         if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
-           operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message)
-           operationFlowSetKey.push($scope.tr.operationFlowSet[i].key)
+       for (var j=0; j<$scope.tr.operationFlowSet.length; j++) {
+         if ($scope.tr.operationFlowSet[j].status==$scope.tr.orderStatus) {
+           operationFlowSetMessage.push($scope.tr.operationFlowSet[j].message);
+           operationFlowSetKey.push($scope.tr.operationFlowSet[j].key);
          }
        }
       //  选择当前状态最近的一个驳回理由用于显示
-       $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
-       $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+       $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+       $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
 
       }
     });
@@ -1290,6 +1284,9 @@ define('project/controllers', ['project/init'], function() {
         }
         return arr;
     };
+
+    //计算总价
+    
 
   }//confirmOrderEditCtrl2
 
@@ -3632,7 +3629,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
   .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
   .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl])
-  .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'watchFormChange', confirmOrderEditCtrl2])
+  .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'watchFormChange', 'saleOrderUtils', confirmOrderEditCtrl2])
   .controller('SalesOrderDetailsController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', SalesOrderDetailsController])
   .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
   .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', QualificationApplyCtrl])
