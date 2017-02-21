@@ -144,12 +144,12 @@ define('project/services', ['project/init'], function () {
                       "showName":"查看操作记录"};
 
                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-                      if(showData){
-                        bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
-                          "ahref":Config.serverPath+"rest/authen/firstEnterpriseApplication/exportWord?id="+showData.id,
-                          "showName":"打印"};
-                        if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-                      }
+                      // if(showData){
+                      //   bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                      //     "ahref":Config.serverPath+"rest/authen/firstEnterpriseApplication/exportWord?id="+showData.id,
+                      //     "showName":"打印"};
+                      //   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                      // }
 
                       return arr;
                     }//get_firstEnterpriseApplication
@@ -169,12 +169,12 @@ define('project/services', ['project/init'], function () {
 
                      if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                        if(showData){
-                          bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
-                            "ahref":Config.serverPath+"rest/authen/firstMedicalApplication/exportWord?id="+showData.id,
-                            "showName":"打印"};
-                          if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-                        }
+                        // if(showData){
+                        //   bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                        //     "ahref":Config.serverPath+"rest/authen/firstMedicalApplication/exportWord?id="+showData.id,
+                        //     "showName":"打印"};
+                        //   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                        // }
 
                         return arr;
                       }//get_firstEnterpriseApplication
@@ -187,12 +187,12 @@ define('project/services', ['project/init'], function () {
                           var bottomButton={"aclass":"","ahref":"#/hospitalApplication/query.html","showName":"返回申请单列表"};
                         if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                          if(showData){
-                            bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
-                              "ahref":Config.serverPath+"rest/authen/hospitalApplication/exportWord?id="+showData.id,
-                              "showName":"打印"};
-                            if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-                          }
+                          // if(showData){
+                          //   bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                          //     "ahref":Config.serverPath+"rest/authen/hospitalApplication/exportWord?id="+showData.id,
+                          //     "showName":"打印"};
+                          //   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                          // }
 
                           return arr;
                         }//get_hospitalApplication
@@ -203,12 +203,12 @@ define('project/services', ['project/init'], function () {
                             var bottomButton={"aclass":"","ahref":"#/otherCustomerApplication/query.html","showName":"返回申请单列表"};
                           if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                            if(showData){
-                              bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
-                                "ahref":Config.serverPath+"rest/authen/otherCustomerApplication/exportWord?id="+showData.id,
-                                "showName":"打印"};
-                              if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-                            }
+                            // if(showData){
+                            //   bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                            //     "ahref":Config.serverPath+"rest/authen/otherCustomerApplication/exportWord?id="+showData.id,
+                            //     "showName":"打印"};
+                            //   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                            // }
 
                             return arr;
                           }//get_otherCustomerApplication

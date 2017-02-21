@@ -1,16 +1,23 @@
-<div class="content-wrapper first-medical-application"
+<div class="first-medical-application"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback='bottomButtonList= $root.bottomButtonList.get_firstEnterpriseApplication(showData);'
+     callback=''
      alert-error>
 
-  <div class="page-header-info">
-    <div class="pd-l">
-    <h1>首营企业申请</h1>
-    <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
+  <div class="header-info relative mgb-l">
+    <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
+      <a href="#/firstEnterpriseApplication/query.html">
+         <em class="color-custom-orange">首营管理</em>
+      </a>
+     <em>>首营企业申请</em>
+    </p>
+    <div class="pd-c-xxl pdt-l pdb-l">
+      <!-- 标题 -->
+      <div class="mgb-l">
+        <h1 class="color-black pr-font-20">首营企业申请</h1>
+      </div>
     </div>
-
     <div ng-if="showData.orderStatus=='已冻结'"
      class="pr-panel pr-panel-height mgb"
      ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{showData.id}}"
@@ -20,259 +27,197 @@
       <em class="color-red">原因:</em>
       <em>{{ versionFlowList[0].message }}</em>
     </div>
-
   </div>
   <!-- 主体内容 -->
-  <div class="content-wrapper-main mgt"  style="margin-bottom:80px;">
+  <div class="content-wrapper">
+    <div class="content-wrapper-main mgt"  style="margin-bottom:80px;">
 
-      <!-- 单号 -->
-      <div class="panel pr-panel pr-panel-height mgb bb-line color-9 flex-column" ng-class="{'pr-bg-grey3':(showData.status=='已终止')}">
-        <div class="flex-item-8">
-          <span class="mgr-l">申请单：<em class="color-6">{{showData.orderNo}}</em></span>
-          <span class="mgr-l">申请人：<em class="color-custom-orange">{{showData.proposerName}}</em></span>
-          <span>申请时间：{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</span>
-        </div>
-        <span class="current-status flex-item-4 text-right">
+        <!-- 单号 -->
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column bb-dashed-line">
+          <div class="flex-item-8 ">
+            <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
+            <span class="mgr-l">申请人：<em class="color-custom-orange">{{showData.proposerName}}</em></span>
+          </div>
+          <div class="flex-item-4 text-right">
+            <span class="flex-item-10">录单日期：
+              <em class="color-black">
+                    {{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}
+              </em>
+          </span>
           <a modal-center="1000px"
              modal-data='{"businessKey":"{{showData.id}}"}'
              modal-scope="this"
              modal-url="views/workflowTask/getOfDialog.html">
-
-            <strong  >状态：
-              <em ng-class="{'color-red':(showData.orderStatus=='已终止')}">{{showData.orderStatus}}</em>
-            </strong>
+             <span class="flex-item-2">
+               状态：<em class="color-black">{{showData.orderStatus}}</em>
+             </span>
           </a>
-        </span>
-      </div>
-      <!-- 审核信息 -->
-      <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
-        <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
-          <span>{{eventRecord.event.id}}：</span>
-          <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</em>
-        </span>
-      </div>
-      <!-- 基本信息 -->
-      <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
-        <h1 class="pr-font-18 mgb">基本信息</h1>
-        <div class="">
-        <h1 class="pr-font-14 bb-line pd-v text-bold mgb">企业信息：</h1>
-        <div class="bb-line">
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">企业类别：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.type}}</span>
-            </div>
           </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">供货企业全称：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.fullName}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">企业简称：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.shortName}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">法人代表/身份证号：</span>
-              <span class="flex-item-10 pr-indent-10">
-                {{showData.firstEnterprise.legalRepresentative}}&nbsp;&nbsp;{{showData.firstEnterprise.legalRepresentativeIdentityNo}}
-              </span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">企业地址：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.address}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">GMP/GSP证书号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.gspCertificateNo}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">生产/经营许可证号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.productionLicenseNo}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">注册资金：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.registeredCapital}} 万元</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">税号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.taxNo}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">营业执照号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.businessLicenseNo}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">营业期限：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.busnissAllotedTime | date: 'yyyy-MM-dd'}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">开户银行：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.accountBank}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">开户账号：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.accountNumber}}</span>
-            </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">开户名称：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.accountName}}</span>
-            </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">付款方式：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.payType}}</span>
-            </div>
-          </div>
+
+        </div>
+        <!-- 审核信息 -->
+        <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
+          <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
+            <span>{{eventRecord.event.id}}：</span>
+            <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</em>
+          </span>
+        </div>
+        <!-- 基本信息 -->
+        <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
+          <h1 class="mgb mgt color-black text-bold">基本信息</h1>
           <div class="">
-            <h1 class="pr-font-14 bb-line pd-v text-bold mgb">销售人员信息：</h1>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">销售人员/身份证号：</span>
-              <span class="flex-item-10 pr-indent-10">
-                {{showData.firstEnterprise.salesman}}&nbsp;&nbsp;{{showData.firstEnterprise.salesmanIdentityNo}}
-              </span>
+          <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">企业信息</h1>
+          <div class="">
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">企业类别：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.type}}</span>
+              </div>
             </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">座机：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.tel}}</span>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">供货企业全称：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.fullName}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">企业简称：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.shortName}}</span>
+              </div>
             </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">Email：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.email}}</span>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">法人代表/身份证号：</span>
+                <span class="flex-item-10 pr-indent-10">
+                  {{showData.firstEnterprise.legalRepresentative}}&nbsp;&nbsp;{{showData.firstEnterprise.legalRepresentativeIdentityNo}}
+                </span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">企业地址：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.address}}</span>
+              </div>
             </div>
-            <div class="flex-item-6 flex-column">
-              <span class="flex-item-2 text-right">手机：</span>
-              <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.phone}}</span>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">GMP/GSP证书号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.gspCertificateNo}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">生产/经营许可证号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.productionLicenseNo}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">注册资金：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.registeredCapital}} 万元</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">税号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.taxNo}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">营业执照号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.businessLicenseNo}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">营业期限：</span>
+                  <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.busnissAllotedTime | date: 'yyyy-MM-dd'}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">开户银行：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.accountBank}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">开户账号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.accountNumber}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">开户名称：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.accountName}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">付款方式：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.payType}}</span>
+              </div>
+            </div>
+            <div class="">
+              <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">销售人员信息</h1>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">销售人员/身份证号：</span>
+                <span class="flex-item-10 pr-indent-10">
+                  {{showData.firstEnterprise.salesman}}&nbsp;&nbsp;{{showData.firstEnterprise.salesmanIdentityNo}}
+                </span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">座机：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.tel}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">Email：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.email}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">手机：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.firstEnterprise.phone}}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-        <div class="">
-          <h1 class="pr-font-14 mgb mgt text-bold">经营范围：</h1>
-          <p class="mgb">{{showData.firstEnterprise.businessScope}}</p>
+          <div class="">
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">经营范围</h1>
+            <p class="mgb">{{showData.firstEnterprise.businessScope}}</p>
 
-          <h1 class="pr-font-14 mgb mgt text-bold">拟供产品：</h1>
-          <p class="mgb">{{showData.firstEnterprise.provideProducts}}</p>
-        </div>
-
-      </div>
-      <!-- 申请原因 -->
-      <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
-        <h1 class="pr-font-18 mgb">申请原因</h1>
-        <span>{{showData.applyReason}}</span>
-      </div>
-      <!-- 审核资料-附件信息 -->
-      <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}"></div>
-
-      <!-- 审批 -->
-      <div ng-if="!showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
-        <div class="mgb-l">
-          <h1 class="pr-font-18 mgb">审批意见</h1>
-          <div class="mgb" ng-repeat="item in showData.eventRecords">
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人/部门：</em> <em>{{item.inputUser}}/{{item.departmentName}}</em></span>
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
-            <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">拟供产品</h1>
+            <p class="mgb">{{showData.firstEnterprise.provideProducts}}</p>
           </div>
+
         </div>
-        <div class="mgb-l"></div>
-      </div>
+        <!-- 申请原因 -->
+        <div class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
+          <h1 class="pr-font-18 mgb">申请原因</h1>
+          <span>{{showData.applyReason}}</span>
+        </div>
+        <!-- 审核资料-附件信息 -->
+        <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}"></div>
 
-
-      <div ng-if="showData.didateFilter.buttons.length>0&& showData.orderStatus!='未提交'"
-           workflow-task-run-with-attchments
-           custom-menu-arr="{{showData.didateFilter.buttons}}"
-           workflow-bottom-button="bottomButtonList"
-           attchment-usege="首营企业申请">
-      </div>
-
-      <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'" class="handle-btn-area relative">
-
-            <div class="mgb text-right btn-area">
-              <span>
-                <a class="mgl mgt"
-                   ng-if="showData.orderStatus=='未通过'"
-                   ng-href="#/firstEnterpriseApplication/edit.html?copyId={{showData.id}}">新建</a>
-              </span>
-              <span bottom-button-list="bottomButtonList">  </span>
-              <span>
-                <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus=='已通过' ||showData.orderStatus=='已冻结'">
-                  <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
-                      ng-href="#/firstEnterpriseApplication/edit.html?id={{showData.id}}"
-                     >编辑</a>
-                </span>
-
-                <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus!='已冻结'&&showData.orderStatus!='已终止'">
-                  <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
-                          type="button"
-                          modal-center="490"
-                          modal-scope="this"
-                          modal-data='{"title":"确认",
-                                       "content":"冻结后，该企业资格将被暂停，直到解冻，确认冻结?",
-                                       "btnConfirm":"确定",
-                                       "btnCancel":"取消",
-                                       "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
-                                       "goUrl":"",
-                                       "id":"{{showData.id}}",
-                                       "status":"已冻结"
-                                      }'
-                          modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
-                  </button>
-                </span>
-                <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus=='已冻结'">
-                  <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
-                          type="button"
-                          modal-center="490"
-                          modal-scope="this"
-                          modal-data='{"title":"确认解冻?",
-                                       "content":"解冻后，该企业资格将恢复，确认解冻?",
-                                       "btnConfirm":"确定",
-                                       "btnCancel":"取消",
-                                       "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
-                                       "goUrl":"",
-                                       "id":"{{showData.id}}",
-                                       "status":"解冻"
-                                      }'
-                          modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
-                  </button>
-                </span>
-                <span class="line-hei-36" ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus!='已终止'">
-                  <button class="btn-reject mgl mgt color-white text-center"
-                          type="button"
-                          handle-this-click
-                          dialog-title="确认终止?"
-                          dialog-content="终止后，该企业资格将被取消，确定终止?"
-                          dialog-template="pr-dialog-submit.html"
-                          request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
-                          params='{"id":showData.id,"status":"已终止"}'
-                          alert-error
-                          callback="$root.utils.refreshHref()"
-                          >终止
-                  </button>
-                </span>
-
-              </span>
-
+        <!-- 审批 -->
+        <div ng-if="!showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb" ng-class="{'pr-bg-grey3':(showData.orderStatus=='已终止')}">
+          <div class="mgb-l">
+            <h1 class="pr-font-18 mgb">审批意见</h1>
+            <div class="mgb" ng-repeat="item in showData.eventRecords">
+              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
+              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人/部门：</em> <em>{{item.inputUser}}/{{item.departmentName}}</em></span>
+              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
+              <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
             </div>
-      </div>
+          </div>
+          <div class="mgb-l"></div>
+        </div>
+
+
+        <div ng-if="showData.didateFilter.buttons.length>0&& showData.orderStatus!='未提交'"
+             workflow-task-run-with-attchments
+             custom-menu-arr="{{showData.didateFilter.buttons}}"
+             workflow-bottom-button="bottomButtonList"
+             attchment-usege="首营企业申请">
+        </div>
+
+    </div>
+
   </div>
   <div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
     <div  class="mgb text-right btn-area">
+      
       <span class="mgl"><a href="#/firstEnterpriseApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
       <span class="mgl">
         <a ng-if="showData.id && showData.proposerName==mainStatus.name"
@@ -289,11 +234,11 @@
       <span class="mgl">
         <button class="pr-btn-save-glodbg mgt"
                 type="button"
-                ajax-url-submit="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
-                params='{"id":showData.id,"status":"待审批"}'
+                ajax-url-submit="rest/authen/firstEnterpriseApplication/startProcessInstance"
+                params='{"businessKey":showData.id}'
                 alert-error
                 scope-data="showData"
-                callback="$root.utils.refreshHref()">提交审批
+                callback="$root.utils.refreshHref()">提交
         </button>
       </span>
     </div>
