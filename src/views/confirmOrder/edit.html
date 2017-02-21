@@ -71,8 +71,8 @@
 
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
               <div class="flex-item-6">
-                <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo}}</em></span>
-                <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n}}</em></span>
+                <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+                <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || mainStatus.name}}</em></span>
                 <span class="mgr">审核人：<em class="color-3">暂无</em></span>
               </div>
               <div class="flex-item-6 text-right">
@@ -91,7 +91,7 @@
                 </select>
               </span>
               <span class="mgr">业务人员：
-                <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                         data-placeholder=" "
                         chosen
                         ng-model="formData.saleUserId"
@@ -473,7 +473,7 @@
 
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/confirmOrder/query.html?id={{formData.relId}}" >返回销售单</a>
 
-        <a ng-if="formData.orderStatus=='待审核' && formData.inputUserId==mainStatus.id"
+        <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
@@ -481,7 +481,7 @@
            dialog-content="您确认删除这条购需单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"
-           call-back="$root.goTo('#/confirmOrder/query.html')">删除
+           callback="$root.goTo('#/confirmOrder/query.html')">删除
         </a>
 
         <button type="button"

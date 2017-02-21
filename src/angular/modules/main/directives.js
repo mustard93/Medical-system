@@ -2244,6 +2244,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                           .then(function(results) {
                               var data = results[0];
 
+                              //如果已定义请求数据后的回调，执行回调
+                              if ($attrs.callBack) {
+                                $scope.$eval($attrs.callBack);
+                              }
+
                               if (!data) data = [];
 
                               dataArr=data;
@@ -2309,7 +2314,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               });
             }
         };
-    };
+    }
 
     /**
      * form-item
