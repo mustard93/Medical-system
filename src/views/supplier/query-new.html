@@ -1,0 +1,130 @@
+<div class=""
+     ng-controller="pageCtrl"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+     <table-list list-data="rest/authen/supplier/query.json"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q">
+
+    <!-- 主内容头部 -->
+    <div class="content-wrapper-heading pdb-m mgb-l relative">
+        <p class="pdb-s pdt-s mgb-l crumbs pdl-xxxxxxl">管理中心 > <em class="">客户管理</em></p>
+            <div class="pd-c-xxxxxxl">
+              <div class="pos-rel-tl fl-l full-width">
+                <h1 class="pr-font-20 color-black">客户列表</h1>
+              </div>
+              <div class="full-width mgb-m text-right">
+                <div class="relative">
+                  <span class="color-9">状态:</span>
+                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                          data-placeholder=" "
+                          default-empty="全部"
+                          chosen
+                          ng-model="listParams.orderBusinessType"
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_PurchaseOrderBusinessType"
+                          ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+                  </select>
+
+                  <span class="mgl-m color-9">申请日期:</span>
+                  <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
+                           ng-model="listParams.createAtBeg"
+                           placeholder="">
+                    <span class="date-icon"></span>
+                  </div>
+                   <span class="color-9">至</span>
+                <div class="date-icon-outside">
+                  <input type="text"
+                        datepicker
+                        class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                        ng-readonly="true"
+                        ng-model="listParams.createAtEnd"
+                        placeholder="">
+                  <span class="date-icon"></span>
+                </div>
+                <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l">
+                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号" ng-model="listParams.q">
+                  <i class=""></i>
+                </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <!-- 主内容区域 -->
+      <div class="content-wrapper">
+        <div class="content-wrapper-main">
+          <div ng-if="!status.isLoading">
+            <div ng-if="tbodyList.length==0">
+              <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+              <p class="text-center">什么也没有</p>
+            </div>
+
+            <div class="pd-c">
+              <table ng-if="tbodyList.length" class="table table-hover table-striped">
+                <thead class="pr-bg-side">
+                  <tr>
+                    <th class="w-80">序号</th>
+                    <th >商品编号</th>
+                    <th >商品全名</th>
+                    <th class="w-160">申请日期</th>
+                    <th class="w-80">状态</th>
+                    <th class="w-160">操作</th>
+                  </tr>
+                </thead>
+                <tbody class="pr-bg-white">
+                  <tr ng-repeat="tr in tbodyList track by $index">
+                    <td>{{$index + 1}}</td>
+                    <td>{{tr.orderNo}}</td>
+                    <td>{{tr.name}}</td>
+                    <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                    <td>{{tr.orderStatus}}</td>
+                    <td ng-class="{'color-9':tr.orderStatus=='未提交', 'color-6':tr.orderStatus=='待审批', 'color-green':tr.orderStatus=='已通过', 'color-red':tr.orderStatus=='未通过'}">{{tr.orderStatus}}</td>
+                    <td ng-if="tr.orderStatus=='未提交'">
+                      <a href="#/hospitalApplication/edit.html?id={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
+                      <!-- <a href="javascript:;" class="delete-link-icon"></a> -->
+                      <a ng-if="tr.proposerId==mainStatus.id"
+                         href="javascript:;"
+                         class="color-red delete-link-icon"
+                         title="删除"
+                         handle-this-click
+                         dialog-title="确认删除?"
+                         dialog-content="删除后将无法恢复,确认删除?"
+                         dialog-template="pr-dialog-submit.html"
+                         callback="$root.goTo('#/hospitalApplication/query.html')"
+                         params='{"id":tr.id}'
+                         request-url="rest/authen/hospitalApplication/delete"></a>
+                    </td>
+                    <td ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')">
+                      <a class="examine-approve-link-icon" ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"></a>
+                    </td>
+                    <td ng-if="tr.orderStatus=='待审批' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')">
+                      <a href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
+                    </td>
+                    <td ng-if="tr.orderStatus=='未通过'">
+                          <a href="#/hospitalApplication/edit.html?copyId={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
+                          <a href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
+                          <!-- <a href="javascript:;" ng-href="#/hospitalApplication/get.html?id={{tr.id}}">查看详情</a> -->
+                    </td>
+                    <td ng-if="tr.orderStatus=='已通过'">
+                    <a href="#/hospitalApplication/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>
