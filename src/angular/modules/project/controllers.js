@@ -2955,7 +2955,12 @@ define('project/controllers', ['project/init'], function() {
     // 监视price价格变化，并赋值给strick_price字段
     $scope.$watch('tr.price', function (newVal) {
       $scope.tr.strike_price = newVal;
-      console.log($scope.formData);
+    });
+
+    $scope.$watch('tr.discountPrice', function (newVal) {
+      if (isNaN(newVal)) {
+        $scope.tr.discountPrice = '';
+      }
     });
 
     $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
