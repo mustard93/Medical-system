@@ -473,7 +473,7 @@
 
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/confirmOrder/query.html?id={{formData.relId}}" >返回销售单</a>
 
-        <a ng-if="formData.orderStatus=='待审核' && formData.inputUserId==mainStatus.id"
+        <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
@@ -481,7 +481,7 @@
            dialog-content="您确认删除这条购需单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/confirmOrder/delete?id={{formData.id}}"
-           call-back="$root.goTo('#/confirmOrder/query.html')">删除
+           callback="$root.goTo('#/confirmOrder/query.html')">删除
         </a>
 
         <button type="button"
