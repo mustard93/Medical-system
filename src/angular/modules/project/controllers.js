@@ -939,20 +939,19 @@ define('project/controllers', ['project/init'], function() {
     $scope.$watch('initFlag', function () {
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
-      if ($scope.formData) {
+      if ($scope.formData.operationFlowSet) {
         // 选择出当前状态相同的驳回理由，并放入一个数组中
        for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
          if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
-           operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message)
-           operationFlowSetKey.push($scope.formData.operationFlowSet[i].key)
+           operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
+           operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
          }
        }
       //  选择当前状态最近的一个驳回理由用于显示
-       $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
-       $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+       $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+       $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
        return;
       }
-
     });
 
     // 保存type:save-草稿,submit-提交订单。
@@ -973,9 +972,9 @@ define('project/controllers', ['project/init'], function() {
 
 
      if ($scope.submitForm_type == 'submit') {
-       var url='rest/authen/confirmOrder/startProcessInstance';
+       var _url='rest/authen/confirmOrder/startProcessInstance';
        var data= {businessKey:$scope.formData.id};
-       requestData(url, data, 'POST')
+       requestData(_url, data, 'POST')
          .then(function (results) {
            var _data = results[1];
           //  alertOk(_data.message || '操作成功');
@@ -1286,7 +1285,7 @@ define('project/controllers', ['project/init'], function() {
     };
 
     //计算总价
-    
+
 
   }//confirmOrderEditCtrl2
 
