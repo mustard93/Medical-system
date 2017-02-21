@@ -311,6 +311,15 @@ define('project/controllers', ['project/init'], function() {
       // 是否显示关闭按钮
       $scope.isShowCancelBtn = false;
 
+      //监视数量大小
+      $scope.$watch('formData.orderMedicalNos', function (newVal) {
+        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+          if (item.quantity > 100000) {
+            console.log('aaa');
+          }
+        });
+      });
+
       $scope.$watch('initFlag', function (newVal) {
          //发送请求判断当前订单状态是否可显示关闭按钮
          if (newVal) {
