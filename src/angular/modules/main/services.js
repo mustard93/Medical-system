@@ -652,7 +652,6 @@ function alertOk($rootScope, modal) {
                   var sum=0;
                   var chengji=1;
                 for(var j=0;j<keyArr.length;j++){
-
                     //属性值满足条件的，才允许相加。
                     if(conditionEqualPropertyKey){
                       var tmpval=utilsObj.getObjectVal(tmp,conditionEqualPropertyKey);
@@ -668,8 +667,6 @@ function alertOk($rootScope, modal) {
 
                 }
                 total=  utilsObj.numberAdd(total,sum);
-
-
               }
               return total;
             },
@@ -716,7 +713,7 @@ function alertOk($rootScope, modal) {
 
                 var tmpkey=utilsObj.getObjectVal(arr[i],key);
                 tmpkey+="";//转换为字符串类型
-                if(tmpkey==undefined||tmpkey==""){
+                if(tmpkey===undefined||tmpkey===""){
                     tmpkey="null";
                 }
                 //根据key获取分组数组，放在该元素

@@ -118,7 +118,7 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
-                  <th class="text-center w-160">生产批号/灭菌批号</th>
+                  <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-160">生产批号/灭菌批号</th>
                   <th class="text-center">报价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -182,7 +182,6 @@
                   <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
                   <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
                   <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
-
                 </tr>
 
               </tbody>
@@ -202,32 +201,6 @@
                             ng-model="item.batchRequirement"
                             select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
                     </select>
-                  </td>
-                  <td class="text-center">
-                    <div ng-repeat="stockBatchsItem in item.stockBatchs">
-                      <select ng-disabled="true" class="select pr-select pr-select-sm text-left"
-                              chosen
-                              default-empty
-                              data-placeholder=" "
-                              select-data="selectData"
-                              suffix-connection="/"
-                              suffix-key="note.salesQuantity"
-                              ng-model="stockBatchsItem.batchNumber"
-                              callback="choiseProductionBatch(item,stockBatchsItem,selectData);item.handleFlag=true"
-                              select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
-                      </select>
-                      <p class="mgt-s text-right relative" ng-if="stockBatchsItem.batchNumber">
-                        <input type="number"
-                               class="ipt pr-short-ipt color-6 text-right"
-                               ng-model="stockBatchsItem.quantity"
-                               data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
-                               invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}" />
-
-                        <span class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
-                      </p>
-                      <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)">{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}缺货：{{stockBatchsItem.quantity-selectData.note.salesQuantity}}</p> -->
-                    </div>
-                    <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p> -->
                   </td>
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
                   <td class="text-center">{{item.taxRate}}%</td>
@@ -301,7 +274,6 @@
         </a>
 
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/salesOrder/edit2.html?id={{formData.relId}}" >返回购需单</a>
-        <!-- <a class="mgr-l" ng-if="!changeFlag" ng-href="#/confirmOrder/query.html" >返回销售单</a> -->
 
         <a ng-if="formData.orderStatus=='待审核' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -345,9 +317,11 @@
 
       </div>
       <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
-        popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
-          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}
+        <em class="color-white"
+            invalid-popover
+            popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+            popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
+            ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}
         </em>
       </div>
 
