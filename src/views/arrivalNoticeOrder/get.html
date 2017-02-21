@@ -75,11 +75,13 @@
                <th class="text-center">其他数量</th>
                <th class="text-center">拒收数量</th>
                <th class="text-center">原币含税单价</th>
-               <th class="text-center">税率</th>
                <th class="text-center">原币单价</th>
                <th class="text-center">原币金额</th>
                <th class="text-center">原币税额</th>
                <th class="text-center">原币价税合计</th>
+               <th class="text-center">税率</th>
+               <th class="text-center">批号</th>
+               <th class="text-center">失效日期</th>
                <th class="text-center">产品执行标准</th>
                <th class="text-center">产地品牌</th>
                <th class="text-center">产品注册证号</th>
@@ -87,109 +89,69 @@
              </tr>
               </thead>
               <tbody>
-                <tr
-                ng-repeat="tr in scopeData.orderMedicalNos"
-                salesorder-edit-show-delbtn
-                ng-init="orderMedicalNoIds.push(tr.relId)"
-                ng-controller="arrivalNoticeOrderEditCtrl"
-                medical-stock-mouse-over
-                mouse-over-buttons-json=
-              '[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,
-              "className":"circle-icon2 pos-abs pr-icon-arrow-left","progress":tr.progress}]'
-                >
-                <td class="text-center">
-                  <div class="color-3">
-                    <div class="progress pr-progress"
-                         data-toggle="tooltip"
-                         data-placement="top"
-                         >
-                      <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
-                           aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                           aria-valuemax="100"
-                           ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'
+                <tr ng-repeat="tr in scopeData.orderMedicalNos"
+                    salesorder-edit-show-delbtn
+                    ng-init="orderMedicalNoIds.push(tr.relId)"
+                    ng-controller="arrivalNoticeOrderEditCtrl"
+                    medical-stock-mouse-over
+                    mouse-over-buttons-json='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,"className":"circle-icon2 pos-abs pr-icon-arrow-left","progress":tr.progress}]'>
+                  <td class="text-center">
+                    <div class="color-3">
+                      <div class="progress pr-progress"
+                           data-toggle="tooltip"
+                           data-placement="top"
                            >
-                           <span class="purchaseorder-buyer-info">
-                             <i class="block text-normal pd-c-s">
-                               <em class="inline-block pd-v-s">
-                                 {{tr.progress}}%
-                              </em>
-                            </i>
-                          </span>
+                        <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
+                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                             aria-valuemax="100"
+                             ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'
+                             >
+                             <span class="purchaseorder-buyer-info">
+                               <i class="block text-normal pd-c-s">
+                                 <em class="inline-block pd-v-s">
+                                   {{tr.progress}}%
+                                </em>
+                              </i>
+                            </span>
+                        </div>
+                        <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
+                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
+                              ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
+                             aria-valuemax="100" >
+                             <span class="purchaseorder-buyer-info"
+                             ng-style='{"right":78-tr.progress+"%"}'
+                             >
+                               <i class="block text-normal pd-c-s">
+                                 <em class="inline-block pd-v-s">
+                                   {{tr.progress}}%
+                                </em>
+                              </i>
+                            </span>
+                        </div>
                       </div>
-                      <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
-                           aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                            ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
-                           aria-valuemax="100" >
-                           <span class="purchaseorder-buyer-info"
-                           ng-style='{"right":78-tr.progress+"%"}'
-                           >
-                             <i class="block text-normal pd-c-s">
-                               <em class="inline-block pd-v-s">
-                                 {{tr.progress}}%
-                              </em>
-                            </i>
-                          </span>
-                      </div>
+                      <!-- <span class="pr-indent-15 flex-item-2 text-m color-6">{{tr.progress}}%</span> -->
                     </div>
-                    <!-- <span class="pr-indent-15 flex-item-2 text-m color-6">{{tr.progress}}%</span> -->
-                  </div>
-                </td>
+                  </td>
                   <td class="text-center">{{tr.code}}</td>
-                  <td class="text-left">
-                    <div class="autocut-l" title="{{tr.name}}">
-                        {{tr.name}}
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    {{tr.specificationAndModelType}}
-                  </td>
-                  <td class="text-center">
-                    {{tr.unit}}
-                  </td>
-                  <td class="text-right">
-                    {{tr.quantity || '0'}}
-                  </td>
-                  <td class="text-right"
-                  >
-                    {{tr.storageQuantity || '0'}}
-                  </td>
-                  <td class="text-right">
-                    {{tr.otherQuantity || '0'}}
-                  </td>
-                  <td class="text-right">
-                    {{tr.refuseQuantity || '0'}}
-                  </td>
-                  <td class="text-right">
-                    ￥{{tr.price || '0'  | number:2}}
-                  </td>
-                  <td class="text-right" >
-                    {{tr.taxRate}}%
-                  </td>
-                  <td class="text-right">
-                    ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
-                  </td>
-                  <td class="text-right">
-                    ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
-                  </td>
-                  <td class="text-right">
-                    ￥{{tr.taxPrice| number:2}}
-                  </td>
-
-                  <td class="text-right">
-                    ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
-                  </td>
-                  <td class="text-center">
-                    {{tr.productStandard}}
-                  </td>
-                  <td class="text-center">
-                    {{tr.brand}}
-                  </td>
-                  <td class="text-center">
-                  {{tr.drugAdministrationCode}}
-                  </td>
-                  <td class="text-center relative">
-                    {{tr.drugAdministrationCodeGuaranteePeriod}}
-                  </td>
+                  <td class="text-left"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td>
+                  <td class="text-center">{{tr.specificationAndModelType}}</td>
+                  <td class="text-center">{{tr.unit}}</td>
+                  <td class="text-right">{{tr.quantity || '0'}}</td>
+                  <td class="text-right">{{tr.storageQuantity || '0'}}</td>
+                  <td class="text-right">{{tr.otherQuantity || '0'}}</td>
+                  <td class="text-right">{{tr.refuseQuantity || '0'}}</td>
+                  <td class="text-right">￥{{tr.price || '0'  | number:2}}</td>
+                  <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
+                  <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
+                  <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr)*tr.taxRate/100 | number:2}}</td>
+                  <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
+                  <td class="text-right">{{tr.taxRate}}%</td>
+                  <td class="text-right">&nbsp;</td>
+                  <td class="text-right">&nbsp;</td>
+                  <td class="text-center">{{tr.productStandard}}</td>
+                  <td class="text-center">{{tr.brand}}</td>
+                  <td class="text-center">{{tr.drugAdministrationCode}}</td>
+                  <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}</td>
                 </tr>
               </tbody>
             </table>
