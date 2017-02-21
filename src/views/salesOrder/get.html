@@ -1,4 +1,8 @@
-<div class="sales-order-details">
+<div class="sales-order-details"
+     ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback="initFlag=true;formData={};formData.id=showData.id"
+     alert-error>
   <!-- 头部信息 -->
   <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
     <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">销售中心 > <em class="color-custom-orange">购需单</em></p>
@@ -10,11 +14,7 @@
     </div>
   </div>
   <!-- 主内容区域 -->
-  <div class="content-wrapper"
-       ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
-       scope-data="showData"
-       callback="formData={};formData.id=showData.id"
-       alert-error>
+  <div class="content-wrapper">
     <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
       <!-- 单据信息 -->
       <div class="flex-column pd-c-m pdt-m pdb">
@@ -22,13 +22,21 @@
           <span class="mgr-m color-9">单据编号：<span class="color-6">{{showData.orderNo}}</span></span>
         </div>
         <div class="flex-item-8 text-right">
-          <span class="mgr-xl color-9">创建时间：<span class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span></span>
-          <a modal-center="1000px"
+          <span class="mgr-xl color-9">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+          <span class="mgr-xl color-9">状态：
+            <a ng-if="initFlag"
+               href="javascript:;"
+               modal-center="1000px"
+               modal-data='{"businessKey":"{{showData.id}}"}'
+               modal-scope="this"
+               modal-url="views/workflowTask/getOfDialog.html">{{showData.orderStatus}}</a>
+          </span>
+          <!-- <a modal-center="1000px"
              modal-data='{"businessKey":"{{showData.id}}"}'
              modal-scope="this"
              modal-url="views/workflowTask/getOfDialog.html">
           <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-          </a>
+          </a> -->
         </div>
       </div>
       <!-- 未处理药械清单 -->
