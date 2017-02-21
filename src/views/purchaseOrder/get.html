@@ -99,11 +99,10 @@
              </tr>
               </thead>
               <tbody>
-                <tr
-                ng-repeat="tr in scopeData.orderMedicalNos"
-                salesorder-edit-show-delbtn
-                ng-init="orderMedicalNoIds.push(tr.relId)"
-                ng-controller="purchaseOrderEditCtrl">
+                <tr ng-repeat="tr in scopeData.orderMedicalNos"
+                    salesorder-edit-show-delbtn
+                    ng-init="orderMedicalNoIds.push(tr.relId)"
+                    ng-controller="purchaseOrderEditCtrl">
                   <td class="text-center">{{tr.code}}</td>
                   <td class="text-left">
                     <div class="autocut-l" title="{{tr.name}}">
@@ -149,7 +148,7 @@
                     ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
                   </td>
                   <td class="text-right">
-                    ￥{{tr.taxPrice| number:2}}
+                    ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr)*tr.taxRate/100 | number:2}}
                   </td>
                   <td class="text-right">
                     ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
