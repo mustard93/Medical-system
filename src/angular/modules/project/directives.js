@@ -31,7 +31,7 @@ define('project/directives', ['project/init'], function () {
 
           $scope.jsonToNgModel= function (str) {
             try{
-              
+
                 utils.replaceObject($scope.ngModel, $.parseJSON(str));
                 $scope.jsonString="";
             }catch(e){
@@ -2384,7 +2384,7 @@ function flashAddMedical() {
               //自动补全查询输入框获得焦点
               $('#angucompleteMedical_searchInputId').val("");
               $('#angucompleteMedical_searchInputId').trigger('focus');
-
+              console.log('aaa');
               return false;
 
             };
@@ -2393,8 +2393,8 @@ function flashAddMedical() {
             $scope.handleAddThisItem = function (e) {
               var keycode = window.event ? e.keyCode : e.which;
               if (keycode == 13) {
+                console.log('aaabbb');
                 $scope.addDataFn();
-
               }
                 return false;
             };
@@ -2718,6 +2718,19 @@ function addressManageComponent (requestData, utils) {
     },
     controller: ["$scope", "$element", function ($scope, $element) {
 
+      // 判断默认选中
+      $scope.chkDefaultChoise = function (_id) {
+        if (!$scope.formData.id) {      // 如果是新建，将该参数id与默认返回地址做比较
+          if ($scope.returnAddressObj.defaultContactId === _id) {
+            return true;
+          }
+        } else {        // 如果是编辑
+          if ($scope.formData[$scope.scopeDataContacts].id === _id) {
+            return true;
+          }
+        }
+      };
+
       //页面加载数据请求成功后立即执行的回调函数
       $scope.addressGetCallBack = function () {
 
@@ -2731,12 +2744,14 @@ function addressManageComponent (requestData, utils) {
           $scope.formData[$scope.scopeDataId] = $scope.returnAddressObj.defaultContactId;
         }
 
-        // 将默认地址信息存入formData数据体
-        var _contacts = $scope.returnAddressObj.contacts;
+        // 如果为新建则将默认地址信息存入formData数据体，否则将返回数据存入数据体
+        if (!$scope.formData.id) {
+          var _contacts = $scope.returnAddressObj.contacts;
 
-        for (var i=0; i<_contacts.length; i++) {
-          if ($scope.returnAddressObj.defaultContactId === _contacts[i].id) {
-            $scope.formData[$scope.scopeDataContacts] = _contacts[i];
+          for (var i=0; i<_contacts.length; i++) {
+            if ($scope.returnAddressObj.defaultContactId === _contacts[i].id) {
+              $scope.formData[$scope.scopeDataContacts] = _contacts[i];
+            }
           }
         }
 
@@ -2893,9 +2908,7 @@ angular.module('manageApp.project')
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
   .directive("expressBtnToggle", [expressBtnToggle])
-
-
-    .directive("htmlEdit", [ htmlEdit]) //html-edit
+  .directive("htmlEdit", [ htmlEdit]) //html-edit
   .directive("textareaJson", ['utils', 'alertError', textareaJson]) //textarea-json
   .directive("addressManageComponent", ['requestData', 'utils', addressManageComponent])  //地址管理组件，包含待选、已选地址列表
   .directive("attachmentsItemShow", [attachmentsItemShow])//附件文件显示

@@ -24,7 +24,7 @@
     <div class="content-wrapper-main mgt">
 
         <!-- 单号 -->
-        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column bb-line">
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-8 ">
             <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
             <span class="mgr-l">申请人：<em class="color-custom-orange">{{showData.proposerName}}</em></span>
@@ -35,9 +35,14 @@
                     {{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}
               </em>
           </span>
-            <span class="flex-item-2">
-              状态：<em class="color-black">{{showData.orderStatus}}</em>
-            </span>
+          <a modal-center="1000px"
+             modal-data='{"businessKey":"{{showData.id}}"}'
+             modal-scope="this"
+             modal-url="views/workflowTask/getOfDialog.html">
+             <span class="flex-item-2">
+               状态：<em class="color-black">{{showData.orderStatus}}</em>
+             </span>
+          </a>
           </div>
 
         </div>
@@ -51,9 +56,9 @@
         </div>
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb">
-          <h1 class="pr-font-18 mgb">基本信息</h1>
+          <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
           <div class="">
-            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">医院信息：</h1>
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">医院信息</h1>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">医院名称：</span>
@@ -200,8 +205,8 @@
         <span class="mgl mgt">
           <button class="pr-btn-save-glodbg"
                   type="button"
-                  ajax-url-submit="rest/authen/hospitalApplication/proposerUpdateStatus"
-                  params='{"id":showData.id,"status":"待审批"}'
+                  ajax-url-submit="rest/authen/hospitalApplication/startProcessInstance"
+                  params='{"businessKey":showData.id}'
                   alert-error
                   scope-data="showData"
                   callback="$root.utils.refreshHref()">提交

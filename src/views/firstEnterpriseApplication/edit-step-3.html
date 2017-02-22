@@ -1,43 +1,69 @@
-<div class="content-wrapper first-medical-application"
+<div class="first-medical-application hospital-application"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
-  <div class="page-header-info">
-    <h1>首营企业申请</h1>
-    <p class="mgb">管理中心 / <em class="color-custom-orange">首营管理</em></p>
-  </div>
-  <!-- 添加流程导航 -->
-  <div class="first-medical-nav text-right">
-    <span>基本信息</span>
-    <span>申请原因</span>
-    <span class="active">添加审核资料</span>
-  </div>
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
+         <a href="#/firstEnterpriseApplication/query.html">
+            <em class="color-custom-orange">首营管理</em>
+         </a>
+        <em>>首营企业申请</em>
+       </p>
+       <div class="pd-c-xxl pdt-l pdb-l">
+         <!-- 标题 -->
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20">首营企业申请</h1>
+         </div>
+       </div>
+     </div
   <!-- 主体内容 -->
-  <div class="content-wrapper-main mgt" style="margin-bottom:80px;">
-    <form class="form-horizontal"
-          id="first-enterprise-editForm"
-          name="firstEnterpriseEditForm"
-          form-validator
-          parameter-body
-          action="rest/authen/firstEnterpriseApplication/saveAttachments?validateFlag=true"
-          alert-error
-          alert-ok
-          scope-error-msg="errorMsg"
-          scope-data="formData"
-          novalidate="true"
-          callback="submitFormAfter('#/firstEnterpriseApplication/get.html');watchFormChange('formData')">
-      <!-- 单号 -->
-      <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-        <span class="flex-item-11">申请单：<em class="color-6">{{formData.orderNo}}</em></span>
-        <span class="current-status flex-item-1">
-          <strong>状态：{{formData.orderStatus}}</strong>
-        </span>
+  <div class="content-wrapper ">
+    <!-- 添加流程导航 -->
+    <div class="first-medical-nav">
+      <div class="visited">
+        <span >基本信息</span>
+        <div></div>
+        <div></div>
       </div>
-      <!-- 基本信息-附件信息 -->
-      <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":true}'  attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
+      <div class="visited" style="border-left:none;">
+        <div></div>
+        <div></div>
+        <span>申请原因</span>
+        <div class="triangle1"></div>
+        <div class="triangle2"></div>
+      </div>
+      <div class="active">
+        <div></div>
+        <span>添加审核资料</span>
+      </div>
+    </div>
+    <div class="content-wrapper-main mgt" style="margin-bottom:80px;">
+      <form class="form-horizontal"
+            id="first-enterprise-editForm"
+            name="firstEnterpriseEditForm"
+            form-validator
+            parameter-body
+            action="rest/authen/firstEnterpriseApplication/saveAttachments?validateFlag=true"
+            alert-error
+            alert-ok
+            scope-error-msg="errorMsg"
+            scope-data="formData"
+            novalidate="true"
+            callback="submitFormAfter('#/firstEnterpriseApplication/get.html');watchFormChange('formData')">
+        <!-- 单号 -->
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+          <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
+          <span class="flex-item-1 text-right">
+            状态：<em class="color-black">{{formData.orderStatus}}</em>
+          </span>
+        </div>
+        <!-- 基本信息-附件信息 -->
+        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":true}'  attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
+
+    </div>
 
   </div>
 

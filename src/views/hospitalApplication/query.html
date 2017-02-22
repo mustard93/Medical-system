@@ -1,7 +1,7 @@
 <div class="hospital-application"
      ng-controller="QualificationApplyCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-     <table-list list-data="{{mainStatus.requestPath}}rest/authen/hospitalApplication/query.json"
+     <table-list list-data="rest/authen/hospitalApplication/query.json"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
                  search-param="q">
@@ -73,7 +73,8 @@
                     <td>{{tr.orderNo}}</td>
                     <td>{{tr.hospital.name}}</td>
                     <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-                    <td ng-class="{'color-9':tr.orderStatus=='未提交', 'color-6':tr.orderStatus=='待审批', 'color-green':tr.orderStatus=='已通过', 'color-red':tr.orderStatus=='未通过'}">{{tr.orderStatus}}</td>
+                    <td ng-class="{'color-6':tr.orderStatus=='未提交', 'color-6':tr.orderStatus=='待审批', 'color-green':tr.orderStatus=='已通过', 'color-red':tr.orderStatus=='未通过'}">
+                      {{tr.orderStatus}}</td>
                     <td ng-if="tr.orderStatus=='未提交'">
                       <a href="#/hospitalApplication/edit.html?id={{tr.id}}" class="edit-link-icon mgr-m" title="编辑"></a>
                       <!-- <a href="javascript:;" class="delete-link-icon"></a> -->

@@ -56,9 +56,10 @@ define('modal/directives', ['modal/init'], function () {
 
 
                 //增加url参数解析，放到  $scope.modalScope.mainStatus.pageParams 中，与 ng-view 保持一致
+                //不能使用$scope.modalScope.mainStatus.pageParams，应该该属性在父类已经有了，直接修改会触发 $scope.modalScope 只作用域全部更新到scope状态，导致数据回滚。
+                //modalRight 指令使用odalScope.pageParams 传递 url参数。
                 if(  $scope.modalScope){
-                   $scope.modalScope.mainStatus={};
-                    $scope.modalScope.mainStatus.pageParams=utils.parseQueryString($attrs.modalUrl);
+                    $scope.modalScope.pageParams=utils.parseQueryString($attrs.modalUrl);
                 }
 
 
@@ -120,11 +121,10 @@ define('modal/directives', ['modal/init'], function () {
                   e.preventDefault();
 
                   //ngDialog.close();
-
                   //增加url参数解析，放到  $scope.modalScope.mainStatus.pageParams 中，与 ng-view 保持一致
+
                   if(  $scope.modalScope){
-                     $scope.modalScope.mainStatus={};
-                      $scope.modalScope.mainStatus.pageParams=utils.parseQueryString($attrs.modalUrl);
+                      $scope.modalScope.pageParams=utils.parseQueryString($attrs.modalUrl);
                   }
                   ngDialog.open({
                       template: $attrs.modalUrl,

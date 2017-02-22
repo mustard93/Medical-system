@@ -1,7 +1,7 @@
 <div class="woutstock-order"
      ajax-url="rest/authen/wInstockOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}&sourceOrderNo={{mainStatus.pageParams.sourceOrderNo}}"
      scope-data="showData"
-     callback="formData={};formData.id=showData.medicalStockId"
+     callback="initFlag=true;formData={};formData.id=showData.medicalStockId"
      alert-error>
      <!-- 头部信息 -->
      <div class="relative">
@@ -16,13 +16,7 @@
         <div class="pd-c-v-l">
           <div class="pos-rel-tl inline-block fl-l mgl-l">
             <h1 class="pr-font-20 color-black">采购入库单详情</h1>
-            <p class="mgt-l text-n color-3 text-bold"
-            ajax-url="rest/authen/arrivalNoticeOrder/get.json?orderNo={{urlInfo.search.orderNo}}"
-            scope-data="scopedata"
-            >
-              供应商：{{scopedata.supplier.name}}
-            </p>
-            <p class="mgt-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
+
           </div>
         </div>
         <!-- <div ng-if="showData.orderStatus=='未通过'"
@@ -35,6 +29,13 @@
 
      <!-- 主内容区域 -->
   <div class="content-wrapper">
+    <p class="mgb-l text-n color-3 text-bold"
+    ajax-url="rest/authen/arrivalNoticeOrder/get.json?orderNo={{urlInfo.search.orderNo}}"
+    scope-data="scopedata"
+    >
+      供应商：{{scopedata.supplier.name}}
+    </p>
+    <p class="mgb-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m ">
           <div class="flex-item-6">
@@ -44,7 +45,14 @@
           </div>
           <div class="flex-item-6 text-right">
             <span class="mgr">入库日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
-            <span class="mgr">状态：<em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">{{showData.orderStatus}}</em></span>
+            <!-- <span class="mgr">状态：<em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">{{showData.orderStatus}}</em></span> -->
+            <a ng-if="initFlag"
+               modal-center="1000px"
+               modal-data='{"businessKey":"{{showData.id}}"}'
+               modal-scope="this"
+               modal-url="views/workflowTask/getOfDialog.html">
+               <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+            </a>
           </div>
         </div>
 

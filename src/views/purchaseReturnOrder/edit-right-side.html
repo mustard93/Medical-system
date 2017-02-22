@@ -23,9 +23,9 @@
             <span class="pdb-m">参照来货通知单</span>
           </div>
           <div class="mgb">
-            <span angucomplete placeholder="输入"
+            <span angucomplete placeholder="来货通知单号"
                   title-field="orderNo"
-                  description-field="customerName"
+                  description-field="supplier.name"
                   search-fields=""
                   search-str-class="ipt"
                   url="rest/authen/arrivalNoticeOrder/query?orderStatus=已完成"
@@ -40,12 +40,12 @@
     <!-- 药械列表 -->
     <div class="pd-loss-l">
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
-        <div class="empty-panel" ng-if="!addDataObj">
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="empty-panel clearfix" ng-if="!addDataObj.orderMedicalNos.length">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
         </div>
-        <div class="" ng-if="addDataObj">
+        <div class="" ng-if="addDataObj.orderMedicalNos.length">
           <p class="flex-column mgb  pd bb-dashed-line">
             <span class="flex-item-7">
               单据编号：<em >{{addDataObj.orderNo || '暂无'}}</em>
@@ -64,9 +64,9 @@
             <span class="flex-item-12">
               部门：<em >{{addDataObj.salesDepartmentName || '暂无'}}</em>
               <em  class="mgl">制单人：</em><em class="color-orange">{{addDataObj.inputUser.n|| '暂无'}}</em>
-              <em  class="mgl">业务员：</em><em class="color-black">{{addDataObj.inputUser.n || '暂无'}}</em>
+              <em  class="mgl">业务员：</em><em class="color-black">{{addDataObj.saleUser.n || '暂无'}}</em>
               <em  class="mgl">业务类型：</em><em >{{addDataObj.orderBusinessType || '暂无'}}</em>
-              <em  class="mgl">采购类型：</em><em >{{addDataObj.salesType || '暂无'}}</em>
+              <em  class="mgl">采购类型：</em><em >{{addDataObj.purchaseType || '暂无'}}</em>
             </span>
           </p>
         </div>
@@ -144,11 +144,11 @@
                 </tr>
               </tbody>
             </table>
-          <div class="empty-table clearfix" ng-if="!addDataObj">
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-          </div>
+        </div>
+        <div class="empty-table clearfix" ng-if="!addDataObj.orderMedicalNos.length">
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
         </div>
       </div>
       <!-- 功能按钮 -->
