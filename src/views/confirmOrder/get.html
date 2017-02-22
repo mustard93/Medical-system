@@ -94,23 +94,23 @@
               </thead>
               <tbody>
                 <tr ng-repeat="item in scopeData.orderMedicalNos">
-                  <td class="text-center">{{item.code}}</td>
-                  <td>{{item.name}}</td>
-                  <td class="text-center">{{item.specificationAndModelType}}</td>
-                  <td class="text-center">{{item.unit}}</td>
-                  <td class="text-center">{{item.quantity}}</td>
-                  <td class="text-center">{{item.batchRequirement}}</td>
-                  <td class="text-center">{{item.productionBatch}}</td>
-                  <td class="text-center">{{item.sterilizationBatchNumber}}</td>
-                  <td class="text-right">{{item.price | currency:'￥'}}</td>
-                  <td class="text-right">{{item.taxRate}}%</td>
-                  <td class="text-right">￥{{item.discountPrice | number:2}}</td>
-                  <td class="text-right">{{item.discountRate | number:2}}%</td>
-                  <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>
-                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
-                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
-                  <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
-                  <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
+                  <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
+                  <td>{{item.name}}</td><!-- 商品全名 -->
+                  <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 数量 -->
+                  <td class="text-center">{{item.batchRequirement}}</td><!-- 批号要求 -->
+                  <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
+                  <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                  <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 报价 -->
+                  <td class="text-right">{{item.taxRate}}%</td><!-- 税率 -->
+                  <td class="text-right">￥{{item.discountPrice | number:2}}</td><!-- 折扣额 -->
+                  <td class="text-right">{{item.discountRate | number:2}}%</td><!-- 折扣率 -->
+                  <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td><!-- 含税单价 -->
+                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td><!-- 无税单价 -->
+                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td><!-- 无税金额 -->
+                  <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td><!-- 税额 -->
+                  <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td><!-- 价税合计 -->
 
                   <!-- <td class="text-center">￥{{item.price*(1-item.taxRate)-item.discountPrice | number:2}}</td>
                   <td class="text-center">￥{{item.price*(1-item.taxRate)*item.quantity | number:2}}</td>

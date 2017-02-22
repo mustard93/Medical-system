@@ -312,13 +312,13 @@ define('project/controllers', ['project/init'], function() {
       $scope.isShowCancelBtn = false;
 
       //监视数量大小
-      $scope.$watch('formData.orderMedicalNos', function (newVal) {
-        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
-          if (item.quantity > 100000) {
-            console.log('aaa');
-          }
-        });
-      });
+      // $scope.$watch('formData.orderMedicalNos', function (newVal) {
+      //   angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+      //     if (item.quantity > 100000) {
+      //       console.log('aaa');
+      //     }
+      //   });
+      // });
 
       $scope.$watch('initFlag', function (newVal) {
          //发送请求判断当前订单状态是否可显示关闭按钮
@@ -2958,9 +2958,9 @@ define('project/controllers', ['project/init'], function() {
   function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, requestData) {
 
     // 监视price价格变化，并赋值给strick_price字段
-    $scope.$watch('tr.price', function (newVal) {
-      $scope.tr.strike_price = newVal;
-    });
+    // $scope.$watch('tr.price', function (newVal) {
+    //   $scope.tr.strike_price = newVal;
+    // });
 
     $scope.$watch('tr.discountPrice', function (newVal) {
       if (isNaN(newVal)) {
