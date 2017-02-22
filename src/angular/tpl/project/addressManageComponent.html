@@ -15,7 +15,11 @@
            ng-class="{'addressComponent-active-bg':returnAddressObj.defaultContactId==tr.id}"
            ng-repeat="tr in returnAddressObj.contacts">
         <label ng-if="returnAddressObj.contacts.length>1" class="radio">
-          <input type="radio" class="default-radio" name="{{scopeDataPrefix}}" ng-checked="returnAddressObj.defaultContactId==tr.id" ng-click="choiseOtherItem(tr);$event.stopPropagation();"><i></i>
+          <input type="radio"
+                 class="default-radio"
+                 name="{{scopeDataPrefix}}"
+                 ng-checked="chkDefaultChoise(tr.id)"
+                 ng-click="choiseOtherItem(tr);$event.stopPropagation();"><i></i>
         </label>
         <span class="pdb mgr-s">{{tr.name}}</span>
         <span class="text-s mgr-s">{{tr.tel}}</span>

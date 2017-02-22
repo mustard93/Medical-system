@@ -1,4 +1,8 @@
-<div class="sales-order-details">
+<div class="sales-order-details"
+     ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback="initFlag=true;formData={};formData.id=showData.id"
+     alert-error>
   <!-- 头部信息 -->
   <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
     <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">销售中心 > <em class="color-custom-orange">购需单</em></p>
@@ -10,11 +14,7 @@
     </div>
   </div>
   <!-- 主内容区域 -->
-  <div class="content-wrapper"
-       ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
-       scope-data="showData"
-       callback="formData={};formData.id=showData.id"
-       alert-error>
+  <div class="content-wrapper">
     <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
       <!-- 单据信息 -->
       <div class="flex-column pd-c-m pdt-m pdb-m">
@@ -22,13 +22,23 @@
           <span class="mgr-m color-9">单据编号：<span class="color-6">{{showData.orderNo}}</span></span>
         </div>
         <div class="flex-item-8 text-right">
-          <span class="mgr-xl color-9">创建时间：<span class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</span></span>
-          <a modal-center="1000px"
+          <span class="mgr">录单日期：<em class="color-3">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
+          <a ng-if="initFlag"
+             modal-center="1000px"
              modal-data='{"businessKey":"{{showData.id}}"}'
              modal-scope="this"
              modal-url="views/workflowTask/getOfDialog.html">
-          <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+             <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
           </a>
+          <!-- <span class="mgr-xl color-9">创建时间：<em class="color-6">{{showData.createAt | date: 'yyyy-MM-dd HH:mm'}}</em></span>
+          <span class="mgr-xl color-9">状态：
+            <a ng-if="initFlag"
+               href="javascript:;"
+               modal-center="1000px"
+               modal-data='{"businessKey":"{{showData.id}}"}'
+               modal-scope="this"
+               modal-url="views/workflowTask/getOfDialog.html">{{showData.orderStatus}}</a>
+          </span> -->
         </div>
       </div>
       <!-- 未处理药械清单 -->
@@ -118,15 +128,15 @@
       </div>
     </div>
     <!-- 备注 -->
-    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height">
       <h1 class="text-bold color-3">备注</h1>
       <p>{{showData.note}}</p>
     </div>
     <!-- 已生成销售单部分 -->
     <table-list ng-if="formData.id" list-data="rest/authen/confirmOrder/getListByRelId.json?relId={{formData.id}}">
-      <h1 class="mgb pdb text-n text-bold">已生成销售单部分</h1>
-      <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-        <header class="text-n color-3 flex-column">
+      <h1 class="pdb-m color-3 text-n text-bold">已生成销售单部分</h1>
+      <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height clearfix" style="padding-bottom: 0;">
+        <header class="text-n color-3 flex-column mgb-m">
           <span class="flex-item-11">
             <div class=" color-9 text-s">
               <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
@@ -141,7 +151,7 @@
             <a href="javascript:;" class="fa fa-chevron-down" toggle-panel style="float:right"></a>
           </span>
         </header>
-        <div class="panel-body" style="display:none;padding:15px 0;margin:0 -20px;">
+        <div class="panel-body" style="display:none; margin:0 -20px; padding: 0;">
           <table class="table pr-table pr-new-table">
             <thead>
               <tr>
