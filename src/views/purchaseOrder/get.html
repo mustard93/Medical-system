@@ -27,12 +27,13 @@
       <div class="pd-c-xxl pdt-l pdb-l clearfix">
         <div class="pos-rel-tl inline-block fl-l">
           <h1 class="pr-font-20 color-black">采购单详情</h1>
-          <p class="mgt-l text-n color-3 text-bold">{{scopeData.supplier.name}}</p>
+
         </div>
       </div>
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
+      <p class="mgb-l text-n color-3 text-bold">{{scopeData.supplier.name}}</p>
       <div ng-if="scopeData.orderStatus=='未通过'||scopeData.orderStatus=='已作废'"
        class="pr-panel pr-panel-height mgb pr-bg-pink">
       <em class="color-red">原因:</em>
@@ -103,75 +104,25 @@
                     salesorder-edit-show-delbtn
                     ng-init="orderMedicalNoIds.push(tr.relId)"
                     ng-controller="purchaseOrderEditCtrl">
-                  <td class="text-center">{{tr.code}}</td>
-                  <td class="text-left">
-                    <div class="autocut-l" title="{{tr.name}}">
-                        {{tr.name}}
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    {{tr.specificationAndModelType}}
-                  </td>
-                  <td class="text-center">
-                    {{tr.unit}}
-                  </td>
-                  <td  class="text-right">
-                    {{tr.quantity || '0'}}
-                  </td>
-                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right"
-                  >
-                    <!-- ng-class="{'pr-bg-orange3':tr.quantity!=tr.storageQuantity}" -->
-                    {{tr.storageQuantity || '0'}}
-                  </td>
-                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right"
-                  >
-                    <!-- ng-class="{'pr-bg-orange3':tr.quantity!=tr.storageQuantity}" -->
-                      {{tr.otherQuantity || '0'}}
-                  </td>
-                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right"
-                  >
-                    <!-- ng-class="{'pr-bg-orange3':tr.quantity!=tr.storageQuantity}" -->
-                     {{tr.refuseQuantity || '0'}}
-                  </td>
-
-
-                  <td class="text-center">
-                    {{tr.batchRequirement}}
-                  </td>
-                  <td class="text-right">
-                    ￥{{tr.price || '0'  | number:2}}
-                  </td>
-                  <td class="text-right">
-                    ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
-                  </td>
-                  <td class="text-right">
-                    ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
-                  </td>
-                  <td class="text-right">
-                    ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr)*tr.taxRate/100 | number:2}}
-                  </td>
-                  <td class="text-right">
-                    ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
-                  </td>
-                  <td class="text-right" >
-                    {{tr.taxRate}}%
-                  </td>
-                  <td class="text-center">
-                    {{tr.storedTemperature}}
-                    <!-- 保存温度 -->
-                  </td>
-                  <td class="text-center">
-                    {{tr.brand}}
-                  </td>
-
-                  <td class="text-center">
-                  {{tr.drugAdministrationCode}}
-                  </td>
-
-                  <td class="text-center relative">
-                    {{tr.drugAdministrationCodeGuaranteePeriod}}
-
-                  </td>
+                  <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
+                  <td class="text-left"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
+                  <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                  <td  class="text-right">{{tr.quantity || '0'}}</td><!-- 数量 -->
+                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.storageQuantity || '0'}}</td><!-- 计划数量 -->
+                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
+                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.refuseQuantity || '0'}}</td><!-- 其他数量 -->
+                  <td class="text-center">{{tr.batchRequirement}}</td><!-- 批号要求 -->
+                  <td class="text-right">￥{{tr.strike_price || '0'  | number:2}}</td><!-- 原币含税单价 -->
+                  <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td><!-- 原币单价 -->
+                  <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td><!-- 原币金额 -->
+                  <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr)*tr.taxRate/100 | number:2}}</td><!-- 原币税额 -->
+                  <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td><!-- 原币价税合计 -->
+                  <td class="text-right" >{{tr.taxRate}}%</td><!-- 税率 -->
+                  <td class="text-center">{{tr.storedTemperature}}</td><!-- 保存温度 -->
+                  <td class="text-center">{{tr.brand}}</td><!-- 产地品牌 -->
+                  <td class="text-center">{{tr.drugAdministrationCode}}</td><!-- 产品注册证号 -->
+                  <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}</td><!-- 产品注册证有效期 -->
                 </tr>
               </tbody>
             </table>

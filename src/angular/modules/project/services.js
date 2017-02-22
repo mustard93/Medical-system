@@ -519,7 +519,7 @@ define('project/services', ['project/init'], function () {
               // if(!item.discountRate)return 0;
               var tmp;
               tmp = utils.numberDiv(item.discountRate, 100);
-              tmp = utils.numberMul(item.price, tmp);
+              tmp = utils.numberMul(item.strike_price, tmp);
               return tmp;
             },
             //无税单价  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
@@ -604,7 +604,7 @@ define('project/services', ['project/init'], function () {
               var tmp;
               tmp = utils.numberDiv(item.taxRate,100);
               tmp = 1 + tmp;
-              tmp = utils.numberDiv(item.price,tmp);
+              tmp = utils.numberDiv(item.strike_price,tmp);
               return tmp;
             },
             //原币金额（无税金额） item.price*(1-item.taxRate)*item.quantity
@@ -621,7 +621,7 @@ define('project/services', ['project/init'], function () {
               //item.purchasePrice*item.quantity
               // var tmp=utils.numberMul(item.taxPrice,item.quantity);
               var tmp;
-              tmp = utils.numberMul(item.price, item.quantity);
+              tmp = utils.numberMul(item.strike_price, item.quantity);
               return tmp;
             }
           };//tmpObj
