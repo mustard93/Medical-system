@@ -5,9 +5,11 @@
 
           <form class="add-medical-form form-horizontal"
                 action="rest/authen/medicalStock/save"
-                    parameter-body
-                  scope-data="formData" alert-error alert-ok
-                form-validator>
+                parameter-body
+                scope-data="formData" alert-error alert-ok
+                form-validator
+                callback="$root.reloadTime=$root.utils.getNowTime();"
+                >
             <div class="modal-header">
                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
                 <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}药械</h4>
