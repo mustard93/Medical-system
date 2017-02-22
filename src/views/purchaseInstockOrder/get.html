@@ -1,7 +1,7 @@
 <div class="woutstock-order"
      ajax-url="rest/authen/wInstockOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}&sourceOrderNo={{mainStatus.pageParams.sourceOrderNo}}"
      scope-data="showData"
-     callback="formData={};formData.id=showData.medicalStockId"
+     callback="initFlag=true;formData={};formData.id=showData.medicalStockId"
      alert-error>
      <!-- 头部信息 -->
      <div class="relative">
@@ -44,7 +44,14 @@
           </div>
           <div class="flex-item-6 text-right">
             <span class="mgr">入库日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
-            <span class="mgr">状态：<em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">{{showData.orderStatus}}</em></span>
+            <!-- <span class="mgr">状态：<em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">{{showData.orderStatus}}</em></span> -->
+            <a ng-if="initFlag"
+               modal-center="1000px"
+               modal-data='{"businessKey":"{{showData.id}}"}'
+               modal-scope="this"
+               modal-url="views/workflowTask/getOfDialog.html">
+               <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+            </a>
           </div>
         </div>
 
