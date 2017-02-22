@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_firstEnterpriseApplication(formData);"
+     callback="initFlag=true;watchFormChange('formData');"
      alert-error
      ng-init="formData.validFlag=false">
      <div class="header-info relative mgb-l">
@@ -314,62 +314,62 @@
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">
-            <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'" class="inline-block">
-                    <span bottom-button-list="bottomButtonList">  </span>
-                    <span>
-                      <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus!='已冻结'&&showData.orderStatus!='已终止'">
-                        <button class="btn-freeze mgl-l"
-                                type="button"
-                                modal-center="490"
-                                modal-scope="this"
-                                modal-data='{"title":"确认",
-                                             "content":"冻结后，该企业资格将被暂停，直到解冻，确认冻结?",
-                                             "btnConfirm":"确定",
-                                             "btnCancel":"取消",
-                                             "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
-                                             "goUrl":"",
-                                             "id":"{{showData.id}}",
-                                             "status":"已冻结"
-                                            }'
-                                modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
-                        </button>
-                      </span>
-                      <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus=='已冻结'">
-                        <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
-                                type="button"
-                                modal-center="490"
-                                modal-scope="this"
-                                modal-data='{"title":"确认解冻?",
-                                             "content":"解冻后，该企业资格将恢复，确认解冻?",
-                                             "btnConfirm":"确定",
-                                             "btnCancel":"取消",
-                                             "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
-                                             "goUrl":"",
-                                             "id":"{{showData.id}}",
-                                             "status":"解冻"
-                                            }'
-                                modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
-                        </button>
-                      </span>
-                      <span class="line-hei-36" ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus!='已终止'">
-                        <button class="btn-reject mgl mgt color-white text-center"
-                                type="button"
-                                handle-this-click
-                                dialog-title="确认终止?"
-                                dialog-content="终止后，该企业资格将被取消，确定终止?"
-                                dialog-template="pr-dialog-submit.html"
-                                request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
-                                params='{"id":showData.id,"status":"已终止"}'
-                                alert-error
-                                callback="$root.utils.refreshHref()"
-                                >终止
-                        </button>
-                      </span>
+              <!-- <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'" class="inline-block">
+                      <span bottom-button-list="bottomButtonList">  </span>
+                      <span>
+                        <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus!='已冻结'&&showData.orderStatus!='已终止'">
+                          <button class="btn-freeze mgl-l"
+                                  type="button"
+                                  modal-center="350"
+                                  modal-scope="this"
+                                  modal-data='{"title":"确认",
+                                               "content":"冻结后，该企业资格将被暂停，直到解冻，确认冻结?",
+                                               "btnConfirm":"确定",
+                                               "btnCancel":"取消",
+                                               "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
+                                               "goUrl":"",
+                                               "id":"{{showData.id}}",
+                                               "status":"已冻结"
+                                              }'
+                                  modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
+                          </button>
+                        </span>
+                        <span ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus=='已冻结'">
+                          <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
+                                  type="button"
+                                  modal-center="350"
+                                  modal-scope="this"
+                                  modal-data='{"title":"确认解冻?",
+                                               "content":"解冻后，该企业资格将恢复，确认解冻?",
+                                               "btnConfirm":"确定",
+                                               "btnCancel":"取消",
+                                               "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
+                                               "goUrl":"",
+                                               "id":"{{showData.id}}",
+                                               "status":"解冻"
+                                              }'
+                                  modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
+                          </button>
+                        </span>
+                        <span class="line-hei-36" ng-if="$root.hasAuthor('首营企业维护')&&showData.orderStatus!='已终止'">
+                          <button class="btn-reject mgl mgt color-white text-center"
+                                  type="button"
+                                  handle-this-click
+                                  dialog-title="确认终止?"
+                                  dialog-content="终止后，该企业资格将被取消，确定终止?"
+                                  dialog-template="pr-dialog-submit.html"
+                                  request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
+                                  params='{"id":showData.id,"status":"已终止"}'
+                                  alert-error
+                                  callback="$root.utils.refreshHref()"
+                                  >终止
+                          </button>
+                        </span>
 
-                    </span>
-            </div>
+                      </span>
+              </div> -->
 
-            <span class="mgl" ng-if="formData.orderStatus=='未提交'">
+            <span class="mgl" >
               <a ng-if="changeFlag"  href="javascript:;"
                  handle-this-click
                  dialog-title="确认返回?"
@@ -378,7 +378,6 @@
                  nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
                  save-callback="submitForm('editForm','exit');
                  $root.goTo('#/firstEnterpriseApplication/query.html')">返回申请单列表</a>
-
               <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
             </span>
             <span class="mgl">

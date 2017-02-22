@@ -179,6 +179,32 @@ define('project/services', ['project/init'], function () {
                         return arr;
                       }//get_firstEnterpriseApplication
 
+                    //获取品种信息管理菜单定义
+                      ,get_medicalStock:function(showData){
+
+                        var arr=[];
+                        //aclass ：样式，ahref：连接，showName：显示名
+                        var bottomButton={"aclass":"","ahref":"#/medicalStock/query.html","showName":"返回品种信息列表"};
+                      if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                        bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
+                        "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
+                        "httpMethod":"GET",
+                        "ahref":"views/versionFlow/get-right-side.html?businessKey="+showData.id,
+                        "showName":"查看操作记录"};
+
+                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                        // if(showData){
+                        //   bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                        //     "ahref":Config.serverPath+"rest/authen/firstMedicalApplication/exportWord?id="+showData.id,
+                        //     "showName":"打印"};
+                        //   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                        // }
+
+                        return arr;
+                      }//get_firstEnterpriseApplication
+
 
                       //获取医院资格声请菜单定义
                         ,get_hospitalApplication:function(showData){

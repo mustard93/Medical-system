@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_firstMedicalApplication(formData);"
+     callback="initFlag=true;watchFormChange('formData');"
      alert-error>
 
      <div class="header-info relative mgb-l">
@@ -443,23 +443,13 @@
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">
-            <div ng-if="(!formData.didateFilter.buttons.length>0) && formData.orderStatus!='未提交'" class="inline-block">
-                    <!-- <span>
-                      <a class="mgl mgt"
-                         ng-if="formData.orderStatus=='未通过'"
-                         ng-href="#/firstMedicalApplication/edit.html?copyId={{formData.id}}">新建</a>
-                    </span> -->
+            <!-- <div ng-if="(!formData.didateFilter.buttons.length>0) && formData.orderStatus!='未提交'" class="inline-block">
                     <span bottom-button-list="bottomButtonList">  </span>
                     <span>
-                      <!-- <span ng-if="$root.hasAuthor('首营品种维护')&&formData.orderStatus=='已通过' ||formData.orderStatus=='已冻结'">
-                        <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
-                            ng-href="#/firstMedicalApplication/edit.html?id={{formData.id}}"
-                           >编辑</a>
-                      </span> -->
                       <span ng-if="$root.hasAuthor('首营品种维护')&&formData.orderStatus!='已冻结'&&formData.orderStatus!='已终止'">
                         <button class="btn-freeze mgl-l"
                                 type="button"
-                                modal-center="490"
+                                modal-center="350"
                                 modal-scope="this"
                                 modal-data='{"title":"确认",
                                              "content":"冻结后，该品种资格将被暂停，直到解冻，确认冻结?",
@@ -476,7 +466,7 @@
                       <span ng-if="$root.hasAuthor('首营品种维护')&&formData.orderStatus=='已冻结'">
                         <button class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg mgl-l"
                                 type="button"
-                                modal-center="490"
+                                modal-center="350"
                                 modal-scope="this"
                                 modal-data='{"title":"确认解冻?",
                                              "content":"解冻后，该品种资格将恢复，确认解冻?",
@@ -505,8 +495,8 @@
                         </button>
                       </span>
                     </span>
-            </div>
-            <span class="mgl"  ng-if="formData.orderStatus=='未提交'">
+            </div> -->
+            <span class="mgl">
               <a ng-if="changeFlag"  href="javascript:;"
                  handle-this-click
                  dialog-title="确认返回?"
