@@ -3539,7 +3539,6 @@ define('project/controllers', ['project/init'], function() {
         $scope.expressInfoArray.push(_tmpObj);
       });
     });
-
   }
 
   /**

@@ -191,7 +191,7 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+          <!-- <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
              handle-this-click
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
@@ -199,6 +199,16 @@
              nosave-callback="goTo('#/purchaseReturnOrder/query.html')"
              save-callback="submitForm('editForm','exit');
              $root.goTo('#/purchaseReturnOrder/query.html')">返回采购退货单列表
+          </a> -->
+          <a
+           ng-if="changeFlag"
+          href="javascript:;"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="有修改数据还未保存，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo('#/purchaseReturnOrder/query.html')"
+             save-callback="submitForm('editForm','exit')">返回采购退货单列表
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/purchaseReturnOrder/query.html" >返回采购退货单列表</a>
@@ -212,8 +222,6 @@
              request-url="rest/authen/purchaseReturnOrder/delete?id={{formData.id}}"
              callback="$root.goTo('#/purchaseReturnOrder/query.html')">删除
           </a>
-
-
           <button type="submit"
                   class="pr-btn-save-glodbg mgr-l"
                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();"
