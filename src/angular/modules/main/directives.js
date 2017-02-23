@@ -1760,9 +1760,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             $elem[0].checked = true;
                         }
                     }
-                })
+                });
             }
-        }
+        };
     }
 
     /**
@@ -1995,7 +1995,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     }
 
                     function handleSearch(q) {
-
                       if ($attrs.params) {
                           if ($attrs.params.indexOf("{") === 0) {
                                 _params = $scope.$eval($attrs.params);
