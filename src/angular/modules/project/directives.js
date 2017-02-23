@@ -1692,6 +1692,27 @@ function hospitalPurchaseComeinEdit () {
     }
   };
 }
+function saleOutStockKuaDi () {
+  return {
+    restrict: 'A',
+    scope: {},
+    link: function ($scope, $element, $attrs) {
+
+      $($element).mouseenter(function (e) {
+        console.log($(this).children('ul').children('li').length);
+
+        $(this).children('span').css({
+           "display": "block"
+         });
+      });
+      $($element).mouseleave(function (e) {
+        $(this).children('span').css({
+           "display": "none"
+         });
+      });
+    }
+  };
+}
 
 // 库存明细模块，鼠标移入高亮并显示两个按钮
 /**
@@ -2884,21 +2905,6 @@ function requestExpressInfoTab (requestData, alertError) {
 
         //显示当前列表
         $('#tabContent' + attrs.id).removeClass('pr-dpy-none');
-
-        //请求数据
-        // var _url = 'rest/index/kuaidi/query2.json?type=' + attrs.expressType + '&nu=' + attrs.expressNu;
-        // requestData(_url, {}, 'get')
-        // .then(function (results) {
-        //   var _data = results[1];
-        //   if (_data.code === 200) {
-        //     // console.log(scope.expressInfoList);
-        //   }
-        // })
-        // .catch(function (error) {
-        //   if (error) {
-        //     alertError(error || '请求物流信息出错...');
-        //   }
-        // });
       });
     }
   };
@@ -2929,6 +2935,7 @@ angular.module('manageApp.project')
   .directive("salesorderEditShowDelbtn", [salesorderEditShowDelbtn])
   .directive("handleTextOverflow", [handleTextOverflow])  // 卡片式列表页面内容超出范围的处理(动态宽度)
   .directive("hospitalPurchaseComeinEdit", [hospitalPurchaseComeinEdit])  //医院采购目录点击进入编辑模式事件处理
+  .directive("saleOutStockKuaDi", [saleOutStockKuaDi])  //销售出库单快递侧边栏显示
   .directive("lodopFuncs", ["modal","utils",lodopFuncs])//打印组件
   .directive("canvasBusinessFlow", ["modal","utils",canvasBusinessFlow])//业务单流程图形展示-canvas
   .directive("businessFlowShow", [businessFlowShow])//业务单流程展示
