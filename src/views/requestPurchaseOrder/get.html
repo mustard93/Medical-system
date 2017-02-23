@@ -69,15 +69,13 @@
                    <th class="text-center">数量</th>
                    <th class="text-center w-110">批号要求</th>
                    <th class="text-center">原币含税单价</th>
-                   <th class="text-center">税率</th>
                    <th class="text-center">原币单价</th>
                    <th class="text-center">原币金额</th>
                    <th class="text-center">原币价税合计</th>
-                   <th class="text-center">保存温度</th>
+                   <th class="text-center">税率</th>
                    <th class="text-center">产地品牌</th>
                    <th class="text-center">产品注册证号</th>
                    <th class="text-center">产品注册证有效期</th>
-                   <th class="text-center">合同号</th>
                  </tr>
                  </thead>
                  <tbody class="bg-white"
@@ -110,9 +108,6 @@
                      </td>
                      <td class="text-center">￥
                       {{tr.price}}
-                     <td class="text-right" ng-init="tr.taxRate=17">
-                       {{tr.taxRate}}%
-                     </td>
                      <td class="text-right">
                        ￥{{$root.requestPurchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
                      </td>
@@ -122,10 +117,8 @@
                      <td class="text-right">
                        ￥{{$root.requestPurchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
                      </td>
-
-                     <td class="text-center">
-                       {{tr.storedTemperature}}
-                       <!-- 保存温度 -->
+                     <td class="text-right" ng-init="tr.taxRate=17">
+                       {{tr.taxRate}}%
                      </td>
                      <td class="text-center">
                        {{tr.brand}}
@@ -138,9 +131,6 @@
                      <td class="text-center relative">
                        {{tr.drugAdministrationCodeGuaranteePeriod}}
 
-                     </td>
-                     <td class="text-center">
-                        {{tr.contractNo}}
                      </td>
                    </tr>
                  </tbody>
