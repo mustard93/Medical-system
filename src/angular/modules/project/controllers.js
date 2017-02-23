@@ -3546,7 +3546,6 @@ define('project/controllers', ['project/init'], function() {
       });
     });
 
-    // console.log($scope.expressInfoArray);
   }
 
   /**

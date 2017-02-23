@@ -1,17 +1,29 @@
 <div ng-controller="getAllExpressController" class="express-dialog-info-details right-side-new">
   <!-- 头部标题 -->
   <div class="page-heading">
-      <h1 class="color-white pr-font-14">物流详细信息</h1>
+      <h1 class="color-yellow1 pr-font-14">物流详细信息</h1>
   </div>
   <!-- 主内容区域 -->
   <div class="page-content">
     <!-- tab导航 -->
+
       <div class="tab-heading">
-        <ul>
-          <li ng-repeat="t in dialogData.kuaidiSet">
-            <a request-express-info-tab id="{{$index+1}}" express-type="{{t.type}}" express-nu="{{t.nu}}" href="javascript:;" ng-class="{'active':t.nu==dialogData.nu}">快递{{$index+1}}</a>
-          </li>
-        </ul>
+        <div class="outside-heading"
+        sale-out-stock-kua-di
+        ulList='{{dialogData.kuaidiSet}}'
+        >
+            <span class="button-left" style="line-height:41px;text-align:center;">
+              ◀
+            </span>
+          <ul>
+            <li ng-repeat="t in dialogData.kuaidiSet">
+              <a request-express-info-tab id="{{$index+1}}" express-type="{{t.type}}" express-nu="{{t.nu}}" href="javascript:;" ng-class="{'active':t.nu==dialogData.nu}">快递{{$index+1}}</a>
+            </li>
+          </ul>
+          <span class="button-right" style="line-height:41px;text-align:center;">
+            ▶
+          </span>
+        </div>
       </div>
     <!-- tab主内容区域 -->
     <div class="tab-content"
@@ -25,8 +37,8 @@
       </ul>
       <!-- 物流单号信息 -->
       <p class="exp-bill-info mgt-xl">
-        <span class="mgr-xl">物流公司：<em class="color-3">{{con.type}}</em></span>
-        <span>快递单号：<em class="color-3">{{con.nu}}</em></span>
+        <span class="mgr-xl color-gray2">物流公司：<em class="color-yellow1">{{con.type}}</em></span>
+        <span class="color-gray2">快递单号：<em class="color-yellow1">{{con.nu}}</em></span>
       </p>
     </div>
   </div>
