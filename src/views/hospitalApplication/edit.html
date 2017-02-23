@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/hospitalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
+     callback="initFlag=true;watchFormChange('formData');setDefaultLevelAndGrade(formData.id)"
      alert-error
      ng-init="formData.validFlag=false">
 
@@ -128,7 +128,7 @@
                 <div class="form-group">
                   <label for="" class="col-sm-2 control-label">级别：</label>
                   <div class="col-sm-2">
-                    <select class="form-control"
+                    <select ng-if="initFlag" class="form-control"
                             ng-model="formData.hospital.level"
                             name="level"
                             chosen
@@ -138,7 +138,7 @@
                   </div>
                   <label for="" class="col-sm-2 control-label">等级：</label>
                   <div class="col-sm-2">
-                    <select id="hospitalGrade"
+                    <select ng-if="initFlag" id="hospitalGrade"
                             class="form-control"
                             name="grade"
                             ng-model="formData.hospital.grade"
