@@ -1159,7 +1159,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             var data = results[0];
                             $scope.treeList = buildTree(data,$attrs.pidKey);
 
-                            console.log($scope.treeList);
+                            // console.log($scope.treeList);
                             $scope.status.isLoading = false;
                             if (isFirstLoad && angular.isDefined($attrs.selectFirst)) {
                                 isFirstLoad = false;
