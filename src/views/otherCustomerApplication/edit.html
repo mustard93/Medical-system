@@ -205,7 +205,14 @@
                 <label for="" class="col-sm-2 control-label">收货员/身份证号：</label>
                 <div class="col-sm-6 flex-column">
                   <input type="text" class="form-control flex-item-3" ng-model="formData.customer.consignee">
-                  <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.consigneeIdentityNo">
+                  <!-- <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.consigneeIdentityNo"> -->
+                  <input type="text"
+                         name="consigneeIdentityNo"
+                         class="form-control flex-item-8 flex-offset-1"
+                         ng-model="formData.customer.consigneeIdentityNo"
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!otherCustomerEditForm.consigneeIdentityNo.$valid}}" />
                 </div>
               </div>
             </div>
@@ -223,7 +230,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">E-mail：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.customer.consigneeEmail">
+                  <input type="text"
+                         class="form-control"
+                         name="consigneeEmail"
+                         ng-model="formData.customer.consigneeEmail"
+                         ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
+                         data-content="Email格式有误!"
+                         invalid-popover="{{!otherCustomerEditForm.consigneeEmail.$valid}}" />
                 </div>
               </div>
             </div>
@@ -238,7 +251,14 @@
                 <label for="" class="col-sm-2 control-label">采购员/身份证号：</label>
                 <div class="col-sm-6 flex-column">
                   <input type="text" class="form-control flex-item-3" ng-model="formData.customer.purchaser">
-                  <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.purchaserIdentityNo">
+                  <!-- <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.purchaserIdentityNo"> -->
+                  <input type="text"
+                         name="purchaserIdentityNo"
+                         class="form-control flex-item-8 flex-offset-1"
+                         ng-model="formData.customer.purchaserIdentityNo"
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!otherCustomerEditForm.purchaserIdentityNo.$valid}}" />
                 </div>
               </div>
             </div>
@@ -256,7 +276,13 @@
               <div class="form-group">
                 <label for="" class="col-sm-2 control-label">E-mail：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" ng-model="formData.customer.purchaserEmail">
+                  <input type="text"
+                         class="form-control"
+                         name="purchaserEmail"
+                         ng-model="formData.customer.purchaserEmail"
+                         ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
+                         data-content="Email格式有误!"
+                         invalid-popover="{{!otherCustomerEditForm.purchaserEmail.$valid}}" />
                 </div>
               </div>
             </div>
