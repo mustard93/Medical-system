@@ -2836,7 +2836,6 @@ define('project/controllers', ['project/init'], function() {
 
       //医院采购目录增加采购目录有效期设置
       $scope.$watch('listParams.guaranteePeriod', function (newVal) {
-
         if (newVal === undefined) {
           return;
         }
@@ -2852,6 +2851,13 @@ define('project/controllers', ['project/init'], function() {
             alertError(error || '出错');
           }
         });
+      });
+
+      // 监视用户是否更改是否基药选项，如果更改为非基药，将非基药价格重置为0
+      $scope.$watch('formData.firstMedical.isBasicMedicine', function (newVal) {
+        if (newVal === '否') {
+          $scope.formData.firstMedical.quoteprice = 0;
+        }
       });
     }
 
