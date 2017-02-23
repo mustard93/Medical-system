@@ -24,29 +24,25 @@
         ng-init="formData.type='批次冻结'">
         <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
     <!-- 头部信息 -->
-    <div class="relative">
-      <div class="pd-l">
-        <!-- 标题 -->
-        <div class="mgb-m">
-          <p class="mgb-m crumbs pr-indent-20">库存管理 >
-            <a href="#/freezeThawOrder/query-freeze.html">
-              <em class="color-custom-orange">批次冻结单</em>
-            </a>
-
-            > 新建批次冻结申请单</p>
-          <h1 class="pr-font-22 color-black">新建批次冻结申请单</h1>
-          <div class="mgt-l">
-              <select class="pr-select select-wd"
-               chosen
-                ng-model="formData.warehouseCode"
-                default-empty="仓库名"
-                select-source="rest/authen/warehouse/queryForSelectOption">
-              </select>
-          </div>
-
-        </div>
-
-      </div>
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xl">库存管理 >
+         <a href="#/freezeThawOrder/query-freeze.html"><em class="color-custom-orange">批次冻结单</em></a>
+       <em>>新建批次冻结申请单</em>
+      </p>
+      <div class="pd-c-xl pdt-l pdb-l">
+       <!-- 标题 -->
+       <div class="">
+         <h1 class="color-black pr-font-20">新建批次冻结申请单</h1>
+         <div class="mgt-l">
+           <select class="pr-select select-wd"
+            chosen
+             ng-model="formData.warehouseCode"
+             default-empty="仓库名"
+             select-source="rest/authen/warehouse/queryForSelectOption">
+           </select>
+         </div>
+       </div>
+     </div>
     </div>
     <!-- 药械列表 -->
     <div class="pd-loss-l">
@@ -60,50 +56,30 @@
 
         <!-- 列表 -->
         <div>
-          <div class="flex-column mgb ">
-            <div class="flex-item-9">
-              <span class="flex-item-2 pd">
-                  单据编号：<em >{{formData.orderNo || '暂无'}}</em>
-              </span>
-              <div class="pd-v-s flex-item-4 ">
-                <div class="flex-item-6">
-                  <span >部门</span>
-                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                          data-placeholder=" "
-                          chosen
-                          ng-model="formData.departmentId"
-                          select-source="rest/authen/department/queryForSelectOption">
-                  </select>
-                </div>
-                <div class="flex-item-6 text-left">
-                  <span >申请人</span>
-                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                          data-placeholder=" "
-                          chosen
-                          ng-model="formData.saleUserId"
-                          select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
-                  </select>
-                </div>
-
-              </div>
-
-                <span class="flex-item-4  pd">
-                  <!-- 单据编号：<em >{{formData.orderNo || '暂无'}}</em> -->
-                  <em  class="mgl">制单人：</em>
-                  <em ng-class="{'color-black':formData.inputUser.n}">{{formData.inputUser.n|| '暂无'}}</em>
-                  <em  class="mgl">审批人：</em>
-                  <em ng-class="{'color-black':formData.approverUser}">
-                    {{formData.approverUser.n || '暂无'}}</em>
-                </span>
+          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line">
+            <div class="flex-item-6">
+              <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+              <span >部门</span>
+              <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                      data-placeholder=" "
+                      chosen
+                      ng-model="formData.departmentId"
+                      select-source="rest/authen/department/queryForSelectOption">
+              </select>
+              <span >申请人</span>
+              <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
+                      data-placeholder=" "
+                      chosen
+                      ng-model="formData.saleUserId"
+                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
+              </select>
+              <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || mainStatus.name}}</em></span>
+              <span class="mgr">审批人：<em class="color-3"> {{formData.approverUser.n || '暂无'}}</em></span>
             </div>
-
-            <div class="flex-item-3">
-              <span class="flex-item-7 text-right pd">
-                申请日期：<em >{{formData.createAt ||'暂无' | date : 'yyyy-MM-dd'}}</em>
-              </span>
-              <span class="flex-item-5 text-right pd">状态：<em>{{formData.orderStatus}}</em></span>
+            <div class="flex-item-6 text-right">
+              <span class="mgr">申请日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+              <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
             </div>
-
           </div>
 
           <div>
