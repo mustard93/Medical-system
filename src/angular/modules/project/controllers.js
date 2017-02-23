@@ -2853,6 +2853,11 @@ define('project/controllers', ['project/init'], function() {
           }
         });
       });
+
+      //....
+      $scope.setDefaultLevelAndGrade = function (_id) {
+        console.log(_id);
+      };
     }
 
   /**
