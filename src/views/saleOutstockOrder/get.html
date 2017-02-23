@@ -7,7 +7,7 @@
      <!-- 头部信息 -->
     <div class="relative">
      <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-       <p class="pdb-s pdt-s crumbs pd-c-xl pr-indent-20">库存管理 >
+       <p class="pdb-s pdt-s crumbs pd-c-xl">库存管理 >
          <a href="#/confirmOrder/query.html">
             <em class="color-custom-orange">销售单</em>
          </a>
@@ -15,16 +15,16 @@
        </p>
        <!-- 标题 -->
        <div class="pd-c-v-l">
-         <div class="pos-rel-tl inline-block fl-l mgl-l">
+         <div class="pos-rel-tl inline-block fl-l">
            <h1 class="pr-font-20 color-black">销售出库单详情</h1>
-           <p class="mgt-l text-n color-3 text-bold">客户：{{showData.customerName}}</p>
-           <p class="mgt-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
          </div>
        </div>
      </div>
    </div>
      <!-- 主内容区域 -->
      <div class="content-wrapper">
+       <p class="mgb-l text-n color-3 text-bold">客户：{{showData.customerName}}</p>
+       <p class="mgb-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
 
          <div class="flex-column color-9 pd-c-l pdt-m pdb-m ">
@@ -60,6 +60,9 @@
                     <th class="text-center">出库数量</th>
                     <th class="text-center">差异数量</th>
                     <th class="text-center">其他数量</th>
+                    <th class="text-center">含税单价</th>
+                    <th class="text-center">含税金额</th>
+                    <th class="text-center">税率</th>
                     <th class="text-center">生产批号</th>
                     <th class="text-center">灭菌批号</th>
                     <th class="text-center">生产日期</th>
@@ -82,6 +85,15 @@
                     <td  class="text-right">{{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}</td>
                     <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
                     <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td>
+                    <td class="text-right">
+                      ￥{{tr.price}}
+                    </td>
+                    <td class="text-right" >
+                      ￥{{(tr.price*tr.outgoingQuantity).toFixed(2)}}
+                    </td>
+                    <td class="text-right">
+                    {{tr.taxRate}}%
+                    </td>
                     <td class="text-center">{{tr.productionBatch}}</td>
                     <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
                     <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
@@ -112,7 +124,7 @@
        <h1 class="pd-v-m mgl-x-l">物流信息</h1>
        <div class="woutstock-order-express">
          <ul class="clearfix mgl-mxx-l">
-           <li class="express-list" ng-repeat="item in showData.kuaidiSet">
+           <li class="express-list bt-line" ng-repeat="item in showData.kuaidiSet">
              <div class="flex-column pd-v-s bb-line">
                <div class="flex-item-9 text-center" style="margin-top:3px;">{{item.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</div>
                <div class="flex-item-3 text-right pdt-s relative">

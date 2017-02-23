@@ -57,6 +57,9 @@
                         <th class="text-center">出库数量</th>
                         <th class="text-center">差异数量</th>
                         <th class="text-center">其他数量</th>
+                        <th class="text-center">含税单价</th>
+                        <th class="text-center">含税金额</th>
+                        <th class="text-center">税率</th>
                         <th class="text-center">生产批号</th>
                         <th class="text-center">灭菌批号</th>
                         <th class="text-center">生产日期</th>
@@ -95,6 +98,15 @@
                         </td>
                         <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
                         <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td>
+                        <td class="text-right">
+                          ￥{{tr.price}}
+                        </td>
+                        <td class="text-right" >
+                          ￥{{(tr.price*tr.outgoingQuantity).toFixed(2)}}
+                        </td>
+                        <td class="text-right">
+                        {{tr.taxRate}}%
+                        </td>
                         <td class="text-center">
                           <!-- 生产批号 -->
                         {{tr.productionBatch}}

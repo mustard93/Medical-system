@@ -2417,6 +2417,12 @@ background-color: #e5e5e5!important;
 .color-catch {
   color: #ff491f;
 }
+.color-gray2{
+	color: rgba(153,153,153,1);
+}
+.color-yellow1{
+	color: rgba(199,167,123,1);
+}
 /* 字体加粗 */
 .pr-fw-500 {
   font-weight: 500;
@@ -4103,65 +4109,40 @@ span.popovers:hover, span.popovers > .purchaseorder-buyer-info:hover {
   font-size: 30px;
 }
 /* 医院资格申请 */
+/*流程步骤显示样式start*/
 .first-medical-nav>div{
 	position: relative;
 	padding: 7px 0px;
 	display: inline-block;
-	width: 550px;
+	width: 31%;
 	font-size: 14px;
 	background-color: rgba(229,229,229,1);
 }
 .first-medical-nav>div>span{
-	margin-left: 210px;
-}
-.first-medical-nav>div:not(first-child){
-	width: 31.8%;
-}
-.first-medical-nav>div>div{
 	display: inline-block;
+	width: 100%;
+	text-align: center;
 }
-.first-medical-nav>div:nth-of-type(2){
-margin-left: 35px;
-}
-.first-medical-nav>div:nth-of-type(3){
-margin-left: 35px;
-}
+/*进行中的样式设计*/
 .hospital-application .first-medical-nav > div.active{
 	background-color: rgba(90,195,0,1);
 	color: white;
 }
-.hospital-application .first-medical-nav > div.visited{
-		border-left:1px solid rgba(90,195,0,1);
+
+/*正在进行的步骤箭头样式*/
+.hospital-application .first-medical-nav>div.active>div:first-child
+{
+		position: absolute;
+		left: -25px;
+		top: 0px;
+    width: 0;
+    height: 0;
+    border-top: 25px solid rgba(90,195,0,1);
+    border-left: 25px solid transparent;
+    border-bottom: 24px solid rgba(90,195,0,1);
 }
-.hospital-application .first-medical-nav > div.visited{
-	background-color: transparent;
-	border-top: 1px solid  rgba(90,195,0,1);
-	border-bottom: 1px solid  rgba(90,195,0,1);
-	color: rgba(90,195,0,1);
-}
-.hospital-application .first-medical-nav>div.active>span:before{
-	background-color: transparent;
-	border:1px solid #fff;
-}
-.hospital-application .first-medical-nav>div.unactive>span:before{
-	border: 1px solid #666;
-}
-.hospital-application .first-medical-nav>div.visited>span:before{
-	color: rgba(90,195,0,1);
-	border: 1px solid rgba(90,195,0,1);
-	background-color: transparent;
-}
-.hospital-application .first-medical-nav>div:first-of-type>span:before{
-	content: '1';
-	width: 35px;
-	height: 35px;
-	text-align: center;
-	line-height: 32px;
-	border-radius: 50%;
-	display: inline-block;
-	margin-right: 5px;
-}
-.hospital-application .first-medical-nav>div.active>div{
+
+.hospital-application .first-medical-nav>div.active>div:last-child{
 		position: absolute;
 		right: -25px;
 		top: 0px;
@@ -4171,6 +4152,16 @@ margin-left: 35px;
     border-left: 25px solid rgba(90,195,0,1);
     border-bottom: 24px solid transparent;
 }
+/*已完成的样式设计*/
+.hospital-application .first-medical-nav > div.visited{
+	background-color: transparent;
+	border-left:1px solid rgba(90,195,0,1);
+	border-top: 1px solid  rgba(90,195,0,1);
+	border-bottom: 1px solid  rgba(90,195,0,1);
+	color: rgba(90,195,0,1);
+}
+
+/*已完成的步骤左部分箭头样式*/
 .hospital-application .first-medical-nav>div.visited>div:first-of-type{
 		position: absolute;
 		z-index: 100;
@@ -4193,6 +4184,11 @@ margin-left: 35px;
     border-left: 25px solid rgba(90,195,0,1);
     border-bottom: 25px solid transparent;
 }
+/*未进行的样式设计*/
+.hospital-application .first-medical-nav>div.unactive>span:before{
+	border: 1px solid #666;
+}
+/*未进行的左部分箭头样式*/
 .hospital-application .first-medical-nav>div.unactive>div:first-of-type
 {
 		position: absolute;
@@ -4214,6 +4210,39 @@ margin-left: 35px;
     border-left: 25px solid rgba(229,229,229,1);
     border-bottom: 24px solid transparent;
 }
+/*箭头内部内容*/
+.hospital-application .first-medical-nav>div>span:before{
+	width: 35px;
+	height: 35px;
+	text-align: center;
+	line-height: 32px;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 5px;
+}
+/*步骤数字显示*/
+.hospital-application .first-medical-nav>div:first-of-type>span:before{
+	content: '1';
+}
+.hospital-application .first-medical-nav>div:nth-of-type(2)>span:before{
+	content: '2';
+}
+.hospital-application .first-medical-nav>div:nth-of-type(3)>span:before{
+	content: '3';
+}
+.first-medical-nav>div:not(:first-child){
+		margin-left: 35px;
+}
+
+.hospital-application .first-medical-nav>div.active>span:before{
+	background-color: transparent;
+	border:1px solid #fff;
+}
+.hospital-application .first-medical-nav>div.visited>span:before{
+	border: 1px solid rgba(90,195,0,1);
+	background-color: transparent;
+}
+
 /*编辑第三部，特殊处理*/
 .triangle1{
 	position: absolute;
@@ -4235,54 +4264,7 @@ margin-left: 35px;
 	border-left: 25px solid transparent;
 	border-bottom: 27px solid #f3f1ec;
 }
-.hospital-application .first-medical-nav>div.active>div:first-child
-{
-		position: absolute;
-		left: -25px;
-		top: 0px;
-    width: 0;
-    height: 0;
-    border-top: 25px solid rgba(90,195,0,1);
-    border-left: 25px solid transparent;
-    border-bottom: 24px solid rgba(90,195,0,1);
-}
-
-
-.hospital-application .first-medical-nav>div.active>div:last-child{
-		position: absolute;
-		right: -25px;
-		top: 0px;
-    width: 0;
-    height: 0;
-    border-top: 24px solid transparent;
-    border-left: 25px solid rgba(90,195,0,1);
-    border-bottom: 24px solid transparent;
-}
-.hospital-application .first-medical-nav>div:nth-of-type(2)>span:before{
-	content: '2';
-	width: 35px;
-	height: 35px;
-  text-align: center;
-	line-height: 32px;
-  border-radius: 50%;
-
-  display: inline-block;
-  margin-right: 5px;
-}
-.hospital-application .first-medical-nav>div:nth-of-type(3)>span:before{
-	content: '3';
-	width: 35px;
-	height: 35px;
-  text-align: center;
-	line-height: 32px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 5px;
-}
-.hospital-application .first-medical-nav > span.active:before{
-color: white;
-background-color: transparent；
-}
+/*步骤流程样式end*/
 .hospital-application a.edit-link-icon,
 .medical-stock a.edit-link-icon
 {
@@ -4963,17 +4945,7 @@ border: 1px solid #ddd;
 
 
 /*关于报损报溢模块*/
-.ipt-date,
-.sale-return-order .select
-{
-  position: relative;
-  background-color:transparent;
-  color:#000;
-  z-index: 9999;
-  width: 125px;
-  height: 26px;
-  border: none;
-}
+
 .loss-over-order select+div,
 .sale-return-order select+div,
 .freeze-thaw-order select+div,
@@ -5341,6 +5313,17 @@ span.re-send-icon{
   border: 1px solid rgba(0,0,0,0.2);
   border-radius: 4px
 }
+.ipt-date,
+.sale-return-order .select
+{
+  position: relative;
+  background-color:transparent;
+  color:#000;
+  z-index: 10;
+  width: 125px;
+  height: 26px;
+  border: none;
+}
 .date-icon-outside span.date-icon{
   position: absolute;
   z-index: 1;
@@ -5615,26 +5598,39 @@ padding-right: 10px;
 .express-dialog-info-details {
   font-size: 14px;
 }
-.express-dialog-info-details .page-heading {
-  background-color: rgba(113,113,113,0.57);
-}
 .express-dialog-info-details .page-content .tab-heading {
-  padding-top: 15px;
+  /*padding-top: 15px;*/
   padding-bottom: 15px;
   border-bottom: 1px solid rgba(113,113,113,0.57);
+	width: auto;
+}
+.express-dialog-info-details .page-content .outside-heading {
+	position: relative;
+	padding-top: 10px;
+	border: 1px solid rgba(199,167,123,0.60);
+	width: 600px;
+	height: 43px;
+	overflow: hidden;
+}
+.express-dialog-info-details .page-content .tab-heading ul{
+	margin-top: -4px;
+	height: 43px;
+	/*overflow-x: hidden;*/
+	white-space:nowrap;
 }
 .express-dialog-info-details .page-content .tab-heading ul li {
+	/*border-left: 1px solid rgba(199,167,123,0.60);*/
   display: inline-block;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 21px;
+  padding-right: 21px;
   position: relative;
 }
 .express-dialog-info-details .page-content .tab-heading ul li:first-child {
-  /*margin-left: 20px;*/
+  margin-left: 30px;
 }
 .express-dialog-info-details .page-content .tab-heading ul li a {
   display: block;
-  color: #333;
+  color: #fff;
   width: 100%;
   position: relative;
 }
@@ -5691,7 +5687,7 @@ padding-right: 10px;
   width: 1px;
   height: 12px;
   border: none;
-  background-color: rgba(0,0,0,0.10);
+  background-color: rgba(255,255,255,0.10);
   position: absolute;
   top: -12px;
   left: 4px;
@@ -5702,7 +5698,7 @@ padding-right: 10px;
   width: 1px;
   height: 14px;
   border: none;
-  background-color: rgba(0,0,0,0.10);
+  background-color: rgba(255,255,255,0.10);
   position: absolute;
   top: 9px;
   left: 4px;
@@ -5721,6 +5717,46 @@ padding-right: 10px;
   margin-left: -20px;
   margin-right: -20px;
   padding-left: 20px;
+}
+/*移入显示左右按钮*/
+.button-left
+{
+	display: none;
+	position: absolute;
+	top: 0px;
+	z-index: 100;
+	/*display: inline-block;*/
+	width: 26px;
+	height: 41px;
+	background: rgba(199,167,123,0.30);
+	box-shadow: -2px 0px 4px 0px rgba(0,0,0,0.14);
+}
+/*.button-left:before{
+		border-radius: 3px;
+    color:rgba(199,167,123,1);
+    content: '\00D7';
+    font-size: 32px;
+    font-weight: 400;
+    height: 30px;
+    line-height: 26px;
+    position: absolute;
+    right: 0px;
+    text-align: center;
+    top: 0px;
+    width: 30px;
+	}*/
+.button-right
+{
+	display: none;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	z-index: 100;
+	/*display: inline-block;*/
+	width: 26px;
+	height: 41px;
+	background: rgba(199,167,123,0.30);
+	box-shadow: -2px 0px 4px 0px rgba(0,0,0,0.14);
 }
 /* 表格行功能按钮样式新版 */
 .table-item-handle-btn {
