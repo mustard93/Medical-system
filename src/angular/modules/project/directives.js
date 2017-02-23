@@ -1172,7 +1172,7 @@ function leftMenuSecondToggle ($location) {
       last1MenuShowObj:null,
       //执行样式选中
       eleChangeEvent:function(element){
-        if(!element||element.length==0){
+        if(!element||element.length===0){
           // console.log("error:LeftMenuObj.element=null");
         }
         //ul(p5)>li(p4)>ul(p3)>li(p2)>a(p1) left-menu-second-toggle
@@ -1182,8 +1182,14 @@ function leftMenuSecondToggle ($location) {
           $(this).removeClass('active');
         });
         //p4
+
+        // console.log(_parent.parent().parent());
+
         _parent.parent().parent().removeClass('active').siblings().each(function () {
           $(this).removeClass('active');
+
+          $(this).find('ul.sub-menu-list').slideUp(200);
+
           $(this).find('.sub-menu-list > li').each(function () {
               $(this).removeClass('active');
           });
@@ -1221,10 +1227,10 @@ function leftMenuSecondToggle ($location) {
             elementMenu=this.routeMap[url];
         }
         // console.log("getElementMenu2="+url);
-      if(!elementMenu||elementMenu.length===0){
-             return;
+        if(!elementMenu||elementMenu.length===0){
+          return;
         }
-          // console.log("doRoute="+url);
+        // console.log("doRoute="+url);
         this.eleChangeEvent(elementMenu);
       },
         //启动监听定义监视器，监控Url变化 LeftMenuObj.startListen($scope)
@@ -1232,9 +1238,8 @@ function leftMenuSecondToggle ($location) {
         if(this.isStart)return;
         this.isStart=true;
         $scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
-            // console.log("locationChangeSuccess="+newUrl);
-           LeftMenuObj.doRoute(newUrl);
-
+          // console.log("locationChangeSuccess="+newUrl);
+          LeftMenuObj.doRoute(newUrl);
         });
       },//startListen
       //添加路由，支持自定义key
@@ -1833,6 +1838,7 @@ function handleTextOverflow () {
  * @author liuzhen
  */
 function salesorderEditShowDelbtn () {
+  'use strict';
   return {
     restrict: 'A',
     scope: true,
