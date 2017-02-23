@@ -1899,9 +1899,11 @@ define('project/controllers', ['project/init'], function() {
    function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      $scope.$watch('initFlag', function (newVal) {
+
        var operationFlowSetMessage=[];
        var operationFlowSetKey=[];
-       if ($scope.scopeData) {
+       if (newVal && $scope.scopeData) {
+
          // 选择出当前状态相同的驳回理由，并放入一个数组中
         for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
           if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
@@ -1914,7 +1916,7 @@ define('project/controllers', ['project/init'], function() {
         $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
 
        }
-       if ($scope.formData) {
+       if (newVal && $scope.formData) {
          // 选择出当前状态相同的驳回理由，并放入一个数组中
         for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
           if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
@@ -1927,7 +1929,7 @@ define('project/controllers', ['project/init'], function() {
         $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
 
        }
-       if ($scope.tr) {
+       if (newVal && $scope.tr) {
          // 选择出当前状态相同的驳回理由，并放入一个数组中
         for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
           if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
