@@ -2433,7 +2433,6 @@ function flashAddMedical() {
               //自动补全查询输入框获得焦点
               $('#angucompleteMedical_searchInputId').val("");
               $('#angucompleteMedical_searchInputId').trigger('focus');
-              console.log('aaa');
               return false;
 
             };
@@ -2733,15 +2732,19 @@ function addressManageComponent (requestData, utils) {
       modifyModalUrl: '@',
       createModalUrl: '@',
       setDefaultAddressRequesturl: '@',
-      delThisAddressRequesturl: '@'
+      delThisAddressRequesturl: '@',
+      contactsNull: '@'
     },
     replace: true,
     transclude: true,
     templateUrl: Config.tplPath + 'tpl/project/addressManageComponent.html',
     link: function (scope, element, attrs) {
+      //客户地址列表是否为空的标识
+      scope.contactsNull = false;
+
       // 监控发货方id变化
       scope.$watch('requestDataId', function (newVal, oldVal) {
-        if (newVal && oldVal !== null) {
+        if (newVal && newVal!==oldVal) {
           reLoadData(scope);
         }
       });
@@ -2752,8 +2755,11 @@ function addressManageComponent (requestData, utils) {
         requestData(_reqUrl, {}, 'get')
         .then(function (results) {
           var _data = results[1];
-          if (_data.code === 200 && _data.data.contacts) {
+          if (_data.code === 200) {
             scope.returnAddressObj.contacts = _data.data.contacts;
+            if (!_data.data.contacts) {
+              scope.formData.contactsNull = true;
+            }
           }
         })
         .catch(function (error) {
@@ -2798,12 +2804,21 @@ function addressManageComponent (requestData, utils) {
         if (!$scope.formData.id) {
           var _contacts = $scope.returnAddressObj.contacts;
 
-          for (var i=0; i<_contacts.length; i++) {
-            if ($scope.returnAddressObj.defaultContactId === _contacts[i].id) {
-              $scope.formData[$scope.scopeDataContacts] = _contacts[i];
+          if (_contacts) {
+            for (var i=0; i<_contacts.length; i++) {
+              if ($scope.returnAddressObj.defaultContactId === _contacts[i].id) {
+                $scope.formData[$scope.scopeDataContacts] = _contacts[i];
+              }
             }
           }
         }
+
+        //如果是新添加的一条地址数据，则默认放入数据体中
+        if ($scope.returnAddressObj.contacts && $scope.returnAddressObj.contacts.length === 1) {
+          $scope.formData[$scope.scopeDataContacts] = $scope.returnAddressObj.contacts[0];
+          $scope.formData.contactsNull = false;
+        }
+
       };
 
       // 构建方法返回当前循环的地址item，用于修改地址信息

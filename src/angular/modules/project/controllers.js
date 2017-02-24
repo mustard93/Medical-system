@@ -3315,17 +3315,11 @@ define('project/controllers', ['project/init'], function() {
           }
 
         });
-
       // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);
         modal.closeAll();
-
-
     };
 
   }
-
-
-
   /**
    * [returnOrderAddController 销售退货单弹出模态框添加项目控制器]
    * @param  {[type]} $scope [description]
@@ -3353,8 +3347,6 @@ define('project/controllers', ['project/init'], function() {
     $scope.initChoisedMedicalList=function(addDataObj_orderMedicalNos,saleReturnOrder_orderMedicalNos){
         var choisedMedicalList = [];
         if(!addDataObj_orderMedicalNos)return choisedMedicalList;
-
-        $scope.isChoiseAll = true;
 
         //如果销售退货细表中有该条目则选中
         angular.forEach(addDataObj_orderMedicalNos, function (data, index) {
@@ -3423,7 +3415,7 @@ define('project/controllers', ['project/init'], function() {
 
     };
 
-    // 根据设计变更重写hanleAddDataArray方法,需将选中的数据及id发送到后端进行拆分后将返回数据加载到主页面
+    // 采购退货单模块根据设计变更重写hanleAddDataArray方法,需将选中的数据及id发送到后端进行拆分后将返回数据加载到主页面
     $scope.handleAddData = function (addDataObj_id, addDataObj_orderNo,choisedMedicalList) {
 
       // 发货单id不能为空,至少选择1条数据
@@ -3464,6 +3456,50 @@ define('project/controllers', ['project/init'], function() {
           alertError(error || '出错');
         }
       });
+    };
+
+    // 销售退货单模块点击添加要退货的药品列表功能
+    $scope.handleAddDataArray = function (addDataObj_id, choisedMedicalList) {
+      // 发货单id不能为空,至少选择1条数据
+      if (!addDataObj_id || !choisedMedicalList || choisedMedicalList.length === 0) {
+        return ;
+      }
+
+      // 首次添加数据
+      // if (!$scope.formData.orderMedicalNos.length) {
+      //   $scope.formData.relId = addDataObj_id;
+      //   $scope.formData.orderMedicalNos = choisedMedicalList;
+      // } else {    // 修改数据
+      //   $scope.formData.orderMedicalNos = [];     // 清空原有数据
+      //   $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);   // 重新添加数据
+      // }
+
+
+      //切换发货单时，清空原有数据
+      if($scope.formData.relId!=addDataObj_id){
+        $scope.formData.orderMedicalNos=[];
+      }else{
+        //否则删除没选中,再添加选中的
+        for(var i=$scope.formData.orderMedicalNos.length-1;i>=0;i--){
+          var data=$scope.formData.orderMedicalNos[i];
+          if(utils.getObjectIndexByKeyOfArr(choisedMedicalList,"relId",data.relId)==-1){
+              $scope.formData.orderMedicalNos.splice(i,1);
+          }
+        }
+      }
+
+      //重新绑定数据
+      $scope.formData.relId = addDataObj_id;
+      //已经添加过的不在添加。（保留已经修改的数据）
+        angular.forEach(choisedMedicalList, function (data, index) {
+          if(utils.getObjectIndexByKeyOfArr($scope.formData.orderMedicalNos,"relId",data.relId)==-1){
+              $scope.formData.orderMedicalNos.push(data);
+          }
+
+        });
+      // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);
+
+      modal.closeAll();
     };
   }
 

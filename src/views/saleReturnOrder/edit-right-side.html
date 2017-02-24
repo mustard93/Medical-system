@@ -98,7 +98,7 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="item in addDataObj.orderMedicalNos | repeatFilter:'addDataObj.orderMedicalNos'">
+                <tr ng-repeat="item in addDataObj.orderMedicalNos | repeatFilter:'addDataObj.orderMedicalNos'" ng-init="item.itemSelected=false">
                   <td class="select-td">
                     <input type="checkbox"
                            class="selectOne"
@@ -145,14 +145,17 @@
               <div>&nbsp;</div>
           </div>
       </div>
-
     </div>
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area-2nd relative">
       <div class="btn-area">
-          <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
-          <button ng-disabled="!choisedMedicalList.length>0" ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList)" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
+        <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
+        <button ng-disabled="!choisedMedicalList.length>0"
+                ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList)"
+                type="button"
+                class="pr-btn-save-glodbg mgr-l">确定
+        </button>
       </div>
     </div>
   </form>

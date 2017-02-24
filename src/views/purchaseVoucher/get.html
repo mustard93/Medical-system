@@ -32,8 +32,17 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
+
+      <div ng-if="scopeData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb-m pr-bg-pink">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="scopeData.operationFlowSet.key">{{scopeData.operationFlowSet.key}}</em>
+          <em ng-model="scopeData.operationFlowSet.message">{{scopeData.operationFlowSet.message}}</em>
+        </p>
+      </div>
+
       <!-- 单据信息 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height flex-column color-9 pd-c-l pdt-m pdb-m">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height flex-column color-9 pd-c-l pdt-m pdb-m" ng-class="{'pr-bg-grey3':scopeData.orderStatus=='已作废'}">
         <div class="flex-item-6">
           <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
           <span class="mgr">参照采购单：
@@ -45,18 +54,15 @@
         </div>
         <div class="flex-item-6 text-right">
           <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-          <a
-          modal-center="1000px"
-          modal-data='{"businessKey":"{{scopeData.id}}"}'
-          modal-scope="this"
-          modal-url="views/workflowTask/getOfDialog.html"
-          >
-        <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
+          <a modal-center="1000px"
+             modal-data='{"businessKey":"{{scopeData.id}}"}'
+             modal-scope="this"
+             modal-url="views/workflowTask/getOfDialog.html">
+             <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
           </a>
-          <!-- <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span> -->
         </div>
       </div>
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n" ng-class="{'pr-bg-grey3':scopeData.orderStatus=='已作废'}">
         <div class=""><h1 class="text-center pr-font-18 pdt-m pdb-m color-6">采购凭证</h1></div>
         <!-- 供应商信息 -->
         <div class=" pd-c-l pdt-m pdb-m bb-dashed-line">
@@ -130,9 +136,10 @@
         </div>
       </div>
       <!-- 备注 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb" ng-class="{'pr-bg-grey3':scopeData.orderStatus=='已作废'}">
         <h1 class="text-bold color-3 mgb-m">备注</h1>
-        <textarea class="pr-textarea" ng-model="formData.note"></textarea>
+        <textarea ng-if="scopeData.orderStatus!='已作废'" class="pr-textarea" ng-model="scopeData.note"></textarea>
+        <p class="mgt" ng-if="scopeData.orderStatus=='已作废'">{{scopeData.note}}</p>
       </div>
     </div>
     <!-- 流程图 -->
@@ -144,10 +151,10 @@
     <div class="handle-btn-area">
       <div class="btn-left-area">
         <span class="uploader-PDF-icon"></span>
-          <a href="{{scopeData.voucherUrl}}">下载PDF文件</a>
+        <a href="{{scopeData.voucherUrl}}">下载PDF文件</a>
       </div>
       <div class="btn-area mgb-s" style="background:rgba(54,48,44,0.30);">
-        <span><a href="#/purchaseVoucher/query.html">返回采购凭证列表</a></span>
+        <span class="mgt-l"><a href="#/purchaseVoucher/query.html">返回采购凭证列表</a></span>
         <span class="mgl mgt">
           <a href="javascript:;"
              ng-if="scopeData.orderStatus=='已发送'"
@@ -174,10 +181,16 @@
              modal-url="angular/tpl/pr-dialog-submit-message.html">作废
           </a>
         </span>
+
+        <!-- <span ng-if="scopeData.didateFilter.buttons.length>0"
+              custom-menu-list
+              custom-menu-arr="{{scopeData.didateFilter.buttons}}">
+        </span> -->
+
         <button class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/purchaseVoucherPrint.html?id={{scopeData.id}}" target="_blank">打印预览</a>
         </button>
-        <span class="mgr mgl mgt">
+        <span class="mgr mgl mgt" ng-if="scopeData.orderStatus!='已作废'">
           <button class="pr-btn-save-glodbg mgt"
                   ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
                   ng-click="submitForm('first-enterprise-editForm','save')">保存
@@ -191,10 +204,6 @@
                   modal-data='{"refreshPage":"true","id":"{{scopeData.id}}"}'
                   modal-url="views/purchaseVoucher/sendEmail.html">{{scopeData.orderStatus=='待发送'?'立即发送至厂家':'再次发送'}}
           </button>
-        </span>
-        <span ng-if="formData.orderStatus=='待审核'&&scopeData.didateFilter.buttons.length>0"
-              custom-menu-list
-              custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span>
       </div>
     </div>
