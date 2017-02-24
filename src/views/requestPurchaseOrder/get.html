@@ -70,10 +70,10 @@
                    <th class="text-center">数量</th>
                    <th class="text-center w-110">批号要求</th>
                    <th class="text-center">原币含税单价</th>
+                   <th class="text-center">税率</th>
                    <th class="text-center">原币单价</th>
                    <th class="text-center">原币金额</th>
                    <th class="text-center">原币价税合计</th>
-                   <th class="text-center">税率</th>
                    <th class="text-center">产地品牌</th>
                    <th class="text-center">产品注册证号</th>
                    <th class="text-center">产品注册证有效期</th>
@@ -112,14 +112,14 @@
                      <td class="text-right">
                        ￥{{$root.requestPurchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
                      </td>
+                     <td class="text-right" ng-init="tr.taxRate=17">
+                       {{tr.taxRate}}%
+                     </td>
                      <td class="text-right">
                        ￥{{$root.requestPurchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
                      </td>
                      <td class="text-right">
                        ￥{{$root.requestPurchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
-                     </td>
-                     <td class="text-right" ng-init="tr.taxRate=17">
-                       {{tr.taxRate}}%
                      </td>
                      <td class="text-center">
                        {{tr.brand}}
