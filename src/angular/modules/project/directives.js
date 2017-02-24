@@ -1703,35 +1703,45 @@ function saleOutStockKuaDi () {
     scope: {},
     link: function ($scope, $element, $attrs) {
     var lilength=0;
-    var leftShift=Math.ceil(lilength/7);        // 一次向左移动的长度
-    $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
+    var leftShift=573;        // 一次向左移动的长度
+
+    // $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
+
       $($element).mouseenter(function (e) {
       lilength=$(this).children('ul').children('li').length;
         // 大于一行显示的个数，才出现按钮
         if(lilength>7){
           $(this).children('span').css("display", "block");
-
-          $('.button-left').on('mousedown',function(){
-
+          // 点击左移按钮后
+          $('.button-left').off("click").on('click',function(){
+            $('.button-right').removeAttr('disabled','disabled');
             if(leftShift<573*Math.ceil(lilength/7))
             {
-              console.log('leftclick'+leftShift);
               $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
               leftShift+=573;
             }
           })
-          $('.button-right').on('mousedown',function(){
+          $('.button-right').off("click").on('click',function(){
+            $('.button-left').removeAttr('disabled','disabled');
             if(leftShift>=573)
             {
-              console.log('rightclick'+leftShift);
               leftShift-=573;
               $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
-
             }
           })
-
         }
+        // 判断是否左右按钮是否可点击
+        if(leftShift<573){
+          $('.button-right').attr('disabled','disabled');
+          $('.button-right:before').css('color','#e5e5e5');
+        }
+        if(leftShift>=573*Math.ceil(lilength/7)){
+          $('.button-left').attr('disabled','disabled');
+          $('.button-left:before').css('color','#e5e5e5');
+        }
+
       });
+
       $($element).mouseleave(function (e) {
         $(this).children('span').css({
            "display": "none"
@@ -1937,40 +1947,43 @@ function tableItemHandlebtnComponent (utils) {
     restrict: 'A',
     scope: true,
     link: function (scope, element, attrs) {
+      if(scope.formData.relId){
+        return;
+      }else{
+        // 操作删除按钮
+        var _delBtn = $(element).find('div.table-item-handle-btn');
+        // 操作删除层
+        var _delArea = $(element).find('div.table-item-confirm-del-area');
 
-      // 操作删除按钮
-      var _delBtn = $(element).find('div.table-item-handle-btn');
-      // 操作删除层
-      var _delArea = $(element).find('div.table-item-confirm-del-area');
+        //绑定点击显示操作删除层
+        _delBtn.on('click', function () {
+          _delArea.show();
+        });
 
-      //绑定点击显示操作删除层
-      _delBtn.on('click', function () {
-        _delArea.show();
-      });
+        element.hover(function () {
+          // 当前行序号
+          var _index = attrs.tableItemIndex,
+              _orderMedicalNos = scope.formData.orderMedicalNos;
 
-      element.hover(function () {
-        // 当前行序号
-        var _index = attrs.tableItemIndex,
-            _orderMedicalNos = scope.formData.orderMedicalNos;
+          // 计算当前tr距离顶部的高度
+          var _offsetTop = $(element).offset().top - document.body.scrollTop;
+          // 计算当前页面宽度
+          var _pageWidth = utils.getMainBodyWidth() + 65;
 
-        // 计算当前tr距离顶部的高度
-        var _offsetTop = $(element).offset().top - document.body.scrollTop;
-        // 计算当前页面宽度
-        var _pageWidth = utils.getMainBodyWidth() + 65;
+          _delBtn.css({'position':'fixed','top':_offsetTop,'left':_pageWidth}).show();
 
-        _delBtn.css({'position':'fixed','top':_offsetTop,'left':_pageWidth}).show();
+        }, function () {
+          _delBtn.css({'position':'absolute','top':0,'left':0}).hide();
+          _delArea.hide();
+        });
 
-      }, function () {
-        _delBtn.css({'position':'absolute','top':0,'left':0}).hide();
-        _delArea.hide();
-      });
+        //取消操作
+        scope.cancelHandle = function () {
+          _delBtn.hide();
+          _delArea.hide();
+        };
 
-      //取消操作
-      scope.cancelHandle = function () {
-        _delBtn.hide();
-        _delArea.hide();
-      };
-
+      }
     }
   };
 }
