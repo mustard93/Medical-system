@@ -34,6 +34,7 @@
      </div>
 
      <div class="content-wrapper">
+      <p class="mgb-l text-n color-3 text-bold">{{showData.customerName}}</p>
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
            <!-- 列表 -->
@@ -160,11 +161,13 @@
                    <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
                    <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
                    <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
-                   <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
-                   <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
                  </div>
                </span>
                <span class="tools pull-right flex-item-1">
+                 <div class=" color-9 text-s mgt-s inline-block">
+                   <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
+                   <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+                 </div>
                  <a href="javascript:;" class="fa fa-chevron-down" toggle-panel style="float:right"></a>
                </span>
              </header>

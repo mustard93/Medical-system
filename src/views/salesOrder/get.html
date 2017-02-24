@@ -15,6 +15,7 @@
   </div>
   <!-- 主内容区域 -->
   <div class="content-wrapper">
+    <p class="mgb-l text-n color-3 text-bold">{{showData.customerName}}</p>
     <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
       <!-- 单据信息 -->
       <div class="flex-column pd-c-m pdt-m pdb-m">
@@ -143,11 +144,13 @@
               <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
               <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
               <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
-              <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
-              <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
             </div>
           </span>
           <span class="tools pull-right flex-item-1">
+            <div class=" color-9 text-s mgt-s inline-block">
+              <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
+              <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+            </div>
             <a href="javascript:;" class="fa fa-chevron-down" toggle-panel style="float:right"></a>
           </span>
         </header>
