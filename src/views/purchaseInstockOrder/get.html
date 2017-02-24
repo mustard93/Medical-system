@@ -10,12 +10,14 @@
           <a href="#/purchaseOrder/query.html">
              <em class="color-custom-orange">采购单</em>
           </a>
-         <em>>采购入库单详情</em>
+         <em ng-if="showData.type!='采购入库单_红字'">>采购入库单详情</em>
+         <em ng-if="showData.type=='采购入库单_红字'">>采购入库单<em class="color-red">(红字)</em>详情</em>
         </p>
         <!-- 标题 -->
         <div class="pd-c-v-l">
           <div class="pos-rel-tl inline-block fl-l">
-            <h1 class="pr-font-20 color-black">采购入库单详情</h1>
+            <h1 ng-if="showData.type!='采购入库单_红字'" class="pr-font-20 color-black">采购入库单详情</h1>
+            <h1 ng-if="showData.type=='采购入库单_红字'" class="pr-font-20 color-black">采购入库单<em class="color-red">(红字)</em>详情</h1>
 
           </div>
         </div>
@@ -40,11 +42,11 @@
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m ">
           <div class="flex-item-6">
             <span class="mgr">单据编号：<em class="color-3">{{showData.orderNo || '暂无'}}</em></span>
-            <span class="mgr">部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span>
-            <span class="mgr">入库类型：<em class="color-black">{{showData.orderBusinessType|| '暂无'}}</em></span>
+            <!-- <span class="mgr">部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span> -->
+            <!-- <span class="mgr">入库类型：<em class="color-black">{{showData.orderBusinessType|| '暂无'}}</em></span> -->
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">入库日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
+            <span class="mgr">录单日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
             <!-- <span class="mgr">状态：<em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">{{showData.orderStatus}}</em></span> -->
             <a ng-if="initFlag"
                modal-center="1000px"
@@ -53,6 +55,14 @@
                modal-url="views/workflowTask/getOfDialog.html">
                <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
             </a>
+          </div>
+        </div>
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
+          <div class="flex-item-12">
+            <span class="mgr">采购部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span>
+            <span class="mgr">业务人员：<em class="color-3">{{showData.inputUser.n|| '暂无'}}</em></span>
+            <span class="mgr">业务类型：<em class="color-3">{{showData.orderBusinessType|| '暂无'}}</em></span>
+            <span class="mgr">采购类型：<em class="color-black">{{showData.purchaseType || '暂无'}}</em></span>
           </div>
         </div>
 
@@ -103,7 +113,13 @@
                           {{tr.unit}}
                         </td>
                         <td class="text-right"
-
+                         ng-if="showData.type!='采购入库单_红字'"
+                        >
+                          {{tr.storageQuantity || '0'}}
+                        </td>
+                        <td class="text-right"
+                        ng-if="showData.type=='采购入库单_红字'"
+                        style="color:red;"
                         >
                           {{tr.storageQuantity || '0'}}
                         </td>
