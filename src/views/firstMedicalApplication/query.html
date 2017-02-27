@@ -76,7 +76,7 @@
                          ng-href="#/firstMedicalApplication/edit1.html?copyId={{tr.copyId}}" title="新建" class="btn-link pd-m rect-s ">
                         <span class="watch-detail-icon">&nbsp;</span>
                        </a> -->
-                      <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'"
+                      <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审批'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
                          ng-href="#/firstMedicalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                          <span class="watch-detail-icon">&nbsp;</span>
                        </a>
@@ -97,38 +97,6 @@
                           request-url="rest/authen/firstMedicalApplication/delete">
                         <span class="delete-link-icon">&nbsp;</span>
                         </a>
-
-<<<<<<< HEAD
-                    </span>
-=======
-                    <a ng-if="tr.orderStatus=='未通过'"
-                       ng-href="#/firstMedicalApplication/edit1.html?copyId={{tr.id}}" title="新建" class="btn-link pd-m rect-s ">
-                      <span class="watch-detail-icon">&nbsp;</span>
-                     </a>
-                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
-                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))
-                       || tr.orderStatus=='未通过' || tr.orderStatus=='已冻结' || tr.orderStatus=='已终止'"
-                       ng-href="#/firstMedicalApplication/get.html?id={{tr.id}}"  class="btn-link pd-m rect-s" title="查看详情">
-                      <span class="watch-detail-icon">&nbsp;</span>
-                     </a>
-                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                       ng-href="#/firstMedicalApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
-                       <span class="examine-approve">&nbsp;</span>
-                     </a>
-                     <a  ng-if="tr.orderStatus=='未提交' && mainStatus.id==tr.proposerId"
-                        href="javascript:;"
-                        class="btn-link pd-m rect-s "
-                        handle-this-click
-                        dialog-title="确认删除?"
-                        dialog-content="删除后将无法恢复,确认删除?"
-                        dialog-template="pr-dialog-submit.html"
-                        callback="$root.goTo('#/firstMedicalApplication/query.html')"
-                        params='{"id":tr.id}'
-                        title="删除"
-                        request-url="rest/authen/firstMedicalApplication/delete">
-                      <span class="delete-link-icon">&nbsp;</span>
-                      </a>
->>>>>>> V1.00.07_Beta
 
                 </div>
               <div class="card-new">
