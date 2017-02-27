@@ -41,6 +41,7 @@
                   select-source="rest/authen/customerAddress/queryForSelectOption.json">
           </select>
           <span class="color-red mgl" ng-if="!formData.customerId">请先选择客户名</span>
+          <span class="color-red mgl" ng-if="formData.contactsNull">当前客户没有收货地址，请先添加收货方信息!</span>
         </div>
       </div>
     </div>
@@ -251,11 +252,13 @@
                 <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
                 <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
                 <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
-                <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
-                <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
               </div>
             </span>
             <span class="tools pull-right flex-item-1">
+              <div class=" color-9 text-s mgt-s inline-block">
+                <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
+                <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+              </div>
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel style="float:right"></a>
             </span>
           </header>
@@ -334,7 +337,7 @@
              callback="$root.goTo('#/salesOrder/query.html')">删除
           </a>
 
-          <!-- <span class="alink-likeBtn">
+          <span class="alink-likeBtn">
             <a href=""
                ng-if="isShowCancelBtn"
                class="btn mgr-s"
@@ -345,7 +348,7 @@
                request-url="rest/authen/salesOrder/updateStatus?id={{formData.id}}&status=已处理"
                callback="$root.goTo('#/salesOrder/get.html?id={{formData.id}}')">关闭
             </a>
-          </span> -->
+          </span>
 
 
           <button class="pr-btn-save-glodbg mgr-s"
@@ -357,7 +360,8 @@
                   class="pr-btn-create-glodbg"
                   ng-disabled="!formData.orderMedicalNos.length ||
                                !formData.customerId ||
-                               !editForm.$valid">生成销售单
+                               !editForm.$valid ||
+                               formData.contactsNull">生成销售单
           </button>
       </div>
     </div>
