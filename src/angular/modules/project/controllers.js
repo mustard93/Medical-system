@@ -2368,7 +2368,6 @@ define('project/controllers', ['project/init'], function() {
           });
         }
      });
-
      modal.closeAll();
      // $scope.formData={};
      $scope.addDataItem = {};
