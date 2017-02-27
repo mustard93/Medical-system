@@ -131,8 +131,13 @@
                        </span>
                     </span>
                     <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
-                       ng-if="$root.hasAuthor('首营企业维护')&&tr.orderStatus=='未提交' || tr.orderStatus=='已通过' || tr.orderStatus=='已冻结'"
+                       ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已冻结'"
                        ng-href="#/firstEnterpriseApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                     <span class="edit-link-icon">&nbsp;</span>
+                   </a>
+                    <a
+                       ng-if="$root.hasAuthor('首营企业维护')&&tr.orderStatus=='未提交'"
+                       ng-href="#/firstEnterpriseApplication/edit1.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                      <span class="edit-link-icon">&nbsp;</span>
                    </a>
 
