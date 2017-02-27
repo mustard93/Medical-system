@@ -444,7 +444,7 @@ function alertOk($rootScope, modal) {
                           ret[result[1]] = result[2];
                       }
                   }
-                  console.dir(ret);
+                  // console.dir(ret);
                   return ret;
               },
             /**
