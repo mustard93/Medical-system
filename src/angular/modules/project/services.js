@@ -601,6 +601,37 @@ define('project/services', ['project/init'], function () {
           };//tmpObj
           return tmpObj;
         }
+        // 请购单相关计算
+        function requestPurchaseOrderUtils (utils) {
+          var  tmpObj = {
+            //原币单价(无税单价)  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
+            getWuSuiDanJian:function(item){
+              var tmp;
+              tmp = utils.numberDiv(item.taxRate,100);
+              tmp = 1 + tmp;
+              tmp = utils.numberDiv(item.purchasePrice,tmp);
+              return tmp;
+            },
+            //原币金额（无税金额） item.price*(1-item.taxRate)*item.quantity
+            getWuSuiJinE:function(item){
+              //item.price*(100-item.taxRate)/100*item.quantity
+              //100-item.taxRate
+              var tmp;
+              tmp = tmpObj.getWuSuiDanJian(item);
+              tmp = utils.numberMul(tmp,item.quantity);
+              return tmp;
+            },
+            //价税合计 item.price*item.quantity
+            getJiaSuiHeJi:function(item){
+              //item.purchasePrice*item.quantity
+              // var tmp=utils.numberMul(item.taxPrice,item.quantity);
+              var tmp;
+              tmp = utils.numberMul(item.purchasePrice, item.quantity);
+              return tmp;
+            }
+          };//tmpObj
+          return tmpObj;
+        }
 
 
         // 自定义菜单服务
@@ -677,6 +708,7 @@ define('project/services', ['project/init'], function () {
 
     .factory('saleOrderUtils', ["utils",saleOrderUtils])
     .factory('purchaseOrderUtils', ["utils",purchaseOrderUtils])
+    .factory('requestPurchaseOrderUtils', ["utils",requestPurchaseOrderUtils])
     .factory('bottomButtonList', ["$rootScope",bottomButtonList])
     .factory('queryItemCardButtonList', ["$rootScope",queryItemCardButtonList])
 
