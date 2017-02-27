@@ -293,7 +293,7 @@
                              ng-disabled="formData.firstMedical.isBasicMedicine=='否'"
                              ng-keyup="chkQuoteAndRetail()"
                              name="quoteprice"
-                             ng-pattern="/^(\d)|(\d+\.\d+)$/"
+                             ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                              invalid-popover
                              popover-show="!firstMedicalEditForm.quoteprice.$valid"
                              popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}' />
@@ -315,7 +315,7 @@
                          ng-model="formData.firstMedical.purchasePrice"
                          name="purchasePrice"
                          required
-                         ng-pattern="/^[1-9]\d*.\d*|0.\d*[1-9]\d*|0?.0+|0$/"
+                         ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
                          popover-show="!firstMedicalEditForm.purchasePrice.$valid"
                          popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}'>
@@ -333,7 +333,7 @@
                          ng-keyup="chkQuoteAndRetail()"
                          name="retailPrice"
                          required
-                         ng-pattern="/^(\d)|(\d+\.\d+)$/"
+                         ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
                          popover-show="!firstMedicalEditForm.retailPrice.$valid"
                          popover-options='{"content":"零售价格式不正确", "placement":"right", "trigger":"manual"}'>
@@ -445,14 +445,14 @@
                dialog-title="确认返回?"
                dialog-content="该申请单存在未保存数据，是否保存?"
                dialog-template="pr-dialog-return.html"
-               nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
+               nosave-callback="goTo('#/firstMedicalApplication/query.html')"
                save-callback="submitForm('editForm','exit');
                $root.goTo('#/firstMedicalApplication/query.html')">返回申请单列表</a>
-            <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
+            <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回申请单列表</a>
           </span>
           <span class="mgl">
             <button class="pr-btn-save-glodbg mgt"
-                    ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
+                    ng-disabled="!changeFlag || firstMedicalEditForm.$invalid"
                     ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
           </span>
 
