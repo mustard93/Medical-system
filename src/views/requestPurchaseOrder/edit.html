@@ -97,21 +97,22 @@
                    <td class="text-center" style="line-height:2.4;">{{tr.quantity}}</td>
                    <td>
                      <select class="select pr-select pr-select-sm text-left"  ng-model="tr.batchRequirement">
-                       <option value="无" ng-selected="tr.batchRequirement=='无'">无</option>
-                       <option value="单一批号" ng-selected="tr.batchRequirement=='单一批号'">单一批号</option>
-                       <option value="单一新批号" ng-selected="tr.batchRequirement=='单一新批号'">单一新批号</option>
-                       <option value="新批号" ng-selected="tr.batchRequirement=='新批号'">新批号</option>
+                       <option value="无" >无</option>
+                       <option value="单一批号" >单一批号</option>
+                       <option value="单一新批号">单一新批号</option>
+                       <option value="新批号">新批号</option>
                      </select>
                    </td>
                    <td class="text-center">￥
                      <input type="text"
                             class="ipt pr-ipt-60 text-right"
-                            ng-model="tr.purchasePrice"
-                            ng-disabled="formData.orderStatus=='已处理'" />
+                            ng-model="tr.strike_price"
+                            ng-disabled="formData.orderStatus=='已处理'"
+                             />
                    </td>
-                   <td class="text-right" style="line-height:2.4;">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
-                   <td class="text-right" style="line-height:2.4;">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
-                   <td class="text-right" style="line-height:2.4;">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
+                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
+                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
+                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
                    <td class="text-right">
                      <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.taxRate">
                        <option value="17" ng-selected="tr.taxRate==17">17</option>
