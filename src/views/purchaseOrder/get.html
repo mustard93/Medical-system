@@ -218,11 +218,18 @@
                 modal-scope="this"
                 modal-url="views/purchaseOrder/dialog-export-word.html">导出采购合同
         </button>
-        <button ng-disabled="scopeData.purchaseVoucherId" class="pr-btn-save-glodbg mgr mgl"
+        <button ng-if="!scopeData.purchaseVoucherId" class="pr-btn-save-glodbg mgr mgl"
                 type="button"
                 ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{scopeData.id}}"
                 alert-error
                 callback="$root.goTo('#/purchaseVoucher/get.html?relId={{scopeData.id}}')">生成采购凭证
+        </button>
+        <button ng-if="scopeData.purchaseVoucherId" class="pr-btn-save-glodbg mgr mgl"
+                type="button"
+                disabled="disabled"
+                ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{scopeData.id}}"
+                alert-error
+                callback="$root.goTo('#/purchaseVoucher/get.html?relId={{scopeData.id}}')">已生成采购凭证
         </button>
 
         <span ng-if="scopeData.didateFilter.buttons.length>0"
