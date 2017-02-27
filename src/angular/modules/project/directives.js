@@ -2873,8 +2873,8 @@ function addressManageComponent (requestData, utils) {
       };
 
       // 用户点击后选择其他地址
-      $scope.choiseOtherItem = function (item) {
-        $scope.formData[$scope.scopeDataId] = item.id;
+      $scope.choiseOtherItem = function (item, _requestDataId) {
+        $scope.formData[$scope.scopeDataId] = _requestDataId;
         $scope.formData[$scope.scopeDataContacts] = item;
       };
 
