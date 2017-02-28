@@ -541,11 +541,13 @@ define('project/controllers', ['project/init'], function() {
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
     };
+
     $scope.$watch('initFlag', function () {
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
       if ($scope.showData) {
         // 选择出当前状态相同的驳回理由，并放入一个数组中
+<<<<<<< HEAD
         if (showData.operationFlowSet) {
           for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
             if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
@@ -554,6 +556,14 @@ define('project/controllers', ['project/init'], function() {
             }
           }
         }
+=======
+       for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+         if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
+           operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+           operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+         }
+       }
+>>>>>>> V1.00.07.04_Beta
       //  选择当前状态最近的一个驳回理由用于显示
        $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
        $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
@@ -755,13 +765,13 @@ define('project/controllers', ['project/init'], function() {
           // 选择出当前状态相同的驳回理由，并放入一个数组中
          for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
            if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
-             operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message)
-             operationFlowSetKey.push($scope.showData.operationFlowSet[i].key)
+             operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+             operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
            }
          }
         //  选择当前状态最近的一个驳回理由用于显示
-         $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
-         $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+         $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+         $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
          return;
         }
 
@@ -1922,14 +1932,13 @@ define('project/controllers', ['project/init'], function() {
        if (newVal && $scope.scopeData) {
 
          // 选择出当前状态相同的驳回理由，并放入一个数组中
-         if (scopeData.operationFlowSet) {
-           for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
-             if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
-               operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message);
-               operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key);
-             }
-           }
-         }
+
+        for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
+          if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
+            operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message);
+            operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key);
+          }
+        }
        //  选择当前状态最近的一个驳回理由用于显示
         $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
         $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
