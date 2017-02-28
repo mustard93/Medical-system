@@ -3355,14 +3355,16 @@ define('project/controllers', ['project/init'], function() {
 
         //如果销售退货细表中有该条目则选中
         angular.forEach(addDataObj_orderMedicalNos, function (data, index) {
-          for (var i = 0; i < saleReturnOrder_orderMedicalNos.length; i++) {
-            if (data.relId === saleReturnOrder_orderMedicalNos[i].relId &&
-                data.productionBatch === saleReturnOrder_orderMedicalNos[i].productionBatch &&
-                data.sterilizationBatchNumber === saleReturnOrder_orderMedicalNos[i].sterilizationBatchNumber) {
-                  data.itemSelected = true;
-                  choisedMedicalList.push(data);
-                  _initFlag++;
-                }
+          if (saleReturnOrder_orderMedicalNos) {
+            for (var i = 0; i < saleReturnOrder_orderMedicalNos.length; i++) {
+              if (data.relId === saleReturnOrder_orderMedicalNos[i].relId &&
+                  data.productionBatch === saleReturnOrder_orderMedicalNos[i].productionBatch &&
+                  data.sterilizationBatchNumber === saleReturnOrder_orderMedicalNos[i].sterilizationBatchNumber) {
+                    data.itemSelected = true;
+                    choisedMedicalList.push(data);
+                    _initFlag++;
+                  }
+            }
           }
 
           if (!data.itemSelected) {
