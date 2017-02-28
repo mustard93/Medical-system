@@ -546,15 +546,17 @@ define('project/controllers', ['project/init'], function() {
       var operationFlowSetKey=[];
       if ($scope.showData) {
         // 选择出当前状态相同的驳回理由，并放入一个数组中
-       for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
-         if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
-           operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message)
-           operationFlowSetKey.push($scope.showData.operationFlowSet[i].key)
-         }
-       }
+        if (showData.operationFlowSet) {
+          for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+            if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
+              operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+              operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+            }
+          }
+        }
       //  选择当前状态最近的一个驳回理由用于显示
-       $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
-       $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+       $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+       $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
        return;
       }
 
@@ -1906,42 +1908,50 @@ define('project/controllers', ['project/init'], function() {
        if (newVal && $scope.scopeData) {
 
          // 选择出当前状态相同的驳回理由，并放入一个数组中
-        for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
-          if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
-            operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message)
-            operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key)
-          }
-        }
+         if (scopeData.operationFlowSet) {
+           for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
+             if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
+               operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message);
+               operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key);
+             }
+           }
+         }
        //  选择当前状态最近的一个驳回理由用于显示
-        $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
-        $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+        $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+        $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
 
        }
        if (newVal && $scope.formData) {
          // 选择出当前状态相同的驳回理由，并放入一个数组中
-        for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
-          if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
-            operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message)
-            operationFlowSetKey.push($scope.formData.operationFlowSet[i].key)
-          }
-        }
-       //  选择当前状态最近的一个驳回理由用于显示
-        $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
-        $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+         if ($scope.formData.operationFlowSet) {
+           for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+             if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+               operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
+               operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
+             }
+           }
+
+           //选择当前状态最近的一个驳回理由用于显示
+           $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+           $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+         }
+
 
        }
        if (newVal && $scope.tr) {
          // 选择出当前状态相同的驳回理由，并放入一个数组中
-        for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
-          if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
-            operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message)
-            operationFlowSetKey.push($scope.tr.operationFlowSet[i].key)
-          }
-        }
-       //  选择当前状态最近的一个驳回理由用于显示
-        $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1]
-        $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1]
+         if ($scope.tr.operationFlowSet) {
+           for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+             if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
+               operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
+               operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
+             }
+           }
 
+           //选择当前状态最近的一个驳回理由用于显示
+           $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+           $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+         }
        }
 
        if (newVal && $scope.formData.orderMedicalNos) {
