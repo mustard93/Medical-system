@@ -46,7 +46,7 @@ define('main/services', ['toastr','main/init'], function (toastr) {
            _params=$.extend( true,_params, queryStringObj);
         }
 
-        if(_params&&method == 'GET'){
+        if(_params&&(method == 'GET'||method == 'get')){
           _url+=(_url.indexOf("?")==-1?"?":"&")+$httpParamSerializer(_params);
 
         }
