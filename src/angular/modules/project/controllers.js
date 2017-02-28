@@ -1257,14 +1257,28 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 保存type:save-草稿,submit-提交订单。
+    // $scope.submitForm = function(fromId, type) {
+    //   $scope.submitForm_type = type;
+    //   if ($scope.submitForm_type == 'save') {
+    //     $scope.formData.validFlag = false;
+    //   }
+    //   $('#' + fromId).trigger('submit');
+    // };
     $scope.submitForm = function(fromId, type) {
+
       $scope.submitForm_type = type;
-      if ($scope.submitForm_type == 'save') {
+
+      // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
+      if ($scope.submitForm_type === 'save' && $scope.formData.validFlag === true) {
         $scope.formData.validFlag = false;
       }
+
+      if ($scope.submitForm_type == 'submit') {
+        $scope.formData.validFlag = true;
+      }
+
       $('#' + fromId).trigger('submit');
     };
-
     // 全选与全不选
     $scope.isChoiseAll = function (choiseStatus) {
       if (choiseStatus) {
@@ -2330,6 +2344,27 @@ define('project/controllers', ['project/init'], function() {
             }
           }
         };
+
+        /**
+         * [createPurVoBtnClick 点击生成采购凭证事件]
+         * @param  {[type]} _id [当前采购单id]
+         * @return {[type]}             [description]
+         */
+        $scope.createPurVoBtnClick = function (_id) {
+          var url = 'rest/authen/purchaseVoucher/save';
+          var data= {purchaseOrderId:_id};
+          requestData(url,data, 'POST')
+            .then(function (results) {
+              var _data = results[1].data;
+              console.log(_data);
+              $scope.goTo('#/purchaseVoucher/get.html?id='+_data.id);
+            })
+            .catch(function (error) {
+              alertError(error || '出错');
+            });
+        };
+
+
 
    }//end salesOrderEditCtrl
 
