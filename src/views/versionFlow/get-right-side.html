@@ -21,7 +21,8 @@
               <!-- ng-repeat="item in formData" -->
               <td class="text-left pr-indent-20 color-white"> {{item.inputUser.n}}</td>
               <td class="color-white">{{item.createAt | date:'yyyy-MM-dd'}}</td>
-              <td class="text-left color-white">{{item.versionStatus}}</td>
+              <td ng-if="item.versionStatus!='已冻结'" class="text-left color-white">{{item.versionStatus}}</td>
+              <td ng-if="item.versionStatus=='已冻结'" class="text-left color-white">冻结</td>
               <td class="text-left color-white">{{item.message}}</td>
             </tr>
           </tbody>

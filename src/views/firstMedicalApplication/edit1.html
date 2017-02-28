@@ -80,45 +80,46 @@
                   </div>
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">品种通用名称：</label>
-                  <div class="col-sm-6 relative">
-                    <!-- <input type="text"
-                           class="form-control"
-                           name="genericName"
-                           ng-model="formData.firstMedical.genericName"
-                           required="true"
-                           data-content="请输入通用名称(必填项)"
-                           invalid-popover="{{firstMedicalEditForm.genericName.$invalid}}" /> -->
-                    <input type="text"
-                           class="form-control"
-                           name="genericName"
-                           ng-model="formData.firstMedical.genericName"
-                           required />
-                  </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">品种名：</label>
+                <div class="col-sm-6 relative">
+                  <input type="text"
+                         class="form-control"
+                         name="name"
+                         ng-model="formData.firstMedical.name"
+                         required />
                 </div>
               </div>
             </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">品种名：</label>
-                  <div class="col-sm-6 relative">
-                    <input type="text"
-                           class="form-control"
-                           name="name"
-                           ng-model="formData.firstMedical.name"
-                           required />
-                  </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">品种通用名称：</label>
+                <div class="col-sm-6 relative">
+                  <!-- <input type="text"
+                         class="form-control"
+                         name="genericName"
+                         ng-model="formData.firstMedical.genericName"
+                         required="true"
+                         data-content="请输入通用名称(必填项)"
+                         invalid-popover="{{firstMedicalEditForm.genericName.$invalid}}" /> -->
+                  <input type="text"
+                         class="form-control"
+                         name="genericName"
+                         ng-model="formData.firstMedical.genericName"
+                         required />
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">注册商标：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstMedical.trademark">
-                  </div>
+
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">注册商标：</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" ng-model="formData.firstMedical.trademark">
                 </div>
               </div>
             </div>
@@ -292,71 +293,72 @@
                   </div>
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">是否基药：</label>
-                  <div class="col-sm-6 flex-column" >
-                    <span class="flex-item-3">
-                      <select class="form-control" name="" ng-init="formData.firstMedical.isBasicMedicine='是'" ng-model="formData.firstMedical.isBasicMedicine">
-                        <option value="是" ng-selected="formData.firstMedical.isBasicMedicine=='是'">是</option>
-                        <option value="否" ng-selected="formData.firstMedical.isBasicMedicine=='否'">否</option>
-                      </select>
-                    </span>
-                    <span class="flex-item-8 flex-offset-1">
-                      <label for="" class="col-sm-4 control-label">牌价：</label>
-                      <div class="col-sm-8">
-                        <input type="text"
-                               class="form-control text-left"
-                               placeholder="￥0.00"
-                               ng-model="formData.firstMedical.quoteprice"
-                               ng-disabled="formData.firstMedical.isBasicMedicine=='否'"
-                               ng-keyup="chkQuoteAndRetail()"
-                               name="quoteprice"
-                               ng-pattern="/^(\d)|(\d+\.\d+)$/"
-                               invalid-popover
-                               popover-show="!firstMedicalEditForm.quoteprice.$valid"
-                               popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}' />
-                      </div>
-                    </span>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">是否基药：</label>
+                <div class="col-sm-6 flex-column" >
+                  <span class="flex-item-3">
+                    <select class="form-control" name="" ng-init="formData.firstMedical.isBasicMedicine='是'" ng-model="formData.firstMedical.isBasicMedicine">
+                      <option value="是" ng-selected="formData.firstMedical.isBasicMedicine=='是'">是</option>
+                      <option value="否" ng-selected="formData.firstMedical.isBasicMedicine=='否'">否</option>
+                    </select>
+                  </span>
+                  <span class="flex-item-8 flex-offset-1">
+                    <label for="" class="col-sm-4 control-label">牌价：</label>
+                    <div class="col-sm-8">
+                      <input type="text"
+                             class="form-control text-left"
+                             placeholder="￥0.00"
+                             ng-model="formData.firstMedical.quoteprice"
+                             ng-disabled="formData.firstMedical.isBasicMedicine=='否'"
+                             ng-keyup="chkQuoteAndRetail()"
+                             name="quoteprice"
+                             ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                             invalid-popover
+                             popover-show="!firstMedicalEditForm.quoteprice.$valid"
+                             popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}' />
+                    </div>
+                  </span>
 
                   </div>
                 </div>
               </div>
             </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">采购价：</label>
-                  <div class="col-sm-6">
-                    <input type="text"
-                           class="form-control text-left"
-                           placeholder="￥0.00"
-                           ng-model="formData.firstMedical.purchasePrice"
-                           name="purchasePrice"
-                           required
-                           ng-pattern="/^(\d)|(\d+\.\d+)$/"
-                           invalid-popover
-                           popover-show="!firstMedicalEditForm.purchasePrice.$valid"
-                           popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}'>
-                  </div>
+          </div>
+          <div class="flex-column mgb">
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">采购价：</label>
+                <div class="col-sm-6">
+                  <input type="text"
+                         class="form-control text-left"
+                         placeholder="￥0.00"
+                         ng-model="formData.firstMedical.purchasePrice"
+                         name="purchasePrice"
+                         required
+                         ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                         invalid-popover
+                         popover-show="!firstMedicalEditForm.purchasePrice.$valid"
+                         popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}'>
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">零售价：</label>
-                  <div class="col-sm-6">
-                    <input type="text"
-                           class="form-control text-left"
-                           placeholder="￥0.00"
-                           ng-model="formData.firstMedical.retailPrice"
-                           ng-keyup="chkQuoteAndRetail()"
-                           name="retailPrice"
-                           required
-                           ng-pattern="/^(\d)|(\d+\.\d+)$/"
-                           invalid-popover
-                           popover-show="!firstMedicalEditForm.retailPrice.$valid"
-                           popover-options='{"content":"零售价格式不正确", "placement":"right", "trigger":"manual"}'>
-                  </div>
+            </div>
+            <div class="flex-item-6">
+              <div class="form-group">
+                <label for="" class="col-sm-2 control-label">零售价：</label>
+                <div class="col-sm-6">
+                  <input type="text"
+                         class="form-control text-left"
+                         placeholder="￥0.00"
+                         ng-model="formData.firstMedical.retailPrice"
+                         ng-keyup="chkQuoteAndRetail()"
+                         name="retailPrice"
+                         required
+                         ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                         invalid-popover
+                         popover-show="!firstMedicalEditForm.retailPrice.$valid"
+                         popover-options='{"content":"零售价格式不正确", "placement":"right", "trigger":"manual"}'>
                 </div>
               </div>
             </div>
@@ -443,21 +445,26 @@
             <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstMedical.message"></textarea>
           </div>
         </div>
-        <!-- 功能按钮 -->
-        <div class="handle-btn-area relative">
-          <div class="mgb text-right btn-area">
-            <span class="mgl">
-              <a ng-if="changeFlag"  href="javascript:;"
-                 handle-this-click
-                 dialog-title="确认返回?"
-                 dialog-content="该申请单存在未保存数据，是否保存?"
-                 dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo('#/firstMedicalApplication/query.html')"
-                 save-callback="submitForm('editForm','exit');
-                 $root.goTo('#/firstMedicalApplication/query.html')"
-                >返回申请单列表</a>
+        <div class="pd-v-l bt-line">
+          <h1 class="mgb-l">药品的适应或功能主治情况：</h1>
+          <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstMedical.message"></textarea>
+        </div>
+      </div>
+      <!-- 功能按钮 -->
+      <div class="handle-btn-area relative">
+        <div class="mgb text-right btn-area">
+          <span class="mgl">
+            <a ng-if="changeFlag"  href="javascript:;"
+               handle-this-click
+               dialog-title="确认返回?"
+               dialog-content="该申请单存在未保存数据，是否保存?"
+               dialog-template="pr-dialog-return.html"
+               nosave-callback="goTo('#/firstMedicalApplication/query.html')"
+               save-callback="submitForm('firstMedical-editForm','save');
+               $root.goTo('#/firstMedicalApplication/query.html')">返回申请单列表
+            </a>
 
-              <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回申请单列表</a>
+            <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回申请单列表</a>
             </span>
             <span class="mgl">
               <a ng-if="formData.id && formData.proposerName==mainStatus.name"

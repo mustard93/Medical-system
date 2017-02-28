@@ -54,12 +54,7 @@
         </div>
         <div class="flex-item-6 text-right">
           <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-          <a modal-center="1000px"
-             modal-data='{"businessKey":"{{scopeData.id}}"}'
-             modal-scope="this"
-             modal-url="views/workflowTask/getOfDialog.html">
-             <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
-          </a>
+          <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>      
         </div>
       </div>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n" ng-class="{'pr-bg-grey3':scopeData.orderStatus=='已作废'}">
@@ -175,10 +170,10 @@
                           "btnCancel":"取消",
                           "url":"rest/authen/purchaseVoucher/updateStatus",
                           "goUrl":"",
-                          "id":"{{mainStatus.pageParams.id}}",
+                          "id":"{{scopeData.id}}",
                           "status":"已作废"
                          }'
-             modal-url="angular/tpl/pr-dialog-submit-message.html">作废
+             modal-url="angular/tpl/pr-dialog-submit-cancel-message.html">作废
           </a>
         </span>
 

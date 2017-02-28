@@ -167,7 +167,13 @@
                   if (window.localStorage) {    //如果当前用户浏览器支持localstorage
                     window.localStorage.setItem('remeberNumber', remeberNumber);
                   }
-                  window.location.href = "index.html#/main.html";
+
+                  if (results.data.additional.DepartmentIds) {
+                    window.location.href = "index.html#/main.html";
+                  } else {
+                    window.location.href = "user1.html#/reg/apply_bind.html"
+                  }
+
                 } else {
                   $('.login-info-prompt > div > span').text(results.msg);
                   $('.login-info-prompt').fadeIn(500);

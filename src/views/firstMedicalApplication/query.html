@@ -98,10 +98,112 @@
                         <span class="delete-link-icon">&nbsp;</span>
                         </a>
 
+                    </span>
+
+                     <!-- <span class="text-right rect-m fl-r"
+                           ng-if="$root.hasAuthor('首营品种维护')&&tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结'" >
+                         <span class="circle-ss-outspan">
+                           <span run-popovers class="circle-ss">
+                             <span ></span>
+                             <span ></span>
+                             <span ></span>
+                           </span>
+                         <span class="purchaseorder-buyer-info">
+                           <i class="block bb-dashed-line pd-c-l text-normal">
+                             <em class="inline-block pd-v-s">
+                               <a ng-if="tr.orderStatus=='已冻结'"
+                                  modal-center="350"
+                                  modal-scope="this"
+                                  modal-data='{"title":"确认解冻?",
+                                               "content":"解冻后，该品种资格将恢复，确认解冻?",
+                                               "btnConfirm":"确定",
+                                               "btnCancel":"取消",
+                                               "url":"rest/authen/firstMedicalApplication/proposerUpdateStatus",
+                                               "goUrl":"",
+                                               "id":"{{tr.id}}",
+                                               "status":"解冻"
+                                              }'
+                                  modal-url="angular/tpl/pr-dialog-submit-message.html"> 解冻
+                              </a>
+                              <a ng-if="tr.orderStatus=='已通过'"
+                                 modal-center="350"
+                                 modal-scope="this"
+                                 modal-data='{"title":"确认",
+                                              "content":"冻结后，该品种资格将被暂停，直到解冻，确认冻结?",
+                                              "btnConfirm":"确定",
+                                              "btnCancel":"取消",
+                                              "url":"rest/authen/firstMedicalApplication/proposerUpdateStatus",
+                                              "goUrl":"",
+                                              "id":"{{tr.id}}",
+                                              "status":"已冻结"
+                                             }'
+                                 modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
+                              </a>
+                            </em>
+                          </i>
+                           <i class="block pd-c-l text-normal">
+                             <em class="inline-block pd-v-s">
+                             <a href="javascript:;"
+                                class="color-orange"
+                                handle-this-click
+                                dialog-title="确认终止?"
+                                dialog-content="终止后，该品种资格将被取消，确定终止?"
+                                dialog-template="pr-dialog-submit.html"
+                                request-url="rest/authen/firstMedicalApplication/proposerUpdateStatus"
+                                params='{"id":tr.id,"status":"已终止"}'
+                                alert-error
+                                callback="$root.utils.refreshHref()"
+                                >
+                                终止
+                              </a>
+                             </em>
+                           </i>
+                         </span>
+                       </span>
+                    </span>
+                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
+                       ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已冻结'"
+                       ng-href="#/firstMedicalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                     <span class="edit-link-icon">&nbsp;</span>
+                   </a>
+                    <a
+                       ng-if="tr.orderStatus=='未提交'"
+                       ng-href="#/firstMedicalApplication/edit1.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                     <span class="edit-link-icon">&nbsp;</span>
+                   </a>
+
+                    <a ng-if="tr.orderStatus=='未通过'"
+                       ng-href="#/firstMedicalApplication/edit1.html?copyId={{tr.id}}" title="新建" class="btn-link pd-m rect-s ">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                     </a>
+                    <a  ng-class="{'mr--4':(tr.orderStatus=='已通过'|| tr.orderStatus=='已冻结')}"
+                       ng-if="(tr.orderStatus!='未提交' && !$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))
+                       || tr.orderStatus=='未通过' || tr.orderStatus=='已冻结' || tr.orderStatus=='已终止'"
+                       ng-href="#/firstMedicalApplication/get.html?id={{tr.id}}"  class="btn-link pd-m rect-s" title="查看详情">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                     </a>
+                    <a ng-if="tr.orderStatus=='待审批' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                       ng-href="#/firstMedicalApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
+                       <span class="examine-approve">&nbsp;</span>
+                     </a>
+                     <a  ng-if="tr.orderStatus=='未提交' && mainStatus.id==tr.proposerId"
+                        href="javascript:;"
+                        class="btn-link pd-m rect-s "
+                        handle-this-click
+                        dialog-title="确认删除?"
+                        dialog-content="删除后将无法恢复,确认删除?"
+                        dialog-template="pr-dialog-submit.html"
+                        callback="$root.goTo('#/firstMedicalApplication/query.html')"
+                        params='{"id":tr.id}'
+                        title="删除"
+                        request-url="rest/authen/firstMedicalApplication/delete">
+                      <span class="delete-link-icon">&nbsp;</span>
+                      </a> -->
+
                 </div>
               <div class="card-new">
                   <div class="bt-line">
-                    <h1 class="text-center text-m color-black text-ellips-s">  {{tr.firstMedical.name || '未知名称'}}</h1>
+                    <h1 class="text-center text-m color-black text-ellips-s">  {{tr.firstMedical.genericName || '未知名称'}}</h1>
                   </div>
                   <div class="flex-column qurey text-s color-9 bt-dashed-line">
                     <span class="flex-item-6 ">单据编号</span>
@@ -124,7 +226,7 @@
                           <em class="fa fa-comment-o mgl"></em>
                           <em class="inline-block pdl pdr pdt">
                             <a href="javascript:;"
-                               modal-center="490"
+                               modal-center="350"
                                modal-data='{"toUser":{"n":"{{tr.proposerName}}"},"userIds":["{{tr.proposerId}}"]}'
                                modal-url="views/notice/sendToUser.html">发送消息
                             </a>

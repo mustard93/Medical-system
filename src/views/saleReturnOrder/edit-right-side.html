@@ -1,7 +1,7 @@
 <div class="sale-return-order right-side"
      ng-controller="returnOrderAddController"
      ajax-If-eval="selectedData.id||formData.relId"
-     ajax-url="rest/authen/invoicesOrder/get?id={{selectedData.id||formData.relId}}"
+     ajax-url="rest/authen/invoicesOrder/get.json?id={{selectedData.id||formData.relId}}"
      scope-data="addDataObj"
      callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos)"
      alert-error>
@@ -98,7 +98,7 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="item in addDataObj.orderMedicalNos | repeatFilter:'addDataObj.orderMedicalNos'" ng-init="item.itemSelected=false">
+                <tr ng-repeat="item in addDataObj.orderMedicalNos | repeatFilter:'addDataObj.orderMedicalNos'">
                   <td class="select-td">
                     <input type="checkbox"
                            class="selectOne"
