@@ -2454,7 +2454,6 @@ function flashAddMedical() {
             $scope.handleAddThisItem = function (e) {
               var keycode = window.event ? e.keyCode : e.which;
               if (keycode == 13) {
-                console.log('aaabbb');
                 $scope.addDataFn();
               }
                 return false;
