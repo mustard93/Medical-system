@@ -1626,7 +1626,7 @@ function businessFlowShow() {
                    if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
                  }
              }
-             workflow.addCanvasBusinessFlow(data);
+          
              workflow.addCanvasBusinessFlow(data,curRelId);
 
            });//WorkflowProcess
