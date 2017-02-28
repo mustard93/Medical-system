@@ -1,0 +1,22 @@
+<div class="pr-page-dialog-wrap">
+  <form class="confirmOrder-reject-form"
+        ng-init="formData={};formData.id=dialogData.id;formData.status=dialogData.status;"
+        action="{{dialogData.url}}"
+        callback="$root.utils.goOrRefreshHref()"
+        auto-close-dialog
+        form-validator>
+    <div class="pr-page-dialog-title bb-line">
+      <i></i><span>{{dialogData.title}}</span>
+    </div>
+    <div class="pr-page-dialog-content bb-line">
+      <div class="mgb-l">{{dialogData.content}}</div>
+      <p>
+        <textarea class="pr-textarea" ng-model="formData.message" placeholder="原因"></textarea>
+      </p>
+    </div>
+    <div class="pr-page-dialog-footer text-center mg-m">
+      <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">{{dialogData.btnCancel}}</button>
+      <button type="submit"  class="pr-btn-save-glodbg">{{dialogData.btnConfirm}}</button>
+    </div>
+  </form>
+</div>
