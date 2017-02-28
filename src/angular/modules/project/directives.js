@@ -2454,7 +2454,6 @@ function flashAddMedical() {
             $scope.handleAddThisItem = function (e) {
               var keycode = window.event ? e.keyCode : e.which;
               if (keycode == 13) {
-                console.log('aaabbb');
                 $scope.addDataFn();
               }
                 return false;
@@ -2881,11 +2880,11 @@ function addressManageComponent (requestData, utils) {
       // 设置当前地址为默认地址
       $scope.setThisAddressToDefault = function (contactId) {
 
-        var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
+        // var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
+        var _moduleAddressId = 'invoicesAddressId';  // 构建模块id名
         var _data = {};
         _data[_moduleAddressId] = $scope.returnAddressObj.id;
         _data.contactId = contactId;
-        // console.log(contactId);
 
         requestData($scope.setDefaultAddressRequesturl, _data, 'POST')
         .then(function (results) {
