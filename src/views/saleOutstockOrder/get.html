@@ -11,12 +11,14 @@
          <a href="#/confirmOrder/query.html">
             <em class="color-custom-orange">销售单</em>
          </a>
-        <em>>销售出库单详情</em>
+        <em ng-if="showData.type!='销售出库单_红字'">>销售出库单详情</em>
+        <em ng-if="showData.type=='销售出库单_红字'">>销售出库单<em class="color-red">(红字)</em>详情</em>
        </p>
        <!-- 标题 -->
        <div class="pd-c-v-l">
          <div class="pos-rel-tl inline-block fl-l">
-           <h1 class="pr-font-20 color-black">销售出库单详情</h1>
+           <h1 ng-if="showData.type!='销售出库单_红字'" class="pr-font-20 color-black">销售出库单详情</h1>
+           <h1 ng-if="showData.type=='销售出库单_红字'" class="pr-font-20 color-black">销售出库单<em class="color-red">(红字)</em>详情</h1>
          </div>
        </div>
      </div>
@@ -30,12 +32,9 @@
          <div class="flex-column color-9 pd-c-l pdt-m pdb-m ">
            <div class="flex-item-6">
              <span class="mgr">单据编号：<em class="color-3">{{showData.orderNo || '暂无'}}</em></span>
-             <span class="mgr">部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span>
-             <span class="mgr">出库类型：<em class="color-black">{{showData.orderBusinessType|| '暂无'}}</em></span>
            </div>
            <div class="flex-item-6 text-right">
-             <span class="mgr">出库日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
-             <!-- <span class="mgr">状态：<em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">{{showData.orderStatus}}</em></span> -->
+             <span class="mgr">录单日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
              <a ng-if="initFlag"
                 modal-center="1000px"
                 modal-data='{"businessKey":"{{showData.id}}"}'
@@ -43,6 +42,14 @@
                 modal-url="views/workflowTask/getOfDialog.html">
                 <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
              </a>
+           </div>
+         </div>
+         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
+           <div class="flex-item-12">
+             <span class="mgr">销售部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span>
+             <span class="mgr">业务人员：<em class="color-3">{{showData.saleUser.n|| '暂无'}}</em></span>
+             <span class="mgr">业务类型：<em class="color-3">{{showData.orderBusinessType|| '暂无'}}</em></span>
+             <span class="mgr">销售类型：<em class="color-black">{{showData.salesType || '暂无'}}</em></span>
            </div>
          </div>
 
@@ -82,7 +89,8 @@
                     <td class="text-center"><div class="autocut-l" title="{{tr.medicalStockName}}">{{tr.name}}</div></td>
                     <td class="text-center">{{tr.specificationAndModelType}}</td>
                     <td class="text-center">{{tr.unit}}</td>
-                    <td  class="text-right">{{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}</td>
+                    <td class="text-right" ng-if="showData.type!='销售出库单_红字'">{{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}</td>
+                    <td class="text-right" ng-if="showData.type=='销售出库单_红字'" style="color:red;">{{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}</td>
                     <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
                     <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td>
                     <td class="text-right">
@@ -174,7 +182,7 @@
                <input type="text" class="ipt" ng-model="formData.nu" />
              </div>
              <div class="flex-column mgt-s">
-               <span class="flex-item-6"><a href="javascript:;" ng-click="addAreaisShow=false;">取消</a></span>
+               <span class="flex-item-6"><a href="javascript:;" ng-click="addAreaisShow=false;formData.type='';formData.nu='';formData.id=''">取消</a></span>
                <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xxsm">保存</a></span>
              </div>
            </li>

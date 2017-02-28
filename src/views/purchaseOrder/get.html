@@ -27,20 +27,18 @@
       <div class="pd-c-xxl pdt-l pdb-l clearfix">
         <div class="pos-rel-tl inline-block fl-l">
           <h1 class="pr-font-20 color-black">采购单详情</h1>
-
         </div>
       </div>
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
       <p class="mgb-l text-n color-3 text-bold">{{scopeData.supplier.name}}</p>
-      <div ng-if="scopeData.orderStatus=='未通过'||scopeData.orderStatus=='已作废'"
-       class="pr-panel pr-panel-height mgb pr-bg-pink">
-      <em class="color-red">原因:</em>
-       <p class="inline-block color-red">
-      <em ng-model="scopeData.operationFlowSet.key">{{scopeData.operationFlowSet.key}}</em>
-       <em ng-model="scopeData.operationFlowSet.message">{{scopeData.operationFlowSet.message}}</em>
-       </p>
+      <div ng-if="scopeData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb pr-bg-pink">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="scopeData.operationFlowSet.key">{{scopeData.operationFlowSet.key}}</em>
+          <em ng-model="scopeData.operationFlowSet.message">{{scopeData.operationFlowSet.message}}</em>
+        </p>
       </div>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <!-- 单据信息 -->
@@ -53,11 +51,10 @@
             <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span>
             <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
               <a ng-if="initFlag"
-              modal-center="1000px"
-              modal-data='{"businessKey":"{{scopeData.id}}"}'
-              modal-scope="this"
-              modal-url="views/workflowTask/getOfDialog.html"
-              >
+                 modal-center="1000px"
+                 modal-data='{"businessKey":"{{scopeData.id}}"}'
+                 modal-scope="this"
+                 modal-url="views/workflowTask/getOfDialog.html">
             <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
               </a>
           </div>
@@ -221,13 +218,20 @@
                 modal-scope="this"
                 modal-url="views/purchaseOrder/dialog-export-word.html">导出采购合同
         </button>
-
         <button ng-if="!scopeData.purchaseVoucherId" class="pr-btn-save-glodbg mgr mgl"
                 type="button"
                 ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{scopeData.id}}"
                 alert-error
                 callback="$root.goTo('#/purchaseVoucher/get.html?relId={{scopeData.id}}')">生成采购凭证
         </button>
+        <button ng-if="scopeData.purchaseVoucherId" class="pr-btn-save-glodbg mgr mgl"
+                type="button"
+                disabled="disabled"
+                ajax-url-submit="rest/authen/purchaseVoucher/save?purchaseOrderId={{scopeData.id}}"
+                alert-error
+                callback="$root.goTo('#/purchaseVoucher/get.html?relId={{scopeData.id}}')">已生成采购凭证
+        </button>
+
         <span ng-if="scopeData.didateFilter.buttons.length>0"
               custom-menu-list
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">

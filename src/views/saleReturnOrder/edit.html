@@ -64,7 +64,7 @@
 
           <div class="flex-column color-9 pdt-m pdb-m pd-c-l">
             <span class="mgr-l">销售部门：<em class="color-3">{{formData.salesDepartmentName || '暂无'}}</em></span>
-            <span class="mgr-l">业务人员：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+            <span class="mgr-l">业务人员：<em class="color-orange">{{formData.saleUser.n || '暂无'}}</em></span>
             <span class="mgr-l">业务类型：<em class="color-3">{{formData.orderBusinessType || '暂无'}}</em></span>
             <span class="mgr-l">销售类型：<em class="color-3">{{formData.salesType || '暂无'}}</em></span>
           </div>
@@ -103,7 +103,7 @@
               </tr>
             </thead>
             <tbody class="bg-white">
-              <tr ng-repeat="item in formData.orderMedicalNos | repeatFilter:'formData.orderMedicalNos'" ng-controller="saleReturnMedicalItemController" table-item-handlebtn-component>
+              <tr ng-repeat="item in formData.orderMedicalNos | repeatFilter:'formData.orderMedicalNos'" ng-controller="saleReturnMedicalItemController" table-item-handlebtn-component ng-init="item.quantity=item.returnQuantity">
                 <td class="text-center">{{item.code}}
                   <div class="table-item-handle-btn">
                     <div class="table-item-confirm-del-area">
@@ -179,10 +179,10 @@
           </table>
         </div>
         <div class="empty-table clearfix" ng-if="!formData.orderMedicalNos.length">
-              <div>&nbsp;</div>
-              <div>&nbsp;</div>
-              <div>&nbsp;</div>
-          </div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+        </div>
       </div>
       <!-- 其他信息 -->
       <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
@@ -206,11 +206,12 @@
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/saleReturnOrder/query.html')"
-             save-callback="submitForm('editForm','exit');
+             save-callback="submitForm('saleReturnEditForm','save');
              $root.goTo('#/saleReturnOrder/query.html')">返回销售退货单列表
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>
+
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr"

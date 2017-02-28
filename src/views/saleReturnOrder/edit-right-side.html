@@ -1,7 +1,7 @@
 <div class="sale-return-order right-side"
      ng-controller="returnOrderAddController"
      ajax-If-eval="selectedData.id||formData.relId"
-     ajax-url="rest/authen/invoicesOrder/get?id={{selectedData.id||formData.relId}}"
+     ajax-url="rest/authen/invoicesOrder/get.json?id={{selectedData.id||formData.relId}}"
      scope-data="addDataObj"
      callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,formData.orderMedicalNos)"
      alert-error>
@@ -50,7 +50,7 @@
           <p class="flex-column color-9 pd">
             <span class="flex-item-12">
               部门：<em class="color-black">{{addDataObj.salesDepartmentName || '暂无'}}</em>
-              <em  class="mgl">业务人员：</em><em class="color-orange">{{addDataObj.saleUsr || '暂无'}}</em>
+              <em  class="mgl">业务人员：</em><em class="color-orange">{{addDataObj.saleUser.n|| '暂无'}}</em>
               <em  class="mgl">业务类型：</em><em class="color-black">{{addDataObj.orderBusinessType || '暂无'}}</em>
               <em  class="mgl">销售类型：</em><em class="color-black">{{addDataObj.salesType || '暂无'}}</em>
               <em  class="mgl">预发货日期：</em><em class="color-black">{{addDataObj.expectDate || '暂无'  | date : 'yyyy-MM-dd'}}</em>
@@ -145,14 +145,17 @@
               <div>&nbsp;</div>
           </div>
       </div>
-
     </div>
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area-2nd relative">
       <div class="btn-area">
-          <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
-          <button ng-disabled="!choisedMedicalList.length>0" ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList)" type="button" class="pr-btn-save-glodbg mgr-l">确定</button>
+        <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
+        <button ng-disabled="!choisedMedicalList.length>0"
+                ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList)"
+                type="button"
+                class="pr-btn-save-glodbg mgr-l">确定
+        </button>
       </div>
     </div>
   </form>

@@ -97,21 +97,22 @@
                    <td class="text-center" style="line-height:2.4;">{{tr.quantity}}</td>
                    <td>
                      <select class="select pr-select pr-select-sm text-left"  ng-model="tr.batchRequirement">
-                       <option value="无" ng-selected="tr.batchRequirement=='无'">无</option>
-                       <option value="单一批号" ng-selected="tr.batchRequirement=='单一批号'">单一批号</option>
-                       <option value="单一新批号" ng-selected="tr.batchRequirement=='单一新批号'">单一新批号</option>
-                       <option value="新批号" ng-selected="tr.batchRequirement=='新批号'">新批号</option>
+                       <option value="无" >无</option>
+                       <option value="单一批号" >单一批号</option>
+                       <option value="单一新批号">单一新批号</option>
+                       <option value="新批号">新批号</option>
                      </select>
                    </td>
                    <td class="text-center">￥
                      <input type="text"
                             class="ipt pr-ipt-60 text-right"
-                            ng-model="tr.purchasePrice"
-                            ng-disabled="formData.orderStatus=='已处理'" />
+                            ng-model="tr.strike_price"
+                            ng-disabled="formData.orderStatus=='已处理'"
+                             />
                    </td>
-                   <td class="text-right" style="line-height:2.4;">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
-                   <td class="text-right" style="line-height:2.4;">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
-                   <td class="text-right" style="line-height:2.4;">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
+                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
+                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
+                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
                    <td class="text-right">
                      <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.taxRate">
                        <option value="17" ng-selected="tr.taxRate==17">17</option>
@@ -148,11 +149,13 @@
                    <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
                    <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
                    <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
-                   <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
-                   <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
                  </div>
                </span>
                <span class="tools pull-right flex-item-1">
+                 <div class=" color-9 text-s mgt-s inline-block">
+                   <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
+                   <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+                 </div>
                  <a href="javascript:;" class="fa fa-chevron-down" toggle-panel style="float:right"></a>
                </span>
              </header>
@@ -170,10 +173,10 @@
                        <th class="text-center">数量</th>
                        <th class="text-center w-110">批号要求</th>
                        <th class="text-center">原币含税单价</th>
-                       <th class="text-center">税率</th>
                        <th class="text-center">原币单价</th>
                        <th class="text-center">原币金额</th>
                        <th class="text-center">原币价税合计</th>
+                       <th class="text-center">税率</th>
                        <th class="text-center">保存温度</th>
                        <th class="text-center">产地品牌</th>
                        <th class="text-center">产品注册证号</th>
@@ -195,7 +198,6 @@
                        <td class="text-center">{{tr.quantity}}</td>
                        <td class="text-center">{{tr.batchRequirement}}</td>
                        <td class="text-center">{{tr.price | currency:'￥'}}</td>
-                       <td class="text-center">{{tr.taxRate}}%</td>
                        <td class="text-right">
                          ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
                        </td>
@@ -205,6 +207,7 @@
                        <td class="text-right">
                          ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
                        </td>
+                        <td class="text-center">{{tr.taxRate}}%</td>
                        <td class="text-center">{{tr.storedTemperature}}</td>
                        <td class="text-center">{{tr.brand}}</td>
                        <td class="text-center">{{tr.drugAdministrationCode}}</td>
@@ -227,7 +230,7 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-        <span>
+        <span class="mgr">
           <a ng-if="changeFlag"
              href="javascript:;"
              handle-this-click
@@ -240,7 +243,7 @@
           <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
 
-        <span>
+        <!-- <span>
           <button ng-if="isShowCancelBtn && formData.orderStatus!='已处理'"
                   class="btn-reject mgl mgt mgr color-white text-center"
                   type="button"
@@ -253,7 +256,8 @@
                   alert-error
                   callback="$root.utils.refreshHref()">关闭
           </button>
-        </span>
+        </span> -->
+
         <span class="mgt-m">
           <button ng-disabled="!changeFlag"
                   class="pr-btn-save-glodbg mgr-s"

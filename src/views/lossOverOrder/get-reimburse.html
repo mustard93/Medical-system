@@ -49,9 +49,15 @@
             申请日期：<em >{{showData.createAt | date : 'yyyy-MM-dd' || '暂无'}}</em>
           </span>
           <span class="flex-item-1 text-right">状态：
-            <em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">
-            {{showData.orderStatus}}
-          </em>
+            <a ng-if="initFlag"
+               modal-center="1000px"
+               modal-data='{"businessKey":"{{showData.id}}"}'
+               modal-scope="this"
+               modal-url="views/workflowTask/getOfDialog.html">
+              <em class="color-black" ng-class="{'color-green':showData.orderStatus=='已通过'}">
+              {{showData.orderStatus}}
+              </em>
+            </a>
         </span>
         </p>
 

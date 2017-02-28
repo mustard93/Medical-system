@@ -18,7 +18,7 @@ define('main/services', ['toastr','main/init'], function (toastr) {
     redirectInterceptor.$inject = ['$q', '$location'];
 
     //数据请求
-    function requestData($q, $http, $httpParamSerializer) {
+    function requestData($q, $http, $httpParamSerializer,utils) {
         return function (_url, _params, method, parameterBody) {
           var defer = $q.defer();
           if (!method) {
@@ -33,6 +33,17 @@ define('main/services', ['toastr','main/init'], function (toastr) {
           if (_url.indexOf("http://") !==0 && _url.indexOf("https://") !== 0) {
             _url=Config.serverPath+_url;
           }
+        }
+
+        //解决 IE 参数中文乱码bug：
+        //http://192.168.0.203:8080/dt/rest/authen/lossOverOrder/countByOrderStatus.json?type=æ¥æ&
+
+        if(_url.indexOf("?")>-1){
+           var queryStringObj=utils.parseQueryString(_url);
+           _url=_url.split("?")[0];
+
+           if(!_params)_params={};
+           _params=$.extend( true,_params, queryStringObj);
         }
 
         if(_params&&method == 'GET'){
@@ -91,7 +102,7 @@ define('main/services', ['toastr','main/init'], function (toastr) {
             return defer.promise;
         };
     }
-    requestData.$inject = ['$q', '$http', '$httpParamSerializer'];
+
 
     //弹窗确认
     function dialogConfirm($rootScope, modal) {
@@ -444,7 +455,7 @@ function alertOk($rootScope, modal) {
                           ret[result[1]] = result[2];
                       }
                   }
-                  console.dir(ret);
+                  // console.dir(ret);
                   return ret;
               },
             /**
@@ -1234,7 +1245,7 @@ e
       .service('alertOk', ['$rootScope', 'modal',alertOk])
       .service('alertError', ['$rootScope', 'modal',alertError])
       .service('alertWarn', ['$rootScope', 'modal',alertWarn])
-      .service('requestData', requestData)
+      .service('requestData', ['$q', '$http', '$httpParamSerializer','utils',requestData])
       .service('dialogConfirm', dialogConfirm)
       .service('dialogAlert', dialogAlert)
       .service('dialog', dialog)

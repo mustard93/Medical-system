@@ -61,7 +61,7 @@
 
           <div class="flex-column pdt-m pdb-m pd-c-l color-9">
             <span class="mgr-l">采购部门：<em class="color-3">{{formData.salesDepartmentName || '暂无'}}</em></span>
-            <span class="mgr-l">业务人员：<em class="color-orange">{{formData.inputUser.n || '暂无'}}</em></span>
+            <span class="mgr-l">业务人员：<em class="color-orange">{{formData.saleUser.n || '暂无'}}</em></span>
             <span class="mgr-l">业务类型：<em class="color-3">{{formData.orderBusinessType || '暂无'}}</em></span>
             <span class="mgr-l">采购类型：<em class="color-3">{{formData.purchaseType || '暂无'}}</em></span>
           </div>
@@ -79,7 +79,8 @@
                 <th class="text-left">商品全名</th>
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
-                <th class="text-center">退货数量</th>
+                <th class="text-center">可退数量</th>
+                <th class="text-center">实退数量</th>
                 <th class="text-center w-110">批号要求</th>
                 <th class="text-center w-110">生产批号</th>
                 <th class="text-center w-110">灭菌批号</th>
@@ -121,6 +122,7 @@
                 <td class="text-left">{{item.name}}</td>
                 <td class="text-center">{{item.specificationAndModelType}}</td>
                 <td class="text-center">{{item.unit}}</td>
+                <td class="text-center">{{item.returnQuantity}}</td>
                 <td class="text-center">
                   <div class="order-goods-num">
                     <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1" ng-disabled="item.quantity==1">-</button>
@@ -140,7 +142,7 @@
                     </span>
                     <button type="button" class="inline-block right" ng-click="item.quantity=item.quantity+1">+</button>
                   </div>
-                  <p class="mgt-s color-red" ng-if="quantityError">退货数量不能大于当前可退货数量:{{item.returnQuantity}}</p>
+                  <p class="mgt-s color-red" ng-if="quantityError">实退数量不能大于当前可退数量:{{item.returnQuantity}}</p>
                 </td>
                 <td class="text-center">{{item.batchRequirement}}</td>
                 <td class="text-center">{{item.productionBatch}}</td>
@@ -191,7 +193,7 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+          <!-- <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
              handle-this-click
              dialog-title="确认返回?"
              dialog-content="该申请单存在未保存数据，是否保存?"
@@ -199,6 +201,16 @@
              nosave-callback="goTo('#/purchaseReturnOrder/query.html')"
              save-callback="submitForm('editForm','exit');
              $root.goTo('#/purchaseReturnOrder/query.html')">返回采购退货单列表
+          </a> -->
+          <a
+           ng-if="changeFlag"
+          href="javascript:;"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="有修改数据还未保存，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo('#/purchaseReturnOrder/query.html')"
+             save-callback="submitForm('editForm','exit')">返回采购退货单列表
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/purchaseReturnOrder/query.html" >返回采购退货单列表</a>
@@ -212,8 +224,6 @@
              request-url="rest/authen/purchaseReturnOrder/delete?id={{formData.id}}"
              callback="$root.goTo('#/purchaseReturnOrder/query.html')">删除
           </a>
-
-
           <button type="submit"
                   class="pr-btn-save-glodbg mgr-l"
                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();"
