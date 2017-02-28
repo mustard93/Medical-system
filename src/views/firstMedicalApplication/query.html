@@ -76,7 +76,7 @@
                          ng-href="#/firstMedicalApplication/edit1.html?copyId={{tr.copyId}}" title="新建" class="btn-link pd-m rect-s ">
                         <span class="watch-detail-icon">&nbsp;</span>
                        </a> -->
-                      <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'"
+                      <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审批'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
                          ng-href="#/firstMedicalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
                          <span class="watch-detail-icon">&nbsp;</span>
                        </a>
