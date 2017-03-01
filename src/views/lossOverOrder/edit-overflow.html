@@ -33,7 +33,7 @@
        <div class="">
          <h1 class="color-black pr-font-20">新建报溢申请单</h1>
          <div class="mgt-l">
-           <select class="pr-select select-wd"
+           <select class="pr-select select-wd-new"
             chosen
              ng-model="formData.warehouseCode"
              default-empty="仓库名"
@@ -118,10 +118,16 @@
                       <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
                       <span class="inline-block">
                         <input type="number"
-                               class="inline pr-table-input text-center item-planQuantity"
-                               style="width:60px;"
+                               class="inline pr-table-input text-center item-quantity"
+                               style="width:60px;background:transparent;"
                                ng-model="tr.quantity"
-                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                               name="quantity"
+                               ng-pattern="/^[1-9]\d*|0$/"
+                               invalid-popover
+                               popover-show="!editForm.quantity.$valid"
+                               popover-options='{"content":"数量格式不正确", "placement":"right", "trigger":"manual"}'
+                               >
                       </span>
                       <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                     </div>
@@ -217,7 +223,7 @@
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
 
-          <button
+          <button ng-disabled="!editForm.quantity.$valid"
                   class=" mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
