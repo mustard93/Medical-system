@@ -3031,10 +3031,13 @@ define('project/controllers', ['project/init'], function() {
    */
   function SalesOrderDetailsController ($scope, $timeout, alertOk, alertError, requestData) {
 
-    // 监视price价格变化，并赋值给strick_price字段
-    // $scope.$watch('tr.price', function (newVal) {
-    //   $scope.tr.strike_price = newVal;
-    // });
+    // 监视price价格变化，重置折扣额和折扣率
+    $scope.$watch('tr.strike_price', function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $scope.tr.discountPrice = 0;   // 折扣额重置为0
+        $scope.tr.discountRate = 100;  // 折扣率重置为100
+      }
+    });
 
     // $scope.$watch('tr.discountPrice', function (newVal) {
     //   if (isNaN(newVal)) {
