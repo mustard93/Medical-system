@@ -3036,11 +3036,11 @@ define('project/controllers', ['project/init'], function() {
     //   $scope.tr.strike_price = newVal;
     // });
 
-    $scope.$watch('tr.discountPrice', function (newVal) {
-      if (isNaN(newVal) && $scope.tr) {
-        $scope.tr.discountPrice = '';
-      }
-    });
+    // $scope.$watch('tr.discountPrice', function (newVal) {
+    //   if (isNaN(newVal)) {
+    //     $scope.tr.discountPrice = '';
+    //   }
+    // });
 
     $scope.getCurrentProductionDate = function (relMedicalStockId,p_and_s) {
 

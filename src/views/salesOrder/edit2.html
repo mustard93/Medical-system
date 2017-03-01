@@ -157,13 +157,13 @@
                              class="ipt pr-ipt-60 text-right"
                              name="discountPrice{{$index}}"
                              ng-model="tr.discountPrice"
-                             ng-pattern="/^(\d\.\d)|\d$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountPrice'+$index].$valid}}"
                              popover-show
                              popover-options='{"content":"必须为数字", "placement":"top", "trigger":"manual"}'
-                             ng-keyup="tr.discountRate=(tr.price-tr.discountPrice)/tr.price*100"/>
+                             ng-keyup="tr.discountRate=((tr.price-tr.discountPrice)/tr.price*100).toFixed(2)"/>
                     </td><!-- 折扣额 -->
                     <td class="text-center">
                       <input type="text"
