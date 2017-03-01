@@ -54,19 +54,43 @@
             callback="submitFormAfter('#/firstMedicalApplication/get.html');watchFormChange('formData')">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-          <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo}}</em></span>
-          <span class="text-right flex-item-1">
-            状态：<em class="color-black">{{formData.orderStatus}}</em>
-          </span>
+          <div class="flex-item-6">
+            <span class="flex-item-2">
+              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
+            </span>
+            <span class="flex-item-10">
+              <span class="flex-item-1 text-right">
+                采购员：
+              </span>
+              <span class="flex-item-2">
+                <select class="select pr-select" data-placeholder="选择剂型"
+                chosen
+                default-empty="无"
+                ng-model="formData.firstMedical.dosageForms"
+                select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
+                </select>
+              </span>
+            </span>
+          </div>
+          <div class="flex-item-6 text-right">
+              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
+              状态：<em class="color-black">{{formData.orderStatus}}</em>
+          </div>
         </div>
         <!-- 基本信息 -->
 
-        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营品种申请","addFlag":true}'
+        <div ng-init='attachmentsExtend={"title":"资质文件","usege":"首营品种申请","addFlag":false}'
          attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" >
 
        </div>
 
-
+       <div class="color-black mgt-l" style="margin-bottom:100px;">
+         <p>
+           <p class="pr-font-14">说明：</p>
+           <p>1.品种资质必须加供货企业红色原公章；</p>
+           <p>2.采购人员按要求向供货商(生产企业／经营企业)所要并和事资质的真实合法性，并如实填写本表；</p>
+         </p>
+       </div>
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">

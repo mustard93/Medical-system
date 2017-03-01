@@ -3059,6 +3059,7 @@ define('project/controllers', ['project/init'], function() {
 
       }
     };
+
   }
 
 
