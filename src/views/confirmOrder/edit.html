@@ -44,6 +44,7 @@
                   select-source="rest/authen/customerAddress/queryForSelectOption.json">
           </select>
           <span class="color-red mgl" ng-if="!formData.customerId">请先选择客户名</span>
+          <span class="color-red mgl" ng-if="formData.contactsNull">当前客户没有收货地址，请先添加收货方信息!</span>
         </div>
       </div>
     </div>
@@ -512,7 +513,9 @@
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
                              editForm.$invalid ||
-                             !formData.customerId"
+                             !formData.customerId ||
+                             !formData.orderMedicalNos.length ||
+                             formData.contactsNull"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
@@ -521,7 +524,9 @@
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
                              editForm.$invalid ||
-                             !formData.customerId"
+                             !formData.customerId ||
+                             !formData.orderMedicalNos.length ||
+                             formData.contactsNull"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
       </div>
