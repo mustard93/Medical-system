@@ -1867,7 +1867,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
                     if(!selectedFlag&&hideSelectValueArray){
                       if(hideSelectValueArray.indexOf(data[i].value)> -1){
-                           console.log(data[i].value);
+                          //  console.log(data[i].value);
                           continue;
                       }
                     }
