@@ -944,7 +944,7 @@ define('project/controllers', ['project/init'], function() {
   }
 
   /**
-   *编辑订单
+   *  销售单编辑页
    */
   function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
 
@@ -1181,6 +1181,28 @@ define('project/controllers', ['project/init'], function() {
       }
 
     };
+
+    // 总价计算方法
+    $scope.confirmOrderCalculaTotal = function (orderMedicalNos, orderBusinessType) {
+      if (orderMedicalNos) {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (item, index) {
+          // 如果订单类型为普通销售
+          if (orderBusinessType === '普通销售' && item.stockBatchs) {
+            var _tmp = 0;
+            for (var i = 0; i < item.stockBatchs.length; i++) {
+              _tmp += item.stockBatchs[i].quantity * item.strike_price * (item.discountRate / 100);
+            }
+            _total += _tmp;
+          }
+          //如果订单类型是直运销售
+          if (orderBusinessType === '直运销售') {
+            _total += item.planQuantity * item.strike_price * (item.discountRate / 100);
+          }
+        });
+        $scope.formData.localTotalPrice = _total;
+      }
+    };
   }
 
   /**
@@ -1347,7 +1369,6 @@ define('project/controllers', ['project/init'], function() {
           stockBatchsItem.quantity=null;
         }
       }
-
 
     };
 
@@ -3016,7 +3037,7 @@ define('project/controllers', ['project/init'], function() {
     // });
 
     $scope.$watch('tr.discountPrice', function (newVal) {
-      if (isNaN(newVal)) {
+      if (isNaN(newVal) && $scope.tr) {
         $scope.tr.discountPrice = '';
       }
     });
