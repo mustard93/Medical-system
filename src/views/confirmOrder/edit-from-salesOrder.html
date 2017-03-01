@@ -220,39 +220,37 @@
       <!-- 其他信息 -->
       <div class="relative">
         <!-- 收货方信息 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n color-3 text-bold">收货方信息
-            <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-            </span>
-          </header>
-          <div class="panel-body" style="display:none;padding:15px 0;">
-            <h1 class="mgb">收货方：{{formData.customerName}}</h1>
-            <p class="">收货人信息：
-              {{formData.customerContacts.prov}}&nbsp;&nbsp;{{formData.customerContacts.city}}&nbsp;&nbsp;{{formData.customerContacts.area}}&nbsp;&nbsp;{{formData.customerContacts.address}}&nbsp;&nbsp;{{formData.customerContacts.name}}&nbsp;&nbsp;{{formData.customerContacts.tel}}
-            </p>
+        <address-manage-component compnent-title="收货方信息"
+                                  request-url="rest/authen/customerAddress/get.json"
+                                  request-data-id="{{formData.customerId}}"
+                                  scope-data-prefix="customer"
+                                  form-data="formData"
+                                  modify-modal-url="views/customerAddress/contact/edit.html"
+                                  modify-modal-title="编辑收货方信息"
+                                  create-modal-url="views/customerAddress/contact/edit.html"
+                                  create-modal-title="添加收货方信息"
+                                  create-address-type="销售"
+                                  set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
+                                  del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
+        </address-manage-component>
 
-          </div>
-        </div>
         <!-- 发货方信息 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <header class="text-n color-3 text-bold">发货方信息
-            <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-            </span>
-          </header>
-          <div class="panel-body" style="display:none;padding:15px 0;">
-            <h1 class="mgb">发货方：{{formData.invoicesContacts.name}}</h1>
-            <p class="">发货方信息：
-              {{formData.invoicesContacts.prov}}&nbsp;&nbsp;{{formData.invoicesContacts.city}}&nbsp;&nbsp;{{formData.invoicesContacts.area}}&nbsp;&nbsp;{{formData.invoicesContacts.address}}&nbsp;&nbsp;{{formData.invoicesContacts.name}}&nbsp;&nbsp;{{formData.invoicesContacts.tel}}
-            </p>
-
-          </div>
-        </div>
+        <address-manage-component compnent-title="发货方信息"
+                                  request-url="rest/authen/invoicesAddress/get.json"
+                                  scope-data-prefix="invoices"
+                                  form-data="formData"
+                                  modify-modal-url="views/invoicesAddress/contact/edit.html"
+                                  modify-modal-title="编辑发货方信息"
+                                  create-modal-url="views/invoicesAddress/contact/edit.html"
+                                  create-modal-title="添加发货方信息"
+                                  create-address-type="销售"
+                                  set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
+                                  del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
+        </address-manage-component>
         <!-- 备注 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
-          <h1 class="text-bold color-3 mgb">备注</h1>
-          <p>{{formData.note}}</p>
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <h1 class="text-bold color-3">备注</h1>
+          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
       </div>
     </div>
