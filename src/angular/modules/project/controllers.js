@@ -2089,6 +2089,7 @@ define('project/controllers', ['project/init'], function() {
              addDataItem.quantity=flashAddData.quantity;
              addDataItem.discountPrice='0';
              addDataItem.discountRate='100';
+             addDataItem.strick_price=addDataItem.purchasePrice;
              addDataItem.taxRate='17';
              addDataItem.batchRequirement='无';
              addDataItem.relId=medical.id;

@@ -178,7 +178,7 @@
                  <tbody class="bg-white">
                    <tr ng-repeat="tr in formData.orderMedicalNos"
                        table-item-handlebtn-component
-                       ng-init="orderMedicalNoIds.push(tr.relId);tr.handleFlag=true;tr.strike_price=tr.purchasePrice"
+                       ng-init="orderMedicalNoIds.push(tr.relId);tr.handleFlag=true;"
                        ng-controller="purchaseOrderEditCtrl">
                      <td class="text-center" style="line-height:2.4">{{tr.code}}
                        <div class="table-item-handle-btn">
@@ -221,8 +221,9 @@
                        </select>
                      </td><!-- 实际采购数量 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
-                       <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.purchasePrice" ng-change="tr.strike_price=tr.purchasePrice" />
+                      <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.strike_price" />
                        <p class="color-orange pr-indent-35"><a modal-right="577" modal-scope="this"  modal-url="views/versionFlow/history-price.html?id={{tr.id}}">历史价格</a></p>
+
                      </td><!-- 批号要求 -->
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td><!-- 原币含税单价 -->
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td><!-- 原币单价 -->
