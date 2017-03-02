@@ -966,6 +966,15 @@ define('project/controllers', ['project/init'], function() {
       }
     });
 
+    //监控业务类型，实现用户选择直运销售后选中所有的已添加药品
+    $scope.$watch('formData.orderBusinessType', function (newVal) {
+      if (newVal === '直运销售' && $scope.formData.orderMedicalNos.length) {
+        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+          item.handleFlag = true;
+        });
+      }
+    });
+
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
