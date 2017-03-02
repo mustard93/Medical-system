@@ -92,7 +92,7 @@
                 <tr>
                   <th class="text-center ">商品编号</th>
                   <th class="text-center ">商品代码</th>
-                  <th class="text-left">商品全名</th>
+                  <th class="text-left  w-100">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
@@ -115,7 +115,11 @@
                     ng-controller="SalesOrderDetailsController">
                   <td class="text-center">{{tr.code}}</td>
                   <td class="text-center">{{tr.goodsCode}}</td>
-                  <td class="text-left w-50"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td>
+                  <td class="text-left">
+                    <div class="autocut" title="{{tr.name}}">
+                        {{tr.name}}
+                    </div>
+                  </td>
                   <td class="text-center">{{tr.specificationAndModelType}}</td>
                   <td class="text-center">{{tr.unit}}</td>
                   <td class="text-center" style="white-space:nowrap;">
@@ -138,28 +142,6 @@
                     </div>
                   </td>
                   <td class="text-center">
-                    <!-- <div ng-repeat="stockBatchsItem in tr.stockBatchs" class="mgb">
-                      <select class="select pr-select pr-select-sm text-left"
-                              chosen
-                              default-empty
-                              data-placeholder=" "
-                              select-data="selectData"
-                              suffix-connection="/"
-                              suffix-key="note.salesQuantity"
-                              ng-model="stockBatchsItem.batchNumber"
-                              callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
-                              callback-filter-return-data="getProductionBatchValueArray(item.stockBatchs)"
-                              select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
-                      </select>
-                      <p class="mgt-s text-right relative" ng-if="stockBatchsItem.batchNumber">
-                        <input type="number"
-                               class="ipt pr-short-ipt color-6 text-right"
-                               ng-model="stockBatchsItem.quantity"
-                               data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
-                               invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}" />
-                               <span class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
-                      </p>
-                    </div> -->
                     <select class="pr-select select-wd"
                             chosen
                             default-empty

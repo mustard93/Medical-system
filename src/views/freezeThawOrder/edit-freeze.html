@@ -88,7 +88,7 @@
                 <tr>
                   <th class="text-center">商品编号</th>
                   <th class="text-center">商品代码</th>
-                  <th class="text-left">商品全名</th>
+                  <th class="text-left w-100">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
@@ -114,8 +114,10 @@
                 ng-controller="SalesOrderDetailsController">
                   <td class="text-center">{{tr.code}}</td>
                   <td class="text-center">{{tr.goodsCode}}</td>
-                  <td class="text-left">
-                    {{tr.name}}
+                  <td class="text-left ">
+                    <div class="autocut" title="{{tr.name}}">
+                      {{tr.name}}
+                    </div>
                   </td>
                   <td class="text-center">
                     {{tr.specificationAndModelType}}
@@ -124,7 +126,7 @@
                     {{tr.unit}}
                   </td>
 
-                  <td class="text-center">
+                  <td class="text-center" style="white-space:nowrap;">
                     <!-- <input type="text" class="ipt ipt-w text-right" ng-model="tr.quantity"> -->
                     <div class="order-goods-num">
                       <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
