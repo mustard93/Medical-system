@@ -2947,8 +2947,8 @@ define('project/controllers', ['project/init'], function() {
     // 保存节点信息（新建or创建）
     $scope.addEventButtons = function(formData1) {
       if(!formData1)formData1={};
-      if(!formData1.didateFilter)formData1.didateFilter={};
-      if(!formData1.didateFilter.buttons)formData1.didateFilter.buttons=[];
+      //if(!formData1.didateFilter)formData1.didateFilter={};
+      if(!formData1.buttons)formData1.buttons=[];
       var btnForm = {
         type: '通过',
         buttonName: '审核通过',
@@ -2957,7 +2957,7 @@ define('project/controllers', ['project/init'], function() {
         requestParam: 'KeyValue',
         requestUrl : 'rest/authen/workflowTask/run.json'
       };
-      formData1.didateFilter.buttons.push(btnForm);
+      formData1.buttons.push(btnForm);
     };
 
       //当一个节点的name改变后，需要更新对应的关联关系。
@@ -3083,6 +3083,7 @@ define('project/controllers', ['project/init'], function() {
 
       }
     };
+
   }
 
 

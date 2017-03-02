@@ -34,7 +34,7 @@
        <div class="">
          <h1 class="color-black pr-font-20">新建批次冻结申请单</h1>
          <div class="mgt-l">
-           <select class="pr-select select-wd"
+           <select class="pr-select select-wd-new"
             chosen
              ng-model="formData.warehouseCode"
              default-empty="仓库名"
@@ -88,7 +88,7 @@
                 <tr>
                   <th class="text-center">商品编号</th>
                   <th class="text-center">商品代码</th>
-                  <th class="text-left">商品全名</th>
+                  <th class="text-left w-100">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
@@ -114,8 +114,10 @@
                 ng-controller="SalesOrderDetailsController">
                   <td class="text-center">{{tr.code}}</td>
                   <td class="text-center">{{tr.goodsCode}}</td>
-                  <td class="text-left">
-                    {{tr.name}}
+                  <td class="text-left ">
+                    <div class="autocut" title="{{tr.name}}">
+                      {{tr.name}}
+                    </div>
                   </td>
                   <td class="text-center">
                     {{tr.specificationAndModelType}}
@@ -124,16 +126,22 @@
                     {{tr.unit}}
                   </td>
 
-                  <td class="text-center">
+                  <td class="text-center" style="white-space:nowrap;">
                     <!-- <input type="text" class="ipt ipt-w text-right" ng-model="tr.quantity"> -->
                     <div class="order-goods-num">
                       <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
                       <span class="inline-block">
                         <input type="number"
                                class="inline pr-table-input text-center item-quantity"
-                               style="width:60px;"
+                               style="width:60px;background:transparent;"
                                ng-model="tr.quantity"
-                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                               name="quantity"
+                               ng-pattern="/^[1-9]\d*|0$/"
+                               invalid-popover
+                               popover-show="!editForm.quantity.$valid"
+                               popover-options='{"content":"数量格式不正确", "placement":"right", "trigger":"manual"}'
+                               >
                       </span>
                       <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                     </div>
@@ -243,7 +251,7 @@
           </button>
 
 
-          <button
+          <button ng-disabled="!editForm.quantity.$valid"
                   class=" mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click

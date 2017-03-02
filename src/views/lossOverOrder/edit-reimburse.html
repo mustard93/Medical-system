@@ -39,7 +39,7 @@
        <div class="">
          <h1 class="color-black pr-font-20">新建报损申请单</h1>
          <div class="mgt-l">
-             <select class="pr-select select-wd"
+             <select class="pr-select select-wd-new"
               chosen
                ng-model="formData.warehouseCode"
                default-empty="仓库名"
@@ -86,17 +86,13 @@
             </div>
           </div>
 
-
-
-
-
           <div >
             <table class="table pr-table pr-new-table" >
               <thead>
                 <tr>
                   <th class="text-center ">商品编号</th>
                   <th class="text-center ">商品代码</th>
-                  <th class="text-left">商品全名</th>
+                  <th class="text-left  w-100">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
@@ -119,7 +115,11 @@
                     ng-controller="SalesOrderDetailsController">
                   <td class="text-center">{{tr.code}}</td>
                   <td class="text-center">{{tr.goodsCode}}</td>
-                  <td class="text-left w-50"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td>
+                  <td class="text-left">
+                    <div class="autocut" title="{{tr.name}}">
+                        {{tr.name}}
+                    </div>
+                  </td>
                   <td class="text-center">{{tr.specificationAndModelType}}</td>
                   <td class="text-center">{{tr.unit}}</td>
                   <td class="text-center" style="white-space:nowrap;">
@@ -130,34 +130,18 @@
                                class="inline pr-table-input text-center item-quantity"
                                style="width:60px;background:transparent;"
                                ng-model="tr.quantity"
-                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                               name="quantity"
+                               ng-pattern="/^[1-9]\d*|0$/"
+                               invalid-popover
+                               popover-show="!editForm.quantity.$valid"
+                               popover-options='{"content":"数量格式不正确", "placement":"right", "trigger":"manual"}'
+                               >
                       </span>
                       <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                     </div>
                   </td>
                   <td class="text-center">
-                    <!-- <div ng-repeat="stockBatchsItem in tr.stockBatchs" class="mgb">
-                      <select class="select pr-select pr-select-sm text-left"
-                              chosen
-                              default-empty
-                              data-placeholder=" "
-                              select-data="selectData"
-                              suffix-connection="/"
-                              suffix-key="note.salesQuantity"
-                              ng-model="stockBatchsItem.batchNumber"
-                              callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
-                              callback-filter-return-data="getProductionBatchValueArray(item.stockBatchs)"
-                              select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
-                      </select>
-                      <p class="mgt-s text-right relative" ng-if="stockBatchsItem.batchNumber">
-                        <input type="number"
-                               class="ipt pr-short-ipt color-6 text-right"
-                               ng-model="stockBatchsItem.quantity"
-                               data-content="该批号总量只有：{{selectData.note.salesQuantity}}"
-                               invalid-popover="{{selectData&&(stockBatchsItem.quantity>selectData.note.salesQuantity)}}" />
-                               <span class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
-                      </p>
-                    </div> -->
                     <select class="pr-select select-wd"
                             chosen
                             default-empty
@@ -269,6 +253,7 @@
                    ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
           </button>
           <button
+                  ng-disabled="!editForm.quantity.$valid"
                   class=" mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click

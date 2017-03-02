@@ -4,7 +4,6 @@
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
      alert-error>
-
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
          <a href="#/firstMedicalApplication/query.html">
@@ -28,12 +27,14 @@
         <div></div>
         <div></div>
       </div>
-      <div class="active">
+      <div class="visited" style="border-left:none;">
+        <div></div>
         <div></div>
         <span>申请原因</span>
-        <div></div>
+        <div class="triangle1"></div>
+        <div class="triangle2"></div>
       </div>
-      <div class="unactive">
+      <div class="active">
         <div></div>
         <span>添加审核资料</span>
       </div>
@@ -44,52 +45,28 @@
             name="firstMedicalEditForm"
             form-validator
             parameter-body
-            action="rest/authen/firstMedicalApplication/saveApplyReason?validateFlag=true"
+            action="rest/authen/firstMedicalApplication/saveAttachments?validateFlag=true"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstMedicalApplication/edit-step-3.html');watchFormChange('formData')">
+            callback="submitFormAfter('#/firstMedicalApplication/get.html');watchFormChange('formData')">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-          <div class="flex-item-6">
-            <span class="flex-item-2">
-              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
-            </span>
-            <span class="flex-item-10">
-              <span class="flex-item-1 text-right">
-                采购员：
-              </span>
-              <span class="flex-item-2">
-                <select class="select pr-select" data-placeholder="选择剂型"
-                chosen
-                default-empty="无"
-                ng-model="formData.firstMedical.dosageForms"
-                select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
-                </select>
-              </span>
-            </span>
-          </div>
-          <div class="flex-item-6 text-right">
-              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
-              状态：<em class="color-black">{{formData.orderStatus}}</em>
-          </div>
+          <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo}}</em></span>
+          <span class="text-right flex-item-1">
+            状态：<em class="color-black">{{formData.orderStatus}}</em>
+          </span>
         </div>
         <!-- 基本信息 -->
-        <div class="panel pr-panel pr-panel-height mgb">
-          <h1 class="pr-font-18 mgb">新品引进原因</h1>
-          <div class="">
-            <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
-          </div>
-        </div>
-        <div class="color-black mgt-l">
-          <p>
-            <p class="pr-font-14">说明：</p>
-            <p>1.品种资质必须加供货企业红色原公章；</p>
-            <p>2.采购人员按要求向供货商(生产企业／经营企业)所要并和事资质的真实合法性，并如实填写本表；</p>
-          </p>
-        </div>
+
+        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营品种申请","addFlag":true}'
+         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" >
+
+       </div>
+
+
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">
@@ -118,21 +95,20 @@
           </span>
           <span class="mgl">
             <button class="pr-btn-save-glodbg mgt"
-                    ng-disabled="!changeFlag || !formData.applyReason || firstMedicalEditForm.applyReason.$pristine"
+                    ng-disabled="!changeFlag"
                     ng-click="submitForm('firstMedical-editForm','save')">保存
             </button>
           </span>
           <span class="mgl">
-            <button class="pr-btn-save-glodbg" ng-click="pageTo('#/firstMedicalApplication/edit1.html?id='+formData.id)">上一步</button>
+            <button class="pr-btn-save-glodbg mgt" ng-click="pageTo('#/firstMedicalApplication/edit-step-2.html?id='+formData.id)">上一步</button>
           </span>
           <span class="mgl">
             <button class="pr-btn-save-glodbg mgt"
-                    ng-disabled="!formData.applyReason"
-                    ng-click="submitForm('firstMedical-editForm','submit')">下一步
+                    ng-click="submitForm('firstMedical-editForm','submit')">预览申请单
             </button>
           </span>
         </div>
-      </div>
+        </div>
       </form>
     </div>
 
