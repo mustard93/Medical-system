@@ -61,7 +61,8 @@
       <!-- 药械列表 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
           <!-- 信息 -->
-          <div ng-if="!formData.relId" flash-add-medical
+          <div ng-if="!formData.relId"
+               flash-add-medical
                ng-model="data1"
                class="pd-c-l pdt-m"
                ajax-url="rest/authen/medicalStock/query?hospitalId={{formData.customerId}}"
@@ -69,7 +70,6 @@
           </div>
           <!-- 列表 -->
           <div class="">
-
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
               <div class="flex-item-6">
                 <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
@@ -81,7 +81,6 @@
                 <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
               </div>
             </div>
-
             <div class="pd-c-l pdt-m pdb-m color-9">
               <span class="mgr">销售部门：
                 <select class="ipt pr-short-ipt color-3" style="width:100px;"
@@ -144,9 +143,7 @@
                        ng-model="formData.expectDate" />
               </span>
             </div>
-
             <div class="">
-
               <table class="table pr-table pr-new-table mgb-n">
                 <thead>
                   <tr>
@@ -175,7 +172,7 @@
                   <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
                     <td class="select-td">
                       <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
-                    </td>
+                    </td><!-- 选择checkbox -->
                     <td class="text-center">{{item.code}}
                       <div  class="table-item-handle-btn">
                         <div class="table-item-confirm-del-area bg-white">
@@ -186,8 +183,7 @@
                           </p>
                         </div>
                       </div>
-                    </td>
-                    <!-- 商品编号 -->
+                    </td><!-- 商品编号 -->
                     <td class="text-left">{{item.name}}</td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
@@ -255,7 +251,7 @@
                              invalid-popover
                              valid-value="{{!editForm['strike_price'+$index].$valid}}"
                              popover-show
-                             popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                             popover-options='{"content":"报价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                             <p class="color-orange pr-indent-35"><a modal-right="577" modal-scope="this"  modal-url="views/versionFlow/history-price.html?id={{tr.id}}">历史价格</a></p>
                     </td><!-- 报价 -->
                     <td class="text-center" style="white-space: nowrap;">
@@ -498,7 +494,7 @@
 
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="!changeFlag || editForm.$invalid"
+                ng-disabled="!changeFlag"
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
@@ -512,7 +508,7 @@
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
-                             editForm.$invalid ||
+                             !editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull"
@@ -523,7 +519,7 @@
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
-                             editForm.$invalid ||
+                             !editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
                              formData.contactsNull"

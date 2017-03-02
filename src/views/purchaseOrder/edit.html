@@ -87,7 +87,6 @@
                  <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
                </div>
              </div>
-
              <div class="pd-c-l pdt-m pdb-m color-9">
                <span class="mgr">部门：
                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
@@ -145,34 +144,23 @@
                <table class="table pr-table pr-new-table table-ss-wid" >
                  <thead>
                   <tr>
-                   <!-- <th>
-                       <input type="checkbox" class="selectAll" ng-init="isChoiseAll=true"
-                      ng-model="isChoiseAll" ng-change="handleChoiseAllEvent(formData.orderMedicalNos)"
-                      >
-                  </th> -->
-                   <!-- <th ng-show="!formData.relId">
-                       <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false"
-                      ng-model="isChoiseAll" ng-change="handleChoiseAllEvent(formData.orderMedicalNos)"
-                      >
-                  </th> -->
-                   <th class="text-center">商品编号</th>
-                   <th>商品全名</th>
-                   <th class="text-center">供应商</th>
-                   <th class="text-center">规格/型号</th>
-                   <th class="text-center">单位</th>
-                   <th class="text-center" ng-if="formData.relId">请购数量</th>
-                   <th class="text-center w-106" ng-if="!formData.relId">数量</th>
-                   <th class="text-center" ng-if="formData.relId">实际采购数量</th>
-                   <th class="text-center w-130">批号要求</th>
-                   <th class="text-center">原币含税单价</th>
-                   <th class="text-center">原币单价</th>
-                   <th class="text-center">原币金额</th>
-                   <th class="text-center">原币价税合计</th>
-                   <th class="text-center">税率</th>
-                   <th class="text-center">保存温度</th>
-                   <th class="text-center">产地品牌</th>
-                   <th class="text-center">产品注册证号</th>
-                   <th class="text-center">产品注册证有效期</th>
+                    <th class="text-center">商品编号</th>
+                    <th>商品全名</th>
+                    <th class="text-center">规格/型号</th>
+                    <th class="text-center">单位</th>
+                    <th class="text-center" ng-if="formData.relId">请购数量</th>
+                    <th class="text-center w-106" ng-if="!formData.relId">数量</th>
+                    <th class="text-center" ng-if="formData.relId">实际采购数量</th>
+                    <th class="text-center w-130">批号要求</th>
+                    <th class="text-center">原币含税单价</th>
+                    <th class="text-center">原币单价</th>
+                    <th class="text-center">原币金额</th>
+                    <th class="text-center">原币价税合计</th>
+                    <th class="text-center">税率</th>
+                    <th class="text-center">保存温度</th>
+                    <th class="text-center">产地品牌</th>
+                    <th class="text-center">产品注册证号</th>
+                    <th class="text-center">产品注册证有效期</th>
                  </tr>
                  </thead>
                  <tbody class="bg-white">
@@ -192,7 +180,6 @@
                        </div>
                      </td><!-- 商品编号 -->
                      <td class="text-left" style="line-height:2.4">{{tr.name}}</td><!-- 商品全名 -->
-                     <td class="text-center" style="line-height:2.4">{{tr.supplierName}}</td><!-- 供应商 -->
                      <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                      <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
                      <td class="text-right" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 请购数量 -->
@@ -213,7 +200,7 @@
                        </p>
                      </td><!-- 数量 -->
                      <td class="text-center">
-                       <select class="select pr-select pr-select-sm text-left"  ng-model="tr.batchRequirement">
+                       <select class="select pr-select pr-select-sm text-left" style="width:100px;"  ng-model="tr.batchRequirement">
                          <option value="无" ng-selected="tr.batchRequirement=='无'">无</option>
                          <option value="单一批号" ng-selected="tr.batchRequirement=='单一批号'">单一批号</option>
                          <option value="单一新批号" ng-selected="tr.batchRequirement=='单一新批号'">单一新批号</option>
@@ -223,7 +210,6 @@
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
                       <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.strike_price" />
                        <p class="color-orange pr-indent-35"><a modal-right="577" modal-scope="this"  modal-url="views/versionFlow/history-price.html?id={{tr.id}}">历史价格</a></p>
-
                      </td><!-- 批号要求 -->
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td><!-- 原币含税单价 -->
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td><!-- 原币单价 -->
@@ -331,17 +317,6 @@
        </div>
 
         <!-- 收货方信息 -->
-        <!-- <address-manage-component compnent-title="收货方信息"
-                                  request-url="rest/authen/invoicesAddress/get.json"
-                                  scope-data-prefix="customer"
-                                  form-data="formData"
-                                  modify-modal-url="views/invoicesAddress/contact/edit.html"
-                                  create-modal-url="views/invoicesAddress/contact/edit.html"
-                                  create-address-type="采购"
-                                  set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
-                                  del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
-        </address-manage-component> -->
-
         <address-manage-component compnent-title="收货方信息"
                                   request-url="rest/authen/invoicesAddress/get.json"
                                   scope-data-prefix="customer"
@@ -364,7 +339,6 @@
      </div>
      <!-- 流程图 -->
      <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
-
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
@@ -424,7 +398,10 @@
         </span>
       </div>
       <div class="total-div">
-          <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice | number:2}}</span></p>
+        <p class="pr-font-18 mgb color-light-brown">总计：
+          <!-- <span class="pr-font-18 color-white">￥{{formData.totalPrice | number:2}}</span> -->
+          ￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity']) | number:2}}
+        </p>
       </div>
     </div>
 </form>
