@@ -2832,7 +2832,7 @@ define('project/controllers', ['project/init'], function() {
          $scope.submitForm_type = type;
 
          if ($scope.submitForm_type == 'submit') {
-           $scope.formData.validFlag = true;
+           $scope.formData.validFlag = false;
          }
         $('#' + fromId).trigger('submit');
       };

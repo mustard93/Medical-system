@@ -63,8 +63,8 @@
               <span class="flex-item-2">
                 <select class="select pr-select" data-placeholder=" "
                 chosen
-                default-empty="无"
-                ng-model="formData.firstMedical.buyerName"
+                default-empty=""
+                ng-model="formData.buyerId"
                 select-source="rest/authen/user/queryForSelectOption">
                 </select>
               </span>
@@ -94,7 +94,7 @@
                         <input type="text"
                                class="ipt-new"
                                name="genericName"
-                               ng-model="formData.firstMedical.genericName"
+                               ng-model="formData.medical.approvedName"
                                required />
                       </div>
                     </div>
@@ -108,7 +108,7 @@
                           <select class="ipt pr-short-ipt" data-placeholder="选择剂型"
                           chosen
                           default-empty="无"
-                          ng-model="formData.firstMedical.dosageForms"
+                          ng-model="formData.medical.dosageForms"
                           select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
                           </select>
                         </div>
@@ -121,7 +121,7 @@
                     <div class="form-group">
                       <label for="" class="col-sm-2 control-label">生产企业：</label>
                       <div class="col-sm-6">
-                        <input type="text" class="ipt-new" ng-model="formData.firstMedical.produceEnterprise">
+                        <input type="text" class="ipt-new" ng-model="formData.medical.manufacturer">
                       </div>
                     </div>
                   </div>
@@ -130,7 +130,7 @@
                       <label for="" class="col-sm-2 control-label">规格：</label>
                       <div class="col-sm-6">
                         <div class="col-lg-5 col-sm-5 text-righ">
-                          <input type="text" class="form-control ipt pr-short-ipt" placeholder="" ng-model="formData.firstMedical.specification"
+                          <input type="text" class="form-control ipt pr-short-ipt" placeholder="" ng-model="formData.medical.specification"
                            auto-complete="rest/index/autoComplete?tableName=Medical.MedicalStock&property=specification"/>
                         </div>
                       </div>
@@ -142,7 +142,7 @@
                     <div class="form-group">
                       <label for="" class="col-sm-2 control-label">供货企业：</label>
                       <div class="col-sm-6">
-                        <select class="select-new" name="" ng-model="formData.firstMedical.supplierId"
+                        <select class="select-new" name="" ng-model="formData.medical.supplierId"
                         chosen select-source="rest/authen/supplier/queryForSelectOption">
                         </select>
                       </div>
@@ -153,7 +153,7 @@
                       <label for="" class="col-sm-2 control-label">装箱规格：</label>
                       <div class="col-sm-6">
                         <div class="col-lg-5 col-sm-5 text-righ">
-                          <input type="text" class="form-control ipt pr-short-ipt" placeholder="" ng-model="formData.firstMedical.packingSpecification"/>
+                          <input type="text" class="form-control ipt pr-short-ipt" placeholder="" ng-model="formData.medical.packingSpecification"/>
                         </div>
                       </div>
                     </div>
@@ -164,7 +164,7 @@
                     <div class="form-group">
                       <label for="" class="col-sm-2 control-label">药品批准文号：</label>
                       <div class="col-sm-6">
-                        <input type="text" class="ipt-new" ng-model="formData.firstMedical.approvalNo">
+                        <input type="text" class="ipt-new" ng-model="formData.medical.approvalNo">
                       </div>
                     </div>
                   </div>
@@ -176,13 +176,13 @@
                           <input type="text"
                                  class="form-control text-left ipt pr-short-ipt"
                                  placeholder="0.00"
-                                 ng-model="formData.firstMedical.retailPrice"
+                                 ng-model="formData.medical.price"
                                  ng-keyup="chkQuoteAndRetail()"
-                                 name="retailPrice"
+                                 name="price"
                                  required
                                  ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                                  invalid-popover
-                                 popover-show="!firstMedicalEditForm.retailPrice.$valid"
+                                 popover-show="!firstMedicalEditForm.price.$valid"
                                  popover-options='{"content":"零售价格式不正确", "placement":"right", "trigger":"manual"}'>
                         </div>
                       </div>
@@ -194,7 +194,7 @@
                     <div class="form-group">
                       <label for="" class="col-sm-2 control-label">质量标准：</label>
                       <div class="col-sm-6">
-                        <input type="text" class="ipt-new" ng-model="formData.firstMedical.qualityStandard">
+                        <input type="text" class="ipt-new" ng-model="formData.medical.quality">
                       </div>
                     </div>
                   </div>
@@ -206,7 +206,7 @@
                           <input type="text"
                                  class="form-control text-left ipt pr-short-ipt"
                                  placeholder="0.00"
-                                 ng-model="formData.firstMedical.tradePrice"
+                                 ng-model="formData.medical.tradePrice"
                                  ng-keyup="chkQuoteAndRetail()"
                                  name="tradePrice"
                                  required
@@ -224,7 +224,7 @@
                     <div class="form-group">
                       <label for="" class="col-sm-2 control-label">GMP/GSP证书编号：</label>
                       <div class="col-sm-6">
-                      <input type="text" class="ipt-new" ng-model="formData.firstMedical.gmpGspCertificateNo">
+                      <input type="text" class="ipt-new" ng-model="formData.medical.gmpGspCertificateNo">
                       </div>
                     </div>
                   </div>
@@ -236,7 +236,7 @@
                           <input type="text"
                                  class="form-control text-left ipt pr-short-ipt"
                                  placeholder="0.00"
-                                 ng-model="formData.firstMedical.purchasePrice"
+                                 ng-model="formData.medical.purchasePrice"
                                  name="purchasePrice"
                                  required
                                  ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -253,7 +253,7 @@
                     <div class="form-group">
                       <label for="" class="col-sm-2 control-label">器械注册证号：</label>
                       <div class="col-sm-6">
-                        <input type="text" class="ipt-new" ng-model="formData.firstMedical.drugAdministrationCode">
+                        <input type="text" class="ipt-new" ng-model="formData.medical.drugAdministrationCode">
                       </div>
                     </div>
                   </div>
@@ -297,12 +297,12 @@
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!changeFlag || firstMedicalApplication.$invalid"
+                      ng-disabled="!changeFlag || firstMedicalEditForm.$invalid"
                       ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="firstMedicalApplication.$invalid"
+                      ng-disabled="firstMedicalEditForm.$invalid"
                       ng-click="submitForm('first-enterprise-editForm','submit')">下一步
               </button>
             </span>

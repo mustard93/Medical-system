@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback=''
+     callback='initFlag=true;'
      alert-error>
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
@@ -23,63 +23,75 @@
         scope-data="versionFlowList"
         alert-error
         >
-         <em class="color-red">原因:</em>
-         <em>{{ versionFlowList[0].message }}</em>
        </div>
      </div>
 
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <div class="content-wrapper-main mgt">
+      <div class=" mgb"
+      ajax-if-eval="initFlag"
+      ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{showData.id}}"
+      scope-data="scopeData">
+      <div
+      ng-repeat="item in scopeData"
+      ng-class="{'pr-bg-blue':item.event.conditionType=='建议引进','pr-bg-pink1':item.event.conditionType=='暂不引进'}"
+      class="pr-panel pr-panel-height mgb"
+      ng-show="item.key">
+      <em class="color-3">{{item.departmentName}}补充说明:</em>
+       <p class="inline-block color-3">
+       <em ng-model="scopeData.operationFlowSet.message">{{item.key}}</em>
+       </p>
+     </div>
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <div class="flex-item-6">
           <span class="flex-item-2">
-            单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
+            单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em>
           </span>
           <span class="flex-item-10">
             <span class="flex-item-1 text-right">
               采购员：
             </span>
             <span class="flex-item-2">
-              {{formData.firstMedical.buyerName ||'暂无'}}
+              {{showData.buyerName ||'暂无'}}
             </span>
           </span>
         </div>
         <div class="flex-item-6 text-right">
-            录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd' ||'暂无'}}</em>
-            状态：<em class="color-black">{{formData.orderStatus ||'暂无'}}</em>
+            录单日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd' ||'暂无'}}</em>
+            状态：<em class="color-black">{{showData.orderStatus ||'暂无'}}</em>
         </div>
       </div>
       <!-- 审批 -->
-      <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class=" mgb">
-        <div class=" first-medical-nav-new" >
-          <div class="" ng-class="{'pr-pass-bg':item.event.status=='已通过','pr-nopass-bg':item.event.status=='未通过'}" ng-repeat="item in showData.eventRecords">
-            <div ng-class="{'pr-pass-bdbg-tb':item.event.status=='已通过','pr-nopass-bdbg-tb':item.event.status=='未通过'}"></div>
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'">
-              <em class="color-9">{{item.departmentName}}：</em>
-              <em>{{item.event.status}}</em>
+
+        <div ng-if="showData.orderStatus!='未提交'" class=" first-medical-nav-new">
+          <div class="" ng-class="{'pr-pass-bg':item.event.conditionType=='建议引进','pr-nopass-bg':item.event.conditionType=='暂不引进'}" ng-repeat="item in scopeData">
+            <div ng-class="{'pr-pass-bdbg-tb':item.event.conditionType=='建议引进','pr-nopass-bdbg-tb':item.event.conditionType=='暂不引进'}"></div>
+            <span class="mgr-xl flex-column" ng-if="item.event.status!='待审核'">
+              <em class="color-9 flex-item-6 text-right">{{item.departmentName || '暂无'}}：</em>
+              <em class="flex-item-6 text-left">{{item.event.conditionType }}</em>
             </span>
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'">
-              <em class="color-9">审核人：</em>
-              <em>{{item.inputUser || '暂无'}}</em>
+            <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
+              <em class="color-9 flex-item-6 text-right">审核人：</em>
+              <em class="flex-item-6 text-left">{{item.inputUser || '暂无'}}</em>
             </span>
-            <span class="mgr-xl" ng-if="item.event.status!='待审批'">
-              <em class="color-9">审核时间：</em>
-              <em>{{item.createAt | date:'yyyy-MM-dd' || '暂无'}}</em>
+            <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
+              <em class="color-9 flex-item-6 text-right">审核时间：</em>
+              <em class="flex-item-6 text-left">{{item.createAt | date:'yyyy-MM-dd' || '暂无'}}</em>
             </span>
-            <div ng-class="{'pr-pass-bdbg-l':item.event.status=='已通过','pr-nopass-bdbg-l':item.event.status=='未通过'}" ></div>
+            <div ng-class="{'pr-pass-bdbg-l':item.event.conditionType=='建议引进','pr-nopass-bdbg-l':item.event.conditionType=='暂不引进'}" ></div>
           </div>
           <div>
             <!-- <div></div><div></div> -->
           </div>
         </div>
-      </div>
+     </div>
         <!-- 审核信息 -->
         <!-- <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
           <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
             <span>{{eventRecord.event.id}}：</span>
-            <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</em>
+            <em ng-class="{'color-6':eventRecord.event.status=='待审核','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">{{eventRecord.event.status}}</em>
           </span>
         </div> -->
         <!-- 基本信息 -->
@@ -89,67 +101,67 @@
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">通用名称：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.genericName}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.approvedName}}</span>
               </div>
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">剂型：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.dosageForms}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.dosageForms}}</span>
               </div>
             </div>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">生产企业：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.produceEnterprise}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.manufacturer}}</span>
               </div>
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">规格：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.specification}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.specification}}</span>
               </div>
             </div>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">供货企业：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.supplierName}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.supplierName}}</span>
               </div>
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">装箱规格：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.medicalUniformCode}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.packingSpecification}}</span>
               </div>
             </div>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">药品批准文号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.licenseNumber}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.approvalNo}}</span>
               </div>
               <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">零售价：￥</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.retailPrice}}</span>
+                <span class="flex-item-2 text-right">零售价：</span>
+                <span class="flex-item-10 pr-indent-10">￥{{showData.medical.price}}</span>
               </div>
             </div>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">质量标准：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.produceEnterprise}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.quality}}</span>
               </div>
               <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">批发价：￥</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.measurement}}</span>
+                <span class="flex-item-2 text-right">批发价：</span>
+                <span class="flex-item-10 pr-indent-10">￥{{showData.medical.tradePrice}}</span>
               </div>
             </div>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">GMP/GSP证书编号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.packingCondition}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.gmpGspCertificateNo}}</span>
               </div>
               <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">采购价：￥</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.numberOfPackages}}</span>
+                <span class="flex-item-2 text-right">采购价：</span>
+                <span class="flex-item-10 pr-indent-10">￥{{showData.medical.purchasePrice}}</span>
               </div>
             </div>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">器械注册证号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.firstMedical.pieceLoading}}</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.medical.drugAdministrationCode}}</span>
               </div>
             </div>
         </div>
@@ -163,47 +175,51 @@
         <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
 
 
-        <div ng-if="showData.didateFilter.buttons.length>0&& showData.orderStatus!='未提交'"
+        <!-- <div ng-if="showData.didateFilter.buttons.length>0&& showData.orderStatus!='未提交'"
              workflow-task-run-with-attchments
              custom-menu-arr="{{showData.didateFilter.buttons}}"
              workflow-bottom-button="bottomButtonList"
              attchment-usege="首营品种申请">
+        </div> -->
+
+      </div>
+
+      <div ng-if="showData.orderStatus!='未提交'" class="handle-btn-area relative">
+        <div  class="mgb text-right btn-area">
+          <span class="mgl mgt">
+            <a href="#/firstMedicalApplication/query.html">返回申请单列表</a>
+          </span>
+          <span ng-if="showData.didateFilter.buttons.length>0"
+                custom-menu-list
+                custom-menu-arr="{{showData.didateFilter.buttons}}" class="mgt">
+          </span>
         </div>
       </div>
       <div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
         <div  class="mgb text-right btn-area">
-            <span ng-if="showData.didateFilter.buttons.length>0"
-                  custom-menu-list
-                  custom-menu-arr="{{showData.didateFilter.buttons}}">
+            <span class="mgl" ><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+            <span class="mgl">
+              <a ng-if="showData.id && showData.proposerName==mainStatus.name"
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/firstMedicalApplication/query.html')"
+                 params='{"id":showData.id}'
+                 request-url="rest/authen/firstMedicalApplication/delete">删除</a>
+            </span>
+            <span class="mgl">
+              <button class="pr-btn-save-glodbg mgt"
+                      type="button"
+                      ajax-url-submit="rest/authen/firstMedicalApplication/startProcessInstance"
+                      params='{"businessKey":showData.id}'
+                      alert-error
+                      scope-data="showData"
+                      callback="$root.utils.refreshHref()">提交
+              </button>
             </span>
         </div>
-      </div>
-      <div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
-        <div  class="mgb text-right btn-area">
-          <span class="mgl"><a href="#/firstMedicalApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
-          <span class="mgl">
-            <a ng-if="showData.id && showData.proposerName==mainStatus.name"
-               href="javascript:;"
-               class="color-red mgt"
-               handle-this-click
-               dialog-title="确认删除?"
-               dialog-content="删除后将无法恢复,确认删除?"
-               dialog-template="pr-dialog-submit.html"
-               callback="$root.goTo('#/firstMedicalApplication/query.html')"
-               params='{"id":showData.id}'
-               request-url="rest/authen/firstMedicalApplication/delete">删除</a>
-          </span>
-          <span class="mgl">
-            <button class="pr-btn-save-glodbg mgt"
-                    type="button"
-                    ajax-url-submit="rest/authen/firstMedicalApplication/startProcessInstance"
-                    params='{"businessKey":showData.id}'
-                    alert-error
-                    scope-data="showData"
-                    callback="$root.utils.refreshHref()">提交
-            </button>
-          </span>
-        </div>
     </div>
-
 </div>
