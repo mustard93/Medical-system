@@ -87,7 +87,6 @@
                  <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
                </div>
              </div>
-
              <div class="pd-c-l pdt-m pdb-m color-9">
                <span class="mgr">部门：
                  <select class="ipt pr-short-ipt color-3" style="width:100px;"
@@ -211,7 +210,6 @@
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
                       <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.strike_price" />
                        <p class="color-orange pr-indent-35"><a modal-right="577" modal-scope="this"  modal-url="views/versionFlow/history-price.html?id={{tr.id}}">历史价格</a></p>
-
                      </td><!-- 批号要求 -->
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td><!-- 原币含税单价 -->
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td><!-- 原币单价 -->
@@ -319,17 +317,6 @@
        </div>
 
         <!-- 收货方信息 -->
-        <!-- <address-manage-component compnent-title="收货方信息"
-                                  request-url="rest/authen/invoicesAddress/get.json"
-                                  scope-data-prefix="customer"
-                                  form-data="formData"
-                                  modify-modal-url="views/invoicesAddress/contact/edit.html"
-                                  create-modal-url="views/invoicesAddress/contact/edit.html"
-                                  create-address-type="采购"
-                                  set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
-                                  del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
-        </address-manage-component> -->
-
         <address-manage-component compnent-title="收货方信息"
                                   request-url="rest/authen/invoicesAddress/get.json"
                                   scope-data-prefix="customer"
@@ -352,7 +339,6 @@
      </div>
      <!-- 流程图 -->
      <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
-
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
@@ -412,7 +398,10 @@
         </span>
       </div>
       <div class="total-div">
-          <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice | number:2}}</span></p>
+        <p class="pr-font-18 mgb color-light-brown">总计：
+          <!-- <span class="pr-font-18 color-white">￥{{formData.totalPrice | number:2}}</span> -->
+          ￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity']) | number:2}}
+        </p>
       </div>
     </div>
 </form>
