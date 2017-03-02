@@ -1626,7 +1626,7 @@ function businessFlowShow() {
                    if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
                  }
              }
-          
+
              workflow.addCanvasBusinessFlow(data,curRelId);
 
            });//WorkflowProcess
@@ -2901,6 +2901,36 @@ function addressManageComponent (requestData, utils) {
 }
 
 /**
+ * [expressManageComponent 物流信息组件]
+ * @param  {[type]} requestData [注入项]
+ * @param  {[type]} utils       [注入项]
+ * @return {[type]}             []
+ */
+function expressManageComponent (requestData, utils) {
+  'use strict';
+  return {
+    restrict: 'EA',
+    scope: {
+      expressData: '=?'
+    },
+    replace: true,
+    transclude: true,
+    templateUrl: Config.tplPath + 'tpl/project/expressManageComponent.html',
+    link: function (scope, element, attrs) {
+      // 如果快递数据未定义
+      if (!angular.isDefined(attrs.expressData)) {
+        throw new Error('Attr expressData must be defined!');
+      }
+
+
+    },
+    controller: ['$scope', '$element', function ($scope, $element) {
+
+    }]
+  };
+}
+
+/**
  * [expressBtnToggle 销售出库单中快递模块的删除和编辑域响应hover事件]
  * @return {[type]} [description]
  */
@@ -2908,17 +2938,46 @@ function expressBtnToggle () {
   'use strict';
   return {
     restrict: 'A',
+    scope: true,
     link: function (scope, element, attrs) {
-      $(element).hover(function () {
+
+      $(element).find('a.origin-ele').hover(function () {
         $(this).next().show();
       }, function () {
         $(this).next().hide();
       });
-      $(element).next().hover(function () {
+
+      $(element).find('div.edit-del-btn').hover(function () {
         $(this).show();
       }, function () {
         $(this).hide();
       });
+
+      $(element).find('a.handle-edit-info').on('click', function (event) {
+        event.stopPropagation();    // 组织冒泡
+
+        $(element).find('div.show-express-info').hide();
+        $(element).find('div.edit-express-info').css('top',0);
+      });
+
+      $(element).find('a.cancel-edit-express').on('click', function (event) {
+        event.stopPropagation();    // 组织冒泡
+
+        $(element).find('div.show-express-info').show();
+        $(element).find('div.edit-express-info').css('top','-9999px');
+      });
+
+
+      // $(element).hover(function () {
+      //   $(this).next().show();
+      // }, function () {
+      //   $(this).next().hide();
+      // });
+      // $(element).next().hover(function () {
+      //   $(this).show();
+      // }, function () {
+      //   $(this).hide();
+      // });
     }
   };
 }
@@ -2963,6 +3022,7 @@ function requestExpressInfoTab (requestData, alertError) {
 }
 
 angular.module('manageApp.project')
+  .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
   .directive("expressBtnToggle", [expressBtnToggle])

@@ -22,9 +22,9 @@
          </div>
        </div>
      </div>
-   </div>
-     <!-- 主内容区域 -->
-     <div class="content-wrapper">
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper">
        <p class="mgb-l text-n color-3 text-bold">客户：{{showData.customerName}}</p>
        <p class="mgb-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
@@ -118,58 +118,81 @@
             </div>
           </div>
       </div>
-
-     <!-- 备注 -->
-     <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
-        <!-- 备注 -->
-        <div class="note">
-          <p>备注：{{showData.note}}</p>
-        </div>
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l">
+          <!-- 备注 -->
+          <div class="note">
+            <p>备注：{{showData.note}}</p>
+          </div>
+      </div>
     </div>
-  </div>
-     <!-- 物流信息 -->
-     <div class="pr-indent-20 bt-dashed-line">
+
+    <!-- 物流信息 -->
+    <express-manage-component ng-if="initFlag"
+                              express-data="showData.kuaidiSet">
+    </express-manage-component>
+
+
+     <!-- <div class="bt-dashed-line">
        <h1 class="pd-v-m mgl-x-l">物流信息</h1>
        <div class="woutstock-order-express">
-         <ul class="clearfix mgl-mxx-l">
-           <li class="express-list bt-line" ng-repeat="item in showData.kuaidiSet">
-             <div class="flex-column pd-v-s bb-line">
-               <div class="flex-item-9 text-center" style="margin-top:3px;">{{item.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</div>
-               <div class="flex-item-3 text-right pdt-s relative">
-                 <a express-btn-toggle class="origin-ele" href="javascript:;">
-                   <em class="circle"></em>
-                   <em class="circle"></em>
-                   <em class="circle"></em>
-                 </a>
-                 <div class="edit-del-btn text-center z-index-l">
-                   <p class="pdt-s pdb-s bb-dashed-line">
-                     <a href="javascript:;" ng-click="editThisAreaInfo(item)">编辑</a>
-                   </p>
-                   <p class="pdt-s pdb-s">
-                     <a href="javascript:;" class="color-red"
-                        handle-this-click
-                        dialog-title="确认删除?"
-                        dialog-content="您确认删除这条购需单吗?"
-                        dialog-template="dialog-confirm.html"
-                        request-url="rest/authen/wOutstockOrder/kuaidi/delete?wOutstockOrderId={{showData.id}}&kuaidiId={{item.id}}"
-                        callback="$root.utils.goOrRefreshHref()">删除</a>
-                   </p>
+         <ul class="clearfix">
+           <li express-btn-toggle class="express-list bt-line relative" ng-repeat="item in showData.kuaidiSet">
+             <div class="show-express-info">
+               <div class="flex-column pd-v-s bb-line">
+                 <div class="flex-item-9 text-center" style="margin-top:3px;">{{item.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</div>
+                 <div class="flex-item-3 text-right pdt-s relative">
+                   <a class="origin-ele" href="javascript:;">
+                     <em class="circle"></em>
+                     <em class="circle"></em>
+                     <em class="circle"></em>
+                   </a>
+                   <div class="edit-del-btn text-center z-index-l">
+                     <p class="pdt-s pdb-s bb-dashed-line">
+                       <a href="javascript:;" class="handle-edit-info" ng-click="editThisAreaInfo(item)">编辑</a>
+                     </p>
+                     <p class="pdt-s pdb-s">
+                       <a href="javascript:;" class="color-red"
+                          handle-this-click
+                          dialog-title="确认删除?"
+                          dialog-content="您确认删除这条购需单吗?"
+                          dialog-template="dialog-confirm.html"
+                          request-url="rest/authen/wOutstockOrder/kuaidi/delete?wOutstockOrderId={{showData.id}}&kuaidiId={{item.id}}"
+                          callback="$root.utils.goOrRefreshHref()">删除</a>
+                     </p>
+                   </div>
                  </div>
                </div>
+               <div class="text-center pdt-m">
+                 <p class="">{{item.type}}</p>
+                 <p class="color-orange">
+                   <a href="javascript:;"
+                      modal-right="600"
+                      modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
+                      modal-scope="this"
+                      modal-url="views/kuaidi/query3.html">{{item.nu}}
+                   </a>
+                 </p>
+               </div>
              </div>
-             <div class="text-center pdt-m">
-               <p class="">{{item.type}}</p>
-               <p class="color-orange">
-                 <a href="javascript:;"
-                    modal-right="600"
-                    modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
-                    modal-scope="this"
-                    modal-url="views/kuaidi/query3.html">{{item.nu}}
-                 </a>
-               </p>
+             <div class="edit-express-info" style="position:absolute;top:-9999px;">
+               <div class="mgt-s" style="padding-left:2px;">
+                 <select class="select pr-select"
+                         ng-model="formData.type"
+                         chosen
+                         select-source="rest/baseData/queryForSelectOptionByType?type=快递类型">
+                </select>
+               </div>
+               <div class="mgt-s">
+                 <input type="text" class="ipt pr-ipt-60" style="width:133px;margin-left:2px;" ng-model="formData.nu" />
+               </div>
+               <div class="mgt-s text-center">
+                 <span class="mgr-s"><a class="cancel-edit-express" href="javascript:;">取消</a></span>
+                 <span><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xxsm">保存</a></span>
+               </div>
              </div>
            </li>
-           <!-- 添加物流信息li -->
+
            <li class="express-info express-list" ng-show="addAreaisShow==true">
              <div class="mgt-s">
                <select ng-if="addAreaisShow" class="select pr-select"
@@ -186,26 +209,26 @@
                <span class="flex-item-6"><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xxsm">保存</a></span>
              </div>
            </li>
-           <!-- 添加按钮 -->
+
            <li class="add-btn express-list" ng-class="{'express-info-empty':(!showData.kuaidiSet.length), 'add-btn':showData.kuaidiSet.length}">
              <a href="" ng-click="addAreaisShow=true;formData.nu=''"><span class="fa fa-plus"></span></a>
            </li>
          </ul>
        </div>
+     </div> -->
+    <!-- 流程图 -->
+    <business-flow-show business-key="{{showData.id}}" business-type="销售单"></business-flow-show>
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area relative">
+     <div class="btn-area">
+       <!-- 页面自定义按钮 -->
+       <a href="#/saleOutstockOrder/query.html">返回销售出库单列表</a>
+       <!-- 工作流控制按钮 -->
+       <span class="mgr-l"
+             ng-if="showData.didateFilter.buttons.length>0"
+             custom-menu-list
+             custom-menu-arr="{{showData.didateFilter.buttons}}">
+       </span>
      </div>
-     <!-- 流程图 -->
-     <business-flow-show business-key="{{showData.id}}" business-type="销售单"></business-flow-show>
-     <!-- 功能按钮 -->
-     <div class="handle-btn-area relative">
-       <div class="btn-area">
-         <!-- 页面自定义按钮 -->
-         <a href="#/saleOutstockOrder/query.html">返回销售出库单列表</a>
-         <!-- 工作流控制按钮 -->
-         <span class="mgr-l"
-               ng-if="showData.didateFilter.buttons.length>0"
-               custom-menu-list
-               custom-menu-arr="{{showData.didateFilter.buttons}}">
-         </span>
-       </div>
-     </div>
+    </div>
 </div>
