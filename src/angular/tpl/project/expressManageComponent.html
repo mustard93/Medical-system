@@ -1,59 +1,62 @@
-<div class="express-manage-component bt-dashed-line">
+<div class="express-manage-component bt-dashed-line"
+     ng-init="showHandleEditAndDel=false;showExpressInfo=true;">
   <h1 class="pd-v-m mgl-x-l">物流信息</h1>
   <div class="woutstock-order-express">
     <ul class="clearfix">
       <!-- 已添加物流信息列表 -->
-      <li class="express-list bt-line relative" ng-repeat="item in expressData">
+      <li class="express-list bt-line relative" ng-repeat="item in expressData" id="express-details-{{$index}}">
+        <!-- 显示物流信息 -->
         <div class="show-express-info">
           <div class="flex-column pd-v-s bb-line">
             <div class="flex-item-9 text-center" style="margin-top:3px;">{{item.createAt || '暂无' | date : 'yyyy-MM-dd HH:mm'}}</div>
-            <div class="flex-item-3 text-right pdt-s relative">
-              <a class="origin-ele" href="javascript:;">
+            <div class="flex-item-3 text-center pdt-s relative">
+              <a class="origin-ele" href="javascript:;" ng-mouseenter="showHandleEditAndDel=true" ng-mouseleave="showHandleEditAndDel=false">
                 <em class="circle"></em>
                 <em class="circle"></em>
                 <em class="circle"></em>
               </a>
-              <div class="edit-del-btn text-center z-index-l">
+              <div ng-show="showHandleEditAndDel==true" ng-mouseenter="showHandleEditAndDel=true" ng-mouseleave="showHandleEditAndDel=false" class="edit-del-btn text-center z-index-l">
                 <p class="pdt-s pdb-s bb-dashed-line">
-                  <a href="javascript:;" class="handle-edit-info" ng-click="editThisAreaInfo(item)">编辑</a>
+                  <a href="javascript:;" class="handle-edit-info" ng-click="editThisAreaInfo(item,$index)">编辑</a>
                 </p>
                 <p class="pdt-s pdb-s">
                   <a href="javascript:;" class="color-red"
                      handle-this-click
                      dialog-title="确认删除?"
-                     dialog-content="您确认删除这条购需单吗?"
+                     dialog-content="您确认删除这条快递信息吗?"
                      dialog-template="dialog-confirm.html"
-                     request-url="rest/authen/wOutstockOrder/kuaidi/delete?wOutstockOrderId={{showData.id}}&kuaidiId={{item.id}}"
+                     request-url="{{delExpressUrl}}?wOutstockOrderId={{orderId}}&kuaidiId={{item.id}}"
                      callback="$root.utils.goOrRefreshHref()">删除</a>
                 </p>
               </div>
             </div>
           </div>
-          <div class="text-center pdt-m">
-            <p class="">{{item.type}}</p>
+          <div class="text-center pdt-m pdb-m">
+            <p class="pd-v-s">{{item.type}}</p>
             <p class="color-orange">
               <a href="javascript:;"
                  modal-right="600"
-                 modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{showData.kuaidiSet}}}'
+                 modal-data='{"type":"{{item.type}}","nu":"{{item.nu}}","kuaidiSet":{{expressData}}}'
                  modal-scope="this"
                  modal-url="views/kuaidi/query3.html">{{item.nu}}
               </a>
             </p>
           </div>
         </div>
-        <div class="edit-express-info" style="position:absolute;top:-9999px;">
+        <!-- 编辑物流信息 -->
+        <div class="edit-express-info pdl pdt-s" style="position:absolute;top:-9999px;" ng-init="formData.wOutstockOrderId=orderId;formData.id=item.id">
           <div class="mgt-s" style="padding-left:2px;">
-            <select class="select pr-select"
+            <select ng-init="formData.type=item.type" class="select pr-select"
                     ng-model="formData.type"
                     chosen
                     select-source="rest/baseData/queryForSelectOptionByType?type=快递类型">
            </select>
           </div>
           <div class="mgt-s">
-            <input type="text" class="ipt pr-ipt-60" style="width:133px;margin-left:2px;" ng-model="formData.nu" />
+            <input ng-init="formData.nu=item.nu" type="text" class="ipt pr-ipt-60" style="width:133px;margin-left:2px;" ng-model="formData.nu" />
           </div>
-          <div class="mgt-s text-center">
-            <span class="mgr-s"><a class="cancel-edit-express" href="javascript:;">取消</a></span>
+          <div class="mgt text-center">
+            <span class="mgr-s"><a class="cancel-edit-express" ng-click="cancelEditExpress($index)" href="javascript:;">取消</a></span>
             <span><a href="" ng-click="saveExpressInfo(formData);" class="btn btn-primary pr-btn-xxsm">保存</a></span>
           </div>
         </div>
@@ -77,7 +80,7 @@
       </li>
       <!-- 添加按钮 -->
       <li class="add-btn express-list" ng-class="{'express-info-empty':(!showData.kuaidiSet.length), 'add-btn':showData.kuaidiSet.length}">
-        <a href="" ng-click="addAreaisShow=true;formData.nu=''"><span class="fa fa-plus"></span></a>
+        <a href="" ng-click="addAreaisShow=true;formData.nu='';formData.wOutstockOrderId=orderId"><span class="fa fa-plus"></span></a>
       </li>
     </ul>
   </div>

@@ -2911,7 +2911,10 @@ function expressManageComponent (requestData, utils) {
   return {
     restrict: 'EA',
     scope: {
-      expressData: '=?'
+      expressData: '=?',  // 请求的物流信息对象
+      saveExpressUrl: '@',    // 保存新的物流信息请求Url
+      delExpressUrl: '@',    // 删除物流信息请求Url
+      orderId: '@'    // 当前单据id
     },
     replace: true,
     transclude: true,
@@ -2922,10 +2925,44 @@ function expressManageComponent (requestData, utils) {
         throw new Error('Attr expressData must be defined!');
       }
 
+      //编辑物流信息
+      scope.editThisAreaInfo = function (item, id) {
+        //获取当前物流信息id名
+        var _expressId = 'express-details-' + id;
+
+        $('#'+_expressId).find('div.show-express-info').hide();
+        $('#'+_expressId).find('div.edit-express-info').css('top',0);
+
+      };
+
+      //取消编辑物流信息
+      scope.cancelEditExpress = function (id) {
+        //获取当前物流信息id名
+        var _expressId = 'express-details-' + id;
+
+        $('#'+_expressId).find('div.show-express-info').show();
+        $('#'+_expressId).find('div.edit-express-info').css('top','-9999px');
+      };
 
     },
     controller: ['$scope', '$element', function ($scope, $element) {
 
+      //保存新的快递信息
+      $scope.saveExpressInfo = function (params) {
+        var _data = angular.isObject(params) ? params : '';
+        var saveUrl = $scope.saveExpressUrl;
+        if (_data) {
+          requestData(saveUrl, _data, 'POST')
+          .then(function (results) {
+            if (results[1].code === 200) {
+              utils.goOrRefreshHref();
+            }
+          })
+          .catch(function (error) {
+            console.log(error || '出错');
+          });
+        }
+      };
     }]
   };
 }
