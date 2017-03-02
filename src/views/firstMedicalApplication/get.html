@@ -42,18 +42,37 @@
               采购员：
             </span>
             <span class="flex-item-2">
-              <select class="select pr-select" data-placeholder="选择剂型"
-              chosen
-              default-empty="无"
-              ng-model="formData.firstMedical.dosageForms"
-              select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
-              </select>
+              {{formData.firstMedical.buyerName ||'暂无'}}
             </span>
           </span>
         </div>
         <div class="flex-item-6 text-right">
             录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd' ||'暂无'}}</em>
             状态：<em class="color-black">{{formData.orderStatus ||'暂无'}}</em>
+        </div>
+      </div>
+      <!-- 审批 -->
+      <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class=" mgb">
+        <div class=" first-medical-nav-new" >
+          <div class="" ng-class="{'pr-pass-bg':item.event.status=='已通过','pr-nopass-bg':item.event.status=='未通过'}" ng-repeat="item in showData.eventRecords">
+            <div ng-class="{'pr-pass-bdbg-tb':item.event.status=='已通过','pr-nopass-bdbg-tb':item.event.status=='未通过'}"></div>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'">
+              <em class="color-9">{{item.departmentName}}：</em>
+              <em>{{item.event.status}}</em>
+            </span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'">
+              <em class="color-9">审核人：</em>
+              <em>{{item.inputUser || '暂无'}}</em>
+            </span>
+            <span class="mgr-xl" ng-if="item.event.status!='待审批'">
+              <em class="color-9">审核时间：</em>
+              <em>{{item.createAt | date:'yyyy-MM-dd' || '暂无'}}</em>
+            </span>
+            <div ng-class="{'pr-pass-bdbg-l':item.event.status=='已通过','pr-nopass-bdbg-l':item.event.status=='未通过'}" ></div>
+          </div>
+          <div>
+            <!-- <div></div><div></div> -->
+          </div>
         </div>
       </div>
         <!-- 审核信息 -->
@@ -143,20 +162,6 @@
         <!-- 审核资料 -->
         <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
 
-
-        <!-- 审批 -->
-        <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">
-          <div class="mgb-l">
-            <h1 class="pr-font-18 mgb">审批意见</h1>
-            <div class="mgb" ng-repeat="item in showData.eventRecords">
-              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
-              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人/部门：</em> <em>{{item.inputUser}}/{{item.departmentName}}</em></span>
-              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
-              <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
-            </div>
-          </div>
-          <div class="mgb-l"></div>
-        </div>
 
         <div ng-if="showData.didateFilter.buttons.length>0&& showData.orderStatus!='未提交'"
              workflow-task-run-with-attchments
