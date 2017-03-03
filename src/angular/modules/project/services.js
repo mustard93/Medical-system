@@ -195,15 +195,8 @@ define('project/services', ['project/init'], function () {
 
                      if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
-                        // if(showData){
-                        //   bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
-                        //     "ahref":Config.serverPath+"rest/authen/firstMedicalApplication/exportWord?id="+showData.id,
-                        //     "showName":"打印"};
-                        //   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-                        // }
-
                         return arr;
-                      }//get_firstEnterpriseApplication
+                      }
 
 
                       //获取医院资格声请菜单定义
@@ -215,6 +208,23 @@ define('project/services', ['project/init'], function () {
 
                           return arr;
                         }//get_hospitalApplication
+
+                      //获取医院采购目录菜单定义
+                        ,get_hospitalPurchaseContents:function(showData){
+                          var arr=[];
+                          //aclass ：样式，ahref：连接，showName：显示名
+                          var bottomButton={"aclass":"","ahref":"#/hospitalPurchaseContents/query.html","showName":"返回医院采购目录列表"};
+                        if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                        bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
+                        "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
+                        "httpMethod":"GET",
+                        "ahref":"views/versionFlow/get-right-side.html?businessKey="+showData.id,
+                        "showName":"查看操作记录"};
+
+                        if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                          return arr;
+                        }//get_hospitalApplication
+
                         //获取医院资格声请菜单定义
                           ,get_otherCustomerApplication:function(showData){
                             var arr=[];

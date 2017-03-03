@@ -2939,6 +2939,96 @@ define('project/controllers', ['project/init'], function() {
           $scope.formData.firstMedical.quoteprice = 0;
         }
       });
+
+    // 全选与全不选
+    $scope.isChoiseAll = function (choiseStatus) {
+      if (choiseStatus) {
+        angular.forEach($scope.orderMedicalNos, function (item, index) {
+          if (!item.handleFlag) {
+            item.handleFlag = true;
+          }
+        });
+      } else {
+        angular.forEach($scope.orderMedicalNos, function (item, index) {
+          if (item.handleFlag) {
+            item.handleFlag = false;
+          }
+        });
+      }
+    };
+    $scope.handleChoiseAllEvent = function () {
+         var _dataSource = $scope.formData.orderMedicalNos;
+
+         if (!$scope.choisedMedicalList) {
+           $scope.choisedMedicalList = [];
+         }
+
+         if ($scope.isChoiseAll) {
+           angular.forEach(_dataSource, function (data, index) {
+             data.handleFlag = true;
+             $scope.choisedMedicalList.push(data);
+           });
+         } else  {
+           angular.forEach(_dataSource, function (data, index) {
+             data.handleFlag = false;
+             $scope.choisedMedicalList = [];
+           });
+         }
+       };
+
+    $scope.flashAddDataCallbackFn = function(flashAddData) {
+
+      if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+        alertWarn("请选择药品");
+        return ;
+      }
+
+      var medical=flashAddData.data.data;
+      var addDataItem = $.extend(true,{},medical);
+
+      addDataItem.relId=medical.id;
+      addDataItem.discountPrice='0';
+      addDataItem.discountRate='100';
+      addDataItem.id=null;
+
+      if (!addDataItem.planQuantity) {
+        addDataItem.planQuantity = flashAddData.quantity;
+      }
+
+      if (!(addDataItem.relId && addDataItem.name)) {
+          alertWarn('请选择药品。');
+          return false;
+      }
+
+      if(addDataItem.planQuantity>medical.quantity){//库存不足情况
+          addDataItem.handleFlag =false;//默认添加到订单
+      }
+
+      if (!$scope.formData.orderMedicalNos) {
+        $scope.formData.orderMedicalNos = [];
+      }
+      // 如果已添加
+      if ($scope.formData.orderMedicalNos.length !== 0) {
+        var _len = $scope.formData.orderMedicalNos.length;
+        // console.log(_len);
+        // 未使用forEach方法，因为IE不兼容
+        for (var i=0; i<_len; i++) {
+          if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+            alertWarn('此药械已添加到列表');
+            return false;
+          }
+        }
+      }
+      addDataItem.stockBatchs=[];
+      //添加到列表
+      $scope.formData.orderMedicalNos.push(addDataItem);
+      //计算价格
+      $scope.formData.totalPrice += addDataItem.strike_price *
+
+      addDataItem.planQuantity;
+      return true;
+    };
+
     }
 
   /**
