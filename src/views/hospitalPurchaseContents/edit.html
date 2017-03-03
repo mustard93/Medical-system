@@ -1,5 +1,5 @@
 <div class="hospital-application"
-     ng-controller="QualificationApplyCtrl"
+     ng-controller="hospitalPurchaseContentsCtrl"
      ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
@@ -15,7 +15,8 @@
         scope-extend="scopeExtend"
         scope-error-msg="errorMsg"
         scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;">
+        onkeydown="if(window.event.keyCode==13) return false;"
+        callback="">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xl">客户中心 >
@@ -58,7 +59,7 @@
             </div>
             <div class="flex-item-6 text-right">
               <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-                  <input type="text" class="ipt pdr-xxl" placeholder="药械名称/编号" ng-model="listParams.q">
+                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
                   <i class=""></i>
               </div>
             </div>
@@ -78,11 +79,10 @@
                   <th class="text-center ">序号</th>
                   <th class="text-center ">商品编号</th>
                   <th class="text-left  w-100">商品全名</th>
+                  <th class="text-center">生产厂家</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">原币含税单价</th>
                   <th class="text-center">原币单价</th>
-                  <th class="text-center">税率</th>
                 </tr>
               </thead>
               <tbody class="bg-white">
@@ -111,16 +111,18 @@
                         {{tr.name}}
                     </div>
                   </td>
+                  <td class="text-center">{{tr.manufacturer}}</td>
                   <td class="text-center">{{tr.specificationAndModelType}}</td>
                   <td class="text-center">{{tr.unit}}</td>
-                  <td class="text-center">
-                  {{tr.drugAdministrationCode}}
-                  </td>
-                  <td class="text-center relative">
-                    {{tr.drugAdministrationCodeGuaranteePeriod}}
-                  </td>
-                  <td class="text-center relative">
-                    {{tr.drugAdministrationCodeGuaranteePeriod}}
+                  <td class="text-center">￥
+                  <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price"
+                  name="price"
+                  required
+                  ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                  invalid-popover
+                  popover-show="!editForm.price.$valid"
+                  popover-options='{"content":"价格格式不正确", "placement":"right", "trigger":"manual"}'
+                  />
                   </td>
                 </tr>
               </tbody>
@@ -141,8 +143,19 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
+        <span class="mgl mgt" >
+          <a ng-if="changeFlag"  href="javascript:;"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="该采购目录存在未保存数据，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo('#/hospitalPurchaseContents/query.html')"
+             save-callback="submitForm('editForm','exit');
+             $root.goTo('#/hospitalPurchaseContents/query.html')">返回医院采购目录列表</a>
+          <a ng-if="!changeFlag" href="#/hospitalPurchaseContents/query.html">返回医院采购目录列表</a>
+        </span>
           <span  bottom-button-list="bottomButtonList">  </span>
-          <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
+          <!-- <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
              handle-this-click
@@ -151,13 +164,22 @@
              dialog-template="dialog-confirm.html"
              request-url="rest/authen/hospitalPurchaseContents/delete?id={{formData.id}}"
              callback="$root.goTo('#/hospitalPurchaseContents/query.html')">删除
-          </a>
-          <button type="submit" class="pr-btn-save-glodbg mgl-l"
-                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
+          </a> -->
+          <button
+              type="button"
+              class="pr-btn-save-glodbg mgl-l"
+              ng-disabled="!changeFlag"
+              ng-click="submitForm('editForm','save')">保存
           </button>
-          <button type="submit" class="pr-btn-save-glodbg-l mgl"
-                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();"
-                  >保存并结束编辑
+          <button
+              type="submit" class="pr-btn-save-glodbg-l mgl"
+              ng-disabled="!editForm.price.$valid">
+              <a href="javascript:;"
+              class="color-white"
+              ng-click="submitForm('editForm','submit')">
+                保存并结束编辑
+              </a>
+
           </button>
       </div>
     </div>

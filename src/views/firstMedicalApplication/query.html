@@ -238,12 +238,14 @@
                       <span >备注：</span><span class="color-6">{{tr.applyReason}}</span>
                     </p>
                     <p ng-if="tr.orderStatus=='未通过'"
-                    title=""
+                    ng-controller="QualificationApplyCtrl"
+                    ng-init="initFlag=true;"
+                    title="{{tr.operationFlowSet.key}}{{tr.operationFlowSet.message}}"
                     class="text-ellips-s color-red">
                       <span>原因：</span>
                       <span class="color-6">
-                        {{tr.operationFlowSet[1].key || '暂无'}}
-                        {{tr.operationFlowSet[1].message}}
+                        <em ng-model="tr.operationFlowSet.key">{{tr.operationFlowSet.key}}</em>
+                        <em ng-model="tr.operationFlowSet.message">{{tr.operationFlowSet.message}}</em>
                       </span>
                     </p>
                   </div>

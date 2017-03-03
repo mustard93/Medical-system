@@ -44,7 +44,7 @@
             </div>
             <div class="flex-item-6 text-right">
               <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-                  <input type="text" class="ipt pdr-xxl" placeholder="药械名称/编号" ng-model="listParams.q">
+                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
                   <i class=""></i>
               </div>
             </div>
@@ -56,11 +56,10 @@
                   <th class="text-center ">序号</th>
                   <th class="text-center ">商品编号</th>
                   <th class="text-left  w-100">商品全名</th>
+                  <th class="text-left">生产厂家</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">原币含税单价</th>
                   <th class="text-center">原币单价</th>
-                  <th class="text-center">税率</th>
                 </tr>
               </thead>
               <tbody class="bg-white">
@@ -75,16 +74,11 @@
                         {{tr.name}}
                     </div>
                   </td>
+                  <td class="text-center">{{tr.manufacturer}}</td>
                   <td class="text-center">{{tr.specificationAndModelType}}</td>
                   <td class="text-center">{{tr.unit}}</td>
                   <td class="text-center">
-                  {{tr.drugAdministrationCode}}
-                  </td>
-                  <td class="text-center relative">
-                    {{tr.drugAdministrationCodeGuaranteePeriod}}
-                  </td>
-                  <td class="text-center relative">
-                    {{tr.drugAdministrationCodeGuaranteePeriod}}
+                  {{tr.price}}
                   </td>
                 </tr>
               </tbody>
@@ -100,11 +94,10 @@
         </div>
     </div>
 
-
-
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
+          <a href="#/hospitalPurchaseContents/query.html">返回医院采购目录列表</a>
           <span  bottom-button-list="bottomButtonList">  </span>
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
