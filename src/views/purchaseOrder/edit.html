@@ -183,7 +183,26 @@
                      <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                      <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
                      <td class="text-right" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 请购数量 -->
-                     <td class="text-center" style="white-space: nowrap;">
+                     <td class="text-center" ng-if="formData.relId" style="white-space: nowrap;">
+                       <div class="order-goods-num">
+                         <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity<=1">-</button>
+                         <span class="inline-block">
+                           <input type="number"
+                                  class="inline ipt pr-ipt-60 text-center item-quantity"
+                                  style="width:60px;"
+                                  ng-model="tr.quantity"
+                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                                  invalid-popover
+                                  popover-show="tr.quantity>tr.planQuantity"
+                                  popover-options='{"content":"当前数量不能大于计划数量", "placement":"right", "trigger":"manual"}'>
+                         </span>
+                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="tr.quantity>=tr.planQuantity">+</button>
+                       </div>
+                       <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
+                         待采购数量：{{tr.planQuantity-tr.quantity}}
+                       </p>
+                     </td><!-- 数量 -->
+                     <td class="text-center" ng-if="!formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
                          <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity<=1">-</button>
                          <span class="inline-block">
@@ -193,7 +212,7 @@
                                   ng-model="tr.quantity"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
                          </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1" ng-disabled="tr.quantity>=tr.planQuantity">+</button>
+                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
                        </div>
                        <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                          待采购数量：{{tr.planQuantity-tr.quantity}}
