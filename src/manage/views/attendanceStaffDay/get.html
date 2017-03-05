@@ -1,0 +1,93 @@
+<div class="modal-content" ng-controller="editCtrl"
+ ng-init="showData=tr.userMonthStats[monthDay1];keyArr=$root.utils.getPropertysArrayOfObject(showData)">
+ <div class="modal-header">
+     <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+     <h4 class="modal-title">详细</h4>
+ </div>
+    <div class="modal-body">
+
+    <div class="form-group">
+      <span class="col-sm-2 control-span">姓名</span>
+      <span class="col-sm-10">
+      {{showData.name}}
+      </span>
+
+    </div>
+    <hr class="col-sm-12"/>
+    <div class="form-group">
+      <span class="col-sm-2 control-span">日期</span>
+      <span class="col-sm-10">
+      {{showData.day}}/{{showData.weekDay}}{{showData.holidayFlag?"/假期":""}}
+      </span>
+    </div>
+          <hr class="col-sm-12"/>
+
+    <div class="form-group">
+      <span class="col-sm-2 control-span">考勤状态</span>
+      <span class="col-sm-10" ng-class='{"color-red":showData.attendanceStatus=="异常"}'>
+      {{showData.attendanceStatus}}
+      </span>
+    </div>
+  <hr class="col-sm-12"/>
+
+
+  <div class="form-group" ng-if='showData.attendanceStatus=="异常"'>
+      <span class="col-sm-2 control-span">异常内容</span>
+    <span class="col-sm-10" ng-class='{"color-red":showData.attendanceStatus=="异常"}'>
+    {{showData.abnormalStatusMark}}
+    </span>
+  </div>
+  <hr class="col-sm-12"/>
+
+  <div class="form-group">
+    <span class="col-sm-2 control-span">工作小时</span>
+    <span class="col-sm-10">
+    {{showData.workHours}}
+    </span>
+  </div>
+<hr class="col-sm-12"/>
+
+<div class="form-group">
+  <span class="col-sm-2 control-span">加班小时</span>
+  <span class="col-sm-10">
+  {{showData.overHours}}
+  </span>
+</div>
+<hr class="col-sm-12"/>
+
+
+<div class="form-group">
+  <span class="col-sm-2 control-span">第1次打卡时间</span>
+  <span class="col-sm-10">
+  {{showData.firstRcordStr}}
+  </span>
+</div>
+<hr class="col-sm-12"/>
+
+<div class="form-group">
+  <span class="col-sm-2 control-span">最后打卡时间</span>
+  <span class="col-sm-10">
+  {{showData.lastRcordStr}}
+  </span>
+</div>
+<hr class="col-sm-12"/>
+
+<div class="form-group">
+    <span class="col-sm-2 control-span">早退时间(分)</span>
+  <span class="col-sm-10">
+  {{showData.leaveEarlyMinute}}
+  </span>
+</div>
+<hr class="col-sm-12"/>
+
+<div class="form-group">
+  <span class="col-sm-2 control-span">迟到时间(分)</span>
+  <span class="col-sm-10">
+  {{showData.lagMinute}}
+  </span>
+</div>
+<hr class="col-sm-12"/>
+
+
+  </div>
+</div>

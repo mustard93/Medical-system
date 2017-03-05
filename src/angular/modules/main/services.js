@@ -427,7 +427,20 @@ function alertOk($rootScope, modal) {
 
           var  utilsObj = {
             //
+            //获取一个月的最大天数
+            getNumberArrayByMaxNum:function(startNumber,endNumber){
 
+                var returnArr=[];
+                    if( typeof startNumber === 'number'&& typeof endNumber === 'number')
+                    {
+                      for(var i=startNumber;i<=endNumber;i++){
+
+                        returnArr.push(i);
+                      }
+                    }
+                console.log("getNumberArrayByMaxNum",arguments,returnArr);
+               return returnArr;
+            },
             /**
 
             URL参数转换对象

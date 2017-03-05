@@ -1,0 +1,103 @@
+<div   ng-controller="pageCtrl"><!-- pageCtrl-->
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>月考勤</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">月考勤</li>
+    </ul>
+</div>
+<!-- page heading end-->
+
+<!--body wrapper start-->
+<table-list list-data="rest/authen/attendanceStaffDay/queryStaticByMonth.json" list-params="listParams"
+ callback="monthDays=$root.utils.getNumberArrayByMaxNum(1,tbodyList[0].maxDay)">
+    <div class="mg-m col-lg-12 col-sm-12">
+      <div class="col-lg-1">
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"  modal-data='{"organizationId":"{{listParams.organizationId}}","type":"{{listParams.type}}"}' modal-url="views/baseData/edit.html">
+            <i class="fa fa-plus"></i>导入
+        </button>
+      </div>
+
+
+      <span class="mgr color-999">选择年月</span>
+      <div class="date-icon-outside">
+        <input type="text"
+               datepicker
+               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+               ng-readonly="true"
+               ng-model="listParams.createAtBeg"
+               placeholder="">
+        <span class="date-icon"></span>
+      </div>
+
+
+    <div class="wrapper">
+        <div class="loader" ng-if="status.isLoading">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div ng-if="!status.isLoading">
+            <div class="empty-wrap" ng-if="tbodyList.length==0">
+                <span>
+                    <i class="fa fa-inbox">
+                        <em>什么也没有</em>
+                    </i>
+                </span>
+            </div>
+            <div ng-if="tbodyList.length">
+
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr >
+                            <th><input type="checkbox" class="selectAll"></th>
+                            <th>序号</th>
+                            <th>名称</th>
+                            <th>异常天数</th>
+                            <th>累计工作时</th>
+                            <th>累计缺工作时</th>
+                            <th>累计加班时</th>
+                            <th ng-repeat="monthDay in monthDays">{{monthDay}}</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
+                            <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                            <td>{{$index + 1}}</td>
+                            <td>{{tr.name}}</td>
+                              <td ng-class='{"color-red":tr.countAbnormalStatus>0}' >{{tr.countAbnormalStatus}}</td>
+                            <td>{{tr.workHours}}</td>
+                            <td ng-class='{"color-red":tr.missWorkHours>0}'>{{tr.missWorkHours}}</td>
+                            <td ng-class='{"color-orange":tr.overWorkHours>0}'>{{tr.overWorkHours}}</td>
+                            <th
+                             ng-repeat="monthDay1 in monthDays">
+
+                              <a  modal-right="700" modal-scope="this" ng-class='{"color-red":tr.userMonthStats[monthDay1].attendanceStatus=="异常"}'
+                              modal-url="views/attendanceStaffDay/get.html">
+
+                                      {{tr.userMonthStats[monthDay1].attendanceStatus}}
+                              </a>
+
+
+                          </th>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="fr">
+                        <pagination status="status"></pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</table-list>
+<!--body wrapper end-->
+</div><!-- pageCtrl-->
