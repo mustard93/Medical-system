@@ -33,7 +33,9 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstMedicalApplication/query.html');watchFormChange('formData');formData.firstMedical.isBasicMedicine='是'">
+            callback="submitFormAfter('#/firstMedicalApplication/query.html');
+            watchFormChange('formData');formData.firstMedical.isBasicMedicine='是';
+            bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-6">
@@ -276,18 +278,19 @@
        </div>
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
+          
           <div class="mgb text-right btn-area">
-            <span class="mgl">
-              <a ng-if="changeFlag"  href="javascript:;"
-                 handle-this-click
-                 dialog-title="确认返回?"
-                 dialog-content="该申请单存在未保存数据，是否保存?"
-                 dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo('#/firstMedicalApplication/query.html')"
-                 save-callback="submitForm('editForm','exit');
-                 $root.goTo('#/firstMedicalApplication/query.html')">返回申请单列表</a>
-              <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回申请单列表</a>
-            </span>
+              <span class="mgl">
+                <a ng-if="changeFlag"  href="javascript:;"
+                   handle-this-click
+                   dialog-title="确认返回?"
+                   dialog-content="该申请单存在未保存数据，是否保存?"
+                   dialog-template="pr-dialog-return.html"
+                   nosave-callback="goTo('#/firstMedicalApplication/query.html')"
+                   save-callback="submitForm('editForm','exit');
+                   $root.goTo('#/firstMedicalApplication/query.html')">返回申请单列表</a>
+                <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回申请单列表</a>
+              </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       ng-disabled="!changeFlag || firstMedicalApplication.$invalid"
