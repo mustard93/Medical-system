@@ -1,0 +1,83 @@
+<div class="page-main-header-component content-wrapper-heading pdb-m mgb-l relative clearfix">
+  <!-- 面包屑导航 -->
+  <div id="crumbsNav" class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl"></div>
+  <!-- 页头主内容区 -->
+  <div class="pd-c-xxxxxl clearfix">
+    <!-- 页头主内容上部 -->
+    <div class="flex-column mgb-m">
+      <div class="flex-item-4 pos-rel-tl inline-block fl-l">
+        <h1 class="pr-font-20 color-black">{{componentTitle}}</h1>
+      </div>
+      <div class="flex-item-8 text-right">
+        <div class="order-status-btn pos-rel-tr text-right"
+             ajax-url="{{getStatusNumUrl}}"
+             scope-data="countByOrderStatus"
+             alert-error>
+
+             <div class="btn btn-group" ng-repeat="item in statusGroupList track by $index">
+               <button ng-if="$index==0" query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
+               <button ng-repeat="list in item"
+                       query-order-status-button
+                       ng-model="listParams.orderStatus"
+                       key="{{splitStringData(list)[0]}}"
+                       count-map="countByOrderStatus">
+               </button>
+             </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- 页头主内容下部 -->
+    <div class="flex-column">
+      <div class="flex-item-4">
+        <div ng-if="isShowCreateBtn" class="pos-rel-tl order-create-btn inline-block fl-l">
+          <a href="{{createNewUrl}}"><i></i><span class="text-s">新建{{componentTitle}}</span></a>
+        </div>
+      </div>
+      <div class="flex-item-8 text-right">
+        <!-- 业务类型过滤 -->
+        <div class="inline-block" ng-if="isShowTypeFilter">
+          <span class="color-9">业务类型:</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.orderBusinessType"
+                  select-source="{{getBusinessTypeUrl}}"
+                  ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+          </select>
+        </div>
+        <!-- 日期过滤 -->
+        <div class="inline-block" ng-if="isShowDateFilter">
+          <span class="color-9 mgl-m">录单日期:</span>
+          <div class="date-icon-outside">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                   ng-readonly="true"
+                   ng-model="listParams.createAtBeg"
+                   placeholder="">
+            <span class="date-icon"></span>
+          </div>
+          <span class="color-9">至</span>
+          <div class="date-icon-outside">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                   ng-readonly="true"
+                   ng-model="listParams.createAtEnd"
+                   placeholder="">
+            <span class="date-icon"></span>
+          </div>
+        </div>
+        <!-- 关键字过滤 -->
+        <div class="inline-block" style="height:19px;">
+          <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+            <input type="text" class="ipt pdr-xxl" placeholder="客户名/单据编号" ng-model="listParams.q">
+            <i class=""></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

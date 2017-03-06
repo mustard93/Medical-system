@@ -1,7 +1,6 @@
 <div class="sale-return-order">
   <!-- 主内容头部 -->
-  <div class="content-wrapper-heading pdb-m mgb-l relative">
-      <!-- 模块标题及面包屑 -->
+  <!-- <div class="content-wrapper-heading pdb-m mgb-l relative">
       <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxl">采购中心 > <em>采购退货单</em></p>
       <div class="pd-c-xxxxl clearfix">
         <div class="pos-rel-tl inline-block fl-l">
@@ -21,21 +20,11 @@
               </div>
           </div>
         </div>
-
-    <!-- 搜索 -->
     <div class="text-right relative full-width clearfix">
       <div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l">
-        <!-- ng-if="$root.hasAuthor('采购退货单新建')"  -->
         <a href="#/purchaseReturnOrder/edit.html" title="新建采购退货单"><i></i><span class="text-s ">新建采购退货单</span></a>
       </div>
       <div class="relative">
-        <!-- <span class="mgr color-999">仓库</span>
-        <select class="pr-select select-wd mgr-xl"
-         chosen
-          ng-model="listParams.warehouseCode"
-          default-empty="全部"
-          select-source="rest/authen/warehouse/queryForSelectOption">
-        </select> -->
 
         <span class="color-9">退货日期:</span>
 
@@ -63,10 +52,19 @@
         <i class=""></i>
       </div>
       </div>
-
     </div>
   </div>
-</div>
+</div> -->
+
+  <page-main-header-component list-params="listParams"
+                              crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"采购退货单","link":"","style":"color-custom-orange"}]'
+                              component-title="采购退货单"
+                              is-show-create-btn=true
+                              create-new-url="#/purchaseReturnOrder/edit.html"
+                              get-status-num-url="rest/authen/purchaseReturnOrder/countByOrderStatus.json"
+                              status-group-data='[["未提交-true","待入库-true","已入库-true"]]'
+                              is-show-date-filter=true>
+  </page-main-header-component>
 
   <table-list list-data="rest/authen/purchaseReturnOrder/query.json"
                 list-params="listParams"
