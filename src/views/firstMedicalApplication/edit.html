@@ -103,9 +103,9 @@
                 <div class="flex-column mgb">
                   <div class="flex-item-6">
                     <div class="form-group">
-                      <label for="" class="col-sm-2 control-label">生产企业：</label>
+                      <label for="" class="col-sm-2 control-label">商品编码：</label>
                       <div class="col-sm-6">
-                        <input type="text" class="ipt-new" ng-model="formData.medical.manufacturer">
+                        <input type="text" class="ipt-new" ng-model="formData.medical.code" required>
                       </div>
                     </div>
                   </div>
@@ -124,11 +124,9 @@
                 <div class="flex-column mgb">
                   <div class="flex-item-6">
                     <div class="form-group">
-                      <label for="" class="col-sm-2 control-label">供货企业：</label>
+                      <label for="" class="col-sm-2 control-label">生产企业：</label>
                       <div class="col-sm-6">
-                        <select class="select-new" name="" ng-model="formData.medical.supplierId"
-                        chosen select-source="rest/authen/supplier/queryForSelectOption">
-                        </select>
+                        <input type="text" class="ipt-new" ng-model="formData.medical.manufacturer">
                       </div>
                     </div>
                   </div>
@@ -146,9 +144,11 @@
                 <div class="flex-column mgb">
                   <div class="flex-item-6">
                     <div class="form-group">
-                      <label for="" class="col-sm-2 control-label">药品批准文号：</label>
+                      <label for="" class="col-sm-2 control-label">供货企业：</label>
                       <div class="col-sm-6">
-                        <input type="text" class="ipt-new" ng-model="formData.medical.approvalNo">
+                        <select class="select-new" name="" ng-model="formData.medical.supplierId"
+                        chosen select-source="rest/authen/supplier/queryForSelectOption">
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -176,9 +176,9 @@
                 <div class="flex-column mgb">
                   <div class="flex-item-6">
                     <div class="form-group">
-                      <label for="" class="col-sm-2 control-label">质量标准：</label>
+                      <label for="" class="col-sm-2 control-label">药品批准文号：</label>
                       <div class="col-sm-6">
-                        <input type="text" class="ipt-new" ng-model="formData.medical.quality">
+                        <input type="text" class="ipt-new" ng-model="formData.medical.approvalNo">
                       </div>
                     </div>
                   </div>
@@ -206,9 +206,9 @@
                 <div class="flex-column mgb">
                   <div class="flex-item-6">
                     <div class="form-group">
-                      <label for="" class="col-sm-2 control-label">GMP/GSP证书编号：</label>
+                      <label for="" class="col-sm-2 control-label">质量标准：</label>
                       <div class="col-sm-6">
-                      <input type="text" class="ipt-new" ng-model="formData.medical.gmpGspCertificateNo">
+                        <input type="text" class="ipt-new" ng-model="formData.medical.quality">
                       </div>
                     </div>
                   </div>
@@ -231,6 +231,17 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="flex-column mgb">
+                  <div class="flex-item-6">
+                    <div class="form-group">
+                      <label for="" class="col-sm-2 control-label">GMP/GSP证书编号：</label>
+                      <div class="col-sm-6">
+                      <input type="text" class="ipt-new" ng-model="formData.medical.gmpGspCertificateNo">
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
                 <div class="flex-column mgb">
                   <div class="flex-item-6">
@@ -282,7 +293,7 @@
                       ng-disabled="!changeFlag || firstMedicalApplication.$invalid"
                       ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
             </span>
-            <span class="mgl" ng-if="formData.orderStatus=='未提交'">
+            <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       type="button"
                       ajax-url-submit="rest/authen/firstMedicalApplication/startProcessInstance"

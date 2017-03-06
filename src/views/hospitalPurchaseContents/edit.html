@@ -1,8 +1,8 @@
 <div class="hospital-application"
-     ng-controller="QualificationApplyCtrl"
+     ng-controller="hospitalPurchaseContentsCtrl"
      ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");'
+     callback='initFlag=true;watchFormChange("formData");bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
      alert-error>
 
   <form id="editForm"
@@ -16,23 +16,11 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         onkeydown="if(window.event.keyCode==13) return false;"
-        callback='updateStatus={"type":"submit","url":"rest/authen/customerAddress/startProcessInstance",
-        "param":{"businessKey":formData.id}};
-        goToUrlMap={"submit":"#/lossOverOrder/get-reimburse.html?id="+formData.id};
-        submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")'
-        novalidate="novalidate"
-        ng-init="formData.type='报损'">
-        <!-- callback='updateStatus={"type":"submit","url":"rest/authen/lossOverOrder/updateStatus",
-        "param":{"id":formData.id,orderStatus:"待审批"}};
-        goToUrlMap={"submit":"#/lossOverOrder/get-reimburse.html?id="+formData.id};
-        submitFormAfter1(submitForm_type,goToUrlMap,updateStatus);watchFormChange("formData")' -->
-        <!-- <div style="padding:25px;width:80%;background-color:#ccc;overflow:scroll;">{{formData}}</div> -->
+        callback="">
     <!-- 头部信息 -->
-
     <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs pd-c-xl">管理中心 >
-       <a href="#/lossOverOrder/query-reimburse.html"><em class="color-custom-orange">客户管理</em></a>
-       <em>>医院采购目录编辑</em>
+      <p class="pdb-s pdt-s crumbs pd-c-xl">客户中心 >
+       <a href="#/hospitalPurchaseContents/query.html"><em class="color-custom-orange">医院采购目录</em></a>
       </p>
       <div class="pd-c-xl pdt-l pdb-l">
        <!-- 标题 -->
@@ -43,6 +31,11 @@
     </div>
     <!-- 药械列表 -->
     <div class="pd-loss-l">
+      <p ng-if="initFlag" class="inline-block mgb-l text-n color-3 text-bold"
+      >
+      {{formData.name}}
+    </p>
+    <em class=" mgl">（系统编号：<em class="color-3">YY0001</em>）</em>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <!-- 信息 -->
         <div class="view-medical pd-c-l pdt-m" flash-add-medical
@@ -52,145 +45,84 @@
         </div>
         <!-- 列表 -->
         <div>
-          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line">
+          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
             <div class="flex-item-6">
-              <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-              <span >部门</span>
-              <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                      data-placeholder=" "
-                      chosen
-                      ng-model="formData.departmentId"
-                      select-source="rest/authen/department/queryForSelectOption">
-              </select>
-              <span >申请人</span>
-              <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
-                      data-placeholder=" "
-                      chosen
-                      ng-model="formData.saleUserId"
-                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
-              </select>
-              <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || mainStatus.name}}</em></span>
-              <span class="mgr">审批人：<em class="color-3"> {{formData.approverUser.n || '暂无'}}</em></span>
+              <em class="fl-l">采购目录有效期至：</em>
+              <div class="date-icon-outside">
+                <input type="text"
+                       datepicker
+                       class="ipt-date color-6 mgr pr-indent-10"
+                       ng-readonly="true"
+                       ng-model="listParams.guaranteePeriod">
+                <span class="date-icon"></span>
+              </div>
             </div>
             <div class="flex-item-6 text-right">
-              <span class="mgr">申请日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
-              <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+              <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
+                  <i class=""></i>
+              </div>
             </div>
           </div>
-
           <div >
+            <div ng-if="formData.orderMedicalNos.length" class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
+              <p>
+                <a  href="javascript:;" ng-click="formData.orderMedicalNos.length=0">批量删除</a>
+              </p>
+            </div>
             <table class="table pr-table pr-new-table" >
               <thead>
                 <tr>
+                  <th>
+                    <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                  </th>
+                  <th class="text-center ">序号</th>
                   <th class="text-center ">商品编号</th>
-                  <th class="text-center ">商品代码</th>
                   <th class="text-left  w-100">商品全名</th>
+                  <th class="text-center">生产厂家</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">数量</th>
-                  <th class="text-center">生产批号/灭菌批号</th>
-                  <th class="text-center">生产日期</th>
-                  <th class="text-center">保质期</th>
-                  <th class="text-center">失效日期</th>
-                  <th class="text-center">产品执行标准</th>
-                  <th class="text-center">保存温度</th>
-                  <th class="text-center">产地品牌</th>
-                  <th class="text-center">产品注册证号</th>
-                  <th class="text-center">注册证有效期</th>
+                  <th class="text-center">原币单价</th>
                 </tr>
               </thead>
               <tbody class="bg-white">
                 <tr ng-if="formData.orderMedicalNos.length"
                     ng-repeat="tr in formData.orderMedicalNos"
-                    salesorder-edit-show-delbtn
                     ng-init="orderMedicalNoIds.push(tr.relId)"
-                    ng-controller="SalesOrderDetailsController">
-                  <td class="text-center">{{tr.code}}</td>
-                  <td class="text-center">{{tr.goodsCode}}</td>
+                    ng-controller="ConfirmOrderMedicalController"
+                    table-item-handlebtn-component>
+                  <td class="select-td">
+                    <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
+                  </td>
+                  <td class="text-center">{{$index + 1}}</td>
+                  <td class="text-center">{{tr.code}}
+                    <div  class="table-item-handle-btn">
+                      <div class="table-item-confirm-del-area bg-white">
+                        <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                        <p class="pdt-s">
+                          <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                          <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                        </p>
+                      </div>
+                    </div>
+                  </td>
                   <td class="text-left">
                     <div class="autocut" title="{{tr.name}}">
                         {{tr.name}}
                     </div>
                   </td>
+                  <td class="text-center">{{tr.manufacturer}}</td>
                   <td class="text-center">{{tr.specificationAndModelType}}</td>
                   <td class="text-center">{{tr.unit}}</td>
-                  <td class="text-center" style="white-space:nowrap;">
-                    <div class="order-goods-num">
-                      <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1" ng-disabled="tr.quantity==1">-</button>
-                      <span class="inline-block">
-                        <input type="number"
-                               class="inline pr-table-input text-center item-quantity"
-                               style="width:60px;background:transparent;"
-                               ng-model="tr.quantity"
-                               ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                               name="quantity"
-                               ng-pattern="/^[1-9]\d*|0$/"
-                               invalid-popover
-                               popover-show="!editForm.quantity.$valid"
-                               popover-options='{"content":"数量格式不正确", "placement":"right", "trigger":"manual"}'
-                               >
-                      </span>
-                      <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1">+</button>
-                    </div>
-                  </td>
-                  <td class="text-center">
-                    <select class="pr-select select-wd"
-                            chosen
-                            default-empty
-                            data-placeholder=" "
-                            select-data="selectData"
-                            suffix-connection="/"
-                            suffix-key="note.salesQuantity"
-                            ng-model="tr.batchNumber"
-                            callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
-                            callback-filter-return-data="getProductionBatchValueArray(tr.stockBatchs)"
-                            select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{tr.relId}}"
-                            ng-change="getCurrentProductionDate(tr.relId, tr.batchNumber)"
-                            >
-                    </select>
-                  </td>
-                  <!-- <td class="text-center"> -->
-                    <!-- 灭菌批号 -->
-                  <!-- </td> -->
-                  <td class="text-center">
-                    {{tr.productionDate  | date : 'yyyy-MM-dd' || '暂无'}}
-                  </td>
-                  <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-                  <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
-
-                  <td class="text-center">
-                    {{tr.productStandard}}
-                    <!-- 产品执行标准 -->
-                  </td>
-                  <td class="text-center">
-                    {{tr.storedTemperature}}
-                    <!-- 保存温度 -->
-                  </td>
-
-                  <td class="text-center">
-                    {{tr.brand}}
-                  </td>
-
-                  <td class="text-center">
-                  {{tr.drugAdministrationCode}}
-                  </td>
-
-                  <td class="text-center relative">
-                    {{tr.drugAdministrationCodeGuaranteePeriod}}
-
-                    <div class="sales-order-item-delbtn">
-                      <!-- <div class="sales-order-del-btn"><a href="javascript:;"></a></div> -->
-                      <div class="sales-order-confirm-del-area bg-white">
-                        <p class="bb-line color-red pd-v">确认删除本条数据?</p>
-                        <p class="pd-v-s">
-                          <a href="" ng-click="hideThisBtn()">取消</a>
-                          <button class="btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl"
-                                  ng-click="formData.orderMedicalNos.splice($index,1);
-                                  formData.totalPrice=formData.totalPrice-tr.strike_price*tr.quantity">确认
-                          </button>
-                        </p>
-                      </div>
-                    </div>
+                  <td class="text-center">￥
+                  <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price"
+                  name="price"
+                  required
+                  ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                  invalid-popover
+                  popover-show="!editForm.price.$valid"
+                  popover-options='{"content":"价格格式不正确", "placement":"right", "trigger":"manual"}'
+                  />
                   </td>
                 </tr>
               </tbody>
@@ -205,57 +137,49 @@
           </div>
         </div>
     </div>
-    <!-- 其他信息 -->
-    <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
-        <!-- 备注 -->
-        <div class='mgb'>
-          <h1>备注</h1>
-          <textarea class="pr-textarea mgb-l mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
-        </div>
-    </div>
+
 
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+        <span class="mgl mgt" >
+          <a ng-if="changeFlag"  href="javascript:;"
              handle-this-click
              dialog-title="确认返回?"
-             dialog-content="该申请单存在未保存数据，是否保存?"
+             dialog-content="该采购目录存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/lossOverOrder/query-reimburse.html')"
+             nosave-callback="goTo('#/hospitalPurchaseContents/query.html')"
              save-callback="submitForm('editForm','exit');
-             $root.goTo('#/lossOverOrder/query-reimburse.html')"
-             >返回报损单列表
-          </a>
-
-          <a class="mgr-l" ng-if="!changeFlag" href="#/lossOverOrder/query-reimburse.html" >返回报损单列表</a>
-          <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
+             $root.goTo('#/hospitalPurchaseContents/query.html')">返回医院采购目录列表</a>
+          <a ng-if="!changeFlag" href="#/hospitalPurchaseContents/query.html">返回医院采购目录列表</a>
+        </span>
+          <span  bottom-button-list="bottomButtonList">  </span>
+          <!-- <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
              handle-this-click
              dialog-title="确认删除?"
-             dialog-content="您确认删除这条报损单吗?"
+             dialog-content="您确认删除这条采购目录吗?"
              dialog-template="dialog-confirm.html"
-             request-url="rest/authen/lossOverOrder/delete?id={{formData.id}}"
-             callback="$root.goTo('#/lossOverOrder/query-reimburse.html')">删除
-          </a>
-
-          <button type="submit" class="pr-btn-save-glodbg"
-                   ng-click="submitForm_type='save';formData.validFlag=false;submitForm1();">保存
+             request-url="rest/authen/hospitalPurchaseContents/delete?id={{formData.id}}"
+             callback="$root.goTo('#/hospitalPurchaseContents/query.html')">删除
+          </a> -->
+          <button
+              type="button"
+              class="pr-btn-save-glodbg mgl-l"
+              ng-disabled="!changeFlag"
+              ng-click="submitForm('editForm','save')">保存
           </button>
           <button
-                  ng-disabled="!editForm.quantity.$valid"
-                  class=" mgl pr-btn-create-glodbg"
-                  type="button"
-                  handle-this-click
-                  dialog-title="确认通过?"
-                  dialog-content="审核后,将提交审批，确认审核?"
-                  dialog-template="pr-dialog-submit.html"
-                  confirm-btn-txt="通过"
-                  callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!formData.orderMedicalNos.length"
-                  >审核
+              type="submit" class="pr-btn-save-glodbg-l mgl"
+              ng-disabled="!editForm.price.$valid">
+              <a href="javascript:;"
+              class="color-white"
+              ng-click="submitForm('editForm','submit')">
+                保存并结束编辑
+              </a>
+
           </button>
       </div>
     </div>
