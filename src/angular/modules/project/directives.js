@@ -3010,7 +3010,6 @@ function pageMainHeaderComponent () {
       //状态按钮组格式化数据对象
       if (scope.statusGroupData) {
         scope.statusGroupList = angular.fromJson(scope.statusGroupData);
-        // console.log(scope.statusGroupList);
       }
 
       //拆分数据显示

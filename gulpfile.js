@@ -118,14 +118,14 @@ gulp.task('runLess', ['clean-css'], function () {
 
 /* 合并css */
 gulp.task('concatCss', ['clean-css'], function () {
-  return gulp.src([paths.src + 'css/block_css/*.css'])
+  return gulp.src([paths.src + 'css/block_css/**/*.css'])
              .pipe(concat('style.css'))
              .pipe(gulp.dest('./src/css/dev'));
 });
 
 /* 合并、压缩CSS */
 gulp.task('handleCss', ['pro-clean-css'], function () {
-  return gulp.src([paths.src + 'css/block_css/*.css'])
+  return gulp.src([paths.src + 'css/block_css/**/*.css'])
              .pipe(concat('style.min.css'))
              .pipe(mincss())
              .pipe(rev())
@@ -149,7 +149,7 @@ gulp.task('handleJs', ['pro-clean-js'], function () {
 gulp.task('handleJsCompress', ['pro-clean-js'], function () {
   return gulp.src([paths.src + 'angular/app.js', paths.src + 'angular/modules/**/*.js'])
              //.pipe(concat('app.min.js'))
-             .pipe(uglify())             
+             .pipe(uglify())
              .pipe(gulp.dest(paths.buildTmp + 'js'));
 });
 
