@@ -2983,7 +2983,8 @@ function pageMainHeaderComponent () {
       componentTitle: '@',          // 头部标题
       createNewUrl: '@',            // 新建URL
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
-      statusGroupData: '@'          // 状态显示数据对象
+      statusGroupData: '@',         // 状态显示数据对象
+      getBusinessTypeUrl: '@'       // 获取业务类型查询字段Url
     },
     replace: true,
     transclude: true,
@@ -3022,7 +3023,12 @@ function pageMainHeaderComponent () {
       //是否显示新建按钮
       scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
 
-      // console.log(scope.isShowCreateBtn);
+      //是否显示类型过滤
+      scope.isShowTypeFilter = angular.isDefined(attrs.isShowTypeFilter) ? attrs.isShowTypeFilter : false;
+
+      //是否显示日期过滤
+      scope.isShowDateFilter = angular.isDefined(attrs.isShowDateFilter) ? attrs.isShowDateFilter : false;
+
     }
   };
 }

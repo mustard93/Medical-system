@@ -53,18 +53,20 @@
         </div>
       </div>
       <div class="flex-item-8 text-right">
-        <div class="inline-block">
+        <!-- 业务类型过滤 -->
+        <div class="inline-block" ng-if="isShowTypeFilter">
           <span class="color-9">业务类型:</span>
           <select class="ipt pr-short-ipt color-3" style="width:90px;"
                   data-placeholder=""
                   default-empty="全部"
                   chosen
                   ng-model="listParams.orderBusinessType"
-                  select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
+                  select-source="{{getBusinessTypeUrl}}"
                   ng-change="chgOrderBusinessType(formData.orderBusinessType)">
           </select>
         </div>
-        <div class="inline-block">
+        <!-- 日期过滤 -->
+        <div class="inline-block" ng-if="isShowDateFilter">
           <span class="color-9 mgl-m">录单日期:</span>
           <div class="date-icon-outside">
             <input type="text"
@@ -86,6 +88,7 @@
             <span class="date-icon"></span>
           </div>
         </div>
+        <!-- 关键字过滤 -->
         <div class="inline-block" style="height:19px;">
           <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
             <input type="text" class="ipt pdr-xxl" placeholder="客户名/单据编号" ng-model="listParams.q">
