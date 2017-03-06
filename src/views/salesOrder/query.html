@@ -1,11 +1,10 @@
 <!-- 主内容头部 -->
-<div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+<!-- <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
   <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl">销售中心 > <em class="color-custom-orange">购需单</em></p>
   <div class="pd-c-xxxxxl clearfix">
     <div class="pos-rel-tl inline-block fl-l">
       <h1 class="pr-font-20 color-black">购需单</h1>
     </div>
-    <!-- 新建按钮及状态按钮 -->
     <div class="full-width mgb-m">
       <div class="order-status-btn pos-rel-tr text-right"
            ajax-url="rest/authen/salesOrder/countByOrderStatus.json"
@@ -23,55 +22,49 @@
           </div>
       </div>
     </div>
-<!--
-    <div class="pos-rel-tl order-create-btn inline-block fl-l" ng-if="$root.hasAuthor('购需单编辑')">
-      <a href="#/salesOrder/edit2.html" title="新建购需单"><i></i><span class="text-s">新建购需单</span></a>
-    </div> -->
-    <!-- 右侧搜索 -->
-     <!-- <div class="text-right order-list-search pos-rel-tr inline-block fl-r">
-      <input type="text" class="ipt pdr-xxl" placeholder="客户名/单据编号/销售人员" ng-model="listParams.q">
-      <i class=""></i>
-    </div> -->
-
-
-  <div class="text-right relative full-width">
-
-    <div class="pos-rel-tl order-create-btn inline-block fl-l" ng-if="$root.hasAuthor('购需单编辑')">
-      <a href="#/salesOrder/edit2.html" title="新建购需单"><i></i><span class="text-s">新建购需单</span></a>
-    </div>
-    <div class="relative">
-      <span class="color-9">录单日期:</span>
-      <div class="date-icon-outside">
-        <input type="text"
-               datepicker
-               class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
-               ng-readonly="true"
-               ng-model="listParams.createAtBeg"
-               placeholder="">
-        <span class="date-icon"></span>
+    <div class="text-right relative full-width">
+      <div class="pos-rel-tl order-create-btn inline-block fl-l" ng-if="$root.hasAuthor('购需单编辑')">
+        <a href="#/salesOrder/edit2.html" title="新建购需单"><i></i><span class="text-s">新建购需单</span></a>
       </div>
-       <span class="color-9">至</span>
-
-      <div class="date-icon-outside">
-         <input type="text"
-               datepicker
-               class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-               ng-readonly="true"
-               ng-model="listParams.createAtEnd"
-               placeholder="">
-        <span class="date-icon"></span>
+      <div class="relative">
+        <span class="color-9">录单日期:</span>
+        <div class="date-icon-outside">
+          <input type="text"
+                 datepicker
+                 class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                 ng-readonly="true"
+                 ng-model="listParams.createAtBeg"
+                 placeholder="">
+          <span class="date-icon"></span>
+        </div>
+        <span class="color-9">至</span>
+        <div class="date-icon-outside">
+           <input type="text"
+                 datepicker
+                 class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                 ng-readonly="true"
+                 ng-model="listParams.createAtEnd"
+                 placeholder="">
+          <span class="date-icon"></span>
+        </div>
+        <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+        <input type="text" class="ipt pdr-xxl" placeholder="客户名/单据编号" ng-model="listParams.q">
+        <i class=""></i>
       </div>
-
-    <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-
-
-      <input type="text" class="ipt pdr-xxl" placeholder="客户名/单据编号" ng-model="listParams.q">
-      <i class=""></i>
-    </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
+</div> -->
+
+<page-main-header-component list-params="listParams"
+                            crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"购需单","link":"","style":"color-custom-orange"}]'
+                            component-title="购需单"
+                            is-show-create-btn=true
+                            create-new-url="#/salesOrder/edit2.html"
+                            get-status-num-url="rest/authen/salesOrder/countByOrderStatus.json"
+                            status-group-data='[["待处理-true","处理中-true","已处理-true"], ["预测购需-true"]]'>
+</page-main-header-component>
+
 <div class="content-wrapper sales-order" ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
   <table-list list-data="{{mainStatus.requestPath}}rest/authen/salesOrder/query.json"
               list-params="listParams"

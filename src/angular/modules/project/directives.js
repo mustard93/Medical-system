@@ -2724,6 +2724,8 @@ function resizableColumns() {
 
 /**
  * [addressManageComponent 地址管理组件，包含待选、已选地址列表]
+ * @param  {[type]} requestData [注入项]
+ * @param  {[type]} utils       [注入项]
  * @return {[type]} [description]
  */
 function addressManageComponent (requestData, utils) {
@@ -2968,6 +2970,64 @@ function expressManageComponent (requestData, utils) {
 }
 
 /**
+ * [pageMainHeaderComponent 模块主内容区域头部通组件]
+ * @return {[type]} [description]
+ */
+function pageMainHeaderComponent () {
+  'use strict';
+  return {
+    restrict: 'EA',
+    scope: {
+      listParams: '=?',             // 请求查询的参数对象
+      crumbsNav: '@',               // 面包屑导航
+      componentTitle: '@',          // 头部标题
+      createNewUrl: '@',            // 新建URL
+      getStatusNumUrl: '@',         // 获取所有单据状态数量URL
+      statusGroupData: '@'          // 状态显示数据对象
+    },
+    replace: true,
+    transclude: true,
+    templateUrl: Config.tplPath + 'tpl/project/pageMainHeaderComponent.html',
+    link: function (scope, element, attrs) {
+      //处理面包屑导航数据
+      if (scope.crumbsNav) {
+        //将面包屑字符串转换为JSON对象
+        var _crumbObj = angular.fromJson(scope.crumbsNav);
+        //构建面包屑html代码
+        scope.crumbsCode = '';
+        angular.forEach(_crumbObj, function (data, index) {
+          if ((index+1) !== _crumbObj.length) {   // 不是最后一个
+            scope.crumbsCode += '<span class="mgr-s ' + data.style + '">' + data.name + '</span><span class="fa fa-angle-right mgr-s"></span>';
+          } else {    //最后一个
+            scope.crumbsCode += '<span class="mgr-s ' + data.style + '">' + data.name + '</span>';
+          }
+        });
+        //将代码插入id为crumbsNav的父容器中
+        $('#crumbsNav').append(scope.crumbsCode);
+      }
+
+      //状态按钮组格式化数据对象
+      if (scope.statusGroupData) {
+        scope.statusGroupList = angular.fromJson(scope.statusGroupData);
+        // console.log(scope.statusGroupList);
+      }
+
+      //拆分数据显示
+      scope.splitStringData = function (str) {
+        var _tmp = str.split('-');
+        _tmp[1] = Boolean(_tmp[1]);
+        return _tmp;
+      };
+
+      //是否显示新建按钮
+      scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
+
+      // console.log(scope.isShowCreateBtn);
+    }
+  };
+}
+
+/**
  * [expressBtnToggle 销售出库单中快递模块的删除和编辑域响应hover事件]
  * @return {[type]} [description]
  */
@@ -3003,18 +3063,6 @@ function expressBtnToggle () {
         $(element).find('div.show-express-info').show();
         $(element).find('div.edit-express-info').css('top','-9999px');
       });
-
-
-      // $(element).hover(function () {
-      //   $(this).next().show();
-      // }, function () {
-      //   $(this).next().hide();
-      // });
-      // $(element).next().hover(function () {
-      //   $(this).show();
-      // }, function () {
-      //   $(this).hide();
-      // });
     }
   };
 }
@@ -3059,6 +3107,7 @@ function requestExpressInfoTab (requestData, alertError) {
 }
 
 angular.module('manageApp.project')
+  .directive("pageMainHeaderComponent", pageMainHeaderComponent)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
