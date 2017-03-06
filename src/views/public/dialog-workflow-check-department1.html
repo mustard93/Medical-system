@@ -1,0 +1,42 @@
+<div class="pr-page-dialog-wrap">
+    <form class="confirmOrder-reject-form"
+          ng-init="formData=dialogData.params"
+          action="{{dialogData.requestUrl}}"
+          callback="$root.utils.goOrRefreshHref(dialogData.callBackUrl)"
+          auto-close-dialog
+          parameter-body="{{dialogData.requestParam=='JSON'}}"
+          alert-error
+          alert-ok
+          form-validator
+        >
+  <div class="pr-page-dialog-title bb-line">
+    <i></i><span>审核</span>
+
+  </div>
+  <div class="pr-page-dialog-content bb-line" ng-init="_checkStatus='建议引进';formData.conditionType='建议引进'"
+  ajax-url="rest/baseData/queryForSelectOptionByType.json"
+  params='{"type":"审核不通过处理方式"}'
+  scope-data="selectOptions"
+
+  >
+    <div class="">
+      <label class=" radio radio-new" >
+        <input class="default-radio" type="radio" name="type" value="建议引进" ng-click="formData.conditionType='建议引进'" ng-model="_checkStatus"><i></i>
+      </label>
+      <em class="inline-block" style="margin-left:-5px;">建议引进</em>
+      <label class=" radio radio-new" >
+        <input class="default-radio" type="radio" name="type" value="暂不引进" ng-click="formData.conditionType='暂不引进'" ng-model="_checkStatus"><i></i>
+      </label>
+      <em class="inline-block " style="margin-left:-5px;">暂不引进</em>
+    </div>
+
+      <div class="content-textaere" >
+        <textarea class="pr-textarea"  ng-model="formData.key" placeholder="补充说明"></textarea>
+      </div>
+  </div>
+  <div class="pr-page-dialog-footer text-center mg-m">
+    <button type="submit"  class="pr-btn-confirm-glodbg">确定</button>
+
+  </div>
+  </form>
+</div>
