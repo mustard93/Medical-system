@@ -37,10 +37,10 @@
             <!-- 单号 -->
             <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
               <div class="flex-item-6">
-                <span class="flex-item-3">
+                <span class="flex-item-2">
                   单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
                 </span>
-                <!-- <span class="flex-item-10">
+                <span class="flex-item-10">
                   <span class="flex-item-1 text-right">
                     采购员：
                   </span>
@@ -52,7 +52,7 @@
                     select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
                     </select>
                   </span>
-                </span> -->
+                </span>
               </div>
               <div class="flex-item-6 text-right">
                   录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
@@ -63,6 +63,7 @@
         <div class="panel pr-panel pr-panel-height mgb">
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
           <div>
+            <h3 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">企业信息</h3>
             <div class="flex-column mgb">
               <div class="flex-item-6">
                 <div class="form-group">
@@ -247,6 +248,76 @@
               </div>
             </div>
           </div>
+          <div>
+            <h3 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">销售人员信息</h3>
+            <div class="flex-column mgb">
+              <div class="flex-item-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">销售人员/身份证号：</label>
+                  <div class="col-sm-6 flex-column">
+                    <input type="text" class="form-control flex-item-3" ng-model="formData.firstEnterprise.salesman">
+                    <input type="text"
+                           class="form-control flex-item-8 flex-offset-1"
+                           name="salesmanIdentityNo"
+                           ng-model="formData.firstEnterprise.salesmanIdentityNo"
+                           ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                           data-content="身份证号码格式有误!"
+                           invalid-popover="{{!firstEnterpriseEditForm.salesmanIdentityNo.$valid}}" >
+                  </div>
+                </div>
+              </div>
+              <div class="flex-item-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">座机：</label>
+                  <div class="col-sm-6">
+                    <!-- <input type="text"
+                           class="form-control"
+                           ng-model="formData.firstEnterprise.tel"
+                           name="telname"
+                           ng-pattern="/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/"
+                           data-content="* 请输入正确座机号"
+                           invalid-popover="{{!firstEnterpriseEditForm.telname.$valid}}" /> -->
+                    <input type="text"
+                           class="form-control"
+                           ng-model="formData.firstEnterprise.tel"
+                           name="telname" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">Email：</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.email">
+                  </div>
+                </div>
+              </div>
+              <div class="flex-item-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">手机：</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control"
+                    ng-model="formData.firstEnterprise.phone"
+                    name="phonename"
+                    ng-pattern="/^1[34578]\d{9}$/"
+                    data-content="* 请输入正确手机号"
+                    invalid-popover="{{!firstEnterpriseEditForm.phonename.$valid}}"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pd-v-l">
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">经营范围</h1>
+            <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.businessScope"></textarea>
+          </div>
+          <div class="pd-v-l">
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">拟供产品</h1>
+            <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.provideProducts"></textarea>
+          </div>
         </div>
         <!-- 申请原因 -->
         <div class="panel pr-panel pr-panel-height mgb">
@@ -256,7 +327,7 @@
           </div>
         </div>
         <!-- 上传附件 -->
-        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":false}'
+        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":true}'
          attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" style="margin-bottom:60px;"></div>
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">

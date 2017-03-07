@@ -1,8 +1,8 @@
-<div class="first-medical-application first-enterprise-application"
+<div class="hospital-application first-medical-application first-enterprise-application"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');"
+     callback="initFlag=true;watchFormChange('formData')"
      alert-error
      ng-init="formData.validFlag=false">
      <div class="header-info relative mgb-l">
@@ -21,6 +21,22 @@
      </div>
   <!-- 主体内容 -->
   <div class="content-wrapper ">
+    <!-- 添加流程导航 -->
+    <div class="first-medical-nav">
+      <div class="active" >
+        <span >基本信息</span>
+        <div></div>
+      </div>
+      <div class="unactive">
+        <div></div>
+        <span>申请原因</span>
+        <div></div>
+      </div>
+      <div class="unactive">
+        <div></div>
+        <span>添加审核资料</span>
+      </div>
+    </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
             id="first-enterprise-editForm"
@@ -34,45 +50,28 @@
             scope-data="formData"
             novalidate="true"
             callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-2.html');watchFormChange('formData')">
-            <!-- 单号 -->
-            <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-              <div class="flex-item-6">
-                <span class="flex-item-3">
-                  单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
-                </span>
-                <!-- <span class="flex-item-10">
-                  <span class="flex-item-1 text-right">
-                    采购员：
-                  </span>
-                  <span class="flex-item-2">
-                    <select class="select pr-select" data-placeholder="选择剂型"
-                    chosen
-                    default-empty="无"
-                    ng-model="formData.firstMedical.dosageForms"
-                    select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
-                    </select>
-                  </span>
-                </span> -->
-              </div>
-              <div class="flex-item-6 text-right">
-                  录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
-                  状态：<em class="color-black">{{formData.orderStatus}}</em>
-              </div>
-            </div>
+        <!-- 单号 -->
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+          <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
+          <span class="flex-item-1 text-right">
+            状态：<em class="color-black">{{formData.orderStatus}}</em>
+          </span>
+        </div>
         <!-- 基本信息 -->
-        <div class="panel pr-panel pr-panel-height mgb">
-            <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
+        <div class="panel pr-panel pr-panel-height mgb" style="margin-bottom:80px;">
+          <h1 class="mgb mgt color-black text-bold">基本信息</h1>
           <div>
+            <h3 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">企业信息</h3>
             <div class="flex-column mgb">
               <div class="flex-item-6">
                 <div class="form-group">
                   <label for="" class="col-sm-2 control-label" >企业类别：</label>
                   <div class="col-sm-10">
                     <label class="radio-inline">
-                      <input type="radio" name="type" value="生产" ng-model="formData.firstEnterprise.type" ng-disabled=true required> 生产
+                      <input type="radio" name="type" value="生产" ng-model="formData.firstEnterprise.type" ng-disabled="formData.orderStatus=='已通过'" required> 生产
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="type" value="经营" ng-model="formData.firstEnterprise.type" ng-disabled=true required> 经营
+                      <input type="radio" name="type" value="经营" ng-model="formData.firstEnterprise.type" ng-disabled="formData.orderStatus=='已通过'" required> 经营
                     </label>
                   </div>
                 </div>
@@ -83,7 +82,7 @@
                 <div class="form-group">
                   <label for="" class="col-sm-2 control-label">供货企业全称：</label>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.fullName" ng-disabled=true required="true">
+                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.fullName" ng-disabled="formData.orderStatus=='已通过'" required="true">
                   </div>
                 </div>
               </div>
@@ -247,44 +246,114 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- 申请原因 -->
-        <div class="panel pr-panel pr-panel-height mgb">
-          <h1 class="pr-font-18 mgb">申请原因</h1>
-          <div class="">
-            <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+          <div>
+            <h3 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">销售人员信息</h3>
+            <div class="flex-column mgb">
+              <div class="flex-item-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">销售人员/身份证号：</label>
+                  <div class="col-sm-6 flex-column">
+                    <input type="text" class="form-control flex-item-3" ng-model="formData.firstEnterprise.salesman">
+                    <input type="text"
+                           class="form-control flex-item-8 flex-offset-1"
+                           name="salesmanIdentityNo"
+                           ng-model="formData.firstEnterprise.salesmanIdentityNo"
+                           ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                           data-content="身份证号码格式有误!"
+                           invalid-popover="{{!firstEnterpriseEditForm.salesmanIdentityNo.$valid}}" >
+                  </div>
+                </div>
+              </div>
+              <div class="flex-item-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">座机：</label>
+                  <div class="col-sm-6">
+                    <!-- <input type="text"
+                           class="form-control"
+                           ng-model="formData.firstEnterprise.tel"
+                           name="telname"
+                           ng-pattern="/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/"
+                           data-content="* 请输入正确座机号"
+                           invalid-popover="{{!firstEnterpriseEditForm.telname.$valid}}" /> -->
+                    <input type="text"
+                           class="form-control"
+                           ng-model="formData.firstEnterprise.tel"
+                           name="telname" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">Email：</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.email">
+                  </div>
+                </div>
+              </div>
+              <div class="flex-item-6">
+                <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">手机：</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control"
+                    ng-model="formData.firstEnterprise.phone"
+                    name="phonename"
+                    ng-pattern="/^1[34578]\d{9}$/"
+                    data-content="* 请输入正确手机号"
+                    invalid-popover="{{!firstEnterpriseEditForm.phonename.$valid}}"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pd-v-l">
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">经营范围</h1>
+            <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.businessScope"></textarea>
+          </div>
+          <div class="pd-v-l ">
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">拟供产品</h1>
+            <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.provideProducts"></textarea>
           </div>
         </div>
-        <!-- 上传附件 -->
-        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":false}'
-         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" style="margin-bottom:60px;"></div>
-        <!-- 功能按钮 -->
-        <div class="handle-btn-area relative">
-          <div class="mgb text-right btn-area">
-            <span class="mgl" >
-              <a ng-if="changeFlag"  href="javascript:;"
-                 handle-this-click
-                 dialog-title="确认返回?"
-                 dialog-content="该申请单存在未保存数据，是否保存?"
-                 dialog-template="pr-dialog-return.html"
-                 nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
-                 save-callback="submitForm('editForm','exit');
-                 $root.goTo('#/firstEnterpriseApplication/query.html')">返回申请单列表</a>
+      </div>
+      <!-- 功能按钮 -->
+      <div class="handle-btn-area relative">
+        <div class="mgb text-right btn-area">
+          <span class="mgl">
+            <a ng-if="changeFlag"  href="javascript:;"
+               handle-this-click
+               dialog-title="确认返回?"
+               dialog-content="该申请单存在未保存数据，是否保存?"
+               dialog-template="pr-dialog-return.html"
+               nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
+               save-callback="submitForm('first-enterprise-editForm','save');
+               $root.goTo('#/firstEnterpriseApplication/query.html')">返回申请单列表</a>
+
               <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
+            </span>
+            <span class="mgl">
+              <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+                 params='{"id":formData.id}'
+                 request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
                       ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
             </span>
-            <span class="mgl" ng-if="formData.orderStatus=='未提交'">
+            <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-                      type="button"
-                      ajax-url-submit="rest/authen/firstEnterpriseApplication/startProcessInstance"
-                      params='{"businessKey":formData.id}'
-                      alert-error
-                      scope-data="showData"
-                      callback="$root.goTo('#/firstEnterpriseApplication/get.html?id={{showData.id}}')">提交
+                      ng-disabled="firstEnterpriseEditForm.$invalid"
+                      ng-click="submitForm('first-enterprise-editForm','submit')">下一步
               </button>
             </span>
           </div>

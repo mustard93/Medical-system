@@ -265,9 +265,63 @@
           </div>
         </div>
         <!-- 审核资料 -->
-        <div ng-init='attachmentsExtend={"title":"资质文件","usege":"首营品种申请","addFlag":false}'
-         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" >
-       </div>
+        <div class="panel pr-panel pr-panel-height mgb"
+        ng-if="initFlag"
+        ajax-url="rest/authen/medicalStock/getAttachments?id={{formData.id}}"
+        scope-data="scopeData">
+          <h1 class="pr-font-18 mgb">资质文件</h1>
+          <div style="margin-bottom:50px;">
+            <table class="table table-striped">
+                <thead>
+                    <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
+                        <th></th>
+                        <th>序号</th>
+                        <th>资料名称</th>
+                        <th>上传人</th>
+                        <th>上传时间</th>
+                        <th>有效日期</th>
+                        <th>附件</th>
+                        <th>备注</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+              <tbody>
+                <tr ng-repeat="item in scopeData.attachments"
+                ng-controller="deleteUploaderController"
+                >
+                  <td class="select-td">
+                    <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
+                  </td>
+                  <td>{{$index + 1}}</td>
+                  <td>{{item.name}}</td>
+                  <td>{{item.uploadUserName}}</td>
+                  <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
+                  <td>
+                    <div class="date-icon-outside">
+                      <input type="text"
+                             datepicker
+                             class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                             ng-readonly="true"
+                             ng-model="item.guaranteePeriod"
+                             placeholder="有效日期至">
+                      <span class="date-icon"></span>
+                    </div>
+                  </td>
+                  <td>
+                    <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
+                  </td>
+                  <td>
+                    <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
+                  </td>
+                  <td class="text-center">
+                    <a ng-if="item.canDeleteFlag" href="javascript:;" class="text-center" ng-click="ngModel.splice($index,1);"><span class="fa fa-trash-o text-l"></span></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">

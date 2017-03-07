@@ -1,29 +1,29 @@
-<div class="hospital-application first-medical-application first-enterprise-application"
+<div class="hospital-application first-medical-application"
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData')"
-     alert-error
-     ng-init="formData.validFlag=false">
-     <div class="header-info relative mgb-l">
-       <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
-         <a href="#/firstEnterpriseApplication/query.html">
-            <em class="color-custom-orange">首营管理</em>
-         </a>
-        <em>>首营企业申请</em>
-       </p>
-       <div class="pd-c-xxl pdt-l pdb-l">
-         <!-- 标题 -->
-         <div class="mgb-l">
-           <h1 class="color-black pr-font-20">首营企业申请</h1>
-         </div>
-       </div>
-     </div>
+     alert-error>
+  <div class="header-info relative mgb-l">
+    <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
+      <a href="#/firstEnterpriseApplication/query.html">
+         <em class="color-custom-orange">首营管理</em>
+      </a>
+     <em>>首营企业申请</em>
+    </p>
+    <div class="pd-c-xxl pdt-l pdb-l">
+      <!-- 标题 -->
+      <div class="mgb-l">
+        <h1 class="color-black pr-font-20">首营企业申请</h1>
+      </div>
+    </div>
+  </div>
+
   <!-- 主体内容 -->
-  <div class="content-wrapper ">
+  <div class="content-wrapper">
     <!-- 添加流程导航 -->
-    <div class="first-medical-nav">
-      <div class="active" >
+    <div class="first-medical-nav ">
+      <div class="active ">
         <span >基本信息</span>
         <div></div>
       </div>
@@ -39,8 +39,8 @@
     </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="first-enterprise-editForm"
-            name="firstEnterpriseEditForm"
+            id="firstMedical-editForm"
+            name="firstMedicalEditForm"
             form-validator
             parameter-body
             action="rest/authen/firstEnterpriseApplication/saveBaseInfo"
@@ -49,103 +49,119 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-2.html');watchFormChange('formData')">
+            callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-2.html');watchFormChange('formData');formData.firstMedical.isBasicMedicine='是'">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-          <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
-          <span class="flex-item-1 text-right">
-            状态：<em class="color-black">{{formData.orderStatus}}</em>
-          </span>
+          <div class="flex-item-6">
+            <span class="flex-item-3">
+              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
+            </span>
+            <!-- <span class="flex-item-10">
+              <span class="flex-item-1 text-right">
+                采购员：
+              </span>
+              <span class="flex-item-2">
+                <select class="select pr-select" data-placeholder=" "
+                chosen
+                default-empty=""
+                ng-model="formData.buyerId"
+                select-source="rest/authen/user/queryForSelectOption">
+                </select>
+              </span>
+            </span> -->
+          </div>
+          <div class="flex-item-6 text-right">
+              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
+              状态：<em class="color-black">{{formData.orderStatus}}</em>
+          </div>
         </div>
         <!-- 基本信息 -->
-        <div class="panel pr-panel pr-panel-height mgb" style="margin-bottom:80px;">
-          <h1 class="mgb mgt color-black text-bold">基本信息</h1>
-          <div>
-            <h3 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">企业信息</h3>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label" >企业类别：</label>
-                  <div class="col-sm-10">
-                    <label class="radio-inline">
-                      <input type="radio" name="type" value="生产" ng-model="formData.firstEnterprise.type" ng-disabled="formData.orderStatus=='已通过'" required> 生产
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="type" value="经营" ng-model="formData.firstEnterprise.type" ng-disabled="formData.orderStatus=='已通过'" required> 经营
-                    </label>
+        <div class="panel pr-panel pr-panel-height mgb">
+            <h1 class="mgb mgt color-black text-bold pr-font-18">基本信息</h1>
+            <div>
+              <div class="flex-column mgb">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label" >企业类别：</label>
+                    <div class="col-sm-10">
+                      <label class="radio-inline">
+                        <input type="radio" name="type" value="生产" ng-model="formData.firstEnterprise.type" ng-disabled="formData.orderStatus=='已通过'" required> 生产
+                      </label>
+                      <label class="radio-inline">
+                        <input type="radio" name="type" value="经营" ng-model="formData.firstEnterprise.type" ng-disabled="formData.orderStatus=='已通过'" required> 经营
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">供货企业全称：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.fullName" ng-disabled="formData.orderStatus=='已通过'" required="true">
+              <div class="flex-column mgb">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">供货企业全称：</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" ng-model="formData.firstEnterprise.fullName" ng-disabled="formData.orderStatus=='已通过'" required="true">
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">企业简称：</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" ng-model="formData.firstEnterprise.shortName" required="true"/>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">企业简称：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.shortName" required="true"/>
+              <div class="flex-column mgb">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">法人代表/身份证号：</label>
+                    <div class="col-sm-2 mgr-s">
+                      <input type="text" class="form-control"  ng-model="formData.firstEnterprise.legalRepresentative">
+                    </div>
+                    <div class="col-sm-4">
+                      <input type="text"
+                             class="form-control"
+                             name="legalRepresentativeIdentityNo"
+                             ng-model="formData.firstEnterprise.legalRepresentativeIdentityNo"
+                             ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                             data-content="身份证号码格式有误!"
+                             invalid-popover="{{!firstEnterpriseEditForm.legalRepresentativeIdentityNo.$valid}}"  />
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">企业地址：</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" ng-model="formData.firstEnterprise.address">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">法人代表/身份证号：</label>
-                  <div class="col-sm-2 mgr-s">
-                    <input type="text" class="form-control"  ng-model="formData.firstEnterprise.legalRepresentative">
+              <div class="flex-column mgb">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">GMP/GSP证书号：</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" ng-model="formData.firstEnterprise.gspCertificateNo">
+                    </div>
                   </div>
-                  <div class="col-sm-4">
-                    <input type="text"
-                           class="form-control"
-                           name="legalRepresentativeIdentityNo"
-                           ng-model="formData.firstEnterprise.legalRepresentativeIdentityNo"
-                           ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
-                           data-content="身份证号码格式有误!"
-                           invalid-popover="{{!firstEnterpriseEditForm.legalRepresentativeIdentityNo.$valid}}"  />
+                </div>
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">生产/经营许可证号：</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" ng-model="formData.firstEnterprise.productionLicenseNo">
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">企业地址：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.address">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">GMP/GSP证书号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.gspCertificateNo">
-                  </div>
-                </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">生产/经营许可证号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.productionLicenseNo">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">注册资金：</label>
-                  <div class="col-sm-6 flex-column">
-                    <span class="flex-item-8">
+              <div class="flex-column mgb">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">注册资金：</label>
+                    <div class="col-sm-5">
                       <input type="text"
                              class="form-control"
                              ng-model="formData.firstEnterprise.registeredCapital"
@@ -154,178 +170,106 @@
                              ng-pattern="/^(\d)|(\d+\.\d+)$/"
                              invalid-popover
                              popover-show="!firstEnterpriseEditForm.registeredCapital.$valid"
-                             popover-options='{"content":"注册资金格式不正确", "placement":"right", "trigger":"manual"}'>
-                    </span>
+                             >
+                             <!-- popover-options='{"content":"注册资金格式不正确", "placement":"right", "trigger":"manual"}' -->
+                    </div>
                     <span class="control-label flex-item-1 text-left">万元</span>
                   </div>
                 </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">税号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.taxNo">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">税号：</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" ng-model="formData.firstEnterprise.taxNo">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">营业执照号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.businessLicenseNo">
+              <div class="flex-column mgb">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">营业执照号：</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" ng-model="formData.firstEnterprise.businessLicenseNo">
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">营业期限：</label>
-                  <div class="col-sm-6">
-                    <input type="text"
-                    datepicker
-                    class="ipt pr-short-ipt color-6"
-                     placeholder="有效日期至"
-                     ng-readonly="true"
-                     ng-model="formData.firstEnterprise.busnissAllotedTime">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">营业期限：</label>
+                    <div class="col-sm-6">
+                      <input type="text"
+                      datepicker
+                      class="ipt pr-short-ipt color-6"
+                       placeholder="有效日期至"
+                       ng-readonly="true"
+                       ng-model="formData.firstEnterprise.busnissAllotedTime">
 
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-column mgb">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">开户银行：</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" ng-model="formData.firstEnterprise.accountBank">
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">开户账号：</label>
+                    <div class="col-sm-6">
+                      <input type="text"
+                             class="form-control"
+                             ng-model="formData.firstEnterprise.accountNumber"
+                             name="accountNumber"
+                             ng-pattern="/^(\d{16}|\d{19})$/"
+                             data-content="* 请输入正确开户账号"
+                             invalid-popover="{{!firstEnterpriseEditForm.accountNumber.$valid}}">
+                      <!-- <input type="text"
+                             class="form-control"
+                             ng-model="formData.firstEnterprise.accountNumber"
+                             name="accountNumber" /> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-column mgb">
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">开户名称：</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" ng-model="formData.firstEnterprise.accountName">
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-item-6">
+                  <div class="form-group">
+                    <label for="" class="col-sm-2 control-label">付款方式：</label>
+                    <div class="col-sm-3 flex-column">
+                      <select ng-if="initFlag"
+                              class="select select-w"
+                              data-placeholder="选择一个..."
+                              chosen
+                              ng-model="formData.firstEnterprise.payType"
+                              select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PayType">
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">开户银行：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.accountBank">
-                  </div>
-                </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">开户账号：</label>
-                  <div class="col-sm-6">
-                    <input type="text"
-                           class="form-control"
-                           ng-model="formData.firstEnterprise.accountNumber"
-                           name="accountNumber"
-                           ng-pattern="/^(\d{16}|\d{19})$/"
-                           data-content="* 请输入正确开户账号"
-                           invalid-popover="{{!firstEnterpriseEditForm.accountNumber.$valid}}">
-                    <!-- <input type="text"
-                           class="form-control"
-                           ng-model="formData.firstEnterprise.accountNumber"
-                           name="accountNumber" /> -->
-                  </div>
-                </div>
-              </div>
             </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">开户名称：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.accountName">
-                  </div>
-                </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">付款方式：</label>
-                  <div class="col-sm-3 flex-column">
-                    <select ng-if="initFlag"
-                            class="select select-w"
-                            data-placeholder="选择一个..."
-                            chosen
-                            ng-model="formData.firstEnterprise.payType"
-                            select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PayType">
-                    </select>
-                  </div>
-                </div>
-              </div>
+            <div class="color-black mgt-l">
+              <p>
+                <p class="pr-font-14">说明：</p>
+                <p>1.品种资质必须加供货企业红色原公章；</p>
+                <p>2.采购人员按要求向供货商(生产企业／经营企业)所要并和事资质的真实合法性，并如实填写本表；</p>
+              </p>
             </div>
-          </div>
-          <div>
-            <h3 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">销售人员信息</h3>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">销售人员/身份证号：</label>
-                  <div class="col-sm-6 flex-column">
-                    <input type="text" class="form-control flex-item-3" ng-model="formData.firstEnterprise.salesman">
-                    <input type="text"
-                           class="form-control flex-item-8 flex-offset-1"
-                           name="salesmanIdentityNo"
-                           ng-model="formData.firstEnterprise.salesmanIdentityNo"
-                           ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
-                           data-content="身份证号码格式有误!"
-                           invalid-popover="{{!firstEnterpriseEditForm.salesmanIdentityNo.$valid}}" >
-                  </div>
-                </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">座机：</label>
-                  <div class="col-sm-6">
-                    <!-- <input type="text"
-                           class="form-control"
-                           ng-model="formData.firstEnterprise.tel"
-                           name="telname"
-                           ng-pattern="/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/"
-                           data-content="* 请输入正确座机号"
-                           invalid-popover="{{!firstEnterpriseEditForm.telname.$valid}}" /> -->
-                    <input type="text"
-                           class="form-control"
-                           ng-model="formData.firstEnterprise.tel"
-                           name="telname" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">Email：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.firstEnterprise.email">
-                  </div>
-                </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">手机：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control"
-                    ng-model="formData.firstEnterprise.phone"
-                    name="phonename"
-                    ng-pattern="/^1[34578]\d{9}$/"
-                    data-content="* 请输入正确手机号"
-                    invalid-popover="{{!firstEnterpriseEditForm.phonename.$valid}}"
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="pd-v-l">
-            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">经营范围</h1>
-            <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.businessScope"></textarea>
-          </div>
-          <div class="pd-v-l ">
-            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">拟供产品</h1>
-            <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.provideProducts"></textarea>
-          </div>
-        </div>
-        <div class="pd-v-l bt-line">
-          <h1 class="mgb-l text-bold">经营范围：</h1>
-          <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.businessScope"></textarea>
-        </div>
-        <div class="pd-v-l bt-line">
-          <h1 class="mgb-l text-bold">拟供产品：</h1>
-          <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.firstEnterprise.provideProducts"></textarea>
-        </div>
-      </div>
       <!-- 功能按钮 -->
       <div class="handle-btn-area relative">
         <div class="mgb text-right btn-area">
@@ -336,10 +280,11 @@
                dialog-content="该申请单存在未保存数据，是否保存?"
                dialog-template="pr-dialog-return.html"
                nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
-               save-callback="submitForm('first-enterprise-editForm','save');
-               $root.goTo('#/firstEnterpriseApplication/query.html')">返回申请单列表</a>
+               save-callback="submitForm('firstMedical-editForm','save');
+               $root.goTo('#/firstEnterpriseApplication/query.html')">返回申请单列表
+            </a>
 
-              <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
+            <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
             </span>
             <span class="mgl">
               <a ng-if="formData.id && formData.proposerName==mainStatus.name"
@@ -355,12 +300,12 @@
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
+                      ng-disabled="!changeFlag || firstMedicalEditForm.$invalid"
                       ng-click="submitForm('first-enterprise-editForm','save')">保存</button>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="firstEnterpriseEditForm.$invalid"
+                      ng-disabled="firstMedicalEditForm.$invalid"
                       ng-click="submitForm('first-enterprise-editForm','submit')">下一步
               </button>
             </span>
