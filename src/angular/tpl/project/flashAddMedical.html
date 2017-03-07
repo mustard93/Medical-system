@@ -28,6 +28,10 @@
   <p class="mgb">
     <span class="mgr-m">生产商：<em class="color-6">{{ngModel.data.data.manufacturer}}</em></span>
     <span class="mgr-m">供应商：<em class="color-6">{{ngModel.data.data.supplier.name}}</em></span>
-    <span>规格/型号：<em ng-if="ngModel.data.data.specification||ngModel.data.data.modelType" class="color-6">{{ngModel.data.data.specification}}/{{ngModel.data.data.modelType}}</em></span>
+    <span>规格/型号：
+      <em ng-if="ngModel.data.data.specification&&ngModel.data.data.modelType" class="color-6">{{ngModel.data.data.specification}}/{{ngModel.data.data.modelType}}</em>
+      <em ng-if="ngModel.data.data.specification&&(!ngModel.data.data.modelType)" class="color-6">{{ngModel.data.data.specification}}</em>
+      <em ng-if="(!ngModel.data.data.specification)&&ngModel.data.data.modelType" class="color-6">{{ngModel.data.data.modelType}}</em>
+    </span>
   </p>
 </div>
