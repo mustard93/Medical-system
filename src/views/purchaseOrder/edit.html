@@ -227,7 +227,17 @@
                        </select>
                      </td><!-- 实际采购数量 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
-                      <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.strike_price" />
+                       <!-- <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.strike_price" /> -->
+                       <input type="text"
+                              class="ipt pr-ipt-60 text-right"
+                              name="strike_price{{$index}}"
+                              ng-model="tr.strike_price"
+                              required
+                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                              invalid-popover
+                              valid-value="{{!purchaseForm['strike_price'+$index].$valid}}"
+                              popover-show
+                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                        <p class="color-orange pr-indent-35"><a modal-right="577" modal-scope="this"  modal-url="views/versionFlow/history-price.html?id={{tr.id}}">历史价格</a></p>
                      </td><!-- 批号要求 -->
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td><!-- 原币含税单价 -->
@@ -412,7 +422,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length || !formData.expectDate || !formData.supplier.id">提交
+                  ng-disabled="!formData.orderMedicalNos.length || !formData.expectDate || !formData.supplier.id || !purchaseForm.$valid">提交
           </button>
         </span>
       </div>

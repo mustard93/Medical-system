@@ -2780,9 +2780,17 @@ function addressManageComponent (requestData, utils) {
     },
     controller: ["$scope", "$element", function ($scope, $element) {
 
+      // 创建备份对象存储用户已选择额的地址id
+      $scope.backupItemId = '';
+
       // 判断默认选中
       $scope.chkDefaultChoise = function (_id) {
         if (!$scope.formData.id) {      // 如果是新建，将该参数id与默认返回地址做比较
+          // 如果backupItemId存在则用户已选择其他地址
+          if ($scope.backupItemId && ($scope.backupItemId === _id)) {
+            return true;
+          }
+
           if ($scope.returnAddressObj.defaultContactId === _id) {
             return true;
           }
@@ -2824,6 +2832,17 @@ function addressManageComponent (requestData, utils) {
           $scope.formData[$scope.scopeDataContacts] = $scope.returnAddressObj.contacts[0];
           $scope.formData.contactsNull = false;
         }
+
+        // 如果备份id存在，表示用户已选择其他地址
+        if ($scope.backupItemId && $scope.returnAddressObj.contacts) {
+          angular.forEach($scope.returnAddressObj.contacts, function (item, index) {
+            if (item.id === $scope.backupItemId) {
+              $scope.formData[$scope.scopeDataContacts] = item;
+            }
+          });
+        }
+
+        // console.log($scope.formData);
 
       };
 
@@ -2869,13 +2888,14 @@ function addressManageComponent (requestData, utils) {
       $scope.choiseOtherItem = function (item, _requestDataId) {
         $scope.formData[$scope.scopeDataId] = _requestDataId;
         $scope.formData[$scope.scopeDataContacts] = item;
+        $scope.backupItemId = item.id;
       };
 
       // 设置当前地址为默认地址
       $scope.setThisAddressToDefault = function (contactId) {
 
-        // var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
-        var _moduleAddressId = 'invoicesAddressId';  // 构建模块id名
+        var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
+        // var _moduleAddressId = 'invoicesAddressId';  // 构建模块id名
         var _data = {};
         _data[_moduleAddressId] = $scope.returnAddressObj.id;
         _data.contactId = contactId;
@@ -2890,7 +2910,7 @@ function addressManageComponent (requestData, utils) {
           }
         });
       };
-    }]//controller
+    }]
   };
 }
 
