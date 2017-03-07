@@ -707,7 +707,10 @@ function alertOk($rootScope, modal) {
 
             /**
               遍历数组，满足属性值等于val，分组返回。 utils.getGroupArrayByKeyOfArr(arr,key) ;
-            [{"id","1","pid":"0"},{"id","2","pid":"0"}],]=>
+            参数：
+            arr=[{"id","1","pid":"0"},{"id","2","pid":"0"}],]
+            key="id"
+            执行结果输出=>：
             retrun  groupMap={
                   keyArr:["0","1"],//分组的key数组
                   map:{"0",[{"id","1","pid":"0"},{"id","2","pid":"0"}],"11":[{"id","2","pid":"11"}]}//分组map<key（分组key）,dataArray（分组key相同的数据集合）>

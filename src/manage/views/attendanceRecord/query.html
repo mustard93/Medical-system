@@ -1,0 +1,64 @@
+<div   ng-controller="pageCtrl"><!-- pageCtrl-->
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>考勤数据明细</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">考勤数据明细</li>
+    </ul>
+</div>
+<!-- page heading end-->
+
+<!--body wrapper start-->
+<table-list list-data="rest/authen/attendanceRecord/query.json" list-params="listParams">
+  <div class="form-group  col-lg-2">
+    <label class="col-lg-2 col-sm-2 control-label">导入明细（2003版本excel）</label>
+    <div class="col-lg-10 col-sm-10">
+      <button type="button"
+              class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                ng-init="upFile={}"
+              uploader-one="rest/authen/attendanceRecord/importBy.json"
+              params="uploaderParams"
+              up-file="upFile" ng-model="formData.loadUrl">上传文件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+      </button>
+    </div>
+  </div>
+    <div class="mg-m col-lg-12 col-sm-12">
+
+
+      <div class="text-left relative order-list-i pdt-m pdb-m pd-c-xxxl" ng-init="queryDatePeriod='最近7天'">
+        <select class="pr-select select-wd mgr-l" ng-model="queryDatePeriod"
+         date-period-select start-time="listParams.createAtBeg" end-time="listParams.createAtEnd">
+           <option  value="最近一个月">最近一个月</option>
+          <option value="最近7天" >最近7天</option>
+        </select>
+
+        <div class="date-icon-outside">
+          <input type="text"
+                 datepicker
+                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtBeg">
+                 <span class="date-icon"></span>
+        </div>
+           <span class="mgr">至</span>
+        <div class="date-icon-outside">
+           <input type="text"
+                 datepicker
+                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                 ng-readonly="true"
+                 placeholder="日期"
+                 ng-model="listParams.createAtEnd"/>
+                <span class="date-icon"></span>
+        </div>
+
+      <div class="form-group col-lg-2">
+        <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
+      </div>
+    </div>
+        <div custom-table="com.pangu.mss.domain.mongo.attendance.AttendanceRecord" custom-tr-menus="AttendanceRecord-mange" ></div>
+
+</table-list>
+<!--body wrapper end-->
+</div><!-- pageCtrl-->

@@ -1,0 +1,113 @@
+<div class="modal-content pr-modal-content" ng-controller="editCtrl"
+ ajax-url="rest/authen/attendanceTimeSet/getOfEdit.json?id={{tr.id}}"
+   scope-data="formData" callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId;formData.type=formData.type||dialogData.type"
+>
+
+  <form class="add-medical-form form-horizontal"
+        action="rest/authen/attendanceTimeSet/save"
+        scope-data="formData" alert-error alert-ok
+        parameter-body
+        form-validator>
+    <div class="modal-header">
+        <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}考勤设置</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">迟到时间点(时:分)</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.lateWorkTime" />
+            <p>上午迟到时间 9:30</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">早退时间点(时:分)</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.leaveEarlyTime" />
+            <p>早退时间 18:00</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">每天最大工作小时</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.maxWorkHoursOfEveryday" />
+            <p>精确到0.5，用于计算每天工作时间</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">跨天最迟下班(时:分)</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.yesterdayLatestLeaveTime" />
+            <p>跨天最迟下班时间。默认为早上6点。</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
+              <a href="javascript:;" class="fa fa-times"> 时间段设置({{formData.periodOfTimes.length}})</a>
+            </span>
+
+          </div>
+          <div class="panel-body" style="display:;">
+            <div class="form-group"  ng-repeat="periodOfTimeItem in formData.periodOfTimes">
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">
+                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="类型" chosen
+                  ng-model="periodOfTimeItem.timeType"
+                   select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_AttendanceTimeType">
+
+                  </select>
+                </label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" placeholder="标题" ng-model="periodOfTimeItem.title" />
+                </div>
+                <div class="col-sm-6">
+                  <input class="col-sm-4" type="text" class="form-control" placeholder="" ng-model="periodOfTimeItem.startTime" />
+                  <span class="col-sm-2">至</span>
+                   <input class="col-sm-4" type="text" class="form-control" placeholder="" ng-model="periodOfTimeItem.endTime" />
+                </div>
+              </div>
+
+            </div>
+
+            <button  type="button"  ng-click="formData.periodOfTimes.push({})">添加</button>
+          </div>
+        </div><!--panel-->
+
+        <div class="panel">
+          <div class="panel-heading">
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+              <a href="javascript:;" class="fa fa-times"> 工作日({{formData.workingDays.length}})</a>
+            </span>
+
+          </div>
+          <div class="panel-body" style="display:none;">
+            <div class="form-group">
+              <div class="col-lg-2 col-sm-2" ng-repeat="workingDayItem in formData.workingDays">
+
+                <input type="text" class="ipt pr-short-ipt color-6" placeholder="工作日"
+                readonly="true" datepicker   no-parser="true"  ng-model="workingDayItem">
+
+              </div>
+            </div>
+
+            <button  type="button"    ng-click="formData.workingDays.push({})">添加</button>
+          </div>
+        </div><!--panel-->
+
+
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+          </div>
+        </div>
+
+    </div>
+
+    </form>
+</div>
