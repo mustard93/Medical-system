@@ -1,0 +1,185 @@
+<div class="medical-stock"
+     ng-controller="pageCtrl"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+     <table-list list-data="rest/authen/medicalStock/query.json"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q">
+
+    <!-- 主内容头部 -->
+    <div class="content-wrapper-heading pdb-m mgb-l relative">
+        <p class="pdb-s pdt-s mgb-l crumbs pdl-xxxxxxl">管理中心 > <em class="">品种管理</em></p>
+            <div class="pd-c-xxxxxxl">
+              <div class="pos-rel-tl fl-l full-width">
+                <h1 class="pr-font-20 color-black">品种管理</h1>
+              </div>
+              <div class="full-width mgb-m text-right">
+                <div class="relative">
+                  <span class="color-9">状态:</span>
+                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                          data-placeholder=" "
+                          default-empty="全部"
+                          chosen
+                          ng-model="listParams.orderBusinessType"
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus"
+                          ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+                  </select>
+
+                  <span class="mgl-m color-9">申请日期:</span>
+                  <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
+                           ng-model="listParams.createAtBeg"
+                           placeholder="">
+                    <span class="date-icon"></span>
+                  </div>
+                   <span class="color-9">至</span>
+                <div class="date-icon-outside">
+                  <input type="text"
+                        datepicker
+                        class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                        ng-readonly="true"
+                        ng-model="listParams.createAtEnd"
+                        placeholder="">
+                  <span class="date-icon"></span>
+                </div>
+                <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l">
+                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号" ng-model="listParams.q">
+                  <i class=""></i>
+                </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <!-- 主内容区域 -->
+      <div class="content-wrapper">
+        <div class="content-wrapper-main">
+          <div ng-if="!status.isLoading">
+            <div ng-if="tbodyList.length==0">
+              <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+              <p class="text-center">什么也没有</p>
+            </div>
+
+            <div class="pd-c">
+              <table ng-if="tbodyList.length" class="table table-hover table-striped">
+                <thead class="pr-bg-side">
+                  <tr>
+                    <th class="w-80">序号</th>
+                    <th >商品编号</th>
+                    <th >商品全名</th>
+                    <th class="w-160">申请日期</th>
+                    <th class="w-80">状态</th>
+                    <th class="w-160">操作</th>
+                  </tr>
+                </thead>
+                <tbody class="pr-bg-white">
+                  <tr ng-repeat="tr in tbodyList track by $index">
+                    <td>{{$index + 1}}</td>
+                    <td>{{tr.code}}</td>
+                    <td>{{tr.name}}</td>
+                    <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                    <td ng-class="{'color-blue-freeze':tr.businessApplication.businessStatus =='已冻结', 'color-black':tr.businessApplication.businessStatus =='已通过',
+                    'color-red':tr.businessApplication.businessStatus =='已终止'}">
+                      {{tr.businessApplication.businessStatus}}</td>
+                    <td ng-if="tr.businessApplication.businessStatus !='已终止'">
+                    <a class="edit-link-icon mgr-m" title="编辑" modal-right="700" modal-scope="this" modal-url="views/medicalStock/edit.html?id={{tr.id}}">
+                    <a href="#/medicalStock/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
+                    <span class="rect-m fl-r mgr-biggest">
+                        <span class="circle-ss-outspan">
+                          <span run-popovers class="circle-ss">
+                            <span ></span>
+                            <span ></span>
+                            <span ></span>
+                       </span>
+                        <span class="purchaseorder-buyer-info">
+                          <i class="block bb-dashed-line pd-c-l text-normal">
+                            <em class="inline-block pd-v-s">
+                              <a ng-if="tr.businessApplication.businessStatus=='已冻结'"
+                                 modal-center="350"
+                                 modal-scope="this"
+                                 modal-data='{"title":"确认解冻?",
+                                              "content":"解冻后，该品种资格将恢复，确认解冻?",
+                                              "btnConfirm":"确定",
+                                              "btnCancel":"取消",
+                                              "url":"rest/authen/firstMedicalApplication/proposerUpdateStatus",
+                                              "goUrl":"",
+                                              "id":"{{tr.id}}",
+                                              "status":"解冻"
+                                             }'
+                                 modal-url="angular/tpl/pr-dialog-submit-message.html"> 解冻
+                             </a>
+                             <a ng-if="tr.businessApplication.businessStatus=='已通过'"
+                                modal-center="350"
+                                modal-scope="this"
+                                modal-data='{"title":"确认",
+                                             "content":"冻结后，该品种资格将被暂停，直到解冻，确认冻结?",
+                                             "btnConfirm":"确定",
+                                             "btnCancel":"取消",
+                                             "url":"rest/authen/firstMedicalApplication/proposerUpdateStatus",
+                                             "goUrl":"",
+                                             "id":"{{tr.id}}",
+                                             "status":"已冻结"
+                                            }'
+                                modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
+                             </a>
+                           </em>
+                         </i>
+                          <i class="block pd-c-l text-normal bb-dashed-line">
+                            <em class="inline-block pd-v-s">
+                            <a href="javascript:;"
+                               class="color-red"
+                               handle-this-click
+                               dialog-title="确认终止?"
+                               dialog-content="终止后，该品种资格将被取消，确定终止?"
+                               dialog-template="pr-dialog-submit.html"
+                               request-url="rest/authen/firstMedicalApplication/proposerUpdateStatus"
+                               params='{"id":tr.id,"status":"已终止"}'
+                               alert-error
+                               callback="$root.utils.refreshHref()"
+                               >
+                               终止
+                             </a>
+                            </em>
+                          </i>
+                          <i class="block pd-c-l text-normal bb-dashed-line">
+                            <em class="inline-block pd-v-s">
+                            <a href="javascript:;" modal-right="700" modal-scope="this" modal-url="views/medicalStock/editOfStockBatch.html?id={{tr.id}}">
+                              添加库存
+                             </a>
+                            </em>
+                          </i>
+                          <i class="block pd-c-l text-normal">
+                            <em class="inline-block pd-v-s">
+                            <a href="javascript:;" ajax-url-submit="rest/authen/medicalStock/checkStock"
+                            params='{"id":"{{tr.id}}"}'
+                            alert-error
+                            callback="listParams.refreshId=tr.id">
+                                校验库存
+                             </a>
+                            </em>
+                          </i>
+                        </span>
+                      </span>
+                    </td>
+                    <td ng-if="tr.businessApplication.businessStatus=='已终止'">
+                      <a href="#/medicalStock/get.html?id={{tr.id}}" class="watch-link-icon mgr-m" title="查看详情"></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>

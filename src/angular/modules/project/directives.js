@@ -1812,20 +1812,12 @@ function medicalStockMouseOver(utils){
           //  console.log("e.pageX="+e.pageX+",e.pageY"+e.pageY);
 
            $(this).append(moveBtnDiv);
-            // for(var i=0;i<btnArray.length;i++){
-            //       $(this).children("td:last-child").append(btnArray[i]);
-            //
-            // }
 
         });//mouseenter
         // 鼠标移出按钮消失
         $($element).mouseleave(function(){
           $(this).removeClass("bg-c");
           moveBtnDiv.remove();
-          // for(var i=0;i<btnArray.length;i++){
-          //     // $(btnArray[i]).remove();
-          // }
-
         });//mouseleave
       }//link
   };

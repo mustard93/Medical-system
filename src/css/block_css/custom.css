@@ -1692,6 +1692,8 @@ background-color: #e5e5e5!important;
   color: #fff;
 }
 .pr-btn-save-glodbg[disabled],
+.pr-btn-save-glodbg-l[disabled],
+.pr-btn-save-glodbg-l[disabled]>a,
 .pr-btn[disabled] {
   color: #999;
   background-color: #666;
@@ -3294,14 +3296,16 @@ span.popovers:hover, span.popovers > .purchaseorder-buyer-info:hover {
 .first-medical-nav-new>div:not(:last-child){
 	position: relative;
 	display: inline-block;
+	float: left;
 	padding: 11px 0px;
 	width: 11%;
-	float: left;
 	height: auto;
 	background-color: #fff;
 	float: left;
 }
-
+.first-medical-nav-new>div:nth-child(2){
+	width: 16%;
+}
 .first-medical-nav-new>div:first-child>div:first-child{
 	display: none;
 }
@@ -3370,7 +3374,7 @@ top:-1px;
 	padding: 7px 0px;
 	display: inline-block;
 	font-size: 14px;
-	width: 32%;
+	width: 31%;
 	background-color: rgba(229,229,229,1);
 }
 .first-medical-nav>div>span{
@@ -3484,6 +3488,20 @@ top:-1px;
 }
 .hospital-application .first-medical-nav>div:nth-of-type(3)>span:before{
 	content: '3';
+}
+.hospital-application .first-medical-nav>div:nth-of-type(3)>span:after{
+	content: ' ';
+  width: 10%;
+  top: 0px;
+  height: 49px;
+  position: absolute;
+  right: -10%;
+  display: inline-block;
+  margin-right: 5px;
+  background-color: rgba(229,229,229,1);
+}
+.hospital-application .first-medical-nav>div:nth-of-type(3).active>span:after{
+		background-color: rgba(90,195,0,1);
 }
 .first-medical-nav>div:not(:first-child){
 		margin-left: 30px;
@@ -5032,5 +5050,86 @@ padding-right: 10px;
 
 /*品种管理页面*/
 .medical-stock .purchaseorder-buyer-info{
-	right: 40px;
+	position:absolute;
+	right: 1px;
+	top: -20px;
+	display: none;
+	background-color: white;
+	z-index: 1;
+	-webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+	box-shadow: 0px 0px 2px 0px rgba(199,167,123,0.50);
+}
+.medical-stock .purchaseorder-buyer-info:before{
+	top: 23px;
+	left: 50%;
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-top: none;
+	border-right: none;
+}
+/*品种管理状态显示圆图形*/
+.circle-status{
+display: inline-block;
+width: 12px;
+height: 12px;
+border-radius: 50%;
+}
+.circle-status{
+	cursor: pointer;
+}
+.circle-status:hover .purchaseorder-buyer-info{
+	display: block;
+}
+.bg-pass-green{
+	background-color: rgba(90,195,0,1);
+}
+.bg-freeze-blue{
+	background-color: rgba(19,182,254,1);
+}
+.bg-end-red{
+	background-color: rgba(255,18,18,1);
+}
+/*删除按钮*/
+.circle-icon-del{
+  border-radius: 50%;
+	background: rgba(255,56,56,0.95);
+	box-shadow: 0px 1px 4px 0px #F54440;
+}
+.del-btn-red{
+  width: 32px;
+  height: 32px;
+	margin-left: -50px;
+  background: rgba(255,56,56,0.8);
+  box-shadow: 0 0 6px 0 rgba(255, 56, 56, 1);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background-image: url(../../images/pr-sprites.png);
+  background-repeat: no-repeat;
+  background-position: -307px -434px;
+}
+/*编辑按钮*/
+.circle-icon-edit{
+  border-radius: 50%;
+	background: rgba(54,48,44,0.70);
+  box-shadow: 0px 1px 4px 0px #000000;
+}
+.edit-btn{
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	margin-left: -35px;
+	background-image: url(../../images/pr-sprites.png);
+	background-repeat: no-repeat;
+  background-position:-308px -369px;
+}
+.more-btn{
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	margin-left: -20px;
+	background-image: url(../../images/more.png);
+	background-repeat: no-repeat;
+  background-position: 8px 15px;
 }

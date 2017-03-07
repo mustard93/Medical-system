@@ -197,7 +197,7 @@
     <div class="btn-area" >
       <div ng-if="(!showData.didateFilter.buttons.length>0)&&showData.businessApplication.businessStatus" class="inline-block">
               <span bottom-button-list="bottomButtonList">  </span>
-              <span>
+              <!-- <span>
                 <span ng-if="showData.businessApplication.businessStatus!='已冻结'&&showData.businessApplication.businessStatus!='已终止'">
                   <button class="btn-freeze mgl-l"
                           type="button"
@@ -207,7 +207,7 @@
                                        "content":"冻结后，该品种信息将被暂停，直到解冻，确认冻结?",
                                        "btnConfirm":"确定",
                                        "btnCancel":"取消",
-                                       "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
+                                       "url":"rest/authen/medicalStock/changeState",
                                        "goUrl":"",
                                        "id":"{{showData.id}}",
                                        "status":"已冻结"
@@ -224,10 +224,10 @@
                                        "content":"解冻后，该品种信息将恢复，确认解冻?",
                                        "btnConfirm":"确定",
                                        "btnCancel":"取消",
-                                       "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
+                                       "url":"rest/authen/medicalStock/changeState",
                                        "goUrl":"",
                                        "id":"{{showData.id}}",
-                                       "status":"解冻"
+                                       "status":"已通过"
                                       }'
                           modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
                   </button>
@@ -239,22 +239,20 @@
                           dialog-title="确认终止?"
                           dialog-content="终止后，该品种信息将被取消，确定终止?"
                           dialog-template="pr-dialog-submit.html"
-                          request-url="rest/authen/firstEnterpriseApplication/proposerUpdateStatus"
+                          request-url="rest/authen/medicalStock/changeState"
                           params='{"id":showData.id,"status":"已终止"}'
                           alert-error
                           callback="$root.utils.refreshHref()"
                           >终止
                   </button>
-                </span>
-
-              </span>
+                </span> -->
+            </span>
       </div>
-      <a class="mgr-l" ng-if="!showData.businessApplication.businessStatus" ng-href="#/medicalStock/query.html" >返回品种信息列表</a>
+      <a class="mgr-l" ng-if="!showData.businessApplication.businessStatus" ng-href="#/medicalStock/query.html" >返回申请单列表</a>
       <span>
-          <button class="pr-btn-save-glodbg mgt mgl" type="button"
-          modal-right="700" modal-scope="this"
-          modal-url="views/medicalStock/edit.html?id={{showData.id}}"
-          >编辑</button>
+        <button type="button" name="button"  class="pr-btn-save-glodbg mgl">
+          <a class="color-white" href="#/medicalStock/edit.html?id={{formData.id}}">编辑</a>
+        </button>
       </span>
     </div>
   </div>

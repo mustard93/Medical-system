@@ -184,10 +184,7 @@ define('project/services', ['project/init'], function () {
 
                         var arr=[];
                         //aclass ：样式，ahref：连接，showName：显示名
-                        var bottomButton={"aclass":"","ahref":"#/medicalStock/query.html","showName":"返回品种信息列表"};
-                      if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-
-                        bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
+                        var bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
                         "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
                         "httpMethod":"GET",
                         "ahref":"views/versionFlow/get-right-side.html?businessKey="+showData.id,
