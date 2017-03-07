@@ -212,7 +212,6 @@ function workflowPassButton(utils) {
 
         }
 
-
       //  $scope.passCallback='$root.utils.goOrRefreshHref(customMenu.callBackUrl)';
         //
         if ($attrs.passCallback) {
@@ -228,11 +227,6 @@ function workflowPassButton(utils) {
             $scope.beforeAjaxUrlSubmit=$attrs.beforeAjaxUrlSubmit;
 
         }
-        // if ($attrs.beforeAjaxParams) {
-        //     $scope.beforeAjaxParams=$attrs.beforeAjaxParams;
-        //
-        // }
-
       }
   };
 }
@@ -528,17 +522,11 @@ function queryOrderStatusButton() {
     replace: true,
     templateUrl:  Config.tplPath +'tpl/project/queryOrderStatusButton.html',
     link: function ($scope, element, $attrs,ngModel) {
-
-
-
-
       $scope.key=$attrs.key;
       $scope.showName=$scope.key;
-
       if($attrs.showName){
         $scope.showName=$attrs.showName;
       }
-
       element.on('click', function () {
         $(this).addClass('pr-btn-bg-gold').siblings().each(function () {
           $(this).removeClass('pr-btn-bg-gold');
@@ -1697,6 +1685,7 @@ function hospitalPurchaseComeinEdit () {
     }
   };
 }
+// 销售出库单物流信息过长处理
 function saleOutStockKuaDi () {
   return {
     restrict: 'A',
@@ -1704,9 +1693,7 @@ function saleOutStockKuaDi () {
     link: function ($scope, $element, $attrs) {
     var lilength=0;
     var leftShift=573;        // 一次向左移动的长度
-
     // $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
-
       $($element).mouseenter(function (e) {
       lilength=$(this).children('ul').children('li').length;
         // 大于一行显示的个数，才出现按钮
@@ -1739,9 +1726,7 @@ function saleOutStockKuaDi () {
           $('.button-left').attr('disabled','disabled');
           $('.button-left:before').css('color','#e5e5e5');
         }
-
       });
-
       $($element).mouseleave(function (e) {
         $(this).children('span').css({
            "display": "none"
@@ -1822,6 +1807,68 @@ function medicalStockMouseOver(utils){
       }//link
   };
 }
+
+
+// 医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
+/**
+   *
+  	* @Description: 根据走到不同步骤箭头样式发生变化
+  	* @author 宋娟
+  	* @date 2017年3月7日 上午11:32
+   */
+
+   	   //  关键步骤：
+   	    //1.传入参数:arrows(箭头的个数)，className(根据状态不同显示样式的class),arrowText(箭头中显示文字的内容)
+        // 2.setStepArrows() 方法用来设置箭头
+function stepFlowArrowShow(utils){
+  return{
+    scope:{},
+    restrict: 'A',
+    link: function ($scope, $element, $attrs) {
+      $($element).addClass('first-medical-nav');
+        function setStepArrows (){
+            //箭头数量，用于计算箭头的个数。
+            var arrowCount=0;
+            //(step-flow-arrow-json传入的相关参数，以Jason的数据格式传入)
+            //基础数据转化为数组类型
+            var stepFlowArrow=  $scope.$eval($attrs.stepFlowArrowJson);
+            if(stepFlowArrow && stepFlowArrow.length>0){
+              arrowCount=stepFlowArrow.length;
+
+              for(var i=0;i<stepFlowArrow.length;i++){
+                  var step=stepFlowArrow[i];
+                  var tmp="<div class='"+step.className+"'><span>"+step.arrowText+"</span></div>";
+                  $($element).append($(tmp));
+                  // 中间箭头的形状定义
+                  if(i>0&&i<stepFlowArrow.length-1){
+                    if($($element).children('div').eq(i).hasClass('visited')){
+                      // 如果有visited这个类，说明是已完成的状态，所以形状要改变。
+                      $($element).children('div').eq(i).append("<div class='triangle1'></div><div class='triangle2'></div>");
+                      $($element).children('div').eq(i).prepend("<div></div><div></div>");
+                    }else{
+                      $($element).children('div').eq(i).append("<div></div>");
+                      $($element).children('div').eq(i).prepend("<div></div>");
+                    }
+                  }
+              }
+              // 开始箭头的形状定义
+              $($element).children('div').first().append("<div></div><div></div>");
+              // 最后一个箭头的形状定义
+              $($element).children('div').last().prepend("<div></div>");
+          }
+        }
+        $scope.$watch($scope.initFlag, function() {
+            setStepArrows();
+        });
+      }//link
+  };
+}
+
+
+
+
+
+
 /**
  * 点击左侧侧边栏选项，改变其样式
  * @return {[type]} [description]
@@ -2198,20 +2245,15 @@ function datePeriodSelect () {
             switch (val) {
               case "最近7天":
               startTime= moment().subtract(1, "weeks").format("x");
-
                 break;
               case "最近10天":
               startTime= moment().subtract(10, "days").format("x");
-
                   break;
               case "最近一个月":
               startTime= moment().subtract(1, "months").format("x");
-
               break;
               default:
-
             }
-
           $scope.startTime=startTime;
           $scope.endTime=endTime;
         }
@@ -2227,7 +2269,6 @@ function datePeriodSelect () {
   };
 
 }
-
 
 //显示原图
 function modalImgShow(ngDialog,utils) {
@@ -3181,5 +3222,6 @@ angular.module('manageApp.project')
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
     .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
-  .directive("medicalStockMouseOver",["utils",medicalStockMouseOver]);// 库存明细模块，鼠标移入高亮并显示两个按钮
+  .directive("medicalStockMouseOver",["utils",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
+  .directive("stepFlowArrowShow",["utils",stepFlowArrowShow]);//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
 });
