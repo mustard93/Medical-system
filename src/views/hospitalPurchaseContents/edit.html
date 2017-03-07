@@ -1,6 +1,6 @@
 <div class="hospital-application"
      ng-controller="hospitalPurchaseContentsCtrl"
-     ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/hospitalPurchaseContents/get?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
      alert-error>
@@ -9,7 +9,7 @@
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/customerAddress/save.json"
+        action="rest/authen/hospitalPurchaseContents/save"
         alert-error
         alert-ok
         scope-extend="scopeExtend"
@@ -25,16 +25,13 @@
       <div class="pd-c-xl pdt-l pdb-l">
        <!-- 标题 -->
        <div class="">
-         <h1 class="color-black pr-font-20">医院采购目录编辑</h1>
+         <h1 class="color-black pr-font-20">编辑医院采购目录</h1>
        </div>
      </div>
     </div>
     <!-- 药械列表 -->
     <div class="pd-loss-l">
-      <p ng-if="initFlag" class="inline-block mgb-l text-n color-3 text-bold"
-      >
-      {{formData.name}}
-    </p>
+      <p ng-if="initFlag" class="inline-block mgb-l text-n color-3 text-bold">{{formData.hospitalName}}</p>
     <em class=" mgl">（系统编号：<em class="color-3">YY0001</em>）</em>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <!-- 信息 -->
