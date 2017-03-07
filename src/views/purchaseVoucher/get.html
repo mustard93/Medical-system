@@ -58,9 +58,9 @@
         </div>
       </div>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n" ng-class="{'pr-bg-grey3':scopeData.orderStatus=='已作废'}">
-        <div class=""><h1 class="text-center pr-font-18 pdt-m pdb-m color-6">采购凭证</h1></div>
+        <div class="bb-line"><h1 class="text-center pr-font-18 pdt-m pdb-m color-6">采购凭证</h1></div>
         <!-- 供应商信息 -->
-        <div class=" pd-c-l pdt-m pdb-m bb-dashed-line">
+        <div class=" pd-c-l pdt-m pdb-m bb-dashed-line" style="border-bottom-color:rgba(0,0,0,0.1);">
           <span class="mgr-l">供应商：<em class="color-3">{{scopeData.supplier.name}}</em></span>
           <span class="mgr-l">联系人：<em class="color-3">{{scopeData.supplier.contact.name}}</em></span>
           <span class="mgr-l">手机：<em class="color-3">{{scopeData.supplier.contact.tel}}</em></span>
@@ -161,7 +161,7 @@
         </span>
         <span class="mgl mgt">
           <a ng-if="scopeData.orderStatus!='已作废'"
-             class="color-red"
+             class="color-red mgr-l"
              modal-center="350"
              modal-scope="this"
              modal-data='{"title":"确认",
@@ -182,7 +182,7 @@
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span> -->
 
-        <button class="pr-btn-save-glodbg mgr">
+        <button ng-if="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
           <a class="color-white" ng-href="indexOfPrint.html#/print/purchaseVoucherPrint.html?id={{scopeData.id}}" target="_blank">打印预览</a>
         </button>
         <span class="mgr mgl mgt" ng-if="scopeData.orderStatus!='已作废'">
