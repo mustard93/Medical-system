@@ -81,8 +81,11 @@
                     'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
                       <span class="purchaseorder-buyer-info">
                         <i class="block pd-c-s text-normal">
-                          <em class="inline-block pd-v-s">
+                          <em ng-if="tr.businessApplication.businessStatus!='已通过'" class="inline-block pd-v-s">
                             {{tr.businessApplication.businessStatus}}
+                          </em>
+                          <em ng-if="tr.businessApplication.businessStatus=='已通过'" class="inline-block pd-v-s">
+                            正常
                           </em>
                         </i>
                       </span>
