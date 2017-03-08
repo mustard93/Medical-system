@@ -5,20 +5,22 @@
         alert-ok
         callback="$root.goTo('#/purchaseVoucher/get.html?id='+formData.id)">
     <div class="pr-page-dialog-title bb-line pdl-l">
-      <span>输入接收方email</span>
+      <span>发送采购凭证</span>
     </div>
-    <div class="pr-page-dialog-content bb-line">
-        <input type="text"
-               ng-model="formData.toEmail"
-               class="ipt"
-               ng-pattern="/^[0-9a-zA-Z][_.0-9a-z-A-Z]{0,31}@([0-9a-zA-Z][0-9a-z-A-Z]{0,30}[0-9a-zA-Z]\.){1,4}[a-zA-Z]{2,4}$/">
+    <div class="pr-page-dialog-content bb-line" ng-init="tipsShow=false;">
+      <span class="color-red cur-pot relative" ng-mouseenter="tipsShow=true" ng-mouseleave="tipsShow=false">*<em ng-if="tipsShow" class="pr-tips">必填字段</em></span>
+      <input type="text"
+             ng-model="formData.toEmail"
+             class="ipt mgl-m"
+             ng-pattern="/^[0-9a-zA-Z][_.0-9a-z-A-Z]{0,31}@([0-9a-zA-Z][0-9a-z-A-Z]{0,30}[0-9a-zA-Z]\.){1,4}[a-zA-Z]{2,4}$/">
     </div>
     <div class="pr-page-dialog-footer text-center mg-m">
+      <a href="" class="mgr-l" ng-click="closeThisDialog('cancelBtn')">取消</a>
       <button type="submit"
               class="pr-btn-save-glodbg"
               ng-click="confirm()"
               ng-disabled="!formData.toEmail">发送</button>
-      <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">取消</button>
+
     </div>
   </form>
 </div>
@@ -30,7 +32,7 @@
         alert-ok
         broadcast="reloadList">
     <div class="pr-page-dialog-title bb-line pdl-l">
-      <span>输入接收方email</span>
+      <span>发送采购凭证</span>
     </div>
     <div class="pr-page-dialog-content bb-line">
         <input type="text"
