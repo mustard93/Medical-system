@@ -1313,6 +1313,7 @@ define('project/controllers', ['project/init'], function() {
 
       $('#' + fromId).trigger('submit');
     };
+
     // 全选与全不选
     $scope.isChoiseAll = function (choiseStatus) {
       if (choiseStatus) {
@@ -1328,6 +1329,33 @@ define('project/controllers', ['project/init'], function() {
           }
         });
       }
+    };
+
+    // 处理单选条目时是否自动选中全选复选框
+    $scope.handleThischoise = function (item) {
+      //检查药品列表是否被全部选中
+      var _choiseCount = 0;
+      if (item.handleFlag) {      // 点击选中
+        angular.forEach($scope.orderMedicalNos, function (data, index) {
+          if (data.handleFlag === true) { _choiseCount++; }
+        });
+
+        $scope.choiseStatus = ($scope.orderMedicalNos.length === _choiseCount) ? true : false;
+
+      } else {      // 取消选中
+        $scope.choiseStatus = false;
+      }
+    };
+
+    // ..
+    $scope.chkIsChoiseAll = function () {
+      var _count  = 0;
+      angular.forEach($scope.orderMedicalNos, function (data, index) {
+        console.log(data.handleFlag);
+        if (data.handleFlag === true) { _count++; }
+      });
+
+      $scope.choiseStatus = ($scope.orderMedicalNos.length === _count) ? true : false;
     };
 
     //获取一个药械，已经选中的批次，返回成数组格式，用于同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
@@ -1414,7 +1442,8 @@ define('project/controllers', ['project/init'], function() {
             }
         }
 
-        if(item.quantity>0) item.handleFlag=true;
+        if (item.quantity > 0) { item.handleFlag = true; }
+
       }
     },true);
   }
@@ -2409,10 +2438,11 @@ define('project/controllers', ['project/init'], function() {
     * @param  {[type]} watchFormChange [description]
     * @return {[type]}                 [description]
     */
-   function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
+   function requestPurchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange, $timeout) {
 
      $scope.isShowCancelBtn = false;
      $scope.isGoNextStep = false;
+     $scope.showSaveNoteInfo = false;    // 是否显示自动保存用户修改备注信息的提示
     //  $scope.tempDataList = [];
 
      //页面Loading时初始化数据
@@ -2454,6 +2484,34 @@ define('project/controllers', ['project/init'], function() {
        $scope.reloadTime=new Date().getTime();
          modal.closeAll();
      };
+
+     // 监视用户输入备注信息，当用户输入修改后1秒自动保存用户修改
+     $scope.$watch('formData.note', function (newVal, oldVal) {
+       if (newVal && (oldVal!==undefined)) {
+         $timeout(function () {
+           var _url = "rest/authen/requestPurchaseOrder/save",
+               _data = $scope.formData;
+           requestData(_url, _data, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               $scope.showSaveNoteInfo = true;
+             }
+           })
+           .catch(function (error) {
+             if (error) { throw new Error(error || '出错!'); }
+           });
+         }, 1000);
+       }
+     });
+
+     // 监视备注提示信息，显示后1秒自动隐藏
+     $scope.$watch('showSaveNoteInfo', function (newVal) {
+       if (newVal) {    // 如果信息显示了
+         $timeout(function () {
+           $scope.showSaveNoteInfo = false;
+         }, 1500);
+       }
+     });
 
      /**
      * 医院地址加载后，回调方法
@@ -2714,7 +2772,7 @@ define('project/controllers', ['project/init'], function() {
       }
     };
 
-   }//end salesOrderEditCtrl
+   }
 
    /**
     *用户审核
@@ -4250,7 +4308,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('auditUserApplyOrganizationCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','proLoading', auditUserApplyOrganizationCtrl])
   .controller('purchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', purchaseOrderEditCtrl])
   .controller('arrivalNoticeOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', arrivalNoticeOrderEditCtrl])
-  .controller('requestPurchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', requestPurchaseOrderEditCtrl])
+  .controller('requestPurchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', '$timeout', requestPurchaseOrderEditCtrl])
   .controller('noticeCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', noticeCtrl])
   .controller('invoicesOrderCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError', invoicesOrderCtrl])
   .controller('salesOrderEditCtrl2', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', salesOrderEditCtrl2])
