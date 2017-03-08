@@ -28,7 +28,25 @@
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column ">
           <div class="flex-item-8 ">
             <span class="mgr-l">单据编号：<em class="color-6">{{showData.orderNo}}</em></span>
-            <span class="mgr-l">申请人：<em class="color-custom-orange">{{showData.proposerName}}</em></span>
+            <span class="mgr-l">申请人：
+              <span class="text-right purchaseorder-buyer-info-outside" >
+                <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+                style="position:relative;height:25px;">{{showData.proposerName}}</strong>
+                <span class="purchaseorder-buyer-info" style="top: 34px;right: 1395px;">
+                  <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{showData.proposerPhone}}</em></i>
+                  <i class="block pdb-s text-normal">
+                    <em class="fa fa-comment-o mgl"></em>
+                    <em class="inline-block pdl pdr pdt">
+                      <a href="javascript:;"
+                         modal-center="490"
+                         modal-data='{"toUser":{"n":"{{tr.proposerName}}"},"userIds":["{{tr.proposerId}}"]}'
+                         modal-url="views/notice/sendToUser.html">发送消息
+                      </a>
+                    </em>
+                  </i>
+                </span>
+              </span>
+            </span>
           </div>
           <div class="flex-item-4 text-right">
             <span class="flex-item-10">录单日期：
@@ -63,7 +81,7 @@
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
           <!-- 经销商/零售商信息 -->
           <div class="">
-            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">医院信息</h1>
+            <h1 class=" color-black pr-indent-10 pd-v text-bold mgb-m">医院信息</h1>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">企业类别：</span>
@@ -143,7 +161,7 @@
           </div>
           <!-- 收货员信息 -->
           <div class="">
-            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">经销商/零售商收货员信息</h1>
+            <h1 class=" color-black pr-indent-10 pd-v text-bold mgb-m">经销商/零售商收货员信息</h1>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">收货员/身份证号：</span>
@@ -163,7 +181,7 @@
           </div>
           <!-- 采购员信息 -->
           <div class="">
-            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">经销商/零售商采购员信息</h1>
+            <h1 class=" color-black pr-indent-10 pd-v text-bold mgb-m">经销商/零售商采购员信息</h1>
             <div class="flex-column mgb">
               <div class="flex-item-6 flex-column">
                 <span class="flex-item-2 text-right">采购员/身份证号：</span>
@@ -182,10 +200,10 @@
             </div>
           </div>
           <!-- 拟售产品 -->
-          <div class="">
-            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">拟售产品</h1>
+          <!-- <div class="">
+            <h1 class=" color-black pr-indent-10 pd-v text-bold mgb-m">拟售产品</h1>
             <p class="mgb">{{showData.customer.saleProducts}}</p>
-          </div>
+          </div> -->
         </div>
         <!-- 申请原因 -->
         <div class="panel pr-panel pr-panel-height mgb">

@@ -22,7 +22,14 @@
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <!-- 添加流程导航 -->
-    <div class="first-medical-nav">
+    <div
+    step-flow-arrow-show
+    step-flow-arrow-json=
+  '[{"arrowText":"基本信息","className":"visited"},
+    {"arrowText":"申请原因","className":"visited"},
+    {"arrowText":"添加审核资料","className":"active"}]'>
+    </div>
+    <!-- <div class="first-medical-nav">
       <div class="visited">
         <span >基本信息</span>
         <div></div>
@@ -39,7 +46,7 @@
         <div></div>
         <span>添加审核资料</span>
       </div>
-    </div>
+    </div> -->
     <div class="content-wrapper-main mgt" >
       <form class="form-horizontal"
             id="hospital-editForm"
@@ -62,8 +69,15 @@
         </div>
         <!-- 基本信息 -->
 
-      <div ng-init='attachmentsExtend={"title":"审核资料","usege":"医院资格申请","addFlag":true}'  attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
+      <div ng-init='attachmentsExtend={"title":"审核资料","usege":"医院资格申请","addFlag":false}'  attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
+      <div class="color-black mgt-l mgb-l">
+        <p>
+          <p class="pr-font-14">说明：</p>
+          <p>1.品种资质必须加供货企业红色原公章；</p>
+          <p>2.采购人员按要求向供货商(生产企业／经营企业)所要并和事资质的真实合法性，并如实填写本表；</p>
+        </p>
+      </div>
         <!-- 功能按钮 -->
           <div class="handle-btn-area">
             <div class="btn-area" style="background:rgba(54,48,44,0.30);">
