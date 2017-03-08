@@ -27,13 +27,13 @@
             name="firstMedicalEditForm"
             form-validator
             parameter-body
-            action="rest/authen/firstMedicalApplication/saveBaseInfo"
+            action="rest/authen/medicalStock/save"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstMedicalApplication/query.html');
+            callback="submitFormAfter('#/medicalStock/query.html');
             watchFormChange('formData');formData.firstMedical.isBasicMedicine='是';">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
@@ -66,13 +66,13 @@
             <div class="bb-dashed-line">
               <div class="flex-column pd-v-m">
                   <label class="radio-inline">
-                    <input type="radio" name="type" value="药械" ng-model="formData.medical.type" required> 药械
+                    <input type="radio" name="type" value="药械" ng-model="formData.medicalStock.medicalType" required> 药械
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="type" value="中药及饮片" ng-model="formData.medical.type" required> 中药及饮片
+                    <input type="radio" name="type" value="中药及饮片" ng-model="formData.medicalStock.medicalType" required> 中药及饮片
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="type" value="其他药品" ng-model="formData.medical.type" required> 其他药品
+                    <input type="radio" name="type" value="其他药品" ng-model="formData.medicalStock.medicalType" required> 其他药品
                   </label>
               </div>
             </div>
@@ -83,7 +83,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.approvedName"
+                         ng-model="formData.medicalStock.approvedName"
                          required />
                 </div>
               </div>
@@ -93,7 +93,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="name"
-                         ng-model="formData.medical.name"
+                         ng-model="formData.medicalStock.name"
                          required />
                 </div>
               </div>
@@ -103,7 +103,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="code"
-                         ng-model="formData.medical.code"
+                         ng-model="formData.medicalStock.code"
                          required />
                 </div>
               </div>
@@ -113,7 +113,7 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="specification"
-                         ng-model="formData.medical.specification"
+                         ng-model="formData.medicalStock.specification"
                          required />
                 </div>
               </div>
@@ -123,7 +123,7 @@
                   <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
                   chosen
                   default-empty="无"
-                  ng-model="formData.medical.dosageForms"
+                  ng-model="formData.medicalStock.dosageForms"
                   select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
                   </select>
                 </div>
@@ -134,7 +134,7 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="measurement"
-                         ng-model="formData.medical.measurement"
+                         ng-model="formData.medicalStock.measurement"
                          required />
                 </div>
               </div>
@@ -144,7 +144,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="packingCondition"
-                         ng-model="formData.medical.packingCondition"
+                         ng-model="formData.medicalStock.packingCondition"
                          required />
                 </div>
               </div>
@@ -154,7 +154,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="numberOfPackages"
-                         ng-model="formData.medical.numberOfPackages"
+                         ng-model="formData.medicalStock.numberOfPackages"
                          required />
                 </div>
               </div>
@@ -164,7 +164,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="pieceLoading"
-                         ng-model="formData.medical.pieceLoading"
+                         ng-model="formData.medicalStock.pieceLoading"
                          required />
                 </div>
               </div>
@@ -177,7 +177,7 @@
                            class="ipt-date pr-short-ipt ipt-new-s color-6"
                            ng-readonly="true"
                            placeholder="有效日期至"
-                           ng-model="formData.medical.guaranteePeriod">
+                           ng-model="formData.medicalStock.guaranteePeriod">
                           <span class="date-icon"></span>
                   </div>
                 </div>
@@ -186,7 +186,7 @@
                 <label class="flex-item-1 text-right control-label">存储条件：</label>
                 <div class="flex-item-11 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt" name=""
-                  ng-model="formData.medical.storageCondition">
+                  ng-model="formData.medicalStock.storageCondition">
                     <option value="常温">常温</option>
                     <option value="冷链">冷链</option>
                   </select>
@@ -200,7 +200,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="produceEnterprise"
-                         ng-model="formData.medical.manufacturer"
+                         ng-model="formData.medicalStock.manufacturer"
                          required />
                 </div>
               </div>
@@ -210,7 +210,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.factoryAddress"
+                         ng-model="formData.medicalStock.factoryAddress"
                          required />
                 </div>
               </div>
@@ -220,14 +220,14 @@
                   <input type="text"
                          class="ipt-new"
                          name="factoryAddress"
-                         ng-model="formData.medical.productionPlace"
+                         ng-model="formData.medicalStock.productionPlace"
                          required />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-1 text-right control-label">供应单位：</label>
                 <div class="flex-item-11 text-left">
-                  <select class="select-new" name="" ng-model="formData.medical.supplierId"
+                  <select class="select-new" name="" ng-model="formData.medicalStock.supplierId"
                   chosen select-source="rest/authen/supplier/queryForSelectOption">
                   </select>
                 </div>
@@ -240,7 +240,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="trademark"
-                         ng-model="formData.medical.trademark"
+                         ng-model="formData.medicalStock.trademark"
                          required />
                 </div>
               </div>
@@ -250,7 +250,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="medicalUniformCode"
-                         ng-model="formData.medical.medicalUniformCode"
+                         ng-model="formData.medicalStock.medicalUniformCode"
                          required />
                 </div>
               </div>
@@ -260,7 +260,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="filingDocumentNumber"
-                         ng-model="formData.medical.filingDocumentNo"
+                         ng-model="formData.medicalStock.filingDocumentNo"
                          required />
                 </div>
               </div>
@@ -270,7 +270,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="licenseNumber"
-                         ng-model="formData.medical.licenseNumber"
+                         ng-model="formData.medicalStock.licenseNumber"
                          required />
                 </div>
               </div>
@@ -280,7 +280,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.quality"
+                         ng-model="formData.medicalStock.quality"
                          required />
                 </div>
               </div>
@@ -290,7 +290,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.gmpGspCertificateNo"
+                         ng-model="formData.medicalStock.gmpGspCertificateNo"
                          required />
                 </div>
               </div>
@@ -300,7 +300,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.drugAdministrationCode"
+                         ng-model="formData.medicalStock.drugAdministrationCode"
                          required />
                 </div>
               </div>
@@ -310,9 +310,9 @@
                 <label class="flex-item-1 text-right control-label">是否基药：</label>
                 <div class="flex-item-11 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt"
-                  name="" ng-init="formData.medical.isBasicMedicine='是'" ng-model="formData.medical.isBasicMedicine">
-                    <option value="是" ng-selected="formData.medical.isBasicMedicine=='是'">是</option>
-                    <option value="否" ng-selected="formData.medical.isBasicMedicine=='否'">否</option>
+                  name="" ng-init="formData.medicalStock.isBasicMedicine='是'" ng-model="formData.medicalStock.isBasicMedicine">
+                    <option value="是" ng-selected="formData.medicalStock.isBasicMedicine=='是'">是</option>
+                    <option value="否" ng-selected="formData.medicalStock.isBasicMedicine=='否'">否</option>
                   </select>
                 </div>
               </div>
@@ -322,7 +322,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-left"
                          placeholder="￥0.00"
-                         ng-model="formData.medical.quoteprice"
+                         ng-model="formData.medicalStock.quoteprice"
 
                          ng-keyup="chkQuoteAndRetail()"
                          name="quoteprice"
@@ -338,7 +338,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-left"
                          placeholder="￥0.00"
-                         ng-model="formData.medical.retailPrice"
+                         ng-model="formData.medicalStock.retailPrice"
 
                          ng-keyup="chkQuoteAndRetail()"
                          name="retailPrice"
@@ -355,7 +355,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-left"
                          placeholder="￥0.00"
-                         ng-model="formData.medical.tradePrice"
+                         ng-model="formData.medicalStock.tradePrice"
 
                          ng-keyup="chkQuoteAndRetail()"
                          name="tradePrice"
@@ -371,7 +371,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-left"
                          placeholder="￥0.00"
-                         ng-model="formData.medical.purchasePrice"
+                         ng-model="formData.medicalStock.purchasePrice"
 
                          ng-keyup="chkQuoteAndRetail()"
                          name="purchasePrice"
@@ -385,9 +385,9 @@
                 <label class="flex-item-1 text-right control-label">税率：</label>
                 <div class="flex-item-11 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt" name=""
-                  ng-model="formData.medical.tax">
-                    <option value="17">17</option>
-                    <option value="3">3</option>
+                  ng-model="formData.medicalStock.tax">
+                    <option value="17" ng-selected="formData.medicalStock.tax==17">17</option>
+                    <option value="3" ng-selected="formData.medicalStock.tax==3">3</option>
                   </select>
                 </div>
               </div>
