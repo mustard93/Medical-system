@@ -1,0 +1,71 @@
+<div class="modal-content pr-modal-content" ng-controller="editCtrl"
+ ajax-url="rest/baseData/getOfEdit.json?id={{tr.id}}"
+   scope-data="formData" callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId;formData.type=formData.type||dialogData.type"
+>
+
+  <form class="add-medical-form form-horizontal"
+        action="rest/baseData/save"
+        scope-data="formData" alert-error alert-ok
+        form-validator>
+    <div class="modal-header">
+        <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+        <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}基础数据</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">所属机构</label>
+        <div class="col-lg-10 col-sm-10">
+          <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+
+          </select>
+        </div>
+      </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">名称</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">类型</label>
+          <div class="col-lg-10 col-sm-10">
+            <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择类型" chosen default-empty="无" ng-model="formData.type" select-source="rest/baseData/queryForSelectOptionByType?type=基础数据类型">
+
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">编码</label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="text" class="form-control" placeholder="" ng-model="formData.code" />
+            <button type="button"
+                    class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
+                      ng-init="upFile={}"
+                    uploader-one="rest/authen/fileUpload/upload2.json"
+                    usege="上传模板文件"
+                    up-file="upFile" ng-model="formData.code">上传附件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+            </button>
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">备注</label>
+          <div class="col-lg-10 col-sm-10">
+            <textarea type="text" class="form-control" placeholder="" ng-model="formData.note"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label"></label>
+          <div class="col-lg-10 col-sm-10">
+            <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+          </div>
+        </div>
+
+    </div>
+
+    </form>
+</div>

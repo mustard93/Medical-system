@@ -2552,7 +2552,6 @@ function flashAddMedical() {
 function customTable() {
   return {
     restrict: 'EA',
-
     replace: true,
     //  transclude: true,
     templateUrl:  Config.tplPath +'tpl/project/customTable.html',
@@ -2582,6 +2581,9 @@ function customTable() {
             //     $element.append(clone);
             // })
 
+            if ($attrs.checkboxShow) {
+                $scope._checkboxShow=$attrs.checkboxShow;
+            }
             if ($attrs.customTable) {
                 $scope._customTableName=$attrs.customTable;
             }
