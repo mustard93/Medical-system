@@ -1,0 +1,94 @@
+<div class="content-wrapper personal-center"
+  ng-init="saveAfterExit=false"
+  watch-form-change
+   ajax-url="rest/authen/user/getMineOfEdit.json"  scope-data="formData" alert-error
+   callback="showData=formData;initFlag=true;watchFormChange('formData')"
+
+>
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading mgt-m mgb-m">
+    <h1 class="pr-title-color pr-font-24">个人中心</h1>
+  </div>
+  <!-- 主内容区域 -->
+  <div class="content-wrapper-main flex-column">
+    <!-- 左侧菜单 -->
+    <div class="flex-item-2 left-menu-list">
+      <ng-include src="'views/personalCenter/personal-center-left-menu.html'"></ng-include>
+    </div>
+    <!-- 右侧住内容区域 -->
+    <form class="personalModifyInfoForm"
+          action="rest/authen/user/updateOfMine"
+          scope-data="formData"
+          alert-error
+          alert-ok
+          form-validator
+          callback="watchFormChange('formData');saveAfterExit&&$root.goTo('#/main.html');"
+          broadcast="loadMainInfo">
+      <div class="flex-item-10 content-area">
+        <!-- 头像及电话 -->
+        <div class="panel pr-panel pr-panel-fixed-height text-center pd-n mgb">
+          <div class="avatar-container bb-line-gold">
+            <span class="user-face cur-pot"
+                  ng-init="upFile={}"
+                  upload-type="image"
+                  uploader-one="rest/authen/fileUpload/uploadPicture.json" usege="头像"
+                  up-file="upFile"
+                  ng-model="formData.headUrl">
+              <img alt="点击上传头像" title="点击上传头像" ng-src="{{formData.headUrl || 'images/default-user-face.png'}}"  ng-style="{width:120,height:120}"/>
+            </span>
+          </div>
+          <div class="">
+            <span class="user-phone">{{formData.phone}}</span>
+          </div>
+        </div>
+        <!-- 详细资料 -->
+        <div class="panel pr-panel flex-column">
+          <div class="flex-item-6 br-dashed-line">
+            <table class="table">
+              <tr>
+                <td>姓名：</td>
+                <td><input type="text" class="ipt color-6"  ng-model="formData.name"></td>
+              </tr>
+              <tr>
+                <td>性别：</td>
+                <td>
+
+                  <label class="mgr"><input type="radio" name="sex" value="男"  ng-model="formData.sex" > 男</label>
+                  <label><input type="radio" name="sex" value="女"  ng-model="formData.sex" > 女</label>
+                </td>
+              </tr>
+              <tr>
+                <td>出生日期：</td>
+                <td><input type="date" class="ipt pr-short-ipt color-6"  convert-to-date  ng-model="formData.birthday"></td>
+              </tr>
+            </table>
+          </div>
+          <div class="flex-item-6 pd-l">
+            <p class="pdb color-9" ng-if-eval="organizationId" ajax-url="rest/authen/distributor/get.json?id={{showData.organizationId}}"  scope-data="distributor">公司名：<span class="color-6">{{distributor.name}}</span></p>
+            <p class="pdb color-9">部门：<span class="color-6">{{showData.departmentName}}</span></p>
+            <p class="pdb color-9" ajax-url="rest/authen/role/getRoleNamesByCurrentUser.json"  scope-data="roleData">角色：<span class="color-6">{{roleData.join(' ')}}</span></p>
+          </div>
+        </div>
+        <!-- 功能按钮 -->
+        <div class="text-center mgb">
+          <a ng-if="changeFlag" class="mgr" href="javascript:;"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="存在未保存数据，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="$root.goTo('#/main.html')"
+             parent-save-callback="saveAfterExit=true;submitForm1();">返回工作中心</a>
+
+
+             <a ng-if="!changeFlag"  href="#/main.html" class="mgr">返回工作中心</a>
+            <input type="submit"
+                   ng-disabled="!changeFlag"
+                   class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg"
+                   style="line-height:1.7;"
+                   value="保存"/>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

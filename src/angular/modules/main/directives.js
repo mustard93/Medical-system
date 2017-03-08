@@ -3040,7 +3040,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      */
     angular.module('manageApp.main')
       .directive("textInterception", textInterception)
-      .directive("ngCompile2", ngCompile2)
+      .directive("ngCompile2", ["$compile",ngCompile2])
       .directive("datepicker", ['$filter',datepicker])
       .directive("watchFormChange", ["watchFormChange", watchFormChange])
       .directive("invalidPopover", ["$route", "$templateCache", "$routeParams", invalidPopover])
