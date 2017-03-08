@@ -1784,7 +1784,9 @@ function medicalStockMouseOver(utils){
           //+document.body.scrollLeft+
           moveBtnDivWidth=34*btnCount;
           var y =$element.offset().top -document.body.scrollTop;
-          var x= utils.getMainBodyWidth();
+          // var x= utils.getMainBodyWidth();
+          var x= utils.getwindowWidth()-60-moveBtnDivWidth-document.body.scrollLeft; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。 要求table 宽度 100%
+
           //
           moveBtnDiv.css({
              "position": "fixed",
@@ -2642,10 +2644,11 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           if(!moveBtnDiv)return;
           //+document.body.scrollLeft+
           moveBtnDivWidth=34*btnCount;
-          // console.log("moveBtnDivWidth",moveBtnDivWidth);
+          console.log("document.body.scrollLeft",document.body.scrollLeft);
           var y =$element.offset().top -document.body.scrollTop;
-          // var x= utils.getwindowWidth()-80-moveBtnDivWidth; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。
-          var x=e.clientX+10; //根据鼠标位置定位，解决上面bug。
+          var x= utils.getwindowWidth()-10-moveBtnDivWidth; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。 要求table 宽度 100%
+
+          // var x=e.clientX+10; //根据鼠标位置定位，解决上面bug。
           if(x<0)x=0;
           //
           moveBtnDiv.css({

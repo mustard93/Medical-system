@@ -52,7 +52,7 @@ require.config({
         'moment': '../libs/moment.min',                         //日历插件
         'echarts': '../libs/echarts/echarts-3.2.3.min',         // echars v3.2.3
         'chosen': '../libs/chosen.jquery.pg.min',                  //下拉筛选插件.已修改源码
-        'angular': '../libs/angular',                           //Angular
+        'angular': '../libs/angular.min',                           //Angular
         'ngRoute': '../libs/angular-route.min',                     //路由
         'autocomplete': '../libs/jquery.autocomplete.min',      //自动补齐
         'bootstrap': '../libs/bootstrap.min',                   //bootstrap
