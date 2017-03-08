@@ -2873,6 +2873,9 @@ function addressManageComponent (requestData, utils) {
     },
     controller: ["$scope", "$element", function ($scope, $element) {
 
+      // 定义已选择地址id，用户选择其他地址后，将选择地址id存入，重新读取地址列表后检测此字符串保持用户已选择的地址
+      $scope.choisedItemId = '';
+
       // 判断默认选中
       $scope.chkDefaultChoise = function (_id) {
         if (!$scope.formData.id) {      // 如果是新建，将该参数id与默认返回地址做比较
@@ -2962,6 +2965,8 @@ function addressManageComponent (requestData, utils) {
       $scope.choiseOtherItem = function (item, _requestDataId) {
         $scope.formData[$scope.scopeDataId] = _requestDataId;
         $scope.formData[$scope.scopeDataContacts] = item;
+        $scope.choisedItemId = item.id;
+        console.log($scope.formData);
       };
 
       // 设置当前地址为默认地址
