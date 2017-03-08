@@ -3202,7 +3202,6 @@ define('project/controllers', ['project/init'], function() {
           // $scope.isChoiseAll = true;
          }
        });
-
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
       };
