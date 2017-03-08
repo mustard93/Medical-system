@@ -2047,9 +2047,14 @@ define('project/controllers', ['project/init'], function() {
      });
 
     //监控数量变化，如果是从请购单生成的采购单则数量不能大于在请购单中设定的数量
-    $scope.$watchCollection('formData', function (newVal, oldVal, scope) {
-      console.log(newVal);
-    });
+    // $scope.$watchCollection('formData', function (newVal, oldVal, scope) {
+    //   // console.log(newVal);
+    // });
+
+    // 药品列表发生变化重新计算总价
+    $scope.$watch('formData.orderMedicalNos', function (newVal) {
+      $scope.purchaseOrderCalculaTotal($scope.formData.orderMedicalNos);
+    }, true);
 
     $scope.canSubmitForm = function() {
        //必须有1条是勾选加入订单的。
@@ -2114,10 +2119,21 @@ define('project/controllers', ['project/init'], function() {
     $scope.addDataItem = {};
 
     //需要重新家长地址方法。编辑新建后
-    $scope.customerAddressReload=function (){
-     $scope.reloadTime=new Date().getTime();
-       modal.closeAll();
-   };
+    $scope.customerAddressReload=function () {
+      $scope.reloadTime=new Date().getTime();
+      modal.closeAll();
+    };
+
+    // 总价计算方法
+    $scope.purchaseOrderCalculaTotal = function (orderMedicalNos) {
+      if (orderMedicalNos) {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (item, index) {
+          _total += item.quantity * item.strike_price;
+        });
+        $scope.formData.localTotalPrice = _total;
+      }
+    };
 
     /**
     * 医院地址加载后，回调方法
@@ -2226,36 +2242,6 @@ define('project/controllers', ['project/init'], function() {
       // $('#addDataItem_quantity').trigger('focus');
       $('#addDataItem_quantity').trigger('focus');
     };
-
-    /**
-     * 添加一条。并缓存数据。
-     */
-    $scope.selectRelIdCallBack = function(data) {
-     $scope.addDataItem.relId = data.id;
-     $scope.addDataItem.name = data.name;
-     $scope.addDataItem.brand = data.brand;
-     $scope.addDataItem.unit = data.unit;
-     $scope.addDataItem.price = data.price;
-     // $scope.addDataItem.isSameBatch = '否';
-     $scope.addDataItem.strike_price = data.price;
-     $scope.addDataItem.headUrl = data.headUrl;
-     $scope.addDataItem.specification = data.specification;
-     $scope.addDataItem.manufacturer = data.manufacturer;
-     $scope.addDataItem.handleFlag =true;//默认添加到订单
-     $scope.addDataItem.productionBatch = '无';
-     $scope.addDataItem.dosageForms = data.dosageForms;
-     $scope.addDataItem.code = data.code;
-     $scope.addDataItem.productionBatch = data.productionBatch;
-     $scope.addDataItem.productionDate = data.productionDate;
-     $scope.addDataItem.guaranteePeriod = data.guaranteePeriod;
-     $scope.addDataItem.licenseNumber = data.licenseNumber;
-     $scope.addDataItem.deliveryPlus = data.deliveryPlus;
-     $scope.addDataItem.drugAdministrationCode = data.drugAdministrationCode;
-
-     // alert($('#addDataItem_quantity').length);
-     // $('#addDataItem_quantity').trigger('focus');
-     $('#addDataItem_quantity').trigger('focus');
-   };
 
     /**
     * 添加一条。并缓存数据。
