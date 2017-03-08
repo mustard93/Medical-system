@@ -147,8 +147,14 @@
        <div class="relative">
          <!-- 备注 -->
          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-           <h1 class="text-bold color-3">备注</h1>
-           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+           <h1 class="text-bold color-3">备注<span class="mgl-m color-green" ng-if="showSaveNoteInfo">(信息已保存)</span></h1>
+           <textarea class="pr-textarea mgt"
+                     maxlength="240"
+                     style="height:92px;"
+                     placeholder=""
+
+                     ng-model="formData.note">
+           </textarea>
          </div>
          <table-list ng-if="formData.id" list-data="rest/authen/purchaseOrder/getListByRelId?relId={{formData.id}}">
            <h1 class="mgb pdb text-n text-bold">已生成采购单部分</h1>
@@ -244,7 +250,7 @@
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
         <span class="mgt-l">
-          <a ng-if="!changeFlag" href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
+          <a href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
         </span>
       </div>
       <div class="total-div">

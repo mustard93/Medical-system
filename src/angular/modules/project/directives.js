@@ -2854,7 +2854,7 @@ function addressManageComponent (requestData, utils) {
         requestData(_reqUrl, {}, 'get')
         .then(function (results) {
           var _data = results[1];
-          if (_data.code === 200) {
+          if (_data.code === 200 && scope.returnAddressObj) {
             scope.returnAddressObj.contacts = _data.data.contacts;
             if (!_data.data.contacts) {
               scope.formData.contactsNull = true;
