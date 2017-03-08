@@ -1,5 +1,5 @@
 
-        <div class="modal-content" ng-controller="editCtrl"      ajax-url="rest/authen/userAndOrganization/getByUserId.json?userId={{tr.id}}&organizationId={{tr.organizationId}}"  scope-data="formData" alert-error
+        <div class="modal-content" ng-controller="editCtrl"      ajax-url="rest/authen/userAndOrganization/getByUserId.json?userId={{tr.id}}"  scope-data="formData" alert-error
        >
 
           <form class="add-medical-form form-horizontal"
@@ -11,16 +11,19 @@
             </div>
             <div class="modal-body">
               <div class="form-group">
-                <label class="col-lg-2 col-sm-2 control-label">用户ID</label>
+                <label class="col-lg-2 col-sm-2 control-label">用户名</label>
                 <div class="col-lg-10 col-sm-10">
-                  <input type="text" class="form-control" placeholder="" ng-model="formData.userid" />
+                  {{tr.name}}
+                  <!-- <input type="text" class="form-control" placeholder="" ng-model="formData.userid" /> -->
                 </div>
               </div>
-              <div class="form-group" >
-                <label class="col-lg-2 col-sm-2 control-label">角色集</label>
-                <div class="col-lg-10 col-sm-10" ng-if="formData.departmentId">
+                <div class="form-group"    >
+                  <label class="col-lg-2 col-sm-2 control-label">角色集</label>
+                  <div class="col-lg-10 col-sm-10" ng-if="formData.departmentId">
+
+
                                         <div class="form-ctrl"
-                                         ajax-url="rest/authen/role/queryForSelectOption"  scope-data="roles" alert-error>
+                                         ajax-url="rest/authen/role/queryForSelectOptionByDepartmentId?departmentId={{formData.departmentId}}"  scope-data="roles" alert-error>
 
                                           <fieldset  class="fieldset">
                                               <legend>
@@ -41,6 +44,7 @@
                   </div>
 
                   <div class="col-lg-10 col-sm-10" ng-if="!formData.departmentId">
+
                                       没关联部门不能授权！
 
                   </div>

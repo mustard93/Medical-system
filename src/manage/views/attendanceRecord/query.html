@@ -1,4 +1,6 @@
-<div   ng-controller="pageCtrl"><!-- pageCtrl-->
+<div   ng-controller="pageCtrl"
+ng-init="listParams.pageSize=100"
+><!-- pageCtrl-->
 <!-- page heading start-->
 <div class="page-heading">
     <h3>考勤数据明细</h3>
@@ -10,18 +12,27 @@
 <!-- page heading end-->
 
 <!--body wrapper start-->
-<table-list list-data="rest/authen/attendanceRecord/query.json" list-params="listParams">
+<table-list list-data="rest/authen/attendanceRecord/query.json"
+  ajax-if-eval="listParams.createAtBeg"
+list-params="listParams">
   <div class="form-group  col-lg-2">
-    <label class="col-lg-2 col-sm-2 control-label">导入明细（2003版本excel）</label>
-    <div class="col-lg-10 col-sm-10">
+
       <button type="button"
               class="btn btn-primary pr-btn-xsm pr-btn-bg-gold"
                 ng-init="upFile={}"
               uploader-one="rest/authen/attendanceRecord/importBy.json"
               params="uploaderParams"
-              up-file="upFile" ng-model="formData.loadUrl">上传文件{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+              callback='$broadcast("reloadList")'
+              up-file="upFile" ng-model="formData.loadUrl">导入明细{{upFile.progress<100?"("+upFile.progress+"%)":""}}
       </button>
-    </div>
+  <p>（只支持2003版本excel，后缀名为xls）</p>
+
+
+      <button type="button" class="btn btn-danger" ng-click="delSelected('rest//authen/attendanceRecord/batchDelete')">
+          <i class="fa fa-trash-o"></i>
+          删除选中{{listSelected.length}}</button>
+
+
   </div>
     <div class="mg-m col-lg-12 col-sm-12">
 
@@ -57,7 +68,7 @@
         <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
       </div>
     </div>
-        <div custom-table="com.pangu.mss.domain.mongo.attendance.AttendanceRecord" custom-tr-menus="AttendanceRecord-mange" ></div>
+        <div custom-table="com.pangu.mss.domain.mongo.attendance.AttendanceRecord" custom-tr-menus="AttendanceRecord-mange" checkbox-show="true" ></div>
 
 </table-list>
 <!--body wrapper end-->

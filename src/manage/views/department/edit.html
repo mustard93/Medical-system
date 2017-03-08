@@ -1,12 +1,13 @@
 
-        <div class="modal-content pr-modal-content" ng-controller="editCtrl"
+        <div class="modal-content" ng-controller="editCtrl"
 
            ajax-url="rest/authen/department/getOfEdit.json?id={{tr.id}}"  scope-data="formData" callback="initFlag=true" alert-error >
 
           <form class="add-department-form form-horizontal"
                 action="rest/authen/department/save"
                 alert-error
-                form-validator>
+                form-validator
+                broadcast="reloadList">
             <div class="modal-header">
                 <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
                 <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}部门</h4>
@@ -15,7 +16,7 @@
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">上级部门</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag" class="select select-w" data-placeholder="选择一个..." chosen default-empty="无"  ng-model="formData.parentId" select-source="rest/authen/department/queryForSelectOption.json"></select>
+                  <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen default-empty="无"  ng-model="formData.parentId" select-source="rest/authen/department/queryForSelectOption.json"></select>
 
                 </div>
               </div>
@@ -31,11 +32,12 @@
                                 <div class="form-group">
                                   <label class="col-lg-2 col-sm-2 control-label">部门负责人</label>
                                   <div class="col-lg-10 col-sm-10">
-                                    <select ng-if="initFlag" class="select select-w" data-placeholder="选择一个..." chosen  multiple ng-model="formData.headUserIds" select-source="rest/authen/user/queryForSelectOption.json">
+                                    <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen default-empty  multiple ng-model="formData.headUserIds" select-source="rest/authen/user/queryForSelectOption.json">
                                       <option value=""></option>
                                     </select>
                                   </div>
                                 </div>
+
                                 <div class="form-group">
                                   <label class="col-lg-2 col-sm-2 control-label">角色集</label>
                                   <div class="col-lg-10 col-sm-10">
@@ -61,10 +63,11 @@
 
                                   </div>
                                 </div>
+
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label"></label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+                    <input type="submit" class="btn btn-success" value="提交">
                   </div>
                 </div>
 

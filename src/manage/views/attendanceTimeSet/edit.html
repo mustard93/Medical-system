@@ -1,12 +1,14 @@
 <div class="modal-content pr-modal-content" ng-controller="editCtrl"
  ajax-url="rest/authen/attendanceTimeSet/getOfEdit.json?id={{tr.id}}"
-   scope-data="formData" callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId;formData.type=formData.type||dialogData.type"
->
+   scope-data="formData"
+      callback="initFlag=true;$root.watchFormChange('formData',this)"
+  >
 
   <form class="add-medical-form form-horizontal"
         action="rest/authen/attendanceTimeSet/save"
         scope-data="formData" alert-error alert-ok
         parameter-body
+          callback="$root.watchFormChange('formData',this)"
         form-validator>
     <div class="modal-header">
         <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
@@ -39,15 +41,16 @@
           <label class="col-lg-2 col-sm-2 control-label">跨天最迟下班(时:分)</label>
           <div class="col-lg-10 col-sm-10">
             <input type="text" class="form-control" placeholder="" ng-model="formData.yesterdayLatestLeaveTime" />
-            <p>跨天最迟下班时间。默认为早上6点。</p>
+            <p>跨天最迟下班时间。默认为早上6：00。</p>
           </div>
         </div>
         <div class="panel">
           <div class="panel-heading">
+            时间段设置({{formData.periodOfTimes.length}})
             <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
-              <a href="javascript:;" class="fa fa-times"> 时间段设置({{formData.periodOfTimes.length}})</a>
+              <a href="javascript:;" class="fa fa-chevron-up" toggle-panel>   </a>
             </span>
+
 
           </div>
           <div class="panel-body" style="display:;">
@@ -61,7 +64,7 @@
 
                   </select>
                 </label>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                   <input type="text" class="form-control" placeholder="标题" ng-model="periodOfTimeItem.title" />
                 </div>
                 <div class="col-sm-6">
@@ -69,6 +72,12 @@
                   <span class="col-sm-2">至</span>
                    <input class="col-sm-4" type="text" class="form-control" placeholder="" ng-model="periodOfTimeItem.endTime" />
                 </div>
+                <div class="col-sm-1">
+                  <button type="button" class="btn btn-danger" ng-click="formData.periodOfTimes.splice($index,1);">
+                      <i class="fa fa-trash-o"></i>
+                      删除</button>
+                </div>
+
               </div>
 
             </div>
@@ -79,31 +88,65 @@
 
         <div class="panel">
           <div class="panel-heading">
+            工作日({{formData.workingDays.length}})
             <span class="tools pull-right">
-              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-              <a href="javascript:;" class="fa fa-times"> 工作日({{formData.workingDays.length}})</a>
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel>   </a>
             </span>
 
           </div>
           <div class="panel-body" style="display:none;">
             <div class="form-group">
-              <div class="col-lg-2 col-sm-2" ng-repeat="workingDayItem in formData.workingDays">
+              <div class="col-lg-2 col-sm-2" ng-repeat="workingDayItem in formData.workingDays  track by $index">
 
                 <input type="text" class="ipt pr-short-ipt color-6" placeholder="工作日"
-                readonly="true" datepicker   no-parser="true"  ng-model="workingDayItem">
-
+                readonly="true" datepicker   no-parser="true"  ng-model="formData.workingDays[$index]">
+                <button type="button" class="btn btn-danger" ng-click="formData.workingDays.splice($index,1);">
+                    <i class="fa fa-trash-o"></i>
+                    删除</button>
               </div>
+
             </div>
 
-            <button  type="button"    ng-click="formData.workingDays.push({})">添加</button>
+            <button  type="button"    ng-click="formData.workingDays.push('')">添加</button>
           </div>
         </div><!--panel-->
 
 
+        <div class="panel">
+          <div class="panel-heading">
+               假日({{formData.holidays.length}})
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel>   </a>
+            </span>
+
+          </div>
+          <div class="panel-body" style="display:none;">
+            <div class="form-group">
+              <div class="col-lg-2 col-sm-2" ng-repeat="holidaysItem in formData.holidays  track by $index">
+                <input type="text" class="ipt pr-short-ipt color-6" placeholder="假日"
+                readonly="true" datepicker   no-parser="true"  ng-model="formData.holidays[$index]">
+                <button type="button" class="btn btn-danger" ng-click="formData.holidays.splice($index,1);">
+                    <i class="fa fa-trash-o"></i>
+                    删除</button>
+              </div>
+            </div>
+
+            <button  type="button"    ng-click="formData.holidays.push('')">添加</button>
+          </div>
+        </div><!--panel-->
+
+        <textarea-json ng-model="formData"></textarea-json>
+
         <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label"></label>
           <div class="col-lg-10 col-sm-10">
-            <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+                    <button
+                    type="submit"
+                            class="pr-btn-save-glodbg mgr"
+                            ng-disabled="!changeFlag">保存
+                    </button>
+
+
           </div>
         </div>
 

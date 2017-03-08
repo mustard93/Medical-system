@@ -537,7 +537,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     dialogConfirm('确定删除这些?', function() {
                         requestData(_url, {
                                 ids: $scope.listSelected.join(",")
-                            })
+                            }, 'POST')
                             .then(function() {
                                 $scope.$broadcast("reloadList");
                             })

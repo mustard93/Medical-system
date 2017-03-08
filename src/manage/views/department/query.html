@@ -1,4 +1,4 @@
-<div   ng-controller="pageCtrl"><!-- pageCtrl-->
+<div   ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
 <!-- page heading start-->
 <div class="page-heading">
     <h3>部门管理</h3>
@@ -49,9 +49,10 @@
                   <th><input type="checkbox" class="selectAll"></th>
                   <th>序号</th>
                   <th>名称</th>
-
+                  <th>部门负责人</th>
+                  <th>角色集</th>
                   <th>创建时间</th>
-                  <th>机构编码</th>
+                  <th>状态</th>
                   <th>操作</th>
                   <th></th>
               </tr>
@@ -61,9 +62,14 @@
                     <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                     <td>{{$index + 1}}</td>
                     <td>{{tr.name}}</td>
-
+                    <td>
+                      <span ng-if="tr.headUsers && tr.headUsers.length > 0" ng-repeat="user in tr.headUsers">
+                        {{user.n}}<br />
+                      </span>
+                    </td>
+                    <td>{{tr.roles}}</td>
                     <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-                    <td>{{tr.organizationId}}</td>
+                    <td>{{tr.status}}</td>
                     <td>
                         <!-- <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html"><i
                                 class="fa fa-folder-open-o"></i> 查看
@@ -88,4 +94,4 @@
   </div>
 </table-list>
 <!--body wrapper end-->
-</div><!-- pageCtrl-->
+</div>
