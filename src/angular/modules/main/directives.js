@@ -537,7 +537,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     dialogConfirm('确定删除这些?', function() {
                         requestData(_url, {
                                 ids: $scope.listSelected.join(",")
-                            })
+                            }, 'POST')
                             .then(function() {
                                 $scope.$broadcast("reloadList");
                             })
@@ -2905,12 +2905,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     };
 
         /**
-         * 树状列表
+         * 日期控件
+         formData.expectDate：136000000单位 毫秒
+         <input type="text" class="ipt pr-short-ipt color-6" placeholder="期望到货时间"
+         readonly="true"
+         datepicker   ng-model="formData.expectDate">
+
+         formData.expectDate：2017-01-01 格式
+         <input type="text" class="ipt pr-short-ipt color-6" placeholder="期望到货时间"
+         readonly="true" no-parser="true"
+         datepicker   ng-model="formData.expectDate">
          */
         function datepicker($filter) {
 
             var config={
                 format:'YYYY-MM-DD', //''yy-mm-dd',
+
             };
 
             return {
@@ -2919,25 +2929,30 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                 link: function($scope, $element, $attrs, ngModel) {
 
-                  var moment = require('moment');
+                  //默认日期绑定数据单位都是 milliseconds。如果yy-mm-dd 需要设置noParser="true"
+                  if($attrs.noParser!="true"){
+                    var moment = require('moment');
 
-                  	var _format=$attrs.format||config.format;
-                    ngModel.$parsers.push(function(val) {
-                      if (!val) return;
-                      // var tt=moment(val, _format).millisecond();
-                        var tt=moment(val, _format).format('x');
+                      var _format=$attrs.format||config.format;
+                      ngModel.$parsers.push(function(val) {
+                        if (!val) return;
+                        // var tt=moment(val, _format).millisecond();
+                          var tt=moment(val, _format).format('x');
 
-                      return tt;
+                        return tt;
 
-                  });
-                  //
-                  ngModel.$formatters.push(function() {
-                      if (!ngModel.$modelValue) return null;
-                      var tmp=ngModel.$modelValue;
-                      var time=moment(parseInt(tmp,10)).format(_format);
+                    });
+                    //
+                    ngModel.$formatters.push(function() {
+                        if (!ngModel.$modelValue) return null;
+                        var tmp=ngModel.$modelValue;
+                        var time=moment(parseInt(tmp,10)).format(_format);
 
-                      return time;
-                  });
+                        return time;
+                    });
+
+
+                  }//$attrs.noParser!="true"
 
 
                   $element.datepicker({
