@@ -661,9 +661,9 @@ define('project/services', ['project/init'], function () {
                  *
                 * @Description: 将模版变量字符串转化为具体数据。模版变量定义为：{{id}}
                 * @method parseVariableMenuList
-                * @param buttonList 菜单定义列表
+                * @param buttonList 菜单定义列表，带变量表达式
                 * @param obj 业务对象
-                * @return 输出html格式
+                * @return buttonList 菜单定义列表，带变量表达式转换结果
                 * @author liumingquan
                 样例：
               buttonList=[{
@@ -682,9 +682,7 @@ define('project/services', ['project/init'], function () {
                   "target":"_blank"
                 }]
                 obj={"id":"1234"}
-
                 =>
-
                 [{
                   "type":"" ,
                     "aclass":"",

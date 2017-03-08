@@ -3260,7 +3260,6 @@ define('project/controllers', ['project/init'], function() {
           // $scope.isChoiseAll = true;
          }
        });
-
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
       };
@@ -3270,7 +3269,7 @@ define('project/controllers', ['project/init'], function() {
 
          if ($scope.submitForm_type == 'submit') {
            $scope.formData.validFlag = false;
-           $scope.goTo('#/medicalStock/query.html');
+           $scope.goTo('#/medicalStock/get.html?id='+$scope.formData.id);
          }
         $('#' + fromId).trigger('submit');
       };
@@ -3402,7 +3401,6 @@ define('project/controllers', ['project/init'], function() {
              });
            }
          };
-
       $scope.flashAddDataCallbackFn = function(flashAddData) {
 
         if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
