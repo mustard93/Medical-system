@@ -29,9 +29,18 @@
       <div class="content-wrapper">
         <div class="content-wrapper-main">
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
-            <div class="flex-item-6">
+            <!-- <div class="flex-item-6">
               <em class="fl-l">目录有效期至：</em>
               <em>{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
+            </div> -->
+            <div class="flex-item-6">
+              <em class="fl-l">状态：</em>
+              <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                      data-placeholder=" "
+                      chosen
+                      ng-model="formData.salesDepartmentId"
+                      select-source="rest/authen/department/queryForSelectOption">
+              </select>
             </div>
             <div class="flex-item-6 text-right">
               <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
@@ -72,29 +81,31 @@
                   {"title":"编辑","url":"#/medicalStock/edit.html?id="+tr.id,
                   "className":"circle-icon-edit edit-btn"},
                   {"title":"","url":"#/medicalStock/edit.html?id="+tr.id,
-                  "className":"circle-icon-edit more-btn"}]'>
+                  "className":"circle-icon-edit more-btn"}]'
+                  ng-click="$root.goTo('#/medicalStock/get.html?id='+tr.id)"
+                  class="trHover"
+                  >
                   <td class="relative">
                     <span
                     class="circle-status"
-                    ng-class="{'bg-freeze-blue':tr.businessApplication.businessStatus =='已冻结',
-                     'bg-pass-green':tr.businessApplication.businessStatus =='已通过',
+                    ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
+                     'bg-pass-green':tr.businessApplication.businessStatus =='正常',
                     'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
                       <span class="purchaseorder-buyer-info">
                         <i class="block pd-c-s text-normal">
-                          <em ng-if="tr.businessApplication.businessStatus!='已通过'" class="inline-block pd-v-s">
+                          <em class="inline-block pd-v-s">
                             {{tr.businessApplication.businessStatus}}
-                          </em>
-                          <em ng-if="tr.businessApplication.businessStatus=='已通过'" class="inline-block pd-v-s">
-                            正常
                           </em>
                         </i>
                       </span>
                     </span>
                   </td>
                   <td class="text-center">{{$index + 1}}</td>
-                  <td class="text-left ">
+                  <td class="text-left color-orange">
                     <div class="autocut" title="{{tr.name}}">
-                      {{tr.name}}
+                      <a href="#/medicalStock/get.html?id={{tr.id}}">
+                          {{tr.name}}
+                      </a>
                     </div>
                   </td>
                   <td>{{tr.manufacturer}}</td>
