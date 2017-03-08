@@ -2,7 +2,7 @@
      ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);orderMedicalNos=formData.orderMedicalNos;formData.exchangeRate='1.00';formData.thisPageTotal=0"
+     callback="initFlag=true;choiseStatus=false;$root.watchFormChange('formData',this);orderMedicalNos=formData.orderMedicalNos;formData.exchangeRate='1.00';formData.thisPageTotal=0"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -133,7 +133,7 @@
               <tbody ng-if="formData.orderBusinessType=='普通销售'">
                 <tr ng-repeat="item in orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
                   <td class="text-center w-50">
-                    <label for=""><input type="checkbox" ng-model="item.handleFlag"></label>
+                    <label for=""><input type="checkbox" ng-model="item.handleFlag" ng-change="handleThischoise(item)"></label>
                   </td>
                   <td class="text-center">{{item.code}}</td>
                   <td>{{item.name}}</td>
@@ -157,7 +157,7 @@
                               suffix-connection="/"
                               suffix-key="note.salesQuantity"
                               ng-model="stockBatchsItem.batchNumber"
-                              callback="choiseProductionBatch(item,stockBatchsItem,selectData)"
+                              callback="choiseProductionBatch(item,stockBatchsItem,selectData);"
                               callback-filter-return-data="getProductionBatchValueArray(item.stockBatchs)"
                               select-source="rest/authen/medicalStock/queryStockBatchForSelectOption?relMedicalStockId={{item.relId}}">
                       </select>
