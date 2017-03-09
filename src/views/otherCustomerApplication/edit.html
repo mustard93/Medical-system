@@ -23,21 +23,14 @@
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <!-- 添加流程导航 -->
-    <div class="first-medical-nav">
-      <div class="active" >
-        <span >基本信息</span>
-        <div></div>
-      </div>
-      <div class="unactive">
-        <div></div>
-        <span>申请原因</span>
-        <div></div>
-      </div>
-      <div class="unactive">
-        <div></div>
-        <span>添加审核资料</span>
-      </div>
+    <div
+    step-flow-arrow-show
+    step-flow-arrow-json=
+  '[{"arrowText":"基本信息","className":"active"},
+    {"arrowText":"申请原因","className":"unactive"},
+    {"arrowText":"添加审核资料","className":"unactive"}]'>
     </div>
+
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
             id="otherCustomer-editForm"
@@ -60,201 +53,141 @@
         </div>
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb">
-        <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-          <!-- 企业信息 -->
-          <div>
-            <h3 class=" color-black pr-indent-10 pd-v text-bold mgb-m">经销商/零售商信息：</h3>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">企业类别：</label>
-                  <div class="col-sm-10">
-                    <label class="radio-inline">
-                      <input type="radio" name="type" value="批发商" ng-model="formData.customer.type" required> 批发商
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="type" value="零售商" ng-model="formData.customer.type" required> 零售商
-                    </label>
-                  </div>
+            <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
+            <div class="">
+              <div class="flex-column mgb">
+                <label class="radio-inline">
+                  <input type="radio" name="type" value="批发商" ng-model="formData.customer.type" required> 批发商
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="type" value="零售商" ng-model="formData.customer.type" required> 零售商
+                </label>
+              </div>
+            <div class="bt-dashed-line pd-v-m">
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">客户全称：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.customer.fullName">
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">客户全称：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.fullName">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">企业地址：</label>
+                <div class="flex-item-11 text-left">
+                    <input type="text" class="ipt-new" ng-model="formData.customer.address">
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">企业地址：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.address">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">企业简称：</label>
+                <div class="flex-item-11 text-left">
+                    <input type="text" class="ipt-new" ng-model="formData.customer.shortName" required>
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">企业简称：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.shortName" required>
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">法人代表/身份证号：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text" class="ipt flex-item-1" ng-model="formData.customer.legalRepresentative">
+                  <input type="text" class="ipt flex-item-2 mgl-s" style="width:200px;" ng-model="formData.customer.legalRepresentativeIdentityNo">
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">法人代表/身份证号：</label>
-                  <div class="col-sm-6 flex-column">
-                    <input type="text" class="form-control flex-item-3" ng-model="formData.customer.legalRepresentative">
-                    <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.legalRepresentativeIdentityNo">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">GMP/GSP证书号：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.customer.gspCertificateNo">
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">GMP/GSP证书号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.gspCertificateNo">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">经营许可证号：</label>
+                <div class="flex-item-11 text-left">
+                    <input type="text" class="ipt-new" ng-model="formData.customer.productionLicenseNo">
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">经营许可证号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.productionLicenseNo">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">注册资金：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="number" class="ipt-new" ng-model="formData.customer.registeredCapital">
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">注册资金：</label>
-                  <div class="col-sm-6">
-                    <input type="number" class="form-control" ng-model="formData.customer.registeredCapital">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">税号：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.customer.taxNo">
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">税号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.taxNo">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">营业执照号：</label>
+                <div class="flex-item-11 text-left">
+                <input type="text" class="ipt-new" ng-model="formData.customer.businessLicenseNo">
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">营业执照号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.businessLicenseNo">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">营业期限：</label>
-                  <div class="col-sm-6">
-                    <!-- <input type="text" class="form-control" ng-model="formData.customer.busnissAllotedTime"> -->
-                    <input type="text"
-                          datepicker
-                          class="ipt pr-short-ipt color-6 mgr-l"
-                          ng-readonly="true"
-                          ng-model="formData.customer.busnissAllotedTime"/>
-                  </div>
-                </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">开户银行：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.accountBank">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">开户账号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.accountNumber">
-                  </div>
-                </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">开户名称：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.accountName">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">付款方式：</label>
-                  <div class="col-sm-3 flex-column">
-                    <select ng-if="initFlag"
-                            class="select select-w"
-                            data-placeholder="选择一个..."
-                            chosen
-                            ng-model="formData.customer.payType"
-                            select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PayType">
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        <!-- 收货员信息 -->
-        <div>
-          <h3 class="bb-line pd-v text-bold mgb">经销商/零售商收货员信息：</h3>
-          <div class="flex-column mgb">
-            <div class="flex-item-6">
-              <div class="form-group">
-                <label for="" class="col-sm-2 control-label">收货员/身份证号：</label>
-                <div class="col-sm-6 flex-column">
-                  <input type="text" class="form-control flex-item-3" ng-model="formData.customer.consignee">
-                  <!-- <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.consigneeIdentityNo"> -->
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">营业期限：</label>
+                <div class="flex-item-11 text-left">
                   <input type="text"
-                         name="consigneeIdentityNo"
-                         class="form-control flex-item-8 flex-offset-1"
-                         ng-model="formData.customer.consigneeIdentityNo"
-                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
-                         data-content="身份证号码格式有误!"
-                         invalid-popover="{{!otherCustomerEditForm.consigneeIdentityNo.$valid}}" />
+                        datepicker
+                        class="ipt-new pr-short-ipt color-6 mgr-l"
+                        ng-readonly="true"
+                        ng-model="formData.customer.busnissAllotedTime"/>
                 </div>
               </div>
-             </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">联系电话：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.consigneePhone">
+            </div>
+            <div class="pd-v-m bt-dashed-line">
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">开户银行：</label>
+                  <div class="flex-item-11 text-left">
+                    <input type="text" class="ipt-new" ng-model="formData.customer.accountBank">
                   </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">开户账号：</label>
+                <div class="flex-item-11">
+                  <input type="text" class="ipt-new" ng-model="formData.customer.accountNumber">
                 </div>
               </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6">
-              <div class="form-group">
-                <label for="" class="col-sm-2 control-label">E-mail：</label>
-                <div class="col-sm-6">
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">开户名称：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.customer.accountName">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">付款方式：</label>
+                <div class="flex-item-11 text-left">
+                  <select ng-if="initFlag"
+                          class="select select-w ipt-new"
+                          data-placeholder="选择一个..."
+                          chosen
+                          ng-model="formData.customer.payType"
+                          select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Basic_PayType">
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="pd-v-m bt-dashed-line">
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">收货员/身份证号：</label>
+                <div class="flex-item-11">
+                <input type="text" class="ipt flex-item-1" ng-model="formData.customer.consignee">
+                <input type="text"
+                       name="consigneeIdentityNo"
+                       class="ipt flex-item-2 mgl-s"
+                       style="width:200px;"
+                       ng-model="formData.customer.consigneeIdentityNo"
+                       ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                       data-content="身份证号码格式有误!"
+                       invalid-popover="{{!otherCustomerEditForm.consigneeIdentityNo.$valid}}" />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">联系电话：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.customer.consigneePhone">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">E-mail：</label>
+                <div class="flex-item-11 text-left">
                   <input type="text"
-                         class="form-control"
+                         class="ipt-new"
                          name="consigneeEmail"
                          ng-model="formData.customer.consigneeEmail"
                          ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
@@ -263,44 +196,32 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <!-- 采购员信息 -->
-        <div>
-          <h3 class="bb-line pd-v text-bold mgb">经销商/零售商采购员信息：</h3>
-          <div class="flex-column mgb">
-            <div class="flex-item-6">
-              <div class="form-group">
-                <label for="" class="col-sm-2 control-label">采购员/身份证号：</label>
-                <div class="col-sm-6 flex-column">
-                  <input type="text" class="form-control flex-item-3" ng-model="formData.customer.purchaser">
-                  <!-- <input type="text" class="form-control flex-item-8 flex-offset-1" ng-model="formData.customer.purchaserIdentityNo"> -->
-                  <input type="text"
-                         name="purchaserIdentityNo"
-                         class="form-control flex-item-8 flex-offset-1"
-                         ng-model="formData.customer.purchaserIdentityNo"
-                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
-                         data-content="身份证号码格式有误!"
-                         invalid-popover="{{!otherCustomerEditForm.purchaserIdentityNo.$valid}}" />
+            <div class="pd-v-m bt-dashed-line">
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">采购/身份证号：</label>
+                <div class="flex-item-11">
+                  <input type="text" class="ipt flex-item-1" ng-model="formData.customer.purchaser">
+                <input type="text"
+                       name="purchaserIdentityNo"
+                       class="ipt flex-item-2 mgl-s"
+                       style="width:200px;"
+                       ng-model="formData.customer.purchaserIdentityNo"
+                       ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                       data-content="身份证号码格式有误!"
+                       invalid-popover="{{!otherCustomerEditForm.purchaserIdentityNo.$valid}}" />
                 </div>
               </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">联系电话：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.customer.purchaserPhone">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">联系电话：</label>
+                <div class="flex-item-11 text-left">
+                <input type="text" class="ipt-new" ng-model="formData.customer.purchaserPhone">
                 </div>
               </div>
-          </div>
-          <div class="flex-column mgb">
-            <div class="flex-item-6">
-              <div class="form-group">
-                <label for="" class="col-sm-2 control-label">E-mail：</label>
-                <div class="col-sm-6">
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">E-mail：</label>
+                <div class="flex-item-11 text-left">
                   <input type="text"
-                         class="form-control"
+                         class="ipt-new"
                          name="purchaserEmail"
                          ng-model="formData.customer.purchaserEmail"
                          ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
@@ -309,14 +230,8 @@
                 </div>
               </div>
             </div>
-          </div>
-          <!-- 拟售产品 -->
-          <!-- <div class="pd-v-l bt-line">
-            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">拟售产品：</h1>
-            <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.customer.saleProducts"></textarea>
-          </div> -->
         </div>
-        </div>
+      </div>
         <div class="color-black mgt-l mgb-l">
           <p>
             <p class="pr-font-14">说明：</p>

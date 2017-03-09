@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/hospitalApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_hospitalApplication(showData);'
+     callback='bottomButtonList= $root.bottomButtonList.get_hospitalApplication(showData);'
      alert-error>
 
   <div class="header-info relative mgb-l">
@@ -22,21 +22,7 @@
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <div class="content-wrapper-main mgt">
-      <div class=" mgb"
-      ajax-if-eval="initFlag"
-      ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{showData.id}}"
-      scope-data="scopeData">
-        <div
-        ng-repeat="item in scopeData"
-        ng-class="{'pr-bg-blue':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
-        'pr-bg-pink1':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
-        class="pr-panel pr-panel-height mgb"
-        ng-show="item.key">
-        <em class="color-3">{{item.event.extendShowName}}补充说明:</em>
-         <p class="inline-block color-3">
-         <em ng-model="scopeData.operationFlowSet.message">{{item.key}}</em>
-         </p>
-       </div>
+
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-8 ">
@@ -76,107 +62,104 @@
              </span>
           </a>
           </div>
+
         </div>
         <!-- 审核信息 -->
-        <div ng-if="showData.orderStatus!='未提交'" class=" first-medical-nav-new">
-          <div class=""
-          ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
-          'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
-          ng-repeat="item in scopeData">
-            <div
-            ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货')
-            ,'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"></div>
-            <span class="mgr-xl flex-column" ng-if="item.event.status!='待审核'">
-              <em class="color-9 flex-item-6 text-right">{{item.event.extendShowName || '暂无'}}：</em>
-              <em class="flex-item-6 text-left">{{item.event.conditionType }}</em>
-            </span>
-            <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
-              <em class="color-9 flex-item-6 text-right">审核人：</em>
-              <em class="flex-item-6 text-left">{{item.inputUser || '暂无'}}</em>
-            </span>
-            <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
-              <em class="color-9 flex-item-6 text-right">审核时间：</em>
-              <em class="flex-item-6 text-left">{{item.createAt | date:'yyyy-MM-dd' || '暂无'}}</em>
-            </span>
-            <div
-            ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
-            'pr-nopass-bdbg-l':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}" ></div>
-          </div>
-          <div>
-          </div>
+        <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
+          <span class="mgr-l" ng-repeat="eventRecord in showData.eventRecords">
+            <span>{{eventRecord.event.id}}：</span>
+            <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">
+              {{eventRecord.event.status}}</em>
+          </span>
         </div>
-     </div>
         <!-- 基本信息 -->
-      <div class="panel pr-panel pr-panel-height mgb">
+        <div class="panel pr-panel pr-panel-height mgb">
           <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
           <div class="">
-            <div class="bt-dashed-line pd-v-m">
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">医院名称：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.name}}</span>
+            <!-- <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">医院信息</h1> -->
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">医院名称：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.name}}</span>
               </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">医院系统编号：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.systemNumber}}</span>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">医院系统编号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.systemNumber}}</span>
               </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">经营性质：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.managementType}}</span>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">经营性质：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.managementType}}</span>
               </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">法人代表：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.legalRepresentative}}</span>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">法人代表：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.legalRepresentative}}</span>
               </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">地址：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.address}}</span>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">地址：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.address}}</span>
               </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">级别：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.level}}</span>
-              </div>
-              <div class="flex-column mgt">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">级别：</span>
+                <span class="flex-item-1 pr-indent-10">{{showData.hospital.level}}</span>
                 <span class="flex-item-1 text-right">等级：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.grade}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">座机：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.hospitalTel}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">邮编：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.zipCode}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">执业许可证号：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.practiceLicenseNo}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">有效期：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.guaranteePeriod | date: 'yyyy-MM-dd'}}</span>
+                <span class="flex-item-1 pr-indent-10">{{showData.hospital.grade}}</span>
               </div>
             </div>
-            <div class="bt-dashed-line pd-v-m">
-              <!-- <h3 class="color-black pr-indent-10 pd-v text-bold mgb-m">医院采购员信息：</h3> -->
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">采购员/身份证号：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.purchaserName}}&nbsp;&nbsp;{{showData.hospital.purchaserIdentityNo}}</span>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">座机：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.hospitalTel}}</span>
               </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">座机：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.purchaserTel}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">E-mail：：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.email}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-1 text-right">手机：</span>
-                <span class="flex-item-11 text-left">{{showData.hospital.purchaserPhone}}</span>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">邮编：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.zipCode}}</span>
               </div>
             </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">执业许可证号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.practiceLicenseNo}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">有效期：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.guaranteePeriod | date: 'yyyy-MM-dd'}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <!-- <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">医院采购员信息</h1> -->
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">采购员/身份证号：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserName}}&nbsp;&nbsp;{{showData.hospital.purchaserIdentityNo}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">座机：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserTel}}</span>
+              </div>
+            </div>
+            <div class="flex-column mgb">
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">E-mail：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.email}}</span>
+              </div>
+              <div class="flex-item-6 flex-column">
+                <span class="flex-item-2 text-right">手机：</span>
+                <span class="flex-item-10 pr-indent-10">{{showData.hospital.purchaserPhone}}</span>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="">
+            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">许可项目范围</h1>
+            <p class="mgb">{{showData.hospital.permissionItem || '暂无'}}</p>
+          </div> -->
+
         </div>
-      </div>        <!-- 申请原因 -->
+        <!-- 申请原因 -->
         <div class="panel pr-panel pr-panel-height mgb">
           <h1 class="pr-font-18 mgb">申请原因</h1>
           <span>{{showData.applyReason}}</span>
@@ -186,7 +169,7 @@
 
 
         <!-- 审批 -->
-        <!-- <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">
+        <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">
           <div class="mgb-l">
             <h1 class="pr-font-18 mgb">审批意见</h1>
             <div class="mgb" ng-repeat="item in showData.eventRecords">
@@ -197,7 +180,7 @@
             </div>
           </div>
           <div class="mgb-l"></div>
-        </div> -->
+        </div>
 
         <div ng-if="showData.didateFilter.buttons.length>0 && showData.orderStatus!='未提交'"
              workflow-task-run-with-attchments

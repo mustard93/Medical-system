@@ -23,7 +23,21 @@
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <div class="content-wrapper-main mgt">
-
+      <div class=" mgb"
+      ajax-if-eval="initFlag"
+      ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{showData.id}}"
+      scope-data="scopeData">
+        <div
+        ng-repeat="item in scopeData"
+        ng-class="{'pr-bg-blue':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+        'pr-bg-pink1':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
+        class="pr-panel pr-panel-height mgb"
+        ng-show="item.key">
+        <em class="color-3">{{item.event.extendShowName}}补充说明:</em>
+         <p class="inline-block color-3">
+         <em ng-model="scopeData.operationFlowSet.message">{{item.key}}</em>
+         </p>
+       </div>
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column ">
           <div class="flex-item-8 ">
@@ -66,145 +80,140 @@
 
         </div>
         <!-- 审核信息 -->
-        <div ng-if="showData.orderStatus!='未提交'" class="panel pr-panel pr-panel-height mgb color-9" style="position:relative;top:-10px;">
-
-          <span class="mgr-l"   ng-repeat="eventRecord in showData.eventRecords">
-            <span>{{eventRecord.event.id}}：</span>
-            <!-- <em class="color-6"> -->
-              <em ng-class="{'color-6':eventRecord.event.status=='待审批','color-green':eventRecord.event.status=='已通过','color-red':eventRecord.event.status=='未通过'}">
-              {{eventRecord.event.status}}</em>
-          </span>
-
-        </div>
+          <div ng-if="showData.orderStatus!='未提交'" class=" first-medical-nav-new">
+            <div class=""
+            ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+            'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
+            ng-repeat="item in scopeData">
+              <div
+              ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货')
+              ,'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"></div>
+              <span class="mgr-xl flex-column" ng-if="item.event.status!='待审核'">
+                <em class="color-9 flex-item-6 text-right">{{item.event.extendShowName || '暂无'}}：</em>
+                <em class="flex-item-6 text-left">{{item.event.conditionType }}</em>
+              </span>
+              <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
+                <em class="color-9 flex-item-6 text-right">审核人：</em>
+                <em class="flex-item-6 text-left">{{item.inputUser || '暂无'}}</em>
+              </span>
+              <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
+                <em class="color-9 flex-item-6 text-right">审核时间：</em>
+                <em class="flex-item-6 text-left">{{item.createAt | date:'yyyy-MM-dd' || '暂无'}}</em>
+              </span>
+              <div
+              ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+              'pr-nopass-bdbg-l':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}" ></div>
+            </div>
+            <div>
+              <!-- <div></div><div></div> -->
+            </div>
+          </div>
+       </div>
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb">
-            <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-          <!-- 经销商/零售商信息 -->
-          <div class="">
-            <h1 class=" color-black pr-indent-10 pd-v text-bold mgb-m">医院信息</h1>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">企业类别：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.type}}</span>
+          <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
+            <div class="">
+              <div class="bb-dashed-line">
+                <div class="flex-column pd-v-m">
+                  <label class="radio-inline">
+                    <input type="radio" name="type" value="批发商" ng-model="showData.customer.type" required> 批发商
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="type" value="零售商" ng-model="showData.customer.type" required> 零售商
+                  </label>
+                </div>
               </div>
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">客户全称：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.fullName}}</span>
+
+              <div class="bb-dashed-line pd-v-m">
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">客户全称：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.fullName}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">企业地址：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.address}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">企业简称：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.shortName}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">法人代表/身份证号：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.legalRepresentative}}&nbsp;&nbsp;{{showData.customer.legalRepresentativeIdentityNo}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">GMP/GSP证书号：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.gspCertificateNo}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">经营许可证号：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.productionLicenseNo}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">注册资金：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.registeredCapital}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">税号：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.taxNo}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">营业执照号：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.businessLicenseNo}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">营业期限：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.busnissAllotedTime}}</span>
+                </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">企业地址：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.address}}</span>
+              <div class="bb-dashed-line pd-v-m">
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">开户银行：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.accountBank}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">开户账号：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.accountNumber}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">开户名称：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.accountName}}</span>
+                </div>
+                <div class="flex-column mgt">
+                  <span class="flex-item-1 text-right">付款方式：</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.payType}}</span>
+                </div>
               </div>
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">企业简称：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.shortName}}</span>
+            <div class="bb-dashed-line pd-v-m">
+              <div class="flex-column mgt">
+                <span class="flex-item-1 text-right">收货员/身份证号：</span>
+                <span class="flex-item-11 text-left">{{showData.customer.consignee}}&nbsp;&nbsp;{{showData.customer.consigneeIdentityNo}}</span>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">法人代表/身份证号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.legalRepresentative}}&nbsp;&nbsp;{{showData.customer.legalRepresentativeIdentityNo}}</span>
+              <div class="flex-column mgt">
+                <span class="flex-item-1 text-right">联系电话：</span>
+                <span class="flex-item-11 text-left">{{showData.customer.consigneePhone}}</span>
               </div>
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">GMP/GSP证书号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.gspCertificateNo}}</span>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">经营许可证号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.productionLicenseNo}}</span>
-              </div>
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">注册资金：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.registeredCapital}}</span>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">税号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.taxNo}}</span>
-              </div>
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">营业执照号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.businessLicenseNo}}</span>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">营业期限：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.busnissAllotedTime}}</span>
-              </div>
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">开户银行：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.accountBank}}</span>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">开户账号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.accountNumber}}</span>
-              </div>
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">开户名称：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.accountName}}</span>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">付款方式：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.payType}}</span>
-              </div>
-            </div>
-          </div>
-          <!-- 收货员信息 -->
-          <div class="">
-            <h1 class=" color-black pr-indent-10 pd-v text-bold mgb-m">经销商/零售商收货员信息</h1>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">收货员/身份证号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.consignee}}&nbsp;&nbsp;{{showData.customer.consigneeIdentityNo}}</span>
-              </div>
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">联系电话：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.consigneePhone}}</span>
+              <div class="flex-column mgt">
+                <span class="flex-item-1 text-right">Email：</span>
+                <span class="flex-item-11 text-left">{{showData.customer.consigneeEmail}}</span>
               </div>
             </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">Email：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.consigneeEmail}}</span>
+            <div class="bb-dashed-line pd-v-m">
+              <div class="flex-column mgt">
+                <span class="flex-item-1 text-right">采购员/身份证号：</span>
+                <span class="flex-item-11 text-left">{{showData.customer.purchaser}}&nbsp;&nbsp;{{showData.customer.purchaserIdentityNo}}</span>
+              </div>
+              <div class="flex-column mgt">
+                <span class="flex-item-1 text-right">联系电话：</span>
+                <span class="flex-item-11 text-left">{{showData.customer.purchaserPhone}}</span>
+              </div>
+              <div class="flex-column mgt">
+                <span class="flex-item-1 text-right">Email：</span>
+                <span class="flex-item-11 text-left">{{showData.customer.purchaserEmail}}</span>
               </div>
             </div>
-          </div>
-          <!-- 采购员信息 -->
-          <div class="">
-            <h1 class=" color-black pr-indent-10 pd-v text-bold mgb-m">经销商/零售商采购员信息</h1>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">采购员/身份证号：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.purchaser}}&nbsp;&nbsp;{{showData.customer.purchaserIdentityNo}}</span>
-              </div>
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">联系电话：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.purchaserPhone}}</span>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6 flex-column">
-                <span class="flex-item-2 text-right">Email：</span>
-                <span class="flex-item-10 pr-indent-10">{{showData.customer.purchaserEmail}}</span>
-              </div>
-            </div>
-          </div>
-          <!-- 拟售产品 -->
-          <!-- <div class="">
-            <h1 class=" color-black pr-indent-10 pd-v text-bold mgb-m">拟售产品</h1>
-            <p class="mgb">{{showData.customer.saleProducts}}</p>
-          </div> -->
         </div>
+
         <!-- 申请原因 -->
         <div class="panel pr-panel pr-panel-height mgb">
           <h1 class="pr-font-18 mgb">申请原因</h1>
