@@ -1,6 +1,6 @@
 <div class="first-medical-application"
      ng-controller="customerAddressCtrl"
-     ajax-url="rest/authen/CustomerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
      alert-error>
@@ -27,7 +27,7 @@
             name="firstMedicalEditForm"
             form-validator
             parameter-body
-            action="rest/authen/CustomerAddress/save"
+            action="rest/authen/customerAddress/save"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
@@ -221,7 +221,7 @@
         <!-- 审核资料 -->
         <div class="panel pr-panel pr-panel-height mgb"
         ng-if="initFlag"
-        ajax-url="rest/authen/CustomerAddress/getAttachments?id={{formData.id}}"
+        ajax-url="rest/authen/customerAddress/getAttachments?id={{formData.id}}"
         scope-data="scopeData">
           <h1 class="pr-font-18 mgb">资质文件</h1>
           <div style="margin-bottom:50px;">
@@ -309,7 +309,7 @@
                  dialog-template="pr-dialog-submit.html"
                  callback="$root.goTo('#/hospitalManagement/query.html')"
                  params='{"id":formData.id}'
-                 request-url="rest/authen/CustomerAddress/delete">删除</a>
+                 request-url="rest/authen/customerAddress/delete">删除</a>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
