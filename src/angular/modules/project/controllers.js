@@ -3468,7 +3468,7 @@ define('project/controllers', ['project/init'], function() {
     }
 
 
-    // 客户管理模块
+    // 客户管理(医院管理，经销商/零售商管理)模块
     function customerAddressCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('initFlag', function (newVal) {
        });
@@ -3479,9 +3479,13 @@ define('project/controllers', ['project/init'], function() {
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
-         if ($scope.submitForm_type == 'submit') {
+         if ($scope.submitForm_type == 'submit-hospital') {
            $scope.formData.validFlag = false;
-           $scope.goTo('#/customerAddress/get.html?id='+$scope.formData.id);
+           $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
+         }
+         if ($scope.submitForm_type == 'submit-otherCustomer') {
+           $scope.formData.validFlag = false;
+           $scope.goTo('#/otherCustomerManagement/get.html?id='+$scope.formData.id);
          }
         $('#' + fromId).trigger('submit');
       };

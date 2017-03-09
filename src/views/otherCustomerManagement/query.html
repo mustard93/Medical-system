@@ -1,0 +1,122 @@
+<div class="medical-stock"
+     ng-controller="customerAddressCtrl"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+     <table-list list-data="rest/authen/medicalStock/query.json"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q">
+
+    <!-- 主内容头部 -->
+    <div class="header-info relative">
+        <p class="pdb-s pdt-s mgb-l crumbs pdl-xxxxxxl">客户中心 > <em class="">经销商/零售商管理</em></p>
+            <div class="pd-c-xxxxxxl">
+              <div class="pos-rel-tl fl-l full-width">
+                <h1 class="pr-font-20 color-black">经销商/零售商管理</h1>
+              </div>
+              <div class="full-width mgb-m text-right">
+                <div class="relative text-left">
+                <div class="order-list-search pos-rel-tr inline-block">
+                  <div class="pos-rel-tl order-create-btn inline-block mgt-l fl-l z-index-l">
+                    <a ng-if="$root.hasAuthor('经销商和零售商资格申请')" href="#/otherCustomerApplication/edit.html" title="新建经销商/零售商申请"><i></i><span class="text-s">
+                      经销商/零售商申请</span></a>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+    </div>
+      <!-- 主内容区域 -->
+      <div class="content-wrapper">
+        <div class="content-wrapper-main">
+          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
+            <!-- <div class="flex-item-6">
+              <em class="fl-l">目录有效期至：</em>
+              <em>{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
+            </div> -->
+            <div class="flex-item-6">
+              <em class="fl-l">状态：</em>
+              <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                      data-placeholder="全部"
+                      chosen
+                      ng-model="listParams.businessStatus"
+                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus">
+              </select>
+            </div>
+            <div class="flex-item-6 text-right">
+              <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
+                  <i class="" style="left:275px;top:17px;"></i>
+                  <span ng-click="listParams.q=' '">
+                    <em class="color-orange serch-reset"><i class=""></i>重置搜索条件</em>
+                  </span>
+              </div>
+            </div>
+          </div>
+          <div class="outside-table-d pr-bg-white pr-fuzzy-boundary" ><!-- outside-table-d -->
+            <table class="table pr-table pr-new-table pr-table-content  table-ss-wid ">    <!-- table-wid -->
+              <thead class="pr-bg-side">
+                <tr>
+                  <th class="w-80"></th>
+                  <th class="w-100">序号</th>
+                  <th class="w-300">单据编号</th>
+                  <th >医院名称</th>
+                  <th class="w-300">客户类型</th>
+                  <th class="w-160">申请日期</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="tbodyList.length"
+                    ng-repeat="tr in tbodyList track by $index"
+                    ng-init=''
+                    medical-stock-mouse-over
+                    mouse-over-buttons-json=
+                  '[{"title":"删除","url":"#",
+                  "className":"circle-icon-red del-btn-red"},
+                  {"title":"编辑","url":"#/otherCustomerManagement/edit.html?id="+tr.id,
+                  "className":"circle-icon-edit edit-btn"},
+                  {"title":"","url":"#/otherCustomerManagement/edit.html?id="+tr.id,
+                  "className":"circle-icon-edit more-btn"}]'
+                  ng-click="$root.goTo('#/otherCustomerManagement/get.html?id='+tr.id)"
+                  class="trHover"
+                  >
+                  <td class="relative">
+                    <span
+                    class="circle-status"
+                    ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
+                     'bg-pass-green':tr.businessApplication.businessStatus =='正常',
+                    'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
+                      <span class="purchaseorder-buyer-info" style="right: 17px;top: -18px;">
+                        <i class="block pd-c-s text-normal">
+                          <em class="inline-block pd-v-s">
+                            {{tr.businessApplication.businessStatus}}
+                          </em>
+                        </i>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="text-center">{{$index + 1}}</td>
+                  <td>{{tr.code}}</td>
+                  <td>{{tr.name}}</td>
+                  <td>{{tr.name}}</td>
+                  <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pr-bg-white" ng-if="!tbodyList.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>
