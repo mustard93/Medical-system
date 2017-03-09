@@ -3517,10 +3517,26 @@ define('project/controllers', ['project/init'], function() {
          $scope.submitForm_type = type;
 
          if ($scope.submitForm_type == 'submit-hospital') {
+           requestData('rest/authen/hospitalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+             }
+           })
+           .catch(function (error) {
+
+           });
            $scope.formData.validFlag = false;
            $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
          }
          if ($scope.submitForm_type == 'submit-otherCustomer') {
+           requestData('rest/authen/otherCustomerApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+             }
+           })
+           .catch(function (error) {
+
+           });
            $scope.formData.validFlag = false;
            $scope.goTo('#/otherCustomerManagement/get.html?id='+$scope.formData.id);
          }
@@ -3860,6 +3876,44 @@ define('project/controllers', ['project/init'], function() {
 
       }
     };
+    // 全选与全不选
+    $scope.isChoiseAll = function (choiseStatus) {
+      if (choiseStatus) {
+        angular.forEach($scope.orderMedicalNos, function (item, index) {
+          if (!item.showFlag) {
+            item.showFlag = true;
+          }
+        });
+      } else {
+        angular.forEach($scope.orderMedicalNos, function (item, index) {
+          if (item.showFlag) {
+            item.showFlag = false;
+          }
+        });
+      }
+    };
+    $scope.handleChoiseAllEvent = function () {
+      var _dataSource = $scope.formData.orderMedicalNos;
+
+      if (!$scope.choisedMedicalList) {
+        $scope.choisedMedicalList = [];
+      }
+
+      if ($scope.isChoiseAll) {
+        angular.forEach(_dataSource, function (data, index) {
+          data.showFlag = true;
+          $scope.choisedMedicalList.push(data);
+        });
+      } else  {
+        angular.forEach(_dataSource, function (data, index) {
+          data.showFlag = false;
+          $scope.choisedMedicalList = [];
+        });
+      }
+    };
+    // $scope.choiceOne=function(){
+    //
+    // }
 
   }
 
