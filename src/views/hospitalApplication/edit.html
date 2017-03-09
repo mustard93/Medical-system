@@ -69,122 +69,96 @@
           </span>
         </div>
         <!-- 基本信息 -->
-        <div class="panel pr-panel pr-panel-height mgb" style="margin-bottom:50px;">
-          <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-          <div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">医院名称：</label>
-                  <div class="col-sm-6">
-                    <input type="text"
-                           class="form-control"
-                           name="hospitalName"
-                           ng-model="formData.hospital.name"
-                           required
-                           data-content="* 必填字段"
-                           invalid-popover="{{!hospitalEditForm.hospitalName.$valid}}">
-                  </div>
+        <div class="panel pr-panel pr-panel-height mgb">
+            <h1 class="mgb mgt color-black text-bold pr-font-18">基本信息</h1>
+            <div class=" pd-v-m">
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">医院名称：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text"
+                         class="ipt ipt-new"
+                         name="hospitalName"
+                         ng-model="formData.hospital.name"
+                         required
+                         data-content="* 必填字段"
+                         invalid-popover="{{!hospitalEditForm.hospitalName.$valid}}">
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">医院系统编号：</label>
-                  <div class="col-sm-6">
-                    <input type="text"
-                           class="form-control"
-                           name="systemNumber"
-                           ng-model="formData.hospital.systemNumber"
-                           required
-                           data-content="* 必填字段"
-                           invalid-popover="{{!hospitalEditForm.systemNumber.$valid}}">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">医院系统编号：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text"
+                         class="ipt ipt-new"
+                         name="systemNumber"
+                         ng-model="formData.hospital.systemNumber"
+                         required
+                         data-content="* 必填字段"
+                         invalid-popover="{{!hospitalEditForm.systemNumber.$valid}}">
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">经营性质：</label>
-                  <div class="col-sm-6">
-                    <select class="form-control" name="" ng-model="formData.hospital.managementType" chosen select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalManagementType">
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">经营性质：</label>
+                <div class="flex-item-11 text-left">
+                  <select class="ipt-new" name="" ng-model="formData.hospital.managementType" chosen select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalManagementType">
 
-                    </select>
-                  </div>
+                  </select>
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">法人代表：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.hospital.legalRepresentative">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">法人代表：</label>
+                <div class="flex-item-11 text-left">
+                    <input type="text" class="ipt ipt-new" ng-model="formData.hospital.legalRepresentative">
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">地址：</label>
-                  <div class="col-sm-6 mgr-s">
-                    <input type="text" class="form-control" ng-model="formData.hospital.address">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">地址：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.hospital.address">
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label" style="z-index:9999;">级别：</label>
-                  <div class="col-sm-2">
-                    <select ng-if="initFlag" class="form-control"
-                            ng-model="formData.hospital.level"
-                            name="level"
-                            chosen
-                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalLevel"
-                            relative-select relative-initload relative-to="#hospitalGrade">
-                    </select>
-                  </div>
-                  <label for="" class="col-sm-2 control-label">等级：</label>
-                  <div class="col-sm-2">
-                    <select ng-if="initFlag" id="hospitalGrade"
-                            class="form-control"
-                            name="grade"
-                            ng-model="formData.hospital.grade"
-                            relative-select="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption" select-first>
-                    </select>
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">级别：</label>
+                <div class="flex-item-11 text-left">
+                  <select ng-if="initFlag" class="ipt-new"
+                          ng-model="formData.hospital.level"
+                          name="level"
+                          chosen
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalLevel"
+                          relative-select relative-initload relative-to="#hospitalGrade">
+                  </select>
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">座机：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.hospital.hospitalTel">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">等级：</label>
+                <div class="flex-item-11 text-left">
+                  <select ng-if="initFlag" id="hospitalGrade"
+                          class="ipt-new"
+                          name="grade"
+                          ng-model="formData.hospital.grade"
+                          relative-select="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption" select-first>
+                  </select>
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">邮编：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.hospital.zipCode">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">座机：</label>
+                <div class="flex-item-11 text-left">
+                <input type="text" class="ipt-new" ng-model="formData.hospital.hospitalTel">
                 </div>
               </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">执业许可证号：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.hospital.practiceLicenseNo">
-                  </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">邮编：</label>
+                <div class="flex-item-11 text-left">
+                <input type="text" class="ipt-new" ng-model="formData.hospital.zipCode">
                 </div>
               </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">有效期至：</label>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">执业许可证号：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text" class="ipt-new" ng-model="formData.hospital.practiceLicenseNo">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">有效期至：</label>
                   <div class="date-icon-outside col-sm-3">
                     <input type="text"
                            datepicker
@@ -194,73 +168,59 @@
                            placeholder="有效日期至">
                     <span class="date-icon"></span>
                   </div>
+              </div>
+            </div>
+            <div class="pd-v-m bt-dashed-line">
+              <h3 class="color-black pr-indent-10 pd-v text-bold mgb-m">医院采购员信息：</h3>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">采购员/身份证号：</label>
+                <div class="flex-item-11">
+                  <input type="text" class="ipt flex-item-1" ng-model="formData.hospital.purchaserName" />
+                  <input type="text"
+                         name="purchaserIdentityNo"
+                         class="ipt full-width flex-item-2 mgl-s"
+                         ng-model="formData.hospital.purchaserIdentityNo"
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!hospitalEditForm.purchaserIdentityNo.$valid}}" />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">座机：</label>
+                <div class="flex-item-11 text-left">
+                <input type="text" class="ipt-new" ng-model="formData.hospital.purchaserTel">
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">E-mail：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="hospitalEmail"
+                         ng-model="formData.hospital.email"
+                         ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
+                         data-content="Email格式有误!"
+                         invalid-popover="{{!hospitalEditForm.hospitalEmail.$valid}}" />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">手机：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="purchaserPhone"
+                         ng-model="formData.hospital.purchaserPhone"
+                         ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                         data-content="手机号码格式有误!"
+                         invalid-popover="{{!hospitalEditForm.purchaserPhone.$valid}}" />
+                </div>
+              </div>
+            </div>
+            <!-- <div class="pd-v-m bt-dashed-line">
 
-                </div>
-              </div>
-            </div>
+            </div> -->
+
           </div>
-          <div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">采购员/身份证号：</label>
-                  <div class="col-sm-6 flex-column">
-                    <input type="text" class="form-control flex-item-3" ng-model="formData.hospital.purchaserName" />
-                    <input type="text"
-                           name="purchaserIdentityNo"
-                           class="form-control flex-item-8 flex-offset-1"
-                           ng-model="formData.hospital.purchaserIdentityNo"
-                           ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
-                           data-content="身份证号码格式有误!"
-                           invalid-popover="{{!hospitalEditForm.purchaserIdentityNo.$valid}}" />
-                  </div>
-                </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">座机：</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control" ng-model="formData.hospital.purchaserTel">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex-column mgb">
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">E-mail：</label>
-                  <div class="col-sm-6">
-                    <input type="text"
-                           class="form-control"
-                           name="hospitalEmail"
-                           ng-model="formData.hospital.email"
-                           ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/"
-                           data-content="Email格式有误!"
-                           invalid-popover="{{!hospitalEditForm.hospitalEmail.$valid}}" />
-                  </div>
-                </div>
-              </div>
-              <div class="flex-item-6">
-                <div class="form-group">
-                  <label for="" class="col-sm-2 control-label">手机：</label>
-                  <div class="col-sm-6">
-                    <input type="text"
-                           class="form-control"
-                           name="purchaserPhone"
-                           ng-model="formData.hospital.purchaserPhone"
-                           ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
-                           data-content="手机号码格式有误!"
-                           invalid-popover="{{!hospitalEditForm.purchaserPhone.$valid}}" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="pd-v-l">
-            <h1 class="crumbs-circle color-black pr-indent-10 pd-v text-bold mgb-m">许可项目范围：</h1>
-            <textarea class="pr-textarea" name="name" rows="3" cols="40" ng-model="formData.hospital.permissionItem"></textarea>
-          </div> -->
-        </div>
 
         <div class="color-black mgt-l mgb-l">
           <p>
