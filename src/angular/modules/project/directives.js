@@ -2511,14 +2511,21 @@ function flashAddMedical() {
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
 
+          $scope.isCustomerId = angular.isDefined($attrs.isDisabledThis) ? false : true;
+
           $attrs.$observe("ajaxUrl", function(value) {
             $scope.ajaxUrl = value;
+
+            // 如果已定义isDisabledThis属性，则表示需要进行变量校验
             if ($scope.$parent.formData.customerId) { $scope.isCustomerId = true; }
+            // if (angular.isDefined($attrs.isDisabledThis)) {
+            //   if ($scope.$parent.formData.customerId) { $scope.isCustomerId = false; }
+            // }
           });
 
           //添加业务数据
           $scope.addDataFn = function () {
-            if(!  $scope.addDataCallbackFn){
+            if(!$scope.addDataCallbackFn){
               console.log("scope.addDataCallback function is null!");
               return true;
             }
