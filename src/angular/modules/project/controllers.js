@@ -3876,45 +3876,6 @@ define('project/controllers', ['project/init'], function() {
 
       }
     };
-    // 全选与全不选
-    $scope.isChoiseAll = function (choiseStatus) {
-      if (choiseStatus) {
-        angular.forEach($scope.orderMedicalNos, function (item, index) {
-          if (!item.showFlag) {
-            item.showFlag = true;
-          }
-        });
-      } else {
-        angular.forEach($scope.orderMedicalNos, function (item, index) {
-          if (item.showFlag) {
-            item.showFlag = false;
-          }
-        });
-      }
-    };
-    $scope.handleChoiseAllEvent = function () {
-      var _dataSource = $scope.formData.orderMedicalNos;
-
-      if (!$scope.choisedMedicalList) {
-        $scope.choisedMedicalList = [];
-      }
-
-      if ($scope.isChoiseAll) {
-        angular.forEach(_dataSource, function (data, index) {
-          data.showFlag = true;
-          $scope.choisedMedicalList.push(data);
-        });
-      } else  {
-        angular.forEach(_dataSource, function (data, index) {
-          data.showFlag = false;
-          $scope.choisedMedicalList = [];
-        });
-      }
-    };
-    // $scope.choiceOne=function(){
-    //
-    // }
-
   }
 
 
