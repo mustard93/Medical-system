@@ -72,23 +72,26 @@
                     mouse-over-buttons-json=
                   '[{"title":"删除","url":"#",
                   "className":"circle-icon-red del-btn-red"},
-                  {"title":"编辑","url":"#/hospitalManagement/edit.html?id="+tr.id,
+                  {"title":"编辑","url":"#/hospitalManagement/edit.html?id="+tr.relId,
                   "className":"circle-icon-edit edit-btn"},
-                  {"title":"","url":"#/hospitalManagement/edit.html?id="+tr.id,
+                  {"title":"","url":"#/hospitalManagement/edit.html?id="+tr.relId,
                   "className":"circle-icon-edit more-btn"}]'
-                  ng-click="$root.goTo('#/hospitalManagement/get.html?id='+tr.id)"
+                  ng-click="$root.goTo('#/hospitalManagement/get.html?id='+tr.relId)"
                   class="trHover"
                   >
                   <td class="relative">
                     <span
                     class="circle-status"
                     ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
-                     'bg-pass-green':tr.businessApplication.businessStatus =='正常',
+                     'bg-pass-green':tr.businessApplication.businessStatus =='已通过',
                     'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
                       <span class="purchaseorder-buyer-info" style="right: 17px;top: -18px;">
                         <i class="block pd-c-s text-normal">
-                          <em class="inline-block pd-v-s">
+                          <em ng-if="tr.businessApplication.businessStatus !='已通过'" class="inline-block pd-v-s">
                             {{tr.businessApplication.businessStatus}}
+                          </em>
+                          <em ng-if="tr.businessApplication.businessStatus =='已通过'" class="inline-block pd-v-s">
+                            正常
                           </em>
                         </i>
                       </span>
