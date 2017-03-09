@@ -2876,16 +2876,17 @@ function addressManageComponent (requestData, utils) {
     },
     controller: ["$scope", "$element", function ($scope, $element) {
 
+      // 定义已选择地址id，用户选择其他地址后，将选择地址id存入，重新读取地址列表后检测此字符串保持用户已选择的地址
+      $scope.choisedItemId = '';
+
       // 判断默认选中
       $scope.chkDefaultChoise = function (_id) {
         if (!$scope.formData.id) {      // 如果是新建，将该参数id与默认返回地址做比较
-          if ($scope.returnAddressObj.defaultContactId === _id) {
-            return true;
-          }
+          if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
+          if ($scope.returnAddressObj.defaultContactId === _id) { return true; }
         } else {        // 如果是编辑
-          if ($scope.formData[$scope.scopeDataContacts].id === _id) {
-            return true;
-          }
+          // if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
+          if ($scope.formData[$scope.scopeDataContacts].id === _id) { return true;}
         }
       };
 
@@ -2906,7 +2907,7 @@ function addressManageComponent (requestData, utils) {
         if (!$scope.formData.id) {
           var _contacts = $scope.returnAddressObj.contacts;
 
-          if (_contacts) {
+          if (_contacts && !$scope.choisedItemId) {
             for (var i=0; i<_contacts.length; i++) {
               if ($scope.returnAddressObj.defaultContactId === _contacts[i].id) {
                 $scope.formData[$scope.scopeDataContacts] = _contacts[i];
@@ -2919,6 +2920,11 @@ function addressManageComponent (requestData, utils) {
         if ($scope.returnAddressObj.contacts && $scope.returnAddressObj.contacts.length === 1) {
           $scope.formData[$scope.scopeDataContacts] = $scope.returnAddressObj.contacts[0];
           $scope.formData.contactsNull = false;
+        }
+
+        // 如果choisedItemId存在，则表示用户已选择其他地址
+        if ($scope.choisedItemId) {
+          $scope.returnAddressObj.choisedItemId = $scope.choisedItemId;
         }
 
       };
@@ -2965,6 +2971,8 @@ function addressManageComponent (requestData, utils) {
       $scope.choiseOtherItem = function (item, _requestDataId) {
         $scope.formData[$scope.scopeDataId] = _requestDataId;
         $scope.formData[$scope.scopeDataContacts] = item;
+        $scope.choisedItemId = item.id;
+        // console.log($scope.formData);
       };
 
       // 设置当前地址为默认地址

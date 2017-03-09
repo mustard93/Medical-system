@@ -220,7 +220,8 @@
       <!-- 其他信息 -->
       <div class="relative">
         <!-- 收货方信息 -->
-        <address-manage-component compnent-title="收货方信息"
+        <address-manage-component ng-if="initFlag"
+                                  compnent-title="收货方信息"
                                   request-url="rest/authen/customerAddress/get.json"
                                   request-data-id="{{formData.customerId}}"
                                   scope-data-prefix="customer"
@@ -235,7 +236,8 @@
         </address-manage-component>
 
         <!-- 发货方信息 -->
-        <address-manage-component compnent-title="发货方信息"
+        <address-manage-component ng-if="initFlag" 
+                                  compnent-title="发货方信息"
                                   request-url="rest/authen/invoicesAddress/get.json"
                                   scope-data-prefix="invoices"
                                   form-data="formData"
