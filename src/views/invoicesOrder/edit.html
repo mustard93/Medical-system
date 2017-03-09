@@ -137,17 +137,19 @@
       <!-- 其他信息 -->
       <div class="relative">
       <!-- 收货方信息 -->
-      <address-manage-component ng-if="scopeData.customerId"
-                                compnent-title="收货方信息"
-                                request-url="rest/authen/customerAddress/get.json?id={{scopeData.customerId}}&t={{$root.reloadTime}}"
-                                scope-data-prefix="customer"
-                                form-data="formData"
-                                modify-modal-url="views/customerAddress/contact/edit.html"
-                                create-modal-url="views/customerAddress/contact/edit.html"
-                                create-address-type="发货"
-                                set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
-                                del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
-      </address-manage-component>
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb mgt">
+        <header class="text-n color-3 text-bold">收货方信息
+          <span class="tools pull-right">
+            <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+          </span>
+        </header>
+        <div class="panel-body" style="display:none;padding:15px 0;">
+          <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
+          <p class="">收货人信息：
+            {{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}&nbsp;&nbsp;{{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}
+          </p>
+        </div>
+      </div>
       <!-- 备注 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
         <h1 class="text-bold color-3">备注</h1>
