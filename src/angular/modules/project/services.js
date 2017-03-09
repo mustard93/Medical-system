@@ -601,7 +601,6 @@ define('project/services', ['project/init'], function () {
           return tmpObj;
         }//SaleOrderUtils
 
-
         // 采购单编辑页面计算原币单价，原币金额，原币价税合计字段
         function purchaseOrderUtils (utils) {
           var  tmpObj = {
@@ -633,6 +632,7 @@ define('project/services', ['project/init'], function () {
           };//tmpObj
           return tmpObj;
         }
+
         // 请购单相关计算
         function requestPurchaseOrderUtils (utils) {
           var  tmpObj = {
@@ -665,11 +665,7 @@ define('project/services', ['project/init'], function () {
           return tmpObj;
         }
 
-
         // 自定义菜单服务
-
-
-
         function customMenuUtils (utils) {
           var  tmpObj = {
             /**
@@ -734,13 +730,11 @@ define('project/services', ['project/init'], function () {
         }
 
   angular.module('manageApp.project')
-  .factory('customMenuUtils', ["utils",customMenuUtils])
-
+    .factory('customMenuUtils', ["utils",customMenuUtils])
     .factory('saleOrderUtils', ["utils",saleOrderUtils])
     .factory('purchaseOrderUtils', ["utils",purchaseOrderUtils])
     .factory('requestPurchaseOrderUtils', ["utils",requestPurchaseOrderUtils])
     .factory('bottomButtonList', ["$rootScope",bottomButtonList])
     .factory('queryItemCardButtonList', ["$rootScope",queryItemCardButtonList])
-
     .factory('proMessageTips', [proMessageTips]);
 });

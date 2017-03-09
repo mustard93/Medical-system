@@ -447,8 +447,6 @@ define('project/controllers', ['project/init'], function() {
           // 如果已添加
           if ($scope.formData.orderMedicalNos.length !== 0) {
             var _len = $scope.formData.orderMedicalNos.length;
-            // console.log(_len);
-            // 未使用forEach方法，因为IE不兼容
             for (var i=0; i<_len; i++) {
               if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
                 alertWarn('此药械已添加到列表');
@@ -456,6 +454,29 @@ define('project/controllers', ['project/init'], function() {
               }
             }
           }
+
+          // console.log(addDataItem);
+          if (addDataItem) {
+            var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+                _data = {};
+
+            requestData(_url, _data, 'GET')
+            .then(function (results) {
+              var _resObj = results[1].data;
+              for (var item in _resObj) {
+                if (item === addDataItem.relId && _resObj[item]) {
+                  addDataItem.strike_price = _resObj[item].value;
+                } else {
+                  addDataItem.strike_price = 0;
+                }
+              }
+            })
+            .catch(function (error) {
+              if (error) { console.log(error || '出错!'); }
+            });
+          }
+
+
           //添加到列表
           $scope.formData.orderMedicalNos.push(addDataItem);
           //计算价格
@@ -4570,7 +4591,18 @@ define('project/controllers', ['project/init'], function() {
 
   }
 
+  /**
+   * [historicalPriceController 历史价格查询及操作控制器]
+   * @param  {[type]} $scope [注入项]
+   * @param  {[type]} utils  [注入项]
+   * @return {[type]}        [description]
+   */
+  function historicalPriceController ($scope, utils) {
+
+  }
+
   angular.module('manageApp.project')
+  .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
   .controller('indexPurchaseSuppleController', ['$scope', 'utils', indexPurchaseSuppleController])
   .controller('indexPageController', ['$scope', 'utils', indexPageController])
   .controller('getAllExpressController', ['$scope', 'requestData', getAllExpressController])

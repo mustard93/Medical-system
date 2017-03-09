@@ -1,4 +1,4 @@
-<div class="modal-content right-side-new"
+<div ng-controller="historicalPriceController" class="modal-content right-side-new"
      ajax-url="rest/authen/historicalPrice/getAllPriceByRelId?id={{dialogData.id}}&type={{dialogData.type}}"
      scope-data="scopeData"
      callback=""
@@ -13,7 +13,12 @@
       <li class="pr-indent-20" ng-repeat="item in scopeData track by $index">
         <span>
           <label class="radio radio-new ng-scope">
-            <input type="radio" class="default-radio" name="customer" ng-checked="chkDefaultChoise(tr.id)" ng-click="choiseOtherItem(tr,requestDataId)"><i></i>
+            <input type="radio"
+                   class="default-radio"
+                   name="customer"
+                   ng-checked="chkDefaultChoise(tr.id)"
+                   ng-click="choiseOtherItem(tr,requestDataId)"
+                   ng-disabled="item.value=='无'"><i></i>
           </label>
         </span>
         <span class="mgl-xl">￥ {{item.value}}</span>
