@@ -1,6 +1,6 @@
 <div class="first-medical-application"
      ng-controller="customerAddressCtrl"
-     ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/otherCustomerApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
      alert-error>
@@ -23,11 +23,11 @@
   <div class="content-wrapper ">
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="firstfirstMedical-editForm"
-            name="firstMedicalEditForm"
+            id="otherCustomer-editForm"
+            name="otherCustomerEditForm"
             form-validator
             parameter-body
-            action="rest/authen/customerAddress/save"
+            action="rest/authen/otherCustomerApplication/saveBaseInfo"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
@@ -41,19 +41,6 @@
             <span class="flex-item-2">
               单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
             </span>
-            <!-- <span class="flex-item-10">
-              <span class="flex-item-1 text-right">
-                采购员：
-              </span>
-              <span class="flex-item-2">
-                <select class="select pr-select" data-placeholder=" "
-                chosen
-                default-empty="无"
-                ng-model="formData.firstMedical.buyerName"
-                select-source="rest/authen/user/queryForSelectOption">
-                </select>
-              </span>
-            </span> -->
           </div>
           <div class="flex-item-6 text-right">
               录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
@@ -249,71 +236,8 @@
           </div>
         </div>
         <!-- 审核资料 -->
-        <div class="panel pr-panel pr-panel-height mgb"
-        ng-if="initFlag"
-        ajax-url="rest/authen/customerAddress/getAttachments?id={{formData.id}}"
-        scope-data="scopeData">
-          <h1 class="pr-font-18 mgb">资质文件</h1>
-          <div style="margin-bottom:50px;">
-            <table class="table table-striped">
-                <thead>
-                    <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
-                        <th></th>
-                        <th>序号</th>
-                        <th>资料名称</th>
-                        <th>证书编号</th>
-                        <th>有效日期</th>
-                        <th>上传人</th>
-                        <th>上传时间</th>
-                        <th>附件</th>
-                        <th>备注</th>
-                        <th class="text-center">操作</th>
-                    </tr>
-                </thead>
-              <tbody>
-                <tr ng-repeat="item in scopeData.attachments"
-                ng-controller="deleteUploaderController"
-                >
-                  <td class="select-td">
-                    <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
-                  </td>
-                  <td>{{$index + 1}}</td>
-                  <td>{{item.name}}</td>
-                  <td>
-                    <input type="text"
-                           class="ipt pr-short-ipt color-6 mgr pr-indent-10"
-                           ng-model="item.certificateNumber"
-                           placeholder="">
-                  </td>
-                  <td>
-                    <div class="date-icon-outside">
-                      <input type="text"
-                             datepicker
-                             class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                             ng-readonly="true"
-                             ng-model="item.guaranteePeriod"
-                             placeholder="有效日期至">
-                      <span class="date-icon"></span>
-                    </div>
-                  </td>
-                  <td>{{item.uploadUserName}}</td>
-                  <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
-
-                  <td>
-                    <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
-                  </td>
-                  <td>
-                    <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
-                  </td>
-                  <td class="text-center">
-                    <a ng-if="item.canDeleteFlag" href="javascript:;" class="text-center" ng-click="ngModel.splice($index,1);"><span class="fa fa-trash-o text-l"></span></a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"经销商或零售商","addFlag":false}'
+         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">
@@ -343,13 +267,13 @@
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!changeFlag || firstMedical-editForm.$invalid"
+                      ng-disabled="!changeFlag || otherCustomer-editForm.$invalid"
                       ng-click="submitForm('editForm','save')">保存
               </button>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
-                      ng-disabled="!changeFlag || firstMedical-editForm.$invalid">
+                      ng-disabled="!changeFlag || otherCustomer-editForm.$invalid">
                     <a href="javascript:;"
                     class="color-white"
                     ng-click="submitForm('editForm','submit-otherCustomer')">
