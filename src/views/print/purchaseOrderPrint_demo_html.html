@@ -1,0 +1,133 @@
+<div  style='width:750px; font-family: "Microsoft YaHei";'
+  ajax-url="rest/authen/purchaseOrder/get.json?id={{mainStatus.pageParams.id}}"
+  scope-data="showData"
+>
+
+<div>
+<!-- <span style="float:right;position:relative;right:10px;top:0px;font-size:9px;"> 第<span  tdata="PageNO" format="0">##</span>页</span> -->
+<p style="text-align:center;font-size:20px;padding:10px;font-weight:bold;">
+   {{organizationName.name}}
+</p>
+
+<p style="text-align:left;font-size:12px;padding:10px;font-weight:bold;">
+   收货地址:{{showData.customerContacts.prov}} {{showData.customerContacts.city}} {{showData.customerContacts.area}} {{showData.customerContacts.address}}
+    收货人：{{showData.customerContacts.name}}  {{showData.customerContacts.tel}}
+    {{showData.customerContacts.telephone}}
+
+</p>
+</div>
+<table style="text-align:left;font-size:14px;border-collapse:collapse;" width="100%">
+<tbody>
+   <tr>
+       <td>
+           电  话:{{showData.supplier.contact.tel}}
+       </td>
+       <td>传 真:{{showData.supplier.contact.fax}}</td>
+     </tr>
+     <tr>
+       <td>E-mail:{{showData.supplier.contact.email}}</td>
+       <td>邮 编:{{showData.supplier.contact.zipCode}}</td>
+     </tr>
+     <tr>
+       <td>
+          公  司: {{showData.supplier.name}}
+       </td>
+       <td>
+           发件人:{{showData.saleUser.n}}
+       </td>
+   </tr>
+   <tr>
+     <td>
+        收件人: {{showData.supplier.contact.name}}
+     </td>
+     <td>
+         日 期:  {{showData.createAt | date:'yyyy-MM-dd'}}
+     </td>
+ </tr>
+ <tr>
+   <td>
+      电  话: {{showData.supplier.contact.tel}} {{showData.supplier.contact.telephone?"/":""}} {{showData.supplier.contact.telephone}}
+   </td>
+   <td>
+    单据编号:{{showData.orderNo}}
+   </td>
+</tr>
+</tbody>
+</table>
+<p style="text-align:center;font-size:14px;padding:10px;font-weight:bold;">
+   请收到传真后安排如下货
+</p>
+<table style="text-align:center;font-size:14px;width:100%;border:1px solid #000000;border-collapse:collapse;" border="1">
+<thead>
+   <tr class="firstRow">
+       <td style="text-align:center;max-width:7%; white-space: nowrap;">
+           货号
+       </td>
+       <td style="text-align:center;max-width:10%; white-space: nowrap;">
+           产品名称
+       </td>
+       <td style="text-align:center;max-width:7%; white-space: nowrap;">
+          规格
+       </td>
+       <td style="text-align:center;max-width:5%; white-space: nowrap;">
+           单位
+       </td>
+       <td style="text-align:center;max-width:5%; white-space: nowrap;">
+           数量
+       </td>
+       <td style="text-align:center;max-width:5%; white-space: nowrap;">
+           单价
+       </td>
+       <td style="text-align:center;max-width:5%; white-space: nowrap;">
+           金额
+       </td>
+   </tr>
+</thead>
+<tbody>
+   <tr ng-repeat="tr in showData.orderMedicalNos ">
+       <td style="text-align:center;max-width:7%;word-wrap:break-word;">
+           {{tr.code}}
+       </td>
+       <td style="text-align:center;max-width:7%;word-wrap:break-word;">
+           {{tr.name}}
+       </td>
+       <td style="text-align:center;max-width:8%;word-wrap:break-word;">
+           {{tr.specificationAndModelType}}
+       </td>
+       <td style="text-align:center;max-width:10%;word-wrap:break-word;">
+           {{tr.unit}}
+       </td>
+       <td style="text-align:center;max-width:5%;word-wrap:break-word;">
+           {{tr.quantity}}
+       </td>
+       <td style="text-align:center;max-width:5%;word-wrap:break-word;">
+           {{tr.strike_price}}
+       </td>
+       <td style="text-align:center;max-width:5%;word-wrap:break-word;">
+           {{tr.totalPrice}}
+       </td>
+
+   </tr>
+   <tr>
+
+       <td colspan="4" style="word-wrap:break-word;">
+          合计： {{showData.orderMedicalNos.length}}
+       </td>
+       <td style="word-wrap:break-word;">
+          &nbsp;
+       </td>
+       <td style="word-wrap:break-word;">
+          &nbsp;
+       </td>
+       <td style="word-wrap:break-word;">
+          &nbsp;
+       </td>
+   </tr>
+
+</tbody>
+</table>
+<p style="text-align:left;font-size:14px;padding:10px;font-weight:bold;">
+   <span>备注：</span>
+    <span style="color:red;">{{showData.note}}</span>
+</p>
+</div>

@@ -1,4 +1,7 @@
-<div style="height: 100%; font-family: &quot;Microsoft YaHei&quot;;">
+<div style='height: 100%; font-family: "Microsoft YaHei";'
+  ajax-url="rest/authen/confirmOrder/getPrint.json?id={{mainStatus.pageParams.id}}" style="min-height:600px;"
+  scope-data="showData"
+>
 
 <div>
 <span style="float:right;position:relative;right:10px;top:0px;font-size:9px;"> 第<span  tdata="PageNO" format="0">##</span>页</span>
@@ -40,7 +43,7 @@
            录单日期：
        </td>
        <td>
-           {{showData.createAt | date:&#39;yyyy-MM-dd&#39;}}
+           {{showData.createAt | date:"yyyy-MM-dd"}}
        </td>
    </tr>
 </tbody>
@@ -107,14 +110,14 @@
            {{tr.strike_price}}
        </td>
        <td style="text-align:center;max-width:5%;word-wrap:break-word;">
-           {{(tr.totalPrice}}
+           {{tr.totalPrice}}
        </td>
        <td style="text-align:center;max-width:8%;word-wrap:break-word;">
            {{tr.productionBatch}}
        </td>
        <td style="text-align:center;max-width:8%;word-wrap:break-word;"
        ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{tr.relId}}&amp;p_and_s={{tr.productionBatch}}" scope-data="guaranteePeriodData">
-           {{guaranteePeriodData.validTill | date:&#39;yyyy-MM-dd&#39;}}
+           {{guaranteePeriodData.validTill | date:"yyyy-MM-dd"}}
        </td>
        <td style="text-align:center;max-width:6%;word-wrap:break-word;">
            {{tr.manufacturer}}

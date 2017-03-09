@@ -981,7 +981,7 @@ define('project/controllers', ['project/init'], function() {
         $scope.goTo('#/confirmOrder/query.html');
        return;
      }else   if ($scope.submitForm_type == 'print') {
-       var url="indexOfPrint.html#/print/confirmOrderPrint.html?id="+$scope.formData.id;
+       var url="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id="+$scope.formData.id;
          win1=window.open(url);
 
         if(!win1||!win1.location){
@@ -2308,7 +2308,17 @@ define('project/controllers', ['project/init'], function() {
          if ($scope.submitForm_type == 'exit') {
            $scope.goTo('#/purchaseOrder/query.html');
           return;
-        }
+        }else   if ($scope.submitForm_type == 'print') {
+          var url="indexOfPrint.html#/print/index.html?key=purchaseOrderPrint&id="+$scope.formData.id;
+            win1=window.open(url);
+
+           if(!win1||!win1.location){
+               alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
+           }
+
+           return;
+         }
+
          if ($scope.submitForm_type == 'submit') {
            var url='rest/authen/purchaseOrder/startProcessInstance';
            var data= {businessKey:$scope.formData.id};

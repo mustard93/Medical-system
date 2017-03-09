@@ -1020,8 +1020,7 @@ function alertOk($rootScope, modal) {
                         html_height: "100%"//html上边距，整数或字符型
 
                  },
-                 print_param:null,
-                 _rect:{},
+                 print_param:null,              
                  //设定纸张大小
                  _pageSize:{
                    intOrient:1,
@@ -1029,13 +1028,7 @@ function alertOk($rootScope, modal) {
                    intPageHeight:1400
 
                  },
-                 //默认尺寸
-                _rectDefualt:{
-                 top:5,
-                 left:5,
-                 width:"100%",//794
-                 height:"100%"//1123
-               },
+
                 /**
                  *
                 * @Description: 打印工具 初始化
@@ -1080,8 +1073,7 @@ e
                         });//require
                       }
 
-                      //恢复默认配置。
-                       this._rect=this._rectDefualt;
+
                 },
                 //设置打印参数,根据接口返回html模版数据
                 setPrint_paramByUICustomHtml:function(uICustomHtml){
