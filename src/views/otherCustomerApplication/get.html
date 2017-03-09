@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/otherCustomerApplication/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
-     callback='bottomButtonList=$root.bottomButtonList.get_otherCustomerApplication(showData);'
+     callback='initFlag=true;bottomButtonList=$root.bottomButtonList.get_otherCustomerApplication(showData);'
      alert-error>
 
      <div class="header-info relative mgb-l">
@@ -163,7 +163,7 @@
                 </div>
                 <div class="flex-column mgt">
                   <span class="flex-item-1 text-right">营业期限：</span>
-                  <span class="flex-item-11 text-left">{{showData.customer.busnissAllotedTime}}</span>
+                  <span class="flex-item-11 text-left">{{showData.customer.busnissAllotedTime | date:'yyyy-MM-dd'}}</span>
                 </div>
               </div>
               <div class="bb-dashed-line pd-v-m">
@@ -198,7 +198,7 @@
                 <span class="flex-item-11 text-left">{{showData.customer.consigneeEmail}}</span>
               </div>
             </div>
-            <div class="bb-dashed-line pd-v-m">
+            <div class=" pd-v-m">
               <div class="flex-column mgt">
                 <span class="flex-item-1 text-right">采购员/身份证号：</span>
                 <span class="flex-item-11 text-left">{{showData.customer.purchaser}}&nbsp;&nbsp;{{showData.customer.purchaserIdentityNo}}</span>
@@ -213,51 +213,24 @@
               </div>
             </div>
         </div>
+    </div>
 
         <!-- 申请原因 -->
         <div class="panel pr-panel pr-panel-height mgb">
-          <h1 class="pr-font-18 mgb">申请原因</h1>
+          <h1 class="pr-font-18 mgb">新品引进原因</h1>
           <span>{{showData.applyReason}}</span>
         </div>
         <!-- 审核资料 -->
         <div ng-init='attachmentsExtend={"title":"审核资料"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
-
-        <!-- 审批 -->
-        <div ng-if="showData.orderStatus!='未提交' && showAuditOpinion(showData.eventRecords, '待审批')" class="panel pr-panel pr-panel-height mgb">
-          <div class="mgb-l">
-            <h1 class="pr-font-18 mgb">审批意见</h1>
-            <div class="mgb" ng-repeat="item in showData.eventRecords">
-              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em ng-class="{'color-6':item.event.status=='待审批','color-green':item.event.status=='已通过','color-red':item.event.status=='未通过'}">{{item.event.status}}</em> </span>
-              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批人/部门：</em> <em>{{item.inputUser}}/{{item.departmentName}}</em></span>
-              <span class="mgr-xl" ng-if="item.event.status!='待审批'"><em class="color-9">审批时间：</em> <em>{{item.createAt | date:'yyyy-MM-dd HH:mm'}}</em></span>
-              <p ng-if="item.event.status!='待审批'"><span class="color-9">原因说明：</span> <span>{{item.key}}</span></p>
-            </div>
-          </div>
-          <div class="mgb-l"></div>
-        </div>
-
-        <div ng-if="showData.didateFilter.buttons.length>0&& showData.orderStatus!='未提交'"
-             workflow-task-run-with-attchments
-             custom-menu-arr="{{showData.didateFilter.buttons}}"
-             return-button='{"buttonName":"返回申请单列表","requestUrl":"#/otherCustomerApplication/query.html"}'
-              workflow-bottom-button="bottomButtonList"
-             attchment-usege="经销商/零售商资格申请">
-        </div>
-
-        <div ng-if="(!showData.didateFilter.buttons.length>0) && showData.orderStatus!='未提交'" class="handle-btn-area">
-          <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-          <span>
-            <a class="mgl mgt"
-               ng-if="showData.orderStatus=='未通过'"
-               ng-href="#/otherCustomerApplication/edit.html?copyId={{showData.id}}">新建</a>
-          </span>
-
-          <span  bottom-button-list="bottomButtonList">  </span>
-          <!-- <span class="mgl"><a href="#/otherCustomerApplication/query.html">返回申请单列表</a></span>
-          <span class="mgl">
-            <a class="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg" ng-href="{{mainStatus.requestPath}}rest/authen/otherCustomerApplication/exportWord?id={{showData.id}}">打印</a>
-          </span> -->
-        </div>
+    <div ng-if="showData.orderStatus!='未提交'" class="handle-btn-area relative">
+      <div  class="mgb text-right btn-area">
+        <span class="mgl mgt">
+          <a href="#/otherCustomerApplication/query.html">返回申请单列表</a>
+        </span>
+        <span ng-if="showData.didateFilter.buttons.length>0"
+              custom-menu-list
+              custom-menu-arr="{{showData.didateFilter.buttons}}" class="mgt">
+        </span>
       </div>
     </div>
     <div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area">
