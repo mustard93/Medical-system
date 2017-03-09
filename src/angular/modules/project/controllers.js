@@ -333,6 +333,8 @@ define('project/controllers', ['project/init'], function() {
       $scope.$watch('formData.customerId', function (newVal, oldVal) {
         if (newVal && oldVal !== newVal) {
           document.getElementById('angucompleteMedical_searchInputId').focus();
+          //清空用户先前的药械选择
+          if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
         }
       });
 
@@ -972,6 +974,13 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
           item.handleFlag = true;
         });
+      }
+    });
+
+    // 监控用户变化，清空之前选择药械列表
+    $scope.$watch('formData.customerId', function (newVal, oldVal) {
+      if (newVal && oldVal !== newVal) {
+        if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
       }
     });
 
@@ -2050,6 +2059,13 @@ define('project/controllers', ['project/init'], function() {
     // $scope.$watchCollection('formData', function (newVal, oldVal, scope) {
     //   console.log(newVal);
     // });
+
+    // 监控用户变化，清空之前选择药械列表
+    $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
+      if (newVal && oldVal !== newVal) {
+        if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
+      }
+    });
 
     $scope.canSubmitForm = function() {
        //必须有1条是勾选加入订单的。
