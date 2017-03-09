@@ -331,8 +331,10 @@ define('project/controllers', ['project/init'], function() {
       });
 
       $scope.$watch('formData.customerId', function (newVal, oldVal) {
-        if (newVal && oldVal !== undefined) {
+        if (newVal && oldVal !== newVal) {
           document.getElementById('angucompleteMedical_searchInputId').focus();
+          //清空用户先前的药械选择
+          if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
         }
       });
 
@@ -972,6 +974,13 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
           item.handleFlag = true;
         });
+      }
+    });
+
+    // 监控用户变化，清空之前选择药械列表
+    $scope.$watch('formData.customerId', function (newVal, oldVal) {
+      if (newVal && oldVal !== newVal) {
+        if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
       }
     });
 
@@ -2047,8 +2056,15 @@ define('project/controllers', ['project/init'], function() {
      });
 
     //监控数量变化，如果是从请购单生成的采购单则数量不能大于在请购单中设定的数量
-    $scope.$watchCollection('formData', function (newVal, oldVal, scope) {
-      console.log(newVal);
+    // $scope.$watchCollection('formData', function (newVal, oldVal, scope) {
+    //   console.log(newVal);
+    // });
+
+    // 监控用户变化，清空之前选择药械列表
+    $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
+      if (newVal && oldVal !== newVal) {
+        if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
+      }
     });
 
     $scope.canSubmitForm = function() {

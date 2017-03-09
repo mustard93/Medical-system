@@ -2505,44 +2505,45 @@ function flashAddMedical() {
         scope: {
             "ngModel": "=",
             "addDataCallbackFn":"&",
-            "formData": "="
+            "formData": "=?"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
 
-             $attrs.$observe("ajaxUrl", function(value) {
-                  $scope.ajaxUrl=value;
-             });
+          $attrs.$observe("ajaxUrl", function(value) {
+            $scope.ajaxUrl = value;
+            if ($scope.$parent.formData.customerId) { $scope.isCustomerId = true; }
+          });
 
-            //添加业务数据
-            $scope.addDataFn = function () {
-              if(!  $scope.addDataCallbackFn){
-                console.log("scope.addDataCallback function is null!");
-                return true;
-              }
+          //添加业务数据
+          $scope.addDataFn = function () {
+            if(!  $scope.addDataCallbackFn){
+              console.log("scope.addDataCallback function is null!");
+              return true;
+            }
 
-              var  flag=$scope.addDataCallbackFn($scope.ngModel);
-              if(!flag){//业务逻辑判断添加失败，则不清空数据。
-                return false;
-              }
-                //清空输入数据
-              $scope.ngModel={};
-              //自动补全查询输入框获得焦点
-              $('#angucompleteMedical_searchInputId').val("");
-              $('#angucompleteMedical_searchInputId').trigger('focus');
+            var  flag=$scope.addDataCallbackFn($scope.ngModel);
+            if(!flag){//业务逻辑判断添加失败，则不清空数据。
               return false;
+            }
+              //清空输入数据
+            $scope.ngModel={};
+            //自动补全查询输入框获得焦点
+            $('#angucompleteMedical_searchInputId').val("");
+            $('#angucompleteMedical_searchInputId').trigger('focus');
+            return false;
 
-            };
+          };
 
-            //input输入框回车事件。
-            $scope.handleAddThisItem = function (e) {
-              var keycode = window.event ? e.keyCode : e.which;
-              if (keycode == 13) {
-                $scope.addDataFn();
-              }
-                return false;
-            };
+          //input输入框回车事件。
+          $scope.handleAddThisItem = function (e) {
+            var keycode = window.event ? e.keyCode : e.which;
+            if (keycode == 13) {
+              $scope.addDataFn();
+            }
+              return false;
+          };
 
         }
     };
