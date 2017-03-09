@@ -1,72 +1,64 @@
-<div class="hospital-application first-medical-application"
-     ng-controller="QualificationApplyCtrl"
-     ajax-url="rest/authen/hospitalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+<div class="first-medical-application"
+     ng-controller="customerAddressCtrl"
+     ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
-     alert-error
-     ng-init="formData.validFlag=false">
+     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
+     alert-error>
 
-   <div class="header-info relative mgb-l">
-     <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
-       <a href="#/hospitalApplication/query.html">
-          <em class="color-custom-orange">客户管理</em>
-       </a>
-      <em>>医院资格申请</em>
-     </p>
-     <div class="pd-c-xxl pdt-l pdb-l">
-       <!-- 标题 -->
-       <div class="mgb-l">
-         <h1 class="color-black pr-font-20">医院资格申请</h1>
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">客户中心 >
+         <a href="#/hospitalApplication/query.html">
+            <em class="color-custom-orange">医院管理</em>
+         </a>
+        <em>>医院管理编辑</em>
+       </p>
+       <div class="pd-c-xxl pdt-l pdb-l">
+         <!-- 标题 -->
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20">医院管理-编辑</h1>
+         </div>
        </div>
      </div>
-   </div>
   <!-- 主体内容 -->
   <div class="content-wrapper ">
-    <!-- 添加流程导航 -->
-    <div
-    step-flow-arrow-show
-    step-flow-arrow-json=
-  '[{"arrowText":"基本信息","className":"active"},
-    {"arrowText":"申请原因","className":"unactive"},
-    {"arrowText":"添加审核资料","className":"unactive"}]'>
-    </div>
-    <!-- <div class="first-medical-nav">
-      <div class="active" >
-        <span >基本信息</span>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="unactive">
-        <div></div>
-        <span>申请原因</span>
-        <div></div>
-      </div>
-      <div class="unactive">
-        <div></div>
-        <span>添加审核资料</span>
-      </div>
-    </div> -->
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="hospital-editForm"
-            name="hospitalEditForm"
+            id="firstfirstMedical-editForm"
+            name="firstMedicalEditForm"
             form-validator
             parameter-body
-            action="rest/authen/hospitalApplication/saveBaseInfo"
+            action="rest/authen/customerAddress/save"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/hospitalApplication/edit-step-2.html');watchFormChange('formData')">
-
-
+            callback="submitFormAfter('#/hospitalManagement/query.html');
+            watchFormChange('formData');formData.firstMedical.isBasicMedicine='是';">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-          <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
-          <span class="flex-item-1 text-right">
-            状态：<em class="color-black">{{formData.orderStatus}}</em>
-          </span>
+          <div class="flex-item-6">
+            <span class="flex-item-2">
+              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
+            </span>
+            <!-- <span class="flex-item-10">
+              <span class="flex-item-1 text-right">
+                采购员：
+              </span>
+              <span class="flex-item-2">
+                <select class="select pr-select" data-placeholder=" "
+                chosen
+                default-empty="无"
+                ng-model="formData.firstMedical.buyerName"
+                select-source="rest/authen/user/queryForSelectOption">
+                </select>
+              </span>
+            </span> -->
+          </div>
+          <div class="flex-item-6 text-right">
+              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
+              状态：<em class="color-black">{{formData.businessApplication.businessStatus ||'暂无'}}</em>
+          </div>
         </div>
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb">
@@ -217,61 +209,127 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="pd-v-m bt-dashed-line">
-
-            </div> -->
-
           </div>
 
-        <div class="color-black mgt-l mgb-l">
-          <p>
-            <p class="pr-font-14">说明：</p>
-            <p>1.品种资质必须加供货企业红色原公章；</p>
-            <p>2.采购人员按要求向供货商(生产企业／经营企业)所要并和事资质的真实合法性，并如实填写本表；</p>
-          </p>
+        <!-- 申请原因-->
+        <div class="panel pr-panel pr-panel-height mgb">
+          <h1 class="pr-font-18 mgb">新品引进原因</h1>
+          <div class="">
+            <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+          </div>
         </div>
-        <!-- 功能按钮 -->
-        <div class="handle-btn-area">
-          <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-          <span class="mgl mgt">
-            <a   ng-if="changeFlag"  href="javascript:;"
-               handle-this-click
-               dialog-title="确认返回?"
-               dialog-content="该申请单存在未保存数据，是否保存?"
-               dialog-template="pr-dialog-return.html"
-               nosave-callback="goTo('#/hospitalApplication/query.html')"
-               save-callback="submitForm('editForm','exit')">返回申请单列表</a>
+        <!-- 审核资料 -->
+        <div class="panel pr-panel pr-panel-height mgb"
+        ng-if="initFlag"
+        ajax-url="rest/authen/customerAddress/getAttachments?id={{formData.id}}"
+        scope-data="scopeData">
+          <h1 class="pr-font-18 mgb">资质文件</h1>
+          <div style="margin-bottom:50px;">
+            <table class="table table-striped">
+                <thead>
+                    <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
+                        <th></th>
+                        <th>序号</th>
+                        <th>资料名称</th>
+                        <th>证书编号</th>
+                        <th>有效日期</th>
+                        <th>上传人</th>
+                        <th>上传时间</th>
+                        <th>附件</th>
+                        <th>备注</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                </thead>
+              <tbody>
+                <tr ng-repeat="item in scopeData.attachments"
+                ng-controller="deleteUploaderController"
+                >
+                  <td class="select-td">
+                    <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
+                  </td>
+                  <td>{{$index + 1}}</td>
+                  <td>{{item.name}}</td>
+                  <td>
+                    <input type="text"
+                           class="ipt pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-model="item.certificateNumber"
+                           placeholder="">
+                  </td>
+                  <td>
+                    <div class="date-icon-outside">
+                      <input type="text"
+                             datepicker
+                             class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                             ng-readonly="true"
+                             ng-model="item.guaranteePeriod"
+                             placeholder="有效日期至">
+                      <span class="date-icon"></span>
+                    </div>
+                  </td>
+                  <td>{{item.uploadUserName}}</td>
+                  <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
 
-            <a ng-if="!changeFlag" href="#/hospitalApplication/query.html">返回申请单列表</a>
-          </span>
-          <span class="mgl mgt">
-            <a ng-if="formData.id && formData.proposerName==mainStatus.name"
-               href="javascript:;"
-               class="color-red"
-               handle-this-click
-               dialog-title="确认删除?"
-               dialog-content="删除后将无法恢复,确认删除?"
-               dialog-template="pr-dialog-submit.html"
-               callback="$root.goTo('#/hospitalApplication/query.html')"
-               params='{"id":formData.id}'
-               request-url="rest/authen/hospitalApplication/delete">删除</a>
-          </span>
-          <span class="mgl mgt">
-            <button class="pr-btn-save-glodbg"
-                    ng-disabled="!changeFlag "
-                    ng-click="submitForm('hospital-editForm','save')">保存
-            </button>
-          </span>
-          <span class="mgl mgt">
-            <button class="pr-btn-save-glodbg"
-                    ng-disabled="hospitalEditForm.$invalid"
-                    ng-click="submitForm('hospital-editForm','submit')">下一步
-            </button>
-          </span>
+                  <td>
+                    <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
+                  </td>
+                  <td>
+                    <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
+                  </td>
+                  <td class="text-center">
+                    <a ng-if="item.canDeleteFlag" href="javascript:;" class="text-center" ng-click="ngModel.splice($index,1);"><span class="fa fa-trash-o text-l"></span></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+
+        <!-- 功能按钮 -->
+        <div class="handle-btn-area relative">
+          <div class="mgb text-right btn-area">
+            <span class="mgl">
+              <a ng-if="changeFlag"  href="javascript:;"
+                 handle-this-click
+                 dialog-title="确认返回?"
+                 dialog-content="该申请单存在未保存数据，是否保存?"
+                 dialog-template="pr-dialog-return.html"
+                 nosave-callback="goTo('#/hospitalManagement/query.html')"
+                 save-callback="submitForm('editForm','exit');
+                 $root.goTo('#/hospitalManagement/query.html')">返回申请单列表</a>
+              <a ng-if="!changeFlag" href="#/hospitalManagement/query.html">返回申请单列表</a>
+            </span>
+            <span bottom-button-list="bottomButtonList">  </span>
+            <span class="mgl">
+              <a ng-if="formData.id"
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/hospitalManagement/query.html')"
+                 params='{"id":formData.id}'
+                 request-url="rest/authen/customerAddress/delete">删除</a>
+            </span>
+            <span class="mgl">
+              <button class="pr-btn-save-glodbg mgt"
+                      ng-disabled="!changeFlag || firstMedical-editForm.$invalid"
+                      ng-click="submitForm('editForm','save')">保存
+              </button>
+            </span>
+            <span class="mgl">
+              <button class="pr-btn-save-glodbg-l mgt"
+                      ng-disabled="!changeFlag || firstMedical-editForm.$invalid">
+                    <a href="javascript:;"
+                    class="color-white"
+                    ng-click="submitForm('editForm','submit-hospital')">
+                      保存并结束编辑
+                    </a>
+                    </button>
+            </span>
+
+          </div>
+        </div>
       </form>
     </div>
-
-  </div>
 </div>
