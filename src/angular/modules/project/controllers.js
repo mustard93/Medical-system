@@ -331,7 +331,7 @@ define('project/controllers', ['project/init'], function() {
       });
 
       $scope.$watch('formData.customerId', function (newVal, oldVal) {
-        if (newVal && oldVal !== undefined) {
+        if (newVal && oldVal !== newVal) {
           document.getElementById('angucompleteMedical_searchInputId').focus();
         }
       });
@@ -2047,9 +2047,9 @@ define('project/controllers', ['project/init'], function() {
      });
 
     //监控数量变化，如果是从请购单生成的采购单则数量不能大于在请购单中设定的数量
-    $scope.$watchCollection('formData', function (newVal, oldVal, scope) {
-      console.log(newVal);
-    });
+    // $scope.$watchCollection('formData', function (newVal, oldVal, scope) {
+    //   console.log(newVal);
+    // });
 
     $scope.canSubmitForm = function() {
        //必须有1条是勾选加入订单的。

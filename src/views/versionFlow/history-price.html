@@ -1,51 +1,30 @@
-<div class="modal-content right-side-new" ng-controller="editCtrl">
-  <form class="confirmOrder-reject-form"
-        ng-init="formData={};formData.id=scopeData.id;formData.status=scopeData.status;"
-        callback="$root.reloadTime=$root.utils.getNowTime();"
-        auto-close-dialog
-        form-validator>
-          <!-- action="{{scopeData.url}}" -->
-  <div class="bb-line-gold pr-bg-black2 min-h-l">
-     <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">历史价格-金匮肾气丸 - 8</h1>
-   </div>
-   <div>
-       <table class="full-width another-table" >
-         <thead>
-           <tr class="bb-line-gold">
-             <th class="w-80"> </th>
-             <th class="text-center pr-indent-20">价格</th>
-             <th class="text-center">日期</th>
-             <th class="text-center w-220">购需单号</th>
-           </tr>
-         </thead>
-         <tbody class="bg-white">
-           <tr class="pr-bg-black3">
-             <td class="text-center">
-              <label class="radio radio-new ng-scope">
-                <input type="radio" class="default-radio" name="customer" ng-checked="chkDefaultChoise(tr.id)" ng-click="choiseOtherItem(tr,requestDataId)"><i></i>
-              </label>
-             </td>
-             <td class="text-center pr-indent-20 color-white">￥18</td>
-             <td class="text-center color-white">2017-2-28</td>
-             <td class="text-center color-orange">xl0000001</td>
-           </tr>
-         </tbody>
-         <tbody class="bg-white">
-           <tr class="pr-bg-black3">
-             <td class="text-center">
-              <label class="radio radio-new ng-scope">
-                <input type="radio" class="default-radio" name="customer" ng-checked="chkDefaultChoise(tr.id)" ng-click="choiseOtherItem(tr,requestDataId)"><i></i>
-              </label>
-             </td>
-             <td class="text-center pr-indent-20 color-white">￥10</td>
-             <td class="text-center color-white">2017-2-27</td>
-             <td class="text-center color-orange">xl0000001</td>
-           </tr>
-         </tbody>
-       </table>
-     </div>
-     <!-- 功能按钮 -->
+<div class="modal-content right-side-new"
+     ajax-url="rest/authen/historicalPrice/getAllPriceByRelId?id={{dialogData.id}}&type={{dialogData.type}}"
+     scope-data="scopeData"
+     callback=""
+     alert-error>
 
-    <button type="submit" name="button" class="new-left-side-button">确定</button>
-</form>
+  <div class="bb-line-gold pr-bg-black2 min-h-l">
+    <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">参考价格 - {{dialogData.medicalName}}</h1>
+  </div>
+
+  <div class="right-side-container color-white text-n">
+    <ul>
+      <li class="pr-indent-20" ng-repeat="item in scopeData track by $index">
+        <span>
+          <label class="radio radio-new ng-scope">
+            <input type="radio" class="default-radio" name="customer" ng-checked="chkDefaultChoise(tr.id)" ng-click="choiseOtherItem(tr,requestDataId)"><i></i>
+          </label>
+        </span>
+        <span class="mgl-xl">￥ {{item.value}}</span>
+        <span class="mgl-xl">{{item.text}}</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 功能按钮 -->
+  <div class="footer-button-area">
+    <button type="submit" name="button" class="pr-btn-create-glodbg new-left-side-button">确定</button>
+  </div>
+
 </div>
