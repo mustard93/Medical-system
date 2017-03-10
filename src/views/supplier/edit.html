@@ -3,7 +3,7 @@
         action="rest/authen/supplier/save"
         ajax-url="rest/authen/supplier/getOfEdit.json?id={{tr.id}}"
         scope-data="formData"
-
+        name="editForm"
           parameter-body
         alert-error
         form-validator>
@@ -36,25 +36,20 @@
               <input type="text" class="form-control" placeholder="" ng-model="formData.contact.name"/>
           </div>
       </div>
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">手机</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="tel" class="form-control" placeholder="请填写联系手机号码" ng-model="formData.contact.tel"/>
-          </div>
-      </div>
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">座机</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="tel" class="form-control" placeholder="请填写座机号码" ng-model="formData.contact.telephone"/>
-          </div>
-      </div>
-      <div class="form-group">
-          <label class="col-lg-2 col-sm-2 control-label">email</label>
-          <div class="col-lg-10 col-sm-10">
-              <input type="tel" class="form-control" placeholder="" ng-model="formData.contact.email"/>
-          </div>
-      </div>
 
+              <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">手机</label>
+                  <div class="col-lg-10 col-sm-10">
+                      <input type="tel" class="form-control" placeholder="请填写联系手机号码" ng-model="formData.contact.tel"
+                      maxlength="11"
+                       name="tel"
+                      ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                      data-content="请输入11位手机号码"
+                      invalid-popover="{{editForm.tel.$invalid}}"
+                      placement="top"
+                      />
+                  </div>
+              </div>
       <div class="form-group mgb">
           <label class="col-lg-2 col-sm-2 control-label">省/市/区</label>
           <div class="col-lg-10 col-sm-10">
@@ -71,6 +66,38 @@
                 <input type="text" class="form-control" placeholder="详细收货地址" ng-model="formData.contact.address"/>
             </div>
         </div>
+        <div class="form-group mgb">
+            <label class="col-lg-2 col-sm-2 control-label">邮编</label>
+            <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control" placeholder="请填写邮编"  ng-model="formData.contact.zipCode"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">座机号码</label>
+            <div class="col-lg-10 col-sm-10">
+                <input type="tel" class="form-control" placeholder="请填写座机号码" ng-model="formData.contact.telephone"/>
+            </div>
+        </div>
+
+        <div class="form-group mgb">
+            <label class="col-lg-2 col-sm-2 control-label">传真号码</label>
+            <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control" placeholder="请填写传真号码"  ng-model="formData.contact.fax" />
+            </div>
+        </div>
+        <div class="form-group mgb">
+            <label class="col-lg-2 col-sm-2 control-label">电子邮箱</label>
+            <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control" placeholder="请填写电子邮箱"  ng-model="formData.contact.email"
+                 name="email"
+                ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/ "
+                data-content="请填写正确的电子邮箱"
+                invalid-popover="{{editForm.email.$invalid}}"
+                placement="top" />
+            </div>
+        </div>
+
 
       <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label"></label>
