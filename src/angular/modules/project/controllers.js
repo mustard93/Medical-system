@@ -1502,8 +1502,7 @@ define('project/controllers', ['project/init'], function() {
   /**
    *出库单
    */
-  function invoicesOrderCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
-
+  function invoicesOrderCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, $timeout) {
     //快递保存后
     $scope.kuaidiSaveAfter = function(kuaidi) {
         modal.closeAll();
@@ -1517,15 +1516,10 @@ define('project/controllers', ['project/init'], function() {
            return;
          }
       }
-     arr.push(kuaidi);//新建
-   };//kuaidiSaveAfter
+      arr.push(kuaidi);//新建
+    };
 
-
-     /**
-     *保存
-     type:save-草稿,submit-提交订单。
-     */
-     $scope.deleteKuaidi = function(kuaidi,invoicesOrderId) {
+    $scope.deleteKuaidi = function(kuaidi,invoicesOrderId) {
        var url='rest/authen/invoicesOrder/kuaidi/delete';
        var data= {kuaidiId:kuaidi.id,invoicesOrderId:invoicesOrderId};
        requestData(url,data, 'POST')
@@ -1545,10 +1539,7 @@ define('project/controllers', ['project/init'], function() {
            alertError(error || '出错');
          });
        };//deleteKuaidi
-    /**
-    *保存
-    type:save-草稿,submit-提交订单。
-    */
+
     $scope.submitFormAfter = function() {
 
 
@@ -1577,15 +1568,39 @@ define('project/controllers', ['project/init'], function() {
 
     };
 
-    /**
-    *保存
-    type:save-草稿,submit-提交订单。
-    */
     $scope.submitForm = function(fromId, type) {
        $scope.submitForm_type = type;
       $('#' + fromId).trigger('submit');
 
     };
+
+    // 监视用户输入备注信息，当用户输入修改后1秒自动保存用户修改
+    $scope.$watch('scopeData.note', function (newVal, oldVal) {
+      if (newVal && (oldVal!==undefined)) {
+        $timeout(function () {
+          var _url = "rest/authen/invoicesOrder/save",
+              _data = $scope.scopeData;
+          requestData(_url, _data, 'POST', 'parameterBody')
+          .then(function (results) {
+            if (results[1].code === 200) {
+              $scope.showSaveNoteInfo = true;
+            }
+          })
+          .catch(function (error) {
+            if (error) { throw new Error(error || '出错!'); }
+          });
+        }, 1000);
+      }
+    });
+
+    // 监视备注提示信息，显示后1秒自动隐藏
+    $scope.$watch('showSaveNoteInfo', function (newVal) {
+      if (newVal) {    // 如果信息显示了
+        $timeout(function () {
+          $scope.showSaveNoteInfo = false;
+        }, 1500);
+      }
+    });
   }
 
   /**
@@ -4678,7 +4693,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('arrivalNoticeOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', arrivalNoticeOrderEditCtrl])
   .controller('requestPurchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', '$timeout', requestPurchaseOrderEditCtrl])
   .controller('noticeCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', noticeCtrl])
-  .controller('invoicesOrderCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError', invoicesOrderCtrl])
+  .controller('invoicesOrderCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError', '$timeout', invoicesOrderCtrl])
   .controller('salesOrderEditCtrl2', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', salesOrderEditCtrl2])
   .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl])
   .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
