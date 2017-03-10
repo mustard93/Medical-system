@@ -1,12 +1,7 @@
 <div class="woutstock-order">
-<table-list list-data="rest/authen/wInstockOrder/purchaseInstock/query.json"
-              list-params="listParams"
-              search-mode="noCaseSensitive"
-              search-param="q"
-              >
+
 <!-- 主内容头部 -->
 <div class="content-wrapper-heading pdb-m mgb-l relative">
-    <!-- 模块标题及面包屑 -->
     <p class="pdb-s pdt-s mgb-l crumbs pr-indent-35">库存管理 > <em>采购入库单</em></p>
     <div class="pd-c-xxxxl">
       <div class="full-width mgb-m">
@@ -15,8 +10,6 @@
         </div>
       </div>
     </div>
-  <!-- 搜索 -->
-
   <div class="text-right  relative full-width pd-c-xxxxxl">
       <div class="relative">
 
@@ -67,10 +60,24 @@
     </div>
 </div>
 
+<!-- <page-main-header-component list-params="listParams"
+                            crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"采购入库单","link":"","style":"color-custom-orange"}]'
+                            component-title="采购入库单"
+                            get-status-num-url=""
+                            status-group-data='[["待入库-true","入库中-true","已入库-true"]]'
+                            is-show-type-filter=true
+                            is-show-date-filter=true
+                            get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+</page-main-header-component> -->
+
 <div class="content-wrapper woutstock-order"
      ng-controller="QualificationApplyCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;">
-        <!-- formData.type='报损';listParams.type='报损入库单' -->
+
+  <table-list list-data="rest/authen/wInstockOrder/purchaseInstock/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
     <!-- 主内容区域 -->
     <div class="content-wrapper-main">
       <div ng-if="!status.isLoading">
@@ -170,6 +177,7 @@
             <pagination status="status"></pagination>
         </div>
     </div>
-  </div>
-</table-list>
+  </table-list>
+</div>
+
 </div>
