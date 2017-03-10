@@ -57,7 +57,8 @@
           </div>
           <div class="flex-item-6 text-right">
               录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
-              状态：<em class="color-black">{{formData.businessApplication.businessStatus ||'暂无'}}</em>
+              状态：<em ng-if="formData.businessApplication.businessStatus!='已通过'" class="color-black">{{formData.businessApplication.businessStatus ||'暂无'}}</em>
+              <em ng-if="formData.businessApplication.businessStatus=='已通过'" class="color-black">正常</em>
           </div>
         </div>
         <!-- 基本信息 -->

@@ -36,7 +36,10 @@
         <span class="text-right flex-item-1">
           状态：
           <em ng-class="{'color-blue-freeze':showData.businessApplication.businessStatus =='已冻结', 'color-black':showData.businessApplication.businessStatus =='已通过',
-          'color-red':showData.businessApplication.businessStatus =='已终止'}">{{showData.businessApplication.businessStatus ||'暂无'}}</em>
+          'color-red':showData.businessApplication.businessStatus =='已终止'}">
+          <em ng-if="showData.businessApplication.businessStatus !='已通过'">{{showData.businessApplication.businessStatus ||'暂无'}}</em>
+          <em ng-if="showData.businessApplication.businessStatus =='已通过'">正常</em>
+        </em>
         </span>
       </div>
         <!-- 基本信息 -->

@@ -36,7 +36,10 @@
         <span class="text-right flex-item-1">
           状态：
           <em ng-class="{'color-blue-freeze':showData.businessApplication.businessStatus =='已冻结', 'color-black':showData.businessApplication.businessStatus =='已通过',
-          'color-red':showData.businessApplication.businessStatus =='已终止'}">{{showData.businessApplication.businessStatus ||'暂无'}}</em>
+          'color-red':showData.businessApplication.businessStatus =='已终止'}">
+          <em ng-if="showData.businessApplication.businessStatus !='已通过'">{{showData.businessApplication.businessStatus ||'暂无'}}</em>
+          <em ng-if="showData.businessApplication.businessStatus =='已通过'">正常</em>
+        </em>
         </span>
       </div>
         <!-- 基本信息 -->
@@ -153,7 +156,7 @@
                                        "content":"冻结后，该品种信息将被暂停，直到解冻，确认冻结?",
                                        "btnConfirm":"确定",
                                        "btnCancel":"取消",
-                                       "url":"rest/authen/customerAddress/changeState",
+                                       "url":"rest/authen/customerAddress/updateStatus",
                                        "goUrl":"",
                                        "id":"{{showData.id}}",
                                        "status":"已冻结"
@@ -170,7 +173,7 @@
                                        "content":"解冻后，该品种信息将恢复，确认解冻?",
                                        "btnConfirm":"确定",
                                        "btnCancel":"取消",
-                                       "url":"rest/authen/customerAddress/changeState",
+                                       "url":"rest/authen/customerAddress/updateStatus",
                                        "goUrl":"",
                                        "id":"{{showData.id}}",
                                        "status":"已通过"
@@ -185,7 +188,7 @@
                           dialog-title="确认终止?"
                           dialog-content="终止后，该品种信息将被取消，确定终止?"
                           dialog-template="pr-dialog-submit.html"
-                          request-url="rest/authen/customerAddress/changeState"
+                          request-url="rest/authen/customerAddress/updateStatus"
                           params='{"id":showData.id,"status":"已终止"}'
                           alert-error
                           callback="$root.utils.refreshHref()"
