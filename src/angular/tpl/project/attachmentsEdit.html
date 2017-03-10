@@ -40,16 +40,19 @@
                      ng-readonly="true"
                      ng-model="item.guaranteePeriod"
                      placeholder="有效日期至"
+                     ng-disabled="!item.showFlag"
                     >
               <span class="date-icon"></span>
             </div>
           </td>
           <td>{{item.uploadUserName}}</td>
           <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
-          <td >
+          <td ng-if="item.showFlag">
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
           </td>
-
+          <td ng-if="!item.showFlag">
+            上传附件
+          </td>
           <td>
             <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"  ng-disabled="!item.showFlag" ng-model="item.note"></textarea>
           </td>
