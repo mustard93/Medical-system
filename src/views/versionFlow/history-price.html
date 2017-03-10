@@ -1,4 +1,5 @@
-<div ng-controller="historicalPriceController" class="modal-content right-side-new"
+<div ng-controller="historicalPriceController"
+     class="modal-content right-side-new"
      ajax-url="rest/authen/historicalPrice/getAllPriceByRelId?id={{dialogData.id}}&type={{dialogData.type}}"
      scope-data="scopeData"
      callback=""
@@ -16,8 +17,8 @@
             <input type="radio"
                    class="default-radio"
                    name="customer"
-                   ng-checked="chkDefaultChoise(tr.id)"
-                   ng-click="choiseOtherItem(tr,requestDataId)"
+                   ng-checked=""
+                   ng-click="choiseThisItem(item,dialogData.id)"
                    ng-disabled="item.value=='无'"><i></i>
           </label>
         </span>
@@ -29,7 +30,7 @@
 
   <!-- 功能按钮 -->
   <div class="footer-button-area">
-    <button type="submit" name="button" class="pr-btn-create-glodbg new-left-side-button">确定</button>
+    <button type="button" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
   </div>
 
 </div>
