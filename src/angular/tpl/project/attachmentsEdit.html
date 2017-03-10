@@ -4,7 +4,7 @@
     <table class="table table-striped">
         <thead>
             <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
-                <th></th>
+                <th class="w-80"></th>
                 <th>序号</th>
                 <th>资料名称</th>
                 <th>证书编号</th>
@@ -20,8 +20,9 @@
         <tr ng-repeat="item in ngModel"
         ng-controller="deleteUploaderController"
         >
-          <td class="select-td">
-            <input type="checkbox" class="selectOne" ng-model="item.showFlag" >
+          <td class="w-80 mycheck">
+           <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag" />
+           <label for="{{$index + 1}}"></label>
           </td>
           <td>{{$index + 1}}</td>
           <td>{{item.name}}</td>
@@ -51,7 +52,7 @@
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
           </td>
           <td ng-if="!item.showFlag">
-            上传附件
+            <div style="width:90px;height:90px;">上传附件</div>
           </td>
           <td>
             <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"  ng-disabled="!item.showFlag" ng-model="item.note"></textarea>
