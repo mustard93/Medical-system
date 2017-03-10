@@ -177,7 +177,7 @@
                    dialog-content="删除后将无法恢复,确认删除?"
                    dialog-template="pr-dialog-submit.html"
                    callback="$root.goTo('#/otherCustomerManagement/query.html')"
-                   params='{"id":showData.id}'
+                   params='{"id":showData.customerId}'
                    request-url="rest/authen/customerAddress/delete">删除</a>
               </span>
               <span>
@@ -192,7 +192,7 @@
                                        "btnCancel":"取消",
                                        "url":"rest/authen/customerAddress/updateStatus",
                                        "goUrl":"",
-                                       "id":"{{showData.id}}",
+                                       "id":"{{showData.customerId}}",
                                        "status":"已冻结"
                                       }'
                           modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
@@ -209,7 +209,7 @@
                                        "btnCancel":"取消",
                                        "url":"rest/authen/customerAddress/updateStatus",
                                        "goUrl":"",
-                                       "id":"{{showData.id}}",
+                                       "id":"{{showData.customerId}}",
                                        "status":"已通过"
                                       }'
                           modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
@@ -223,7 +223,7 @@
                           dialog-content="终止后，该品种信息将被取消，确定终止?"
                           dialog-template="pr-dialog-submit.html"
                           request-url="rest/authen/customerAddress/updateStatus"
-                          params='{"id":showData.id,"status":"已终止"}'
+                          params='{"id":showData.customerId,"status":"已终止"}'
                           alert-error
                           callback="$root.utils.refreshHref()"
                           >终止
