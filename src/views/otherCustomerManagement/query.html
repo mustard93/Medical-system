@@ -29,11 +29,7 @@
       <div class="content-wrapper">
         <div class="content-wrapper-main">
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
-            <!-- <div class="flex-item-6">
-              <em class="fl-l">目录有效期至：</em>
-              <em>{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
-            </div> -->
-            <div class="flex-item-6">
+            <div class="flex-item-1">
               <em class="fl-l">状态：</em>
               <select class="ipt pr-short-ipt color-3" style="width:100px;"
                       data-placeholder="全部"
@@ -42,9 +38,31 @@
                       select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus">
               </select>
             </div>
-            <div class="flex-item-6 text-right">
-              <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
+            <div class="flex-item-8 text-left">
+              <span class="mgl-m color-9">申请日期:</span>
+              <div class="date-icon-outside">
+                <input type="text"
+                       datepicker
+                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                       ng-readonly="true"
+                       ng-model="listParams.createAtBeg"
+                       placeholder="">
+                <span class="date-icon"></span>
+              </div>
+               <span class="color-9">至</span>
+            <div class="date-icon-outside">
+              <input type="text"
+                    datepicker
+                    class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                    ng-readonly="true"
+                    ng-model="listParams.createAtEnd"
+                    placeholder="">
+              <span class="date-icon"></span>
+            </div>
+            </div>
+            <div class="flex-item-3 text-right">
+              <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r" style="margin-top:-10px;">
+                  <input type="text" class="ipt pdr-xxl" placeholder="经销商编号/经销商名称" ng-model="listParams.q">
                   <i class="" style="left:275px;top:17px;"></i>
                   <span ng-click="listParams.q=' '">
                     <em class="color-orange serch-reset"><i class=""></i>重置搜索条件</em>
@@ -58,8 +76,8 @@
                 <tr>
                   <th class="w-80"></th>
                   <th class="w-100">序号</th>
-                  <th class="w-300">经销商/零售商编号</th>
-                  <th >经销商/零售商名称</th>
+                  <th class="w-300">经销商-零售商编号</th>
+                  <th >经销商-零售商名称</th>
                   <th class="w-300">类别</th>
                   <th class="w-160">申请日期</th>
                   <th class="w-160">采购目录有效期</th>
@@ -106,9 +124,9 @@
                   <td class="text-center">{{$index + 1}}</td>
                   <td>{{tr.code}}</td>
                   <td>{{tr.name}}</td>
-                  <td>{{tr.name}}</td>
+                  <td>{{tr.type}}</td>
                   <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-                  <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                  <td>{{tr.guaranteePeriod | date : 'yyyy-MM-dd HH:mm'}}</td>
                 </tr>
               </tbody>
             </table>

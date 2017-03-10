@@ -24,7 +24,17 @@
   scope-data="showData"
   callback="bottomButtonList= $root.bottomButtonList.get_medicalStock(showData);"
   >
-    <div class="content-wrapper-main mgt">
+    <div class="content-wrapper-main mgt"
+    ng-if="showData.businessApplication.businessStatus=='已冻结'||showData.businessApplication.businessStatus=='已通过'">
+      <div class="pr-panel pr-panel-height mgb"
+      ng-class="{'pr-bg-freeze':showData.businessApplication.businessStatus =='已冻结',
+      'pr-bg-pass':showData.businessApplication.businessStatus =='已通过'}">
+      <em>原因:</em>
+       <p class="inline-block color-red">
+      <em ng-model="showData.operationFlowSet.key">{{showData.operationFlowSet.key}}</em>
+       <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
+       </p>
+      </div>
       <!-- 状态 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <span class="text-left flex-item-2">
