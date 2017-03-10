@@ -455,7 +455,7 @@ define('project/controllers', ['project/init'], function() {
             }
           }
 
-          // console.log(addDataItem);
+          // 添加药品后请求当前药品的历史价格
           if (addDataItem) {
             var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
                 _data = {};
@@ -467,7 +467,7 @@ define('project/controllers', ['project/init'], function() {
                 if (item === addDataItem.relId && _resObj[item]) {
                   addDataItem.strike_price = _resObj[item].value;
                 } else {
-                  addDataItem.strike_price = 0;
+                  addDataItem.strike_price = '';
                 }
               }
             })
@@ -1148,8 +1148,7 @@ define('project/controllers', ['project/init'], function() {
       // 如果已添加
       if ($scope.formData.orderMedicalNos.length !== 0) {
         var _len = $scope.formData.orderMedicalNos.length;
-        // console.log(_len);
-        // 未使用forEach方法，因为IE不兼容
+
         for (var i=0; i<_len; i++) {
           if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
             alertWarn('此药械已添加到列表');
@@ -1158,6 +1157,28 @@ define('project/controllers', ['project/init'], function() {
         }
       }
       addDataItem.stockBatchs=[];
+
+      // 添加药品后请求当前药品的历史价格
+      if (addDataItem) {
+        var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            _data = {};
+
+        requestData(_url, _data, 'GET')
+        .then(function (results) {
+          var _resObj = results[1].data;
+          for (var item in _resObj) {
+            if (item === addDataItem.relId && _resObj[item]) {
+              addDataItem.strike_price = _resObj[item].value;
+            } else {
+              addDataItem.strike_price = '';
+            }
+          }
+        })
+        .catch(function (error) {
+          if (error) { console.log(error || '出错!'); }
+        });
+      }
+
       //添加到列表
       $scope.formData.orderMedicalNos.push(addDataItem);
       //计算价格
@@ -2152,9 +2173,9 @@ define('project/controllers', ['project/init'], function() {
 
     //需要重新家长地址方法。编辑新建后
     $scope.customerAddressReload=function (){
-     $scope.reloadTime=new Date().getTime();
-       modal.closeAll();
-   };
+      $scope.reloadTime=new Date().getTime();
+      modal.closeAll();
+    };
 
     /**
     * 医院地址加载后，回调方法
@@ -2218,8 +2239,7 @@ define('project/controllers', ['project/init'], function() {
        // 如果已添加
        if ($scope.formData.orderMedicalNos.length !== 0) {
          var _len = $scope.formData.orderMedicalNos.length;
-         // console.log(_len);
-         // 未使用forEach方法，因为IE不兼容
+
          for (var i=0; i<_len; i++) {
            if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
              alertWarn('此药械已添加到列表');
@@ -2227,6 +2247,28 @@ define('project/controllers', ['project/init'], function() {
            }
          }
        }
+
+       // 添加药品后请求当前药品的历史价格
+       if (addDataItem) {
+         var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=采购',
+             _data = {};
+
+         requestData(_url, _data, 'GET')
+         .then(function (results) {
+           var _resObj = results[1].data;
+           for (var item in _resObj) {
+             if (item === addDataItem.relId && _resObj[item]) {
+               addDataItem.strike_price = _resObj[item].value;
+             } else {
+               addDataItem.strike_price = '';
+             }
+           }
+         })
+         .catch(function (error) {
+           if (error) { console.log(error || '出错!'); }
+         });
+       }
+
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
        //计算价格
