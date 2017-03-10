@@ -4,7 +4,8 @@
      <table-list list-data="rest/authen/customerAddress/query.json"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
-                 search-param="q">
+                 search-param="q"
+                 ng-init="listParams.customerAddressType='医院'">
 
     <!-- 主内容头部 -->
     <div class="header-info relative">
@@ -17,7 +18,7 @@
                 <div class="relative text-left">
                 <div class="order-list-search pos-rel-tr inline-block">
                   <div class="pos-rel-tl order-create-btn inline-block mgt-l fl-l z-index-l">
-                    <a ng-if="$root.hasAuthor('医院资格申请')" href="#/hospitalApplication/edit.html" title="新建医院资格申请"><i></i><span class="text-s">
+                    <a ng-if="$root.hasAuthor('医院资格申请')" href="#/hospitalApplication/edit1.html" title="新建医院资格申请"><i></i><span class="text-s">
                       医院资格申请</span></a>
                   </div>
                 </div>
@@ -62,7 +63,7 @@
             </div>
             <div class="flex-item-3 text-right" >
               <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r" style="margin-top:-10px;">
-                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
+                  <input type="text" class="ipt pdr-xxl" placeholder="医院系统编号/医院名称" ng-model="listParams.q">
                   <i class="" style="left:275px;top:17px;"></i>
                   <span ng-click="listParams.q=' '">
                     <em class="color-orange serch-reset"><i class=""></i>重置搜索条件</em>
@@ -76,7 +77,7 @@
                 <tr>
                   <th class="w-80"></th>
                   <th class="w-100">序号</th>
-                  <th class="w-300">单据编号</th>
+                  <th class="w-300">医院系统编号</th>
                   <th >医院名称</th>
                   <th class="w-160">申请日期</th>
                   <th class="w-300">采购目录有效期至</th>
@@ -122,8 +123,8 @@
                   <td class="text-center">{{$index + 1}}</td>
                   <td>{{tr.code}}</td>
                   <td>{{tr.name}}</td>
-                  <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-                  <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                  <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td>
+                  <td>{{tr.object.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>
             </table>

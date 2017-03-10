@@ -43,7 +43,7 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/otherCustomerApplication/query.html');watchFormChange('formData')">
+            callback="submitFormAfter('#/otherCustomerApplication/edit-step-2.html');watchFormChange('formData')">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
@@ -236,15 +236,6 @@
             </div>
         </div>
       </div>
-      <div class="panel pr-panel pr-panel-height mgb">
-        <h1 class="pr-font-18 mgb">新品引进原因</h1>
-        <div class="">
-          <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
-        </div>
-      </div>
-      <div ng-init='attachmentsExtend={"title":"审核资料","usege":"经销商或零售商","addFlag":false}'
-       attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
-      <div class="color-black mgt-l mgb-l">
         <div class="color-black mgt-l mgb-l">
           <p>
             <p class="pr-font-14">说明：</p>
@@ -285,12 +276,8 @@
             </span>
             <span class="mgl mgt">
               <button class="pr-btn-save-glodbg"
-                      type="button"
-                      ajax-url-submit="rest/authen/otherCustomerApplication/startProcessInstance"
-                      params='{"businessKey":formData.id}'
-                      alert-error
-                      scope-data="showData"
-                      callback="$root.goTo('#/otherCustomerApplication/get.html?id={{formData.id}}')">提交
+                      ng-disabled="otherCustomerEditForm.$invalid"
+                      ng-click="submitForm('otherCustomer-editForm','submit')">下一步
               </button>
             </span>
           </div>

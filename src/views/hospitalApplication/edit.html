@@ -42,8 +42,8 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/hospitalApplication/edit-step-2.html');watchFormChange('formData')">
-            
+            callback="submitFormAfter('#/hospitalApplication/query.html');watchFormChange('formData')">
+
 
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
@@ -202,7 +202,14 @@
               </div>
             </div>
           </div>
-
+          <div class="panel pr-panel pr-panel-height mgb">
+            <h1 class="pr-font-18 mgb">新品引进原因</h1>
+            <div class="">
+              <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+            </div>
+          </div>
+          <div ng-init='attachmentsExtend={"title":"审核资料","usege":"医院资格申请","addFlag":false}'
+          attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
         <div class="color-black mgt-l mgb-l">
           <p>
             <p class="pr-font-14">说明：</p>
@@ -242,10 +249,20 @@
                     ng-click="submitForm('hospital-editForm','save')">保存
             </button>
           </span>
-          <span class="mgl mgt">
+          <!-- <span class="mgl mgt">
             <button class="pr-btn-save-glodbg"
                     ng-disabled="hospitalEditForm.$invalid"
                     ng-click="submitForm('hospital-editForm','submit')">下一步
+            </button>
+          </span> -->
+          <span class="mgl mgt">
+            <button class="pr-btn-save-glodbg"
+                    type="button"
+                    ajax-url-submit="rest/authen/hospitalApplication/startProcessInstance"
+                    params='{"businessKey":formData.id}'
+                    alert-error
+                    scope-data="showData"
+                    callback="$root.goTo('#/hospitalApplication/get.html?id={{formData.id}}')">提交
             </button>
           </span>
         </div>

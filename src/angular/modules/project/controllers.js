@@ -455,7 +455,7 @@ define('project/controllers', ['project/init'], function() {
             }
           }
 
-          // console.log(addDataItem);
+          // 添加药品后请求当前药品的历史价格
           if (addDataItem) {
             var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
                 _data = {};
@@ -467,7 +467,7 @@ define('project/controllers', ['project/init'], function() {
                 if (item === addDataItem.relId && _resObj[item]) {
                   addDataItem.strike_price = _resObj[item].value;
                 } else {
-                  addDataItem.strike_price = 0;
+                  addDataItem.strike_price = '';
                 }
               }
             })
@@ -1148,8 +1148,7 @@ define('project/controllers', ['project/init'], function() {
       // 如果已添加
       if ($scope.formData.orderMedicalNos.length !== 0) {
         var _len = $scope.formData.orderMedicalNos.length;
-        // console.log(_len);
-        // 未使用forEach方法，因为IE不兼容
+
         for (var i=0; i<_len; i++) {
           if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
             alertWarn('此药械已添加到列表');
@@ -1158,6 +1157,28 @@ define('project/controllers', ['project/init'], function() {
         }
       }
       addDataItem.stockBatchs=[];
+
+      // 添加药品后请求当前药品的历史价格
+      if (addDataItem) {
+        var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            _data = {};
+
+        requestData(_url, _data, 'GET')
+        .then(function (results) {
+          var _resObj = results[1].data;
+          for (var item in _resObj) {
+            if (item === addDataItem.relId && _resObj[item]) {
+              addDataItem.strike_price = _resObj[item].value;
+            } else {
+              addDataItem.strike_price = '';
+            }
+          }
+        })
+        .catch(function (error) {
+          if (error) { console.log(error || '出错!'); }
+        });
+      }
+
       //添加到列表
       $scope.formData.orderMedicalNos.push(addDataItem);
       //计算价格
@@ -1481,8 +1502,7 @@ define('project/controllers', ['project/init'], function() {
   /**
    *出库单
    */
-  function invoicesOrderCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
-
+  function invoicesOrderCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, $timeout) {
     //快递保存后
     $scope.kuaidiSaveAfter = function(kuaidi) {
         modal.closeAll();
@@ -1496,15 +1516,10 @@ define('project/controllers', ['project/init'], function() {
            return;
          }
       }
-     arr.push(kuaidi);//新建
-   };//kuaidiSaveAfter
+      arr.push(kuaidi);//新建
+    };
 
-
-     /**
-     *保存
-     type:save-草稿,submit-提交订单。
-     */
-     $scope.deleteKuaidi = function(kuaidi,invoicesOrderId) {
+    $scope.deleteKuaidi = function(kuaidi,invoicesOrderId) {
        var url='rest/authen/invoicesOrder/kuaidi/delete';
        var data= {kuaidiId:kuaidi.id,invoicesOrderId:invoicesOrderId};
        requestData(url,data, 'POST')
@@ -1524,10 +1539,7 @@ define('project/controllers', ['project/init'], function() {
            alertError(error || '出错');
          });
        };//deleteKuaidi
-    /**
-    *保存
-    type:save-草稿,submit-提交订单。
-    */
+
     $scope.submitFormAfter = function() {
 
 
@@ -1556,15 +1568,39 @@ define('project/controllers', ['project/init'], function() {
 
     };
 
-    /**
-    *保存
-    type:save-草稿,submit-提交订单。
-    */
     $scope.submitForm = function(fromId, type) {
        $scope.submitForm_type = type;
       $('#' + fromId).trigger('submit');
 
     };
+
+    // 监视用户输入备注信息，当用户输入修改后1秒自动保存用户修改
+    $scope.$watch('scopeData.note', function (newVal, oldVal) {
+      if (newVal && (oldVal!==undefined)) {
+        $timeout(function () {
+          var _url = "rest/authen/invoicesOrder/save",
+              _data = $scope.scopeData;
+          requestData(_url, _data, 'POST', 'parameterBody')
+          .then(function (results) {
+            if (results[1].code === 200) {
+              $scope.showSaveNoteInfo = true;
+            }
+          })
+          .catch(function (error) {
+            if (error) { throw new Error(error || '出错!'); }
+          });
+        }, 1000);
+      }
+    });
+
+    // 监视备注提示信息，显示后1秒自动隐藏
+    $scope.$watch('showSaveNoteInfo', function (newVal) {
+      if (newVal) {    // 如果信息显示了
+        $timeout(function () {
+          $scope.showSaveNoteInfo = false;
+        }, 1500);
+      }
+    });
   }
 
   /**
@@ -2152,9 +2188,9 @@ define('project/controllers', ['project/init'], function() {
 
     //需要重新家长地址方法。编辑新建后
     $scope.customerAddressReload=function (){
-     $scope.reloadTime=new Date().getTime();
-       modal.closeAll();
-   };
+      $scope.reloadTime=new Date().getTime();
+      modal.closeAll();
+    };
 
     /**
     * 医院地址加载后，回调方法
@@ -2218,8 +2254,7 @@ define('project/controllers', ['project/init'], function() {
        // 如果已添加
        if ($scope.formData.orderMedicalNos.length !== 0) {
          var _len = $scope.formData.orderMedicalNos.length;
-         // console.log(_len);
-         // 未使用forEach方法，因为IE不兼容
+
          for (var i=0; i<_len; i++) {
            if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
              alertWarn('此药械已添加到列表');
@@ -2227,6 +2262,28 @@ define('project/controllers', ['project/init'], function() {
            }
          }
        }
+
+       // 添加药品后请求当前药品的历史价格
+       if (addDataItem) {
+         var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=采购',
+             _data = {};
+
+         requestData(_url, _data, 'GET')
+         .then(function (results) {
+           var _resObj = results[1].data;
+           for (var item in _resObj) {
+             if (item === addDataItem.relId && _resObj[item]) {
+               addDataItem.strike_price = _resObj[item].value;
+             } else {
+               addDataItem.strike_price = '';
+             }
+           }
+         })
+         .catch(function (error) {
+           if (error) { console.log(error || '出错!'); }
+         });
+       }
+
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
        //计算价格
@@ -3530,7 +3587,22 @@ define('project/controllers', ['project/init'], function() {
 
     // 客户管理(医院管理，经销商/零售商管理)模块
     function customerAddressCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
-      $scope.$watch('initFlag', function (newVal) {
+       $scope.$watch('initFlag', function () {
+         var operationFlowSetMessage=[];
+         var operationFlowSetKey=[];
+         if ($scope.showData.operationFlowSet) {
+           // 选择出当前状态相同的驳回理由，并放入一个数组中
+          for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+            if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
+              operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+              operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+            }
+          }
+         //  选择当前状态最近的一个驳回理由用于显示
+          $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+          $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+          return;
+         }
        });
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
@@ -4621,7 +4693,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('arrivalNoticeOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', arrivalNoticeOrderEditCtrl])
   .controller('requestPurchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', '$timeout', requestPurchaseOrderEditCtrl])
   .controller('noticeCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', noticeCtrl])
-  .controller('invoicesOrderCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError', invoicesOrderCtrl])
+  .controller('invoicesOrderCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError', '$timeout', invoicesOrderCtrl])
   .controller('salesOrderEditCtrl2', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', salesOrderEditCtrl2])
   .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl])
   .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])

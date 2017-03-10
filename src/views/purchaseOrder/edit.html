@@ -30,14 +30,13 @@
            <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
          </div>
          <!-- 供货商信息 -->
-         <div
-              ajax-if-eval="formData.supplier.id"
+         <div ajax-if-eval="formData.supplier.id"
               ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
               scope-data="supplier"
               callback="formData.supplier=supplier"
               alert-error>
            <span>
-             <span ng-if="initFlag==true"
+             <span ng-if="initFlag"
                    angucomplete-supplier
                    placeholder="供应商输入"
                    title-field="name"
@@ -48,8 +47,8 @@
                    class="inline-block mgr-s medical-search">
              </span>
              <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
-             {{formData.supplier.businessApplication.businessStatus}}
-           </em>
+               {{formData.supplier.businessApplication.businessStatus}}
+             </em>
            </span>
          </div>
        </div>
@@ -68,7 +67,6 @@
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
            <!-- 信息 -->
            <div flash-add-medical
-           ng-if="!formData.relId"
                 ng-model="data1"
                 class="pd-c-l pdt-m"
                 ajax-url="rest/authen/medicalStock/query?supplierId={{formData.supplier.id}}"
@@ -193,6 +191,8 @@
                                   ng-model="tr.quantity"
                                   ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                                  required
+                                  ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                                   invalid-popover
                                   popover-show="tr.quantity>tr.planQuantity"
                                   popover-options='{"content":"当前数量不能大于计划数量", "placement":"right", "trigger":"manual"}'>
@@ -207,12 +207,19 @@
                        <div class="order-goods-num">
                          <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
                          <span class="inline-block">
-                           <input type="number"
+                           <input type="text"
                                   class="inline ipt pr-ipt-60 text-center item-quantity"
                                   style="width:60px;"
+                                  name="quantity{{$index}}"
                                   ng-model="tr.quantity"
                                   ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}">
+                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                                  required
+                                  ng-pattern="/^[1-9]{1}[0-9]{1,10}?$/"
+                                  invalid-popover
+                                  valid-value="{{!purchaseForm['quantity'+$index].$valid}}"
+                                  popover-show
+                                  popover-options='{"content":"格式不正确或数量不能大于计划数量", "placement":"right", "trigger":"manual"}'>
                          </span>
                          <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)">+</button>
                        </div>
@@ -227,7 +234,7 @@
                          <option value="单一新批号" ng-selected="tr.batchRequirement=='单一新批号'">单一新批号</option>
                          <option value="新批号" ng-selected="tr.batchRequirement=='新批号'">新批号</option>
                        </select>
-                     </td><!-- 实际采购数量 -->
+                     </td><!-- 批号要求 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
                        <input type="text"
                               class="ipt pr-ipt-60 text-right"
@@ -240,8 +247,14 @@
                               valid-value="{{!purchaseForm['strike_price'+$index].$valid}}"
                               popover-show
                               popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
-                       <p class="color-orange pr-indent-35"><a modal-right="577" modal-scope="this"  modal-url="views/versionFlow/history-price.html?id={{tr.id}}">历史价格</a></p>
-                     </td><!-- 批号要求 -->
+                       <p class="color-orange pr-indent-35">
+                         <a modal-right="577"
+                            modal-scope="this"
+                            modal-data='{"medicalName":"{{tr.name}}","id":"{{tr.relId}}","type":"采购"}'
+                            modal-url="views/versionFlow/history-price.html">参考价格
+                         </a>
+                       </p>
+                     </td><!-- 原币含税单价 -->
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>

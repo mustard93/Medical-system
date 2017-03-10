@@ -19,18 +19,19 @@
                    name="customer"
                    ng-checked=""
                    ng-click="choiseThisItem(item,dialogData.id)"
-                   ng-disabled="item.value=='无'"><i></i>
+                   ng-disabled="!item.value"><i></i>
           </label>
         </span>
-        <span class="mgl-xl">￥ {{item.value}}</span>
-        <span class="mgl-xl">{{item.text}}</span>
+        <span ng-if="item.value" class="mgl-s" style="width:120px;display:inline-block;">{{item.value | currency:'￥'}}</span>
+        <span ng-if="!item.value" class="mgl-s" style="width:120px;display:inline-block;">-</span>
+        <span class="mgl-s">{{item.text}}</span>
       </li>
     </ul>
   </div>
 
   <!-- 功能按钮 -->
-  <div class="footer-button-area">
+  <!-- <div class="footer-button-area">
     <button type="button" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
-  </div>
+  </div> -->
 
 </div>
