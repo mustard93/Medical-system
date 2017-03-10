@@ -94,16 +94,21 @@
                     ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
                      'bg-pass-green':tr.businessApplication.businessStatus =='已通过',
                     'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
-                      <span class="purchaseorder-buyer-info">
-                        <i class="block pd-c-s text-normal">
-                          <em n-if="tr.businessApplication.businessStatus !='已通过'" class="inline-block pd-v-s">
-                            {{tr.businessApplication.businessStatus}}
-                          </em>
-                          <em n-if="tr.businessApplication.businessStatus =='已通过'" class="inline-block pd-v-s">
-                            正常
-                          </em>
-                        </i>
-                      </span>
+                    <span ng-if="tr.businessApplication.businessStatus =='已通过'" class="purchaseorder-buyer-info" style="right: 22px;top: -18px;">
+                      <i class="block pd-c-s text-normal">
+                        <em  class="inline-block pd-v-s">
+                          正常
+                        </em>
+                      </i>
+                    </span>
+                    <span ng-if="tr.businessApplication.businessStatus !='已通过'" class="purchaseorder-buyer-info" style="right: 17px;top: -18px;">
+                      <i class="block pd-c-s text-normal">
+                        <em  class="inline-block pd-v-s">
+                          {{tr.businessApplication.businessStatus}}
+                        </em>
+                      </i>
+                    </span>
+                  </span>
                     </span>
                   </td>
                   <td class="text-center">{{$index + 1}}</td>
