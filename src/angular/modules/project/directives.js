@@ -1839,7 +1839,9 @@ function stepFlowArrowShow(utils){
 
               for(var i=0;i<stepFlowArrow.length;i++){
                   var step=stepFlowArrow[i];
-                  var tmp="<div class='"+step.className+"'><span>"+step.arrowText+"</span></div>";
+                  var j=i+1;
+                  var tmp="<div class='"+step.className+"'><span class='"+j+"' beforeContent"+j+">"+step.arrowText+"</span></div>";
+                  // $("."+j).attr('beforeContent',j);
                   $($element).append($(tmp));
                   // 中间箭头的形状定义
                   if(i>0&&i<stepFlowArrow.length-1){
