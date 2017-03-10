@@ -4582,7 +4582,15 @@ define('project/controllers', ['project/init'], function() {
    * @return {[type]}        [description]
    */
   function historicalPriceController ($scope, utils) {
-
+    // 用户选择价格
+    $scope.choiseThisItem = function (obj,id) {
+      // 直接将用户选择的历史价格赋值给表单价格
+      if ($scope.formData.orderMedicalNos) {
+        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+          if (item.relId === id) { item.strike_price = obj.value; }
+        });
+      }
+    };
   }
 
   angular.module('manageApp.project')
