@@ -21,21 +21,12 @@
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <!-- 添加流程导航 -->
-    <div class="first-medical-nav">
-      <div class="visited">
-        <span >基本信息</span>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="active">
-        <div></div>
-        <span>申请原因</span>
-        <div></div>
-      </div>
-      <div class="unactive">
-        <div></div>
-        <span>添加审核资料</span>
-      </div>
+    <div
+    step-flow-arrow-show
+    step-flow-arrow-json=
+  '[{"arrowText":"基本信息","className":"active"},
+    {"arrowText":"添加三证","className":"unactive"},
+    {"arrowText":"添加资质证书","className":"unactive"}]'>
     </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
@@ -52,71 +43,319 @@
             callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-3.html');watchFormChange('formData')">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-          <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo}}</em></span>
-          <span class="text-right flex-item-1">
-            状态：<em class="color-black">{{formData.orderStatus}}</em>
-          </span>
-        </div>
-        <!-- 基本信息 -->
-        <div class="panel pr-panel pr-panel-height mgb">
-          <h1 class="pr-font-18 mgb">申请原因</h1>
-          <div class="">
-            <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+          <div class="flex-item-6">
+            <span class="flex-item-2">
+              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
+            </span>
+            <span class="flex-item-10">
+              <span class="flex-item-1 text-right">
+                采购员：
+              </span>
+              <span class="flex-item-2">
+                <select class="select pr-select" data-placeholder=" "
+                chosen
+                default-empty=""
+                ng-model="formData.buyerId"
+                select-source="rest/authen/user/queryForSelectOption">
+                </select>
+              </span>
+            </span>
+          </div>
+          <div class="flex-item-6 text-right">
+              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
+              状态：<em class="color-black">{{formData.orderStatus}}</em>
           </div>
         </div>
-        <div class="color-black mgt-l">
+        <!-- 基本信息 -->
+
+        <div class="panel pr-panel pr-panel-height mgb">
+          <h1 class="mgb-m color-black text-bold text-n">三证</h1>
+          <h3 class="crumbs-circle color-black pr-indent-10 pd-v">营业执照</h3>
+          <div class="flex-column">
+            <div class="flex-item-6 br-dashed-line">
+              <div class="mgt-m flex-item-12">
+                <label class="flex-item-2 text-right control-label">注册号：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="genericName"
+                         ng-model="formData.firstEnterprise.fullName"
+                         required />
+                </div>
+              </div>
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right control-label">发证日期：</label>
+                <div class="flex-item-10 text-left">
+                  <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt ipt-new-s color-6"
+                           ng-readonly="true"
+                           placeholder=""
+                           ng-model="formData.medical.guaranteePeriod">
+                          <span class="date-icon"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right control-label">有效期至：</label>
+                <div class="flex-item-10 text-left">
+                  <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt ipt-new-s color-6"
+                           ng-readonly="true"
+                           placeholder=""
+                           ng-model="formData.medical.guaranteePeriod">
+                          <span class="date-icon"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right control-label">注册资金：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new ipt-new-s"
+                         name="genericName"
+                         ng-model="formData.firstEnterprise.fullName"
+                         required />
+                </div>
+              </div>
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right control-label">企业法人：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new ipt-new-s"
+                         name="genericName"
+                         ng-model="formData.firstEnterprise.fullName"
+                         required />
+                </div>
+              </div>
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right control-label">负责人：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new ipt-new-s"
+                         name="genericName"
+                         ng-model="formData.firstEnterprise.fullName"
+                         required />
+                </div>
+              </div>
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right">质量负责人：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new ipt-new-s"
+                         name="genericName"
+                         ng-model="formData.firstEnterprise.fullName"
+                         required />
+                </div>
+              </div>
+
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right">经营方式：</label>
+                <div class="flex-item-6 text-left">
+                  <label class="radio-inline radio radio-new" style="top:-5px;">
+                    <input type="radio" class="default-radio"  name="type" value="批发" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <em class="inline-block color-black" style="top:-20px">批发</em>
+                  </label>
+                  <label class="radio-inline radio radio-new" style="top:-5px;">
+                    <input type="radio" class="default-radio"  name="type" value="生产" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <em class="inline-block color-black text-right" style="padding-top:0px;">生产</em>
+                  </label>
+                </div>
+              </div>
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right">是否年检：</label>
+                <div class="flex-item-6 text-left">
+                  <label class="radio-inline radio radio-new" style="top:-5px;">
+                    <input type="radio" class="default-radio"  name="type" value="批发" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <em class="inline-block color-black" style="top:-20px">是</em>
+                  </label>
+                  <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
+                    <input type="radio" class="default-radio"  name="type" value="生产" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
+                  </label>
+                </div>
+              </div>
+              <div class="mgt flex-item-12 mgb">
+                <label class="flex-item-2 text-right">三证合一：</label>
+                <div class="flex-item-6 text-left">
+                  <label class="radio-inline radio radio-new" style="top:-5px;">
+                    <input type="radio" class="default-radio"  name="type" value="批发" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <em class="inline-block color-black" style="top:-20px">是</em>
+                  </label>
+                  <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
+                    <input type="radio" class="default-radio"  name="type" value="生产" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6" style="padding:20px 50px;">
+                <div ng-init='attachmentsItemExtend={"edit":true}'
+                attachments-item-show attachments-item-extend="attachmentsItemExtend"
+                ng-model="item"></div>
+            </div>
+          </div>
+          <h3 class="crumbs-circle color-black pr-indent-10 pd-v">机构代码证</h3>
+          <div class="flex-column">
+            <div class="flex-item-6 br-dashed-line">
+              <div class="mgt-m flex-item-12">
+                <label class="flex-item-2 text-right control-label">证书编号：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="genericName"
+                         ng-model="formData.firstEnterprise.fullName"
+                         required />
+                </div>
+              </div>
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right control-label">年检日期：</label>
+                <div class="flex-item-10 text-left">
+                  <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt ipt-new-s color-6"
+                           ng-readonly="true"
+                           placeholder=""
+                           ng-model="formData.medical.guaranteePeriod">
+                          <span class="date-icon"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="mgt flex-item-12 mgb-xxxl">
+                <label class="flex-item-2 text-right control-label">有效期至：</label>
+                <div class="flex-item-10 text-left">
+                  <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt ipt-new-s color-6"
+                           ng-readonly="true"
+                           placeholder=""
+                           ng-model="formData.medical.guaranteePeriod">
+                          <span class="date-icon"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6" style="padding:20px 50px;">
+                <div ng-init='attachmentsItemExtend={"edit":true}'
+                attachments-item-show attachments-item-extend="attachmentsItemExtend"
+                ng-model="item"></div>
+            </div>
+          </div>
+
+          <h3 class="crumbs-circle color-black pr-indent-10 pd-v">税务登记证</h3>
+          <div class="flex-column">
+            <div class="flex-item-6 br-dashed-line">
+              <div class="mgt-m flex-item-12">
+                <label class="flex-item-2 text-right control-label">证书编号：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="genericName"
+                         ng-model="formData.firstEnterprise.fullName"
+                         required />
+                </div>
+              </div>
+              <div class="mgt flex-item-12">
+                <label class="flex-item-2 text-right control-label">发证日期：</label>
+                <div class="flex-item-10 text-left">
+                  <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt ipt-new-s color-6"
+                           ng-readonly="true"
+                           placeholder=""
+                           ng-model="formData.medical.guaranteePeriod">
+                          <span class="date-icon"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="mgt flex-item-12 mgb-xxxl">
+                <label class="flex-item-2 text-right control-label">有效期至：</label>
+                <div class="flex-item-10 text-left">
+                  <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt ipt-new-s color-6"
+                           ng-readonly="true"
+                           placeholder=""
+                           ng-model="formData.medical.guaranteePeriod">
+                          <span class="date-icon"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-6" style="padding:20px 50px;">
+                <div ng-init='attachmentsItemExtend={"edit":true}'
+                attachments-item-show attachments-item-extend="attachmentsItemExtend"
+                ng-model="item"></div>
+            </div>
+          </div>
+          <h3 class="crumbs-circle color-black pr-indent-10 pd-v">备注</h3>
+          <div class="flex-column pd-c-v-l">
+            <div class="flex-item-12 pd-c-xxxxxxl">
+              <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+            </div>
+          </div>
+        </div>
+      <div class="color-black mgt-l">
           <p>
             <p class="pr-font-14">说明：</p>
-            <p>1.品种资质必须加供货企业红色原公章；</p>
-            <p>2.采购人员按要求向供货商(生产企业／经营企业)所要并和事资质的真实合法性，并如实填写本表；</p>
+            <p>1.企业及人员资质必须加盖该企业红色原公章；</p>
+            <p>2.质保协议须盖法人章或委托人签字，但需提供授权书。质保协议有效期不超过经营、生产许可证有效期；</p>
+            <p>3.采购人员需按要求向供货企业索要并核实资质的真实合法性，并如实填写本表；</p>
+            <p>4.企业和人员资质按表中顺序排放，核实记录附在最后面，以本表为封面；</p>
           </p>
-        </div>
+      </div>
         <!-- 功能按钮 -->
-        <div class="handle-btn-area relative">
-          <div class="mgb text-right btn-area">
-          <span class="mgl">
-            <a   ng-if="changeFlag"  href="javascript:;"
-               handle-this-click
-               dialog-title="确认返回?"
-               dialog-content="该申请单存在未保存数据，是否保存?"
-               dialog-template="pr-dialog-return.html"
-               nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
-               save-callback="submitForm('editForm','exit');
-               $root.goTo('#/firstEnterpriseApplication/query.html')">返回申请单列表</a>
-            <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
-          </span>
-          <span class="mgl">
-            <a ng-if="formData.id && formData.proposerName==mainStatus.name"
-               href="javascript:;"
-               class="color-red mgt"
-               handle-this-click
-               dialog-title="确认删除?"
-               dialog-content="删除后将无法恢复,确认删除?"
-               dialog-template="pr-dialog-submit.html"
-               callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
-               params='{"id":formData.id}'
-               request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
-          </span>
-          <span class="mgl">
-            <button class="pr-btn-save-glodbg mgt"
-                    ng-disabled="!changeFlag || !formData.applyReason || firstMedicalEditForm.applyReason.$pristine"
-                    ng-click="submitForm('first-enterprise-editForm','save')">保存
-            </button>
-          </span>
-          <span class="mgl">
-            <button class="pr-btn-save-glodbg mgt"
-                    ng-click="pageTo('#/firstEnterpriseApplication/edit1.html?id='+formData.id)">上一步</button>
-          </span>
-          <span class="mgl">
-            <button class="pr-btn-save-glodbg mgt"
-                    ng-disabled="!formData.applyReason"
-                    ng-click="submitForm('first-enterprise-editForm','submit')">下一步
-            </button>
-          </span>
-        </div>
-        </div>
+      <div class="handle-btn-area relative">
+        <div class="mgb text-right btn-area">
+        <span class="mgl">
+          <a   ng-if="changeFlag"  href="javascript:;"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="该申请单存在未保存数据，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo('#/firstEnterpriseApplication/query.html')"
+             save-callback="submitForm('editForm','exit');
+             $root.goTo('#/firstEnterpriseApplication/query.html')">返回申请单列表</a>
+          <a ng-if="!changeFlag" href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
+        </span>
+        <span class="mgl">
+          <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+             href="javascript:;"
+             class="color-red mgt"
+             handle-this-click
+             dialog-title="确认删除?"
+             dialog-content="删除后将无法恢复,确认删除?"
+             dialog-template="pr-dialog-submit.html"
+             callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+             params='{"id":formData.id}'
+             request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg mgt"
+                  ng-disabled="!changeFlag || !formData.applyReason || firstMedicalEditForm.applyReason.$pristine"
+                  ng-click="submitForm('first-enterprise-editForm','save')">保存
+          </button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg mgt"
+                  ng-click="pageTo('#/firstEnterpriseApplication/edit1.html?id='+formData.id)">上一步</button>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-save-glodbg mgt"
+                  ng-disabled="!formData.applyReason"
+                  ng-click="submitForm('first-enterprise-editForm','submit')">下一步
+          </button>
+        </span>
+      </div>
+      </div>
       </form>
     </div>
-
   </div>
 </div>
