@@ -198,10 +198,10 @@
                                  style="width:60px;"
                                  ng-model="item.planQuantity"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].planQuantity<item.planQuantity}"
-                                 ng-pattern="/^[1-9]\d*$/"
+                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
                                  valid-value="{{!editForm['planQuantity'+$index].$valid}}"
-                                 popover-show="item.planQuantity>100000"
+                                 popover-show
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>

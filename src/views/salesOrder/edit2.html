@@ -115,10 +115,10 @@
                                  ng-model="tr.quantity"
                                  required
                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                                 ng-pattern="/^[1-9]\d*$/"
+                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid || tr.quantity>100000}}"
-                                 popover-show="tr.quantity>100000"
+                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
+                                 popover-show
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'>
                         </span>
                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>

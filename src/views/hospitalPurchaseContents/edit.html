@@ -1,6 +1,6 @@
 <div class="hospital-application"
      ng-controller="hospitalPurchaseContentsCtrl"
-     ajax-url="rest/authen/hospitalPurchaseContents/get?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/hospitalPurchaseContents/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback='initFlag=true;watchFormChange("formData");bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
      alert-error>
@@ -31,8 +31,8 @@
     </div>
     <!-- 药械列表 -->
     <div class="pd-loss-l">
-      <p ng-if="initFlag" class="inline-block mgb-l text-n color-3 text-bold">{{formData.hospitalName}}</p>
-    <em class=" mgl">（系统编号：<em class="color-3">YY0001</em>）</em>
+      <p ng-if="initFlag" class="inline-block mgb-l text-n color-3 text-bold">{{formData.name}}</p>
+      <em class=" mgl">(系统编号：<em class="color-3">{{formData.code}}</em>)</em>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <!-- 信息 -->
         <div class="view-medical pd-c-l pdt-m" flash-add-medical

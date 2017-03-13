@@ -2119,7 +2119,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 监控用户变化，清空之前选择药械列表
     $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
-      if (newVal && oldVal !== newVal) {
+      if (newVal && oldVal && oldVal !== newVal) {
         if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
       }
     });
@@ -2397,39 +2397,34 @@ define('project/controllers', ['project/init'], function() {
     */
     $scope.submitFormAfter = function() {
 
-           $scope.formData.validFlag = false;
+      $scope.formData.validFlag = false;
 
-         if ($scope.submitForm_type == 'exit') {
-           $scope.goTo('#/purchaseOrder/query.html');
+        if ($scope.submitForm_type == 'exit') {
+          $scope.goTo('#/purchaseOrder/query.html');
           return;
-        }else   if ($scope.submitForm_type == 'print') {
+        }else if ($scope.submitForm_type == 'print') {
           var url="indexOfPrint.html#/print/index.html?key=purchaseOrderPrint&id="+$scope.formData.id;
-            win1=window.open(url);
+          win1=window.open(url);
 
-           if(!win1||!win1.location){
-               alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
-           }
+          if(!win1||!win1.location){
+            alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
+          }
+          return;
+        }
 
-           return;
-         }
-
-         if ($scope.submitForm_type == 'submit') {
-           var url='rest/authen/purchaseOrder/startProcessInstance';
-           var data= {businessKey:$scope.formData.id};
-           requestData(url,data, 'POST')
-             .then(function (results) {
-               var _data = results[1];
-              //  alertOk(_data.message || '操作成功');
-               $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
-
-             })
-             .catch(function (error) {
-               alertError(error || '出错');
-             });
-         }
-
-       };
-
+        if ($scope.submitForm_type == 'submit') {
+          var _url='rest/authen/purchaseOrder/startProcessInstance';
+          var data= {businessKey:$scope.formData.id};
+          requestData(_url,data, 'POST')
+            .then(function (results) {
+              var _data = results[1];
+              $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
+            })
+            .catch(function (error) {
+              alertError(error || '出错');
+            });
+          }
+        };
     /**
     * 保 存 type:save-草稿,submit-提交订单。
     */
