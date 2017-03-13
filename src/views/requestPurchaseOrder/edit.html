@@ -63,6 +63,11 @@
                  <th class="text-center">单位</th>
                  <th class="text-center">数量</th>
                  <th class="text-center w-110">批号要求</th>
+                 <th class="text-center">原币含税单价</th>
+                 <th class="text-center">原币单价</th>
+                 <th class="text-center">原币金额</th>
+                 <th class="text-center">原币价税合计</th>
+                 <th class="text-center">税率</th>
                  <th class="text-center">产地品牌</th>
                  <th class="text-center">产品注册证号</th>
                  <th class="text-center">产品注册证有效期</th>
@@ -77,13 +82,13 @@
                             ng-model="tr.handleFlag"
                             ng-click="chkChoiseMedicals(tr,formData.orderMedicalNos);"
                             ng-disabled="formData.orderStatus=='已处理'">
-                   </td>
-                   <td class="text-center" style="line-height:2.4;">{{tr.code}}</td>
-                   <td class="text-left" style="line-height:2.4;"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td>
-                   <td style="line-height:2.4;">{{tr.supplierName}}</td>
-                   <td class="text-center" style="line-height:2.4;">{{tr.specificationAndModelType}}</td>
-                   <td class="text-center" style="line-height:2.4;">{{tr.unit}}</td>
-                   <td class="text-center" style="line-height:2.4;">{{tr.quantity}}</td>
+                   </td><!-- 选择checkbox -->
+                   <td class="text-center" style="line-height:2.4;">{{tr.code}}</td><!-- 商品编号 -->
+                   <td class="text-left" style="line-height:2.4;"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
+                   <td style="line-height:2.4;">{{tr.supplierName}}</td><!-- 供应商 -->
+                   <td class="text-center" style="line-height:2.4;">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                   <td class="text-center" style="line-height:2.4;">{{tr.unit}}</td><!-- 单位 -->
+                   <td class="text-center" style="line-height:2.4;">{{tr.quantity}}</td><!-- 数量 -->
                    <td>
                      <select class="select pr-select pr-select-sm text-left"  ng-model="tr.batchRequirement">
                        <option value="无" >无</option>
@@ -91,27 +96,26 @@
                        <option value="单一新批号">单一新批号</option>
                        <option value="新批号">新批号</option>
                      </select>
-                   </td>
-                   <!-- <td class="text-center">￥
+                   </td><!-- 批号要求 -->
+                   <td class="text-center">￥
                      <input type="text"
                             class="ipt pr-ipt-60 text-right"
                             ng-model="tr.purchasePrice"
                             ng-disabled="formData.orderStatus=='已处理'"
-                            ng-change="tr.strike_price=tr.purchasePrice"
-                             />
-                   </td>
-                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
-                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
-                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
+                            ng-change="tr.strike_price=tr.purchasePrice" />
+                   </td><!-- 原币含税单价 -->
+                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td><!-- 原币单价 -->
+                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td><!-- 原币金额 -->
+                   <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td><!-- 原币价税合计 -->
                    <td class="text-right">
                      <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.taxRate">
                        <option value="17" ng-selected="tr.taxRate==17">17</option>
                        <option value="3" ng-selected="tr.taxRate==3">3</option>
                      </select>%
-                   </td> -->
-                   <td class="text-center" style="line-height:2.4;">{{tr.brand}}</td>
-                   <td class="text-center" style="line-height:2.4;">{{tr.drugAdministrationCode}}</td>
-                   <td class="text-center relative" style="line-height:2.4;">{{tr.drugAdministrationCodeGuaranteePeriod}}</td>
+                   </td><!-- 税率 -->
+                   <td class="text-center" style="line-height:2.4;">{{tr.brand}}</td><!-- 产地品牌 -->
+                   <td class="text-center" style="line-height:2.4;">{{tr.drugAdministrationCode}}</td><!-- 产品注册证号 -->
+                   <td class="text-center relative" style="line-height:2.4;">{{tr.drugAdministrationCodeGuaranteePeriod}}</td><!-- 产品注册证有效期 -->
                  </tr>
                </tbody>
              </table>
