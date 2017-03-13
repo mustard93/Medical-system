@@ -1,7 +1,5 @@
 <div ng-controller="pageCtrl"
- ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id')"
- ajax-url="rest/authen/confirmOrder/getPrint.json?id={{mainStatus.pageParams.id}}" style="min-height:600px;"
- scope-data="showData"
+  ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');htmlString='';mainStatus.pageParams.key='purchaseVoucherPrint'"
 ><!-- pageCtrl-->
 <!-- {{showData}} -->
 
@@ -12,12 +10,11 @@
 
 
       <select
-      ajax-url="rest/authen/uiCustomHtml/queryForSelectOptionByKey.json?key=confirmOrderPrint"
+      ajax-if-eval="mainStatus.pageParams"
+      ajax-url="rest/authen/uiCustomHtml/queryForSelectOptionByKey.json?key={{mainStatus.pageParams.key}}"
       scope-data="queryForSelectOptionByKey"
       callback="defaultObj=$root.utils.getObjectByKeyOfArr('note','true'); uiCustomHtmlId=defaultObj.value||queryForSelectOptionByKey[0].value"
-
         ng-options="item.value as item.text  for item in queryForSelectOptionByKey"  ng-model="uiCustomHtmlId">
-
       </select>
 
 
@@ -42,7 +39,8 @@
   <!--在线编辑前的数据展示-->
        <div  ng-if="!htmlString&&uiCustomHtmlId" id="Print_Div_id" >
 
-         <ng-include id="htmlString_divId" src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtml.html?id='+uiCustomHtmlId"></ng-include>
+         <!-- <ng-include id="htmlString_divId" src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtml.html?id='+uiCustomHtmlId"></ng-include> -->
+         <ng-include id="htmlString_divId" src="'views/print/confirmOrderPrint_demo_html.html'"></ng-include>
 
        </div><!--Print_Div_id-->
 
