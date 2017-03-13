@@ -1,0 +1,54 @@
+<div class="modal-content" ng-controller="editCtrl"
+ajax-url="rest/authen/manageWarehouseGroup/getOfEdit.json?id={{tr.id}}"
+scope-data="formData"
+callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId"
+alert-error
+>
+  <form class="add-manageWarehouse-form form-horizontal"
+        action="rest/authen/manageWarehouseGroup/save"
+      alert-error
+        alert-ok
+        parameter-body
+        form-validator>
+      <div class="modal-header">
+          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+          <h4 class="modal-title">{{formData&& formData.id?"编辑":"添加"}}仓库分组信息编辑</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">所属机构</label>
+          <div class="col-lg-10 col-sm-10">
+            <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+
+            </select>
+          </div>
+        </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">名称</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData.groupName"/>
+              </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">上级分组</label>
+            <div class="col-lg-10 col-sm-10">
+              <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择上级分组" chosen default-empty="无" ng-model="formData.parentId" select-source="rest/authen/manageWarehouseGroup/queryForSelectOption?organizationId={{formData.organizationId}}">
+
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label"></label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="submit" class="btn pr-btn-create-glodbg" value="保存">
+              </div>
+          </div>
+
+      </div>
+  </form>
+</div>
