@@ -1,19 +1,19 @@
 <div ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
 <!-- page heading start-->
 <div class="page-heading">
-    <h3>仓库管理</h3>
+    <h3>物流中心管理</h3>
     <ul class="breadcrumb">
         <li><a href="#">主面板</a></li>
-        <li class="active">仓库管理</li>
+        <li class="active">物流中心管理</li>
     </ul>
 </div>
 <!-- page heading end-->
 
 <!--body wrapper start-->
-<table-list list-data="rest/authen/manageWarehouse/query.json" list-params="listParams">
+<table-list list-data="rest/authen/manageLogisticsCenter/query.json" list-params="listParams">
     <div class="mg-m col-lg-12 col-sm-12">
       <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"  modal-data='{"organizationId":"{{listParams.organizationId}}"}' modal-url="views/manageWarehouse/edit.html">
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"  modal-data='{"organizationId":"{{listParams.organizationId}}"}' modal-url="views/manageLogisticsCenter/edit.html">
             <i class="fa fa-plus"></i>新建
         </button>
       </div>
@@ -21,14 +21,6 @@
         <label class="col-lg-2 col-sm-2 control-label">机构</label>
         <div class="col-lg-10 col-sm-10">
           <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="listParams.organizationId" select-source="rest/index/distributor/queryForSelectOption">
-
-          </select>
-        </div>
-      </div>
-      <div class="form-group col-lg-2">
-        <label class="col-lg-2 col-sm-2 control-label">仓库分组</label>
-        <div class="col-lg-10 col-sm-10">
-          <select  class="ipt pr-short-ipt" data-placeholder="选择仓库分组" chosen default-empty="无" ng-model="listParams.groupId" select-source="rest/authen/manageWarehouseGroup/queryForSelectOption?organizationId={{listParams.q}}">
 
           </select>
         </div>
@@ -65,10 +57,7 @@
                             <th>序号</th>
                             <th>名称</th>
                             <th>编号</th>
-                            <th>职员人数</th>
-                            <th>面积</th>
-                            <th>地址</th>
-                            <th>仓库分组ID</th>
+                            <th>组织机构ID</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -78,17 +67,13 @@
                             <td>{{$index + 1}}</td>
                             <td>{{tr.name}}</td>
                             <td>{{tr.code}}</td>
-
-                            <td>{{tr.staffCounts}}</td>
-                            <td>{{tr.measure}}</td>
-                            <td>{{tr.address}}</td>
-                            <td>{{tr.groupId}}</td>
+                            <td>{{tr.organizationId}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/manageWarehouse/edit.html?id={{tr.id}}">
+                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/manageLogisticsCenter/edit.html?id={{tr.id}}">
                                     <i class="fa fa-edit"></i>
                                     编辑
                                 </button>
-                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/manageWarehouse/delete', tr.id)">
+                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/manageLogisticsCenter/delete', tr.id)">
                                     <i class="fa fa-trash-o"></i>
                                     删除</button>
                             </td>

@@ -24,6 +24,14 @@ alert-error
             </select>
           </div>
         </div>
+        <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">仓库分组</label>
+          <div class="col-lg-10 col-sm-10">
+            <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择仓库分组" chosen default-empty="无" ng-model="formData.groupId" select-source="rest/authen/manageWarehouseGroup/queryForSelectOption?organizationId={{formData.organizationId}}">
+
+            </select>
+          </div>
+        </div>
 
           <div class="form-group">
               <label class="col-lg-2 col-sm-2 control-label">名称</label>
@@ -36,6 +44,13 @@ alert-error
               <label class="col-lg-2 col-sm-2 control-label">编号</label>
               <div class="col-lg-10 col-sm-10">
                   <input type="text" class="form-control" placeholder="" ng-model="formData.code"/>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">类型</label>
+              <div class="col-lg-10 col-sm-10">
+                <select  ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择类型" chosen  ng-model="formData.type" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Warehouse_WarehouseType">
               </div>
           </div>
 
