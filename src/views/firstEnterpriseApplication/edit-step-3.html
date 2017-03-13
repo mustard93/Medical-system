@@ -21,23 +21,12 @@
   <!-- 主体内容 -->
   <div class="content-wrapper ">
     <!-- 添加流程导航 -->
-    <div class="first-medical-nav">
-      <div class="visited">
-        <span >基本信息</span>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="visited" style="border-left:none;">
-        <div></div>
-        <div></div>
-        <span>申请原因</span>
-        <div class="triangle1"></div>
-        <div class="triangle2"></div>
-      </div>
-      <div class="active">
-        <div></div>
-        <span>添加审核资料</span>
-      </div>
+    <div
+    step-flow-arrow-show
+    step-flow-arrow-json=
+  '[{"arrowText":"基本信息","className":"active"},
+    {"arrowText":"添加三证","className":"unactive"},
+    {"arrowText":"添加资质证书","className":"unactive"}]'>
     </div>
     <div class="content-wrapper-main mgt" style="margin-bottom:80px;">
       <form class="form-horizontal"
@@ -54,18 +43,39 @@
             callback="submitFormAfter('#/firstEnterpriseApplication/get.html');watchFormChange('formData')">
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-          <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
-          <span class="flex-item-1 text-right">
-            状态：<em class="color-black">{{formData.orderStatus}}</em>
-          </span>
+          <div class="flex-item-6">
+            <span class="flex-item-2">
+              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
+            </span>
+            <span class="flex-item-10">
+              <span class="flex-item-1 text-right">
+                采购员：
+              </span>
+              <span class="flex-item-2">
+                <select class="select pr-select" data-placeholder=" "
+                chosen
+                default-empty=""
+                ng-model="formData.buyerId"
+                select-source="rest/authen/user/queryForSelectOption">
+                </select>
+              </span>
+            </span>
+          </div>
+          <div class="flex-item-6 text-right">
+              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
+              状态：<em class="color-black">{{formData.orderStatus}}</em>
+          </div>
         </div>
         <!-- 基本信息-附件信息 -->
-        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":false}'  attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
+        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":false}'  
+        attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
         <div class="color-black mgt-l">
           <p>
             <p class="pr-font-14">说明：</p>
-            <p>1.品种资质必须加供货企业红色原公章；</p>
-            <p>2.采购人员按要求向供货商(生产企业／经营企业)所要并和事资质的真实合法性，并如实填写本表；</p>
+            <p>1.企业及人员资质必须加盖该企业红色原公章；</p>
+            <p>2.质保协议须盖法人章或委托人签字，但需提供授权书。质保协议有效期不超过经营、生产许可证有效期；</p>
+            <p>3.采购人员需按要求向供货企业索要并核实资质的真实合法性，并如实填写本表；</p>
+            <p>4.企业和人员资质按表中顺序排放，核实记录附在最后面，以本表为封面；</p>
           </p>
         </div>
     </div>

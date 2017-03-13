@@ -20,7 +20,7 @@
         <tr ng-repeat="item in ngModel"
         ng-controller="deleteUploaderController"
         >
-          <td class="w-80 mycheck">
+          <td class="w-80 mycheck mgcheck-mg">
            <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag" />
            <label for="{{$index + 1}}"></label>
           </td>
@@ -46,8 +46,8 @@
               <span class="date-icon"></span>
             </div>
           </td>
-          <td>{{item.uploadUserName}}</td>
-          <td>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm'}}</td>
+          <td>{{item.uploadUserName || '—'}}</td>
+          <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td>
           <td ng-if="item.showFlag">
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
           </td>
