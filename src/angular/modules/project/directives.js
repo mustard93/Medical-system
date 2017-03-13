@@ -1692,6 +1692,7 @@ function saleOutStockKuaDi () {
     scope: {},
     link: function ($scope, $element, $attrs) {
     var lilength=0;
+    var modalLength=parseInt($attrs.modalLength);
     var leftShift=573;        // 一次向左移动的长度
     // $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
       $($element).mouseenter(function (e) {
@@ -1702,27 +1703,27 @@ function saleOutStockKuaDi () {
           // 点击左移按钮后
           $('.button-left').off("click").on('click',function(){
             $('.button-right').removeAttr('disabled','disabled');
-            if(leftShift<573*Math.ceil(lilength/7))
+            if(leftShift<modalLength*Math.ceil(lilength/7))
             {
               $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
-              leftShift+=573;
+              leftShift+=modalLength;
             }
           })
           $('.button-right').off("click").on('click',function(){
             $('.button-left').removeAttr('disabled','disabled');
-            if(leftShift>=573)
+            if(leftShift>=modalLength)
             {
-              leftShift-=573;
+              leftShift-=modalLength;
               $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
             }
           })
         }
         // 判断是否左右按钮是否可点击
-        if(leftShift<573){
+        if(leftShift<modalLength){
           $('.button-right').attr('disabled','disabled');
           $('.button-right:before').css('color','#e5e5e5');
         }
-        if(leftShift>=573*Math.ceil(lilength/7)){
+        if(leftShift>=modalLength*Math.ceil(lilength/7)){
           $('.button-left').attr('disabled','disabled');
           $('.button-left:before').css('color','#e5e5e5');
         }
@@ -1840,8 +1841,7 @@ function stepFlowArrowShow(utils){
               for(var i=0;i<stepFlowArrow.length;i++){
                   var step=stepFlowArrow[i];
                   var j=i+1;
-                  var tmp="<div class='"+step.className+"'><span class='"+j+"' beforeContent"+j+">"+step.arrowText+"</span></div>";
-                  // $("."+j).attr('beforeContent',j);
+                  var tmp="<div class='"+step.className+"'><span class='"+j+"'>"+step.arrowText+"</span></div>";
                   $($element).append($(tmp));
                   // 中间箭头的形状定义
                   if(i>0&&i<stepFlowArrow.length-1){
@@ -1875,49 +1875,42 @@ function stepFlowArrowShow(utils){
   	* @author 宋娟
   	* @date 2017年3月7日 下午17:20
    */
-
-   	   //  关键步骤：
-   	    //1.传入参数:maxLength输入字数最大限制
-  // function limitWordShow(utils){
-  //   return{
-  //     scope:{},
-  //     restrict: 'A',
-  //     link: function ($scope, $element, $attrs) {
-  //       var maxlength=$attrs.maxlength;
-  //       $($element).onfocus(function(){
-  //         console.log(maxlength);
-  //       });
-  //     }
-  // }
+	   //  关键步骤：
+	    //1.传入参数:maxLength输入字数最大限制
+      // 2.strResult：用于显示限制字数的变量
   function limitWordShow(utils){
     return{
       scope:{},
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
         var strResult;
-        var newid = $($element).attr("id") + 'msg';
         var maxLen=$attrs.maxlength;
 
-        function checkMaxInput(){
-          if ($($element).val().length > maxLen) { //如果输入的字数超过了限制
-                $($element).val() = $($element).val().substring(0, maxLen); //就去掉多余的字
-                strResult = '<span id="' + newid + '" class=\'Max_msg\' ><br/>剩(' + (maxLen - $($element).val().length) + ')字</span>'; //计算并显示剩余字数
-            } else {
-              console.log(maxLen - $($element).val().length);
-                strResult = '<span id="' + newid + '" class=\'Max_msg\' ><br/>剩(' + (maxLen - $($element).val().length) + ')字</span>'; //计算并显示剩余字数
-                  $($element).after(strResult);
+        // 最开始加载后，显示字数限制提示
+          $scope.$watch($scope.initFlag, function() {
+            strResult = '<span class="strResult">(<em class="remainWords">0</em>/'+maxLen+')</span>';
+            $($element).after(strResult);
+            // 字数限制显示样式定义
+            $('.strResult').css({
+              'position':'absolute',
+              'top':'93px',
+              'right':'35px',
+              'z-index':'100',
+              'color':'#999'
+            });
+          });
+          // 输入框发生改变触发事件
+          $($element).bind("input propertychange change",function(event){
+            if ($($element).val().length > maxLen) {
+               //如果输入的字数超过了限制
+               //就去掉多余的字
+                  $($element).val() = $($element).val().substring(0, maxLen);
+                }
+            else{
+              // 否则改变提示信息中剩余字数显示的值
+              $('.remainWords').html($($element).val().length);
             }
-            var $msg = $("#" + newid);
-            if ($msg.length == 0) {
-                $($element).after(strResult);
-            }
-            else {
-              $($element).html(strResult);
-            }
-        }
-        function resetMaxmsg() {
-        $("span.Max_msg").remove();
-    }
+            });
         }//link
     };
   }
