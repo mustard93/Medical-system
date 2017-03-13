@@ -3088,12 +3088,14 @@ function pageMainHeaderComponent () {
       createNewUrl: '@',            // 新建URL
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
       statusGroupData: '@',         // 状态显示数据对象
-      getBusinessTypeUrl: '@'       // 获取业务类型查询字段Url
+      getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
+      isShowSelectItem: '@'
     },
     replace: true,
     transclude: true,
     templateUrl: Config.tplPath + 'tpl/project/pageMainHeaderComponent.html',
     link: function (scope, element, attrs) {
+
       //处理面包屑导航数据
       if (scope.crumbsNav) {
         //将面包屑字符串转换为JSON对象
@@ -3122,6 +3124,12 @@ function pageMainHeaderComponent () {
         _tmp[1] = Boolean(_tmp[1]);
         return _tmp;
       };
+
+      // 处理显示下拉选择功能
+      if (scope.isShowSelectItem) {
+        scope.selectObj = angular.fromJson(scope.isShowSelectItem);
+        scope.itemChooise = scope.selectObj[0].link;
+      }
 
       //是否显示新建按钮
       scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;

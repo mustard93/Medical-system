@@ -6,7 +6,14 @@
     <!-- 页头主内容上部 -->
     <div class="flex-column mgb-m">
       <div class="flex-item-4 pos-rel-tl inline-block fl-l">
-        <h1 class="pr-font-20 color-black">{{componentTitle}}</h1>
+        <h1 ng-if="componentTitle" class="pr-font-20 color-black">{{componentTitle}}</h1>
+        <select ng-if="!componentTitle&&isShowSelectItem"
+                class="select pr-select pr-select-sm z-index-l relative"
+                style="width:120px;"
+                ng-model="itemChooise"
+                ng-change="$root.utils.goTo(itemChooise)">
+          <option ng-repeat="opt in selectObj" value="{{opt.link}}" ng-selected="(itemChooise==opt.link)?'selected':false">{{opt.name}}</option>
+        </select>
       </div>
       <div class="flex-item-8 text-right">
         <div class="order-status-btn pos-rel-tr text-right"
@@ -31,7 +38,7 @@
     <div class="flex-column">
       <div class="flex-item-4">
         <div ng-if="isShowCreateBtn" class="pos-rel-tl order-create-btn inline-block fl-l">
-          <a href="{{createNewUrl}}"><i></i><span class="text-s">新建{{componentTitle}}</span></a>
+          <a href="{{createNewUrl}}"><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>
         </div>
       </div>
       <div class="flex-item-8 text-right">
