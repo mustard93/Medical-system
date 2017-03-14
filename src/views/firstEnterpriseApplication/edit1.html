@@ -102,10 +102,11 @@
             <div class="flex-column mgt">
               <label class="flex-item-1 text-right control-label">拟定购进商品类别：</label>
               <div style="float:left;width:21%;"
+              ng-if="initFlag"
               ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_CommodityType"
               scope-data="scopeData">
                 <div class="mycheck-new" ng-repeat="item in scopeData">
-                  <input class="relative" type="checkbox"  id="{{$index + 1}}"  ng-model="item.value" />
+                  <input class="relative" type="checkbox"  id="{{$index + 1}}"  ng-model="item.commodityType" />
                   <label for="{{$index + 1}}"></label>
                   <em class="color-black">{{item.text}}</em>
                 </div>
