@@ -3083,11 +3083,20 @@ define('project/controllers', ['project/init'], function() {
           $scope.formData.firstMedical.quoteprice = 0;
         }
       });
-
-
     }
-    // 医院采购目录
+
+    /**
+     * [hospitalPurchaseContentsCtrl 医院采购目录主控制器]
+     * @param  {[type]} $scope          [注入项]
+     * @param  {[type]} watchFormChange [注入项]
+     * @param  {[type]} requestData     [注入项]
+     * @param  {[type]} utils           [注入项]
+     * @param  {[type]} alertError      [注入项]
+     * @param  {[type]} alertWarn       [注入项]
+     * @return {[type]}                 [description]
+     */
     function hospitalPurchaseContentsCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
       $scope.$watch('initFlag', function (newVal) {
          if (newVal && $scope.formData.orderMedicalNos) {
           for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
@@ -3115,6 +3124,7 @@ define('project/controllers', ['project/init'], function() {
          }
         $('#' + fromId).trigger('submit');
       };
+
       $scope.submitFormAfter = function (_url) {
         if ($scope.submitForm_type === 'submit') {
           $scope.goTo(_url + '?id=' + $scope.formData.id);
@@ -3208,6 +3218,7 @@ define('project/controllers', ['project/init'], function() {
           $scope.formData.firstMedical.quoteprice = 0;
         }
       });
+
       // 全选与全不选
       $scope.isChoiseAll = function (choiseStatus) {
         if (choiseStatus) {
@@ -3224,6 +3235,7 @@ define('project/controllers', ['project/init'], function() {
           });
         }
       };
+
       $scope.handleChoiseAllEvent = function () {
            var _dataSource = $scope.formData.orderMedicalNos;
 
