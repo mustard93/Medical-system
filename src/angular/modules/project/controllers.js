@@ -3539,7 +3539,7 @@ define('project/controllers', ['project/init'], function() {
          $scope.submitForm_type = type;
 
          if ($scope.submitForm_type == 'submit-hospital') {
-           requestData('rest/authen/hospitalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
              }
@@ -3551,7 +3551,7 @@ define('project/controllers', ['project/init'], function() {
            $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
          }
          if ($scope.submitForm_type == 'submit-otherCustomer') {
-           requestData('rest/authen/otherCustomerApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
              }
