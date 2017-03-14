@@ -82,7 +82,9 @@
                   <th class="text-center">单位</th>
                 </tr>
               </thead>
-              <tbody class="bg-white">
+              <tbody class="bg-white"
+                     ng-if="initFlag"
+                     ajax-url="rest/authen/hospitalPurchaseContents/getMedical?id={{formData.id}}">
                 <tr ng-if="formData.orderMedicalNos.length"
                     ng-repeat="tr in formData.orderMedicalNos"
                     ng-init="orderMedicalNoIds.push(tr.relId)"
