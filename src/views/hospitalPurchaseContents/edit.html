@@ -2,7 +2,7 @@
      ng-controller="hospitalPurchaseContentsCtrl"
      ajax-url="rest/authen/hospitalPurchaseContents/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
+     callback='initFlag=true;watchFormChange("formData");listParams.id=formData.id;bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
      alert-error>
 
   <form id="editForm"
@@ -45,32 +45,33 @@
         </div>
         <!-- 列表 -->
         <div>
-          <table-list list-data="rest/authen/hospitalPurchaseContents/getMedical?id={{formData.id}}"
-                      list-params="listParams"
-                      search-mode="noCaseSensitive"
-                      search-param="q">
-            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line">
-              <div class="flex-item-6">
-                <label class="text-normal">目录更新周期：</label>
-                <input type="number" class="ipt pr-new-short-ipt text-right" ng-model="formData.object.updateCycle" /> 个月
+          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line">
+            <div class="flex-item-6">
+              <label class="text-normal">目录更新周期：</label>
+              <input type="number" class="ipt pr-new-short-ipt text-right" ng-model="formData.object.updateCycle" /> 个月
+            </div>
+            <div class="flex-item-6 text-right">
+              <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
+                <i class=""></i>
               </div>
-              <div class="flex-item-6 text-right">
-                <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
-                  <i class=""></i>
-                </div>
-                <div class="inline-block mgl-m">
-                  <i class="fa fa-refresh mgr-s color-light-brown"></i>
-                  <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
-                </div>
+              <div class="inline-block mgl-m">
+                <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
               </div>
             </div>
-            <div ng-if="formData.orderMedicalNos.length" class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
-              <a href="javascript:;" class="batch-delete-btn" ng-click="formData.orderMedicalNos.length=0">批量删除
-                <em class="fa fa-trash-o"></em>
-              </a>
-            </div>
-            <div>
+          </div>
+          <div ng-if="formData.orderMedicalNos.length" class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
+            <a href="javascript:;" class="batch-delete-btn" ng-click="formData.orderMedicalNos.length=0">批量删除
+              <em class="fa fa-trash-o"></em>
+            </a>
+          </div>
+          <div>
+            <table-list ng-if="initFlag"
+                        list-data="rest/authen/hospitalPurchaseContents/getMedical?id={{listParams.id}}"
+                        list-params="listParams"
+                        search-mode="noCaseSensitive"
+                        search-param="q">
               <table class="table pr-table pr-new-table" >
                 <thead>
                   <tr>
@@ -87,11 +88,11 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white">
-                  <tr ng-repeat="tr in formData.orderMedicalNos" table-item-handlebtn-component>
+                  <tr ng-repeat="tr in tbodyList" table-item-handlebtn-component>
                     <td class="select-td">
                       <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
-                    </td>
-                    <td class="text-center">{{$index+1}}</td>
+                    </td><!-- 全选 -->
+                    <td class="text-center">{{$index+1}}</td><!-- 序号 -->
                     <td class="text-center">{{tr.code}}
                       <div  class="table-item-handle-btn">
                         <div class="table-item-confirm-del-area bg-white">
@@ -102,40 +103,44 @@
                           </p>
                         </div>
                       </div>
-                    </td>
+                    </td><!-- 商品编号 -->
                     <td class="text-left">
-                      <div class="autocut" title="{{tr.name}}">
-                          {{tr.name}}
-                      </div>
-                    </td>
-                    <td class="text-center">{{tr.manufacturer}}</td>
+                      <div class="autocut" title="{{tr.name}}">{{tr.name}}</div>
+                    </td><!-- 商品全名 -->
+                    <td class="text-center">{{tr.manufacturer}}</td><!-- 生产厂家 -->
                     <td class="text-center">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              ng-model="tr.price"
-                             name="price"
+                             name="price{{$index}}"
                              required
-                             ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                             ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                              invalid-popover
-                             popover-show="!editForm.price.$valid"
+                             valid-value="{{!editForm['price'+$index].$valid}}"
+                             popover-show
                              popover-options='{"content":"价格格式不正确", "placement":"right", "trigger":"manual"}' />
-                    </td>
-                    <td class="text-center">{{tr.specificationAndModelType}}</td>
-                    <td class="text-center">{{tr.unit}}</td>
+                    </td><!-- 含税单价 -->
+                    <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                    <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </table-list>
-        </div>
-        <!-- 空数据占位符 -->
-        <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
-          <div class="empty-table clearfix">
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
+              <!-- 导航 -->
+              <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+                <div class="fr"><pagination status="status"></pagination></div>
+              </div>
+              <!-- 空数据占位符 -->
+              <div class="pr-bg-white" ng-if="!tbodyList.length">
+                <div class="empty-table clearfix">
+                  <div>&nbsp;</div>
+                  <div>&nbsp;</div>
+                  <div>&nbsp;</div>
+                </div>
+              </div>
+            </table-list>
           </div>
         </div>
+
         <!-- 批量删除按钮 -->
         <div ng-if="formData.orderMedicalNos.length" class="flex-column color-9 pd-c-l pdt-m pdb-m">
           <a href="javascript:;" class="batch-delete-btn" ng-click="formData.orderMedicalNos.length=0">批量删除
