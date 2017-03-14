@@ -2933,7 +2933,7 @@ define('project/controllers', ['project/init'], function() {
 
     function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('initFlag', function (newVal) {
-
+        $scope.formData.commodityType=[];
          var operationFlowSetMessage=[];
          var operationFlowSetKey=[];
          if (newVal && $scope.tr) {
@@ -2991,6 +2991,7 @@ define('project/controllers', ['project/init'], function() {
       // 选中相应药品类别，放入数组中传到后台
       $scope.choiceCommodityType=function(item){
         if(item.value){
+        $scope.formData.commodityType.push(item.text);
         console.log($scope.formData.commodityType);
         }
       }
