@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstEnterpriseApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
+     callback="initFlag=true;watchFormChange('formData');"
      alert-error>
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
@@ -34,7 +34,7 @@
             name="firstEnterpriseEditForm"
             form-validator
             parameter-body
-            action="rest/authen/firstEnterpriseApplication/saveApplyReason?validateFlag=true"
+            action="rest/authen/firstEnterpriseApplication/saveBaseInfo?validateFlag=true"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
@@ -44,21 +44,16 @@
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-6">
-            <span class="flex-item-2">
-              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
-            </span>
-            <span class="flex-item-10">
-              <span class="flex-item-1 text-right">
-                采购员：
-              </span>
-              <span class="flex-item-2">
-                <select class="select pr-select" data-placeholder=" "
-                chosen
-                default-empty=""
-                ng-model="formData.buyerId"
-                select-source="rest/authen/user/queryForSelectOption">
-                </select>
-              </span>
+            <span class="flex-item-12">
+              单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
+              采购员：<span>
+                        <select class="select pr-select ipt-new-s" data-placeholder=" "
+                        chosen
+                        default-empty=""
+                        ng-model="formData.buyerId"
+                        select-source="rest/authen/user/queryForSelectOption">
+                        </select>
+                    </span>
             </span>
           </div>
           <div class="flex-item-6 text-right">
@@ -79,7 +74,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.firstEnterprise.fullName"
+                         ng-model="formData.businessLicense.registrationNumber"
                          required />
                 </div>
               </div>
@@ -92,7 +87,7 @@
                            class="ipt-date pr-short-ipt ipt-new-s color-6"
                            ng-readonly="true"
                            placeholder=""
-                           ng-model="formData.medical.guaranteePeriod">
+                           ng-model="formData.businessLicense.dateOfIssue">
                           <span class="date-icon"></span>
                   </div>
                 </div>
@@ -106,7 +101,7 @@
                            class="ipt-date pr-short-ipt ipt-new-s color-6"
                            ng-readonly="true"
                            placeholder=""
-                           ng-model="formData.medical.guaranteePeriod">
+                           ng-model="formData.businessLicense.guaranteePeriod">
                           <span class="date-icon"></span>
                   </div>
                 </div>
@@ -117,7 +112,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="genericName"
-                         ng-model="formData.firstEnterprise.fullName"
+                         ng-model="formData.businessLicense.registeredCapital"
                          required />
                 </div>
               </div>
@@ -127,7 +122,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="genericName"
-                         ng-model="formData.firstEnterprise.fullName"
+                         ng-model="formData.businessLicense.legalRepresentative"
                          required />
                 </div>
               </div>
@@ -137,7 +132,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="genericName"
-                         ng-model="formData.firstEnterprise.fullName"
+                         ng-model="formData.businessLicense.head"
                          required />
                 </div>
               </div>
@@ -147,7 +142,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="genericName"
-                         ng-model="formData.firstEnterprise.fullName"
+                         ng-model="formData.businessLicense.qualityHead"
                          required />
                 </div>
               </div>
@@ -156,11 +151,11 @@
                 <label class="flex-item-2 text-right">经营方式：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="type" value="批发" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="businessWay" value="批发" ng-model="formData.businessLicense.businessWay" required><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">批发</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="type" value="生产" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="businessWay" value="生产" ng-model="formData.businessLicense.businessWay" required><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">生产</em>
                   </label>
                 </div>
@@ -169,11 +164,11 @@
                 <label class="flex-item-2 text-right">是否年检：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="type" value="批发" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="是" ng-model="formData.businessLicense.isAnnualInspection" required><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">是</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
-                    <input type="radio" class="default-radio"  name="type" value="生产" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="否" ng-model="formData.businessLicense.isAnnualInspection" required><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
                   </label>
                 </div>
@@ -182,20 +177,23 @@
                 <label class="flex-item-2 text-right">三证合一：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="type" value="批发" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isThreecertificate" value="是" ng-model="formData.businessLicense.isThreecertificate" required><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">是</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
-                    <input type="radio" class="default-radio"  name="type" value="生产" ng-model="formData.firstEnterprise.medicalType" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isThreecertificate" value="否" ng-model="formData.businessLicense.isThreecertificate" required><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
                   </label>
                 </div>
               </div>
             </div>
             <div class="flex-item-6" style="padding:20px 50px;">
+              <div>{{item.uploadUserName}}</div>
+              <div>{{item.uploadTime | date : 'yyyy-MM-dd HH:mm' }}</div>
                 <div ng-init='attachmentsItemExtend={"edit":true}'
                 attachments-item-show attachments-item-extend="attachmentsItemExtend"
-                ng-model="item"></div>
+                ng-model="formData.businessLicense.attachment">
+              </div>
             </div>
           </div>
           <h3 class="crumbs-circle color-black pr-indent-10 pd-v">机构代码证</h3>
@@ -207,7 +205,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.firstEnterprise.fullName"
+                         ng-model="formData.organizationCodeCertificate.certificateNumber"
                          required />
                 </div>
               </div>
@@ -220,7 +218,7 @@
                            class="ipt-date pr-short-ipt ipt-new-s color-6"
                            ng-readonly="true"
                            placeholder=""
-                           ng-model="formData.medical.guaranteePeriod">
+                           ng-model="formData.organizationCodeCertificate.annualInspection">
                           <span class="date-icon"></span>
                   </div>
                 </div>
@@ -234,7 +232,7 @@
                            class="ipt-date pr-short-ipt ipt-new-s color-6"
                            ng-readonly="true"
                            placeholder=""
-                           ng-model="formData.medical.guaranteePeriod">
+                           ng-model="formData.organizationCodeCertificate.guaranteePeriod">
                           <span class="date-icon"></span>
                   </div>
                 </div>
@@ -256,7 +254,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.firstEnterprise.fullName"
+                         ng-model="formData.taxRegistrationCertificate.certificateNumber"
                          required />
                 </div>
               </div>
@@ -269,7 +267,7 @@
                            class="ipt-date pr-short-ipt ipt-new-s color-6"
                            ng-readonly="true"
                            placeholder=""
-                           ng-model="formData.medical.guaranteePeriod">
+                           ng-model="formData.taxRegistrationCertificate.certificateDate">
                           <span class="date-icon"></span>
                   </div>
                 </div>
@@ -283,7 +281,7 @@
                            class="ipt-date pr-short-ipt ipt-new-s color-6"
                            ng-readonly="true"
                            placeholder=""
-                           ng-model="formData.medical.guaranteePeriod">
+                           ng-model="formData.taxRegistrationCertificate.guaranteePeriod">
                           <span class="date-icon"></span>
                   </div>
                 </div>

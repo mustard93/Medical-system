@@ -2933,7 +2933,7 @@ define('project/controllers', ['project/init'], function() {
 
     function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('initFlag', function (newVal) {
-
+        $scope.formData.commodityType=[];
          var operationFlowSetMessage=[];
          var operationFlowSetKey=[];
          if (newVal && $scope.tr) {
@@ -2966,9 +2966,11 @@ define('project/controllers', ['project/init'], function() {
           // $scope.isChoiseAll = true;
          }
 
+
        });
 
       $scope.watchFormChange = function(watchName){
+
         watchFormChange(watchName,$scope);
       };
 
@@ -2986,6 +2988,13 @@ define('project/controllers', ['project/init'], function() {
           $scope.goTo(_url + '?id=' + $scope.formData.id);
         }
       };
+      // 选中相应药品类别，放入数组中传到后台
+      $scope.choiceCommodityType=function(item){
+        if(item.value){
+        $scope.formData.commodityType.push(item.text);
+        console.log($scope.formData.commodityType);
+        }
+      }
 
       //判断当前审核意见是否可见
       $scope.showAuditOpinion = function (returnArr, pipeKey) {
@@ -3551,7 +3560,7 @@ define('project/controllers', ['project/init'], function() {
          $scope.submitForm_type = type;
 
          if ($scope.submitForm_type == 'submit-hospital') {
-           requestData('rest/authen/hospitalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
              }
@@ -3563,7 +3572,7 @@ define('project/controllers', ['project/init'], function() {
            $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
          }
          if ($scope.submitForm_type == 'submit-otherCustomer') {
-           requestData('rest/authen/otherCustomerApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
              }
