@@ -26,7 +26,7 @@
   >
     <div class="content-wrapper-main mgt">
       <div class="pr-panel pr-panel-height mgb"
-      ng-if="showData.operationFlowSet.message"
+      ng-if="showData.businessApplication.businessStatus =='已冻结'||businessApplication.businessStatus =='已通过'"
       ng-class="{'pr-bg-freeze color-freeze':showData.businessApplication.businessStatus =='已冻结',
       'pr-bg-pass color-pass':showData.businessApplication.businessStatus =='已通过'}">
       <em>原因:</em>
@@ -43,10 +43,10 @@
         <span class="text-right flex-item-10">
           申请日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</em>
           状态：
-          <em ng-class="{'color-blue-freeze':showData.orderStatus =='已冻结', 'color-black':showData.orderStatus=='已通过',
-          'color-red':showData.orderStatus =='已终止'}">
-          <em ng-if="showData.orderStatus!='已通过'">{{showData.orderStatus ||'暂无'}}</em>
-          <em ng-if="showData.orderStatus =='已通过'">正常</em>
+          <em ng-class="{'color-blue-freeze':showData.businessApplication.businessStatus  =='已冻结', 'color-black':showData.businessApplication.businessStatus =='已通过',
+          'color-red':showData.businessApplication.businessStatus  =='已终止'}">
+          <em ng-if="showData.businessApplication.businessStatus !='已通过'">{{showData.businessApplication.businessStatus ||'暂无'}}</em>
+          <em ng-if="showData.businessApplication.businessStatus  =='已通过'">正常</em>
         </em>
         </span>
       </div>

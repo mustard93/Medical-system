@@ -44,21 +44,16 @@
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-6">
-            <span class="flex-item-2">
-              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
-            </span>
-            <span class="flex-item-10">
-              <span class="flex-item-1 text-right">
-                采购员：
-              </span>
-              <span class="flex-item-2">
-                <select class="select pr-select" data-placeholder=" "
-                chosen
-                default-empty=""
-                ng-model="formData.buyerId"
-                select-source="rest/authen/user/queryForSelectOption">
-                </select>
-              </span>
+            <span class="flex-item-12">
+              单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
+              采购员：<span>
+                        <select class="select pr-select ipt-new-s" data-placeholder=" "
+                        chosen
+                        default-empty=""
+                        ng-model="formData.buyerId"
+                        select-source="rest/authen/user/queryForSelectOption">
+                        </select>
+                    </span>
             </span>
           </div>
           <div class="flex-item-6 text-right">
@@ -67,7 +62,7 @@
           </div>
         </div>
         <!-- 基本信息-附件信息 -->
-        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":false}'  
+        <div ng-init='attachmentsExtend={"title":"审核资料","usege":"首营企业申请","addFlag":false}'
         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
         <div class="color-black mgt-l">
           <p>

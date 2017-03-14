@@ -2933,7 +2933,6 @@ define('project/controllers', ['project/init'], function() {
 
     function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('initFlag', function (newVal) {
-        $scope.formData.commodityType=[];
          var operationFlowSetMessage=[];
          var operationFlowSetKey=[];
          if (newVal && $scope.tr) {
@@ -2952,9 +2951,6 @@ define('project/controllers', ['project/init'], function() {
          }
 
          if (newVal && $scope.formData.orderMedicalNos) {
-          //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-          //    if (data.handleFlag)
-          //  })
           for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
             if ($scope.formData.orderMedicalNos[i].handleFlag) {
               $scope.choisedMedicals = true;
@@ -2963,12 +2959,9 @@ define('project/controllers', ['project/init'], function() {
               $scope.isChoiseAll = false;
             }
           }
-          // $scope.isChoiseAll = true;
          }
 
-
        });
-
       $scope.watchFormChange = function(watchName){
 
         watchFormChange(watchName,$scope);
@@ -2991,8 +2984,10 @@ define('project/controllers', ['project/init'], function() {
       // 选中相应药品类别，放入数组中传到后台
       $scope.choiceCommodityType=function(item){
         if(item.value){
+          if($scope.formData.commodityType==null){
+            $scope.formData.commodityType=[];
+          }
         $scope.formData.commodityType.push(item.text);
-        console.log($scope.formData.commodityType);
         }
       }
 
@@ -3083,6 +3078,25 @@ define('project/controllers', ['project/init'], function() {
           $scope.formData.firstMedical.quoteprice = 0;
         }
       });
+    }
+
+    function SelectedCommodityEditCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+      $scope.$watch('!initFlag', function (newVal) {
+         console.log($scope.formData.commodityType);
+            var scopeData= [];
+            for(var item in $scope.scopeData){
+                scopeData.push($scope.scopeData[item]);
+              for(j=0;j<$scope.formData.commodityType.length;j++){
+                if($scope.formData.commodityType[j]==$scope.scopeData[item].value){
+                $scope.scopeData[item].value=true;
+                }
+              }
+              }
+       });
+      $scope.watchFormChange = function(watchName){
+
+        watchFormChange(watchName,$scope);
+      };
     }
 
     /**
@@ -3541,7 +3555,7 @@ define('project/controllers', ['project/init'], function() {
          if ($scope.showData.operationFlowSet) {
            // 选择出当前状态相同的驳回理由，并放入一个数组中
           for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
-            if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
+            if ($scope.showData.operationFlowSet[i].status==$scope.showData.businessApplication.businessStatus) {
               operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
               operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
             }
@@ -4631,6 +4645,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('SalesOrderDetailsController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', SalesOrderDetailsController])
   .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
   .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', QualificationApplyCtrl])
+  .controller('SelectedCommodityEditCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', SelectedCommodityEditCtrl])
   .controller('hospitalPurchaseContentsCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', hospitalPurchaseContentsCtrl])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
   .controller('customerAddressCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', customerAddressCtrl])
