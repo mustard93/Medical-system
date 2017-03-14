@@ -2763,19 +2763,17 @@ function bottomButtonList() {
   return {
     restrict: 'EA',
     scope: {
-       spanClass:"=?",
-        bottomButtonList:"=?"
-      },
+      spanClass:"=?",
+      bottomButtonList:"=?"
+    },
     // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
     link: function ($scope, $element, $attrs) {
-           //添加scope 的公共事件，是否显示，点击事件，等
-          addCommonsEventFnToSope($scope);
+       //添加scope 的公共事件，是否显示，点击事件，等
+      addCommonsEventFnToSope($scope);
 
-          if(!$scope.spanClass)$scope.spanClass="mgl";
-          $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
-
-
+      if(!$scope.spanClass) { $scope.spanClass="mgl"; }
+      $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
     }
   };
 }
