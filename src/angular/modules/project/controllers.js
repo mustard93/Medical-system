@@ -2991,8 +2991,7 @@ define('project/controllers', ['project/init'], function() {
       // 选中相应药品类别，放入数组中传到后台
       $scope.choiceCommodityType=function(item){
         if(item.value){
-
-          console.log(typeof($scope.formData.commodityType));
+        console.log($scope.formData.commodityType);
         }
       }
 
@@ -3032,7 +3031,6 @@ define('project/controllers', ['project/init'], function() {
           formData.relId = $scope.medical.id;
           formData.id = null;
           formData.purchasePrice = formData.price;
-          formData.commodityType=[];
 
         requestData('rest/authen/hospitalPurchaseMedical/save', formData, 'POST', 'parameterBody')
         .then(function (results) {
