@@ -2725,7 +2725,6 @@ define('project/controllers', ['project/init'], function() {
       if ($scope.submitForm_type == 'submit') {
         var url='rest/authen/requestPurchaseOrder/confirm';
         var data= {id:$scope.formData.id};
-
         requestData(url,data, 'POST')
          .then(function (results) {
            var _data = results[1];
@@ -2969,10 +2968,85 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
+         if ($scope.submitForm_type == 'submit-enterprise') {
+           requestData('rest/authen/firstEnterpriseApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/firstEnterpriseApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/firstEnterpriseApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
+         if ($scope.submitForm_type == 'submit-medical') {
+           requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/firstMedicalApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/firstMedicalApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
+         if ($scope.submitForm_type == 'submit-hospital') {
+           requestData('rest/authen/hospitalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/hospitalApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/hospitalApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
+         if ($scope.submitForm_type == 'submit-otherCustomer') {
+           requestData('rest/authen/otherCustomerApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/otherCustomerApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/otherCustomerApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
 
          if ($scope.submitForm_type == 'submit') {
            $scope.formData.validFlag = false;
-          //  $scope.goTo('#/hospitalPurchaseContents/get.html?id' + $scope.formData.id);
          }
         $('#' + fromId).trigger('submit');
       };
@@ -3082,7 +3156,6 @@ define('project/controllers', ['project/init'], function() {
 
     function SelectedCommodityEditCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('!initFlag', function (newVal) {
-         console.log($scope.formData.commodityType);
             var scopeData= [];
             for(var item in $scope.scopeData){
                 scopeData.push($scope.scopeData[item]);
@@ -3374,7 +3447,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
-         if ($scope.submitForm_type == 'submit') {
+         if ($scope.submitForm_type == 'submit-medical') {
 
            requestData('rest/authen/medicalStock/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
@@ -3576,23 +3649,25 @@ define('project/controllers', ['project/init'], function() {
 
     // 客户管理(医院管理，经销商/零售商管理)模块
     function customerAddressCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
-       $scope.$watch('initFlag', function () {
-         var operationFlowSetMessage=[];
-         var operationFlowSetKey=[];
-         if ($scope.showData.operationFlowSet) {
-           // 选择出当前状态相同的驳回理由，并放入一个数组中
-          for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
-            if ($scope.showData.operationFlowSet[i].status==$scope.showData.businessApplication.businessStatus) {
-              operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
-              operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+      $scope.$watch('initFlag', function () {
+          var operationFlowSetMessage=[];
+          var operationFlowSetKey=[];
+          if ($scope.showData) {
+            // 选择出当前状态相同的驳回理由，并放入一个数组中
+            if ($scope.showData.operationFlowSet) {
+              for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+                if ($scope.showData.operationFlowSet[i].status==$scope.showData.businessApplication.businessStatus ) {
+                  operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+                  operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+                }
+              }
             }
+          //  选择当前状态最近的一个驳回理由用于显示
+           $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+           $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+           return;
           }
-         //  选择当前状态最近的一个驳回理由用于显示
-          $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-          $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-          return;
-         }
-       });
+      });
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
       };
@@ -3612,6 +3687,18 @@ define('project/controllers', ['project/init'], function() {
            $scope.formData.validFlag = false;
            $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
          }
+         if ($scope.submitForm_type == 'submit-supplier') {
+           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+             }
+           })
+           .catch(function (error) {
+
+           });
+           $scope.formData.validFlag = false;
+           $scope.goTo('#/supplier/get.html?id='+$scope.formData.id);
+         }
          if ($scope.submitForm_type == 'submit-otherCustomer') {
            requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
@@ -3626,12 +3713,20 @@ define('project/controllers', ['project/init'], function() {
          }
         $('#' + fromId).trigger('submit');
       };
+
       $scope.submitFormAfter = function (_url) {
         if ($scope.submitForm_type === 'submit') {
           $scope.goTo(_url + '?id=' + $scope.formData.id);
         }
       };
-
+      $scope.choiceCommodityType=function(item){
+        if(item.value){
+          if($scope.formData.commodityType==null){
+            $scope.formData.commodityType=[];
+          }
+        $scope.formData.commodityType.push(item.text);
+        }
+      }
       //判断当前审核意见是否可见
       $scope.showAuditOpinion = function (returnArr, pipeKey) {
         if (angular.isArray(returnArr)) {
@@ -3946,7 +4041,6 @@ define('project/controllers', ['project/init'], function() {
    */
   function deleteUploaderController($scope, $timeout, alertOk, alertError, requestData){
     $scope.deleteUploader = function (_key) {
-
       if (_key) {
         var url='rest/authen/fileUpload/delete';
         var data= {key:_key};

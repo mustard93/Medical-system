@@ -83,12 +83,12 @@
 
         <div ng-if="showData.orderStatus!='未提交'" class=" first-medical-nav-new">
           <div class=""
-          ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'),
-          'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求')}"
+          ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+          'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
           ng-repeat="item in scopeData">
             <div
-            ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求')
-            ,'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求')}"></div>
+            ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货')
+            ,'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"></div>
             <span class="mgr-xl flex-column" ng-if="item.event.status!='待审核'">
               <em class="color-9 flex-item-6 text-right">{{item.event.extendShowName || '暂无'}}：</em>
               <em class="flex-item-6 text-left">{{item.event.conditionType }}</em>
@@ -102,8 +102,8 @@
               <em class="flex-item-6 text-left">{{item.createAt | date:'yyyy-MM-dd' || '暂无'}}</em>
             </span>
             <div
-            ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'),
-            'pr-nopass-bdbg-l':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求')}" ></div>
+            ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+            'pr-nopass-bdbg-l':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}" ></div>
           </div>
           <div>
             <!-- <div></div><div></div> -->
@@ -347,7 +347,7 @@
             </div>
         </div>
         <!-- 审核资料 -->
-        <div ng-init='attachmentsExtend={"title":"资质证书"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
+        <div ng-init='attachmentsExtend={"title":"资质文件"}'  attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend" ></div>
 
       </div>
 

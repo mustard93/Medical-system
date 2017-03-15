@@ -1,92 +1,146 @@
-<div   ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
-<!-- page heading start-->
-<div class="page-heading">
-    <h3>供货商管理</h3>
-    <ul class="breadcrumb">
-        <li><a href="#">主面板</a></li>
-        <li class="active">供货商管理</li>
-    </ul>
-</div>
-<!-- page heading end-->
+<div class="medical-stock"
+     ng-controller="medicalStockCtrl"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+     <table-list list-data="rest/authen/supplier/query.json"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q"
+                 >
 
-<!--body wrapper start-->
-<table-list list-data="{{mainStatus.requestPath}}rest/authen/supplier/query.json" list-params="listParams">
-    <div class="mg-m col-lg-12 col-sm-12">
-      <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/supplier/edit.html">
-            <i class="fa fa-plus"></i>新建
-        </button>
-      </div>
-      <div class="form-group col-lg-2">
-        <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
-      </div>
-    </div>
-
-    <div class="wrapper">
-        <div class="loader" ng-if="status.isLoading">
-            <div class="loader-inner pacman">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-        <div ng-if="!status.isLoading">
-            <div class="empty-wrap" ng-if="tbodyList.length==0">
-                <span>
-                    <i class="fa fa-inbox">
-                        <em>什么也没有</em>
-                    </i>
-                </span>
-            </div>
-            <div ng-if="tbodyList.length">
-
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" class="selectAll"></th>
-                            <th>序号</th>
-                            <th>名称</th>
-
-                            <th>创建时间</th>
-
-                            <th>操作</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="tr in tbodyList" ng-click="selectThis()">
-                            <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
-                            <td>{{$index + 1}}</td>
-                            <td>{{tr.name}}</td>
-
-                            <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
-
-                            <td>
-                                <!-- <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/list-view.html">
-                                    <i class="fa fa-folder-open-o"></i>
-                                    查看
-                                </button> -->
-                                <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/supplier/edit.html?id={{tr.id}}">
-                                    <i class="fa fa-edit"></i>
-                                    编辑
-                                </button>
-                                <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/supplier/delete', tr.id)">
-                                    <i class="fa fa-trash-o"></i>
-                                    删除</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="clearfix">
-                    <div class="fr">
-                        <pagination status="status"></pagination>
-                    </div>
+    <!-- 主内容头部 -->
+    <div class="header-info relative">
+        <p class="pdb-s pdt-s mgb-l crumbs pdl-xxxxxxl">供应商中心 > <em class="">供应商管理</em></p>
+            <div class="pd-c-xxxxxxl">
+              <div class="pos-rel-tl fl-l full-width">
+                <h1 class="pr-font-20 color-black">供应商管理</h1>
+              </div>
+              <div class="full-width mgb-m text-right">
+                <div class="relative text-left">
+                <div class="order-list-search pos-rel-tr inline-block">
+                  <div class="pos-rel-tl order-create-btn inline-block mgt-l fl-l z-index-l">
+                    <a ng-if="$root.hasAuthor('首营企业申请')" href="#/firstEnterpriseApplication/edit1.html" title="首营企业申请"><i></i><span class="text-s">
+                      首营企业申请</span></a>
+                  </div>
                 </div>
+                </div>
+              </div>
             </div>
+    </div>
+      <!-- 主内容区域 -->
+      <div class="content-wrapper">
+        <div class="content-wrapper-main">
+          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
+            <div class="flex-item-1">
+              <em class="fl-l">状态：</em>
+              <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                      data-placeholder="全部"
+                      chosen
+                      ng-model="listParams.businessStatus"
+                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus">
+              </select>
+            </div>
+            <div class="flex-item-8 text-left">
+              <span class="mgl-m color-9">申请日期:</span>
+              <div class="date-icon-outside">
+                <input type="text"
+                       datepicker
+                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                       ng-readonly="true"
+                       ng-model="listParams.createAtBeg"
+                       placeholder="">
+                <span class="date-icon"></span>
+              </div>
+               <span class="color-9">至</span>
+            <div class="date-icon-outside">
+              <input type="text"
+                    datepicker
+                    class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                    ng-readonly="true"
+                    ng-model="listParams.createAtEnd"
+                    placeholder="">
+              <span class="date-icon"></span>
+            </div>
+            </div>
+            <div class="flex-item-3 text-right" >
+              <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r" style="margin-top:-10px;">
+                  <input type="text" class="ipt pdr-xxl" placeholder="供应商编号/供应商名称" ng-model="listParams.q">
+                  <i class="" style="left:275px;top:17px;"></i>
+                  <span ng-click="listParams.q=' '">
+                    <em class="color-orange serch-reset"><i class=""></i>重置搜索条件</em>
+                  </span>
+              </div>
+            </div>
+          </div>
+          <div class="outside-table-d pr-bg-white pr-fuzzy-boundary" ><!-- outside-table-d -->
+            <table class="table pr-table pr-new-table pr-table-content">    <!-- table-wid -->
+              <thead class="pr-bg-side">
+                <tr>
+                  <th class="w-80"></th>
+                  <th class="w-100">序号</th>
+                  <th class="w-300">供应商编号</th>
+                  <th >供应商名称</th>
+                  <th class="w-160">申请日期</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="tbodyList.length"
+                    ng-repeat="tr in tbodyList track by $index"
+                    ng-init=''
+                    medical-stock-mouse-over
+                    mouse-over-buttons-json=
+                  '[{"title":"删除","url":"#",
+                  "className":"circle-icon-red del-btn-red"},
+                  {"title":"编辑","url":"#/supplier/edit.html?id="+tr.id,
+                  "className":"circle-icon-edit edit-btn"},
+                  {"title":"","url":"#/supplier/edit.html?id="+tr.id,
+                  "className":"circle-icon-edit more-btn"}]'
+                  ng-click="$root.goTo('#/supplier/get.html?id='+tr.id)"
+                  class="trHover"
+                  >
+                  <td class="relative">
+                    <span
+                    class="circle-status"
+                    ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
+                     'bg-pass-green':tr.businessApplication.businessStatus =='已通过',
+                    'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
+                      <span ng-if="tr.businessApplication.businessStatus =='已通过'" class="purchaseorder-buyer-info" style="right: 22px;top: -18px;">
+                        <i class="block pd-c-s text-normal">
+                          <em  class="inline-block pd-v-s">
+                            正常
+                          </em>
+                        </i>
+                      </span>
+                      <span ng-if="tr.businessApplication.businessStatus !='已通过'" class="purchaseorder-buyer-info" style="right: 17px;top: -18px;">
+                        <i class="block pd-c-s text-normal">
+                          <em  class="inline-block pd-v-s">
+                            {{tr.businessApplication.businessStatus}}
+                          </em>
+                        </i>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="text-center">{{$index + 1}}</td>
+                  <td>{{tr.code}}</td>
+                  <td>{{tr.name}}</td>
+                  <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pr-bg-white" ng-if="!tbodyList.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+          </div>
         </div>
     </div>
-</table-list>
-<!--body wrapper end-->
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
 </div>
