@@ -1837,11 +1837,10 @@ function stepFlowArrowShow(utils){
             var stepFlowArrow=  $scope.$eval($attrs.stepFlowArrowJson);
             if(stepFlowArrow && stepFlowArrow.length>0){
               arrowCount=stepFlowArrow.length;
-
+              // 计算得到每个div的宽度
               for(var i=0;i<stepFlowArrow.length;i++){
                   var step=stepFlowArrow[i];
-                  var j=i+1;
-                  var tmp="<div class='"+step.className+"'><span class='"+j+"'>"+step.arrowText+"</span></div>";
+                  var tmp="<div class='"+step.className+"'><span><em class='circle-step mgr-m'>"+(i+1)+"</em>"+step.arrowText+"</span></div>";
                   $($element).append($(tmp));
                   // 中间箭头的形状定义
                   if(i>0&&i<stepFlowArrow.length-1){
@@ -1855,6 +1854,9 @@ function stepFlowArrowShow(utils){
                     }
                   }
               }
+              // 当每个箭头创建好之后，定义每个的宽度
+                var divWidth=($($element).width()-((arrowCount-1)*30))/arrowCount
+                $('.first-medical-nav>div').css({"width":divWidth});
               // 开始箭头的形状定义
               $($element).children('div').first().append("<div></div><div></div>");
               // 最后一个箭头的形状定义
