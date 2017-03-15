@@ -23,7 +23,7 @@
   <div class="content-wrapper "
   ajax-url="rest/authen/medicalStock/get.json?id={{mainStatus.pageParams.id}}"
   scope-data="showData"
-  callback="bottomButtonList= $root.bottomButtonList.get_medicalStock(showData);"
+  callback="initFlag=true;bottomButtonList= $root.bottomButtonList.get_medicalStock(showData);"
   >
     <div class="content-wrapper-main mgt">
       <!-- 状态 -->
@@ -32,7 +32,7 @@
       ng-class="{'pr-bg-freeze color-freeze':showData.businessApplication.businessStatus =='已冻结',
       'pr-bg-pass color-pass':showData.businessApplication.businessStatus =='已通过'}">
       <em>原因:</em>
-       <p class="inline-block color-red">
+       <p class="inline-block">
       <em ng-model="showData.operationFlowSet.key">{{showData.operationFlowSet.key}}</em>
        <em ng-model="showData.operationFlowSet.message">{{showData.operationFlowSet.message}}</em>
        </p>
