@@ -188,13 +188,13 @@
               </div>
             </div>
             <div class="flex-item-6" style="padding:20px 50px;">
-              <div class="pd-c-v-s">
+              <div ng-if="formData.businessLicense.attachment.uploadUserName" class="pd-c-v-s">
                 <em>上传人：</em>{{formData.businessLicense.attachment.uploadUserName}}
               </div>
-              <div class="pd-c-v-s">
+              <div ng-if="formData.businessLicense.attachment.uploadTime" class="pd-c-v-s">
                 <em>上传时间：</em>{{formData.businessLicense.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}
               </div>
-              <div class="fl-l pd-c-v-s">附件：</div>
+              <div ng-if="formData.businessLicense.attachment.uploadTime" class="fl-l pd-c-v-s">附件：</div>
               <div ng-init='attachmentsItemExtend={"edit":true}'
                 ng-class="{'fl-l mgt-m':(formData.businessLicense.attachment.uploadTime)}"
                 attachments-item-show attachments-item-extend="attachmentsItemExtend"

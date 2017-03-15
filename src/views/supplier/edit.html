@@ -1,6 +1,6 @@
 <div class="first-medical-application"
      ng-controller="customerAddressCtrl"
-     ajax-url="rest/authen/customerAddress/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/supplier/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
      alert-error>
@@ -27,7 +27,7 @@
             name="hospitalEditForm"
             form-validator
             parameter-body
-            action="rest/authen/customerAddress/save"
+            action="rest/authen/supplier/save"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
@@ -91,7 +91,7 @@
                        required />
               </div>
             </div>
-
+            
             <div class="flex-column mgt">
               <label class="flex-item-1 text-right control-label">拟定购进商品类别：</label>
               <div style="float:left;width:21%;"
@@ -402,7 +402,7 @@
           <h3 class="crumbs-circle color-black pr-indent-10 pd-v">备注</h3>
           <div class="flex-column pd-c-v-l">
             <div class="flex-item-12 pd-c-xxxxxxl">
-              <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+              <textarea class="pr-textarea" name="note" rows="8" cols="40" ng-model="formData.note"></textarea>
             </div>
           </div>
         </div>
@@ -436,7 +436,7 @@
                  dialog-template="pr-dialog-submit.html"
                  callback="$root.goTo('#/supplier/query.html')"
                  params='{"id":formData.id}'
-                 request-url="rest/authen/customerAddress/delete">删除</a>
+                 request-url="rest/authen/supplier/delete">删除</a>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"

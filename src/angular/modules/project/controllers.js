@@ -3419,7 +3419,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
-         if ($scope.submitForm_type == 'submit') {
+         if ($scope.submitForm_type == 'submit-medical') {
 
            requestData('rest/authen/medicalStock/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
@@ -3672,18 +3672,6 @@ define('project/controllers', ['project/init'], function() {
            $scope.formData.validFlag = false;
            $scope.goTo('#/supplier/get.html?id='+$scope.formData.id);
          }
-         if ($scope.submitForm_type == 'submit-medical') {
-           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
-           .then(function (results) {
-             if (results[1].code === 200) {
-             }
-           })
-           .catch(function (error) {
-
-           });
-           $scope.formData.validFlag = false;
-           $scope.goTo('#/medicalStock/get.html?id='+$scope.formData.id);
-         }
          if ($scope.submitForm_type == 'submit-otherCustomer') {
            requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
@@ -3704,7 +3692,14 @@ define('project/controllers', ['project/init'], function() {
           $scope.goTo(_url + '?id=' + $scope.formData.id);
         }
       };
-
+      $scope.choiceCommodityType=function(item){
+        if(item.value){
+          if($scope.formData.commodityType==null){
+            $scope.formData.commodityType=[];
+          }
+        $scope.formData.commodityType.push(item.text);
+        }
+      }
       //判断当前审核意见是否可见
       $scope.showAuditOpinion = function (returnArr, pipeKey) {
         if (angular.isArray(returnArr)) {

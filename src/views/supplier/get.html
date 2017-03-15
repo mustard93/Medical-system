@@ -1,4 +1,4 @@
-<table-list list-data="rest/authen/customerAddress/query.json"
+<table-list list-data="rest/authen/supplier/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -19,7 +19,7 @@
       </div>
       <!-- 主体内容 -->
       <div class="content-wrapper "
-      ajax-url="rest/authen/customerAddress/get.json?id={{mainStatus.pageParams.id}}"
+      ajax-url="rest/authen/supplier/get.json?id={{mainStatus.pageParams.id}}"
       scope-data="showData"
       callback="initFlag=true;bottomButtonList= $root.bottomButtonList.get_medicalStock(showData);">
         <div class="content-wrapper-main mgt">
@@ -332,9 +332,9 @@
                        dialog-title="确认删除?"
                        dialog-content="删除后将无法恢复,确认删除?"
                        dialog-template="pr-dialog-submit.html"
-                       callback="$root.goTo('#/hospitalManagement/query.html')"
+                       callback="$root.goTo('#/supplier/query.html')"
                        params='{"id":showData.id}'
-                       request-url="rest/authen/customerAddress/delete">删除</a>
+                       request-url="rest/authen/supplier/delete">删除</a>
                   </span>
                   <span>
                     <span ng-if="showData.businessApplication.businessStatus!='已冻结'&&showData.businessApplication.businessStatus!='已终止'">
@@ -346,7 +346,7 @@
                                            "content":"冻结后，该品种信息将被暂停，直到解冻，确认冻结?",
                                            "btnConfirm":"确定",
                                            "btnCancel":"取消",
-                                           "url":"rest/authen/customerAddress/updateStatus",
+                                           "url":"rest/authen/supplier/updateStatus",
                                            "goUrl":"",
                                            "id":"{{showData.id}}",
                                            "status":"已冻结"
@@ -363,7 +363,7 @@
                                            "content":"解冻后，该品种信息将恢复，确认解冻?",
                                            "btnConfirm":"确定",
                                            "btnCancel":"取消",
-                                           "url":"rest/authen/customerAddress/updateStatus",
+                                           "url":"rest/authen/supplier/updateStatus",
                                            "goUrl":"",
                                            "id":"{{showData.id}}",
                                            "status":"已通过"
@@ -378,7 +378,7 @@
                               dialog-title="确认终止?"
                               dialog-content="终止后，该品种信息将被取消，确定终止?"
                               dialog-template="pr-dialog-submit.html"
-                              request-url="rest/authen/customerAddress/updateStatus"
+                              request-url="rest/authen/supplier/updateStatus"
                               params='{"id":showData.id,"status":"已终止"}'
                               alert-error
                               callback="$root.utils.refreshHref()"
