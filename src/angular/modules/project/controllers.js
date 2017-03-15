@@ -2959,7 +2959,7 @@ define('project/controllers', ['project/init'], function() {
             }
           }
          }
-         
+
        });
       $scope.watchFormChange = function(watchName){
 
@@ -3622,23 +3622,25 @@ define('project/controllers', ['project/init'], function() {
 
     // 客户管理(医院管理，经销商/零售商管理)模块
     function customerAddressCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
-       $scope.$watch('initFlag', function () {
-         var operationFlowSetMessage=[];
-         var operationFlowSetKey=[];
-         if ($scope.showData.operationFlowSet) {
-           // 选择出当前状态相同的驳回理由，并放入一个数组中
-          for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
-            if ($scope.showData.operationFlowSet[i].status==$scope.showData.businessApplication.businessStatus) {
-              operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
-              operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+      $scope.$watch('initFlag', function () {
+          var operationFlowSetMessage=[];
+          var operationFlowSetKey=[];
+          if ($scope.showData) {
+            // 选择出当前状态相同的驳回理由，并放入一个数组中
+            if ($scope.showData.operationFlowSet) {
+              for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+                if ($scope.showData.operationFlowSet[i].status==$scope.showData.businessApplication.businessStatus ) {
+                  operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+                  operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+                }
+              }
             }
+          //  选择当前状态最近的一个驳回理由用于显示
+           $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+           $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+           return;
           }
-         //  选择当前状态最近的一个驳回理由用于显示
-          $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-          $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-          return;
-         }
-       });
+      });
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
       };
@@ -3998,6 +4000,7 @@ define('project/controllers', ['project/init'], function() {
         var data= {key:_key};
         requestData(url,data,'post')
           .then(function (results) {
+
           })
           .catch(function (error) {
             alertError(error || '出错');
