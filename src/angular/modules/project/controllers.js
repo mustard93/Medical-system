@@ -3129,19 +3129,29 @@ define('project/controllers', ['project/init'], function() {
         watchFormChange(watchName,$scope);
       };
 
+      // 监控医院采购目录中tbodyList对象的变化
+      $scope.$watch('tbodyList', function (newVal, oldVal) {
+        if (newVal && newVal !== oldVal) {
+          $scope.changeFlag = true;
+          // $scope.formData.orderMedicalNos = $scope.tbodyList;
+        }
+      }, true);
+
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
          if ($scope.submitForm_type == 'submit') {
-           $scope.formData.validFlag = false;
-           $scope.goTo('#/hospitalPurchaseContents/get.html?id' + $scope.formData.id);
+           $scope.formData.validFlag = true;
          }
-        $('#' + fromId).trigger('submit');
+
+         $('#' + fromId).trigger('submit');
       };
 
-      $scope.submitFormAfter = function (_url) {
-        if ($scope.submitForm_type === 'submit') {
-          $scope.goTo(_url + '?id=' + $scope.formData.id);
+      $scope.submitFormAfter = function () {
+        $scope.formData.validFlag = false;
+
+        if ($scope.submitForm_type == 'submit') {
+          utils.goTo('#/hospitalPurchaseContents/query.html');
         }
       };
 
@@ -3272,6 +3282,8 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.flashAddDataCallbackFn = function(flashAddData) {
 
+        var i;
+
         if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
           alertWarn("请选择药品");
           return ;
@@ -3284,7 +3296,7 @@ define('project/controllers', ['project/init'], function() {
         addDataItem.discountPrice='0';
         addDataItem.discountRate='100';
         // addDataItem.strike_price=addDataItem.price;
-        addDataItem.id=null;
+        // addDataItem.id=null;
 
         if (!addDataItem.planQuantity) {
           addDataItem.planQuantity = flashAddData.quantity;
@@ -3302,12 +3314,21 @@ define('project/controllers', ['project/init'], function() {
         if (!$scope.formData.orderMedicalNos) {
           $scope.formData.orderMedicalNos = [];
         }
+
+        // 根据医院采购目录模块的业务需求，如果tbodyList对象存在，则将它赋值给orderMedicalNos对象
+        if ($scope.tbodyList) {
+          for (i = 0; i < $scope.tbodyList.length; i++) {
+            if (addDataItem.id === $scope.tbodyList[i].relId) {
+              alertWarn('此药械已添加到列表');
+              return;
+            }
+          }
+        }
+
         // 如果已添加
         if ($scope.formData.orderMedicalNos.length !== 0) {
           var _len = $scope.formData.orderMedicalNos.length;
-          // console.log(_len);
-          // 未使用forEach方法，因为IE不兼容
-          for (var i=0; i<_len; i++) {
+          for (i=0; i<_len; i++) {
             if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
               alertWarn('此药械已添加到列表');
               return false;
@@ -3317,6 +3338,12 @@ define('project/controllers', ['project/init'], function() {
         addDataItem.stockBatchs=[];
         //添加到列表
         $scope.formData.orderMedicalNos.push(addDataItem);
+
+        // 根据医院采购目录模块的业务需求，将用户添加的药品放入tbodyList对象中
+        if ($scope.tbodyList) {
+          $scope.tbodyList.push(addDataItem);
+        }
+
         //计算价格
         $scope.formData.totalPrice += addDataItem.strike_price *
 
@@ -3324,6 +3351,7 @@ define('project/controllers', ['project/init'], function() {
         return true;
       };
     }
+
     //品种管理模块
     function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('initFlag', function (newVal) {
@@ -3545,7 +3573,6 @@ define('project/controllers', ['project/init'], function() {
         return true;
       };
     }
-
 
     // 客户管理(医院管理，经销商/零售商管理)模块
     function customerAddressCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
