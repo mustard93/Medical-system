@@ -3660,6 +3660,18 @@ define('project/controllers', ['project/init'], function() {
            $scope.formData.validFlag = false;
            $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
          }
+         if ($scope.submitForm_type == 'submit-supplier') {
+           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+             }
+           })
+           .catch(function (error) {
+
+           });
+           $scope.formData.validFlag = false;
+           $scope.goTo('#/supplier/get.html?id='+$scope.formData.id);
+         }
          if ($scope.submitForm_type == 'submit-otherCustomer') {
            requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
