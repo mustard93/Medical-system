@@ -2725,7 +2725,6 @@ define('project/controllers', ['project/init'], function() {
       if ($scope.submitForm_type == 'submit') {
         var url='rest/authen/requestPurchaseOrder/confirm';
         var data= {id:$scope.formData.id};
-
         requestData(url,data, 'POST')
          .then(function (results) {
            var _data = results[1];
@@ -2960,7 +2959,7 @@ define('project/controllers', ['project/init'], function() {
             }
           }
          }
-
+         
        });
       $scope.watchFormChange = function(watchName){
 
@@ -2969,10 +2968,85 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
+         if ($scope.submitForm_type == 'submit-enterprise') {
+           requestData('rest/authen/firstEnterpriseApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/firstEnterpriseApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/firstEnterpriseApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
+         if ($scope.submitForm_type == 'submit-medical') {
+           requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/firstMedicalApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/firstMedicalApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
+         if ($scope.submitForm_type == 'submit-hospital') {
+           requestData('rest/authen/hospitalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/hospitalApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/hospitalApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
+         if ($scope.submitForm_type == 'submit-otherCustomer') {
+           requestData('rest/authen/otherCustomerApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/otherCustomerApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/otherCustomerApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
 
          if ($scope.submitForm_type == 'submit') {
            $scope.formData.validFlag = false;
-          //  $scope.goTo('#/hospitalPurchaseContents/get.html?id' + $scope.formData.id);
          }
         $('#' + fromId).trigger('submit');
       };
@@ -3082,7 +3156,6 @@ define('project/controllers', ['project/init'], function() {
 
     function SelectedCommodityEditCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('!initFlag', function (newVal) {
-         console.log($scope.formData.commodityType);
             var scopeData= [];
             for(var item in $scope.scopeData){
                 scopeData.push($scope.scopeData[item]);
@@ -3599,6 +3672,7 @@ define('project/controllers', ['project/init'], function() {
          }
         $('#' + fromId).trigger('submit');
       };
+
       $scope.submitFormAfter = function (_url) {
         if ($scope.submitForm_type === 'submit') {
           $scope.goTo(_url + '?id=' + $scope.formData.id);
@@ -3919,13 +3993,11 @@ define('project/controllers', ['project/init'], function() {
    */
   function deleteUploaderController($scope, $timeout, alertOk, alertError, requestData){
     $scope.deleteUploader = function (_key) {
-
       if (_key) {
         var url='rest/authen/fileUpload/delete';
         var data= {key:_key};
         requestData(url,data,'post')
           .then(function (results) {
-
           })
           .catch(function (error) {
             alertError(error || '出错');

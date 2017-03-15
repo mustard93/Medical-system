@@ -25,7 +25,13 @@
   <p ng-if="ngModel.attachmentUrl && !$root.utils.isPicture(ngModel.fileName)" class="mgb relative p-mask-text ">
       <a  href="{{ngModel.attachmentUrl}}" >{{ngModel.fileName}}
       </a>
-        <span ng-if="attachmentsItemExtend.edit" ng-click="deleteUploader(ngModel.attachmentUrl);ngModel.attachmentUrl='';ngModel.fileName=''" class="circle-s del-btn"><i class=" fa fa-times-circle"></i></span>
+        <span ng-if="attachmentsItemExtend.edit"
+        ng-click="deleteUploader(ngModel.attachmentUrl);
+        ngModel.attachmentUrl='';
+        ngModel.fileName=''"
+        class="circle-s del-btn">
+        <i class=" fa fa-times-circle"></i>
+      </span>
         <span class="reupload-text color-custom-orange"
         ng-if="!attachmentsItemExtend.edit"
         >  <a  href="{{ngModel.attachmentUrl}}" >点击下载
@@ -45,7 +51,7 @@
     <button type="button"
             ng-if="attachmentsItemExtend.edit&& !ngModel.attachmentUrl"
             class="upload-btn"
-            ng-init="upFile={}"
+            ng-init="upFile={};"
             uploader-one="rest/authen/fileUpload/upload2.json"
             usege="{{attachmentsExtend.addFlag}}"
             callback="ngModel.uploadUserId=upFile.data.userId;
