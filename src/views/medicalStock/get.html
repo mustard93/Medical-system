@@ -1,9 +1,10 @@
+<table-list list-data="rest/authen/medicalStock/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
 <div class="first-medical-application"
-    ng-conshowDataoller="medicalStockCtrl">
-  <table-list list-data="rest/authen/medicalStock/query.json"
-                list-params="listParams"
-                search-mode="noCaseSensitive"
-                search-param="q">
+    ng-controller="medicalStockCtrl">
+
   <div class="header-info relative mgb-l">
     <p class="pdb-s pdt-s crumbs pd-c-xxl">供应商中心 >
       <a href="#/medicalStock/query.html">
@@ -26,7 +27,7 @@
   >
     <div class="content-wrapper-main mgt">
       <!-- 状态 -->
-      <div ng-if="showData.businessApplication.businessStatus=='已冻结'||showData.businessApplication.businessStatus=='已通过'"
+      <div ng-if="showData.operationFlowSet.message"
       class="pr-panel pr-panel-height mgb"
       ng-class="{'pr-bg-freeze color-freeze':showData.businessApplication.businessStatus =='已冻结',
       'pr-bg-pass color-pass':showData.businessApplication.businessStatus =='已通过'}">
@@ -238,7 +239,7 @@
                                        "content":"冻结后，该品种信息将被暂停，直到解冻，确认冻结?",
                                        "btnConfirm":"确定",
                                        "btnCancel":"取消",
-                                       "url":"rest/authen/medicalStock/changeState",
+                                       "url":"rest/authen/medicalStock/updateStatus",
                                        "goUrl":"",
                                        "id":"{{showData.id}}",
                                        "status":"已冻结"
@@ -255,7 +256,7 @@
                                        "content":"解冻后，该品种信息将恢复，确认解冻?",
                                        "btnConfirm":"确定",
                                        "btnCancel":"取消",
-                                       "url":"rest/authen/medicalStock/changeState",
+                                       "url":"rest/authen/medicalStock/updateStatus",
                                        "goUrl":"",
                                        "id":"{{showData.id}}",
                                        "status":"已通过"
@@ -270,7 +271,7 @@
                           dialog-title="确认终止?"
                           dialog-content="终止后，该品种信息将被取消，确定终止?"
                           dialog-template="pr-dialog-submit.html"
-                          request-url="rest/authen/medicalStock/changeState"
+                          request-url="rest/authen/medicalStock/updateStatus"
                           params='{"id":showData.id,"status":"已终止"}'
                           alert-error
                           callback="$root.utils.refreshHref()"
@@ -288,5 +289,6 @@
     </div>
   </div>
   </div>
-</table-list>
+
 </div>
+</table-list>
