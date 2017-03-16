@@ -3185,12 +3185,7 @@ define('project/controllers', ['project/init'], function() {
     function hospitalPurchaseContentsCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn, $timeout) {
 
       // 构建删除对象，存放在formData对象中
-      if (!$scope.formData.delete) {
-        $scope.formData.delete = {
-          id: '',
-          ids: []
-        };
-      }
+  
 
       $scope.$watch('initFlag', function (newVal) {
          if (newVal && $scope.formData.orderMedicalNos) {
