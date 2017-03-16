@@ -3182,7 +3182,15 @@ define('project/controllers', ['project/init'], function() {
      * @param  {[type]} alertWarn       [注入项]
      * @return {[type]}                 [description]
      */
-    function hospitalPurchaseContentsCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+    function hospitalPurchaseContentsCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn, $timeout) {
+
+      // 构建删除对象，存放在formData对象中
+      if (!$scope.formData.delete) {
+        $scope.formData.delete = {
+          id: '',
+          ids: []
+        };
+      }
 
       $scope.$watch('initFlag', function (newVal) {
          if (newVal && $scope.formData.orderMedicalNos) {
@@ -3209,6 +3217,23 @@ define('project/controllers', ['project/init'], function() {
           // $scope.formData.orderMedicalNos = $scope.tbodyList;
         }
       }, true);
+
+      // 修改医院采购目录中药品价格后将当前药品插入formData中
+      $scope.modifiedThisMedicalItem = function (item) {
+        if (!$scope.formData.orderMedicalNos) {
+          $scope.formData.orderMedicalNos = [];
+        }
+
+        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+          if (data.id === item.id) {
+            $scope.formData.orderMedicalNos.splice(index, 1);    // 删除重复数据
+          }
+        });
+
+        $scope.formData.orderMedicalNos.push(item);
+
+        console.log($scope.formData);
+      };
 
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
@@ -4767,7 +4792,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
   .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', QualificationApplyCtrl])
   .controller('SelectedCommodityEditCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', SelectedCommodityEditCtrl])
-  .controller('hospitalPurchaseContentsCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', hospitalPurchaseContentsCtrl])
+  .controller('hospitalPurchaseContentsCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', '$timeout', hospitalPurchaseContentsCtrl])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
   .controller('customerAddressCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', customerAddressCtrl])
   .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
