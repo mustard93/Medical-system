@@ -62,7 +62,7 @@
             </div>
             <!-- 批量删除按钮 -->
             <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
-              <a href="javascript:;" class="batch-delete-btn" ng-click="handleBatchDel()">批量删除
+              <a href="javascript:void(0)" class="batch-delete-btn" ng-click="handleBatchDel()" ng-disabled="!_tmpDelList.length">批量删除
                 <em class="fa fa-trash-o"></em>
               </a>
             </div>
@@ -120,10 +120,20 @@
                   </tr>
                 </tbody>
               </table>
-              <!-- 导航 -->
-              <div class="clearfix pd-c-m">
-                <div class="fr"><pagination status="status"></pagination></div>
+
+              <div class="flex-column">
+                <!-- 批量删除按钮 -->
+                <div ng-if="tbodyList.length" class="flex-column flex-item-6 color-9 pd-c-l pdt-m pdb-m">
+                  <a href="javascript:;" class="batch-delete-btn" ng-click="handleBatchDel()" ng-disabled="!_tmpDelList.length">批量删除
+                    <em class="fa fa-trash-o"></em>
+                  </a>
+                </div>
+                <!-- 导航 -->
+                <div class="clearfix pd-c-m flex-item-6">
+                  <div class="fr"><pagination status="status"></pagination></div>
+                </div>
               </div>
+
               <!-- 空数据占位符 -->
               <div class="pr-bg-white" ng-if="!tbodyList.length">
                 <div class="empty-table clearfix">
@@ -133,12 +143,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <!-- 批量删除按钮 -->
-          <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l pdt-m pdb-m">
-            <a href="javascript:;" class="batch-delete-btn" ng-click="formData.orderMedicalNos.length=0">批量删除
-              <em class="fa fa-trash-o"></em>
-            </a>
           </div>
         </div>
         <!-- 备注 -->

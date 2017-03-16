@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData')"
+     callback="initFlag=true;watchFormChange('formData');formData.medical.isBasicMedicine='是'"
      alert-error>
   <div class="header-info relative mgb-l">
     <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
@@ -22,12 +22,8 @@
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <!-- 添加流程导航 -->
-    <div
-    step-flow-arrow-show
-    step-flow-arrow-json=
-  '[{"arrowText":"基本信息","className":"active"},
-    {"arrowText":"申请原因","className":"unactive"},
-    {"arrowText":"添加审核资料","className":"unactive"}]'>
+    <div step-flow-arrow-show
+         step-flow-arrow-json='[{"arrowText":"基本信息","className":"active"},{"arrowText":"申请原因","className":"unactive"},{"arrowText":"添加审核资料","className":"unactive"}]'>
     </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
@@ -41,95 +37,89 @@
             scope-error-msg="errorMsg"
             scope-data="formData"
             novalidate="true"
-            callback="submitFormAfter('#/firstMedicalApplication/edit-step-2.html');watchFormChange('formData');formData.firstMedical.isBasicMedicine='是'">
+            callback="submitFormAfter('#/firstMedicalApplication/edit-step-2.html');watchFormChange('formData');">
         <!-- 单号 -->
-        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column" style="line-height:2.4">
           <div class="flex-item-6">
-            <span class="flex-item-2">
-              单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em>
-            </span>
-            <span class="flex-item-10">
-              <span class="flex-item-1 text-right">
-                采购员：
-              </span>
-              <span class="flex-item-2">
-                <select class="select pr-select" data-placeholder=" "
-                chosen
-                default-empty=""
-                ng-model="formData.buyerId"
-                select-source="rest/authen/user/queryForSelectOption">
-                </select>
-              </span>
+            <span class="mgr-l">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
+            <span>采购员：
+              <select class="select pr-select"
+                      data-placeholder=" "
+                      chosen
+                      width="120px"
+                      default-empty=""
+                      ng-model="formData.buyerId"
+                      select-source="rest/authen/user/queryForSelectOption">
+              </select>
             </span>
           </div>
           <div class="flex-item-6 text-right">
-              录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
-              状态：<em class="color-black">{{formData.orderStatus}}</em>
+            <span class="mgr-l">录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em></span>
+            <span>状态：<em class="color-black">{{formData.orderStatus}}</em></span>
           </div>
         </div>
         <!-- 基本信息 -->
-        <div class="panel pr-panel pr-panel-height mgb">
-            <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
-            <div class="bb-dashed-line">
-              <div class="flex-column mgb">
+        <div class="panel pr-panel pr-panel-height mgb" style="padding:15px 0;">
+            <h1 class="mgb-m mgt color-black text-bold text-n pd-c-l">基本信息</h1>
+            <div class="bb-dashed-line pdb-l">
+              <div class="flex-column">
+                <label class="flex-item-2 text-right control-label pdr-s" style="position:relative;top:4px;">类别：</label>
+                <div class="flex-item-10 text-left">
                   <label class="radio-inline radio radio-new">
-                    <input type="radio" class="default-radio"  name="type" value="药械" ng-model="formData.medical.medicalType" required><i style="top:12px;"></i>
+                    <input type="radio" class="default-radio"  name="type" value="药械" ng-model="formData.medical.medicalType"><i style="top:12px;"></i>
                     <em class="inline-block" style="margin-left:-5px; color:#666;">药械</em>
                   </label>
                   <label class="radio-inline radio radio-new">
-                    <input type="radio" class="default-radio" name="type" value="中药及饮片" ng-model="formData.medical.medicalType" required> <i style="top:12px;"></i>
+                    <input type="radio" class="default-radio" name="type" value="中药及饮片" ng-model="formData.medical.medicalType"> <i style="top:12px;"></i>
                       <em class="inline-block" style="margin-left:-5px; color:#666;">中药及饮片</em>
                   </label>
                   <label class="radio-inline radio radio-new">
-                    <input type="radio" class="default-radio" name="type" value="其他药品" ng-model="formData.medical.medicalType" required> <i style="top:12px;"></i>
+                    <input type="radio" class="default-radio" name="type" value="其他药品" ng-model="formData.medical.medicalType"> <i style="top:12px;"></i>
                       <em class="inline-block" style="margin-left:-5px; color:#666;">其他药品</em>
                   </label>
+                </div>
               </div>
             </div>
             <div class=" pd-v-m">
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">通用名称：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">通用名称：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.approvedName"
-                         required />
+                         ng-model="formData.medical.approvedName" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">品种名：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">品种名：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="name"
-                         ng-model="formData.medical.name"
-                         required />
+                         ng-model="formData.medical.name" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">品种编码：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">品种编码：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="code"
-                         ng-model="formData.medical.code"
-                         required />
+                         ng-model="formData.medical.code" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">规格型号：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">规格型号：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="specification"
-                         ng-model="formData.medical.specification"
-                         required />
+                         ng-model="formData.medical.specification" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">剂型：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">剂型：</label>
+                <div class="flex-item-10 text-left">
                   <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
                   chosen
                   default-empty="无"
@@ -139,62 +129,66 @@
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">计量单位：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">计量单位：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="measurement"
-                         ng-model="formData.medical.measurement"
-                         required />
+                         ng-model="formData.medical.measurement" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">包装情况：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">包装情况：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="packingCondition"
-                         ng-model="formData.medical.packingCondition"
-                         required />
+                         ng-model="formData.medical.packingCondition" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">中包装数量：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">中包装数量：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="numberOfPackages"
                          ng-model="formData.medical.numberOfPackages"
-                         required />
+                         ng-pattern="/^\d+$/"
+                         invalid-popover
+                         popover-show="!firstMedicalEditForm.numberOfPackages.$valid"
+                         popover-options='{"content":"中包装数量格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">件装量：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">件装量：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="pieceLoading"
                          ng-model="formData.medical.pieceLoading"
-                         required />
+                         ng-pattern="/^\d+$/"
+                         invalid-popover
+                         popover-show="!firstMedicalEditForm.pieceLoading.$valid"
+                         popover-options='{"content":"件装量格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">有效期：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">有效期：</label>
+                <div class="flex-item-10 text-left">
                   <div class="date-icon-outside">
                     <input type="text"
                            datepicker
                            class="ipt-date pr-short-ipt ipt-new-s color-6"
                            ng-readonly="true"
-                           placeholder="有效日期至"
+                           placeholder=" 有效日期至"
                            ng-model="formData.medical.guaranteePeriod">
                           <span class="date-icon"></span>
                   </div>
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">存储条件：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">存储条件：</label>
+                <div class="flex-item-10 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt" name=""
                   ng-model="formData.medical.storageCondition">
                     <option value="常温">常温</option>
@@ -205,135 +199,126 @@
             </div>
             <div class="pd-v-m bt-dashed-line">
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">生产企业：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">生产企业：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="produceEnterprise"
-                         ng-model="formData.medical.manufacturer"
-                         required />
+                         ng-model="formData.medical.manufacturer" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">厂址：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">厂址：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.factoryAddress"
-                         required />
+                         ng-model="formData.medical.factoryAddress" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">产地：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">产地：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="factoryAddress"
-                         ng-model="formData.medical.productionPlace"
-                         required />
+                         ng-model="formData.medical.productionPlace" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">供应单位：</label>
-                <div class="flex-item-11 text-left">
-                  <select class="select-new" name="" ng-model="formData.medical.supplierId"
-                  chosen select-source="rest/authen/supplier/queryForSelectOption">
+                <label class="flex-item-2 text-right control-label pdr-s">供应单位：</label>
+                <div class="flex-item-10 text-left">
+                  <select class="select-new"
+                          ng-model="formData.medical.supplierId"
+                          chosen
+                          select-source="rest/authen/supplier/queryForSelectOption">
                   </select>
                 </div>
               </div>
             </div>
             <div class="pd-v-m bt-dashed-line">
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">注册商标：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">注册商标：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="trademark"
-                         ng-model="formData.medical.trademark"
-                         required />
+                         ng-model="formData.medical.trademark" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">国药统一编码：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">国药统一编码：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="medicalUniformCode"
-                         ng-model="formData.medical.medicalUniformCode"
-                         required />
+                         ng-model="formData.medical.medicalUniformCode" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">备案凭证编号：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">备案凭证编号：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="filingDocumentNumber"
-                         ng-model="formData.medical.filingDocumentNo"
-                         required />
+                         ng-model="formData.medical.filingDocumentNo" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">药品批准文号：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">药品批准文号：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="licenseNumber"
-                         ng-model="formData.medical.licenseNumber"
-                         required />
+                         ng-model="formData.medical.licenseNumber" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">质量标准：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">质量标准：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.quality"
-                         required />
+                         ng-model="formData.medical.quality" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">GMP/GSP证书编号：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">GMP/GSP证书编号：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.gmpGspCertificateNo"
-                         required />
+                         ng-model="formData.medical.gmpGspCertificateNo" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">器械注册证号：</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">器械注册证号：</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.drugAdministrationCode"
-                         required />
+                         ng-model="formData.medical.drugAdministrationCode" />
                 </div>
               </div>
             </div>
             <div class="pd-v-m bt-dashed-line">
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">是否基药：</label>
-                <div class="flex-item-11 text-left">
-                  <select class="select pr-select ipt-new-s pr-short-ipt"
-                  name="" ng-init="formData.medical.isBasicMedicine='是'" ng-model="formData.medical.isBasicMedicine">
+                <label class="flex-item-2 text-right control-label pdr-s">是否基药：</label>
+                <div class="flex-item-10 text-left">
+                  <select class="select pr-select ipt-new-s pr-short-ipt" ng-model="formData.medical.isBasicMedicine">
                     <option value="是" ng-selected="formData.medical.isBasicMedicine=='是'">是</option>
                     <option value="否" ng-selected="formData.medical.isBasicMedicine=='否'">否</option>
                   </select>
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">牌价：￥</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">牌价：￥</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
-                         class="ipt-new ipt-new-s text-left"
-                         placeholder="￥0.00"
+                         class="ipt-new ipt-new-s text-right"
+                         placeholder="0.00"
                          ng-model="formData.medical.quoteprice"
-
+                         ng-disabled="formData.medical.isBasicMedicine=='否'"
                          ng-keyup="chkQuoteAndRetail()"
                          name="quoteprice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -343,30 +328,27 @@
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">零售价：￥</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">零售价：￥</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
-                         class="ipt-new ipt-new-s text-left"
-                         placeholder="￥0.00"
+                         class="ipt-new ipt-new-s text-right"
+                         placeholder="0.00"
                          ng-model="formData.medical.retailPrice"
-
                          ng-keyup="chkQuoteAndRetail()"
                          name="retailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
                          popover-show="!firstMedicalEditForm.retailPrice.$valid"
                          popover-options='{"content":"零售价格式不正确", "placement":"right", "trigger":"manual"}' />
-                          <!-- ng-disabled="formData.medical.isBasicMedicine=='否'" -->
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">批发价：￥</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">批发价：￥</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
-                         class="ipt-new ipt-new-s text-left"
-                         placeholder="￥0.00"
+                         class="ipt-new ipt-new-s text-right"
+                         placeholder="0.00"
                          ng-model="formData.medical.tradePrice"
-
                          ng-keyup="chkQuoteAndRetail()"
                          name="tradePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -376,13 +358,12 @@
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">采购价：￥</label>
-                <div class="flex-item-11 text-left">
+                <label class="flex-item-2 text-right control-label pdr-s">采购价：￥</label>
+                <div class="flex-item-10 text-left">
                   <input type="text"
-                         class="ipt-new ipt-new-s text-left"
-                         placeholder="￥0.00"
+                         class="ipt-new ipt-new-s text-right"
+                         placeholder="0.00"
                          ng-model="formData.medical.purchasePrice"
-
                          ng-keyup="chkQuoteAndRetail()"
                          name="purchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
@@ -392,12 +373,11 @@
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">税率：</label>
-                <div class="flex-item-11 text-left">
-                  <select class="select pr-select ipt-new-s pr-short-ipt" name=""
-                  ng-model="formData.medical.tax">
-                    <option value="17" ng-selected="formData.medical.tax==17">17</option>
-                    <option value="3" ng-selected="formData.medical.tax==3">3</option>
+                <label class="flex-item-2 text-right control-label pdr-s">税率：</label>
+                <div class="flex-item-10 text-left">
+                  <select class="select pr-select ipt-new-s pr-short-ipt"
+                          ng-model="formData.medical.tax"
+                          ng-options="tax for tax in [3,17]">
                   </select>
                 </div>
               </div>
@@ -406,8 +386,8 @@
 
       <div class="color-black mgt-l mgb-l">
         <p>
-          <p class="pr-font-14">说明：</p>
-          <p>1.品种资质必须加供货企业红色原公章；</p>
+          <p class="pr-font-14 mgb-s">说明：</p>
+          <p class="mgb-s">1.品种资质必须加供货企业红色原公章；</p>
           <p>2.采购人员按要求向供货商(生产企业／经营企业)所要并和事资质的真实合法性，并如实填写本表；</p>
         </p>
       </div>
@@ -447,10 +427,9 @@
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-
+                      ng-disabled="!firstMedicalEditForm.$valid"
                       ng-click="submitForm('first-enterprise-editForm','submit')">下一步
               </button>
-                <!-- ng-disabled="firstMedicalEditForm.$invalid" -->
             </span>
           </div>
         </div>
