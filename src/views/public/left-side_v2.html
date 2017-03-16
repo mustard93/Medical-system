@@ -1,0 +1,128 @@
+<div ng-if="leftSideisShow" id="page-side" class="left-side sticky-left-side" nice-scroll
+  ajax-url="rest/authen/uICustomMenu/getByKey.json?key=DT-NavigationMenu-Iphone"
+   scope-data="menus"
+>
+  <!--logo start-->
+  <div class="logo">
+    <div>
+      <a href="index.html"><i></i></a>
+    </div>
+  </div>
+  <!--logo end-->
+  <div ng-if="$root.curUser.name"  class="left-side-inner">
+    <ul class="nav nav-pills nav-stacked custom-nav">
+
+      <li class="menu-list" ng-repeat="item in menus">
+        <a left-menu-toggle href="{{item.ahref}}" class="nav-home"><span class="nav-ico nav-home"></span><span> 首页</span></a>
+      </li>
+
+      <li class="menu-list">
+        <a left-menu-toggle href="#/main.html" class="nav-home"><span class="nav-ico nav-home"></span><span> 首页</span></a>
+      </li>
+      <li class="menu-list"  ng-if="$root.hasAuthor('购需单查询')||$root.hasAuthor('销售单查询')||$root.hasAuthor('发货单查询')||$root.hasAuthor('出库单查询')">
+        <a left-menu-toggle href="" class="nav-order"><span class="nav-ico nav-order"></span><span> 销售中心</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+            <li ng-if="$root.hasAuthor('购需单查询')"><a left-menu-second-toggle href="#/salesOrder/query.html">购需单</a></li>
+            <li ng-if="$root.hasAuthor('销售单查询')"><a left-menu-second-toggle href="#/confirmOrder/query.html">销售单</a></li>
+            <li ng-if="$root.hasAuthor('发货单查询')"><a left-menu-second-toggle href="#/invoicesOrder/query.html">发货单</a></li>
+            <!-- <li ng-if="$root.hasAuthor('出库单查询')"><a left-menu-second-toggle href="#/outstockOrder/query.html">出库单</a></li> -->
+            <li><a left-menu-second-toggle href="#/saleReturnOrder/query.html">销售退货单</a></li>
+        </ul>
+      </li>
+      <li class="menu-list" ng-if="$root.hasAuthor('采购单查询')||$root.hasAuthor('采购凭证查询')||$root.hasAuthor('来货通知单查询')||$root.hasAuthor('付款申请单查询')">
+        <a left-menu-toggle href="" class="nav-home nav-purchase"><span class="nav-ico nav-purchase"></span><span> 采购中心</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+            <li ><a left-menu-second-toggle href="#/requestPurchaseOrder/query.html">请购单</a></li>
+            <li ng-if="$root.hasAuthor('采购单查询')"><a left-menu-second-toggle href="#/purchaseOrder/query.html">采购单</a></li>
+            <li ng-if="$root.hasAuthor('采购凭证查询')"><a left-menu-second-toggle href="#/purchaseVoucher/query.html">采购凭证</a></li>
+            <li ng-if="$root.hasAuthor('来货通知单查询')"><a left-menu-second-toggle href="#/arrivalNoticeOrder/query.html">来货通知单</a></li>
+            <li><a left-menu-second-toggle href="#/purchaseReturnOrder/query.html">采购退货单</a></li>
+            <!-- <li ng-if="$root.hasAuthor('付款申请单查询')" ><a left-menu-second-toggle href="#/purchasePayOrder/query.html">付款申请单</a></li> -->
+        </ul>
+      </li>
+      <li class="menu-list">
+        <a left-menu-toggle href="" class="nav-custom"><span class="nav-ico nav-custom"></span><span> 客户中心</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+            <li><a left-menu-second-toggle href="#/hospitalApplication/query.html">资格申请</a></li>
+            <li ng-if="$root.hasAuthor('医院资格申请')"><a left-menu-second-toggle href="#/hospitalPurchaseContents/query.html">医院采购目录</a></li>
+            <!-- <li ng-if="$root.hasAuthor('客户管理')"><a left-menu-second-toggle href="#/customerAddress/query.html">客户管理</a></li> -->
+            <li><a left-menu-second-toggle href="#/hospitalManagement/query.html">医院管理</a></li>
+            <li><a left-menu-second-toggle href="#/otherCustomerManagement/query.html">经销商/零售商管理</a></li>
+        </ul>
+      </li>
+      <li class="menu-list">
+        <a left-menu-toggle href="" class="nav-vendor"><span class="nav-ico nav-vendor"></span><span> 供应商中心</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+            <li><a left-menu-second-toggle href="#/firstMedicalApplication/query.html">首营申请</a></li>
+            <li ng-if="$root.hasAuthor('供应商管理')"><a left-menu-second-toggle href="#/supplier/query.html">供应商管理</a></li>
+            <li ng-if="$root.hasAuthor('药械管理')"><a left-menu-second-toggle href="#/medicalStock/query.html">品种管理</a></li>
+
+        </ul>
+      </li>
+
+      <li class="menu-list"  ng-if="$root.hasAuthor('库存查询') || $root.hasAuthor('出入库查询')">
+        <a left-menu-toggle href="" class="nav-storage-report"><span class="nav-ico nav-storage-report"></span><span> 库存报表 </span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+            <li ng-if="$root.hasAuthor('库存查询')"><a left-menu-second-toggle href="#/wareHouseTable/query-stock.html">库存查询</a></li>
+            <li ng-if="$root.hasAuthor('出入库查询')"><a left-menu-second-toggle href="#/inoutstockDetail/query.html">出入库明细</a></li>
+        </ul>
+      </li>
+
+      <!-- <li class="menu-list" ng-if="$root.hasAuthor('库存查询') || $root.hasAuthor('出入库查询')">
+        <a left-menu-toggle href="" class="nav-storage-report"><span class="nav-ico nav-storage-report"></span><span> 库存报表</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+            <li ng-if="$root.hasAuthor('库存查询')"><a left-menu-second-toggle href="#/medicalStock/query-stock.html">库存查询</a></li>
+            <li ng-if="$root.hasAuthor('出入库查询')"><a left-menu-second-toggle href="#/inoutstockDetail/query.html">出入库查询</a></li>
+        </ul>
+      </li> -->
+
+      <!-- 库存管理模块 -->
+      <li class="menu-list" ng-if="$root.hasAuthor('报损单查询') || $root.hasAuthor('报溢单查询') || $root.hasAuthor('批次冻结查询') || $root.hasAuthor('批次解冻查询')">
+        <a left-menu-toggle href="" class="nav-storage-manage"><span class="nav-ico nav-storage-manage"></span><span> 库存管理</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+
+            <li>
+              <a left-menu-second-toggle href="#/saleOutstockOrder/query.html">销售出库单</a></li>
+            <li>
+              <a left-menu-second-toggle href="#/purchaseInstockOrder/query.html">采购入库单</a></li>
+
+            <li ng-if="$root.hasAuthor('报损单查询') || $root.hasAuthor('报溢单查询')">
+              <a left-menu-second-toggle href="#/lossOverOrder/query-reimburse.html">报损报溢单</a></li>
+            <li ng-if="$root.hasAuthor('批次冻结查询') || $root.hasAuthor('批次解冻查询')">
+              <a left-menu-second-toggle href="#/freezeThawOrder/query-freeze.html">批次冻结解冻单</a></li>
+            <li>
+              <a left-menu-second-toggle href="#/otherOutstockOrder/query.html">其他出库单</a></li>
+
+            <li>
+              <a left-menu-second-toggle href="#/otherInstockOrder/query.html">其他入库单</a></li>
+
+        </ul>
+
+      </li>
+
+      <li class="menu-list" ng-if="$root.hasAuthor('部门帐号审核')">
+        <a left-menu-toggle href="" class="nav-depart-manage"><span class="nav-ico nav-depart-manage"></span><span> 我的部门</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+          <li ng-if="$root.hasAuthor('部门帐号审核')"><a left-menu-second-toggle href="#/departmentUser/query.html">成员管理</a></li>
+          <li ng-if="$root.hasAuthor('部门帐号审核')"><a left-menu-second-toggle href="#/distributor/queryUserApplyCurDepartment.html">账号审核</a></li>
+
+        </ul>
+      </li>
+
+      <li class="menu-list"  ng-if="$root.hasAuthor('管理中心')">
+        <a left-menu-toggle href="" class="nav-home nav-manage-center"><span class="nav-ico nav-manage-center"></span><span> 系统管理</span><span class="pr-arrow-down"></span></a>
+        <ul class="sub-menu-list">
+          <li><a left-menu-second-toggle href="#/role/query.html">角色管理</a></li>
+          <li><a left-menu-second-toggle href="#/department/query.html">部门管理</a></li>
+          <!-- <li><a left-menu-second-toggle href="#/purchaserAddress/query.html">收货信息管理</a></li> -->
+          <li><a left-menu-second-toggle href="#/user/query.html">员工管理</a></li>
+          <li><a left-menu-second-toggle href="#/distributor/queryUserApplyOrganization.html">账号审核</a></li>
+          <li><a left-menu-second-toggle href="#/systemSetting/query.html">系统策略</a></li>
+          <li><a left-menu-second-toggle href="#/medicalAttribute/query.html">品种属性管理</a></li>
+          <li><a left-menu-second-toggle href="#/warehouse/query.html">仓库管理</a></li>
+          <li><a left-menu-second-toggle href="#/jiekeWmsInoutstock/query.html">捷科WMS接口出入库原始数据</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
