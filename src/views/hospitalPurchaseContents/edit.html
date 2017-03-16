@@ -7,7 +7,7 @@
        ng-controller="hospitalPurchaseContentsCtrl"
        ajax-url="rest/authen/hospitalPurchaseContents/get.json?id={{mainStatus.pageParams.id}}"
        scope-data="formData"
-       callback='initFlag=true;watchFormChange("formData");bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
+       callback='initFlag=true;watchFormChange("formData");formData.delete={id:formData.id,ids:[]};bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
        alert-error>
 
     <form id="editForm"
@@ -95,7 +95,7 @@
                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                           <p class="pdt-s">
                             <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                            <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="tbodyList.splice($index,1);">确认</a>
+                            <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="tbodyList.splice($index,1);formData.delete.ids.push(tr.id);">确认</a>
                           </p>
                         </div>
                       </div>
@@ -112,7 +112,8 @@
                              invalid-popover
                              valid-value="{{!editForm['price'+$index].$valid}}"
                              popover-show
-                             popover-options='{"content":"价格格式不正确", "placement":"right", "trigger":"manual"}' />
+                             popover-options='{"content":"价格格式不正确", "placement":"right", "trigger":"manual"}'
+                             ng-change="modifiedThisMedicalItem(tr)"/>
                     </td><!-- 含税单价 -->
                     <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
