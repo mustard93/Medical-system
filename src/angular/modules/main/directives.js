@@ -1299,6 +1299,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 };
 
                 function getTreeData() {
+                    if(!$attrs.treeList2)return;
                     $scope.status.isLoading = true;
                     requestData($attrs.treeList2,formData)
                         .then(function(results) {

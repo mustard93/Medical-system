@@ -3184,8 +3184,15 @@ define('project/controllers', ['project/init'], function() {
      */
     function hospitalPurchaseContentsCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn, $timeout) {
 
-      // 构建删除对象，存放在formData对象中
-  
+      // 临时存放要删除的药品列表
+      $scope._tmpDelList = [];
+
+      // 监控tbodyList数组变化
+      $scope.$watch('tbodyList', function (newVal, oldVal) {
+        if (newVal && newVal !== oldVal) {
+          $scope.tbodyListChange = true;
+        }
+      });
 
       $scope.$watch('initFlag', function (newVal) {
          if (newVal && $scope.formData.orderMedicalNos) {
@@ -3213,6 +3220,14 @@ define('project/controllers', ['project/init'], function() {
         }
       }, true);
 
+      // 监控分页页码的变化，解决点击分页后保存按钮可用的问题
+      // $scope.$watch('status.currentPage', function (newVal, oldVal) {
+      //   if (newVal && newVal !== oldVal) {
+      //     console.log('aaa');
+      //     $scope.changeFlag = false;
+      //   }
+      // });
+
       // 修改医院采购目录中药品价格后将当前药品插入formData中
       $scope.modifiedThisMedicalItem = function (item) {
         if (!$scope.formData.orderMedicalNos) {
@@ -3225,9 +3240,7 @@ define('project/controllers', ['project/init'], function() {
           }
         });
 
-        $scope.formData.orderMedicalNos.push(item);
-
-        console.log($scope.formData);
+        $scope.formData.orderMedicalNos.push(item);   // 将修改后的药品数据放入数据体
       };
 
       $scope.submitForm = function(fromId, type) {
@@ -3336,6 +3349,19 @@ define('project/controllers', ['project/init'], function() {
         }
       });
 
+      // 单选按钮
+      $scope.handleItemClickEvent = function (tr) {
+        $scope.changeFlag = false;    // 不能做修改确认操作
+
+        if (tr.handleFlag) {          // 选中
+          $scope._tmpDelList.push(tr.id);
+        } else {                      // 取消选中
+          angular.forEach($scope._tmpDelList, function (item, index) {
+            if (item === tr.id) { $scope._tmpDelList.splice(index, 1); }
+          });
+        }
+      };
+
       // 全选与全不选
       $scope.isChoiseAll = function (choiseStatus) {
         if (choiseStatus) {
@@ -3353,25 +3379,36 @@ define('project/controllers', ['project/init'], function() {
         }
       };
 
+      // 处理全选和取消全选
       $scope.handleChoiseAllEvent = function () {
-           var _dataSource = $scope.formData.orderMedicalNos;
+        $scope.changeFlag = false;      // 不能做修改确认操作
 
-           if (!$scope.choisedMedicalList) {
-             $scope.choisedMedicalList = [];
-           }
+        if ($scope.isChoiseAll) {         // 选中全选
+          if ($scope.tbodyList) {
+            angular.forEach($scope.tbodyList, function (item, index) {
+              $scope._tmpDelList.push(item.id);
+            });
+          }
+        } else {                          // 取消全选
+          $scope._tmpDelList = [];
+          $scope.formData.delete.ids = [];
+        }
+      };
 
-           if ($scope.isChoiseAll) {
-             angular.forEach(_dataSource, function (data, index) {
-               data.handleFlag = true;
-               $scope.choisedMedicalList.push(data);
-             });
-           } else  {
-             angular.forEach(_dataSource, function (data, index) {
-               data.handleFlag = false;
-               $scope.choisedMedicalList = [];
-             });
-           }
-         };
+      // 处理批量删除按钮点击事件
+      $scope.handleBatchDel = function () {
+        if ($scope._tmpDelList.length) {
+          angular.forEach($scope._tmpDelList, function (item, index) {
+            for (var i=0; i<$scope.tbodyList.length; i++) {
+              if (item === $scope.tbodyList[i].id) {
+                $scope.tbodyList.splice(i, 1);
+              }
+            }
+            $scope.formData.delete.ids.push(item);
+          });
+        }
+        $scope.changeFlag = true;
+      };
 
       $scope.flashAddDataCallbackFn = function(flashAddData) {
 

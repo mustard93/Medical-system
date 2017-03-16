@@ -78,50 +78,67 @@
           </div>
 
 
+          <table class="table table-hover table-striped">
+              <thead>
+                  <tr>
+                      <th><input type="checkbox" class="selectAll"></th>
+                      <th>序号</th>
+                      <th>类型</th>
+                      <th>显示名</th>
+                      <th>图标样式</th>
+                      <th>显示样式</th>
+                      <th>满足权限才显示</th>
+                      <th>显示表达式</th>
+                      <th>禁用表达式</th>
+                      <th>操作</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="tr in formData.items" ng-click="selectThis()">
 
-          <div tree-list2>
-            <script id="recursion" type="text/ng-template">
-
-                <li ng-repeat="tr in treeList_recursion" ng-init="isOpen=tree_index<2" class="{{isOpen?'fold':''}}">
-                  <span class="name">
-                      <span class="text-bold" modal-right="800" modal-scope="this" modal-url="views/uICustomMenu/uICustomMenuItemVO/edit.html">{{tr.showName}} </span>
-                        <span ng-if="tree_index>0 && tr.items.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
-
-                  </span>
-                    <ul ng-if="tr.items.length>0"  ng-include="'recursion'"  onload="treeList_recursion=tr.items;tree_index=tree_index+1"></ul>
-                </li>
-
-            </script>
-
-
-            <div class="tree-org">
-
-
-            <ul>
-            <li  class="isOpen">
-              <span class="name"  >
+                      <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                      <td>{{$index + 1}}</td>
+                      <td>{{tr.type}}</td>
+                      <td>{{tr.showName}}</td>
+                      <td>{{tr.iconClass}}</td>
+                      <td>{{tr.aclass}}</td>
+                      <td>{{tr.authority}}</td>
+                      <td>{{tr.ngShow}}</td>
+                      <td>{{tr.ngDisabled}}</td>
+                      <td>
+                          <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/uICustomMenu/uICustomMenuItemVO/edit.html">
+                              <i class="fa fa-edit"></i>
+                              编辑
+                          </button>
+                          <button   ng-click="tr.items==null?tr.items=[]:tr.items.push({})"  type="button"
+                            class="btn btn-default" > 添加子菜单  </button>
 
 
-                  <span class="text-bold">菜单列表 <span class="text-s text-muted text-italic label"></span> </span>
-                    <span ng-if="tree.nodes.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
-                             <span class="operate">
+                          <button type="button" class="btn btn-danger" ng-click="formData.items.splice($index,1);">
+                              <i class="fa fa-trash-o"></i>
+                              删除</button>
 
-                               <button type="button" class="btn btn-primary"
-                               ng-click='formData.items.push({"showName":"新菜单"})'
-                               >
-                                   <i class="fa fa-plus"></i>添加菜单
-                               </button>
+                        <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,$index-1)"  type="button"
+                          class="btn btn-default" > 上移  </button>
+                        <button  ng-if="$index+1<formData.items.length"
+                         ng-click="$root.utils.switchArrayOrder(formData.items,$index,$index+1)" type="button" class="btn btn-default" > 下移  </button>
 
-                                   <i class="iconfont icon-plus" modal-right="800" modal-scope="this" modal-url="/department/edit.html?parentId="></i>
+                         <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,0)"  type="button"
+                           class="btn btn-default" > 顶部  </button>
 
-                                      </span>
-              </span>
-                <ul ng-if="formData.items.length"  ng-include="'recursion'"  onload="treeList_recursion=formData.items;tree_index=1"></ul>
-            </li>
-            </ul>
-         </div><!--tree-list2-->
+                         <button ng-if="$index<formData.items.length-1"   ng-click="$root.utils.switchArrayOrder(formData.items,$index,formData.items.length-1)"  type="button"
+                           class="btn btn-default" > 底部  </button>
 
-  </div>
+                      </td>
+
+                  </tr>
+              </tbody>
+          </table>
+          <button type="button" class="btn btn-primary"
+          ng-click="formData.items.push({})"
+          >
+              <i class="fa fa-plus"></i>添加菜单
+          </button>
 
             <textarea-json ng-model="formData"></textarea-json>
       <div class="form-group">
