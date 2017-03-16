@@ -7,7 +7,7 @@
        ng-controller="hospitalPurchaseContentsCtrl"
        ajax-url="rest/authen/hospitalPurchaseContents/get.json?id={{mainStatus.pageParams.id}}"
        scope-data="formData"
-       callback='initFlag=true;watchFormChange("formData");formData.delete={id:formData.id,ids:[]};bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
+       callback='initFlag=true;tbodyListChange=false;watchFormChange("formData");formData.delete={id:formData.id,ids:[]};bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
        alert-error>
 
     <form id="editForm"
@@ -62,7 +62,7 @@
             </div>
             <!-- 批量删除按钮 -->
             <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
-              <a href="" class="batch-delete-btn" ng-click="handleBatchDel()" ng-disabled="true">批量删除
+              <a href="javascript:;" class="batch-delete-btn" ng-click="handleBatchDel()">批量删除
                 <em class="fa fa-trash-o"></em>
               </a>
             </div>
@@ -86,7 +86,7 @@
                 <tbody class="bg-white">
                   <tr ng-repeat="tr in tbodyList" table-item-handlebtn-component>
                     <td class="select-td text-center">
-                      <input type="checkbox" class="selectOne cur-pot" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
+                      <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                     </td><!-- 全选 -->
                     <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
                     <td class="text-center">{{tr.code}}
@@ -101,7 +101,7 @@
                       </div>
                     </td><!-- 商品编号 -->
                     <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
-                    <td class="text-center">{{tr.manufacturer}}</td><!-- 生产厂家 -->
+                    <td class="text-left">{{tr.manufacturer}}</td><!-- 生产厂家 -->
                     <td class="text-center">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
@@ -121,7 +121,7 @@
                 </tbody>
               </table>
               <!-- 导航 -->
-              <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+              <div class="clearfix pd-c-m">
                 <div class="fr"><pagination status="status"></pagination></div>
               </div>
               <!-- 空数据占位符 -->
