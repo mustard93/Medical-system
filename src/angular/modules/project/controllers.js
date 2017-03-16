@@ -2725,7 +2725,6 @@ define('project/controllers', ['project/init'], function() {
       if ($scope.submitForm_type == 'submit') {
         var url='rest/authen/requestPurchaseOrder/confirm';
         var data= {id:$scope.formData.id};
-
         requestData(url,data, 'POST')
          .then(function (results) {
            var _data = results[1];
@@ -2933,7 +2932,6 @@ define('project/controllers', ['project/init'], function() {
 
     function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('initFlag', function (newVal) {
-        $scope.formData.commodityType=[];
          var operationFlowSetMessage=[];
          var operationFlowSetKey=[];
          if (newVal && $scope.tr) {
@@ -2952,9 +2950,6 @@ define('project/controllers', ['project/init'], function() {
          }
 
          if (newVal && $scope.formData.orderMedicalNos) {
-          //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-          //    if (data.handleFlag)
-          //  })
           for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
             if ($scope.formData.orderMedicalNos[i].handleFlag) {
               $scope.choisedMedicals = true;
@@ -2963,12 +2958,9 @@ define('project/controllers', ['project/init'], function() {
               $scope.isChoiseAll = false;
             }
           }
-          // $scope.isChoiseAll = true;
          }
 
-
        });
-
       $scope.watchFormChange = function(watchName){
 
         watchFormChange(watchName,$scope);
@@ -2976,10 +2968,85 @@ define('project/controllers', ['project/init'], function() {
 
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
+         if ($scope.submitForm_type == 'submit-enterprise') {
+           requestData('rest/authen/firstEnterpriseApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/firstEnterpriseApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/firstEnterpriseApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
+         if ($scope.submitForm_type == 'submit-medical') {
+           requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/firstMedicalApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/firstMedicalApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
+         if ($scope.submitForm_type == 'submit-hospital') {
+           requestData('rest/authen/hospitalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/hospitalApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/hospitalApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
+         if ($scope.submitForm_type == 'submit-otherCustomer') {
+           requestData('rest/authen/otherCustomerApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+               var url='rest/authen/otherCustomerApplication/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(url,data, 'POST')
+                .then(function (results) {
+                  var _data = results[1];
+                  $scope.goTo('#/otherCustomerApplication/get.html?id='+$scope.formData.id);
+                })
+                .catch(function (error) {
+                  alertError(error || '出错');
+                });
+             }
+           })
+           .catch(function (error) {
+           });
+         }
 
          if ($scope.submitForm_type == 'submit') {
            $scope.formData.validFlag = false;
-          //  $scope.goTo('#/hospitalPurchaseContents/get.html?id' + $scope.formData.id);
          }
         $('#' + fromId).trigger('submit');
       };
@@ -2991,8 +3058,10 @@ define('project/controllers', ['project/init'], function() {
       // 选中相应药品类别，放入数组中传到后台
       $scope.choiceCommodityType=function(item){
         if(item.value){
+          if($scope.formData.commodityType==null){
+            $scope.formData.commodityType=[];
+          }
         $scope.formData.commodityType.push(item.text);
-        console.log($scope.formData.commodityType);
         }
       }
 
@@ -3083,11 +3152,48 @@ define('project/controllers', ['project/init'], function() {
           $scope.formData.firstMedical.quoteprice = 0;
         }
       });
-
-
     }
-    // 医院采购目录
-    function hospitalPurchaseContentsCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+    function SelectedCommodityEditCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+      $scope.$watch('!initFlag', function (newVal) {
+            var scopeData= [];
+            for(var item in $scope.scopeData){
+                scopeData.push($scope.scopeData[item]);
+              for(j=0;j<$scope.formData.commodityType.length;j++){
+                if($scope.formData.commodityType[j]==$scope.scopeData[item].value){
+                $scope.scopeData[item].value=true;
+                }
+              }
+              }
+       });
+      $scope.watchFormChange = function(watchName){
+
+        watchFormChange(watchName,$scope);
+      };
+    }
+
+    /**
+     * [hospitalPurchaseContentsCtrl 医院采购目录主控制器]
+     * @param  {[type]} $scope          [注入项]
+     * @param  {[type]} watchFormChange [注入项]
+     * @param  {[type]} requestData     [注入项]
+     * @param  {[type]} utils           [注入项]
+     * @param  {[type]} alertError      [注入项]
+     * @param  {[type]} alertWarn       [注入项]
+     * @return {[type]}                 [description]
+     */
+    function hospitalPurchaseContentsCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn, $timeout) {
+
+      // 临时存放要删除的药品列表
+      $scope._tmpDelList = [];
+
+      // 监控tbodyList数组变化
+      $scope.$watch('tbodyList', function (newVal, oldVal) {
+        if (newVal && newVal !== oldVal) {
+          $scope.tbodyListChange = true;
+        }
+      });
+
       $scope.$watch('initFlag', function (newVal) {
          if (newVal && $scope.formData.orderMedicalNos) {
           for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
@@ -3106,18 +3212,52 @@ define('project/controllers', ['project/init'], function() {
         watchFormChange(watchName,$scope);
       };
 
+      // 监控医院采购目录中tbodyList对象的变化
+      $scope.$watch('tbodyList', function (newVal, oldVal) {
+        if (newVal && newVal !== oldVal) {
+          $scope.changeFlag = true;
+          // $scope.formData.orderMedicalNos = $scope.tbodyList;
+        }
+      }, true);
+
+      // 监控分页页码的变化，解决点击分页后保存按钮可用的问题
+      // $scope.$watch('status.currentPage', function (newVal, oldVal) {
+      //   if (newVal && newVal !== oldVal) {
+      //     console.log('aaa');
+      //     $scope.changeFlag = false;
+      //   }
+      // });
+
+      // 修改医院采购目录中药品价格后将当前药品插入formData中
+      $scope.modifiedThisMedicalItem = function (item) {
+        if (!$scope.formData.orderMedicalNos) {
+          $scope.formData.orderMedicalNos = [];
+        }
+
+        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+          if (data.id === item.id) {
+            $scope.formData.orderMedicalNos.splice(index, 1);    // 删除重复数据
+          }
+        });
+
+        $scope.formData.orderMedicalNos.push(item);   // 将修改后的药品数据放入数据体
+      };
+
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
          if ($scope.submitForm_type == 'submit') {
-           $scope.formData.validFlag = false;
-           $scope.goTo('#/hospitalPurchaseContents/get.html?id' + $scope.formData.id);
+           $scope.formData.validFlag = true;
          }
-        $('#' + fromId).trigger('submit');
+
+         $('#' + fromId).trigger('submit');
       };
-      $scope.submitFormAfter = function (_url) {
-        if ($scope.submitForm_type === 'submit') {
-          $scope.goTo(_url + '?id=' + $scope.formData.id);
+
+      $scope.submitFormAfter = function () {
+        $scope.formData.validFlag = false;
+
+        if ($scope.submitForm_type == 'submit') {
+          utils.goTo('#/hospitalPurchaseContents/query.html');
         }
       };
 
@@ -3208,6 +3348,20 @@ define('project/controllers', ['project/init'], function() {
           $scope.formData.firstMedical.quoteprice = 0;
         }
       });
+
+      // 单选按钮
+      $scope.handleItemClickEvent = function (tr) {
+        $scope.changeFlag = false;    // 不能做修改确认操作
+
+        if (tr.handleFlag) {          // 选中
+          $scope._tmpDelList.push(tr.id);
+        } else {                      // 取消选中
+          angular.forEach($scope._tmpDelList, function (item, index) {
+            if (item === tr.id) { $scope._tmpDelList.splice(index, 1); }
+          });
+        }
+      };
+
       // 全选与全不选
       $scope.isChoiseAll = function (choiseStatus) {
         if (choiseStatus) {
@@ -3224,27 +3378,41 @@ define('project/controllers', ['project/init'], function() {
           });
         }
       };
+
+      // 处理全选和取消全选
       $scope.handleChoiseAllEvent = function () {
-           var _dataSource = $scope.formData.orderMedicalNos;
+        $scope.changeFlag = false;      // 不能做修改确认操作
 
-           if (!$scope.choisedMedicalList) {
-             $scope.choisedMedicalList = [];
-           }
+        if ($scope.isChoiseAll) {         // 选中全选
+          if ($scope.tbodyList) {
+            angular.forEach($scope.tbodyList, function (item, index) {
+              $scope._tmpDelList.push(item.id);
+            });
+          }
+        } else {                          // 取消全选
+          $scope._tmpDelList = [];
+          $scope.formData.delete.ids = [];
+        }
+      };
 
-           if ($scope.isChoiseAll) {
-             angular.forEach(_dataSource, function (data, index) {
-               data.handleFlag = true;
-               $scope.choisedMedicalList.push(data);
-             });
-           } else  {
-             angular.forEach(_dataSource, function (data, index) {
-               data.handleFlag = false;
-               $scope.choisedMedicalList = [];
-             });
-           }
-         };
+      // 处理批量删除按钮点击事件
+      $scope.handleBatchDel = function () {
+        if ($scope._tmpDelList.length) {
+          angular.forEach($scope._tmpDelList, function (item, index) {
+            for (var i=0; i<$scope.tbodyList.length; i++) {
+              if (item === $scope.tbodyList[i].id) {
+                $scope.tbodyList.splice(i, 1);
+              }
+            }
+            $scope.formData.delete.ids.push(item);
+          });
+        }
+        $scope.changeFlag = true;
+      };
 
       $scope.flashAddDataCallbackFn = function(flashAddData) {
+
+        var i;
 
         if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
           alertWarn("请选择药品");
@@ -3258,7 +3426,7 @@ define('project/controllers', ['project/init'], function() {
         addDataItem.discountPrice='0';
         addDataItem.discountRate='100';
         // addDataItem.strike_price=addDataItem.price;
-        addDataItem.id=null;
+        // addDataItem.id=null;
 
         if (!addDataItem.planQuantity) {
           addDataItem.planQuantity = flashAddData.quantity;
@@ -3276,12 +3444,21 @@ define('project/controllers', ['project/init'], function() {
         if (!$scope.formData.orderMedicalNos) {
           $scope.formData.orderMedicalNos = [];
         }
+
+        // 根据医院采购目录模块的业务需求，如果tbodyList对象存在，则将它赋值给orderMedicalNos对象
+        if ($scope.tbodyList) {
+          for (i = 0; i < $scope.tbodyList.length; i++) {
+            if (addDataItem.id === $scope.tbodyList[i].relId) {
+              alertWarn('此药械已添加到列表');
+              return;
+            }
+          }
+        }
+
         // 如果已添加
         if ($scope.formData.orderMedicalNos.length !== 0) {
           var _len = $scope.formData.orderMedicalNos.length;
-          // console.log(_len);
-          // 未使用forEach方法，因为IE不兼容
-          for (var i=0; i<_len; i++) {
+          for (i=0; i<_len; i++) {
             if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
               alertWarn('此药械已添加到列表');
               return false;
@@ -3291,6 +3468,12 @@ define('project/controllers', ['project/init'], function() {
         addDataItem.stockBatchs=[];
         //添加到列表
         $scope.formData.orderMedicalNos.push(addDataItem);
+
+        // 根据医院采购目录模块的业务需求，将用户添加的药品放入tbodyList对象中
+        if ($scope.tbodyList) {
+          $scope.tbodyList.push(addDataItem);
+        }
+
         //计算价格
         $scope.formData.totalPrice += addDataItem.strike_price *
 
@@ -3298,9 +3481,27 @@ define('project/controllers', ['project/init'], function() {
         return true;
       };
     }
+
     //品种管理模块
     function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('initFlag', function (newVal) {
+        var operationFlowSetMessage=[];
+        var operationFlowSetKey=[];
+        if ($scope.showData) {
+          // 选择出当前状态相同的驳回理由，并放入一个数组中
+          if ($scope.showData.operationFlowSet) {
+            for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+              if ($scope.showData.operationFlowSet[i].status==$scope.showData.businessApplication.businessStatus ) {
+                operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+                operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+              }
+            }
+          }
+        //  选择当前状态最近的一个驳回理由用于显示
+         $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+         $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+         return;
+        }
          if (newVal && $scope.formData.orderMedicalNos) {
           for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
             if ($scope.formData.orderMedicalNos[i].handleFlag) {
@@ -3320,7 +3521,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
 
-         if ($scope.submitForm_type == 'submit') {
+         if ($scope.submitForm_type == 'submit-medical') {
 
            requestData('rest/authen/medicalStock/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
@@ -3520,26 +3721,27 @@ define('project/controllers', ['project/init'], function() {
       };
     }
 
-
     // 客户管理(医院管理，经销商/零售商管理)模块
     function customerAddressCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
-       $scope.$watch('initFlag', function () {
-         var operationFlowSetMessage=[];
-         var operationFlowSetKey=[];
-         if ($scope.showData.operationFlowSet) {
-           // 选择出当前状态相同的驳回理由，并放入一个数组中
-          for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
-            if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
-              operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
-              operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+      $scope.$watch('initFlag', function () {
+          var operationFlowSetMessage=[];
+          var operationFlowSetKey=[];
+          if ($scope.showData) {
+            // 选择出当前状态相同的驳回理由，并放入一个数组中
+            if ($scope.showData.operationFlowSet) {
+              for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+                if ($scope.showData.operationFlowSet[i].status==$scope.showData.businessApplication.businessStatus ) {
+                  operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+                  operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+                }
+              }
             }
+          //  选择当前状态最近的一个驳回理由用于显示
+           $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+           $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+           return;
           }
-         //  选择当前状态最近的一个驳回理由用于显示
-          $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-          $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-          return;
-         }
-       });
+      });
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
       };
@@ -3559,6 +3761,18 @@ define('project/controllers', ['project/init'], function() {
            $scope.formData.validFlag = false;
            $scope.goTo('#/hospitalManagement/get.html?id='+$scope.formData.id);
          }
+         if ($scope.submitForm_type == 'submit-supplier') {
+           requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+             }
+           })
+           .catch(function (error) {
+
+           });
+           $scope.formData.validFlag = false;
+           $scope.goTo('#/supplier/get.html?id='+$scope.formData.id);
+         }
          if ($scope.submitForm_type == 'submit-otherCustomer') {
            requestData('rest/authen/customerAddress/save', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
@@ -3573,12 +3787,20 @@ define('project/controllers', ['project/init'], function() {
          }
         $('#' + fromId).trigger('submit');
       };
+
       $scope.submitFormAfter = function (_url) {
         if ($scope.submitForm_type === 'submit') {
           $scope.goTo(_url + '?id=' + $scope.formData.id);
         }
       };
-
+      $scope.choiceCommodityType=function(item){
+        if(item.value){
+          if($scope.formData.commodityType==null){
+            $scope.formData.commodityType=[];
+          }
+        $scope.formData.commodityType.push(item.text);
+        }
+      }
       //判断当前审核意见是否可见
       $scope.showAuditOpinion = function (returnArr, pipeKey) {
         if (angular.isArray(returnArr)) {
@@ -3893,7 +4115,6 @@ define('project/controllers', ['project/init'], function() {
    */
   function deleteUploaderController($scope, $timeout, alertOk, alertError, requestData){
     $scope.deleteUploader = function (_key) {
-
       if (_key) {
         var url='rest/authen/fileUpload/delete';
         var data= {key:_key};
@@ -4619,7 +4840,8 @@ define('project/controllers', ['project/init'], function() {
   .controller('SalesOrderDetailsController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', SalesOrderDetailsController])
   .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
   .controller('QualificationApplyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', QualificationApplyCtrl])
-  .controller('hospitalPurchaseContentsCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', hospitalPurchaseContentsCtrl])
+  .controller('SelectedCommodityEditCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', SelectedCommodityEditCtrl])
+  .controller('hospitalPurchaseContentsCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', '$timeout', hospitalPurchaseContentsCtrl])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
   .controller('customerAddressCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', customerAddressCtrl])
   .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])

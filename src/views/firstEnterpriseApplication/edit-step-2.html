@@ -188,15 +188,23 @@
               </div>
             </div>
             <div class="flex-item-6" style="padding:20px 50px;">
-                <div ng-init='attachmentsItemExtend={"edit":true}'
+              <div ng-if="formData.businessLicense.attachment.uploadUserName" class="pd-c-v-s">
+                <em>上传人：</em>{{formData.businessLicense.attachment.uploadUserName}}
+              </div>
+              <div ng-if="formData.businessLicense.attachment.uploadTime" class="pd-c-v-s">
+                <em>上传时间：</em>{{formData.businessLicense.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}
+              </div>
+              <div ng-if="formData.businessLicense.attachment.uploadTime" class="fl-l pd-c-v-s">附件：</div>
+              <div ng-init='attachmentsItemExtend={"edit":true}'
+                ng-class="{'fl-l mgt-m':(formData.businessLicense.attachment.uploadTime)}"
                 attachments-item-show attachments-item-extend="attachmentsItemExtend"
-                ng-model="item">
+                ng-model="formData.businessLicense.attachment">
               </div>
             </div>
           </div>
           <h3 class="crumbs-circle color-black pr-indent-10 pd-v">机构代码证</h3>
-          <div class="flex-column">
-            <div class="flex-item-6 br-dashed-line">
+          <div class="flex-column" >
+            <div class="flex-item-6 br-dashed-line" style="min-height:250px;">
               <div class="mgt-m flex-item-12">
                 <label class="flex-item-2 text-right control-label">证书编号：</label>
                 <div class="flex-item-10 text-left">
@@ -237,15 +245,24 @@
               </div>
             </div>
             <div class="flex-item-6" style="padding:20px 50px;">
-                <div ng-init='attachmentsItemExtend={"edit":true}'
+              <div ng-if="formData.organizationCodeCertificate.attachment.uploadUserName" class="pd-c-v-s">
+                <em>上传人：</em>{{formData.organizationCodeCertificate.attachment.uploadUserName}}
+              </div>
+              <div ng-if="formData.organizationCodeCertificate.attachment.uploadTime" class="pd-c-v-s">
+                <em>上传时间：</em>{{formData.organizationCodeCertificate.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}
+              </div>
+              <div ng-if="formData.organizationCodeCertificate.attachment.uploadTime" class="fl-l pd-c-v-s">附件：</div>
+              <div ng-init='attachmentsItemExtend={"edit":true}'
+                ng-class="{'fl-l mgt-m':(formData.organizationCodeCertificate.attachment.uploadTime)}"
                 attachments-item-show attachments-item-extend="attachmentsItemExtend"
-                ng-model="item"></div>
+                ng-model="formData.organizationCodeCertificate.attachment">
+              </div>
             </div>
           </div>
 
           <h3 class="crumbs-circle color-black pr-indent-10 pd-v">税务登记证</h3>
           <div class="flex-column">
-            <div class="flex-item-6 br-dashed-line">
+            <div class="flex-item-6 br-dashed-line" style="min-height:250px;">
               <div class="mgt-m flex-item-12">
                 <label class="flex-item-2 text-right control-label">证书编号：</label>
                 <div class="flex-item-10 text-left">
@@ -286,15 +303,24 @@
               </div>
             </div>
             <div class="flex-item-6" style="padding:20px 50px;">
-                <div ng-init='attachmentsItemExtend={"edit":true}'
+              <div ng-if="formData.taxRegistrationCertificate.attachment.uploadUserName" class="pd-c-v-s">
+                <em>上传人：</em>{{formData.taxRegistrationCertificate.attachment.uploadUserName}}
+              </div>
+              <div ng-if="formData.taxRegistrationCertificate.attachment.uploadTime" class="pd-c-v-s">
+                <em>上传时间：</em>{{formData.taxRegistrationCertificate.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}
+              </div>
+              <div ng-if="formData.taxRegistrationCertificate.attachment.uploadTime" class="fl-l pd-c-v-s">附件：</div>
+              <div ng-init='attachmentsItemExtend={"edit":true}'
+                ng-class="{'fl-l mgt-m':(formData.taxRegistrationCertificate.attachment.uploadTime)}"
                 attachments-item-show attachments-item-extend="attachmentsItemExtend"
-                ng-model="item"></div>
+                ng-model="formData.taxRegistrationCertificate.attachment">
+              </div>
             </div>
           </div>
           <h3 class="crumbs-circle color-black pr-indent-10 pd-v">备注</h3>
           <div class="flex-column pd-c-v-l">
             <div class="flex-item-12 pd-c-xxxxxxl">
-              <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
+              <textarea class="pr-textarea" name="note" rows="8" cols="40" ng-model="formData.note"></textarea>
             </div>
           </div>
         </div>
@@ -345,9 +371,9 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-                  ng-disabled="!formData.applyReason"
                   ng-click="submitForm('first-enterprise-editForm','submit')">下一步
           </button>
+          <!-- ng-disabled="!formData.note" -->
         </span>
       </div>
       </div>

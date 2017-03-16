@@ -1,174 +1,179 @@
-<div class="hospital-application"
-     ng-controller="hospitalPurchaseContentsCtrl"
-     ajax-url="rest/authen/hospitalPurchaseContents/get.json?id={{mainStatus.pageParams.id}}"
-     scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
-     alert-error>
+<table-list list-data="rest/authen/hospitalPurchaseContents/getMedical?id={{mainStatus.pageParams.id}}"
+            list-params="listParams"
+            search-mode="noCaseSensitive"
+            search-param="q">
 
-  <form id="editForm"
-        name="editForm"
-        form-validator
-        parameter-body
-        action="rest/authen/hospitalPurchaseContents/save"
-        alert-error
-        alert-ok
-        scope-extend="scopeExtend"
-        scope-error-msg="errorMsg"
-        scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
-        callback="">
-    <!-- 头部信息 -->
-    <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs pd-c-xl">客户中心 >
-       <a href="#/hospitalPurchaseContents/query.html"><em class="color-custom-orange">医院采购目录</em></a>
-      </p>
-      <div class="pd-c-xl pdt-l pdb-l">
-       <!-- 标题 -->
-       <div class="">
-         <h1 class="color-black pr-font-20">编辑医院采购目录</h1>
-       </div>
-     </div>
-    </div>
-    <!-- 药械列表 -->
-    <div class="pd-loss-l">
-      <p ng-if="initFlag" class="inline-block mgb-l text-n color-3 text-bold">{{formData.name}}</p>
-      <em class=" mgl">(系统编号：<em class="color-3">{{formData.code}}</em>)</em>
-      <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
-        <!-- 信息 -->
-        <div class="view-medical pd-c-l pdt-m" flash-add-medical
-             ng-model="data1"
-             ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
-             add-data-callback-fn="flashAddDataCallbackFn(data1)">
+  <div class="hospital-application"
+       ng-controller="hospitalPurchaseContentsCtrl"
+       ajax-url="rest/authen/hospitalPurchaseContents/get.json?id={{mainStatus.pageParams.id}}"
+       scope-data="formData"
+       callback='initFlag=true;tbodyListChange=false;watchFormChange("formData");formData.delete={id:formData.id,ids:[]};bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
+       alert-error>
+
+    <form id="editForm"
+          name="editForm"
+          form-validator
+          parameter-body
+          action="rest/authen/hospitalPurchaseContents/save"
+          alert-error
+          alert-ok
+          scope-extend="scopeExtend"
+          scope-error-msg="errorMsg"
+          scope-data="formData"
+          onkeydown="if(window.event.keyCode==13) return false;"
+          callback="submitFormAfter();$root.watchFormChange('formData',this)">
+      <!-- 头部信息 -->
+      <div class="header-info relative mgb-l">
+        <p class="pdb-s pdt-s crumbs pd-c-xl">客户中心 ><a href="#/hospitalPurchaseContents/query.html"><em class="color-custom-orange">医院采购目录</em></a></p>
+        <div class="pd-c-xl pdt-l pdb-l"><div class=""><h1 class="color-black pr-font-20">编辑医院采购目录</h1></div></div>
+      </div>
+      <!-- 药械列表 -->
+      <div class="pd-loss-l">
+        <div ng-if="initFlag">
+          <p class="inline-block mgb-l text-n color-3 text-bold">{{formData.name}}</p>
+          <em class=" mgl">(系统编号：<em class="color-3">{{formData.code}}</em>)</em>
         </div>
-        <!-- 列表 -->
-        <div>
-          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
-            <div class="flex-item-6">
-              <em class="fl-l">采购目录有效期至：</em>
-              <div class="date-icon-outside">
-                <input type="text"
-                       datepicker
-                       class="ipt-date color-6 mgr pr-indent-10"
-                       ng-readonly="true"
-                       ng-model="listParams.guaranteePeriod">
-                <span class="date-icon"></span>
+        <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
+          <!-- 信息 -->
+          <div class="view-medical pd-c-l pdt-m"
+               flash-add-medical
+               ng-model="data1"
+               ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
+               add-data-callback-fn="flashAddDataCallbackFn(data1)">
+          </div>
+          <!-- 列表 -->
+          <div>
+            <!-- 更新周期 -->
+            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line">
+              <div class="flex-item-6">
+                <label class="text-normal">目录更新周期：</label>
+                <input type="number" class="ipt pr-new-short-ipt text-right" ng-model="formData.object.updateCycle" /> 个月
               </div>
-            </div>
-            <div class="flex-item-6 text-right">
-              <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+              <div class="flex-item-6 text-right">
+                <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
                   <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
                   <i class=""></i>
+                </div>
+                <div class="inline-block mgl-m">
+                  <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                  <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+                </div>
+              </div>
+            </div>
+            <!-- 批量删除按钮 -->
+            <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
+              <a href="javascript:;" class="batch-delete-btn" ng-click="handleBatchDel()">批量删除
+                <em class="fa fa-trash-o"></em>
+              </a>
+            </div>
+            <!-- 表格数据 -->
+            <div>
+              <table class="table pr-table pr-new-table" >
+                <thead>
+                  <tr>
+                    <th class="w-60 text-center">
+                      <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                    </th>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">商品编号</th>
+                    <th class="text-center">商品全名</th>
+                    <th class="text-center">生产厂家</th>
+                    <th class="text-center">含税单价</th>
+                    <th class="text-center">规格/型号</th>
+                    <th class="text-center">单位</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white">
+                  <tr ng-repeat="tr in tbodyList" table-item-handlebtn-component>
+                    <td class="select-td text-center">
+                      <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                    </td><!-- 全选 -->
+                    <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
+                    <td class="text-center">{{tr.code}}
+                      <div class="table-item-handle-btn">
+                        <div class="table-item-confirm-del-area bg-white">
+                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                          <p class="pdt-s">
+                            <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                            <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="tbodyList.splice($index,1);formData.delete.ids.push(tr.id);">确认</a>
+                          </p>
+                        </div>
+                      </div>
+                    </td><!-- 商品编号 -->
+                    <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
+                    <td class="text-left">{{tr.manufacturer}}</td><!-- 生产厂家 -->
+                    <td class="text-center">￥
+                      <input type="text"
+                             class="ipt pr-ipt-60 text-right"
+                             ng-model="tr.price"
+                             name="price{{$index}}"
+                             required
+                             ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                             invalid-popover
+                             valid-value="{{!editForm['price'+$index].$valid}}"
+                             popover-show
+                             popover-options='{"content":"价格格式不正确", "placement":"right", "trigger":"manual"}'
+                             ng-change="modifiedThisMedicalItem(tr)"/>
+                    </td><!-- 含税单价 -->
+                    <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                    <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                  </tr>
+                </tbody>
+              </table>
+              <!-- 导航 -->
+              <div class="clearfix pd-c-m">
+                <div class="fr"><pagination status="status"></pagination></div>
+              </div>
+              <!-- 空数据占位符 -->
+              <div class="pr-bg-white" ng-if="!tbodyList.length">
+                <div class="empty-table clearfix">
+                  <div>&nbsp;</div>
+                  <div>&nbsp;</div>
+                  <div>&nbsp;</div>
+                </div>
               </div>
             </div>
           </div>
-          <div >
-            <div ng-if="formData.orderMedicalNos.length" class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
-              <p>
-                <a  href="javascript:;" ng-click="formData.orderMedicalNos.length=0">批量删除</a>
-              </p>
-            </div>
-            <table class="table pr-table pr-new-table" >
-              <thead>
-                <tr>
-                  <th>
-                    <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
-                  </th>
-                  <th class="text-center ">序号</th>
-                  <th class="text-center ">商品编号</th>
-                  <th class="text-left  w-100">商品全名</th>
-                  <th class="text-center">生产厂家</th>
-                  <th class="text-center">规格/型号</th>
-                  <th class="text-center">单位</th>
-                  <th class="text-center">原币单价</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white">
-                <tr ng-if="formData.orderMedicalNos.length"
-                    ng-repeat="tr in formData.orderMedicalNos"
-                    ng-init="orderMedicalNoIds.push(tr.relId)"
-                    ng-controller="ConfirmOrderMedicalController"
-                    table-item-handlebtn-component>
-                  <td class="select-td">
-                    <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
-                  </td>
-                  <td class="text-center">{{$index + 1}}</td>
-                  <td class="text-center">{{tr.code}}
-                    <div  class="table-item-handle-btn">
-                      <div class="table-item-confirm-del-area bg-white">
-                        <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
-                        <p class="pdt-s">
-                          <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                          <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="text-left">
-                    <div class="autocut" title="{{tr.name}}">
-                        {{tr.name}}
-                    </div>
-                  </td>
-                  <td class="text-center">{{tr.manufacturer}}</td>
-                  <td class="text-center">{{tr.specificationAndModelType}}</td>
-                  <td class="text-center">{{tr.unit}}</td>
-                  <td class="text-center">￥
-                  <input type="text" class="ipt pr-ipt-60 text-right" ng-model="tr.price"
-                  name="price"
-                  required
-                  ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
-                  invalid-popover
-                  popover-show="!editForm.price.$valid"
-                  popover-options='{"content":"价格格式不正确", "placement":"right", "trigger":"manual"}'
-                  />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <!-- 批量删除按钮 -->
+          <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l pdt-m pdb-m">
+            <a href="javascript:;" class="batch-delete-btn" ng-click="formData.orderMedicalNos.length=0">批量删除
+              <em class="fa fa-trash-o"></em>
+            </a>
           </div>
         </div>
-        <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
-          <div class="empty-table clearfix">
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <h1 class="text-bold color-3">备注</h1>
+          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.object.note"></textarea>
+        </div>
+        <!-- 功能按钮 -->
+        <div class="handle-btn-area relative">
+          <div class="btn-area">
+            <span class="mgl mgt" >
+              <a ng-if="changeFlag"  href="javascript:;"
+                 handle-this-click
+                 dialog-title="确认返回?"
+                 dialog-content="该采购目录存在未保存数据，是否保存?"
+                 dialog-template="pr-dialog-return.html"
+                 nosave-callback="goTo('#/hospitalPurchaseContents/query.html')"
+                 save-callback="submitForm('editForm','exit');
+                 $root.goTo('#/hospitalPurchaseContents/query.html')">返回医院采购目录列表</a>
+              <a ng-if="!changeFlag" href="#/hospitalPurchaseContents/query.html">返回医院采购目录列表</a>
+            </span>
+              <span  bottom-button-list="bottomButtonList">  </span>
+              <button type="button"
+                      class="pr-btn-save-glodbg mgl-l"
+                      ng-disabled="!changeFlag"
+                      ng-click="submitForm('editForm','save')">保存
+              </button>
+              <button type="button"
+                      class="pr-btn-save-glodbg-l mgl"
+                      ng-disabled="!changeFlag"
+                      ng-click="submitForm('editForm','submit')">保存并结束编辑
+              </button>
           </div>
         </div>
-    </div>
-
-
-
-    <!-- 功能按钮 -->
-    <div class="handle-btn-area relative">
-      <div class="btn-area">
-        <span class="mgl mgt" >
-          <a ng-if="changeFlag"  href="javascript:;"
-             handle-this-click
-             dialog-title="确认返回?"
-             dialog-content="该采购目录存在未保存数据，是否保存?"
-             dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/hospitalPurchaseContents/query.html')"
-             save-callback="submitForm('editForm','exit');
-             $root.goTo('#/hospitalPurchaseContents/query.html')">返回医院采购目录列表</a>
-          <a ng-if="!changeFlag" href="#/hospitalPurchaseContents/query.html">返回医院采购目录列表</a>
-        </span>
-          <span  bottom-button-list="bottomButtonList">  </span>
-          <button
-              type="button"
-              class="pr-btn-save-glodbg mgl-l"
-              ng-disabled="!changeFlag"
-              ng-click="submitForm('editForm','save')">保存
-          </button>
-          <button
-              type="submit" class="pr-btn-save-glodbg-l mgl"
-              ng-disabled="!editForm.price.$valid">
-              <a href="javascript:;"
-              class="color-white"
-              ng-click="submitForm('editForm','submit')">
-                保存并结束编辑
-              </a>
-
-          </button>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+</table-list>

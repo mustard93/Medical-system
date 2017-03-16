@@ -1837,11 +1837,10 @@ function stepFlowArrowShow(utils){
             var stepFlowArrow=  $scope.$eval($attrs.stepFlowArrowJson);
             if(stepFlowArrow && stepFlowArrow.length>0){
               arrowCount=stepFlowArrow.length;
-
+              // 计算得到每个div的宽度
               for(var i=0;i<stepFlowArrow.length;i++){
                   var step=stepFlowArrow[i];
-                  var j=i+1;
-                  var tmp="<div class='"+step.className+"'><span class='"+j+"'>"+step.arrowText+"</span></div>";
+                  var tmp="<div class='"+step.className+"'><span><em class='circle-step mgr-m'>"+(i+1)+"</em>"+step.arrowText+"</span></div>";
                   $($element).append($(tmp));
                   // 中间箭头的形状定义
                   if(i>0&&i<stepFlowArrow.length-1){
@@ -1855,6 +1854,9 @@ function stepFlowArrowShow(utils){
                     }
                   }
               }
+              // 当每个箭头创建好之后，定义每个的宽度
+                var divWidth=($($element).width()-((arrowCount-1)*30))/arrowCount
+                $('.first-medical-nav>div').css({"width":divWidth});
               // 开始箭头的形状定义
               $($element).children('div').first().append("<div></div><div></div>");
               // 最后一个箭头的形状定义
@@ -2033,43 +2035,48 @@ function tableItemHandlebtnComponent (utils) {
     restrict: 'A',
     scope: true,
     link: function (scope, element, attrs) {
-      if(scope.formData.relId){
-        return;
-      }else{
-        // 操作删除按钮
-        var _delBtn = $(element).find('div.table-item-handle-btn');
-        // 操作删除层
-        var _delArea = $(element).find('div.table-item-confirm-del-area');
 
-        //绑定点击显示操作删除层
-        _delBtn.on('click', function () {
-          _delArea.show();
-        });
+      // 操作删除按钮
+      var _delBtn = $(element).find('div.table-item-handle-btn');
+      // 操作删除层
+      var _delArea = $(element).find('div.table-item-confirm-del-area');
 
-        element.hover(function () {
-          // 当前行序号
-          var _index = attrs.tableItemIndex,
-              _orderMedicalNos = scope.formData.orderMedicalNos;
+      //绑定点击显示操作删除层
+      _delBtn.on('click', function () {
+        _delArea.show();
+      });
 
-          // 计算当前tr距离顶部的高度
-          var _offsetTop = $(element).offset().top - document.body.scrollTop;
-          // 计算当前页面宽度
-          var _pageWidth = utils.getMainBodyWidth() + 65;
+      element.hover(function () {
+        // 当前行序号
+        var _index = attrs.tableItemIndex,
+            _orderMedicalNos = scope.formData.orderMedicalNos;
 
-          _delBtn.css({'position':'fixed','top':_offsetTop,'left':_pageWidth}).show();
+        // 计算当前tr距离顶部的高度
+        var _offsetTop = $(element).offset().top - document.body.scrollTop;
+        // 计算当前页面宽度
+        var _pageWidth = utils.getMainBodyWidth() + 65;
 
-        }, function () {
-          _delBtn.css({'position':'absolute','top':0,'left':0}).hide();
-          _delArea.hide();
-        });
+        _delBtn.css({'position':'fixed','top':_offsetTop,'left':_pageWidth}).show();
 
-        //取消操作
-        scope.cancelHandle = function () {
-          _delBtn.hide();
-          _delArea.hide();
-        };
+      }, function () {
+        _delBtn.css({'position':'absolute','top':0,'left':0}).hide();
+        _delArea.hide();
+      });
 
-      }
+      //取消操作
+      scope.cancelHandle = function () {
+        _delBtn.hide();
+        _delArea.hide();
+      };
+
+
+
+      // if(scope.formData.relId){
+      //   return;
+      // }else{
+      //
+      //
+      // }
     }
   };
 }
@@ -2756,19 +2763,17 @@ function bottomButtonList() {
   return {
     restrict: 'EA',
     scope: {
-       spanClass:"=?",
-        bottomButtonList:"=?"
-      },
+      spanClass:"=?",
+      bottomButtonList:"=?"
+    },
     // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/bottomButtonList.html',
     link: function ($scope, $element, $attrs) {
-           //添加scope 的公共事件，是否显示，点击事件，等
-          addCommonsEventFnToSope($scope);
+       //添加scope 的公共事件，是否显示，点击事件，等
+      addCommonsEventFnToSope($scope);
 
-          if(!$scope.spanClass)$scope.spanClass="mgl";
-          $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
-
-
+      if(!$scope.spanClass) { $scope.spanClass="mgl"; }
+      $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
     }
   };
 }

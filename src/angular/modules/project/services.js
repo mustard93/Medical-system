@@ -334,6 +334,7 @@ define('project/services', ['project/init'], function () {
                   console.log(arr);
                   return arr;
                 },
+
                 //购需单列表页
                 getQuery_salesOrder:function(showData){
 
@@ -381,6 +382,7 @@ define('project/services', ['project/init'], function () {
                     if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
                     return arr;
                   },
+
                 //获取销售单详细页面菜单定义
                 getQuery_confirmOrder:function(showData){
                   var arr=[];
@@ -429,6 +431,8 @@ define('project/services', ['project/init'], function () {
                      }
                     return arr;
                   },
+
+                //获取发货单详细页面菜单定义
                 getQuery_invoicesOrder:function(showData){
                   var arr=[];
                   var  bottomButton = {
@@ -458,7 +462,8 @@ define('project/services', ['project/init'], function () {
                      if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
                     return arr;
                   },
-                //销售退货单列表页
+
+                //获取销售退货单列表页菜单定义
                 getQuery_saleReturnOrder:function(showData){
                   var arr=[];
                   // var  bottomButton = {
@@ -508,9 +513,52 @@ define('project/services', ['project/init'], function () {
                   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
                     return arr;
+                  },
+
+                //获取销医院采购目录菜单定义
+                getQuery_hospitalPurchaseContents:function(showData){
+
+                  var arr=[];
+
+                  bottomButton = {
+                    "iconClass":"watch-detail-icon",
+                    "showName":"查看详情",
+                    "ngShow":"",
+                    "aclass":"btn-link pd-m rect-s",
+                    "ahref":"#/hospitalPurchaseContents/get.html?id="+showData.id
+                  };
+
+                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                  var bottomButton = {
+                    "iconClass":"edit-link-icon",
+                    "showName":"编辑",
+                    "ngShow":"",
+                    "aclass":"btn-link pd-m rect-s",
+                    "ahref":"#/hospitalPurchaseContents/edit.html?id="+showData.id
+                  };
+
+                  if(tmpUtils.canShowButton(bottomButton)) { arr.push(bottomButton); }
+
+                  bottomButton={
+                    "ngShow":"tr.orderStatus=='未提交'",
+                    "showName":"删除",
+                    "iconClass":"delete-link-icon",
+                    "type":"handleThisClick",
+                    "alertTemplate":"pr-dialog-submit.html",
+                    "requestUrl":"rest/authen/saleReturnOrder/delete?id="+showData.id,
+                    "aclass":"btn-link pd-m rect-s mr--4",
+                    "alertTitle":"确认删除?",
+                    "alertMsg":"删除后将无法恢复,确认删除?",
+                    "ngClick":"$root.goTo('#/saleReturnOrder/query.html')"
+                  };
+
+                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    return arr;
                   }
 
-              };//end return
+              };
             return tmpUtils;
       }
 

@@ -94,7 +94,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medical.genericName"
+                         ng-model="formData.medical.approvedName"
                          required />
                 </div>
               </div>
@@ -397,8 +397,8 @@
                 <div class="flex-item-11 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt" name=""
                   ng-model="formData.medical.tax">
-                    <option value="17">17</option>
-                    <option value="3">3</option>
+                    <option value="17" ng-selected="formData.medical.tax==17">17</option>
+                    <option value="3" ng-selected="formData.medical.tax==3">3</option>
                   </select>
                 </div>
               </div>
@@ -446,11 +446,7 @@
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       type="button"
-                      ajax-url-submit="rest/authen/firstMedicalApplication/startProcessInstance"
-                      params='{"businessKey":formData.id}'
-                      alert-error
-                      scope-data="showData"
-                      callback="$root.goTo('#/firstMedicalApplication/get.html?id={{formData.id}}')">提交
+                    ng-click="submitForm('editForm','submit-medical')">提交
               </button>
             </span>
           </div>

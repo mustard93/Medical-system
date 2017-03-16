@@ -1,25 +1,17 @@
-<div class="hospital-application"
-     ng-controller="QualificationApplyCtrl"
-     ajax-url="rest/authen/customerAddress/get.json?id={{mainStatus.pageParams.id}}"
-     scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
-     alert-error>
-
-  <form id="editForm"
-        name="editForm"
-        form-validator
-        parameter-body
-        action="rest/authen/customerAddress/save.json"
-        alert-error
-        alert-ok
-        scope-extend="scopeExtend"
-        scope-error-msg="errorMsg"
-        scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;">
+<table-list list-data="rest/authen/hospitalPurchaseContents/getMedical?id={{mainStatus.pageParams.id}}"
+            list-params="listParams"
+            search-mode="noCaseSensitive"
+            search-param="q">
+  <div class="hospital-application"
+       ng-controller="QualificationApplyCtrl"
+       ajax-url="rest/authen/hospitalPurchaseContents/get.json?id={{mainStatus.pageParams.id}}"
+       scope-data="formData"
+       callback='initFlag=true;watchFormChange("formData");bottomButtonList=$root.bottomButtonList.get_hospitalPurchaseContents(formData);'
+       alert-error>
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xl">客户中心 >
-       <a href="#/hospitalPurchaseContents/query.html"><em class="color-custom-orange">医院采购目录</em></a>
+       <a href="#/hospitalPurchaseContents/query.html"><em class="color-custom-orange">医院采购目录</em></a> > <span>医院采购目录详情</span>
       </p>
       <div class="pd-c-xl pdt-l pdb-l">
        <!-- 标题 -->
@@ -30,89 +22,82 @@
     </div>
     <!-- 药械列表 -->
     <div class="pd-loss-l">
-      <p ng-if="initFlag" class="inline-block mgb-l text-n color-3 text-bold"
-      >
-      {{formData.name}}
-    </p>
-    <em class=" mgl">（系统编号：<em class="color-3">YY0001</em>）</em>
+      <div ng-if="initFlag" class="inline-block mgb-l text-n color-3">
+        <span class="text-bold">{{formData.name}}</span>
+        <span class="text-s mgl">(系统编号：<em class="color-3">{{formData.code}}</em>)</span>
+      </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
+        <!-- 周期 -->
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+          <div class="flex-item-6">
+            <em class="fl-l">目录更新周期：</em>
+            <em ng-if="formData.object.updateCycle" class="color-6">{{formData.object.updateCycle}}个月</em>
+            <em ng-if="!formData.object.updateCycle">-</em>
+          </div>
+          <div class="flex-item-6 text-right">
+            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+              <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
+              <i class=""></i>
+            </div>
+            <div class="inline-block mgl-m">
+              <i class="fa fa-refresh mgr-s color-light-brown"></i>
+              <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+            </div>
+          </div>
+        </div>
+        <!-- 表格 -->
         <div>
-          <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
-            <div class="flex-item-6">
-              <em class="fl-l">采购目录有效期至：</em>
-              <em>2017-12-2</em>
-            </div>
-            <div class="flex-item-6 text-right">
-              <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-                  <input type="text" class="ipt pdr-xxl" placeholder="商品全名/商品编号/生产厂家" ng-model="listParams.q">
-                  <i class=""></i>
-              </div>
-            </div>
+          <table class="table pr-table pr-new-table" >
+            <thead>
+              <tr>
+                <th class="text-center">序号</th>
+                <th class="text-center">商品编号</th>
+                <th class="text-center">商品全名</th>
+                <th class="text-center">生产厂家</th>
+                <th class="text-center">含税单价</th>
+                <th class="text-center">规格/型号</th>
+                <th class="text-center">单位</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <tr ng-repeat="tr in tbodyList">
+                <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
+                <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
+                <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
+                <td class="text-left">{{tr.manufacturer}}</td><!-- 生产厂家 -->
+                <td class="text-right">￥{{tr.price}}</td><!-- 含税单价 -->
+                <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+              </tr>
+            </tbody>
+          </table>
+          <!-- 导航 -->
+          <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+            <div class="fr"><pagination status="status"></pagination></div>
           </div>
-          <div >
-            <table class="table pr-table pr-new-table" >
-              <thead>
-                <tr>
-                  <th class="text-center ">序号</th>
-                  <th class="text-center ">商品编号</th>
-                  <th class="text-left  w-100">商品全名</th>
-                  <th class="text-left">生产厂家</th>
-                  <th class="text-center">规格/型号</th>
-                  <th class="text-center">单位</th>
-                  <th class="text-center">原币单价</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white">
-                <tr ng-if="formData.orderMedicalNos.length"
-                    ng-repeat="tr in formData.orderMedicalNos"
-                    ng-init="orderMedicalNoIds.push(tr.relId)"
-                    ng-controller="ConfirmOrderMedicalController">
-                  <td class="text-center">{{$index + 1}}</td>
-                  <td class="text-center">{{tr.code}}</td>
-                  <td class="text-left">
-                    <div class="autocut" title="{{tr.name}}">
-                        {{tr.name}}
-                    </div>
-                  </td>
-                  <td class="text-center">{{tr.manufacturer}}</td>
-                  <td class="text-center">{{tr.specificationAndModelType}}</td>
-                  <td class="text-center">{{tr.unit}}</td>
-                  <td class="text-center">
-                  {{tr.price}}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <!-- 空数据占位符 -->
+          <div class="pr-bg-white" ng-if="!tbodyList.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
           </div>
         </div>
-        <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
-          <div class="empty-table clearfix">
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-          </div>
+      </div>
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height">
+        <h1 class="text-bold color-3 mgb">备注</h1>
+        <p>{{formData.object.note}}</p>
+      </div>
+      <!-- 功能按钮 -->
+      <div class="handle-btn-area relative">
+        <div class="btn-area">
+            <a href="#/hospitalPurchaseContents/query.html">返回医院采购目录列表</a>
+            <span  bottom-button-list="bottomButtonList">  </span>
+            <span class="mgl"><a class="as-btn" href="#/hospitalPurchaseContents/edit.html?id={{formData.id}}">编辑</a></span>
         </div>
-    </div>
-
-    <!-- 功能按钮 -->
-    <div class="handle-btn-area relative">
-      <div class="btn-area">
-          <a href="#/hospitalPurchaseContents/query.html">返回医院采购目录列表</a>
-          <span  bottom-button-list="bottomButtonList">  </span>
-          <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
-             href="javascript:;"
-             class="pr-color-red mgr-l"
-             handle-this-click
-             dialog-title="确认删除?"
-             dialog-content="您确认删除这条采购目录吗?"
-             dialog-template="dialog-confirm.html"
-             request-url="rest/authen/hospitalPurchaseContents/delete?id={{formData.id}}"
-             callback="$root.goTo('#/hospitalPurchaseContents/query.html')">删除
-          </a>
-          <button type="button" name="button"  class="pr-btn-save-glodbg mgl">
-            <a class="color-white" href="#/hospitalPurchaseContents/edit.html?id={{formData.id}}">编辑</a>
-          </button>
       </div>
     </div>
-  </form>
-</div>
+  </div>
+</table-list>

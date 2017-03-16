@@ -1,6 +1,6 @@
 <div class="first-medical-application"
      ng-controller="medicalStockCtrl"
-     ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
      alert-error>
@@ -27,7 +27,7 @@
             name="firstMedicalEditForm"
             form-validator
             parameter-body
-            action="rest/authen/firstMedicalApplication/saveBaseInfo"
+            action="rest/authen/medicalStock/save"
             alert-error
             alert-ok
             scope-error-msg="errorMsg"
@@ -63,21 +63,21 @@
         </div>
         <!-- 基本信息 -->
         <div class="panel pr-panel pr-panel-height mgb">
-            <h1 class="mgb mgt color-black text-bold pr-font-18">基本信息</h1>
+            <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
             <div class="bb-dashed-line">
               <div class="flex-column mgb">
-                  <label class="radio-inline radio radio-new">
-                    <input type="radio" class="default-radio"  name="type" value="药械" ng-model="formData.medical.medicalType" required><i style="top:12px;"></i>
-                    <em class="inline-block" style="margin-left:-5px; color:#666;">药械</em>
-                  </label>
-                  <label class="radio-inline radio radio-new">
-                    <input type="radio" class="default-radio" name="type" value="中药及饮片" ng-model="formData.medical.medicalType" required> <i style="top:12px;"></i>
-                      <em class="inline-block" style="margin-left:-5px; color:#666;">中药及饮片</em>
-                  </label>
-                  <label class="radio-inline radio radio-new">
-                    <input type="radio" class="default-radio" name="type" value="其他药品" ng-model="formData.medical.medicalType" required> <i style="top:12px;"></i>
-                      <em class="inline-block" style="margin-left:-5px; color:#666;">其他药品</em>
-                  </label>
+                <label class="radio-inline radio radio-new">
+                  <input type="radio" class="default-radio"  name="type" value="药械" ng-model="formData.medicalType" ng-disabled="formData.medicalType"><i style="top:12px;"></i>
+                  <em class="inline-block" style="margin-left:-5px; color:#666;">药械</em>
+                </label>
+                <label class="radio-inline radio radio-new">
+                  <input type="radio" class="default-radio" name="type" value="中药及饮片" ng-model="formData.medicalType" ng-disabled="formData.medicalType"> <i style="top:12px;"></i>
+                    <em class="inline-block" style="margin-left:-5px; color:#666;">中药及饮片</em>
+                </label>
+                <label class="radio-inline radio radio-new">
+                  <input type="radio" class="default-radio" name="type" value="其他药品" ng-model="formData.medicalType" ng-disabled="formData.medicalType"> <i style="top:12px;"></i>
+                    <em class="inline-block" style="margin-left:-5px; color:#666;">其他药品</em>
+                </label>
               </div>
             </div>
             <div class=" pd-v-m">
@@ -87,7 +87,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medicalStock.approvedName"
+                         ng-model="formData.approvedName"
                          required />
                 </div>
               </div>
@@ -97,7 +97,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="name"
-                         ng-model="formData.medicalStock.name"
+                         ng-model="formData.name"
                          required />
                 </div>
               </div>
@@ -107,7 +107,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="code"
-                         ng-model="formData.medicalStock.code"
+                         ng-model="formData.code"
                          required />
                 </div>
               </div>
@@ -117,7 +117,7 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="specification"
-                         ng-model="formData.medicalStock.specification"
+                         ng-model="formData.specification"
                          required />
                 </div>
               </div>
@@ -127,7 +127,7 @@
                   <select class="ipt pr-short-ipt ipt-new-s" data-placeholder="选择剂型"
                   chosen
                   default-empty="无"
-                  ng-model="formData.medicalStock.dosageForms"
+                  ng-model="formData.dosageForms"
                   select-source="rest/baseData/queryForSelectOptionByType?type=剂型">
                   </select>
                 </div>
@@ -138,7 +138,7 @@
                   <input type="text"
                          class="ipt-new-s ipt-new"
                          name="measurement"
-                         ng-model="formData.medicalStock.measurement"
+                         ng-model="formData.measurement"
                          required />
                 </div>
               </div>
@@ -148,7 +148,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="packingCondition"
-                         ng-model="formData.medicalStock.packingCondition"
+                         ng-model="formData.packingCondition"
                          required />
                 </div>
               </div>
@@ -158,7 +158,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="numberOfPackages"
-                         ng-model="formData.medicalStock.numberOfPackages"
+                         ng-model="formData.numberOfPackages"
                          required />
                 </div>
               </div>
@@ -168,7 +168,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="pieceLoading"
-                         ng-model="formData.medicalStock.pieceLoading"
+                         ng-model="formData.pieceLoading"
                          required />
                 </div>
               </div>
@@ -181,7 +181,7 @@
                            class="ipt-date pr-short-ipt ipt-new-s color-6"
                            ng-readonly="true"
                            placeholder="有效日期至"
-                           ng-model="formData.medicalStock.guaranteePeriod">
+                           ng-model="formData.guaranteePeriod">
                           <span class="date-icon"></span>
                   </div>
                 </div>
@@ -190,7 +190,7 @@
                 <label class="flex-item-1 text-right control-label">存储条件：</label>
                 <div class="flex-item-11 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt" name=""
-                  ng-model="formData.medicalStock.storageCondition">
+                  ng-model="formData.storageCondition">
                     <option value="常温">常温</option>
                     <option value="冷链">冷链</option>
                   </select>
@@ -204,7 +204,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="produceEnterprise"
-                         ng-model="formData.medicalStock.manufacturer"
+                         ng-model="formData.manufacturer"
                          required />
                 </div>
               </div>
@@ -214,7 +214,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medicalStock.factoryAddress"
+                         ng-model="formData.factoryAddress"
                          required />
                 </div>
               </div>
@@ -224,14 +224,14 @@
                   <input type="text"
                          class="ipt-new"
                          name="factoryAddress"
-                         ng-model="formData.medicalStock.productionPlace"
+                         ng-model="formData.productionPlace"
                          required />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-1 text-right control-label">供应单位：</label>
                 <div class="flex-item-11 text-left">
-                  <select class="select-new" name="" ng-model="formData.medicalStock.supplierId"
+                  <select class="select-new" name="" ng-model="formData.supplierId"
                   chosen select-source="rest/authen/supplier/queryForSelectOption">
                   </select>
                 </div>
@@ -244,7 +244,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="trademark"
-                         ng-model="formData.medicalStock.trademark"
+                         ng-model="formData.trademark"
                          required />
                 </div>
               </div>
@@ -254,7 +254,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="medicalUniformCode"
-                         ng-model="formData.medicalStock.medicalUniformCode"
+                         ng-model="formData.medicalUniformCode"
                          required />
                 </div>
               </div>
@@ -264,7 +264,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="filingDocumentNumber"
-                         ng-model="formData.medicalStock.filingDocumentNo"
+                         ng-model="formData.filingDocumentNo"
                          required />
                 </div>
               </div>
@@ -274,7 +274,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="licenseNumber"
-                         ng-model="formData.medicalStock.licenseNumber"
+                         ng-model="formData.licenseNumber"
                          required />
                 </div>
               </div>
@@ -284,7 +284,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medicalStock.quality"
+                         ng-model="formData.quality"
                          required />
                 </div>
               </div>
@@ -294,7 +294,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medicalStock.gmpGspCertificateNo"
+                         ng-model="formData.gmpGspCertificateNo"
                          required />
                 </div>
               </div>
@@ -304,7 +304,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.medicalStock.drugAdministrationCode"
+                         ng-model="formData.drugAdministrationCode"
                          required />
                 </div>
               </div>
@@ -314,9 +314,9 @@
                 <label class="flex-item-1 text-right control-label">是否基药：</label>
                 <div class="flex-item-11 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt"
-                  name="" ng-init="formData.medicalStock.isBasicMedicine='是'" ng-model="formData.medicalStock.isBasicMedicine">
-                    <option value="是" ng-selected="formData.medicalStock.isBasicMedicine=='是'">是</option>
-                    <option value="否" ng-selected="formData.medicalStock.isBasicMedicine=='否'">否</option>
+                  name="" ng-init="formData.isBasicMedicine='是'" ng-model="formData.isBasicMedicine">
+                    <option value="是" ng-selected="formData.isBasicMedicine=='是'">是</option>
+                    <option value="否" ng-selected="formData.isBasicMedicine=='否'">否</option>
                   </select>
                 </div>
               </div>
@@ -326,7 +326,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-left"
                          placeholder="￥0.00"
-                         ng-model="formData.medicalStock.quoteprice"
+                         ng-model="formData.quoteprice"
 
                          ng-keyup="chkQuoteAndRetail()"
                          name="quoteprice"
@@ -342,7 +342,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-left"
                          placeholder="￥0.00"
-                         ng-model="formData.medicalStock.retailPrice"
+                         ng-model="formData.retailPrice"
 
                          ng-keyup="chkQuoteAndRetail()"
                          name="retailPrice"
@@ -359,7 +359,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-left"
                          placeholder="￥0.00"
-                         ng-model="formData.medicalStock.tradePrice"
+                         ng-model="formData.tradePrice"
 
                          ng-keyup="chkQuoteAndRetail()"
                          name="tradePrice"
@@ -375,7 +375,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s text-left"
                          placeholder="￥0.00"
-                         ng-model="formData.medicalStock.purchasePrice"
+                         ng-model="formData.purchasePrice"
 
                          ng-keyup="chkQuoteAndRetail()"
                          name="purchasePrice"
@@ -389,9 +389,9 @@
                 <label class="flex-item-1 text-right control-label">税率：</label>
                 <div class="flex-item-11 text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt" name=""
-                  ng-model="formData.medicalStock.tax">
-                    <option value="17" ng-selected="formData.medicalStock.tax==17">17</option>
-                    <option value="3" ng-selected="formData.medicalStock.tax==3">3</option>
+                  ng-model="formData.tax">
+                    <option value="17" ng-selected="formData.tax==17">17</option>
+                    <option value="3" ng-selected="formData.tax==3">3</option>
                   </select>
                 </div>
               </div>
@@ -406,63 +406,9 @@
           </div>
         </div>
         <!-- 审核资料 -->
-        <div class="panel pr-panel pr-panel-height mgb"
-        ng-if="initFlag"
-        ajax-url="rest/authen/medicalStock/getAttachments?id={{formData.id}}"
-        scope-data="scopeData">
-          <h1 class="pr-font-18 mgb">资质文件</h1>
-          <div style="margin-bottom:50px;">
-            <table class="table table-striped">
-                <thead>
-                    <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
-                        <th></th>
-                        <th>序号</th>
-                        <th>资料名称</th>
-                        <th>上传人</th>
-                        <th>上传时间</th>
-                        <th>有效日期</th>
-                        <th>附件</th>
-                        <th>备注</th>
-                        <th class="text-center">操作</th>
-                    </tr>
-                </thead>
-              <tbody>
-                <tr ng-repeat="item in scopeData.attachments"
-                ng-controller="deleteUploaderController"
-                >
-                  <td class="select-td">
-                    <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
-                  </td>
-                  <td>{{$index + 1}}</td>
-                  <td>{{item.name}}</td>
-                  <td>{{item.uploadUserName}}</td>
-                  <td>{{item.uploadTime | date: 'yyyy-MM-dd HH:mm'}}</td>
-                  <td>
-                    <div class="date-icon-outside">
-                      <input type="text"
-                             datepicker
-                             class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                             ng-readonly="true"
-                             ng-model="item.guaranteePeriod"
-                             placeholder="有效日期至">
-                      <span class="date-icon"></span>
-                    </div>
-                  </td>
-                  <td>
-                    <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
-                  </td>
-                  <td>
-                    <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息" ng-model="item.note"></textarea>
-                  </td>
-                  <td class="text-center">
-                    <a ng-if="item.canDeleteFlag" href="javascript:;" class="text-center" ng-click="ngModel.splice($index,1);"><span class="fa fa-trash-o text-l"></span></a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+        <div ng-init='attachmentsExtend={"title":"资质文件","usege":"首营品种申请","addFlag":false}'
+         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" >
+       </div>
         <!-- 功能按钮 -->
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">
@@ -498,13 +444,9 @@
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
-                      ng-disabled="firstMedical-editForm.$invalid">
-                    <a href="javascript:;"
-                    class="color-white"
-                    ng-click="submitForm('editForm','submit')">
+                      ng-click="submitForm('editForm','submit-medical')">
                       保存并结束编辑
-                    </a>
-                    </button>
+              </button>
             </span>
 
           </div>
