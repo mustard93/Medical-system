@@ -15,34 +15,30 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
 <table style="text-align:left;font-size:14px;border-collapse:collapse;" width="100%">
 <tbody>
    <tr class="firstRow">
-       <td style="width:100px;">
-           发货仓库：
+       <td colspan="4">
        </td>
-       <td ></td>
-       <td style="width:100px;"></td>
-       <td ></td>
-       <td style="width:100px;">
+       <td >
            单据编号：
        </td>
-       <td style="width:100px;">
+       <td >
            {{showData.orderNo}}
        </td>
    </tr>
    <tr>
-       <td>
+       <td >
            客户名称：
        </td>
        <td>
-           {{showData.customerName}}
+          {{showData.customerName}}
        </td>
        <td>
-           联系人：
+         联系人：
        </td>
        <td>
-           {{showData.address.name}}
+         {{showData.invoicesContacts.name}}
        </td>
        <td>
-           录单日期：
+         录单日期:
        </td>
        <td>
            {{showData.createAt | date:"yyyy-MM-dd"}}
@@ -54,13 +50,13 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
 <thead>
    <tr class="firstRow">
        <td style="text-align:center;max-width:7%; white-space: nowrap;">
-           商品编号
+           编号
        </td>
        <td style="text-align:center;max-width:7%; white-space: nowrap;">
            商品全名
        </td>
        <td style="text-align:center;max-width:10%; white-space: nowrap;">
-           规格/型号
+           规格
        </td>
        <td style="text-align:center;max-width:5%; white-space: nowrap;">
            单位
@@ -78,16 +74,19 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
            生产批号
        </td>
        <td style="text-align:center;max-width:8%; white-space: nowrap;">
-           有效期至
+           灭菌批号
+       </td>
+       <td style="text-align:center;max-width:8%; white-space: nowrap;">
+           有效日期
+       </td>
+       <td style="text-align:center;max-width:8%; white-space: nowrap;">
+           产品注册证
        </td>
        <td style="text-align:center;max-width:6%; white-space: nowrap;">
            生产商
        </td>
        <td style="text-align:center;max-width:10%; white-space: nowrap;">
-           产品注册证
-       </td>
-       <td style="text-align:center;max-width:19%; white-space: nowrap;">
-           产地品牌
+          单据备注
        </td>
    </tr>
 </thead>
@@ -117,78 +116,81 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
        <td style="text-align:center;max-width:8%;word-wrap:break-word;">
            {{tr.productionBatch}}
        </td>
+       <td style="text-align:center;max-width:8%;word-wrap:break-word;">
+           {{tr.sterilizationBatchNumber}}
+       </td>
        <td style="text-align:center;max-width:8%;word-wrap:break-word;"
        ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{tr.relId}}&amp;p_and_s={{tr.productionBatch}}" scope-data="guaranteePeriodData">
            {{guaranteePeriodData.validTill | date:"yyyy-MM-dd"}}
        </td>
        <td style="text-align:center;max-width:6%;word-wrap:break-word;">
+           {{tr.drugAdministrationCode}}
+       </td>
+       <td style="text-align:center;max-width:6%;word-wrap:break-word;">
            {{tr.manufacturer}}
        </td>
        <td style="text-align:center;max-width:10%;word-wrap:break-word;">
-           {{tr.drugAdministrationCode}}
-       </td>
-       <td style="text-align:center;max-width:8%;word-wrap:break-word;">
-           {{tr.brand}}
+
        </td>
    </tr>
    <tr>
-       <td>
-           总计大写
-       </td>
-       <td colspan="7" style="word-wrap:break-word;">
-           {{showData.totalPriceCN}}
-       </td>
-       <td colspan="2">
-           本页小计
-       </td>
-       <td colspan="2" style="word-wrap:break-word;">
-           {{showData.totalPrice}}
-       </td>
-   </tr>
-   <tr>
-       <td>
-           发货单位
-       </td>
-       <td colspan="2" style="word-wrap:break-word;">
-           {{organizationName.name}}
-       </td>
-       <td colspan="2">
-           联系人
-       </td>
-       <td colspan="2" style="word-wrap:break-word;">
-           {{showData.invoicesContacts.name}}
-       </td>
-       <td>
-           电话
-       </td>
-       <td colspan="2" style="word-wrap:break-word;">
-           {{showData.invoicesContacts.tel}}
-       </td>
-       <td>
-           传真
-       </td>
-       <td style="word-wrap:break-word;">
-           {{showData.invoicesContacts.fax}}
-       </td>
+     <td style="text-align:center;max-width:8%;word-wrap:break-word;">
+       总计大写
+     </td>
+     <td colspan="6" style="word-wrap:break-word;">
+         {{showData.totalPriceCN}}
+     </td>
+     <td colspan="2">
+       合计小写
+     </td>
+     <td colspan="4" style="word-wrap:break-word;">
+         {{showData.totalPrice}}元
+     </td>
    </tr>
 </tbody>
 </table>
 <table style="text-align:left;font-size:14px;width:100%;border-collapse:collapse;">
 <tbody>
-   <tr class="firstRow">
-       <td>
-           地址：
-       </td>
-       <td colspan="7" style="text-align:left">
-           {{showData.customerContacts.prov}}{{showData.customerContacts.city}}{{showData.customerContacts.area}}{{showData.customerContacts.address}}
-       </td>
-       <td>
-           邮编：
-       </td>
-       <td>
-           {{showData.customerContacts.zipCode}}
-       </td>
-   </tr>
+  <tr>
+    <td>
+      发货单位:
+    </td>
+    <td colspan="3">
+      {{organizationName.name}}
+    </td>
+    <td>
+      联系人:
+    </td>
+    <td>
+      {{showData.invoicesContacts.name}}
+    </td>
+    <td>
+      电话:
+    </td>
+    <td>
+      {{showData.invoicesContacts.tel}}
+    </td>
+    <td>
+      传真:
+    </td>
+    <td>
+      {{showData.invoicesContacts.fax}}
+    </td>
+  </tr>
+  <tr class="firstRow">
+      <td style="text-align:left">
+         地址：
+      </td>
+      <td colspan="7">
+        {{showData.invoicesContacts.prov}}{{showData.invoicesContacts.city}}{{showData.invoicesContacts.area}}{{showData.invoicesContacts.address}}
+      </td>
+      <td>
+          邮编：
+      </td>
+      <td>
+        {{showData.customerContacts.zipCode}}
+      </td>
+  </tr>
    <tr>
        <td>
            制单人：

@@ -33,7 +33,7 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
            发货日期：
        </td>
        <td>
-           {{showData.createAt | date:"yyyy-MM-dd"}}
+           {{showData.expectDate  | date:"yyyy-MM-dd"}}
        </td>
    </tr>
 </tbody>
@@ -107,59 +107,91 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
    </tr>
    <tr>
      <td>
-       总计大写
+      合计
      </td>
-     <td colspan="5" style="word-wrap:break-word;">
-         {{showData.totalPriceCN}}
-     </td>
-     <td>
-       合计小写
-     </td>
-     <td colspan="3" style="word-wrap:break-word;">
-         {{showData.totalPrice}}
-     </td>
+     <td></td><td></td><td></td><td></td>
+     <td>{{showData.totalQuantity}}</td>
+     <td></td>
+     <td>{{showData.totalPrice}}</td>
+     <td></td><td></td>
    </tr>
 </tbody>
 </table>
 <table style="text-align:left;font-size:14px;width:100%;border-collapse:collapse;">
 <tbody>
   <tr>
-    <td colspan="6">
-      发货单位:&nbsp;{{organizationName.name}}
+    <td colspan="2">
+      整单合计（大写）:
+    </td>
+    <td colspan="5">
+      {{showData.totalPriceCN}}
+    </td>
+    <td >
+      备注：
+    </td>
+    <td colspan="2">
+      {{showData.note}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      发货单位:
+    </td>
+    <td colspan="3">
+      {{organizationName.name}}
     </td>
     <td>
-      联系人:&nbsp;{{showData.invoicesContacts.name}}
+      联系人:
     </td>
     <td>
-      电话:&nbsp;{{showData.invoicesContacts.tel}}
+      {{showData.invoicesContacts.name}}
     </td>
     <td>
-      传真:&nbsp;{{showData.invoicesContacts.fax}}
+      电话:
+    </td>
+    <td>
+      {{showData.invoicesContacts.tel}}
+    </td>
+    <td>
+      传真:
+    </td>
+    <td>
+      {{showData.invoicesContacts.fax}}
     </td>
   </tr>
    <tr class="firstRow">
-       <td colspan="8" style="text-align:left">
-          发货地址：&nbsp;{{showData.customerContacts.prov}}{{showData.customerContacts.city}}{{showData.customerContacts.area}}{{showData.customerContacts.address}}
+       <td  style="text-align:left">
+          发货地址：
+       </td>
+       <td colspan="7">
+        {{showData.invoicesContacts.prov}}{{showData.invoicesContacts.city}}{{showData.invoicesContacts.area}}{{showData.invoicesContacts.address}}
        </td>
        <td>
-           邮编：{{showData.customerContacts.zipCode}}
+           邮编：
+       </td>
+       <td>
+         {{showData.customerContacts.zipCode}}
        </td>
    </tr>
    <tr>
-       <td colspan="2">
-           制单人：&nbsp;{{showData.inputUser.n}}
+       <td >
+           制单人：
+       </td>
+       <td>
+         {{showData.inputUser.n}}
        </td>
        <td >
-        复核:&nbsp;{{showData.approverUser.n}}
+        复核:
        </td>
-       <td></td>
-       <td></td>
+       <td>{{showData.approverUser.n}}</td>
        <td>
         库管：
        </td>
+       <td></td>
        <td>
            送货人:
        </td>
+       <td> </td>
        <td >
            收货人(签字):
        </td>
