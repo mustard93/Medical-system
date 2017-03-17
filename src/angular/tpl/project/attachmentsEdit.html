@@ -2,37 +2,34 @@
   <h1 class="pr-font-18 mgb">{{attachmentsExtend.title||"审核资料"}}</h1>
   <div style="margin-bottom:50px;">
     <table class="table table-striped">
-        <thead>
-            <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
-                <th class="w-80"></th>
-                <th>序号</th>
-                <th>资料名称</th>
-                <th>证书编号</th>
-                <th>有效日期</th>
-                <th>上传人</th>
-                <th>上传日期</th>
-                <th>附件</th>
-                <th>备注</th>
-                <th class="text-center">操作</th>
-            </tr>
-        </thead>
+      <thead>
+        <tr style="background: rgba(209,209,209,0.25);border-radius: 4px;">
+            <th class="w-60"></th>
+            <th>序号</th>
+            <th>资料名称</th>
+            <th>证书编号</th>
+            <th>有效日期</th>
+            <th>上传人</th>
+            <th>上传日期</th>
+            <th>附件</th>
+            <th>备注</th>
+        </tr>
+      </thead>
       <tbody>
-        <tr ng-repeat="item in ngModel"
-        ng-controller="deleteUploaderController"
-        >
+        <tr ng-repeat="item in ngModel" ng-controller="deleteUploaderController">
           <td class="w-80 mycheck mgcheck-mg">
-           <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag" />
-           <label for="{{$index + 1}}"></label>
-          </td>
-          <td>{{$index + 1}}</td>
-          <td>{{item.name}}</td>
+            <input type="checkbox" value="1" id="{{$index + 1}}" ng-model="item.showFlag" />
+            <label for="{{$index + 1}}"></label>
+          </td><!-- 选择checkbox  -->
+          <td>{{$index+1}}</td><!-- 序号  -->
+          <td>{{item.name}}</td><!-- 资料名称  -->
           <td>
             <input type="text"
                    class="ipt pr-short-ipt color-6 mgr pr-indent-10"
                    ng-model="item.certificateNumber"
                    placeholder=""
                    ng-disabled="!item.showFlag">
-          </td>
+          </td><!-- 证书编号  -->
           <td>
             <div class="date-icon-outside" ng-disabled="!item.showFlag">
               <input type="text"
@@ -45,25 +42,22 @@
                     >
               <span class="date-icon"></span>
             </div>
-          </td>
-          <td>{{item.uploadUserName || '—'}}</td>
-          <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td>
+          </td><!-- 有效日期  -->
+          <td>{{item.uploadUserName || '—'}}</td><!-- 上传人  -->
+          <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td><!-- 上传日期  -->
           <td ng-if="item.showFlag">
             <div ng-init='attachmentsItemExtend={"edit":true}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div>
-          </td>
+          </td><!-- 附件  -->
           <td ng-if="!item.showFlag">
             <div style="width:90px;height:90px;">上传附件</div>
-          </td>
+          </td><!-- 附件  -->
           <td>
             <textarea class="pr-textarea" name="name" rows="6" cols="20" placeholder="备注信息"  ng-disabled="!item.showFlag" ng-model="item.note"></textarea>
-          </td>
-          <td class="text-center">
-            <a ng-if="item.canDeleteFlag"  disabled="true" href="javascript:;" class="text-center" ng-click="ngModel.splice($index,1);"><span class="fa fa-trash-o text-l"></span></a>
-          </td>
+          </td><!-- 备注  -->
         </tr>
       </tbody>
       <!-- 添加资料 -->
-      <tfoot  ng-if="attachmentsExtend.addFlag" ng-init="addAttachment={}">
+      <tfoot ng-if="attachmentsExtend.addFlag" ng-init="addAttachment={}">
         <tr>
           <td colspan="7">
             <h1 class="pr-font-16">添加附件</h1>
@@ -99,6 +93,5 @@
         </tr>
       </tfoot>
     </table>
-
   </div>
 </div>

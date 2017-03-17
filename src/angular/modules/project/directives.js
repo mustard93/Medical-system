@@ -2435,11 +2435,11 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             $scope.pause = 300;
             $scope.minLength = 1;
             $scope.searchStr = $scope.searchFields;
-            console.log("$scope.searchFields",$scope.searchFields);
+            // console.log("$scope.searchFields",$scope.searchFields);
             //绑定返回对象的某个属性值。
             if($attrs.ngModelId){
               $scope.$watch("ngModel", function(value) {
-                console.log("ngModelProperty.watch.ngModel",value);
+                // console.log("ngModelProperty.watch.ngModel",value);
                 if(!value)return;
                 $scope.ngModelId=value.id;
                 $scope.searchStr=value.data.name;
@@ -2513,16 +2513,15 @@ function flashAddMedical() {
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
 
-          $scope.isCustomerId = angular.isDefined($attrs.isDisabledThis) ? false : true;
+          $attrs.$observe("ajaxUrl", function(newVal, oldVal) {
+            $scope.ajaxUrl = newVal;
+          });
 
-          $attrs.$observe("ajaxUrl", function(value) {
-            $scope.ajaxUrl = value;
-
-            // 如果已定义isDisabledThis属性，则表示需要进行变量校验
-            if ($scope.$parent.formData.customerId) { $scope.isCustomerId = true; }
-            // if (angular.isDefined($attrs.isDisabledThis)) {
-            //   if ($scope.$parent.formData.customerId) { $scope.isCustomerId = false; }
-            // }
+          // 监控用户是否已选择客户或供应商
+          $attrs.$observe('isDisabledThis', function (newVal, oldVal) {
+            if (newVal) {
+              $scope.isCustomerId = true;
+            }
           });
 
           //添加业务数据
@@ -3089,7 +3088,8 @@ function pageMainHeaderComponent () {
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
       statusGroupData: '@',         // 状态显示数据对象
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
-      isShowSelectItem: '@'
+      isShowSelectItem: '@',
+      searchPlaceholderInfo: '@'
     },
     replace: true,
     transclude: true,
@@ -3139,6 +3139,9 @@ function pageMainHeaderComponent () {
 
       //是否显示日期过滤
       scope.isShowDateFilter = angular.isDefined(attrs.isShowDateFilter) ? attrs.isShowDateFilter : false;
+
+      // 关键字搜索中提示信息定义
+      scope.searchPlaceholderInfo = angular.isDefined(attrs.searchPlaceholderInfo) ? attrs.searchPlaceholderInfo : '客户名 / 单据编号';
 
     }
   };

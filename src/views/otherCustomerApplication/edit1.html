@@ -88,7 +88,15 @@
                 <label class="flex-item-1 text-right control-label">法人代表/身份证号：</label>
                 <div class="flex-item-11 text-left">
                   <input type="text" class="ipt flex-item-1" ng-model="formData.customer.legalRepresentative">
-                  <input type="text" class="ipt flex-item-2 mgl-s" style="width:200px;" ng-model="formData.customer.legalRepresentativeIdentityNo">
+                  <input type="text"
+                         class="ipt flex-item-2 mgl-s"
+                         name="legalRepresentativeIdentityNo"
+                         style="width:200px;"
+                         ng-model="formData.customer.legalRepresentativeIdentityNo"
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         invalid-popover
+                         popover-show="!otherCustomerEditForm.legalRepresentativeIdentityNo.$valid"
+                         popover-options='{"content":"身份证号码格式错误!", "placement":"right", "trigger":"manual"}'>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -182,9 +190,29 @@
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">联系电话：</label>
+                <label class="flex-item-1 text-right control-label">座机：</label>
                 <div class="flex-item-11 text-left">
-                  <input type="text" class="ipt-new" ng-model="formData.customer.consigneePhone">
+                  <input type="text"
+                         class="ipt-new"
+                         name="consigneeTel"
+                         ng-model="formData.customer.consigneeTel"
+                         ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                         invalid-popover
+                         popover-show="!otherCustomerEditForm.consigneeTel.$valid"
+                         popover-options='{"content":"座机号码格式错误!", "placement":"right", "trigger":"manual"}' />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">手机：</label>
+                <div class="flex-item-11 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="consigneePhone"
+                         ng-model="formData.customer.consigneePhone"
+                         ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                         invalid-popover
+                         popover-show="!otherCustomerEditForm.consigneePhone.$valid"
+                         popover-options='{"content":"手机号码格式错误!", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -205,20 +233,40 @@
                 <label class="flex-item-1 text-right control-label">采购/身份证号：</label>
                 <div class="flex-item-11">
                   <input type="text" class="ipt flex-item-1" ng-model="formData.customer.purchaser">
-                <input type="text"
-                       name="purchaserIdentityNo"
-                       class="ipt flex-item-2 mgl-s"
-                       style="width:200px;"
-                       ng-model="formData.customer.purchaserIdentityNo"
-                       ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
-                       data-content="身份证号码格式有误!"
-                       invalid-popover="{{!otherCustomerEditForm.purchaserIdentityNo.$valid}}" />
+                  <input type="text"
+                         name="purchaserIdentityNo"
+                         class="ipt flex-item-2 mgl-s"
+                         style="width:200px;"
+                         ng-model="formData.customer.purchaserIdentityNo"
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!otherCustomerEditForm.purchaserIdentityNo.$valid}}" />
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-1 text-right control-label">联系电话：</label>
+                <label class="flex-item-1 text-right control-label">座机：</label>
                 <div class="flex-item-11 text-left">
-                <input type="text" class="ipt-new" ng-model="formData.customer.purchaserPhone">
+                <input type="text"
+                       class="ipt-new"
+                       name="purchaserTel"
+                       ng-model="formData.customer.purchaserTel"
+                       ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                       invalid-popover
+                       popover-show="!otherCustomerEditForm.purchaserTel.$valid"
+                       popover-options='{"content":"座机号码格式错误!", "placement":"right", "trigger":"manual"}' />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-1 text-right control-label">手机：</label>
+                <div class="flex-item-11 text-left">
+                <input type="text"
+                       class="ipt-new"
+                       name="purchaserPhone"
+                       ng-model="formData.customer.purchaserPhone"
+                       ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                       invalid-popover
+                       popover-show="!otherCustomerEditForm.purchaserPhone.$valid"
+                       popover-options='{"content":"手机号码格式错误!", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
               <div class="flex-column mgt">
