@@ -86,7 +86,30 @@
                   <span class="name">
                       <span class="text-bold" modal-right="800" modal-scope="this" modal-url="views/uICustomMenu/uICustomMenuItemVO/edit.html">{{tr.showName}} </span>
                         <span ng-if="tree_index>0 && tr.items.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
+                        <span class="operate-left">
+                          <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this" modal-url="views/uICustomMenu/uICustomMenuItemVO/edit.html">
+                              <i class="fa fa-edit"></i>
+                              编辑
+                          </button>
+                          <button   ng-click="tr.items==null?tr.items=[]:tr.items.push({})"  type="button"
+                            class="btn btn-default" > 添加子菜单  </button>
 
+
+                          <button type="button" class="btn btn-danger" ng-click="treeList_recursion.splice($index,1);">
+                              <i class="fa fa-trash-o"></i>
+                              删除</button>
+
+                          <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(treeList_recursion,$index,$index-1)"  type="button"
+                          class="btn btn-default" > 上移  </button>
+                          <button  ng-if="$index+1<treeList_recursion.length"
+                          ng-click="$root.utils.switchArrayOrder(treeList_recursion,$index,$index+1)" type="button" class="btn btn-default" > 下移  </button>
+
+                          <button ng-if="$index>0"   ng-click="$root.utils.switchArrayOrder(treeList_recursion,$index,0)"  type="button"
+                           class="btn btn-default" > 顶部  </button>
+
+                          <button ng-if="$index<treeList_recursion.length-1"   ng-click="$root.utils.switchArrayOrder(treeList_recursion,$index,treeList_recursion.length-1)"  type="button"
+                           class="btn btn-default" > 底部  </button>
+                    </span><!--operate-->
                   </span>
                     <ul ng-if="tr.items.length>0"  ng-include="'recursion'"  onload="treeList_recursion=tr.items;tree_index=tree_index+1"></ul>
                 </li>
