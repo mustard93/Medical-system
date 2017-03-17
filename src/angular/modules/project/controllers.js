@@ -2931,7 +2931,7 @@ define('project/controllers', ['project/init'], function() {
 
 
     function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
-      
+
       $scope.$watch('initFlag', function (newVal) {
          var operationFlowSetMessage=[];
          var operationFlowSetKey=[];
@@ -2965,7 +2965,6 @@ define('project/controllers', ['project/init'], function() {
        });
 
       $scope.watchFormChange = function(watchName){
-
         watchFormChange(watchName,$scope);
       };
 
@@ -3161,18 +3160,22 @@ define('project/controllers', ['project/init'], function() {
 
     function SelectedCommodityEditCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('!initFlag', function (newVal) {
-            var scopeData= [];
-            for(var item in $scope.scopeData){
-                scopeData.push($scope.scopeData[item]);
-              for(j=0;j<$scope.formData.commodityType.length;j++){
-                if($scope.formData.commodityType[j]==$scope.scopeData[item].value){
-                $scope.scopeData[item].value=true;
-                }
-              }
-              }
-       });
-      $scope.watchFormChange = function(watchName){
+        var scopeData= [];
+        for(var item in $scope.scopeData){
 
+          scopeData.push($scope.scopeData[item]);
+
+          if ($scope.formData.commodityType) {
+            for(j=0;j<$scope.formData.commodityType.length;j++){
+              if($scope.formData.commodityType[j]==$scope.scopeData[item].value){
+              $scope.scopeData[item].value=true;
+              }
+            }
+          }
+        }
+      });
+
+      $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
       };
     }

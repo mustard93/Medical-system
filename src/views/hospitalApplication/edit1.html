@@ -44,7 +44,6 @@
             novalidate="true"
             callback="submitFormAfter('#/hospitalApplication/edit-step-2.html');watchFormChange('formData')">
 
-
         <!-- 单号 -->
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <span class="flex-item-11">单据编号：<em class="color-6">{{formData.orderNo || '暂无'}}</em></span>
@@ -236,13 +235,14 @@
         <div class="handle-btn-area">
           <div class="btn-area" style="background:rgba(54,48,44,0.30);">
           <span class="mgl mgt">
-            <a   ng-if="changeFlag"  href="javascript:;"
+            <a ng-if="changeFlag"  href="javascript:;"
                handle-this-click
                dialog-title="确认返回?"
                dialog-content="该申请单存在未保存数据，是否保存?"
                dialog-template="pr-dialog-return.html"
                nosave-callback="goTo('#/hospitalApplication/query.html')"
-               save-callback="submitForm('editForm','exit')">返回申请单列表</a>
+               save-callback="submitForm('hospital-editForm','save');$root.goTo('#/hospitalApplication/query.html')">返回申请单列表
+            </a>
 
             <a ng-if="!changeFlag" href="#/hospitalApplication/query.html">返回申请单列表</a>
           </span>
