@@ -1693,7 +1693,7 @@ function saleOutStockKuaDi () {
     link: function ($scope, $element, $attrs) {
     var lilength=0;
     var modalLength=parseInt($attrs.modalLength);
-    var leftShift=573;        // 一次向左移动的长度
+    var leftShift=modalLength;        // 一次向左移动的长度
     // $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
       $($element).mouseenter(function (e) {
       lilength=$(this).children('ul').children('li').length;
@@ -1796,8 +1796,6 @@ function medicalStockMouseOver(utils){
              "top": y,
              "left": x
            });
-          //  console.log("moveBtnDivWidth="+moveBtnDivWidth+",x="+x+",y="+y+",utils.getMainBodyWidth()="+utils.getMainBodyWidth());
-          //  console.log("e.pageX="+e.pageX+",e.pageY"+e.pageY);
 
            $(this).append(moveBtnDiv);
 
@@ -1822,21 +1820,25 @@ function medicalStockMouseOver(utils){
 
    	   //  关键步骤：
    	    //1.传入参数:arrows(箭头的个数)，className(根据状态不同显示样式的class),arrowText(箭头中显示文字的内容)
-        // 2.setStepArrows() 方法用来设置箭头
+        //2.divWidth 计算出每个箭头的宽度后，用于后续定义。
+        //3.$(window) 监听浏览器窗口大小改变，重新计算每个箭头的宽度，达到箭头宽度自适应的目的。
 function stepFlowArrowShow(utils){
   return{
     scope:{},
     restrict: 'A',
     link: function ($scope, $element, $attrs) {
+      // 定义一个类，用于长css对样式的控制
       $($element).addClass('first-medical-nav');
-        function setStepArrows (){
-            //箭头数量，用于计算箭头的个数。
-            var arrowCount=0;
-            //(step-flow-arrow-json传入的相关参数，以Jason的数据格式传入)
-            //基础数据转化为数组类型
-            var stepFlowArrow=  $scope.$eval($attrs.stepFlowArrowJson);
+      //箭头数量，用于计算箭头的个数。
+      var arrowCount=0;
+      //(step-flow-arrow-json传入的相关参数，以Jason的数据格式传入)
+      //基础数据转化为数组类型
+      var stepFlowArrow=  $scope.$eval($attrs.stepFlowArrowJson);
+      arrowCount=stepFlowArrow.length;
+      // 当每个箭头创建好之后，定义每个的宽度
+      var divWidth=($($element).width()-((arrowCount-1)*30))/arrowCount
+
             if(stepFlowArrow && stepFlowArrow.length>0){
-              arrowCount=stepFlowArrow.length;
               // 计算得到每个div的宽度
               for(var i=0;i<stepFlowArrow.length;i++){
                   var step=stepFlowArrow[i];
@@ -1854,17 +1856,17 @@ function stepFlowArrowShow(utils){
                     }
                   }
               }
-              // 当每个箭头创建好之后，定义每个的宽度
-                var divWidth=($($element).width()-((arrowCount-1)*30))/arrowCount
-                $('.first-medical-nav>div').css({"width":divWidth});
+              // 箭头创建完成之后，设置宽度
+              $('.first-medical-nav>div').css({"width":divWidth});
               // 开始箭头的形状定义
               $($element).children('div').first().append("<div></div><div></div>");
               // 最后一个箭头的形状定义
               $($element).children('div').last().prepend("<div></div>");
           }
-        }
-        $scope.$watch($scope.initFlag, function() {
-            setStepArrows();
+
+        $(window).resize(function () {
+          //当浏览器大小变化时,触发方法，重新给箭头计算宽度，并重新设置宽度，达到自适应宽度的目的。
+            $('.first-medical-nav>div').css({"width":($($element).width()-((arrowCount-1)*30))/arrowCount});
         });
       }//link
   };
@@ -1873,7 +1875,7 @@ function stepFlowArrowShow(utils){
 // 弹出框文本域内容实时剩余字数提醒
 /**
    *
-  	* @Description: 根据走到不同步骤箭头样式发生变化
+  	* @Description: 显示用户当前输入字数的个数，并限制不能超过规定的字数。
   	* @author 宋娟
   	* @date 2017年3月7日 下午17:20
    */
@@ -1903,15 +1905,8 @@ function stepFlowArrowShow(utils){
           });
           // 输入框发生改变触发事件
           $($element).bind("input propertychange change",function(event){
-            if ($($element).val().length > maxLen) {
-               //如果输入的字数超过了限制
-               //就去掉多余的字
-                  $($element).val() = $($element).val().substring(0, maxLen);
-                }
-            else{
-              // 否则改变提示信息中剩余字数显示的值
+            // 显示当前输入的字数的个数
               $('.remainWords').html($($element).val().length);
-            }
             });
         }//link
     };
