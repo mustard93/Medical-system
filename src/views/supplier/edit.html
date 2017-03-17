@@ -59,13 +59,13 @@
         <div class="panel pr-panel pr-panel-height mgb">
           <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
           <div class="bb-dashed-line mgb">
-            <div class="flex-column mgb">
+            <div class="flex-column mgb disabled" >
                 <label class="radio-inline radio radio-new">
-                  <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="formData.type" required><i style="top:12px;"></i>
+                  <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="formData.type" ng-disabled="true"><i style="top:12px;"></i>
                   <em class="inline-block" style="margin-left:-5px; color:#666;">生产企业</em>
                 </label>
                 <label class="radio-inline radio radio-new">
-                  <input type="radio" class="default-radio" name="type" value="经营企业" ng-model="formData.type" required> <i style="top:12px;"></i>
+                  <input type="radio" class="default-radio" name="type" value="经营企业" ng-model="formData.type" ng-disabled="true"> <i style="top:12px;"></i>
                     <em class="inline-block" style="margin-left:-5px; color:#666;">经营企业</em>
                 </label>
             </div>
@@ -78,6 +78,7 @@
                        class="ipt-new"
                        name="genericName"
                        ng-model="formData.name"
+                       ng-disabled="true"
                        required />
               </div>
             </div>
@@ -91,7 +92,7 @@
                        required />
               </div>
             </div>
-            
+
             <div class="flex-column mgt">
               <label class="flex-item-1 text-right control-label">拟定购进商品类别：</label>
               <div style="float:left;width:21%;"
@@ -293,6 +294,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
+                         ng-disabled="true"
                          ng-model="formData.organizationCodeCertificate.certificateNumber"
                          required />
                 </div>
@@ -351,6 +353,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
+                         ng-disabled="true"
                          ng-model="formData.taxRegistrationCertificate.certificateNumber"
                          required />
                 </div>
@@ -408,7 +411,7 @@
         </div>
 
         <!-- 审核资料 -->
-    <div ng-init='attachmentsExtend={"title":"资质文件","usege":"医院资格申请","addFlag":false}'
+    <div ng-init='attachmentsExtend={"title":"资质文件","usege":"医院资格申请","addFlag":false,"showcertificate":true,"canEditCertificate":false}'
      attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
         <!-- 功能按钮 -->

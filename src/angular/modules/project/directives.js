@@ -1697,13 +1697,16 @@ function saleOutStockKuaDi () {
     // $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
       $($element).mouseenter(function (e) {
       lilength=$(this).children('ul').children('li').length;
+      liWidth=$(this).children('ul').children('li').width()+42;
+      console.log(liWidth);
+      console.log();
         // 大于一行显示的个数，才出现按钮
-        if(lilength>7){
+        if(lilength>parseInt(modalLength/liWidth)){
           $(this).children('span').css("display", "block");
           // 点击左移按钮后
           $('.button-left').off("click").on('click',function(){
             $('.button-right').removeAttr('disabled','disabled');
-            if(leftShift<modalLength*Math.ceil(lilength/7))
+            if(leftShift<modalLength*Math.ceil(lilength/parseInt(modalLength/liWidth)))
             {
               $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
               leftShift+=modalLength;
@@ -1723,7 +1726,7 @@ function saleOutStockKuaDi () {
           $('.button-right').attr('disabled','disabled');
           $('.button-right:before').css('color','#e5e5e5');
         }
-        if(leftShift>=modalLength*Math.ceil(lilength/7)){
+        if(leftShift>=modalLength*Math.ceil(lilength/parseInt(modalLength/liWidth))){
           $('.button-left').attr('disabled','disabled');
           $('.button-left:before').css('color','#e5e5e5');
         }
