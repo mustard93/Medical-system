@@ -170,7 +170,7 @@
                   </tr>
                 </thead>
                 <tbody ng-if="formData.orderBusinessType=='普通销售'">
-                  <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
+                  <tr ng-repeat="item in formData.orderMedicalNos" ng-class="{'pr-bg-pink':(item.planQuantity>item.quantity)}" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
                     <td class="select-td">
                       <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
                     </td><!-- 选择checkbox -->
@@ -306,7 +306,7 @@
                   </tr>
                 </tbody>
                 <tbody ng-if="formData.orderBusinessType=='直运销售'">
-                  <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
+                  <tr ng-repeat="item in formData.orderMedicalNos" ng-class="{'pr-bg-pink':(item.planQuantity>item.quantity)}" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
                     <td class="select-td">
                       <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
                     </td>
@@ -324,7 +324,7 @@
                     <td class="text-left">{{item.name}}</td>
                     <td class="text-center">{{item.specificationAndModelType}}</td>
                     <td class="text-center">{{item.unit}}</td>
-                    <td class="text-center" style="white-space: nowrap;">
+                    <td class="text-center" style="white-space: nowrap;" >
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
                         <span class="inline-block">
