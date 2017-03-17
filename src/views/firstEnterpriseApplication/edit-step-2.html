@@ -73,9 +73,7 @@
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new"
-                         name="genericName"
-                         ng-model="formData.businessLicense.registrationNumber"
-                         required />
+                         ng-model="formData.businessLicense.registrationNumber" />
                 </div>
               </div>
               <div class="mgt flex-item-12">
@@ -111,9 +109,12 @@
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s"
-                         name="genericName"
+                         name="registeredCapital"
                          ng-model="formData.businessLicense.registeredCapital"
-                         required />
+                         ng-pattern="/^\d+$/"
+                         invalid-popover
+                         popover-show="!firstEnterpriseEditForm.registeredCapital.$valid"
+                         popover-options='{"content":"资金格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
               <div class="mgt flex-item-12">
@@ -122,8 +123,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="genericName"
-                         ng-model="formData.businessLicense.legalRepresentative"
-                         required />
+                         ng-model="formData.businessLicense.legalRepresentative" />
                 </div>
               </div>
               <div class="mgt flex-item-12">
@@ -132,8 +132,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="genericName"
-                         ng-model="formData.businessLicense.head"
-                         required />
+                         ng-model="formData.businessLicense.head" />
                 </div>
               </div>
               <div class="mgt flex-item-12">
@@ -142,8 +141,7 @@
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          name="genericName"
-                         ng-model="formData.businessLicense.qualityHead"
-                         required />
+                         ng-model="formData.businessLicense.qualityHead" />
                 </div>
               </div>
 
@@ -151,11 +149,11 @@
                 <label class="flex-item-2 text-right">经营方式：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="businessWay" value="批发" ng-model="formData.businessLicense.businessWay" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="businessWay" value="批发" ng-model="formData.businessLicense.businessWay"><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">批发</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="businessWay" value="生产" ng-model="formData.businessLicense.businessWay" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="businessWay" value="生产" ng-model="formData.businessLicense.businessWay"><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">生产</em>
                   </label>
                 </div>
@@ -164,11 +162,11 @@
                 <label class="flex-item-2 text-right">是否年检：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="是" ng-model="formData.businessLicense.isAnnualInspection" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="是" ng-model="formData.businessLicense.isAnnualInspection"><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">是</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
-                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="否" ng-model="formData.businessLicense.isAnnualInspection" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="否" ng-model="formData.businessLicense.isAnnualInspection"><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
                   </label>
                 </div>
@@ -177,11 +175,11 @@
                 <label class="flex-item-2 text-right">三证合一：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="isThreecertificate" value="是" ng-model="formData.businessLicense.isThreecertificate" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isThreecertificate" value="是" ng-model="formData.businessLicense.isThreecertificate"><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">是</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
-                    <input type="radio" class="default-radio"  name="isThreecertificate" value="否" ng-model="formData.businessLicense.isThreecertificate" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isThreecertificate" value="否" ng-model="formData.businessLicense.isThreecertificate"><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
                   </label>
                 </div>
@@ -211,8 +209,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.organizationCodeCertificate.certificateNumber"
-                         required />
+                         ng-model="formData.organizationCodeCertificate.certificateNumber"  />
                 </div>
               </div>
               <div class="mgt flex-item-12">
@@ -269,8 +266,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
-                         ng-model="formData.taxRegistrationCertificate.certificateNumber"
-                         required />
+                         ng-model="formData.taxRegistrationCertificate.certificateNumber" />
                 </div>
               </div>
               <div class="mgt flex-item-12">
@@ -371,6 +367,7 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
+                  ng-disabled="!firstEnterpriseEditForm.$valid"
                   ng-click="submitForm('first-enterprise-editForm','submit')">下一步
           </button>
           <!-- ng-disabled="!formData.note" -->

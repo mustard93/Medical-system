@@ -127,13 +127,27 @@
               <div class="flex-column mgt">
                 <label class="flex-item-1 text-right control-label">座机：</label>
                 <div class="flex-item-11 text-left">
-                <input type="text" class="ipt-new" ng-model="formData.hospital.hospitalTel">
+                <input type="text"
+                       class="ipt-new"
+                       name="hospitalTel"
+                       ng-model="formData.hospital.hospitalTel"
+                       ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                       invalid-popover
+                       popover-show="!hospitalEditForm.hospitalTel.$valid"
+                       popover-options='{"content":"座机号码格式错误!", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-1 text-right control-label">邮编：</label>
                 <div class="flex-item-11 text-left">
-                <input type="text" class="ipt-new" ng-model="formData.hospital.zipCode">
+                <input type="text"
+                       class="ipt-new"
+                       name="zipCode"
+                       ng-model="formData.hospital.zipCode"
+                       ng-pattern="/^[1-9][0-9]{5}$/"
+                       invalid-popover
+                       popover-show="!hospitalEditForm.zipCode.$valid"
+                       popover-options='{"content":"邮政编码格式错误", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -174,7 +188,14 @@
               <div class="flex-column mgt">
                 <label class="flex-item-1 text-right control-label">座机：</label>
                 <div class="flex-item-11 text-left">
-                <input type="text" class="ipt-new" ng-model="formData.hospital.purchaserTel">
+                <input type="text"
+                       class="ipt-new"
+                       name="purchaserTel"
+                       ng-model="formData.hospital.purchaserTel"
+                       ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                       invalid-popover
+                       popover-show="!hospitalEditForm.purchaserTel.$valid"
+                       popover-options='{"content":"座机号码格式错误!", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
               <div class="flex-column mgt">
