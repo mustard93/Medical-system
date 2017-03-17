@@ -2931,13 +2931,15 @@ define('project/controllers', ['project/init'], function() {
 
 
     function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+      
       $scope.$watch('initFlag', function (newVal) {
          var operationFlowSetMessage=[];
          var operationFlowSetKey=[];
+         var i;
          if (newVal && $scope.tr) {
            // 选择出当前状态相同的驳回理由，并放入一个数组中
            if ($scope.tr.operationFlowSet) {
-             for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+             for (i=0; i<$scope.tr.operationFlowSet.length; i++) {
                if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
                  operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
                  operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
@@ -2950,7 +2952,7 @@ define('project/controllers', ['project/init'], function() {
          }
 
          if (newVal && $scope.formData.orderMedicalNos) {
-          for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+          for (i=0; i<$scope.formData.orderMedicalNos.length; i++) {
             if ($scope.formData.orderMedicalNos[i].handleFlag) {
               $scope.choisedMedicals = true;
             }
@@ -2961,6 +2963,7 @@ define('project/controllers', ['project/init'], function() {
          }
 
        });
+
       $scope.watchFormChange = function(watchName){
 
         watchFormChange(watchName,$scope);
@@ -3050,20 +3053,22 @@ define('project/controllers', ['project/init'], function() {
          }
         $('#' + fromId).trigger('submit');
       };
+
       $scope.submitFormAfter = function (_url) {
         if ($scope.submitForm_type === 'submit') {
           $scope.goTo(_url + '?id=' + $scope.formData.id);
         }
       };
+
       // 选中相应药品类别，放入数组中传到后台
       $scope.choiceCommodityType=function(item){
         if(item.value){
-          if($scope.formData.commodityType==null){
+          if($scope.formData.commodityType === null){
             $scope.formData.commodityType=[];
           }
         $scope.formData.commodityType.push(item.text);
         }
-      }
+      };
 
       //判断当前审核意见是否可见
       $scope.showAuditOpinion = function (returnArr, pipeKey) {
@@ -3398,6 +3403,7 @@ define('project/controllers', ['project/init'], function() {
       // 处理批量删除按钮点击事件
       $scope.handleBatchDel = function () {
         if ($scope._tmpDelList.length) {
+
           angular.forEach($scope._tmpDelList, function (item, index) {
             for (var i=0; i<$scope.tbodyList.length; i++) {
               if (item === $scope.tbodyList[i].id) {
@@ -3405,9 +3411,12 @@ define('project/controllers', ['project/init'], function() {
               }
             }
             $scope.formData.delete.ids.push(item);
+            // 清空临时变量数组
+            $scope._tmpDelList = [];
+            // 可进行下一步操作
+            $scope.changeFlag = true;
           });
         }
-        $scope.changeFlag = true;
       };
 
       $scope.flashAddDataCallbackFn = function(flashAddData) {
