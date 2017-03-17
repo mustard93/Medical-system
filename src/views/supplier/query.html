@@ -33,7 +33,7 @@
             <div class="flex-item-1">
               <em class="fl-l">状态：</em>
               <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                      data-placeholder="全部"
+                      default-empty="全部"
                       chosen
                       ng-model="listParams.businessStatus"
                       select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus">
@@ -121,7 +121,13 @@
                   </td>
                   <td class="text-center">{{$index + 1}}</td>
                   <td>{{tr.code}}</td>
-                  <td>{{tr.name}}</td>
+                  <td class="text-left color-orange">
+                    <div class="autocut" title="{{tr.name}}">
+                      <a href="#/supplier/get.html?id={{tr.id}}">
+                          {{tr.name}}
+                      </a>
+                    </div>
+                  </td>
                   <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>
