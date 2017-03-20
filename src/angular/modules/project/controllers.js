@@ -2961,9 +2961,13 @@ define('project/controllers', ['project/init'], function() {
             }
           }
          }
-
+         for(tr in $scope.formData.attachments){
+           // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
+           var attachments=[];
+           attachments.push($scope.formData.attachments[tr])
+             attachments[0].isAdmin=true;
+         }
        });
-
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
       };
