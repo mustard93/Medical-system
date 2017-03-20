@@ -3753,21 +3753,16 @@ define('project/controllers', ['project/init'], function() {
            $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
            return;
           }
+
+          for(tr in $scope.formData.attachments){
+            var attachments=[];
+
+            attachments.push($scope.formData.attachments[tr])
+            if(attachments[0].certificateNumber){
+              
+            }
+          }
       });
-      // $scope.$watch('showFlag', function (newVal) {
-      //   console.log($scope.formData.attachments);
-      //   for(tr in $scope.formData.attachments){
-      //     var attachments=[];
-      //
-      //     attachments.push($scope.formData.attachments[tr])
-      //     if(attachments[0].certificateNumber){
-      //
-      //     }
-      //     else{
-      //
-      //     }
-      //   }
-      // });
 
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
