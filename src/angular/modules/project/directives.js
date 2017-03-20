@@ -2515,6 +2515,9 @@ function flashAddMedical() {
             $scope.ajaxUrl = newVal;
           });
 
+          // 如果属性isDisabledThis未定义，则不开启条件限制查询药械
+          if (!angular.isDefined($attrs.isDisabledThis)) { $scope.isCustomerId = true; }
+
           // 监控用户是否已选择客户或供应商
           $attrs.$observe('isDisabledThis', function (newVal, oldVal) {
             if (newVal) {
