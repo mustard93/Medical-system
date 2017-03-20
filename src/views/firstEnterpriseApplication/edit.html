@@ -185,8 +185,12 @@
                 <div class="flex-item-8 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s"
-                         name="genericName"
-                         ng-model="formData.businessLicense.registeredCapital" />
+                         name="registeredCapital"
+                         ng-model="formData.businessLicense.registeredCapital"
+                         ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                        invalid-popover
+                        popover-show="!firstEnterpriseEditForm.registeredCapital.$valid"
+                        popover-options='{"content":"注册资金格式不正确", "placement":"right", "trigger":"manual"}'/>
                 </div>
               </div>
               <div class="mgt flex-item-12">
@@ -257,7 +261,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex-item-6" style="padding:20px 50px;">
+            <div class="flex-item-6" style="padding:25px 50px;">
               <div ng-if="formData.businessLicense.attachment.uploadUserName" class="pd-c-v-s">
                 <em>上传人：</em>{{formData.businessLicense.attachment.uploadUserName}}
               </div>
@@ -313,7 +317,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex-item-6" style="padding:20px 50px;">
+            <div class="flex-item-6" style="padding:25px 50px;">
               <div ng-if="formData.organizationCodeCertificate.attachment.uploadUserName" class="pd-c-v-s">
                 <em>上传人：</em>{{formData.organizationCodeCertificate.attachment.uploadUserName}}
               </div>
@@ -370,7 +374,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex-item-6" style="padding:20px 50px;">
+            <div class="flex-item-6" style="padding:25px 50px;">
               <div ng-if="formData.taxRegistrationCertificate.attachment.uploadUserName" class="pd-c-v-s">
                 <em>上传人：</em>{{formData.taxRegistrationCertificate.attachment.uploadUserName}}
               </div>
@@ -426,6 +430,7 @@
               </button> -->
               <button class="pr-btn-save-glodbg mgt"
                       type="button"
+                       ng-disabled="!firstEnterpriseEditForm.$valid"
                     ng-click="submitForm('editForm','submit-enterprise')">提交
               </button>
             </span>
