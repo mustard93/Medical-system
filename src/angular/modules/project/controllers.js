@@ -3525,6 +3525,18 @@ define('project/controllers', ['project/init'], function() {
           }
           // $scope.isChoiseAll = true;
          }
+           // 编辑页面，如果证书编号是有值得情况下，不允许被修改
+           for(tr in $scope.formData.attachments){
+             // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
+             var attachments=[];
+             attachments.push($scope.formData.attachments[tr])
+             if(attachments[0].certificateNumber){
+               console.log(attachments[0].certificateNumber);
+               attachments[0].isAdmin=false;
+             }else{
+                 attachments[0].isAdmin=true;
+             }
+           }
        });
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
@@ -3753,13 +3765,16 @@ define('project/controllers', ['project/init'], function() {
            $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
            return;
           }
-
+          // 编辑页面，如果证书编号是有值得情况下，不允许被修改
           for(tr in $scope.formData.attachments){
+            // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
             var attachments=[];
-
             attachments.push($scope.formData.attachments[tr])
             if(attachments[0].certificateNumber){
-              
+              console.log(attachments[0].certificateNumber);
+              attachments[0].isAdmin=false;
+            }else{
+                attachments[0].isAdmin=true;
             }
           }
       });
