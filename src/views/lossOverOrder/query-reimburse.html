@@ -81,7 +81,6 @@
 </div>
 
 <div class="content-wrapper loss-over-order"
-     ng-controller="QualificationApplyCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;
      formData.type='报损';listParams.type='报损'
      ">
@@ -164,12 +163,12 @@
                         <span >备注：</span><span class="color-6">{{tr.note}}</span>
                       </p>
                       <p ng-if="tr.orderStatus=='未通过'"
-                      title="{{tr.operationFlowSet[1].key}}{{tr.operationFlowSet[1].message}}"
+                      title="{{tr.operationFlowSet[tr.operationFlowSet.length-1].key}}{{tr.operationFlowSet[tr.operationFlowSet.length-1].message}}"
                       class="text-ellips-s">
                         <span>原因：</span>
                         <span class="color-6">
-                          {{tr.operationFlowSet[1].key || '暂无'}}
-                          {{tr.operationFlowSet[1].message}}
+                          {{tr.operationFlowSet[tr.operationFlowSet.length-1].key || '暂无'}}
+                          {{tr.operationFlowSet[tr.operationFlowSet.length-1].message}}
                         </span>
                       </p>
                     </div>

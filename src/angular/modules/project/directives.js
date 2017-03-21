@@ -1566,19 +1566,21 @@ function businessFlowShow() {
                if(moduleType=='lossOrder'){
                    url="#/lossOverOrder/get-reimburse.html?id="+relId;
                }
+               else if(moduleType=='overOrder'){
+                   url="#/lossOverOrder/get-overflow.html?id="+relId;
+               }
+
                else if(moduleType=="outstockOrder"){
-                    if(subModuleAttribute=="销售出库单"){
+                    if(subModuleAttribute=="销售出库单"||subModuleAttribute=="销售出库单_红字"){
                            url="#/saleOutstockOrder/get.html?id="+relId;
                     }
                     else{
                          url="#/otherOutstockOrder/get.html?id="+relId;
                     }
                }
-               if(moduleType=='overOrder'){
-                   url="#/lossOverOrder/get-overflow.html?id="+relId;
-               }
+
                else if(moduleType=="instockOrder"){
-                    if(subModuleAttribute=="采购入库单"){
+                    if(subModuleAttribute=="采购入库单"||subModuleAttribute=="采购入库单_红字"){
                         url="#/purchaseInstockOrder/get.html?id="+relId;
                     }
                     else{
@@ -1898,13 +1900,23 @@ function stepFlowArrowShow(utils){
             strResult = '<span class="strResult">(<em class="remainWords">0</em>/'+maxLen+')</span>';
             $($element).after(strResult);
             // 字数限制显示样式定义
-            $('.strResult').css({
-              'position':'absolute',
-              'top':'93px',
-              'right':'35px',
-              'z-index':'100',
-              'color':'#999'
-            });
+            if($attrs.top){
+              $('.strResult').css({
+                'position':'absolute',
+                'top':$attrs.top+'px',
+                'right':'35px',
+                'z-index':'100',
+                'color':'#999'
+              });
+            }else{
+              $('.strResult').css({
+                'position':'absolute',
+                'top':'63px',
+                'right':'35px',
+                'z-index':'100',
+                'color':'#999'
+              });
+            }
           });
           // 输入框发生改变触发事件
           $($element).bind("input propertychange change",function(event){
@@ -2507,7 +2519,7 @@ function flashAddMedical() {
           });
 
           // 如果属性isDisabledThis未定义，则不开启条件限制查询药械
-          if (!angular.isDefined($attrs.isDisabledThis)) { $scope.isCustomerId = true; }
+          if (!angular.isDefined($attrs.isDisabledThis)) { $scope.isCustomerId = true;}
 
           // 监控用户是否已选择客户或供应商
           $attrs.$observe('isDisabledThis', function (newVal, oldVal) {
