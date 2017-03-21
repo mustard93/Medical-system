@@ -1,0 +1,38 @@
+<div class="modal-content right-side-new pr-bg-black4" ng-controller="editCtrl">
+  <form class="add-customerAddress-form form-horizontal"
+        ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.id}}"
+        scope-data="showData"
+        alert-error>
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择生产批号-{{mainStatus.pageParams.name}}</h1>
+     </div>
+    <div>
+        <table class="full-width another-table" >
+          <thead>
+            <tr class="bb-line-gold">
+              <th></th>
+              <th class="text-left pr-indent-20">生产批号</th>
+              <th class="text-left pr-indent-20">灭菌批号</th>
+              <th>有效期</th>
+              <th class="text-left w-220">物流中心</th>
+              <th class="text-left">仓库</th>
+              <th class="text-left">可用量</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            <tr ng-repeat="item in showData" class="pr-bg-black3">
+              <td>
+
+              </td>
+              <td class="text-left pr-indent-20 color-white"> {{item.productionBatch}}</td>
+              <td class="text-left pr-indent-20 color-white"> {{item.sterilizationBatchNumber}}</td>
+              <td class="color-white">{{item.validTill | date:'yyyy-MM-dd'}}</td>
+              <td class="text-left color-white">{{item.warehouseName}}</td>
+              <td class="text-left color-white">{{item.warehouseName}}</td>
+              <td class="text-left color-white">{{item.stockModel.salesQuantity}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </form>
+</div>

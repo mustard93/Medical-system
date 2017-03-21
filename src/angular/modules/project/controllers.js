@@ -561,32 +561,31 @@ define('project/controllers', ['project/init'], function() {
    */
   function lossOverOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData) {
 
+        $scope.$watch('initFlag', function () {
+          var operationFlowSetMessage=[];
+          var operationFlowSetKey=[];
+          console.log($scope.tbodyList);
+          if ($scope.showData||$scope.tr) {
+            // 选择出当前状态相同的驳回理由，并放入一个数组中
+            if ($scope.showData.operationFlowSet||$scope.tr.operationFlowSet) {
+              for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+                if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
+                  operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+                  operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+                }
+              }
+            }
+          //  选择当前状态最近的一个驳回理由用于显示
+           $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+           $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+           return;
+          }
+
+        });
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
     };
 
-    $scope.$watch('initFlag', function () {
-      var operationFlowSetMessage=[];
-      var operationFlowSetKey=[];
-      if ($scope.showData) {
-        // 选择出当前状态相同的驳回理由，并放入一个数组中
-
-        if (showData.operationFlowSet) {
-          for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
-            if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
-              operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
-              operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
-            }
-          }
-        }
-
-      //  选择当前状态最近的一个驳回理由用于显示
-       $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-       $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-       return;
-      }
-
-    });
 
     modal.closeAll();
     // $scope.formData={};
@@ -970,7 +969,8 @@ define('project/controllers', ['project/init'], function() {
    *  销售单编辑页
    */
   function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
-
+    $scope.logistics=true;
+    console.log(  $scope.logistics);
     $scope.$watch('initFlag', function () {
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
@@ -1000,7 +1000,9 @@ define('project/controllers', ['project/init'], function() {
 
     // 监控用户变化，清空之前选择药械列表
     $scope.$watch('formData.customerId', function (newVal, oldVal) {
-      if (newVal && oldVal !== newVal) {
+      if (newVal && oldVal !== newVal) {  
+        $scope.logistics=false;
+        console.log($scope.logistics);
         if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
       }
     });
@@ -1120,6 +1122,7 @@ define('project/controllers', ['project/init'], function() {
       addDataItem.discountRate='100';
       addDataItem.strike_price=addDataItem.price;
       addDataItem.id=null;
+      addDataItem.logistics=true;
 
       if (!addDataItem.planQuantity) {
         addDataItem.planQuantity = flashAddData.quantity;
@@ -1292,19 +1295,6 @@ define('project/controllers', ['project/init'], function() {
        $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
        $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
        return;
-      }
-      if ($scope.tr) {
-        // 选择出当前状态相同的驳回理由，并放入一个数组中
-       for (var j=0; j<$scope.tr.operationFlowSet.length; j++) {
-         if ($scope.tr.operationFlowSet[j].status==$scope.tr.orderStatus) {
-           operationFlowSetMessage.push($scope.tr.operationFlowSet[j].message);
-           operationFlowSetKey.push($scope.tr.operationFlowSet[j].key);
-         }
-       }
-      //  选择当前状态最近的一个驳回理由用于显示
-       $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-       $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-
       }
     });
 
