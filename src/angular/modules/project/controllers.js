@@ -2403,7 +2403,7 @@ define('project/controllers', ['project/init'], function() {
           $scope.goTo('#/purchaseOrder/query.html');
           return;
         }else if ($scope.submitForm_type == 'print') {
-          var url="indexOfPrint.html#/print/index.html?key=purchaseOrderPrint&id="+$scope.formData.id;
+          var url="indexOfPrint.html#/print/index.html?key=purchaseVoucher&id="+$scope.formData.id;
           win1=window.open(url);
 
           if(!win1||!win1.location){

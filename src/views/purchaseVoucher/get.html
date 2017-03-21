@@ -143,14 +143,14 @@
 
 
     <!-- 功能按钮 -->
-    <div class="handle-btn-area">
+    <div class="handle-btn-area" style="line-height:20px;">
       <div class="btn-left-area">
         <span class="uploader-PDF-icon"></span>
         <a href="{{scopeData.voucherUrl}}">下载PDF</a>
       </div>
       <div class="btn-area mgb-s" style="background:rgba(54,48,44,0.30);">
-        <span class="mgt-l"><a href="#/purchaseVoucher/query.html">返回采购凭证列表</a></span>
-        <span class="mgl mgt">
+        <span class="mgt"><a href="#/purchaseVoucher/query.html">返回采购凭证列表</a></span>
+        <span class="mgl">
           <a href="javascript:;"
              ng-if="scopeData.orderStatus=='已发送'"
              modal-right="490"
@@ -159,7 +159,7 @@
              modal-url="angular/tpl/pr-dialog-show-message.html">查看发送记录
           </a>
         </span>
-        <span class="mgl mgt">
+        <span class="mgl">
           <a ng-if="scopeData.orderStatus!='已作废'"
              class="color-red mgr-l"
              modal-center="340"
@@ -182,16 +182,16 @@
               custom-menu-arr="{{scopeData.didateFilter.buttons}}">
         </span> -->
 
-        <button ng-if="scopeData.orderStatus!='已作废'" class="pr-btn-save-glodbg mgr">
-          <a class="color-white" ng-href="indexOfPrint.html#/print/purchaseVoucherPrint.html?id={{scopeData.id}}" target="_blank">打印</a>
-        </button>
-        <span class="mgr mgl mgt" ng-if="scopeData.orderStatus!='已作废'">
+        <span  class="pr-btn-save-glodbg mgr">
+          <a class="color-white" style="line-height:35px;margin-left:35px;" ng-href="indexOfPrint.html#/print/index.html?key=purchaseVoucher&id={{scopeData.id}}" target="_blank">打印</a>
+        </span>
+        <span class="mgr mgl" ng-if="scopeData.orderStatus!='已作废'">
           <button class="pr-btn-save-glodbg mgt"
                   ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
                   ng-click="submitForm('first-enterprise-editForm','save')">保存
           </button>
         </span>
-        <span ng-if="$root.hasAuthor('采购凭证编辑') && scopeData.orderStatus!='已作废'" class="mgl">
+        <span ng-if="$root.hasAuthor('采购凭证编辑') && scopeData.orderStatus!='已作废'" class="mgl ">
           <button type="button"
                   class="pr-btn-respoinsive pr-btn-respoinsiv-l pr-btn-respoinsiv-bigrds color-white mgt"
                   modal-center="340"
