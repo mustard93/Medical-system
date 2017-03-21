@@ -3,17 +3,17 @@
  >
 
   <div class="pr-page-dialog-title bb-line">
-    <i></i><span>确认</span>
+    <span class="mgl-l">确认</span>
   </div>
-  <div class="pr-page-dialog-content bb-line">
-      <div class="mgb-l">请选择合同模版</div>
+  <div class="pr-page-dialog-content bb-line" style="padding-left:20px;">
+      <div class="mgb">请选择合同模版</div>
       <div class="flex-column"
       ajax-url="rest/baseData/queryIdForSelectOptionByType"
       params='{"type":"采购单导出"}'
       scope-data="selectOptions"
       callback="params.baseDataId=selectOptions[0].value"
       >
-          <select ng-if="selectOptions" class="select" style="width:320px" ng-model="params.baseDataId" ng-options="item.value as  item.text   for item in selectOptions">
+          <select ng-if="selectOptions" class="select" style="width:299px" ng-model="params.baseDataId" ng-options="item.value as  item.text   for item in selectOptions">
 
           </select>
 
@@ -21,13 +21,13 @@
       </div>
   </div>
   <div class="pr-page-dialog-footer text-center mg-m">
-      <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">取消</button>
+      <!-- <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">取消</button> -->
       <a
          href="{{mainConfig.serverPath}}rest/authen/wordExport/exportWord?baseDataId={{params.baseDataId}}&id={{dialogData.id}}"
         target="_blank"
        >
     <button type="button"
-      class="pr-btn-save-glodbg"      
+      class="pr-btn-save-glodbg btn-new-wid-hei"
       >确认</button>
   </a>
   </div>

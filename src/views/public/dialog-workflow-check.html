@@ -10,14 +10,14 @@
           form-validator
         >
   <div class="pr-page-dialog-title bb-line">
-    <i></i><span>审核</span>
+  <span class="mgl-l color-black">审核</span>
 
   </div>
   <div class="pr-page-dialog-content bb-line" ng-init="_checkStatus='通过';formData.conditionType='通过'"
   ajax-url="rest/baseData/queryForSelectOptionByType.json"
   params='{"type":"审核不通过处理方式"}'
   scope-data="selectOptions"
-
+  style="padding-top:0px;"
   >
     <div class="">
       <label class="radio radio-new" >
@@ -42,7 +42,7 @@
             </p>
           </div>
         </div>
-        <textarea ng-class="{'mgt':(_checkStatus=='驳回')}" class="pr-textarea"  ng-model="formData.key" placeholder="补充说明"></textarea>
+        <textarea ng-class="{'mgt':(_checkStatus=='驳回')}" limit-word-show maxlength="120" class="pr-textarea"  ng-model="formData.key" placeholder="补充说明"></textarea>
       </div>
   </div>
   <div class="pr-page-dialog-footer text-center mg-m">
