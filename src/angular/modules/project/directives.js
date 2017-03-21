@@ -1898,13 +1898,23 @@ function stepFlowArrowShow(utils){
             strResult = '<span class="strResult">(<em class="remainWords">0</em>/'+maxLen+')</span>';
             $($element).after(strResult);
             // 字数限制显示样式定义
-            $('.strResult').css({
-              'position':'absolute',
-              'top':'93px',
-              'right':'35px',
-              'z-index':'100',
-              'color':'#999'
-            });
+            if($attrs.top){
+              $('.strResult').css({
+                'position':'absolute',
+                'top':$attrs.top+'px',
+                'right':'35px',
+                'z-index':'100',
+                'color':'#999'
+              });
+            }else{
+              $('.strResult').css({
+                'position':'absolute',
+                'top':'63px',
+                'right':'35px',
+                'z-index':'100',
+                'color':'#999'
+              });
+            }
           });
           // 输入框发生改变触发事件
           $($element).bind("input propertychange change",function(event){
