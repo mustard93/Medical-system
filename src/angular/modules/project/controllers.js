@@ -2962,8 +2962,13 @@ define('project/controllers', ['project/init'], function() {
           }
          }
 
+         for(tr in $scope.formData.attachments){
+           // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
+           var attachments=[];
+           attachments.push($scope.formData.attachments[tr])
+             attachments[0].isAdmin=true;
+         }
        });
-
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
       };
@@ -3164,10 +3169,12 @@ define('project/controllers', ['project/init'], function() {
         for(var item in $scope.scopeData){
 
           scopeData.push($scope.scopeData[item]);
-
+          console.log($scope.formData);
           if ($scope.formData.commodityType) {
             for(j=0;j<$scope.formData.commodityType.length;j++){
+
               if($scope.formData.commodityType[j]==$scope.scopeData[item].value){
+
               $scope.scopeData[item].value=true;
               }
             }
@@ -3265,7 +3272,7 @@ define('project/controllers', ['project/init'], function() {
         $scope.formData.validFlag = false;
 
         if ($scope.submitForm_type == 'submit') {
-          utils.goTo('#/hospitalPurchaseContents/query.html');
+          utils.goTo('#/hospitalPurchaseContents/get.html?id='+$scope.formData.id);
         }
       };
 
@@ -3836,6 +3843,7 @@ define('project/controllers', ['project/init'], function() {
             $scope.formData.commodityType=[];
           }
         $scope.formData.commodityType.push(item.text);
+
         }
       }
       //判断当前审核意见是否可见

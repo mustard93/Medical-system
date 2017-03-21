@@ -30,7 +30,7 @@
     </div>
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="first-enterprise-editForm"
+            id="firstEnterpriseEditForm"
             name="firstEnterpriseEditForm"
             form-validator
             parameter-body
@@ -110,8 +110,12 @@
                 <div class="flex-item-8 text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s"
-                         name="genericName"
-                         ng-model="formData.businessLicense.registeredCapital" />
+                         name="registeredCapital"
+                         ng-model="formData.businessLicense.registeredCapital"
+                         ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                         invalid-popover
+                         popover-show="!firstEnterpriseEditForm.registeredCapital.$valid"
+                         popover-options='{"content":"注册资金格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
               <div class="mgt flex-item-12">
@@ -146,11 +150,11 @@
                 <label class="flex-item-4 text-right">经营方式：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="businessWay" value="批发" ng-model="formData.businessLicense.businessWay" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="businessWay" value="批发" ng-model="formData.businessLicense.businessWay" ><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">批发</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="businessWay" value="生产" ng-model="formData.businessLicense.businessWay" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="businessWay" value="生产" ng-model="formData.businessLicense.businessWay" ><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">生产</em>
                   </label>
                 </div>
@@ -159,11 +163,11 @@
                 <label class="flex-item-4 text-right">是否年检：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="是" ng-model="formData.businessLicense.isAnnualInspection" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="是" ng-model="formData.businessLicense.isAnnualInspection" ><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">是</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
-                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="否" ng-model="formData.businessLicense.isAnnualInspection" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isAnnualInspection" value="否" ng-model="formData.businessLicense.isAnnualInspection" ><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
                   </label>
                 </div>
@@ -172,17 +176,17 @@
                 <label class="flex-item-4 text-right">三证合一：</label>
                 <div class="flex-item-6 text-left">
                   <label class="radio-inline radio radio-new" style="top:-5px;">
-                    <input type="radio" class="default-radio"  name="isThreecertificate" value="是" ng-model="formData.businessLicense.isThreecertificate" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isThreecertificate" value="是" ng-model="formData.businessLicense.isThreecertificate" ><i style="top:10px;"></i>
                     <em class="inline-block color-black" style="top:-20px">是</em>
                   </label>
                   <label class="radio-inline radio radio-new" style="top:-5px;left:12px;">
-                    <input type="radio" class="default-radio"  name="isThreecertificate" value="否" ng-model="formData.businessLicense.isThreecertificate" required><i style="top:10px;"></i>
+                    <input type="radio" class="default-radio"  name="isThreecertificate" value="否" ng-model="formData.businessLicense.isThreecertificate" ><i style="top:10px;"></i>
                     <em class="inline-block color-black text-right" style="padding-top:0px;">否</em>
                   </label>
                 </div>
               </div>
             </div>
-            <div class="flex-item-6" style="padding:20px 50px;">
+            <div class="flex-item-6" style="padding:25px 50px;">
               <div ng-if="formData.businessLicense.attachment.uploadUserName" class="pd-c-v-s">
                 <em>上传人：</em>{{formData.businessLicense.attachment.uploadUserName}}
               </div>
@@ -238,7 +242,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex-item-6" style="padding:20px 50px;">
+            <div class="flex-item-6" style="padding:25px 50px;">
               <div ng-if="formData.organizationCodeCertificate.attachment.uploadUserName" class="pd-c-v-s">
                 <em>上传人：</em>{{formData.organizationCodeCertificate.attachment.uploadUserName}}
               </div>
@@ -295,7 +299,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex-item-6" style="padding:20px 50px;">
+            <div class="flex-item-6" style="padding:25px 50px;">
               <div ng-if="formData.taxRegistrationCertificate.attachment.uploadUserName" class="pd-c-v-s">
                 <em>上传人：</em>{{formData.taxRegistrationCertificate.attachment.uploadUserName}}
               </div>
@@ -364,10 +368,10 @@
         </span>
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt"
-
+                   ng-disabled="!firstEnterpriseEditForm.$valid"
                   ng-click="submitForm('first-enterprise-editForm','submit')">下一步
           </button>
-          <!-- ng-disabled="!firstEnterpriseEditForm.$valid" -->
+
           <!-- ng-disabled="!formData.note" -->
         </span>
       </div>

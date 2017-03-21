@@ -8,71 +8,61 @@
                  ng-init="listParams.customerAddressType='医院'">
 
     <!-- 主内容头部 -->
-    <div class="header-info relative">
-        <p class="pdb-s pdt-s mgb-l crumbs pdl-xxxxxxl">客户中心 > <em class="">医院管理</em></p>
-            <div class="pd-c-xxxxxxl">
-              <div class="pos-rel-tl fl-l full-width">
-                <h1 class="pr-font-20 color-black">医院管理</h1>
-              </div>
-              <div class="full-width mgb-m text-right">
-                <div class="relative text-left">
-                <div class="order-list-search pos-rel-tr inline-block">
-                  <div class="pos-rel-tl order-create-btn inline-block mgt-l fl-l z-index-l">
-                    <a ng-if="$root.hasAuthor('医院资格申请')" href="#/hospitalApplication/edit1.html" title="新建医院资格申请"><i></i><span class="text-s">
-                      医院资格申请</span></a>
-                  </div>
-                </div>
-                </div>
-              </div>
-            </div>
-    </div>
+    <page-main-header-component list-params="listParams"
+                                crumbs-nav='[{"name":"客户中心","link":"","style":""},{"name":"医院信息管理","link":"","style":"color-custom-orange"}]'
+                                component-title="医院信息管理"
+                                is-show-create-btn="医院资格申请"
+                                create-new-url="#/hospitalApplication/edit1.html"
+                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+    </page-main-header-component>
+
       <!-- 主内容区域 -->
       <div class="content-wrapper">
         <div class="content-wrapper-main">
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
-            <div class="flex-item-1">
-              <em class="fl-l">状态：</em>
-              <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                      default-empty="全部"
-                      chosen
-                      ng-model="listParams.businessStatus"
-                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus">
-              </select>
-            </div>
-            <div class="flex-item-8 text-left">
-              <span class="mgl-m color-9">申请日期:</span>
-              <div class="date-icon-outside">
-                <input type="text"
-                       datepicker
-                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                       ng-readonly="true"
-                       ng-model="listParams.createAtBeg"
-                       placeholder="">
-                <span class="date-icon"></span>
+            <div class="flex-item-6">
+              <div class="inline-block mgr-l">状态：
+                <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                        default-empty="全部"
+                        chosen
+                        ng-model="listParams.businessStatus"
+                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus">
+                </select>
               </div>
-               <span class="color-9">至</span>
-            <div class="date-icon-outside">
-              <input type="text"
-                    datepicker
-                    class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-                    ng-readonly="true"
-                    ng-model="listParams.createAtEnd"
-                    placeholder="">
-              <span class="date-icon"></span>
-            </div>
-            </div>
-            <div class="flex-item-3 text-right" >
-              <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r" style="margin-top:-10px;">
-                  <input type="text" class="ipt pdr-xxl" placeholder="医院系统编号/医院名称" ng-model="listParams.q">
-                  <i class="" style="left:275px;top:17px;"></i>
-                  <span ng-click="listParams.q=' '">
-                    <em class="color-orange serch-reset"><i class=""></i>重置搜索条件</em>
-                  </span>
+              <div class="inline-block">申请日期:
+                <div class="date-icon-outside">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                         ng-readonly="true"
+                         ng-model="listParams.createAtBeg"
+                         placeholder="">
+                  <span class="date-icon"></span>
+                </div> 至
+                <div class="date-icon-outside">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                         ng-readonly="true"
+                         ng-model="listParams.createAtEnd"
+                         placeholder="">
+                  <span class="date-icon"></span>
+                </div>
               </div>
+            </div>
+            <div class="flex-item-6 text-right">
+                <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                  <input type="text" class="ipt pdr-xxl" placeholder="医院系统编号 / 医院名称" ng-model="listParams.q">
+                  <i class=""></i>
+                </div>
+                <div class="inline-block mgl-m">
+                  <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                  <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+                </div>
             </div>
           </div>
-          <div class="outside-table-d pr-bg-white pr-fuzzy-boundary" ><!-- outside-table-d -->
-            <table class="table pr-table pr-new-table pr-table-content  table-ss-wid ">    <!-- table-wid -->
+          <div class="pr-bg-white pr-fuzzy-boundary" >
+            <table class="table pr-table pr-new-table pr-table-content">
               <thead class="pr-bg-side">
                 <tr>
                   <th class="w-80"></th>
@@ -84,38 +74,32 @@
                 </tr>
               </thead>
               <tbody>
+                <!-- <tr ng-if="tbodyList.length"
+                    ng-repeat="tr in tbodyList track by $index"
+                    medical-stock-mouse-over
+                    mouse-over-buttons-json='[{"title":"删除","url":"#","className":"circle-icon-red del-btn-red"},
+                                              {"title":"编辑","url":"#/hospitalManagement/edit.html?id="+tr.id,"className":"circle-icon-edit edit-btn"},
+                                              {"title":"","url":"#/hospitalManagement/edit.html?id="+tr.id,"className":"circle-icon-edit more-btn"}]'
+                    ng-click="$root.goTo('#/hospitalManagement/get.html?id='+tr.id)"
+                    class="trHover"> -->
                 <tr ng-if="tbodyList.length"
                     ng-repeat="tr in tbodyList track by $index"
-                    ng-init=''
-                    medical-stock-mouse-over
-                    mouse-over-buttons-json=
-                  '[{"title":"删除","url":"#",
-                  "className":"circle-icon-red del-btn-red"},
-                  {"title":"编辑","url":"#/hospitalManagement/edit.html?id="+tr.id,
-                  "className":"circle-icon-edit edit-btn"},
-                  {"title":"","url":"#/hospitalManagement/edit.html?id="+tr.id,
-                  "className":"circle-icon-edit more-btn"}]'
-                  ng-click="$root.goTo('#/hospitalManagement/get.html?id='+tr.id)"
-                  class="trHover"
-                  >
+                    ng-click="$root.goTo('#/hospitalManagement/get.html?id='+tr.id)"
+                    class="relative"
+                    medical-stock-mouseover-extendion>
                   <td class="relative">
-                    <span
-                    class="circle-status"
-                    ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
-                     'bg-pass-green':tr.businessApplication.businessStatus =='已通过',
-                    'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
-                      <span ng-if="tr.businessApplication.businessStatus =='已通过'" class="purchaseorder-buyer-info" style="right: 22px;top: -18px;">
-                        <i class="block pd-c-s text-normal">
-                          <em  class="inline-block pd-v-s">
-                            正常
-                          </em>
+                    <span class="circle-status"
+                          ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
+                                     'bg-pass-green':tr.businessApplication.businessStatus =='已通过',
+                                     'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
+                      <span ng-if="tr.businessApplication.businessStatus =='已通过'" class="purchaseorder-buyer-info" style="right: 22px;top: -12px;">
+                        <i class="block pd-c-s text-normal" style="line-height:1.8">
+                          <em  class="inline-block">正常</em>
                         </i>
                       </span>
-                      <span ng-if="tr.businessApplication.businessStatus !='已通过'" class="purchaseorder-buyer-info" style="right: 17px;top: -18px;">
-                        <i class="block pd-c-s text-normal">
-                          <em  class="inline-block pd-v-s">
-                            {{tr.businessApplication.businessStatus}}
-                          </em>
+                      <span ng-if="tr.businessApplication.businessStatus !='已通过'" class="purchaseorder-buyer-info" style="right: 17px;top: -12px;">
+                        <i class="block pd-c-s text-normal" style="line-height:1.8">
+                          <em  class="inline-block">{{tr.businessApplication.businessStatus}}</em>
                         </i>
                       </span>
                     </span>
