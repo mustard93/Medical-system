@@ -190,7 +190,13 @@ define('main/controllers', ['main/init'], function () {
                     $rootScope.curUser=_data.data;
                       //未绑定用户，跳转到绑定用户绑定
                       if(Config.applyBindUrl){
+                        //没有关联组织则跳转到申请绑定页面
                         if(!$rootScope.curUser.additional.OrganizationIds||$rootScope.curUser.additional.OrganizationIds.length==0){
+                            window.location.href = Config.applyBindUrl;
+                            return;
+                        }
+                          //没有关联部门则跳转到申请绑定页面
+                        if(!$rootScope.curUser.additional.DepartmentIds||$rootScope.curUser.additional.DepartmentIds.length==0){
                             window.location.href = Config.applyBindUrl;
                             return;
                         }
