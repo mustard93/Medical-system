@@ -3151,6 +3151,12 @@ function pageMainHeaderComponent () {
       //是否显示日期过滤
       scope.isShowDateFilter = angular.isDefined(attrs.isShowDateFilter) ? attrs.isShowDateFilter : false;
 
+      // 是否显示关键字过滤
+      scope.isShowKeyFilter = angular.isDefined(attrs.isShowKeyFilter) ? attrs.isShowKeyFilter : false;
+
+      // 是否显示单据状态筛选按钮组模块
+      scope.isShowBusinessBtnGroup = angular.isDefined(attrs.isShowBusinessBtnGroup) ? attrs.isShowBusinessBtnGroup : false;
+
       // 关键字搜索中提示信息定义
       scope.searchPlaceholderInfo = angular.isDefined(attrs.searchPlaceholderInfo) ? attrs.searchPlaceholderInfo : '客户名 / 单据编号';
 
@@ -3237,6 +3243,40 @@ function requestExpressInfoTab (requestData, alertError) {
   };
 }
 
+/**
+ * [MedicalStockMouseoverExtendion 表格行内鼠标移入后显示操作按钮扩展版]
+ * @param {[type]} utils [description]
+ */
+function medicalStockMouseoverExtendion (utils) {
+  'use strict';
+  return {
+    restrict: 'A',
+    scope: true,
+    link: function (scope, element, attrs) {
+      // var _template = '<div class="table-item-handle-btn">'+
+      //     '<div class="table-item-confirm-del-area bg-white">'+
+      //       '<p class="bb-line color-red pd-v">确认删除本条数据?</p>'+
+      //       '<p class="pdt">'+
+      //         '<a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>'+
+      //         '<a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>'+
+      //       '</p>'+
+      //     '</div>'+
+      //   '</div>';
+
+      var _template = '<div id="test" style="width:32px;height:32px;background-color:#f60;border-radius:50%;text-align:center;color:#fff;position:absolute;top:0;left:0;">Test</div>';
+
+      element.hover(function () {
+        $(this).append(_template);
+      }, function () {
+        $('#test').remove();
+      });
+
+
+
+    }
+  };
+}
+
 angular.module('manageApp.project')
   .directive("pageMainHeaderComponent", pageMainHeaderComponent)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
@@ -3294,8 +3334,9 @@ angular.module('manageApp.project')
   .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
-    .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
+  .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
   .directive("medicalStockMouseOver",["utils",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
-  .directive("limitWordShow",["utils",limitWordShow]);//弹出框显示限制剩余字数
+  .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数
+  .directive("medicalStockMouseoverExtendion", ["utils", medicalStockMouseoverExtendion]);  //表格行内鼠标移入后显示操作按钮扩展版
 });

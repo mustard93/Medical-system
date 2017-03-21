@@ -3272,7 +3272,7 @@ define('project/controllers', ['project/init'], function() {
         $scope.formData.validFlag = false;
 
         if ($scope.submitForm_type == 'submit') {
-          utils.goTo('#/hospitalPurchaseContents/query.html');
+          utils.goTo('#/hospitalPurchaseContents/get.html?id='+$scope.formData.id);
         }
       };
 
