@@ -3283,9 +3283,9 @@ function tableItemMultipleBtn (utils, requestData) {
       });
 
       // 执行删除操作
-      scope.handleDelDetails = function (id, callbackUrl) {
-        if (id && callbackUrl) {
-          var _url = 'rest/authen/customerAddress/delete?id=' + id;
+      scope.handleDelDetails = function (id, requestUrl, callbackUrl) {
+        if (id && requestUrl && callbackUrl) {
+          var _url = requestUrl + '?id=' + id;
           requestData(_url, {}, 'POST')
           .then(function (results) {
             if (results[1].code == 200) {
