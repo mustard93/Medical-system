@@ -6,7 +6,7 @@
                               is-show-create-btn="新建销售退货单"
                               create-new-url="#/saleReturnOrder/edit.html"
                               get-status-num-url="rest/authen/saleReturnOrder/countByOrderStatus.json"
-                              status-group-data='[["未提交-true","待出库-true","已出库-true"]]'
+                              status-group-data='[["未提交-true","处理中-true","已处理-true"]]'
                               is-show-date-filter=true
                               is-show-key-filter=true
                               is-show-business-btn-group=true>
@@ -32,7 +32,7 @@
               <div class="relative">
                 <div class="flex-column">
                   <span ng-if="tr.orderStatus=='未提交'" class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
-                  <span ng-if="tr.orderStatus=='待出库' || tr.orderStatus=='已出库'" class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
+                  <span ng-if="tr.orderStatus=='处理中' || tr.orderStatus=='已处理'" class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
                   <span class="flex-item-6 text-right">
 
                     <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"

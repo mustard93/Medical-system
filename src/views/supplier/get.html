@@ -37,7 +37,7 @@
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-6">
             <span class="flex-item-3">
-              单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em>
+              单据编号：<em class="color-6">{{showData.relOrderNo || '暂无'}}</em>
             </span>
             <span class="flex-item-9">
               <span class="flex-item-1 text-right">
@@ -63,7 +63,7 @@
             </span>
           </div>
           <div class="flex-item-6 text-right">
-            申请日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd HH:mm'}}</em>
+            申请日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd'}}</em>
             状态：
             <em ng-class="{'color-blue-freeze':showData.businessApplication.businessStatus  =='已冻结', 'color-black':showData.businessApplication.businessStatus =='已通过',
             'color-red':showData.businessApplication.businessStatus  =='已终止'}">
@@ -107,16 +107,40 @@
                 </div>
                 <div class=" pd-v-m">
                   <div class="flex-column mgt">
-                    <span class="flex-item-2  text-right">质量部联系人/电话：</span>
-                    <span class="flex-item-10    text-left">
-                      {{showData.qualityPerson.name}}/{{showData.qualityPerson.tel}}
-                    </span>
+                      <span class="flex-item-2 text-right">质量部联系人：</span>
+                      <span class="flex-item-10 text-left">
+                          {{showData.qualityPerson.name}}
+                        </span>
                   </div>
                   <div class="flex-column mgt">
-                    <span class="flex-item-2  text-right">财务部联系人/电话：</span>
-                    <span class="flex-item-10    text-left">
-                      {{showData.financePerson.name}}/{{showData.financePerson.tel}}
-                    </span>
+                      <span class="flex-item-2 text-right">手机：</span>
+                      <span class="flex-item-10 text-left">
+                      {{showData.qualityPerson.tel}}
+                      </span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">座机：</span>
+                      <span class="flex-item-10 text-left">
+                      {{showData.qualityPerson.telephone}}
+                      </span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">财务部联系人：</span>
+                      <span class="flex-item-10 text-left">
+                          {{showData.financePerson.name}}
+                        </span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">手机：</span>
+                      <span class="flex-item-10 text-left">
+                          {{showData.financePerson.tel}}
+                      </span>
+                  </div>
+                  <div class="flex-column mgt">
+                      <span class="flex-item-2 text-right">座机：</span>
+                      <span class="flex-item-10 text-left">
+                          {{showData.financePerson.telephone}}
+                      </span>
                   </div>
                 </div>
             </div>

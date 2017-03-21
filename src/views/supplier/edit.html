@@ -23,8 +23,8 @@
   <div class="content-wrapper ">
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="hospital-editForm"
-            name="hospitalEditForm"
+            id="firstEnterpriseEditForm"
+            name="firstEnterpriseEditForm"
             form-validator
             parameter-body
             action="rest/authen/supplier/save"
@@ -39,7 +39,7 @@
         <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
           <div class="flex-item-6">
             <span class="flex-item-12">
-              单据编号：<em class="color-6 mgr-s">{{formData.orderNo || '暂无'}}</em>
+              单据编号：<em class="color-6 mgr-s">{{formData.relOrderNo || '暂无'}}</em>
               采购员：<span>
                         <select class="select pr-select ipt-new-s" data-placeholder=" "
                         chosen
@@ -52,7 +52,8 @@
           </div>
           <div class="flex-item-6 text-right">
               录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
-              状态：<em class="color-black">{{formData.orderStatus}}</em>
+              状态：<em ng-if="formData.businessApplication.businessStatus!='已通过'" class="color-black">{{formData.businessApplication.businessStatus ||'暂无'}}</em>
+              <em ng-if="formData.businessApplication.businessStatus=='已通过'" class="color-black">正常</em>
           </div>
         </div>
         <!-- 基本信息 -->
@@ -111,38 +112,78 @@
           </div>
           <div class=" pd-v-m bt-dashed-line">
             <div class="flex-column mgt">
-              <label class="flex-item-2 text-right control-label">质量部联系人/电话：</label>
-              <div class="flex-item-10 text-left">
-                <input type="text"
-                       class="ipt-new mgr-s"
-                       style="width:100px;"
-                       name="qualityPerson"
-                       ng-model="formData.qualityPerson.name"
-                       required />
-                <input type="text"
-                       class="ipt-new"
-                      style="width:230px;"
-                       name="genericName"
-                       ng-model="formData.qualityPerson.tel"
-                       required />
-              </div>
+                <label class="flex-item-2 text-right control-label">质量部联系人：</label>
+                <div class="flex-item-10 text-left">
+                    <input type="text"
+                           class="ipt-new mgr-s ipt-new-s"
+                           name="qualityPerson"
+                           ng-model="formData.qualityPerson.name" />
+                </div>
             </div>
             <div class="flex-column mgt">
-              <label class="flex-item-2 text-right control-label">财务部联系人/电话：</label>
-              <div class="flex-item-10 text-left">
-                <input type="text"
-                       class="ipt-new mgr-s"
-                       style="width:100px;"
-                       name="name"
-                       ng-model="formData.financePerson.name"
-                       required />
-                <input type="text"
-                       class="ipt-new"
-                       style="width:230px;"
-                       name="name"
-                       ng-model="formData.financePerson.tel"
-                       required />
-              </div>
+                <label class="flex-item-2 text-right control-label">手机：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="qualityPersontel"
+                         ng-model="formData.qualityPerson.tel"
+                         ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                         invalid-popover
+                         popover-show="!firstEnterpriseEditForm.qualityPersontel.$valid"
+                         popover-options='{"content":"手机号码格式不正确", "placement":"right", "trigger":"manual"}' />
+
+                </div>
+            </div>
+            <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">座机：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="qualityPersontelephone"
+                         ng-model="formData.qualityPerson.telephone"
+                         ng-pattern="/^((\d{3,4}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$/"
+                         invalid-popover
+                         popover-show="!firstEnterpriseEditForm.qualityPersontelephone.$valid"
+                         popover-options='{"content":"座机号码格式不正确", "placement":"right", "trigger":"manual"}' />
+                </div>
+            </div>
+            <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">财务部联系人：</label>
+                <div class="flex-item-10 text-left">
+                    <input type="text"
+                           class="ipt-new mgr-s ipt-new-s"
+                           name="name"
+                           ng-model="formData.financePerson.name" />
+                </div>
+            </div>
+
+            <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">手机：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="financePersontel"
+                         ng-model="formData.financePerson.tel"
+                         ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                         invalid-popover
+                         popover-show="!firstEnterpriseEditForm.financePersontel.$valid"
+                         popover-options='{"content":"手机号码格式不正确", "placement":"right", "trigger":"manual"}' />
+
+                </div>
+            </div>
+            <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">座机：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="financePersontelephone"
+                         ng-model="formData.financePerson.telephone"
+                         ng-pattern="/^((\d{3,4}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$/"
+                         invalid-popover
+                         popover-show="!firstEnterpriseEditForm.financePersontelephone.$valid"
+                         popover-options='{"content":"座机号码格式不正确", "placement":"right", "trigger":"manual"}' />
+
+                </div>
             </div>
           </div>
         </div>
@@ -411,7 +452,7 @@
         </div>
 
         <!-- 审核资料 -->
-    <div ng-init='attachmentsExtend={"title":"资质文件","usege":"医院资格申请","addFlag":false,"showcertificate":true}'
+    <div ng-init='attachmentsExtend={"title":"资质文件","usege":"医院资格申请","addFlag":false}'
      attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" ></div>
 
         <!-- 功能按钮 -->
@@ -443,11 +484,13 @@
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
+                      ng-disabled="!firstEnterpriseEditForm.$valid"
                       ng-click="submitForm('editForm','save')">保存
               </button>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
+                      ng-disabled="!firstEnterpriseEditForm.$valid"
                       ng-click="submitForm('editForm','submit-supplier')">
                       保存并结束编辑
               </button>

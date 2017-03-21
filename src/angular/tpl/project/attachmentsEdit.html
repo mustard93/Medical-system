@@ -23,13 +23,21 @@
           </td><!-- 选择checkbox  -->
           <td>{{$index+1}}</td><!-- 序号  -->
           <td>{{item.name}}</td><!-- 资料名称  -->
-          <td>
+          <td ng-if="item.isAdmin!=false">
             <input type="text"
                    class="ipt pr-short-ipt color-6 mgr pr-indent-10"
                    ng-model="item.certificateNumber"
                    placeholder=""
                    ng-disabled="!item.showFlag">
-          </td><!-- 证书编号  -->
+          </td>
+          <td ng-if="item.isAdmin==false">
+            <input type="text"
+                   class="ipt pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-model="item.certificateNumber"
+                   placeholder=""
+                   ng-disabled="!item.isAdmin">
+          </td>
+          <!-- 证书编号  -->
           <td>
             <div class="date-icon-outside" ng-disabled="!item.showFlag">
               <input type="text"

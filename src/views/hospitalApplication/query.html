@@ -1,140 +1,141 @@
 <div class="hospital-application"
      ng-controller="QualificationApplyCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-  <table-list list-data="rest/authen/hospitalApplication/query.json"
-              list-params="listParams"
-              search-mode="noCaseSensitive"
-              search-param="q">
-    <!-- 主内容头部 -->
-    <page-main-header-component list-params="listParams"
-                                crumbs-nav='[{"name":"客户中心","link":"","style":""},{"name":"资格申请","link":"","style":"color-custom-orange"}]'
-                                is-show-select-item='[{"name":"医院资格申请","link":"#/hospitalApplication/query.html"},{"name":"经销商/零售商资格申请","link":"#/otherCustomerApplication/query.html"}]'
-                                is-show-create-btn="新建医院资格申请"
-                                create-new-url="#/hospitalApplication/edit1.html"
-                                get-status-num-url="rest/authen/hospitalApplication/countByOrderStatus.json"
-                                status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
-                                is-show-key-filter=true
-                                is-show-business-btn-group=true
-                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
-    </page-main-header-component>
+     <table-list list-data="rest/authen/hospitalApplication/query.json"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q">
 
-    <!-- 主内容区域 -->
-    <div class="content-wrapper">
-      <div class="content-wrapper-main">
-        <div ng-if="!status.isLoading">
-          <div ng-if="tbodyList.length==0">
-            <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-            <p class="text-center">什么也没有</p>
-          </div>
-          <ul ng-if="tbodyList.length">
-            <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
-              <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative"
-              ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
-                <!--菜单 -->
-                <div class="relative">
-                  <div class="flex-column">
-                    <span class="flex-item-6 title-states text-bold pdt-m">
-                    <em class="pd-m" ng-class="{'color-6':tr.orderStatus=='待审核','color-green':tr.orderStatus=='已通过','color-red':(tr.orderStatus=='已作废')}">
-                      {{tr.orderStatus}}
-                    </em>
-                    </span>
+  <!-- 主内容头部 -->
+  <page-main-header-component list-params="listParams"
+                              crumbs-nav='[{"name":"客户中心","link":"","style":""},{"name":"资格申请","link":"","style":"color-custom-orange"}]'
+                              is-show-select-item='[{"name":"医院资格申请","link":"#/hospitalApplication/query.html"},{"name":"批发/零售商资格申请","link":"#/otherCustomerApplication/query.html"}]'
+                              is-show-create-btn="新建医院资格申请"
+                              create-new-url="#/hospitalApplication/edit1.html"
+                              get-status-num-url="rest/authen/hospitalApplication/countByOrderStatus.json"
+                              status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
+                              is-show-key-filter=true
+                              is-show-business-btn-group=true
+                              get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+  </page-main-header-component>
 
-                    <span class="flex-item-6 text-right">
-                        <a
-                           ng-if="tr.orderStatus=='未提交'"
-                           ng-href="#/hospitalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
-                         <span class="edit-link-icon">&nbsp;</span>
-                       </a>
-                        <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
-                           ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
-                           <span class="watch-detail-icon">&nbsp;</span>
-                         </a>
-                        <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                           ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
-                           <span class="examine-approve">&nbsp;</span>
-                         </a>
-                         <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
-                            href="javascript:;"
-                            class="btn-link pd-m rect-s "
-                            handle-this-click
-                            dialog-title="确认删除?"
-                            dialog-content="删除后将无法恢复,确认删除?"
-                            dialog-template="pr-dialog-submit.html"
-                            callback="$root.goTo('#/hospitalApplication/query.html')"
-                            params='{"id":tr.id}'
-                            title="删除"
-                            request-url="rest/authen/hospitalApplication/delete">
-                          <span class="delete-link-icon">&nbsp;</span>
-                          </a>
+      <!-- 主内容区域 -->
+      <div class="content-wrapper">
+        <div class="content-wrapper-main">
+          <div ng-if="!status.isLoading">
+            <div ng-if="tbodyList.length==0">
+              <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+              <p class="text-center">什么也没有</p>
+            </div>
+            <ul ng-if="tbodyList.length">
+              <li class="pdr pdl relative confirm-order-list" ng-repeat="tr in tbodyList">
+                <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative"
+                ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+                  <!--菜单 -->
+                  <div class="relative">
+                    <div class="flex-column">
+                      <span class="flex-item-6 title-states text-bold pdt-m">
+                      <em class="pd-m" ng-class="{'color-6':tr.orderStatus=='待审核','color-green':tr.orderStatus=='已通过','color-red':(tr.orderStatus=='已作废')}">
+                        {{tr.orderStatus}}
+                      </em>
                       </span>
+
+                      <span class="flex-item-6 text-right">
+                          <a
+                             ng-if="tr.orderStatus=='未提交'"
+                             ng-href="#/hospitalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                           <span class="edit-link-icon">&nbsp;</span>
+                         </a>
+                          <a ng-if="tr.orderStatus=='已通过' || tr.orderStatus=='已作废'||(tr.orderStatus=='待审核'&&!$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过'))"
+                             ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="查看详情"  class="btn-link pd-m rect-s" >
+                             <span class="watch-detail-icon">&nbsp;</span>
+                           </a>
+                          <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                             ng-href="#/hospitalApplication/get.html?id={{tr.id}}" title="立即审批"  class="btn-link pd-m rect-s" >
+                             <span class="examine-approve">&nbsp;</span>
+                           </a>
+                           <a  ng-if="(tr.orderStatus=='未提交')&& mainStatus.id==tr.proposerId"
+                              href="javascript:;"
+                              class="btn-link pd-m rect-s "
+                              handle-this-click
+                              dialog-title="确认删除?"
+                              dialog-content="删除后将无法恢复,确认删除?"
+                              dialog-template="pr-dialog-submit.html"
+                              callback="$root.goTo('#/hospitalApplication/query.html')"
+                              params='{"id":tr.id}'
+                              title="删除"
+                              request-url="rest/authen/hospitalApplication/delete">
+                            <span class="delete-link-icon">&nbsp;</span>
+                            </a>
+                        </span>
+                    </div>
+                  <div class="card-new">
+                      <div class="bt-line">
+                        <h1 class="text-center text-m color-black text-ellips-s">  {{tr.hospital.name || '未知名称'}}</h1>
+                      </div>
+                      <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                        <span class="flex-item-6 ">单据编号</span>
+                        <span class="flex-item-6 text-right pr-indent-10"><strong class="color-black text-normal">{{tr.orderNo}}</strong></span>
+                      </div>
+                      <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                        <span class="flex-item-6 text-left">录单日期</span>
+                        <span class="flex-item-6 text-right">
+                            <strong class="color-black text-normal">{{tr.createAt | date : 'yyyy-MM-dd'}}</strong>
+                        </span>
+                      </div>
+                      <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                        <span class="flex-item-6 text-left">填报部门</span>
+                        <span class="flex-item-6 text-right">
+                            <strong class="color-black text-normal">{{tr.departmentName}}</strong>
+                        </span>
+                      </div>
+                      <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                        <span class="flex-item-6 text-left">业务员</span>
+                        <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
+                          <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+                          style="position:relative;height:25px;">{{tr.proposerName}}</strong>
+                          <span class="purchaseorder-buyer-info">
+                            <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.proposerPhone}}</em></i>
+                            <i class="block pdb-s text-normal">
+                              <em class="fa fa-comment-o mgl"></em>
+                              <em class="inline-block pdl pdr pdt">
+                                <a href="javascript:;"
+                                   modal-center="490"
+                                   modal-data='{"toUser":{"n":"{{tr.proposerName}}"},"userIds":["{{tr.proposerId}}"]}'
+                                   modal-url="views/notice/sendToUser.html">发送消息
+                                </a>
+                              </em>
+                            </i>
+                          </span>
+                        </span>
+                      </div>
+                      <div class="flex-column qurey text-s color-9 mgb bt-line"
+                        >
+                        <p ng-if="tr.orderStatus!='已作废'"
+                        title="{{tr.applyReason}}"
+                        class="text-ellips-s">
+                          <span >备注：</span><span class="color-6">{{tr.applyReason}}</span>
+                        </p>
+                        <p ng-if="tr.orderStatus=='已作废'"
+                        ng-controller="QualificationApplyCtrl"
+                        ng-init="initFlag=true;"
+                        title="{{tr.operationFlowSet.key}}{{tr.operationFlowSet.message}}"
+                        class="text-ellips-s color-red">
+                          <span>原因：</span>
+                          <span class="color-6">
+                            <em ng-model="tr.operationFlowSet.key">{{tr.operationFlowSet.key}}</em>
+                            <em ng-model="tr.operationFlowSet.message">{{tr.operationFlowSet.message}}</em>
+                          </span>
+                        </p>
+                      </div>
                   </div>
-                <div class="card-new">
-                    <div class="bt-line">
-                      <h1 class="text-center text-m color-black text-ellips-s">  {{tr.hospital.name || '未知名称'}}</h1>
-                    </div>
-                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                      <span class="flex-item-6 ">单据编号</span>
-                      <span class="flex-item-6 text-right pr-indent-10"><strong class="color-black text-normal">{{tr.orderNo}}</strong></span>
-                    </div>
-                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                      <span class="flex-item-6 text-left">录单日期</span>
-                      <span class="flex-item-6 text-right">
-                          <strong class="color-black text-normal">{{tr.createAt | date : 'yyyy-MM-dd'}}</strong>
-                      </span>
-                    </div>
-                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                      <span class="flex-item-6 text-left">填报部门</span>
-                      <span class="flex-item-6 text-right">
-                          <strong class="color-black text-normal">{{tr.departmentName}}</strong>
-                      </span>
-                    </div>
-                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                      <span class="flex-item-6 text-left">业务员</span>
-                      <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
-                        <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
-                        style="position:relative;height:25px;">{{tr.proposerName}}</strong>
-                        <span class="purchaseorder-buyer-info">
-                          <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.proposerPhone}}</em></i>
-                          <i class="block pdb-s text-normal">
-                            <em class="fa fa-comment-o mgl"></em>
-                            <em class="inline-block pdl pdr pdt">
-                              <a href="javascript:;"
-                                 modal-center="490"
-                                 modal-data='{"toUser":{"n":"{{tr.proposerName}}"},"userIds":["{{tr.proposerId}}"]}'
-                                 modal-url="views/notice/sendToUser.html">发送消息
-                              </a>
-                            </em>
-                          </i>
-                        </span>
-                      </span>
-                    </div>
-                    <div class="flex-column qurey text-s color-9 mgb bt-line"
-                      >
-                      <p ng-if="tr.orderStatus!='已作废'"
-                      title="{{tr.applyReason}}"
-                      class="text-ellips-s">
-                        <span >备注：</span><span class="color-6">{{tr.applyReason}}</span>
-                      </p>
-                      <p ng-if="tr.orderStatus=='已作废'"
-                      ng-controller="QualificationApplyCtrl"
-                      ng-init="initFlag=true;"
-                      title="{{tr.operationFlowSet.key}}{{tr.operationFlowSet.message}}"
-                      class="text-ellips-s color-red">
-                        <span>原因：</span>
-                        <span class="color-6">
-                          <em ng-model="tr.operationFlowSet.key">{{tr.operationFlowSet.key}}</em>
-                          <em ng-model="tr.operationFlowSet.message">{{tr.operationFlowSet.message}}</em>
-                        </span>
-                      </p>
-                    </div>
                 </div>
-              </div>
-            </li>
-          </ul>
-        </div>
+              </li>
+            </ul>
+          </div>
 
+        </div>
       </div>
-    </div>
     <!-- 导航 -->
     <div class="clearfix pd-c-m" ng-if="tbodyList.length">
         <div class="fr">
