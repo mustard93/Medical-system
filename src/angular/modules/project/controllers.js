@@ -2962,11 +2962,13 @@ define('project/controllers', ['project/init'], function() {
           }
          }
 
-         for(tr in $scope.formData.attachments){
-           // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
-           var attachments=[];
-           attachments.push($scope.formData.attachments[tr])
-             attachments[0].isAdmin=true;
+         if ($scope.formData) {
+           for(var tr in $scope.formData.attachments){
+             // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
+             var attachments=[];
+             attachments.push($scope.formData.attachments[tr]);
+               attachments[0].isAdmin=true;
+           }
          }
        });
       $scope.watchFormChange = function(watchName){
@@ -3503,6 +3505,7 @@ define('project/controllers', ['project/init'], function() {
 
     //品种管理模块
     function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
       $scope.$watch('initFlag', function (newVal) {
         var operationFlowSetMessage=[];
         var operationFlowSetKey=[];
@@ -3522,21 +3525,22 @@ define('project/controllers', ['project/init'], function() {
          return;
         }
          if (newVal && $scope.formData.orderMedicalNos) {
-          for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
-            if ($scope.formData.orderMedicalNos[i].handleFlag) {
+          for (j=0; j<$scope.formData.orderMedicalNos.length; j++) {
+            if ($scope.formData.orderMedicalNos[j].handleFlag) {
               $scope.choisedMedicals = true;
             }
-            if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+            if (!$scope.formData.orderMedicalNos[j].handleFlag) {
               $scope.isChoiseAll = false;
             }
           }
           // $scope.isChoiseAll = true;
          }
-           // 编辑页面，如果证书编号是有值得情况下，不允许被修改
-           for(tr in $scope.formData.attachments){
+         // 编辑页面，如果证书编号是有值得情况下，不允许被修改
+         if ($scope.formData) {
+           for(var tr in $scope.formData.attachments){
              // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
              var attachments=[];
-             attachments.push($scope.formData.attachments[tr])
+             attachments.push($scope.formData.attachments[tr]);
              if(attachments[0].certificateNumber){
                console.log(attachments[0].certificateNumber);
                attachments[0].isAdmin=false;
@@ -3544,6 +3548,7 @@ define('project/controllers', ['project/init'], function() {
                  attachments[0].isAdmin=true;
              }
            }
+         }
        });
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
@@ -3773,15 +3778,17 @@ define('project/controllers', ['project/init'], function() {
            return;
           }
           // 编辑页面，如果证书编号是有值得情况下，不允许被修改
-          for(tr in $scope.formData.attachments){
-            // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
-            var attachments=[];
-            attachments.push($scope.formData.attachments[tr])
-            if(attachments[0].certificateNumber){
-              console.log(attachments[0].certificateNumber);
-              attachments[0].isAdmin=false;
-            }else{
-                attachments[0].isAdmin=true;
+          if ($scope.formData) {
+            for(var tr in $scope.formData.attachments){
+              // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
+              var attachments=[];
+              attachments.push($scope.formData.attachments[tr]);
+              if(attachments[0].certificateNumber){
+                console.log(attachments[0].certificateNumber);
+                attachments[0].isAdmin=false;
+              }else{
+                  attachments[0].isAdmin=true;
+              }
             }
           }
       });
@@ -4867,7 +4874,37 @@ define('project/controllers', ['project/init'], function() {
     };
   }
 
+  /**
+   * [infrastructureController manage模块wms实例管理]
+   * @return {[type]} [description]
+   */
+  function infrastructureController ($scope) {
+    $scope.buildMapping = function (obj, key, val) {
+
+      console.log(obj);
+      console.log(key);
+      console.log(val);
+
+      if (angular.isObject(obj)) {
+        var _keys = Object.keys(obj);
+        // console.log(_keys);
+        angular.forEach(_keys, function (item, index) {
+          if (item === key) {
+            return;
+          } else {
+            // $scope.formData.warehouseTypeMapping = {
+            //   key:val
+            // };
+            $scope.formData.warehouseTypeMapping[key] = val;
+          }
+        });
+        console.log($scope.formData.warehouseTypeMapping);
+      }
+    };
+  }
+
   angular.module('manageApp.project')
+  .controller('infrastructureController', ['$scope', infrastructureController])
   .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
   .controller('indexPurchaseSuppleController', ['$scope', 'utils', indexPurchaseSuppleController])
   .controller('indexPageController', ['$scope', 'utils', indexPageController])
