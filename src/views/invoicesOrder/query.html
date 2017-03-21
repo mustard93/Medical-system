@@ -1,73 +1,4 @@
 <!-- 主内容头部 -->
-<!-- <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxl">销售中心 > <em class="color-custom-orange">发货单</em></p>
-  <div class="pd-c-xxxxl">
-    <div class="pos-rel-tl inline-block fl-l">
-      <h1 class="pr-font-20 color-black">发货单</h1>
-    </div>
-
-    <div class="full-width mgb-m">
-      <div class="order-status-btn pos-rel-tr text-right"
-           ajax-url="rest/authen/invoicesOrder/countByOrderStatus.json"
-           scope-data="countByOrderStatus"
-           alert-error>
-          <div class=""></div>
-          <div class="btn btn-group"   scope-data="statusList">
-            <button query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
-            <button query-order-status-button  ng-model="listParams.orderStatus" key="待发货"  count-map="countByOrderStatus">  </button>
-            <button query-order-status-button  ng-model="listParams.orderStatus" key="已发货"  count-map="countByOrderStatus">  </button>
-            <button query-order-status-button  ng-model="listParams.orderStatus" key="已收货" >  </button>
-          </div>
-          <div class="inline-block relative">
-            <button order-status-choise type="button" class="btn pr-btn-transparentbg">异常发货单</button>
-          </div>
-      </div>
-    </div>
-
-    <div class="text-right pos-rel-tr inline-block fl-r">
-      <div class="relative">
-        <span class="color-9">业务类型:</span>
-        <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                data-placeholder=" "
-                default-empty="全部"
-                chosen
-                ng-model="listParams.orderBusinessType"
-                select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
-                ng-change="chgOrderBusinessType(formData.orderBusinessType)">
-        </select>
-
-        <span class="mgl-m color-9">录单日期:</span>
-        <div class="date-icon-outside">
-          <input type="text"
-                 datepicker
-                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                 ng-readonly="true"
-                 ng-model="listParams.createAtBeg"
-                 placeholder="">
-          <span class="date-icon"></span>
-        </div>
-         <span class="color-9">至</span>
-      <div class="date-icon-outside">
-        <input type="text"
-              datepicker
-              class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-              ng-readonly="true"
-              ng-model="listParams.createAtEnd"
-              placeholder="">
-        <span class="date-icon"></span>
-      </div>
-      <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l">
-        <input type="text" class="ipt pdr-xxl" placeholder="客户名/单据编号" ng-model="listParams.q">
-        <i class=""></i>
-      </div>
-
-      </div>
-
-    </div>
-
-  </div>
-</div> -->
-
 <page-main-header-component list-params="listParams"
                             crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"发货单","link":"","style":"color-custom-orange"}]'
                             component-title="发货单"
@@ -75,6 +6,8 @@
                             status-group-data='[["待发货-true","已发货-true","已收货-true"], ["异常发货单-true"]]'
                             is-show-type-filter=true
                             is-show-date-filter=true
+                            is-show-key-filter=true
+                            is-show-business-btn-group=true
                             get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
 </page-main-header-component>
 

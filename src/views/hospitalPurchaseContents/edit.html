@@ -47,7 +47,7 @@
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line">
               <div class="flex-item-6">
                 <label class="text-normal">目录更新周期：</label>
-                <input type="number" class="ipt pr-new-short-ipt text-right" ng-model="formData.object.updateCycle" /> 个月
+                <input type="number" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" class="ipt pr-new-short-ipt text-right" ng-model="formData.object.updateCycle" /> 个月
               </div>
               <div class="flex-item-6 text-right">
                 <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
@@ -100,7 +100,7 @@
                         </div>
                       </div>
                     </td><!-- 商品编号 -->
-                    <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
+                    <td class="text-left" style="max-width:500px;">{{tr.name}}</td><!-- 商品全名 -->
                     <td class="text-left">{{tr.manufacturer}}</td><!-- 生产厂家 -->
                     <td class="text-center">￥
                       <input type="text"
