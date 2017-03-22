@@ -2078,15 +2078,6 @@ function tableItemHandlebtnComponent (utils) {
         _delBtn.hide();
         _delArea.hide();
       };
-
-
-
-      // if(scope.formData.relId){
-      //   return;
-      // }else{
-      //
-      //
-      // }
     }
   };
 }
@@ -2528,7 +2519,7 @@ function flashAddMedical() {
           });
 
           // 如果属性isDisabledThis未定义，则不开启条件限制查询药械
-          if (!angular.isDefined($attrs.isDisabledThis)) { $scope.isCustomerId = true; }
+          if (!angular.isDefined($attrs.isDisabledThis)) { $scope.isCustomerId = true;}
 
           // 监控用户是否已选择客户或供应商
           $attrs.$observe('isDisabledThis', function (newVal, oldVal) {
@@ -2638,14 +2629,11 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
     restrict: 'A',
       link: function ($scope, $element, $attrs) {
 
-        //弹出菜单的div(装两个按钮的div)
+        //弹出菜单的div()
         var  moveBtnDiv=$("<div></div>");
-
-        // console.log("html"+ moveBtnDiv.html());
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
-          // console.log(utils.getMainBodyWidth());
 
           var bottomButtonList=$scope[$attrs.tableTrMouseOverMenu];
           var dataObj=$scope[$attrs.businessData];
@@ -2666,7 +2654,7 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           if(!moveBtnDiv)return;
           //+document.body.scrollLeft+
           moveBtnDivWidth=34*btnCount;
-          console.log("document.body.scrollLeft",document.body.scrollLeft);
+          // console.log("document.body.scrollLeft",document.body.scrollLeft);
           var y =$element.offset().top -document.body.scrollTop;
           var x= utils.getwindowWidth()-10-moveBtnDivWidth; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。 要求table 宽度 100%
 
@@ -3102,7 +3090,8 @@ function pageMainHeaderComponent () {
       statusGroupData: '@',         // 状态显示数据对象
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
       isShowSelectItem: '@',
-      searchPlaceholderInfo: '@'
+      searchPlaceholderInfo: '@',
+      getWarehouseListUrl: '@'
     },
     replace: true,
     transclude: true,
@@ -3149,6 +3138,9 @@ function pageMainHeaderComponent () {
 
       //是否显示类型过滤
       scope.isShowTypeFilter = angular.isDefined(attrs.isShowTypeFilter) ? attrs.isShowTypeFilter : false;
+
+      //是否显示仓库过滤
+      scope.isShowWarehouseFilter = angular.isDefined(attrs.isShowWarehouseFilter) ? attrs.isShowWarehouseFilter : false;
 
       //是否显示日期过滤
       scope.isShowDateFilter = angular.isDefined(attrs.isShowDateFilter) ? attrs.isShowDateFilter : false;
@@ -3246,40 +3238,76 @@ function requestExpressInfoTab (requestData, alertError) {
 }
 
 /**
- * [MedicalStockMouseoverExtendion 表格行内鼠标移入后显示操作按钮扩展版]
- * @param {[type]} utils [description]
+ * [tableItemMultipleBtn 医院信息管理表格多个操作按钮菜单]
+ * @param  {[type]} utils [description]
+ * @return {[type]}       [description]
  */
-function medicalStockMouseoverExtendion (utils) {
+function tableItemMultipleBtn (utils, requestData) {
   'use strict';
   return {
     restrict: 'A',
     scope: true,
     link: function (scope, element, attrs) {
-      // var _template = '<div class="table-item-handle-btn">'+
-      //     '<div class="table-item-confirm-del-area bg-white">'+
-      //       '<p class="bb-line color-red pd-v">确认删除本条数据?</p>'+
-      //       '<p class="pdt">'+
-      //         '<a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>'+
-      //         '<a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>'+
-      //       '</p>'+
-      //     '</div>'+
-      //   '</div>';
 
-      var _template = '<div id="test" style="width:32px;height:32px;background-color:#f60;border-radius:50%;text-align:center;color:#fff;position:absolute;top:0;left:0;">Test</div>';
+      // 操作按钮组
+      var _handleBtnGroup = $(element).find('div.table-item-multiple-btn');
+      // 删除按钮
+      var _delBtn = $(element).find('div.del-details-btn');
+      // 其他操作按钮
+      var _handleBtn = $(element).find('div.other-handle-btn');
 
-      element.hover(function () {
-        $(this).append(_template);
-      }, function () {
-        $('#test').remove();
+
+      // 绑定点击显示操作删除层
+      _delBtn.on('click', function () {
+        $('.del-confirm-area').show();
       });
 
+      // 绑定点击显示其他操作层
+      _handleBtn.on('click', function () {
+        $('.handle-area-show').show();
+      });
 
+      // 绑定取消按钮事件
+      $(element).find('a.hide-this-area').on('click', function () {
+        $(element).find('div.del-confirm-area').hide();
+      });
+
+      element.hover(function () {
+        // 计算当前tr距离顶部的高度
+        var _offsetTop = $(element).offset().top - document.body.scrollTop + 23;
+        // 计算当前页面宽度
+        var _pageWidth = utils.getMainBodyWidth() - 23;
+
+        _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_pageWidth}).show();
+
+      }, function () {
+        _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
+        $('.del-confirm-area').hide();
+        $('.handle-area-show').hide();
+      });
+
+      // 执行删除操作
+      scope.handleDelDetails = function (id, requestUrl, callbackUrl) {
+        if (id && requestUrl && callbackUrl) {
+          var _url = requestUrl + '?id=' + id;
+          requestData(_url, {}, 'POST')
+          .then(function (results) {
+            if (results[1].code == 200) {
+              utils.goTo(callbackUrl);
+            }
+          })
+          .catch(function (error) {
+            if (error) { throw new Error(error); }
+          });
+        }
+      };
 
     }
   };
 }
 
 angular.module('manageApp.project')
+  .directive("tableItemMultipleBtn", ['utils', 'requestData', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
   .directive("pageMainHeaderComponent", pageMainHeaderComponent)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
@@ -3339,6 +3367,5 @@ angular.module('manageApp.project')
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
   .directive("medicalStockMouseOver",["utils",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
-  .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数
-  .directive("medicalStockMouseoverExtendion", ["utils", medicalStockMouseoverExtendion]);  //表格行内鼠标移入后显示操作按钮扩展版
+  .directive("limitWordShow",["utils",limitWordShow]);//弹出框显示限制剩余字数
 });

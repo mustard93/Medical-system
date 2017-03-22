@@ -4,7 +4,6 @@
      scope-data="formData"
      callback="initFlag=true;$root.watchFormChange('formData',this)"
      alert-error>
-
   <form id="editForm"
         name="editForm"
         form-validator
@@ -26,7 +25,6 @@
       <em>
       >新建销售单
     </em>
-
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
@@ -34,7 +32,7 @@
           <h1 class="pr-font-20 color-black">新建销售单</h1>
         </div>
         <!-- 客户列表 -->
-        <div>
+        <div class="inline-block">
           <select ng-if="initFlag"
                   class="ipt pr-long-ipt color-6"
                   data-placeholder="客户名"
@@ -43,8 +41,20 @@
                   ng-model="formData.customerId"
                   select-source="rest/authen/customerAddress/queryForSelectOption.json">
           </select>
-          <span class="color-red mgl" ng-if="!formData.customerId">请先选择客户名</span>
-          <span class="color-red mgl" ng-if="formData.contactsNull">当前客户没有收货地址，请先添加收货方信息!</span>
+          <!-- <span class="color-red mgl" ng-if="!formData.customerId">请先选择客户名</span> -->
+          <!-- <span class="color-red mgl" ng-if="formData.contactsNull">当前客户没有收货地址，请先添加收货方信息!</span> -->
+        </div>
+        <div class="inline-block">
+          <select ng-if="initFlag"
+                  class="ipt pr-long-ipt color-6"
+                  data-placeholder="物流中心"
+                  chosen
+                  chosen-ajax
+                  ng-model="formData.logisticsId"
+                  select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+                  <!-- ng-disabled="logistics" -->
+          </select>
+
         </div>
       </div>
     </div>
@@ -156,7 +166,7 @@
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
                     <th class="text-center">数量</th>
-                    <th class="text-center w-110">批号要求</th>
+                    <!-- <th class="text-center w-110">批号要求</th> -->
                     <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-160">生产批号/灭菌批号</th>
                     <th class="text-center">报价</th>
                     <th class="text-center">税率</th>
@@ -207,15 +217,16 @@
                         <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>
                       </div>
                     </td><!-- 数量 -->
-                    <td class="text-center">
+                    <!-- <td class="text-center">
                       <select class="select pr-select pr-select-sm text-left"
                               chosen
                               width="90px"
                               ng-model="item.batchRequirement"
                               select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
                       </select>
-                    </td><!-- 批号要求 -->
-                    <td class="text-center">
+                    </td> -->
+                    <!-- 批号要求 -->
+                    <!-- <td class="text-center">
                       <div ng-repeat="stockBatchsItem in item.stockBatchs" class="mgb">
                         <select class="select pr-select pr-select-sm text-left"
                                 chosen
@@ -240,7 +251,12 @@
                         </p>
                       </div>
                       <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
-                    </td><!-- 生产批号/灭菌批号 -->
+                    </td> -->
+                    <td class="text-center">
+                      <input class="ipt" style="width:100px;" name="name" value="">
+                      <i class="addImg" modal-right="700" modal-scope="this" modal-url="views/confirmOrder/editOfStockbatchNumber.html?id={{tr.id}}&name=tr.name"></i>
+                    </td>
+                    <!-- 生产批号/灭菌批号 -->
                     <td class="text-center" style="white-space: nowrap;">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"

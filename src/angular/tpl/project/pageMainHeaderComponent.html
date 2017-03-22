@@ -44,7 +44,7 @@
       <div class="flex-item-8 text-right">
         <!-- 业务类型过滤 -->
         <div class="inline-block" ng-if="isShowTypeFilter">
-          <span class="color-9">业务类型:</span>
+          <span class="color-9">业务类型：</span>
           <select class="ipt pr-short-ipt color-3" style="width:90px;"
                   data-placeholder=""
                   default-empty="全部"
@@ -54,9 +54,23 @@
                   ng-change="chgOrderBusinessType(formData.orderBusinessType)">
           </select>
         </div>
+
+        <!-- 仓库过滤 -->
+        <div class="inline-block" ng-if="isShowWarehouseFilter">
+          <span class="color-9">仓库：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  width="120px"
+                  chosen
+                  ng-model="listParams.warehouseId"
+                  select-source="{{getWarehouseListUrl}}">
+          </select>
+        </div>
+
         <!-- 日期过滤 -->
         <div class="inline-block" ng-if="isShowDateFilter">
-          <span class="color-9 mgl-m">录单日期:</span>
+          <span class="color-9 mgl-m">录单日期：</span>
           <div class="date-icon-outside">
             <input type="text"
                    datepicker

@@ -561,32 +561,31 @@ define('project/controllers', ['project/init'], function() {
    */
   function lossOverOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData) {
 
+        $scope.$watch('initFlag', function () {
+          var operationFlowSetMessage=[];
+          var operationFlowSetKey=[];
+          console.log($scope.tbodyList);
+          if ($scope.showData||$scope.tr) {
+            // 选择出当前状态相同的驳回理由，并放入一个数组中
+            if ($scope.showData.operationFlowSet||$scope.tr.operationFlowSet) {
+              for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
+                if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
+                  operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+                  operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+                }
+              }
+            }
+          //  选择当前状态最近的一个驳回理由用于显示
+           $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+           $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+           return;
+          }
+
+        });
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
     };
 
-    $scope.$watch('initFlag', function () {
-      var operationFlowSetMessage=[];
-      var operationFlowSetKey=[];
-      if ($scope.showData) {
-        // 选择出当前状态相同的驳回理由，并放入一个数组中
-
-        if (showData.operationFlowSet) {
-          for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
-            if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
-              operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
-              operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
-            }
-          }
-        }
-
-      //  选择当前状态最近的一个驳回理由用于显示
-       $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-       $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-       return;
-      }
-
-    });
 
     modal.closeAll();
     // $scope.formData={};
@@ -970,7 +969,8 @@ define('project/controllers', ['project/init'], function() {
    *  销售单编辑页
    */
   function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
-
+    $scope.logistics=true;
+    console.log(  $scope.logistics);
     $scope.$watch('initFlag', function () {
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
@@ -1001,6 +1001,8 @@ define('project/controllers', ['project/init'], function() {
     // 监控用户变化，清空之前选择药械列表
     $scope.$watch('formData.customerId', function (newVal, oldVal) {
       if (newVal && oldVal !== newVal) {
+        $scope.logistics=false;
+        console.log($scope.logistics);
         if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
       }
     });
@@ -1120,6 +1122,7 @@ define('project/controllers', ['project/init'], function() {
       addDataItem.discountRate='100';
       addDataItem.strike_price=addDataItem.price;
       addDataItem.id=null;
+      addDataItem.logistics=true;
 
       if (!addDataItem.planQuantity) {
         addDataItem.planQuantity = flashAddData.quantity;
@@ -1292,19 +1295,6 @@ define('project/controllers', ['project/init'], function() {
        $scope.scopeData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
        $scope.scopeData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
        return;
-      }
-      if ($scope.tr) {
-        // 选择出当前状态相同的驳回理由，并放入一个数组中
-       for (var j=0; j<$scope.tr.operationFlowSet.length; j++) {
-         if ($scope.tr.operationFlowSet[j].status==$scope.tr.orderStatus) {
-           operationFlowSetMessage.push($scope.tr.operationFlowSet[j].message);
-           operationFlowSetKey.push($scope.tr.operationFlowSet[j].key);
-         }
-       }
-      //  选择当前状态最近的一个驳回理由用于显示
-       $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-       $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-
       }
     });
 
@@ -2962,11 +2952,13 @@ define('project/controllers', ['project/init'], function() {
           }
          }
 
-         for(tr in $scope.formData.attachments){
-           // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
-           var attachments=[];
-           attachments.push($scope.formData.attachments[tr])
-             attachments[0].isAdmin=true;
+         if ($scope.formData) {
+           for(var tr in $scope.formData.attachments){
+             // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
+             var attachments=[];
+             attachments.push($scope.formData.attachments[tr]);
+               attachments[0].isAdmin=true;
+           }
          }
        });
       $scope.watchFormChange = function(watchName){
@@ -3503,6 +3495,7 @@ define('project/controllers', ['project/init'], function() {
 
     //品种管理模块
     function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
       $scope.$watch('initFlag', function (newVal) {
         var operationFlowSetMessage=[];
         var operationFlowSetKey=[];
@@ -3522,21 +3515,22 @@ define('project/controllers', ['project/init'], function() {
          return;
         }
          if (newVal && $scope.formData.orderMedicalNos) {
-          for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
-            if ($scope.formData.orderMedicalNos[i].handleFlag) {
+          for (j=0; j<$scope.formData.orderMedicalNos.length; j++) {
+            if ($scope.formData.orderMedicalNos[j].handleFlag) {
               $scope.choisedMedicals = true;
             }
-            if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+            if (!$scope.formData.orderMedicalNos[j].handleFlag) {
               $scope.isChoiseAll = false;
             }
           }
           // $scope.isChoiseAll = true;
          }
-           // 编辑页面，如果证书编号是有值得情况下，不允许被修改
-           for(tr in $scope.formData.attachments){
+         // 编辑页面，如果证书编号是有值得情况下，不允许被修改
+         if ($scope.formData) {
+           for(var tr in $scope.formData.attachments){
              // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
              var attachments=[];
-             attachments.push($scope.formData.attachments[tr])
+             attachments.push($scope.formData.attachments[tr]);
              if(attachments[0].certificateNumber){
                console.log(attachments[0].certificateNumber);
                attachments[0].isAdmin=false;
@@ -3544,6 +3538,7 @@ define('project/controllers', ['project/init'], function() {
                  attachments[0].isAdmin=true;
              }
            }
+         }
        });
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
@@ -3773,15 +3768,17 @@ define('project/controllers', ['project/init'], function() {
            return;
           }
           // 编辑页面，如果证书编号是有值得情况下，不允许被修改
-          for(tr in $scope.formData.attachments){
-            // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
-            var attachments=[];
-            attachments.push($scope.formData.attachments[tr])
-            if(attachments[0].certificateNumber){
-              console.log(attachments[0].certificateNumber);
-              attachments[0].isAdmin=false;
-            }else{
-                attachments[0].isAdmin=true;
+          if ($scope.formData) {
+            for(var tr in $scope.formData.attachments){
+              // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
+              var attachments=[];
+              attachments.push($scope.formData.attachments[tr]);
+              if(attachments[0].certificateNumber){
+                console.log(attachments[0].certificateNumber);
+                attachments[0].isAdmin=false;
+              }else{
+                  attachments[0].isAdmin=true;
+              }
             }
           }
       });
@@ -4955,11 +4952,79 @@ define('project/controllers', ['project/init'], function() {
 
         utils.goTo(url);
         return url;
-      }//getUrlByQueryOfType
+      };//getUrlByQueryOfType
+    }//inoutstockDetailQueryCtr
 
 
-    };//inoutstockDetailQueryCtr
+  /**
+   * [infrastructureController manage模块wms实例管理]
+   * @return {[type]} [description]
+   */
+  function infrastructureController ($scope) {
+
+    $scope.buildMapping = function (objName, keyName, valName) {
+
+      if ($scope.formData[keyName] && $scope.formData[valName]) {
+        if ($scope.formData[objName]) {
+          // 检查key
+          var _keys = Object.keys($scope.formData[objName]);
+          if (_keys.indexOf($scope.formData[keyName]) != -1) {
+            alert('选择的属性已存在'); return;
+          }
+
+          // 检查value
+          for (var i in $scope.formData[objName]) {
+            if ($scope.formData[objName][i] == $scope.formData[valName]) {
+              alert('选择的值已存在'); return;
+            }
+          }
+        }
+
+        $scope.formData[objName][$scope.formData[keyName]] = $scope.formData[valName];
+
+        if ($scope.formData[objName]) {
+          $scope.formData[keyName] = '';
+          $scope.formData[valName] = '';
+        }
+      }
+    };
+
+    // 初始化扩展属性
+    $scope.initExtendedAttribute = function (extendedAttrObj) {
+
+      if (angular.isObject(extendedAttrObj)) {
+        $scope.extendedAttrList = [];
+        for (var i in extendedAttrObj) {
+          var _tmp = {name:i, val:extendedAttrObj[i]};
+          $scope.extendedAttrList.push(_tmp);
+        }
+
+        // console.log($scope.extendedAttrList);
+      }
+    };
+
+    // 扩展属性选择后操作
+    $scope.handleChoiseEvent = function (extendedAttrList, key) {
+      angular.forEach(extendedAttrList, function (item, index) {
+        if (key == item.name) { $scope.formData.extendedAttributeValue = item.val; }
+      });
+    };
+
+    // 保存扩展属性更改
+    $scope.saveExtendedAttribute = function () {
+      // console.log($scope.formData.extendedAttributeValue);
+      for (var i in $scope.formData.extendedAttribute) {
+        // console.log(i+' => '+$scope.formData.extendedAttributeKey.name);
+        if (i == $scope.formData.extendedAttributeKey.name) {
+          $scope.formData.extendedAttribute[i] = $scope.formData.extendedAttributeValue;
+        }
+      }
+      // console.log($scope.formData);
+    };
+  }
+
   angular.module('manageApp.project')
+  .controller('infrastructureController', ['$scope', infrastructureController])
   .controller('inoutstockDetailQueryCtr', ['$scope','utils', inoutstockDetailQueryCtr])
   .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
   .controller('indexPurchaseSuppleController', ['$scope', 'utils', indexPurchaseSuppleController])

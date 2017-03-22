@@ -386,15 +386,7 @@ define('project/services', ['project/init'], function () {
                 //获取销售单详细页面菜单定义
                 getQuery_confirmOrder:function(showData){
                   var arr=[];
-                  var   bottomButton = {
-                      "iconClass":"View-Logistics-icon","showName":"查看物流",
-                      "ngShow":"tr.orderStatus=='已发货'",
-                      "aclass":"btn-link pd-m rect-s mr--4",
-                      "ahref":"#/confirmOrder/get.html?openWuliu=true&id="+showData.id
-                    };
-                    if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
-
-                    bottomButton = {
+                  var bottomButton = {
                       "iconClass":"edit-link-icon","showName":"编辑",
                       "ngShow":"tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
                       "aclass":"btn-link pd-m rect-s",

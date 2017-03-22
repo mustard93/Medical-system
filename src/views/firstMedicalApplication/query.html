@@ -8,6 +8,8 @@
                               get-status-num-url="rest/authen/firstMedicalApplication/countByOrderStatus.json"
                               status-group-data='[["未提交-true","待审核-true","已通过-true"], ["已作废-true"]]'
                               is-show-business-btn-group=true
+                              is-show-key-filter=true
+                              search-placeholder-info="药械名 / 单据编号 / 采购员"
                               get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
   </page-main-header-component>
   <!-- 主内容区域 -->
@@ -127,6 +129,12 @@
           </ul>
         </div>
       </div>
+    </div>
+    <!-- 分页导航 -->
+    <div class="clearfix pd-c-xxxl" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
     </div>
   </table-list>
 </div>

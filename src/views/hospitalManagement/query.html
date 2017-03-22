@@ -1,4 +1,4 @@
-<div class="medical-stock"
+<div class="medical-stock hospital-management child-project-management"
      ng-controller="medicalStockCtrl"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
      <table-list list-data="rest/authen/customerAddress/query.json"
@@ -61,7 +61,7 @@
                 </div>
             </div>
           </div>
-          <div class="pr-bg-white pr-fuzzy-boundary" >
+          <div class="pr-bg-white pr-fuzzy-boundary">
             <table class="table pr-table pr-new-table pr-table-content">
               <thead class="pr-bg-side">
                 <tr>
@@ -74,19 +74,10 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- <tr ng-if="tbodyList.length"
-                    ng-repeat="tr in tbodyList track by $index"
-                    medical-stock-mouse-over
-                    mouse-over-buttons-json='[{"title":"删除","url":"#","className":"circle-icon-red del-btn-red"},
-                                              {"title":"编辑","url":"#/hospitalManagement/edit.html?id="+tr.id,"className":"circle-icon-edit edit-btn"},
-                                              {"title":"","url":"#/hospitalManagement/edit.html?id="+tr.id,"className":"circle-icon-edit more-btn"}]'
-                    ng-click="$root.goTo('#/hospitalManagement/get.html?id='+tr.id)"
-                    class="trHover"> -->
                 <tr ng-if="tbodyList.length"
                     ng-repeat="tr in tbodyList track by $index"
-                    ng-click="$root.goTo('#/hospitalManagement/get.html?id='+tr.id)"
                     class="relative"
-                    medical-stock-mouseover-extendion>
+                    table-item-multiple-btn>
                   <td class="relative">
                     <span class="circle-status"
                           ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
@@ -103,8 +94,79 @@
                         </i>
                       </span>
                     </span>
+                    <div class="table-item-multiple-btn">
+                      <div class="inline-block handle-btn del-details-btn relative" href="javascript:;">
+                        <div class="del-confirm-area text-center">
+                          <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
+                          <p class="pd-v-s">
+                            <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
+                            <a href="javascript:;"
+                               class="pr-btn-best-small pr-btn-bg-gold"
+                               ng-click="handleDelDetails(tr.id, 'rest/authen/customerAddress/delete', '#/hospitalManagement/query.html')">确认
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="inline-block handle-btn" ng-click="$root.goTo('#/hospitalManagement/get.html?id='+tr.id)"></div>
+                      <div class="inline-block handle-btn other-handle-btn relative" href="javascript:;">
+                        <div class="handle-area-show handle-area text-center">
+                          <a ng-if="tr.businessApplication.businessStatus!='已冻结'&&tr.businessApplication.businessStatus!='已终止'"
+                             href="javascript:;"
+                             modal-center="350"
+                             modal-scope="this"
+                             modal-data='{"title":"确认",
+                                          "content":"冻结后，该品种信息将被暂停，直到解冻，确认冻结?",
+                                          "btnConfirm":"确定",
+                                          "btnCancel":"取消",
+                                          "url":"rest/authen/customerAddress/updateStatus",
+                                          "goUrl":"",
+                                          "id":"{{tr.id}}",
+                                          "status":"已冻结"
+                                         }'
+                             modal-url="angular/tpl/pr-dialog-submit-message.html">冻结
+                          </a>
+                          <a ng-if="tr.businessApplication.businessStatus=='已冻结'"
+                             href="javascript:;"
+                             modal-center="350"
+                             modal-scope="this"
+                             modal-data='{"title":"确认解冻?",
+                                          "content":"解冻后，该品种信息将恢复，确认解冻?",
+                                          "btnConfirm":"确定",
+                                          "btnCancel":"取消",
+                                          "url":"rest/authen/customerAddress/updateStatus",
+                                          "goUrl":"",
+                                          "id":"{{tr.id}}",
+                                          "status":"已通过"
+                                         }'
+                             modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
+                          </a>
+                          <a ng-if="tr.businessApplication.businessStatus!='已终止'" href="javascript:;"
+                             handle-this-click
+                             dialog-title="确认终止?"
+                             dialog-content="终止后，该品种信息将被取消，确定终止?"
+                             dialog-template="pr-dialog-submit.html"
+                             request-url="rest/authen/customerAddress/updateStatus"
+                             params='{"id":tr.id,"status":"已终止"}'
+                             alert-error
+                             callback="$root.utils.refreshHref()">终止
+                          </a>
+                          <a href="javascript:;"
+                             modal-right="800"
+                             modal-scope="this"
+                             modal-data='{"type":"modalRight",
+                                          "modalWidth":"800",
+                                          "aclass":"color-orange add-return-order mgl-s",
+                                          "requestUrl":"rest/authen/versionFlow/query?businessKey={{tr.id}}",
+                                          "httpMethod":"GET",
+                                          "ahref":"views/versionFlow/get-right-side.html?businessKey={{tr.id}}",
+                                          "showName":"查看操作记录"}'
+                             modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">操作记录
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </td>
-                  <td class="text-center">{{$index + 1}}</td>
+                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
                   <td>{{tr.code}}</td>
                   <td class="text-left color-orange">
                     <div class="autocut" title="{{tr.name}}">
@@ -129,7 +191,7 @@
         </div>
     </div>
     <!-- 导航 -->
-    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+    <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
         <div class="fr">
             <pagination status="status"></pagination>
         </div>
