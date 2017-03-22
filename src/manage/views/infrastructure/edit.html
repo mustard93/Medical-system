@@ -1,7 +1,7 @@
 <div class="modal-content" ng-controller="infrastructureController"
-     ajax-url="rest/authen/infrastructure/getOfEdit.json?id={{tr.id}}"
+     ajax-url="rest/authen/infrastructure/getOfEdit.json?id={{tr.id}}&wmsType={{dialogData.wmsType}}"
      scope-data="formData"
-     callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId"
+     callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId;formData.wmsType=dialogData.wmsType;initExtendedAttribute(formData.extendedAttribute)"
      alert-error>
   <form class="add-manageWarehouse-form form-horizontal"
         action="rest/authen/infrastructure/save"
@@ -40,46 +40,104 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">实例队列Key</label>
+            <div class="col-lg-10 col-sm-10">
+                <input type="text" class="form-control" placeholder="" ng-model="formData.instanceKey"/>
+            </div>
+          </div>
+
           <div class="form-group" ng-init="formData.warehouseTypeMapping={}">
             <label class="col-lg-2 col-sm-2 control-label">库类型</label>
             <div class="col-lg-10 col-sm-10">
-              <select ng-if="initFlag"
-                      class="ipt pr-short-ipt"
-                      data-placeholder="选择wms系统类型"
-                      chosen
-                      default-empty="无"
-                      ng-model="formData.warehouseTypeMappingKey"
-                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Warehouse_WarehouseType"
-                      ng-change="buildMapping(formData.warehouseTypeMapping,formData.warehouseTypeMappingKey,formData.warehouseTypeMappingValue)" />
-              </select>
-              <input ng-if="formData.warehouseTypeMapping" type="text" ng-model="formData.warehouseTypeMappingValue"  />
+              <div class="">
+                <p class="pr-indent-10" ng-repeat="(key,item) in formData.warehouseTypeMapping">{{key}} : {{item}}</p>
+              </div>
+
+              <div>
+                <select ng-if="initFlag"
+                        class="ipt pr-short-ipt"
+                        data-placeholder="选择wms系统类型"
+                        chosen
+                        default-empty="无"
+                        ng-model="formData.warehouseTypeMappingKey"
+                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Warehouse_WarehouseType" />
+                </select>
+                <input class="ipt pr-short-ipt" type="text" ng-model="formData.warehouseTypeMappingValue" />
+                <a href="" ng-click="buildMapping('warehouseTypeMapping','warehouseTypeMappingKey','warehouseTypeMappingValue')">添加</a>
+              </div>
+
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" ng-init="formData.batchRequirementMapping={}">
             <label class="col-lg-2 col-sm-2 control-label">批号要求</label>
             <div class="col-lg-10 col-sm-10">
-              <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择wms系统类型" chosen default-empty="无" ng-model="formData.wmsType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WmsSystemEnum">
 
-              </select>
+              <div class="">
+                <p class="pr-indent-10" ng-repeat="(key,item) in formData.batchRequirementMapping">{{key}} : {{item}}</p>
+              </div>
+
+              <div>
+                <select ng-if="initFlag"
+                        class="ipt pr-short-ipt"
+                        data-placeholder="选择wms系统类型"
+                        chosen
+                        default-empty="无"
+                        ng-model="formData.batchRequirementMappingKey"
+                        select-source="/rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
+                </select>
+                <input class="ipt pr-short-ipt" type="text" ng-model="formData.batchRequirementMappingValue" />
+                <a href="" ng-click="buildMapping('batchRequirementMapping','batchRequirementMappingKey','batchRequirementMappingValue')">添加</a>
+              </div>
+
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" ng-init="formData.extendedAttributeKey=''">
             <label class="col-lg-2 col-sm-2 control-label">扩展属性</label>
             <div class="col-lg-10 col-sm-10">
-              <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择wms系统类型" chosen default-empty="无" ng-model="formData.wmsType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WmsSystemEnum">
 
-              </select>
+              <div class="">
+                <p class="pr-indent-10" ng-repeat="(key,item) in formData.extendedAttribute">{{key}} : {{item}}</p>
+              </div>
+
+              <div>
+                <!-- <select class="ipt pr-short-ipt" ng-model="formData.extendedAttributeKey" ng-change="handleChoiseEvent()">
+                  <option value="">无</option>
+                  <option ng-repeat="item in extendedAttrList" value="{{item.value}}">{{item.name}}</option>
+                </select> -->
+                <select class="ipt pr-short-ipt"
+                        ng-model="formData.extendedAttributeKey"
+                        ng-options="item.name for item in extendedAttrList"
+                        ng-change="handleChoiseEvent(extendedAttrList, formData.extendedAttributeKey)">
+                </select>
+                <input class="ipt pr-short-ipt" type="text" ng-model="formData.extendedAttributeValue" />
+                <a ng-if="formData.extendedAttributeKey" href="" ng-click="saveExtendedAttribute()">保存</a>
+              </div>
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-lg-2 col-sm-2 control-label">出入库明细类型</label>
             <div class="col-lg-10 col-sm-10">
-              <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择wms系统类型" chosen default-empty="无" ng-model="formData.wmsType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WmsSystemEnum">
 
-              </select>
+              <div class="">
+                <p class="pr-indent-10" ng-repeat="(key,item) in formData.inoutTypeMapping">{{key}} : {{item}}</p>
+              </div>
+
+              <div>
+                <select ng-if="initFlag"
+                        class="ipt pr-short-ipt"
+                        data-placeholder="选择wms系统类型"
+                        chosen
+                        default-empty="无"
+                        ng-model="formData.inoutTypeMappingKey"
+                        select-source="/rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
+                </select>
+                <input class="ipt pr-short-ipt" type="text" ng-model="formData.inoutTypeMappingValue" />
+                <a href="" ng-click="buildMapping('inoutTypeMapping','inoutTypeMappingKey','inoutTypeMappingValue')">添加</a>
+              </div>
             </div>
           </div>
 
