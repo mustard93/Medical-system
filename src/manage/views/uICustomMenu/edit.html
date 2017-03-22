@@ -84,6 +84,8 @@
 
                 <li ng-repeat="tr in treeList_recursion" ng-init="isOpen=tree_index<2" class="{{isOpen?'fold':''}}">
                   <span class="name">
+                    <img ng-if="tr.iconEnableUrl" ng-src="{{tr.iconEnableUrl}}"  ng-style="{width:20,height:20}"/>
+
                       <span class="text-bold" modal-right="800" modal-scope="this" modal-url="views/uICustomMenu/uICustomMenuItemVO/edit.html">{{tr.showName}} </span>
                         <span ng-if="tree_index>0 && tr.items.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
                         <span class="operate-left">
