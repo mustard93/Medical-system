@@ -1000,7 +1000,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 监控用户变化，清空之前选择药械列表
     $scope.$watch('formData.customerId', function (newVal, oldVal) {
-      if (newVal && oldVal !== newVal) {  
+      if (newVal && oldVal !== newVal) {
         $scope.logistics=false;
         console.log($scope.logistics);
         if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
@@ -4851,7 +4851,37 @@ define('project/controllers', ['project/init'], function() {
       // 直接将用户选择的历史价格赋值给表单价格
       if ($scope.formData.orderMedicalNos) {
         angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
-          if (item.relId === id) { item.strike_price = obj.value; }
+          if (item.relId === id) {
+            item.strike_price = obj.value;
+           }
+        });
+      }
+    };
+  }
+
+  /**
+   * [editStockbatchNumberCtrl 销售单涉及到多仓库的批号数量选择及操作控制器]
+   * @param  {[type]} $scope [注入项]
+   * @param  {[type]} utils  [注入项]
+   * @return {[type]}        [description]
+   */
+  function editStockbatchNumberCtrl ($scope, utils) {
+    // 用户选择生产批号
+    $scope.choseBatch = function (obj,id) {
+      var productionBatchs=[];
+      // 直接将用户选择的生产批号数量灭菌批号赋值给表单价格
+      if ($scope.formData.orderMedicalNos) {
+        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+          if (item.id === id) {
+            item.quantityAndbatchNumber = obj.productionBatch;
+            item.otherQuantity = obj.stockModel.salesQuantity;
+            item.otherSterilizationBatchNumber = obj.sterilizationBatchNumber;
+            item.otherWarehouseName = obj.warehouseName;
+
+            if(item.quantityAndbatchNumber){
+              item.flag=true;
+            }
+          }
         });
       }
     };
@@ -4910,6 +4940,7 @@ define('project/controllers', ['project/init'], function() {
   angular.module('manageApp.project')
   .controller('inoutstockDetailQueryCtr', ['$scope','utils', inoutstockDetailQueryCtr])
   .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
+  .controller('editStockbatchNumberCtrl', ['$scope', 'utils', editStockbatchNumberCtrl])
   .controller('indexPurchaseSuppleController', ['$scope', 'utils', indexPurchaseSuppleController])
   .controller('indexPageController', ['$scope', 'utils', indexPageController])
   .controller('getAllExpressController', ['$scope', 'requestData', getAllExpressController])
