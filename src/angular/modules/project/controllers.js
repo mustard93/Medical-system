@@ -2952,11 +2952,13 @@ define('project/controllers', ['project/init'], function() {
           }
          }
 
-         for(tr in $scope.formData.attachments){
-           // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
-           var attachments=[];
-           attachments.push($scope.formData.attachments[tr])
-             attachments[0].isAdmin=true;
+         if ($scope.formData) {
+           for(var tr in $scope.formData.attachments){
+             // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
+             var attachments=[];
+             attachments.push($scope.formData.attachments[tr]);
+               attachments[0].isAdmin=true;
+           }
          }
        });
       $scope.watchFormChange = function(watchName){
@@ -3493,6 +3495,7 @@ define('project/controllers', ['project/init'], function() {
 
     //品种管理模块
     function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
       $scope.$watch('initFlag', function (newVal) {
         var operationFlowSetMessage=[];
         var operationFlowSetKey=[];
@@ -3512,21 +3515,22 @@ define('project/controllers', ['project/init'], function() {
          return;
         }
          if (newVal && $scope.formData.orderMedicalNos) {
-          for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
-            if ($scope.formData.orderMedicalNos[i].handleFlag) {
+          for (j=0; j<$scope.formData.orderMedicalNos.length; j++) {
+            if ($scope.formData.orderMedicalNos[j].handleFlag) {
               $scope.choisedMedicals = true;
             }
-            if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+            if (!$scope.formData.orderMedicalNos[j].handleFlag) {
               $scope.isChoiseAll = false;
             }
           }
           // $scope.isChoiseAll = true;
          }
-           // 编辑页面，如果证书编号是有值得情况下，不允许被修改
-           for(tr in $scope.formData.attachments){
+         // 编辑页面，如果证书编号是有值得情况下，不允许被修改
+         if ($scope.formData) {
+           for(var tr in $scope.formData.attachments){
              // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
              var attachments=[];
-             attachments.push($scope.formData.attachments[tr])
+             attachments.push($scope.formData.attachments[tr]);
              if(attachments[0].certificateNumber){
                console.log(attachments[0].certificateNumber);
                attachments[0].isAdmin=false;
@@ -3534,6 +3538,7 @@ define('project/controllers', ['project/init'], function() {
                  attachments[0].isAdmin=true;
              }
            }
+         }
        });
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
@@ -3763,15 +3768,17 @@ define('project/controllers', ['project/init'], function() {
            return;
           }
           // 编辑页面，如果证书编号是有值得情况下，不允许被修改
-          for(tr in $scope.formData.attachments){
-            // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
-            var attachments=[];
-            attachments.push($scope.formData.attachments[tr])
-            if(attachments[0].certificateNumber){
-              console.log(attachments[0].certificateNumber);
-              attachments[0].isAdmin=false;
-            }else{
-                attachments[0].isAdmin=true;
+          if ($scope.formData) {
+            for(var tr in $scope.formData.attachments){
+              // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
+              var attachments=[];
+              attachments.push($scope.formData.attachments[tr]);
+              if(attachments[0].certificateNumber){
+                console.log(attachments[0].certificateNumber);
+                attachments[0].isAdmin=false;
+              }else{
+                  attachments[0].isAdmin=true;
+              }
             }
           }
       });
@@ -4300,53 +4307,67 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 添加选择项到编辑页
-    $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList) {
-      if(!addDataObj_id){//发货单id不能为空
-        return ;
-      }
-      if(!choisedMedicalList || choisedMedicalList.length===0){//至少选择1条数据
-        return ;
-      }
-
-      //切换发货单时，清空原有数据
-      if($scope.formData.relId!=addDataObj_id){
-        $scope.formData.orderMedicalNos=[];
-      }else{
-        //否则删除没选中,再添加选中的
-        for(var i=$scope.formData.orderMedicalNos.length-1;i>=0;i--){
-          var data=$scope.formData.orderMedicalNos[i];
-          if(utils.getObjectIndexByKeyOfArr(choisedMedicalList,"relId",data.relId)==-1){
-              $scope.formData.orderMedicalNos.splice(i,1);
-          }
-        }
-      }
-      //重新绑定数据
-      $scope.formData.relId = addDataObj_id;
-
-      //清空原有数据，重新绑定到主页面
-      $scope.formData.orderMedicalNos=[];
-      angular.forEach(choisedMedicalList, function (data, index) {
-        data.quantity = data.returnQuantity;    // 将可退数量赋值给显示的数量
-        $scope.formData.orderMedicalNos.push(data);
-      });
-
-      //已经添加过的不在添加。（保留已经修改的数据）
-      // angular.forEach(choisedMedicalList, function (data, index) {
-      //   if ($scope.formData.orderMedicalNos.length !== 0) {
-      //     if(utils.getObjectIndexByKeyOfArr($scope.formData.orderMedicalNos,"relId",data.relId)==-1){
-      //       $scope.formData.orderMedicalNos.push(data);
-      //     }
-      //   } else {
-      //     $scope.formData.orderMedicalNos.push(data);
-      //   }
-      // });
-
-
-      // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);
-        modal.closeAll();
-
-
-    };
+    // $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList,addDataObj) {
+    //
+    //
+    //   if(!addDataObj_id){//发货单id不能为空
+    //     return ;
+    //   }
+    //   if(!choisedMedicalList || choisedMedicalList.length===0){//至少选择1条数据
+    //     return ;
+    //   }
+    //
+    //
+    //
+    //
+    //           //销退单、采退单：销售部门、业务人员、业务类型、 销售类型 应该选择发货单和来货通知单后就带出来
+    //           $scope.formData.salesDepartmentId=addDataObj.salesDepartmentId;
+    //           $scope.formData.salesDepartmentName=addDataObj.salesDepartmentName;
+    //           $scope.formData.salesType=addDataObj.salesType;
+    //           $scope.formData.orderBusinessType=addDataObj.orderBusinessType;
+    //           $scope.formData.saleUser=addDataObj.saleUser;
+    //
+    //   //切换发货单时，清空原有数据
+    //   if($scope.formData.relId!=addDataObj_id){
+    //     $scope.formData.orderMedicalNos=[];
+    //
+    //
+    //   }else{
+    //     //否则删除没选中,再添加选中的
+    //     for(var i=$scope.formData.orderMedicalNos.length-1;i>=0;i--){
+    //       var data=$scope.formData.orderMedicalNos[i];
+    //       if(utils.getObjectIndexByKeyOfArr(choisedMedicalList,"relId",data.relId)==-1){
+    //           $scope.formData.orderMedicalNos.splice(i,1);
+    //       }
+    //     }
+    //   }
+    //   //重新绑定数据
+    //   $scope.formData.relId = addDataObj_id;
+    //
+    //   //清空原有数据，重新绑定到主页面
+    //   $scope.formData.orderMedicalNos=[];
+    //   angular.forEach(choisedMedicalList, function (data, index) {
+    //     data.quantity = data.returnQuantity;    // 将可退数量赋值给显示的数量
+    //     $scope.formData.orderMedicalNos.push(data);
+    //   });
+    //
+    //   //已经添加过的不在添加。（保留已经修改的数据）
+    //   // angular.forEach(choisedMedicalList, function (data, index) {
+    //   //   if ($scope.formData.orderMedicalNos.length !== 0) {
+    //   //     if(utils.getObjectIndexByKeyOfArr($scope.formData.orderMedicalNos,"relId",data.relId)==-1){
+    //   //       $scope.formData.orderMedicalNos.push(data);
+    //   //     }
+    //   //   } else {
+    //   //     $scope.formData.orderMedicalNos.push(data);
+    //   //   }
+    //   // });
+    //
+    //
+    //   // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);
+    //     modal.closeAll();
+    //
+    //
+    // };
 
   }
 
@@ -4439,38 +4460,48 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 添加选择项到编辑页
-    $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList) {
-      if(!addDataObj_id){//发货单id不能为空
-        return ;
-      }
-      if(!choisedMedicalList||choisedMedicalList.length===0){//至少选择1条数据
-        return ;
-      }
-
-      //切换发货单时，清空原有数据
-      if($scope.formData.relId!=addDataObj_id){
-        $scope.formData.orderMedicalNos=[];
-      }else{
-        //否则删除没选中,再添加选中的
-        for(var i=$scope.formData.orderMedicalNos.length-1;i>=0;i--){
-          var data=$scope.formData.orderMedicalNos[i];
-          if(utils.getObjectIndexByKeyOfArr(choisedMedicalList,"relId",data.relId)==-1){
-              $scope.formData.orderMedicalNos.splice(i,1);
-          }
-        }
-      }
-      //重新绑定数据
-      $scope.formData.relId = addDataObj_id;
-      //已经添加过的不在添加。（保留已经修改的数据）
-        angular.forEach(choisedMedicalList, function (data, index) {
-          if(utils.getObjectIndexByKeyOfArr($scope.formData.orderMedicalNos,"relId",data.relId)==-1){
-              $scope.formData.orderMedicalNos.push(data);
-          }
-
-        });
-      // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);
-        modal.closeAll();
-    };
+    // $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList,addDataObj) {
+    //   if(!addDataObj_id){//发货单id不能为空
+    //     return ;
+    //   }
+    //   if(!choisedMedicalList||choisedMedicalList.length===0){//至少选择1条数据
+    //     return ;
+    //   }
+    //
+    //
+    //           //销退单、采退单：销售部门、业务人员、业务类型、 销售类型 应该选择发货单和来货通知单后就带出来
+    //           $scope.formData.salesDepartmentId=addDataObj.salesDepartmentId;
+    //           $scope.formData.salesDepartmentName=addDataObj.salesDepartmentName;
+    //           $scope.formData.salesType=addDataObj.salesType;
+    //           $scope.formData.orderBusinessType=addDataObj.orderBusinessType;
+    //           $scope.formData.saleUser=addDataObj.saleUser;
+    //
+    //   //切换发货单时，清空原有数据
+    //   if($scope.formData.relId!=addDataObj_id){
+    //     $scope.formData.orderMedicalNos=[];
+    //
+    //
+    //   }else{
+    //     //否则删除没选中,再添加选中的
+    //     for(var i=$scope.formData.orderMedicalNos.length-1;i>=0;i--){
+    //       var data=$scope.formData.orderMedicalNos[i];
+    //       if(utils.getObjectIndexByKeyOfArr(choisedMedicalList,"relId",data.relId)==-1){
+    //           $scope.formData.orderMedicalNos.splice(i,1);
+    //       }
+    //     }
+    //   }
+    //   //重新绑定数据
+    //   $scope.formData.relId = addDataObj_id;
+    //   //已经添加过的不在添加。（保留已经修改的数据）
+    //     angular.forEach(choisedMedicalList, function (data, index) {
+    //       if(utils.getObjectIndexByKeyOfArr($scope.formData.orderMedicalNos,"relId",data.relId)==-1){
+    //           $scope.formData.orderMedicalNos.push(data);
+    //       }
+    //
+    //     });
+    //   // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);
+    //     modal.closeAll();
+    // };
 
   }
   /**
@@ -4592,12 +4623,20 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 采购退货单模块根据设计变更重写hanleAddDataArray方法,需将选中的数据及id发送到后端进行拆分后将返回数据加载到主页面
-    $scope.handleAddData = function (addDataObj_id, addDataObj_orderNo,choisedMedicalList) {
+    $scope.handleAddData = function (addDataObj_id, addDataObj_orderNo,choisedMedicalList,addDataObj) {
 
       // 发货单id不能为空,至少选择1条数据
       if (!addDataObj_id || !addDataObj_orderNo || !choisedMedicalList || choisedMedicalList.length === 0) {
         return ;
       }
+
+
+      //销退单、采退单：销售部门、业务人员、业务类型、 销售类型 应该选择发货单和来货通知单后就带出来
+      $scope.formData.salesDepartmentId=addDataObj.salesDepartmentId;
+      $scope.formData.salesDepartmentName=addDataObj.salesDepartmentName;
+      $scope.formData.purchaseType=addDataObj.purchaseType;
+      $scope.formData.orderBusinessType=addDataObj.orderBusinessType;
+      $scope.formData.saleUser=addDataObj.saleUser;
 
       // 清空原有数据
       $scope.formData.relId = addDataObj_id;
@@ -4634,8 +4673,8 @@ define('project/controllers', ['project/init'], function() {
       });
     };
 
-    // 销售退货单模块点击添加要退货的药品列表功能
-    $scope.handleAddDataArray = function (addDataObj_id, choisedMedicalList) {
+    // // 销售退货单模块点击添加要退货的药品列表功能
+    $scope.handleAddDataArray = function (addDataObj_id, choisedMedicalList,addDataObj) {
 
       // 发货单id不能为空,至少选择1条数据
       if (!addDataObj_id || !choisedMedicalList || choisedMedicalList.length === 0) {
@@ -4653,9 +4692,19 @@ define('project/controllers', ['project/init'], function() {
       }
 
 
+      //销退单、采退单：销售部门、业务人员、业务类型、 销售类型 应该选择发货单和来货通知单后就带出来
+      $scope.formData.salesDepartmentId=addDataObj.salesDepartmentId;
+      $scope.formData.salesDepartmentName=addDataObj.salesDepartmentName;
+      $scope.formData.salesType=addDataObj.salesType;
+      $scope.formData.orderBusinessType=addDataObj.orderBusinessType;
+      $scope.formData.saleUser=addDataObj.saleUser;
+
       //切换发货单时，清空原有数据
       if($scope.formData.relId!=addDataObj_id){
         $scope.formData.orderMedicalNos=[];
+
+
+
       }else{
         //否则删除没选中,再添加选中的
         for(var i=$scope.formData.orderMedicalNos.length-1;i>=0;i--){
@@ -4933,11 +4982,79 @@ define('project/controllers', ['project/init'], function() {
 
         utils.goTo(url);
         return url;
-      }//getUrlByQueryOfType
+      };//getUrlByQueryOfType
+    }//inoutstockDetailQueryCtr
 
 
-    };//inoutstockDetailQueryCtr
+  /**
+   * [infrastructureController manage模块wms实例管理]
+   * @return {[type]} [description]
+   */
+  function infrastructureController ($scope) {
+
+    $scope.buildMapping = function (objName, keyName, valName) {
+
+      if ($scope.formData[keyName] && $scope.formData[valName]) {
+        if ($scope.formData[objName]) {
+          // 检查key
+          var _keys = Object.keys($scope.formData[objName]);
+          if (_keys.indexOf($scope.formData[keyName]) != -1) {
+            alert('选择的属性已存在'); return;
+          }
+
+          // 检查value
+          for (var i in $scope.formData[objName]) {
+            if ($scope.formData[objName][i] == $scope.formData[valName]) {
+              alert('选择的值已存在'); return;
+            }
+          }
+        }
+
+        $scope.formData[objName][$scope.formData[keyName]] = $scope.formData[valName];
+
+        if ($scope.formData[objName]) {
+          $scope.formData[keyName] = '';
+          $scope.formData[valName] = '';
+        }
+      }
+    };
+
+    // 初始化扩展属性
+    $scope.initExtendedAttribute = function (extendedAttrObj) {
+
+      if (angular.isObject(extendedAttrObj)) {
+        $scope.extendedAttrList = [];
+        for (var i in extendedAttrObj) {
+          var _tmp = {name:i, val:extendedAttrObj[i]};
+          $scope.extendedAttrList.push(_tmp);
+        }
+
+        // console.log($scope.extendedAttrList);
+      }
+    };
+
+    // 扩展属性选择后操作
+    $scope.handleChoiseEvent = function (extendedAttrList, key) {
+      angular.forEach(extendedAttrList, function (item, index) {
+        if (key == item.name) { $scope.formData.extendedAttributeValue = item.val; }
+      });
+    };
+
+    // 保存扩展属性更改
+    $scope.saveExtendedAttribute = function () {
+      // console.log($scope.formData.extendedAttributeValue);
+      for (var i in $scope.formData.extendedAttribute) {
+        // console.log(i+' => '+$scope.formData.extendedAttributeKey.name);
+        if (i == $scope.formData.extendedAttributeKey.name) {
+          $scope.formData.extendedAttribute[i] = $scope.formData.extendedAttributeValue;
+        }
+      }
+      // console.log($scope.formData);
+    };
+  }
+
   angular.module('manageApp.project')
+  .controller('infrastructureController', ['$scope', infrastructureController])
   .controller('inoutstockDetailQueryCtr', ['$scope','utils', inoutstockDetailQueryCtr])
   .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
   .controller('editStockbatchNumberCtrl', ['$scope', 'utils', editStockbatchNumberCtrl])

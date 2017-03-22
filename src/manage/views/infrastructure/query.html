@@ -13,7 +13,7 @@
 <table-list list-data="rest/authen/infrastructure/query.json" list-params="listParams">
     <div class="mg-m col-lg-12 col-sm-12">
       <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"  modal-data='{"organizationId":"{{listParams.organizationId}}"}' modal-url="views/infrastructure/edit.html">
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"  modal-data='{"organizationId":"{{listParams.organizationId}}","wmsType":"{{listParams.wmsType}}"}' modal-url="views/infrastructure/edit.html">
             <i class="fa fa-plus"></i>新建
         </button>
       </div>
@@ -29,7 +29,7 @@
       <div class="form-group col-lg-2">
         <label class="col-lg-2 col-sm-2 control-label">wms系统类型</label>
         <div class="col-lg-10 col-sm-10">
-          <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择wms系统类型" chosen default-empty="无" ng-model="listParams.wmsType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WmsSystemEnum">
+          <select  class="ipt pr-short-ipt" data-placeholder="选择wms系统类型" chosen ng-model="listParams.wmsType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WmsSystemEnum">
 
           </select>
         </div>
