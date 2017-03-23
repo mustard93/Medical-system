@@ -3054,7 +3054,7 @@ define('project/controllers', ['project/init'], function() {
          }
 
          if ($scope.submitForm_type == 'submit') {
-           $scope.formData.validFlag = false;
+           $scope.formData.validFlag = true;
          }
         $('#' + fromId).trigger('submit');
       };
