@@ -39,7 +39,19 @@
           </td>
           <!-- 证书编号  -->
           <td>
-            <div class="date-icon-outside" ng-disabled="!item.showFlag">
+            <div class="date-icon-outside">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt ipt-new-s ipt-att color-6"
+                     ng-readonly="true"
+                     placeholder=" 有效日期至"
+                     ng-model="item.guaranteePeriod"
+                     ng-disabled="!item.showFlag"
+                     style="width:148px;"
+                     >
+                    <span class="date-icon"></span>
+            </div>
+            <!-- <div class="date-icon-outside" ng-disabled="!item.showFlag">
               <input type="text"
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -49,7 +61,7 @@
                      ng-disabled="!item.showFlag"
                     >
               <span class="date-icon"></span>
-            </div>
+            </div> -->
           </td><!-- 有效日期  -->
           <td>{{item.uploadUserName || '—'}}</td><!-- 上传人  -->
           <td>{{item.uploadTime || '—' | date : 'yyyy-MM-dd HH:mm' }}</td><!-- 上传日期  -->
