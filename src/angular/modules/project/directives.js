@@ -2995,6 +2995,9 @@ function addressManageComponent (requestData, utils) {
         _tmpObj.type = $scope.createAddressType;  // 类型
         _tmpObj.title = $scope.modifyModalTitle;  // 标题
 
+        // 存入物流中心id
+        _tmpObj.logisticsCenterId = $scope.logisticsCenterId;
+
         return _tmpObj;
       };
 
@@ -3035,7 +3038,8 @@ function addressManageComponent (requestData, utils) {
         // var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
         var _moduleAddressId = 'invoicesAddressId';  // 构建模块id名
         var _data = {};
-        _data[_moduleAddressId] = $scope.returnAddressObj.id;
+        // _data[_moduleAddressId] = $scope.returnAddressObj.id;
+        _data.id = $scope.returnAddressObj.id;     // 新版多仓库改动，将原Id名更改为id
         _data.contactId = contactId;
 
         requestData($scope.setDefaultAddressRequesturl, _data, 'POST')

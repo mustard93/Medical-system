@@ -170,6 +170,17 @@
                                           "showName":"查看操作记录"}'
                              modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">操作记录
                           </a>
+                          <a href="javascript:;"
+                             ajax-url-submit="rest/authen/medicalStock/checkStock"
+                             params='{"id":"{{tr.id}}"}'
+                             alert-error
+                             callback="listParams.refreshId=tr.id">校验库存
+                          </a>
+                          <a href="javascript:;"
+                             modal-right="700"
+                             modal-scope="this"
+                             modal-url="views/medicalStock/editOfStockBatch.html?id={{tr.id}}">添加库存
+                          </a>
                         </div>
                       </div>
                     </div>
