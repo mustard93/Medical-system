@@ -30,7 +30,8 @@
            <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
          </div>
          <!-- 供货商信息 -->
-         <div ajax-if-eval="formData.supplier.id"
+         <div class="inline-block"
+              ajax-if-eval="formData.supplier.id"
               ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
               scope-data="supplier"
               callback="formData.supplier=supplier"
@@ -50,6 +51,16 @@
                {{formData.supplier.businessApplication.businessStatus}}
              </em>
            </span>
+         </div>
+         <div class="inline-block">
+           <select ng-if="initFlag"
+                   class="ipt pr-long-ipt color-6"
+                   data-placeholder="物流中心"
+                   chosen
+                   chosen-ajax
+                   ng-model="formData.logisticsId"
+                   select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+           </select>
          </div>
        </div>
      </div>
@@ -262,8 +273,8 @@
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">
                        <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.tax">
-                         <option value="17" ng-selected="tr.taxRate==17">17</option>
-                         <option value="3" ng-selected="tr.taxRate==3">3</option>
+                         <option value="17" ng-selected="tr.tax==17">17</option>
+                         <option value="3" ng-selected="tr.tax==3">3</option>
                        </select>%
                      </td><!-- 税率 -->
                      <td class="text-center" style="line-height:2.4">{{tr.storedTemperature}}</td>
@@ -372,6 +383,7 @@
                                   create-modal-url="views/invoicesAddress/contact/edit.html"
                                   create-modal-title="添加收货方信息"
                                   create-address-type="采购"
+                                  logistics-center-id="{{formData.logisticsId}}"
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
         </address-manage-component>
