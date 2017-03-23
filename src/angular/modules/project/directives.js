@@ -1894,13 +1894,15 @@ function stepFlowArrowShow(utils){
         scope:{},
         restrict: 'A',
         link: function ($scope, $element, $attrs) {
-        $($element).bind('DOMNodeInserted',function(e) {
-          if($attrs.addCondition>0){
-            $(this).after($(this).clone());
-            console.log("change");
-          }
-        });
-          }//link
+          var item=$attrs.addCondition;
+          $($element).off("click").on('click',function(){
+            $($element).bind('DOMNodeInserted', function(e) {
+              console.log($(e.target).text());
+                console.log('触发');
+              });
+
+          })
+        }
       };
     }
 

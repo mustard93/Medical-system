@@ -1006,7 +1006,16 @@ define('project/controllers', ['project/init'], function() {
         if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
       }
     });
-
+    $scope.deleteQuantity=function(item){
+      angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+        if (item.quantityAndbatchNumber) {
+          item.quantityAndbatchNumber = '';
+          item.otherQuantity ='';
+          item.otherSterilizationBatchNumber = '';
+          item.otherWarehouseName ='';
+        }
+      });
+    }
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
@@ -4919,17 +4928,22 @@ define('project/controllers', ['project/init'], function() {
     $scope.choseBatch = function (obj,id) {
       var productionBatchs=[];
       // 直接将用户选择的生产批号数量灭菌批号赋值给表单价格
+
       if ($scope.formData.orderMedicalNos) {
+
         angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
-          if (item.id === id) {
+          if (item.relId === id) {
+            if(item.quantityAndbatchNumber){
+              if(item.flag){
+                item.flag=false;
+              }else{
+                item.flag=true;
+              }
+            }
             item.quantityAndbatchNumber = obj.productionBatch;
             item.otherQuantity = obj.stockModel.salesQuantity;
             item.otherSterilizationBatchNumber = obj.sterilizationBatchNumber;
             item.otherWarehouseName = obj.warehouseName;
-
-            if(item.quantityAndbatchNumber){
-              item.flag=true;
-            }
           }
         });
       }
