@@ -1,4 +1,4 @@
-<div class="create-new-order"
+<div class="create-new-order arrivalNotaice-order"
      ajax-url="rest/authen/arrivalNoticeOrder/get.json?orderNo={{mainStatus.pageParams.orderNo}}&id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="scopeData"
      callback="initFlag=true;formData.note=scopeData.note;formData.id=scopeData.id;"
@@ -96,12 +96,12 @@
                     medical-stock-mouse-over
                     mouse-over-buttons-json='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,"className":"circle-icon2 pos-abs pr-icon-arrow-left","progress":tr.progress}]'>
                   <td class="text-center">
-                    <span class="circle-status pr-progress"
-                          ng-class="{'bg-pass-green':tr.finishStatus =='1','bg-end-red':tr.finishStatus =='0'}">
-                      <span class="purchaseorder-buyer-info" style="right: 17px;top:0px;">
+                    <span class="circle-status"
+                          ng-class="{'bg-pass-green':tr.finishStatus,'bg-ing-orang':!tr.finishStatus}">
+                      <span class="purchaseorder-buyer-info" style="right:26px;top:-5px;">
                         <i class="block pd-c-s text-normal" style="line-height:1.8">
-                          <em ng-if="tr.finishStatus =='1'" class="inline-block">已完成</em>
-                          <em ng-if="tr.finishStatus =='0'" class="inline-block">入库中</em>
+                          <em ng-if="tr.finishStatus" class="inline-block">已完成</em>
+                          <em ng-if="!tr.finishStatus" class="inline-block">入库中</em>
                         </i>
                       </span>
                     </span>
