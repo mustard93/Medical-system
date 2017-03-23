@@ -93,13 +93,10 @@
                 <th class="text-center">报价</th>
                 <th class="text-center">产地</th>
                 <th class="text-center">失效日期</th>
-                <th class="text-center">退补标志</th>
                 <th class="text-center">保存温度</th>
-                <th class="text-center">品牌</th>
+                <th class="text-center">产地品牌</th>
                 <th class="text-center">产地注册证号</th>
                 <th class="text-center">注册证有效期</th>
-                <th class="text-center">医保编码</th>
-                <th class="text-center">院内编码</th>
               </tr>
             </thead>
             <tbody class="bg-white">
@@ -163,17 +160,14 @@
                 <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
                 <td class="text-right">￥{{item.strike_price}}</td>
                 <td class="text-center">{{item.productionPlace}}</td>
-                <td class="text-center" ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
-                    scope-data="validTilldata">
-                    {{validTilldata.validTill | date : 'yyyy-MM-dd'}}
+                <td class="text-center"
+                    ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
+                    scope-data="validTilldata">{{validTilldata.validTill | date : 'yyyy-MM-dd'}}
                 </td>
-                <td class="text-center">{{item.withdrawalSign}}</td>
                 <td class="text-center">{{item.storedTemperature}}</td>
                 <td class="text-center">{{item.brand}}</td>
                 <td class="text-center">{{item.drugAdministrationCode}}</td>
                 <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
-                <td class="text-center">{{item.medicalInsuranceCode}}</td>
-                <td class="text-center">{{item.hospitalCode}}</td>
               </tr>
             </tbody>
           </table>

@@ -1,14 +1,13 @@
-<div class="modal-content pr-modal-content" ng-controller="editCtrl">
+<div class="modal-content pr-modal-content">
   <form class="add-customerAddress-form form-horizontal"
         name="editForm"
-        ng-init="formData=dialogData.contact;formData.invoicesAddressId=dialogData.invoicesAddressId;formData.type=dialogData.type"
+        ng-init="dialogData.contact.logisticsCenterId=dialogData.logisticsCenterId;formData=dialogData.contact;formData.invoicesAddressId=dialogData.invoicesAddressId;formData.type=dialogData.type"
         action="rest/authen/invoicesAddress/contact/save"
         alert-error
         callback="$root.reloadTime=$root.utils.getNowTime();$root.modal.closeAll();"
-        form-validator>
+        form-validator>{{formData}}
     <div class="modal-header">
       <h4 class="modal-title">{{dialogData.title}}</h4>
-      <input type="hidden" ng-init="formData.logisticsCenterId='1234567890IOP'">
     </div>
     <div class="modal-body">
       <div class="form-group mgb">

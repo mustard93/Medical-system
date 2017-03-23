@@ -2849,6 +2849,7 @@ function addressManageComponent (requestData, utils) {
     transclude: true,
     templateUrl: Config.tplPath + 'tpl/project/addressManageComponent.html',
     link: function (scope, element, attrs) {
+
       //客户地址列表是否为空的标识
       scope.contactsNull = false;
 
@@ -2856,6 +2857,13 @@ function addressManageComponent (requestData, utils) {
       scope.$watch('requestDataId', function (newVal, oldVal) {
         if (newVal && newVal!==oldVal) {
           reLoadData(scope);
+        }
+      });
+
+      // 监视物流中心id变化
+      attrs.$observe('logisticsCenterId', function (newVal, oldVal) {
+        if (newVal && newVal != oldVal) {
+          scope.logisticsCenterId = newVal;
         }
       });
 
@@ -2969,6 +2977,9 @@ function addressManageComponent (requestData, utils) {
 
         // 根据设置存入标题
         _tmpObj.title = $scope.createModalTitle;
+
+        // 存入物流中心id
+        _tmpObj.logisticsCenterId = $scope.logisticsCenterId;
 
         _tmpObj.contact = {};
 
