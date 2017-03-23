@@ -1877,38 +1877,6 @@ function stepFlowArrowShow(utils){
   };
 }
 
-// 销售单有关多仓库功能，选择批号后修改表格样式。
-/**
-   *
-  	* @Description: 销售单有关多仓库功能，选择批号后修改表格样式。
-  	* @author 宋娟
-  	* @date 2017年3月22日 下午14:43
-   */
-
-   	   //  关键步骤：
-   	    //1.传入参数:arrows(箭头的个数)，className(根据状态不同显示样式的class),arrowText(箭头中显示文字的内容)
-        //2.divWidth 计算出每个箭头的宽度后，用于后续定义。
-        //3.$(window) 监听浏览器窗口大小改变，重新计算每个箭头的宽度，达到箭头宽度自适应的目的。
-    function addParentContainer(utils){
-      return{
-        scope:{},
-        restrict: 'A',
-        link: function ($scope, $element, $attrs) {
-          var item=$attrs.addCondition;
-          $($element).off("click").on('click',function(){
-            $($element).bind('DOMNodeInserted', function(e) {
-              console.log($(e.target).text());
-                console.log('触发');
-              });
-
-          })
-        }
-      };
-    }
-
-
-
-
 
 // 弹出框文本域内容实时剩余字数提醒
 /**
@@ -3419,7 +3387,5 @@ angular.module('manageApp.project')
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。
   .directive("medicalStockMouseOver",["utils",medicalStockMouseOver])// 库存明细模块，鼠标移入高亮并显示两个按钮
   .directive("stepFlowArrowShow",["utils",stepFlowArrowShow])//医院、经销商/零售商资格申请，首营品种、企业管理模块流程箭头样式。
-  .directive("addParentContainer",["utils",addParentContainer])//销售单有关多仓库功能，选择批号后修改表格样式。
-  .directive("limitWordShow",["utils",limitWordShow])//弹出框显示限制剩余字数
   .directive("limitWordShow",["utils",limitWordShow]);//弹出框显示限制剩余字数
 });

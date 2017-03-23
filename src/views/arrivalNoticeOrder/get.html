@@ -65,7 +65,7 @@
             <table class="table pr-table pr-new-table mgb-n table-s-wid">
               <thead>
               <tr>
-               <th class="text-center">入库进度</th>
+               <th class="text-center">入库状态</th>
                <th class="text-center">商品编号</th>
                <th class="text-left">商品全名</th>
                <th class="text-center">规格/型号</th>
@@ -96,7 +96,16 @@
                     medical-stock-mouse-over
                     mouse-over-buttons-json='[{"title":"详情","url":"#/purchaseInstockOrder/get.html?sourceOrderNo="+scopeData.orderNo,"className":"circle-icon2 pos-abs pr-icon-arrow-left","progress":tr.progress}]'>
                   <td class="text-center">
-                    <div class="color-3">
+                    <span class="circle-status pr-progress"
+                          ng-class="{'bg-pass-green':tr.finishStatus =='1','bg-end-red':tr.finishStatus =='0'}">
+                      <span class="purchaseorder-buyer-info" style="right: 17px;top:0px;">
+                        <i class="block pd-c-s text-normal" style="line-height:1.8">
+                          <em ng-if="tr.finishStatus =='1'" class="inline-block">已完成</em>
+                          <em ng-if="tr.finishStatus =='0'" class="inline-block">入库中</em>
+                        </i>
+                      </span>
+                    </span>
+                    <!-- <div class="color-3">
                       <div class="progress pr-progress"
                            data-toggle="tooltip"
                            data-placement="top"
@@ -129,8 +138,7 @@
                             </span>
                         </div>
                       </div>
-                      <!-- <span class="pr-indent-15 flex-item-2 text-m color-6">{{tr.progress}}%</span> -->
-                    </div>
+                    </div> -->
                   </td><!-- 入库进度 -->
                   <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
                   <td class="text-left"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->

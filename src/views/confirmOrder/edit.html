@@ -52,7 +52,9 @@
                   chosen-ajax
                   ng-model="formData.logisticsId"
                   select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+                  <!-- ng-disabled="logistics" -->
           </select>
+
         </div>
       </div>
     </div>
@@ -180,7 +182,10 @@
                   </tr>
                 </thead>
                 <tbody ng-if="formData.orderBusinessType=='普通销售'">
-                  <tr ng-repeat="item in formData.orderMedicalNos" ng-class="{'pr-bg-pink':(item.planQuantity>item.quantity)}" ng-controller="ConfirmOrderMedicalController" table-item-handlebtn-component>
+                  <tr ng-repeat="item in formData.orderMedicalNos"
+                  ng-class="{'pr-bg-pink':(item.planQuantity>item.quantity)}"
+                  ng-controller="ConfirmOrderMedicalController"
+                  table-item-handlebtn-component>
                     <td class="select-td">
                       <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
                     </td><!-- 选择checkbox -->
@@ -253,7 +258,7 @@
                       <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
                     </td> -->
 
-                    <td class="text-center relative" style="padding:0px;width:200px;" >
+                    <td class="text-center relative" style="padding:0px;width:200px;">
                       <div class="out-content"
                       ng-class="{'pr-bt-line':(item.planQuantity-item.otherQuantity>0)}">
                         <div ng-if="item.quantityAndbatchNumber" class="ipt-div" style="width:180px;margin-top:10px;margin-left:10px;margin-bottom:15px;">
@@ -504,7 +509,6 @@
                                   create-modal-url="views/invoicesAddress/contact/edit.html"
                                   create-modal-title="添加发货方信息"
                                   create-address-type="销售"
-                                  logistics-center-id="{{formData.logisticsId}}"
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
         </address-manage-component>
