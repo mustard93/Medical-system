@@ -55,7 +55,8 @@
                   <th class="text-left">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">数量</th>
+                  <th class="text-center">计划退货数量</th>
+                  <th class="text-center">实际退货数量</th>
                   <th class="text-center w-110">批号要求</th>
                   <th class="text-center">生产批号</th>
                   <th class="text-center">灭菌批号</th>
@@ -81,20 +82,23 @@
               </thead>
               <tbody class="bg-white">
                 <tr ng-repeat="item in showData.orderMedicalNos">
-                  <span class="circle-status"
-                        ng-class="{'bg-end-red':tr.finishStatus,'bg-ing-orang':!tr.finishStatus}">
-                    <span class="purchaseorder-buyer-info" style="right:30px;top:-5px;">
-                      <i class="block pd-c-s text-normal" style="line-height:1.8">
-                        <em ng-if="tr.finishStatus" class="inline-block">已退货</em>
-                        <em ng-if="!tr.finishStatus" class="inline-block">退货中</em>
-                      </i>
+                  <td class="text-center">
+                    <span class="circle-status"
+                          ng-class="{'bg-end-red':tr.finishStatus,'bg-ing-orang':!tr.finishStatus}">
+                      <span class="purchaseorder-buyer-info" style="right:24px;top:-5px;">
+                        <i class="block pd-c-s text-normal" style="line-height:1.8">
+                          <em ng-if="tr.finishStatus" class="inline-block">已退货</em>
+                          <em ng-if="!tr.finishStatus" class="inline-block">退货中</em>
+                        </i>
+                      </span>
                     </span>
-                  </span>
+                  </td>
                   <td class="text-center">{{item.code}}</td>
                   <td class="text-left">{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
+                  <td class="text-center">{{item.storageQuantity}}</td>
                   <td class="text-center">{{item.batchRequirement}}</td>
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
