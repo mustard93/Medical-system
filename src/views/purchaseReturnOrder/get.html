@@ -50,6 +50,7 @@
           <table class="table pr-table pr-new-table table-wid" >
               <thead>
                 <tr>
+                  <th class="text-center">退货状态</th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left">商品全名</th>
                   <th class="text-center">规格/型号</th>
@@ -80,6 +81,15 @@
               </thead>
               <tbody class="bg-white">
                 <tr ng-repeat="item in showData.orderMedicalNos">
+                  <span class="circle-status"
+                        ng-class="{'bg-end-red':tr.finishStatus,'bg-ing-orang':!tr.finishStatus}">
+                    <span class="purchaseorder-buyer-info" style="right:30px;top:-5px;">
+                      <i class="block pd-c-s text-normal" style="line-height:1.8">
+                        <em ng-if="tr.finishStatus" class="inline-block">已退货</em>
+                        <em ng-if="!tr.finishStatus" class="inline-block">退货中</em>
+                      </i>
+                    </span>
+                  </span>
                   <td class="text-center">{{item.code}}</td>
                   <td class="text-left">{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
