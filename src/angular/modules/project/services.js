@@ -647,7 +647,7 @@ define('project/services', ['project/init'], function () {
             //原币单价(无税单价)  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
             getWuSuiDanJian:function(item){
               var tmp;
-              tmp = utils.numberDiv(item.taxRate,100);
+              tmp = utils.numberDiv(item.tax,100);
               tmp = 1 + tmp;
               tmp = utils.numberDiv(item.strike_price,tmp);
               return tmp;
