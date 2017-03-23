@@ -63,7 +63,7 @@
             <div class="form-group">
               <label class="col-lg-2 col-sm-2 control-label">可操作图标</label>
               <div class="col-lg-10 col-sm-10">
-                  <img ng-src="{{formData1.iconEnableUrl}}"  ng-style="{width:80,height:80}">
+                  <img ng-src="{{formData1.iconEnableUrl}}"  ng-style="{width:80,height:80}"/>
 
                     <button type="button" class="btn btn-default" ng-init="upFile={}" upload-type="image"
                                         uploader-one="rest/authen/fileUpload/uploadPicture.json" usege="菜单可操作图标"
@@ -76,7 +76,7 @@
             <div class="form-group">
               <label class="col-lg-2 col-sm-2 control-label">不可操作图标</label>
               <div class="col-lg-10 col-sm-10">
-                  <img ng-src="{{formData1.iconDisableUrl}}"  ng-style="{width:80,height:80}">
+                  <img ng-src="{{formData1.iconDisableUrl}}"  ng-style="{width:80,height:80}"/>
 
                     <button type="button" class="btn btn-default" ng-init="upFile={}" upload-type="image"
                                         uploader-one="rest/authen/fileUpload/uploadPicture.json" usege="菜单可操作图标"
@@ -136,42 +136,50 @@
           </div>
       </div>
       <!--handleThisClick  -->
-      <div ng-show="formData1.type=='handleThisClick'">
+
+
+      <fieldset  class="fieldset" ng-show="formData1.type=='handleThisClick'">
+          <legend>
+              弹出框
+          </legend>
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">模版地址</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData1.alertTemplate"/>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">提示标题</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData1.alertTitle"/>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">提示内容</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData1.alertMsg"/>
+              </div>
+          </div>
+
+
         <div class="form-group">
-            <label class="col-lg-2 col-sm-2 control-label">弹出框-模版地址</label>
-            <div class="col-lg-10 col-sm-10">
-                <input type="text" class="form-control" placeholder="" ng-model="formData1.alertTemplate"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 col-sm-2 control-label">弹出框-请求接口地址</label>
-            <div class="col-lg-10 col-sm-10">
-                <input type="text" class="form-control" placeholder="" ng-model="formData1.requestUrl"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 col-sm-2 control-label">弹出框-请求方式</label>
+            <label class="col-lg-2 col-sm-2 control-label">请求方式</label>
             <div class="col-lg-10 col-sm-10">
               <select   class="ipt pr-short-ipt" data-placeholder="选择请求方式" ng-model="tr.httpMethod"
-              chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Http_HttpRequestEnmus"
-              >
+              chosen select-source="rest/index/queryBasicdataForSelectOption.json?basicDataType=Http_HttpRequestEnmus"  >
             </select>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-lg-2 col-sm-2 control-label">弹出框-提示标题</label>
-            <div class="col-lg-10 col-sm-10">
-                <input type="text" class="form-control" placeholder="" ng-model="formData1.alertTitle"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-2 col-sm-2 control-label">弹出框-提示内容</label>
-            <div class="col-lg-10 col-sm-10">
-                <input type="text" class="form-control" placeholder="" ng-model="formData1.alertMsg"/>
-            </div>
-        </div>
+          <div class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">请求接口地址</label>
+              <div class="col-lg-10 col-sm-10">
+                  <input type="text" class="form-control" placeholder="" ng-model="formData1.requestUrl"/>
+              </div>
+          </div>
+      </fieldset>
 
-      </div>
           <!--handleThisClick  -->
 
           <div class="form-group">

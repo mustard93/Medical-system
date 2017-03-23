@@ -1,12 +1,43 @@
-<div class="modal-content right-side-new pr-bg-black4" ng-controller="editCtrl">
+<div class="modal-content right-side-new pr-bg-black4 more-stock" ng-controller="editStockbatchNumberCtrl">
   <form class="add-customerAddress-form form-horizontal"
-        ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{mainStatus.pageParams.id}}"
+        ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}"
         scope-data="showData"
         alert-error>
     <div class="bb-line-gold pr-bg-black2 min-h-l">
-       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择生产批号-{{mainStatus.pageParams.name}}</h1>
+       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择生产批号-{{dialogData.medicalName}}</h1>
      </div>
     <div>
+      <!-- <div class="full-width">
+        <ul class="ul_title">
+          <li>生产批号</li>
+          <li>灭菌批号</li>
+          <li>有效期</li>
+          <li>物流中心</li>
+          <li>仓库</li>
+          <li>可用量</li>
+        </ul>
+      </div>
+      <div class="right-side-container color-white text-n">
+        <ul>
+          <li class="" ng-repeat="item in showData track by $index">
+            <span style="width:60px;">
+              <label class="radio radio-new" style="top:15px;">
+                <input type="radio"
+                       name="medicals"
+                       class="default-radio"
+                       ng-click="choseBatch(item,dialogData.id);"><i></i>
+              </label>
+            </span>
+            <span class="mgl-s" style="width:200px;display:inline-block;">{{item.productionBatch}}</span>
+            <span class="mgl-s">{{item.sterilizationBatchNumber}}</span>
+            <span class="mgl-s">{{item.validTill | date:'yyyy-MM-dd'}}</span>
+            <span class="mgl-s">{{item.warehouseName}}</span>
+            <span class="mgl-s">{{item.warehouseName}}</span>
+            <span class="mgl-s">{{item.stockModel.salesQuantity}}</span>
+          </li>
+        </ul>
+      </div> -->
+
         <table class="full-width another-table" >
           <thead>
             <tr class="bb-line-gold">
@@ -20,16 +51,21 @@
             </tr>
           </thead>
           <tbody class="bg-white">
-            <tr ng-repeat="item in showData" class="pr-bg-black3">
-              <td>
-
+            <tr ng-repeat="item in showData" class="pr-bg-black3 trHover-bg" >
+              <td style="height:50px;">
+                <label class="radio radio-new" style="top:15px;left:20px;">
+                  <input type="radio"
+                         name="medicals"
+                         class="default-radio"
+                         ng-click="choseBatch(item,dialogData.id);modal.closeAll();"><i></i>
+                </label>
               </td>
-              <td class="text-left pr-indent-20 color-white"> {{item.productionBatch}}</td>
-              <td class="text-left pr-indent-20 color-white"> {{item.sterilizationBatchNumber}}</td>
-              <td class="color-white">{{item.validTill | date:'yyyy-MM-dd'}}</td>
-              <td class="text-left color-white">{{item.warehouseName}}</td>
-              <td class="text-left color-white">{{item.warehouseName}}</td>
-              <td class="text-left color-white">{{item.stockModel.salesQuantity}}</td>
+              <td class="text-left pr-indent-20 color-white" style="height:50px;"> {{item.productionBatch}}</td>
+              <td class="text-left pr-indent-20 color-white" style="height:50px;"> {{item.sterilizationBatchNumber}}</td>
+              <td class="color-white" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td>
+              <td class="text-left color-white" style="height:50px;">{{item.warehouseName}}</td>
+              <td class="text-left color-white" style="height:50px;">{{item.warehouseName}}</td>
+              <td class="text-left color-white" style="height:50px;">{{item.stockModel.salesQuantity}}</td>
             </tr>
           </tbody>
         </table>

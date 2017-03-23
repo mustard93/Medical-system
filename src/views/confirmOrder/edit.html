@@ -163,9 +163,11 @@
                     <th>商品全名</th>
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
-                    <th class="text-center">数量</th>
+                    <th class="text-center">订购数量</th>
                     <!-- <th class="text-center w-110">批号要求</th> -->
-                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-160">生产批号/灭菌批号</th>
+                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-160">生产批号/数量</th>
+                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-106">灭菌批号</th>
+                    <th ng-if="formData.orderBusinessType=='普通销售'" class="text-center w-106">仓库</th>
                     <th class="text-center">报价</th>
                     <th class="text-center">税率</th>
                     <th class="text-center">折扣额</th>
@@ -250,9 +252,42 @@
                       </div>
                       <p class="text-right color-red pdr-s mgt-s" ng-if="item.planQuantity>item.quantity">待选择：{{item.planQuantity-item.quantity}}</p>
                     </td> -->
-                    <td class="text-center">
-                      <input class="ipt" style="width:100px;" name="name" value="">
-                      <i class="addImg" modal-right="700" modal-scope="this" modal-url="views/confirmOrder/editOfStockbatchNumber.html?id={{tr.id}}&name=tr.name"></i>
+
+                    <td class="text-center relative" style="padding:0px;width:200px;" >
+                      <div class="out-content"
+                      ng-class="{'pr-bt-line':(item.planQuantity-item.otherQuantity>0)}">
+
+                        <div  ng-if="item.quantityAndbatchNumber" class="ipt-div" style="width:180px;margin-top:15px;margin-left:10px;"
+                        add-parent-container add-condition="{{item.planQuantity-item.otherQuantity}}" add-flag="{{item.flag}}">
+                          <div class="inline-block text-ellips-s"
+                          title="{{item.quantityAndbatchNumber}}"
+                          style="width:118px;height:100%;" ng-class="{'pr-bg-green2 br-line':(item.quantityAndbatchNumber)}">
+                              {{item.quantityAndbatchNumber}}
+                          </div>
+                        <input type="text" class="in_ipt" name="name"
+                        ng-model="item.otherQuantity">
+                        <span
+                        class="circle-s"
+                        ng-click="item.quantityAndbatchNumber='';item.otherSterilizationBatchNumber='';item.otherWarehouseName='';">
+                        <i class="fa fa-times-circle"></i></span>
+                        </div>
+
+                        <div class="ipt-div relative" style="width:180px;margin-top:15px;margin-left:10px;">
+                          <i
+                          class="addImg"
+                          modal-right="700"
+                          modal-scope="this"
+                          modal-data='{"medicalName":"{{item.name}}","id":"{{item.id}}"}'
+                          modal-url="views/confirmOrder/editOfStockbatchNumber.html"></i>
+                        </div>
+                      </div>
+                      <p class="text-right color-red pdr-s mgt-s relative" ng-if="item.planQuantity>item.otherQuantity">待选择：{{item.planQuantity-item.otherQuantity}}</p>
+                    </td>
+                    <td>
+                      {{item.otherSterilizationBatchNumber}}
+                    </td>
+                    <td>
+                      {{item.otherWarehouseName}}
                     </td>
                     <!-- 生产批号/灭菌批号 -->
                     <td class="text-center" style="white-space: nowrap;">￥
