@@ -1,72 +1,90 @@
-<div class="modal-content right-side-new pr-bg-black4 more-stock" ng-controller="editStockbatchNumberCtrl">
-  <form class="add-customerAddress-form form-horizontal"
-        ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}"
-        scope-data="showData"
-        alert-error>
-    <div class="bb-line-gold pr-bg-black2 min-h-l">
-       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择生产批号-{{dialogData.medicalName}}</h1>
-     </div>
-    <div>
-      <!-- <div class="full-width">
-        <ul class="ul_title">
-          <li>生产批号</li>
-          <li>灭菌批号</li>
-          <li>有效期</li>
-          <li>物流中心</li>
-          <li>仓库</li>
-          <li>可用量</li>
-        </ul>
+<div class="modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="editStockbatchNumberCtrl"
+     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}"
+     scope-data="stockBatchList"
+     alert-error>
+  <!-- 标题 -->
+  <div class="bb-line-gold pr-bg-black2 min-h-l">
+    <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{dialogData.medicalName}}</h1>
+  </div>
+  <!-- 过滤条件 -->
+  <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+    <!-- 仓库过滤 -->
+    <div class="inline-block">
+      <span class="color-9">仓库：</span>
+      <select class="ipt pr-short-ipt color-3" style="width:90px;"
+              data-placeholder=""
+              default-empty="全部"
+              width="120px"
+              chosen
+              ng-model="listParams.warehouseId"
+              
+              select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{listParams.warehouseId}}&type=正常库">
+      </select>
+    </div>
+    <!-- 日期过滤 -->
+    <div class="inline-block relative" style="top:-3px;">
+      <span class="color-9 mgl-m">录单日期：</span>
+      <div class="date-icon-outside">
+        <input type="text"
+               datepicker
+               class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+               ng-readonly="true"
+               ng-model="listParams.createAtBeg"
+               placeholder="">
+        <span class="date-icon"></span>
       </div>
-      <div class="right-side-container color-white text-n">
-        <ul>
-          <li class="" ng-repeat="item in showData track by $index">
-            <span style="width:60px;">
-              <label class="radio radio-new" style="top:15px;">
-                <input type="radio"
-                       name="medicals"
-                       class="default-radio"
-                       ng-click="choseBatch(item,dialogData.id);"><i></i>
-              </label>
-            </span>
-            <span class="mgl-s" style="width:200px;display:inline-block;">{{item.productionBatch}}</span>
-            <span class="mgl-s">{{item.sterilizationBatchNumber}}</span>
-            <span class="mgl-s">{{item.validTill | date:'yyyy-MM-dd'}}</span>
-            <span class="mgl-s">{{item.warehouseName}}</span>
-            <span class="mgl-s">{{item.warehouseName}}</span>
-            <span class="mgl-s">{{item.stockModel.salesQuantity}}</span>
-          </li>
-        </ul>
-      </div> -->
-
-        <table class="full-width another-table" >
-          <thead>
-            <tr class="bb-line-gold">
-              <th></th>
-              <th class="text-left pr-indent-20">生产批号</th>
-              <th class="text-left pr-indent-20">灭菌批号</th>
-              <th>有效期</th>
-              <th class="text-left">仓库</th>
-              <th class="text-left">可用量</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr ng-repeat="item in showData" class="pr-bg-black3 trHover-bg" >
-              <td style="height:50px;">
-                <label class="radio radio-new" style="top:15px;left:20px;" >
-                  <input type="radio"
-                         name="medicals"
-                         class="default-radio"
-                         ng-click="choseBatch(item,dialogData.id);modal.closeAll();"><i></i>
-                </label>
-              </td>
-              <td class="text-left pr-indent-20 color-white" style="height:50px;"> {{item.productionBatch}}</td>
-              <td class="text-left pr-indent-20 color-white" style="height:50px;"> {{item.sterilizationBatchNumber}}</td>
-              <td class="color-white" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td>
-              <td class="text-left color-white" style="height:50px;">{{item.warehouseName}}</td>
-              <td class="text-left color-white" style="height:50px;">{{item.stockModel.salesQuantity}}</td>
-            </tr>
-          </tbody>
-        </table>
+      <span class="color-9">至</span>
+      <div class="date-icon-outside">
+        <input type="text"
+               datepicker
+               class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+               ng-readonly="true"
+               ng-model="listParams.createAtEnd"
+               placeholder="">
+        <span class="date-icon"></span>
       </div>
-  </form>
+    </div>
+    <!-- 关键字过滤 -->
+    <div class="inline-block">
+      <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+        <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号" ng-model="listParams.q" style="top:7px;">
+        <i class="" style="top:10px;"></i>
+      </div>
+    </div>
+  </div>
+  <!-- 无数据 -->
+  <div ng-if="!stockBatchList.length" class="color-red text-n pdl-l pdt-m">此商品在该物流中心暂无库存。</div>
+  <!-- 数据遍历 -->
+  <div ng-if="stockBatchList.length">
+    <table class="full-width another-table">
+      <thead>
+        <tr class="bb-line-gold">
+          <th></th>
+          <th>生产批号</th>
+          <th>灭菌批号</th>
+          <th>有效期至</th>
+          <th>仓库</th>
+          <th>可用量</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr ng-repeat="item in stockBatchList" class="pr-bg-black3 trHover-bg" >
+          <td class="text-center">
+            <label class="radio radio-new">
+              <input type="radio"
+                     name="medicals"
+                     class="default-radio"
+                     ng-click="listObject.itemObj=item;modal.closeAll()"><i></i>
+            </label>
+          </td>
+          <td class="text-left color-white" style="height:50px;"> {{item.productionBatch}}</td>
+          <td class="text-left color-white" style="height:50px;"> {{item.sterilizationBatchNumber}}</td>
+          <td class="color-white" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td>
+          <td class="text-left color-white" style="height:50px;">{{item.warehouseName}}</td>
+          <td class="text-left color-white" style="height:50px;">{{item.stockModel.salesQuantity}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
