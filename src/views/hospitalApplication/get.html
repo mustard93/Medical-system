@@ -28,8 +28,8 @@
       scope-data="scopeData">
         <div
         ng-repeat="item in scopeData"
-        ng-class="{'pr-bg-blue':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
-        'pr-bg-pink1':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
+        ng-class="{'pr-bg-blue':(item.event.conditionType=='通过'),
+        'pr-bg-pink1':(item.event.conditionType=='不通过')}"
         class="pr-panel pr-panel-height mgb"
         ng-show="item.key">
         <em class="color-3">{{item.event.extendShowName}}补充说明:</em>
@@ -80,12 +80,12 @@
         <!-- 审核信息 -->
         <div ng-if="showData.orderStatus!='未提交'" class=" first-medical-nav-new">
           <div class=""
-          ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
-          'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
+          ng-class="{'pr-pass-bg':(item.event.conditionType=='通过'),
+          'pr-nopass-bg':(item.event.conditionType=='不通过')}"
           ng-repeat="item in scopeData">
             <div
-            ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货')
-            ,'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"></div>
+            ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='通过')
+            ,'pr-nopass-bdbg-tb':(item.event.conditionType=='不通过')}"></div>
             <span class="mgr-xl flex-column" ng-if="item.event.status!='待审核'">
               <em class="color-9 flex-item-6 text-right">{{item.event.extendShowName || '暂无'}}：</em>
               <em class="flex-item-6 text-left">{{item.event.conditionType }}</em>
@@ -96,11 +96,11 @@
             </span>
             <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
               <em class="color-9 flex-item-6 text-right">审核时间：</em>
-              <em class="flex-item-6 text-left">{{item.createAt | date:'yyyy-MM-dd' || '暂无'}}</em>
+              <em class="flex-item-6 text-left">{{item.createAt || '暂无' | date:'yyyy-MM-dd' }}</em>
             </span>
             <div
-            ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
-            'pr-nopass-bdbg-l':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}" ></div>
+            ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='通过'),
+            'pr-nopass-bdbg-l':(item.event.conditionType=='不通过')}" ></div>
           </div>
           <div>
           </div>

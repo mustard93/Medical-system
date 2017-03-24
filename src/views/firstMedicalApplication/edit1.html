@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/firstMedicalApplication/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');formData.medical.isBasicMedicine='是'"
+     callback="initFlag=true;watchFormChange('formData');"
      alert-error>
   <div class="header-info relative mgb-l">
     <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
@@ -104,7 +104,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="code"
-                         ng-model="formData.medical.code" />
+                         ng-model="formData.medical.code" required/>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -114,6 +114,15 @@
                          class="ipt-new-s ipt-new"
                          name="specification"
                          ng-model="formData.medical.specification" />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label pdr-s">装箱规格：</label>
+                <div class="flex-item-10 text-left">
+                  <input type="text"
+                         class="ipt-new-s ipt-new"
+                         name="specification"
+                         ng-model="formData.medical.packingSpecification" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -304,7 +313,7 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label pdr-s">是否基药：</label>
                 <div class="flex-item-10 text-left">
-                  <select class="select pr-select ipt-new-s pr-short-ipt" ng-model="formData.medical.isBasicMedicine">
+                  <select class="select pr-select ipt-new-s pr-short-ipt" style="height:32px;" ng-model="formData.medical.isBasicMedicine">
                     <option value="是" ng-selected="formData.medical.isBasicMedicine=='是'">是</option>
                     <option value="否" ng-selected="formData.medical.isBasicMedicine=='否'">否</option>
                   </select>
@@ -377,7 +386,7 @@
                   <select class="select pr-select ipt-new-s pr-short-ipt"
                           ng-model="formData.medical.tax"
                           ng-options="tax for tax in [3,17]">
-                  </select>
+                  </select>%
                 </div>
               </div>
             </div>

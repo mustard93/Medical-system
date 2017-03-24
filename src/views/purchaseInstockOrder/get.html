@@ -33,7 +33,8 @@
   <div class="content-wrapper">
     <p ng-if="initFlag" class="mgb-l text-n color-3 text-bold"
     >
-      供应商：{{showData.supplier.name}}
+     {{showData.warehouseName}}
+      <!-- 供应商：{{showData.supplier.name}} -->
     </p>
     <!-- ajax-url="rest/authen/supplier/get?id={{showData.supplierId}}"
     scope-data="returnData"
@@ -80,15 +81,16 @@
                         <th class="text-center">正常数量</th>
                         <th class="text-center">拒收数量</th>
                         <th class="text-center">其他数量</th>
-                        <th class="text-center">含税单价</th>
-                        <th class="text-center">含税金额</th>
+                        <th class="text-center">原币含税单价</th>
+                        <th class="text-center">原币单价</th>
+                        <th class="text-center">原币金额</th>
+                        <th class="text-center">原币价税合计</th>
                         <th class="text-center">税率</th>
                         <th class="text-center">生产批号</th>
                         <th class="text-center">灭菌批号</th>
                         <th class="text-center">生产日期</th>
-                        <th class="text-center">保质期</th>
-                        <th class="text-center">失效日期</th>
-                        <th class="text-center">产品执行标准</th>
+                        <th class="text-center">有效期至</th>
+                        <!-- <th class="text-center">产品执行标准</th> -->
                         <th class="text-center">保存温度</th>
                         <th class="text-center">产地品牌</th>
                         <th class="text-center">产品注册证号</th>
@@ -131,22 +133,26 @@
                         <td class="text-right">
                           ￥{{tr.strike_price}}
                         </td>
-                        <td class="text-right" >
-                          ￥{{(tr.strike_price*tr.storageQuantity).toFixed(2)}}
+
+                        <td class="text-right">
+                          ￥{{tr.duty_free_price}}
                         </td>
+
+                        <td class="text-right">
+                          ￥{{tr.total_duty_free_price}}
+                        </td>
+
+                        <td class="text-right">
+                          ￥{{tr.totalPrice}}
+                        </td>
+
                         <td class="text-right">
                         {{tr.taxRate}}%
                         </td>
                         <td class="text-center">{{tr.productionBatch}}</td>
                         <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
                         <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
-                        <td class="text-center">{{tr.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
                         <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
-
-                        <td class="text-center">
-                          <!-- 产品执行标准 -->
-                          {{tr.productStandard}}
-                        </td>
 
                         <td class="text-center">
                           <!-- 保存温度 -->

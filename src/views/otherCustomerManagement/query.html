@@ -52,7 +52,7 @@
             </div>
             <div class="flex-item-6 text-right">
                 <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                  <input type="text" class="ipt pdr-xxl" placeholder="医院系统编号 / 医院名称" ng-model="listParams.q">
+                  <input type="text" class="ipt pdr-xxl" placeholder="批发商-零售商编号 / 批发商-零售商名称" ng-model="listParams.q">
                   <i class=""></i>
                 </div>
                 <div class="inline-block mgl-m">
@@ -116,7 +116,7 @@
                              modal-center="350"
                              modal-scope="this"
                              modal-data='{"title":"确认",
-                                          "content":"冻结后，该品种信息将被暂停，直到解冻，确认冻结?",
+                                          "content":"冻结后，将无法对该客户销售。确认冻结？",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
                                           "url":"rest/authen/customerAddress/updateStatus",
@@ -131,7 +131,7 @@
                              modal-center="350"
                              modal-scope="this"
                              modal-data='{"title":"确认解冻?",
-                                          "content":"解冻后，该品种信息将恢复，确认解冻?",
+                                          "content":"解冻后，该信息将恢复，确认解冻?",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
                                           "url":"rest/authen/customerAddress/updateStatus",
@@ -144,7 +144,7 @@
                           <a ng-if="tr.businessApplication.businessStatus!='已终止'" href="javascript:;"
                              handle-this-click
                              dialog-title="确认终止?"
-                             dialog-content="终止后，该品种信息将被取消，确定终止?"
+                             dialog-content="终止后，该信息将被取消，确定终止?"
                              dialog-template="pr-dialog-submit.html"
                              request-url="rest/authen/customerAddress/updateStatus"
                              params='{"id":tr.id,"status":"已终止"}'
@@ -170,7 +170,7 @@
                   <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
                   <td>{{tr.code}}</td>
                   <td class="text-left color-orange">
-                    <div class="autocut" title="{{tr.name}}">
+                    <div class="autocut autocut" title="{{tr.name}}">
                       <a href="#/otherCustomerManagement/get.html?id={{tr.id}}">
                           {{tr.name}}
                       </a>

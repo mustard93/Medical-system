@@ -101,7 +101,7 @@
             </span>
             <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
               <em class="color-9 flex-item-6 text-right">审核时间：</em>
-              <em class="flex-item-6 text-left">{{item.createAt | date:'yyyy-MM-dd' || '暂无'}}</em>
+              <em class="flex-item-6 text-left">{{item.createAt || '暂无' | date:'yyyy-MM-dd'}}</em>
             </span>
             <div
             ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
@@ -148,6 +148,10 @@
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">规格型号：</span>
                 <span class="flex-item-10 text-left">{{showData.medical.specification}}</span>
+              </div>
+              <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">装箱规格：</span>
+                <span class="flex-item-10 text-left">{{showData.medical.packingSpecification}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">剂型：</span>
@@ -249,7 +253,7 @@
             </div>
             <div class="flex-column mgt">
               <span class="flex-item-2 text-right">税率：</span>
-              <span class="flex-item-10 text-left">{{showData.medical.tax}}</span>
+              <span class="flex-item-10 text-left">{{showData.medical.tax}}%</span>
             </div>
         </div>
       </div>

@@ -3275,12 +3275,15 @@ function tableItemMultipleBtn (utils, requestData) {
       var _delBtn = $(element).find('div.del-details-btn');
       // 其他操作按钮
       var _handleBtn = $(element).find('div.other-handle-btn');
+      // 取消删除按钮
+      var _cancelDel=$(element).find('.hide-this-area');
+
 
 
       // 绑定点击显示操作删除层
       _delBtn.on('click', function () {
         $('.del-confirm-area').show();
-      });
+        });
 
       // 绑定点击显示其他操作层
       _handleBtn.on('click', function () {
@@ -3288,7 +3291,8 @@ function tableItemMultipleBtn (utils, requestData) {
       });
 
       // 绑定取消按钮事件
-      $(element).find('a.hide-this-area').on('click', function () {
+      $(element).find('.hide-this-area').on('click', function (e) {
+        e.stopPropagation();
         $(element).find('div.del-confirm-area').hide();
       });
 
@@ -3321,10 +3325,10 @@ function tableItemMultipleBtn (utils, requestData) {
           });
         }
       };
-
     }
   };
 }
+
 
 angular.module('manageApp.project')
   .directive("tableItemMultipleBtn", ['utils', 'requestData', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
