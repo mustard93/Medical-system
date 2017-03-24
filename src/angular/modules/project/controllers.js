@@ -3613,6 +3613,7 @@ define('project/controllers', ['project/init'], function() {
           formData.hospitalId = hospitalId;
           formData.relId = $scope.medical.id;
           formData.id = null;
+          formData.medical.isBasicMedicine='是';
           formData.purchasePrice = formData.price;
 
         requestData('rest/authen/medicalStock/save', formData, 'POST', 'parameterBody')
