@@ -129,7 +129,7 @@
                        class="ipt-new"
                        name="hospitalTel"
                        ng-model="formData.hospital.hospitalTel"
-                       ng-pattern="/([0-9]{3,4})?([0-9]{3,4}-)?[0-9]{7,8}/"
+                       ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
                        data-content="座机格式错误"
                        invalid-popover="{{!hospitalEditForm.hospitalTel.$valid}}" />
                 </div>
@@ -188,7 +188,7 @@
                        class="ipt-new"
                        name="purchaserTel"
                        ng-model="formData.hospital.purchaserTel"
-                       ng-pattern="/([0-9]{3,4})?([0-9]{3,4}-)?[0-9]{7,8}/"
+                       ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
                        data-content="座机格式错误"
                        invalid-popover="{{!hospitalEditForm.purchaserTel.$valid}}" />
                 </div>
@@ -248,7 +248,7 @@
           </span>
           <span class="mgl mgt">
             <button class="pr-btn-save-glodbg"
-                    ng-disabled="!changeFlag "
+                    ng-disabled="hospitalEditForm.$invalid"
                     ng-click="submitForm('hospital-editForm','save')">保存
             </button>
           </span>
