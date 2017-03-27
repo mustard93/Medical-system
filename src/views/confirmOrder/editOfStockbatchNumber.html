@@ -1,6 +1,6 @@
 <div class="modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="editStockbatchNumberCtrl"
-     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}"
+     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}"
      scope-data="stockBatchList"
      alert-error>
   <!-- 标题 -->
@@ -18,12 +18,11 @@
               width="120px"
               chosen
               ng-model="listParams.warehouseId"
-              
-              select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{listParams.warehouseId}}&type=正常库">
+              select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{dialogData.logisticsCenterId}}&type=正常库">
       </select>
     </div>
     <!-- 日期过滤 -->
-    <div class="inline-block relative" style="top:-3px;">
+    <div class="inline-block relative">
       <span class="color-9 mgl-m">录单日期：</span>
       <div class="date-icon-outside">
         <input type="text"
@@ -75,7 +74,7 @@
               <input type="radio"
                      name="medicals"
                      class="default-radio"
-                     ng-click="listObject.itemObj=item;modal.closeAll()"><i></i>
+                     ng-click="choseBatch(item,dialogData.id);modal.closeAll()"><i></i>
             </label>
           </td>
           <td class="text-left color-white" style="height:50px;"> {{item.productionBatch}}</td>
