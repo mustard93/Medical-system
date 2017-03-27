@@ -25,6 +25,23 @@
 
     <!-- 药械列表 -->
     <div class="content-wrapper">
+      <div class="pr-panel pr-panel-height mgb pd-n">
+        <!-- 客户搜索 -->
+        <div class="inline-block br-line customer-name relative">
+          <p class="mgb-s">客户名</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            {{showData.customerName}}
+          </p>
+        </div>
+        <!-- 物流中心搜索 -->
+        <div class="inline-block logistics-center relative">
+          <p class="mgb-s">物流中心</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            <!-- 昆明物流中心 -->
+            {{showData.logisticsCenterName ||'暂无'}}
+          </p>
+        </div>
+      </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
@@ -64,7 +81,7 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">计划退货数量</th>
                   <th class="text-center">实际退货数量</th>
-                  <th class="text-center w-110">批号要求</th>
+                  <th class="text-center">预入仓库</th>
                   <th class="text-center">生产批号</th>
                   <th class="text-center">灭菌批号</th>
                   <th class="text-center">含税单价</th>
@@ -77,7 +94,7 @@
                   <th class="text-center">价税合计</th>
                   <th class="text-center">报价</th>
                   <th class="text-center">产地</th>
-                  <th class="text-center">失效日期</th>
+                  <th class="text-center">有效期至</th>
                   <th class="text-center">退补标志</th>
                   <th class="text-center">保存温度</th>
                   <th class="text-center">品牌</th>
@@ -106,7 +123,7 @@
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
                   <td class="text-center">{{item.storageQuantity}}</td>
-                  <td class="text-center">{{item.batchRequirement}}</td>
+                  <td class="text-center">{{item.warehouseName}}</td>
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-right">{{item.price | currency:'￥'}}</td>

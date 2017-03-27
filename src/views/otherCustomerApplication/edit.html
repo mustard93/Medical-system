@@ -114,7 +114,7 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">注册资金：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="number" class="ipt-new" ng-model="formData.customer.registeredCapital">
+                  <input type="number" class="ipt-new" ng-model="formData.customer.registeredCapital">万元
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -320,14 +320,15 @@
             </span>
             <span class="mgl mgt">
               <button class="pr-btn-save-glodbg"
-                      ng-disabled="!changeFlag"
+                      ng-disabled="otherCustomerEditForm.$invalid"
                       ng-click="submitForm('otherCustomer-editForm','save')">保存
               </button>
             </span>
             <span class="mgl mgt">
               <button class="pr-btn-save-glodbg"
                       type="button"
-                    ng-click="submitForm('editForm','submit-otherCustomer')">提交
+                      ng-disabled="otherCustomerEditForm.$invalid"
+                      ng-click="submitForm('editForm','submit-otherCustomer')">提交
               </button>
             </span>
           </div>

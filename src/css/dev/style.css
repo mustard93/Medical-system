@@ -2146,16 +2146,17 @@ body.ngdialog-open {
 .ngdialog.ngdialog-theme-right .ngdialog-close:before {
   background: transparent;
   border-radius: 3px;
-  color: #BBB;
-  content: '\00D7';
-  font-size: 32px;
+  /*color: #BBB;*/
+	color:rgba(255,140,0,1);
+  content: '取消';
+  font-size: 14px;
   font-weight: 400;
   height: 30px;
   line-height: 26px;
   position: absolute;
   right: 8px;
   text-align: center;
-  top: 33px;
+  top: 22px;
   width: 30px;
 }
 .ngdialog.ngdialog-theme-right .ngdialog-close:hover:before,
@@ -2358,6 +2359,13 @@ color: #C7A77B!important;
 	opacity: 0.9;
 	background: #36302C;
 }
+/*销售退货单，表格外部背景颜色*/
+.pr-bg-black4{
+background-color: rgba(89,84,80,1);
+}
+.pr-bg-white-black{
+	background-color: rgba(120,116,112,1)!important;
+}
 .pr-bg-whiteblue{
 	background-color: #f1f6fb!important;
 }
@@ -2431,6 +2439,13 @@ background-color: #e5e5e5!important;
 }
 .pr-icon-bg-grey {
   background-color: #e5e5e5;
+}
+/*销退模块侧边框输入框背景色为黑色*/
+.ipt-bg-black{
+	background-color: rgba(89,84,80,1);
+	border: 1px solid rgba(0,0,0,0.10);
+	width: 200px;
+	border-radius: 2px;
 }
 /* 颜色 */
 .pr-color {
@@ -2926,6 +2941,9 @@ padding-top: 3px;
 }
 .bb-dashed-line {
   border-bottom: 1px dashed #e2e2e2;
+}
+.bb-dashed-line-new{
+	border: 1px dashed rgba(0,0,0,0.10);
 }
 .bl-dotted-line {
   border-left: 1px dotted #e2e2e2;
@@ -5368,6 +5386,11 @@ span.re-send-icon{
   margin-bottom: 5px;
   background: rgba(243,241,236,1);
 }
+.empty-table-new>div,
+.empty-panel-new>div
+{
+	background: rgba(199,167,123,0.10);
+}
 .empty-table > div:first-child{
   width: 100%;
 }
@@ -6165,10 +6188,18 @@ border-radius: 50%;
 }
 /* 新版销售单样式 */
 .confirm-edit div.customer-name,
-.confirm-edit div.logistics-center {
+.invoices-order div.customer-name,
+.sale-return-order div.customer-name,
+.confirm-edit div.logistics-center,
+.sale-return-order div.logistics-center,
+.invoices-order div.logistics-center
+{
 	padding: 15px 30px 18px 82px;
 }
-.confirm-edit div.customer-name:before {
+.confirm-edit div.customer-name:before,
+.sale-return-order div.customer-name:before,
+.invoices-order div.customer-name:before
+ {
 	content: ' ';
 	position: absolute;
 	top: 18px;
@@ -6180,7 +6211,10 @@ border-radius: 50%;
 	background-repeat: no-repeat;
   background-position: -363px -796px;
 }
-.confirm-edit div.logistics-center:before {
+.confirm-edit div.logistics-center:before,
+.sale-return-order div.logistics-center:before,
+.invoices-order div.logistics-center:before
+{
 	content: ' ';
 	position: absolute;
 	top: 18px;
@@ -6191,6 +6225,10 @@ border-radius: 50%;
 	background-image: url(../../images/pr-sprites.png);
 	background-repeat: no-repeat;
   background-position: -363px -733px;
+}
+.invoices-order div.logistics-center:before,
+.sale-return-order div.logistics-center:before{
+	background-position: -363px -671px;
 }
 
 /* datepicker */
