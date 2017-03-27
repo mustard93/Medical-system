@@ -128,9 +128,9 @@
                          name="qualityPersontel"
                          ng-model="formData.qualityPerson.tel"
                          ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
-                         invalid-popover
-                         popover-show="!firstEnterpriseEditForm.qualityPersontel.$valid"
-                         popover-options='{"content":"手机号码格式不正确", "placement":"right", "trigger":"manual"}' />
+                         data-content="手机号码格式有误!"
+                         invalid-popover="{{!firstEnterpriseEditForm.qualityPersontel.$valid}}"
+                         />
 
                 </div>
             </div>
@@ -141,10 +141,9 @@
                          class="ipt-new"
                          name="qualityPersontelephone"
                          ng-model="formData.qualityPerson.telephone"
-                         ng-pattern="/^((\d{3,4}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$/"
-                         invalid-popover
-                         popover-show="!firstEnterpriseEditForm.qualityPersontelephone.$valid"
-                         popover-options='{"content":"座机号码格式不正确", "placement":"right", "trigger":"manual"}' />
+                         ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                         data-content="座机号码格式有误!"
+                         invalid-popover="{{!firstEnterpriseEditForm.qualityPersontelephone.$valid}}"/>
                 </div>
             </div>
             <div class="flex-column mgt">
@@ -165,9 +164,8 @@
                          name="financePersontel"
                          ng-model="formData.financePerson.tel"
                          ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
-                         invalid-popover
-                         popover-show="!firstEnterpriseEditForm.financePersontel.$valid"
-                         popover-options='{"content":"手机号码格式不正确", "placement":"right", "trigger":"manual"}' />
+                         data-content="手机号码格式有误!"
+                         invalid-popover="{{!firstEnterpriseEditForm.financePersontel.$valid}}" />
 
                 </div>
             </div>
@@ -178,10 +176,9 @@
                          class="ipt-new"
                          name="financePersontelephone"
                          ng-model="formData.financePerson.telephone"
-                         ng-pattern="/^((\d{3,4}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$/"
-                         invalid-popover
-                         popover-show="!firstEnterpriseEditForm.financePersontelephone.$valid"
-                         popover-options='{"content":"座机号码格式不正确", "placement":"right", "trigger":"manual"}' />
+                         ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                         data-content="座机号码格式有误!"
+                         invalid-popover="{{!firstEnterpriseEditForm.financePersontelephone.$valid}}" />
 
                 </div>
             </div>
@@ -484,14 +481,14 @@
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-
+                      ng-disabled="!firstEnterpriseEditForm.$valid"
                       ng-click="submitForm('editForm','save')">保存
-                      <!-- ng-disabled="!firstEnterpriseEditForm.$valid" -->
+
               </button>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
-
+                      ng-disabled="!firstEnterpriseEditForm.$valid"
                       ng-click="submitForm('editForm','submit-supplier')">
                       保存并结束编辑
               </button>
