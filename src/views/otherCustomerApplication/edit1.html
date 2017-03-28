@@ -64,12 +64,21 @@
                   <input type="radio" class="default-radio" name="type" value="零售商" ng-model="formData.customer.type"> <i style="top:12px;"></i>
                    <em class="inline-block" style="margin-left:-5px; color:#666;">零售商</em>
                 </label>
+                <p class="inline-block color-red " style="padding:7px;">
+                  *必选
+                </p>
               </div>
             <div class="bt-dashed-line pd-v-m">
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">客户全称：</label>
                 <div class="flex-item-10  text-left">
-                  <input type="text" class="ipt-new" ng-model="formData.customer.fullName">
+                  <input type="text" class="ipt-new"
+                  name="fullName"
+                  ng-model="formData.customer.fullName"
+                  required
+                  data-content="* 必填字段"
+                  invalid-popover="{{!otherCustomerEditForm.fullName.$valid}}"
+                  >
                 </div>
               </div>
               <div class="flex-column mgt">
