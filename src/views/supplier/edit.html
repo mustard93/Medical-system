@@ -479,17 +479,27 @@
                  params='{"id":formData.id}'
                  request-url="rest/authen/supplier/delete">删除</a>
             </span> -->
-            <span class="mgl">
-              <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!firstEnterpriseEditForm.$valid"
-                      ng-click="submitForm('editForm','save')">保存
 
-              </button>
+              <!-- <button class="pr-btn-save-glodbg mgt"
+                      ng-disabled="!firstEnterpriseEditForm.$valid"
+                      ng-click="submitForm('firstEnterpriseEditForm','save')">保存
+              </button> -->
+              <span class="mgl" >
+                <button href="javascript:;"
+                  class="pr-btn-save-glodbg mgt"
+                  type="button"
+                   handle-this-click
+                   dialog-title="确认保存?"
+                   dialog-content="保存后，证件号码将无法再编辑。确定保存？"
+                   dialog-template="pr-dialog-submit.html"
+                   alert-error
+                   callback="submitForm('firstEnterpriseEditForm','save');$root.utils.refreshHref()"
+                   >保存</button>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
                       ng-disabled="!firstEnterpriseEditForm.$valid"
-                      ng-click="submitForm('editForm','submit-supplier')">
+                      ng-click="submitForm('firstEnterpriseEditForm','submit-supplier')">
                       保存并结束编辑
               </button>
             </span>

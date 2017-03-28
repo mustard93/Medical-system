@@ -272,18 +272,30 @@
                  params='{"id":formData.id}'
                  request-url="rest/authen/customerAddress/delete">删除</a>
             </span> -->
-            <span class="mgl">
+            <!-- <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       ng-disabled="!changeFlag || hospitalEditForm.$invalid"
                       ng-click="submitForm('editForm','save')">保存
               </button>
-            </span>
+            </span> -->
+            <span class="mgl" >
+              <button href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                 handle-this-click
+                 dialog-title="确认保存?"
+                 dialog-content="保存后，证件号码将无法再编辑。确定保存？"
+                 dialog-template="pr-dialog-submit.html"
+                 alert-error
+                 callback="submitForm('hospital-editForm','save');$root.utils.refreshHref()"
+                 >保存</button>
+          </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
                       ng-disabled="hospitalEditForm.$invalid">
                     <a href="javascript:;"
                     class="color-white"
-                    ng-click="submitForm('editForm','submit-hospital')">
+                    ng-click="submitForm('hospital-editForm','submit-hospital')">
                       保存并结束编辑
                     </a>
                     </button>
