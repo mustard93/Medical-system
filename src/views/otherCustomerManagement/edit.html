@@ -85,7 +85,14 @@
                 <label class="flex-item-2  text-right control-label">法人代表/身份证号：</label>
                 <div class="flex-item-10  text-left">
                   <input type="text" class="ipt flex-item-1" ng-model="formData.object.legalRepresentative">
-                  <input type="text" class="ipt flex-item-2 mgl-s" style="width:212px;" ng-model="formData.object.legalRepresentativeIdentityNo">
+                  <input type="text"
+                         class="ipt flex-item-2 mgl-s"
+                         name="legalRepresentativeIdentityNo"
+                         style="width:212px;"
+                         ng-model="formData.object.legalRepresentativeIdentityNo"
+                         ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/"
+                         data-content="身份证号码格式有误!"
+                         invalid-popover="{{!otherCustomerEditForm.legalRepresentativeIdentityNo.$valid}}">
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -178,10 +185,34 @@
                        invalid-popover="{{!otherCustomerEditForm.consigneeIdentityNo.$valid}}" />
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <!-- <div class="flex-column mgt">
                 <label class="flex-item-2  text-right control-label">联系电话：</label>
                 <div class="flex-item-10  text-left">
                   <input type="text" class="ipt-new" ng-model="formData.object.consigneePhone">
+                </div>
+              </div> -->
+              <div class="flex-column mgt">
+                <label class="flex-item-2   text-right control-label">座机：</label>
+                <div class="flex-item-10  text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="consigneeTel"
+                         ng-model="formData.object.consigneeTel"
+                         ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                         data-content="座机号格式有误!"
+                         invalid-popover="{{!otherCustomerEditForm.consigneeTel.$valid}}" />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2   text-right control-label">手机：</label>
+                <div class="flex-item-10  text-left">
+                  <input type="text"
+                         class="ipt-new"
+                         name="consigneePhone"
+                         ng-model="formData.object.consigneePhone"
+                         ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                         data-content="手机号格式有误!"
+                         invalid-popover="{{!otherCustomerEditForm.consigneePhone.$valid}}" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -213,9 +244,27 @@
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2  text-right control-label">联系电话：</label>
+                <label class="flex-item-2   text-right control-label">座机：</label>
                 <div class="flex-item-10  text-left">
-                <input type="text" class="ipt-new" ng-model="formData.object.purchaserPhone">
+                <input type="text"
+                       class="ipt-new"
+                       name="purchaserTel"
+                       ng-model="formData.object.purchaserTel"
+                       ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/"
+                       data-content="座机号格式有误!"
+                       invalid-popover="{{!otherCustomerEditForm.purchaserTel.$valid}}" />
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2   text-right control-label">手机：</label>
+                <div class="flex-item-10  text-left">
+                <input type="text"
+                       class="ipt-new"
+                       name="purchaserPhone"
+                       ng-model="formData.object.purchaserPhone"
+                       ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
+                       data-content="手机号格式有误!"
+                       invalid-popover="{{!otherCustomerEditForm.purchaserPhone.$valid}}" />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -272,19 +321,20 @@
             </span> -->
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!changeFlag || otherCustomer-editForm.$invalid"
+                      ng-disabled="!changeFlag || otherCustomerEditForm.$invalid"
                       ng-click="submitForm('editForm','save')">保存
               </button>
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
-                      ng-disabled="otherCustomer-editForm.$invalid">
+                      ng-disabled="otherCustomerEditForm.$invalid">
                     <a href="javascript:;"
                     class="color-white"
+                    ng-disabled="otherCustomerEditForm.$invalid"
                     ng-click="submitForm('editForm','submit-otherCustomer')">
                       保存并结束编辑
                     </a>
-                    </button>
+              </button>
             </span>
 
           </div>
