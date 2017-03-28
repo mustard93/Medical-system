@@ -1,4 +1,4 @@
-<div class="sale-return-order right-side"
+<div class="sale-return-order right-side pr-bg-black3"
      ng-controller="returnOrderAddController"
      ajax-If-eval="selectedData.id||formData.relId"
      ajax-url="rest/authen/invoicesOrder/get.json?id={{selectedData.id||formData.relId}}"
@@ -17,43 +17,60 @@
               title-field="orderNo"
               description-field="customerName"
               search-fields=""
-              search-str-class="ipt"
+              search-str-class="ipt ipt-bg-black"
               url="rest/authen/invoicesOrder/query?orderStatus=已发货"
-              class="inline-block"
+              class="inline-block "
               ng-model="selectedData">
         </span>
       </div>
     </div>
     <!-- 药械列表 -->
-    <div>
-      <div class="panel pr-panel pd-n pr-panel-height mgb">
-        <div class="empty-panel clearfix" ng-if="!addDataObj.orderMedicalNos.length">
+    <div class="pr-bg-black4">
+      <div class="panel pr-panel pd-n pr-panel-height mgb ">
+        <div class="empty-panel empty-panel-new clearfix pr-bg-black4" ng-if="!addDataObj.orderMedicalNos.length">
             <div>&nbsp;</div>
             <div>&nbsp;</div>
             <div>&nbsp;</div>
         </div>
-        <div class=""  ng-if="addDataObj.orderMedicalNos.length">
-          <p class="flex-column color-9 pd bb-dashed-line">
+        <div class="pr-bg-black4"  ng-if="addDataObj.orderMedicalNos.length">
+          <div class="pr-panel pr-panel-height pd-n pr-bg-white-black">
+            <!-- 客户搜索 -->
+            <div class="inline-block br-line customer-name relative" style="width:500px;">
+              <p class="mgb-s">客户名</p>
+              <p class="text-n color-black">
+                {{addDataObj.customerName}}
+              </p>
+            </div>
+            <!-- 物流中心搜索 -->
+            <div class="inline-block logistics-center relative">
+              <p class="mgb-s">物流中心</p>
+              <p class="text-n color-black" style="padding-right:182px;">
+                <!-- 昆明物流中心 -->
+                {{addDataObj.logisticsCenterName || '暂无'}}
+              </p>
+            </div>
+          </div>
+          <p class="flex-column color-9 pd mgt pr-bg-white-black">
             <span class="flex-item-4">
-              单据编号：<em>{{addDataObj.orderNo || '暂无'}}</em>
+              单据编号：<em class="color-white">{{addDataObj.orderNo || '暂无'}}</em>
               <em  class="mgl">
-                审核人：</em><em class="color-3">{{addDataObj.inputUser.n || '暂无'}}</em>
+                审核人：</em><em class="color-white">{{addDataObj.inputUser.n || '暂无'}}</em>
             </span>
             <span class="flex-item-7 text-right">
             <em  class="mgl">制单人：</em><em class="color-orange">{{addDataObj.inputUser.n || '暂无'}}</em>
-              录单日期：<em class="color-3">{{addDataObj.createAt | date : 'yyyy-MM-dd' }}</em>
+              录单日期：<em class="color-white">{{addDataObj.createAt | date : 'yyyy-MM-dd' }}</em>
             </span>
             <span class="flex-item-1 text-right">状态：
-              <em class="color-3" ng-class="{'color-green':addDataObj.orderStatus=='已通过'}">{{addDataObj.orderStatus}}</em>
+              <em class="color-white" ng-class="{'color-green':addDataObj.orderStatus=='已通过'}">{{addDataObj.orderStatus}}</em>
             </span>
           </p>
-          <p class="flex-column color-9 pd">
+          <p class="flex-column color-9 pd pr-bg-white-black">
             <span class="flex-item-12">
-              部门：<em class="color-black">{{addDataObj.salesDepartmentName || '暂无'}}</em>
+              部门：<em class="color-white">{{addDataObj.salesDepartmentName || '暂无'}}</em>
               <em  class="mgl">业务人员：</em><em class="color-orange">{{addDataObj.saleUser.n|| '暂无'}}</em>
-              <em  class="mgl">业务类型：</em><em class="color-black">{{addDataObj.orderBusinessType || '暂无'}}</em>
-              <em  class="mgl">销售类型：</em><em class="color-black">{{addDataObj.salesType || '暂无'}}</em>
-              <em  class="mgl">预发货日期：</em><em class="color-black">{{addDataObj.expectDate || '暂无'  | date : 'yyyy-MM-dd'}}</em>
+              <em  class="mgl">业务类型：</em><em class="color-white">{{addDataObj.orderBusinessType || '暂无'}}</em>
+              <em  class="mgl">销售类型：</em><em class="color-white">{{addDataObj.salesType || '暂无'}}</em>
+              <em  class="mgl">预发货日期：</em><em class="color-white">{{addDataObj.expectDate || '暂无'  | date : 'yyyy-MM-dd'}}</em>
             </span>
           </p>
         </div>
@@ -74,9 +91,9 @@
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
-                  <th class="text-center w-110">批号要求</th>
                   <th class="text-center">生产批号</th>
                   <th class="text-center">灭菌批号</th>
+                  <th class="text-center">仓库</th>
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -87,7 +104,7 @@
                   <th class="text-center">价税合计</th>
                   <th class="text-center">报价</th>
                   <th class="text-center">产地</th>
-                  <th class="text-center">失效日期</th>
+                  <th class="text-center">有效期至</th>
                   <th class="text-center">退补标志</th>
                   <th class="text-center">保存温度</th>
                   <th class="text-center">品牌</th>
@@ -111,11 +128,11 @@
                   <td class="text-center">{{item.specificationAndModelType}}</td>
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
-                  <td class="text-center">{{item.batchRequirement}}</td>
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
+                  <td class="text-center">{{item.warehouseName}}</td>
                   <td class="text-right">{{item.price | currency:'￥'}}</td>
-                  <td class="text-right">{{item.taxRate}}%</td>
+                  <td class="text-right">{{item.tax}}%</td>
                   <td class="text-right">￥{{item.discountPrice | number:2}}</td>
                   <td class="text-right">{{item.discountRate}}%</td>
                   <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
@@ -124,10 +141,7 @@
                   <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
                   <td class="text-right">￥{{item.strike_price | number:2}}</td>
                   <td class="text-center">{{item.productionPlace}}</td>
-                  <td class="text-center"
-                      ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
-                      scope-data="validTilldata">{{validTilldata.validTill | date : 'yyyy-MM-dd'}}
-                  </td>
+                  <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{item.withdrawalSign}}</td>
                   <td class="text-center">{{item.storedTemperature}}</td>
                   <td class="text-center">{{item.brand}}</td>
@@ -139,7 +153,7 @@
               </tbody>
             </table>
         </div>
-        <div class="empty-table clearfix" ng-if="!addDataObj.orderMedicalNos.length">
+        <div class="empty-table empty-table-new clearfix pr-bg-black4" ng-if="!addDataObj.orderMedicalNos.length">
               <div>&nbsp;</div>
               <div>&nbsp;</div>
               <div>&nbsp;</div>
@@ -149,12 +163,13 @@
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area-2nd relative">
-      <div class="btn-area">
-        <a class="mgr-l" ng-click="modal.closeAll();">取消</a>
+      <div class="btn-area full-width text-center">
+        <!-- <a class="mgr-l" ng-click="modal.closeAll();">取消</a> -->
         <button ng-disabled="!choisedMedicalList.length>0"
                 ng-click="handleAddDataArray(addDataObj.id,choisedMedicalList,addDataObj)"
                 type="button"
-                class="pr-btn-save-glodbg mgr-l">确定
+                class="pr-btn-save-glodbg mgr-l"
+                style="width:160px;">确定
         </button>
       </div>
     </div>

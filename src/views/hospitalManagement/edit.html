@@ -8,14 +8,14 @@
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">客户中心 >
          <a href="#/hospitalManagement/query.html">
-            <em class="color-custom-orange">医院管理</em>
+            <em class="color-custom-orange">医院信息管理</em>
          </a>
-        <em>>医院管理编辑</em>
+        <em>>医院信息管理编辑</em>
        </p>
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
          <div class="mgb-l">
-           <h1 class="color-black pr-font-20">医院管理-编辑</h1>
+           <h1 class="color-black pr-font-20">医院信息管理-编辑</h1>
          </div>
        </div>
      </div>
@@ -57,7 +57,7 @@
           </div>
           <div class="flex-item-6 text-right">
               录单日期：<em class="color-black mgr-s">{{formData.createAt | date : 'yyyy-MM-dd'}}</em>
-              状态：<em ng-if="formData.orderStatus!='已通过'" class="color-black">{{formData.orderStatus ||'暂无'}}</em>
+              状态：<em ng-if="formData.orderStatus!='已通过'" class="color-black">{{formData.businessApplication.businessStatus ||'暂无'}}</em>
               <em ng-if="formData.orderStatus=='已通过'" class="color-black">正常</em>
           </div>
         </div>
@@ -154,15 +154,17 @@
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label">有效期至：</label>
-                  <div class="date-icon-outside col-sm-3">
+                <div class="flex-item-10 text-left">
+                  <div class="date-icon-outside">
                     <input type="text"
                            datepicker
-                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           class="ipt-date pr-short-ipt ipt-new-s color-6 pr-indent-10"
                            ng-readonly="true"
-                           ng-model="formData.object.guaranteePeriod"
-                           placeholder="有效日期至">
-                    <span class="date-icon"></span>
+                           placeholder=" 有效日期至"
+                           ng-model="formData.object.guaranteePeriod">
+                          <span class="date-icon"></span>
                   </div>
+                </div>
               </div>
             </div>
             <div class="pd-v-m bt-dashed-line">
@@ -216,7 +218,7 @@
 
         <!-- 申请原因-->
         <div class="panel pr-panel pr-panel-height mgb">
-          <h1 class="pr-font-18 mgb">新品引进原因</h1>
+          <h1 class="pr-font-18 mgb">申请原因</h1>
           <div class="">
             <textarea class="pr-textarea" name="applyReason" rows="8" cols="40" ng-model="formData.applyReason"></textarea>
           </div>

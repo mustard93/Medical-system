@@ -143,6 +143,9 @@ a.as-btn {
 .half-height {
   height: 50%;
 }
+.hei-50{
+	height: 50px;
+}
 .text-ellips-s {
 	/*width: 320px;*/
 	width: 100%;
@@ -1058,6 +1061,12 @@ table-list {
     -moz-text-overflow: ellipsis;
     -webkit-text-overflow: ellipsis;
 }
+.autocut-default{
+	display:block;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
 .autocut-l{
     width:100%;
     height: auto;
@@ -1111,7 +1120,7 @@ table-list {
   position: fixed;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  z-index: 10000;
+  z-index: 10;
   top: 0;
   right: 0;
   bottom: 0;
@@ -1287,16 +1296,17 @@ body.ngdialog-open {
 .ngdialog.ngdialog-theme-right .ngdialog-close:before {
   background: transparent;
   border-radius: 3px;
-  color: #BBB;
-  content: '\00D7';
-  font-size: 32px;
+  /*color: #BBB;*/
+	color:rgba(255,140,0,1);
+  content: '取消';
+  font-size: 14px;
   font-weight: 400;
   height: 30px;
   line-height: 26px;
   position: absolute;
   right: 8px;
   text-align: center;
-  top: 33px;
+  top: 22px;
   width: 30px;
 }
 .ngdialog.ngdialog-theme-right .ngdialog-close:hover:before,
@@ -1499,6 +1509,13 @@ color: #C7A77B!important;
 	opacity: 0.9;
 	background: #36302C;
 }
+/*销售退货单，表格外部背景颜色*/
+.pr-bg-black4{
+background-color: rgba(89,84,80,1);
+}
+.pr-bg-white-black{
+	background-color: rgba(120,116,112,1)!important;
+}
 .pr-bg-whiteblue{
 	background-color: #f1f6fb!important;
 }
@@ -1572,6 +1589,13 @@ background-color: #e5e5e5!important;
 }
 .pr-icon-bg-grey {
   background-color: #e5e5e5;
+}
+/*销退模块侧边框输入框背景色为黑色*/
+.ipt-bg-black{
+	background-color: rgba(89,84,80,1);
+	border: 1px solid rgba(0,0,0,0.10);
+	width: 200px;
+	border-radius: 2px;
 }
 /* 颜色 */
 .pr-color {
@@ -1973,7 +1997,7 @@ input[disabled],textarea[disabled],select[disabled],div[disabled],span[disabled]
 /* 150px的输入框 表格中输入框 */
 .pr-short-ipt {
   width: 160px;
-	height: 28px;
+	height: 30px;
 }
 .first-medical-application .popover-content{
 	padding: 4px 14px!important;
@@ -2067,6 +2091,9 @@ padding-top: 3px;
 }
 .bb-dashed-line {
   border-bottom: 1px dashed #e2e2e2;
+}
+.bb-dashed-line-new{
+	border: 1px dashed rgba(0,0,0,0.10);
 }
 .bl-dotted-line {
   border-left: 1px dotted #e2e2e2;
@@ -3198,6 +3225,17 @@ span.popovers:hover, span.popovers > .purchaseorder-buyer-info:hover {
   -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
   box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
 }
+.arrivalNotaice-order .purchaseorder-buyer-info:before,
+.sale-return-order .purchaseorder-buyer-info:before
+{
+	top: 17px;
+	left: 46%;
+	border-top: none;
+	border-right: none;
+	border-bottom:1px solid #ccc;
+	border-left:1px solid #ccc;
+}
+
 .purchaseorder-buyer-info:before {
   content: ' ';
   position:absolute;
@@ -3212,6 +3250,7 @@ span.popovers:hover, span.popovers > .purchaseorder-buyer-info:hover {
   z-index:1;
   background-color:#fff;
 }
+
 
 .panel-heading {
   border-bottom: none;
@@ -3671,7 +3710,7 @@ border: 1px solid #ddd;
 /* 新版页面下方功能按钮样式 */
 .handle-btn-area {
   position: fixed;
-	z-index: 9999;
+	z-index: 10;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -4091,6 +4130,13 @@ border: 1px solid #ddd;
 	min-height: 50px;
 	background-color: inherit;
 }
+.a-mask-text{
+	display: inline-block;
+	width: 90px;
+	height: auto;
+	color: #ff8c00;
+	word-break:break-all;
+}
 .p-mask-text:hover {
 	background-color:rgba(229, 229, 229, .8);
 
@@ -4490,6 +4536,11 @@ span.re-send-icon{
   margin-bottom: 5px;
   background: rgba(243,241,236,1);
 }
+.empty-table-new>div,
+.empty-panel-new>div
+{
+	background: rgba(199,167,123,0.10);
+}
 .empty-table > div:first-child{
   width: 100%;
 }
@@ -4539,12 +4590,17 @@ span.re-send-icon{
 .sale-return-order .select
 {
   position: relative;
+	top:-2px;
   background-color:transparent;
   color:#000;
   z-index: 10;
   width: 125px;
-  height: 20px;
+  height: 24px;
   border: none;
+	border-radius: 4px;
+}
+.ipt-att[disabled]{
+	opacity: 0.8;
 }
 .date-icon-outside span.date-icon{
   position: absolute;
@@ -5012,6 +5068,7 @@ padding-right: 10px;
 	-moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
 	box-shadow: 0px 0px 2px 0px rgba(199,167,123,0.50);
 }
+
 .medical-stock .purchaseorder-buyer-info:before{
 	top: 18px;
 	left: 50%;
@@ -5044,6 +5101,12 @@ border-radius: 50%;
 }
 .bg-end-red{
 	background-color: rgba(255,18,18,1);
+}
+.bg-ing-orang{
+	background-color: rgba(254,119,0,1);
+}
+.bg-unend-grey{
+	background-color: rgba(216,216,216,1);
 }
 /*删除按钮*/
 .circle-icon-del{
@@ -5254,6 +5317,7 @@ border-radius: 50%;
 	width: 180px;
 	height: 32px;
 	border-radius: 2px;
+
 }
 
 .in_ipt{
@@ -5271,4 +5335,48 @@ border-radius: 50%;
 }
 .pr-bt-line{
 	border-bottom: 1px solid rgba(209,143,0,0.20);
+}
+/* 新版销售单样式 */
+.confirm-edit div.customer-name,
+.invoices-order div.customer-name,
+.sale-return-order div.customer-name,
+.confirm-edit div.logistics-center,
+.sale-return-order div.logistics-center,
+.invoices-order div.logistics-center
+{
+	padding: 15px 30px 18px 82px;
+}
+.confirm-edit div.customer-name:before,
+.sale-return-order div.customer-name:before,
+.invoices-order div.customer-name:before
+ {
+	content: ' ';
+	position: absolute;
+	top: 18px;
+	left: 20px;
+	width: 48px;
+	height: 48px;
+	display: inline-block;
+	background-image: url(../../images/pr-sprites.png);
+	background-repeat: no-repeat;
+  background-position: -363px -796px;
+}
+.confirm-edit div.logistics-center:before,
+.sale-return-order div.logistics-center:before,
+.invoices-order div.logistics-center:before
+{
+	content: ' ';
+	position: absolute;
+	top: 18px;
+	left: 20px;
+	width: 48px;
+	height: 48px;
+	display: inline-block;
+	background-image: url(../../images/pr-sprites.png);
+	background-repeat: no-repeat;
+  background-position: -363px -733px;
+}
+.invoices-order div.logistics-center:before,
+.sale-return-order div.logistics-center:before{
+	background-position: -363px -671px;
 }

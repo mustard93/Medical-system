@@ -33,7 +33,23 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-          <p class="mgb-l text-n color-3 text-bold">{{scopeData.customerName}}</p>
+      <div class="pr-panel pr-panel-height mgb pd-n">
+        <!-- 客户搜索 -->
+        <div class="inline-block br-line customer-name relative">
+          <p class="mgb-s">客户名</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            {{scopeData.customerName}}
+          </p>
+        </div>
+        <!-- 物流中心搜索 -->
+        <div class="inline-block logistics-center relative">
+          <p class="mgb-s">物流中心</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            <!-- 昆明物流中心 -->
+            {{scopeData.logisticsCenterName ||'暂无'}}
+          </p>
+        </div>
+      </div>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
@@ -41,7 +57,7 @@
             <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n}}</em></span>
+            <span class="mgr">制单人：<em class="color-3">{{scopeData.inputUser.n || '暂无'}}</em></span>
             <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
             <a ng-if="initFlag"
             modal-center="1000px"
@@ -76,9 +92,12 @@
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
                   <th class="text-center">数量</th>
-                  <th class="text-center w-110">批号要求</th>
+                  <th class="text-center">实发数量</th>
+                  <th class="text-center">差异数量</th>
+                  <!-- <th class="text-center w-110">批号要求</th> -->
                   <th class="text-center">生产批号</th>
                   <th class="text-center">灭菌批号</th>
+                  <th class="text-center">仓库</th>
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -89,7 +108,7 @@
                   <th class="text-center">价税合计</th>
                   <th class="text-center">报价</th>
                   <th class="text-center">产地</th>
-                  <th class="text-center">失效日期</th>
+                  <th class="text-center">有效期至</th>
                   <th class="text-center">退补标志</th>
                   <th class="text-center">保存温度</th>
                   <th class="text-center">品牌</th>
@@ -107,9 +126,13 @@
                   <td class="text-center">{{item.specificationAndModelType}}</td>
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
+                  <td class="text-center">{{item.outgoingQuantity}}</td><!-- 差异数量 -->
+                  <!-- <td class="text-center">{{item.differenceQuantity}}</td> -->
+                  <!-- 批号要求 -->
                   <td class="text-center">{{item.batchRequirement}}</td>
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
+                  <td class="text-center">{{item.warehouseName}}</td>
                   <td class="text-center">{{item.price | currency:'￥'}}</td>
                   <td class="text-center">{{item.taxRate}}%</td>
                   <td class="text-center">￥{{item.discountPrice | number:2}}</td>
@@ -120,10 +143,7 @@
                   <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
                   <td class="text-right">￥{{item.strike_price | number:2}}</td>
                   <td class="text-center">{{item.productionPlace}}</td>
-                  <td class="text-center" ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.batchNumber}}"
-                      scope-data="validTilldata">
-                      {{validTilldata.validTill | date : 'yyyy-MM-dd'}}
-                  </td>
+                  <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{item.withdrawalSign}}</td>
                   <td class="text-center">{{item.storedTemperature}}</td>
                   <td class="text-center">{{item.brand}}</td>

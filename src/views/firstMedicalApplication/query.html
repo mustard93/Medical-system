@@ -35,9 +35,9 @@
                         {{tr.orderStatus}}
                       </em>
                     </span>
-                    <span class="flex-item-6 text-right">
+                    <span class="flex-item-6 text-right" ng-class="{'hei-50':($root.hasAuthor('首营品种维护')&&tr.orderStatus=='未提交'&& mainStatus.id!=tr.proposerId)}">
                         <a
-                           ng-if="$root.hasAuthor('首营品种维护')&&tr.orderStatus=='未提交'"
+                           ng-if="$root.hasAuthor('首营品种维护')&&tr.orderStatus=='未提交'&& mainStatus.id==tr.proposerId"
                            ng-href="#/firstMedicalApplication/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                          <span class="edit-link-icon">&nbsp;</span>
                        </a>
@@ -116,7 +116,7 @@
                            title="{{tr.operationFlowSet.key}}{{tr.operationFlowSet.message}}"
                            class="text-ellips-s color-red">
                           <span>原因：</span>
-                          <span class="color-6">
+                          <span class="color-red">
                             <em ng-model="tr.operationFlowSet.key">{{tr.operationFlowSet.key}}</em>
                             <em ng-model="tr.operationFlowSet.message">{{tr.operationFlowSet.message}}</em>
                           </span>

@@ -30,7 +30,8 @@
            <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
          </div>
          <!-- 供货商信息 -->
-         <div ajax-if-eval="formData.supplier.id"
+         <div class="inline-block"
+              ajax-if-eval="formData.supplier.id"
               ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
               scope-data="supplier"
               callback="formData.supplier=supplier"
@@ -51,6 +52,16 @@
              </em>
            </span>
          </div>
+         <div class="inline-block">
+           <select ng-if="initFlag"
+                   class="ipt pr-long-ipt color-6"
+                   data-placeholder="物流中心"
+                   chosen
+                   chosen-ajax
+                   ng-model="formData.logisticsId"
+                   select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+           </select>
+         </div>
        </div>
      </div>
 
@@ -69,15 +80,21 @@
            <div flash-add-medical
                 ng-model="data1"
                 class="pd-c-l pdt-m"
-                ajax-url="rest/authen/medicalStock/query?supplierId={{formData.supplier.id}}"
+                ajax-url="rest/authen/medicalStock/query"
                 add-data-callback-fn="flashAddDataCallbackFn(data1)"
                 is-disabled-this="{{formData.supplier.id}}">
            </div>
+           <!-- ?supplierId={{formData.supplier.id}} -->
            <!-- 列表 -->
            <div class="bt-line">
              <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
                <div class="flex-item-6">
-                 <span class="mgr">单据编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+                 <span class="mgr">单据编号：
+                   <!-- <em class="color-3">{{formData.orderNo || '暂无'}}</em> -->
+                   <input type="number" name="orderNo" 
+                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                   class="ipt pr-new-short-ipt text-right" ng-model="formData.orderNo" />
+                 </span>
                  <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
                  <span class="mgr">审核人：<em class="color-3">暂无</em></span>
                </div>
@@ -165,7 +182,8 @@
                  <tbody class="bg-white">
                    <tr ng-repeat="tr in formData.orderMedicalNos"
                        table-item-handlebtn-component
-                       ng-init="orderMedicalNoIds.push(tr.relId);tr.handleFlag=true;">
+                       ng-init="orderMedicalNoIds.push(tr.relId);tr.handleFlag=true;"
+                       class="relative">
                      <td class="text-center" style="line-height:2.4">{{tr.code}}
                        <div class="table-item-handle-btn">
                          <div class="table-item-confirm-del-area bg-white">
@@ -177,7 +195,10 @@
                          </div>
                        </div>
                      </td><!-- 商品编号 -->
-                     <td class="text-left" style="line-height:2.4">{{tr.name}}</td><!-- 商品全名 -->
+                     <td class="text-left" style="line-height:2.4">
+                        <div class="autocut" title="{{tr.name}}">
+                           {{tr.name}}
+                         </div></td><!-- 商品全名 -->
                      <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                      <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
                      <td class="text-right" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 请购数量 -->
@@ -225,7 +246,7 @@
                          </span>
                          <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)">+</button>
                        </div>
-                       <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
+                       <p class="text-right color-red pdr-s mgt-s p-request-purchase" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                          待采购数量：{{tr.planQuantity-tr.quantity}}
                        </p>
                      </td><!-- 数量 -->
@@ -262,18 +283,24 @@
                      <td class="text-right" style="line-height:2.4">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">
                        <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.tax">
-                         <option value="17" ng-selected="tr.taxRate==17">17</option>
-                         <option value="3" ng-selected="tr.taxRate==3">3</option>
+                         <option value="17" ng-selected="tr.tax==17">17</option>
+                         <option value="3" ng-selected="tr.tax==3">3</option>
                        </select>%
                      </td><!-- 税率 -->
                      <td class="text-center" style="line-height:2.4">{{tr.storedTemperature}}</td>
                      <td class="text-center" style="line-height:2.4">{{tr.brand}}</td><!-- 保存温度 -->
                      <td class="text-center" style="line-height:2.4">{{tr.drugAdministrationCode}}</td><!-- 产地品牌 -->
                      <td class="text-center relative" style="line-height:2.4">{{tr.drugAdministrationCodeGuaranteePeriod}}</td><!-- 产品注册证号 -->
+                     <div class="">
+
+                     </div>
                    </tr>
                  </tbody>
                </table>
              </div>
+             <!-- <div ng-if="formData.relId"  class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-c-v-l color-red">
+               选中商品中，存在少于请购数量品种。该部分将被退回并保留在请购单
+             </div> -->
              <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
                <div class="empty-table clearfix">
                  <div>&nbsp;</div>
@@ -283,10 +310,11 @@
              </div>
            </div>
          </div>
+
        <!-- 其他信息 -->
        <div class="relative">
         <!-- 付款 -->
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l" >
           <h1 class="text-bold color-3">付款</h1>
           <div class="mgt-l">
             <span class="mgr">付款条件：
@@ -372,6 +400,7 @@
                                   create-modal-url="views/invoicesAddress/contact/edit.html"
                                   create-modal-title="添加收货方信息"
                                   create-address-type="采购"
+                                  logistics-center-id="{{formData.logisticsId}}"
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
         </address-manage-component>

@@ -969,8 +969,9 @@ define('project/controllers', ['project/init'], function() {
    *  销售单编辑页
    */
   function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+
     $scope.logistics=true;
-    console.log(  $scope.logistics);
+
     $scope.$watch('initFlag', function () {
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
@@ -1000,12 +1001,22 @@ define('project/controllers', ['project/init'], function() {
 
     // 监控用户变化，清空之前选择药械列表
     $scope.$watch('formData.customerId', function (newVal, oldVal) {
-      if (newVal && oldVal !== newVal) {
+      if (newVal && oldVal && oldVal !== newVal) {
         $scope.logistics=false;
-        console.log($scope.logistics);
         if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
       }
     });
+
+    $scope.deleteQuantity=function(item){
+      angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+        if (item.quantityAndbatchNumber) {
+          item.quantityAndbatchNumber = '';
+          item.otherQuantity ='';
+          item.otherSterilizationBatchNumber = '';
+          item.otherWarehouseName ='';
+        }
+      });
+    };
 
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
@@ -1073,6 +1084,7 @@ define('project/controllers', ['project/init'], function() {
         });
       }
     };
+
     $scope.handleChoiseAllEvent = function () {
       var _dataSource = $scope.formData.orderMedicalNos;
 
@@ -2941,15 +2953,17 @@ define('project/controllers', ['project/init'], function() {
            }
          }
 
-         if (newVal && $scope.formData.orderMedicalNos) {
-          for (i=0; i<$scope.formData.orderMedicalNos.length; i++) {
-            if ($scope.formData.orderMedicalNos[i].handleFlag) {
-              $scope.choisedMedicals = true;
+         if ($scope.formData) {
+           if (newVal && $scope.formData.orderMedicalNos) {
+            for (i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+              if ($scope.formData.orderMedicalNos[i].handleFlag) {
+                $scope.choisedMedicals = true;
+              }
+              if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+                $scope.isChoiseAll = false;
+              }
             }
-            if (!$scope.formData.orderMedicalNos[i].handleFlag) {
-              $scope.isChoiseAll = false;
-            }
-          }
+           }
          }
 
          if ($scope.formData) {
@@ -2961,6 +2975,7 @@ define('project/controllers', ['project/init'], function() {
            }
          }
        });
+
       $scope.watchFormChange = function(watchName){
         watchFormChange(watchName,$scope);
       };
@@ -3045,7 +3060,7 @@ define('project/controllers', ['project/init'], function() {
          }
 
          if ($scope.submitForm_type == 'submit') {
-           $scope.formData.validFlag = false;
+           $scope.formData.validFlag = true;
          }
         $('#' + fromId).trigger('submit');
       };
@@ -3161,7 +3176,7 @@ define('project/controllers', ['project/init'], function() {
         for(var item in $scope.scopeData){
 
           scopeData.push($scope.scopeData[item]);
-          console.log($scope.formData);
+
           if ($scope.formData.commodityType) {
             for(j=0;j<$scope.formData.commodityType.length;j++){
 
@@ -3604,6 +3619,7 @@ define('project/controllers', ['project/init'], function() {
           formData.hospitalId = hospitalId;
           formData.relId = $scope.medical.id;
           formData.id = null;
+          formData.medical.isBasicMedicine='是';
           formData.purchasePrice = formData.price;
 
         requestData('rest/authen/medicalStock/save', formData, 'POST', 'parameterBody')
@@ -4914,25 +4930,59 @@ define('project/controllers', ['project/init'], function() {
    * @param  {[type]} utils  [注入项]
    * @return {[type]}        [description]
    */
-  function editStockbatchNumberCtrl ($scope, utils) {
-    // 用户选择生产批号
-    $scope.choseBatch = function (obj,id) {
-      var productionBatchs=[];
-      // 直接将用户选择的生产批号数量灭菌批号赋值给表单价格
-      if ($scope.formData.orderMedicalNos) {
-        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
-          if (item.id === id) {
-            item.quantityAndbatchNumber = obj.productionBatch;
-            item.otherQuantity = obj.stockModel.salesQuantity;
-            item.otherSterilizationBatchNumber = obj.sterilizationBatchNumber;
-            item.otherWarehouseName = obj.warehouseName;
+  function editStockbatchNumberCtrl ($scope, utils, requestData) {
 
-            if(item.quantityAndbatchNumber){
-              item.flag=true;
-            }
-          }
+    // 监控listparams对象中属性的更改，刷新结果列表
+    $scope.$watchCollection('listParams', function (newVal, oldVal) {
+      if ($scope.listParams) {
+        var _url = 'rest/authen/medicalStock/queryStockBatch',
+            _data = {
+              relMedicalStockId: $scope.dialogData.id,
+              logisticsCenterId: $scope.dialogData.logisticsCenterId,
+              warehouseId: $scope.listParams.warehouseId,
+              createAtBeg: $scope.listParams.createAtBeg,
+              createAtEnd: $scope.listParams.createAtEnd,
+              q: $scope.listParams.q
+            };
+
+        requestData(_url, _data, 'GET')
+        .then(function (results) {
+          if (results[1].data) { $scope.stockBatchList = results[1].data; }
         });
       }
+    });
+
+    // 用户选择生产批号
+    $scope.choseBatch = function (obj,id) {
+      // 构建临时对象存储批号和数量
+      var _tmp = {
+        quantityAndbatchNumber: obj.productionBatch,
+        otherQuantity: obj.stockModel.salesQuantity,
+        otherSterilizationBatchNumber: obj.sterilizationBatchNumber,
+        otherWarehouseName: obj.warehouseName
+      };
+      // 如果当前批次数量大于或等于计划采购数量
+      if (obj.stockModel.salesQuantity >= $scope.dialogData.planQuantity) {
+        // 将计划采购数量赋值给临时对象
+        _tmp.otherQuantity = $scope.dialogData.planQuantity;
+        // 显示添加批次
+        $scope.isShowAddBatchBtn = false;
+        // 显示数量
+        $scope.isShowWaitChoise = false;
+      }
+
+      $scope.medicalBatchList.push(_tmp);
+
+      // if ($scope.formData.orderMedicalNos) {
+      //   angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+      //     if (item.relId === id) {
+      //       item.quantityAndbatchNumber = obj.productionBatch;
+      //       item.otherQuantity = obj.stockModel.salesQuantity;
+      //       item.otherSterilizationBatchNumber = obj.sterilizationBatchNumber;
+      //       item.otherWarehouseName = obj.warehouseName;
+      //     }
+      //   });
+      // }
     };
   }
   /**
@@ -5057,7 +5107,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('infrastructureController', ['$scope', infrastructureController])
   .controller('inoutstockDetailQueryCtr', ['$scope','utils', inoutstockDetailQueryCtr])
   .controller('historicalPriceController', ['$scope', 'utils', historicalPriceController])
-  .controller('editStockbatchNumberCtrl', ['$scope', 'utils', editStockbatchNumberCtrl])
+  .controller('editStockbatchNumberCtrl', ['$scope', 'utils', 'requestData', editStockbatchNumberCtrl])
   .controller('indexPurchaseSuppleController', ['$scope', 'utils', indexPurchaseSuppleController])
   .controller('indexPageController', ['$scope', 'utils', indexPageController])
   .controller('getAllExpressController', ['$scope', 'requestData', getAllExpressController])

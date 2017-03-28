@@ -115,7 +115,7 @@
                           </p>
                         </div>
                       </div>
-                      <div class="inline-block handle-btn" ng-click="$root.goTo('#/medicalStock/get.html?id='+tr.id)"></div>
+                      <div class="inline-block handle-btn" ng-click="$root.goTo('#/medicalStock/edit.html?id='+tr.id)"></div>
                       <div class="inline-block handle-btn other-handle-btn relative" href="javascript:;">
                         <div class="handle-area-show handle-area text-center">
                           <a ng-if="tr.businessApplication.businessStatus!='已冻结'&&tr.businessApplication.businessStatus!='已终止'"
@@ -123,7 +123,7 @@
                              modal-center="350"
                              modal-scope="this"
                              modal-data='{"title":"确认",
-                                          "content":"冻结后，该品种信息将被暂停，直到解冻，确认冻结?",
+                                          "content":"冻结后，将无法对该客户销售。确认冻结？",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
                                           "url":"rest/authen/medicalStock/updateStatus",
@@ -138,7 +138,7 @@
                              modal-center="350"
                              modal-scope="this"
                              modal-data='{"title":"确认解冻?",
-                                          "content":"解冻后，该品种信息将恢复，确认解冻?",
+                                          "content":"解冻后，该信息将恢复，确认解冻?",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
                                           "url":"rest/authen/medicalStock/updateStatus",
@@ -151,7 +151,7 @@
                           <a ng-if="tr.businessApplication.businessStatus!='已终止'" href="javascript:;"
                              handle-this-click
                              dialog-title="确认终止?"
-                             dialog-content="终止后，该品种信息将被取消，确定终止?"
+                             dialog-content="终止后，该信息将被取消，确定终止?"
                              dialog-template="pr-dialog-submit.html"
                              request-url="rest/authen/medicalStock/updateStatus"
                              params='{"id":tr.id,"status":"已终止"}'
@@ -187,7 +187,7 @@
                   </td>
                   <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
                   <td class="text-left color-orange">
-                    <div class="autocut" title="{{tr.name}}">
+                    <div class="autocut color-orange" title="{{tr.name}}">
                       <a href="#/medicalStock/get.html?id={{tr.id}}">
                           {{tr.name}}
                       </a>

@@ -19,11 +19,16 @@
           <tbody class="bg-white">
             <tr ng-repeat="item in showData" class="pr-bg-black3">
               <!-- ng-repeat="item in formData" -->
-              <td class="text-left pr-indent-20 color-white"> {{item.inputUser.n}}</td>
-              <td class="color-white">{{item.createAt | date:'yyyy-MM-dd'}}</td>
-              <td ng-if="item.versionStatus!='已冻结'" class="text-left color-white">{{item.versionStatus}}</td>
-              <td ng-if="item.versionStatus=='已冻结'" class="text-left color-white">冻结</td>
-              <td class="text-left color-white">{{item.message}}</td>
+              <td class="text-center pr-indent-20 color-white" style="width:100px;"> {{item.inputUser.n}}</td>
+              <td class="color-white text-center" style="width:200px;">{{item.createAt | date:'yyyy-MM-dd'}}</td>
+              <td ng-if="item.key!='已冻结'" class="text-center color-white" style="width:100px;">{{item.key}}</td>
+              <td ng-if="item.key=='已冻结'" class="text-center color-white" style="width:100px;">冻结</td>
+              <td class="text-left color-white">
+                <div class="autocut" style="width:450px;" title="{{item.message}}">
+                    {{item.message}}
+                </div>
+
+              </td>
             </tr>
           </tbody>
         </table>

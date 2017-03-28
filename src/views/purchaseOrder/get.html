@@ -102,7 +102,11 @@
                     ng-init="orderMedicalNoIds.push(tr.relId)"
                     ng-controller="purchaseOrderEditCtrl">
                   <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
-                  <td class="text-left"><div class="autocut-l" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
+                  <td class="text-left">
+                    <div class="autocut" title="{{tr.name}}">
+                      {{tr.name}}
+                    </div>
+                  </td><!-- 商品全名 -->
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                   <td  class="text-right">{{tr.quantity || '0'}}</td><!-- 数量 -->
@@ -113,7 +117,7 @@
                   <td class="text-right">￥{{tr.strike_price || '0'  | number:2}}</td><!-- 原币含税单价 -->
                   <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td><!-- 原币单价 -->
                   <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td><!-- 原币金额 -->
-                  <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr)*tr.taxRate/100 | number:2}}</td><!-- 原币税额 -->
+                  <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr)*tr.tax/100 | number:2}}</td><!-- 原币税额 -->
                   <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td><!-- 原币价税合计 -->
                   <td class="text-right" >{{tr.tax}}%</td><!-- 税率 -->
                   <td class="text-center">{{tr.storedTemperature}}</td><!-- 保存温度 -->
