@@ -263,6 +263,7 @@
             </div>
         </div>
         <div class="flex-item-6" style="padding:20px 50px;">
+          <div ng-if="showData.businessLicense.attachment.uploadUserName">
             <div class="flex-column pd-c-v-s">
                 <span class="flex-item-2 text-right">上传人：</span>
                 <span class="flex-item-10 text-left">{{showData.businessLicense.attachment.uploadUserName}}</span>
@@ -277,6 +278,10 @@
                     <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="showData.businessLicense.attachment"></div>
                 </div>
             </div>
+          </div>
+          <div ng-if="!showData.businessLicense.attachment.uploadUserName">
+            暂无文件
+          </div>
         </div>
     </div>
     <h3 class="crumbs-circle color-black pr-indent-10 pd-v">机构代码证</h3>
@@ -296,6 +301,7 @@
             </div>
         </div>
         <div class="flex-item-6" style="padding:20px 50px;">
+          <div ng-if="showData.organizationCodeCertificate.attachment.uploadUserName">
             <div class="flex-column pd-c-v-s">
                 <span class="flex-item-2 text-right">上传人：</span>
                 <span class="flex-item-10 text-left">{{showData.organizationCodeCertificate.attachment.uploadUserName}}</span>
@@ -309,6 +315,11 @@
                 <div class="flex-item-10 text-left">
                     <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="showData.organizationCodeCertificate.attachment"></div>
                 </div>
+            </div>
+          </div>
+
+            <div ng-if="!showData.organizationCodeCertificate.attachment.uploadUserName">
+              暂无文件
             </div>
         </div>
     </div>
@@ -329,6 +340,7 @@
             </div>
         </div>
         <div class="flex-item-6" style="padding:20px 50px;">
+          <div ng-if="showData.taxRegistrationCertificate.attachment.uploadUserName">
             <div class="flex-column pd-c-v-s">
                 <span class="flex-item-2 text-right">上传人：</span>
                 <span class="flex-item-10 text-left">{{showData.taxRegistrationCertificate.attachment.uploadUserName}}</span>
@@ -343,6 +355,11 @@
                     <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="showData.taxRegistrationCertificate.attachment"></div>
                 </div>
             </div>
+          </div>
+
+            <div ng-if="!showData.taxRegistrationCertificate.attachment.uploadUserName">
+              暂无文件
+            </div>
         </div>
     </div>
     <h3 class="crumbs-circle color-black pr-indent-10 pd-v">备注</h3>
@@ -353,6 +370,14 @@
     </div>
 </div>
 <!-- 审核资料 -->
+<div ng-if="!showData.attachments.length" class="panel pr-panel pr-panel-height mgb">
+  <h1 class="pr-font-18 mgb">
+    资质文件
+  </h1>
+  <p>
+    暂无文件
+  </p>
+</div>
 <div ng-if="showData.attachments.length" ng-init='attachmentsExtend={"title":"资质文件"}' attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend"></div>
 
 </div>
