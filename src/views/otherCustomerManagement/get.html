@@ -29,7 +29,7 @@
             <div class="pr-panel pr-panel-height mgb"
             ng-if="showData.operationFlowSet.message"
             ng-class="{'pr-bg-freeze color-freeze':showData.businessApplication.businessStatus =='已冻结',
-            'pr-bg-pass color-pass':showData.businessApplication.businessStatus =='已通过'}">
+            'pr-bg-pass color-pass':showData.businessApplication.businessStatus =='正常'}">
             <em>原因:</em>
              <p class="inline-block">
             <em ng-model="showData.operationFlowSet.key">{{showData.operationFlowSet.key}}</em>
@@ -43,10 +43,9 @@
               <span class="text-right flex-item-10">
                 申请日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd'}}</em>
                 状态：
-                <em ng-class="{'color-blue-freeze':showData.businessApplication.businessStatus =='已冻结', 'color-black':showData.businessApplication.businessStatus=='已通过',
+                <em ng-class="{'color-blue-freeze':showData.businessApplication.businessStatus =='已冻结', 'color-black':showData.businessApplication.businessStatus=='正常',
                 'color-red':showData.businessApplication.businessStatus =='已终止'}">
-                <em ng-if="showData.businessApplication.businessStatus!='已通过'">{{showData.businessApplication.businessStatus ||'暂无'}}</em>
-                <em ng-if="showData.businessApplication.businessStatus =='已通过'">正常</em>
+                <em>{{showData.businessApplication.businessStatus ||'暂无'}}</em>
               </em>
               </span>
             </div>
@@ -236,7 +235,7 @@
                                              "url":"rest/authen/customerAddress/updateStatus",
                                              "goUrl":"",
                                              "id":"{{showData.id}}",
-                                             "status":"已通过"
+                                             "status":"正常"
                                             }'
                                 modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
                         </button>
