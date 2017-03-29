@@ -79,14 +79,9 @@
                   <td class="relative">
                     <span class="circle-status"
                           ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
-                                     'bg-pass-green':tr.businessApplication.businessStatus =='已通过',
+                                     'bg-pass-green':tr.businessApplication.businessStatus =='正常',
                                      'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
-                      <span ng-if="tr.businessApplication.businessStatus =='已通过'" class="purchaseorder-buyer-info" style="right: 22px;top: -12px;">
-                        <i class="block pd-c-s text-normal" style="line-height:1.8">
-                          <em  class="inline-block">正常</em>
-                        </i>
-                      </span>
-                      <span ng-if="tr.businessApplication.businessStatus !='已通过'" class="purchaseorder-buyer-info" style="right: 17px;top: -12px;">
+                      <span class="purchaseorder-buyer-info" style="right: 17px;top: -12px;">
                         <i class="block pd-c-s text-normal" style="line-height:1.8">
                           <em  class="inline-block">{{tr.businessApplication.businessStatus}}</em>
                         </i>
@@ -134,7 +129,7 @@
                                           "url":"rest/authen/supplier/updateStatus",
                                           "goUrl":"",
                                           "id":"{{tr.id}}",
-                                          "status":"已通过"
+                                          "status":"正常"
                                          }'
                              modal-url="angular/tpl/pr-dialog-submit-message.html">解冻
                           </a>

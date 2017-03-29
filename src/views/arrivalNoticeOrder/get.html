@@ -31,16 +31,34 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-        <p class="mgb-l text-n color-3 text-bold">{{scopeData.supplier.name}}</p>
+      <div class="pr-panel pr-panel-height mgb pd-n">
+        <!-- 客户搜索 -->
+        <div class="inline-block br-line customer-name relative">
+          <p class="mgb-s">供应商</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            {{scopeData.supplier.name || '暂无'}}
+          </p>
+        </div>
+        <!-- 物流中心搜索 -->
+        <div class="inline-block logistics-center relative">
+          <p class="mgb-s">物流中心</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            <!-- 昆明物流中心 -->
+            {{scopeData.logisticsCenterName ||'暂无'}}
+          </p>
+        </div>
+      </div>
+        <!-- <p class="mgb-l text-n color-3 text-bold">{{scopeData.supplier.name}}</p> -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
-            <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
-            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n}}</em></span>
+            <span class="mgr">单据编号：<em class="color-3">{{scopeData.relOrderNo}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n ||'暂无'}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
-            <span class="mgr">制单人：<em class="color-orange">{{scopeData.inputUser.n}}</em></span>
+            <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderNo}}</em></span>
+            <span class="mgr">制单人：<em class="color-orange">{{scopeData.inputUser.n ||'暂无'}}</em></span>
             <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
             <a ng-if="initFlag"
                modal-center="1000px"
@@ -53,11 +71,11 @@
         </div>
         <!-- 类别选择 -->
         <div class="pd-c-l pdt-m pdb-m color-9">
-          <span class="mgr-l">部门：<em class="color-3">{{scopeData.salesDepartmentName}}</em></span>
-          <span class="mgr-l">业务人员：<em class="color-orange">{{scopeData.saleUser.n}}</em></span>
-          <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessTypeStr}}</em></span>
-          <span class="mgr-l">采购类型：<em class="color-3">{{scopeData.purchaseType}}</em></span>
-          <span class="mgr-l">计划到货时间：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+          <span class="mgr-l">部门：<em class="color-3">{{scopeData.salesDepartmentName ||'暂无'}}</em></span>
+          <span class="mgr-l">业务人员：<em class="color-orange">{{scopeData.saleUser.n ||'暂无'}}</em></span>
+          <span class="mgr-l">业务类型：<em class="color-3">{{scopeData.orderBusinessTypeStr ||'暂无'}}</em></span>
+          <span class="mgr-l">采购类型：<em class="color-3">{{scopeData.purchaseType ||'暂无'}}</em></span>
+          <span class="mgr-l">计划到货时间：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd' ||'暂无'}}</em></span>
         </div>
         <!-- 商品列表 -->
         <div class="">
@@ -70,10 +88,13 @@
                <th class="text-left">商品全名</th>
                <th class="text-center">规格/型号</th>
                <th class="text-center">单位</th>
-               <th class="text-center">计划数量</th>
+               <th class="text-center">计划数量／入库总数／拒收数量</th>
+               <th class="text-center">仓库</th>
+               <th class="text-center">数量</th>
+               <!-- <th class="text-center">计划数量</th>
                <th class="text-center">正常数量</th>
                <th class="text-center">其他数量</th>
-               <th class="text-center">拒收数量</th>
+               <th class="text-center">拒收数量</th> -->
                <th class="text-center">原币含税单价</th>
                <th class="text-center">原币单价</th>
                <th class="text-center">原币金额</th>
@@ -81,7 +102,6 @@
                <th class="text-center">原币价税合计</th>
                <th class="text-center">税率</th>
                <th class="text-center">批号</th>
-               <th class="text-center">失效日期</th>
                <th class="text-center">产品执行标准</th>
                <th class="text-center">产地品牌</th>
                <th class="text-center">产品注册证号</th>
@@ -144,10 +164,33 @@
                   <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-                  <td class="text-center">{{tr.quantity || '0'}}</td><!-- 计划数量 -->
-                  <td class="text-center">{{tr.storageQuantity || '0'}}</td><!-- 正常数量 -->
-                  <td class="text-center">{{tr.otherQuantity || '0'}}</td><!-- 其他数量 -->
-                  <td class="text-center">{{tr.refuseQuantity || '0'}}</td><!-- 拒收数量 -->
+                  <td class="text-right">
+                    {{tr.quantity || '0'}}&nbsp;/&nbsp;{{tr.storageQuantity + tr.otherQuantity || '0'}}&nbsp;/&nbsp;{{tr.refuseQuantity || '0'}}
+                  </td>
+                  <td class="text-center" style="padding:0px;">
+                    <div class="full-width hei-50" style="line-height:50px;">
+                      {{tr.warehouseName}}
+                    </div>
+                    <div ng-if="tr.otherQuantity" class="full-width hei-50 bb-line-yellow" style="line-height:50px;">
+                      待处理库
+                    </div>
+                  </td>
+                  <td class="text-right" style="padding:0px;">
+                    <div class="full-width hei-50" style="line-height:50px;padding-right:10px;">
+                        {{tr.storageQuantity}}
+                    </div>
+                  <div  ng-if="tr.otherQuantity" class="full-width hei-50 bb-line-yellow" style="line-height:50px;padding-right:10px;">
+                        {{tr.otherQuantity}}
+                  </div>
+                  </td>
+                  <!-- <td class="text-center">{{tr.quantity || '0'}}</td> -->
+                  <!-- 计划数量 -->
+                  <!-- <td class="text-center">{{tr.storageQuantity || '0'}}</td> -->
+                  <!-- 正常数量 -->
+                  <!-- <td class="text-center">{{tr.otherQuantity || '0'}}</td> -->
+                  <!-- 其他数量 -->
+                  <!-- <td class="text-center">{{tr.refuseQuantity || '0'}}</td> -->
+                  <!-- 拒收数量 -->
                   <td class="text-center">￥{{tr.price | number:2}}</td><!-- 原币含税单价 -->
                   <td class="text-center">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td><!-- 原币单价 -->
                   <td class="text-center">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td><!-- 原币金额 -->
@@ -155,7 +198,6 @@
                   <td class="text-center">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td><!-- 原币价税合计 -->
                   <td class="text-center">{{tr.tax?tr.tax+'%':''}}</td><!-- 税率 -->
                   <td class="text-center">{{tr.productionBatch}}</td><!-- 批号 -->
-                  <td class="text-center">&nbsp;</td><!-- 失效日期 -->
                   <td class="text-center">{{tr.productStandard}}</td><!-- 产品执行标准 -->
                   <td class="text-center">{{tr.brand}}</td><!-- 产地品牌 -->
                   <td class="text-center">{{tr.drugAdministrationCode}}</td><!-- 产品注册证号 -->
@@ -176,7 +218,7 @@
           <span class="mgr-l">付款条件：<em class="color-3">{{scopeData.paymentType}}</em></span>
           <span class="mgr-l">币种：<em class="color-3">{{scopeData.currencyType}}</em></span>
           <span class="mgr-l">汇率：<em class="color-3">1.00</em></span>
-          <span class="mgr-l">付款状态：<em class="color-3">{{scopeData.purchasePayOrderStatus}}</em></span>
+          <!-- <span class="mgr-l">付款状态：<em class="color-3">{{scopeData.purchasePayOrderStatus}}</em></span> -->
         </div>
       </div>
 
