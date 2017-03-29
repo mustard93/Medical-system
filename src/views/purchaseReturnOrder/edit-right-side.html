@@ -90,6 +90,8 @@
                   <th class="text-left">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
+                  <th class="text-center">计划数量／入库总数／拒收数量</th>
+                  <th class="text-center">仓库</th>
                   <th class="text-center">数量</th>
                   <th class="text-center w-110">批号要求</th>
                   <th class="text-center">原币含税单价</th>
@@ -99,7 +101,6 @@
                   <th class="text-center">原币税额</th>
                   <th class="text-center">原币价税合计</th>
                   <th class="text-center">产地</th>
-                  <th class="text-center">失效日期</th>
                   <th class="text-center">退补标志</th>
                   <th class="text-center">保存温度</th>
                   <th class="text-center">品牌</th>
@@ -118,8 +119,27 @@
                   <td class="text-left">{{item.name}}</td>
                   <td class="text-center">{{item.specificationAndModelType}}</td>
                   <td class="text-center">{{item.unit}}</td>
-                  <td class="text-center">{{item.quantity}}</td>
-                  <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
+                  <!-- <td class="text-center">{{item.quantity}}</td> -->
+                  <td class="text-right">
+                    {{item.quantity || '0'}}&nbsp;/&nbsp;{{item.storageQuantity + tr.otherQuantity || '0'}}&nbsp;/&nbsp;{{item.refuseQuantity || '0'}}
+                  </td>
+                  <td class="text-center" style="padding:0px;">
+                    <div class="full-width hei-50" style="line-height:50px;">
+                      {{item.warehouseName}}
+                    </div>
+                    <div ng-if="item.otherQuantity" class="full-width hei-50 bb-line-yellow" style="line-height:50px;">
+                      待处理库
+                    </div>
+                  </td>
+                  <td class="text-right" style="padding:0px;">
+                    <div class="full-width hei-50" style="line-height:50px;padding-right:10px;">
+                        {{item.storageQuantity}}
+                    </div>
+                  <div  ng-if="item.otherQuantity" class="full-width hei-50 bb-line-yellow" style="line-height:50px;padding-right:10px;">
+                        {{item.otherQuantity}}
+                  </div>
+                  </td>
+                  <td class="text-center">{{item.sterilizationBatchNumber}}</td>
                   <td class="text-right">{{item.strike_price | currency:'￥'}}</td>
                   <td class="text-right">{{item.taxRate}}%</td>
                   <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
@@ -127,10 +147,6 @@
                   <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
                   <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
                   <td class="text-center">{{item.productionPlace}}</td>
-                  <td class="text-center" ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
-                      scope-data="validTilldata">
-                      {{validTilldata.validTill | date : 'yyyy-MM-dd'}}
-                  </td>
                   <td class="text-center">{{item.withdrawalSign}}</td>
                   <td class="text-center">{{item.storedTemperature}}</td>
                   <td class="text-center">{{item.brand}}</td>
@@ -149,7 +165,7 @@
         </div>
       </div>
       <!-- 功能按钮 -->
-      <div class="handle-btn-area relative">
+      <div class="handle-btn-area-2nd relative">
         <div class="btn-area full-width text-center">
             <!-- <a class="mgr-l" ng-click="modal.closeAll();">取消</a> -->
             <button ng-disabled="!choisedMedicalList.length>0"
