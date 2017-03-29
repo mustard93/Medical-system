@@ -75,7 +75,7 @@
                     <th class="text-center">单位</th>
                     <th class="text-center">数量</th>
                     <th class="text-center">批号要求</th>
-                    <th class="text-center">报价</th>
+                    <!-- <th class="text-center">报价</th>
                     <th class="text-center">税率</th>
                     <th class="text-center">折扣额</th>
                     <th class="text-center">折扣率</th>
@@ -83,7 +83,7 @@
                     <th class="text-center">无税单价</th>
                     <th class="text-center">无税金额</th>
                     <th class="text-center">税额</th>
-                    <th class="text-center">价税合计</th>
+                    <th class="text-center">价税合计</th> -->
                   </tr>
                 </thead>
                 <tbody ng-if="formData.orderMedicalNos.length" class="bg-white">
@@ -134,7 +134,7 @@
                               select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
                       </select>
                     </td><!-- 批号要求 -->
-                    <td class="text-center">￥
+                    <!-- <td class="text-center">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="strike_price{{$index}}"
@@ -152,7 +152,7 @@
                            modal-url="views/versionFlow/history-price.html">参考价格
                         </a>
                       </p>
-                    </td><!-- 报价 -->
+                    </td>
                     <td class="text-center" >
                       <select class="ipt pr-short-ipt"
                               chosen
@@ -160,7 +160,7 @@
                               ng-model="tr.taxRate"
                               select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
                       </select> %
-                    </td><!-- 税率 -->
+                    </td>
                     <td class="text-center">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
@@ -173,7 +173,7 @@
                              popover-show
                              popover-options='{"content":"必须为数字", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountRate=((tr.price-tr.discountPrice)/tr.price*100).toFixed(2)"/>
-                    </td><!-- 折扣额 -->
+                    </td>
                     <td class="text-center">
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
@@ -186,12 +186,12 @@
                              popover-show="tr.discountRate>100"
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountPrice=(tr.price*(1-tr.discountRate/100)).toFixed(2)"/> %
-                    </td><!-- 折扣率 -->
-                    <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) | number:2}}</td><!-- 含税单价 -->
-                    <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td><!-- 无税单价 -->
-                    <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td><!-- 无税金额 -->
-                    <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(tr) | number:2}}</td><!-- 税额 -->
-                    <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) | number:2}}</td><!-- 价税合计 -->
+                    </td>
+                    <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) | number:2}}</td>
+                    <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td>
+                    <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td>
+                    <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(tr) | number:2}}</td>
+                    <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) | number:2}}</td> -->
                   </tr>
                 </tbody>
               </table>
@@ -209,7 +209,7 @@
       <div class="relative">
         <!-- 收货方信息 -->
 
-        <div ng-if="!formData.customerId" class="panel pr-fuzzy-boundary pr-panel-height mgb">
+        <!-- <div ng-if="!formData.customerId" class="panel pr-fuzzy-boundary pr-panel-height mgb">
           <div class="pd-c-v-l">
             <header class="text-n text-bold color-3">收货方信息
               <span class="tools pull-right">
@@ -245,7 +245,7 @@
                                   create-address-type="销售"
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
-        </address-manage-component>
+        </address-manage-component> -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
           <h1 class="text-bold color-3">备注</h1>
           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
