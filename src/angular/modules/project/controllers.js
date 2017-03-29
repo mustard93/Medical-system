@@ -4259,9 +4259,9 @@ define('project/controllers', ['project/init'], function() {
     //     item.quantity = item.returnQuantity;
     //   });
     // }
-
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
+
     };
 
     modal.closeAll();
@@ -4304,7 +4304,7 @@ define('project/controllers', ['project/init'], function() {
       }
 
       if ($scope.submitForm_type == 'save') {
-        utils.goTo('#/saleReturnOrder/query.html');
+
       }
     };
 
@@ -4447,15 +4447,13 @@ define('project/controllers', ['project/init'], function() {
             }
           });
 
-
-          return;
+        return;
       }
 
       if ($scope.submitForm_type == 'save') {
         if (scopeResponse) {
           alertOk(scopeResponse.msg);
         }
-        utils.goTo('#/purchaseReturnOrder/query.html');
       }
     };
 
