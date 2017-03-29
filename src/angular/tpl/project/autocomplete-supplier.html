@@ -7,7 +7,6 @@
            autofocus="true"
            onmouseup="this.select();"
            ng-focus="angucomplete1.resetHideResults()"
-           ng-blur="angucomplete1.hideResults()"
            autocomplete="off"
            ng-disabled="ngDisabled"/>
 
@@ -16,9 +15,10 @@
         <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)">没有结果</div>
         <div class="angucomplete-row"
              ng-repeat="result in results"
-             ng-mousedown="angucomplete1.selectResult(result)"
+             ng-mousedown="(result.data.businessApplication.businessStatus=='已冻结')?return:angucomplete1.selectResult(result)"
              ng-mouseover="angucomplete1.hoverRow()"
-             ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+             ng-class="{'angucomplete-selected-row': $index == currentIndex}"
+             ng-disabled="result.data.businessApplication.businessStatus=='已冻结'">
             <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
             <div class="angucomplete-title" ng-if="!matchClass">{{ result.data.name }}
                 <em ng-if="result.data.businessApplication.businessStatus=='已冻结'" class="color-4">
