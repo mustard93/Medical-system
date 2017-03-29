@@ -27,7 +27,7 @@ define(['project/angucomplete'], function(){
         }
       };
 
-  
+
         var isNewSearchNeeded = function(newTerm, oldTerm) {
             return newTerm.length >= $scope.minLength && newTerm != oldTerm
         };
@@ -142,48 +142,54 @@ define(['project/angucomplete'], function(){
 
         //按下事件.
         var keyPressed = function(event) {
-            if (!(event.which == 38 || event.which == 40 || event.which == 13)) {
-                if (!$scope.searchStr || $scope.searchStr == "") {
-                    $scope.showDropdown = false;
-                    $scope.lastSearchTerm = null
-                } else if (isNewSearchNeeded($scope.searchStr, $scope.lastSearchTerm)) {
-                    $scope.lastSearchTerm = $scope.searchStr;
-                    $scope.showDropdown = true;
-                    $scope.currentIndex = -1;
-                    $scope.results = [];
+          if (!(event.which == 38 || event.which == 40 || event.which == 13)) {
+            if (!$scope.searchStr || $scope.searchStr === "") {
+                $scope.showDropdown = false;
+                $scope.lastSearchTerm = null;
+            } else if (isNewSearchNeeded($scope.searchStr, $scope.lastSearchTerm)) {
+                $scope.lastSearchTerm = $scope.searchStr;
+                $scope.showDropdown = true;
+                $scope.currentIndex = -1;
+                $scope.results = [];
 
-                    if ($scope.searchTimer) {
-                        $timeout.cancel($scope.searchTimer);
-                    }
-
-                    $scope.searching = true;
-
-                    $scope.searchTimer = $timeout(function() {
-                      searchTimerComplete($scope.searchStr);
-                    }, $scope.pause);
+                if ($scope.searchTimer) {
+                    $timeout.cancel($scope.searchTimer);
                 }
-            } else {
-                event.preventDefault();
+
+                $scope.searching = true;
+
+                $scope.searchTimer = $timeout(function() {
+                  searchTimerComplete($scope.searchStr);
+                }, $scope.pause);
             }
+          } else {
+            event.preventDefault();
+          }
         };//keyPressed
 
         //选择节点后,
-         var selectResult = function(result) {
-            if ($scope.matchClass) {
-                result.title = result.title.toString().replace(/(<([^>]+)>)/ig, '');
-            }
-            $scope.searchStr = $scope.lastSearchTerm = result.title;
-            $scope.selectedItem = result;
-            $scope.showDropdown = false;
-            $scope.results = [];
-            ngModel && ngModel.$setViewValue(result);
+        var selectResult = function(result) {
+
+          // 如果是已冻结药品则返回
+          // if (result.data.businessApplication.businessStatus == '已冻结') {
+          //   return;
+          // }
+
+          if ($scope.matchClass) {
+              result.title = result.title.toString().replace(/(<([^>]+)>)/ig, '');
+          }
+          $scope.searchStr = $scope.lastSearchTerm = result.title;
+          $scope.selectedItem = result;
+          $scope.showDropdown = false;
+          $scope.results = [];
+          ngModel && ngModel.$setViewValue(result);
         };
 
 
 
         var result_scrollTop = function() {
           var itemDiv=$(".angucomplete-selected-row");
-          if(itemDiv.length==0){
+          if(itemDiv.length===0){
             console.log(".angucomplete-selected-row length=0");
             return;
           }
@@ -218,7 +224,7 @@ define(['project/angucomplete'], function(){
                 if ($scope.results && ($scope.currentIndex + 1) < $scope.results.length) {
                     $scope.currentIndex++;
                     $scope.$apply();
-                    event.preventDefault;
+                    event.preventDefault();
                     event.stopPropagation();
                 }
 
@@ -228,7 +234,7 @@ define(['project/angucomplete'], function(){
                 if ($scope.currentIndex >= 1) {
                     $scope.currentIndex--;
                     $scope.$apply();
-                    event.preventDefault;
+                    event.preventDefault();
                     event.stopPropagation();
                 }
                 setSelectFouns();
@@ -236,12 +242,12 @@ define(['project/angucomplete'], function(){
                 if ($scope.results && $scope.currentIndex >= 0 && $scope.currentIndex < $scope.results.length) {
                   selectResult($scope.results[$scope.currentIndex]);
                     $scope.$apply();
-                    event.preventDefault;
+                    event.preventDefault();
                     event.stopPropagation();
                 } else {
                     $scope.results = [];
                     $scope.$apply();
-                    event.preventDefault;
+                    event.preventDefault();
                     event.stopPropagation();
                 }
 
