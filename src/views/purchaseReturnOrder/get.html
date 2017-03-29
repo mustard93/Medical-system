@@ -18,6 +18,23 @@
     </div>
     <!-- 单据基本信息 -->
     <div class="pd-loss-l">
+      <div class="pr-panel pr-panel-height mgb pd-n">
+        <!-- 客户搜索 -->
+        <div class="inline-block br-line customer-name relative">
+          <p class="mgb-s">供应商</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            {{showData.supplier.name || '暂无'}}
+          </p>
+        </div>
+        <!-- 物流中心搜索 -->
+        <div class="inline-block logistics-center relative">
+          <p class="mgb-s">物流中心</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            <!-- 昆明物流中心 -->
+            {{showData.logisticsCenterName ||'暂无'}}
+          </p>
+        </div>
+      </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <div>
           <div class="flex-column pdt-m pdb-m pd-c-l bb-dashed-line color-9">
@@ -50,16 +67,18 @@
           <table class="table pr-table pr-new-table table-wid" >
               <thead>
                 <tr>
-                  <th class="text-center">退货状态</th>
+                  <th  class="text-center">退货状态</th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">计划退货数量</th>
-                  <th class="text-center">实际退货数量</th>
-                  <th class="text-center w-110">批号要求</th>
-                  <th class="text-center">生产批号</th>
-                  <th class="text-center">灭菌批号</th>
+                  <th class="text-center">可退数量</th>
+                  <th class="text-center">实退数量</th>
+                  <!-- <th class="text-center w-110">批号要求</th> -->
+                  <th class="text-center w-110">生产批号</th>
+                  <th class="text-center w-110">灭菌批号</th>
+                  <th class="text-center w-110">仓库</th>
+                  <th class="text-center">有效期至</th>
                   <th class="text-center">含税单价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -70,7 +89,6 @@
                   <th class="text-center">价税合计</th>
                   <th class="text-center">报价</th>
                   <th class="text-center">产地</th>
-                  <th class="text-center">失效日期</th>
                   <th class="text-center">退补标志</th>
                   <th class="text-center">保存温度</th>
                   <th class="text-center">品牌</th>
@@ -99,9 +117,10 @@
                   <td class="text-center">{{item.unit}}</td>
                   <td class="text-center">{{item.quantity}}</td>
                   <td class="text-center">{{item.outgoingQuantity}}</td>
-                  <td class="text-center">{{item.batchRequirement}}</td>
                   <td class="text-center">{{item.productionBatch}}</td>
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td>
+                  <td class="text-center">{{item.warehouseName}}</td>
+                  <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-right">{{item.strike_price | currency:'￥'}}</td>
                   <td class="text-rightright">{{item.taxRate}}%</td>
                   <td class="text-right">￥{{item.discountPrice | number:2}}</td>
@@ -112,7 +131,6 @@
                   <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
                   <td class="text-right">￥{{item.price}}</td>
                   <td class="text-center">{{item.productionPlace}}</td>
-                  <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
                   <td class="text-center">{{item.withdrawalSign}}</td>
                   <td class="text-center">{{item.storedTemperature}}</td>
                   <td class="text-center">{{item.brand}}</td>
