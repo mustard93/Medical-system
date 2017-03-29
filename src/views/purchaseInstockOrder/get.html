@@ -39,7 +39,6 @@
     <!-- ajax-url="rest/authen/supplier/get?id={{showData.supplierId}}"
     scope-data="returnData"
     alertError -->
-    <p class="mgb-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m ">
           <div class="flex-item-6">
@@ -99,7 +98,7 @@
                     </thead>
 
                     <tbody class="pr-bg-white" >
-                      <tr ng-repeat="tr in showData.inoutstockDetails" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                      <tr ng-repeat="tr in showData.inoutstockDetails | orderBy :'relId'" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                         <td class="text-center">{{tr.code}}</td>
                         <td class="text-center">{{tr.goodsCode}}</td>
                         <td class="text-left">
