@@ -3093,6 +3093,7 @@ define('project/controllers', ['project/init'], function() {
             $scope.formData.commodityType=[];
           }
         $scope.formData.commodityType.push(item.text);
+
         }
       };
 
@@ -3188,6 +3189,7 @@ define('project/controllers', ['project/init'], function() {
     function SelectedCommodityEditCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('!initFlag', function (newVal) {
         var scopeData= [];
+
         for(var item in $scope.scopeData){
 
           scopeData.push($scope.scopeData[item]);
@@ -3196,7 +3198,6 @@ define('project/controllers', ['project/init'], function() {
             for(j=0;j<$scope.formData.commodityType.length;j++){
 
               if($scope.formData.commodityType[j]==$scope.scopeData[item].value){
-
               $scope.scopeData[item].value=true;
               }
             }
