@@ -1832,7 +1832,7 @@ function stepFlowArrowShow(utils){
     scope:{},
     restrict: 'A',
     link: function ($scope, $element, $attrs) {
-      // 定义一个类，用于长css对样式的控制
+      // 定义一个类，用于css对样式的控制
       $($element).addClass('first-medical-nav');
       //箭头数量，用于计算箭头的个数。
       var arrowCount=0;
