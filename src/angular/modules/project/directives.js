@@ -2907,7 +2907,7 @@ function addressManageComponent (requestData, utils) {
           if ($scope.returnAddressObj.defaultContactId === _id) { return true; }
         } else {        // 如果是编辑
           // if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
-          if ($scope.formData[$scope.scopeDataContacts].id === _id) { return true;}
+          if ($scope.returnAddressObj.defaultContactId === _id) { return true;}
         }
       };
 
@@ -3004,7 +3004,6 @@ function addressManageComponent (requestData, utils) {
 
       // 设置当前地址为默认地址
       $scope.setThisAddressToDefault = function (contactId) {
-
         // var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
         var _moduleAddressId = 'invoicesAddressId';  // 构建模块id名
         var _data = {};
