@@ -523,9 +523,9 @@ define('project/services', ['project/init'], function () {
                   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
 
                   var bottomButton = {
+                    "ngShow":"tr.businessApplication.businessStatus!='已冻结' || tr.businessApplication.businessStatus!='已终止'",
                     "iconClass":"edit-link-icon",
                     "showName":"编辑",
-                    "ngShow":"",
                     "aclass":"btn-link pd-m rect-s",
                     "ahref":"#/hospitalPurchaseContents/edit.html?id="+showData.id
                   };
