@@ -1,4 +1,4 @@
-<div class="create-new-order"
+<div class="create-new-order purchaseOrder-edit"
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
@@ -29,8 +29,7 @@
          <div class="mgb-l">
            <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
          </div>
-         <!-- 供货商信息 -->
-         <div class="inline-block"
+         <!-- <div class="inline-block"
               ajax-if-eval="formData.supplier.id"
               ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
               scope-data="supplier"
@@ -61,11 +60,65 @@
                    ng-model="formData.logisticsCenterId"
                    select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
            </select>
-         </div>
+         </div> -->
        </div>
      </div>
 
      <div class="content-wrapper">
+       <!-- 供应商选择及物流中心选择 -->
+       <div class="pr-panel pr-panel-height mgb pd-n">
+         <!-- 客户搜索 -->
+         <div class="inline-block br-line customer-name relative">
+           <p class="mgb-s">供应商</p>
+           <div class="inline-block"
+                ajax-if-eval="formData.supplier.id"
+                ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
+                scope-data="supplier"
+                callback="formData.supplier=supplier"
+                alert-error>
+             <div>
+               <span ng-if="initFlag"
+                     angucomplete-supplier
+                     placeholder="供应商"
+                     title-field="name"
+                     search-fields="{{formData.supplier.name}}"
+                     url="rest/authen/supplier/query.json"
+                     ng-model="tmp_supplier"
+                     ng-model-id="formData.supplier.id"
+                     class="inline-block mgr-s" style="width:280px;height:28px;">
+               </span>
+               <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
+                 {{formData.supplier.businessApplication.businessStatus}}
+               </em>
+             </div>
+           </div>
+           <!-- <p>
+             <select ng-if="initFlag"
+                     class="ipt pr-long-ipt color-6"
+                     data-placeholder=" "
+                     chosen
+                     chosen-ajax
+                     ng-model="formData.customerId"
+                     select-source="rest/authen/supplier/get.json?id={{formData.supplier.id}}">
+             </select>
+           </p> -->
+         </div>
+         <!-- 物流中心搜索 -->
+         <div class="inline-block logistics-center relative">
+           <p class="mgb-s">物流中心</p>
+           <p>
+             <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
+                     data-placeholder=" "
+                     chosen
+                     chosen-ajax
+                     ng-model="formData.logisticsCenterId"
+                     is-disabled-this="{{formData.customerId}}"
+                     select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+             </select>
+           </p>
+         </div>
+       </div>
+
        <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'"
         class="pr-panel pr-panel-height mgb pr-bg-pink">
        <em class="color-red">原因:</em>
