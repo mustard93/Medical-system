@@ -1,4 +1,4 @@
-<div class="sales-order-details"
+<div class="sales-order-details salesOrder-edit"
      ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="initFlag=true;formData={};formData.id=showData.id"
@@ -20,7 +20,16 @@
   </div>
   <!-- 主内容区域 -->
   <div class="content-wrapper">
-    <p class="mgb-l text-n color-3 text-bold">{{showData.customerName}}</p>
+    <div class="pr-panel pr-panel-height mgb pd-n" style="background-color:rgba(248,248,248,1);">
+      <!-- 客户搜索 -->
+      <div class="inline-block customer-name relative pr-bg-white">
+        <p class="mgb-s">客户名</p>
+        <p class="text-n color-black" style="padding-right:182px;">
+          {{showData.customerName || '暂无'}}
+        </p>
+      </div>
+    </div>
+    <!-- <p class="mgb-l text-n color-3 text-bold">{{showData.customerName}}</p> -->
     <div class="content-wrapper-main pr-bg-white pr-fuzzy-boundary text-s">
       <!-- 单据信息 -->
       <div class="flex-column pd-c-m pdt-m pdb-m">
