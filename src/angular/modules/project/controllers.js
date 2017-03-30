@@ -331,7 +331,7 @@ define('project/controllers', ['project/init'], function() {
       });
 
       $scope.$watch('formData.customerId', function (newVal, oldVal) {
-        if (newVal && oldVal !== newVal) {
+        if (newVal && oldVal && oldVal !== newVal) {
           document.getElementById('angucompleteMedical_searchInputId').focus();
           //清空用户先前的药械选择
           if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
@@ -5001,7 +5001,8 @@ define('project/controllers', ['project/init'], function() {
         quantity: obj.stockModel.salesQuantity,    // 可选数量
         productionBatch: obj.productionBatch,     // 批号名
         sterilizationBatchNumber: obj.sterilizationBatchNumber,    // 灭菌批号
-        warehouseName: obj.warehouseName       // 仓库名
+        warehouseName: obj.warehouseName,       // 仓库名
+        warehouseId: obj.warehouseId        // 仓库名id
       };
 
       // 初始化已添加的批次数量和
