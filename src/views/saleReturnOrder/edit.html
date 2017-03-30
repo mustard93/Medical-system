@@ -139,11 +139,11 @@
                       </p>
                     </div>
                   </div>
-                </td>
-                <td class="text-left">{{item.name}}</td>
-                <td class="text-center">{{item.specificationAndModelType}}</td>
-                <td class="text-center">{{item.unit}}</td>
-                <td class="text-center">{{item.returnQuantity}}</td>
+                </td><!-- 商品编号 -->
+                <td class="text-left">{{item.name}}</td><!-- 商品全名 -->
+                <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                <td class="text-center">{{item.returnQuantity}}</td><!-- 可退数量 -->
                 <td class="text-center">
                   <div class="order-goods-num">
                     <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1" ng-disabled="item.quantity==1">-</button>
@@ -174,36 +174,36 @@
                          valid-value="{{!saleReturnEditForm['quantity'+$index].$valid}}"
                          popover-show
                          popover-options='{"content":"数量不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}'/> -->
-                </td>
+                </td><!-- 实退数量 -->
                 <td class="text-center">
                   <select class="pr-select pd-s"
-                  style="width:115px;"
-                  ng-model="formData.warehouseId"
-                  ajax-url="rest/authen/warehouse/queryForSelectOption?type=正常库"
-                  scope-data="scopeData">
-                  <option ng-repeat="option in scopeData" value="{{option.value}}">{{option.text}}</option>
+                          style="width:115px;"
+                          ng-model="formData.warehouseId"
+                          ajax-url="rest/authen/warehouse/queryForSelectOption?type=正常库"
+                          scope-data="scopeData">
+                    <option ng-repeat="option in scopeData" value="{{option.value}}">{{option.text}}</option>
                   </select>
-                </td>
-                <td class="text-center">{{item.productionBatch}}</td>
-                <td class="text-center">{{item.sterilizationBatchNumber}}</td>
-                <td class="text-right">{{item.price | currency:'￥'}}</td>
-                <td class="text-right">{{item.taxRate}}%</td>
-                <td class="text-right">￥{{item.discountPrice | number:2}}</td>
-                <td class="text-right">{{item.discountRate}}%</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td>
-                <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td>
-                <td class="text-right">￥{{item.strike_price}}</td>
-                <td class="text-center">{{item.productionPlace}}</td>
+                </td><!-- 预入仓库 -->
+                <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
+                <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                <td class="text-right">{{item.price | currency:'￥'}}</td><!-- 含税单价 -->
+                <td class="text-right">{{item.tax}}%</td><!-- 税率 -->
+                <td class="text-right">￥{{item.discountPrice | number:2}}</td><!-- 折扣额 -->
+                <td class="text-right">{{item.discountRate}}%</td><!-- 折扣率 -->
+                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td><!-- 无税单价 -->
+                <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td><!-- 无税金额 -->
+                <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td><!-- 税额 -->
+                <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td><!-- 价税合计 -->
+                <td class="text-right">￥{{item.strike_price}}</td><!-- 报价 -->
+                <td class="text-center">{{item.productionPlace}}</td><!-- 产地 -->
                 <td class="text-center"
                     ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
                     scope-data="validTilldata">{{validTilldata.validTill | date : 'yyyy-MM-dd'}}
-                </td>
-                <td class="text-center">{{item.storedTemperature}}</td>
-                <td class="text-center">{{item.brand}}</td>
-                <td class="text-center">{{item.drugAdministrationCode}}</td>
-                <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
+                </td><!-- 有效期至 -->
+                <td class="text-center">{{item.storedTemperature}}</td><!-- 保存温度 -->
+                <td class="text-center">{{item.brand}}</td><!-- 产地品牌 -->
+                <td class="text-center">{{item.drugAdministrationCode}}</td><!-- 产地注册证号 -->
+                <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td><!-- 注册证有效期 -->
               </tr>
             </tbody>
           </table>

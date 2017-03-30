@@ -1,10 +1,10 @@
-<div class="create-new-order"
+<div class="create-new-order purchaseOrder-edit"
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;"
      alert-error>
-<form id="editForm"
+<form id="purchaseForm"
      name="purchaseForm"
      form-validator
      parameter-body
@@ -29,46 +29,66 @@
          <div class="mgb-l">
            <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}采购单</h1>
          </div>
-         <!-- 供货商信息 -->
-         <div class="inline-block"
-              ajax-if-eval="formData.supplier.id"
-              ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
-              scope-data="supplier"
-              callback="formData.supplier=supplier"
-              alert-error>
-           <span>
-             <span ng-if="initFlag"
-                   angucomplete-supplier
-                   placeholder="供应商"
-                   title-field="name"
-                   search-fields="{{formData.supplier.name}}"
-                   url="rest/authen/supplier/query.json"
-                   ng-model="tmp_supplier"
-                   ng-model-id="formData.supplier.id"
-                   class="inline-block mgr-s medical-search">
-             </span>
-             <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
-               {{formData.supplier.businessApplication.businessStatus}}
-             </em>
-           </span>
-         </div>
-         <div class="inline-block">
-           <select ng-if="initFlag"
-                   class="ipt pr-long-ipt color-6"
-                   data-placeholder="物流中心"
-                   chosen
-                   chosen-ajax
-                   ng-model="formData.logisticsCenterId"
-                   select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
-           </select>
-         </div>
        </div>
      </div>
 
      <div class="content-wrapper">
-       <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'"
-        class="pr-panel pr-panel-height mgb pr-bg-pink">
-       <em class="color-red">原因:</em>
+       <!-- 供应商选择及物流中心选择 -->
+       <div class="pr-panel pr-panel-height mgb pd-n">
+         <!-- 客户搜索 -->
+         <div class="inline-block br-line customer-name relative">
+           <p class="mgb-s">供应商</p>
+           <div class="inline-block"
+                ajax-if-eval="formData.supplier.id"
+                ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
+                scope-data="supplier"
+                callback="formData.supplier=supplier"
+                alert-error>
+             <div>
+               <span ng-if="initFlag"
+                     angucomplete-supplier
+                     placeholder="供应商"
+                     title-field="name"
+                     search-fields="{{formData.supplier.name}}"
+                     url="rest/authen/supplier/query.json"
+                     ng-model="tmp_supplier"
+                     ng-model-id="formData.supplier.id"
+                     class="inline-block mgr-s" style="width:280px;height:28px;">
+               </span>
+               <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
+                 {{formData.supplier.businessApplication.businessStatus}}
+               </em>
+             </div>
+           </div>{{tmp_supplier}}
+           <!-- <p>
+             <select ng-if="initFlag"
+                     class="ipt pr-long-ipt color-6"
+                     data-placeholder=" "
+                     chosen
+                     chosen-ajax
+                     ng-model="formData.customerId"
+                     select-source="rest/authen/supplier/get.json?id={{formData.supplier.id}}">
+             </select>
+           </p> -->
+         </div>
+         <!-- 物流中心搜索 -->
+         <div class="inline-block logistics-center relative">
+           <p class="mgb-s">物流中心</p>
+           <p>
+             <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
+                     data-placeholder=" "
+                     chosen
+                     chosen-ajax
+                     ng-model="formData.logisticsCenterId"
+                     is-disabled-this="{{formData.customerId}}"
+                     select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+             </select>
+           </p>
+         </div>
+       </div>
+
+       <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb pr-bg-pink">
+         <em class="color-red">原因:</em>
         <p class="inline-block color-red">
        <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
         <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
@@ -90,10 +110,7 @@
              <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
                <div class="flex-item-6">
                  <span class="mgr">单据编号：
-                   <!-- <em class="color-3">{{formData.orderNo || '暂无'}}</em> -->
-                   <input type="number" name="orderCode"
-                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                   class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                   <input type="text" name="orderCode" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
                  </span>
                  <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
                  <span class="mgr">审核人：<em class="color-3">暂无</em></span>
@@ -169,13 +186,14 @@
                  <thead>
                   <tr>
                     <th class="text-center">商品编号</th>
-                    <th>商品全名</th>
+                    <th class="w-160 text-left">商品全名</th>
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
                     <th class="text-center" ng-if="formData.relId">请购数量</th>
                     <th class="text-center w-106" ng-if="!formData.relId">数量</th>
                     <th class="text-center" ng-if="formData.relId">实际采购数量</th>
                     <th class="text-center w-130">批号要求</th>
+                    <th class="text-center w-130">预入仓库</th>
                     <th class="text-center">原币含税单价</th>
                     <th class="text-center">原币单价</th>
                     <th class="text-center">原币金额</th>
@@ -266,6 +284,15 @@
                          <option value="新批号" ng-selected="tr.batchRequirement=='新批号'">新批号</option>
                        </select>
                      </td><!-- 批号要求 -->
+                     <td class="text-center">
+                       <select class="pr-select pd-s"
+                               style="width:115px;"
+                               ng-model="formData.warehouseId"
+                               ajax-url="rest/authen/warehouse/queryForSelectOption?type=正常库"
+                               scope-data="scopeData">
+                         <option ng-repeat="option in scopeData" value="{{option.value}}">{{option.text}}</option>
+                       </select>
+                     </td><!-- 预入仓库 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
                        <input type="text"
                               class="ipt pr-ipt-60 text-right"
@@ -463,16 +490,16 @@
         </button>
 
         <span class="mgr mgl mgt">
-          <button class="pr-btn-save-glodbg"
-                  type="submit"
+          <button class="pr-btn-save-glodbg mgr-l"
+                  type="button"
+                  ng-click="submitForm('purchaseForm','save')"
                   ng-disabled="!changeFlag">保存
           </button>
 
-
-                  <button type="button"
-                          class="pr-btn-save-glodbg mgr"
-                          ng-click="submitForm('editForm','print')">打印预览
-                  </button>
+          <button type="button"
+                  class="pr-btn-save-glodbg mgr"
+                  ng-click="submitForm('purchaseForm','print')">打印预览
+          </button>
         </span>
         <span>
           <button class="pr-btn-create-glodbg mgt"
@@ -481,7 +508,7 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('editForm','submit')"
+                  callback="submitForm('purchaseForm','submit')"
                   ng-disabled="!formData.orderMedicalNos.length || !formData.expectDate || !formData.supplier.id || !purchaseForm.$valid">提交
           </button>
         </span>
