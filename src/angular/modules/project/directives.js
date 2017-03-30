@@ -2468,6 +2468,7 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
     return {
         restrict: 'EA',
         scope: {
+            "id":"@?",
             "placeholder": "@",
             "selectedItem": "=?",
             "url": "@",
@@ -2491,8 +2492,21 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             $scope.minLength = 1;
             $scope.searchStr = null;
 
+
+
             require(['project/angucomplete'], function(angucomplete) {
-                  $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
+              //是否验证合法，允许输入
+              var canSelectResult=function(result){
+
+                  try{
+                    if (result.data.businessApplication.businessStatus == '已冻结') {
+                      return false;
+                    }
+                  }catch(e){  }
+                return true;
+              }
+
+              $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel,canSelectResult);
 
             });//angucomplete
 
@@ -2501,24 +2515,50 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
 }
 
 /**
+
+
+<div class="pd-c-l pdt-m"
+     flash-add-medical
+     ng-model="data1"
+     hide-quantity
+     hide-import
+     ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
+     add-data-callback-fn="flashAddDataCallbackFn(data1)">
+</div>
+参数说明：
+  hide-quantity ：隐藏输入数量控件
+  hide-import  :隐藏导入按钮
+
  * 闪加药械
  ngModel={
  data:{},//药械基本信息
  count：10 //输入数量
 }
  */
-function flashAddMedical() {
+function flashAddMedical(utils,$timeout) {
     return {
         restrict: 'EA',
         scope: {
+            "id":"@?",
             "ngModel": "=",
-            "addDataCallbackFn":"&",
+            "addDataCallbackFn":"&?",
             "formData": "=?"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
 
+
+          //隐藏输入数量控件
+            if (angular.isDefined($attrs.hideQuantity)){
+              $scope.hideQuantity=true;
+            }
+            //隐藏导入按钮
+            if (angular.isDefined($attrs.hideImport)){
+              $scope.hideImport=true;
+            }
+
+            //监听变化
           $attrs.$observe("ajaxUrl", function(newVal, oldVal) {
             $scope.ajaxUrl = newVal;
           });
@@ -2533,23 +2573,56 @@ function flashAddMedical() {
             }
           });
 
-          //添加业务数据
-          $scope.addDataFn = function () {
-            if(!$scope.addDataCallbackFn){
-              console.log("scope.addDataCallback function is null!");
-              return true;
+          //监听自动补全选中事件。
+          $scope.angucompleteMedicalOnChange = function () {
+            //隐藏数量输入字段情况下，选择药械，触发添加事件。
+            if($scope.hideQuantity){
+              $scope.addDataFn();
+            }else{//隐藏字段情况下，选择药械，触发添加事件。
+              var inputId='flashAddMedical_input_count';
+                if($scope.id)inputId+=$scope.id;
+              //  $timeout 保障不受其他干扰，最后一个执行。
+              utils.focusByInputId(inputId);
+
+
             }
 
-            var  flag=$scope.addDataCallbackFn($scope.ngModel);
-            if(!flag){//业务逻辑判断添加失败，则不清空数据。
-              return false;
+          }
+          //添加业务数据
+          $scope.addDataFn = function () {
+            if($scope.addDataCallbackFn){
+                var data=  utils.replaceObject({},$scope.ngModel);
+              var  flag=$scope.addDataCallbackFn(data);
+              if(typeof flag=='function')flag=flag(data)
+              if(!flag){//业务逻辑判断添加失败，则不清空数据。
+                return false;
+              }
+
+            }else{
+
+              console.log("scope.addDataCallback function is null!");
+
             }
-              //清空输入数据
-            $scope.ngModel={};
-            //自动补全查询输入框获得焦点
-            $('#angucompleteMedical_searchInputId').val("");
-            $('#angucompleteMedical_searchInputId').trigger('focus');
-            return false;
+
+            //清空输入数据
+          $scope.ngModel={};
+          //自动补全查询输入框获得焦点
+
+          var searchInputId='#angucompleteMedical_searchInputId';
+          if($scope.id)searchInputId+=$scope.id;
+
+          //  $timeout 保障不受其他干扰，最后一个执行。
+          $timeout(function(){
+            $(searchInputId).val("");
+            $(searchInputId).trigger('focus');
+
+
+          },0);
+
+          return false;
+
+
+
 
           };
 
@@ -3348,7 +3421,7 @@ angular.module('manageApp.project')
   .directive("customTablePrint", [customTablePrint])
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
-  .directive("flashAddMedical", [flashAddMedical])
+  .directive("flashAddMedical", ["utils","$timeout",flashAddMedical])
   .directive("angucompleteMedicalStockBatch", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedicalStockBatch])
   .directive("angucompleteMedical", ["$parse", "requestData", "$sce", "$timeout",angucompleteMedical])
   .directive("angucompleteSupplier", ["$parse", "requestData", "$sce", "$timeout",angucompleteSupplier])

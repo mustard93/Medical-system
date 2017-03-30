@@ -1,17 +1,17 @@
 <div>
   <header class="text-bold text-n color-3">药械闪加</header>
   <div class="mgb">
-    <span angucomplete-medical
+    <span angucomplete-medical id="{{id}}"
           placeholder="商品名 商品简称 商品名头字母 商品编号 厂家名 厂家名头字母。多个关键字段，用空格分隔"
           title-field="name"
           url="{{ajaxUrl}}"
           ng-model="ngModel.data"
           class="inline-block mgr-s medical-search"
-          ng-change="$root.utils.focusByInputId('flashAddMedical_input_count')"
+          ng-change="angucompleteMedicalOnChange($event)"
           ng-disabled="!isCustomerId">
     </span>
-    <span class="mgr medical-num inline-block">
-      <input id="flashAddMedical_input_count"
+    <span ng-hide="hideQuantity" class="mgr medical-num inline-block">
+      <input id="flashAddMedical_input_count{{id}}"
              type="number"
              class="ipt-l pr-w-100"
              ng-model="ngModel.quantity"
@@ -22,7 +22,7 @@
     <span class="mgr-l">
       <a href="" ng-click="addDataFn();" class="add-medical-list" title="添加药械"></a>
     </span>
-    <span class="mgr">
+    <span  ng-hide="hideImport" class="mgr">
       <a href="javascript:;" class="import-medical-list">导入药械清单</a>
     </span>
   </div>
