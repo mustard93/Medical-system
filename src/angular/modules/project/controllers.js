@@ -3786,7 +3786,7 @@ define('project/controllers', ['project/init'], function() {
         }
       };
 
-      $scope.flashAddDataCallbackFn = function(flashAddData) {
+      $scope.hospitalPurchaseContents_flashAddDataCallbackFn = function(flashAddData) {
 
         var i;
 

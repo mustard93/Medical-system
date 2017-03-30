@@ -1,4 +1,4 @@
-<div class="page-main-content text-n">
+<div class="page-main-content text-n"    ng-controller="salesOrderEditCtrl2">
 
   <div class="page-heading">
       <h3>主面板</h3>
@@ -14,21 +14,66 @@
           <div class="panel">
             <div class="panel-heading">
               <span class="tools pull-right">
-                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-chevron-up" toggle-panel></a>
                 <a href="javascript:;" class="fa fa-times"></a>
               </span>
-               flash-add-medical
-              <div  flash-add-medical ng-model="data1" add-data-callback-fn="flashAddDataCallbackFn(data1)"></div>
-            {{data1}}
+
 
 
             </div>
-            <div class="panel-body" style="display:none;">
+            <div class="panel-body" style="display:;">
 
+              默认使用
+             <div  flash-add-medical ng-model="data1"
+             ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
+             ></div>
+           {{data1}}
+
+           隐藏数量输入
+           <div class="pd-c-l pdt-m"
+                id="aa"
+                flash-add-medical
+                ng-model="data1"
+                hide-quantity
+                ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
+            >
+            隐藏导入按钮
+                <div class="pd-c-l pdt-m"
+                  id="bb"
+                     flash-add-medical
+                     ng-model="data1"
+
+                     hide-import
+                     ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
+                    >
               <textarea class="form-control" style="min-height:200px;" readonly="true">
+
+
+                <div class="pd-c-l pdt-m"
+                     flash-add-medical
+                     ng-model="data1"
+                     hide-quantity
+                     hide-import
+                     ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
+                     add-data-callback-fn="flashAddDataCallbackFn">
+                </div>
+                参数说明：
+                  hide-quantity ：隐藏输入数量控件
+                  hide-import  :隐藏导入按钮
+
+                 * 闪加药械
+                 ngModel={
+                 data:{},//药械基本信息
+                 count：10 //输入数量
+                }
+
                   add-data-callback-fn：回调业务方法。
 
+                老用法兼容。
+                add-data-callback-fn="flashAddDataCallbackFn(data1)"
                 <div  flash-add-medical ng-model="data1" add-data-callback-fn="flashAddDataCallbackFn(data1)"></div>
+                推荐用法：add-data-callback-fn="flashAddDataCallbackFn"
+                <div  flash-add-medical ng-model="data1" add-data-callback-fn="flashAddDataCallbackFn"></div>
                 // 添加一条。并缓存数据。返回true表示成功。会处理数据。
                 $scope.flashAddDataCallbackFn = function(flashAddData) {
 
