@@ -88,6 +88,7 @@
                 <span class="mgr">单据编号：
                   <!-- <em class="color-3">{{formData.orderNo || '暂无'}}</em> -->
                   <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                  <span class="color-red text-bold">*</span>
                 </span>
                 <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || mainStatus.name}}</em></span>
                 <span class="mgr">审核人：<em class="color-3">暂无</em></span>
@@ -575,7 +576,8 @@
                              !editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
-                             formData.contactsNull"
+                             formData.contactsNull ||
+                             !formData.orderCode"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
@@ -586,7 +588,8 @@
                              !editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
-                             formData.contactsNull"
+                             formData.contactsNull ||
+                             !formData.orderCode"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
       </div>
