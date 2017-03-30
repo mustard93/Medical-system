@@ -1,5 +1,17 @@
 define(['project/angucomplete'], function(){
-      function Angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel){
+
+    /**
+
+    canSelectResult :function(result){
+
+      if (result.data.businessApplication.businessStatus == '已冻结') {
+        return false;
+      }
+        return true;
+    }
+  }
+    */
+      function Angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel,canSelectResult){
 
 
 
@@ -174,6 +186,13 @@ define(['project/angucomplete'], function(){
           // if (result.data.businessApplication.businessStatus == '已冻结') {
           //   return;
           // }
+
+          if(canSelectResult){
+            if (!canSelectResult(result)){
+                return;
+            }
+
+          }
 
           if ($scope.matchClass) {
               result.title = result.title.toString().replace(/(<([^>]+)>)/ig, '');

@@ -1049,6 +1049,21 @@ define('project/controllers', ['project/init'], function() {
            alertError(error || '出错');
          });
       }
+     if ($scope.submitForm_type == 'submit-allocate') {
+       var _url='rest/authen/allocateOrder/startProcessInstance';
+       var data= {businessKey:$scope.formData.id};
+       requestData(_url, data, 'POST')
+         .then(function (results) {
+           var _data = results[1];
+          //  alertOk(_data.message || '操作成功');
+           $scope.goTo('#/allocateOrder/get.html?id='+$scope.formData.id);
+
+         })
+         .catch(function (error) {
+           alertError(error || '出错');
+         });
+      }
+
     };
 
     // 保存type:save-草稿,submit-提交订单。
@@ -3771,7 +3786,7 @@ define('project/controllers', ['project/init'], function() {
         }
       };
 
-      $scope.flashAddDataCallbackFn = function(flashAddData) {
+      $scope.hospitalPurchaseContents_flashAddDataCallbackFn = function(flashAddData) {
 
         var i;
 

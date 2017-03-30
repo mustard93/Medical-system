@@ -13,8 +13,8 @@
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
-        scope-data="formData"
-        callback="submitFormAfter();watchFormChange('formData')">
+        scope-data="scopeData"
+        callback="submitFormAfter();watchFormChange('scopeData')">
 
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
@@ -38,20 +38,38 @@
        </p>
       </div>
       <div class="pr-panel pr-panel-height mgb pd-n">
-        <!-- 客户搜索 -->
-        <div class="inline-block br-line customer-name relative">
-          <p class="mgb-s">客户名</p>
-          <p class="text-n color-black" style="padding-right:182px;">
-            {{scopeData.customerName || '暂无'}}
-          </p>
-        </div>
         <!-- 物流中心搜索 -->
+        <div class="inline-block relative full-height br-line-strong" style="width:50%;">
+          <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
+            <span class="color-black text-m">调出</span>
+          </div>
+          <div class="inline-block logistics-center relative">
+            <p class="mgb-s">物流中心</p>
+            <p>
+              {{scopeData.sourceLogisticsCenterName || '暂无'}}
+            </p>
+          </div>
+          <div class="inline-block relative mgr-l">
+            <p class="mgb-s">
+              仓库
+            </p>
+            {{scopeData.sourceName || '暂无'}}
+          </div>
+        </div>
+        <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
+          <span class="color-black text-m">调入</span>
+        </div>
         <div class="inline-block logistics-center relative">
           <p class="mgb-s">物流中心</p>
-          <p class="text-n color-black" style="padding-right:182px;">
-            <!-- 昆明物流中心 -->
-            {{scopeData.logisticsCenterName ||'暂无'}}
+          <p>
+          {{scopeData.targetLogisticsCenterName || '暂无'}}
           </p>
+        </div>
+        <div class="inline-block relative">
+          <p class="mgb-s">
+            仓库
+          </p>
+          {{scopeData.targetName || '暂无'}}
         </div>
       </div>
 
@@ -82,8 +100,8 @@
         </div>
         <!-- 商品列表 -->
         <div class="">
-          <div class="">
-            <table class="table pr-table pr-new-table mgb-n">
+          <div class="outside-table-d">
+            <table class="table pr-table pr-new-table mgb-n table-s-wid">
               <thead>
                 <tr>
                   <th class="text-center">商品编号</th>
@@ -91,7 +109,9 @@
                   <th class="text-left">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
+                  <th class="text-center">计划调拨数量</th>
                   <th class="text-center">实际调拨数量</th>
+                  <th class="text-center w-106">生产批号</th>
                   <th class="text-center w-106">灭菌批号</th>
                   <th class="text-center w-106">仓库</th>
                   <th class="text-center ">有效期至</th>
@@ -108,24 +128,24 @@
               <tbody>
                 <tr ng-repeat="item in scopeData.orderMedicalNos">
                   <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
-                  <td>{{item.name}}</td><!-- 商品全名 -->
+                  <td class="text-center">{{item.goodsCode}}</td><!-- 商品代码 -->
+                  <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                  <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
-                  <td class="text-center">{{item.outgoingQuantity}}</td><!-- 实发数量 -->
-                  <td class="text-center">{{item.differenceQuantity}}</td><!-- 差异数量 -->
+                  <td class="text-center">{{item.planQuantity}}</td><!-- 计划调拨数量 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 实际调拨数量 -->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                   <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
-                  <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 报价 -->
+                  <td class="text-right">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 报价 -->
+                  <td class="text-right">￥{{item.strike_price | number:2}}</td><!-- 折扣额 -->
+                  <td class="text-right">{{item.total_duty_free_price | number:2}}%</td><!-- 折扣率 -->
                   <td class="text-right">{{item.tax}}%</td><!-- 税率 -->
-                  <td class="text-right">￥{{item.discountPrice | number:2}}</td><!-- 折扣额 -->
-                  <td class="text-right">{{item.discountRate | number:2}}%</td><!-- 折扣率 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td><!-- 含税单价 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td><!-- 无税单价 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td><!-- 无税金额 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td><!-- 税额 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td><!-- 价税合计 -->
+                  <td class="text-center">{{item.productStandard}}</td>
+                  <td class="text-center">{{item.storedTemperature}}</td>
+                  <td class="text-center">{{item.brand}}</td>
+                  <td class="text-center">{{item.drugAdministrationCode}}</td>
+                  <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
                 </tr>
               </tbody>
             </table>
@@ -162,14 +182,14 @@
 
 
 
-        <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+        <a ng-if="scopeData.orderStatus=='待处理' && scopeData.inputUserId==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
            dialog-content="您确认删除这条调拨单吗?"
            dialog-template="dialog-confirm.html"
-           request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+           request-url="rest/authen/salesOrder/delete?id={{scopeData.id}}"
            call-back="$root.goTo('#/salesOrder/query.html')">删除
         </a>
 

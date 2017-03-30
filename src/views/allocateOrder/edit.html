@@ -34,28 +34,36 @@
 
       <div class="pr-panel pr-panel-height mgb pd-n">
         <!-- 物流中心搜索 -->
-        <div class="inline-block logistics-center relative">
-          <p class="mgb-s">物流中心</p>
-          <p>
-            <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
-                    data-placeholder=" "
-                    chosen
-                    chosen-ajax
-                    ng-model="formData.sourceLogisticsCenterId"
-                    select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+        <div class="inline-block relative full-height br-line-strong" style="width:50%;">
+          <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
+            <span class="color-black text-m">调出</span>
+          </div>
+          <div class="inline-block logistics-center relative">
+            <p class="mgb-s">物流中心</p>
+            <p>
+              <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
+                      data-placeholder=" "
+                      chosen
+                      chosen-ajax
+                      ng-model="formData.sourceLogisticsCenterId"
+                      select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+              </select>
+            </p>
+          </div>
+          <div class="inline-block relative mgr-l">
+            <p class="mgb-s">
+              仓库
+            </p>
+            <select ng-if="initFlag" class="pr-select pdt"
+            chosen
+            ng-model="formData.sourceId"
+            default-empty="无"
+            select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}">
             </select>
-          </p>
+          </div>
         </div>
-        <div class="inline-block relative mgr-l">
-          <p class="mgb-s">
-            调出仓库
-          </p>
-          <select class="pr-select pdt"
-          chosen
-          ng-model="formData.sourceId"
-          default-empty="无"
-          select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}">
-          </select>
+        <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
+          <span class="color-black text-m">调入</span>
         </div>
         <div class="inline-block logistics-center relative">
           <p class="mgb-s">物流中心</p>
@@ -71,9 +79,9 @@
         </div>
         <div class="inline-block relative">
           <p class="mgb-s">
-            调入仓库
+            仓库
           </p>
-          <select class="pr-select pdt"
+          <select ng-if="initFlag" class="pr-select pdt"
           chosen
           ng-model="formData.targetId"
           default-empty="无"
@@ -105,6 +113,7 @@
               <div class="flex-item-6">
                 <span class="mgr">单据编号：
                   <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                  <span class="mgl">审核人：<em class="color-3">暂无</em></span>
                 </span>
               </div>
               <div class="flex-item-6 text-right">
@@ -114,7 +123,7 @@
               </div>
             </div>
             <div class="pd-c-l pdt-m pdb-m color-9">
-              <span class="mgr">销售部门：
+              <span class="mgr">部门：
                 <select class="ipt pr-short-ipt color-3" style="width:100px;"
                         data-placeholder=" "
                         chosen
@@ -171,10 +180,29 @@
                       </div>
                     </td><!-- 商品编号 -->
                     <td class="text-center">{{item.goodsCode}}</td>
-                    <td class="text-left">{{item.name}}</td><!-- 商品全名 -->
+                    <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                    <td class="text-center">{{item.planQuantity}}</td><!-- 计划调拨数量 -->
+                    <td class="text-center">
+                      <div class="order-goods-num">
+                        <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
+                        <span class="inline-block">
+                          <input type="number"
+                                 name="planQuantity{{$index}}"
+                                 class="inline ipt pr-ipt-60 text-center item-planQuantity"
+                                 style="width:60px;"
+                                 ng-model="item.planQuantity"
+                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].planQuantity<item.planQuantity}"
+                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
+                                 invalid-popover
+                                 valid-value="{{!editForm['planQuantity'+$index].$valid}}"
+                                 popover-show
+                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
+                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                        </span>
+                        <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>
+                      </div>
+                    </td><!-- 计划调拨数量 -->
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber"
@@ -198,7 +226,7 @@
                                         "id":"{{item.relId}}",
                                         "logisticsCenterId":"{{formData.logisticsCenterId}}",
                                         "planQuantity":{{item.planQuantity}},
-                                        "choisedBatchList":{{item.stockBatchs}},
+                                        "sourceId":{{formData.sourceId}},
                                         "choisedBatchList":{{item.stockBatchs}}
                                       }'
                            modal-url="views/versionFlow/choice-stockbatch-dialog.html">
@@ -212,41 +240,15 @@
                     <td class="text-center pd-n">
                       <div ng-repeat="warehouse in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>
                     </td><!-- 仓库 -->
-                    <td class="text-center" style="white-space: nowrap;"></td><!-- 有效期至 -->
-                    <td class="text-center" style="white-space: nowrap;">{{item.tax}}%</td><!-- 税率 -->
-                    <td class="text-center" style="white-space: nowrap;">￥
-                      <input type="text"
-                             class="ipt pr-ipt-60 text-right"
-                             name="discountPrice{{$index}}"
-                             ng-model="item.discountPrice"
-                             ng-change="allocateOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
-                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
-                             required
-                             invalid-popover
-                             valid-value="{{!editForm['discountPrice'+$index].$valid}}"
-                             popover-show
-                             popover-options='{"content":"必须为数字", "placement":"top", "trigger":"manual"}'
-                             ng-keyup="item.discountRate=((item.price-item.discountPrice)/item.strike_price*100).toFixed(2)"/>
-                    </td><!-- 折扣额 -->
-                    <td class="text-center" style="white-space: nowrap;">
-                      <input type="text"
-                             class="ipt pr-ipt-60 text-right"
-                             name="discountRate{{$index}}"
-                             ng-model="item.discountRate"
-                             ng-change="allocateOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
-                             ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
-                             required
-                             invalid-popover
-                             valid-value="{{!editForm['discountRate'+$index].$valid}}"
-                             popover-show
-                             popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
-                             ng-keyup="item.discountPrice=(item.strike_price*(1-item.discountRate/100)).toFixed(2)"/> %
-                    </td><!-- 折扣率 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td><!-- 含税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td><!-- 无税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td><!-- 无税金额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td><!-- 税额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}
+                    <td class="text-center" style="white-space: nowrap;">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
+                     <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>  <!--含税单价 -->
+                     <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td><!-- 含税金额 -->
+                    <td class="text-center">{{item.tax}}%</td><!-- 税率 -->
+                    <td class="text-center">{{item.productStandard}}</td>
+                    <td class="text-center">{{item.storedTemperature}}</td>
+                    <td class="text-center">{{item.brand}}</td>
+                    <td class="text-center">{{item.drugAdministrationCode}}</td>
+                    <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
                     </td><!-- 价税合计 -->
                   </tr>
                 </tbody>
@@ -263,46 +265,6 @@
         </div>
       <!-- 其他信息 -->
       <div class="relative">
-        <div ng-if="!formData.customerId" class="panel pr-fuzzy-boundary pr-panel-height mgb">
-          <div class="pd-c-v-l">
-            <header class="text-n text-bold color-3">收货方信息
-              <span class="tools pull-right">
-                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
-              </span>
-            </header>
-          </div>
-          <div class="panel-body" style="display:none;padding:0;"></div>
-        </div>
-
-        <!-- 收货方信息 -->
-        <address-manage-component ng-if="formData.customerId"
-                                  compnent-title="收货方信息"
-                                  request-url="rest/authen/customerAddress/get.json"
-                                  request-data-id="{{formData.customerId}}"
-                                  scope-data-prefix="customer"
-                                  form-data="formData"
-                                  modify-modal-url="views/customerAddress/contact/edit.html"
-                                  modify-modal-title="编辑收货方信息"
-                                  create-modal-url="views/customerAddress/contact/edit.html"
-                                  create-modal-title="添加收货方信息"
-                                  create-address-type="销售"
-                                  set-default-address-requesturl="rest/authen/customerAddress/contact/setDefaultContactId"
-                                  del-this-address-requesturl="rest/authen/customerAddress/contact/delete">
-        </address-manage-component>
-
-        <address-manage-component compnent-title="发货方信息"
-                                  request-url="rest/authen/invoicesAddress/get.json"
-                                  scope-data-prefix="invoices"
-                                  form-data="formData"
-                                  modify-modal-url="views/invoicesAddress/contact/edit.html"
-                                  modify-modal-title="编辑发货方信息"
-                                  create-modal-url="views/invoicesAddress/contact/edit.html"
-                                  create-modal-title="添加发货方信息"
-                                  create-address-type="销售"
-                                  logistics-center-id="{{formData.logisticsCenterId}}"
-                                  set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
-                                  del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
-        </address-manage-component>
 
         <!-- 备注 -->
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
@@ -312,7 +274,7 @@
       </div>
     </div>
     <!-- 流程图 -->
-    <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
+    <business-flow-show business-key="{{formData.id}}" business-type="调拨单"></business-flow-show>
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
@@ -320,13 +282,13 @@
         <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
            handle-this-click
            dialog-title="确认返回?"
-           dialog-content="该销售单存在未保存数据，是否保存?"
+           dialog-content="该调拨单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo('#/allocateOrder/query.html')"
-           save-callback="submitForm('editForm','exit')">返回销售单
+           save-callback="submitForm('editForm','exit')">返回调拨单
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回销售单</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回调拨单</a>
 
         <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -345,49 +307,12 @@
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-click="submitForm('editForm','print')">打印预览
-        </button>
-
-        <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
+        <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
-                             ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
-                             !editForm.$valid ||
-                             !formData.customerId ||
-                             !formData.orderMedicalNos.length ||
-                             formData.contactsNull"
-                ng-click="submitForm('editForm','submit')">提交
+                ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
 
-        <button ng-if="formData.orderBusinessType=='直运销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
-                type="button"
-                class="pr-btn-save-glodbg mgr"
-                ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
-                             !editForm.$valid ||
-                             !formData.customerId ||
-                             !formData.orderMedicalNos.length ||
-                             formData.contactsNull"
-                ng-click="submitForm('editForm','submit')">提交
-        </button>
-      </div>
-      <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
-        popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
-          ￥{{formData.localTotalPrice || '0.00' | number:2}}
-          <!-- ￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}} -->
-        </em>
-
-      </div>
-
-      <div ng-if="formData.orderBusinessType=='直运销售'"
-           class="price-area relative fl-r mgr-l"
-           style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white">￥{{formData.localTotalPrice || '0.00' | number:2}}
-          <!-- ￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','planQuantity']) | number:2}} -->
-        </em>
       </div>
     </div>
   </form>
