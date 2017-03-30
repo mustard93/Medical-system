@@ -2064,11 +2064,12 @@ define('project/controllers', ['project/init'], function() {
 
        var operationFlowSetMessage=[];
        var operationFlowSetKey=[];
+       var i;
        if (newVal && $scope.scopeData) {
 
          // 选择出当前状态相同的驳回理由，并放入一个数组中
 
-        for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
+        for (i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
           if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
             operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message);
             operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key);
@@ -2082,7 +2083,7 @@ define('project/controllers', ['project/init'], function() {
        if (newVal && $scope.formData) {
          // 选择出当前状态相同的驳回理由，并放入一个数组中
          if ($scope.formData.operationFlowSet) {
-           for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+           for (i=0; i<$scope.formData.operationFlowSet.length; i++) {
              if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
                operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
                operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
@@ -2099,7 +2100,7 @@ define('project/controllers', ['project/init'], function() {
        if (newVal && $scope.tr) {
          // 选择出当前状态相同的驳回理由，并放入一个数组中
          if ($scope.tr.operationFlowSet) {
-           for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+           for (i=0; i<$scope.tr.operationFlowSet.length; i++) {
              if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
                operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
                operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
@@ -2112,20 +2113,23 @@ define('project/controllers', ['project/init'], function() {
          }
        }
 
-       if (newVal && $scope.formData.orderMedicalNos) {
-        //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-        //    if (data.handleFlag)
-        //  })
-        for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
-          if ($scope.formData.orderMedicalNos[i].handleFlag) {
-            $scope.choisedMedicals = true;
+       if (newVal && $scope.formData) {
+         if (newVal && $scope.formData.orderMedicalNos) {
+          //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+          //    if (data.handleFlag)
+          //  })
+          for (i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+            if ($scope.formData.orderMedicalNos[i].handleFlag) {
+              $scope.choisedMedicals = true;
+            }
+            if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+              $scope.isChoiseAll = false;
+            }
           }
-          if (!$scope.formData.orderMedicalNos[i].handleFlag) {
-            $scope.isChoiseAll = false;
-          }
-        }
-        // $scope.isChoiseAll = true;
+          // $scope.isChoiseAll = true;
+         }
        }
+
 
      });
 
