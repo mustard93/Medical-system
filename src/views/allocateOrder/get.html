@@ -91,7 +91,9 @@
                   <th class="text-left">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
+                  <th class="text-center">计划调拨数量</th>
                   <th class="text-center">实际调拨数量</th>
+                  <th class="text-center w-106">生产批号</th>
                   <th class="text-center w-106">灭菌批号</th>
                   <th class="text-center w-106">仓库</th>
                   <th class="text-center ">有效期至</th>
@@ -108,24 +110,24 @@
               <tbody>
                 <tr ng-repeat="item in scopeData.orderMedicalNos">
                   <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
-                  <td>{{item.name}}</td><!-- 商品全名 -->
+                  <td class="text-center">{{item.goodsCode}}</td><!-- 商品代码 -->
+                  <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                  <td class="text-center">{{item.quantity}}</td><!-- 订购数量 -->
-                  <td class="text-center">{{item.outgoingQuantity}}</td><!-- 实发数量 -->
-                  <td class="text-center">{{item.differenceQuantity}}</td><!-- 差异数量 -->
+                  <td class="text-center">{{item.planQuantity}}</td><!-- 计划调拨数量 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 实际调拨数量 -->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                   <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
-                  <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 报价 -->
+                  <td class="text-right">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 报价 -->
+                  <td class="text-right">￥{{item.strike_price | number:2}}</td><!-- 折扣额 -->
+                  <td class="text-right">{{item.total_duty_free_price | number:2}}%</td><!-- 折扣率 -->
                   <td class="text-right">{{item.tax}}%</td><!-- 税率 -->
-                  <td class="text-right">￥{{item.discountPrice | number:2}}</td><!-- 折扣额 -->
-                  <td class="text-right">{{item.discountRate | number:2}}%</td><!-- 折扣率 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td><!-- 含税单价 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td><!-- 无税单价 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td><!-- 无税金额 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td><!-- 税额 -->
-                  <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td><!-- 价税合计 -->
+                  <td class="text-center">{{item.productStandard}}</td>
+                  <td class="text-center">{{item.storedTemperature}}</td>
+                  <td class="text-center">{{item.brand}}</td>
+                  <td class="text-center">{{item.drugAdministrationCode}}</td>
+                  <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
                 </tr>
               </tbody>
             </table>
