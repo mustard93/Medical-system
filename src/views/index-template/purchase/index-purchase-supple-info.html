@@ -1,4 +1,7 @@
-<div class="index-order-create" ng-controller="indexPurchaseSuppleController">
+<div class="index-order-create" ng-controller="indexPurchaseSuppleController"
+  ajax-url="rest/authen/medicalStock/queryByLowStock?pageSize=5"
+  scope-data="showData"
+  callback="initFlag=true;">
   <!-- 标题 -->
   <div class="index-order-create-title pr-index-line-title flex-column">
     <span class="flex-item-5"></span>
@@ -12,13 +15,13 @@
         <div class="pd-c-l pdt-m pdb text-n pr-panel-title-color bb-line flex-column">
           <h4 class="flex-item-6">低库存药械</h4>
           <span class="flex-item-6 text-right">
-            <a class="text-s mgr-m" href="#/purchaseOrder/edit.html?relMedicalStockIdSet={{relMedicalStockIdSet}}">发起采购</a>
-            <a href="javascript:;" class="text-s">更多低库存药品...</a>
+            <a class="text-s mgr-m"
+             href="#/purchaseOrder/edit.html?relMedicalStockIdSet={{relMedicalStockIdSet}}">发起采购</a>
+            <!-- <a href="javascript:;" class="text-s">更多低库存药品...</a> -->
           </span>
         </div>
           <div class="pd-c-l"
-               ajax-url="rest/authen/medicalStock/queryByLowStock?pageSize=5"
-               scope-data="showData">
+               >
             <table class="table tabel-layout-fixed index-table-th text-s">
               <thead>
                 <tr>
