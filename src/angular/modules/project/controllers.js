@@ -1502,6 +1502,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 获取所有批次药品数量的合计
     $scope.getAllBatchTotal = function (batchsList) {
+
       if (batchsList && angular.isArray(batchsList)) {
         var _total = 0;
         angular.forEach(batchsList, function (item, index) {
@@ -2561,17 +2562,18 @@ define('project/controllers', ['project/init'], function() {
 
    }//end salesOrderEditCtrl
 
-   function allocateOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
+  function allocateOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
      $scope.$watch('initFlag', function (newVal) {
 
         var operationFlowSetMessage=[];
         var operationFlowSetKey=[];
+        var i;
         if (newVal && $scope.scopeData) {
 
           // 选择出当前状态相同的驳回理由，并放入一个数组中
 
-         for (var i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
+         for (i=0; i<$scope.scopeData.operationFlowSet.length; i++) {
            if ($scope.scopeData.operationFlowSet[i].status==$scope.scopeData.orderStatus) {
              operationFlowSetMessage.push($scope.scopeData.operationFlowSet[i].message);
              operationFlowSetKey.push($scope.scopeData.operationFlowSet[i].key);
@@ -2585,7 +2587,7 @@ define('project/controllers', ['project/init'], function() {
         if (newVal && $scope.formData) {
           // 选择出当前状态相同的驳回理由，并放入一个数组中
           if ($scope.formData.operationFlowSet) {
-            for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+            for (i=0; i<$scope.formData.operationFlowSet.length; i++) {
               if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
                 operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
                 operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
@@ -2602,7 +2604,7 @@ define('project/controllers', ['project/init'], function() {
         if (newVal && $scope.tr) {
           // 选择出当前状态相同的驳回理由，并放入一个数组中
           if ($scope.tr.operationFlowSet) {
-            for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+            for (i=0; i<$scope.tr.operationFlowSet.length; i++) {
               if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
                 operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
                 operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
@@ -2619,7 +2621,7 @@ define('project/controllers', ['project/init'], function() {
          //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
          //    if (data.handleFlag)
          //  })
-         for (var i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+         for (i=0; i<$scope.formData.orderMedicalNos.length; i++) {
            if ($scope.formData.orderMedicalNos[i].handleFlag) {
              $scope.choisedMedicals = true;
            }
@@ -2631,7 +2633,6 @@ define('project/controllers', ['project/init'], function() {
         }
 
       });
-
 
      $scope.canSubmitForm = function() {
         //必须有1条是勾选加入订单的。
@@ -4637,33 +4638,6 @@ define('project/controllers', ['project/init'], function() {
     };
   }
 
-
-
-  /**
-   * [MedicalStockController 库存明细查询模块控制器]
-   * @param {[type]} $scope   [description]
-   * @param {[type]} $timeout [description]
-   */
-  function MedicalStockController ($scope, $timeout) {
-
-  }
-
-  /**
-   * [CalculateTotalController 数据表格内计算各列和]
-   * @param {[type]} $scope [description]
-   */
-  function CalculateTotalController ($scope) {
-
-  }
-
-  /**
-   * [PurchasePayOrderController 付款申请单模块控制器]
-   * @param {[type]} $scope [description]
-   */
-  function PurchasePayOrderController ($scope) {
-
-  }
-
   /**
    * [ScreenFinanceApprovalController 财务审批模块中queyr页面获取当前财务审批人]
    * @param {[type]} $scope [description]
@@ -4837,7 +4811,6 @@ define('project/controllers', ['project/init'], function() {
   }
 
   // 采购退货单
-
   function purchasereturnOrderEditCtrl($scope, modal, alertWarn, watchFormChange, requestData, $rootScope,alertOk,utils) {
 
     $scope.watchFormChange=function(watchName){
@@ -4967,6 +4940,7 @@ define('project/controllers', ['project/init'], function() {
     // };
 
   }
+
   /**
    * [returnOrderAddController 销售退货单弹出模态框添加项目控制器]
    * @param  {[type]} $scope [description]
@@ -5444,8 +5418,10 @@ define('project/controllers', ['project/init'], function() {
       // 计算当前药品的批次数量和
       if ($scope.formData.orderMedicalNos) {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-          for (var i = 0; i < data.stockBatchs.length; i++) {
-            if (data.stockBatchs[i].batchNumber) { _total += parseInt(data.stockBatchs[i].quantity, 10); }
+          if (data.stockBatchs) {
+            for (var i = 0; i < data.stockBatchs.length; i++) {
+              if (data.stockBatchs[i].batchNumber) { _total += parseInt(data.stockBatchs[i].quantity, 10); }
+            }
           }
         });
       }
@@ -5519,7 +5495,6 @@ define('project/controllers', ['project/init'], function() {
         return url;
       };//getUrlByQueryOfType
     }//inoutstockDetailQueryCtr
-
 
   /**
    * [infrastructureController manage模块wms实例管理]
@@ -5602,7 +5577,6 @@ define('project/controllers', ['project/init'], function() {
   .controller('returnOrderAddController', ["$scope", "$rootScope", "modal","utils", "requestData", "alertError", returnOrderAddController])
   .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
   .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
-  .controller('PurchasePayOrderController', ['$scope', PurchasePayOrderController])
   .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
   .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl])
   .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'watchFormChange', 'saleOrderUtils', confirmOrderEditCtrl2])
@@ -5628,7 +5602,5 @@ define('project/controllers', ['project/init'], function() {
   .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
   .controller('returnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', returnOrderEditCtrl])
   .controller('purchasereturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', purchasereturnOrderEditCtrl])
-  .controller('MedicalStockController', ['$scope', '$timeout', MedicalStockController])
-  .controller('CalculateTotalController', ['$scope', CalculateTotalController])
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController]);
 });
