@@ -59,17 +59,7 @@
                  {{formData.supplier.businessApplication.businessStatus}}
                </em>
              </div>
-           </div>{{tmp_supplier}}
-           <!-- <p>
-             <select ng-if="initFlag"
-                     class="ipt pr-long-ipt color-6"
-                     data-placeholder=" "
-                     chosen
-                     chosen-ajax
-                     ng-model="formData.customerId"
-                     select-source="rest/authen/supplier/get.json?id={{formData.supplier.id}}">
-             </select>
-           </p> -->
+           </div>
          </div>
          <!-- 物流中心搜索 -->
          <div class="inline-block logistics-center relative">
@@ -111,6 +101,7 @@
                <div class="flex-item-6">
                  <span class="mgr">单据编号：
                    <input type="text" name="orderCode" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                   <span class="color-red">*</span>
                  </span>
                  <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
                  <span class="mgr">审核人：<em class="color-3">暂无</em></span>
@@ -287,7 +278,7 @@
                      <td class="text-center">
                        <select class="pr-select pd-s"
                                style="width:115px;"
-                               ng-model="formData.warehouseId"
+                               ng-model="tr.warehouseId"
                                ajax-url="rest/authen/warehouse/queryForSelectOption?type=正常库"
                                scope-data="scopeData">
                          <option ng-repeat="option in scopeData" value="{{option.value}}">{{option.text}}</option>
@@ -435,7 +426,7 @@
                                   create-modal-url="views/invoicesAddress/contact/edit.html"
                                   create-modal-title="添加收货方信息"
                                   create-address-type="采购"
-                                  logistics-center-id="{{formData.logisticsId}}"
+                                  logistics-center-id="{{formData.logisticsCenterId}}"
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
         </address-manage-component>
@@ -509,7 +500,11 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('purchaseForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length || !formData.expectDate || !formData.supplier.id || !purchaseForm.$valid">提交
+                  ng-disabled="!formData.orderMedicalNos.length ||
+                               !formData.expectDate ||
+                               !formData.supplier.id ||
+                               !purchaseForm.$valid ||
+                               !formData.orderCode">提交
           </button>
         </span>
       </div>

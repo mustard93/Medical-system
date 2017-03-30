@@ -88,13 +88,14 @@
                 <span class="mgr">单据编号：
                   <!-- <em class="color-3">{{formData.orderNo || '暂无'}}</em> -->
                   <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                  <span class="color-red text-bold">*</span>
                 </span>
                 <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || mainStatus.name}}</em></span>
                 <span class="mgr">审核人：<em class="color-3">暂无</em></span>
               </div>
               <div class="flex-item-6 text-right">
                 <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-                <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>                
+                <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
                 <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
               </div>
             </div>
@@ -290,7 +291,7 @@
                                         "choisedBatchList":{{item.stockBatchs}},
                                         "choisedBatchList":{{item.stockBatchs}}
                                       }'
-                           modal-url="views/confirmOrder/editOfStockbatchNumber.html">
+                           modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                         </i>
                       </div>
                       <p ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p>
@@ -575,7 +576,8 @@
                              !editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
-                             formData.contactsNull"
+                             formData.contactsNull ||
+                             !formData.orderCode"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
@@ -586,7 +588,8 @@
                              !editForm.$valid ||
                              !formData.customerId ||
                              !formData.orderMedicalNos.length ||
-                             formData.contactsNull"
+                             formData.contactsNull ||
+                             !formData.orderCode"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
       </div>

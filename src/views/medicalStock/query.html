@@ -64,7 +64,7 @@
             <table class="table pr-table pr-new-table pr-table-content table-ss-wid">
               <thead class="pr-bg-side">
                 <tr>
-                  <th class="w-80"></th>
+                  <th class="w-80">状态</th>
                   <th>序号</th>
                   <th class="w-220">通用名称</th>
                   <th>生产企业</th>
@@ -91,7 +91,7 @@
                           ng-class="{'bg-freeze-orange':tr.businessApplication.businessStatus =='已冻结',
                                      'bg-pass-green':tr.businessApplication.businessStatus =='正常',
                                      'bg-end-red':tr.businessApplication.businessStatus =='已终止'}">
-                      <span class="purchaseorder-buyer-info" style="right: 17px;top: -12px;">
+                      <span class="purchaseorder-buyer-info" style="right: 20px;top: -5px;">
                         <i class="block pd-c-s text-normal" style="line-height:1.8">
                           <em  class="inline-block">{{tr.businessApplication.businessStatus}}</em>
                         </i>
@@ -110,7 +110,7 @@
                           </p>
                         </div>
                       </div>
-                      <div class="inline-block handle-btn" ng-click="$root.goTo('#/medicalStock/edit.html?id='+tr.id)"></div>
+                      <div class="inline-block handle-btn" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click="$root.goTo('#/medicalStock/edit.html?id='+tr.id)"></div>
                       <div class="inline-block handle-btn other-handle-btn relative" href="javascript:;">
                         <div class="handle-area-show handle-area text-center">
                           <a ng-if="tr.businessApplication.businessStatus!='已冻结'&&tr.businessApplication.businessStatus!='已终止'"

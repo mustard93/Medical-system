@@ -1832,7 +1832,7 @@ function stepFlowArrowShow(utils){
     scope:{},
     restrict: 'A',
     link: function ($scope, $element, $attrs) {
-      // 定义一个类，用于长css对样式的控制
+      // 定义一个类，用于css对样式的控制
       $($element).addClass('first-medical-nav');
       //箭头数量，用于计算箭头的个数。
       var arrowCount=0;
@@ -2980,7 +2980,7 @@ function addressManageComponent (requestData, utils) {
           if ($scope.returnAddressObj.defaultContactId === _id) { return true; }
         } else {        // 如果是编辑
           // if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
-          if ($scope.formData[$scope.scopeDataContacts].id === _id) { return true;}
+          if ($scope.returnAddressObj.defaultContactId === _id) { return true;}
         }
       };
 
@@ -3077,7 +3077,6 @@ function addressManageComponent (requestData, utils) {
 
       // 设置当前地址为默认地址
       $scope.setThisAddressToDefault = function (contactId) {
-
         // var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
         var _moduleAddressId = 'invoicesAddressId';  // 构建模块id名
         var _data = {};
