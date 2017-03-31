@@ -1146,10 +1146,30 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
   };
 }
 
+
+
+
+/**
+左侧二级菜
+  leftNavigationMenu={"edit":true}
+  <div left-navigation-menu="menu" no-author-filter="true"></div>
+  edit：是否可编辑
+*/
+function leftNavigationMenu() {
+  return {
+    restrict: 'EA',
+    scope: {
+        noAuthorFilter:"@?",//不验证权限，全部显示用于 预览菜单
+        leftNavigationMenu:"="
+    },
+    replace: true,
+    templateUrl:  Config.tplPath +'tpl/project/leftNavigationMenu.html'
+  };
+}
 /**
  *	左侧二级菜单切换效果（临时解决方案，无法与一级菜单点击事件指令集成在一起）
  */
-function leftMenuSecondToggle ($location) {
+function leftMenuSecondToggle ($location,$rootScope) {
 
   /**
   *菜单根据网页地址，选中对应菜单
@@ -1231,7 +1251,9 @@ function leftMenuSecondToggle ($location) {
         });
       },//startListen
       //添加路由，支持自定义key
-      add:function(keyArr,elementMenu ){
+      add:function(keyArr,elementMenu,routeData ){
+
+
         if(keyArr&&keyArr.length>0){//  自定义key
           for(var i=0;i<keyArr.length;i++){
               this.routeMap[keyArr[i]]=elementMenu;
@@ -1239,14 +1261,17 @@ function leftMenuSecondToggle ($location) {
         }
         // #/purchaseOrder/query.html?t=123
         var url=  elementMenu.attr("href");
+        if(routeData){
+          url=routeData;
+        }
         if(!url)return;
 
         url=url.split('#')[1];  // /purchaseOrder/query.html?t=123
 
         if(url)this.routeMap[url]=elementMenu;
-        url=url.split('?')[0];  // /purchaseOrder/query.html
+        if(url)url=url.split('?')[0];  // /purchaseOrder/query.html
         if(url)this.routeMap[url]=elementMenu;
-        url=url.split('/')[1]; // purchaseOrder
+        if(url)url=url.split('/')[1]; // purchaseOrder
         if(url)this.routeMap[url]=elementMenu;
 
       }//end key
@@ -1255,14 +1280,19 @@ function leftMenuSecondToggle ($location) {
 
 
   return {
-    restrict: 'A',
+      restrict: 'A',
+    scope: {
+        leftMenuSecondToggle:"=?",//不验证权限，全部显示用于 预览菜单
+        leftNavigationMenu:"="
+    },
+
     link: function ($scope, $element, $attrs) {
       var keyArr=null;
       if($attrs.keyArr){
           keyArr=$scope.$eval($attrs.keyArr);
       }
-      LeftMenuObj.add(keyArr,$element);
-      LeftMenuObj.startListen($scope);
+      LeftMenuObj.add(keyArr,$element,$scope.leftMenuSecondToggle);
+      LeftMenuObj.startListen($rootScope);
       LeftMenuObj.doRoute("#"+$location.path());
 
 
@@ -3403,6 +3433,7 @@ function tableItemMultipleBtn (utils, requestData) {
 
 
 angular.module('manageApp.project')
+
   .directive("tableItemMultipleBtn", ['utils', 'requestData', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
   .directive("pageMainHeaderComponent", pageMainHeaderComponent)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
@@ -3457,7 +3488,8 @@ angular.module('manageApp.project')
   .directive("runTooltips", runTooltips) //tooltips
   .directive("runPopovers", ['$timeout', runPopovers]) //popover
   .directive("handleThisClick", ['$window', 'dialogConfirm', 'requestData', 'alertOk', 'alertError','utils', handleThisClick]) //带确认对话框的按钮点击事件
-  .directive("leftMenuSecondToggle", ['$location', leftMenuSecondToggle]) //左侧二级菜单切换效果
+  .directive("leftMenuSecondToggle", ['$location',"$rootScope", leftMenuSecondToggle]) //左侧二级菜单切换效果
+  .directive("leftNavigationMenu", [ leftNavigationMenu]) //html-edit
   .directive("styleToggle", ['$location', styleToggle])
   .directive("leftSideActive",[leftSideActive])//库存页面侧边导航样式
   .directive("tableTrMouseOverMenu",["utils","$compile","customMenuUtils",tableTrMouseOverMenu])  // tableTrMouseOverMenu table标签，移动上去显示菜单按钮。

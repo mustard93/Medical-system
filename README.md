@@ -5,6 +5,9 @@
 2.下载按照项目需要的模块，只执行一次： npm-instal.bat
 3.启动http server用于开发调试。：run-server.bat
 
+文件命名规范：
+老版本不使用改名规则，后缀() ：_old_v版本号;
+比如：left-side.html->left-side_old_v1.html
 
 业务说明：
 salesOrder（客户购需单）-》confirmOrder（订单）-》invoicesOrder（发货单）-》OutstockOrder（出库单）
