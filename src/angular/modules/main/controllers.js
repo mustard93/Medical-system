@@ -169,7 +169,7 @@ define('main/controllers', ['main/init'], function () {
           }
         };
 
-        //全局权限控制器,满足任意一个及返回成功
+        //全局权限控制器,满足全部权限返回成功
         $scope.hasAuthorAnd = function (authorList) {
           if(angular.isArray(authorList)){
               if(authorList.length==0)return true;
