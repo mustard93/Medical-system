@@ -884,6 +884,7 @@ function alertOk($rootScope, modal) {
 
             return dest;
           },
+
           /**
                *
               * @Description: 将模版变量字符串转化为具体数据。模版变量定义为：{{id}}
@@ -932,6 +933,8 @@ function alertOk($rootScope, modal) {
     //监听内容修改标志
     function watchFormChange($timeout) {
       return function (watchName, $scope) {
+
+        if(!$scope)return;
         //延迟初始化修改标志
          $timeout(function () {
             $scope.changeFlag=false;
@@ -1245,6 +1248,40 @@ e
 
             return UICustomTableObj;
         }//UICustomTable
+
+
+
+        function AjaxUtils (requestData,alertOk,alertError) {
+
+            var  AjaxUtils = {
+
+                      /**
+                      异步请求：
+                      url:
+                      data:object 对象
+                      canSubmit 为true时才触发请求
+                      parameterBody：是否json方式。
+                      */
+                      ajaxSubmit : function (url,data,canSubmit,parameterBody) {
+
+                        if(!canSubmit)return false;
+
+                        requestData(url, data, 'POST', parameterBody)
+                        .then(function (results) {
+                           var data = results[1];
+                           alertOk(data.message || '操作成功');
+                        })
+                        .catch(function (error) {
+                           alertError(error);
+                        });
+                      }
+            };
+
+            return AjaxUtils;
+        }//AjaxUtils
+
+
+
     angular.module('manageApp.main')
 
         .factory('OPrinter', OPrinter)
@@ -1261,6 +1298,7 @@ e
       .service('buildTree', buildTree)
         .factory('store', store)
           .factory('utils', ["$timeout",utils])
+            .factory('AjaxUtils', ["requestData","alertOk","alertError",AjaxUtils])
             .factory('UICustomTable', ["$filter","utils",UICustomTable])
       .factory('proLoading', proLoading)
       .config(['$httpProvider', function ($httpProvider) {

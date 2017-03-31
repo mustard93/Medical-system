@@ -971,6 +971,7 @@ define('project/controllers', ['project/init'], function() {
   function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
 
     $scope.logistics=true;
+    $scope.isShowConfirmInfo = false;
 
     $scope.$watch('initFlag', function () {
       var operationFlowSetMessage=[];
@@ -1006,6 +1007,26 @@ define('project/controllers', ['project/init'], function() {
         if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
       }
     });
+
+    // 监控用户选择的批次数量，如果不符合数量要求则弹出提示信息
+    $scope.$watch('formData.orderMedicalNos', function (newVal) {
+      var _total = 0;
+      if ($scope.formData.orderMedicalNos) {
+        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+          if (data.stockBatchs) {
+            for (var i = 0; i < data.stockBatchs.length; i++) {
+              _total += parseInt(data.stockBatchs[i].quantity,10);
+            }
+          }
+          
+          // 如果所有批次数量的和小于计划数量，则弹出提示
+          $scope.isShowConfirmInfo = (_total < $scope.formData.orderMedicalNos[index].planQuantity && _total !== 0) ? true : false;
+
+        });
+
+
+      }
+    }, true);
 
     $scope.deleteQuantity=function(item){
       angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
@@ -1613,32 +1634,32 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 监视用户输入备注信息，当用户输入修改后1秒自动保存用户修改
-    $scope.$watch('scopeData.note', function (newVal, oldVal) {
-      if (newVal && (oldVal!==undefined)) {
-        $timeout(function () {
-          var _url = "rest/authen/invoicesOrder/save",
-              _data = $scope.scopeData;
-          requestData(_url, _data, 'POST', 'parameterBody')
-          .then(function (results) {
-            if (results[1].code === 200) {
-              $scope.showSaveNoteInfo = true;
-            }
-          })
-          .catch(function (error) {
-            if (error) { throw new Error(error || '出错!'); }
-          });
-        }, 1000);
-      }
-    });
+    // $scope.$watch('scopeData.note', function (newVal, oldVal) {
+    //   if (newVal && (oldVal!==undefined)) {
+    //     $timeout(function () {
+    //       var _url = "rest/authen/invoicesOrder/save",
+    //           _data = $scope.scopeData;
+    //       requestData(_url, _data, 'POST', 'parameterBody')
+    //       .then(function (results) {
+    //         if (results[1].code === 200) {
+    //           $scope.showSaveNoteInfo = true;
+    //         }
+    //       })
+    //       .catch(function (error) {
+    //         if (error) { throw new Error(error || '出错!'); }
+    //       });
+    //     }, 1000);
+    //   }
+    // });
 
     // 监视备注提示信息，显示后1秒自动隐藏
-    $scope.$watch('showSaveNoteInfo', function (newVal) {
-      if (newVal) {    // 如果信息显示了
-        $timeout(function () {
-          $scope.showSaveNoteInfo = false;
-        }, 1500);
-      }
-    });
+    // $scope.$watch('showSaveNoteInfo', function (newVal) {
+    //   if (newVal) {    // 如果信息显示了
+    //     $timeout(function () {
+    //       $scope.showSaveNoteInfo = false;
+    //     }, 1500);
+    //   }
+    // });
   }
 
   /**

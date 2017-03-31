@@ -2693,7 +2693,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
     /**
     /**
     必填参数：
-    attrs.ajaxUrl=""：请求数据参数
+    attrs.ajaxUrlSubmit=""：请求数据参数
     可选参数：
     $attrs.ajaxUrlHandler :function(data) 指定回调方法
     $attrs.params  //监听具体值
