@@ -321,6 +321,7 @@
                                   create-modal-url="views/invoicesAddress/contact/edit.html"
                                   create-modal-title="添加发货方信息"
                                   create-address-type="销售"
+                                  logistics-center-id="{{formData.logisticsCenterId}}"
                                   set-default-address-requesturl="rest/authen/invoicesAddress/contact/setDefaultContactId"
                                   del-this-address-requesturl="rest/authen/invoicesAddress/contact/delete">
         </address-manage-component>
@@ -379,14 +380,16 @@
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
-                             ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000)"
+                             ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
+                             !formData.orderCode"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
         <button ng-if="formData.orderBusinessType=='直运销售'&&formData.orderStatus=='未提交'"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
-                ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+                ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
+                            !formData.orderCode"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
