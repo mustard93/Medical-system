@@ -10,40 +10,37 @@
           form-validator
         >
   <div class="pr-page-dialog-title bb-line">
-  <span class="mgl-l color-black">审核</span>
+    <span class="mgl-l">审核</span>
 
   </div>
   <div class="pr-page-dialog-content bb-line" ng-init="_checkStatus='通过';formData.conditionType='通过'"
   ajax-url="rest/baseData/queryForSelectOptionByType.json"
   params='{"type":"审核不通过处理方式"}'
-  scope-data="selectOptions"
-  style="padding-top:0px;"
-  >
-    <div class="">
-      <label class="radio radio-new" >
-        <input type="radio" class="default-radio" name="type" value="通过" ng-click="formData.conditionType='通过'" ng-model="_checkStatus"><i style="top:4px;"></i>
-        <em class="inline-block color-3" style="margin-left:-5px;">通过</em>
+  scope-data="selectOptions" style="padding-top:5px;">
+    <div class="mgb-s">
+      <label class=" radio radio-new" >
+        <input class="default-radio" type="radio" name="type" value="通过" ng-click="formData.conditionType='通过'" ng-model="_checkStatus"><i></i>
       </label>
-      <label  class="radio radio-new" >
-        <input type="radio" class="default-radio" name="type" value="驳回" ng-click="formData.conditionType=selectOptions[0].text" ng-model="_checkStatus"><i  style="top:4px;"></i>
-        <em class="inline-block color-3" style="margin-left:-5px;">不通过</em>
+      <em class="inline-block" style="margin-left:-5px;">通过</em>
+      <label class=" radio radio-new" >
+        <input class="default-radio" type="radio" name="type" value="驳回" ng-click="formData.conditionType=selectOptions[0].text" ng-model="_checkStatus"><i></i>
       </label>
+      <em class="inline-block " style="margin-left:-5px;">不通过</em>
     </div>
-
-      <div class="content-textaere" >
-        <div class="clearfix" ng-show="_checkStatus=='驳回'">
-          <div class="flex-item-3">
-            处理方式：
+          <div class="content-textaere" >
+            <div class="clearfix" ng-show="_checkStatus=='驳回'">
+              <div class="flex-item-3">
+                处理方式：
+              </div>
+              <div class="flex-item-9">
+                <p class="">
+                  <select ng-if="selectOptions" class="pr-select-sm" ng-model="formData.conditionType" ng-options="item.text as item.text   for item in selectOptions">
+                  </select>
+                </p>
+              </div>
+            </div>
+            <textarea ng-class="{'mgt':(_checkStatus=='驳回')}" limit-word-show maxlength="120" class="pr-textarea"  ng-model="formData.key" placeholder="补充说明"></textarea>
           </div>
-          <div class="flex-item-9">
-            <p class="">
-              <select ng-if="selectOptions" class="pr-select-sm" ng-model="formData.conditionType" ng-options="item.text as item.text   for item in selectOptions">
-              </select>
-            </p>
-          </div>
-        </div>
-        <textarea ng-class="{'mgt':(_checkStatus=='驳回')}" limit-word-show maxlength="120" class="pr-textarea"  ng-model="formData.key" placeholder="补充说明"></textarea>
-      </div>
   </div>
   <div class="pr-page-dialog-footer text-center mg-m">
     <button type="submit"  class="pr-btn-confirm-glodbg">确定</button>

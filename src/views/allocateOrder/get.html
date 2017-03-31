@@ -29,7 +29,7 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-      <div class="pr-panel pr-panel-height mgb"
+      <div ng-if="formData.orderStatus!='待审核'"  class="pr-panel pr-panel-height mgb"
         ng-class="{'pr-bg-pink1':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'pr-bg-pass':(formData.orderStatus=='已完成')}">
       <em ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">原因:</em>
        <p class="inline-block " ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">
@@ -113,7 +113,7 @@
                   <th class="text-center">实际调拨数量</th>
                   <th class="text-center w-106">生产批号</th>
                   <th class="text-center w-106">灭菌批号</th>
-                  <th class="text-center w-106">仓库</th>
+                  <!-- <th class="text-center w-106">仓库</th> -->
                   <th class="text-center ">有效期至</th>
                   <th class="text-center">产地执行标准</th>
                   <th class="text-center">保存温度</th>
@@ -133,7 +133,8 @@
                   <td class="text-center">{{item.quantity}}</td><!-- 实际调拨数量 -->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                  <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
+                  <!-- <td class="text-center">{{item.warehouseName}}</td> -->
+                  <!-- 仓库 -->
                   <td class="text-right">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 报价 -->
                   <td class="text-center">{{item.productStandard}}</td>
                   <td class="text-center">{{item.storedTemperature}}</td>
