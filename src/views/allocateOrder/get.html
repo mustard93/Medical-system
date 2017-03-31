@@ -30,9 +30,9 @@
     <!-- 药械列表 -->
     <div class="content-wrapper">
       <div class="pr-panel pr-panel-height mgb"
-        ng-class="{'pr-bg-pink':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废')}">
-      <em ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废')}">原因:</em>
-       <p class="inline-block " ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废')}">
+        ng-class="{'pr-bg-pink1':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'pr-bg-pass':(formData.orderStatus=='已完成')}">
+      <em ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">原因:</em>
+       <p class="inline-block " ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">
       <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
        <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
        </p>
@@ -180,7 +180,7 @@
 
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回调拨单列表</a>
 
-
+<!-- 
 
         <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -191,7 +191,7 @@
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
            call-back="$root.goTo('#/salesOrder/query.html')">删除
-        </a>
+        </a> -->
 
         <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
         <span ng-if="formData.didateFilter.buttons.length>0"
