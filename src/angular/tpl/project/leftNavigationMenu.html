@@ -1,6 +1,10 @@
 <ul class="nav nav-pills nav-stacked custom-nav">
   <li class="menu-list" ng-repeat="item in leftNavigationMenu.items" ng-if="noAuthorFilter||$root.hasAuthorOr(item.authoritys)" >
-    <a left-menu-toggle="item.ahref" href="{{item.ahref||'javascript:void(0);'}}" class="{{item.iconClass}}"    target="{{item.target}}">
+    <a  ng-if="!item.ahref" left-menu-toggle="item.ahref" href="javascript:void(0);" class="{{item.iconClass}}"    target="{{item.target}}">
+      <span class="nav-ico {{item.iconClass}}"></span><span> {{item.showName}}</span>
+        <span ng-if="item.items.length>0" class="pr-arrow-down"></span>
+    </a>
+    <a ng-if="item.ahref" left-menu-toggle="item.ahref" href="{{item.ahref}}" class="{{item.iconClass}}"    target="{{item.target}}">
       <span class="nav-ico {{item.iconClass}}"></span><span> {{item.showName}}</span>
         <span ng-if="item.items.length>0" class="pr-arrow-down"></span>
     </a>
