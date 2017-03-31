@@ -1014,6 +1014,7 @@ define('project/controllers', ['project/init'], function() {
           item.otherQuantity ='';
           item.otherSterilizationBatchNumber = '';
           item.otherWarehouseName ='';
+          item.validTill=' ';
         }
       });
     };
@@ -2080,6 +2081,9 @@ define('project/controllers', ['project/init'], function() {
 
   function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
+    // 根据实际采购数量的变化与计划采购数量做对比的标识变量
+    $scope.isShowPurchaseInfo = false;
+
     $scope.$watch('initFlag', function (newVal) {
 
        var operationFlowSetMessage=[];
@@ -2152,11 +2156,6 @@ define('project/controllers', ['project/init'], function() {
 
 
      });
-
-    //监控数量变化，如果是从请购单生成的采购单则数量不能大于在请购单中设定的数量
-    // $scope.$watchCollection('formData', function (newVal, oldVal, scope) {
-    //   console.log(newVal);
-    // });
 
     // 监控用户变化，清空之前选择药械列表
     $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
@@ -2579,6 +2578,21 @@ define('project/controllers', ['project/init'], function() {
       }
     };
 
+    // 监控计划采购数量与实际采购数量的方法
+    $scope.diffPurchaseNumber = function (orderMedicalList) {
+      if (orderMedicalList) {
+        angular.forEach(orderMedicalList, function (data, index) {
+          if (data.planQuantity > data.quantity) {
+            $scope.isShowPurchaseInfo = true;
+          } else {
+            $scope.isShowPurchaseInfo = false;
+            // console.log($scope);
+          }
+        });
+
+      }
+    };
+
    }//end salesOrderEditCtrl
 
   function allocateOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
@@ -2627,6 +2641,7 @@ define('project/controllers', ['project/init'], function() {
           item.otherQuantity ='';
           item.otherSterilizationBatchNumber = '';
           item.otherWarehouseName ='';
+          item.validTill=' ';
         }
       });
     };
@@ -5318,6 +5333,7 @@ define('project/controllers', ['project/init'], function() {
         batchNumber: obj.productionBatch,
         quantity: obj.stockModel.salesQuantity,    // 可选数量
         productionBatch: obj.productionBatch,     // 批号名
+        validTill:obj.validTill,
         sterilizationBatchNumber: obj.sterilizationBatchNumber,    // 灭菌批号
         warehouseName: obj.warehouseName,       // 仓库名
         warehouseId: obj.warehouseId,        // 仓库名id

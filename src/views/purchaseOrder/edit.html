@@ -2,7 +2,7 @@
      ng-controller="purchaseOrderEditCtrl"
      ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos)"
      alert-error>
 <form id="purchaseForm"
      name="purchaseForm"
@@ -31,7 +31,6 @@
          </div>
        </div>
      </div>
-
      <div class="content-wrapper">
        <!-- 供应商选择及物流中心选择 -->
        <div class="pr-panel pr-panel-height mgb pd-n">
@@ -217,17 +216,17 @@
                          </div></td><!-- 商品全名 -->
                      <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                      <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
-                     <td class="text-right" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 请购数量 -->
+                     <td class="text-center" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 请购数量 -->
                      <td class="text-center" ng-if="formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
+                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
                          <span class="inline-block">
                            <input type="text"
                                   class="inline ipt pr-ipt-60 text-center item-quantity"
                                   style="width:60px;"
                                   name="quantity{{$index}}"
                                   ng-model="tr.quantity"
-                                  ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
+                                  ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos);"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                   required
                                   ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
@@ -236,7 +235,7 @@
                                   is-focus="true"
                                   popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"right", "trigger":"manual"}'>
                          </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)">+</button>
+                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)">+</button>
                        </div>
                        <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                          待采购数量：{{tr.planQuantity-tr.quantity}}
@@ -320,9 +319,9 @@
                  </tbody>
                </table>
              </div>
-             <!-- <div ng-if="formData.relId"  class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-c-v-l color-red">
-               选中商品中，存在少于请购数量品种。该部分将被退回并保留在请购单
-             </div> -->
+             <p ng-if="isShowPurchaseInfo" class="pd-m color-red">选中商品中，存在少于请购数量品种。该部分将被退回并保留在请购单
+               <a class="color-light-brown" ng-href="#/requestPurchaseOrder/edit.html?id={{formData.relId}}">{{formData.relOrderNo}}</a>
+             </p>
              <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
                <div class="empty-table clearfix">
                  <div>&nbsp;</div>
@@ -426,7 +425,6 @@
      </div>
      <!-- 流程图 -->
      <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
-
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
