@@ -109,6 +109,7 @@
                   <th class="text-left">商品全名</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
+                  <th class="text-center">可调拨量</th>
                   <th class="text-center">计划调拨数量</th>
                   <th class="text-center">实际调拨数量</th>
                   <th class="text-center w-106">生产批号</th>
@@ -132,6 +133,7 @@
                   <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                  <td class="text-center">{{item.planQuantity}}</td> <!--可用量-->
                   <td class="text-center">{{item.planQuantity}}</td><!-- 计划调拨数量 -->
                   <td class="text-center">{{item.quantity}}</td><!-- 实际调拨数量 -->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
@@ -180,7 +182,7 @@
 
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回调拨单列表</a>
 
-<!-- 
+<!--
 
         <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
            href="javascript:;"
