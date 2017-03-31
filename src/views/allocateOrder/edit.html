@@ -145,6 +145,15 @@
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
                 </select>
               </span>
+              <span class="mgr">计划到货时间：
+                <input type="text"
+                       datepicker
+                       class="ipt pr-short-ipt color-3"
+                       style="width:90px;"
+                       placeholder=""
+                       ng-readonly="true"
+                       ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
+              </span>
             </div>
             <div class="outside-table-d">
               <table class="table pr-table pr-new-table mgb-n table-s-wid">
@@ -315,7 +324,7 @@
 
         <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
                 type="button"
-                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId"
+                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId || !formData.expectDate"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
