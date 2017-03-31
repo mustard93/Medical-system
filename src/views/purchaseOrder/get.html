@@ -45,7 +45,7 @@
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
             <span class="mgr">单据编号：<em class="color-3">{{scopeData.orderCode || '暂无'}}</em></span>
-            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{scopeData.approverUser.n || '暂无'}}</em></span>
           </div>
           <div class="flex-item-6 text-right">
             <span class="mgr">系统编号：<em class="color-3">{{scopeData.orderNo || '暂无'}}</em></span>
@@ -113,16 +113,17 @@
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                   <td  class="text-center">{{tr.quantity || '0'}}</td><!-- 数量 -->
+                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.planQuantity || '0'}}</td><!-- 计划数量 -->
                   <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.storageQuantity || '0'}}</td><!-- 计划数量 -->
                   <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
                   <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.refuseQuantity || '0'}}</td><!-- 其他数量 -->
                   <td class="text-center">{{tr.batchRequirement}}</td><!-- 批号要求 -->
                   <td class="text-center">{{tr.warehouseName}}</td><!-- 预入仓库 -->
-                  <td class="text-right">￥{{tr.strike_price || '0'  | number:2}}</td><!-- 原币含税单价 -->
-                  <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td><!-- 原币单价 -->
-                  <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td><!-- 原币金额 -->
-                  <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr)*tr.tax/100 | number:2}}</td><!-- 原币税额 -->
-                  <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td><!-- 原币价税合计 -->
+                  <td class="text-right">￥{{tr.duty_price || '0'  | number:2}}</td><!-- 原币含税单价 -->
+                  <td class="text-right">￥{{tr.duty_free_price || '0' | number:2 }}</td><!-- 原币单价 -->
+                  <td class="text-right">￥{{tr.total_duty_free_price || '0' | number:2}}</td><!-- 原币金额 -->
+                  <td class="text-right">￥{{tr.totalTaxPrice || '0' | number:2}}</td><!-- 原币税额 -->
+                  <td class="text-right">￥{{tr.totalPrice || '0' | number:2}}</td><!-- 原币价税合计 -->
                   <td class="text-right" >{{tr.tax}}%</td><!-- 税率 -->
                   <td class="text-center">{{tr.storedTemperature}}</td><!-- 保存温度 -->
                   <td class="text-center">{{tr.brand}}</td><!-- 产地品牌 -->

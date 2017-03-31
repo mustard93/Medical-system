@@ -8,8 +8,8 @@
                orderMedicalNos=formData.orderMedicalNos;
                formData.exchangeRate='1.00';
                formData.thisPageTotal=0;
-               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
-     alert-error>{{formData.totalPrice}}
+               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);"
+     alert-error>
   <form id="editForm"
         name="editForm"
         form-validator
@@ -207,7 +207,6 @@
                       <input type="hidden" ng-model="batch.id">
                       <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                     </div>
-
                     <div ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="ipt-div relative" style="width:180px">
                       <i class="addImg"
                          modal-right="50%"
@@ -301,6 +300,10 @@
               </tbody>
             </table>
         </div>
+        <!-- 提示信息 -->
+        <p ng-if="isShowConfirmInfo" class="pd-l color-red">确认商品中，存在数量不足品种。改品种数量不足部分将回退并保留在购需单
+          <a ng-href="#/salesOrder/edit2.html?id={{formData.relId}}" class="">{{formData.relOrderNo}}</a>
+        </p>
       </div>
       <!-- 其他信息 -->
       <div class="relative">

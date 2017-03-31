@@ -99,7 +99,7 @@
                <div class="flex-item-6">
                  <span class="mgr">单据编号：
                    <input type="text" name="orderCode" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
-                   <span class="color-red">*</span>
+                   <span class="color-red">(必填)</span>
                  </span>
                  <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
                  <span class="mgr">审核人：<em class="color-3">暂无</em></span>
@@ -112,21 +112,24 @@
              </div>
              <div class="pd-c-l pdt-m pdb-m color-9">
                <span class="mgr">部门：
-                 <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                         data-placeholder=" "
-                         chosen
+                 <select class="pr-select pd-s"
+                         style="width:115px;"
                          ng-model="formData.salesDepartmentId"
-                         select-source="rest/authen/department/queryForSelectOption">
+                         ajax-url="rest/authen/department/queryForSelectOption"
+                         scope-data="salesDepartment">
+                   <option ng-repeat="option in salesDepartment" value="{{option.value}}">{{option.text}}</option>
                  </select>
                </span>
                <span class="mgr">业务人员：
-                 <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                         data-placeholder=" "
-                         chosen
+                 <select class="pr-select pd-s"
+                         style="width:115px;"
                          ng-model="formData.saleUserId"
-                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                         ajax-url="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}"
+                         scope-data="saleUser">
+                   <option  ng-repeat="option in saleUser" value="{{option.value}}">{{option.text}} </option>
                  </select>
                </span>
+
                <span class="mgr">业务类型：
                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
                          data-placeholder=" "
