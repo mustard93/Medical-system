@@ -64,8 +64,8 @@
                          name="hospitalName"
                          ng-model="formData.hospital.name"
                          required
-                         data-content="* 必填字段"
-                         invalid-popover="{{!hospitalEditForm.hospitalName.$valid}}">
+                        >
+                        <span ng-if="!formData.hospital.name" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -76,8 +76,8 @@
                          name="systemNumber"
                          ng-model="formData.hospital.systemNumber"
                          required
-                         data-content="* 必填字段"
-                         invalid-popover="{{!hospitalEditForm.systemNumber.$valid}}">
+                        >
+                        <span ng-if="!formData.hospital.systemNumber" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -107,20 +107,25 @@
                           ng-model="formData.hospital.level"
                           name="level"
                           chosen
-                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalLevel"
-                          relative-select relative-initload relative-to="#hospitalGrade">
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalLevel">
                   </select>
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">等级：</label>
                 <div class="flex-item-10   text-left">
-                  <select ng-if="initFlag" id="hospitalGrade"
-                          class="ipt-new"
+
+
+                  <select class="select select-w"
+                          chosen
                           name="grade"
                           ng-model="formData.hospital.grade"
-                          relative-select="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption" select-first>
+                         ajax-if-eval="formData.hospital.level"
+                          alert-error
+                          params='{"level":"{{formData.hospital.level}}"}'
+                        select-source="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption">
                   </select>
+
                   <!-- {{formData.hospital.grade}} -->
                 </div>
               </div>
@@ -257,13 +262,13 @@
           </span>
           <span class="mgl mgt">
             <button class="pr-btn-save-glodbg"
-                    ng-disabled="hospitalEditForm.$invalid"
+                    ng-disabled="hospitalEditForm.$invalid || !formData.hospital.name ||!formData.hospital.systemNumber"
                     ng-click="submitForm('hospital-editForm','save')">保存
             </button>
           </span>
           <span class="mgl mgt">
             <button class="pr-btn-save-glodbg"
-                  ng-disabled="hospitalEditForm.$invalid"
+                  ng-disabled="hospitalEditForm.$invalid || !formData.hospital.name ||!formData.hospital.systemNumber"
                   type="button"
                   ng-click="submitForm('editForm','submit-hospital')">提交
             </button>

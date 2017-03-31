@@ -2,11 +2,11 @@
      class="pd-c-xxxl left-se-side-par "
      ng-init="listParams.code=mainStatus.pageParams.code"
      ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;"><!-- pageCtrl-->
-    <div class="page-main-content left-se-side-par" ng-controller="MedicalStockController">
+    <div class="page-main-content left-se-side-par">
         <!--body wrapper start-->
         <div class="pd-c-xxl"
-             ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{urlInfo.search.warehouseCode}}"
-             scope-data="warehouseName">
+        >
+
            <div class="page-header-info ">
              <p class="mgb-l crumbs pr-indent-20 pdb-s relative  ">
 
@@ -17,11 +17,6 @@
                /<em >库存变动明细</em>
              </p>
 
-             <p>
-               <em>仓库：</em>
-               <em ng-if="warehouseName.name">{{warehouseName.name}}</em>
-               <em ng-if="!warehouseName.name">全部</em>
-             </p>
 
            </div>
 
@@ -92,7 +87,8 @@
                          <table  class="table pr-table pr-new-table pr-table-content table-ss-wid">
                            <thead class="pr-bg-side">
                              <tr>
-                               <!-- <th>序号</th> -->
+                               <th>物流中心</th>
+                               <th>仓库</th>
                                <th>单据日期</th>
                                <th>单据类型</th>
                                <th>单据编号</th>
@@ -104,8 +100,6 @@
                                <th>入库数量</th>
                                <th>出库数量</th>
                                <th>库存余量</th>
-                               <th>成本价</th>
-                               <th>成本金额</th>
                              </tr>
                            </thead>
                            <tbody class="pr-bg-white">
@@ -113,6 +107,8 @@
                              ng-if="tbodyList.length"
                              >
                                <!-- <td>{{$index + 1}}</td> -->
+                               <td>{{tr.logisticsCenterName}}</td>
+                               <td>{{tr.warehouseName}}</td>
                                <td>{{tr.createAt | date:'yyyy-MM-dd'}}</td>
                                <td class="text-ellips-s" ng-if="tr.type!='采购入库单_红字'&&tr.type!='销售出库单_红字'">{{tr.type}}</td>
                                <td class="text-ellips-s" ng-if="tr.type=='采购入库单_红字'">采购入库单<em class="color-red">(红字)</em></td>
@@ -148,12 +144,10 @@
                              </tr>
 
                              <tr class="bgco-orange color-white" ng-if="tbodyList.length">
-                               <td colspan="6" class="text-right">合计：</td>
+                               <td colspan="10" class="text-right">合计：</td>
                                <td class="text-right">{{totalObj.storageQuantity ||'0'}}</td>
                                <td class="text-right">{{totalObj.outgoingQuantity ||'0'}}</td>
                                <td class="text-right"></td>
-                               <td class="text-right">￥{{totalObj.price ||'0'}}</td>
-                               <td class="text-right">￥{{total_quantity_price}}</td>
                              </tr>
                            </tbody>
                          </table>

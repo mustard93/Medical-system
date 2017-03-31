@@ -1,4 +1,4 @@
-<div class="confirm-order-edit "
+<div class="allocate-order confirm-order-edit "
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
@@ -29,7 +29,7 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-      <div class="pr-panel pr-panel-height mgb"
+      <div ng-if="formData.orderStatus!='待审核'"  class="pr-panel pr-panel-height mgb"
         ng-class="{'pr-bg-pink1':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'pr-bg-pass':(formData.orderStatus=='已完成')}">
       <em ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">原因:</em>
        <p class="inline-block " ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">
@@ -43,33 +43,39 @@
           <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
             <span class="color-black text-m">调出</span>
           </div>
-          <div class="inline-block logistics-center relative">
+          <div class="inline-block logistics-center-out relative ">
             <p class="mgb-s">物流中心</p>
-            <p>
+            <p class="text-m color-black">
               {{formData.sourceLogisticsCenterName || '暂无'}}
             </p>
           </div>
-          <div class="inline-block relative mgr-l">
+          <div class="inline-block relative mgr-l mgl-l">
             <p class="mgb-s">
               仓库
             </p>
-            {{formData.sourceName || '暂无'}}
+            <p class="text-m color-black">
+              {{formData.sourceName || '暂无'}}
+            </p>
+
           </div>
         </div>
         <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
           <span class="color-black text-m">调入</span>
         </div>
-        <div class="inline-block logistics-center relative">
+        <div class="inline-block logistics-center-in relative ">
           <p class="mgb-s">物流中心</p>
-          <p>
+          <p class="text-m color-black">
           {{formData.targetLogisticsCenterName || '暂无'}}
           </p>
         </div>
-        <div class="inline-block relative">
+        <div class="inline-block relative mgl-l">
           <p class="mgb-s">
             仓库
           </p>
-          {{formData.targetName || '暂无'}}
+          <p class="text-m color-black">
+              {{formData.targetName || '暂无'}}
+          </p>
+
         </div>
       </div>
 
@@ -97,6 +103,7 @@
         <div class="pd-c-l pdt-m pdb-m color-9">
           <span class="mgr-l">部门：<em class="color-3">{{formData.salesDepartmentName}}</em></span>
           <span class="mgr-l">业务人员：<em class="color-3">{{formData.saleUser.n}}</em></span>
+            <span class="mgr-l">计划到货时间：<em class="color-3">{{formData.expectDate | date:'yyyy-MM-dd'}}</em></span>
         </div>
         <!-- 商品列表 -->
         <div class="">
@@ -113,7 +120,7 @@
                   <th class="text-center">实际调拨数量</th>
                   <th class="text-center w-106">生产批号</th>
                   <th class="text-center w-106">灭菌批号</th>
-                  <th class="text-center w-106">仓库</th>
+                  <!-- <th class="text-center w-106">仓库</th> -->
                   <th class="text-center ">有效期至</th>
                   <th class="text-center">产地执行标准</th>
                   <th class="text-center">保存温度</th>
@@ -133,7 +140,8 @@
                   <td class="text-center">{{item.quantity}}</td><!-- 实际调拨数量 -->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                  <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
+                  <!-- <td class="text-center">{{item.warehouseName}}</td> -->
+                  <!-- 仓库 -->
                   <td class="text-right">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 报价 -->
                   <td class="text-center">{{item.productStandard}}</td>
                   <td class="text-center">{{item.storedTemperature}}</td>

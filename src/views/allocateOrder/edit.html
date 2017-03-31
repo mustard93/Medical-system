@@ -38,7 +38,7 @@
           <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
             <span class="color-black text-m">调出</span>
           </div>
-          <div class="inline-block logistics-center relative">
+          <div class="inline-block logistics-center-out relative">
             <p class="mgb-s">物流中心</p>
             <p>
               <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
@@ -64,7 +64,7 @@
         <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
           <span class="color-black text-m">调入</span>
         </div>
-        <div class="inline-block logistics-center relative">
+        <div class="inline-block logistics-center-in relative">
           <p class="mgb-s">物流中心</p>
           <p>
             <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
@@ -145,6 +145,15 @@
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
                 </select>
               </span>
+              <span class="mgr">计划到货时间：
+                <input type="text"
+                       datepicker
+                       class="ipt pr-short-ipt color-3"
+                       style="width:90px;"
+                       placeholder=""
+                       ng-readonly="true"
+                       ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
+              </span>
             </div>
             <div class="outside-table-d">
               <table class="table pr-table pr-new-table mgb-n table-s-wid">
@@ -159,7 +168,7 @@
                     <th class="text-center">可调拨量</th>
                     <th class="text-center">生产批号/数量</th>
                     <th class="text-center">灭菌批号</th>
-                    <th class="text-center">仓库</th>
+                    <!-- <th class="text-center">仓库</th> -->
                     <th class="text-center">有效期至</th>
                     <th class="text-center">产地执行标准</th>
                     <th class="text-center">保存温度</th>
@@ -245,9 +254,10 @@
                     <td class="text-center pd-n">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                     </td><!-- 灭菌批号 -->
-                    <td class="text-center pd-n">
+                    <!-- <td class="text-center pd-n">
                       <div ng-repeat="warehouse in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>
-                    </td><!-- 仓库 -->
+                    </td> -->
+                    <!-- 仓库 -->
                     <td class="text-center" style="white-space: nowrap;">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
                     <td class="text-center">{{item.productStandard}}</td>
                     <td class="text-center">{{item.storedTemperature}}</td>
@@ -314,7 +324,7 @@
 
         <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
                 type="button"
-                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId"
+                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId || !formData.expectDate"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
