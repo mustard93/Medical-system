@@ -175,9 +175,15 @@
         </div>
       </div>
       <!-- 备注 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-        <h1 class="text-bold color-3">备注<span class="mgl-m color-green" ng-if="showSaveNoteInfo">(信息已保存)</span></h1>
-        <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="scopeData.note"></textarea>
+      <div  class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+        <h1 class="text-bold color-3">备注</h1>
+        <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="scopeData.note"
+        ng-change="canSubmitUpdateNote=true"
+         ></textarea>
+         <button type="button" class="btn  pr-btn-save-glodbg" ng-show="canSubmitUpdateNote"
+           ng-click='$root.AjaxUtils.ajaxSubmit("rest/authen/invoicesOrder/updateNote.json",{id:scopeData.id,note:scopeData.note},canSubmitUpdateNote);canSubmitUpdateNote=false'>
+
+         更新备注</button>
       </div>
     </div>
     <div class="bt-dashed-line"
