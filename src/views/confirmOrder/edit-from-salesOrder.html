@@ -1,9 +1,15 @@
 <div class="confirm-order-edit"
-     ng-controller="confirmOrderEditCtrl2"
-     ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     ng-controller="confirmOrderEditCtrl"
+     ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;choiseStatus=false;$root.watchFormChange('formData',this);orderMedicalNos=formData.orderMedicalNos;formData.exchangeRate='1.00';formData.thisPageTotal=0"
-     alert-error>
+     callback="initFlag=true;
+               $root.watchFormChange('formData',this);
+               choiseStatus=false;
+               orderMedicalNos=formData.orderMedicalNos;
+               formData.exchangeRate='1.00';
+               formData.thisPageTotal=0;
+               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
+     alert-error>{{formData.totalPrice}}
   <form id="editForm"
         name="editForm"
         form-validator
@@ -13,7 +19,9 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter();$root.watchFormChange('formData',this)">
+        onkeydown="if(window.event.keyCode==13) return false;"
+        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        novalidate="true">
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
       <p class="pdb-s pdt-s mgb-l crumbs pd-c-xl">销售中心 > <em class="color-custom-orange">销售单</em> > <em>新建销售单</em></p>
@@ -26,7 +34,6 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-
       <div class="pr-panel pr-panel-height mgb pd-n">
         <!-- 客户 -->
         <div class="inline-block br-line customer-name relative">
@@ -48,7 +55,6 @@
           </p>
         </div>
       </div>
-
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
@@ -193,7 +199,11 @@
                            style="width:118px;height:100%;"
                            ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                       </div>
-                      <input type="number" class="in_ipt" name="batchNum{{$index}}" ng-model="batch.quantity" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                      <input type="number"
+                             class="in_ipt"
+                             name="batchNum{{$index}}"
+                             ng-model="batch.quantity"
+                             onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                       <input type="hidden" ng-model="batch.id">
                       <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                     </div>
@@ -333,10 +343,7 @@
       </div>
     </div>
     <!-- 流程图 -->
-
-    <!-- 流程图 -->
     <business-flow-show business-key="{{formData.id}}" business-type="销售单"></business-flow-show>
-
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
@@ -398,16 +405,16 @@
         <em class="color-white"
             invalid-popover
             popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
-            popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
-            ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}}
+            popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
+            <!-- ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}} -->
         </em>
       </div>
 
       <div ng-if="formData.orderBusinessType=='直运销售'"
            class="price-area relative fl-r mgr-l"
            style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white">
-          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}}
+        <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}
+          <!-- ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','planQuantity']) | number:2}} -->
         </em>
       </div>
     </div>

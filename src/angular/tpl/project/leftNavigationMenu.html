@@ -1,0 +1,13 @@
+<ul class="nav nav-pills nav-stacked custom-nav">
+  <li class="menu-list" ng-repeat="item in leftNavigationMenu.items" ng-if="noAuthorFilter||$root.hasAuthorOr(item.authoritys)" >
+    <a left-menu-toggle="item.ahref" href="{{item.ahref||'javascript:void(0);'}}" class="{{item.iconClass}}"    target="{{item.target}}">
+      <span class="nav-ico {{item.iconClass}}"></span><span> {{item.showName}}</span>
+        <span ng-if="item.items.length>0" class="pr-arrow-down"></span>
+    </a>
+    <ul class="sub-menu-list" ng-if="item.items.length>0">
+        <li  ng-repeat="item1 in item.items" ng-if="noAuthorFilter||$root.hasAuthorOr(item1.authoritys)" >
+          <a  target="{{item.target}}" class="{{item1.iconClass}}" left-menu-second-toggle="item1.ahref" href="{{item1.ahref||'javascript:void(0);'}}">{{item1.showName}}</a></li>
+    </ul>
+  </li>
+
+</ul>

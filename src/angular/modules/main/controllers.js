@@ -145,6 +145,7 @@ define('main/controllers', ['main/init'], function () {
         //全局权限控制器
         $scope.hasAuthor = function (author) {
             // var arr=TestAuthor["A_"+$rootScope.curUser.phone];
+            if(!author)return true;
             if(!$rootScope.curUser||!$rootScope.curUser.additional||!$rootScope.curUser.additional.Authoritys)return false;
             var arr=$rootScope.curUser.additional.Authoritys;
 
@@ -154,8 +155,38 @@ define('main/controllers', ['main/init'], function () {
                 return true;
             }
         };
+        //全局权限控制器,满足任意一个及返回成功
+        $scope.hasAuthorOr = function (authorList) {
+          if(angular.isArray(authorList)){
+            if(authorList.length==0)return true;
+            for(var i=0;i<authorList.length;i++){
+              var obj=authorList[i];
+              if($scope.hasAuthor(authorList[i]))return true;
+            }
+            return false;
+          }else{
+            return $scope.hasAuthor(authorList);
+          }
+        };
+
+        //全局权限控制器,满足任意一个及返回成功
+        $scope.hasAuthorAnd = function (authorList) {
+          if(angular.isArray(authorList)){
+              if(authorList.length==0)return true;
+            for(var i=0;i<authorList.length;i++){
+              var obj=authorList[i];
+              if(!$scope.hasAuthor(authorList[i]))return false;
+            }
+
+            return true;
+          }else{
+            return $scope.hasAuthor(authorList);
+          }
+        };
 
         $rootScope.hasAuthor = $scope.hasAuthor;
+        $rootScope.hasAuthorOr = $scope.hasAuthorOr;
+        $rootScope.hasAuthorAnd = $scope.hasAuthorAnd;
 
 
 
