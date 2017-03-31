@@ -2583,9 +2583,12 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach(orderMedicalList, function (data, index) {
           if (data.planQuantity > data.quantity) {
             $scope.isShowPurchaseInfo = true;
+          } else {
+            $scope.isShowPurchaseInfo = false;
+            // console.log($scope);
           }
         });
-        // $scope.isShowPurchaseInfo = false;
+
       }
     };
 
