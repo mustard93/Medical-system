@@ -23,7 +23,7 @@
   <div class="content-wrapper ">
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="firstEnterpriseEditForm"
+            id="editForm"
             name="firstEnterpriseEditForm"
             form-validator
             parameter-body
@@ -470,23 +470,33 @@
               <a ng-if="!changeFlag" href="#/supplier/query.html">返回申请单列表</a>
             </span>
             <span bottom-button-list="bottomButtonList">  </span>
-              <span class="mgl" >
-                <button href="javascript:;"
-                  ng-disabled="!changeFlag || firstEnterpriseEditForm.$invalid"
-                  class="pr-btn-save-glodbg mgt"
-                  type="button"
-                   handle-this-click
-                   dialog-title="确认保存?"
-                   dialog-content="保存后，证件号码将无法再编辑。确定保存？"
-                   dialog-template="pr-dialog-submit.html"
-                   alert-error
-                   callback="submitForm('firstEnterpriseEditForm','save');$root.utils.refreshHref()"
-                   >保存</button>
-            </span>
+            <span class="mgl" >
+              <button ng-if="changeFlag" href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                modal-center="350"
+                modal-scope="this"
+                modal-data='{"title":"确认提示",
+                             "content1":"请输入修改内容",
+                             "content2":"请输入修改原因",
+                             "btnConfirm":"确定",
+                             "btnCancel":"取消",
+                             "url":"rest/authen/supplier/save",
+                             "goUrl":""
+                            }'
+                modal-url="angular/tpl/pr-dialog-content-reason.html"
+                 >保存</button>
+
+              <button ng-if="!changeFlag" href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                ng-click="submitForm('editForm','save')"
+                 >保存</button>
+          </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
                       ng-disabled="firstEnterpriseEditForm.$invalid"
-                      ng-click="submitForm('firstEnterpriseEditForm','submit-supplier')">
+                      ng-click="submitForm('editForm','submit-supplier')">
                       保存并结束编辑
               </button>
             </span>

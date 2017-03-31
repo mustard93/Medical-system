@@ -1,0 +1,29 @@
+
+<div class="pr-page-dialog-wrap">
+  <form class="confirmOrder-reject-form"
+        ng-init="formData.modify=dialogData.modify;"
+        action="{{dialogData.url}}"
+        callback="$root.utils.goOrRefreshHref()"
+        auto-close-dialog
+        form-validator>
+    <div class="pr-page-dialog-title bb-line">
+      <span class="mgl-l">{{dialogData.title}}</span>
+    </div>
+    <div class="pr-page-dialog-content bb-line" style="padding-top:5px;">
+      <div class="mgb-s">{{dialogData.content1}}</div>
+      <p>
+        <textarea class="pr-textarea" ng-model="formData.modify.content" placeholder="内容"></textarea>
+      </p>
+    </div>
+    <div class="pr-page-dialog-content bb-line" style="padding-top:5px;">
+      <div class="mgb-s">{{dialogData.content2}}</div>
+      <p>
+        <textarea class="pr-textarea" ng-model="formData.modify.modifyReason" placeholder="原因"></textarea>
+      </p>
+    </div>
+    <div class="pr-page-dialog-footer text-center mg-m">
+      <button type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
+      ng-click="submitForm('editForm','save');modal.closeAll()">{{dialogData.btnConfirm}}</button>
+    </div>
+  </form>
+</div>

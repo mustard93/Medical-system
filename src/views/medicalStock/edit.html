@@ -23,8 +23,8 @@
   <div class="content-wrapper ">
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="firstfirstMedical-editForm"
-            name="firstMedicalEditForm"
+            id="editForm"
+            name="EditForm"
             form-validator
             parameter-body
             action="rest/authen/medicalStock/save"
@@ -97,7 +97,7 @@
                          ng-model="formData.code"
                          required
                          data-content="* 必填字段"
-                         invalid-popover="{{!firstMedicalEditForm.code.$valid}}"/>
+                         invalid-popover="{{!EditForm.code.$valid}}"/>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -346,7 +346,7 @@
                          name="quoteprice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.quoteprice.$valid"
+                         popover-show="!EditForm.quoteprice.$valid"
                          popover-options='{"content":"牌价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -362,7 +362,7 @@
                          name="tradePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.tradePrice.$valid"
+                         popover-show="!EditForm.tradePrice.$valid"
                          popover-options='{"content":"批发价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -378,7 +378,7 @@
                          name="retailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.retailPrice.$valid"
+                         popover-show="!EditForm.retailPrice.$valid"
                          popover-options='{"content":"零售价格式不正确", "placement":"right", "trigger":"manual"}' />
                           <!-- ng-disabled="formData.medical.isBasicMedicine=='否'" -->
                 </div>
@@ -395,7 +395,7 @@
                          name="maxRetailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.maxRetailPrice.$valid"
+                         popover-show="!EditForm.maxRetailPrice.$valid"
                          popover-options='{"content":"最高售价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -410,7 +410,7 @@
                          name="minRetailPrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.minRetailPrice.$valid"
+                         popover-show="!EditForm.minRetailPrice.$valid"
                          popover-options='{"content":"最低售价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -425,7 +425,7 @@
                          name="purchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.purchasePrice.$valid"
+                         popover-show="!EditForm.purchasePrice.$valid"
                          popover-options='{"content":"采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -440,7 +440,7 @@
                          name="maxPurchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.maxPurchasePrice.$valid"
+                         popover-show="!EditForm.maxPurchasePrice.$valid"
                          popover-options='{"content":"最高采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -455,7 +455,7 @@
                          name="minPurchasePrice"
                          ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                          invalid-popover
-                         popover-show="!firstMedicalEditForm.minPurchasePrice.$valid"
+                         popover-show="!EditForm.minPurchasePrice.$valid"
                          popover-options='{"content":"最低采购价格式不正确", "placement":"right", "trigger":"manual"}' />
                 </div>
               </div>
@@ -501,39 +501,34 @@
               <a ng-if="!changeFlag" href="#/medicalStock/query.html">返回申请单列表</a>
             </span>
             <span bottom-button-list="bottomButtonList">  </span>
-            <!-- <span class="mgl">
-              <a ng-if="formData.id"
-                 href="javascript:;"
-                 class="color-red mgt"
-                 handle-this-click
-                 dialog-title="确认删除?"
-                 dialog-content="删除后将无法恢复,确认删除?"
-                 dialog-template="pr-dialog-submit.html"
-                 callback="$root.goTo('#/medicalStock/query.html')"
-                 params='{"id":formData.id}'
-                 request-url="rest/authen/medicalStock/delete">删除</a>
-            </span> -->
 
-              <!-- <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!changeFlag || firstMedical-editForm.$invalid"
-                      ng-click="submitForm('editForm','save')">保存
-              </button> -->
               <span class="mgl" >
-                <button href="javascript:;"
+                <button ng-if="changeFlag" href="javascript:;"
                   class="pr-btn-save-glodbg mgt"
                   type="button"
-                   handle-this-click
-                   dialog-title="确认保存?"
-                   dialog-content="保存后，证件号码将无法再编辑。确定保存？"
-                   dialog-template="pr-dialog-submit.html"
-                   alert-error
-                   callback="submitForm('firstfirstMedical-editForm','save');$root.utils.refreshHref()"
+                  modal-center="350"
+                  modal-scope="this"
+                  modal-data='{"title":"确认提示",
+                               "content1":"请输入修改内容",
+                               "content2":"请输入修改原因",
+                               "btnConfirm":"确定",
+                               "btnCancel":"取消",
+                               "url":"rest/authen/medicalStock/save",
+                               "goUrl":""
+                              }'
+                  modal-url="angular/tpl/pr-dialog-content-reason.html"
+                   >保存</button>
+
+                <button ng-if="!changeFlag" href="javascript:;"
+                  class="pr-btn-save-glodbg mgt"
+                  type="button"
+                  ng-click="submitForm('editForm','save')"
                    >保存</button>
             </span>
 
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
-                      ng-click="submitForm('firstfirstMedical-editForm','submit-medical')">
+                      ng-click="submitForm('editForm','submit-medical')">
                       保存并结束编辑
               </button>
             </span>

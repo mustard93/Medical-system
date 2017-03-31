@@ -1023,7 +1023,11 @@ define('project/controllers', ['project/init'], function() {
       if ($scope.submitForm_type == 'exit') {
         $scope.goTo('#/confirmOrder/query.html');
        return;
-     }else   if ($scope.submitForm_type == 'print') {
+     }else if($scope.submitForm_type == 'exit-allocate'){
+       $scope.goTo('#/allocateOrder/query.html');
+      return;
+     }
+     else   if ($scope.submitForm_type == 'print') {
        var url="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id="+$scope.formData.id;
          win1=window.open(url);
 
@@ -1290,7 +1294,7 @@ define('project/controllers', ['project/init'], function() {
             _total += item.planQuantity * item.strike_price * (item.discountRate / 100);
           }
         });
-        $scope.formData.localTotalPrice = _total;
+        $scope.formData.totalPrice = _total;
       }
     };
   }
@@ -2584,17 +2588,17 @@ define('project/controllers', ['project/init'], function() {
     $scope.$watch('initFlag', function () {
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
-      if ($scope.formData.operationFlowSet) {
+      if ($scope.tr.operationFlowSet) {
         // 选择出当前状态相同的驳回理由，并放入一个数组中
-       for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
-         if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
-           operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
-           operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
+       for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+         if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
+           operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
+           operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
          }
        }
       //  选择当前状态最近的一个驳回理由用于显示
-       $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-       $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+       $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+       $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
        return;
       }
     });
@@ -5253,9 +5257,16 @@ define('project/controllers', ['project/init'], function() {
    */
   function editStockbatchNumberCtrl ($scope, utils, requestData) {
 
+
+
     // 监控listparams对象中属性的更改，刷新结果列表
     $scope.$watchCollection('listParams', function (newVal, oldVal) {
       if ($scope.listParams) {
+
+        if ($scope.dialogData.sourceId) {
+          $scope.listParams.warehouseId = $scope.dialogData.sourceId;
+        }
+
         var _url = 'rest/authen/medicalStock/queryStockBatch',
             _data = {
               relMedicalStockId: $scope.dialogData.id,
@@ -5320,9 +5331,12 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
           if (data.stockBatchs) {
             for (var i = 0; i < data.stockBatchs.length; i++) {
-              if (data.stockBatchs[i].batchNumber) { _total += parseInt(data.stockBatchs[i].quantity, 10); }
+              if (data.stockBatchs[i].batchNumber)
+              { _total += parseInt(data.stockBatchs[i].quantity, 10);
+              }
             }
           }
+
         });
       }
 

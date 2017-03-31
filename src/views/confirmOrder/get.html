@@ -102,7 +102,7 @@
                   <th class="text-center">差异数量</th>
                   <th class="text-center">生产批号</th>
                   <th class="text-center">灭菌批号</th>
-                  <th class="text-center">仓库</th>
+                  <th class="text-center" ng-if="scopeData.orderBusinessTypeStr!='直运销售'">仓库</th>
                   <th class="text-center">报价</th>
                   <th class="text-center">税率</th>
                   <th class="text-center">折扣额</th>
@@ -125,7 +125,7 @@
                   <td class="text-center">{{item.differenceQuantity}}</td><!-- 差异数量 -->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                  <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
+                  <td class="text-center" ng-if="scopeData.orderBusinessTypeStr!='直运销售'">{{item.warehouseName}}</td><!-- 仓库 -->
                   <td class="text-right">{{item.strike_price | currency:'￥'}}</td><!-- 报价 -->
                   <td class="text-right">{{item.tax}}%</td><!-- 税率 -->
                   <td class="text-right">￥{{item.discountPrice | number:2}}</td><!-- 折扣额 -->
@@ -163,7 +163,7 @@
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
           </header>
-          <div class="panel-body" style="display:none;padding:15px 0;">
+          <div class="panel-body" style="display:none;padding:15px 0 0 0;">
             <p class="">
               {{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}&nbsp;&nbsp;{{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}
             </p>
@@ -176,7 +176,7 @@
               <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
             </span>
           </header>
-          <div class="panel-body" style="display:none;padding:15px 0;">
+          <div class="panel-body" style="display:none;padding:15px 0 0 0;">
             <h1 class="mgb">
             <p class="">
               {{scopeData.invoicesContacts.name}}&nbsp;&nbsp;{{scopeData.invoicesContacts.tel}}&nbsp;&nbsp;{{scopeData.invoicesContacts.prov}}&nbsp;&nbsp;{{scopeData.invoicesContacts.city}}&nbsp;&nbsp;{{scopeData.invoicesContacts.area}}&nbsp;&nbsp;{{scopeData.invoicesContacts.address}}

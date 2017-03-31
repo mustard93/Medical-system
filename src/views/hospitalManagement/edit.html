@@ -23,7 +23,7 @@
   <div class="content-wrapper ">
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="hospital-editForm"
+            id="editForm"
             name="hospitalEditForm"
             form-validator
             parameter-body
@@ -278,15 +278,26 @@
               </button>
             </span> -->
             <span class="mgl" >
-              <button href="javascript:;"
+              <button ng-if="changeFlag" href="javascript:;"
                 class="pr-btn-save-glodbg mgt"
                 type="button"
-                 handle-this-click
-                 dialog-title="确认保存?"
-                 dialog-content="保存后，证件号码将无法再编辑。确定保存？"
-                 dialog-template="pr-dialog-submit.html"
-                 alert-error
-                 callback="submitForm('hospital-editForm','save');$root.utils.refreshHref()"
+                modal-center="350"
+                modal-scope="this"
+                modal-data='{"title":"确认提示",
+                             "content1":"请输入修改内容",
+                             "content2":"请输入修改原因",
+                             "btnConfirm":"确定",
+                             "btnCancel":"取消",
+                             "url":"rest/authen/customerAddress/save",
+                             "goUrl":""
+                            }'
+                modal-url="angular/tpl/pr-dialog-content-reason.html"
+                 >保存</button>
+
+              <button ng-if="!changeFlag" href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                ng-click="submitForm('editForm','save')"
                  >保存</button>
           </span>
             <span class="mgl">
@@ -294,10 +305,12 @@
                       ng-disabled="hospitalEditForm.$invalid">
                     <a href="javascript:;"
                     class="color-white"
-                    ng-click="submitForm('hospital-editForm','submit-hospital')">
+                    ng-click="submitForm('editForm','submit-hospital')">
                       保存并结束编辑
                     </a>
-                    </button>
+              </button>
+              
+
             </span>
 
           </div>
