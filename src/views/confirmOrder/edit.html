@@ -2,7 +2,7 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this)"
+     callback="initFlag=true;$root.watchFormChange('formData',this);confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -273,7 +273,12 @@
                              style="width:118px;height:100%;"
                              ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                         </div>
-                        <input type="number" class="in_ipt" name="batchNum{{$index}}" ng-model="batch.quantity" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                        <input type="number"
+                               class="in_ipt"
+                               name="batchNum{{$index}}"
+                               ng-model="batch.quantity"
+                               onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                               ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
                         <input type="hidden" ng-model="batch.id">
                         <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                       </div>
@@ -598,7 +603,7 @@
       <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white" invalid-popover popover-show="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
         popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>
-          ￥{{formData.localTotalPrice || '0.00' | number:2}}
+          ￥{{formData.totalPrice || '0.00' | number:2}}
           <!-- ￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}} -->
         </em>
 
@@ -607,7 +612,7 @@
       <div ng-if="formData.orderBusinessType=='直运销售'"
            class="price-area relative fl-r mgr-l"
            style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white">￥{{formData.localTotalPrice || '0.00' | number:2}}
+        <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}
           <!-- ￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','planQuantity']) | number:2}} -->
         </em>
       </div>
