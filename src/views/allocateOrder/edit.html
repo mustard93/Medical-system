@@ -118,6 +118,7 @@
               <div class="flex-item-6">
                 <span class="mgr">单据编号：
                   <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                  <span class="color-red">（必填）</span>
                   <span class="mg-l">审核人：<em class="color-3">暂无</em></span>
                 </span>
               </div>
@@ -154,15 +155,12 @@
                     <th class="text-left">商品全名</th>
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
-                    <th class="text-center">可调拨量</th>
                     <th class="text-center">计划调拨总数</th>
+                    <th class="text-center">可调拨量</th>
                     <th class="text-center">生产批号/数量</th>
                     <th class="text-center">灭菌批号</th>
                     <th class="text-center">仓库</th>
                     <th class="text-center">有效期至</th>
-                    <th class="text-center">含税单价</th>
-                    <th class="text-center">含税金额</th>
-                    <th class="text-center">税率</th>
                     <th class="text-center">产地执行标准</th>
                     <th class="text-center">保存温度</th>
                     <th class="text-center">产地品牌</th>
@@ -189,7 +187,7 @@
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                    <td class="text-center">{{item.useablequantity}}</td>
+
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
@@ -210,6 +208,9 @@
                         <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>
                       </div>
                     </td><!-- 计划调拨数量 -->
+                    <td class="text-center" >
+                        <div ng-repeat="use in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{use.quantity}}</div>
+                    </td>
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber"
@@ -248,9 +249,6 @@
                       <div ng-repeat="warehouse in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>
                     </td><!-- 仓库 -->
                     <td class="text-center" style="white-space: nowrap;">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
-                     <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td>  <!--含税单价 -->
-                     <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td><!-- 含税金额 -->
-                    <td class="text-center">{{item.tax}}%</td><!-- 税率 -->
                     <td class="text-center">{{item.productStandard}}</td>
                     <td class="text-center">{{item.storedTemperature}}</td>
                     <td class="text-center">{{item.brand}}</td>
@@ -316,6 +314,7 @@
 
         <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
                 type="button"
+                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>

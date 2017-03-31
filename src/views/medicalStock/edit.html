@@ -527,10 +527,38 @@
             </span>
 
             <span class="mgl">
-              <button class="pr-btn-save-glodbg-l mgt"
+              <button ng-if="!changeFlag"
+                      class="pr-btn-save-glodbg-l mgt"
+                      ng-disabled="EditForm.$invalid">
+                      <a href="javascript:;"
+                      class="color-white"
                       ng-click="submitForm('editForm','submit-medical')">
-                      保存并结束编辑
+                        保存并结束编辑
+                      </a>
               </button>
+
+              <button ng-if="changeFlag"
+                      class="pr-btn-save-glodbg-l mgt"
+                      ng-disabled="EditForm.$invalid">
+                      <a href="javascript:;"
+                      class="color-white"
+                      modal-center="350"
+                      modal-scope="this"
+                      modal-data='{"title":"确认提示",
+                                   "content1":"请输入修改内容",
+                                   "content2":"请输入修改原因",
+                                   "btnConfirm":"确定",
+                                   "btnCancel":"取消",
+                                   "canHref":"submit-medical",
+                                   "url":"rest/authen/medicalStock/save"
+                                  }'
+                      modal-url="angular/tpl/pr-dialog-content-reason-href.html"
+                      >
+                        保存并结束编辑
+                      </a>
+              </button>
+
+
             </span>
 
           </div>

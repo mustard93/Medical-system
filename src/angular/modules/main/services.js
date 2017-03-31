@@ -943,7 +943,7 @@ function alertOk($rootScope, modal) {
           }
 
           $scope._watchFn=$scope.$watch(watchName,function(newValue,oldValue, scope){
-                // console.log("changeFlag=true,"+watchName);
+            // console.log("changeFlag=true,"+watchName);
             $scope.changeFlag=true;
           },true);
       };
@@ -1020,7 +1020,7 @@ function alertOk($rootScope, modal) {
                         html_height: "100%"//html上边距，整数或字符型
 
                  },
-                 print_param:null,              
+                 print_param:null,
                  //设定纸张大小
                  _pageSize:{
                    intOrient:1,
