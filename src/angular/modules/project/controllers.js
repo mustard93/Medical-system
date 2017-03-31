@@ -1014,6 +1014,7 @@ define('project/controllers', ['project/init'], function() {
           item.otherQuantity ='';
           item.otherSterilizationBatchNumber = '';
           item.otherWarehouseName ='';
+          item.validTill=' ';
         }
       });
     };
@@ -2640,6 +2641,7 @@ define('project/controllers', ['project/init'], function() {
           item.otherQuantity ='';
           item.otherSterilizationBatchNumber = '';
           item.otherWarehouseName ='';
+          item.validTill=' ';
         }
       });
     };
@@ -5331,6 +5333,7 @@ define('project/controllers', ['project/init'], function() {
         batchNumber: obj.productionBatch,
         quantity: obj.stockModel.salesQuantity,    // 可选数量
         productionBatch: obj.productionBatch,     // 批号名
+        validTill:obj.validTill,
         sterilizationBatchNumber: obj.sterilizationBatchNumber,    // 灭菌批号
         warehouseName: obj.warehouseName,       // 仓库名
         warehouseId: obj.warehouseId,        // 仓库名id
