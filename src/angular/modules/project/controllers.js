@@ -1613,32 +1613,32 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 监视用户输入备注信息，当用户输入修改后1秒自动保存用户修改
-    $scope.$watch('scopeData.note', function (newVal, oldVal) {
-      if (newVal && (oldVal!==undefined)) {
-        $timeout(function () {
-          var _url = "rest/authen/invoicesOrder/save",
-              _data = $scope.scopeData;
-          requestData(_url, _data, 'POST', 'parameterBody')
-          .then(function (results) {
-            if (results[1].code === 200) {
-              $scope.showSaveNoteInfo = true;
-            }
-          })
-          .catch(function (error) {
-            if (error) { throw new Error(error || '出错!'); }
-          });
-        }, 1000);
-      }
-    });
+    // $scope.$watch('scopeData.note', function (newVal, oldVal) {
+    //   if (newVal && (oldVal!==undefined)) {
+    //     $timeout(function () {
+    //       var _url = "rest/authen/invoicesOrder/save",
+    //           _data = $scope.scopeData;
+    //       requestData(_url, _data, 'POST', 'parameterBody')
+    //       .then(function (results) {
+    //         if (results[1].code === 200) {
+    //           $scope.showSaveNoteInfo = true;
+    //         }
+    //       })
+    //       .catch(function (error) {
+    //         if (error) { throw new Error(error || '出错!'); }
+    //       });
+    //     }, 1000);
+    //   }
+    // });
 
     // 监视备注提示信息，显示后1秒自动隐藏
-    $scope.$watch('showSaveNoteInfo', function (newVal) {
-      if (newVal) {    // 如果信息显示了
-        $timeout(function () {
-          $scope.showSaveNoteInfo = false;
-        }, 1500);
-      }
-    });
+    // $scope.$watch('showSaveNoteInfo', function (newVal) {
+    //   if (newVal) {    // 如果信息显示了
+    //     $timeout(function () {
+    //       $scope.showSaveNoteInfo = false;
+    //     }, 1500);
+    //   }
+    // });
   }
 
   /**

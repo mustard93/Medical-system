@@ -6,7 +6,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      * 主控
      */
-    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange) {
+    function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils) {
       //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
@@ -84,6 +84,8 @@ define('main/controllers', ['main/init'], function () {
         $rootScope.getObjectByKeyOfArr = utils.getObjectByKeyOfArr;
         //推荐使用
         $rootScope.utils=utils;
+        //异步请求工具类
+        $rootScope.AjaxUtils=AjaxUtils;
         //本地存储
         $rootScope.store=store;
         //    $rootScope.modal.closeAll();
@@ -369,7 +371,8 @@ define('main/controllers', ['main/init'], function () {
     }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","watchFormChange", mainCtrl])
+        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter",
+        "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
         .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
