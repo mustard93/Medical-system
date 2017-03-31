@@ -23,7 +23,7 @@
   <div class="content-wrapper ">
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="firstfirstMedical-editForm"
+            id="editForm"
             name="EditForm"
             form-validator
             parameter-body
@@ -503,27 +503,32 @@
             <span bottom-button-list="bottomButtonList">  </span>
 
               <span class="mgl" >
-                <button href="javascript:;"
+                <button ng-if="changeFlag" href="javascript:;"
                   class="pr-btn-save-glodbg mgt"
                   type="button"
                   modal-center="350"
                   modal-scope="this"
-                  modal-data='{"title":"确认",
-                               "content":"冻结后，客户信息将被暂停，直到解冻，确认冻结?",
+                  modal-data='{"title":"确认提示",
+                               "content1":"请输入修改内容",
+                               "content2":"请输入修改原因",
                                "btnConfirm":"确定",
                                "btnCancel":"取消",
-                               "url":"rest/authen/firstEnterpriseApplication/proposerUpdateStatus",
-                               "goUrl":"",
-                               "id":"{{showData.id}}",
-                               "status":"已冻结"
+                               "url":"rest/authen/medicalStock/save",
+                               "goUrl":""
                               }'
                   modal-url="angular/tpl/pr-dialog-content-reason.html"
+                   >保存</button>
+
+                <button ng-if="!changeFlag" href="javascript:;"
+                  class="pr-btn-save-glodbg mgt"
+                  type="button"
+                  ng-click="submitForm('editForm','save')"
                    >保存</button>
             </span>
 
             <span class="mgl">
               <button class="pr-btn-save-glodbg-l mgt"
-                      ng-click="submitForm('firstfirstMedical-editForm','submit-medical')">
+                      ng-click="submitForm('editForm','submit-medical')">
                       保存并结束编辑
               </button>
             </span>
