@@ -64,8 +64,8 @@
                          name="hospitalName"
                          ng-model="formData.hospital.name"
                          required
-                         data-content="* 必填字段"
-                         invalid-popover="{{!hospitalEditForm.hospitalName.$valid}}">
+                        >
+                        <span ng-if="!formData.hospital.name" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -76,8 +76,8 @@
                          name="systemNumber"
                          ng-model="formData.hospital.systemNumber"
                          required
-                         data-content="* 必填字段"
-                         invalid-popover="{{!hospitalEditForm.systemNumber.$valid}}">
+                        >
+                        <span ng-if="!formData.hospital.systemNumber" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -257,13 +257,13 @@
           </span>
           <span class="mgl mgt">
             <button class="pr-btn-save-glodbg"
-                    ng-disabled="hospitalEditForm.$invalid"
+                    ng-disabled="hospitalEditForm.$invalid || !formData.hospital.name ||!formData.hospital.systemNumber"
                     ng-click="submitForm('hospital-editForm','save')">保存
             </button>
           </span>
           <span class="mgl mgt">
             <button class="pr-btn-save-glodbg"
-                  ng-disabled="hospitalEditForm.$invalid"
+                  ng-disabled="hospitalEditForm.$invalid || !formData.hospital.name ||!formData.hospital.systemNumber"
                   type="button"
                   ng-click="submitForm('editForm','submit-hospital')">提交
             </button>

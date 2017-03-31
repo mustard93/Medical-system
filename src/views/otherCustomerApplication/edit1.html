@@ -76,9 +76,8 @@
                   name="fullName"
                   ng-model="formData.customer.fullName"
                   required
-                  data-content="* 必填字段"
-                  invalid-popover="{{!otherCustomerEditForm.fullName.$valid}}"
                   >
+                    <span ng-if="!formData.customer.fullName" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -321,13 +320,13 @@
             </span>
             <span class="mgl mgt">
               <button class="pr-btn-save-glodbg"
-                      ng-disabled="!changeFlag || otherCustomerEditForm.$invalid"
+                      ng-disabled="!changeFlag || otherCustomerEditForm.$invalid || !formData.customer.fullName || !formData.customer.type"
                       ng-click="submitForm('otherCustomer-editForm','save')">保存
               </button>
             </span>
             <span class="mgl mgt">
               <button class="pr-btn-save-glodbg"
-                      ng-disabled="otherCustomerEditForm.$invalid"
+                      ng-disabled="otherCustomerEditForm.$invalid || !formData.customer.fullName || !formData.customer.type"
                       ng-click="submitForm('otherCustomer-editForm','submit')">下一步
               </button>
             </span>
