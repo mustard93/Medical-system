@@ -2839,13 +2839,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         return {
             restrict: 'A',
             scope: {
+                  isFocus: '@?',
                 ngModel: '=?',
                 popoverOptions: '@',
                 validValue: '@',
                 popoverShow: '=?'
             },
             link: function ($scope, element, $attrs) {
-
+              if($scope.isFocus){
+                  element.data("isFocus", true);
+              }
               function showDo(show){
                 if ( element.data("isFocus")&&show=="true") {
                   element.popover('show');

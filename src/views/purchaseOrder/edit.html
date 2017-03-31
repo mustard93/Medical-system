@@ -68,7 +68,6 @@
              <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
                      data-placeholder=" "
                      chosen
-                     chosen-ajax
                      ng-model="formData.logisticsCenterId"
                      is-disabled-this="{{formData.customerId}}"
                      select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
@@ -221,7 +220,7 @@
                      <td class="text-right" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 请购数量 -->
                      <td class="text-center" ng-if="formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
+                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
                          <span class="inline-block">
                            <input type="text"
                                   class="inline ipt pr-ipt-60 text-center item-quantity"
@@ -231,13 +230,13 @@
                                   ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                   required
-                                  ng-pattern="/^[1-9]{1}[0-9]{1,10}?$/"
-                                  invalid-popover
-                                  valid-value="{{!purchaseForm['quantity'+$index].$valid}}"
+                                  ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
+                                  invalid-popover="{{!purchaseForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity}}"
                                   popover-show
-                                  popover-options='{"content":"当前数量不能大于计划数量", "placement":"right", "trigger":"manual"}'>
+                                  is-focus="true"
+                                  popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"right", "trigger":"manual"}'>
                          </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-disabled="tr.quantity>=tr.planQuantity">+</button>
+                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)">+</button>
                        </div>
                        <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                          待采购数量：{{tr.planQuantity-tr.quantity}}
@@ -245,9 +244,9 @@
                      </td><!-- 数量 -->
                      <td class="text-center" ng-if="!formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=tr.quantity-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
+                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
                          <span class="inline-block">
-                           <input type="text"
+                           <input type="number"
                                   class="inline ipt pr-ipt-60 text-center item-quantity"
                                   style="width:60px;"
                                   name="quantity{{$index}}"
@@ -259,9 +258,9 @@
                                   invalid-popover
                                   valid-value="{{!purchaseForm['quantity'+$index].$valid}}"
                                   popover-show
-                                  popover-options='{"content":"格式不正确或数量不能大于计划数量", "placement":"right", "trigger":"manual"}'>
+                                  popover-options='{"content":"数量不正确", "placement":"right", "trigger":"manual"}'>
                          </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=tr.quantity+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)">+</button>
+                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos)">+</button>
                        </div>
                        <p class="text-right color-red pdr-s mgt-s p-request-purchase" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                          待采购数量：{{tr.planQuantity-tr.quantity}}
