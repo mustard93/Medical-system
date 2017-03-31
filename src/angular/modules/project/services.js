@@ -668,7 +668,26 @@ define('project/services', ['project/init'], function () {
               var tmp;
               tmp = utils.numberMul(item.strike_price, item.quantity);
               return tmp;
-            }
+            },
+            getSuiE:function(item, orderBusinessType){
+                //100-item.taxRate
+                var tmp = tmpObj.getWuSuiDanJian(item),
+                    total;
+
+
+                if (!orderBusinessType) {
+                  tmp=utils.numberMul(tmp,item.quantity);
+                  total = tmpObj.getJiaSuiHeJi(item);
+                  tmp=utils.numberSub(total,tmp);
+                  return tmp;
+                } else {
+                  tmp=utils.numberMul(tmp,item.planQuantity);
+                  total = tmpObj.getJiaSuiHeJi(item, orderBusinessType);
+                  tmp=utils.numberSub(total,tmp);
+                  return tmp;
+                }
+
+            },
           };//tmpObj
           return tmpObj;
         }
