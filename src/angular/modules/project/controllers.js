@@ -1023,7 +1023,11 @@ define('project/controllers', ['project/init'], function() {
       if ($scope.submitForm_type == 'exit') {
         $scope.goTo('#/confirmOrder/query.html');
        return;
-     }else   if ($scope.submitForm_type == 'print') {
+     }else if($scope.submitForm_type == 'exit-allocate'){
+       $scope.goTo('#/allocateOrder/query.html');
+      return;
+     }
+     else   if ($scope.submitForm_type == 'print') {
        var url="indexOfPrint.html#/print/index.html?key=confirmOrderPrint&id="+$scope.formData.id;
          win1=window.open(url);
 
