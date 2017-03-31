@@ -2588,17 +2588,17 @@ define('project/controllers', ['project/init'], function() {
     $scope.$watch('initFlag', function () {
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
-      if ($scope.formData.operationFlowSet) {
+      if ($scope.tr.operationFlowSet) {
         // 选择出当前状态相同的驳回理由，并放入一个数组中
-       for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
-         if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
-           operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
-           operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
+       for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+         if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
+           operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
+           operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
          }
        }
       //  选择当前状态最近的一个驳回理由用于显示
-       $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-       $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+       $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+       $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
        return;
       }
     });
@@ -5313,8 +5313,7 @@ define('project/controllers', ['project/init'], function() {
         productionBatch: obj.productionBatch,     // 批号名
         sterilizationBatchNumber: obj.sterilizationBatchNumber,    // 灭菌批号
         warehouseName: obj.warehouseName,       // 仓库名
-        warehouseId: obj.warehouseId,        // 仓库名id
-        warehouseType: obj.warehouseType    // 仓库类型
+        warehouseId: obj.warehouseId        // 仓库名id
       };
 
       // 初始化已添加的批次数量和
@@ -5325,9 +5324,12 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
           if (data.stockBatchs) {
             for (var i = 0; i < data.stockBatchs.length; i++) {
-              if (data.stockBatchs[i].batchNumber) { _total += parseInt(data.stockBatchs[i].quantity, 10); }
+              if (data.stockBatchs[i].batchNumber)
+              { _total += parseInt(data.stockBatchs[i].quantity, 10);
+              }
             }
           }
+
         });
       }
 

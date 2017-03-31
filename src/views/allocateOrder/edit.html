@@ -56,7 +56,6 @@
             <select ng-if="initFlag" class="pr-select pdt"
             chosen
             ng-model="formData.sourceId"
-            default-empty="无"
             select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}">
             </select>
 
@@ -70,7 +69,7 @@
           <p>
             <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
                     data-placeholder=" "
-                    chosen                  
+                    chosen
                     ng-model="formData.targetLogisticsCenterId"
                     select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
             </select>
@@ -82,11 +81,17 @@
           </p>
           <select ng-if="initFlag" class="pr-select pdt"
           chosen
-          ng-model="formData.targetId"
           default-empty="无"
+          ng-model="formData.targetId"
           select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.targetLogisticsCenterId}}">
           </select>
         </div>
+        <div ng-if="formData.sourceId==formData.targetId" class="inline-block relative">
+          <em class="pr-indent-10 color-red relative">
+            调入仓库与调出仓库不能一样，请重新选择。
+          </em>
+        </div>
+
       </div>
 
       <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb pr-bg-pink">
@@ -103,8 +108,9 @@
                flash-add-medical
                ng-model="data1"
                class="pd-c-l pdt-m"
-               ajax-url="rest/authen/medicalStock/query?hospitalId={{formData.customerId}}"
-               add-data-callback-fn="flashAddDataCallbackFn(data1)">
+               ajax-url="rest/authen/medicalStock/query"
+               add-data-callback-fn="flashAddDataCallbackFn(data1)"
+               is-disabled-this="{{formData.targetId}}">
           </div>
           <!-- 列表 -->
           <div class="">
@@ -148,8 +154,9 @@
                     <th class="text-left">商品全名</th>
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
+                    <th class="text-center">可用量</th>
                     <th class="text-center">计划调拨总数</th>
-                    <th class="text-center">生产批号/数量</th>
+                    <th class="text-center">生产批号/实调数量</th>
                     <th class="text-center">灭菌批号</th>
                     <th class="text-center">仓库</th>
                     <th class="text-center">有效期至</th>
@@ -182,6 +189,7 @@
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                    <td class="text-center">{{item.useablequantity}}</td>
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
