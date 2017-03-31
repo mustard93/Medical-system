@@ -2211,8 +2211,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if ($attrs.params.indexOf("{") === 0) {
                           //监听具体值
                           $attrs.$observe("params", function(value) {
+
                               _params = $scope.$eval(value);
                               if(firstSelectSource==value)return;
+                              
+                                  firstSelectSource=value;
                                 ngModel.$setViewValue(null);
 
                               getData(_params);
