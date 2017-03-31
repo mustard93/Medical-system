@@ -81,10 +81,17 @@
           </p>
           <select ng-if="initFlag" class="pr-select pdt"
           chosen
+          default-empty="无"
           ng-model="formData.targetId"
           select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.targetLogisticsCenterId}}">
           </select>
         </div>
+        <div ng-if="formData.sourceId==formData.targetId" class="inline-block relative">
+          <em class="pr-indent-10 color-red relative">
+            调入仓库与调出仓库不能一样，请重新选择。
+          </em>
+        </div>
+
       </div>
 
       <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb pr-bg-pink">
@@ -147,7 +154,7 @@
                     <th class="text-left">商品全名</th>
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
-                    <th class="text-center">可调数量</th>
+                    <th class="text-center">可用量</th>
                     <th class="text-center">计划调拨总数</th>
                     <th class="text-center">生产批号/实调数量</th>
                     <th class="text-center">灭菌批号</th>
