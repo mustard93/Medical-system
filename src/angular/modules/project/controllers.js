@@ -5264,12 +5264,11 @@ define('project/controllers', ['project/init'], function() {
             _data = {
               relMedicalStockId: $scope.dialogData.id,
               logisticsCenterId: $scope.dialogData.logisticsCenterId,
-              warehouseId: $scope.dialogData.sourceId,
+              warehouseId: $scope.listParams.warehouseId,
               createAtBeg: $scope.listParams.createAtBeg,
               createAtEnd: $scope.listParams.createAtEnd,
               q: $scope.listParams.q
             };
-              // warehouseId: $scope.listParams.warehouseId,
 
         requestData(_url, _data, 'GET')
         .then(function (results) {
@@ -5314,8 +5313,7 @@ define('project/controllers', ['project/init'], function() {
         productionBatch: obj.productionBatch,     // 批号名
         sterilizationBatchNumber: obj.sterilizationBatchNumber,    // 灭菌批号
         warehouseName: obj.warehouseName,       // 仓库名
-        warehouseId: obj.warehouseId,        // 仓库名id
-        warehouseType: obj.warehouseType    // 仓库类型
+        warehouseId: obj.warehouseId        // 仓库名id
       };
 
       // 初始化已添加的批次数量和
