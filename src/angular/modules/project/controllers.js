@@ -2321,10 +2321,10 @@ define('project/controllers', ['project/init'], function() {
 
        // 添加药品后请求当前药品的历史价格
        if (addDataItem) {
-         var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=采购',
-             _data = {};
+        //  var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=采购';
+        var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&customerId=' + $scope.formData.customerId + '&type=采购';
 
-         requestData(_url, _data, 'GET')
+         requestData(_url)
          .then(function (results) {
            var _resObj = results[1].data;
            for (var item in _resObj) {
