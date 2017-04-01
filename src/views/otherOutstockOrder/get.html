@@ -49,7 +49,6 @@
                     <th class="text-center">单位</th>
                     <th class="text-center">出库数量</th>
                     <th class="text-center">差异数量</th>
-                    <th class="text-center">其他数量</th>
                     <th class="text-center">含税单价</th>
                     <th class="text-center">含税金额</th>
                     <th class="text-center">税率</th>
@@ -86,11 +85,10 @@
                       {{tr.unit}}
                     </td>
                     <td  class="text-right">
-                    {{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}
+                      {{tr.outgoingQuantity+tr.otherQuantity}}
                     </td>
                     <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
-                    <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td>
-                    <td class="text-right">
+                    <!-- <td class="text-right">
                       ￥{{tr.price}}
                     </td>
                     <td class="text-right" >
@@ -98,6 +96,16 @@
                     </td>
                     <td class="text-right">
                     {{tr.taxRate}}%
+                    </td> -->
+                    <td class="text-right">
+                      ￥{{tr.duty_price}}
+                    </td>
+                    <td class="text-right" >
+                      <!-- ￥{{(tr.price*tr.storageQuantity).toFixed(2)}} -->
+                      ￥{{tr.totalPrice}}
+                    </td>
+                    <td class="text-right">
+                    {{tr.tax}}%
                     </td>
                     <td class="text-center">
                       <!-- 生产批号 -->
@@ -149,6 +157,9 @@
 </div>
 <div class="" ng-if="showData.type=='批次冻结出库单'">
     <business-flow-show business-key="{{showData.id}}" business-type="批次冻结单"></business-flow-show>
+</div>
+<div class="" ng-if="showData.type=='调拨出库单'">
+    <business-flow-show business-key="{{showData.id}}" business-type="调拨单"></business-flow-show>
 </div>
 
 <div class="handle-btn-area relative">

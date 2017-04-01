@@ -67,7 +67,6 @@
                     <th class="text-center">单位</th>
                     <th class="text-center">出库数量</th>
                     <th class="text-center">差异数量</th>
-                    <th class="text-center">其他数量</th>
                     <th class="text-center">含税单价</th>
                     <th class="text-center">含税金额</th>
                     <th class="text-center">税率</th>
@@ -89,18 +88,19 @@
                     <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td>
                     <td class="text-center">{{tr.specificationAndModelType}}</td>
                     <td class="text-center">{{tr.unit}}</td>
-                    <td class="text-right" ng-if="showData.type!='销售出库单_红字'">{{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}</td>
-                    <td class="text-right" ng-if="showData.type=='销售出库单_红字'" style="color:red;">{{tr.outgoingQuantity?tr.outgoingQuantity:"—"}}</td>
+                    <td class="text-right" ng-if="showData.type!='销售出库单_红字'">{{tr.outgoingQuantity+tr.otherQuantity}}</td>
+                    <td class="text-right" ng-if="showData.type=='销售出库单_红字'" style="color:red;">{{tr.outgoingQuantity+tr.otherQuantity}}</td>
                     <td class="text-right">{{tr.differenceQuantity?tr.differenceQuantity:"—"}}</td>
-                    <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td>
+                    <!-- <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td> -->
                     <td class="text-right">
-                      ￥{{tr.price}}
+                      ￥{{tr.duty_price}}
                     </td>
                     <td class="text-right" >
-                      ￥{{(tr.price*tr.outgoingQuantity).toFixed(2)}}
+                      <!-- ￥{{(tr.price*tr.storageQuantity).toFixed(2)}} -->
+                      ￥{{tr.totalPrice}}
                     </td>
                     <td class="text-right">
-                    {{tr.taxRate}}%
+                    {{tr.tax}}%
                     </td>
                     <td class="text-center">{{tr.productionBatch}}</td>
                     <td class="text-center">{{tr.sterilizationBatchNumber}}</td>

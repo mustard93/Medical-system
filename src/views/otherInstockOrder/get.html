@@ -52,9 +52,8 @@
                   <th class="text-center">库类型</th>
                   <th class="text-center">规格/型号</th>
                   <th class="text-center">单位</th>
-                  <th class="text-center">正常数量</th>
+                  <th class="text-center">实收数量</th>
                   <th class="text-center">拒收数量</th>
-                  <th class="text-center">其他数量</th>
                   <th class="text-center">含税单价</th>
                   <th class="text-center">含税金额</th>
                   <th class="text-center">税率</th>
@@ -92,15 +91,12 @@
                 <td class="text-right"
 
                 >
-                  {{tr.storageQuantity || '0'}}
+                  {{tr.storageQuantity+tr.otherQuantity || '0'}}
                 </td>
                 <td class="text-right">
                   {{tr.refuseQuantity || '0'}}
                 </td>
-                <td class="text-right">
-                  {{tr.otherQuantity || '0'}}
-                </td>
-                <td class="text-right">
+                <!-- <td class="text-right">
                   ￥{{tr.price}}
                 </td>
                 <td class="text-right" >
@@ -108,6 +104,16 @@
                 </td>
                 <td class="text-right">
                 {{tr.taxRate}}%
+                </td> -->
+                <td class="text-right">
+                  ￥{{tr.duty_price}}
+                </td>
+                <td class="text-right" >
+                  <!-- ￥{{(tr.price*tr.storageQuantity).toFixed(2)}} -->
+                  ￥{{tr.totalPrice}}
+                </td>
+                <td class="text-right">
+                {{tr.tax}}%
                 </td>
                 <td class="text-center">
                   <!-- 生产批号 -->
@@ -216,6 +222,9 @@
 </div>
 <div class="" ng-if="showData.type=='批次解冻入库单'">
     <business-flow-show business-key="{{showData.id}}" business-type="批次解冻单"></business-flow-show>
+</div>
+<div class="" ng-if="showData.type=='调拨入库单'">
+    <business-flow-show business-key="{{showData.id}}" business-type="调拨单"></business-flow-show>
 </div>
 <div class="handle-btn-area relative">
   <div class="btn-area-new over-write-wid">

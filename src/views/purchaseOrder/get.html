@@ -99,7 +99,7 @@
                <th class="text-center">数量</th>
                <th ng-if="scopeData.orderStatus=='已完成'" class="text-center">计划数量</th>
                <th ng-if="scopeData.orderStatus=='已完成'"  class="text-center">正常数量</th>
-               <th ng-if="scopeData.orderStatus=='已完成'"  class="text-center">其他数量</th>
+               <!-- <th ng-if="scopeData.orderStatus=='已完成'"  class="text-center">其他数量</th> -->
                <th ng-if="scopeData.orderStatus=='已完成'"  class="text-center">拒收数量</th>
                <th class="text-center w-110">批号要求</th>
                <th class="text-center" ng-if="scopeData.orderBusinessTypeStr!='直运采购'">预入仓库</th>
@@ -130,8 +130,7 @@
                   <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                   <td  class="text-center">{{tr.quantity || '0'}}</td><!-- 数量 -->
                   <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.planQuantity || '0'}}</td><!-- 计划数量 -->
-                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.storageQuantity || '0'}}</td><!-- 计划数量 -->
-                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
+                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.storageQuantity+tr.otherQuantity || '0'}}</td><!-- 计正常数量 -->
                   <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.refuseQuantity || '0'}}</td><!-- 其他数量 -->
                   <td class="text-center">{{tr.batchRequirement}}</td><!-- 批号要求 -->
                   <td class="text-center" ng-if="scopeData.orderBusinessTypeStr!='直运采购'">{{tr.warehouseName}}</td><!-- 预入仓库 -->
