@@ -968,7 +968,7 @@ define('project/controllers', ['project/init'], function() {
   /**
    *  销售单编辑页
    */
-  function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError) {
+  function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm) {
 
     $scope.logistics=true;
     $scope.isShowConfirmInfo = false;
@@ -1314,6 +1314,20 @@ define('project/controllers', ['project/init'], function() {
         $scope.formData.totalPrice = _total;
       }
     };
+
+    // 切换物流中心时提示用户，在用户选择确定后将已选择品种的批次清空
+    $scope.$watch('formData.logisticsCenterId', function (newVal, oldVal) {
+      if (newVal && oldVal && newVal !== oldVal) {
+        dialogConfirm('切换物流中心后,所有批号信息需要重新选择.确认切换?', function () {
+          // 将已选药品的批次选择清空
+          if ($scope.formData.orderMedicalNos) {
+            angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+              data.stockBatchs = [];
+            });
+          }
+        },'pr-dialog-confirm.html','确认提示','确定');
+      }
+    });
   }
 
   /**
@@ -5535,7 +5549,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
   .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
   .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
-  .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', confirmOrderEditCtrl])
+  .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'dialogConfirm', confirmOrderEditCtrl])
   .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'watchFormChange', 'saleOrderUtils', confirmOrderEditCtrl2])
   .controller('SalesOrderDetailsController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', SalesOrderDetailsController])
   .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])
