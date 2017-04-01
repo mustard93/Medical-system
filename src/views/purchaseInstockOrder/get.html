@@ -77,9 +77,8 @@
                         <th class="text-left w-100">商品全名</th>
                         <th class="text-center">规格/型号</th>
                         <th class="text-center">单位</th>
-                        <th class="text-center">正常数量</th>
+                        <th class="text-center">实收数量</th>
                         <th class="text-center">拒收数量</th>
-                        <th class="text-center">其他数量</th>
                         <th class="text-center">原币含税单价</th>
                         <th class="text-center">原币单价</th>
                         <th class="text-center">原币金额</th>
@@ -103,10 +102,9 @@
                         <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
                         <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                         <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-                        <td class="text-right" ng-if="showData.type!='采购入库单_红字'">{{tr.storageQuantity || '0'}}</td><!-- 正常数量 -->
-                        <td class="text-right" ng-if="showData.type=='采购入库单_红字'" style="color:red;">{{tr.storageQuantity || '0'}}</td><!-- 正常数量 -->
+                        <td class="text-right" ng-if="showData.type!='采购入库单_红字'">{{tr.storageQuantity+tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
+                        <td class="text-right" ng-if="showData.type=='采购入库单_红字'" style="color:red;">{{tr.storageQuantity+tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
                         <td class="text-right">{{tr.refuseQuantity || '0'}}</td><!-- 拒收数量 -->
-                        <td class="text-right">{{tr.refuseQuantity || '0'}}</td><!-- 其他数量 -->
                         <td class="text-right">￥{{tr.duty_price || '0'}}</td><!-- 原币含税单价 -->
                         <td class="text-right">￥{{tr.duty_free_price}}</td><!-- 原币单价 -->
                         <td class="text-right">￥{{tr.total_duty_free_price}}</td><!-- 原币金额 -->
