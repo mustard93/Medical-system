@@ -54,9 +54,10 @@
               仓库
             </p>
             <select ng-if="initFlag" class="pr-select pdt"
+            style="width:100px;"
             chosen
             ng-model="formData.sourceId"
-            select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}">
+            select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}&type=正常库">
             </select>
 
           </div>
@@ -80,10 +81,11 @@
             仓库
           </p>
           <select ng-if="initFlag" class="pr-select pdt"
+          style="width:100px;"
           chosen
           default-empty="无"
           ng-model="formData.targetId"
-          select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.targetLogisticsCenterId}}">
+          select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.targetLogisticsCenterId}}&type=正常库">
           </select>
         </div>
         <div ng-if="formData.sourceId==formData.targetId&&formData.targetLogisticsCenterId==formData.sourceLogisticsCenterId"
