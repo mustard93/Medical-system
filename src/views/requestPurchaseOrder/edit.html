@@ -112,9 +112,9 @@
                    <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td><!-- 原币金额 -->
                    <td class="text-right" style="line-height:2.4;">￥{{$root.requestPurchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td><!-- 原币价税合计 -->
                    <td class="text-right">
-                     <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.taxRate">
-                       <option value="17" ng-selected="tr.taxRate==17">17</option>
-                       <option value="3" ng-selected="tr.taxRate==3">3</option>
+                     <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.tax">
+                       <option value="17" ng-selected="tr.tax==17">17</option>
+                       <option value="3" ng-selected="tr.tax==3">3</option>
                      </select>%
                    </td><!-- 税率 -->
                    <td class="text-center" style="line-height:2.4;">{{tr.brand}}</td><!-- 产地品牌 -->
@@ -184,32 +184,21 @@
                     <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
                        <tr ng-repeat="tr in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
                          <td class="text-center">{{tr.code}}</td>
-                         <td class="text-center">
-                           <div class="autocut" title="{{tr.name}}">
-                               {{tr.name}}
-                           </div>
-                         </td>
-                         <td>{{tr.supplierName}}</td>
+                         <td class="text-center"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td>
+                         <td class="text-center">{{tr.supplierName}}</td>
                          <td class="text-center">{{tr.modelType}}</td>
                          <td class="text-center">{{tr.unit}}</td>
                          <td class="text-center">{{tr.quantity}}</td>
                          <td class="text-center">{{tr.batchRequirement}}</td>
                          <td class="text-center">{{tr.strike_price | currency:'￥'}}</td>
-                         <td class="text-right">
-                           ￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
-                         </td>
-                         <td class="text-right">
-                           ￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
-                         </td>
-                         <td class="text-right">
-                           ￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
-                         </td>
-                          <td class="text-center">{{tr.taxRate}}%</td>
+                         <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}</td>
+                         <td class="text-right">￥{{$root.purchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}</td>
+                         <td class="text-right">￥{{$root.purchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
+                         <td class="text-center">{{tr.tax}}%</td>
                          <td class="text-center">{{tr.storedTemperature}}</td>
                          <td class="text-center">{{tr.brand}}</td>
                          <td class="text-center">{{tr.drugAdministrationCode}}</td>
                          <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}</td>
-                         <td></td>
                        </tr>
                      </tbody>
                   </table>
