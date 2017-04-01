@@ -10,31 +10,39 @@
       <span class="mgl-l">{{dialogData.title}}</span>
     </div>
     <div class="pr-page-dialog-content bb-line" style="padding-top:5px;">
-      <div class="mgb-s">{{dialogData.content1}}</div>
+      <div class="mgb-s">{{dialogData.content1}}<em class="color-red mgl-s" ng-if="!formData.modify.content">（必填）</em></div>
       <p>
         <textarea class="pr-textarea" ng-model="formData.modify.content" placeholder="内容"></textarea>
       </p>
     </div>
     <div class="pr-page-dialog-content bb-line" style="padding-top:5px;">
-      <div class="mgb-s">{{dialogData.content2}}</div>
+      <div class="mgb-s">{{dialogData.content2}}<em class="color-red mgl-s" ng-if="!formData.modify.modifyReason">（必填）</em></div>
       <p>
         <textarea class="pr-textarea" ng-model="formData.modify.modifyReason" placeholder="原因"></textarea>
       </p>
     </div>
     <div class="pr-page-dialog-footer text-center mg-m">
-      <button ng-if="dialogData.canHref=='submit-hospital'" type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
+      <button ng-if="dialogData.canHref=='submit-hospital'"
+      ng-disabled="!formData.modify.content||!formData.modify.modifyReason"
+       type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
       ng-click="submitForm('editForm','submit-hospital');modal.closeAll()">{{dialogData.btnConfirm}}</button>
     </div>
     <div class="pr-page-dialog-footer text-center mg-m">
-      <button ng-if="dialogData.canHref=='submit-supplier'" type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
+      <button ng-if="dialogData.canHref=='submit-supplier'"
+      ng-disabled="!formData.modify.content||!formData.modify.modifyReason"
+       type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
       ng-click="submitForm('editForm','submit-supplier');modal.closeAll()">{{dialogData.btnConfirm}}</button>
     </div>
     <div class="pr-page-dialog-footer text-center mg-m">
-      <button ng-if="dialogData.canHref=='submit-medical'" type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
+      <button ng-if="dialogData.canHref=='submit-medical'" type="button"
+      ng-disabled="!formData.modify.content||!formData.modify.modifyReason"
+        class="pr-btn-save-glodbg btn-new-wid-hei"
       ng-click="submitForm('editForm','submit-medical');modal.closeAll()">{{dialogData.btnConfirm}}</button>
     </div>
     <div class="pr-page-dialog-footer text-center mg-m">
-      <button ng-if="dialogData.canHref=='submit-otherCustomer'" type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
+      <button ng-if="dialogData.canHref=='submit-otherCustomer'"
+      ng-disabled="!formData.modify.content||!formData.modify.modifyReason"
+      type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
       ng-click="submitForm('editForm','submit-otherCustomer');modal.closeAll()">{{dialogData.btnConfirm}}</button>
     </div>
   </form>
