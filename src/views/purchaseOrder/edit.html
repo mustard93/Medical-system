@@ -77,22 +77,23 @@
 
        <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb pr-bg-pink">
          <em class="color-red">原因:</em>
-        <p class="inline-block color-red">
-       <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
-        <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
-        </p>
+         <p class="inline-block color-red">
+          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+         </p>
        </div>
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
            <!-- 信息 -->
-           <div flash-add-medical
+           <div ng-if="formData.orderBusinessType!='直进采购'"
+                flash-add-medical
                 ng-model="data1"
                 class="pd-c-l pdt-m"
                 ajax-url="rest/authen/medicalStock/query"
                 add-data-callback-fn="flashAddDataCallbackFn(data1)"
                 is-disabled-this="{{formData.supplier.id}}">
            </div>
-           <!-- ?supplierId={{formData.supplier.id}} -->
+
            <!-- 列表 -->
            <div class="bt-line">
              <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
@@ -185,7 +186,7 @@
                     <th class="text-center w-106" ng-if="!formData.relId">数量</th>
                     <th class="text-center" ng-if="formData.relId">实际采购数量</th>
                     <th class="text-center w-130">批号要求</th>
-                    <th class="text-center w-130">预入仓库</th>
+                    <th class="text-center w-130" ng-if="formData.orderBusinessType!='直进采购'">预入仓库</th>
                     <th class="text-center">原币含税单价</th>
                     <th class="text-center">原币单价</th>
                     <th class="text-center">原币金额</th>
@@ -277,7 +278,7 @@
                          <option value="新批号" ng-selected="tr.batchRequirement=='新批号'">新批号</option>
                        </select>
                      </td><!-- 批号要求 -->
-                     <td class="text-center">
+                     <td class="text-center" ng-if="formData.orderBusinessType!='直进采购'">
                        <select class="pr-select pd-s"
                                style="width:115px;"
                                ng-model="tr.warehouseId"
