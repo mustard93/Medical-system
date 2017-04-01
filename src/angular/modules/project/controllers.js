@@ -2336,7 +2336,7 @@ define('project/controllers', ['project/init'], function() {
        // 添加药品后请求当前药品的历史价格
        if (addDataItem) {
         //  var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=采购';
-        var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&customerId=' + $scope.formData.customerId + '&type=采购';
+        var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&supplierId=' + $scope.formData.supplier.id + '&type=采购';
 
          requestData(_url)
          .then(function (results) {
@@ -2361,9 +2361,6 @@ define('project/controllers', ['project/init'], function() {
        return true;
    };
 
-    /**
-     * 添加一条。并缓存数据。
-     */
     $scope.selectRelIdCallBack = function(data) {
       $scope.addDataItem.relId = data.id;
       $scope.addDataItem.name = data.name;
@@ -2391,39 +2388,7 @@ define('project/controllers', ['project/init'], function() {
       $('#addDataItem_quantity').trigger('focus');
     };
 
-    /**
-     * 添加一条。并缓存数据。
-     */
-    $scope.selectRelIdCallBack = function(data) {
-     $scope.addDataItem.relId = data.id;
-     $scope.addDataItem.name = data.name;
-     $scope.addDataItem.brand = data.brand;
-     $scope.addDataItem.unit = data.unit;
-     $scope.addDataItem.price = data.price;
-     // $scope.addDataItem.isSameBatch = '否';
-     $scope.addDataItem.strike_price = data.price;
-     $scope.addDataItem.headUrl = data.headUrl;
-     $scope.addDataItem.specification = data.specification;
-     $scope.addDataItem.manufacturer = data.manufacturer;
-     $scope.addDataItem.handleFlag =true;//默认添加到订单
-     $scope.addDataItem.productionBatch = '无';
-     $scope.addDataItem.dosageForms = data.dosageForms;
-     $scope.addDataItem.code = data.code;
-     $scope.addDataItem.productionBatch = data.productionBatch;
-     $scope.addDataItem.productionDate = data.productionDate;
-     $scope.addDataItem.guaranteePeriod = data.guaranteePeriod;
-     $scope.addDataItem.licenseNumber = data.licenseNumber;
-     $scope.addDataItem.deliveryPlus = data.deliveryPlus;
-     $scope.addDataItem.drugAdministrationCode = data.drugAdministrationCode;
 
-     // alert($('#addDataItem_quantity').length);
-     // $('#addDataItem_quantity').trigger('focus');
-     $('#addDataItem_quantity').trigger('focus');
-   };
-
-    /**
-    * 添加一条。并缓存数据。
-    */
     $scope.addDataItemClick = function(addDataItem,medical) {
        if (!(addDataItem.relId && addDataItem.name)) {
            alertWarn('请选择药品。');
@@ -2625,7 +2590,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 检查添加的供应商是否有地址信息，没有则弹出层跳转到维护地址
     $scope.chkSupplierInfo = function (supplier) {
-      console.log(supplier);
+      // console.log(supplier);
       if (!supplier.contact) {
         dialogConfirm('供应商地址信息不完整，请完善', function () {
           window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
