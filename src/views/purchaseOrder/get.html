@@ -1,4 +1,4 @@
-<div class="create-new-order"
+<div class="create-new-order purchaseOrder-edit"
       ng-controller="purchaseOrderEditCtrl"
       ajax-url="rest/authen/purchaseOrder/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
       scope-data="scopeData"
@@ -32,7 +32,23 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-      <p class="mgb-l text-n color-3 text-bold">{{scopeData.supplier.name}}</p>
+      <div class="pr-panel pr-panel-height mgb pd-n">
+        <!-- 客户搜索 -->
+        <div class="inline-block br-line supplier-name relative">
+          <p class="mgb-s">供应商</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            {{scopeData.supplier.name || '暂无'}}
+          </p>
+        </div>
+        <!-- 物流中心搜索 -->
+        <div class="inline-block logistics-center relative">
+          <p class="mgb-s">物流中心</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            <!-- 昆明物流中心 -->
+            {{scopeData.logisticsCenterName ||'暂无'}}
+          </p>
+        </div>
+      </div>
       <div ng-if="scopeData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb pr-bg-pink">
         <em class="color-red">原因:</em>
         <p class="inline-block color-red">
