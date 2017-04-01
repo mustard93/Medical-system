@@ -113,6 +113,22 @@
              </div>
              <div class="pd-c-l pdt-m pdb-m color-9">
                <span class="mgr">部门：
+                 <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                         data-placeholder=" "
+                         chosen
+                         ng-model="formData.salesDepartmentId"
+                         select-source="rest/authen/department/queryForSelectOption">
+                 </select>
+               </span>
+               <span class="mgr">业务人员：
+                 <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
+                         data-placeholder=" "
+                         chosen
+                         ng-model="formData.saleUserId"
+                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                 </select>
+               </span>
+               <!-- <span class="mgr">部门：
                  <select class="pr-select pd-s"
                          style="width:115px;"
                          ng-model="formData.salesDepartmentId"
@@ -129,7 +145,7 @@
                          scope-data="saleUser">
                    <option  ng-repeat="option in saleUser" value="{{option.value}}">{{option.text}} </option>
                  </select>
-               </span>
+               </span> -->
 
                <span class="mgr">业务类型：
                  <select class="ipt pr-short-ipt color-3" style="width:90px;"
@@ -490,11 +506,10 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('purchaseForm','submit')"
-                  ng-disabled="!formData.orderMedicalNos.length ||
+                  ng-disabled="purchaseForm.$invalid || !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                !formData.supplier.id ||
-                               !purchaseForm.$valid ||
-                               !formData.orderCode " >提交
+                               !formData.orderCode" >提交
           </button>
         </span>
       </div>
