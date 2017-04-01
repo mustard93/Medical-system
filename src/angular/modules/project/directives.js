@@ -3028,17 +3028,27 @@ function addressManageComponent (requestData, utils) {
         }
 
         // 如果为新建则将默认地址信息存入formData数据体，否则将返回数据存入数据体
-        if (!$scope.formData.id) {
-          var _contacts = $scope.returnAddressObj.contacts;
+        var _contacts = $scope.returnAddressObj.contacts;
 
-          if (_contacts && !$scope.choisedItemId) {
-            for (var i=0; i<_contacts.length; i++) {
-              if ($scope.returnAddressObj.defaultContactId === _contacts[i].id) {
-                $scope.formData[$scope.scopeDataContacts] = _contacts[i];
-              }
+        if (_contacts && !$scope.choisedItemId) {
+          for (var i=0; i<_contacts.length; i++) {
+            if ($scope.returnAddressObj.defaultContactId === _contacts[i].id) {
+              $scope.formData[$scope.scopeDataContacts] = _contacts[i];
             }
           }
         }
+
+        // if (!$scope.formData.id) {
+        //   var _contacts = $scope.returnAddressObj.contacts;
+        //
+        //   if (_contacts && !$scope.choisedItemId) {
+        //     for (var i=0; i<_contacts.length; i++) {
+        //       if ($scope.returnAddressObj.defaultContactId === _contacts[i].id) {
+        //         $scope.formData[$scope.scopeDataContacts] = _contacts[i];
+        //       }
+        //     }
+        //   }
+        // }
 
         //如果是新添加的一条地址数据，则默认放入数据体中
         if ($scope.returnAddressObj.contacts && $scope.returnAddressObj.contacts.length === 1) {
