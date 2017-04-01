@@ -2114,6 +2114,9 @@ define('project/controllers', ['project/init'], function() {
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
     $scope.isShowPurchaseInfo = false;
 
+    // 如果实际采购数量大于计划采购数量，则屏蔽下一步操作
+    $scope.isDisabledNextStep = false;
+
     $scope.$watch('initFlag', function (newVal) {
 
        var operationFlowSetMessage=[];
@@ -2577,12 +2580,11 @@ define('project/controllers', ['project/init'], function() {
     $scope.diffPurchaseNumber = function (orderMedicalList) {
       if (orderMedicalList) {
         angular.forEach(orderMedicalList, function (data, index) {
-          if (data.planQuantity > data.quantity) {
-            $scope.isShowPurchaseInfo = true;
-          } else {
-            $scope.isShowPurchaseInfo = false;
-            // console.log($scope);
-          }
+          // 选择的数量小于计划数量，显示提示信息
+          $scope.isShowPurchaseInfo = (data.planQuantity > data.quantity) ? true : false;
+          // ..
+          $scope.isDisabledNextStep = (data.quantity > data.planQuantity) ? true : false;
+
         });
 
       }
