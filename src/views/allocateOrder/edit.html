@@ -47,6 +47,7 @@
                       ng-model="formData.sourceLogisticsCenterId"
                       select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
               </select>
+
             </p>
           </div>
           <div class="inline-block relative mgr-l">
@@ -57,9 +58,8 @@
             style="width:100px;"
             chosen
             ng-model="formData.sourceId"
-            select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}&type=正常库">
+            select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}">
             </select>
-
           </div>
         </div>
         <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
@@ -85,7 +85,7 @@
           chosen
           default-empty="无"
           ng-model="formData.targetId"
-          select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.targetLogisticsCenterId}}&type=正常库">
+          select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.targetLogisticsCenterId}}">
           </select>
         </div>
         <div ng-if="formData.sourceId==formData.targetId&&formData.targetLogisticsCenterId==formData.sourceLogisticsCenterId"
@@ -199,7 +199,12 @@
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                    <td class="text-center"></td>
+                    <td class="text-center"
+                    ajax-url="rest/authen/medicalStock/getStockModelByWarehouseId?id={{item.relId}}&warehouseId={{formData.sourceId}}"
+                    scope-data="scopeData"
+                    >
+                    {{scopeData.salesQuantity}}
+                    </td>
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
