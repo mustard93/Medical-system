@@ -1018,7 +1018,7 @@ define('project/controllers', ['project/init'], function() {
               _total += parseInt(data.stockBatchs[i].quantity,10);
             }
           }
-
+          
           // 如果所有批次数量的和小于计划数量，则弹出提示
           $scope.isShowConfirmInfo = (_total < $scope.formData.orderMedicalNos[index].planQuantity && _total !== 0) ? true : false;
 
@@ -1189,9 +1189,15 @@ define('project/controllers', ['project/init'], function() {
           alertWarn('请输入大于0的数量。');
           return false;
       }
+      // if (!addDataItem.strike_price) {
+      //     alertWarn('请输入成交价格。');
+      //     return false;
+      // }
+
       if(addDataItem.planQuantity>medical.quantity){//库存不足情况
           addDataItem.handleFlag =false;//默认添加到订单
       }
+
       if (!$scope.formData.orderMedicalNos) {
         $scope.formData.orderMedicalNos = [];
       }
@@ -1208,26 +1214,25 @@ define('project/controllers', ['project/init'], function() {
       }
       addDataItem.stockBatchs=[];
 
-      // 添加药品后请求当前药品的最新价格
+      // 添加药品后请求当前药品的历史价格
       if (addDataItem) {
-        var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&customerId=' + $scope.formData.customerId + '&type=销售';
+        var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+            _data = {};
 
-        if ($scope.initFlag) {
-          requestData(_url)
-          .then(function (results) {
-            var _resObj = results[1].data;
-            for (var item in _resObj) {
-              if (item === addDataItem.relId && _resObj[item]) {
-                addDataItem.strike_price = _resObj[item].value;
-              } else {
-                addDataItem.strike_price = '';
-              }
+        requestData(_url, _data, 'GET')
+        .then(function (results) {
+          var _resObj = results[1].data;
+          for (var item in _resObj) {
+            if (item === addDataItem.relId && _resObj[item]) {
+              addDataItem.strike_price = _resObj[item].value;
+            } else {
+              addDataItem.strike_price = '';
             }
-          })
-          .catch(function (error) {
-            if (error) { console.log(error || '出错!'); }
-          });
-        }
+          }
+        })
+        .catch(function (error) {
+          if (error) { console.log(error || '出错!'); }
+        });
       }
 
       //添加到列表
@@ -2095,7 +2100,7 @@ define('project/controllers', ['project/init'], function() {
 
    }//end salesOrderEditCtrl
 
-  function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
+  function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange) {
 
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
     $scope.isShowPurchaseInfo = false;
@@ -2606,16 +2611,6 @@ define('project/controllers', ['project/init'], function() {
           }
         });
 
-      }
-    };
-
-    // 检查添加的供应商是否有地址信息，没有则弹出层跳转到维护地址
-    $scope.chkSupplierInfo = function (supplier) {
-      console.log(supplier);
-      if (!supplier.contact) {
-        dialogConfirm('供应商地址信息不完整，请完善', function () {
-          window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
-        });
       }
     };
 
@@ -5547,7 +5542,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
   .controller('intervalCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', intervalCtrl])
   .controller('auditUserApplyOrganizationCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','proLoading', auditUserApplyOrganizationCtrl])
-  .controller('purchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchaseOrderEditCtrl])
+  .controller('purchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', purchaseOrderEditCtrl])
   .controller('allocateOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', allocateOrderEditCtrl])
   .controller('arrivalNoticeOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', arrivalNoticeOrderEditCtrl])
   .controller('requestPurchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', '$timeout', requestPurchaseOrderEditCtrl])

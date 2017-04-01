@@ -2211,8 +2211,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                       if ($attrs.params.indexOf("{") === 0) {
                           //监听具体值
                           $attrs.$observe("params", function(value) {
+
                               _params = $scope.$eval(value);
                               if(firstSelectSource==value)return;
+                              
+                                  firstSelectSource=value;
                                 ngModel.$setViewValue(null);
 
                               getData(_params);
@@ -2839,7 +2842,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         return {
             restrict: 'A',
             scope: {
-                  isFocus: '@?',
+                isFocus: '@?',
                 ngModel: '=?',
                 popoverOptions: '@',
                 validValue: '@',
@@ -2863,17 +2866,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               if($attrs.popoverOptions)popoverOptions=$attrs.popoverOptions;
               element.popover(JSON.parse(popoverOptions));
 
-                if(angular.isDefined($attrs.validValue)){
-                  $scope.$watch('ngModel', function (newVal, oldVal) {
-                    // console.log($attrs.validValue);
-                    if ($attrs.validValue=="true") {
-                      element.popover('show');
-                    } else {
-                      element.popover('hide');
-                    }
-                  });
-                }
-
+              if(angular.isDefined($attrs.validValue)){
+                $scope.$watch('ngModel', function (newVal, oldVal) {
+                  // console.log($attrs.validValue);
+                  if ($attrs.validValue=="true") {
+                    element.popover('show');
+                  } else {
+                    element.popover('hide');
+                  }
+                });
+              }
 
               if ($attrs.popoverShow) {
                 $scope.$watch('popoverShow', function (newVal, oldVal) {

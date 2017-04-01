@@ -89,7 +89,6 @@
                         <th class="text-center">灭菌批号</th>
                         <th class="text-center">生产日期</th>
                         <th class="text-center">有效期至</th>
-                        <!-- <th class="text-center">产品执行标准</th> -->
                         <th class="text-center">保存温度</th>
                         <th class="text-center">产地品牌</th>
                         <th class="text-center">产品注册证号</th>
@@ -99,75 +98,28 @@
 
                     <tbody class="pr-bg-white" >
                       <tr ng-repeat="tr in showData.inoutstockDetails | orderBy :'relId'" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
-                        <td class="text-center">{{tr.code}}</td>
-                        <td class="text-center">{{tr.goodsCode}}</td>
-                        <td class="text-left">
-                          <div class="autocut" title="{{tr.name}}">
-                            {{tr.name}}
-                          </div>
-                        </td>
-                        <td class="text-center">
-                          {{tr.specificationAndModelType}}
-                        </td>
-                        <td class="text-center">
-                          {{tr.unit}}
-                        </td>
-                        <td class="text-right"
-                         ng-if="showData.type!='采购入库单_红字'"
-                        >
-                          {{tr.storageQuantity || '0'}}
-                        </td>
-                        <td class="text-right"
-                        ng-if="showData.type=='采购入库单_红字'"
-                        style="color:red;"
-                        >
-                          {{tr.storageQuantity || '0'}}
-                        </td>
-                        <td class="text-right">
-                          {{tr.refuseQuantity || '0'}}
-                        </td>
-                        <td class="text-right">
-                          {{tr.otherQuantity || '0'}}
-                        </td>
-                        <td class="text-right">
-                          ￥{{tr.strike_price}}
-                        </td>
-
-                        <td class="text-right">
-                          ￥{{tr.duty_free_price}}
-                        </td>
-
-                        <td class="text-right">
-                          ￥{{tr.total_duty_free_price}}
-                        </td>
-
-                        <td class="text-right">
-                          ￥{{tr.totalPrice}}
-                        </td>
-
-                        <td class="text-right">
-                        {{tr.taxRate}}%
-                        </td>
-                        <td class="text-center">{{tr.productionBatch}}</td>
-                        <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
-                        <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
-                        <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
-
-                        <td class="text-center">
-                          <!-- 保存温度 -->
-                          {{tr.storedTemperature}}
-                        </td>
-
-                        <td class="text-center">
-                          {{tr.brand}}
-                        </td>
-
-                        <td class="text-center">
-                        {{tr.drugAdministrationCode}}
-                        </td>
-                        <td>
-                          {{tr.drugAdministrationCodeGuaranteePeriod}}
-                        </td>
+                        <td class="text-center">{{tr.code}}</td><!-- 商品编号 -->
+                        <td class="text-center">{{tr.goodsCode}}</td><!-- 商品代码 -->
+                        <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
+                        <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                        <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                        <td class="text-right" ng-if="showData.type!='采购入库单_红字'">{{tr.storageQuantity || '0'}}</td><!-- 正常数量 -->
+                        <td class="text-right" ng-if="showData.type=='采购入库单_红字'" style="color:red;">{{tr.storageQuantity || '0'}}</td><!-- 正常数量 -->
+                        <td class="text-right">{{tr.refuseQuantity || '0'}}</td><!-- 拒收数量 -->
+                        <td class="text-right">{{tr.refuseQuantity || '0'}}</td><!-- 其他数量 -->
+                        <td class="text-right">￥{{tr.duty_price || '0'}}</td><!-- 原币含税单价 -->
+                        <td class="text-right">￥{{tr.duty_free_price}}</td><!-- 原币单价 -->
+                        <td class="text-right">￥{{tr.total_duty_free_price}}</td><!-- 原币金额 -->
+                        <td class="text-right">￥{{tr.totalPrice}}</td><!-- 原币价税合计 -->
+                        <td class="text-right">{{tr.tax}}%</td><!-- 税率 -->
+                        <td class="text-center">{{tr.productionBatch}}</td><!-- 生产批号 -->
+                        <td class="text-center">{{tr.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
+                        <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
+                        <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
+                        <td class="text-center">{{tr.storedTemperature}}</td><!-- 保存温度 -->
+                        <td class="text-center">{{tr.brand}}</td><!-- 产地品牌 -->
+                        <td class="text-center">{{tr.drugAdministrationCode}}</td><!-- 产品注册证号 -->
+                        <td class="text-center">{{tr.drugAdministrationCodeGuaranteePeriod}}</td><!-- 注册证有效期 -->
                       </tr>
                     </tbody>
                 </table>
