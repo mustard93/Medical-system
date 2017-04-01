@@ -578,7 +578,7 @@ define('project/services', ['project/init'], function () {
                 // tmp=utils.numberDiv(item.taxPrice,tmp);
 
               var tmp;
-              tmp = utils.numberDiv(item.taxRate,100);
+              tmp = utils.numberDiv(item.tax,100);
               tmp = 1 + tmp;
               tmp = utils.numberDiv(tmpObj.getHanShuiDanJian(item),tmp);
               return tmp;

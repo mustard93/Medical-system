@@ -570,6 +570,7 @@ define('project/services', ['project/init'], function () {
             },
             //无税单价  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
             getWuSuiDanJian:function(item){
+              console.log(item.tax);
                 //item.price*(100-item.taxRate)/100-item.discountPrice;
                 //tr.price/(100+tr.taxRate)/100
 
@@ -578,7 +579,7 @@ define('project/services', ['project/init'], function () {
                 // tmp=utils.numberDiv(item.taxPrice,tmp);
 
               var tmp;
-              tmp = utils.numberDiv(item.taxRate,100);
+              tmp = utils.numberDiv(item.tax,100);
               tmp = 1 + tmp;
               tmp = utils.numberDiv(tmpObj.getHanShuiDanJian(item),tmp);
               return tmp;
