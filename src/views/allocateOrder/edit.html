@@ -167,8 +167,8 @@
                     <th class="text-left">商品全名</th>
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
-                    <th class="text-center">计划调拨总数</th>
                     <th class="text-center">可调拨量</th>
+                    <th class="text-center">计划调拨总数</th>
                     <th class="text-center">生产批号/数量</th>
                     <th class="text-center">灭菌批号</th>
                     <!-- <th class="text-center">仓库</th> -->
@@ -199,7 +199,7 @@
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-
+                    <td class="text-center"></td>
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
@@ -220,9 +220,6 @@
                         <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>
                       </div>
                     </td><!-- 计划调拨数量 -->
-                    <td class="text-center" >
-                        <div ng-repeat="use in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{use.quantity}}</div>
-                    </td>
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber"
