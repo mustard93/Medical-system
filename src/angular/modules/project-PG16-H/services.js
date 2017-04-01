@@ -570,7 +570,6 @@ define('project/services', ['project/init'], function () {
             },
             //无税单价  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
             getWuSuiDanJian:function(item){
-              console.log(item.tax);
                 //item.price*(100-item.taxRate)/100-item.discountPrice;
                 //tr.price/(100+tr.taxRate)/100
 
