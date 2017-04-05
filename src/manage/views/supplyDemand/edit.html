@@ -1,0 +1,95 @@
+
+        <div class="modal-content pr-modal-content" ng-controller="editCtrl"
+   ajax-url="rest/authen/distributor/getOfEdit.json?id={{tr.id}}"  scope-data="formData"  alert-error
+   callback="initFlag=true"
+         >
+
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/distributor/save"
+               alert-error parameter-body
+                form-validator>
+            <div class="modal-header">
+                <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}供求关系</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">机构名称</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">类型</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select ng-if="initFlag"  class="select select-w" data-placeholder="选择类型" chosen ng-model="formData.type" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OrganizatoinType"></select>
+
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">货主</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select ng-if="initFlag"  class="select select-w" default-empty="无" data-placeholder="选择货主" chosen ng-model="formData.owerCode" select-source="rest/ower/queryForSelectOption"></select>
+
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">邮政编码</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.zipCode" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">地址</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.address" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">手机号</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.tel" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">区号</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.areaCode" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">座机号</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.telephone" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">邮箱</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.email" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">QQ</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder=""  ng-model="formData.qq" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">传真</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.fax" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>
