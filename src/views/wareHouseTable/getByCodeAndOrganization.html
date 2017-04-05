@@ -73,10 +73,12 @@
                           <th>商品编号</th>
                           <th>商品代码</th>
                           <th class="w-220">商品名称</th>
-                          <th>规格型号</th>
+                          <th>规格/型号</th>
                           <th>商品分类编码</th>
                           <th>商品分类名称</th>
                           <th>单位</th>
+                          <th>生产日期</th>
+                          <th>有效期至</th>
                           <th>生产批号</th>
                           <th>灭菌批号</th>
                           <th>注册证号</th>
@@ -109,10 +111,12 @@
                               {{showData.name}}
                             </div>
                           </td>
-                          <td>{{showData.specification}}</td>
+                          <td>{{showData.specificationAndModelType}}</td>
                           <td>{{showData.medicalAttribute.code}}</td>
                           <td>{{showData.medicalAttribute.name}}</td>
                           <td>{{showData.unit}}</td>
+                          <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                          <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
                           <td>{{tr.productionBatch}}</td>
                           <td>{{tr.sterilizationBatchNumber}}</td>
                           <td>{{showData.drugAdministrationCode}}</td>
@@ -134,7 +138,7 @@
                         </tr>
                         <tr ng-if="tbodyList.length"
                         class="bgco-orange color-white">
-                          <td colspan="12" class="text-right">合计：</td>
+                          <td colspan="14" class="text-right">合计：</td>
                           <td class="text-right"class="text-right">{{totalObj['stockModel.salesQuantity']}}</td>
                           <td class="text-right">{{totalObj['stockModel.quantity'] ||'0'}}</td>
                           <td class="text-right">{{totalObj['stockModel.freezeQuantity'] ||'0'}}</td>
