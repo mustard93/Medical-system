@@ -987,7 +987,6 @@ define('project/controllers', ['project/init'], function() {
       //  选择当前状态最近的一个驳回理由用于显示
        $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
        $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-       console.log($scope.formData.operationFlowSet);
        return;
       }
     });
@@ -5280,8 +5279,6 @@ define('project/controllers', ['project/init'], function() {
    */
   function editStockbatchNumberCtrl ($scope, utils, requestData) {
 
-
-
     // 监控listparams对象中属性的更改，刷新结果列表
     $scope.$watchCollection('listParams', function (newVal, oldVal) {
       if ($scope.listParams) {
@@ -5307,28 +5304,15 @@ define('project/controllers', ['project/init'], function() {
       }
     });
 
-    /**
-     * [chkCurrentBtachAdded 检查当前批号是否已被添加]
-     * @param  {[Array]} stockBatchList   [当前请求获取的药品批号列表数据]
-     * @param  {[Array]} choisedBatchList [用户已选择的批号列表数据]
-     * @return {[boolean]}                  [description]
-     */
-    $scope.chkCurrentBtachAdded = function (stockBatchList, choisedBatchList) {
-
-      if (angular.isArray(stockBatchList) && angular.isArray(choisedBatchList)) {
-        var i,
-            j,
-            stockBatchListLen = stockBatchList.length,
-            choisedBatchListLen = choisedBatchList.length;
-
-        for (i = 0; i < stockBatchListLen; i++) {
-          for (j = 0; j < choisedBatchListLen; j++) {
-            if (stockBatchList[i].productionBatch == choisedBatchListLen[j].batchNumber &&
-                stockBatchList[i].stockModel.salesQuantity == choisedBatchListLen[j].quantity) {
-              stockBatchList[i].choised = true;
-            }
+    // 获取用户已选择的药品批次，并将批次id存入数组
+    $scope.getChoisedBatchsId = function (choisedBatchList) {
+      if (choisedBatchList) {
+        $scope.choisedBatchsIdList = [];
+        angular.forEach(choisedBatchList, function (data, index) {
+          if (data.stockBatchId) {
+            $scope.choisedBatchsIdList.push(data.stockBatchId);
           }
-        }
+        });
       }
     };
 
