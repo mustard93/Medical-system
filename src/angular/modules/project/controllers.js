@@ -987,6 +987,7 @@ define('project/controllers', ['project/init'], function() {
       //  选择当前状态最近的一个驳回理由用于显示
        $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
        $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+       console.log($scope.formData.operationFlowSet);
        return;
       }
     });
