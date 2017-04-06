@@ -96,8 +96,8 @@
                <th class="text-left">商品全名</th>
                <th class="text-center">规格/型号</th>
                <th class="text-center">单位</th>
-               <th ng-if="scopeData.orderStatus=='已完成'" class="text-center">计划数量</th>
-               <th ng-if="scopeData.orderStatus=='已完成'" class="text-center">实际完成数量</th>
+               <th class="text-center">计划数量</th>
+               <th class="text-center">实际完成数量</th>
                <th class="text-center w-110">批号要求</th>
                <th class="text-center" ng-if="scopeData.orderBusinessTypeStr!='直运采购'">预入仓库</th>
                <th class="text-center">原币含税单价</th>
@@ -125,8 +125,8 @@
                   </td><!-- 商品全名 -->
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
-                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.planQuantity || '0'}}</td><!-- 计划数量 -->
-                  <td ng-if="scopeData.orderStatus=='已完成'" class="text-right">{{tr.storageQuantity+tr.otherQuantity || '0'}}</td><!-- 实际完成数量 -->
+                  <td class="text-right">{{tr.planQuantity || '0'}}</td><!-- 计划数量 -->
+                  <td class="text-right">{{tr.storageQuantity+tr.otherQuantity+tr.refuseQuantity || '0'}}</td><!-- 实际完成数量 -->
                   <td class="text-center">{{tr.batchRequirement}}</td><!-- 批号要求 -->
                   <td class="text-center" ng-if="scopeData.orderBusinessTypeStr!='直运采购'">{{tr.warehouseName}}</td><!-- 预入仓库 -->
                   <td class="text-right">￥{{tr.duty_price || '0'  | number:2}}</td><!-- 原币含税单价 -->
