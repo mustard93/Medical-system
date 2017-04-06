@@ -32,6 +32,14 @@
     <!-- 主内容区域 -->
     <div class="content-wrapper">
 
+      <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb pr-bg-pink">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        </p>
+      </div>
+
       <div class="pr-panel pr-panel-height mgb pd-n">
         <!-- 物流中心搜索 -->
         <div class="inline-block relative full-height br-line-strong" style="width:50%;">
@@ -94,15 +102,6 @@
             调入仓库与调出仓库不能一样，请重新选择。
           </em>
         </div>
-
-      </div>
-
-      <div ng-if="formData.orderStatus=='未通过'||formData.orderStatus=='已作废'" class="pr-panel pr-panel-height mgb pr-bg-pink">
-        <em class="color-red">原因:</em>
-        <p class="inline-block color-red">
-          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
-          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
-        </p>
       </div>
       <!-- 药械列表 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
@@ -259,11 +258,13 @@
                     <td class="text-center pd-n">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                     </td><!-- 灭菌批号 -->
-                    <!-- <td class="text-center pd-n">
-                      <div ng-repeat="warehouse in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>
-                    </td> -->
+                    <td class="text-center pd-n" style="display:none;">
+                      <div ng-repeat="pro in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{pro.productionDate | date : 'yyyy-MM-dd'}}</div>
+                    </td>
+                    <td class="text-center pd-n">
+                      <div ng-repeat="valid in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{valid.validTill | date : 'yyyy-MM-dd'}}</div>
+                    </td>
                     <!-- 仓库 -->
-                    <td class="text-center" style="white-space: nowrap;">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
                     <td class="text-center">{{item.productStandard}}</td>
                     <td class="text-center">{{item.storedTemperature}}</td>
                     <td class="text-center">{{item.brand}}</td>

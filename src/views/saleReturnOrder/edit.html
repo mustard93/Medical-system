@@ -58,13 +58,10 @@
             <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
                     data-placeholder=" "
                     chosen
-                    chosen-ajax
                     ng-model="formData.logisticsCenterId"
                     if-disabled="{{formData.customerId}}"
                     select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
             </select>
-            <!-- 昆明物流中心 -->
-            <!-- {{formData.logisticsCenterName || '暂无'}} -->
           </p>
         </div>
       </div>
@@ -179,7 +176,7 @@
                 <td class="text-center">
                   <select class="pr-select pd-s"
                           style="width:115px;"
-                          ng-model="formData.warehouseId"
+                          ng-model="item.warehouseId"
                           ajax-url="rest/authen/warehouse/queryForSelectOption?type=正常库"
                           scope-data="scopeData">
                     <option ng-repeat="option in scopeData" value="{{option.value}}">{{option.text}}</option>

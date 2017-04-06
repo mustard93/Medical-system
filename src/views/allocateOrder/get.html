@@ -29,14 +29,14 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-      <div ng-if="formData.orderStatus!='待审核'"  class="pr-panel pr-panel-height mgb"
+      <div ng-if="formData.operationFlowSet.key"  class="pr-panel pr-panel-height mgb"
         ng-class="{'pr-bg-pink1':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'pr-bg-pass':(formData.orderStatus=='已完成')}">
-      <em ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">原因:</em>
-       <p class="inline-block " ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">
-      <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
-       <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        <em ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">原因:</em>
+        <p class="inline-block " ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">
+        <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+        <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
        </p>
-      </div>
+     </div>
       <div class="pr-panel pr-panel-height mgb pd-n">
         <!-- 物流中心搜索 -->
         <div class="inline-block relative full-height br-line-strong" style="width:50%;">
@@ -136,7 +136,7 @@
                   <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                  <td class="text-center">{{item.planQuantity}}</td><!-- 计划调拨数量 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 计划调拨数量 -->
                   <td class="text-center">{{item.quantity}}</td><!-- 实际调拨数量 -->
                   <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
                   <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->

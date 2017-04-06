@@ -5279,8 +5279,6 @@ define('project/controllers', ['project/init'], function() {
    */
   function editStockbatchNumberCtrl ($scope, utils, requestData) {
 
-
-
     // 监控listparams对象中属性的更改，刷新结果列表
     $scope.$watchCollection('listParams', function (newVal, oldVal) {
       if ($scope.listParams) {
@@ -5296,7 +5294,8 @@ define('project/controllers', ['project/init'], function() {
               warehouseId: $scope.listParams.warehouseId,
               createAtBeg: $scope.listParams.createAtBeg,
               createAtEnd: $scope.listParams.createAtEnd,
-              q: $scope.listParams.q
+              q: $scope.listParams.q,
+              warehouseType: '正常库'
             };
 
         requestData(_url, _data, 'GET')
@@ -5306,33 +5305,20 @@ define('project/controllers', ['project/init'], function() {
       }
     });
 
-    /**
-     * [chkCurrentBtachAdded 检查当前批号是否已被添加]
-     * @param  {[Array]} stockBatchList   [当前请求获取的药品批号列表数据]
-     * @param  {[Array]} choisedBatchList [用户已选择的批号列表数据]
-     * @return {[boolean]}                  [description]
-     */
-    $scope.chkCurrentBtachAdded = function (stockBatchList, choisedBatchList) {
-
-      if (angular.isArray(stockBatchList) && angular.isArray(choisedBatchList)) {
-        var i,
-            j,
-            stockBatchListLen = stockBatchList.length,
-            choisedBatchListLen = choisedBatchList.length;
-
-        for (i = 0; i < stockBatchListLen; i++) {
-          for (j = 0; j < choisedBatchListLen; j++) {
-            if (stockBatchList[i].productionBatch == choisedBatchListLen[j].batchNumber &&
-                stockBatchList[i].stockModel.salesQuantity == choisedBatchListLen[j].quantity) {
-              stockBatchList[i].choised = true;
-            }
+    // 获取用户已选择的药品批次，并将批次id存入数组
+    $scope.getChoisedBatchsId = function (choisedBatchList) {
+      if (choisedBatchList) {
+        $scope.choisedBatchsIdList = [];
+        angular.forEach(choisedBatchList, function (data, index) {
+          if (data.stockBatchId) {
+            $scope.choisedBatchsIdList.push(data.stockBatchId);
           }
-        }
+        });
       }
     };
 
     // 用户选择生产批号
-    $scope.choseBatch = function (obj,id) {
+    $scope.choseBatch = function (obj,choisedList,id) {
 
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {
@@ -5341,6 +5327,7 @@ define('project/controllers', ['project/init'], function() {
         quantity: obj.stockModel.salesQuantity,    // 可选数量
         productionBatch: obj.productionBatch,     // 批号名
         validTill:obj.validTill,
+        productionDate:obj.productionDate,
         sterilizationBatchNumber: obj.sterilizationBatchNumber,    // 灭菌批号
         warehouseName: obj.warehouseName,       // 仓库名
         warehouseId: obj.warehouseId,        // 仓库名id
@@ -5351,18 +5338,25 @@ define('project/controllers', ['project/init'], function() {
       var _total = 0;
 
       // 计算当前药品的批次数量和
-      if ($scope.formData.orderMedicalNos) {
-        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-          if (data.stockBatchs) {
-            for (var i = 0; i < data.stockBatchs.length; i++) {
-              if (data.stockBatchs[i].batchNumber)
-              { _total += parseInt(data.stockBatchs[i].quantity, 10);
-              }
-            }
+      if (choisedList) {
+        angular.forEach(choisedList, function (data, index) {
+          if (data.batchNumber) {
+            _total += parseInt(data.quantity, 10);
           }
-
         });
       }
+
+      // if ($scope.formData.orderMedicalNos) {
+      //   angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+      //     if (data.stockBatchs) {
+      //       for (var i = 0; i < data.stockBatchs.length; i++) {
+      //         if (data.stockBatchs[i].batchNumber)
+      //         { _total += parseInt(data.stockBatchs[i].quantity, 10);
+      //         }
+      //       }
+      //     }
+      //   });
+      // }
 
       // 如果当前批次数量大于或等于计划采购数量
       if ((obj.stockModel.salesQuantity + _total) > $scope.dialogData.planQuantity) {

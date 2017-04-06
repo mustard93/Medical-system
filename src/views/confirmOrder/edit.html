@@ -189,9 +189,6 @@
                   <tr ng-repeat="item in formData.orderMedicalNos"
                       ng-controller="ConfirmOrderMedicalController"
                       table-item-handlebtn-component>
-                    <!-- <td class="select-td">
-                      <input type="checkbox" class="selectOne" ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
-                    </td>--><!-- 选择checkbox -->
                     <td class="text-center">{{item.code}}
                       <div  class="table-item-handle-btn">
                         <div class="table-item-confirm-del-area bg-white">
@@ -227,7 +224,7 @@
                       </div>
                     </td><!-- 订购数量 -->
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
-
+                      <!-- 已选批号列表 -->
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                            ng-if="batch.batchNumber"
                            class="ipt-div relative"
@@ -246,7 +243,7 @@
                         <input type="hidden" ng-model="batch.id">
                         <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                       </div>
-
+                      <!-- 批号选择 -->
                       <div ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="ipt-div relative" style="width:180px;margin-top:10px;margin-left:10px;">
                         <i class="addImg"
                            modal-right="50%"
@@ -261,6 +258,7 @@
                            modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                         </i>
                       </div>
+                      <!-- 待选择数 -->
                       <p ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p>
                     </td><!-- 生产批号/数量 -->
                     <td class="text-center pd-n">
