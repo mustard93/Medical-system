@@ -5327,6 +5327,7 @@ define('project/controllers', ['project/init'], function() {
         quantity: obj.stockModel.salesQuantity,    // 可选数量
         productionBatch: obj.productionBatch,     // 批号名
         validTill:obj.validTill,
+        productionDate:obj.productionDate,
         sterilizationBatchNumber: obj.sterilizationBatchNumber,    // 灭菌批号
         warehouseName: obj.warehouseName,       // 仓库名
         warehouseId: obj.warehouseId,        // 仓库名id
