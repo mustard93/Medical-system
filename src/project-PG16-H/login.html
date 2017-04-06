@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -11,80 +11,107 @@
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../fonts/css/font-awesome.min.css">
+    <!-- 开发模式 -->
     <link rel="stylesheet" href="../css/dev/style.css">
+    <!-- 生产模式 -->
+    <!-- <link rel="stylesheet" href="build/css/style.min.css?v=9deede1b89"> -->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
+    <script src="../js/html5shiv.js"></script>
+    <script src="../js/respond.min.js"></script>
     <![endif]-->
+    <style media="screen">
+      @media (min-width: 1200px) {
+        .col-lg-12 {float: none;}
+      }
+    </style>
 </head>
 
-<body class="login-body">
-    <div class="container col-lg-6 col-lg-offset-3">
-      <div class="col-lg-12 col-sm-12 sys-login-logo"></div>
-      <div class="col-lg-12 col-sm-12">
-        <p class="sys-login-title">盘谷医流综合服务平台-管理员平台</p>
-      </div>
-      <div class="col-lg-12 col-sm-12 login-info-prompt" style="display:none;">
+<body class="login-body min-w">
+  <div class="container">
+    <!-- Logo -->
+    <div class="row">
+      <div class="col-lg-12 sys-login-logo"></div>
+    </div>
+    <!-- 名称 -->
+    <div class="row">
+      <div class="col-lg-12"><p class="sys-login-title">盘谷医流综合服务平台</p></div>
+    </div>
+    <!-- 提示信息 -->
+    <div class="row">
+      <div class="col-lg-12 login-info-prompt" style="display:none;">
         <div>
           <i class="fa fa-exclamation-triangle"></i>
           <span></span>
         </div>
       </div>
-      <div class="login-wrap col-lg-12">
-        <form name="loginForm" class="form-signin" onsubmit="return false;" autocomplete="off">
-          <div>
-            <input type="text"
-                  class="form-control"
-                  placeholder="手机号码"
-                  name="phone" required autofocus>
-          </div>
-          <div>
-            <input type="password"
-                   class="form-control"
-                   placeholder="密码"
-                   name="password" required>
-          </div>
-          <div>
-            <div class="col-lg-6">
-              <!-- <label><input type="checkbox" value=""> 记住电话号码</label> -->
-              <div class="square single-row">
-                  <div class="checkbox ">
-                      <input type="checkbox" name="remeberNumber" checked>
-                      <label class="color-custom-gold">记住手机号码</label>
-                  </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-                <a class="pull-right color-custom-orange" data-toggle="modal" href="#myModal"> 忘记密码 ?</a>
-            </div>
-          </div>
-          <div>
-            <button class="btn btn-lg btn-login btn-block pr-btn-login"  type="submit">登 录</button>
-          </div>
-          <div class="registration">
-            <a class="" href="registration.html">注册账号</a>
-          </div>
-          <!-- 快捷登录 -->
-          <div class="fast-login-choise">
-            <span></span>
-            <span>快捷登录</span>
-            <span></span>
-          </div>
-          <div class="fast-login-btn">
-            <span><a href="#"></a></span>
-            <span><a href="#"></a></span>
-          </div>
-        </form>
-      </div>
     </div>
+    <!-- 提交表单 -->
+    <div class="row login-wrap">
+      <form name="loginForm" class="form-signin" onsubmit="return false;" autocomplete="off">
+        <div class="pr-form-control">
+          <input type="text" class="form-control pd-n" placeholder="手机号码" name="phone" required autofocus />
+        </div>
+        <div>
+          <input type="password" class="form-control pd-n" placeholder="密码" name="password" required />
+        </div>
+        <div class="col-lg-12 flex-column">
+          <div class="col-lg-6 flex-item-6">
+            <div class="square single-row">
+                <div class="checkbox">
+                    <input type="checkbox" name="remeberNumber" checked>
+                    <label class="color-custom-gold">记住手机号码</label>
+                </div>
+            </div>
+          </div>
+          <div class="col-lg-6 flex-item-6 text-right">
+            <a class="pull-right color-custom-orange" data-toggle="modal" href="user1.html#/reg/retrievepwd.html"> 忘记密码 ?</a>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <button class="btn btn-lg btn-login btn-block pr-btn-login"  type="submit">登 录</button>
+        </div>
+        <div class="col-lg-12 registration">
+          <a class="" href="user1.html#/reg/verify_phone.html">注册账号</a>
+        </div>
+        <div class="fast-login-choise">
+          <span></span>
+          <span>快捷登录</span>
+          <span></span>
+        </div>
+        <div class="fast-login-btn">
+          <span><a href="#"></a></span>
+          <span><a href="#"></a></span>
+        </div>
+      </form>
+    </div>
+    <!-- 忘记密码modal -->
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" class="forgot-pwd modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" style="color:#c7a77b!important;" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title pr-font-16">忘记密码 ?</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="mgb-m">输入您的手机号码并获取短信验证码,以重置您的密码!</p>
+                    <input type="number" name="your-phone" placeholder="您的手机号码" autocomplete="off" class="form-control placeholder-no-fix">
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default pr-btn-transparentbg" type="button">取消</button>
+                    <button class="btn btn-primary pr-btn-transparentbg" type="button">下一步</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
 
     <!-- Placed js at the end of the document so the pages load faster -->
     <script src="../js/jquery-1.10.2.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/iCheck/jquery.icheck.min.js"></script>
-    <script src="conf.js"></script>
+    <script src="../conf.js"></script>
     <script>
 
 
@@ -119,7 +146,7 @@
         $('form[name="loginForm"]').on('submit', function () {
           var _paramsObj = {};
           if ($('input[name="phone"]').val() && $('input[name="password"]').val()) {
-            _paramsObj.phone = $('input[name="phone"]').val();
+            _paramsObj.phone = $.trim($('input[name="phone"]').val());
             _paramsObj.password = $('input[name="password"]').val();
             $.ajax({
 
@@ -133,12 +160,20 @@
               success: function (results) {
                 if (results.code === 200) {  //验证成功
                   // 记住电话号码
+                  var remeberNumber="";
                   if ($('input[name="remeberNumber"]').is(':checked')) {  //如果用户选择保存手机号码
-                    if (window.localStorage) {    //如果当前用户浏览器支持localstorage
-                      window.localStorage.setItem('manage_remeberNumber', _paramsObj.phone);
-                    }
+                      remeberNumber= _paramsObj.phone;
                   }
-                  window.location.href = "index.html#/main.html";
+                  if (window.localStorage) {    //如果当前用户浏览器支持localstorage
+                    window.localStorage.setItem('remeberNumber', remeberNumber);
+                  }
+
+                  if (results.data.additional.DepartmentId) {
+                    window.location.href = conf.indexPage||"index.html#/main.html";
+                  } else {
+                    window.location.href = conf.applyBindUrl||"user1.html#/reg/apply_bind.html"
+                  }
+
                 } else {
                   $('.login-info-prompt > div > span').text(results.msg);
                   $('.login-info-prompt').fadeIn(500);
@@ -168,9 +203,18 @@
           increaseArea: '20%' // optional
         });
         // 读取用户设置的手机号码
-        if (window.localStorage&&window.localStorage.manage_remeberNumber) {
-          $('input[name="phone"]').val(window.localStorage.manage_remeberNumber);
+
+        if(window.localStorage){
+            var remeberNumber = window.localStorage.getItem("remeberNumber");
+            if(remeberNumber) {
+              $('input[name="phone"]').val(remeberNumber);
+            }
+
+            // if(!remeberNumber) remeberNumber="";
+            // $('input[name="phone"]').val(remeberNumber);
         }
+
+
       });
     </script>
 </body>

@@ -92,11 +92,11 @@ var Component_paths = {
 /* 基础路径 */
 var project_name="project-PG16-H";
 var Project_paths = {
-  src_css       :   [paths.src + 'css/project-PG16-H/**/*.css'],
-  dest_css_fileName:"style.min.css",
+  src_css       :   [paths.src + 'css/'+project_name+'/**/*.css'],
+  dest_css_fileName:project_name+"_style.min.css",
 
   src_js     :   [ paths.src+project_name+"/app.js",paths.src + 'angular/modules/'+project_name+'/*.js'],
-  dest_js_fileName:"app.min.js",
+  dest_js_fileName:project_name+"_app.min.js",
 
   build     :  "src/build/",//编译路径
   build_js       :  paths.build+'js/',

@@ -63,7 +63,7 @@ require.config({
         'morris': '../libs/morris-chart/morris.min',                         //日历插件
         'toastr': '../libs/toastr/toastr.min',   //提示窗口
         'raphael': '../libs/morris-chart/raphael.min',                         //日历插件
-        "project/angucomplete": '../libs/project/angucomplete',                         //自动补全
+        // "project/angucomplete": '../libs/project/angucomplete',                         //自动补全
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
     shim: {
