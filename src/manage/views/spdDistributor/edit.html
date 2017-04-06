@@ -13,7 +13,6 @@
                 <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}经销商</h4>
             </div>
             <div class="modal-body">
-
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">经销商名称</label>
                   <div class="col-lg-8 col-sm-8">
@@ -65,43 +64,49 @@
                     <input type="text" class="form-control" placeholder="" ng-model="formData.note" />
                   </div>
                 </div>
-
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">录入人</label>
                   <div class="col-lg-10 col-sm-10">
                     <input type="text" class="form-control" placeholder="" ng-model="formData.inputUser.n" />
                   </div>
                 </div>
-
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">录入时间</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.createAt | date : 'yyyy-MM-dd'" />
+                    <input type="text"
+                           datepicker
+                           class="ipt pr-short-ipt color-3"
+                           style="width:90px;"
+                           placeholder=""
+                           ng-readonly="true"
+                           ng-model="formData.createAt" />
+
                   </div>
                 </div>
-
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">修改人</label>
                   <div class="col-lg-10 col-sm-10">
                     <input type="text" class="form-control" placeholder="" ng-model="formData.modify.user" />
                   </div>
                 </div>
-
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">修改时间</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.modify.updateDate | date : 'yyyy-MM-dd'" />
+                    <input type="text"
+                           datepicker
+                           class="ipt pr-short-ipt color-3"
+                           style="width:90px;"
+                           placeholder=""
+                           ng-readonly="true"
+                           ng-model="formData.modify.updateDate" />
                   </div>
                 </div>
-
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label"></label>
                   <div class="col-lg-10 col-sm-10">
                     <input ng-diasbled="!formData.name || !formData.code" type="submit" class="btn pr-btn-create-glodbg" value="提交">
-
                   </div>
                 </div>
-
             </div>
 
             </form>
