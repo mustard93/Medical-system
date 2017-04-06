@@ -23,7 +23,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">经销商编码</label>
                   <div class="col-lg-8 col-sm-8">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.code" />
+                    <input ng-disabled="formData.id" type="text" class="form-control" placeholder="" ng-model="formData.code" />
                   </div>
                   <span ng-if="!formData.code" class="col-lg-2 col-sm-2  color-red">（必填）</span>
                 </div>
@@ -86,13 +86,14 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">修改人</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.modify.user" />
+                    <input ng-disabled="true" type="text" class="form-control" placeholder="" ng-model="formData.modify.user.n" />
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">修改时间</label>
                   <div class="col-lg-10 col-sm-10">
                     <input type="text"
+                          ng-disabled="true"
                            datepicker
                            class="ipt pr-short-ipt color-3"
                            style="width:90px;"
@@ -104,7 +105,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label"></label>
                   <div class="col-lg-10 col-sm-10">
-                    <input ng-diasbled="!formData.name || !formData.code" type="submit" class="btn pr-btn-create-glodbg" value="提交">
+                    <input class="pr-btn-save-glodbg" ng-disabled="!formData.name || !formData.code"  type="submit"  value="提交">
                   </div>
                 </div>
             </div>
