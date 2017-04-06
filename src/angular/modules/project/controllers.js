@@ -5281,7 +5281,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 监控listparams对象中属性的更改，刷新结果列表
     $scope.$watchCollection('listParams', function (newVal, oldVal) {
-      if ($scope.listParams) {
+      if ($scope.listParams && oldVal !== undefined) {
 
         if ($scope.dialogData.sourceId) {
           $scope.listParams.warehouseId = $scope.dialogData.sourceId;
