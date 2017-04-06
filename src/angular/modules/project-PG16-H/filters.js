@@ -23,7 +23,7 @@ define('project/filters', ['project/init'], function () {
               s = s || '整';
               n = Math.floor(n);
 
-              for (var i = 0; i < unit[0].length && n > 0; i++)
+              for (i = 0; i < unit[0].length && n > 0; i++)
               {
                   var p = '';
                   for (var j = 0; j < unit[1].length && n > 0; j++)
@@ -34,7 +34,7 @@ define('project/filters', ['project/init'], function () {
                   s = p.replace(/(零.)*零$/, '').replace(/^$/, '零')  + unit[0][i] + s;
               }
               return head + s.replace(/(零.)*零元/, '元').replace(/(零.)+/g, '零').replace(/^整$/, '零元整');
-          }
+          };
         }//end upDigit
 
         /**
