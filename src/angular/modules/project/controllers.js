@@ -5317,7 +5317,7 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 用户选择生产批号
-    $scope.choseBatch = function (obj,id) {
+    $scope.choseBatch = function (obj,choisedList,id) {
 
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {
@@ -5336,18 +5336,25 @@ define('project/controllers', ['project/init'], function() {
       var _total = 0;
 
       // 计算当前药品的批次数量和
-      if ($scope.formData.orderMedicalNos) {
-        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
-          if (data.stockBatchs) {
-            for (var i = 0; i < data.stockBatchs.length; i++) {
-              if (data.stockBatchs[i].batchNumber)
-              { _total += parseInt(data.stockBatchs[i].quantity, 10);
-              }
-            }
+      if (choisedList) {
+        angular.forEach(choisedList, function (data, index) {
+          if (data.batchNumber) {
+            _total += parseInt(data.quantity, 10);
           }
-
         });
       }
+
+      // if ($scope.formData.orderMedicalNos) {
+      //   angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+      //     if (data.stockBatchs) {
+      //       for (var i = 0; i < data.stockBatchs.length; i++) {
+      //         if (data.stockBatchs[i].batchNumber)
+      //         { _total += parseInt(data.stockBatchs[i].quantity, 10);
+      //         }
+      //       }
+      //     }
+      //   });
+      // }
 
       // 如果当前批次数量大于或等于计划采购数量
       if ((obj.stockModel.salesQuantity + _total) > $scope.dialogData.planQuantity) {
