@@ -1,0 +1,34 @@
+<div class="container col-lg-6 col-lg-offset-3">
+  <div class="col-lg-12 col-sm-12 sys-reg-logo"></div>
+  <div class="col-lg-12 col-sm-12"></div>
+
+  <div class="bind-wrap col-lg-12"
+       ajax-url="rest/authen/distributor/queryMyApplyOrganization"
+       scope-data="dataList"
+       callback='dataList[0]?showData=dataList[0]:$root.goTo("#/reg/apply_bind.html")'>
+
+    <div class="col-lg-6 col-sm-6 col-lg-offset-3 mgt-l" style="margin-top:56px;margin-bottom:31px;">
+      <p ng-if="showData.uaoStatus=='认证通过'">小谷提醒：您申请绑定的 {{showData.organizationName}}  {{showData.departmentName}} 信息{{showData.uaoStatus}}.</p>
+      <p  ng-if="showData.uaoStatus=='等待认证'">小谷提醒：您申请绑定的 {{showData.organizationName}}  {{showData.departmentName}} 信息{{showData.uaoStatus}}...请耐心等待，审核通过后，您将收到电话和电子邮件通知.</p>
+      <!-- <p  ng-if="showData.uaoStatus=='认证驳回'">小谷提醒：您申请绑定的 {{showData.organizationName}}  {{showData.departmentName}} 信息{{showData.uaoStatus}}.驳回理由：{{showData.key}} {{showData.message}} ，请重新申请绑定</p> -->
+      <div ng-if="showData.uaoStatus=='认证驳回'">
+        <p class="text-center">小谷提醒你</p>
+        <div class="flex-column mgt-xxl" >
+          <div class="flex-item-2 text-right pdr"><span class="fa fa-times" style="color:red"></span></div>
+          <div class="flex-item-10">
+            <p class="mgb">你有绑定申请被驳回</p>
+            <p>{{showData.organizationName}} - {{showData.departmentName}} - {{showData.uaoStatus}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div  ng-if="showData.uaoStatus!='认证驳回'" class="col-lg-6 col-sm-6 col-lg-offset-3 text-center">
+        <a class="mgr-l" href="login.html" style="color:rgb(255,140,0)">返回登录</a>
+        <a href="#/reg/apply_bind.html" style="color:rgb(255,140,0)">再次申请绑定</a>
+    </div>
+    <div  ng-if="showData.uaoStatus=='认证驳回'" class="col-lg-6 col-sm-6 col-lg-offset-3 text-center">
+        <a class="mgr-l"  href="login.html" style="color:rgb(255,140,0)">返回登录</a>
+        <a href="#/reg/apply_bind.html" style="color:rgb(255,140,0)">再次申请绑定</a>
+    </div>
+  </div>
+</div>

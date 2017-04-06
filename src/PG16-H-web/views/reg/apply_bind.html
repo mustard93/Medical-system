@@ -1,0 +1,89 @@
+<div class="container col-lg-6 col-lg-offset-3">
+  <div class="col-lg-12 col-sm-12 sys-reg-logo"></div>
+  <div class="col-lg-12 col-sm-12">
+    <p class="sys-reg-title">申请绑定</p>
+  </div>
+
+  <div class="bind-wrap col-lg-12" >
+    <!-- 提示信息 -->
+    <div class="text-center bind-notice">
+      <span>请选择公司名，部门和角色进行身份绑定。</span>
+    </div>
+    <form class="form-signin"
+          onsubmit="return false;"
+          form-validator
+          action= "rest/authen/distributor/userApplyOrganization.json"
+          alert-error callback='$root.goTo("#/reg/bind_done.html")'>
+      <div>
+        <select class="select pr-select"
+                data-placeholder="选择一个..."
+                chosen alert-error
+                ng-model="formData.organizationId"
+                select-source="rest/index/distributor/queryForSelectOption.json">
+        </select>
+
+        <!-- <select relative-select relative-initload relative-to="#relativeSelect3"
+                class="chzn-select" ng-model="formData.select2" name="select2" chosen>
+          <option value="">请选择</option>
+          <option value="" ng-repeat="item in distributorList">{{item.text}}</option>
+        </select> -->
+
+        <select class="select select-w"
+                data-placeholder="选择一个..."
+                chosen
+                ng-model="formData.departmentId"
+                ajax-if-eval="formData.organizationId"
+                default-empty
+                alert-error
+                params='{"DistributorId":"{{formData.organizationId}}"}'
+                select-source="rest/index/department/queryForSelectOption.json">
+        </select>
+      </div>
+      <div class="mgb roles-wrapper">
+      <span class="disp-b text-n text-bold color-6 pd-c mgt">角色:</span>
+      <p class="mgl" ajax-if="{{formData.departmentId}}"
+      ajax-url="rest/index/role/queryForSelectOption"
+
+          params='{"departmentId":"{{formData.departmentId}}","organizationId":"{{formData.organizationId}}"}'
+       scope-data="roles"
+       alert-error>
+        <label class="pr-label color-6 mgr cur-pot"  ng-repeat="item in roles">
+          <span  class="square" style="position:relative;top:5px;">
+            <input value="{{item.value}}" type="checkbox" checkbox-group="formData.applyRoleIds"></span>
+          <span class="">{{item.text}}</span>
+        </label>
+        </div>
+        <!-- <label class="pr-label color-6 mgr cur-pot">
+
+            <input type="checkbox"   value="检验"   checkbox-group="formData.roleIdsArr"></span>
+          <span class="">检验</span>
+        </label>
+        <label class="pr-label color-6 cur-pot">
+          <span  class="square" style="position:relative;top:5px;"><input type="checkbox"></span>
+          <span class="">组长</span>
+        </label> -->
+
+      </p>
+      <div class="flex-column">
+        <div class="flex-item-12" style="border:none;">
+          <button type="submit"
+                  class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
+                  ng-disabled="!formData.organizationId || !formData.departmentId">完 成
+          </button>
+        </div>
+        <!-- <div class="flex-item-2">
+          <a href="login.html" class="mgl text-n">稍后绑定</a>
+        </div> -->
+      </div>
+      <div class="col-lg-12 text-center">
+        <a href="login.html" class="mgl text-n">稍后绑定</a>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- <script src="js/chosen-1.6.2.min.js"></script>
+<script>
+  $(function () {
+    $(".chzn-select").chosen();
+  });
+</script> -->
