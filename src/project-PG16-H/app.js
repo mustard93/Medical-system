@@ -63,7 +63,7 @@ require.config({
         'morris': '../libs/morris-chart/morris.min',                         //日历插件
         'toastr': '../libs/toastr/toastr.min',   //提示窗口
         'raphael': '../libs/morris-chart/raphael.min',                         //日历插件
-        "project/angucomplete": '../libs/project/angucomplete',                         //自动补全
+        // "project/angucomplete": '../libs/project/angucomplete',                         //自动补全
         'clndr': '../libs/calendar/clndr.min'                             //日历插件
     },
     shim: {
@@ -171,6 +171,9 @@ define('manageApp.project', ['project/init', 'project/services', 'project/contro
 define('manageApp.modal', ['modal/init', 'modal/services', 'modal/directives']);
 define('manageApp.upload', ['upload/init', 'upload/directives']);
 define('datePicker', ['datepicker/datepicker']);
+
+define('manageApp.project-PG16-H', ['project-PG16-H/init', 'project-PG16-H/services', 'project-PG16-H/controllers', 'project-PG16-H/directives', 'project-PG16-H/filters', 'project-PG16-H/angucomplete']);
+
 
 define('manageApp', [
        'angular',
