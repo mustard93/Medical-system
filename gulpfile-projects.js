@@ -16,50 +16,34 @@ var gulp = require('gulp'),
     revCollector = require('gulp-rev-collector'),       // 替换静态资源链接
     runSequence = require('run-sequence');         // 顺序执行
 
-/* 自动刷新 start */
-gulp.task('browser', function () {
-  return browserSync({
-    port: 3000,
-    open: true,
-    startPath: '/',
-    server: {
-      directory: true,
-      routes: {
-        '/': '/'
-      },
-      middleware: function (req, res, next) {
-        console.log('middleWare.');
-        next();
-      },
-      baseDir: './'
-    },
-    //指定浏览器
-    browser: 'chrome',
-    //延迟刷新，默认为0
-    reloadDelay: 1,
-    //是否载入css修改，默认true
-    injectChanges: true
-  });
-});
-
-gulp.task('bro', function () {
-  return gulp.src('./src/*')
-             .pipe(browserSync.reload({
-                stream: true
-              }));
-});
-/* 自动刷新 end */
+//配置项目名（必填项），项目具体目录关注。Project_paths
+var project_name="manage";
 
 var fs = require('fs');
 var fileContent = fs.readFileSync('./package.json');
 var jsonObj = JSON.parse(fileContent);
 
-var argv = process.argv.pop();
-var DEBUGGER = (argv === '-D' || argv === '-d') ? true : false;
+//获取需要打包的项目
+var pg_projects=jsonObj.pg_projects;
+var argvs = process.argv;
+console.log( argvs);
 
+//
+function getArgvsValueByKey(arr,key){
+  for(var i=0;i<arr.length;i++){
+    if(arr[i]==key){
+      if(arr.length>i){
+        return arr[i+1];
+      }
+    }
+  }
+}
+
+project_name=getArgvsValueByKey(argvs,"--project_name");
+console.log("project_name", project_name);
+// var DEBUGGER = (argv === '-D' || argv === '-d') ? true : false;
 /* 基础路径 */
 var paths = {
-
   src       :  'src/',
   build     :  "src/build/",//编译路径
   build_js       :'src/build/js/',//编译后css输出路径；paths.build_js
@@ -90,35 +74,62 @@ var Component_paths = {
    buildTmp :  "../"
 };
 /* 基础路径 */
-var project_name="project-PG16-H";
-var Project_paths = {
-  src_css       :   [paths.src + 'css/'+project_name+'/**/*.css'],
-  dest_css_fileName:project_name+"_style.min.css",
 
-  src_js     :   [ paths.src+project_name+"/app.js",paths.src + 'angular/modules/'+project_name+'/*.js'],
-  dest_js_fileName:project_name+"_app.min.js",
 
-  build     :  "src/build/",//编译路径
-  build_js       :  paths.build+'js/',
+function getProjectPaths(project_name){
+   var obj={
+    src_css       :   [paths.src + 'css/'+project_name+'/**/*.css'],
+    dest_css_fileName:project_name+"_style.css",
+    src_js     :   [ paths.src+project_name+"/app.js",paths.src + 'angular/modules/'+project_name+'/*.js'],
+    dest_js_fileName:project_name+"_app.js",
+    build     :  "src/build/",//编译路径
+    build_js       :  paths.build+'js/',
+    less      :  'src/less/',
+    scripts   :  "src/js/",
+    img       :  "src/images/",
+    html      :  "src/html/",
+     buildTmp :  "../"
+  };
 
-  less      :  'src/less/',
-  scripts   :  "src/js/",
-  img       :  "src/images/",
-  html      :  "src/html/",
-   buildTmp :  "../"
+  console.log("getProjectPaths",obj);
+  return obj;
 };
+var Project_paths = getProjectPaths(project_name);
 
 var concatCss_src=Component_paths.src_css.concat(Project_paths.src_css);
     console.log('concatCss_src',concatCss_src);
 var concatJs_src=Project_paths.src_js.concat(Component_paths.src_js);
-console.log('concatJs_src',concatJs_src);
+  console.log('concatJs_src',concatJs_src);
 
+
+/*合并css(开发环境 ) 方法 */
+function concatCssTask(project_name){
+  var tmpProject_paths = getProjectPaths(project_name);
+    // console.log('tmpProject_paths',tmpProject_paths);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(concatCss_src)
+             .pipe(concat(tmpProject_paths.dest_css_fileName))
+             .pipe(gulp.dest(paths.build_css));
+}
+
+/*合并、压缩CSS(发布环境)方法 */
+function concatMinCssTask(project_name){
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(concatCss_src)
+             .pipe(concat(tmpProject_paths.dest_css_fileName))
+             .pipe(mincss())
+             .pipe(rev())
+            //  .pipe(gulp.dest(paths.build + 'css'))
+               .pipe(gulp.dest(paths.build_css))
+             .pipe(rev.manifest())
+             .pipe(gulp.dest(paths.build_css));
+
+}
 
 /*合并css(开发环境 ) */
 gulp.task('concatCss', ['clean-css'], function () {
-  return gulp.src(concatCss_src)
-             .pipe(concat(Project_paths.dest_css_fileName))
-             .pipe(gulp.dest(paths.build_css));
+  return concatCssTask(project_name);
 });
 
 /* 清理css文件(开发环境 ) */
@@ -126,16 +137,11 @@ gulp.task('clean-css', function () {
   return gulp.src([paths.build_css+"*.css"])
              .pipe(clean());
 });
+
+
 /*  合并、压缩CSS(发布环境) */
 gulp.task('handleCss', ['pro-clean-css'], function () {
-  return gulp.src(concatCss_src)
-             .pipe(concat(Project_paths.dest_css_fileName))
-             .pipe(mincss())
-             .pipe(rev())
-            //  .pipe(gulp.dest(paths.build + 'css'))
-               .pipe(gulp.dest(paths.build_css))
-             .pipe(rev.manifest())
-             .pipe(gulp.dest(paths.build_css));
+  return concatCssTask(project_name);
 });
 
 /* 清理css文件(发布环境)*/
@@ -156,24 +162,78 @@ gulp.task('concatJs', ['pro-clean-js'], function () {
              .pipe(concat(Project_paths.dest_js_fileName))
             .pipe(gulp.dest(paths.build_js));
 });
-/* 合并、压缩 JS(发布环境) */
-gulp.task('handleJs', ['pro-clean-js'], function () {
-  return gulp.src(concatJs_src)
-             .pipe(concat(Project_paths.dest_js_fileName))
-             .pipe(uglify())
-             .pipe(rev())
-             .pipe(gulp.dest(paths.build_js))
-             .pipe(rev.manifest())
-            .pipe(gulp.dest(paths.build_js))
-});
 
-/* 压缩 JS 开发测试压缩是否失败 */
-gulp.task('handleJsCompress', ['pro-clean-js'], function () {
+
+
+/*合并js(开发环境 ) 方法 */
+function concatJsTask(project_name){
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_js.concat(tmpProject_paths.src_js);
+  return gulp.src(concatCss_src)
+             .pipe(concat(tmpProject_paths.dest_js_fileName))
+             .pipe(gulp.dest(paths.build_js));
+}
+
+/*合并、压缩jS(发布环境)方法 */
+function concatMinJsTask(project_name){
+
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatJs_src=tmpProject_paths.src_js.concat(Component_paths.src_js);
+
+  console.log('concatJs_src',concatJs_src);
+
+     return gulp.src(concatJs_src)
+               .pipe(concat(Project_paths.dest_js_fileName))
+               .pipe(uglify())
+               .pipe(rev())
+               .pipe(gulp.dest(paths.build_js))
+               .pipe(rev.manifest())
+              .pipe(gulp.dest(paths.build_js))
+
+}
+
+/*压缩 JS 开发测试压缩是否失败  */
+function testConcatMinJsTask(project_name){
+    console.log('testConcatMinJsTask',project_name);
+  var tmpProject_paths = getProjectPaths(project_name);
+  console.log('tmpProject_paths',tmpProject_paths);
+
+  var concatJs_src=tmpProject_paths.src_js.concat(Component_paths.src_js);
+
+    console.log('concatJs_src',concatJs_src);
+
   return gulp.src(concatJs_src)
              //.pipe(concat('app.min.js'))
              .pipe(uglify())
              .pipe(gulp.dest(paths.buildTmp + 'js'));
+
+}
+
+/* 合并、压缩 JS(发布环境) */
+gulp.task('handleJs', ['pro-clean-js'], function () {
+  return concatMinJsTask(project_name);
 });
+
+/* 压缩 JS 开发测试压缩是否失败 */
+gulp.task('handleJsCompress', ['pro-clean-js'], function () {
+  return testConcatMinJsTask(project_name)
+});
+
+
+/*压缩 JS 开发测试压缩是否失败  */
+function revHtmlTask(project_name){
+  return gulp.src(['./src/build/**/*.json', './src/'+project_name+'/release/**/*.html'])
+             .pipe(revCollector())
+             .pipe(gulp.dest('./src/'+project_name+'/release'));
+
+
+            //  return gulp.src(['./rev/**/*.json', './src/'+project_name+'/release/**/*.html'])
+            //             .pipe(revCollector())
+            //             .pipe(gulp.dest('./src/'+project_name+'/release'));
+
+}
+
+
 
 //Html替换css、js文件版本
 gulp.task('revHtml', function () {
@@ -183,10 +243,12 @@ gulp.task('revHtml', function () {
 });
 
 // 处理manage目录中的链接替换
+gulp.task('revProjectHtml', function () {
+  return revHtmlTask(project_name);
+});
+// 处理manage目录中的链接替换
 gulp.task('revManageHtml', function () {
-  return gulp.src(['./rev/**/*.json', './src/manage/release/**/*.html'])
-             .pipe(revCollector())
-             .pipe(gulp.dest('./src/manage/release'));
+  return revHtmlTask(project_name);
 });
 
 
@@ -275,6 +337,23 @@ gulp.task('server', function (done) {
     './src/manage/*.html'], ['bro']);
 });
 
+
+/* 生产模式静态文件打包任务，包含css、js的合并、压缩、版本号更新及链接替换 */
+gulp.task('release-all', ['pro-clean-css','pro-clean-js'],function (done) {
+    condition = false;
+
+    for(var i=0;i<pg_projects.length;i++){
+      var project_name=pg_projects[i];
+      console.log(project_name+" start..");
+      concatMinJsTask(project_name);
+      concatCssTask(project_name);
+
+      revHtmlTask(project_name)
+        console.log(pg_projects[i]+" end");
+    }
+  console.log(done);
+});
+
 /* 生产模式静态文件打包任务，包含css、js的合并、压缩、版本号更新及链接替换 */
 gulp.task('pro-server', function (done) {
     condition = false;
@@ -285,3 +364,37 @@ gulp.task('pro-server', function (done) {
       ['revManageHtml'],
       done);
 });
+
+/* 自动刷新 start */
+gulp.task('browser', function () {
+  return browserSync({
+    port: 3000,
+    open: true,
+    startPath: '/',
+    server: {
+      directory: true,
+      routes: {
+        '/': '/'
+      },
+      middleware: function (req, res, next) {
+        console.log('middleWare.');
+        next();
+      },
+      baseDir: './'
+    },
+    //指定浏览器
+    browser: 'chrome',
+    //延迟刷新，默认为0
+    reloadDelay: 1,
+    //是否载入css修改，默认true
+    injectChanges: true
+  });
+});
+
+gulp.task('bro', function () {
+  return gulp.src('./src/*')
+             .pipe(browserSync.reload({
+                stream: true
+              }));
+});
+/* 自动刷新 end */

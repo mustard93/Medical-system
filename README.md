@@ -3,7 +3,14 @@
 搭建开发环境。
 1.先安装最新版本nodejs，npm，gulp
 2.下载按照项目需要的模块，只执行一次： npm-instal.bat
-3.启动http server用于开发调试。：run-server.bat
+3.启动http server用于开发调试，项目对应表：
+run-server-manage.bat -- 管理员平台
+run-server-PG16-H.bat -- 医院SPD平台
+
+
+complie-release-all.bat 执行编译所有项目，添加新项目需要在文件package.json
+添加项目：
+ "pg_projects":["manage","project-PG16-H"],
 
 文件命名规范：
 老版本不使用改名规则，后缀() ：_old_v版本号;
