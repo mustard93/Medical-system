@@ -258,11 +258,13 @@
                     <td class="text-center pd-n">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
                     </td><!-- 灭菌批号 -->
-                    <!-- <td class="text-center pd-n">
-                      <div ng-repeat="warehouse in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{warehouse.warehouseName}}</div>
-                    </td> -->
+                    <td class="text-center pd-n" style="display:none;">
+                      <div ng-repeat="pro in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{pro.productionDate | date : 'yyyy-MM-dd'}}</div>
+                    </td>
+                    <td class="text-center pd-n">
+                      <div ng-repeat="valid in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{valid.validTill | date : 'yyyy-MM-dd'}}</div>
+                    </td>
                     <!-- 仓库 -->
-                    <td class="text-center" style="white-space: nowrap;">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
                     <td class="text-center">{{item.productStandard}}</td>
                     <td class="text-center">{{item.storedTemperature}}</td>
                     <td class="text-center">{{item.brand}}</td>
