@@ -1,0 +1,80 @@
+<div class="container col-lg-6 col-lg-offset-3">
+  <div class="col-lg-12 col-sm-12 sys-reg-logo"></div>
+  <div class="col-lg-12 col-sm-12">
+    <p class="sys-reg-title">注册 - 补充个人信息</p>
+  </div>
+
+  <div class="reg-wrap col-lg-12"
+  ng-init="okMsg='';errorMsg='';formData={};formData.sex='男';formData.phone=$root.store.get('remeberNumber');formData.code=$root.store.get('sendVerificationCode');"
+  >
+    <div class="user-face">
+      <span></span>
+    </div>
+    <div class="user-phone">
+      {{formData.phone}}
+    </div>
+
+    <div  ng-if="errorMsg"  class="col-lg-12 col-sm-12 reg-info-prompt" >
+      <div>
+        <i class="fa fa-exclamation-triangle"></i>
+        <span>{{errorMsg}}</span>
+      </div>
+    </div>
+
+    <div ng-if="okMsg" class="col-lg-12 col-sm-12 reg-success-prompt" >
+      <div>
+        <i class="fa fa-check"></i>
+        <span class="color-white">注册成功</span>
+      </div>
+    </div>
+
+    <div class="reg-wrap col-lg-12">
+      <form name="editForm" class="form-signin enter-info-form" onsubmit="return false;" novalidate="novalidate"
+      action="rest/index/register.json"
+      form-validator
+      scope-error-msg="errorMsg"
+      scope-ok-msg="okMsg"
+      alert-ok
+      callback="$root.store.set('sendVerificationCode','');$root.goTo('#/reg/bind_done.html')"
+
+      >
+        <div class="pr-form-control">
+          <input type="password" class="form-control"  placeholder="输入密码"
+                name="password" ng-model="formData.password" maxlength="32" required autofocus
+                ng-minlength="6" class="form-control"
+                data-content="密码应在6~32位之间且可包含大小写字母、数字、下划线和中划线"
+                 invalid-popover="{{editForm.password.$invalid}}"  />
+        </div>
+        <div class="pr-form-control">
+          <input type="password" class="form-control" placeholder="再次输入登录密码"
+                name="repassword" ng-model="formData.repassword" maxlength="32" required
+                data-content="确认新密码请输入与新密码相同"
+                invalid-popover="{{formData.password!=formData.repassword}}"
+                />
+        </div>
+        <div class="pr-form-control">
+          <input type="text" class="form-control" placeholder="姓名"
+                 name="name" ng-model="formData.name" required maxlength="16"
+                 invalid-popover="{{editForm.newPassword.$invalid}}"
+                 />
+        </div>
+        <div class="last-div">
+          <label>性别</label>
+          <label><input type="radio" name="sex" value="男" ng-model="formData.sex" ng-checked="true"
+                  > 男</label>
+          <label><input type="radio" name="sex" value="女" ng-model="formData.sex"> 女</label>
+        </div>
+        <div class="button-wrap">
+          <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
+                  ng-disabled="editForm.$invalid ||
+                               editForm.newPassword.$invalid ||
+                               formData.password!=formData.repassword">完 成
+          </button>
+        </div>
+        <div class="col-lg-12 text-center cancel" style="margin-left:0;">
+          <a href="login.html" class="color-custom-orange">取 消</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
