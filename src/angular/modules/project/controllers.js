@@ -5295,7 +5295,8 @@ define('project/controllers', ['project/init'], function() {
               createAtBeg: $scope.listParams.createAtBeg,
               createAtEnd: $scope.listParams.createAtEnd,
               q: $scope.listParams.q,
-              warehouseType: '正常库'
+              warehouseType: '正常库',
+              isOnlyAvailable: true
             };
 
         requestData(_url, _data, 'GET')
