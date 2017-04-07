@@ -111,7 +111,7 @@
     <script src="../js/jquery-1.10.2.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/iCheck/jquery.icheck.min.js"></script>
-    <script src="../conf.js"></script>
+    <script src="conf.js"></script>
     <script>
 
 
@@ -142,6 +142,7 @@
       // });
 
       $(function () {
+        console.log(conf);
         // 绑定发送事件
         $('form[name="loginForm"]').on('submit', function () {
           var _paramsObj = {};
@@ -149,9 +150,7 @@
             _paramsObj.phone = $.trim($('input[name="phone"]').val());
             _paramsObj.password = $('input[name="password"]').val();
             $.ajax({
-
               url: conf.serverPath+'rest/index/authorize.json',
-                // url: 'http://localhost:8080/dt/rest/index/authorize.json',
               type: 'post',
               data: _paramsObj,
               xhrFields:{withCredentials: true},
