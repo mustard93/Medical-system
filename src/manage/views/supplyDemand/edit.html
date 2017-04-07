@@ -5,7 +5,7 @@
          >
 
           <form class="add-medical-form form-horizontal"
-                action="rest/authen/distributor/save"
+                action="rest/authen/supplydemand/save"
                alert-error parameter-body
                 form-validator>
             <div class="modal-header">
@@ -16,11 +16,21 @@
               <div class=""
                 ajax-if-eval="hospitalQuery.id"
                 ajax-url="rest/authen/hospital/get.json?id={{hospitalQuery.id}}"  scope-data="hospital"  alert-error
-                callback="formData.hospitalCode=hospital.code">
+                callback="formData.hospitalCode=hospital.code;formData.hospitalName=hospital.name;formData.hospitalId=hospital.id;">
                 <div class="form-group" >
                   <label class="col-lg-2 col-sm-2 control-label">医疗机构名称</label>
                   <div class="col-lg-10 col-sm-10">
-                  <span angucomplete placeholder="输入"
+                    <input ng-if="formData.id"
+                    type="text"
+                    class="ipt pr-indent-20 inline-block"
+                    style="width:153px;height:32px;"
+                    placeholder=""
+                    ng-disabled="true"
+                    ng-model="formData.hospitalName" />
+
+                  <span  ng-class="{'pr-dpy-none':(formData.id)}"
+                         ng-disabled="formData.id"
+                         angucomplete placeholder="输入医疗机构名称"
                          title-field="name"
                          url="rest/authen/hospital/query.json"
                          class="inline-block"
@@ -31,13 +41,14 @@
                 <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">医疗机构编码</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.hospitalCode" />
+                    <input ng-disabled="formData.hospitalCode" type="text" class="form-control" placeholder="" ng-model="formData.hospitalCode" />
                   </div>
                 </div>
                 <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">医疗机构类型</label>
                   <div class="col-lg-10 col-sm-10">
                     <select ng-if="initFlag"
+                     ng-disabled="formData.id"
                      class="select select-w"
                      data-placeholder="选择类型"
                      chosen ng-model="formData.HospitalType.type"
@@ -50,11 +61,20 @@
               <div class=""
                 ajax-if-eval="disdata.id"
                 ajax-url="rest/authen/distributor/get.json?id={{disdata.id}}"  scope-data="disdata"  alert-error
-                callback="formData.distributorCode=disdata.code">
+                callback="formData.distributorCode=disdata.code;formData.distributorName=disdata.name;formData.distributorId=disdata.id;">
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">经销商名称</label>
                   <div class="col-lg-10 col-sm-10">
-                    <span angucomplete placeholder="输入"
+                    <input ng-if="formData.id"
+                    ng-disabled="true"
+                    type="text"
+                    class="ipt pr-indent-20 inline-block"
+                    style="width:153px;height:32px;"
+                    placeholder=""
+                    ng-model="formData.distributorName" />
+                    <span ng-class="{'pr-dpy-none':(formData.id)}"
+                           ng-disabled="formData.id"
+                           angucomplete placeholder="输入经销商名称"
                            title-field="name"
                            url="rest/authen/distributor/query.json"
                            class="inline-block"
@@ -65,7 +85,7 @@
                 <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">经销商编码</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.distributorCode" />
+                    <input ng-disabled="formData.distributorCode" type="text" class="form-control" placeholder="" ng-model="formData.distributorCode" />
                   </div>
                 </div>
               </div>
@@ -79,13 +99,14 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">录入人</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.inputUser.n" />
+                    <input ng-disabled="formData.id" type="text" class="form-control" placeholder="" ng-model="formData.inputUser.n" />
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">录入时间</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="text"
+                    <input ng-disabled="formData.id"
+                           type="text"
                            datepicker
                            class="ipt pr-short-ipt color-3"
                            style="width:90px;"
@@ -117,7 +138,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label"></label>
                   <div class="col-lg-10 col-sm-10">
-                    <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+                    <input ng-disabled="!formData.hospitalCode || !formData.distributorCode" type="submit" class="btn pr-btn-create-glodbg" value="提交">
                   </div>
                 </div>
 
