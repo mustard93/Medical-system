@@ -51,16 +51,6 @@
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">平台商品编码：</label>
-                <div class="flex-item-10   text-left">
-                  <input type="text"
-                         class="ipt-new"
-                         name="name"
-                         ng-model="formData.name"
-                         required />
-                </div>
-              </div>
-              <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">商品名称：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
@@ -139,16 +129,6 @@
                          class="ipt-new ipt-new-s"
                          name="numberOfPackages"
                          ng-model="formData.numberOfPackages"
-                         required />
-                </div>
-              </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">包装大小：</label>
-                <div class="flex-item-10   text-left">
-                  <input type="text"
-                         class="ipt-new ipt-new-s"
-                         name="pieceLoading"
-                         ng-model="formData.pieceLoading"
                          required />
                 </div>
               </div>
@@ -314,62 +294,12 @@
             <span bottom-button-list="bottomButtonList">  </span>
 
               <span class="mgl" >
-                <button ng-if="changeFlag" href="javascript:;"
-                  class="pr-btn-save-glodbg mgt"
-                  type="button"
-                  modal-center="350"
-                  modal-scope="this"
-                  modal-data='{"title":"确认提示",
-                               "content1":"请输入修改内容",
-                               "content2":"请输入修改原因",
-                               "btnConfirm":"确定",
-                               "btnCancel":"取消",
-                               "url":"rest/authen/medicalStock/save",
-                               "goUrl":""
-                              }'
-                  modal-url="angular/tpl/pr-dialog-content-reason.html"
-                   >保存</button>
 
-                <button ng-if="!changeFlag" href="javascript:;"
+                <button  href="javascript:;"
                   class="pr-btn-save-glodbg mgt"
                   type="button"
                   ng-click="submitForm('editForm','save')"
                    >保存</button>
-            </span>
-
-            <span class="mgl">
-              <button ng-if="!changeFlag"
-                      class="pr-btn-save-glodbg-l mgt"
-                      ng-disabled="EditForm.$invalid">
-                      <a href="javascript:;"
-                      class="color-white"
-                      ng-click="submitForm('editForm','submit-medical')">
-                        保存并结束编辑
-                      </a>
-              </button>
-
-              <button ng-if="changeFlag"
-                      class="pr-btn-save-glodbg-l mgt"
-                      ng-disabled="EditForm.$invalid">
-                      <a href="javascript:;"
-                      class="color-white"
-                      modal-center="350"
-                      modal-scope="this"
-                      modal-data='{"title":"确认提示",
-                                   "content1":"请输入修改内容",
-                                   "content2":"请输入修改原因",
-                                   "btnConfirm":"确定",
-                                   "btnCancel":"取消",
-                                   "canHref":"submit-medical",
-                                   "url":"rest/authen/medicalStock/save"
-                                  }'
-                      modal-url="angular/tpl/pr-dialog-content-reason-href.html"
-                      >
-                        保存并结束编辑
-                      </a>
-              </button>
-
-
             </span>
 
           </div>
