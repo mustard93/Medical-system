@@ -1,0 +1,74 @@
+<div class="hospital-application">
+  <!-- 主内容头部 -->
+  <page-main-header-component list-params="listParams"
+                              crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"供应商管理","link":"","style":"color-custom-orange"}]'
+                              component-title="供应商管理">
+  </page-main-header-component>
+
+  <div class="content-wrapper">
+    <table-list list-data="http://localhost:3000/src/project-PG16-H/rest/authen/distributor/query.json"
+                list-params="listParams"
+                search-mode="noCaseSensitive"
+                search-param="q">
+      <!-- 主内容区域 -->
+      <div class="content-wrapper-main">
+        <!-- 列表 -->
+        <div ng-if="!status.isLoading">
+          <div ng-if="!tbodyList.length">
+            <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+            <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
+          </div>
+          <div ng-if="tbodyList.length" class="pr-bg-white pr-fuzzy-boundary mgl-m mgr-m">
+            <!-- 筛选 -->
+            <div class="text-right pd-m">
+                <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                  <input type="text" class="ipt pdr-xxl" placeholder="供应商编码／供应商名称／联系人" ng-model="listParams.q">
+                  <i class=""></i>
+                </div>
+                <div class="inline-block mgl-m">
+                  <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                  <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+                </div>
+            </div>
+            <!-- 表格列表数据 -->
+            <table class="table pr-table pr-new-table">
+              <thead class="pr-bg-side">
+                <tr>
+                  <th class="text-center">序号</th>
+                  <th class="text-center">供应商编码</th>
+                  <th class="text-left">供应商名称</th>
+                  <th class="text-center">联系人</th>
+                  <th class="text-center">联系电话</th>
+                  <th class="text-center">传真</th>
+                  <th class="text-center">邮编</th>
+                  <th class="text-left">地址</th>
+                  <th class="text-left">备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="tbodyList.length"
+                    ng-repeat="tr in tbodyList track by $index"
+                    class="relative"
+                    table-item-multiple-btn>
+                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
+                  <td class="text-center">{{tr.code}}</td>
+                  <td class="text-left color-orange">{{tr.name}}</td>
+                  <td class="text-center">{{tr.concatUser}}</td>
+                  <td class="text-center">{{tr.phone}}</td>
+                  <td class="text-center">{{tr.fax}}</td>
+                  <td class="text-center">{{tr.zipCode}}</td>
+                  <td class="text-left">{{tr.address}}</td>
+                  <td class="text-left">{{tr.note}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- 导航 -->
+        <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+          <div class="fr"><pagination status="status"></pagination></div>
+        </div>
+      </div>
+    </table-list>
+  </div>
+</div>
