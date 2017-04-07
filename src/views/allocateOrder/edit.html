@@ -58,12 +58,12 @@
 
             </p>
           </div>
-          <div class="inline-block relative mgr-l">
+          <div class="inline-block relative">
             <p class="mgb-s">
               仓库
             </p>
             <select ng-if="initFlag" class="pr-select pdt"
-            style="width:100px;"
+            style="width:250px;"
             chosen
             ng-model="formData.sourceId"
             select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}">
@@ -89,7 +89,7 @@
             仓库
           </p>
           <select ng-if="initFlag" class="pr-select pdt"
-          style="width:100px;"
+          style="width:250px;"
           chosen
           default-empty="无"
           ng-model="formData.targetId"
@@ -248,9 +248,10 @@
                                         "logisticsCenterId":"{{formData.logisticsCenterId}}",
                                         "planQuantity":{{item.planQuantity}},
                                         "sourceId":"{{formData.sourceId}}",
+                                        "sourceLogisticsCenterId":"{{formData.sourceLogisticsCenterId}}",
                                         "choisedBatchList":{{item.stockBatchs}}
                                       }'
-                           modal-url="views/versionFlow/choice-stockbatch-dialog.html">
+                           modal-url="views/versionFlow/choice-stockbatch-dialog-allocateOrder.html">
                         </i>
                       </div>
                       <p ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p>

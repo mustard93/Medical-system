@@ -103,7 +103,8 @@
                         <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
                         <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
                         <td class="text-right" ng-if="showData.type!='采购入库单_红字'">{{tr.storageQuantity+tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
-                        <td class="text-right" ng-if="showData.type=='采购入库单_红字'" style="color:red;">{{tr.outgoingQuantity+tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
+                        <td class="text-right" ng-if="showData.type=='采购入库单_红字' && tr.warehouseType != '待处理库'" style="color:red;">{{tr.storageQuantity || '0'}}</td><!-- 正常数量 -->
+                        <td class="text-right" ng-if="showData.type=='采购入库单_红字' && tr.warehouseType == '待处理库'" style="color:red;">{{tr.otherQuantity || '0'}}</td><!-- 正常数量 -->
                         <td class="text-right">{{tr.refuseQuantity || '0'}}</td><!-- 拒收数量 -->
                         <td class="text-right">￥{{tr.duty_price || '0'}}</td><!-- 原币含税单价 -->
                         <td class="text-right">￥{{tr.duty_free_price}}</td><!-- 原币单价 -->
