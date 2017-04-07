@@ -6,7 +6,7 @@ var conf={
   //  serverPath:"http://192.168.0.211:8080/spd/",    //系统api调用接口地址
   //serverPath:"http://localhost:8081/spd/",    //系统api调用接口地址
   // serverPath:"http://118.113.146.159:33333/spd/",
-  serverPath:"http://192.168.0.249:60456/spd/", 
+  serverPath:"http://192.168.0.249:60456/spd/",
   ver:"1.0.0"
 };
 
