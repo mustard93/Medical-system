@@ -11,7 +11,7 @@
     }
     require.dir = loaderScript.src.match(/[^?#]*\//)[0];
 
-    console.log("require.dir="+require.dir);
+    // console.log("require.dir="+require.dir);
 
     //ueditor编辑器路径配置
     window.UEDITOR_HOME_URL=require.dir+"libs/ueditor1_4_3_3-utf8-jsp/";
