@@ -54,7 +54,7 @@
       </div>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
         <h1 class="text-bold color-3 mgb">备注</h1>
-        <div class="">我是备注我是备注我是备注我是备注我是备注我是备注我是备注我是备注</div>
+        <div class="">{{scopeData.note}}</div>
       </div>
       <div class="handle-btn-area relative">
         <div class="mgb text-right btn-area">
@@ -64,13 +64,13 @@
                dialog-title="确认返回?"
                dialog-content="该申请单存在未保存数据，是否保存?"
                dialog-template="pr-dialog-return.html"
-               nosave-callback="goTo('#/firstMedicalApplication/query.html')"
-               save-callback="submitForm('firstMedical-editForm','save');$root.goTo('#/firstMedicalApplication/query.html')">返回库房列表
+               nosave-callback="goTo('#/storeRoom/query.html')"
+               save-callback="submitForm('firstMedical-editForm','save');$root.goTo('#/storeRoom/query.html')">返回库房列表
             </a>
-            <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回库房列表</a>
+            <a ng-if="!changeFlag" href="#/storeRoom/query.html">返回库房列表</a>
           </span>
           <span class="mgl">
-            <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">查看操作记录</a>
+            <a ng-if="!changeFlag" href="#/storeRoom/query.html">查看操作记录</a>
           </span>
           <span class="mgl">
             <a
@@ -80,12 +80,12 @@
                dialog-title="确认删除?"
                dialog-content="删除后将无法恢复,确认删除?"
                dialog-template="pr-dialog-submit.html"
-               callback="$root.goTo('#/firstMedicalApplication/query.html')"
-               params='{"id":formData.id}'
-               request-url="rest/authen/firstMedicalApplication/delete">删除</a>
+               callback="$root.goTo('#/storeRoom/query.html')"
+               params='{"id":scopeData.id}'
+               request-url="rest/storeRoom/delete">删除</a>
           </span>
           <span class="mgl">
-            <button class="pr-btn-save-glodbg mgt" ng-click="submitForm('firstMedical-editForm','save')">编辑</button>
+            <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo('#/storeRoom/edit.html?id='+scopeData.id)">编辑</button>
           </span>
         </div>
       </div>
