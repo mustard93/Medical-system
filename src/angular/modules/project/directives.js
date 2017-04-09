@@ -2748,10 +2748,11 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
 
           $scope._tableTrMouseOverMenus=customMenuUtils.parseVariableMenuList(bottomButtonList,dataObj);
           //创建菜单按钮。
-          var tmp_template='<span query-item-card-button-list="_tableTrMouseOverMenus"></span>';
+          var tmp_template='<span query-item-table-button-list="_tableTrMouseOverMenus"></span>';
           moveBtnDiv.html(tmp_template);
           $compile(moveBtnDiv.contents())($scope);
 
+          console.log("moveBtnDiv.contents()",moveBtnDiv.contents());
           // var btnArray=[];
           //按钮数量，用于计算弹出菜单的div宽度
           var btnCount=0;
@@ -2908,6 +2909,25 @@ function queryItemCardButtonList() {
   };
 }
 
+// query-item-table-button-list
+function queryItemTableButtonList() {
+  return {
+    restrict: 'EA',
+    scope: {
+       spanClass:"=?",
+        queryItemTableButtonList:"=?"
+      },
+    // replace: true,// true时 导致$scope作用域下，属性添加失效。
+    templateUrl:  Config.tplPath +'tpl/project/queryItemTableButtonList.html',
+    link: function ($scope, $element, $attrs) {
+
+          //添加scope 的公共事件，是否显示，点击事件，等
+         addCommonsEventFnToSope($scope);
+          if(!$scope.spanClass)$scope.spanClass="mgl";
+          $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
+    }
+  };
+}
 /**
     用户自定义表结构-打印显示
 */
@@ -3457,7 +3477,8 @@ angular.module('manageApp.project')
   .directive("attachmentsShow", [attachmentsShow])//附件只读显示
   .directive("attachmentsEdit", [attachmentsEdit])//附件上传编辑
   .directive("bottomButtonList", [bottomButtonList])//底部自定义菜单
-  .directive("queryItemCardButtonList", [queryItemCardButtonList])//查询页面菜单
+  .directive("queryItemCardButtonList", [queryItemCardButtonList])//查询页面卡片式菜单
+    .directive("queryItemTableButtonList", [queryItemTableButtonList])//查询页面table菜单
   .directive("customTablePrint", [customTablePrint])
   .directive("resizableColumns", [resizableColumns])//  用户自定义表 可以调整宽度指令
   .directive("customTable", [customTable])
