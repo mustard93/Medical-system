@@ -24,7 +24,7 @@
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
             id="editForm"
-            name="EditForm"
+            name="editForm"
             form-validator
             parameter-body
             action="rest/authen/medicalStock/save"
@@ -45,71 +45,75 @@
                 <div class="flex-item-10   text-left">
                   <input type="text"
                          class="ipt-new"
-                         name="genericName"
-                         ng-model="formData.approvedName"
+                         name="code"
+                         ng-model="formData.code"
                          required />
+                <span ng-if="!formData.code" class="color-red">（必填）</span>
                 </div>
+
               </div>
+
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">商品名称：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
                          class="ipt-new"
                          name="code"
-                         ng-model="formData.code"
-                         required
-                         data-content="* 必填字段"
-                         invalid-popover="{{!EditForm.code.$valid}}"/>
+                         ng-model="formData.name"
+                         required/>
+                  <span ng-if="!formData.name" class="color-red">（必填）</span>
                 </div>
+
               </div>
+
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">商品名称拼音：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
-                         class="ipt-new-s ipt-new"
-                         name="specification"
-                         ng-model="formData.specification"
-                         required />
+                         class="ipt-new"
+                         name="name_py"
+                         ng-model="formData.name_py"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">商品通用名：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
-                         class="ipt-new-s ipt-new"
-                         name="modelType"
-                         ng-model="formData.modelType"
-                         required />
+                         class="ipt-new"
+                         name="approvedName"
+                         ng-model="formData.approvedName"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">商品通用名拼音：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
-                         class="ipt-new-s ipt-new"
-                         name="packingSpecification"
-                         ng-model="formData.packingSpecification"
-                         required />
+                         class=" ipt-new"
+                         name="approvedName_py"
+                         ng-model="formData.approvedName_py"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">商品化学名：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
-                         class="ipt-new-s ipt-new"
-                         name="packingSpecification"
-                         ng-model="formData.packingSpecification"
-                         required />
+                         class="ipt-new"
+                         name="varietyName"
+                         ng-model="formData.varietyName"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">商品英文名：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
-                         class="ipt-new-s ipt-new"
-                         name="measurement"
-                         ng-model="formData.measurement"
-                         required />
+                         class="ipt-new"
+                         name="englishName"
+                         ng-model="formData.englishName"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -117,36 +121,36 @@
                 <div class="flex-item-10   text-left">
                   <input type="text"
                          class="ipt-new"
-                         name="packingCondition"
-                         ng-model="formData.packingCondition"
-                         required />
+                         name="specification"
+                         ng-model="formData.specification"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">基本单位：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
-                         class="ipt-new ipt-new-s"
-                         name="numberOfPackages"
-                         ng-model="formData.numberOfPackages"
-                         required />
+                         class="ipt-new"
+                         name="unit"
+                         ng-model="formData.unit"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">条形码：</label>
                 <div class="flex-item-10   text-left">
                   <input type="text"
-                         class="ipt-new ipt-new-s"
-                         name="pieceLoading"
-                         ng-model="formData.pieceLoading"
-                         required />
+                         class="ipt-new"
+                         name="barcode"
+                         ng-model="formData.barcode"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2  text-right control-label">存储条件：</label>
                 <div class="flex-item-10   text-left">
                   <select class="select pr-select ipt-new-s pr-short-ipt" name=""
-                  ng-model="formData.storageCondition">
+                  ng-model="formData.deliveryPlus">
                     <option value="常温">常温</option>
                     <option value="冷链">冷链</option>
                   </select>
@@ -160,7 +164,7 @@
                          class="ipt-date pr-short-ipt ipt-new-s color-6"
                          ng-readonly="true"
                          placeholder=""
-                         ng-model="formData.organizationCodeCertificate.guaranteePeriod">
+                         ng-model="formData.guaranteePeriod">
                         <span class="date-icon"></span>
                 </div>
               </div>
@@ -169,9 +173,9 @@
                 <div class="flex-item-10   text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s"
-                         name="produceEnterprise"
-                         ng-model="formData.manufacturer"
-                         required />
+                         name="guaranteePeriodAlarmDay"
+                         ng-model="formData.guaranteePeriodAlarmDay"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -179,9 +183,9 @@
                 <div class="flex-item-10   text-left">
                   <input type="text"
                          class="ipt-new"
-                         name="genericName"
-                         ng-model="formData.factoryAddress"
-                         required />
+                         name="manufacturer"
+                         ng-model="formData.manufacturer"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -189,9 +193,9 @@
                 <div class="flex-item-10   text-left">
                   <input type="text"
                          class="ipt-new"
-                         name="factoryAddress"
+                         name="productionPlace"
                          ng-model="formData.productionPlace"
-                         required />
+                          />
                 </div>
               </div>
           </div>
@@ -200,9 +204,11 @@
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">批准文号：</label>
                 <div class="flex-item-10   text-left">
-                  <select class="select-new" name="" ng-model="formData.supplierId"
-                  chosen select-source="rest/authen/supplier/queryForSelectOption">
-                  </select>
+                  <input type="text"
+                         class="ipt-new"
+                         name="approvalNo"
+                         ng-model="formData.approvalNo"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -213,7 +219,7 @@
                          class="ipt-date pr-short-ipt ipt-new-s color-6"
                          ng-readonly="true"
                          placeholder=""
-                         ng-model="formData.organizationCodeCertificate.guaranteePeriod">
+                         ng-model="formData.approvalNoCreateAt">
                         <span class="date-icon"></span>
                 </div>
               </div>
@@ -222,9 +228,9 @@
                 <div class="flex-item-10   text-left">
                   <input type="text"
                          class="ipt-new"
-                         name="medicalUniformCode"
-                         ng-model="formData.medicalUniformCode"
-                         required />
+                         name="guaranteePeriod_unit"
+                         ng-model="formData.guaranteePeriod_unit"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -232,9 +238,9 @@
                 <div class="flex-item-10   text-left">
                   <input type="text"
                          class="ipt-new"
-                         name="filingDocumentNumber"
-                         ng-model="formData.filingDocumentNo"
-                         required />
+                         name="drugAdministrationCode"
+                         ng-model="formData.drugAdministrationCode"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -245,7 +251,7 @@
                          class="ipt-date pr-short-ipt ipt-new-s color-6"
                          ng-readonly="true"
                          placeholder=""
-                         ng-model="formData.organizationCodeCertificate.guaranteePeriod">
+                         ng-model="formData.drugAdministrationCode_createAt">
                         <span class="date-icon"></span>
                 </div>
               </div>
@@ -257,19 +263,13 @@
                          class="ipt-date pr-short-ipt ipt-new-s color-6"
                          ng-readonly="true"
                          placeholder=""
-                         ng-model="formData.organizationCodeCertificate.guaranteePeriod">
+                         ng-model="formData.drugAdministrationCodeGuaranteePeriod">
                         <span class="date-icon"></span>
                 </div>
               </div>
             </div>
             </div>
           </div>
-        <!-- 审核资料 -->
-
-        <div ng-init='attachmentsExtend={"title":"资质文件","usege":"新增商品","addFlag":false,"showcertificate":true}'
-         attachments-edit ng-model="formData.attachments" attachments-extend="attachmentsExtend" >
-       </div>
-
        <!-- 备注-->
        <div class="panel pr-panel pr-panel-height mgb">
          <h1 class="pr-font-18 mgb">备注</h1>
@@ -292,15 +292,47 @@
               <a ng-if="!changeFlag" href="#/medicalStock/query.html">返回申请单列表</a>
             </span>
             <span bottom-button-list="bottomButtonList">  </span>
-
-              <span class="mgl" >
-
-                <button  href="javascript:;"
-                  class="pr-btn-save-glodbg mgt"
-                  type="button"
-                  ng-click="submitForm('editForm','save')"
-                   >保存</button>
+            <span class="mgl">
+              <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/medicalStock/query.html')"
+                 params='{"id":formData.id}'
+                 request-url="rest/authen/medicalStock/delete">删除</a>
             </span>
+            <span class="mgl" >
+              <!-- <button ng-if="changeFlag" href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                modal-center="350"
+                modal-scope="this"
+                modal-data='{"title":"确认提示",
+                             "content1":"请输入修改内容",
+                             "content2":"请输入修改原因",
+                             "btnConfirm":"确定",
+                             "btnCancel":"取消",
+                             "url":"rest/authen/medicalStock/save",
+                             "goUrl":""
+                            }'
+                modal-url="tpl/pr-dialog-content-reason.html"
+                 >保存</button> -->
+
+              <button  href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                ng-click="submitForm('editForm','save')"
+                 ng-disabled="!formData.code|| !formData.name">保存</button>
+
+              <a  href="#/medicalStock/get.html?id={{formData.id}}"
+                class="pr-btn-save-glodbg mgt"
+                type="button">详情</a>
+
+
+          </span>
 
           </div>
         </div>

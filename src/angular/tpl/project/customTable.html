@@ -1,4 +1,4 @@
-<div class="wrapper"
+<div class=""
   ajax-url="rest/authen/uiCustomTable/getByClassName.json?className={{_customTableName}}" style="min-height:600px;"
   scope-data="uICustomTable"
   ng-init="bottomButtonList=[]"
@@ -18,13 +18,13 @@
         <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
         <p class="text-center">什么也没有</p>
       </div>
-        <div ng-show="tbodyList.length" class="outside-table-d pr-bg-white pr-fuzzy-boundary mgt"
+        <div ng-show="tbodyList.length" class="outside-table-d pr-bg-white pr-fuzzy-boundary"
         ajax-url="rest/authen/uICustomMenu/getByKey.json?key={{_customTrMenus}}"
-  scope-data="_uICustomMenu" alert-error  callback="_menuList=_uICustomMenu.items"
+        scope-data="_uICustomMenu" alert-error  callback="_menuList=_uICustomMenu.items"
         >
             <table  ng-if="_customTrMenus&& _menuList"
-            class='{{uICustomTable.className||"table pr-table pr-new-table pr-table-content  table-wid"}}'
-            style='width:100%;{{uICustomTable.style}}' >
+            class='{{"table pr-table pr-new-table pr-table-content  table-wid"||uICustomTable.className}}'
+            style='width:2500px;{{uICustomTable.style}}' >
                 <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}} '>
                     <tr >
                       <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
@@ -52,10 +52,10 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="clearfix ">
-                <div class="fr">
-                    <pagination status="status"></pagination>
-                </div>
+        </div>
+        <div class="clearfix ">
+            <div class="fr">
+                <pagination status="status"></pagination>
             </div>
         </div>
     </div>

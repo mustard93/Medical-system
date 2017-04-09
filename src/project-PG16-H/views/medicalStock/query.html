@@ -12,51 +12,14 @@
                                 component-title="商品管理"
                                 is-show-create-btn="新增商品"
                                 create-new-url="#/medicalStock/edit.html"
-                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType"
-                                get-status-num-url="rest/authen/medicalStock/countByOrderStatus.json"
-                                status-group-data='[["未匹配-true","已匹配-true"]]'>
+                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
 
       <!-- 主内容区域 -->
       <div class="content-wrapper">
-        <p class="pd-v-m">
-          <em class="circle-xs bg-pass-green"></em> <em class="mgr-l">正常</em>
-          <em class="circle-xs bg-freeze-orange"></em> <em class="mgr-l">已冻结</em>
-          <em class="circle-xs bg-end-red"></em> <em class="mgr-l">已终止</em>
-        </p>
-        <div class="content-wrapper-main">
+        <div class="content-wrapper-main ">
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
-            <div class="flex-item-6">
-              <div class="inline-block mgr-l">状态：
-                <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                        default-empty="全部"
-                        chosen
-                        ng-model="listParams.businessStatus"
-                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BusinessStatus">
-                </select>
-              </div>
-              <div class="inline-block">申请日期:
-                <div class="date-icon-outside">
-                  <input type="text"
-                         datepicker
-                         class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
-                         ng-readonly="true"
-                         ng-model="listParams.createAtBeg"
-                         placeholder="">
-                  <span class="date-icon"></span>
-                </div> 至
-                <div class="date-icon-outside">
-                  <input type="text"
-                         datepicker
-                         class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
-                         ng-readonly="true"
-                         ng-model="listParams.createAtEnd"
-                         placeholder="">
-                  <span class="date-icon"></span>
-                </div>
-              </div>
-            </div>
-            <div class="flex-item-6 text-right">
+            <div class="flex-item-12 text-right">
                 <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
                   <input type="text" class="ipt pdr-xxl" placeholder="商品名称/商品通用名/商品化学名/生产商" ng-model="listParams.q">
                   <i class=""></i>
@@ -67,13 +30,12 @@
                 </div>
             </div>
           </div>
-          <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
-            <div custom-table="com.pangu.mss.domain.mongo.medical.MedicalStock" custom-tr-menus="spd_MedicalStock_query" >   </div>
+          <!-- <div class="outside-table-d pr-bg-white pr-fuzzy-boundary"> -->
+            <div custom-table="com.pangu.mss.domain.mongo.medical.MedicalStock" custom-tr-menus="spd_MedicalStock_query" style="width:100%;">   </div>
 
-            <table class="table pr-table pr-new-table pr-table-content table-wid-l">
+            <!-- <table class="table pr-table pr-new-table pr-table-content table-wid-l">
               <thead class="pr-bg-side">
                 <tr>
-                  <th>序号</th>
                   <th class="w-80">商品编码</th>
                   <th class="w-220">商品名称</th>
                   <th>商品名称拼音</th>
@@ -83,7 +45,6 @@
                   <th>商品英文名</th>
                   <th>规格</th>
                   <th>基本单位</th>
-                  <th>包装大小</th>
                   <th>储存条件</th>
                   <th>条形码</th>
                   <th>生产厂商</th>
@@ -97,11 +58,7 @@
                   <th>有效期单位</th>
                   <th>效期预警天数</th>
                   <th>平台商品编码</th>
-                  <th>备注</th>
-                  <th>录入人</th>
-                  <th>录入时间</th>
-                  <th>修改人</th>
-                  <th>修改时间</th>
+                  <th>备注</th>      
                 </tr>
               </thead>
               <tbody>
@@ -224,8 +181,8 @@
                   <td class="text-center">{{tr.drugAdministrationCode}}</td>
                 </tr>
               </tbody>
-            </table>
-          </div>
+            </table> -->
+          <!-- </div> -->
           <div class="pr-bg-white" ng-if="!tbodyList.length">
             <div class="empty-table clearfix">
               <div>&nbsp;</div>
@@ -236,10 +193,10 @@
         </div>
     </div>
     <!-- 导航 -->
-    <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
+    <!-- <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
         <div class="fr">
             <pagination status="status"></pagination>
         </div>
-    </div>
+    </div> -->
   </table-list>
 </div>
