@@ -3432,7 +3432,14 @@ function tableItemMultipleBtn (utils, requestData) {
         // 计算当前tr距离顶部的高度
         var _offsetTop = $(element).offset().top - document.body.scrollTop + 23;
         // 计算当前页面宽度
-        var _pageWidth = utils.getMainBodyWidth() - 23;
+        var _pageWidth = null;
+        if (window.innerWidth) {
+          _pageWidth = window.innerWidth - 160;
+        } else if ((document.body) && (document.body.clientWidth)) {
+          _pageWidth = document.body.clientWidth - 160;
+        }
+
+        // var _pageWidth = $("#main_body").width() - 23;
 
         _handleBtnGroup.css({'position':'fixed','top':_offsetTop,'left':_pageWidth}).show();
 
