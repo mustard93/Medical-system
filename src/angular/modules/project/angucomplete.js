@@ -1,4 +1,4 @@
-define(['project/angucomplete'], function(){
+define('project/angucomplete', ['angular'], function(){
 
     /**
 
