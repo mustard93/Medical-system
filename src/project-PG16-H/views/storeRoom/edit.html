@@ -1,0 +1,114 @@
+<div class="hospital-application first-medical-application"
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/storeRoom/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData');"
+     alert-error>
+
+  <page-main-header-component list-params="listParams"
+                              crumbs-nav='[{"name":"库房管理","link":"","style":""},{"name":"库房编辑","link":"","style":"color-custom-orange"}]'
+                              component-title="库房编辑">
+  </page-main-header-component>
+
+  <!-- 主体内容 -->
+  <div class="content-wrapper">
+    <div class="content-wrapper-main mgt">
+      <form class="form-horizontal"
+            id="storeRoom-editForm"
+            name="storeRoomEditForm"
+            form-validator
+            action="rest/storeRoom/save.json"
+            alert-error
+            alert-ok
+            scope-error-msg="errorMsg"
+            scope-data="formData"
+            novalidate="true"
+            callback="validFlag=true;watchFormChange('formData');">
+        <!-- 基本信息 -->
+        <div class="panel pr-panel pr-panel-height mgb" style="padding:15px 0;">
+          <h1 class="mgt color-black text-bold text-n pd-c-l">基本信息</h1>
+          <p style="background:rgba(199,167,123,0.20);border-radius:100px;padding:5px 20px;margin:20px;">库房信息</p>
+          <div class=" pd-v-m">
+            <div class="flex-column mgt">
+              <label class="flex-item-2 text-right control-label pdr-s">库房编码：</label>
+              <div class="flex-item-10 text-left">
+                <input type="text"
+                       class="ipt-new"
+                       name="genericName"
+                       ng-model="formData.code" />
+              </div>
+            </div>
+            <div class="flex-column mgt">
+              <label class="flex-item-2 text-right control-label pdr-s">库房名称：</label>
+              <div class="flex-item-10 text-left">
+                <input type="text"
+                       class="ipt-new"
+                       name="name"
+                       ng-model="formData.name" />
+              </div>
+            </div>
+            <div class="flex-column mgt">
+              <label class="flex-item-2 text-right control-label pdr-s">库房类型：</label>
+              <div class="flex-item-10 text-left">
+                <select class="ipt pr-short-ipt color-3"
+                        data-placeholder=" "
+                        chosen
+                        ng-model="formData.type"
+                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StoreRoomType">
+                </select>
+              </div>
+            </div>
+            <div class="flex-column mgt">
+              <label class="flex-item-2 text-right control-label pdr-s">库房地址：</label>
+              <div class="flex-item-10 text-left">
+                <input type="text"
+                       class="ipt-new"
+                       name="specification"
+                       ng-model="formData.address" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <h1 class="text-bold color-3">备注</h1>
+          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+        </div>
+        <div class="handle-btn-area relative">
+          <div class="mgb text-right btn-area">
+            <span class="mgl">
+              <a ng-if="changeFlag"  href="javascript:;"
+                 handle-this-click
+                 dialog-title="确认返回?"
+                 dialog-content="该申请单存在未保存数据，是否保存?"
+                 dialog-template="pr-dialog-return.html"
+                 nosave-callback="goTo('#/storeRoom/query.html')"
+                 save-callback="submitForm('storeRoom-editForm','save');$root.goTo('#/storeRoom/query.html')">返回库房列表
+              </a>
+              <a ng-if="!changeFlag" href="#/storeRoom/query.html">返回库房列表</a>
+            </span>
+            <span class="mgl">
+              <a ng-if="!changeFlag" href="#/storeRoom/query.html">查看操作记录</a>
+            </span>
+            <span class="mgl">
+              <a
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/storeRoom/query.html')"
+                 params='{"id":formData.id}'
+                 request-url="rest/storeRoom/delete">删除</a>
+            </span>
+            <span class="mgl">
+              <button class="pr-btn-save-glodbg mgt"
+                      ng-disabled="!changeFlag"
+                      ng-click="submitForm('storeRoom-editForm','save')">保存</button>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
