@@ -1,8 +1,10 @@
 var conf={
-  // serverPath:"http://120.76.232.188:8080/manage/",    //外部地址，系统api调用接口地址
-  serverPath:"http://192.168.0.211:8080/manage/",    //系统api调用接口地址
-  // serverPath:"http://192.168.0.60:8080/manage/",    //系统api调用接口地址
-  // serverPath:"http://localhost:8081/manage/",    //系统api调用接口地址
-  // serverPath:"",    //系统api调用接口地址
+  indexPage: "index.html#/main.html", //默认打开的地址
+  applyBindUrl:"user1.html#/reg/bind_done.html",
+  //stopIntervalNotice:false,//false|true.是否停止监听消息
+  //serverPath:"http://120.76.232.188:8080/spd/",    //外部地址，系统api调用接口地址
+   serverPath:"http://192.168.0.211:8080/spd/",    //系统api调用接口地址
+  //serverPath:"http://localhost:8081/spd/",    //系统api调用接口地址
+  // serverPath:"http://118.113.146.159:33333/spd/",
   ver:"1.0.0"
 };
