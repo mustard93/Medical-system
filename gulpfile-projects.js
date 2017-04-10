@@ -88,6 +88,8 @@ function getProjectPaths(project_name){
     dest_js_fileName:project_name+"_app.js",
     build     :  "src/build/",//编译路径
     build_js       :  paths.build+'js/',
+    build_css_min:"src/build/"+project_name+"/css/",
+    build_js_min:"src/build/"+project_name+"/js/",
     less      :  'src/less/',
     scripts   :  "src/js/",
     img       :  "src/images/",
@@ -97,19 +99,7 @@ function getProjectPaths(project_name){
 
 
   if(project_name=="dt"){//非规范路径
-		obj={
-			src_css       :   [paths.src + 'css/'+project_name+'/**/*.css'],
-			dest_css_fileName:project_name+"_style.css",
-			src_js     :   [ paths.src+"app.js"],
-			dest_js_fileName:project_name+"_app.js",
-			build     :  "src/build/",//编译路径
-			build_js       :  paths.build+'js/',
-			less      :  'src/less/',
-			scripts   :  "src/js/",
-			img       :  "src/images/",
-			html      :  "src/html/",
-			 buildTmp :  "../"
-		  };
+    obj.src_js= [ paths.src+"app.js"];
 	}
 
 //  console.log("getProjectPaths",obj);
@@ -154,7 +144,7 @@ function concatMinCssTask(project_name){
             //  .pipe(gulp.dest(paths.build + 'css'))
                .pipe(gulp.dest(paths.build_css))
              .pipe(rev.manifest())
-             .pipe(gulp.dest(paths.build_css));
+             .pipe(gulp.dest(tmpProject_paths.build_css_min));
 
 }
 
@@ -205,6 +195,11 @@ function concatJsTask(project_name){
              .pipe(gulp.dest(paths.build_js));
 }
 
+
+
+
+
+
 /*合并、压缩jS(发布环境)方法 */
 function concatMinJsTask(project_name){
   var tmpProject_paths = getProjectPaths(project_name);
@@ -216,7 +211,7 @@ function concatMinJsTask(project_name){
                .pipe(rev())
                .pipe(gulp.dest(paths.build_js))
                .pipe(rev.manifest())
-              .pipe(gulp.dest(paths.build_js))
+              .pipe(gulp.dest(tmpProject_paths.build_js_min))
 
 }
 
@@ -252,15 +247,16 @@ gulp.task('handleJsCompress', ['pro-clean-js'], function () {
 function revHtmlTask(project_name){
 console.log("revHtmlTask.project_name="+project_name);
 if(project_name=="dt"){
-
-   gulp.src(['./rev/**/*.json', './src/*.html'])
+   return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/*.html']) .on('data',function(file){
+    console.log(file.history[0])
+})
              .pipe(revCollector())
              .pipe(gulp.dest('./src/'));
-
-             return;
 }
 
- gulp.src(['./src/build/**/*.json', './src/'+project_name+'/*.html'])
+ return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+  console.log(file.history[0])
+})
            .pipe(revCollector())
            .pipe(gulp.dest('./src/'+project_name));
   //
@@ -411,25 +407,51 @@ function release_project(project_name){
 
 }
 
-//压缩
+
+
 function release_project_min(project_name){
       console.log(project_name+" start..");
       concatMinJsTask(project_name);
       concatMinCssTask(project_name);
-      revHtmlTask(project_name)
-      console.log(project_name+" end");
+      revHtmlTask(project_name);
+        console.log(project_name+" end");
 
 }
-
 /* 生产模式静态文件打包任务，包含css、js的合并、压缩、版本号更新及链接替换 */
 gulp.task('release-all', ['pro-clean-css','pro-clean-js'],function (done) {
     condition = false;
-  // release_prpject("project-PG16-H");
+  // release_project_min("dt");
+
+    var task_arr=[];
     for(var i=0;i<pg_projects.length;i++){
       var project_name=pg_projects[i];
-      release_project(project_name);
+
+      release_project_min(project_name);
+    //   gulp.task('concatMinJsTask'+project_name, function () {
+    //     return concatMinJsTask(project_name);
+    //   });
+    //   task_arr.push('concatMinJsTask'+project_name);
+    //
+    //
+    //   gulp.task('concatMinCssTask'+project_name, function () {
+    //     return concatMinCssTask(project_name);
+    //   });
+    //   task_arr.push('concatMinCssTask'+project_name);
+    //
+    //
+    // gulp.task('revHtmlTask'+project_name, function () {
+    //   return revHtmlTask(project_name);
+    // });
+    // task_arr.push('revHtmlTask'+project_name);
+    //
+    // runSequence(['concatMinJsTask'+project_name],['concatMinCssTask'+project_name],['revHtmlTask'+project_name],done);
+      // release_project_min(project_name);
     }
-  console.log(done);
+
+  // console.log(task_arr);
+
+
+
 });
 
 

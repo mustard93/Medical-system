@@ -750,8 +750,27 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
    }//end salesOrderEditCtrl
 
+
+
+  /**
+   * 主控（业务模块级别）
+   */
+  function mainCtrlProjectPG16H($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList,saleOrderUtils,purchaseOrderUtils,requestPurchaseOrderUtils,queryItemCardButtonList2,customMenuUtils) {
+
+    //底部菜单（业务相关）
+    $rootScope.bottomButtonList=bottomButtonList;
+    $rootScope.saleOrderUtils=saleOrderUtils;
+    $rootScope.purchaseOrderUtils=purchaseOrderUtils;
+    $rootScope.requestPurchaseOrderUtils=requestPurchaseOrderUtils;
+    $rootScope.queryItemCardButtonList2=queryItemCardButtonList2;
+    $rootScope.customMenuUtils=customMenuUtils;
+
+  }
+
+
   angular.module('manageApp.project-PG16-H')
+  .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
-  .controller('purchasePlanOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchasePlanOrderController])
+  .controller('purchasePlanOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchasePlanOrderController]);
 
 });
