@@ -2752,7 +2752,7 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           moveBtnDiv.html(tmp_template);
           $compile(moveBtnDiv.contents())($scope);
 
-          console.log("moveBtnDiv.contents()",moveBtnDiv.contents());
+          console.log("moveBtnDiv.contents()",moveBtnDiv);
           // var btnArray=[];
           //按钮数量，用于计算弹出菜单的div宽度
           var btnCount=0;
@@ -2762,10 +2762,10 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           $element.addClass("bg-c");
           if(!moveBtnDiv)return;
           //+document.body.scrollLeft+
-          moveBtnDivWidth=34*btnCount;
+          moveBtnDivWidth=45*btnCount;
           // console.log("document.body.scrollLeft",document.body.scrollLeft);
           var y =$element.offset().top -document.body.scrollTop;
-          var x= utils.getwindowWidth()-100-moveBtnDivWidth; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。 要求table 宽度 100%
+          var x= utils.getwindowWidth()-50-moveBtnDivWidth; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。 要求table 宽度 100%
 
           // var x=e.clientX+10; //根据鼠标位置定位，解决上面bug。
           if(x<0)x=0;

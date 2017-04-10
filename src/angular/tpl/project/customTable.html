@@ -14,11 +14,11 @@
         </div>
     </div>
     <div ng-show="!status.isLoading">
-      <div ng-show="tbodyList.length==0">
+      <!-- <div ng-show="tbodyList.length==0">
         <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
         <p class="text-center">什么也没有</p>
-      </div>
-        <div ng-show="tbodyList.length" class="outside-table-d pr-bg-white pr-fuzzy-boundary"
+      </div> -->
+        <div  class="outside-table-d pr-bg-white pr-fuzzy-boundary"
         ajax-url="rest/authen/uICustomMenu/getByKey.json?key={{_customTrMenus}}"
         scope-data="_uICustomMenu" alert-error  callback="_menuList=_uICustomMenu.items"
         >
@@ -37,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered "
+                    <tr ng-show="tbodyList.length" ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered "
                     table-tr-mouse-over-menu="_menuList"   business-data="tr"
                     >
                       <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
@@ -52,6 +52,13 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="pr-bg-white" ng-if="!tbodyList.length">
+          <div class="empty-table clearfix">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+          </div>
         </div>
         <div class="clearfix ">
             <div class="fr">

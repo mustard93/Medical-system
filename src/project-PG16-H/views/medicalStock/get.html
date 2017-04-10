@@ -91,6 +91,10 @@
                   <span class="flex-item-10    text-left">{{showData.guaranteePeriod | date:'yyyy-MM-dd'}}</span>
                 </div>
                 <div class="flex-column mgt">
+                  <span class="flex-item-2    text-right">有效期单位：</span>
+                  <span class="flex-item-10    text-left">{{showData.guaranteePeriod_unit}}</span>
+                </div>
+                <div class="flex-column mgt">
                   <span class="flex-item-2    text-right">效期预警天数：</span>
                   <span class="flex-item-10    text-left">{{showData.guaranteePeriodAlarmDay}}</span>
                 </div>
@@ -111,10 +115,6 @@
               <div class="flex-column mgt">
                 <span class="flex-item-2    text-right">批准文号认证日期：</span>
                 <span class="flex-item-10    text-left">{{showData.approvalNoCreateAt | date:'yyyy-MM-dd'}}</span>
-              </div>
-              <div class="flex-column mgt">
-                <span class="flex-item-2    text-right">有效期单位：</span>
-                <span class="flex-item-10    text-left">{{showData.guaranteePeriod_unit}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2    text-right">注册证号：</span>
@@ -139,6 +139,7 @@
   </div>
   <div class="handle-btn-area">
     <div class="btn-area" >
+      <span bottom-button-list="bottomButtonList">  </span>
       <div ng-if="(!showData.didateFilter.buttons.length>0)&&showData.businessApplication.businessStatus" class="inline-block">
               <span class="mgl">
                 <a ng-if="changeFlag"  href="javascript:;"
@@ -151,7 +152,7 @@
                    $root.goTo('#/medicalStock/query.html')">返回申请单列表</a>
                 <a ng-if="!changeFlag" href="#/medicalStock/query.html">返回申请单列表</a>
               </span>
-              <span bottom-button-list="bottomButtonList">  </span>
+
               <span class="mgl">
                 <a ng-if="showData.id"
                    href="javascript:;"
