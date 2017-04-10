@@ -6,12 +6,23 @@
   </page-main-header-component>
 
   <div class="content-wrapper">
-    <table-list list-data="http://localhost:3000/src/project-PG16-H/rest/authen/distributor/query.json"
+    <table-list list-data="rest/authen/distributor/query.json"
                 list-params="listParams"
                 search-mode="noCaseSensitive"
                 search-param="q">
       <!-- 主内容区域 -->
       <div class="content-wrapper-main">
+        <!-- 筛选 -->
+        <div class="text-right pd-m">
+            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+              <input type="text" class="ipt pdr-xxl" placeholder="供应商编码／供应商名称／联系人" ng-model="listParams.q">
+              <i class=""></i>
+            </div>
+            <div class="inline-block mgl-m">
+              <i class="fa fa-refresh mgr-s color-light-brown"></i>
+              <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+            </div>
+        </div>
         <!-- 列表 -->
         <div ng-if="!status.isLoading">
           <div ng-if="!tbodyList.length">
@@ -19,17 +30,6 @@
             <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
           </div>
           <div ng-if="tbodyList.length" class="pr-bg-white pr-fuzzy-boundary mgl-m mgr-m">
-            <!-- 筛选 -->
-            <div class="text-right pd-m">
-                <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                  <input type="text" class="ipt pdr-xxl" placeholder="供应商编码／供应商名称／联系人" ng-model="listParams.q">
-                  <i class=""></i>
-                </div>
-                <div class="inline-block mgl-m">
-                  <i class="fa fa-refresh mgr-s color-light-brown"></i>
-                  <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
-                </div>
-            </div>
             <!-- 表格列表数据 -->
             <table class="table pr-table pr-new-table">
               <thead class="pr-bg-side">

@@ -1,0 +1,37 @@
+<div ng-controller="historicalPriceController"
+     class="modal-content right-side-new"
+     ajax-url="rest/authen/historicalPrice/getAllPriceByRelId?id={{dialogData.id}}&type={{dialogData.type}}&customerId={{dialogData.customerId}}&supplierId={{dialogData.supplierId}}"
+     scope-data="scopeData"
+     callback=""
+     alert-error>
+
+  <div class="bb-line-gold pr-bg-black2 min-h-l">
+    <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">参考价格 - {{dialogData.medicalName}}</h1>
+  </div>
+
+  <div class="right-side-container color-white text-n">
+    <ul>
+      <li class="pr-indent-20" ng-repeat="item in scopeData track by $index">
+        <span>
+          <label class="radio radio-new ng-scope">
+            <input type="radio"
+                   class="default-radio"
+                   name="customer"
+                   ng-checked=""
+                   ng-click="choiseThisItem(item,dialogData.id);modal.closeAll()"
+                   ng-disabled="!item.value"><i></i>
+          </label>
+        </span>
+        <span ng-if="item.value" class="mgl-s" style="width:120px;display:inline-block;">{{item.value | currency:'￥'}}</span>
+        <span ng-if="!item.value" class="mgl-s" style="width:120px;display:inline-block;">—</span>
+        <span class="mgl-s">{{item.text}}</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 功能按钮 -->
+  <!-- <div class="footer-button-area">
+    <button type="button" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+  </div> -->
+
+</div>
