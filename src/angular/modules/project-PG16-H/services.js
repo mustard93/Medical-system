@@ -2,6 +2,7 @@
  * Created by hao on 15/11/18.
  */
 define('project-PG16-H/services', ['project-PG16-H/init'], function () {
+
   function bottomButtonList ($rootScope) {
 
       var tmpUtils=  {
@@ -118,6 +119,30 @@ define('project-PG16-H/services', ['project-PG16-H/init'], function () {
               return arr;
             }//get_firstEnterpriseApplication
             //获取首营药械菜单定义
+              ,get_firstMedicalApplication:function(showData){
+
+                var arr=[];
+                //aclass ：样式，ahref：连接，showName：显示名
+                var bottomButton={"aclass":"","ahref":"#/firstMedicalApplication/query.html","showName":"返回申请单列表"};
+              if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+            //     bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
+            //     "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
+            //     "httpMethod":"GET",
+            //     "ahref":"views/versionFlow/get-right-side.html?businessKey="+showData.id,
+            //     "showName":"查看操作记录"};
+             //
+            //  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                // if(showData){
+                //   bottomButton={"aclass":"btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg",
+                //     "ahref":Config.serverPath+"rest/authen/firstMedicalApplication/exportWord?id="+showData.id,
+                //     "showName":"打印"};
+                //   if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                // }
+
+                return arr;
+              }//get_firstEnterpriseApplication
 
             //获取品种信息管理菜单定义
               ,get_medicalStock:function(showData){
@@ -134,10 +159,61 @@ define('project-PG16-H/services', ['project-PG16-H/init'], function () {
 
                 return arr;
               }
+              // 客户管理模块
+              ,get_customerAddress:function(showData){
 
+                var arr=[];
+                //aclass ：样式，ahref：连接，showName：显示名
+                var bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
+                "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
+                "httpMethod":"GET",
+                "ahref":"views/versionFlow/get-right-side.html?businessKey="+showData.id,
+                "showName":"查看操作记录"};
+
+             if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                return arr;
+              }
+
+
+              //获取医院资格声请菜单定义
+                ,get_hospitalApplication:function(showData){
+                  var arr=[];
+                  //aclass ：样式，ahref：连接，showName：显示名
+                  var bottomButton={"aclass":"","ahref":"#/hospitalApplication/query.html","showName":"返回申请单列表"};
+                if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                  return arr;
+                }//get_hospitalApplication
+
+              //获取医院采购目录菜单定义
+                ,get_hospitalPurchaseContents:function(showData){
+                  var arr=[];
+                  //aclass ：样式，ahref：连接，showName：显示名
+                  var bottomButton={"type":"modalRight","modalWidth":"800","aclass":"color-orange add-return-order mgl-s",
+                "requestUrl":"rest/authen/versionFlow/query?businessKey="+showData.id,
+                "httpMethod":"GET",
+                "ahref":"views/versionFlow/get-right-side.html?businessKey="+showData.id,
+                "showName":"查看操作记录"};
+
+                if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+                  return arr;
+                }//get_hospitalApplication
+
+                //获取医院资格声请菜单定义
+                  ,get_otherCustomerApplication:function(showData){
+                    var arr=[];
+                    //aclass ：样式，ahref：连接，showName：显示名
+                    var bottomButton={"aclass":"","ahref":"#/otherCustomerApplication/query.html","showName":"返回申请单列表"};
+                  if(tmpUtils.canShowButton(bottomButton)){arr.push(bottomButton);}
+
+                    return arr;
+                  }//get_otherCustomerApplication
         };//end return
       return tmpUtils;
     }
-        angular.module('manageApp.project')
-          .factory('bottomButtonList', ["$rootScope",bottomButtonList])
+
+      angular.module('manageApp.project')
+        .factory('bottomButtonList', ["$rootScope",bottomButtonList]);
+
 });

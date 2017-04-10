@@ -123,7 +123,9 @@
                          class="ipt-new"
                          name="specification"
                          ng-model="formData.specification"
+                         required
                           />
+                  <span ng-if="!formData.specification" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -133,7 +135,9 @@
                          class="ipt-new"
                          name="unit"
                          ng-model="formData.unit"
+                         required
                           />
+                  <span ng-if="!formData.unit" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -158,7 +162,7 @@
               </div>
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">有效期：</label>
-                <div class="date-icon-outside">
+                <div class="flex-item-10   text-left">
                   <input type="text"
                          class="ipt-new ipt-new-s"
                          placeholder=""
@@ -324,13 +328,7 @@
               class="pr-btn-save-glodbg mgt"
               type="button"
               ng-click="submitForm('editForm','save')"
-              ng-disabled="!formData.code|| !formData.name">保存</button>
-
-              <a  href="#/medicalStock/get.html?id={{formData.id}}"
-                class="pr-btn-save-glodbg mgt"
-                type="button">详情</a>
-
-
+              ng-disabled="!formData.code|| !formData.name|| !formData.specification|| !formData.unit">保存</button>
           </span>
 
           </div>

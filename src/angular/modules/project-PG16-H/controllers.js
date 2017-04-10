@@ -3,6 +3,7 @@
  */
 define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
+  //  SPD系统—商品信息管理模块controller
   function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
 
     $scope.$watch('initFlag', function (newVal) {
@@ -110,11 +111,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         var formData = $.extend(true,{},$scope.medical);
 
         //处理药品内信息id和copyId，以区分新建和编辑
-        formData.hospitalId = hospitalId;
-        formData.relId = $scope.medical.id;
-        formData.id = null;
-        formData.medical.isBasicMedicine='是';
-        formData.purchasePrice = formData.price;
+        formData.deliveryPlus='常温'
 
       requestData('rest/authen/medicalStock/save', formData, 'POST', 'parameterBody')
       .then(function (results) {
@@ -256,6 +253,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       return true;
     };
   }
+
+  
+
   angular.module('manageApp.project')
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
 
