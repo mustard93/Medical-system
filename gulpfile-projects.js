@@ -205,6 +205,11 @@ function concatJsTask(project_name){
              .pipe(gulp.dest(paths.build_js));
 }
 
+
+
+
+
+
 /*合并、压缩jS(发布环境)方法 */
 function concatMinJsTask(project_name){
   var tmpProject_paths = getProjectPaths(project_name);
@@ -252,15 +257,17 @@ gulp.task('handleJsCompress', ['pro-clean-js'], function () {
 function revHtmlTask(project_name){
 console.log("revHtmlTask.project_name="+project_name);
 if(project_name=="dt"){
+   return gulp.src(['./rev/**/*.json', './src/*.html']) .on('data',function(file){
+    console.log(file.history[0])
+})
 
-   gulp.src(['./rev/**/*.json', './src/*.html'])
              .pipe(revCollector())
              .pipe(gulp.dest('./src/'));
-
-             return;
 }
 
- gulp.src(['./src/build/**/*.json', './src/'+project_name+'/*.html'])
+ return gulp.src(['./src/build/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+  console.log(file.history[0])
+})
            .pipe(revCollector())
            .pipe(gulp.dest('./src/'+project_name));
   //
@@ -411,12 +418,29 @@ function release_project(project_name){
 
 }
 
+
+
 //压缩
+var G_project_name=null;
+
+gulp.task('concatMinJsTask', function () {
+  return concatMinJsTask(G_project_name);
+});
+gulp.task('concatMinCssTask', function () {
+  return concatMinCssTask(G_project_name);
+});
+gulp.task('revHtmlTask', function () {
+  return revHtmlTask(G_project_name);
+});
+
 function release_project_min(project_name){
       console.log(project_name+" start..");
-      concatMinJsTask(project_name);
-      concatMinCssTask(project_name);
-      revHtmlTask(project_name)
+      G_project_name=project_name;
+    runSequence(['concatMinJsTask'],['concatMinCssTask'],['revHtmlTask']);
+
+      // concatMinJsTask(project_name);
+      // concatMinCssTask(project_name);
+      // revHtmlTask(project_name)
       console.log(project_name+" end");
 
 }
@@ -424,11 +448,11 @@ function release_project_min(project_name){
 /* 生产模式静态文件打包任务，包含css、js的合并、压缩、版本号更新及链接替换 */
 gulp.task('release-all', ['pro-clean-css','pro-clean-js'],function (done) {
     condition = false;
-  // release_prpject("project-PG16-H");
-    for(var i=0;i<pg_projects.length;i++){
-      var project_name=pg_projects[i];
-      release_project(project_name);
-    }
+  release_project_min("project-PG16-H");
+    // for(var i=0;i<pg_projects.length;i++){
+    //   var project_name=pg_projects[i];
+    //   release_project_min(project_name);
+    // }
   console.log(done);
 });
 
