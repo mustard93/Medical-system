@@ -435,7 +435,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
      }
    };
 
-    $scope.flashAddDataCallbackFn = function(flashAddData) {
+   $scope.flashAddDataCallbackFn = function(flashAddData) {
 
      if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
        alertWarn("请选择药品");
@@ -447,9 +447,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          addDataItem.quantity=flashAddData.quantity;
          addDataItem.discountPrice='0';
          addDataItem.discountRate='100';
-         addDataItem.strick_price=addDataItem.purchasePrice;
-         addDataItem.taxRate='17';
-         addDataItem.batchRequirement='无';
          addDataItem.relId=medical.id;
 
          addDataItem.strike_price=addDataItem.price;
@@ -475,7 +472,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        // 如果已添加
        if ($scope.formData.orderMedicalNos.length !== 0) {
          var _len = $scope.formData.orderMedicalNos.length;
-
          for (var i=0; i<_len; i++) {
            if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
              alertWarn('此药械已添加到列表');
@@ -486,10 +482,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
        // 添加药品后请求当前药品的历史价格
        if (addDataItem) {
-        //  var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=采购';
-        var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&supplierId=' + $scope.formData.supplier.id + '&type=采购';
+         var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+             _data = {};
 
-         requestData(_url)
+         requestData(_url, _data, 'GET')
          .then(function (results) {
            var _resObj = results[1].data;
            for (var item in _resObj) {
@@ -504,6 +500,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
            if (error) { console.log(error || '出错!'); }
          });
        }
+
 
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
@@ -586,7 +583,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       $scope.formData.validFlag = false;
 
         if ($scope.submitForm_type == 'exit') {
-          $scope.goTo('#/purchaseOrder/query.html');
+          $scope.goTo('#/purchasePlanOrder/query.html');
           return;
         }else if ($scope.submitForm_type == 'print') {
           var url="indexOfPrint.html#/print/index.html?key=purchaseVoucher&id="+$scope.formData.id;
@@ -599,12 +596,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
 
         if ($scope.submitForm_type == 'submit') {
-          var _url='rest/authen/purchaseOrder/startProcessInstance';
+          var _url='rest/authen/purchasePlanOrder/startProcessInstance';
           var data= {businessKey:$scope.formData.id};
           requestData(_url,data, 'POST')
             .then(function (results) {
               var _data = results[1];
-              $scope.goTo('#/purchaseOrder/get.html?id='+$scope.formData.id);
+              $scope.goTo('#/purchasePlanOrder/get.html?id='+$scope.formData.id);
             })
             .catch(function (error) {
               alertError(error || '出错');

@@ -4,8 +4,8 @@
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos)"
      alert-error>
-  <form id="purchaseForm"
-         name="purchaseForm"
+  <form id="purchasePlanForm"
+         name="purchasePlanForm"
          form-validator
          parameter-body
          action="rest/authen/purchasePlanOrder/save.json"
@@ -19,7 +19,7 @@
 
      <page-main-header-component list-params="listParams"
                                  crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"采购计划","link":"","style":"color-custom-orange"},{"name":"新建采购计划","link":"","style":""}]'
-                                 component-title="采购计划-新建">
+                                 component-title="采购计划-{{formData&&formData.id?'编辑':'添加'}}">
      </page-main-header-component>
 
      <div class="content-wrapper">
@@ -30,7 +30,7 @@
              <div class="inline-block">
                <p class="mgb-s">供应商</p>
                <div class="inline-block"
-                    ajax-if-eval="formData.supplier.id"
+                    ajax-if-eval="formData.supplierId"
                     ajax-url="rest/authen/distributor/get.json"
                     scope-data="supplier"
                     callback="formData.supplier=supplier;chkSupplierInfo(supplier)"
@@ -43,7 +43,7 @@
                          search-fields="{{formData.supplier.name}}"
                          url="rest/authen/distributor/query.json"
                          ng-model="tmp_supplier"
-                         ng-model-id="formData.supplier.id"
+                         ng-model-id="formData.supplierId"
                          class="inline-block mgr-s" style="width:280px;height:28px;">
                    </span>
                    <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
@@ -67,13 +67,13 @@
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
          <!-- 信息 -->
-         <div ng-if="formData.orderBusinessType!='直进采购'"
+         <div
               flash-add-medical
               ng-model="data1"
               class="pd-c-l pdt-m"
               ajax-url="rest/authen/medicalStock/query"
               add-data-callback-fn="flashAddDataCallbackFn(data1)"
-              is-disabled-this="{{formData.supplier.id}}">
+              is-disabled-this="{{formData.supplierId}}">
          </div>
          <!-- 列表 -->
          <div class="bt-line">
@@ -81,7 +81,7 @@
              <div class="flex-item-6">
                <span class="mgr">采购计划编号：
                  <input type="text"
-                      ng-disabled="!formData.supplier.id"
+                      ng-disabled="!formData.supplierId"
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
                       ng-model="formData.orderCode" />
@@ -98,7 +98,7 @@
            <div class="pd-c-l pdt-m pdb-m color-9">
              <span class="mgr">计划到货时间：
                <input type="text"
-                      ng-disabled="!formData.supplier.id"
+                      ng-disabled="!formData.supplierId"
                       datepicker
                       class="ipt pr-short-ipt color-3"
                       style="width:90px;"
@@ -108,13 +108,13 @@
              </span>
              <span class="mgr">预入库房：
                <input type="text"
-                    ng-disabled="!formData.supplier.id"
+                    ng-disabled="!formData.supplierId"
                     class="inline ipt pr-ipt-60 text-center"
                     style="width:100px;"
                     ng-model="formData.storeRoomName" />
              </span>
              <span class="mgr">跟台：
-               <select class="ipt pr-short-ipt pr-ipt-60 color-6" ng-disabled="!formData.supplier.id">
+               <select class="ipt pr-short-ipt pr-ipt-60 color-6" ng-disabled="!formData.supplierId">
                  <option  value="是" ng-selected="tr.genTai=='是'">是</option>
                  <option  value="否" ng-selected="tr.genTai=='否'">否</option>
                </select>
@@ -172,11 +172,10 @@
                                 ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos);"
                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                 required
-                                ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
-                                invalid-popover="{{!purchaseForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity}}"
-                                popover-show
-                                is-focus="true"
-                                popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"right", "trigger":"manual"}'
+                                ng-pattern="/^\d+$/"
+                                invalid-popover
+                                popover-show="!purchasePlanForm['quantity'+$index].$valid "
+                                popover-options='{"content":"数量不正确", "placement":"right", "trigger":"manual"}'
                                 >
                        </span>
                        <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)">+</button>
@@ -194,19 +193,19 @@
                             required
                             ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                             invalid-popover
-                            valid-value="{{!purchaseForm['strike_price'+$index].$valid}}"
+                            valid-value="{{!purchasePlanForm['strike_price'+$index].$valid}}"
                             popover-show
                             popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                      <!-- <p class="color-orange pr-indent-35">
 
                        <a modal-right="577"
                           modal-scope="this"
-                          modal-data='{"medicalName":"{{tr.name}}","id":"{{tr.relId}}","type":" ","supplierId":"{{formData.supplier.id}}"}'
+                          modal-data='{"medicalName":"{{tr.name}}","id":"{{tr.relId}}","type":" ","supplierId":"{{formData.supplierId}}"}'
                           modal-url="views/versionFlow/history-price.html">参考价格
                        </a>
                      </p> -->
                    </td>
-                   <td class="text-right" >{{tr.totalPrice}}</td><!-- 计划采购金额 -->
+                   <td class="text-right" style="white-space:nowrap;line-height:2.4">￥{{tr.quantity*tr.strike_price  | number:2}}</td><!-- 计划采购金额 -->
                    <td class="text-right" >{{tr.deliveryQuantity}}</td>
                    <!-- <td class="text-center" >{{tr.}}</td> -->
                      <!-- 包装大小 -->
@@ -228,7 +227,7 @@
        <!-- 备注 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
          <h1 class="text-bold color-3">备注</h1>
-         <textarea ng-disabled="!formData.supplier.id" class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+         <textarea ng-disabled="!formData.supplierId" class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
        </div>
      </div>
      <!-- 流程图 -->
@@ -264,7 +263,7 @@
         <span class="mgl mgt">
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
-                  ng-click="submitForm('purchaseForm','save')"
+                  ng-click="submitForm('purchasePlanForm','save')"
                   ng-disabled="!changeFlag">保存
           </button>
         </span>
@@ -275,18 +274,16 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('purchaseForm','submit')"
-                  ng-disabled="purchaseForm.$invalid || !formData.orderMedicalNos.length ||
+                  callback="submitForm('purchasePlanForm','submit')"
+                  ng-disabled="purchasePlanForm.$invalid || !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
-                               !formData.supplier.id ||
-                               !formData.orderCode ||
-                               isDisabledNextStep" >提交
+                               !formData.orderCode " >提交
           </button>
         </span>
       </div>
       <div class="total-div">
         <p class="pr-font-18 mgb color-light-brown">总计：
-          <span class="pr-font-18 color-white">￥{{formData.localTotalPrice || '0.00' | number:2}}</span>
+          <span class="pr-font-18 color-white">￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity']) | number:2}}</span>
           <!-- ￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity']) | number:2}} -->
         </p>
       </div>

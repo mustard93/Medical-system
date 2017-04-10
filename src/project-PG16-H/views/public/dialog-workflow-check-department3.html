@@ -1,0 +1,42 @@
+<div class="pr-page-dialog-wrap">
+    <form class="confirmOrder-reject-form"
+          ng-init="formData=dialogData.params"
+          action="{{dialogData.requestUrl}}"
+          callback="$root.utils.goOrRefreshHref(dialogData.callBackUrl)"
+          auto-close-dialog
+          parameter-body="{{dialogData.requestParam=='JSON'}}"
+          alert-error
+          alert-ok
+          form-validator
+        >
+  <div class="pr-page-dialog-title bb-line">
+      <span class="mgl-l">审核</span>
+
+  </div>
+  <div class="pr-page-dialog-content bb-line" ng-init="_checkStatus='同意进货';formData.conditionType='同意进货'"
+  ajax-url="rest/baseData/queryForSelectOptionByType.json"
+  params='{"type":"审核不通过处理方式"}'
+  scope-data="selectOptions"
+  style="padding-top:5px;"
+  >
+    <div class="mgb-s">
+      <label class=" radio radio-new" >
+        <input class="default-radio" type="radio" name="type" value="同意进货" ng-click="formData.conditionType='同意进货'" ng-model="_checkStatus"><i></i>
+      </label>
+      <em class="inline-block" style="margin-left:-5px;">同意进货</em>
+      <label class=" radio radio-new" >
+        <input class="default-radio" type="radio" name="type" value="不同意进货" ng-click="formData.conditionType='不同意进货'" ng-model="_checkStatus"><i></i>
+      </label>
+      <em class="inline-block " style="margin-left:-5px;">不同意进货</em>
+    </div>
+
+      <div class="content-textaere" >
+        <textarea class="pr-textarea" limit-word-show maxlength="120"  ng-model="formData.key" placeholder="补充说明"></textarea>
+      </div>
+  </div>
+  <div class="pr-page-dialog-footer text-center mg-m">
+    <button type="submit"  class="pr-btn-confirm-glodbg">确定</button>
+
+  </div>
+  </form>
+</div>
