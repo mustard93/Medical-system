@@ -7,7 +7,7 @@
 
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
-         <a href="#/firstMedicalApplication/query.html">
+         <a href="#/medicalStock/query.html">
             <em class="color-custom-orange">商品管理</em>
          </a>
         <em>>商品编辑</em>
@@ -160,12 +160,19 @@
                 <label class="flex-item-2   text-right control-label">有效期：</label>
                 <div class="date-icon-outside">
                   <input type="text"
-                         datepicker
-                         class="ipt-date pr-short-ipt ipt-new-s color-6"
-                         ng-readonly="true"
+                         class="ipt-new ipt-new-s"
                          placeholder=""
                          ng-model="formData.guaranteePeriod">
-                        <span class="date-icon"></span>
+                </div>
+              </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2   text-right control-label">有效期单位：</label>
+                <div class="flex-item-10   text-left">
+                  <input type="text"
+                         class="ipt-new ipt-new-s"
+                         name="guaranteePeriod_unit"
+                         ng-model="formData.guaranteePeriod_unit"
+                          />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -221,16 +228,6 @@
                          placeholder=""
                          ng-model="formData.approvalNoCreateAt">
                         <span class="date-icon"></span>
-                </div>
-              </div>
-              <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">有效期单位：</label>
-                <div class="flex-item-10   text-left">
-                  <input type="text"
-                         class="ipt-new"
-                         name="guaranteePeriod_unit"
-                         ng-model="formData.guaranteePeriod_unit"
-                          />
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -305,7 +302,7 @@
                  request-url="rest/authen/medicalStock/delete">删除</a>
             </span>
             <span class="mgl" >
-              <!-- <button ng-if="changeFlag" href="javascript:;"
+              <button ng-if="changeFlag" href="javascript:;"
                 class="pr-btn-save-glodbg mgt"
                 type="button"
                 modal-center="350"
@@ -318,14 +315,16 @@
                              "url":"rest/authen/medicalStock/save",
                              "goUrl":""
                             }'
-                modal-url="tpl/pr-dialog-content-reason.html"
-                 >保存</button> -->
+                tpl-url="tpl/pr-dialog-content-reason.html"
+                 >保存</button>
 
-              <button  href="javascript:;"
-                class="pr-btn-save-glodbg mgt"
-                type="button"
-                ng-click="submitForm('editForm','save')"
-                 ng-disabled="!formData.code|| !formData.name">保存</button>
+              <button
+              ng-if="!changeFlag"
+              href="javascript:;"
+              class="pr-btn-save-glodbg mgt"
+              type="button"
+              ng-click="submitForm('editForm','save')"
+              ng-disabled="!formData.code|| !formData.name">保存</button>
 
               <a  href="#/medicalStock/get.html?id={{formData.id}}"
                 class="pr-btn-save-glodbg mgt"
