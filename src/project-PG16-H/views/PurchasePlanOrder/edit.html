@@ -1,6 +1,6 @@
-<div class="create-new-order purchaseOrder-edit purchase-plan-order"
-     ng-controller="purchaseOrderEditCtrl"
-     ajax-url="rest/authen/purchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
+<div class="create-new-order purchasePlanOrder-edit purchase-plan-order"
+     ng-controller="purchasePlanOrderController"
+     ajax-url="rest/authen/purchasePlanOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos)"
      alert-error>
@@ -8,7 +8,7 @@
          name="purchaseForm"
          form-validator
          parameter-body
-         action="rest/authen/purchaseOrder/save.json"
+         action="rest/authen/purchasePlanOrder/save.json"
          alert-error
          alert-ok
          scope-error-msg="errorMsg"
@@ -189,11 +189,11 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/purchaseOrder/query.html')"
+             nosave-callback="goTo('#/purchasePlanOrder/query.html')"
              save-callback="submitForm('editForm','exit')">返回采购计划列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/purchaseOrder/query.html" >返回采购计划列表</a>
+          <a ng-if="!changeFlag" href="#/purchasePlanOrder/query.html" >返回采购计划列表</a>
         </span>
         <span class="mgl mgt">
           <a ng-if="formData.inputUserId==mainStatus.id"
@@ -203,8 +203,8 @@
              dialog-title="确认删除 ?"
              dialog-content="您确认删除这条采购单吗?"
              dialog-template="dialog-confirm.html"
-             request-url="rest/authen/purchaseOrder/delete?id={{formData.id}}"
-             callback="goTo('#/purchaseOrder/query.html')">删除
+             request-url="rest/authen/purchasePlanOrder/delete?id={{formData.id}}"
+             callback="goTo('#/purchasePlanOrder/query.html')">删除
           </a>
         </span>
         <span class="mgl mgt">
