@@ -1,1 +1,2 @@
-gulp release-all --gulpfile  gulpfile-release-all.js
+gulp release-all --gulpfile gulpfile-projects.js
+
