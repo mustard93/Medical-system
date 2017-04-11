@@ -1,0 +1,115 @@
+<!-- 主内容头部 -->
+<table-list list-data="rest/authen/distributor/queryUserApplyCurDepartment.json" list-params="listParams" search-mode="noCaseSensitive" search-param="q">
+
+<div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+  <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxxl">我的部门 / <em class="color-custom-orange">账号审核</em></p>
+  <div class="pd-c-xxxxxxl">
+    <!-- 区块标题 -->
+    <div class="pos-rel-tl inline-block fl-l">
+      <h1 class="pr-font-20 color-black">账号审核</h1>
+    </div>
+    <!-- 右侧功能按钮及搜索 -->
+    <div class="text-right order-list-search pos-rel-tr inline-block fl-r">
+
+      <label>  <input type="checkbox" class="selectAll">全选</label>
+
+
+      <span  ng-if="listSelected.length==0"> <a ng-disabled="listSelected.length==0" href="javascript:;" class="btn pr-btn-save-glodbg pr-color mgl"
+
+        disabled="disabled">批量通过</a></span>
+      <span ng-if="listSelected.length==0"> <a ng-disabled="listSelected.length==0"  href="javascript:;" class="btn pr-btn-save-glodbg pr-color mgr"
+
+        disabled="disabled">批量拒绝</a></span>
+
+      <span  ng-if="listSelected.length>0"> <a href="javascript:;" class="btn pr-btn-save-glodbg pr-color mgl"
+        modal-center="500px"
+        modal-scope="this"
+        modal-url="views/distributor/dialog-check-ok-batch.html"
+        >批量通过</a></span>
+      <span ng-if="listSelected.length>0"> <a href="javascript:;" class="btn pr-btn-save-glodbg pr-color mgl"
+        modal-center="500px"
+        modal-scope="this"
+        modal-url="views/distributor/dialog-check-reject-batch.html"
+
+        >批量拒绝</a></span>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper queryUserApplyCurDepartment" ng-init="listSelected=[];listParams.uaoStatus='等待认证'">
+
+  <!-- 主内容区域 -->
+    <div class="content-wrapper-main" >
+      <ul class="">
+        <li class="pdr-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+          <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative pd-m"
+               ng-init='formData={"id":tr.id,"status":"认证通过","roleIds":tr.applyRoleIds};tr.formData=formData'>
+            <!-- 选择checkbox -->
+            <!-- <div  class="square border-none">
+
+            </div> -->
+
+            <input ng-if="tr.uaoStatus=='等待认证'" type="checkbox" value="{{tr.id}}"  class="selectOne"  checkbox-group="formDataArr"/>
+            <!-- 用户基本信息 -->
+            <div class="border-none text-center pr-font-16">
+              <!-- <p><img src="http://www.qdaily.com/images/missing_face.png" alt="" /></p> -->
+              <!-- <p class="mgb-m"><span class="default-user-face"></span></p> -->
+              <p class="mgb-m">
+                <img ng-if="!tr.applyUser.headUrl" src="http://www.qdaily.com/images/missing_face.png" alt="" style="width:120px;height:120px;" />
+                <img ng-if="tr.applyUser.headUrl" ng-src="{{tr.applyUser.headUrl}}" alt="" style="width:120px;height:120px;" />
+              </p>
+              <p class="mgb-m"><span class="mgr-l">{{tr.applyUser.name}}</span><span>{{tr.applyUser.sex}}</span></p>
+              <p class="pdb-m bb-line">{{tr.applyUser.phone}}</p>
+            </div>
+            <!-- 部门职能 -->
+            <div class="border-none pd-v-m color-9">
+              <p class="mgb">部门：<span class="color-6">{{tr.departmentName}}</span></p>
+              <p class="">角色：
+                <label class="pr-label color-6 mgr cur-pot"  ng-repeat="item in tr.roles">
+                  <span  class="square" style="position:relative;top:5px;">
+                    <input value="{{item.value}}" type="checkbox" checkbox-group="formData.roleIds"></span>
+                  <span class="">{{item.text}}</span>
+                </label>
+                <!-- <label class="pr-label color-6 mgr cur-pot">
+
+                    <input type="checkbox"   value="检验"   checkbox-group="formData.roleIdsArr"></span>
+                  <span class="">检验</span>
+                </label>
+                <label class="pr-label color-6 cur-pot">
+                  <span  class="square" style="position:relative;top:5px;"><input type="checkbox"></span>
+                  <span class="">组长</span>
+                </label> -->
+
+              </p>
+
+            </div>
+            <!-- 操作 -->
+            <div class="border-none"  >
+              <div class="bt-line text-center pdt">
+                <a href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color"
+                modal-center="500px"
+                modal-scope="this"
+                modal-url="views/distributor/dialog-check-reject.html"
+                >拒绝</a>
+
+                <a href="javascript:;" class="btn pr-btn-respoinsive pr-btn-respoinsiv-bigrds pr-btn-respoinsiv-border pr-color"
+                modal-center="500px"
+                modal-scope="this"
+                modal-url="views/distributor/dialog-check-ok.html"
+
+                >通过</a>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+
+</div>
+  </table-list>

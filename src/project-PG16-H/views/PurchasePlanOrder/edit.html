@@ -19,7 +19,7 @@
 
      <page-main-header-component list-params="listParams"
                                  crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"采购计划","link":"","style":"color-custom-orange"},{"name":"新建采购计划","link":"","style":""}]'
-                                 component-title="采购计划-{{formData&&formData.id?'编辑':'添加'}}">
+                                 component-title="采购计划-{{formData&&formData.id?'编辑':'新建'}}">
      </page-main-header-component>
 
      <div class="content-wrapper">
@@ -107,8 +107,10 @@
                       ng-readonly="true"
                       ng-model="formData.expectDate" />
               <span ng-if="!formData.expectDate" class="color-red">（必填）</span> -->
-             <div class="date-icon-outside">
+             <div class="date-icon-outside" ng-disabled="!formData.supplierId">
                <input type="text"
+                      style="top:0px;"
+                      ng-disabled="!formData.supplierId"
                       datepicker
                       class="ipt-date ipt color-3"
                       ng-readonly="true"
@@ -245,7 +247,7 @@
        </div>
        <!-- 备注 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-         <h1 class="text-bold color-3 inline-block">备注</h1><span ng-if="!formData.note" class="color-red">（必填）</span>
+         <h1 class="text-bold color-3 inline-block">备注</h1>
          <textarea ng-disabled="!formData.supplierId" class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
        </div>
      </div>
@@ -296,7 +298,7 @@
                   callback="submitForm('purchasePlanForm','submit')"
                   ng-disabled="purchasePlanForm.$invalid || !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
-                               !formData.orderCode || !formData.note" >提交
+                               !formData.orderCode " >提交
           </button>
         </span>
       </div>

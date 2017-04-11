@@ -1,0 +1,54 @@
+
+        <div class="modal-content" ng-controller="editCtrl"
+
+           ajax-url="rest/authen/medicalAttribute/getOfEdit.json?id={{tr.id}}"  scope-data="formData" callback="initFlag=true" alert-error >
+
+          <form class="add-medicalAttribute-form form-horizontal"
+                action="rest/authen/medicalAttribute/save"
+                alert-error
+                form-validator
+                broadcast="reloadList">
+            <div class="modal-header">
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}属性</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="col-lg-2 col-sm-2 control-label">上级属性</label>
+                <div class="col-lg-10 col-sm-10">
+                  <select ng-if="initFlag"  class="select select-w" data-placeholder="选择一个..." chosen default-empty="无"  ng-model="formData.parentId" select-source="rest/authen/medicalAttribute/queryForSelectOption.json"></select>
+
+                </div>
+              </div>
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">属性名</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">属性编码</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.code" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">属性类型</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.type" />
+                  </div>
+                </div>
+
+
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn btn-success" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>
