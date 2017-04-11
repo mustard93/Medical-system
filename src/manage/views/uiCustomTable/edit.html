@@ -5,10 +5,10 @@
   callback="initFlag=true;formData.organizationId=formData.organizationId||mainStatus.pageParams.organizationId">
   <form class="add-customerAddress-form form-horizontal"
         action="rest/authen/uiCustomTable/save"
-
         alert-error
         alert-ok
         parameter-body
+        scope-data="formData"
         form-validator>
     <div class="modal-header">
         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
@@ -130,15 +130,21 @@
       </div>
 
 
+      <div class="form-group" ng-init="filter.showFlag=true">
+        <div class="col-lg-2 col-sm-2 control-label">
+          <label><input type="radio" ng-value="true" ng-model="filter.showFlag" ng-checked="true"> 显示所有字段</label>
+          <label><input type="radio" ng-value="false"  ng-model="filter.showFlag">隐藏不不显示字段</label>
+        </div>
+      </div>
 
-
+      <button   ng-click="formData.items.push({showFlag:true})"  type="button"
+        class="btn btn-default" > 添加列  </button>
       <table class="table table-hover table-striped">
           <thead>
               <tr>
                   <th><input type="checkbox" class="selectAll"></th>
                   <th>序号</th>
-
-                  <th>排序</th>
+                  <!-- <th>排序</th> -->
                   <th>是否显示</th>
                   <th>属性名</th>
                   <th>属性类型</th>
@@ -155,12 +161,12 @@
               </tr>
           </thead>
           <tbody>
-              <tr ng-repeat="tr in formData.items" ng-click="selectThis()"  ng-class='{"active":tr.showFlag}'>
+              <tr ng-repeat="tr in formData.items" ng-click="selectThis()"  ng-class='{"active":tr.showFlag}' ng-show="filter.showFlag||tr.showFlag">
 
                   <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                   <td>{{$index + 1}}</td>
 
-                  <td>{{tr.index}}</td>
+                  <!-- <td>{{tr.index}}</td> -->
                   <td>{{tr.showFlag}}</td>
                   <td>{{tr.propertyKey}}</td>
                   <td>{{tr.propertyType}}</td>
@@ -196,7 +202,7 @@
           </tbody>
       </table>
 
-
+      <p>propertyKey=="$index"  表示 显示序号</p>
       <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label"></label>
           <div class="col-lg-10 col-sm-10">
