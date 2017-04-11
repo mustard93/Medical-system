@@ -1,4 +1,4 @@
-<table-list list-data="rest/authen/purchasecontentmedical/query?distributorId={{mainStatus.pageParams.id}}"
+<table-list list-data="rest/authen/purchasecontentmedical/query?distributorId={{mainStatus.pageParams.distributorId}}"
             list-params="listParams"
             search-mode="noCaseSensitive"
             search-param="q">
@@ -31,7 +31,12 @@
          </div>
          <div class="flex-column pd-v-l">
            <div class="flex-item-6">
-
+             <!-- 批量删除按钮 -->
+             <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l">
+               <a href="javascript:void(0)" class="batch-delete-btn" ng-click="handleBatchDel()" ng-disabled="!_tmpDelList.length">批量删除
+                 <em class="fa fa-trash-o"></em>
+               </a>
+             </div>
            </div>
            <div class="flex-item-6 text-right pdr-l">
              <span class="mgr-l">制单人：<em class="color-6">刘丽</em></span>
@@ -44,7 +49,9 @@
              <table class="table pr-table pr-new-table mgb-n table-wid-l">
                <thead>
                  <tr>
-                  <th class="text-center">序号</th>
+                  <th class="w-60 text-center">
+                    <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                  </th>
                   <th class="text-center">商品编码</th>
                   <th class="text-center">供应商商品编码</th>
                   <th class="text-left">商品名称</th>
@@ -78,8 +85,19 @@
                 </tr>
                </thead>
                <tbody>
-                 <tr ng-repeat="tr in tbodyList">
-                   <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
+                 <tr ng-repeat="tr in tbodyList" table-item-handlebtn-component>
+                   <td class="select-td text-center">
+                     <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                     <div class="table-item-handle-btn">
+                       <div class="table-item-confirm-del-area bg-white">
+                         <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                         <p class="pdt-s">
+                           <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="handleDelThisItem(tr.id)">确认</a>
+                         </p>
+                       </div>
+                     </div>
+                   </td>
                    <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 商品编码 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 供应商商品编码 -->
                    <td class="text-left" style="line-height:2.4">{{tr.medical.name}}</td><!-- 商品名称 -->
@@ -113,6 +131,12 @@
                  </tr>
                </tbody>
              </table>
+           </div>
+           <!-- 批量删除按钮 -->
+           <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l mgt-m mgb-m">
+             <a href="javascript:void(0)" class="batch-delete-btn" ng-click="handleBatchDel()" ng-disabled="!_tmpDelList.length">批量删除
+               <em class="fa fa-trash-o"></em>
+             </a>
            </div>
            <!-- 导航 -->
            <div class="clearfix" ng-if="tbodyList.length">
