@@ -2,7 +2,7 @@
      ng-controller="purchasePlanOrderController"
      ajax-url="rest/authen/purchasePlanOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos)"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos)"
      alert-error>
   <form id="purchasePlanForm"
          name="purchasePlanForm"
@@ -174,7 +174,7 @@
                        </div>
                      </div>
                    </td><!-- 序号 -->
-                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td>
+                   <td class="text-center" style="line-height:2.4">{{tr.code}}</td>
                    <td class="text-left" style="line-height:2.4">
                       <div class="autocut" title="{{tr.name}}">
                          {{tr.name}}
@@ -183,14 +183,14 @@
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
                    <td class="text-center" style="white-space: nowrap;">
                      <div class="order-goods-num">
-                       <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
+                       <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;calcTotalPrice(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
                        <span class="inline-block">
                          <input type="text"
                                 class="inline ipt pr-ipt-60 text-center item-quantity"
                                 style="width:60px;"
                                 name="quantity{{$index}}"
                                 ng-model="tr.quantity"
-                                ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos);"
+                                ng-change="calcTotalPrice(formData.orderMedicalNos)"
                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                 required
                                 ng-pattern="/^\d+$/"
@@ -199,7 +199,7 @@
                                 popover-options='{"content":"数量不正确", "placement":"right", "trigger":"manual"}'
                                 >
                        </span>
-                       <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)">+</button>
+                       <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;calcTotalPrice(formData.orderMedicalNos)">+</button>
                      </div>
                      <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                        待采购数量：{{tr.planQuantity-tr.quantity}}
@@ -210,7 +210,7 @@
                             class="ipt pr-ipt-60 text-right"
                             name="strike_price{{$index}}"
                             ng-model="tr.strike_price"
-                            ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
+                            ng-change="calcTotalPrice(formData.orderMedicalNos)"
                             required
                             ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                             invalid-popover
@@ -304,7 +304,7 @@
       </div>
       <div class="total-div">
         <p class="pr-font-18 mgb color-light-brown">总计：
-          <span class="pr-font-18 color-white">￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity']) | number:2}}</span>
+          <span class="pr-font-18 color-white">{{totalPrice || '0.00' | number:2}}</span>
           <!-- ￥{{$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity']) | number:2}} -->
         </p>
       </div>

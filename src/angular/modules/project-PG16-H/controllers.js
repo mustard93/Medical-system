@@ -458,6 +458,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   // 采购计划controller
   function purchasePlanOrderController($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
+    // 定义商品总价变量
+    $scope.totalPrice = null;
+
+    // 数量和价格变化时调用计算总价
+    $scope.calcTotalPrice = function (orderMedicalNos,obj) {
+      var _total = 0;
+      if (orderMedicalNos.length) {
+        angular.forEach(orderMedicalNos, function (data, index) {
+          _total += data.strike_price * data.quantity;
+        });
+      }
+      $scope.totalPrice = _total;
+    };
+
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
     $scope.isShowPurchaseInfo = false;
 
@@ -962,6 +976,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   // SPD采购目录模块控制器
   function purchaseContentController ($scope, modal, alertWarn, watchFormChange, requestData) {
 
+    // 定义存放用户选择药品的列表
+    $scope.choisedMedicalIdList = [];
+
     // 添加药品数据到列表
     $scope.addDataItemClick = function(addDataItem,medical) {
 
@@ -1067,7 +1084,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 删除某条信息
     $scope.handleDelThisItem = function (id) {
       if (id) {
-        var _url = 'rest/authen/purchasecontentmedical/delete?id=' + id;
+        var _url = 'rest/authen/purchasecontentmedical/delete?ids=' + id + '&distributorId=' + $scope.mainStatus.pageParams.distributorId;
         requestData(_url)
         .then(function (results) {
           if (results[1].code === 200) {
@@ -1080,7 +1097,55 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-    // 私有方法：重新请求数据
+    // 每个药品单选操作
+    $scope.handleItemClickEvent = function (item) {
+      if (item.handleFlag) {    // 选中
+        if (item.id) {
+          $scope.choisedMedicalIdList.push(item.id);
+        }
+      } else {
+        for (var i=0; i<$scope.choisedMedicalIdList.length; i++) {
+          if (item.id === $scope.choisedMedicalIdList[i]) {
+            $scope.choisedMedicalIdList.splice(i,1);
+          }
+        }
+      }
+    };
+
+    // 全选全不选
+    $scope.handleChoiseAllEvent = function () {
+      if ($scope.isChoiseAll) {
+        if ($scope.tbodyList) {
+          $scope.choisedMedicalIdList = [];
+          angular.forEach($scope.tbodyList, function (data, index) {
+            $scope.choisedMedicalIdList.push(data.id);
+          });
+        }
+      } else {
+        $scope.choisedMedicalIdList = [];
+      }
+    };
+
+    // 批量删除
+    $scope.handleBatchDelete = function (distributorId) {
+      if ($scope.choisedMedicalIdList.length) {
+        var _data = {
+          distributorId: distributorId,
+          ids: $scope.choisedMedicalIdList
+        };
+        requestData('rest/authen/purchasecontentmedical/delete?distributorId='+distributorId+'&ids='+$scope.choisedMedicalIdList)
+        .then(function (results) {
+          if (results[1].code === 200) {
+            _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
+          }
+        })
+        .catch(function (error) {
+          alertWarn(error || '出错');
+        });
+      }
+    };
+
+    // 重新请求数据
     var _reloadListData = function (_url) {
       if (_url) {
         requestData(_url)
