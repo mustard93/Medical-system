@@ -1217,7 +1217,7 @@ function leftMenuSecondToggle ($location,$rootScope) {
       //LeftMenuObj.doRoute();
       //根据优先级路由定位菜单
       doRoute:function(newUrl){
-        // console.log("getElementMenu1="+url);
+        console.log("routeMap=",this.routeMap);
         var url=newUrl;// #/purchaseOrder/query.html?t=123
         url=url.split('#')[1];// /purchaseOrder/query.html?t=123
         if(!url)return;
@@ -1293,9 +1293,18 @@ function leftMenuSecondToggle ($location,$rootScope) {
       }
       LeftMenuObj.add(keyArr,$element,$scope.leftMenuSecondToggle);
       LeftMenuObj.startListen($rootScope);
-      LeftMenuObj.doRoute("#"+$location.path());
 
+      //$location.path()="/manageDepartment/query.html"
+      //$location.url()="/manageDepartment/query.html?type=%E5%8C%BB%E8%8D%AF"
 
+      // "#/manageDepartment/query.html?type=%E5%8C%BB%E8%8D%AF  "
+      //=>
+      //"#/manageDepartment/query.html?type=医药"
+      var tmpUrl=decodeURI("#"+$location.url());
+      LeftMenuObj.doRoute(tmpUrl);
+
+//$location.path()="/manageDepartment/query.html"
+//$location.url()="/manageDepartment/query.html?type=%E5%8C%BB%E8%8D%AF"
       //绑定点击事件
       $element.on('click', function (event) {
         //阻止冒泡
@@ -2620,7 +2629,7 @@ function flashAddMedical(utils,$timeout) {
 
           //添加业务数据
           $scope.addDataFn = function () {
-            if($scope.addDataCallbackFn){  
+            if($scope.addDataCallbackFn){
               var data = utils.replaceObject({},$scope.ngModel);
               var flag = $scope.addDataCallbackFn(data);
               if(typeof flag=='function')flag=flag(data);
