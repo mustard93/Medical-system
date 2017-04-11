@@ -458,6 +458,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   // 采购计划controller
   function purchasePlanOrderController($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
+    // 定义商品总价变量
+    $scope.totalPrice = null;
+
+    // 数量和价格变化时调用计算总价
+    $scope.calcTotalPrice = function (orderMedicalNos,obj) {
+      var _total = 0;
+      if (orderMedicalNos.length) {
+        angular.forEach(orderMedicalNos, function (data, index) {
+          _total += data.strike_price * data.quantity;
+        });
+      }
+      $scope.totalPrice = _total;
+    };
+
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
     $scope.isShowPurchaseInfo = false;
 
