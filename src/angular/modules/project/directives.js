@@ -2577,18 +2577,17 @@ function flashAddMedical(utils,$timeout) {
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
-
-
           //隐藏输入数量控件
-            if (angular.isDefined($attrs.hideQuantity)){
-              $scope.hideQuantity=true;
-            }
-            //隐藏导入按钮
-            if (angular.isDefined($attrs.hideImport)){
-              $scope.hideImport=true;
-            }
+          if (angular.isDefined($attrs.hideQuantity)){
+            $scope.hideQuantity=true;
+          }
 
-            //监听变化
+          //隐藏导入按钮
+          if (angular.isDefined($attrs.hideImport)){
+            $scope.hideImport=true;
+          }
+
+          //监听变化
           $attrs.$observe("ajaxUrl", function(newVal, oldVal) {
             $scope.ajaxUrl = newVal;
           });
@@ -2617,13 +2616,14 @@ function flashAddMedical(utils,$timeout) {
 
             }
 
-          }
+          };
+
           //添加业务数据
           $scope.addDataFn = function () {
             if($scope.addDataCallbackFn){
                 var data=  utils.replaceObject({},$scope.ngModel);
               var  flag=$scope.addDataCallbackFn(data);
-              if(typeof flag=='function')flag=flag(data)
+              if(typeof flag=='function')flag=flag(data);
               if(!flag){//业务逻辑判断添加失败，则不清空数据。
                 return false;
               }
@@ -2636,8 +2636,8 @@ function flashAddMedical(utils,$timeout) {
 
             //清空输入数据
           $scope.ngModel={};
+          
           //自动补全查询输入框获得焦点
-
           var searchInputId='#angucompleteMedical_searchInputId';
           if($scope.id)searchInputId+=$scope.id;
 
@@ -2650,8 +2650,6 @@ function flashAddMedical(utils,$timeout) {
           },0);
 
           return false;
-
-
 
 
           };
