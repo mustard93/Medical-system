@@ -41,7 +41,7 @@
                 <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">医疗机构编码</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input ng-disabled="formData.hospitalCode" type="text" class="form-control" placeholder="" ng-model="formData.hospitalCode" />
+                    <input ng-disabled="hospitalQuery.id" type="text" class="form-control" placeholder="" ng-model="formData.hospitalCode" />
                   </div>
                 </div>
                 <div class="form-group mgt">
@@ -85,7 +85,33 @@
                 <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">经销商编码</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input ng-disabled="formData.distributorCode" type="text" class="form-control" placeholder="" ng-model="formData.distributorCode" />
+                    <input ng-disabled="disdata.id" type="text" class="form-control" placeholder="" ng-model="formData.distributorCode" />
+                  </div>
+                </div>
+              </div>
+
+              <div class=""
+
+                >
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">客户名称</label>
+                  <select ajax-if-eval="disdata.id" class="inline ipt-new-s pdt"
+                  style="width:120px;"
+                  data-placeholder=" "
+                  ng-model="formData.customerAddressId"
+                  ajax-url="rest/authen/customerAddress/getCustomerByDistributor?distributorId={{disdata.id}}"
+                  scope-data="scopeData"
+                  callback="formData.customerAddressCode=custome.code;formData.customerAddressName=custome.name;formData.customerAddressId=custome.id;">
+                  <option ng-repeat="item in scopeData" value="{{item.id}}">
+                    {{item.name}}
+                  </option>
+                  </select>
+
+                </div>
+                <div class="form-group mgt">
+                  <label class="col-lg-2 col-sm-2 control-label">客户编码</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input ng-disabled="formData.customerAddressCode" type="text" class="form-control" placeholder="" ng-model="formData.customerAddressCode" />
                   </div>
                 </div>
               </div>

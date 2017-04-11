@@ -2102,13 +2102,22 @@ function tableItemHandlebtnComponent (utils) {
 
       element.hover(function () {
         // 当前行序号
-        var _index = attrs.tableItemIndex,
-            _orderMedicalNos = scope.formData.orderMedicalNos;
+        // var _index = attrs.tableItemIndex,
+        //     _orderMedicalNos = scope.formData.orderMedicalNos;
 
         // 计算当前tr距离顶部的高度
         var _offsetTop = $(element).offset().top - document.body.scrollTop;
         // 计算当前页面宽度
-        var _pageWidth = utils.getMainBodyWidth() + 65;
+        // var _pageWidth = utils.getMainBodyWidth() + 65;
+        // 计算当前页面宽度
+        var _pageWidth = null;
+        if (window.innerWidth) {
+          _pageWidth = window.innerWidth - 65;
+        } else if ((document.body) && (document.body.clientWidth)) {
+          _pageWidth = document.body.clientWidth - 65;
+        }
+
+        // console.log(_pageWidth);
 
         _delBtn.css({'position':'fixed','top':_offsetTop,'left':_pageWidth}).show();
 

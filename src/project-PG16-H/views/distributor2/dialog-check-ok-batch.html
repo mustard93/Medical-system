@@ -1,0 +1,19 @@
+<div class="pr-page-dialog-wrap"      ng-controller="auditUserApplyOrganizationCtrl"
+ng-init="checkUserArr=getCheckUserApplyArr(tbodyList,listSelected)"
+>
+  <div class="pr-page-dialog-title bb-line">
+    <i></i><span>审核确认</span>
+  </div>
+  <div class="pr-page-dialog-content bb-line">
+      <div class="mgb-l">确认通过以下帐号的审核申请？</div>
+      <div class="flex-column">
+          <span class="col-xs-4" ng-repeat="tr in checkUserArr">{{$index + 1}}. {{tr.applyUser.name}}</span>
+      </div>
+
+  </div>
+  <div class="pr-page-dialog-footer text-center mg-m">
+    <button type="button"  ng-click="batchAuditUserApplyOrganization(checkUserArr,listSelected,'认证通过')" class="pr-btn-save-glodbg">确认</button>
+    <button type="button" class="pr-btn-a" ng-click="closeThisDialog('cancelBtn')">取消</button>
+  </div>
+
+</div>
