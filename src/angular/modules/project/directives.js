@@ -2093,13 +2093,22 @@ function tableItemHandlebtnComponent (utils) {
 
       element.hover(function () {
         // 当前行序号
-        var _index = attrs.tableItemIndex,
-            _orderMedicalNos = scope.formData.orderMedicalNos;
+        // var _index = attrs.tableItemIndex,
+        //     _orderMedicalNos = scope.formData.orderMedicalNos;
 
         // 计算当前tr距离顶部的高度
         var _offsetTop = $(element).offset().top - document.body.scrollTop;
         // 计算当前页面宽度
-        var _pageWidth = utils.getMainBodyWidth() + 65;
+        // var _pageWidth = utils.getMainBodyWidth() + 65;
+        // 计算当前页面宽度
+        var _pageWidth = null;
+        if (window.innerWidth) {
+          _pageWidth = window.innerWidth - 65;
+        } else if ((document.body) && (document.body.clientWidth)) {
+          _pageWidth = document.body.clientWidth - 65;
+        }
+
+        // console.log(_pageWidth);
 
         _delBtn.css({'position':'fixed','top':_offsetTop,'left':_pageWidth}).show();
 
@@ -2577,18 +2586,17 @@ function flashAddMedical(utils,$timeout) {
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
-
-
           //隐藏输入数量控件
-            if (angular.isDefined($attrs.hideQuantity)){
-              $scope.hideQuantity=true;
-            }
-            //隐藏导入按钮
-            if (angular.isDefined($attrs.hideImport)){
-              $scope.hideImport=true;
-            }
+          if (angular.isDefined($attrs.hideQuantity)){
+            $scope.hideQuantity=true;
+          }
 
-            //监听变化
+          //隐藏导入按钮
+          if (angular.isDefined($attrs.hideImport)){
+            $scope.hideImport=true;
+          }
+
+          //监听变化
           $attrs.$observe("ajaxUrl", function(newVal, oldVal) {
             $scope.ajaxUrl = newVal;
           });
@@ -2617,13 +2625,14 @@ function flashAddMedical(utils,$timeout) {
 
             }
 
-          }
+          };
+
           //添加业务数据
           $scope.addDataFn = function () {
             if($scope.addDataCallbackFn){
-                var data=  utils.replaceObject({},$scope.ngModel);
-              var  flag=$scope.addDataCallbackFn(data);
-              if(typeof flag=='function')flag=flag(data)
+              var data = utils.replaceObject({},$scope.ngModel);
+              var flag = $scope.addDataCallbackFn(data);
+              if(typeof flag=='function')flag=flag(data);
               if(!flag){//业务逻辑判断添加失败，则不清空数据。
                 return false;
               }
@@ -2636,8 +2645,8 @@ function flashAddMedical(utils,$timeout) {
 
             //清空输入数据
           $scope.ngModel={};
-          //自动补全查询输入框获得焦点
 
+          //自动补全查询输入框获得焦点
           var searchInputId='#angucompleteMedical_searchInputId';
           if($scope.id)searchInputId+=$scope.id;
 
@@ -2650,8 +2659,6 @@ function flashAddMedical(utils,$timeout) {
           },0);
 
           return false;
-
-
 
 
           };
