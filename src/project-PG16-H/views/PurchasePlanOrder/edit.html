@@ -85,6 +85,7 @@
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
                       ng-model="formData.orderCode" />
+                <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
                </span>
                <span class="mgr">审核人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
                <span class="mgr">制单人：<em class="color-custom-orange">{{formData.inputUser.n || '暂无'}}</em></span>
@@ -96,8 +97,8 @@
              </div>
            </div>
            <div class="pd-c-l pdt-m pdb-m color-9">
-             <span class="mgr">计划到货时间：
-               <input type="text"
+             <span class="mgr">计划到货时间：       </span>
+               <!-- <input type="text"
                       ng-disabled="!formData.supplierId"
                       datepicker
                       class="ipt pr-short-ipt color-3"
@@ -105,13 +106,31 @@
                       placeholder=""
                       ng-readonly="true"
                       ng-model="formData.expectDate" />
-             </span>
-             <span class="mgr">预入库房：
+              <span ng-if="!formData.expectDate" class="color-red">（必填）</span> -->
+             <div class="date-icon-outside">
                <input type="text"
+                      datepicker
+                      class="ipt-date ipt color-3"
+                      ng-readonly="true"
+                      placeholder=""
+                      ng-model="formData.expectDate">
+                     <span class="date-icon"></span>
+             </div>
+             <span ng-if="!formData.expectDate" class="color-red">（必填）</span>
+             <span class="mgr mgl" >预入库房：
+               <!-- <input type="text"
                     ng-disabled="!formData.supplierId"
                     class="inline ipt pr-ipt-60 text-center"
                     style="width:100px;"
-                    ng-model="formData.storeRoomName" />
+                    ng-model="formData.storeRoomName" /> -->
+              <select ng-if="initFlag" class="inline ipt-new-s pdt"
+              chosen
+              style="width:120px;"
+              data-placeholder=" "
+              ng-model="formData.storeRoomId"
+              select-source="rest/authen/storeRoom/queryForSelectOption">
+              </select>
+              <span ng-if="!formData.storeRoomId" class="color-red">（必填）</span>
              </span>
              <span class="mgr">跟台：
                <select class="ipt pr-short-ipt pr-ipt-60 color-6" ng-disabled="!formData.supplierId">
@@ -226,7 +245,7 @@
        </div>
        <!-- 备注 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
-         <h1 class="text-bold color-3">备注</h1>
+         <h1 class="text-bold color-3 inline-block">备注</h1><span ng-if="!formData.note" class="color-red">（必填）</span>
          <textarea ng-disabled="!formData.supplierId" class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
        </div>
      </div>
@@ -277,7 +296,7 @@
                   callback="submitForm('purchasePlanForm','submit')"
                   ng-disabled="purchasePlanForm.$invalid || !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
-                               !formData.orderCode " >提交
+                               !formData.orderCode || !formData.note" >提交
           </button>
         </span>
       </div>
