@@ -1,4 +1,5 @@
 <div class="modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="createCorrespondController"
      ajax-url="rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId={{mainStatus.pageParams.distributorId}}"
      scope-data="codesList"
      alert-error>
@@ -33,13 +34,13 @@
         </tr>
       </thead>
       <tbody class="bg-white">
-        <tr ng-repeat="item in codesList" class="pr-bg-black3 trHover-bg">
+        <tr ng-repeat="item in codesList track by $index" class="pr-bg-black3 trHover-bg">
           <td class="text-center">
             <label class="radio radio-new">
               <input type="radio"
                      name="medicals"
                      class="default-radio"
-                     ng-click="choiseCode(item);modal.closeAll()"><i></i>
+                     ng-click="choiseCode(item.medical.code,dialogData.medicalId)"><i></i>
             </label>
           </td>
           <td class="text-left color-white" style="height:50px;"> {{item.medical.code}}</td>

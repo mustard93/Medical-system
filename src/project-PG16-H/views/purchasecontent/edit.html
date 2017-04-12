@@ -29,7 +29,14 @@
               hide-quantity
               hide-import>
          </div>
-         <div class="flex-column pd-v-l">
+         <!-- 状态筛选 -->
+         <div class="pd-v-m pdl-l bb-line">
+           <span>状态筛选：</span>
+           <select class="ipt pr-short-ipt color-6">
+             <option value="">全部</option>
+           </select>
+         </div>
+         <div class="flex-column pd-v-m">
            <div class="flex-item-6">
              <!-- 批量删除按钮 -->
              <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l">
@@ -38,10 +45,10 @@
                </a>
              </div>
            </div>
-           <div class="flex-item-6 text-right pdr-l">
+           <!-- <div class="flex-item-6 text-right pdr-l">
              <span class="mgr-l">制单人：<em class="color-6">刘丽</em></span>
              <span>录单日期：<em class="color-6">暂无</em></span>
-           </div>
+           </div> -->
          </div>
          <!-- 列表 -->
          <div class="bt-line">
@@ -99,12 +106,12 @@
                      </div>
                    </td>
                    <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 商品编码 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.medical.distributorMedicalCode}}
-                     <div class="ipt-div relative" style="width:100%;">
+                   <td class="text-center" style="line-height:2.4">
+                     <div class="ipt-div relative text-left pr-indent-5" style="width:100%;">{{tr.medical.distributorMedicalCode}}
                        <i class="addImg" style="left:100px;"
                           modal-right="50%"
                           modal-scope="this"
-                          modal-data='{"medicalName":"{{tr.medical.name}}"}'
+                          modal-data='{"medicalName":"{{tr.medical.name}}","medicalId":"{{tr.id}}"}'
                           modal-url="views/versionFlow/create-correspond-relation.html">
                        </i>
                      </div>
