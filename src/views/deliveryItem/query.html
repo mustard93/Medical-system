@@ -1,17 +1,15 @@
 <div class="medical-stock supplier-management child-project-management"
-     ng-controller="medicalStockCtrl"
+     ng-controller="deliveryItemcontroller"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-     <table-list list-data="rest/authen/medicalStock/query.json"
+     <table-list list-data="rest/authen/deliveryItem/query.json"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
                  search-param="q">
 
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
-                                crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"商品管理","link":"","style":"color-custom-orange"}]'
-                                component-title="商品管理"
-                                is-show-create-btn="新增商品"
-                                create-new-url="#/medicalStock/edit.html"
+                                crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"配送数据管理","link":"","style":"color-custom-orange"}]'
+                                component-title="配送数据管理"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
 
@@ -20,6 +18,9 @@
         <div class="content-wrapper-main ">
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
             <div class="flex-item-12 text-right">
+              <div class="text-left">
+                <button class="pr-btn-save-glodbg mgt" style="height:24px;">Excel导入</button>
+              </div>
                 <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
                   <input type="text" class="ipt pdr-xxl" placeholder="输入商品名相关信息/证号关键字段进行搜索" ng-model="listParams.q">
                   <i class=""></i>
@@ -30,7 +31,7 @@
                 </div>
             </div>
           </div>
-            <div custom-table="com.pangu.mss.spd.domain.mongo.medical.MedicalStock" custom-tr-menus="spd_MedicalStock_query" style="width:100%;">   </div>
+            <div custom-table="com.pangu.mss.spd.domain.mongo.medical.deliveryItem" custom-tr-menus="spd_deliveryItem_query" style="width:100%;">   </div>
         </div>
     </div>
   </table-list>

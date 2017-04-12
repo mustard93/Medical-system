@@ -1,7 +1,7 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-controller="receiveItemController"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-     <table-list list-data="http://localhost:3000/src/project-PG16-H/rest/authen/receiveItem/query.json"
+     <table-list list-data="/rest/authen/receiveItem/query"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
                  search-param="q">
@@ -166,7 +166,8 @@
                       modal-url="views/receiveItem/edit.html">
                         继续收货...
                       </div>
-                      <div class="inline-block btn-receiveItem pr-bg-delete color-white" ng-if="tr.receiveItemStatus=='收货中'" style="right:-15px;top: -33px;">
+                      <div class="inline-block btn-receiveItem pr-bg-delete color-white" ng-if="tr.receiveItemStatus=='收货中'" style="right:-15px;top: -33px;"
+                      ajax-url="rest/authen/receiveItem/endReceipt?id={{tr.relId}}">
                         结束收货
                       </div>
                     </div>

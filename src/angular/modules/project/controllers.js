@@ -4139,6 +4139,50 @@ define('project/controllers', ['project/init'], function() {
       };
     }
 
+    function deliveryItemcontroller ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+      $scope.watchFormChange = function(watchName){
+        watchFormChange(watchName,$scope);
+      };
+
+      // 全选与全不选
+      $scope.isChoiseAll = function (choiseStatus) {
+        if (choiseStatus) {
+          angular.forEach($scope.orderMedicalNos, function (item, index) {
+            if (!item.handleFlag) {
+              item.handleFlag = true;
+            }
+          });
+        } else {
+          angular.forEach($scope.orderMedicalNos, function (item, index) {
+            if (item.handleFlag) {
+              item.handleFlag = false;
+            }
+          });
+        }
+      };
+      $scope.handleChoiseAllEvent = function () {
+           var _dataSource = $scope.formData.orderMedicalNos;
+
+           if (!$scope.choisedMedicalList) {
+             $scope.choisedMedicalList = [];
+           }
+
+           if ($scope.isChoiseAll) {
+             angular.forEach(_dataSource, function (data, index) {
+               data.handleFlag = true;
+               $scope.choisedMedicalList.push(data);
+             });
+           } else  {
+             angular.forEach(_dataSource, function (data, index) {
+               data.handleFlag = false;
+               $scope.choisedMedicalList = [];
+             });
+           }
+         };
+    }
+
+
     // 客户管理(医院管理，经销商/零售商管理)模块
     function customerAddressCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
       $scope.$watch('initFlag', function () {
@@ -5519,6 +5563,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('SelectedCommodityEditCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', SelectedCommodityEditCtrl])
   .controller('hospitalPurchaseContentsCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', '$timeout', hospitalPurchaseContentsCtrl])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
+  .controller('deliveryItemcontroller', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', deliveryItemcontroller])
   .controller('customerAddressCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', customerAddressCtrl])
   .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
   .controller('intervalCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', intervalCtrl])
