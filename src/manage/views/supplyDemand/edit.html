@@ -90,19 +90,15 @@
                 </div>
               </div>
 
-              <div class=""
-
-                >
+              <div class="">
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">客户名称</label>
-                  <select ajax-if-eval="disdata.id" class="inline ipt-new-s pdt"
+                  <select class="inline ipt-new-s pdt"
                   style="width:120px;"
-                  data-placeholder=" "
-                  ng-model="formData.customerAddressId"
+                  ajax-if-eval="disdata.id"
                   ajax-url="rest/authen/customerAddress/getCustomerByDistributor?distributorId={{disdata.id}}"
-                  scope-data="scopeData"
-                  callback="formData.customerAddressCode=custome.code;formData.customerAddressName=custome.name;formData.customerAddressId=custome.id;">
-                  <option ng-repeat="item in scopeData" value="{{item.id}}">
+                  scope-data="scopeData">
+                  <option ng-repeat="item in scopeData" value="{{item.id}}" >
                     {{item.name}}
                   </option>
                   </select>
@@ -114,6 +110,7 @@
                     <input ng-disabled="formData.customerAddressCode" type="text" class="form-control" placeholder="" ng-model="formData.customerAddressCode" />
                   </div>
                 </div>
+
               </div>
 
                 <div class="form-group">
