@@ -1,6 +1,6 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-controller="deliveryItemcontroller"
-     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.importExcelType = '配送数据'">
      <table-list list-data="rest/authen/deliveryItem/query.json"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
@@ -25,9 +25,9 @@
                 style="height:24px;"
                 ng-init="upFile={}"
                 response-list="responseList"
-                uploader-one="rest/authen/excelImport/deliveryItem/upload"
+                uploader-one="rest/authen/excelImport/upload"
                 params="listParams"
-                callback="formData.fileName=upFile.data.originalFileName"
+                callback="formData.fileName=upFile.data.originalFileName;$root.utils.refreshHref()"
                 usege="Excel导入"
                 up-file="upFile"
                 ng-model="formData.loadUrl">Excel导入{{upFile.progress<100?"("+upFile.progress+"%)":""}}
