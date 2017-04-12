@@ -45,6 +45,20 @@
                   </div>
                 </div>
                 <div class="form-group mgt">
+                  <label class="col-lg-2 col-sm-2 control-label">供应商名称</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select
+                    class="pr-select pdt"
+                    style="width:250px;"
+                    ajax-url="rest/authen/supplier/getSupplierByHospitalId?hospitalId={{formData.hospitalId}}"
+                    ng-model="formData.hospitalSupplierId"
+                    scope-data="opsData">
+                    <option ng-selected="formData.hospitalSupplierId" ng-repeat="op in opsData" value="{{op.id}}">{{op.name}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">医疗机构类型</label>
                   <div class="col-lg-10 col-sm-10">
                     <select ng-if="initFlag"
@@ -90,34 +104,19 @@
                 </div>
               </div>
 
-              <div class=""
-              ajax-if-eval="disdata.id"
-              ajax-url="rest/authen/customerAddress/getCustomerByDistributor?distributorId={{disdata.id}}"
-              scope-data="scopeData">
-
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">客户名称</label>
-                  <select class="inline ipt-new-s pdt"
-                  style="width:120px;"
-                  ng-options="item.code as item.name for item in scopeData"
-                  ng-model="formData.customerAddressId"
-                  ng-change="formData.customerAddressCode=item.code">
-
-                  <!-- <option ng-repeat="item in scopeData" value="{{item.id}}" ng-selected="formData.customerAddressCode=item.code">
-                    {{item.name}}
-                  </option> -->
-                  </select>
-
-                </div>
-
                 <div class="form-group mgt">
-                  <label class="col-lg-2 col-sm-2 control-label">客户编码</label>
+                  <label class="col-lg-2 col-sm-2 control-label">客户名称</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input ng-disabled="formData.customerAddressCode" type="text" class="form-control" placeholder="" ng-model="formData.customerAddressCode" />
+                    <select
+                    class="pr-select pdt"
+                    style="width:250px;"
+                    ajax-url="rest/authen/customerAddress/getCustomerByDistributor?distributorId={{formData.distributorId}}"
+                    scope-data="customerData"
+                    ng-model="formData.customerAddressId">
+                    <option ng-selected="formData.customerAddressId" ng-repeat="cur in customerData" value="{{cur.id}}">{{cur.name}}</option>
+                    </select>
                   </div>
                 </div>
-
-              </div>
 
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">备注</label>

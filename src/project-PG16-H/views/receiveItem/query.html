@@ -1,7 +1,10 @@
-<table-list list-data="rest/authen/receiveItem/query.json"
-            list-params="listParams"
-            search-mode="noCaseSensitive"
-            search-param="q">
+<div class="medical-stock supplier-management child-project-management"
+     ng-controller="receiveItemController"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+     <table-list list-data="/rest/authen/receiveItem/query"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q">
 
   <div class="medical-stock child-project-management receive-item" ng-controller="receiveItemController">
     <!-- 主内容头部 -->
@@ -166,6 +169,7 @@
                         <em  class="inline-block">{{tr.receiveItemStatus}}</em>
                       </i>
                     </span>
+<<<<<<< HEAD
                   </span>
                   <div class="table-item-multiple-btn">
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
@@ -174,6 +178,45 @@
                          modal-scope="this"
                          modal-data='{"id":"{{tr.id}}"}'
                          modal-url="views/receiveItem/edit.html">开始收货...
+=======
+                    <div class="table-item-multiple-btn">
+                      <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='待收货'"
+                      modal-right="50%"
+                      modal-scope="this"
+                      modal-data='{
+                        "medicalName":"{{tr.name}}",
+                        "id":"{{tr.relId}}"}'
+                      modal-url="views/receiveItem/edit.html">
+                        开始收货...
+                      </div>
+                      <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='未加入采购目录商品'">
+                        加入采购目录...
+                      </div>
+                      <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='未匹配商品关系'">
+                        立即匹配...
+                      </div>
+                      <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='收货中'" style="right:80px;"
+                      modal-right="50%"
+                      modal-scope="this"
+                      modal-data='{
+                        "medicalName":"{{tr.name}}",
+                        "id":"{{tr.relId}}"}'
+                      modal-url="views/receiveItem/edit.html">
+                        继续收货...
+                      </div>
+                      <div class="inline-block btn-receiveItem pr-bg-delete color-white" ng-if="tr.receiveItemStatus=='收货中'" style="right:-15px;top: -33px;"
+                      ajax-url="rest/authen/receiveItem/endReceipt?id={{tr.relId}}">
+                        结束收货
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
+                  <td>{{tr.purchasePlanOrderCode}}</td>
+                  <td>{{tr.code}}</td>
+                  <td class="text-left">
+                    <div class="autocut" title="{{tr.name}}">
+                          {{tr.name}}
+>>>>>>> da35919f37e4741ee9a405aebd3cff8f50e78307
                     </div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='未加入采购目录商品'">
                       加入采购目录...

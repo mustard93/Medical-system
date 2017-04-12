@@ -15,6 +15,7 @@ var gulp = require('gulp'),
     rev = require('gulp-rev'),                          // 为静态资源文件替换带MD5的文件名
     revCollector = require('gulp-rev-collector'),       // 替换静态资源链接
     runSequence = require('run-sequence');         // 顺序执行
+    // var foal = require('gulp-foal');
 
 //配置项目名（必填项），项目具体目录关注。Project_paths
 var project_name="manage";
@@ -88,8 +89,8 @@ function getProjectPaths(project_name){
     dest_js_fileName:project_name+"_app.js",
     build     :  "src/build/",//编译路径
     build_js       :  paths.build+'js/',
-    build_css_min:"src/build/"+project_name+"/css/",
-    build_js_min:"src/build/"+project_name+"/js/",
+    build_css_min_rev:"src/build/"+project_name+"/css/",
+    build_js_min_rev:"src/build/"+project_name+"/js/",
     less      :  'src/less/',
     scripts   :  "src/js/",
     img       :  "src/images/",
@@ -144,7 +145,7 @@ function concatMinCssTask(project_name){
             //  .pipe(gulp.dest(paths.build + 'css'))
                .pipe(gulp.dest(paths.build_css))
              .pipe(rev.manifest())
-             .pipe(gulp.dest(tmpProject_paths.build_css_min));
+             .pipe(gulp.dest(tmpProject_paths.build_css_min_rev));
 
 }
 
@@ -211,7 +212,7 @@ function concatMinJsTask(project_name){
                .pipe(rev())
                .pipe(gulp.dest(paths.build_js))
                .pipe(rev.manifest())
-              .pipe(gulp.dest(tmpProject_paths.build_js_min))
+              .pipe(gulp.dest(tmpProject_paths.build_js_min_rev))
 
 }
 
@@ -242,35 +243,77 @@ gulp.task('handleJsCompress', ['pro-clean-js'], function () {
   return testConcatMinJsTask(project_name)
 });
 
+//
+// //使用 foal.task(...) 来定义一个 foal 任务
+// foal.task('revHtmlTask_project', function(project_name) {
+//   //为了顺序执行 foal 任务，请别省略 return 语句
+//       console.log("revHtmlTask.project_name="+project_name);
+//       if(project_name=="dt"){
+//          return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/*.html']) .on('data',function(file){
+//           console.log(file.history[0])
+//       })
+//                    .pipe(revCollector())
+//                    .pipe(gulp.dest('./src/'));
+//       }
+//
+//        return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+//         console.log(file.history[0])
+//       })
+//                  .pipe(revCollector())
+//                  .pipe(gulp.dest('./src/'+project_name));
+// });
 
+
+//使用 foal.task(...) 来定义一个 foal 任务
+gulp.task('revHtmlTask_dt', function(project_name) {
+  //为了顺序执行 foal 任务，请别省略 return 语句
+      project_name="dt";
+      console.log("revHtmlTask.project_name="+project_name);
+      if(project_name=="dt"){
+         return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/*.html']) .on('data',function(file){
+          console.log(file.history[0])
+      })
+                   .pipe(revCollector())
+                   .pipe(gulp.dest('./src/'));
+      }
+
+
+});
+
+
+//使用 foal.task(...) 来定义一个 foal 任务
+gulp.task('revHtmlTask_manage', function(project_name) {
+  //为了顺序执行 foal 任务，请别省略 return 语句
+      project_name="manage";
+      console.log("revHtmlTask.project_name="+project_name);
+
+       return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+        console.log(file.history[0])
+      })
+                 .pipe(revCollector())
+                 .pipe(gulp.dest('./src/'+project_name));
+});
+
+
+//使用 foal.task(...) 来定义一个 foal 任务
+gulp.task('revHtmlTask_project-PG16-H', function(project_name) {
+  //为了顺序执行 foal 任务，请别省略 return 语句
+      project_name="project-PG16-H";
+      console.log("revHtmlTask.project_name="+project_name);
+
+       return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+        console.log(file.history[0])
+      })
+                 .pipe(revCollector())
+                 .pipe(gulp.dest('./src/'+project_name));
+});
 /*压缩 JS 开发测试压缩是否失败  */
 function revHtmlTask(project_name){
-console.log("revHtmlTask.project_name="+project_name);
-if(project_name=="dt"){
-   return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/*.html']) .on('data',function(file){
-    console.log(file.history[0])
-})
-             .pipe(revCollector())
-             .pipe(gulp.dest('./src/'));
-}
 
- return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
-  console.log(file.history[0])
-})
-           .pipe(revCollector())
-           .pipe(gulp.dest('./src/'+project_name));
-  //
-  //
-  // return gulp.src(['./src/build/**/*.json', './src/'+project_name+'/**/*.html'])
-  //            .pipe(revCollector())
-  //            .pipe(gulp.dest('./src/'+project_name+'/release'));
-  //
 
-            //  return gulp.src(['./rev/**/*.json', './src/'+project_name+'/release/**/*.html'])
-            //             .pipe(revCollector())
-            //             .pipe(gulp.dest('./src/'+project_name+'/release'));
 
 }
+
 
 
 
@@ -423,10 +466,19 @@ gulp.task('release-all', ['pro-clean-css','pro-clean-js'],function (done) {
   // release_project_min("dt");
 
     var task_arr=[];
+
+    var first_project_task=null;
     for(var i=0;i<pg_projects.length;i++){
       var project_name=pg_projects[i];
 
       release_project_min(project_name);
+      //
+      // //最后统一替换版本号，防止改错。
+      // if(i>0){
+      //   task_arr.push(revHtmlTask_project(project_name));
+      // }else{
+      //   first_project_task=revHtmlTask_project(project_name);
+      // }
     //   gulp.task('concatMinJsTask'+project_name, function () {
     //     return concatMinJsTask(project_name);
     //   });
@@ -448,6 +500,8 @@ gulp.task('release-all', ['pro-clean-css','pro-clean-js'],function (done) {
       // release_project_min(project_name);
     }
 
+        runSequence(['revHtmlTask_manage'],['revHtmlTask_dt'],['revHtmlTask_project-PG16-H']);
+    // foal.run(first_project_task,task_arr, done);
   // console.log(task_arr);
 
 
