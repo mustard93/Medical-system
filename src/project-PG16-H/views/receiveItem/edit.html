@@ -1,212 +1,170 @@
-<div class="modal-content right-side-new pr-bg-black4" ng-controller="editCtrl" style="font-size:14px;">
+<div class="modal-content right-side-new pr-bg-black4"
+     ng-controller="editCtrl"
+     ajax-url="rest/authen/receiveItem/getOfEdit?id={{dialogData.id}}"
+     scope-data="formData"
+     alert-error>
   <form class="add-customerAddress-form form-horizontal"
-        ajax-url="http://localhost:3000/src/project-PG16-H/rest/authen/receiveItem/getOfEdit.json"
-        scope-data="showData"
-        alert-error>
-          <!-- ?id={{dialogData.id}} -->
+        id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/receiveItem/confirmReceipt.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        onkeydown="if(window.event.keyCode==13) return false;"
+        callback="$root.watchFormChange('formData',this)"
+        novalidate="true">
     <div class="bb-line-gold pr-bg-black2 min-h-l">
-       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{dialogData.medicalName}}</h1>
-     </div>
+      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{formData.name}}</h1>
+    </div>
     <div class="bb-line-gold ">
-        <table class="full-width another-table mgb" >
-          <thead>
-            <tr class="bb-line-gold">
-              <th class="text-center">生产批号</th>
-              <th class="text-center" >配送数量</th>
-              <th class="text-center" class="text-left">实收数量</th>
-              <th class="text-center" class="text-left">收货人</th>
-              <th class="text-center" class="text-left">收货日期</th>
-              <th class="text-center" class="text-left">库房</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white">
-            <tr ng-repeat="item in showData.batchInfo" class="pr-bg-black3">
-              <td class="text-center  color-white"> {{item.productionBatch}}</td>
-              <td class="text-center color-white"> {{item.deliveryQuantity}}</td>
-              <td class="text-center color-white">
-                <input type="text"
+      <table class="full-width another-table mgb" >
+        <thead>
+          <tr class="bb-line-gold">
+            <th class="text-center">生产批号</th>
+            <th class="text-center" >配送数量</th>
+            <th class="text-center" class="text-left">实收数量</th>
+            <th class="text-center" class="text-left pdt">收货人</th>
+            <th class="text-center" class="text-left">收货日期</th>
+            <th class="text-center" class="text-left">库房</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          <tr ng-repeat="batch in formData.batchInfos" class="pr-bg-black3">
+            <td class="text-center color-white">{{batch.productionBatch}}</td>
+            <td class="text-center color-white">{{batch.deliveryQuantity}}</td>
+            <td class="text-center color-white">
+              <input type="text"
                      class="inline ipt pr-ipt-60 text-center mgt"
                      style="width:100px;"
-                     ng-model="item.receiveQuantity" />
-              </td>
-              <td  class="text-center color-white">
-                <select class="inline ipt-new-s pdt mgt"
-                chosen
-                style="width:120px;"
-                data-placeholder=" "
-                ng-model="tr.storeRoomId"
-                select-source="rest/authen/storeRoom/queryForSelectOption">
-                </select>
-              </td>
-              <td class="color-white text-center">
-                <div class="date-icon-outside" >
-                  <input type="text"
-                         datepicker
-                         class="ipt-date ipt color-3"
-                         ng-readonly="true"
-                         placeholder=""
-                         ng-model="tr.receiveDate">
-                        <span class="date-icon"></span>
-                </div>
-              </td>
-              <td  class="text-center color-white">
-                <select class="inline ipt-new-s pdt mgt"
-                chosen
-                style="width:120px;"
-                data-placeholder=" "
-                ng-model="tr.storeRoomId"
-                select-source="rest/authen/storeRoom/queryForSelectOption">
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="outside-div ">
+                     ng-model="batch.receiveQuantity" />
+            </td>
+            <td class="text-center color-white">
+              <select class="inline ipt-new-s pdt mgt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      ng-model="batch.receiverId;"
+                      select-source="rest/authen/user/queryForSelectOption">
+              </select>
+            </td>
+            <td class="color-white text-center">
+              <div class="date-icon-outside" >
+                <input type="text"
+                       datepicker
+                       class="ipt-date ipt color-3"
+                       ng-readonly="true"
+                       placeholder=""
+                       ng-model="batch.receiveDate">
+                      <span class="date-icon"></span>
+              </div>
+            </td>
+            <td  class="text-center color-white">
+              <select class="inline ipt-new-s pdt mgt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      ng-model="batch.storeRoomId"
+                      select-source="rest/authen/storeRoom/queryForSelectOption">
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="outside-div ">
         <p class=" pd-v-c-l">医疗机构采购计划相关信息：</p>
         <div class="bb-line-gold">
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              采购计划编码：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              CA20161213
-            </div>
+            <div class="inline-block flex-item-3 text-right">采购计划编码：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.purchasePlanOrderCode}}</div>
           </div>
           <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              供应商名称：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              CA20161213
-            </div>
+            <div class="inline-block flex-item-3 text-right">供应商名称：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.produceEnterprise}}</div>
           </div>
           <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              商品编码：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              28977889
-            </div>
+            <div class="inline-block flex-item-3 text-right">商品编码：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.code}}</div>
           </div>
           <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              商品名称：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              肠道病毒71型核酸检测试剂盒
-            </div>
+            <div class="inline-block flex-item-3 text-right">商品名称：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.name}}</div>
           </div>
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              商品规格：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              2ML/瓶
-            </div>
+            <div class="inline-block flex-item-3 text-right">商品规格：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.specification}}</div>
           </div>
-
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              基本单位：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              瓶
-            </div>
+            <div class="inline-block flex-item-3 text-right">基本单位：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.unit}}</div>
           </div>
-
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              生产厂商：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              云南国药
-            </div>
+            <div class="inline-block flex-item-3 text-right">生产厂商：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.manufacturer}}</div>
           </div>
-
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              产地：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              云南
-            </div>
+            <div class="inline-block flex-item-3 text-right">产地：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionPlace}}</div>
           </div>
 
         </div>
         <p class=" pd-v-c-l">供应商反馈回来的相关信息：</p>
-        <div class="">
+        <div ng-repeat="item in formData.batchInfos" class="bb-line-gold">
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              采购计划编码：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              CA20161213
-            </div>
+            <div class="inline-block flex-item-3 text-right">供应商订单编码：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.dtOrderCode}}</div>
           </div>
           <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              供应商名称：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              CA20161213
-            </div>
+            <div class="inline-block flex-item-3 text-right">供应商销售日期：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.dtOrderCreateAt | date:'yyyy-MM-dd'}}</div>
           </div>
           <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              商品编码：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              28977889
-            </div>
+            <div class="inline-block flex-item-3 text-right">配送数量：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.deliveryQuantity}}</div>
           </div>
           <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              商品名称：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              肠道病毒71型核酸检测试剂盒
-            </div>
+            <div class="inline-block flex-item-3 text-right">批号：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionBatch}}</div>
           </div>
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              商品规格：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              2ML/瓶
-            </div>
+            <div class="inline-block flex-item-3 text-right">生产日期：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionDate | date:'yyyy-MM-dd'}}</div>
           </div>
-
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              基本单位：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              瓶
-            </div>
+            <div class="inline-block flex-item-3 text-right">有效期至：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.validTill | date:'yyyy-MM-dd'}}</div>
           </div>
-
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              生产厂商：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              云南国药
-            </div>
+            <div class="inline-block flex-item-3 text-right">发票号：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.invoiceNo}}</div>
           </div>
-
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">
-              产地：
-            </div>
-            <div class="inline-block flex-item-9 text-left color-white">
-              云南
-            </div>
+            <div class="inline-block flex-item-3 text-right">发票日期：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.invoiceDate | date:'yyyy-MM-dd'}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">供应商商品编号：</div>
+            <div class="inline-block flex-item-9 text-left color-white">云南</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">供应商商品名称：</div>
+            <div class="inline-block flex-item-9 text-left color-white">云南</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">供应商商品规格：</div>
+            <div class="inline-block flex-item-9 text-left color-white">云南</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">供应商基本单位：</div>
+            <div class="inline-block flex-item-9 text-left color-white">云南</div>
           </div>
         </div>
       </div>
-      <div class="footer-button-area">
-        <button type="button" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
-      </div>
+    <div class="footer-button-area">
+      <button type="submit" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+    </div>
   </form>
 </div>
