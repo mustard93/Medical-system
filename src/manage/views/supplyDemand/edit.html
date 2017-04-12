@@ -91,29 +91,32 @@
               </div>
 
               <div class=""
+              ajax-if-eval="disdata.id"
+              ajax-url="rest/authen/customerAddress/getCustomerByDistributor?distributorId={{disdata.id}}"
+              scope-data="scopeData">
 
-                >
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">客户名称</label>
-                  <select ajax-if-eval="disdata.id" class="inline ipt-new-s pdt"
+                  <select class="inline ipt-new-s pdt"
                   style="width:120px;"
-                  data-placeholder=" "
+                  ng-options="item.code as item.name for item in scopeData"
                   ng-model="formData.customerAddressId"
-                  ajax-url="rest/authen/customerAddress/getCustomerByDistributor?distributorId={{disdata.id}}"
-                  scope-data="scopeData"
-                  callback="formData.customerAddressCode=custome.code;formData.customerAddressName=custome.name;formData.customerAddressId=custome.id;">
-                  <option ng-repeat="item in scopeData" value="{{item.id}}">
+                  ng-change="formData.customerAddressCode=item.code">
+
+                  <!-- <option ng-repeat="item in scopeData" value="{{item.id}}" ng-selected="formData.customerAddressCode=item.code">
                     {{item.name}}
-                  </option>
+                  </option> -->
                   </select>
 
                 </div>
+
                 <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">客户编码</label>
                   <div class="col-lg-10 col-sm-10">
                     <input ng-disabled="formData.customerAddressCode" type="text" class="form-control" placeholder="" ng-model="formData.customerAddressCode" />
                   </div>
                 </div>
+
               </div>
 
                 <div class="form-group">

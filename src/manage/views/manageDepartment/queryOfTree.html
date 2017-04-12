@@ -23,10 +23,22 @@
     </button>
   </div>
   <div class="form-group col-lg-2">
+    <label class="col-lg-2 col-sm-2 control-label">类型</label>
+    <div class="col-lg-10 col-sm-10">
+      <select class="ipt pr-short-ipt" ng-model="listParams.type" ng-init="listParams.type='经销商'">
+        <option value="经销商" ng-selected="true">经销商</option>
+        <option value="医疗机构">医疗机构</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group col-lg-2">
     <label class="col-lg-2 col-sm-2 control-label">机构</label>
     <div class="col-lg-10 col-sm-10">
-      <select class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="listParams.organizationId" select-source="rest/index/distributor/queryForSelectOption">
-
+      <select class="ipt pr-short-ipt"
+              data-placeholder="选择机构"
+              chosen
+              ng-model="listParams.organizationId"
+              select-source="rest/authen/manageUser/queryOrganization?type={{listParams.type}}">
       </select>
     </div>
   </div>
