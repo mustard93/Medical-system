@@ -1,0 +1,78 @@
+<div class="medical-stock hospital-management child-project-management"
+     ng-controller="medicalStockCtrl"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+     <table-list list-data="rest/authen/customerAddress/query.json"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q"
+                 ng-init="listParams.customerAddressType='医院'">
+
+    <!-- 主内容头部 -->
+    <page-main-header-component list-params="listParams"
+                                crumbs-nav='[{"name":"客户中心","link":"","style":""},{"name":"医院信息管理","link":"","style":"color-custom-orange"}]'
+                                component-title="医院信息管理"
+                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+    </page-main-header-component>
+
+      <!-- 主内容区域 -->
+      <div class="content-wrapper">
+        <div class="content-wrapper-main">
+          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
+            <div class="flex-item-12 text-right">
+                <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                  <input type="text" class="ipt pdr-xxl" placeholder="医院系统编号 / 医院名称" ng-model="listParams.q">
+                  <i class=""></i>
+                </div>
+                <div class="inline-block mgl-m">
+                  <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                  <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+                </div>
+            </div>
+          </div>
+          <div class="pr-bg-white pr-fuzzy-boundary">
+            <table class="table pr-table pr-new-table pr-table-content">
+              <thead class="pr-bg-side">
+                <tr>
+                  <th class="w-100">序号</th>
+                  <th class="w-300">医疗机构编码</th>
+                  <th >医疗机构名称</th>
+                  <th class="">申请日期</th>
+                  <th class="">目录更新周期</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="tbodyList.length"
+                    ng-repeat="tr in tbodyList track by $index"
+                    class="relative">
+                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
+                  <td>{{tr.code}}</td>
+                  <td class="text-left color-orange">
+                    <div class="autocut autocut" title="{{tr.name}}">
+                      <a href="#/hospitalManagement/get.html?id={{tr.id}}">
+                          {{tr.name}}
+                      </a>
+                    </div>
+                  </td>
+                  <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td>
+                  <td>{{tr.object.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pr-bg-white" ng-if="!tbodyList.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>
