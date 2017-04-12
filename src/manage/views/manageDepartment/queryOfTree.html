@@ -1,6 +1,6 @@
 <!-- page heading start-->
 
-<div ng-init="listParams={pageSize:10000}">
+<div ng-init="listParams={pageSize:10000};listParams.type=mainStatus.pageParams.type||'经销商'">
 <div class="page-heading">
     <h3>部门管理</h3>
     <ul class="breadcrumb">
@@ -11,8 +11,8 @@
 <!-- page heading end-->
 <ul>
 
-  <li><a href="#/manageDepartment/query.html"><i class="fa fa-home "></i> <span>部门管理(列表展示)</span></a></li>
-    <li><a href="#/manageDepartment/queryOfTree.html"><i class="fa fa-home active"></i> <span>部门管理(树形展示)</span></a></li>
+  <li><a href="#/manageDepartment/query.html?type={{listParams.type}}"><i class="fa fa-home "></i> <span>部门管理(列表展示)</span></a></li>
+    <li><a href="#/manageDepartment/queryOfTree.html?type={{listParams.type}}"><i class="fa fa-home active"></i> <span>部门管理(树形展示)</span></a></li>
 </ul>
 <!--body wrapper start-->
 
@@ -22,23 +22,16 @@
      modal-url="views/manageDepartment/edit.html"><i class="fa fa-plus"></i> 新建
     </button>
   </div>
-  <div class="form-group col-lg-2">
-    <label class="col-lg-2 col-sm-2 control-label">类型</label>
-    <div class="col-lg-10 col-sm-10">
-      <select class="ipt pr-short-ipt" ng-model="listParams.type" ng-init="listParams.type='经销商'">
-        <option value="经销商" ng-selected="true">经销商</option>
-        <option value="医疗机构">医疗机构</option>
-      </select>
-    </div>
-  </div>
+
   <div class="form-group col-lg-2">
     <label class="col-lg-2 col-sm-2 control-label">机构</label>
     <div class="col-lg-10 col-sm-10">
       <select class="ipt pr-short-ipt"
               data-placeholder="选择机构"
               chosen
+              chosen-ajax
               ng-model="listParams.organizationId"
-              select-source="rest/authen/manageUser/queryOrganization?type={{listParams.type}}">
+              select-source="rest/authen/organization/queryForSelectOption?type={{listParams.type}}">
       </select>
     </div>
   </div>
@@ -58,7 +51,7 @@
 
     <li ng-repeat="tr in treeList_recursion" ng-init="isOpen=tree_index<2" class="{{isOpen?'fold':''}}">
       <span class="name">
-          <span class="text-bold" modal-right="800" modal-scope="this" modal-url="views/manageDepartment/edit.html?id={{::tr.id}}">{{tr.name}}  <span class="text-s text-muted text-italic label">{{tr.descript}}  </span> </span>
+          <span class="text-bold" modal-right="800" modal-scope="this" modal-url="views/manageDepartment/edit.html?id={{::tr.id}}"   modal-data='{{listParams}}'>{{tr.name}}  <span class="text-s text-muted text-italic label">{{tr.descript}}  </span> </span>
             <span ng-if="tree_index>0&&tr.nodes.length" class="extend iconfont"   ng-click="extendTree($event)" ></span>
              <span class="operate">
                    <i class="iconfont icon-plus" modal-right="800" modal-scope="this" modal-url="views/manageDepartment/edit.html?parentId={{::tr.id}}"></i>

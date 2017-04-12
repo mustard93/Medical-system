@@ -6,32 +6,27 @@
   <form class="add-medical-form form-horizontal"
         action="rest/authen/manageRole/save"
          parameter-body scope-data="formData" alert-error
+           broadcast="reloadList"
         form-validator>
     <div class="modal-header">
         <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
         <h4 class="modal-title">{{formData&& formData.id?"编辑":"添加"}}角色</h4>
     </div>
     <div class="modal-body">
-      <div class="form-group">
-        <label class="col-lg-2 col-sm-2 control-label">类型</label>
-        <div class="col-lg-10 col-sm-10"  ng-init="formData.organizationType='经销商'">
-          <select class="ipt pr-short-ipt"
-          ng-model="formData.organizationType">
-            <option value="经销商">经销商</option>
-            <option value="医疗机构">医疗机构</option>
-          </select>
-        </div>
-      </div>
+
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">所属机构</label>
         <div class="col-lg-10 col-sm-10">
-          <select ng-if="initFlag"
-                  class="ipt pr-short-ipt"
-                  data-placeholder="选择机构"
-                  chosen
-                  ng-model="formData.organizationId"
-                  select-source="rest/authen/manageUser/queryOrganization?type={{formData.organizationType}}">
-          </select>
+          <h6
+          ajax-url="rest/authen/organization/get.json?id={{dialogData.organizationId}}&type={{dialogData.type}}"  scope-data="organization"
+          >{{organization.name}}</h6>
+        <!-- <select ng-if="initFlag" class="ipt pr-short-ipt"
+                data-placeholder="选择机构"
+                chosen
+                chosen-ajax
+                ng-model="formData.organizationId"
+                select-source="rest/authen/organization/queryForSelectOption?type={{dialogData.organizationType}}">
+        </select> -->
         </div>
       </div>
         <div class="form-group">
@@ -40,7 +35,7 @@
             <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
           </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label">角色类型</label>
           <div class="col-lg-10 col-sm-10">
 
@@ -48,7 +43,7 @@
 
             </select>
           </div>
-        </div>
+        </div> -->
 
 
                         <!-- <div class="form-group"
@@ -61,7 +56,7 @@
                 <div class="form-group"
 
                 ajax-if="{{formData.organizationId}}"
-                ajax-url="rest/authen/distributor/get.json?id={{formData.organizationId}}"  scope-data="distributor" alert-error
+                ajax-url="rest/authen/organization/get.json?id={{dialogData.organizationId}}&type={{dialogData.type}}"  scope-data="distributor" alert-error
                 >
                  <h3>权限集 <label class="">
                    <input type="checkbox" value="authorityItem_name{{keyName}}" onclick=" $('.click-reverse-selection').click();"/>

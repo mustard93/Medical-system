@@ -1,4 +1,6 @@
-<div   ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
+<div   ng-controller="pageCtrl" class="pd-c-xxxl"
+  ng-init="listParams.type=mainStatus.pageParams.type||'经销商'"
+><!-- pageCtrl-->
 
 
 <!-- page heading start-->
@@ -12,14 +14,17 @@
 <!-- page heading end-->
 
 <!--body wrapper start-->
-<table-list list-data="rest/authen/manageUser/query.json" list-params="listParams">
+<table-list list-data="rest/authen/manageUser/query.json" list-params="listParams"   ajax-if-eval="listParams.organizationId">
     <div class="mg-m col-lg-12 col-sm-12">
       <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"  modal-data='{"organizationId":"{{listParams.organizationId}}"}' modal-url="views/manageUser/edit.html">
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"
+        ng-disabled="!listParams.organizationId"
+        modal-data='{{listParams}}'
+         modal-url="views/manageUser/edit.html">
             <i class="fa fa-plus"></i>新建
         </button>
       </div>
-
+<!--
       <div class="form-group col-lg-2">
         <label class="col-lg-2 col-sm-2 control-label">类型</label>
         <div class="col-lg-10 col-sm-10">
@@ -28,7 +33,7 @@
             <option value="医疗机构">医疗机构</option>
           </select>
         </div>
-      </div>
+      </div> -->
 
       <div class="form-group col-lg-2">
         <label class="col-lg-2 col-sm-2 control-label">机构</label>
@@ -36,8 +41,9 @@
           <select class="ipt pr-short-ipt"
                   data-placeholder="选择机构"
                   chosen
+                  chosen-ajax
                   ng-model="listParams.organizationId"
-                  select-source="rest/authen/manageUser/queryOrganization?type={{listParams.type}}">
+                  select-source="rest/authen/organization/queryForSelectOption?type={{listParams.type}}">
           </select>
         </div>
       </div>
@@ -91,13 +97,14 @@
                             <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
                             <td>{{tr.status}}</td>
                             <td>
-                              <button type="button" class="btn btn-default" modal-right="400" modal-scope="this" modal-url="views/manageUser/editRole.html?id={{tr.id}}">
+                              <button type="button" class="btn btn-default" modal-right="400" modal-scope="this"   modal-data='{{listParams}}'
+                               modal-url="views/manageUser/editRole.html?id={{tr.id}}">
                                     <i class="fa fa-folder-open-o"></i>
                                     授权
                                 </button>
 
                                 <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"
-                                modal-url="views/manageUser/edit.html?id={{tr.id}}">
+                                modal-url="views/manageUser/edit.html?id={{tr.id}}"  modal-data='{{listParams}}'>  
                                     <i class="fa fa-edit"></i>
                                     编辑
                                 </button>

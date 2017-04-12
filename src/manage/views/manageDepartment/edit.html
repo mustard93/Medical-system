@@ -2,38 +2,37 @@
         <div class="modal-content pr-modal-content" ng-controller="editCtrl"
 
            ajax-url="rest/authen/manageDepartment/getOfEdit.json?id={{tr.id}}"  scope-data="formData"
-           callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId" alert-error >
+           callback="initFlag=true;formData.organizationId=formData.organizationId||dialogData.organizationId;" alert-error >
 
           <form class="add-department-form form-horizontal"
                 action="rest/authen/manageDepartment/save"
                 alert-error
-                form-validator>
-            <div class="modal-header">
+                form-validator
+                broadcast="reloadList"
+                >
+            <div class="modal-header" >
                 <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
                 <h4 class="modal-title">{{formData&& formData.id?"编辑":"添加"}}部门</h4>
+
             </div>
 
             <div class="modal-body">
-              <div class="form-group">
-                <label class="col-lg-2 col-sm-2 control-label">类型</label>
-                <div class="col-lg-10 col-sm-10"  ng-init="formData.organizationType='经销商'">
-                  <select class="ipt pr-short-ipt"
-                  ng-model="formData.organizationType">
-                    <option value="经销商">经销商</option>
-                    <option value="医疗机构">医疗机构</option>
-                  </select>
-                </div>
-              </div>
+            
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">所属机构</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"
-                          class="ipt pr-short-ipt"
+                  <p
+                  ajax-url="rest/authen/organization/get.json?id={{dialogData.organizationId}}&type={{dialogData.type}}"  scope-data="organization"
+                  >{{organization.name}}</p>
+                  <!-- <select ng-if="initFlag" class="ipt pr-short-ipt"
                           data-placeholder="选择机构"
                           chosen
+                          chosen-ajax
                           ng-model="formData.organizationId"
-                          select-source="rest/authen/manageUser/queryOrganization?type={{formData.organizationType}}">
-                  </select>
+                          select-source="rest/authen/organization/queryForSelectOption?type={{dialogData.organizationType}}">
+                  </select> -->
+
+
                 </div>
               </div>
               <div class="form-group" ng-if="formData.organizationId">
