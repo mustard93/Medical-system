@@ -14,10 +14,10 @@
     <div class="modal-body">
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">类型</label>
-        <div class="col-lg-10 col-sm-10">
+        <div class="col-lg-10 col-sm-10"  ng-init="formData.organizationType='经销商'">
           <select class="ipt pr-short-ipt"
-          ng-model="formData.type" ng-init="formData.type='经销商'">
-            <option value="经销商" ng-selected="true">经销商</option>
+          ng-model="formData.organizationType">
+            <option value="经销商">经销商</option>
             <option value="医疗机构">医疗机构</option>
           </select>
         </div>
@@ -29,8 +29,8 @@
                   class="ipt pr-short-ipt"
                   data-placeholder="选择机构"
                   chosen
-                  ng-model="listParams.organizationId"
-                  select-source="rest/authen/manageUser/queryOrganization?type={{formData.type}}">
+                  ng-model="formData.organizationId"
+                  select-source="rest/authen/manageUser/queryOrganization?type={{formData.organizationType}}">
           </select>
         </div>
       </div>

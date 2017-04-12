@@ -2,7 +2,7 @@
      ng-controller="medicalStockCtrl"
      ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');"
+     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
      alert-error>
 
      <div class="header-info relative mgb-l">
@@ -293,6 +293,7 @@
                  $root.goTo('#/medicalStock/query.html')">返回申请单列表</a>
               <a ng-if="!changeFlag" href="#/medicalStock/query.html">返回申请单列表</a>
             </span>
+            <span bottom-button-list="bottomButtonList">  </span>
             <span class="mgl">
               <a ng-if="formData.id && formData.proposerName==mainStatus.name"
                  href="javascript:;"
