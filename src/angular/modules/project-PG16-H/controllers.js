@@ -960,6 +960,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
    }//end salesOrderEditCtrl
 
+  // 采购目录
+
   // 主控（业务模块级别）
   function mainCtrlProjectPG16H($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList,saleOrderUtils,purchaseOrderUtils,requestPurchaseOrderUtils,queryItemCardButtonList2,customMenuUtils) {
 
@@ -978,6 +980,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 定义存放用户选择药品的列表
     $scope.choisedMedicalIdList = [];
+
+    // 侧边栏搜索过滤
+    $scope.handleSearchFilter = function (key) {
+      var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId=' + $scope.mainStatus.pageParams.distributorId + '&q=' + key;
+      requestData(_url)
+      .then(function (results) {
+        $scope.codesList = results[1].data;
+      });
+      console.log($scope.codesList);
+    };
+
 
     // 添加药品数据到列表
     $scope.addDataItemClick = function(addDataItem,medical) {
@@ -1157,6 +1170,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
   }
+
 
   angular.module('manageApp.project-PG16-H')
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
