@@ -16,8 +16,12 @@
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">所属机构</label>
         <div class="col-lg-10 col-sm-10">
-          <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption">
-
+          <select ng-if="initFlag"
+                  class="ipt pr-short-ipt"
+                  data-placeholder="选择机构"
+                  chosen
+                  ng-model="listParams.organizationId"
+                  select-source="rest/authen/manageUser/queryOrganization?type={{pageParams.type}}">
           </select>
         </div>
       </div>
@@ -77,7 +81,7 @@
                 </div>
 
                 <textarea-json ng-model="formData"></textarea-json>
-                
+
         <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label"></label>
           <div class="col-lg-10 col-sm-10">
