@@ -4,18 +4,21 @@
                               crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"供应商管理","link":"","style":"color-custom-orange"}]'
                               component-title="供应商管理">
   </page-main-header-component>
-
+  <table-list list-data="rest/authen/supplier/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+    <div class="relative" style="left:50px;top:-12px;">
+      <button type="button" class="pr-btn-save-glodbg" modal-right="700" modal-scope="this" modal-url="views/supplier/edit.html">
+          <i class="fa fa-plus"></i>新建
+      </button>
+    </div>
   <div class="content-wrapper">
-    <table-list list-data="rest/authen/distributor/query.json"
-                list-params="listParams"
-                search-mode="noCaseSensitive"
-                search-param="q">
       <!-- 主内容区域 -->
-      <div class="content-wrapper-main">
-        <!-- 筛选 -->
+    <div class="content-wrapper pr-bg-white  pr-fuzzy-boundary">
         <div class="text-right pd-m">
             <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-              <input type="text" class="ipt pdr-xxl" placeholder="供应商编码／供应商名称／联系人" ng-model="listParams.q">
+              <input type="text" class="ipt pdr-xxl" placeholder="供应商编码/供应商名称/联系人" ng-model="listParams.q">
               <i class=""></i>
             </div>
             <div class="inline-block mgl-m">
@@ -23,14 +26,7 @@
               <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
             </div>
         </div>
-        <!-- 列表 -->
-        <div ng-if="!status.isLoading">
-          <div ng-if="!tbodyList.length">
-            <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-            <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
-          </div>
-          <div ng-if="tbodyList.length" class="pr-bg-white pr-fuzzy-boundary mgl-m mgr-m">
-            <!-- 表格列表数据 -->
+          <div  class="pr-bg-white pr-fuzzy-boundary">
             <table class="table pr-table pr-new-table">
               <thead class="pr-bg-side">
                 <tr>
@@ -43,6 +39,7 @@
                   <th class="text-center">邮编</th>
                   <th class="text-left">地址</th>
                   <th class="text-left">备注</th>
+                  <th class="text-left"></th>
                 </tr>
               </thead>
               <tbody>
@@ -55,22 +52,39 @@
                   <td class="text-left">
                     {{tr.name}}
                   </td>
-                  <td class="text-center">{{tr.concatUser}}</td>
-                  <td class="text-center">{{tr.phone}}</td>
+                  <td class="text-center">{{tr.concatUser.name}}</td>
+                  <td class="text-center">{{tr.concatUser.tel}}</td>
                   <td class="text-center">{{tr.fax}}</td>
                   <td class="text-center">{{tr.zipCode}}</td>
                   <td class="text-left">{{tr.address}}</td>
                   <td class="text-left">{{tr.note}}</td>
+                  <td class="text-center" style="width:300px;">
+
+                    <button type="button" class="btn pr-btn-save-glodbg" modal-right="700" modal-scope="this"
+                    modal-url="views/supplier/edit.html?id={{tr.id}}">
+                        <i class="fa fa-edit"></i>
+                        编辑
+                    </button>
+
+                    <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/supplier/delete', tr.id)">
+                        <i class="fa fa-trash-o"></i>
+                        删除</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
-          </div>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+              <div class="empty-table clearfix">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+              </div>
+            </div>
         </div>
-        <!-- 导航 -->
         <div class="clearfix pd-c-m" ng-if="tbodyList.length">
           <div class="fr"><pagination status="status"></pagination></div>
         </div>
       </div>
-    </table-list>
   </div>
+</table-list>
 </div>
