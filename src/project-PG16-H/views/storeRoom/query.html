@@ -13,16 +13,31 @@
                 search-param="q">
       <!-- 主内容区域 -->
       <div class="content-wrapper-main">
-        <!-- 筛选 -->
-        <div class="text-right pd-m">
-            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-              <input type="text" class="ipt pdr-xxl" placeholder="库房名称／库房地址／库房类型" ng-model="listParams.q">
-              <i class=""></i>
+        <div class="flex-column pd-c-m pdb-s">
+          <div class="flex-item-4">
+            <p class="mgb-s">库房类型</p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.storeRoomId"
+                    select-source="rest/authen/storeRoom/queryForSelectOption">
+            </select>
+          </div>
+          <div class="flex-item-8">
+            <!-- 筛选 -->
+            <div class="text-right pd-m">
+                <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                  <input type="text" class="ipt pdr-xxl" placeholder="库房名称／库房地址／库房类型" ng-model="listParams.q">
+                  <i class=""></i>
+                </div>
+                <div class="inline-block mgl-m">
+                  <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                  <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+                </div>
             </div>
-            <div class="inline-block mgl-m">
-              <i class="fa fa-refresh mgr-s color-light-brown"></i>
-              <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
-            </div>
+          </div>
         </div>
         <!-- 列表 -->
         <div ng-if="!status.isLoading">
