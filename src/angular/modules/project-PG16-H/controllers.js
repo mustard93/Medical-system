@@ -280,11 +280,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.handleItemClickEvent = function (item) {
       if (item.handleFlag) {    // 选中
         if (item) {
-          $scope.choisedMedicalList.push(item);
+          $scope.choisedMedicalList.push(item.id);
         }
       } else {
         for (var i=0; i<$scope.choisedMedicalList.length; i++) {
-          if (item.id === $scope.choisedMedicalList[i].id) {
+          if (item.id === $scope.choisedMedicalList[i]) {
             $scope.choisedMedicalList.splice(i,1);
           }
         }
@@ -297,7 +297,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         if ($scope.tbodyList) {
           $scope.choisedMedicalList = [];
           angular.forEach($scope.tbodyList, function (data, index) {
-            $scope.choisedMedicalList.push(data);
+            $scope.choisedMedicalList.push(data.id);
           });
         }
       } else {
@@ -309,7 +309,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.handleBatchReceive = function () {
       if ($scope.choisedMedicalList.length) {
         var _data = {
-          receiveItems: $scope.choisedMedicalList
+          receiveItemIds: $scope.choisedMedicalList
         };
         requestData('rest/authen/receiveItem/batchReceipt', _data, 'POST', 'parameter-body')
         .then(function (results) {
@@ -986,7 +986,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 完成按钮功能，保存备注及跳转页面
     $scope.purchaseConentGetDone = function (formData) {
       if (formData) {
-        requestData('rest/authen/purchasecontentmedical/save', formData, 'POST', 'parameter-body')
+        requestData('rest/authen/purchasecontent/save', formData, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
             utils.goTo('#/purchasecontent/query.html');
