@@ -307,7 +307,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 批量收货
     $scope.handleBatchReceive = function () {
-      if ($scope.choisedMedicalList) {
+      if ($scope.choisedMedicalList.length) {
         var _data = {
           receiveItems: $scope.choisedMedicalList
         };
@@ -1009,7 +1009,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 选择供应商编码与医院药品编码建立对应关系
-    $scope.choiseCode = function (code,medicalId) {
+    $scope.choiseCode = function (code,medicalId,distributorMedicalId) {
       // 将当前选择的医院编码赋值到数据对象中
       if ($scope.tbodyList) {
         angular.forEach($scope.tbodyList, function (data, index) {
@@ -1021,6 +1021,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               relId: $scope.mainStatus.pageParams.id,
               distributorId: $scope.mainStatus.pageParams.distributorId,
               distributorMedicalCode: code,
+              distributorMedicalId: distributorMedicalId,
+              // saleContentMedicalId: ,
               medical: $scope.tbodyList[index].medical
             };
 
