@@ -2197,9 +2197,44 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                   watchNgModel(handleSearch);
 
-
+                  // if ($attrs.params) {
+                  //
+                  //   firstSelectSource=$attrs.params;
+                  //     if ($attrs.params.indexOf("{") === 0) {
+                  //         //监听具体值
+                  //         $attrs.$observe("params", function(value) {
+                  //
+                  //             _params = $scope.$eval(value);
+                  //             if(firstSelectSource==value)return;
+                  //
+                  //                 firstSelectSource=value;
+                  //               ngModel.$setViewValue(null);
+                  //
+                  //             getData(_params);
+                  //         });
+                  //           _params = $scope.$eval($attrs.params);
+                  //     } else {
+                  //         //监听对象
+                  //         $scope.$watch($attrs.params, function(value) {
+                  //             _params = value;
+                  //             if(firstSelectSource==value)return;
+                  //               ngModel.$setViewValue(null);
+                  //
+                  //             handleSearch('');
+                  //         }, true);
+                  //           _params = $attrs.params;
+                  //     }
+                  // } else {
+                  //   $attrs.$observe("selectSource", function(value) {
+                  //       //修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
+                  //       if(firstSelectSource==value)return;
+                  //         ngModel.$setViewValue(null);
+                  //
+                  //       // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
+                  //         handleSearch('');
+                  //   });
+                  // }
                 }//end ajax
-
 
                  else {
                   var firstSelectSource=$attrs.selectSource;

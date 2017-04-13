@@ -1247,6 +1247,8 @@ function leftMenuSecondToggle ($location,$rootScope) {
         this.isStart=true;
         $scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
           // console.log("locationChangeSuccess="+newUrl);
+          //"http://localhost:3000/src/manage/index.html#/manageDepartment/query.html?type=%E5%8C%BB%E7%96%97%E6%9C%BA%E6%9E%84"
+            var newUrl=decodeURI(newUrl);
           LeftMenuObj.doRoute(newUrl);
         });
       },//startListen

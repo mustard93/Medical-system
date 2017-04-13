@@ -1,4 +1,5 @@
-<div   ng-controller="pageCtrl" class="pd-c-xxxl"><!-- pageCtrl-->
+<div   ng-controller="pageCtrl" class="pd-c-xxxl"
+  ng-init="listParams.type=mainStatus.pageParams.type||'经销商'"><!-- pageCtrl-->
 <!-- page heading start-->
 <div class="page-heading">
     <h3>角色管理</h3>
@@ -10,34 +11,30 @@
 <!-- page heading end-->
 
 <!--body wrapper start-->
-<table-list list-data="rest/authen/manageRole/query.json" list-params="listParams">
+<table-list list-data="rest/authen/manageRole/query.json" list-params="listParams"  ajax-if-eval="listParams.organizationId">
     <div class="mg-m col-lg-12 col-sm-12">
       <div class="col-lg-1">
-        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"  modal-data='{"organizationId":"{{listParams.organizationId}}","type":"{{listParams.type}}"}' modal-url="views/manageRole/edit.html">
+        <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"
+        ng-disabled="!listParams.organizationId"
+        modal-data='{{listParams}}'
+        modal-url="views/manageRole/edit.html">
             <i class="fa fa-plus"></i>新建
         </button>
       </div>
-      <div class="form-group col-lg-2">
-        <label class="col-lg-2 col-sm-2 control-label">类型</label>
-        <div class="col-lg-10 col-sm-10">
-          <select class="ipt pr-short-ipt" ng-model="listParams.type" ng-init="listParams.type='经销商'">
-            <option value="经销商" ng-selected="true">经销商</option>
-            <option value="医疗机构">医疗机构</option>
-          </select>
-        </div>
-      </div>
+
       <div class="form-group col-lg-2">
         <label class="col-lg-2 col-sm-2 control-label">机构</label>
         <div class="col-lg-10 col-sm-10">
           <select class="ipt pr-short-ipt"
                   data-placeholder="选择机构"
                   chosen
+                  chosen-ajax
                   ng-model="listParams.organizationId"
-                  select-source="rest/authen/manageUser/queryOrganization?type={{listParams.type}}">
+                  select-source="rest/authen/organization/queryForSelectOption?type={{listParams.type}}">
           </select>
         </div>
       </div>
-      <div class="form-group col-lg-2">
+      <!-- <div class="form-group col-lg-2">
         <label class="col-lg-4 col-sm-4 control-label">角色类型</label>
         <div class="col-lg-8 col-sm-8">
           <select class="ipt pr-short-ipt" data-placeholder="选择类型"
@@ -45,7 +42,7 @@
 
           </select>
         </div>
-      </div>
+      </div> -->
       <div class="form-group col-lg-2">
         <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
       </div>
@@ -76,8 +73,8 @@
                         <tr>
                             <th><input type="checkbox" class="selectAll"></th>
                             <th>序号</th>
-                            <th>角色名</th>
-                            <th>类型</th>
+                            <th style="width:150px">角色名</th>
+                            <!-- <th>类型</th> -->
                             <th>权限集</th>
                             <th>操作</th>
                         </tr>
@@ -87,13 +84,15 @@
                             <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
                             <td>{{$index + 1}}</td>
                             <td>{{tr.name}}</td>
-                            <td>{{tr.type}}</td>
+                            <!-- <td>{{tr.type}}</td> -->
 
                             <td>{{tr.authoritys}}</td>
                             <td>
 
                                 <button type="button" class="btn btn-primary" modal-right="700" modal-scope="this"
-                                modal-url="views/manageRole/edit.html?id={{tr.id}}">
+                                modal-url="views/manageRole/edit.html?id={{tr.id}}"
+                                modal-data='{{listParams}}'
+                                >
                                     <i class="fa fa-edit"></i>
                                     编辑
                                 </button>
