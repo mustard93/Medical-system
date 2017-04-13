@@ -41,14 +41,22 @@
   <a ng-show="ngShow2(tr.ngShow)"
      ng-disabled="ngDisabled2(tr.ngDisabled)"
      ng-switch-when="delConfirm"
+     ng-init="showDelArea=false"
      class="{{tr.aclass}} relative"
      href="javascript:;"
      title="{{tr.showName}}"
-     style="display:inline-block;width:32px;height:32px;border-radius:50%;padding:5px 5px;">
+     style="display:inline-block;width:32px;height:32px;border-radius:50%;padding:5px 5px;"
+     ng-click="showDelArea=true">
     <span class="{{tr.iconClass||'delete-link-icon'}}">&nbsp;</span>
-    <span class="table-del-confirm-btn">
-      123
-    </span>
+    <em class="table-del-confirm-btn" ng-show="showDelArea">
+      <strong class="block pd-v-s bb-dashed-line">确认删除?</strong>
+      <strong class="block pd-v-s">
+        <i class="mgr-s hide-this-area text-normal cur-pot">取消</i>
+        <i class="pr-btn-best-small pr-btn-bg-gold text-normal cur-pot"
+           ng-click="handleDelDetails(tr.id, 'rest/authen/storeRoom/delete', '#/storeRoom/query.html')">确认
+        </i>
+      </strong>
+    </em>
   </a>
 
   <a ng-show="ngShow2(tr.ngShow)"
