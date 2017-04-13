@@ -106,7 +106,7 @@ define('main/services', ['toastr','main/init'], function (toastr) {
 
     //弹窗确认
     function dialogConfirm($rootScope, modal) {
-        return function (_text, _callBack, _template, _title, _confirmBtnTxt, _cancelBtnTxt, extendOpt) {
+        return function (_text, _callBack, _template, _title, _confirmBtnTxt, _cancelBtnTxt, _textColor, extendOpt) {
             var _$scope = $rootScope.$new(false);
             var _templateUrl = _template ? 'tpl/' + _template : 'tpl/dialog-confirm.html';
             // if (_template && _template === 'pr') {
@@ -119,6 +119,7 @@ define('main/services', ['toastr','main/init'], function (toastr) {
             _$scope.confirmTitle = _title || '确认操作?';
             _$scope.confirmBtnTxt = _confirmBtnTxt || '确定';
             _$scope.cancelBtnTxt = _cancelBtnTxt || '取消';
+            _$scope.contextColor = _textColor || '';
             _$scope.extendOpt = extendOpt;
             modal.openConfirm({
                 template: Config.tplPath + _templateUrl,

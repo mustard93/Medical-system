@@ -192,7 +192,12 @@
                     <div class="inline-block btn-receiveItem pr-bg-delete color-white"
                          ng-if="tr.receiveItemStatus=='收货中'"
                          style="right:-15px;top: -33px;"
-                         ng-click="endReceipt(tr.id)">结束收货
+                         handle-this-click
+                         dialog-title="确认提示?"
+                         dialog-content="该商品实收总数少于配送数量，确认结束收货？"
+                         dialog-content-color="#FF3939"
+                         dialog-template="pr-dialog-confirm.html"
+                         callback="endReceipt(tr.id)">结束收货
                     </div>
                   </div>
                 </td>
