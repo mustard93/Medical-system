@@ -894,6 +894,8 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
         var _dialogTitle = angular.isDefined($attrs.dialogTitle) ? $attrs.dialogTitle : '询问对话框';
         //对话框内容
         var _dialogContent = angular.isDefined($attrs.dialogContent) ? $attrs.dialogContent : '';
+        // 对话框内容颜色
+        var _dialogContentColor = angular.isDefined($attrs.dialogContentColor) ? $attrs.dialogContentColor : '#333';
         //对话框引用的模板
         var _dialogTemplate = angular.isDefined($attrs.dialogTemplate) ? $attrs.dialogTemplate : 'tpl/dialog-confirm.html';
         //如果需要跳转地址
@@ -1140,7 +1142,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           //执行回调
           // callback();
 
-        }, _dialogTemplate, _dialogTitle, _confirmBtnTxt, _cancelBtnTxt, _jumpUrl);
+        }, _dialogTemplate, _dialogTitle, _confirmBtnTxt, _cancelBtnTxt, _jumpUrl, _contentColor);
       });
     }
   };

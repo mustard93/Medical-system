@@ -1,10 +1,10 @@
-<table-list list-data="rest/authen/purchasecontentmedical/query?distributorId={{mainStatus.pageParams.distributorId}}"
+<table-list list-data="rest/authen/salecontentmedical/query?distributorId={{mainStatus.pageParams.distributorId}}"
             list-params="listParams"
             search-mode="noCaseSensitive"
             search-param="q">
   <div class="create-new-order purchaseOrder-edit purchase-plan-order"
-       ng-controller="purchaseContentController"
-       ajax-url="rest/authen/purchasecontent/get.json?id={{mainStatus.pageParams.id}}"
+       ng-controller="salecontentController"
+       ajax-url="rest/authen/salecontent/get.json?id={{mainStatus.pageParams.id}}"
        scope-data="scopeData">
     <!-- 头部信息 -->
     <page-main-header-component list-params="listParams"
@@ -90,7 +90,7 @@
                 <td class="text-center relative" style="line-height:2.4">
                   <span class="circle-status relative"
                         ng-class="{'bg-pass-green':tr.distributorMedicalCode,
-                                   'bg-end-red':!tr.distributorMedicalCode}">
+                                   'bg-freeze-orange':!tr.distributorMedicalCode}">
 
                     <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
                       <i class="block pd-c-s text-normal" style="line-height:1.8">
@@ -157,10 +157,10 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-        <a class="mgr-l" ng-href="#/purchasecontent/query.html" >返回采购目录列表</a>
-        <a class="mgr-l" ng-href="#/purchasecontent/query.html" >查看操作记录</a>
+        <a class="mgr-l" ng-href="#/salecontent/query.html" >返回采购目录列表</a>
+        <a class="mgr-l" ng-href="#/salecontent/query.html" >查看操作记录</a>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo('#/purchasecontent/edit.html?id='+mainStatus.pageParams.id+'&distributorId='+mainStatus.pageParams.distributorId)">编辑</button>
+          <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo('#/salecontent/edit.html?id='+mainStatus.pageParams.id+'&distributorId='+mainStatus.pageParams.distributorId)">编辑</button>
         </span>
       </div>
     </div>

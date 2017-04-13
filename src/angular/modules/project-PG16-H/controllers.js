@@ -1020,13 +1020,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       });
     };
 
+    $scope.handleSearchFilter2 = function (key) {
+      var _url = 'rest/authen/medicalStock/query?q=' + key;
+      requestData(_url)
+      .then(function (results) {
+        $scope.codesList = results[1].data;
+      });
+    };
+
     // 选择供应商编码与医院药品编码建立对应关系
     $scope.choiseCode = function (code,medicalId,distributorMedicalId) {
       // 将当前选择的医院编码赋值到数据对象中
       if ($scope.tbodyList) {
         angular.forEach($scope.tbodyList, function (data, index) {
           if (data.id === medicalId) {
-            $scope.tbodyList[index].distributorMedicalCode = code;
             // 添加到后台
             var _data = {
               id: $scope.tbodyList[index].id,
@@ -1041,6 +1048,40 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             requestData('rest/authen/purchasecontentmedical/save', _data, 'POST', 'parameter-body')
             .then(function (results) {
               if (results[1].code === 200) {
+                $scope.tbodyList[index].distributorMedicalCode = code;
+                // _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
+              }
+            })
+            .catch(function (error) {
+              alertWarn(error || '添加药品失败');
+            });
+          }
+        });
+      }
+
+      modal.closeAll();
+    };
+
+    $scope.choiseCode2 = function (code,medicalId,distributorMedicalId) {
+      // 将当前选择的医院编码赋值到数据对象中
+      if ($scope.tbodyList) {
+        angular.forEach($scope.tbodyList, function (data, index) {
+          if (data.id === medicalId) {
+            $scope.tbodyList[index].medical.code = code;
+            // 添加到后台
+            var _data = {
+              id: $scope.tbodyList[index].id,
+              relId: $scope.mainStatus.pageParams.id,
+              distributorId: $scope.mainStatus.pageParams.distributorId,
+              distributorMedicalId: distributorMedicalId,
+              // saleContentMedicalId: ,
+              medical: $scope.tbodyList[index].medical
+            };
+
+            requestData('rest/authen/purchasecontentmedical/save', _data, 'POST', 'parameter-body')
+            .then(function (results) {
+              if (results[1].code === 200) {
+
                 // _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
               }
             })
