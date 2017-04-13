@@ -1,69 +1,69 @@
 <div class=""
-  ajax-url="rest/authen/uiCustomTable/getByClassName.json?className={{_customTableName}}" style="min-height:600px;"
-  scope-data="uICustomTable"
-  ng-init="bottomButtonList=[]"
->
+     ajax-url="rest/authen/uiCustomTable/getByClassName.json?className={{_customTableName}}"
+     style="min-height:600px;"
+     scope-data="uICustomTable"
+     ng-init="bottomButtonList=[]">
 
-    <div class="loader" ng-if="status.isLoading">
-        <div class="loader-inner pacman">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <div ng-show="!status.isLoading">
+  <div class="loader" ng-if="status.isLoading">
+      <div class="loader-inner pacman">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+      </div>
+  </div>
+  <div ng-show="!status.isLoading">
       <!-- <div ng-show="tbodyList.length==0">
-        <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-        <p class="text-center">什么也没有</p>
-      </div> -->
-        <div  class="outside-table-d pr-bg-white pr-fuzzy-boundary"
-        ajax-url="rest/authen/uICustomMenu/getByKey.json?key={{_customTrMenus}}"
-        scope-data="_uICustomMenu" alert-error  callback="_menuList=_uICustomMenu.items"
-        >
-            <table  ng-if="_customTrMenus&& _menuList"
-            class='{{"table pr-table pr-new-table pr-table-content  table-wid"||uICustomTable.className}}'
-            style='width:2500px;{{uICustomTable.style}}' >
-                <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}} '>
-                    <tr >
-                      <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
-                      <th  ng-show="_checkboxShow"><input type="checkbox" class="selectAll"></th>
-                        <th  class='{{item.thCss}}' style='{{item.thStyle}}'   ng-repeat="item in uICustomTable.items">
-                          <div ng-if="item.thHtml"  ng-compile2="item.thHtml"></div>
-                          <div ng-if="!item.thHtml" >{{item.propertyName}} </div>
-                        </th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-show="tbodyList.length" ng-repeat="tr in tbodyList" ng-click="selectThis()" class="td-bordered "
-                    table-tr-mouse-over-menu="_menuList"   business-data="tr"
-                    >
-                      <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
-                      <td ng-show="_checkboxShow" class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
-                        <td  class='{{item.tdCss}}' style='{{item.tdStyle}}'  ng-repeat="item in uICustomTable.items">
-                            <div ng-if="item.tdHtml"  ng-compile2="item.tdHtml"></div>
-                            <div ng-if="!item.tdHtml" >{{$root.UICustomTable.getShowValue(tr,item,$index)}}</div>
-
-                        </td>
-
-
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="pr-bg-white" ng-if="!tbodyList.length">
-          <div class="empty-table clearfix">
+      <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+      <p class="text-center">什么也没有</p>
+    </div> -->
+    <div class="outside-table-d pr-bg-white pr-fuzzy-boundary"
+         ajax-url="rest/authen/uICustomMenu/getByKey.json?key={{_customTrMenus}}"
+         scope-data="_uICustomMenu"
+         alert-error
+         callback="_menuList=_uICustomMenu.items">
+      <table ng-if="_customTrMenus&& _menuList"
+             class='{{"table pr-table pr-new-table pr-table-content  table-wid"||uICustomTable.className}}'
+             style='width:2500px;{{uICustomTable.style}}'>
+        <thead class='{{uICustomTable.theadCss||"pr-bg-side"}}' style='{{uICustomTable.theadStyle}} '>
+            <tr>
+              <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
+              <th ng-show="_checkboxShow"><input type="checkbox" class="selectAll"></th>
+              <th class='{{item.thCss}}' style='{{item.thStyle}}' ng-repeat="item in uICustomTable.items">
+                  <div ng-if="item.thHtml" ng-compile2="item.thHtml"></div>
+                  <div ng-if="!item.thHtml">{{item.propertyName}} </div>
+              </th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr ng-show="tbodyList.length"
+              ng-repeat="tr in tbodyList"
+              ng-click="selectThis()"
+              class="td-bordered "
+              table-tr-mouse-over-menu="_menuList"
+              business-data="tr">
+            <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
+            <td ng-show="_checkboxShow" class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+            <td class='{{item.tdCss}}' style='{{item.tdStyle}}' ng-repeat="item in uICustomTable.items">
+                <div ng-if="item.tdHtml" ng-compile2="item.tdHtml"></div>
+                <div ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pr-bg-white" ng-if="!tbodyList.length">
+        <div class="empty-table clearfix">
             <div>&nbsp;</div>
             <div>&nbsp;</div>
             <div>&nbsp;</div>
-          </div>
-        </div>
-        <div class="clearfix ">
-            <div class="fr">
-                <pagination status="status"></pagination>
-            </div>
         </div>
     </div>
+    <div class="clearfix ">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </div>
 </div>

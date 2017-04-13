@@ -2,7 +2,10 @@
             list-params="listParams"
             search-mode="noCaseSensitive"
             search-param="q">
-  <div class="create-new-order purchaseOrder-edit purchase-plan-order" ng-controller="purchaseContentController">
+  <div class="create-new-order purchaseOrder-edit purchase-plan-order"
+       ng-controller="purchaseContentController"
+       ajax-url="rest/authen/purchasecontent/get.json?id={{mainStatus.pageParams.id}}"
+       scope-data="formData">
      <page-main-header-component list-params="listParams"
                                  crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"采购目录","link":"","style":"color-custom-orange"},{"name":"编辑采购品种","link":"","style":""}]'
                                  component-title="采购品种-编辑">
@@ -12,10 +15,7 @@
          <div class="inline-block supplier-icon"></div>
          <div class="inline-block">
            <p class="mgb-s">供应商</p>
-           <p class="text-n color-3"
-              ajax-url="rest/authen/distributor/get.json?id={{mainStatus.pageParams.distributorId}}"
-              scope-data="distributorName">{{distributorName.name}}
-           </p>
+           <p class="text-n color-3">{{formData.distributorName}}</p>
          </div>
        </div>
        <!-- 药械列表 -->
@@ -111,7 +111,7 @@
                        <i class="addImg" style="left:100px;"
                           modal-right="50%"
                           modal-scope="this"
-                          modal-data='{"medicalName":"{{tr.medical.name}}","medicalId":"{{tr.id}}"}'
+                          modal-data='{"medicalName":"{{tr.medical.name}}","medicalId":"{{tr.id}}","supplierId":"{{formData.supplierId}}"}'
                           modal-url="views/versionFlow/create-correspond-relation.html">
                        </i>
                      </div>
