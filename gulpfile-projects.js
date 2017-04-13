@@ -100,7 +100,7 @@ function getProjectPaths(project_name){
 
 
   if(project_name=="dt"){//非规范路径
-    obj.src_js= [ paths.src+"app.js"];
+    // obj.src_js= [ paths.src+"app.js"];
 	}
 
 //  console.log("getProjectPaths",obj);
@@ -130,6 +130,9 @@ function concatCssTask(project_name){
     // console.log('tmpProject_paths',tmpProject_paths);
   var concatCss_src=getconcatCssPath(project_name);
   return gulp.src(concatCss_src)
+  .on('data',function(file){
+            console.log(file.history[0])
+        })
              .pipe(concat(tmpProject_paths.dest_css_fileName))
              .pipe(gulp.dest(paths.build_css));
 }
@@ -192,6 +195,9 @@ function concatJsTask(project_name){
   var tmpProject_paths = getProjectPaths(project_name);
   var concatCss_src=Component_paths.src_js.concat(tmpProject_paths.src_js);
   return gulp.src(concatCss_src)
+  .on('data',function(file){
+            console.log(file.history[0])
+        })
              .pipe(concat(tmpProject_paths.dest_js_fileName))
              .pipe(gulp.dest(paths.build_js));
 }
@@ -269,13 +275,21 @@ gulp.task('revHtmlTask_dt', function(project_name) {
   //为了顺序执行 foal 任务，请别省略 return 语句
       project_name="dt";
       console.log("revHtmlTask.project_name="+project_name);
-      if(project_name=="dt"){
-         return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/*.html']) .on('data',function(file){
-          console.log(file.history[0])
+
+       return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+        console.log(file.history[0])
       })
-                   .pipe(revCollector())
-                   .pipe(gulp.dest('./src/'));
-      }
+                 .pipe(revCollector())
+                 .pipe(gulp.dest('./src/'+project_name));
+
+      // console.log("revHtmlTask.project_name="+project_name);
+      // if(project_name=="dt"){
+      //    return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/*.html']) .on('data',function(file){
+      //     console.log(file.history[0])
+      // })
+      //              .pipe(revCollector())
+      //              .pipe(gulp.dest('./src/'));
+      // }
 
 
 });
