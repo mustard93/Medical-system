@@ -1711,6 +1711,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 "descriptionField": "@",
                 "classDescription": "@",
                 //"localData": "=?",
+                  "ngModelId": "=?",//绑定返回对象id
+                    "ngModel": "=",
                 "searchFields": "@",
                 "matchClass": "@",
                 "searchStrClass": "@",
@@ -1718,7 +1720,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             },
             require: "?^ngModel",
             templateUrl: Config.tplPath + 'tpl/autocomplete.html',
-            link: function($scope, elem, attrs, ngModel) {
+            link: function($scope, elem, $attrs, ngModel) {
                 $scope.lastSearchTerm = null;
                 $scope.currentIndex = null;
                 $scope.justChanged = false;
@@ -1729,6 +1731,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.minLength = 1;
                 $scope.searchStr = $scope.searchFields;
 
+                if($attrs.ngModelId){
+                  $scope.$watch("ngModel", function(value) {
+                    console.log("ngModelProperty.watch.ngModel",value);
+                    if(!value){
+                      $scope.ngModelId=null;
+                    }else{
+                        $scope.ngModelId=value.id;
+                    }
+
+
+                  }, true);
+                }
               require(['project/angucomplete'], function(angucomplete) {
                     $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
 
