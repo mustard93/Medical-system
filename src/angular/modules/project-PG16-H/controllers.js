@@ -920,9 +920,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 删除某条信息
-    $scope.handleDelThisItem = function (id) {
+    $scope.handleDelThisItem = function (id,hospitalSupplierId) {
       if (id) {
-        var _url = 'rest/authen/purchasecontentmedical/delete?ids=' + id + '&distributorId=' + $scope.mainStatus.pageParams.distributorId;
+        var _url = 'rest/authen/purchasecontentmedical/delete?ids=' + id + '&distributorId=' + $scope.mainStatus.pageParams.distributorId + '&supplierId=' + hospitalSupplierId;
         requestData(_url)
         .then(function (results) {
           if (results[1].code === 200) {

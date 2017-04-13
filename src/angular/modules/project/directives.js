@@ -2804,8 +2804,8 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
         });//mouseenter
         // 鼠标移出按钮消失
         $($element).mouseleave(function(){
-          $(this).removeClass("bg-c");
-          moveBtnDiv.remove();
+          // $(this).removeClass("bg-c");
+          // moveBtnDiv.remove();
           // for(var i=0;i<btnArray.length;i++){
           //     // $(btnArray[i]).remove();
           // }
