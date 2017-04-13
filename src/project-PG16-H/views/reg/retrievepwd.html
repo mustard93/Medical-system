@@ -10,7 +10,7 @@ errorMsg='';sendVerifyCodeCountdown=-1;">
     <div class="col-lg-12"><p class="sys-reg-title">用户 - 找回密码</p></div>
   </div>
   <!-- 提示信息 -->
-  <div ng-if="errorMsg||isExist_errorMsg"  class="row">
+  <div ng-if="errorMsg"  class="row">
     <div class="col-lg-12 reg-info-prompt" >
       <div>
         <i class="fa fa-exclamation-triangle"></i>
@@ -44,7 +44,7 @@ errorMsg='';sendVerifyCodeCountdown=-1;">
                  ng-maxlength="4" required >
         </span>
         <span interval-countdown>
-          <button  ng-if="sendVerifyCodeCountdown<=0"  type="button" class="btn btn-primary btn-sm pr-btn"
+          <button  ng-show="sendVerifyCodeCountdown<=0"  type="button" class="btn btn-primary btn-sm pr-btn"
                   ajax-url-submit="rest/sms/sendVerificationCode.json"
                   http-method="GET"
                                       params='{"isNewUser":false,"tel":"{{formData.tel}}"}'
@@ -54,7 +54,7 @@ errorMsg='';sendVerifyCodeCountdown=-1;">
                                         error-callback="countdown('sendVerifyCodeCountdown',60);"
                    >{{sendVerifyCodeCountdown<0?"获取验证码":"重发验证码"}}
           </button>
-          <button  ng-if="sendVerifyCodeCountdown>0"  type="button" class="btn btn-primary btn-sm pr-btn"
+          <button  ng-hide="sendVerifyCodeCountdown<=0"  type="button" class="btn btn-primary btn-sm pr-btn"
                   disabled="disabled">{{sendVerifyCodeCountdown}} 秒后重发
           </button>
         </span>
@@ -62,7 +62,7 @@ errorMsg='';sendVerifyCodeCountdown=-1;">
       <div class="pr-form-control col-lg-12 button-wrap">
 
           <button type="submit" class="btn btn-lg btn-reg btn-block pr-btn-login mgt-l"
-                  ng-disabled="editForm.tel.$invalid || isExist_errorMsg || !formData.code">下一步</button>
+                  ng-disabled="editForm.tel.$invalid || !errorMsg || !formData.code">下一步</button>
 
       </div>
       <div class="col-lg-12 text-center cancel mgt-l" style="line-height:40px;">

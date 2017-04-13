@@ -2770,7 +2770,7 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           moveBtnDiv.html(tmp_template);
           $compile(moveBtnDiv.contents())($scope);
 
-          console.log("moveBtnDiv.contents()",moveBtnDiv);
+          // console.log("moveBtnDiv.contents()",moveBtnDiv);
           // var btnArray=[];
           //按钮数量，用于计算弹出菜单的div宽度
           var btnCount=0;
@@ -2804,8 +2804,8 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
         });//mouseenter
         // 鼠标移出按钮消失
         $($element).mouseleave(function(){
-          $(this).removeClass("bg-c");
-          moveBtnDiv.remove();
+          // $(this).removeClass("bg-c");
+          // moveBtnDiv.remove();
           // for(var i=0;i<btnArray.length;i++){
           //     // $(btnArray[i]).remove();
           // }

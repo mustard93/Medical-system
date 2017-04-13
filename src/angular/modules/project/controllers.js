@@ -20,7 +20,7 @@ define('project/controllers', ['project/init'], function() {
       if(!toUserId)toUserId="";
       if(!toUserName)toUserName="";
       var param="?uid="+imTaobaoUserInfo.userid+"&to="+toUserId+"&toUserName="+toUserName+"&appkey=23588140&pwd="+imTaobaoUserInfo.password+"&fullscreen";
-      window.open('imtaobao/kit.html'+param, 'webcall', 'toolbar=no, status=no,scrollbars=0,resizable=0,menubar＝0,location=0,width=700,height=530');
+      window.open('../imtaobao/kit.html'+param, 'webcall', 'toolbar=no, status=no,scrollbars=0,resizable=0,menubar＝0,location=0,width=700,height=530');
 
     };
 
