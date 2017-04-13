@@ -844,7 +844,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   }
 
   // SPD采购目录模块控制器
-  function purchaseContentController ($scope, modal, alertWarn, watchFormChange, requestData) {
+  function purchaseContentController ($scope, modal, alertWarn, watchFormChange, requestData, utils) {
 
     // 定义存放用户选择药品的列表
     $scope.choisedMedicalIdList = [];
@@ -983,6 +983,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    // 完成按钮功能，保存备注及跳转页面
+    $scope.purchaseConentGetDone = function (formData) {
+      if (formData) {
+        requestData('rest/authen/purchasecontentmedical/save', formData, 'POST', 'parameter-body')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            utils.goTo('#/purchasecontent/query.html');
+          }
+        });
+      }
+    };
+
     // 重新请求数据
     var _reloadListData = function (_url) {
       if (_url) {
@@ -1049,6 +1061,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
   .controller('receiveItemController', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', 'alertOk', receiveItemController])
   .controller('purchasePlanOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchasePlanOrderController])
-  .controller('purchaseContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', purchaseContentController])
+  .controller('purchaseContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'utils', purchaseContentController])
   .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', createCorrespondController]);
 });
