@@ -536,6 +536,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.listObject = {};
                 }
 
+                //单个删除
+                $scope.delete1 = function(_url, _param) {
+                    var _tr = this.tr;
+                    requestData(_url, {
+                            id: _param
+                        }, 'POST')
+                        .then(function() {
+                            $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
+                            if ($scope.tbodyList.length === 0) {
+                                $scope.$broadcast("reloadList");
+                            }
+                        })
+                        .catch(function(error) {
+                            alertError(error || '删除错误');
+                        });
+                };
                 //批量删除
                 $scope.delSelected = function(_url) {
                     dialogConfirm('确定删除这些?', function() {
@@ -546,7 +562,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 $scope.$broadcast("reloadList");
                             })
                             .catch(function(error) {
-                                alert(error || '删除错误');
+                                alertError(error || '删除错误');
                             });
                     });
                 };
@@ -564,7 +580,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 }
                             })
                             .catch(function(error) {
-                                alert(error || '删除错误');
+                                alertError(error || '删除错误');
                             });
                     });
                 };
