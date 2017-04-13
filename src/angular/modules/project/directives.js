@@ -2758,7 +2758,7 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
       link: function ($scope, $element, $attrs) {
 
         //弹出菜单的div()
-        var  moveBtnDiv=$("<div></div>");
+        var  moveBtnDiv=$("<div style='z-index:1100'></div>");
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
@@ -2793,6 +2793,9 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           moveBtnDiv.css({
              "position": "fixed",
              "width":moveBtnDivWidth,
+            //  "backgroundColor":"red",
+              // "zIndex:":"2000",//设置不生效，
+              // "z-index:":"2001",
              "height":$element.height(),
              "top": y,
              "left": x

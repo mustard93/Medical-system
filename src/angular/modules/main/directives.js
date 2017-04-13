@@ -536,6 +536,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.listObject = {};
                 }
 
+                //单个删除
+                $scope.delete1 = function(_url, _param) {
+                    var _tr = this.tr;
+                    requestData(_url, {
+                            id: _param
+                        }, 'POST')
+                        .then(function() {
+                            $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
+                            if ($scope.tbodyList.length === 0) {
+                                $scope.$broadcast("reloadList");
+                            }
+                        })
+                        .catch(function(error) {
+                            alertError(error || '删除错误');
+                        });
+                };
                 //批量删除
                 $scope.delSelected = function(_url) {
                     dialogConfirm('确定删除这些?', function() {
@@ -546,7 +562,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 $scope.$broadcast("reloadList");
                             })
                             .catch(function(error) {
-                                alert(error || '删除错误');
+                                alertError(error || '删除错误');
                             });
                     });
                 };
@@ -564,7 +580,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 }
                             })
                             .catch(function(error) {
-                                alert(error || '删除错误');
+                                alertError(error || '删除错误');
                             });
                     });
                 };
@@ -1695,6 +1711,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 "descriptionField": "@",
                 "classDescription": "@",
                 //"localData": "=?",
+                  "ngModelId": "=?",//绑定返回对象id
+                    "ngModel": "=",
                 "searchFields": "@",
                 "matchClass": "@",
                 "searchStrClass": "@",
@@ -1702,7 +1720,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             },
             require: "?^ngModel",
             templateUrl: Config.tplPath + 'tpl/autocomplete.html',
-            link: function($scope, elem, attrs, ngModel) {
+            link: function($scope, elem, $attrs, ngModel) {
                 $scope.lastSearchTerm = null;
                 $scope.currentIndex = null;
                 $scope.justChanged = false;
@@ -1713,6 +1731,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.minLength = 1;
                 $scope.searchStr = $scope.searchFields;
 
+                if($attrs.ngModelId){
+                  $scope.$watch("ngModel", function(value) {
+                    console.log("ngModelProperty.watch.ngModel",value);
+                    if(!value){
+                      $scope.ngModelId=null;
+                    }else{
+                        $scope.ngModelId=value.id;
+                    }
+
+
+                  }, true);
+                }
               require(['project/angucomplete'], function(angucomplete) {
                     $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
 

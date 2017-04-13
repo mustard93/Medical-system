@@ -359,8 +359,9 @@ gulp.task('default',  function (done) {
         var project_name=pg_projects[i];
         var concatCss_src=getconcatCssPath(project_name);
           var concatJs_src=getconcatJsPath(project_name);
-          concatCss_src_all.push(concatCss_src);
-            concatJs_src_all.push(concatJs_src);
+
+          concatCss_src_all=concatCss_src_all.concat(concatCss_src);
+            concatJs_src_all=concatJs_src_all.concat(concatJs_src);
 
 
 
