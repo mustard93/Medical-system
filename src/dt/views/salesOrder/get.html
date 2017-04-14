@@ -1,4 +1,5 @@
 <div class="sales-order-details salesOrder-edit"
+     ng-controller="salesOrderEditCtrl2"
      ajax-url="rest/authen/salesOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="showData"
      callback="initFlag=true;formData={};formData.id=showData.id"
@@ -228,9 +229,11 @@
 
         <a class="mgr-l" ng-if="!changeFlag" href="#/salesOrder/query.html" >返回购需单列表</a>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg" ng-if="showData.orderStatus=='待确认'"
-          ajax-url="rest/authen/salesOrder/confirmPurchasePlanOrder.json?id={{showData.id}}" >确认</button>
+          <button class="pr-btn-save-glodbg"
+                  ng-if="showData.orderStatus=='待确认'"
+                  ng-click="confirmHospitalOrder(showData.id)">确认</button>
         </span>
     </div>
   </div>
 </div>
+<!-- ajax-url="rest/authen/salesOrder/confirmPurchasePlanOrder.json?id={{showData.id}}" -->

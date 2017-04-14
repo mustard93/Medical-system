@@ -321,6 +321,26 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    // 立即匹配操作
+    $scope.onceMatch = function (item) {
+      if (item) {
+        var _data = {
+          supplierId: item.hospitalSupplierId,
+          distributorId: item.distributorId,
+          distributorMedicalId: item.distributorMedicalId,
+          distributorMedicalCode: item.distributorMedicalCode
+        };
+
+        requestData('rest/authen/purchasecontentmedical/onceMatch', _data)
+        .then(function (results) {
+          if (results[1].code === 200) { utils.refreshHref(); }
+        })
+        .catch(function (error) {
+          if (error) throw new Error(error);
+        });
+      }
+    };
+
   }
 
   // 采购计划controller
