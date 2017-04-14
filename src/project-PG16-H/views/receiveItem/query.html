@@ -160,13 +160,13 @@
                 </td>
                 <td class="relative">
                   <span class="circle-status"
-                        ng-class="{'pr-bg-grey4':tr.receiveItemStatus =='待收货',
+                        ng-class="{'pr-bg-grey4':tr.receiveItemStatus=='待收货'||tr.receiveItemStatus=='未匹配商品关系'||tr.receiveItemStatus=='未加入采购目录商品',
                                    'bg-pass-green':tr.receiveItemStatus =='已完成',
                                    'bg-freeze-orange':tr.receiveItemStatus =='收货中'}">
 
                     <span class="purchaseorder-buyer-info" style="right:16px;top:-10px;">
                       <i class="block pd-c-s text-normal" style="line-height:1.8">
-                        <em  class="inline-block">{{tr.receiveItemStatus}}</em>
+                        <em class="inline-block">{{(tr.receiveItemStatus=='未匹配商品关系'||tr.receiveItemStatus=='未加入采购目录商品')?'待收货':tr.receiveItemStatus}}</em>
                       </i>
                     </span>
 
@@ -181,8 +181,8 @@
                     </div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='未加入采购目录商品'"
-                         ng-click="$root.gotTo('#/purchasecontent/edit.html?id={{tr.purchaseContentId}}&supplierId={{tr.hospitalSupplierId}}')">加入采购目录...</div>
-                    <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='未匹配商品关系'">立即匹配...</div>
+                         ng-click="$root.goTo('#/purchasecontent/edit.html?id='+tr.purchaseContentId+'&supplierId='+tr.hospitalSupplierId)">加入采购目录...</div>
+                    <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='未匹配商品关系'" ng-click="onceMatch(tr)">立即匹配...</div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='收货中'"
                          style="right:80px;"
