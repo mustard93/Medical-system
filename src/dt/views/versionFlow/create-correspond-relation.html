@@ -1,0 +1,53 @@
+<div class="modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="createCorrespondController"
+     ajax-url="rest/authen/salecontentmedical/queryHospitalMedical?hospitalId={{dialogData.hospitalId}}"
+     scope-data="codesList"
+     alert-error>
+  <!-- 标题 -->
+  <div class="bb-line-gold pr-bg-black2 min-h-l">
+    <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择编码 - {{dialogData.medicalName}}</h1>
+  </div>
+  <!-- 过滤条件 -->
+  <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+    <!-- 关键字过滤 -->
+    <div class="inline-block">
+      <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
+        <input type="text"
+               class="ipt pdr-xxl relative"
+               placeholder="供应商商品编码／商品名称"
+               ng-model="searchKey"
+               style="top:3px;"
+               ng-change="handleSearchFilter(searchKey,dialogData.hospitalId)">
+        <i class="" style="top:7px;"></i>
+      </div>
+    </div>
+  </div>
+  <!-- 数据遍历 -->
+  <div ng-if="codesList.length">
+    <table class="full-width another-table">
+      <thead>
+        <tr class="bb-line-gold">
+          <th></th>
+          <th>供应商编码</th>
+          <th>供应商商品名称</th>
+          <th>规格</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr ng-repeat="item in codesList track by $index" class="pr-bg-black3 trHover-bg">
+          <td class="text-center">
+            <label class="radio radio-new">
+              <input type="radio"
+                     name="medicals"
+                     class="default-radio"
+                     ng-click="choiseCode(item.medical.code,dialogData.medicalId,item.id)"><i></i>
+            </label>
+          </td>
+          <td class="text-left color-white" style="height:50px;"> {{item.medical.code}}</td>
+          <td class="text-left color-white" style="height:50px;"> {{item.medical.name}}</td>
+          <td class="color-white" style="height:50px;">{{item.medical.specification}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
