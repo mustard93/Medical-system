@@ -5557,16 +5557,16 @@ define('project/controllers', ['project/init'], function() {
       var addDataItem = $.extend(true,{},medical);
 
       // 检查数据是否已被添加
-      var _hospitalId = $scope.formData.hospitalId,     // 医疗机构id
+      var _customerAddressId = $scope.mainStatus.pageParams.customerAddressId,     // 医疗机构id
           _medicalId = addDataItem.id;   // 药械id
 
-      requestData('rest/authen/salecontentmedical/isExist?hospitalId='+_hospitalId+'&medicalId='+_medicalId)
+      requestData('rest/authen/salecontentmedical/isExist?customerAddressId='+_customerAddressId+'&medicalId='+_medicalId)
       .then(function (results) {
         if (results[1].code === 200) {
           // 添加到后台
           var _data = {
             relId: $scope.mainStatus.pageParams.id,
-            hospitalId: $scope.mainStatus.pageParams.customerAddressId,
+            hospitalId: $scope.formData.hospitalId,
             supplierId: $scope.formData.supplierId,         // 该医疗机构下供应商id
             medical: addDataItem
           };
