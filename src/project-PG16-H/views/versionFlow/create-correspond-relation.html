@@ -1,6 +1,6 @@
 <div class="modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="createCorrespondController"
-     ajax-url="rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId={{mainStatus.pageParams.distributorId}}&supplierId={{dialogData.supplierId}}"
+     ajax-url="rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId={{dialogData.distributorId}}&customerAddressId={{dialogData.customerAddressId}}"
      scope-data="codesList"
      alert-error>
   <!-- 标题 -->
@@ -17,7 +17,7 @@
                placeholder="供应商商品编码／商品名称"
                ng-model="searchKey"
                style="top:3px;"
-               ng-change="handleSearchFilter(searchKey)">
+               ng-change="handleSearchFilter(searchKey,dialogData.distributorId,dialogData.customerAddressId)">
         <i class="" style="top:7px;"></i>
       </div>
     </div>

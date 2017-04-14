@@ -36,13 +36,12 @@
           <div class="flex-item-8">
             <div class="inline-block mgr-s">
               <p class="mgb-s">采购计划编号：</p>
-              <select class="inline ipt-new-s pdt"
-                      chosen
-                      style="width:120px;"
-                      data-placeholder=" "
-                      default-empty="全部"
-                      ng-model="listParams.purchasePlanOrderCode"
-                      select-source="rest/authen/storeRoom/queryForSelectOption">
+              <input type="text"
+                     class="inline ipt pr-ipt-60"
+                     style="width:100px;"
+                     placeholder=""
+                     ng-model="listParams.purchasePlanOrderCode"
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=purchasePlanOrderCode"/>
               </select>
             </div>
             <div class="inline-block mgr-s">
@@ -50,18 +49,19 @@
               <input type="text"
                      class="inline ipt pr-ipt-60"
                      style="width:100px;"
-                     ng-model="listParams.logisticCode" />
+                     placeholder=""
+                     ng-model="listParams.logisticCode"
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=logisticCode"/>
+
             </div>
             <div class="inline-block mgr-s">
               <p class="mgb-s">销售单编号：</p>
-              <select class="inline ipt-new-s pdt"
-                      chosen
-                      style="width:120px;"
-                      data-placeholder=" "
-                      default-empty="全部"
-                      ng-model="listParams.relOrderCode"
-                      select-source="rest/authen/storeRoom/queryForSelectOption">
-              </select>
+              <input type="text"
+                     class="inline ipt pr-ipt-60"
+                     style="width:100px;"
+                     placeholder=""
+                     ng-model="listParams.dtOrderCode"
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=dtOrderCode"/>
             </div>
             <div class="inline-block mgr-s">
               <p class="mgb-s">库房：</p>
@@ -179,7 +179,9 @@
                          modal-data='{"id":"{{tr.id}}"}'
                          modal-url="views/receiveItem/edit.html">开始收货...
                     </div>
-                    <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='未加入采购目录商品'">加入采购目录...</div>
+                    <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                         ng-if="tr.receiveItemStatus=='未加入采购目录商品'"
+                         ng-click="$root.gotTo('#/purchasecontent/edit.html?id={{tr.purchaseContentId}}&supplierId=')">加入采购目录...</div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='未匹配商品关系'">立即匹配...</div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='收货中'"
@@ -214,22 +216,22 @@
                 <td>{{tr.totalDeliveryQuantity || '0'}}/{{tr.totalReceiveQuantity || '0'}}</td>
                 <!-- batchInfo-start -->
                 <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfo.length>1)}" ng-repeat="pro in tr.batchInfo">
+                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfo.length>1)}" ng-repeat="pro in tr.batchInfos">
                     {{pro.productionBatch}}
                   </div>
                 </td>
                 <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfo.length>1)}" ng-repeat="rec in tr.batchInfo">
-                    {{rec.receiveQuantity}}
+                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfo.length>1)}" ng-repeat="rec in tr.batchInfos">
+                    {{rec.hasReceiveQuantity}}
                   </div>
                 </td>
                 <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfo.length>1)}" ng-repeat="proD in tr.batchInfo">
+                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfo.length>1)}" ng-repeat="proD in tr.batchInfos">
                     {{proD.productionDate | date : 'yyyy-MM-dd'}}
                   </div>
                 </td>
                 <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfo.length>1)}" ng-repeat="recN in tr.batchInfo">
+                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfo.length>1)}" ng-repeat="recN in tr.batchInfos">
                     {{recN.receiverName}}
                   </div>
                 </td>
