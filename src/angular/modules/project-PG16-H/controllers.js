@@ -849,32 +849,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 定义存放用户选择药品的列表
     $scope.choisedMedicalIdList = [];
 
-    // 添加药品数据到列表
-    $scope.addDataItemClick = function(addDataItem,medical) {
-
-      if (!$scope.formData.orderMedicalNos) {
-        $scope.formData.orderMedicalNos = [];
-      }
-
-      // 如果已添加
-      if ($scope.formData.orderMedicalNos.length !== 0) {
-        var _len = $scope.formData.orderMedicalNos.length;
-        for (var i=0; i<_len; i++) {
-          if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-            alertWarn('此药械已添加到列表');
-            return;
-          }
-        }
-      }
-
-      //添加到列表
-      $scope.formData.orderMedicalNos.push(addDataItem);
-
-      $scope.addDataItem = {};
-
-      $('input', '#addDataItem_relId_chosen').trigger('focus');
-    };
-
     // 向列表添加数据的回调函数
     $scope.flashAddDataCallbackFn = function(flashAddData) {
 
@@ -886,22 +860,24 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       var addDataItem = $.extend(true,{},medical);
 
       // 检查数据是否已被添加
-      var _distributorId = $scope.mainStatus.pageParams.distributorId,    // 供应商id
+      var _supplierId = $scope.mainStatus.pageParams.supplierId,    // 供应商id
           _medicalId = addDataItem.id;   // 药械id
 
-      requestData('rest/authen/purchasecontentmedical/isExist?distributorId='+_distributorId+'&medicalId='+_medicalId)
+      requestData('rest/authen/purchasecontentmedical/isExist?supplierId='+_supplierId+'&medicalId='+_medicalId)
       .then(function (results) {
         if (results[1].code === 200) {
           // 添加到后台
           var _data = {
             relId: $scope.mainStatus.pageParams.id,
-            distributorId: $scope.mainStatus.pageParams.distributorId,
+            supplierId: $scope.mainStatus.pageParams.supplierId,
+            distributorId: $scope.formData.distributorId,
             medical: addDataItem
           };
+
           requestData('rest/authen/purchasecontentmedical/save', _data, 'POST', 'parameter-body')
           .then(function (results) {
             if (results[1].code === 200) {
-              _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
+              _reloadListData('rest/authen/purchasecontentmedical/query?supplierId=' + $scope.mainStatus.pageParams.supplierId);
             }
           })
           .catch(function (error) {
@@ -926,7 +902,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData(_url)
         .then(function (results) {
           if (results[1].code === 200) {
-            _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
+            _reloadListData('rest/authen/purchasecontentmedical/query?supplierId=' + $scope.mainStatus.pageParams.supplierId);
           }
         })
         .catch(function (error) {
@@ -969,12 +945,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       if ($scope.choisedMedicalIdList.length) {
         var _data = {
           distributorId: distributorId,
+          supplierId: $scope.mainStatus.pageParams.supplierId,
           ids: $scope.choisedMedicalIdList
         };
+
         requestData('rest/authen/purchasecontentmedical/delete?distributorId='+distributorId+'&ids='+$scope.choisedMedicalIdList)
         .then(function (results) {
           if (results[1].code === 200) {
-            _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
+            _reloadListData('rest/authen/purchasecontentmedical/query?supplierId=' + $scope.mainStatus.pageParams.supplierId);
           }
         })
         .catch(function (error) {
@@ -1012,8 +990,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   function createCorrespondController ($scope, requestData, modal, alertWarn) {
 
     // 侧边栏搜索过滤
-    $scope.handleSearchFilter = function (key) {
-      var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId=' + $scope.mainStatus.pageParams.distributorId + '&q=' + key;
+    $scope.handleSearchFilter = function (key,distributorId,customerAddressId) {
+      // var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId=' + $scope.mainStatus.pageParams.distributorId + '&q=' + key;
+
+      var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId='+distributorId+'&customerAddressId='+customerAddressId+'&q='+key;
+
       requestData(_url)
       .then(function (results) {
         $scope.codesList = results[1].data;
@@ -1034,11 +1015,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       if ($scope.tbodyList) {
         angular.forEach($scope.tbodyList, function (data, index) {
           if (data.id === medicalId) {
+
             // 添加到后台
             var _data = {
               id: $scope.tbodyList[index].id,
               relId: $scope.mainStatus.pageParams.id,
               distributorId: $scope.mainStatus.pageParams.distributorId,
+              supplierId: $scope.mainStatus.pageParams.supplierId,
+              distributorId: $scope.formData.distributorId,
               distributorMedicalCode: code,
               distributorMedicalId: distributorMedicalId,
               // saleContentMedicalId: ,
