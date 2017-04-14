@@ -499,18 +499,32 @@
           </button>
         </span>
         <span>
-          <button class="pr-btn-create-glodbg mgt"
+          <button ng-if="!formData.relId" class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('purchaseForm','submit')"
-                  ng-disabled="purchaseForm.$invalid || !formData.orderMedicalNos.length ||
+                  ng-disabled="purchaseForm.$invalid ||
+                               !formData.orderMedicalNos.length ||
+                               !formData.expectDate ||
+                               !formData.supplier.id ||
+                               !formData.orderCode">提交
+          </button>
+          <button ng-if="formData.relId" class="pr-btn-create-glodbg mgt"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认提交?"
+                  dialog-content="提交后，将无法修改。确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="submitForm('purchaseForm','submit')"
+                  ng-disabled="purchaseForm.$invalid ||
+                               !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                !formData.supplier.id ||
                                !formData.orderCode ||
-                               isDisabledNextStep" >提交
+                               isDisabledNextStep">提交
           </button>
         </span>
       </div>
