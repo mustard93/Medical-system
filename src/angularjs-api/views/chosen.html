@@ -16,6 +16,55 @@
                 <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
                 <a href="javascript:;" class="fa fa-times"></a>
               </span>
+              同步下拉  pg-select
+              <select
+                      pg-select
+                        ng-model="addDataItem111relId"
+                      class="select pr-table-select mgb-s"
+                      select-source="rest/authen/user/queryForSelectOption.json"></select>
+            </div>
+                  addDataItem111relI={{addDataItem111relId}}/////  {{addDataItem111relId}}
+            <div class="panel-body" style="display:none;">
+
+              <textarea class="form-control" style="min-height:200px;" readonly="true">
+                <select id="addDataItem_relId"
+                        chosen
+                        chosen-ajax
+                        suffix-connection="/" //连接后缀符号
+                        suffix-key="note.count"//连接后缀数据key
+                        select-data="selectData"   //选中后sope中添加选中对象。
+                        callback="selectData2=selectData" //选中后sope回调方法。
+                        class="select pr-table-select mgb-s"
+                        data-placeholder="药械名"
+                        ng-model="addDataItem.relId"
+                        clear-watch-scope="addDataItem.relId"
+                          select-source="rest/authen/user/queryForSelectOption.json"></select>
+                        参数说明：chosen-ajax 表示根据输入词，从服务器获取数据。
+
+
+                    满足条件执行用ajax-if-eval="formData.organizationId"
+                    <select class="select select-w"
+                            data-placeholder="选择一个..."
+                            chosen
+                            ng-model="formData.departmentId"
+
+                            default-empty
+                            alert-error
+                            ajax-if-eval="formData.organizationId"
+                            params='{"DistributorId":"{{formData.organizationId}}"}'
+                                select-source="rest/authen/user/queryForSelectOption.json"></select>
+
+              </textarea>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="panel">
+            <div class="panel-heading">
+              <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+                <a href="javascript:;" class="fa fa-times"></a>
+              </span>
               同步下拉
               <select id="addDataItem_relId"
                       chosen
