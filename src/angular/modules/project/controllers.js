@@ -303,7 +303,7 @@ define('project/controllers', ['project/init'], function() {
   /**
    *编辑、新建订单
    */
-  function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData) {
+  function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData, utils) {
 
       modal.closeAll();
       // $scope.formData={};
@@ -552,6 +552,17 @@ define('project/controllers', ['project/init'], function() {
       // 取消订单
       $scope.cancelForm = function(fromId, url) {
         alertWarn('cancelForm');
+      };
+
+      // 详情页待确认订单处理
+      $scope.confirmHospitalOrder = function (id) {
+        if (id) {
+          var _url = 'rest/authen/salesOrder/confirmPurchasePlanOrder?id=' + id;
+          requestData(_url, {}, 'POST')
+          .then(function (results) {
+            if (results[1].code === 200) { utils.refreshHref(); }
+          });
+        }
       };
 
   }
@@ -5807,7 +5818,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('requestPurchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', '$timeout', requestPurchaseOrderEditCtrl])
   .controller('noticeCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', noticeCtrl])
   .controller('invoicesOrderCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError', '$timeout', invoicesOrderCtrl])
-  .controller('salesOrderEditCtrl2', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', salesOrderEditCtrl2])
+  .controller('salesOrderEditCtrl2', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', 'utils', salesOrderEditCtrl2])
   .controller('salesOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', salesOrderEditCtrl])
   .controller('freezeThawOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', freezeThawOrderEditCtrl])
   .controller('lossOverOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', lossOverOrderEditCtrl])
