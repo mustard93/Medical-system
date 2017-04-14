@@ -208,6 +208,7 @@ gulp.task('test-concatMinJs-dt', function () {
                .pipe(gulp.dest(paths.buildTmp + 'js'));
 });
 
+
 /* 清理css文件((开发环境 ) ) */
 gulp.task('concatCss-dt-clean', function () {
   var project_name="dt";
@@ -226,6 +227,53 @@ gulp.task('concatCss-dt', ['concatCss-dt-clean'], function () {
         })
              .pipe(concat(tmpProject_paths.dest_css_fileName))
              .pipe(gulp.dest(paths.build_css));
+
+});
+
+
+/* 合并、JS(发布环境 ) */
+gulp.task('concatMinJs-dt', ['concatJs-dt-clean'], function () {
+  var tmpProject_paths = getProjectPaths("dt");
+
+  var concatJs_src=tmpProject_paths.src_js.concat(Component_paths.src_js);
+  console.log('concatJs_src',concatJs_src);
+     return gulp.src(concatJs_src)
+               .pipe(concat(tmpProject_paths.dest_js_fileName))
+               .pipe(uglify())
+               .pipe(rev())
+               .pipe(gulp.dest(paths.build_js))
+               .pipe(rev.manifest())
+              .pipe(gulp.dest(tmpProject_paths.build_js_min_rev))
+
+});
+
+/*合并css(开发环境 ) 方法 */
+gulp.task('concatMinCss-dt', ['concatCss-dt-clean'], function () {
+  var project_name="dt";
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(concatCss_src)
+             .pipe(concat(tmpProject_paths.dest_css_fileName))
+             .pipe(mincss())
+             .pipe(rev())
+            //  .pipe(gulp.dest(paths.build + 'css'))
+               .pipe(gulp.dest(paths.build_css))
+             .pipe(rev.manifest())
+             .pipe(gulp.dest(tmpProject_paths.build_css_min_rev));
+});
+
+
+
+/*改版本号js,css(发布环境 ) 方法 */
+gulp.task('rev-dt',['concatMinCss-dt','concatMinJs-dt'], function () {
+  var project_name="dt";
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+                 console.log(file.history[0])
+               })
+            .pipe(revCollector())
+            .pipe(gulp.dest('./src/'+project_name));
 
 });
 
@@ -280,6 +328,52 @@ gulp.task('concatCss-manage', ['concatCss-manage-clean'], function () {
         })
              .pipe(concat(tmpProject_paths.dest_css_fileName))
              .pipe(gulp.dest(paths.build_css));
+
+});
+
+
+
+/* 合并、JS(发布环境 ) */
+gulp.task('concatMinJs-manage',['concatMinCss-dt','concatMinJs-dt'], function () {
+  var tmpProject_paths = getProjectPaths("manage");
+
+  var concatJs_src=tmpProject_paths.src_js.concat(Component_paths.src_js);
+  console.log('concatJs_src',concatJs_src);
+     return gulp.src(concatJs_src)
+               .pipe(concat(tmpProject_paths.dest_js_fileName))
+               .pipe(uglify())
+               .pipe(rev())
+               .pipe(gulp.dest(paths.build_js))
+               .pipe(rev.manifest())
+              .pipe(gulp.dest(tmpProject_paths.build_js_min_rev))
+
+});
+
+/*合并css(开发环境 ) 方法 */
+gulp.task('concatMinCss-manage', ['concatCss-manage-clean'], function () {
+  var project_name="manage";
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(concatCss_src)
+             .pipe(concat(tmpProject_paths.dest_css_fileName))
+             .pipe(mincss())
+             .pipe(rev())
+            //  .pipe(gulp.dest(paths.build + 'css'))
+               .pipe(gulp.dest(paths.build_css))
+             .pipe(rev.manifest())
+             .pipe(gulp.dest(tmpProject_paths.build_css_min_rev));
+});
+
+/*改版本号js,css(发布环境 ) 方法 */
+gulp.task('rev-manage',['concatMinCss-manage','concatMinJs-manage'], function () {
+  var project_name="manage";
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+                 console.log(file.history[0])
+               })
+            .pipe(revCollector())
+            .pipe(gulp.dest('./src/'+project_name));
 
 });
 
@@ -341,6 +435,50 @@ gulp.task('concatCss-project-PG16-H', ['concatCss-project-PG16-H-clean'], functi
 
 });
 
+
+/* 合并、JS(发布环境 )  concatMinJs concatMinCss */
+gulp.task('concatMinJs-project-PG16-H', ['concatJs-project-PG16-H-clean'], function () {
+  var tmpProject_paths = getProjectPaths("project-PG16-H");
+
+  var concatJs_src=tmpProject_paths.src_js.concat(Component_paths.src_js);
+  console.log('concatJs_src',concatJs_src);
+     return gulp.src(concatJs_src)
+               .pipe(concat(tmpProject_paths.dest_js_fileName))
+               .pipe(uglify())
+               .pipe(rev())
+               .pipe(gulp.dest(paths.build_js))
+               .pipe(rev.manifest())
+              .pipe(gulp.dest(tmpProject_paths.build_js_min_rev))
+
+});
+
+/*合并css(开发环境 ) 方法 */
+gulp.task('concatMinCss-project-PG16-H', ['concatCss-project-PG16-H-clean'], function () {
+  var project_name="project-PG16-H";
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(concatCss_src)
+             .pipe(concat(tmpProject_paths.dest_css_fileName))
+             .pipe(mincss())
+             .pipe(rev())
+            //  .pipe(gulp.dest(paths.build + 'css'))
+               .pipe(gulp.dest(paths.build_css))
+             .pipe(rev.manifest())
+             .pipe(gulp.dest(tmpProject_paths.build_css_min_rev));
+});
+
+/*改版本号js,css(发布环境 ) 方法 */
+gulp.task('rev-project-PG16-H',['concatMinCss-project-PG16-H','concatMinJs-project-PG16-H'], function () {
+  var project_name="project-PG16-H";
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+                 console.log(file.history[0])
+               })
+            .pipe(revCollector())
+            .pipe(gulp.dest('./src/'+project_name));
+
+});
 // 项目project-PG16-H 配置==========================================================================
 
 /* 默认启动任务 */
@@ -395,6 +533,19 @@ gulp.task('default',  function (done) {
     './src/views/*.html',
     './src/views/**/*.html',
     './src/**/*.html'], ['bro']);
+});
+
+
+/* 生产模式静态文件打包任务，包含css、js的合并、压缩、版本号更新及链接替换 */
+gulp.task('release-all', function (done) {
+
+  runSequence(
+    ['rev-dt'],
+    ['rev-manage'],
+    ['rev-project-PG16-H'],
+     done);
+
+
 });
 
 
