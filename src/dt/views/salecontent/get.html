@@ -1,9 +1,9 @@
-<table-list list-data="rest/authen/salecontentmedical/query?distributorId={{mainStatus.pageParams.distributorId}}"
+<table-list list-data="rest/authen/salecontentmedical/query?customerAddressId={{mainStatus.pageParams.customerAddressId}}"
             list-params="listParams"
             search-mode="noCaseSensitive"
             search-param="q">
   <div class="create-new-order purchaseOrder-edit purchase-plan-order"
-       ng-controller="salecontentController"
+       ng-controller="saleContentController"
        ajax-url="rest/authen/salecontent/get.json?id={{mainStatus.pageParams.id}}"
        scope-data="scopeData">
     <!-- 头部信息 -->
@@ -16,10 +16,10 @@
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height">
         <div class="inline-block supplier-icon"></div>
         <div class="inline-block">
-          <p class="mgb-s">供应商</p>
+          <p class="mgb-s">客户名</p>
           <p class="text-n color-3"
              ajax-url="rest/authen/distributor/get.json?id={{mainStatus.pageParams.distributorId}}"
-             scope-data="distributorName">{{distributorName.name}}
+             scope-data="distributorName">{{scopeData.hospitalName}}
           </p>
         </div>
       </div>
@@ -53,15 +53,15 @@
                <th class="text-center">序号</th>
                <th class="text-center">状态</th>
                <th class="text-center">商品编码</th>
-               <th class="text-center">供应商商品编码</th>
+               <th class="text-center">医疗机构商品编码</th>
                <th class="text-left">商品名称</th>
-               <th class="text-left">供应商商品名称</th>
+               <th class="text-left">医疗机构商品名称</th>
                <th class="text-center">商品规格</th>
-               <th class="text-center">供应商商品规格</th>
+               <th class="text-center">医疗机构商品规格</th>
                <th class="text-center">基本单位</th>
-               <th class="text-center">供应商基本单位</th>
+               <th class="text-center">医疗机构基本单位</th>
                <th class="text-center">包装大小</th>
-               <th class="text-center">供应商包装大小</th>
+               <th class="text-center">医疗机构包装大小</th>
                <th class="text-center">商品名称拼音</th>
                <th class="text-center">商品通用名</th>
                <th class="text-center">商品通用名拼音</th>
@@ -89,18 +89,18 @@
                 <td class="text-center" style="line-height:2.4">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
                 <td class="text-center relative" style="line-height:2.4">
                   <span class="circle-status relative"
-                        ng-class="{'bg-pass-green':tr.distributorMedicalCode,
-                                   'bg-freeze-orange':!tr.distributorMedicalCode}">
+                        ng-class="{'bg-pass-green':tr.hospitalMedicalCode,
+                                   'bg-freeze-orange':!tr.hospitalMedicalCode}">
 
                     <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
                       <i class="block pd-c-s text-normal" style="line-height:1.8">
-                        <em class="inline-block">{{tr.distributorMedicalCode?'已匹配':'未匹配'}}</em>
+                        <em class="inline-block">{{tr.hospitalMedicalCode?'已匹配':'未匹配'}}</em>
                       </i>
                     </span>
                   </span>
                 </td><!-- 状态 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 商品编码 -->
-                <td class="text-center" style="line-height:2.4">{{tr.distributorMedicalCode}}</td><!-- 供应商商品编码 -->
+                <td class="text-center" style="line-height:2.4">{{tr.hospitalMedicalCode}}</td><!-- 供应商商品编码 -->
                 <td class="text-left" style="line-height:2.4">{{tr.medical.name}}</td><!-- 商品名称 -->
                 <td class="text-left" style="line-height:2.4">{{tr.medical.approvedName}}</td><!-- 供应商商品名称 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.specificationAndModelType}}</td><!-- 规格型号 -->
