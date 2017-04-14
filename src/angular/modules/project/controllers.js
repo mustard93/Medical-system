@@ -5643,10 +5643,10 @@ define('project/controllers', ['project/init'], function() {
           distributorId: distributorId,
           ids: $scope.choisedMedicalIdList
         };
-        requestData('rest/authen/purchasecontentmedical/delete?distributorId='+distributorId+'&ids='+$scope.choisedMedicalIdList)
+        requestData('rest/authen/salecontentmedical/delete?distributorId='+distributorId+'&ids='+$scope.choisedMedicalIdList)
         .then(function (results) {
           if (results[1].code === 200) {
-            _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
+            _reloadListData('rest/authen/salecontentmedical/query?customerAddressId=' + $scope.mainStatus.pageParams.customerAddressId);
           }
         })
         .catch(function (error) {
@@ -5658,10 +5658,10 @@ define('project/controllers', ['project/init'], function() {
     // 完成按钮功能，保存备注及跳转页面
     $scope.purchaseConentGetDone = function (formData) {
       if (formData) {
-        requestData('rest/authen/purchasecontent/save', formData, 'POST', 'parameter-body')
+        requestData('rest/authen/salecontent/save', formData, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-            utils.goTo('#/purchasecontent/query.html');
+            utils.goTo('#/salecontent/query.html');
           }
         });
       }
@@ -5721,7 +5721,7 @@ define('project/controllers', ['project/init'], function() {
             requestData('rest/authen/salecontentmedical/save', _data, 'POST', 'parameter-body')
             .then(function (results) {
               if (results[1].code === 200) {
-                $scope.tbodyList[index].distributorMedicalCode = code;
+                $scope.tbodyList[index].hospitalMedicalCode = code;
                 // _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
               }
             })

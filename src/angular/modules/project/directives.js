@@ -1142,7 +1142,7 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
           //执行回调
           // callback();
 
-        }, _dialogTemplate, _dialogTitle, _confirmBtnTxt, _cancelBtnTxt, _jumpUrl, _contentColor);
+        }, _dialogTemplate, _dialogTitle, _confirmBtnTxt, _cancelBtnTxt, _jumpUrl);
       });
     }
   };
