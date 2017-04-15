@@ -961,18 +961,19 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 批量删除
-    $scope.handleBatchDelete = function (distributorId) {
+    $scope.handleBatchDelete = function (supplierId,distributorId) {
       if ($scope.choisedMedicalIdList.length) {
         var _data = {
+          supplierId: supplierId,
           distributorId: distributorId,
-          supplierId: $scope.mainStatus.pageParams.supplierId,
           ids: $scope.choisedMedicalIdList
         };
 
-        requestData('rest/authen/purchasecontentmedical/delete?distributorId='+distributorId+'&ids='+$scope.choisedMedicalIdList)
+        requestData('rest/authen/purchasecontentmedical/delete', _data, 'GET')
         .then(function (results) {
           if (results[1].code === 200) {
             _reloadListData('rest/authen/purchasecontentmedical/query?supplierId=' + $scope.mainStatus.pageParams.supplierId);
+            $scope.isChoiseAll = false;
           }
         })
         .catch(function (error) {
