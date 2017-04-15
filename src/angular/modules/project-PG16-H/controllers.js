@@ -1030,7 +1030,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 选择供应商编码与医院药品编码建立对应关系
-    $scope.choiseCode = function (code,medicalId,distributorMedicalId) {
+    $scope.spdChoiseCode = function (code,medicalId,distributorMedicalId) {
       // 将当前选择的医院编码赋值到数据对象中
       if ($scope.tbodyList) {
         angular.forEach($scope.tbodyList, function (data, index) {
@@ -1040,7 +1040,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             var _data = {
               id: $scope.tbodyList[index].id,
               relId: $scope.mainStatus.pageParams.id,
-              distributorId: $scope.mainStatus.pageParams.distributorId,
               supplierId: $scope.mainStatus.pageParams.supplierId,
               distributorId: $scope.formData.distributorId,
               distributorMedicalCode: code,
@@ -1066,7 +1065,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       modal.closeAll();
     };
 
-    $scope.choiseCode2 = function (code,medicalId,distributorMedicalId) {
+    $scope.spdChoiseCode2 = function (code,medicalId,distributorMedicalId) {
       // 将当前选择的医院编码赋值到数据对象中
       if ($scope.tbodyList) {
         angular.forEach($scope.tbodyList, function (data, index) {
