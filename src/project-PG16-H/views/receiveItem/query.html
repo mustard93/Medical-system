@@ -132,7 +132,7 @@
                 <th class="w-220">商品名称</th>
                 <th>规格</th>
                 <th>单位</th>
-                <th>配送总数/实收总数</th>
+                <th>配送总数/已收总数</th>
                 <!-- batchInfo-start -->
                 <th>生产批号</th>
                 <th>实收数量</th>
@@ -206,11 +206,7 @@
                 <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
                 <td>{{tr.purchasePlanOrderCode}}</td>
                 <td>{{tr.code}}</td>
-                <td class="text-left">
-                  <div class="autocut" title="{{tr.name}}">
-                        {{tr.name}}
-                  </div>
-                </td>
+                <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td>
                 <td>{{tr.specification}}</td>
                 <td>{{tr.unit}}</td>
                 <td>{{tr.totalDeliveryQuantity || '0'}}/{{tr.totalReceiveQuantity || '0'}}</td>
@@ -236,12 +232,16 @@
                   </div>
                 </td>
                 <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfo.length>1)}" ng-repeat="recD in tr.batchInfo">
+                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="recD in tr.batchInfos">
                     {{recD.receiveDate | date : 'yyyy-MM-dd'}}
                   </div>
                 </td>
-                <!-- batchInfo-end -->
-                <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
+                <!-- <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td> -->
+                <td style="padding:0px;">
+                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="til in tr.batchInfos">
+                    {{til.validTill | date : 'yyyy-MM-dd'}}
+                  </div>
+                </td><!-- batchInfo-end -->
                 <td>{{}}</td><!-- 发票号 -->
                 <td>{{tr.manufacturer}}</td>
                 <td>{{tr.productionPlace}}</td>
