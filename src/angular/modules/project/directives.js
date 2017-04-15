@@ -2758,7 +2758,7 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
       link: function ($scope, $element, $attrs) {
 
         //弹出菜单的div()
-        var  moveBtnDiv=$("<div style='z-index:1100'></div>");
+        var  moveBtnDiv=$("<div style='z-index:10'></div>");
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
