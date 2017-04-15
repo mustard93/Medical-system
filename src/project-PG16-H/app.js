@@ -227,7 +227,7 @@ require(['manageApp','ngRoute'], function (app) {
                         }
                     }
                 })
-                .otherwise({redirectTo: Config.indexPage});
+                .otherwise({redirectTo: Config.indexPage||'main.html'});
         } else {
             $routeProvider
                 .when("/:page*", {
