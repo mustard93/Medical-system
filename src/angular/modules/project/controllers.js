@@ -5428,6 +5428,7 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
           if (data.relId == id) {
             $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
+            $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
           }
         });
       }
