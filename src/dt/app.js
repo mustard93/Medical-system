@@ -6,7 +6,7 @@ var require_config_project={
     //     'moment': '../libs/moment.min',                         //日历插件
   },
   shim:{
-  
+
   }
 }
 //追加项目配置
@@ -85,7 +85,7 @@ require(['manageApp','ngRoute'], function (app) {
                         }
                     }
                 })
-                .otherwise({redirectTo: Config.indexPage});
+              .otherwise({redirectTo: Config.indexPage||'main.html'});
         } else {
             $routeProvider
                 .when("/:page*", {
