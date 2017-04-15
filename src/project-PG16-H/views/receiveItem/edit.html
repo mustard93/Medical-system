@@ -24,8 +24,8 @@
         <thead>
           <tr class="bb-line-gold">
             <th class="text-center">生产批号</th>
-            <th class="text-center" >配送数量</th>
-            <th class="text-center" class="text-left">实收数量</th>
+            <th class="text-center">配送数量/已收数量</th>
+            <th class="text-center" class="text-left">本次收货数量</th>
             <th class="text-center" class="text-left pdt">收货人</th>
             <th class="text-center" class="text-left">收货日期</th>
             <th class="text-center" class="text-left">库房</th>
@@ -33,23 +33,23 @@
         </thead>
         <tbody class="bg-white">
           <tr ng-repeat="batch in formData.batchInfos" class="pr-bg-black3">
-            <td class="text-center color-white">{{batch.productionBatch}}</td>
-            <td class="text-center color-white">{{batch.deliveryQuantity}}</td>
+            <td class="text-center color-white">{{batch.productionBatch}}</td><!-- 生产批号 -->
+            <td class="text-center color-white">{{batch.deliveryQuantity}}/{{batch.hasReceiveQuantity}}</td><!-- 配送数量/已收数量 -->
             <td class="text-center color-white">
               <input type="text"
                      class="inline ipt pr-ipt-60 text-center mgt"
                      style="width:100px;"
                      ng-model="batch.receiveQuantity" />
-            </td>
+            </td><!-- 本次收货数量 -->
             <td class="text-center color-white">
-              <select 
+              <select
                       pg-select
                       style="width:120px;"
                       data-placeholder=" "
                       ng-model="batch.receiverId;"
                       select-source="rest/authen/user/queryForSelectOption">
               </select>
-            </td>
+            </td><!-- 收货人 -->
             <td class="color-white text-center">
               <div class="date-icon-outside" >
                 <input type="text"
@@ -60,7 +60,7 @@
                        ng-model="batch.receiveDate">
                       <span class="date-icon"></span>
               </div>
-            </td>
+            </td><!-- 收货日期 -->
             <td  class="text-center color-white">
               <select
                       pg-select
@@ -69,7 +69,7 @@
                       ng-model="batch.storeRoomId"
                       select-source="rest/authen/storeRoom/queryForSelectOption">
               </select>
-            </td>
+            </td><!-- 库房 -->
           </tr>
         </tbody>
       </table>
