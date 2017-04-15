@@ -2,7 +2,10 @@
             list-params="listParams"
             search-mode="noCaseSensitive"
             search-param="q">
-  <div class="create-new-order purchaseOrder-edit purchase-plan-order" ng-controller="purchaseContentController">
+  <div class="create-new-order purchaseOrder-edit purchase-plan-order"
+       ng-controller="purchaseContentController"
+       ajax-url="rest/authen/purchasecontent/get.json?id={{mainStatus.pageParams.id}}"
+       scope-data="scopeData">
     <!-- 头部信息 -->
     <page-main-header-component list-params="listParams"
                                 crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"采购目录详情","link":"","style":"color-custom-orange"},{"name":"采购计划详情","link":"","style":""}]'
@@ -21,12 +24,34 @@
         </div>
       </div>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+        <div class="flex-column">
+          <div class="flex-item-4">
+            <!-- 状态筛选 -->
+            <div class="pd-v-m pdl-l bb-line">
+              <span>状态筛选：</span>
+              <select class="ipt pr-short-ipt color-6">
+                <option value="">全部</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex-item-8 text-right pd-v-m pdr-l">
+            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+              <input type="text" class="ipt pdr-xxl" placeholder="医院系统编号 / 医院名称" ng-model="listParams.q">
+              <i class=""></i>
+            </div>
+            <div class="inline-block mgl-m">
+              <i class="fa fa-refresh mgr-s color-light-brown"></i>
+              <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+            </div>
+          </div>
+        </div>
         <!-- 商品列表 -->
         <div class="outside-table-d">
           <table class="table pr-table pr-new-table mgb-n table-wid-l">
             <thead>
               <tr>
                <th class="text-center">序号</th>
+               <th class="text-center">状态</th>
                <th class="text-center">商品编码</th>
                <th class="text-center">供应商商品编码</th>
                <th class="text-left">商品名称</th>
@@ -62,8 +87,20 @@
             <tbody>
               <tr ng-repeat="tr in tbodyList">
                 <td class="text-center" style="line-height:2.4">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
+                <td class="text-center relative" style="line-height:2.4">
+                  <span class="circle-status relative"
+                        ng-class="{'bg-pass-green':tr.distributorMedicalCode,
+                                   'bg-end-red':!tr.distributorMedicalCode}">
+
+                    <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
+                      <i class="block pd-c-s text-normal" style="line-height:1.8">
+                        <em class="inline-block">{{tr.distributorMedicalCode?'已匹配':'未匹配'}}</em>
+                      </i>
+                    </span>
+                  </span>
+                </td><!-- 状态 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 商品编码 -->
-                <td class="text-center" style="line-height:2.4">{{tr.medical.distributorMedicalCode}}</td><!-- 供应商商品编码 -->
+                <td class="text-center" style="line-height:2.4">{{tr.distributorMedicalCode}}</td><!-- 供应商商品编码 -->
                 <td class="text-left" style="line-height:2.4">{{tr.medical.name}}</td><!-- 商品名称 -->
                 <td class="text-left" style="line-height:2.4">{{tr.medical.approvedName}}</td><!-- 供应商商品名称 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.specificationAndModelType}}</td><!-- 规格型号 -->
@@ -96,12 +133,25 @@
             </tbody>
           </table>
         </div>
+        <!-- 占位符 -->
+        <div class="pr-bg-white" ng-if="!tbodyList.length">
+          <div class="empty-table clearfix">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+          </div>
+        </div>
         <!-- 导航 -->
         <div class="clearfix" ng-if="tbodyList.length">
             <div class="fr">
                 <pagination status="status"></pagination>
             </div>
         </div>
+      </div>
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+        <h1 class="text-bold color-3 mgb">备注</h1>
+        <p>{{scopeData.note}}</p>
       </div>
     </div>
     <!-- 功能按钮 -->

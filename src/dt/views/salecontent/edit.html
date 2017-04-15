@@ -1,0 +1,202 @@
+<table-list list-data="rest/authen/salecontentmedical/query?customerAddressId={{mainStatus.pageParams.customerAddressId}}"
+            list-params="listParams"
+            search-mode="noCaseSensitive"
+            search-param="q">
+  <div class="create-new-order purchaseOrder-edit purchase-plan-order"
+       ng-controller="saleContentController"
+       ajax-url="rest/authen/salecontent/get.json?id={{mainStatus.pageParams.id}}"
+       scope-data="formData">
+     <page-main-header-component list-params="listParams"
+                                 crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"销售目录","link":"","style":"color-custom-orange"},{"name":"编辑采购品种","link":"","style":""}]'
+                                 component-title="销售品种-编辑">
+     </page-main-header-component>
+     <div class="content-wrapper">
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height">
+         <div class="inline-block supplier-icon"></div>
+         <div class="inline-block">
+           <p class="mgb-s">客户名</p>
+           <p class="text-n color-3">{{formData.hospitalName}}</p>
+         </div>
+       </div>
+       <!-- 药械列表 -->
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+         <!-- 信息 -->
+         <div flash-add-medical
+              ng-model="data1"
+              class="pd-c-l pdt-m bb-line"
+              ajax-url="rest/authen/medicalStock/query"
+              add-data-callback-fn="flashAddDataCallbackFn"
+              hide-quantity
+              hide-import>
+         </div>
+         <!-- 状态筛选 -->
+         <div class="pd-v-m pdl-l bb-line">
+           <span>状态筛选：</span>
+           <select class="ipt pr-short-ipt color-6">
+             <option value="">全部</option>
+           </select>
+         </div>
+         <div class="flex-column pd-v-m">
+           <div class="flex-item-6">
+             <!-- 批量删除按钮 -->
+             <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l">
+               <a href="javascript:void(0)" class="batch-delete-btn" ng-click="handleBatchDelete(mainStatus.pageParams.distributorId)" ng-disabled="!choisedMedicalIdList.length">批量删除
+                 <em class="fa fa-trash-o"></em>
+               </a>
+             </div>
+           </div>
+           <!-- <div class="flex-item-6 text-right pdr-l">
+             <span class="mgr-l">制单人：<em class="color-6">刘丽</em></span>
+             <span>录单日期：<em class="color-6">暂无</em></span>
+           </div> -->
+         </div>
+         <!-- 列表 -->
+         <div class="bt-line">
+           <div class="outside-table-d">
+             <table class="table pr-table pr-new-table mgb-n table-wid-l">
+               <thead>
+                 <tr>
+                  <th class="w-60 text-center">
+                    <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                  </th>
+                  <th class="text-center">商品编码</th>
+                  <th class="text-center">医疗机构商品编码</th>
+                  <th class="text-left">商品名称</th>
+                  <th class="text-left">供应商商品名称</th>
+                  <th class="text-center">商品规格</th>
+                  <th class="text-center">医疗机构商品规格</th>
+                  <th class="text-center">基本单位</th>
+                  <th class="text-center">医疗机构基本单位</th>
+                  <th class="text-center">包装大小</th>
+                  <th class="text-center">医疗机构包装大小</th>
+                  <th class="text-center">商品名称拼音</th>
+                  <th class="text-center">商品通用名</th>
+                  <th class="text-center">商品通用名拼音</th>
+                  <th class="text-center">商品化学名</th>
+                  <th class="text-center">商品英文名</th>
+                  <th class="text-center">储存条件</th>
+                  <th class="text-center">条形码</th>
+                  <th class="text-center">生产厂商</th>
+                  <th class="text-center">产地</th>
+                  <th class="text-center">批准文号</th>
+                  <th class="text-center">批准文号认证日期</th>
+                  <th class="text-center">批准文号有效期至</th>
+                  <th class="text-center">注册证号</th>
+                  <th class="text-center">注册证号认证日期</th>
+                  <th class="text-center">注册证号有效期至</th>
+                  <th class="text-center">有效期</th>
+                  <th class="text-center">有效期单位</th>
+                  <th class="text-center">效期预警天数</th>
+                  <th class="text-center">平台商品编码</th>
+                  <th class="text-center">备注</th>
+                </tr>
+               </thead>
+               <tbody>
+                 <tr ng-repeat="tr in tbodyList" table-item-handlebtn-component>
+                   <td class="select-td text-center">
+                     <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                     <div class="table-item-handle-btn">
+                       <div class="table-item-confirm-del-area bg-white">
+                         <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                         <p class="pdt-s">
+                           <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="handleDelThisItem(tr.id)">确认</a>
+                         </p>
+                       </div>
+                     </div>
+                   </td>
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 商品编码 -->
+                   <td class="text-center" style="line-height:2.4">
+                     <div class="ipt-div relative text-left pr-indent-5" style="width:100%;">{{tr.hospitalMedicalCode}}
+                       <i class="addImg" style="right:0px;left:inherit;"
+                          modal-right="50%"
+                          modal-scope="this"
+                          modal-data='{
+                                       "medicalName":"{{tr.medical.name}}",
+                                       "medicalId":"{{tr.id}}",
+                                       "hospitalId":"{{formData.hospitalId}}",
+                                       "supplierId":"{{formData.supplierId}}"
+                                     }',
+
+                          modal-url="views/versionFlow/create-correspond-relation.html">
+                       </i>
+                     </div>
+                   </td><!-- 供应商商品编码 -->
+                   <td class="text-left" style="line-height:2.4">{{tr.medical.name}}</td><!-- 商品名称 -->
+                   <td class="text-left" style="line-height:2.4">{{tr.medical.approvedName}}</td><!-- 供应商商品名称 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.specificationAndModelType}}</td><!-- 规格型号 -->
+                   <td class="text-center" style="line-height:2.4"></td><!-- 供应商规格型号 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.measurement}}</td><!-- 基本单位 -->
+                   <td class="text-center" style="line-height:2.4"></td><!-- 供应商基本单位 -->
+                   <td class="text-center" style="line-height:2.4"></td><!-- 包装大小 -->
+                   <td class="text-center" style="line-height:2.4"></td><!-- 供应商包装大小 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.name_py}}</td><!-- 商品名称拼音 -->
+                   <td class="text-center" style="line-height:2.4"></td><!-- 商品通用名 -->
+                   <td class="text-center" style="line-height:2.4"></td><!-- 商品通用名拼音 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.varietyName}}</td><!-- 商品化学名 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.englishName}}</td><!-- 商品英文名 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.deliveryPlus}}</td><!-- 储存条件 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.barcode}}</td><!-- 条形码 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.manufacturer}}</td><!-- 生产厂商 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.productionPlace}}</td><!-- 产地 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.approvalNo}}</td><!-- 批准文号 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.approvalNoCreateAt | date:'yyyy-MM-dd'}}</td><!-- 批准文号认证日期 -->
+                   <td class="text-center" style="line-height:2.4"></td><!-- 批准文号有效期至 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.drugAdministrationCode}}</td><!-- 注册证号 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.drugAdministrationCode_createAt | date:'yyyy-MM-dd'}}</td><!-- 注册证号认证日期 -->
+                   <td class="text-center" style="line-height:2.4"></td><!-- 注册证号有效期至 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.guaranteePeriod}}</td><!-- 有效期 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.guaranteePeriod_measurement}}</td><!-- 有效期单位 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.guaranteePeriodAlarmDay}}</td><!-- 效期预警天数 -->
+                   <td class="text-center" style="line-height:2.4"></td><!-- 平台商品编码 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.medical.note}}</td><!-- 备注 -->
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+           <!-- 批量删除按钮 -->
+           <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l mgt-m mgb-m">
+             <a href="javascript:void(0)" class="batch-delete-btn" ng-click="handleBatchDelete(mainStatus.pageParams.distributorId)" ng-disabled="!choisedMedicalIdList.length">批量删除
+               <em class="fa fa-trash-o"></em>
+             </a>
+           </div>
+           <!-- 导航 -->
+           <div class="clearfix" ng-if="tbodyList.length">
+               <div class="fr">
+                   <pagination status="status"></pagination>
+               </div>
+           </div>
+           <div class="pr-bg-white" ng-if="!tbodyList.length">
+             <div class="empty-table clearfix">
+               <div>&nbsp;</div>
+               <div>&nbsp;</div>
+               <div>&nbsp;</div>
+             </div>
+           </div>
+         </div>
+       </div>
+       <!-- 备注 -->
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+         <h1 class="text-bold color-3">备注</h1>
+         <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+       </div>
+     </div>
+     <!-- 功能按钮 -->
+     <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <span class="mgl">
+          <a href="#/salecontent/query.html">返回采购目录列表</a>
+        </span>
+        <span class="mgl">
+          <a href="javascript:;">查看操作记录</a>
+        </span>
+        <span class="mgl">
+          <button class="pr-btn-create-glodbg mgt"
+                  type="button"
+                  ng-click="purchaseConentGetDone(formData)">完成
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</table-list>

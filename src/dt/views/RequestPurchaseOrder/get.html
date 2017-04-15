@@ -1,0 +1,254 @@
+<div class="create-new-order"
+     ng-controller="requestPurchaseOrderEditCtrl"
+     ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData');"
+     alert-error>
+<form id="editForm"
+     name="purchaseForm"
+     form-validator
+     parameter-body
+     action="rest/authen/requestPurchaseOrder/save.json"
+     alert-error
+     alert-ok
+     scope-error-msg="errorMsg"
+     scope-data="formData"
+     callback="submitFormAfter();watchFormChange('formData')"
+     onkeydown="if(window.event.keyCode==13) return false;"
+     novalidate="novalidate">
+
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
+         <a href="#/requestPurchaseOrder/query.html">
+            <em class="color-custom-orange">请购单</em>
+         </a>
+        <em>>请购单详情</em>
+       </p>
+       <div class="pd-c-xxl pdt-l pdb-l">
+         <!-- 标题 -->
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20">请购单详情</h1>
+         </div>
+       </div>
+     </div>
+
+     <div class="content-wrapper">
+      <p class="mgb-l text-n color-3 text-bold">{{formData.customerName}}</p>
+       <!-- 药械列表 -->
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+           <!-- 列表 -->
+           <div class="bt-line">
+             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+               <div class="flex-item-6">
+                 <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+                 <span class="mgr">处理人：<em class="color-3">{{formData.inputUser.n}}</em></span>
+               </div>
+               <div class="flex-item-6 text-right">
+                 <!-- <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span> -->
+                <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
+               <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+               </div>
+             </div>
+
+             <div class="pd-c-l pdt-m pdb-m color-9">
+               <span class="mgr-l">来源：<em class="color-3">{{formData.salesDepartmentName}}</em></span>
+               <span class="mgr-l">业务人员：<em class="color-3">{{formData.saleUser.n}}</em></span>
+               <span class="mgr-l">业务类型：<em class="color-3">{{formData.orderBusinessType}}</em></span>
+               <span class="mgr-l">销售类型：<em class="color-3">{{formData.salesType}}</em></span>
+
+             </div>
+             <div class="outside-table-d">
+               <table class="table pr-table pr-new-table table-ss-wid" >
+                 <thead>
+                    <tr>
+                   <th class="text-center">商品编号</th>
+                   <th class="text-left">商品全名</th>
+                   <th class="text-center">供应商</th>
+                   <th class="text-center">规格/型号</th>
+                   <th class="text-center">单位</th>
+                   <th class="text-center">数量</th>
+                   <th class="text-center w-110">批号要求</th>
+                   <!-- <th class="text-center">原币含税单价</th>
+                   <th class="text-center">原币单价</th>
+                   <th class="text-center">原币金额</th>
+                   <th class="text-center">原币价税合计</th>
+                   <th class="text-center">税率</th> -->
+                   <th class="text-center">产地品牌</th>
+                   <th class="text-center">产品注册证号</th>
+                   <th class="text-center">产品注册证有效期</th>
+                 </tr>
+                 </thead>
+                 <tbody class="bg-white"
+                 ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus"
+                 scope-data="batchRequirementSelectOptions"
+                 >
+                   <tr
+                   ng-repeat="tr in formData.orderMedicalNos"
+                   salesorder-edit-show-delbtn>
+                     <td class="text-center">{{tr.code}}</td>
+                     <td  class="text-left">
+                       <div class="autocut" title="{{tr.name}}">
+                           {{tr.name}}
+                       </div>
+                     </td>
+                     <td  class="text-center">
+                        {{tr.supplierName}}
+                     </td>
+                     <td class="text-center">
+                       {{tr.specificationAndModelType}}
+                     </td>
+                     <td class="text-center">
+                       {{tr.measurement}}
+                     </td>
+                     <td class="text-center">
+                       {{tr.quantity}}
+                     </td>
+                     <td>
+                      {{tr.batchRequirement}}
+                     </td>
+                     <!-- <td class="text-center">￥
+                      {{tr.strike_price}}
+                     <td class="text-right">
+                       ￥{{$root.requestPurchaseOrderUtils.getWuSuiDanJian(tr) || '0' | number:2 }}
+                     </td>
+                     <td class="text-right">
+                       ￥{{$root.requestPurchaseOrderUtils.getWuSuiJinE(tr) || '0' | number:2}}
+                     </td>
+                     <td class="text-right">
+                       ￥{{$root.requestPurchaseOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}
+                     </td>
+                     <td class="text-right" ng-init="tr.taxRate=17">
+                       {{tr.taxRate}}%
+                     </td> -->
+                     <td class="text-center">
+                       {{tr.brand}}
+                     </td>
+
+                     <td class="text-center">
+                     {{tr.drugAdministrationCode}}
+                     </td>
+
+                     <td class="text-center relative">
+                       {{tr.drugAdministrationCodeGuaranteePeriod}}
+
+                     </td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+           </div>
+           <div class="empty-table clearfix"  ng-if="!formData.orderMedicalNos.length" >
+             <div>&nbsp;</div>
+             <div>&nbsp;</div>
+             <div>&nbsp;</div>
+           </div>
+         </div>
+       <!-- 其他信息 -->
+       <div class="relative">
+         <!-- 备注 -->
+         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+           <h1 class="text-bold color-3">备注<span class="mgl-m color-green" ng-if="showSaveNoteInfo">(信息已保存)</span></h1>
+           <textarea class="pr-textarea mgt"
+                     maxlength="240"
+                     style="height:92px;"
+                     placeholder=""
+                     ng-model="formData.note">
+           </textarea>
+         </div>
+         <table-list ng-if="formData.id" list-data="rest/authen/purchaseOrder/getListByRelId?relId={{formData.id}}">
+           <h1 class="mgb pdb text-n text-bold">已生成采购单部分</h1>
+           <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+             <header class="text-n color-3 flex-column">
+               <span class="flex-item-11">
+                 <div class=" color-9 text-s">
+                   <span class="mgr-l">系统编号：<em class="color-6">{{showData.orderNo}}</em></span>
+                   <span class="mgr-l">制单人：<em class="color-6">{{showData.inputUser.n}}</em></span>
+                   <span class="mgr-l">审核人：<em class="color-6">{{showData.approverUser.n}}</em></span>
+                   <span class="mgr-l">录单日期：<em class="text-normal color-6">{{showData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                 </div>
+               </span>
+               <span class="tools pull-right flex-item-1">
+                 <div class=" color-9 text-s mgt-s inline-block">
+                   <span ng-if="showData.orderStatus!='已作废'">状态：<em><span class="color-6">{{showData.orderStatus}}</span></em></span>
+                   <span ng-if="showData.orderStatus=='已作废'">状态：<em style="color:red;">{{showData.orderStatus}}</em></span>
+                 </div>
+                 <a href="javascript:;" class="fa fa-chevron-down" toggle-panel style="float:right"></a>
+               </span>
+             </header>
+
+              <div class="panel-body" style="display:none;padding:15px 0;margin:0 -20px;">
+                 <div class=" outside-table-d">
+                 <table class="table pr-table pr-new-table table-ss-wid">
+                   <thead>
+                     <tr>
+                       <th class="text-center">商品编号</th>
+                       <th>商品全名</th>
+                       <th>供应商</th>
+                       <th class="text-center">规格/型号</th>
+                       <th class="text-center">单位</th>
+                       <th class="text-center">数量</th>
+                       <th class="text-center w-110">批号要求</th>
+                       <th class="text-center">原币含税单价</th>
+                       <th class="text-center">原币单价</th>
+                       <th class="text-center">原币金额</th>
+                       <th class="text-center">原币价税合计</th>
+                        <th class="text-center">税率</th>
+                       <th class="text-center">保存温度</th>
+                       <th class="text-center">产地品牌</th>
+                       <th class="text-center">产品注册证号</th>
+                       <th class="text-center">产品注册证有效期</th>
+                       <th class="text-center">合同号</th>
+                     </tr>
+                   </thead>
+                   <tbody ng-if="showData.orderMedicalNos.length" class="bg-white">
+                     <tr ng-repeat="tr in showData.orderMedicalNos" ng-mouseenter="areaStatus=false" salesorder-edit-show-delbtn ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                       <td class="text-center">{{tr.code}}</td>
+                       <td class="text-center">
+                         <div class="autocut" title="{{tr.name}}">
+                             {{tr.name}}
+                         </div>
+                       </td>
+                       <td>{{tr.supplierName}}</td>
+                       <td class="text-center">{{tr.modelType}}</td>
+                       <td class="text-center">{{tr.measurement}}</td>
+                       <td class="text-center">{{tr.quantity}}</td>
+                       <td class="text-center">{{tr.batchRequirement}}</td>
+                       <td class="text-center">{{tr.strike_price | currency:'￥'}}</td>
+                       <td class="text-right">￥{{tr.duty_free_price | number:2}}</td><!-- 无税单价 -->
+                       <td class="text-right">￥{{tr.total_duty_free_price | number:2}}</td><!-- 无税金额 -->
+                       <td class="text-right">￥{{tr.totalPrice | number:2}}</td><!-- 价税合计 -->
+                       <td class="text-center">{{tr.taxRate}}%</td>
+                       <td class="text-center">{{tr.storedTemperature}}</td>
+                       <td class="text-center">{{tr.brand}}</td>
+                       <td class="text-center">{{tr.drugAdministrationCode}}</td>
+                       <td class="text-center relative">{{tr.drugAdministrationCodeGuaranteePeriod}}</td>
+                       <td></td>
+                     </tr>
+                   </tbody>
+                 </table>
+                 <div class="empty-table clearfix"  ng-if="!showData.orderMedicalNos.length" >
+                   <div>&nbsp;</div>
+                   <div>&nbsp;</div>
+                   <div>&nbsp;</div>
+                 </div>
+               </div>
+               </div>
+
+       </div>
+     </div>
+     <!-- 流程图 -->
+     <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <span class="mgt-l">
+          <a href="#/requestPurchaseOrder/query.html" >返回请购单列表</a>
+        </span>
+      </div>
+      <div class="total-div">
+          <p class="pr-font-18 mgb color-light-brown">总计：<span class="pr-font-18 color-white">￥{{formData.totalPrice | number:2}}</span></p>
+      </div>
+    </div>
+</form>
+</div>

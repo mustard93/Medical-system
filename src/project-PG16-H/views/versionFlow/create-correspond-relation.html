@@ -1,6 +1,6 @@
 <div class="modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="createCorrespondController"
-     ajax-url="rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId={{mainStatus.pageParams.distributorId}}"
+     ajax-url="rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId={{dialogData.distributorId}}&customerAddressId={{dialogData.customerAddressId}}"
      scope-data="codesList"
      alert-error>
   <!-- 标题 -->
@@ -17,7 +17,7 @@
                placeholder="供应商商品编码／商品名称"
                ng-model="searchKey"
                style="top:3px;"
-               ng-change="handleSearchFilter(searchKey)">
+               ng-change="handleSearchFilter(searchKey,dialogData.distributorId,dialogData.customerAddressId)">
         <i class="" style="top:7px;"></i>
       </div>
     </div>
@@ -40,7 +40,7 @@
               <input type="radio"
                      name="medicals"
                      class="default-radio"
-                     ng-click="choiseCode(item.medical.code,dialogData.medicalId)"><i></i>
+                     ng-click="choiseCode(item.medical.code,dialogData.medicalId,item.id)"><i></i>
             </label>
           </td>
           <td class="text-left color-white" style="height:50px;"> {{item.medical.code}}</td>

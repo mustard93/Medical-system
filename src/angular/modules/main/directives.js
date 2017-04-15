@@ -536,6 +536,22 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.listObject = {};
                 }
 
+                //单个删除
+                $scope.delete1 = function(_url, _param) {
+                    var _tr = this.tr;
+                    requestData(_url, {
+                            id: _param
+                        }, 'POST')
+                        .then(function() {
+                            $scope.tbodyList.splice($scope.tbodyList.indexOf(_tr), 1);
+                            if ($scope.tbodyList.length === 0) {
+                                $scope.$broadcast("reloadList");
+                            }
+                        })
+                        .catch(function(error) {
+                            alertError(error || '删除错误');
+                        });
+                };
                 //批量删除
                 $scope.delSelected = function(_url) {
                     dialogConfirm('确定删除这些?', function() {
@@ -546,7 +562,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 $scope.$broadcast("reloadList");
                             })
                             .catch(function(error) {
-                                alert(error || '删除错误');
+                                alertError(error || '删除错误');
                             });
                     });
                 };
@@ -564,7 +580,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                                 }
                             })
                             .catch(function(error) {
-                                alert(error || '删除错误');
+                                alertError(error || '删除错误');
                             });
                     });
                 };
@@ -1695,6 +1711,8 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 "descriptionField": "@",
                 "classDescription": "@",
                 //"localData": "=?",
+                  "ngModelId": "=?",//绑定返回对象id
+                    "ngModel": "=",
                 "searchFields": "@",
                 "matchClass": "@",
                 "searchStrClass": "@",
@@ -1702,7 +1720,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             },
             require: "?^ngModel",
             templateUrl: Config.tplPath + 'tpl/autocomplete.html',
-            link: function($scope, elem, attrs, ngModel) {
+            link: function($scope, elem, $attrs, ngModel) {
                 $scope.lastSearchTerm = null;
                 $scope.currentIndex = null;
                 $scope.justChanged = false;
@@ -1713,6 +1731,18 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 $scope.minLength = 1;
                 $scope.searchStr = $scope.searchFields;
 
+                if($attrs.ngModelId){
+                  $scope.$watch("ngModel", function(value) {
+                    console.log("ngModelProperty.watch.ngModel",value);
+                    if(!value){
+                      $scope.ngModelId=null;
+                    }else{
+                        $scope.ngModelId=value.id;
+                    }
+
+
+                  }, true);
+                }
               require(['project/angucomplete'], function(angucomplete) {
                     $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel);
 
@@ -2197,9 +2227,44 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
                   watchNgModel(handleSearch);
 
-
+                  // if ($attrs.params) {
+                  //
+                  //   firstSelectSource=$attrs.params;
+                  //     if ($attrs.params.indexOf("{") === 0) {
+                  //         //监听具体值
+                  //         $attrs.$observe("params", function(value) {
+                  //
+                  //             _params = $scope.$eval(value);
+                  //             if(firstSelectSource==value)return;
+                  //
+                  //                 firstSelectSource=value;
+                  //               ngModel.$setViewValue(null);
+                  //
+                  //             getData(_params);
+                  //         });
+                  //           _params = $scope.$eval($attrs.params);
+                  //     } else {
+                  //         //监听对象
+                  //         $scope.$watch($attrs.params, function(value) {
+                  //             _params = value;
+                  //             if(firstSelectSource==value)return;
+                  //               ngModel.$setViewValue(null);
+                  //
+                  //             handleSearch('');
+                  //         }, true);
+                  //           _params = $attrs.params;
+                  //     }
+                  // } else {
+                  //   $attrs.$observe("selectSource", function(value) {
+                  //       //修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
+                  //       if(firstSelectSource==value)return;
+                  //         ngModel.$setViewValue(null);
+                  //
+                  //       // chosenObj&&chosenObj.data("chosen").single_set_selected_text();
+                  //         handleSearch('');
+                  //   });
+                  // }
                 }//end ajax
-
 
                  else {
                   var firstSelectSource=$attrs.selectSource;
@@ -2334,6 +2399,274 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           }
         };
     }
+
+
+
+        /**
+          * 下拉
+          pg-select
+          <select ng-if="initFlag"  class="select select-w"
+                  data-placeholder="选择机构"
+                    pg-select
+                  ng-model="formData.organizationId"
+                  default-empty="无"
+                  alert-error
+                  select-source="rest/index/distributor/queryForSelectOption.json">
+          </select>
+          */
+        function pgSelect(requestData, $timeout, $rootScope, alertError, proLoading,utils) {
+            return {
+              restrict: 'A',
+              //  scope: {
+              //      chosen: '='
+              //  },
+              require: "?^ngModel",
+              link: function($scope, $element, $attrs, ngModel) {
+                var chosenConfig = {
+                    search_contains: true,
+                    no_results_text: "没有找到",
+                    display_selected_options: false
+                };
+
+                //后缀连接符号
+                var suffixConnection=$attrs.suffixConnection||"";
+
+                //后缀连接数据得key
+                var suffixKey=$attrs.suffixKey||"";
+
+                // 根据条件判断是否屏蔽下拉选择
+                if (angular.isDefined($attrs.isDisabledThis)) {
+                  $attrs.$observe('isDisabledThis', function (newVal, oldVal) {
+                    if (!newVal) {
+                      // $element.attr('disabled', true);
+                    }
+
+                    if (newVal && newVal != oldVal) {
+                      // $element.removeAttr('disabled');
+                    }
+                  });
+                }
+
+               //设置选中值。1.设置优先级为：ngModel》defaultEmpty》data[0]
+               //data 是返回的option 对象数组
+               function getInitSelected (data){
+                 var _selected=null;
+                 var data0Val=data[0]?data[0].value:null;
+
+
+                 if(angular.isDefined($attrs.chosenAjax)){//解决展开后，默认选中一个，导致只显示一个数据bug
+                   data0Val=null;
+                 }
+
+                 if(angular.isDefined($attrs.multiple)){
+                     if (angular.isDefined($attrs.defaultEmpty)) {
+                        _selected= ngModel.$viewValue ? ngModel.$viewValue : [];
+                     } else {
+                         _selected= ngModel.$viewValue ? ngModel.$viewValue : [data0Val];
+                     }
+                 } else {
+                    if (angular.isDefined($attrs.defaultEmpty)) {
+                     _selected= ngModel.$viewValue ? ngModel.$viewValue :"";
+                    } else {
+                      _selected= ngModel.$viewValue ? ngModel.$viewValue : data0Val;
+
+                    }
+                 }
+                  ngModel.$setViewValue(_selected);
+
+                  if (_selected===null) {
+                    _selected = "";
+                  }
+
+                  return _selected;
+               }
+
+               //创建option数据
+               function createOptionsStr(data, _selected){
+
+                  var _options = '';
+
+                  if(_selected===null) _selected="";
+                  if(!angular.isDefined($attrs.multiple)){//array 类型不用修改。
+                      _selected=_selected+"";//解决true 的情况，转换成"true"字符串
+                  }
+
+                  if (angular.isDefined($attrs.defaultEmpty)) {
+                      _options += '<option value=""  >' + $attrs.defaultEmpty + '</option>';
+                  }
+
+                  //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                  var hideSelectValueArray=null;
+
+                  if( $attrs.callbackFilterReturnData){
+                    hideSelectValueArray = $scope.$eval($attrs.callbackFilterReturnData);
+                    // console.log(hideSelectValueArray);
+                  }
+
+                  for (var i = 0; i < data.length; i++) {
+                      var selectedFlag=false;
+                      if(angular.isArray(_selected)){
+                         selectedFlag=_selected.indexOf(data[i].value)> -1;
+                      }else{
+                           selectedFlag=(_selected==data[i].value);
+                      }
+
+                      //记录需要过滤的数据value，场景选择多个批次情况，同一批次只能选择一次.过滤掉要已已经选过的数据。当前选中的批次不过滤。
+                      if(!selectedFlag&&hideSelectValueArray){
+                        if(hideSelectValueArray.indexOf(data[i].value)> -1){
+                            //  console.log(data[i].value);
+                            continue;
+                        }
+                      }
+
+                    var text=data[i].text;
+                      if(suffixKey){//添加额外属性
+                        suffixKeyVal=utils.getObjectVal(data[i],suffixKey);
+                        if(suffixKeyVal!=null||suffixKeyVal!=undefined){
+                          text+=suffixConnection+suffixKeyVal;
+                        }
+                      }
+                      _options += '<option value="' + data[i].value + '" ' + (selectedFlag ? 'selected' : '') + '>' + text + '</option>';
+                  }
+
+                  return _options;
+
+               }
+                if ($attrs.selectCallBack) {
+                  $element.on("change", changeHandle);
+                  $element.on("update", function(e, _data) {
+                      getData(_data);
+                  });
+                }
+
+                function changeHandle() {
+                  var _data = {};
+                  _data.value = $element.val();
+                  $scope[$attrs.selectCallBack](_data);
+                }
+
+                var chosenObj = null;
+
+                  //记录返回数据
+                var dataArr=null;
+
+
+                //监听变化
+                function watchNgModel(callback){
+
+                  //只有复选框 的时候才调用该方法
+                  // 监听一个model 当一个model清空时,重置chosen 选择数据
+                  //model 变化时，触发回调方法。
+                  if ($attrs.ngModel &&(!angular.isDefined($attrs.multiple))) {
+                    $scope.$watch($attrs.ngModel, function(newValue, oldValue) {
+                            if(newValue==oldValue)return;
+                            try{
+                                  if(callback)callback();
+                                  if ($attrs.selectData){
+                                    var selData=utils.getObjectByKeyOfArr(dataArr,"value",newValue);
+                                    $scope[$attrs.selectData] = selData;
+                                  }
+                                  // $scope.$apply();
+                                  if ($attrs.callback) {
+                                      $scope.$eval($attrs.callback);
+                                  }
+                            }catch(e){}
+
+                    });
+                  }//  if ($attrs.ngModel)
+                }//watchNgModel
+                var _params=null;
+                if (!$attrs.selectSource) {return}
+                var firstSelectSource=$attrs.selectSource;
+
+               if ($attrs.params) {
+                  firstSelectSource=$attrs.params;
+                   if ($attrs.params.indexOf("{") === 0) {
+                       //监听具体值
+                       $attrs.$observe("params", function(value) {
+                           _params = $scope.$eval(value);
+                           if(firstSelectSource==value)return;
+                               firstSelectSource=value;
+                             ngModel.$setViewValue(null);
+                           getData(_params);
+                       });
+                         _params = $scope.$eval($attrs.params);
+                   } else {
+                       //监听对象
+                       $scope.$watch($attrs.params, function(value) {
+                           _params = value;
+                           if(firstSelectSource==value)return;
+                             ngModel.$setViewValue(null);
+
+                           getData(_params);
+                       }, true);
+                     _params = $attrs.params;
+                   }
+
+               } else {
+                 $attrs.$observe("selectSource", function(value) {
+                     //修复初始化  ngModel.$setViewValue 值的情况下，先chosen 导致设置ngModel.$setViewValue为null的bug。
+                     if(firstSelectSource==value)return;
+                       ngModel.$setViewValue(null);
+
+                     getData();
+                 });
+               }
+
+                   function getData(){
+                     //满足条件才异步请求
+                     if (angular.isDefined($attrs.ajaxIf)) {
+
+                       if ($attrs.ajaxIf.indexOf("{") === 0) {//IE下用
+                         var tmp=$scope.$eval($attrs.ajaxIf);
+                         if (!tmp) return;
+                       }
+
+                       if (!$attrs.ajaxIf) return;
+                     }
+                     if (angular.isDefined($attrs.ajaxIfEval)) {
+                         var tmp=$scope.$eval($attrs.ajaxIfEval);
+                       if (!tmp) return;
+                     }
+
+                     requestData($attrs.selectSource,_params)
+                       .then(function(results) {
+                           var data = results[0];
+
+                           //如果已定义请求数据后的回调，执行回调
+                           if ($attrs.callBack) {
+                             $scope.$eval($attrs.callBack);
+                           }
+
+                           if (!data) data = [];
+
+                           dataArr=data;
+
+                           var _length = data.length;
+
+                           var _selected=getInitSelected(data);
+                           var _options=createOptionsStr(data,_selected);
+
+                           $element.html(_options);
+
+                           ngModel.$setViewValue(_selected);
+                       }).catch(function(msg) {
+                           if ($attrs.scopeErrorMsg) $scope[$attrs.scopeErrorMsg] = (msg);
+                           if (angular.isDefined($attrs.alertError)) alertError(msg);
+                       });
+               }//   function getData()
+
+                watchNgModel(getData);
+
+
+                 $scope.$watch($attrs.clearWatchScope, function(newValue, oldValue) {
+                   getData();
+                 });
+
+             getData();
+           }
+         }
+        }//end pg-select
 
     /**
      * form-item
@@ -3087,6 +3420,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("angucomplete", ["$parse", "requestData", "$sce", "$timeout",angucomplete])
       .directive("checkboxGroup", checkboxGroup)
       .directive("chosen", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",chosen])
+      .directive("pgSelect", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",pgSelect])
+
+
       .directive("formItem", formItem)
       .directive("autoComplete", autoComplete)
       .directive("selectAddress", ["$http", "$q", "$compile",selectAddress])

@@ -894,6 +894,8 @@ function handleThisClick ($window, dialogConfirm, requestData, alertOk, alertErr
         var _dialogTitle = angular.isDefined($attrs.dialogTitle) ? $attrs.dialogTitle : '询问对话框';
         //对话框内容
         var _dialogContent = angular.isDefined($attrs.dialogContent) ? $attrs.dialogContent : '';
+        // 对话框内容颜色
+        var _dialogContentColor = angular.isDefined($attrs.dialogContentColor) ? $attrs.dialogContentColor : '#333';
         //对话框引用的模板
         var _dialogTemplate = angular.isDefined($attrs.dialogTemplate) ? $attrs.dialogTemplate : 'tpl/dialog-confirm.html';
         //如果需要跳转地址
@@ -1247,6 +1249,8 @@ function leftMenuSecondToggle ($location,$rootScope) {
         this.isStart=true;
         $scope.$on('$locationChangeSuccess', function (event, newUrl, currentUrl) {
           // console.log("locationChangeSuccess="+newUrl);
+          //"http://localhost:3000/src/manage/index.html#/manageDepartment/query.html?type=%E5%8C%BB%E7%96%97%E6%9C%BA%E6%9E%84"
+            var newUrl=decodeURI(newUrl);
           LeftMenuObj.doRoute(newUrl);
         });
       },//startListen
@@ -2754,7 +2758,7 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
       link: function ($scope, $element, $attrs) {
 
         //弹出菜单的div()
-        var  moveBtnDiv=$("<div></div>");
+        var  moveBtnDiv=$("<div style='z-index:1100'></div>");
 
         // 鼠标移入显示按钮
         $($element).mouseenter(function(e){
@@ -2768,7 +2772,7 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           moveBtnDiv.html(tmp_template);
           $compile(moveBtnDiv.contents())($scope);
 
-          console.log("moveBtnDiv.contents()",moveBtnDiv);
+          // console.log("moveBtnDiv.contents()",moveBtnDiv);
           // var btnArray=[];
           //按钮数量，用于计算弹出菜单的div宽度
           var btnCount=0;
@@ -2780,7 +2784,7 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           //+document.body.scrollLeft+
           moveBtnDivWidth=45*btnCount;
           // console.log("document.body.scrollLeft",document.body.scrollLeft);
-          var y =$element.offset().top -document.body.scrollTop;
+          var y =$element.offset().top -document.body.scrollTop+8;
           var x= utils.getwindowWidth()-50-moveBtnDivWidth; //有bug，table没有全拼暂满时，弹出按钮不能点击bug。 要求table 宽度 100%
 
           // var x=e.clientX+10; //根据鼠标位置定位，解决上面bug。
@@ -2789,6 +2793,9 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
           moveBtnDiv.css({
              "position": "fixed",
              "width":moveBtnDivWidth,
+            //  "backgroundColor":"red",
+              // "zIndex:":"2000",//设置不生效，
+              // "z-index:":"2001",
              "height":$element.height(),
              "top": y,
              "left": x
@@ -3152,12 +3159,16 @@ function addressManageComponent (requestData, utils) {
 
       // 设置当前地址为默认地址
       $scope.setThisAddressToDefault = function (contactId) {
+        // console.log($scope.scopeDataPrefix);return;
         // var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
         var _moduleAddressId = 'invoicesAddressId';  // 构建模块id名
-        var _data = {};
+        var _data = {
+          id: $scope.returnAddressObj.id,    // 新版多仓库改动，将原Id名更改为id
+          contactId: contactId
+        };
         // _data[_moduleAddressId] = $scope.returnAddressObj.id;
-        _data.id = $scope.returnAddressObj.id;     // 新版多仓库改动，将原Id名更改为id
-        _data.contactId = contactId;
+        // _data.id = $scope.returnAddressObj.id;     // 新版多仓库改动，将原Id名更改为id
+        // _data.contactId = contactId;
 
         requestData($scope.setDefaultAddressRequesturl, _data, 'POST')
         .then(function (results) {

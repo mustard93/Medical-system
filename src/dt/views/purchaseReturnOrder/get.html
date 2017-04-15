@@ -1,0 +1,182 @@
+<div class=" purchase-return-order sale-return-order"
+     ng-controller="purchasereturnOrderEditCtrl"
+     ajax-url="rest/authen/purchaseReturnOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
+     scope-data="showData"
+     alert-error>
+    <!-- 头部信息 -->
+    <div class="relative">
+      <div class="pd-l">
+        <!-- 标题 -->
+        <div class="mgb-m">
+          <p class="mgb-m crumbs pr-indent-20">采购中心 >
+            <a href="#/purchaseReturnOrder/query.html"><em class="color-custom-orange">采购退货单</em></a> > 采购退货单详情
+          </p>
+          <h1 class="pr-font-22 color-black">采购退货单详情</h1>
+        </div>
+      </div>
+    </div>
+    <!-- 单据基本信息 -->
+    <div class="pd-loss-l">
+      <div class="pr-panel pr-panel-height mgb pd-n">
+        <!-- 客户搜索 -->
+        <div class="inline-block br-line supplier-name relative">
+          <p class="mgb-s">供应商</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            {{showData.supplier.name || '暂无'}}
+          </p>
+        </div>
+        <!-- 物流中心搜索 -->
+        <div class="inline-block logistics-center relative">
+          <p class="mgb-s">物流中心</p>
+          <p class="text-n color-black" style="padding-right:182px;">
+            <!-- 昆明物流中心 -->
+            {{showData.logisticsCenterName ||'暂无'}}
+          </p>
+        </div>
+      </div>
+      <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
+        <div>
+          <div class="flex-column pdt-m pdb-m pd-c-l bb-dashed-line color-9">
+            <div class="flex-item-6">
+              <span class="mgr-l">系统编号：<em class="color-3">{{showData.orderNo || '暂无'}}</em></span>
+              <span class="mgr-l">制单人：<em class="color-3">{{showData.inputUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">审核人：<em class="color-3">{{showData.approverUser.n || '暂无'}}</em></span>
+            </div>
+            <div class="flex-item-6 text-right">
+              <span class="mgl-l">录单日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
+              <a
+              modal-center="1000px"
+              modal-data='{"businessKey":"{{showData.id}}"}'
+              modal-scope="this"
+              modal-url="views/workflowTask/getOfDialog.html"
+              >
+            <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+              </a>
+            </div>
+          </div>
+
+          <div class="flex-column pdt-m pdb-m pd-c-l">
+            <span class="mgr-l">采购部门：<em class="color-3">{{showData.salesDepartmentName || '暂无'}}</em></span>
+            <span class="mgr-l">业务人员：<em class="color-orange">{{showData.inputUser.n || '暂无'}}</em></span>
+            <span class="mgr-l">业务类型：<em class="color-3">{{showData.orderBusinessType || '暂无'}}</em></span>
+            <span class="mgr-l">采购类型：<em class="color-3">{{showData.salesType || '暂无'}}</em></span>
+          </div>
+        </div>
+        <div class="outside-table-d">
+          <table class="table pr-table pr-new-table table-wid" >
+              <thead>
+                <tr>
+                  <th  class="text-center">退货状态</th>
+                  <th class="text-center">商品编号</th>
+                  <th class="text-left">商品全名</th>
+                  <th class="text-center">规格/型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">计划退货数量</th>
+                  <th class="text-center">实退数量</th>
+                  <!-- <th class="text-center w-110">批号要求</th> -->
+                  <th class="text-center w-110">生产批号</th>
+                  <th class="text-center w-110">灭菌批号</th>
+                  <th class="text-center w-110">仓库</th>
+                  <th class="text-center">有效期至</th>
+                  <th class="text-center">含税单价</th>
+                  <th class="text-center">税率</th>
+                  <th class="text-center">折扣额</th>
+                  <th class="text-center">折扣率</th>
+                  <th class="text-center">无税单价</th>
+                  <th class="text-center">无税金额</th>
+                  <th class="text-center">税额</th>
+                  <th class="text-center">价税合计</th>
+                  <th class="text-center">报价</th>
+                  <th class="text-center">产地</th>
+                  <th class="text-center">退补标志</th>
+                  <th class="text-center">保存温度</th>
+                  <th class="text-center">品牌</th>
+                  <th class="text-center">产地注册证号</th>
+                  <th class="text-center">注册证有效期</th>
+                  <th class="text-center">医保编码</th>
+                  <th class="text-center">院内编码</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white">
+                <tr ng-repeat="item in showData.orderMedicalNos | orderBy :'relId'">
+                  <td class="text-center">
+                    <span class="circle-status"
+                          ng-class="{'bg-pass-green':item.finishStatus,'bg-ing-orang':!item.finishStatus}">
+                      <span class="purchaseorder-buyer-info" style="right:24px;top:-5px;">
+                        <i class="block pd-c-s text-normal" style="line-height:1.8">
+                          <em ng-if="item.finishStatus" class="inline-block">已退货</em>
+                          <em ng-if="!item.finishStatus" class="inline-block">退货中</em>
+                        </i>
+                      </span>
+                    </span>
+                  </td>
+                  <td class="text-center">{{item.code}}</td>
+                  <td class="text-left">{{item.name}}</td>
+                  <td class="text-center">{{item.specificationAndModelType}}</td>
+                  <td class="text-center">{{item.measurement}}</td>
+                  <td class="text-center">{{item.quantity}}</td>
+                  <td class="text-center">{{item.outgoingQuantity}}</td>
+                  <td class="text-center">{{item.productionBatch}}</td>
+                  <td class="text-center">{{item.sterilizationBatchNumber}}</td>
+                  <td class="text-center">{{item.warehouseName}}</td>
+                  <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td>
+                  <td class="text-center">{{item.strike_price | currency:'￥'}}</td>
+                  <td class="text-center">{{item.tax}}%</td>
+                  <td class="text-right">￥{{item.discountPrice | number:2}}</td>
+                  <td class="text-right">{{item.discountRate}}%</td>
+                  <td class="text-right">￥{{item.duty_free_price | number:2}}</td>
+                  <td class="text-right">￥{{item.total_duty_free_price | number:2}}</td>
+                  <td class="text-right">￥{{item.totalTaxPrice | number:2}}</td>
+                  <td class="text-right">￥{{item.totalPrice | number:2}}</td>
+                  <td class="text-right">￥{{item.price}}</td>
+                  <td class="text-center">{{item.productionPlace}}</td>
+                  <td class="text-center">{{item.withdrawalSign}}</td>
+                  <td class="text-center">{{item.storedTemperature}}</td>
+                  <td class="text-center">{{item.brand}}</td>
+                  <td class="text-center">{{item.drugAdministrationCode}}</td>
+                  <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
+                  <td class="text-center">{{item.medicalInsuranceCode}}</td>
+                  <td class="text-center">{{item.hospitalCode}}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+      </div>
+      <!-- 其他信息 -->
+      <div class="relative panel pr-panel pr-fuzzy-boundary pr-panel-height mgb pd-c-l" style="margin-bottom:60px;">
+          <!-- 备注 -->
+          <div class='mgb'>
+            <h1>备注</h1>
+            <p class="mgt-m">{{showData.note}}</p>
+          </div>
+      </div>
+
+        <!-- 流程图 -->
+      <business-flow-show business-key="{{showData.id}}" business-type="采购单"></business-flow-show>
+
+    </div>
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area relative">
+      <div class="btn-area">
+
+          <a class="mgr-l" ng-if="!changeFlag" href="#/purchaseReturnOrder/query.html" >返回采购退货单列表</a>
+          <span ng-if="showData.didateFilter.buttons.length>0"
+                custom-menu-list
+                custom-menu-arr="{{showData.didateFilter.buttons}}">
+          </span>
+
+          <!-- <button ng-if="showData.orderStatus=='待入库'"
+                  class="mgl pr-btn-create-glodbg"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认生成入库单?"
+                  dialog-content="生成入库单(红字)后,将完成采购退货入库"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="$root.utils.goTo('#/purchaseReturnOrder/get.html?id={{showData.id}}')"
+                  params='{"id":showData.id, "status":"已入库"}'
+                  request-url="rest/authen/purchaseReturnOrder/updateStatus">生成入库单
+          </button> -->
+
+      </div>
+    </div>
+</div>

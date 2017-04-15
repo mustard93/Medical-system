@@ -107,14 +107,18 @@
                 <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">客户名称</label>
                   <div class="col-lg-10 col-sm-10">
+
                     <select
-                    class="pr-select pdt"
-                    style="width:250px;"
-                    ajax-url="rest/authen/customerAddress/getCustomerByDistributor?distributorId={{formData.distributorId}}"
-                    scope-data="customerData"
-                    ng-model="formData.customerAddressId">
-                    <option ng-selected="formData.customerAddressId" ng-repeat="cur in customerData" value="{{cur.id}}">{{cur.name}}</option>
-                    </select>
+                    ng-if="formData.distributorId"
+                  
+                      class="select select-w"
+                      chosen
+                         ng-model="formData.customerAddressId"
+                         params='{"organizationId":"{{formData.distributorId}}"}'
+                     select-source="rest/authen/customerAddress/queryForSelectOption">
+                   </select>
+
+
                   </div>
                 </div>
 

@@ -1,0 +1,421 @@
+<div class="first-medical-application"
+     ng-controller="QualificationApplyCtrl"
+     ajax-url="rest/authen/firstEnterpriseApplication/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="showData"
+     callback='initFlag=true;'
+     alert-error>
+
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
+        <a href="#/firstEnterpriseApplication/query.html">
+            <em class="color-custom-orange">首营管理</em>
+        </a>
+        <em>>首营企业详情</em>
+      </p>
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb-l">
+            <h1 class="color-black pr-font-20">首营企业详情</h1>
+        </div>
+      </div>
+      <div ng-if="showData.orderStatus=='已冻结'"
+           class="pr-panel pr-panel-height mgb"
+           ajax-url="rest/authen/versionFlow/query?pageSize=1& businessKey={{showData.id}}"
+           scope-data="versionFlowList"
+           alert-error>
+      </div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="content-wrapper">
+        <div class="content-wrapper-main mgt">
+            <div class=" mgb" ajax-if-eval="initFlag" ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{showData.id}}" scope-data="scopeData">
+                <div ng-repeat="item in scopeData" ng-class="{'pr-bg-blue':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'),
+      'pr-bg-pink1':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求')}" class="pr-panel pr-panel-height mgb" ng-show="item.key">
+                    <em class="color-3">{{item.event.extendShowName}}补充说明:</em>
+                    <p class="inline-block color-3">
+                        <em ng-model="scopeData.operationFlowSet.message">{{item.key}}</em>
+                    </p>
+            </div>
+            <!-- 单号 -->
+            <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+                <div class="flex-item-6">
+                    <span class="flex-item-3">
+            单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em>
+          </span>
+                    <span class="flex-item-9">
+            <span class="flex-item-1 text-right">
+              采购员：
+            </span>
+                    <span class="flex-item-2 purchaseorder-buyer-info-outside">
+              <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+              style="position:relative;height:25px;">{{showData.buyer.n}}</strong>
+              <span class="purchaseorder-buyer-info" style="top: 34px;right: 1420px;">
+                <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{showData.buyer.p}}</em></i>
+                <i class="block pdb-s text-normal">
+                  <em class="fa fa-comment-o mgl"></em>
+                  <em class="inline-block pdl pdr pdt">
+                    <a href="javascript:;"
+                       modal-center="490"
+                       modal-data='{"toUser":{"n":"{{showData.buyer.n}}"},"userIds":["{{showData.buyer.id}}}"]}'
+                       modal-url="views/notice/sendToUser.html">发送消息
+                    </a>
+                  </em>
+                </i>
+              </span>
+                    </span>
+                    </span>
+                </div>
+                <div class="flex-item-6 text-right">
+                    录单日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd' ||'暂无'}}</em> 状态：
+                    <em class="color-black">{{showData.orderStatus ||'暂无'}}</em>
+                </div>
+            </div>
+            <!-- 审批 -->
+
+            <div ng-if="showData.orderStatus!='未提交'" class=" first-medical-nav-new">
+                <div class="" ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+          'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}" ng-repeat="item in scopeData">
+                    <div ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货')
+            ,'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"></div>
+            <span class="mgr-xl flex-column" ng-if="item.event.status!='待审核'">
+              <em class="color-9 flex-item-6 text-right">{{item.event.extendShowName || '暂无'}}：</em>
+              <em class="flex-item-6 text-left">{{item.event.conditionType }}</em>
+            </span>
+            <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
+              <em class="color-9 flex-item-6 text-right">审核人：</em>
+              <em class="flex-item-6 text-left">{{item.inputUser || '暂无'}}</em>
+            </span>
+            <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
+              <em class="color-9 flex-item-6 text-right">审核时间：</em>
+              <em class="flex-item-6 text-left">{{item.createAt || '暂无' | date:'yyyy-MM-dd' }}</em>
+            </span>
+            <div ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+            'pr-nopass-bdbg-l':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"></div>
+    </div>
+    <div>
+        <!-- <div></div><div></div> -->
+    </div>
+</div>
+</div>
+<!-- 基本信息 -->
+<div class="panel pr-panel pr-panel-height mgb">
+    <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
+    <div class="">
+        <div class="bb-dashed-line">
+            <div class="flex-column mgb">
+                <label class="radio-inline radio radio-new">
+                    <input type="radio" class="default-radio"  name="type" value="生产企业" ng-model="showData.type" ng-disabled="showData.type"><i style="top:5px;"></i>
+                    <em class="inline-block" style="margin-left:-5px; color:#666;">生产企业</em>
+                  </label>
+                <label class="radio-inline radio radio-new" style="top:10px;">
+                    <input type="radio" class="default-radio" name="type" value="经营企业" ng-model="showData.type" ng-disabled="showData.type"> <i style="top:5px;"></i>
+                      <em class="inline-block" style="margin-left:-5px; color:#666;">经营企业</em>
+                  </label>
+            </div>
+        </div>
+        <div class="bb-dashed-line pd-v-m">
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">企业名称：</span>
+                <span class="flex-item-10 text-left">{{showData.name}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">详细地址：</span>
+                <span class="flex-item-10 text-left">{{showData.address}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">拟定购进商品类别：</span>
+                <span class="flex-item-10 text-left">
+                    <em class="mgr-s" ng-repeat="item in showData.commodityType">{{item}}</em>
+                  </span>
+            </div>
+
+        </div>
+        <div class=" pd-v-m">
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">质量部联系人：</span>
+                <span class="flex-item-10 text-left">
+                    {{showData.qualityPerson.name}}
+                  </span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">手机：</span>
+                <span class="flex-item-10 text-left">
+                {{showData.qualityPerson.tel}}
+                </span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">座机：</span>
+                <span class="flex-item-10 text-left">
+                {{showData.qualityPerson.telephone}}
+                </span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">财务部联系人：</span>
+                <span class="flex-item-10 text-left">
+                    {{showData.financePerson.name}}
+                  </span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">手机：</span>
+                <span class="flex-item-10 text-left">
+                    {{showData.financePerson.tel}}
+                </span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-2 text-right">座机：</span>
+                <span class="flex-item-10 text-left">
+                    {{showData.financePerson.telephone}}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- 申请原因 -->
+<div class="panel pr-panel pr-panel-height">
+    <h1 class="mgb-m color-black text-bold text-n">三证</h1>
+    <h3 class="crumbs-circle color-black pr-indent-10 pd-v mgb-s">营业执照</h3>
+    <div class="flex-column" ng-if="showData.businessLicense.registrationNumber">
+        <div class="flex-item-6 br-dashed-line">
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">注册号：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.registrationNumber}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">发证日期：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.dateOfIssue | date : 'yyyy-MM-dd' }}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">有效期至：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.guaranteePeriod | date : 'yyyy-MM-dd' }}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">注册资金：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.registeredCapital}}&nbsp;&nbsp;万元</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">企业法人：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.legalRepresentative}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">负责人：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.head}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">质量负责人：</span>
+                <span class="flex-item-8 text-left">{{showData.businessLicense.qualityHead}}</span>
+            </div>
+            <div class="mgt flex-item-12">
+                <span class="flex-item-4 text-right">经营方式：</span>
+                <div class="flex-item-6 text-left">
+                    <label class="radio-inline radio radio-new" style="top:-10px;font-weight:100;">
+                        <input type="radio" class="default-radio"  name="businessWay" value="批发" ng-model="showData.businessLicense.businessWay"
+                          ng-disabled="showData.businessLicense.businessWay"
+                        ><i style="top:5px;"></i>
+                        <em class="inline-block color-black text-right">批发</em>
+                      </label>
+                    <label class="radio-inline radio radio-new" style="top:-5px;font-weight:100;">
+                        <input type="radio" class="default-radio"  name="businessWay" value="生产" ng-model="showData.businessLicense.businessWay"
+                          ng-disabled="showData.businessLicense.businessWay"
+                        ><i style="top:5px;"></i>
+                        <em class="inline-block color-black text-right">生产</em>
+                      </label>
+                </div>
+            </div>
+            <div class="mgt flex-item-12">
+                <span class="flex-item-4 text-right">是否年检：</span>
+                <div class="flex-item-6 text-left">
+                    <label class="radio-inline radio radio-new" style="top:-10px;font-weight:100;">
+                        <input type="radio" class="default-radio"  name="isAnnualInspection" value="是"
+                        ng-model="showData.businessLicense.isAnnualInspection"
+                        ng-disabled="showData.businessLicense.isAnnualInspection"
+                        ><i style="top:5px;"></i>
+                        <em class="inline-block color-black">是</em>
+                      </label>
+                    <label class="radio-inline radio radio-new" style="top:-5px;left:10px;font-weight:100;">
+                        <input type="radio" class="default-radio"  name="isAnnualInspection" value="否"
+                        ng-model="showData.businessLicense.isAnnualInspection"
+                        ng-disabled="showData.businessLicense.isAnnualInspection"
+                        ><i style="top:5px;"></i>
+                        <em class="inline-block color-black text-right">否</em>
+                      </label>
+                </div>
+            </div>
+            <div class="mgt flex-item-12 mgb">
+                <span class="flex-item-4 text-right">三证合一：</span>
+                <div class="flex-item-6 text-left">
+                    <label class="radio-inline radio radio-new" style="top:-10px;font-weight:100;">
+                        <input type="radio" class="default-radio"  name="isThreecertificate" value="是"
+                         ng-model="showData.businessLicense.isThreecertificate"
+                         ng-disabled="showData.businessLicense.isThreecertificate"
+                         ><i style="top:5px;"></i>
+                        <em class="inline-block color-black">是</em>
+                      </label>
+                    <label class="radio-inline radio radio-new" style="top:-5px;left:10px;font-weight:100;">
+                        <input type="radio" class="default-radio"  name="isThreecertificate" value="否"
+                        ng-model="showData.businessLicense.isThreecertificate"
+                        ng-disabled="showData.businessLicense.isThreecertificate"
+                        ><i style="top:5px;"></i>
+                        <em class="inline-block color-black text-right">否</em>
+                      </label>
+                </div>
+            </div>
+        </div>
+        <div class="flex-item-6" style="padding:20px 50px;">
+          <div ng-if="showData.businessLicense.attachment.uploadUserName">
+            <div class="flex-column pd-c-v-s">
+                <span class="flex-item-2 text-right">上传人：</span>
+                <span class="flex-item-10 text-left">{{showData.businessLicense.attachment.uploadUserName}}</span>
+            </div>
+            <div class="flex-column pd-c-v-s">
+                <span class="flex-item-2 text-right">上传日期：</span>
+                <span class="flex-item-10 text-left">{{showData.businessLicense.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}</span>
+            </div>
+            <div class="flex-column pd-c-v-s">
+                <span class="flex-item-2 text-right">附件：</span>
+                <div class="flex-item-10 text-left">
+                    <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="showData.businessLicense.attachment"></div>
+                </div>
+            </div>
+          </div>
+          <div ng-if="!showData.businessLicense.attachment.uploadUserName">
+            暂无文件
+          </div>
+        </div>
+    </div>
+    <h3 class="crumbs-circle color-black pr-indent-10 pd-v mgb-s">机构代码证</h3>
+    <div class="flex-column " ng-if="showData.organizationCodeCertificate.certificateNumber">
+        <div class="flex-item-6 br-dashed-line " style="min-height:250px;">
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">证书编号：</span>
+                <span class="flex-item-8 text-left">{{showData.organizationCodeCertificate.certificateNumber}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">年检日期：</span>
+                <span class="flex-item-8 text-left">{{showData.organizationCodeCertificate.annualInspection  | date : 'yyyy-MM-dd' }}</span>
+            </div>
+            <div class="flex-column mgt" style="margin-bottom:100px;">
+                <span class="flex-item-4 text-right">有效期至：</span>
+                <span class="flex-item-8 text-left">{{showData.organizationCodeCertificate.guaranteePeriod | date : 'yyyy-MM-dd' }}</span>
+            </div>
+        </div>
+        <div class="flex-item-6" style="padding:20px 50px;">
+          <div ng-if="showData.organizationCodeCertificate.attachment.uploadUserName">
+            <div class="flex-column pd-c-v-s">
+                <span class="flex-item-2 text-right">上传人：</span>
+                <span class="flex-item-10 text-left">{{showData.organizationCodeCertificate.attachment.uploadUserName}}</span>
+            </div>
+            <div class="flex-column pd-c-v-s">
+                <span class="flex-item-2 text-right">上传日期：</span>
+                <span class="flex-item-10 text-left">{{showData.organizationCodeCertificate.attachment.uploadTime | date : 'yyyy-MM-dd HH:mm' }}</span>
+            </div>
+            <div class="flex-column pd-c-v-s">
+                <span class="flex-item-2 text-right">附件：</span>
+                <div class="flex-item-10 text-left">
+                    <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="showData.organizationCodeCertificate.attachment"></div>
+                </div>
+            </div>
+          </div>
+
+            <div ng-if="!showData.organizationCodeCertificate.attachment.uploadUserName">
+              暂无文件
+            </div>
+        </div>
+    </div>
+    <h3 class="crumbs-circle color-black pr-indent-10 pd-v mgb-s">税务登记证</h3>
+    <div class="flex-column " ng-if="showData.taxRegistrationCertificate.certificateNumber">
+        <div class="flex-item-6 br-dashed-line " style="min-height:250px;">
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">证书编号：</span>
+                <span class="flex-item-8 text-left">{{showData.taxRegistrationCertificate.certificateNumber}}</span>
+            </div>
+            <div class="flex-column mgt">
+                <span class="flex-item-4 text-right">发证日期：</span>
+                <span class="flex-item-8 text-left">{{showData.taxRegistrationCertificate.certificateDate | date : 'yyyy-MM-dd' }}</span>
+            </div>
+            <div class="flex-column mgt" style="margin-bottom:100px;">
+                <span class="flex-item-4 text-right">有效期至：</span>
+                <span class="flex-item-8 text-left">{{showData.taxRegistrationCertificate.guaranteePeriod | date : 'yyyy-MM-dd'}}</span>
+            </div>
+        </div>
+        <div class="flex-item-6" style="padding:20px 50px;">
+          <div ng-if="showData.taxRegistrationCertificate.attachment.uploadUserName">
+            <div class="flex-column pd-c-v-s">
+                <span class="flex-item-2 text-right">上传人：</span>
+                <span class="flex-item-10 text-left">{{showData.taxRegistrationCertificate.attachment.uploadUserName}}</span>
+            </div>
+            <div class="flex-column pd-c-v-s">
+                <span class="flex-item-2 text-right">上传日期：</span>
+                <span class="flex-item-10 text-left">{{showData.taxRegistrationCertificate.attachment.uploadTime | date : 'yyyy-MM-dd ' }}</span>
+            </div>
+            <div class="flex-column pd-c-v-s">
+                <span class="flex-item-2 text-right">附件：</span>
+                <div class="flex-item-10 text-left">
+                    <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="showData.taxRegistrationCertificate.attachment"></div>
+                </div>
+            </div>
+          </div>
+
+            <div ng-if="!showData.taxRegistrationCertificate.attachment.uploadUserName">
+              暂无文件
+            </div>
+        </div>
+    </div>
+    <h3 class="crumbs-circle color-black pr-indent-10 pd-v">备注</h3>
+    <div class="flex-column pd-c-v-l">
+        <div class="flex-item-12 pd-c-xxxxxxl">
+            <span>{{showData.note}}</span>
+        </div>
+    </div>
+</div>
+<!-- 审核资料 -->
+<div ng-if="!showData.attachments.length" class="panel pr-panel pr-panel-height mgb">
+  <h1 class="pr-font-18 mgb">
+    资质文件
+  </h1>
+  <p>
+    暂无文件
+  </p>
+</div>
+<div ng-if="showData.attachments.length" ng-init='attachmentsExtend={"title":"资质文件"}' attachments-show ng-model="showData.attachments" attachments-extend="attachmentsExtend"></div>
+
+</div>
+
+<div ng-if="showData.orderStatus!='未提交'" class="handle-btn-area relative">
+    <div class="mgb text-right btn-area">
+        <span class="mgl mgt">
+            <a href="#/firstEnterpriseApplication/query.html">返回申请单列表</a>
+          </span>
+        <span ng-if="showData.didateFilter.buttons.length>0" custom-menu-list custom-menu-arr="{{showData.didateFilter.buttons}}" class="mgt">
+          </span>
+    </div>
+</div>
+<div ng-if="showData.orderStatus=='未提交'" class="handle-btn-area relative">
+    <div class="mgb text-right btn-area">
+        <span class="mgl"><a href="#/firstEnterpriseApplication/edit-step-3.html?id={{showData.id}}">返回修改</a></span>
+        <span class="mgl">
+              <a ng-if="showData.id && showData.proposerName==mainStatus.name"
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/firstEnterpriseApplication/query.html')"
+                 params='{"id":showData.id}'
+                 request-url="rest/authen/firstEnterpriseApplication/delete">删除</a>
+            </span>
+        <span class="mgl">
+              <button class="pr-btn-save-glodbg mgt"
+                      type="button"
+                      ajax-url-submit="rest/authen/firstEnterpriseApplication/startProcessInstance"
+                      params='{"businessKey":showData.id}'
+                      alert-error
+                      scope-data="showData"
+                      callback="$root.utils.refreshHref()">提交
+              </button>
+            </span>
+    </div>
+</div>
+</div>

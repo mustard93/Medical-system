@@ -26,76 +26,10 @@
               <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
             </div>
         </div>
-          <div  class="pr-bg-white pr-fuzzy-boundary">
-            <table class="table pr-table pr-new-table">
-              <thead class="pr-bg-side">
-                <tr>
-                  <th class="text-center">序号</th>
-                  <th class="text-center">供应商编码</th>
-                  <th class="text-left">供应商名称</th>
-                  <th class="text-center">联系人</th>
-                  <th class="text-center">联系电话</th>
-                  <th class="text-center">传真</th>
-                  <th class="text-center">邮编</th>
-                  <th class="text-left">地址</th>
-                  <th class="text-left">备注</th>
-                  <th class="text-center">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-if="tbodyList.length"
-                    ng-repeat="tr in tbodyList track by $index"
-                    class="relative"
-                    table-item-multiple-btn>
-                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
-                  <td class="text-center">{{tr.code}}</td>
-                  <td class="text-left">
-                    <div class="autocut" title="{{tr.name}}">
-                        {{tr.name}}
-                    </div>
-                  </td>
-                  <td class="text-center">{{tr.concatUser.name}}</td>
-                  <td class="text-center">{{tr.concatUser.tel}}</td>
-                  <td class="text-center">{{tr.fax}}</td>
-                  <td class="text-center">{{tr.zipCode}}</td>
-                  <td class="text-left">
-                    <div class="autocut" title="{{tr.address}}">
-                    {{tr.address}}
-                    </div>
-                  </td>
-                  <td class="text-left">
-                    <div class="autocut" title="{{tr.note}}">
-                     {{tr.note}}
-                    </div>
 
-                  </td>
-                  <td class="text-center" style="width:300px;">
 
-                    <button type="button" class="pr-btn-save-glodbg" modal-right="700" modal-scope="this"
-                    modal-url="views/supplier/edit.html?id={{tr.id}}">
-                        <i class="fa fa-edit"></i>
-                        编辑
-                    </button>
+          <div custom-table="com.pangu.mss.spd.domain.mongo.supplier.Supplier" custom-tr-menus="spd_supplier_query" style="width:100%;"></div>
 
-                    <button type="button" class="btn btn-danger" ng-click="deleteThis('rest/authen/supplier/delete', tr.id)">
-                        <i class="fa fa-trash-o"></i>
-                        删除</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="pr-bg-white" ng-if="!tbodyList.length">
-              <div class="empty-table clearfix">
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-              </div>
-            </div>
-        </div>
-        <div class="clearfix pd-c-m" ng-if="tbodyList.length">
-          <div class="fr"><pagination status="status"></pagination></div>
-        </div>
-      </div>
   </div>
 </table-list>
 </div>

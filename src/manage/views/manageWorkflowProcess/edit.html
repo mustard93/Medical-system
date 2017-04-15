@@ -16,11 +16,22 @@
                 <h4 class="modal-title">{{formData.id?"编辑":"添加"}}工作流
                 </h4>
             </div>
-            <div class="modal-body">
+            <div  class="form-group">
+              <label class="col-lg-2 col-sm-2 control-label">类型</label>
+              <div class="col-lg-10 col-sm-10">
+                <div class="col-lg-10 col-sm-10">
+                  <select class="ipt pr-short-ipt" ng-model="mainStatus.pageParams.type"  ng-options="x for x in ['经销商','医疗机构']" >
+
+                  </select>
+                </div>
+              </div>
               <div class="form-group">
                 <label class="col-lg-2 col-sm-2 control-label">所属机构</label>
                 <div class="col-lg-10 col-sm-10">
-                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择机构" chosen default-empty="无" ng-model="formData.organizationId" select-source="rest/index/distributor/queryForSelectOption">
+                  <select ng-if="initFlag"  class="ipt pr-short-ipt" data-placeholder="选择机构"
+                    chosen-ajax
+                    chosen default-empty="无" ng-model="formData.organizationId"
+                      select-source="rest/authen/organization/queryForSelectOption?type={{mainStatus.pageParams.type}}">
                   </select>
                 </div>
               </div>

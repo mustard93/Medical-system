@@ -46,7 +46,7 @@ a.as-btn {
 }
 
 .ipt {
-    height: 28px;
+    height: 26px;
     width: 280px;
     box-sizing: border-box;
     padding: 5px 10px;
@@ -1609,13 +1609,13 @@ background-color: #c0c0c0!important;
 }
 /*删除背景色*/
 .pr-bg-delete{
-	background: rgba(255,56,56,0.95);
-	box-shadow: 0px 1px 4px 0px #F54440;
+	background: rgba(255,56,56,0.9);
+	box-shadow: 0 0 6px 0 rgba(255, 56, 56, 1);
 }
 /*编辑背景色*/
 .pr-bg-edit{
-	background: rgba(54,48,44,0.70);
-	box-shadow: 0px 1px 4px 0px #000000;
+	background: rgba(54,48,44,0.8);
+	box-shadow: 0 0 6px 0 rgba(54,48,44,0.9);
 }
 /* 颜色 */
 .pr-color {
@@ -1979,9 +1979,10 @@ background-color: #c0c0c0!important;
 }
 /* 纯底色按钮 */
 .pr-btn-bg-gold, .pr-btn-bg-gold:hover, .pr-btn-bg-gold:active {
-  background-color: #c7a77b!important;
+  background-color: rgba(199, 167, 123, .9)!important;
   border-color: #c7a77b!important;
   color: #fff!important;
+	box-shadow: 0 0 12px rgba(199, 167, 123, .9);
 }
 .pr-btn-bg-gold[disabled] {
   background-color: #ccc;
@@ -2169,7 +2170,7 @@ border-left: 1px dashed #e2e2e2;
 .order-create-btn a {
   display: inline-block;
   height: 30px;
-  background: #c7a77b;
+  background: rgba(199, 167, 123, .9);
   border-radius: 15px;
   text-align: center;
   color: #fff;
@@ -3043,7 +3044,7 @@ span.pr-icon-detail2 {
   height: 20px;
   background-image: url(../../images/pr-sprites.png);
   background-repeat: no-repeat;
-  background-position: -189px -438px;
+  background-position: -313px -437px;
 }
 
  span.create-arrive-icon {
@@ -3071,7 +3072,7 @@ span.pr-icon-detail2 {
   height: 20px;
   background-image: url(../../images/pr-sprites.png);
   background-repeat: no-repeat;
-  background-position: -189px -375px;
+  background-position: -314px -374px;
 }
 /*生成出库按钮*/
  span.nav-ico{
@@ -3540,6 +3541,11 @@ label.checkbox_label > div {
   min-height: 56px;
   /*padding-top: 10px*/
 }
+.handle-btn-area > .btn-area .pr-btn-bg-gold,
+.handle-btn-area > .btn-area .pr-btn-bg-gold:hover,
+.handle-btn-area > .btn-area .pr-btn-bg-gold:active {
+	box-shadow: none;
+}
 .handle-btn-area > .total-div {
   display: inline-block;
   float: right;
@@ -3783,8 +3789,8 @@ padding-top: 3px;
   border-bottom: 1px solid #b2b2b2;
 }
 .chosen-container-single .chosen-single {
-  height: 28px !important;
-  line-height: 28px !important;
+  height: 26px !important;
+  line-height: 26px !important;
 }
 .chosen-container-single .chosen-single div b {
   background: url('../../images/chosen-sprite.png') no-repeat 0px 4px !important;
@@ -4124,7 +4130,8 @@ span.popovers:hover, span.popovers > .purchaseorder-buyer-info:hover {
   line-height: 36px !important;
 }*/
 .hospital-application a.batch-delete-btn,
-.purchase-plan-order a.batch-delete-btn {
+.purchase-plan-order a.batch-delete-btn,
+.receive-item a.batch-receive-btn {
 	position: relative;
 	border: 1px solid rgba(0,0,0,0.10);
 	color: #fff;
@@ -4137,13 +4144,15 @@ span.popovers:hover, span.popovers > .purchaseorder-buyer-info:hover {
 	background-color: #c7a77b;
 }
 .hospital-application a.batch-delete-btn[disabled],
-.purchase-plan-order a.batch-delete-btn[disabled] {
+.purchase-plan-order a.batch-delete-btn[disabled],
+.receive-item a.batch-receive-btn[disabled] {
 	color: #999;
 	background-color: #fff;
 	cursor: not-allowed;
 }
 .hospital-application a.batch-delete-btn em.fa-trash-o,
-.purchase-plan-order a.batch-delete-btn em.fa-trash-o {
+.purchase-plan-order a.batch-delete-btn em.fa-trash-o,
+.receive-item a.batch-receive-btn em.fa-trash-o {
 	position: absolute;
   top: 6px;
   left: -5px;
@@ -5613,8 +5622,18 @@ border-radius: 50%;
 	position: relative;
 	top: 10px;
 }
+.purchase-plan-order .hospital-icon {
+	display: inline-block;
+	width: 48px;
+	height: 48px;
+	background-image: url(../../images/pr-sprites.png);
+	background-repeat: no-repeat;
+  background-position: -361px -1043px;
+	position: relative;
+	top: 10px;
+}
 
-/*收货单按钮样式*/
+/*SPD收货单*/
 .btn-receiveItem{
 	position: relative;
 	cursor: pointer;
@@ -5633,10 +5652,86 @@ border-radius: 50%;
 	display: inline-block;
 	height: auto;
 	width: auto;
-	padding: 5px 15px;
+	padding: 8px 30px;
 	font-size: 12px;
-	color: #C7A77B;
-	background-color: white;
-	margin-right: 5px;
-	margin-bottom: 10px;
+	color: #fff;
+	background-color: #C7A77B;
+  box-shadow: 0 -5px 20px -6px rgba(199, 167, 123, .9);
+	position: relative;
+  cursor: pointer;
+}
+.rect-status-active {
+	background-color: #fff;
+	color: #c7a77b;
+}
+.receive-item .status-num-list > span > em {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  top: -4px;
+  right: 15px;
+	background-color: rgba(255,73,31,0.90);
+  box-shadow: 0 0 6px rgba(255,0,0,0.70);
+	color: #fff;
+	text-align: center;
+	line-height: 18px;
+}
+
+.circle-status:hover .purchase-content-status-show{
+	display: block;
+	color: black;
+}
+.purchase-content-status-show{
+	position:absolute;
+	top: -27px;
+	right: -10%;
+  display: none;
+  background-color: white;
+  z-index: 1;
+  -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+}
+
+.purchase-content-status-show:before {
+	content: ' ';
+  position: absolute;
+  top: 19px;
+  left: 26px;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  transform: translate(-50%) rotate(-45deg);
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  z-index: 1;
+  background-color: #fff;
+}
+
+.table-del-confirm-btn {
+	position: absolute;
+  top: 35px;
+  left: -38px;
+  width: 120px;
+	background-color: rgba(255,255,255,0.90);
+	box-shadow: 0px 0px 6px 0px rgba(199,167,123,0.55);
+	border-radius: 4px 0px 0px 0px 4px 4px 4px;
+	/*z-index: 1100;*/
+	/*display: none;*/
+}
+.table-del-confirm-btn:before {
+	content: ' ';
+	position: absolute;
+	top: -5px;
+	left: 44%;
+	width: 8px;
+	height: 8px;
+	display: inline-block;
+	background-color: #fff;
+	transform: rotate(-45deg);
+	border-color: rgba(199,167,123,0.55);
+	border-top: 1px solid rgba(199,167,123,0.55);
+	border-right: 1px solid rgba(199,167,123,0.55);
 }

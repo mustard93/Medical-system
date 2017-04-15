@@ -1,8 +1,11 @@
-<table-list list-data="rest/authen/purchasecontentmedical/query?distributorId={{mainStatus.pageParams.distributorId}}"
+<table-list list-data="rest/authen/purchasecontentmedical/query?supplierId={{mainStatus.pageParams.supplierId}}"
             list-params="listParams"
             search-mode="noCaseSensitive"
             search-param="q">
-  <div class="create-new-order purchaseOrder-edit purchase-plan-order" ng-controller="purchaseContentController">
+  <div class="create-new-order purchaseOrder-edit purchase-plan-order"
+       ng-controller="purchaseContentController"
+       ajax-url="rest/authen/purchasecontent/get.json?id={{mainStatus.pageParams.id}}"
+       scope-data="formData">
      <page-main-header-component list-params="listParams"
                                  crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"采购目录","link":"","style":"color-custom-orange"},{"name":"编辑采购品种","link":"","style":""}]'
                                  component-title="采购品种-编辑">
@@ -12,10 +15,7 @@
          <div class="inline-block supplier-icon"></div>
          <div class="inline-block">
            <p class="mgb-s">供应商</p>
-           <p class="text-n color-3"
-              ajax-url="rest/authen/distributor/get.json?id={{mainStatus.pageParams.distributorId}}"
-              scope-data="distributorName">{{distributorName.name}}
-           </p>
+           <p class="text-n color-3">{{formData.hospitalSupplierName}}</p>
          </div>
        </div>
        <!-- 药械列表 -->
@@ -59,6 +59,8 @@
                   <th class="w-60 text-center">
                     <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
                   </th>
+                  <th class="text-center">序号</th>
+                  <th class="text-center">状态</th>
                   <th class="text-center">商品编码</th>
                   <th class="text-center">供应商商品编码</th>
                   <th class="text-left">商品名称</th>
@@ -100,18 +102,40 @@
                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                          <p class="pdt-s">
                            <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="handleDelThisItem(tr.id)">确认</a>
+                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="handleDelThisItem(tr.id,formData.hospitalSupplierId)">确认</a>
                          </p>
                        </div>
                      </div>
                    </td>
-                   <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 商品编码 -->
+                   <td class="text-center" style="line-height:2.4">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
                    <td class="text-center" style="line-height:2.4">
-                     <div class="ipt-div relative text-left pr-indent-5" style="width:100%;">{{tr.medical.distributorMedicalCode}}
-                       <i class="addImg" style="left:100px;"
+                     <span class="circle-status relative"
+                           ng-class="{'bg-pass-green':tr.distributorMedicalCode,
+                                      'bg-end-red':!tr.distributorMedicalCode}">
+
+                       <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
+                         <i class="block pd-c-s text-normal" style="line-height:1.8">
+                           <em class="inline-block">{{tr.distributorMedicalCode?'已匹配':'未匹配'}}</em>
+                         </i>
+                       </span>
+                     </span>
+                   </td>
+                   <td class="text-center" style="line-height:2.4">
+                     <div class="ipt-div relative text-left pr-indent-5" style="width:100%;">{{tr.medical.code}}
+                       <i class="addImg" style="right:0px;left:inherit;"
                           modal-right="50%"
                           modal-scope="this"
-                          modal-data='{"medicalName":"{{tr.medical.name}}","medicalId":"{{tr.id}}"}'
+                          modal-data='{"medicalName":"{{tr.medical.name}}","medicalId":"{{tr.id}}","supplierId":"{{formData.hospitalSupplierId}}"}'
+                          modal-url="views/versionFlow/create-correspond-relation2.html">
+                       </i>
+                     </div>
+                   </td><!-- 商品编码 -->
+                   <td class="text-center" style="line-height:2.4">
+                     <div class="ipt-div relative text-left pr-indent-5" style="width:100%;">{{tr.distributorMedicalCode}}
+                       <i class="addImg" style="right:0px;left:inherit;"
+                          modal-right="50%"
+                          modal-scope="this"
+                          modal-data='{"medicalName":"{{tr.medical.name}}","medicalId":"{{tr.id}}","customerAddressId":"{{formData.customerAddressId}}","distributorId":"{{formData.distributorId}}"}'
                           modal-url="views/versionFlow/create-correspond-relation.html">
                        </i>
                      </div>
@@ -169,6 +193,11 @@
            </div>
          </div>
        </div>
+       <!-- 备注 -->
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+         <h1 class="text-bold color-3">备注</h1>
+         <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+       </div>
      </div>
      <!-- 功能按钮 -->
      <div class="handle-btn-area">
@@ -182,7 +211,7 @@
         <span class="mgl">
           <button class="pr-btn-create-glodbg mgt"
                   type="button"
-                  ng-click="$root.goTo('#/purchasecontent/query.html')">完成
+                  ng-click="purchaseConentGetDone(formData)">完成
           </button>
         </span>
       </div>

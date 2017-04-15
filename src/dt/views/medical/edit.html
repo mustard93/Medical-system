@@ -1,0 +1,103 @@
+
+        <div class="modal-content pr-modal-content" ng-controller="editCtrl"  >
+
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/medical/save"
+                 ajax-url="rest/authen/medical/getOfEdit.json?id={{tr.id}}"  scope-data="formData" alert-error
+                form-validator>
+            <div class="modal-header">
+                <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}药械</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">药品名称</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">药品单位</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select class="ipt pr-short-ipt" data-placeholder="选择单位" chosen default-empty="无" ng-model="formData.measurement" select-source="rest/baseData/queryForSelectOptionByType"   params='{"type":"单位"}'>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">药品单价</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.price" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">品牌</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.brand" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">分类</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.category" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">规格</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select class="ipt pr-short-ipt" data-placeholder="选择规格" chosen default-empty="无" ng-model="formData.specification" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"规格"}'>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">剂型</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <select class="ipt pr-short-ipt" data-placeholder="选择剂型" chosen default-empty="无" ng-model="formData.dosageForms" select-source="rest/baseData/queryForSelectOptionByType"  params='{"type":"剂型"}'>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">药监编码</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.drugAdministrationCode" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">保质期</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.guaranteePeriod" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">批准文号</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.licenseNumber" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">生产日期</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="date" class="form-control" placeholder="" convert-to-date timestamp="true" ng-model="formData.productionDate" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">生产厂家</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.manufacturer" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>

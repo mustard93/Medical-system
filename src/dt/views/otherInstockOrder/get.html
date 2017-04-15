@@ -1,0 +1,239 @@
+<div class=""
+     ajax-url="rest/authen/wInstockOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
+     scope-data="showData"
+     callback="initFlag=true;formData={};formData.id=showData.medicalStockId"
+     alert-error>
+     <!-- 头部信息 -->
+     <div class="content-wrapper-heading mgb-l relative clearfix">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">库存管理 >
+         <em>其它入库单详情</em>
+       </p>
+       <!-- 标题 -->
+       <div class="pd-c-xxl pdt-l pdb-l clearfix">
+         <div class="pos-rel-tl inline-block fl-l">
+           <h1 class="pr-font-20 color-black">
+             <em >其它入库单详情</em>
+           </h1>
+           <p class="mgt-l text-n color-3 text-bold">{{showData.warehouseName}}</p>
+         </div>
+       </div>
+     </div>
+
+     <!-- 主内容区域 -->
+    <div class="content-wrapper">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+        <div class="flex-column pd" style="margin-bottom:-20px;">
+
+          <div class="flex-item-6">
+            <span class="mgr">系统编号：<em class="color-3">{{showData.orderNo || '暂无'}}</em></span>
+            <span class="mgr">部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span>
+            <span class="mgr">入库类型：
+              <em ng-if="showData.type!='销售出库单_红字'" class="color-black">{{showData.type|| '暂无'}}</em>
+              <em ng-if="showData.type=='销售出库单_红字'" class="color-black">采购入库单<em class="color-red">(红字)</em></em>
+            </span>
+
+          </div>
+          <div class="flex-item-6 text-right">
+            <span class="mgr">入库日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
+            <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+          </div>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main ">
+      <div class="outside-table-d">
+        <table class="table pr-table pr-new-table table-s-wid" >    <!-- table-wid -->
+            <thead class="pr-bg-side">
+              <tr>
+                  <!-- <th>序号</th> -->
+                  <th class="text-center">商品编号</th>
+                  <th class="text-center">商品代码</th>
+                  <th class="text-left w-100">商品全名</th>
+                  <th class="text-center">库类型</th>
+                  <th class="text-center">规格/型号</th>
+                  <th class="text-center">单位</th>
+                  <th class="text-center">实收数量</th>
+                  <th class="text-center">拒收数量</th>
+                  <th class="text-center">含税单价</th>
+                  <th class="text-center">含税金额</th>
+                  <th class="text-center">税率</th>
+                  <th class="text-center">批号</th>
+                  <th class="text-center">灭菌批号</th>
+                  <th class="text-center">生产日期</th>
+                  <th class="text-center">有效期至</th>
+                  <th class="text-center">产品执行标准</th>
+                  <th class="text-center">保存温度</th>
+                  <th class="text-center">产地品牌</th>
+                  <th class="text-center">产品注册证号</th>
+                  <th class="text-center">注册证有效期</th>
+              </tr>
+            </thead>
+
+            <tbody class="pr-bg-white" >
+
+              <tr ng-repeat="tr in showData.inoutstockDetails | orderBy :'relId'" ng-init="orderMedicalNoIds.push(tr.relId)" ng-controller="SalesOrderDetailsController">
+                <td class="text-center">{{tr.code}}</td>
+                <td class="text-center">{{tr.goodsCode}}</td>
+                <td class="text-left">
+                  <div class="autocut" title="{{tr.name}}">
+                    {{tr.name}}
+                  </div>
+                </td>
+                <td class="text-center">
+                  {{tr.repositoryTypeName}}
+                </td>
+                <td class="text-center">
+                  {{tr.specificationAndModelType}}
+                </td>
+                <td class="text-center">
+                  {{tr.measurement}}
+                </td>
+                <td class="text-right"
+
+                >
+                  {{tr.storageQuantity+tr.otherQuantity || '0'}}
+                </td>
+                <td class="text-right">
+                  {{tr.refuseQuantity || '0'}}
+                </td>
+                <!-- <td class="text-right">
+                  ￥{{tr.price}}
+                </td>
+                <td class="text-right" >
+                  ￥{{(tr.price*tr.storageQuantity).toFixed(2)}}
+                </td>
+                <td class="text-right">
+                {{tr.taxRate}}%
+                </td> -->
+                <td class="text-right">
+                  ￥{{tr.duty_price}}
+                </td>
+                <td class="text-right" >
+                  <!-- ￥{{(tr.price*tr.storageQuantity).toFixed(2)}} -->
+                  ￥{{tr.totalPrice}}
+                </td>
+                <td class="text-right">
+                {{tr.tax}}%
+                </td>
+                <td class="text-center">
+                  <!-- 生产批号 -->
+                {{tr.productionBatch}}
+                </td>
+                <td class="text-center">
+                {{tr.sterilizationBatchNumber}}
+                </td>
+                <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
+
+                <td class="text-center">
+                  <!-- 产品执行标准 -->
+                  {{tr.productStandard}}
+                </td>
+
+                <td class="text-center">
+                  <!-- 保存温度 -->
+                  {{tr.storedTemperature}}
+                </td>
+
+                <td class="text-center">
+                  {{tr.brand}}
+                </td>
+
+                <td class="text-center">
+                {{tr.drugAdministrationCode}}
+                </td>
+                <td>
+                  {{tr.drugAdministrationCodeGuaranteePeriod}}
+                </td>
+                <!-- <td class="text-center">{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{tr.type}}</td>
+                <td class="color-orange text-center">
+                  <span ng-if="tr.type=='移库入库单'">{{tr.sourceOrderNo}}</span>
+
+                    <a ng-if="tr.type=='采购入库单'" href="#/arrivalNoticeOrder/get.html?orderNo={{tr.sourceOrderNo}}">
+                    {{tr.sourceOrderNo}}
+                    </a>
+
+                    <a ng-if="tr.type=='采购退货入库单'" href="#purchaseReturnOrder/get.html?orderNo={{tr.sourceOrderNo}}">
+                    {{tr.sourceOrderNo}}
+                    </a>
+                    <a ng-if="tr.type=='报溢入库单'" href="#/lossOverOrder/get-overflow.html?orderNo={{tr.sourceOrderNo}}">
+                    {{tr.sourceOrderNo}}
+                    </a>
+                    <a ng-if="tr.type=='批次解冻入库单'" href="#/freezeThaworder/get-thaw.html?orderNo={{tr.sourceOrderNo}}">
+                    {{tr.sourceOrderNo}}
+                    </a>
+
+                </td>
+                <td class="text-center">
+                    <div class="autocut" title="{{tr.warehouseName}}">
+                        {{tr.warehouseName}}
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="autocut" title="{{tr.warehouseName}}">
+                        {{tr.repositoryTypeName}}
+                    </div>
+                </td>
+                <td class="text-center">{{tr.code}}</td>
+                <td class="text-left">
+                  <div class="autocut" title="{{tr.medicalStockName}}">
+                      {{tr.medicalStockName}}
+                  </div>
+                </td>
+                <td class="text-center">{{tr.specificationAndModelType}}</td>
+                <td class="text-center">{{tr.drugAdministrationCode}}</td>
+                <td>{{tr.measurement}}</td>
+                <td class="text-center" ng-if="tr.type!='采购入库单'" class="text-right">
+                {{tr.storageQuantity?tr.storageQuantity:"—"}}
+                </td>
+                <td ng-if="tr.type=='采购入库单'" class="text-right">
+                {{tr.storageQuantity?-tr.storageQuantity:"—"}}
+                </td>
+                <td class="text-right">
+                {{tr.refuseQuantity?tr.refuseQuantity:"—"}}
+                </td>
+                <td class="text-right">{{tr.otherQuantity?tr.otherQuantity:"—"}}</td>
+                <td class="text-center">{{tr.productionBatch}}</td>
+                <td class="text-center">{{tr.sterilizationBatchNumber}}</td>
+                <td class="text-center">{{tr.validTill | date : 'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{tr.productionDate | date : 'yyyy-MM-dd'}}</td>
+                <td class="text-center">{{tr.note}}</td> -->
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+
+    </div>
+
+</div>
+  <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgt-l" style="margin-left:30px;margin-right:30px;">
+    <!-- 备注 -->
+    <h1 class="text-bold color-3">备注</h1>
+    <p>{{showData.note}}</p>
+  </div>
+<!-- 流程图 -->
+<div class="" ng-if="showData.type=='采购入库单_红字'||showData.type=='采购入库单'">
+    <business-flow-show business-key="{{showData.id}}" business-type="采购单"></business-flow-show>
+</div>
+<div class="" ng-if="showData.type=='报溢入库单'">
+    <business-flow-show business-key="{{showData.id}}" business-type="报溢单"></business-flow-show>
+</div>
+<div class="" ng-if="showData.type=='批次解冻入库单'">
+    <business-flow-show business-key="{{showData.id}}" business-type="批次解冻单"></business-flow-show>
+</div>
+<div class="" ng-if="showData.type=='调拨入库单'">
+    <business-flow-show business-key="{{showData.id}}" business-type="调拨单"></business-flow-show>
+</div>
+<div class="handle-btn-area relative">
+  <div class="btn-area-new over-write-wid">
+      <span class="mgr-l">
+        <a  href="#/otherInstockOrder/query.html">返回其他入库单列表</a>
+      </span>
+      <span class="mgr-l" ng-if="showData.didateFilter.buttons.length>0"
+       custom-menu-list
+       custom-menu-arr="{{showData.didateFilter.buttons}}">
+      </span>
+  </div>
+</div>
