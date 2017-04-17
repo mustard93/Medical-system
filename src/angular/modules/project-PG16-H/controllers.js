@@ -646,7 +646,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     *保存 type:save-草稿,submit-提交订单。
     */
     $scope.submitFormAfter = function() {
-
       $scope.formData.validFlag = false;
 
         if ($scope.submitForm_type == 'exit') {
