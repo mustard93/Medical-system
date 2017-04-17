@@ -2,7 +2,7 @@
      ng-controller="QualificationApplyCtrl"
      ajax-url="rest/authen/storeRoom/get.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}"
      scope-data="scopeData"
-     callback="initFlag=true;"
+     callback="initFlag=true;bottomButtonList= $root.bottomButtonList.get_storeRoom(scopeData);"
      alert-error>
 
   <page-main-header-component list-params="listParams"
@@ -69,9 +69,7 @@
             </a>
             <a ng-if="!changeFlag" href="#/storeRoom/query.html">返回库房列表</a>
           </span>
-          <span class="mgl">
-            <a ng-if="!changeFlag" href="#/storeRoom/query.html">查看操作记录</a>
-          </span>
+          <span bottom-button-list="bottomButtonList">  </span>
           <span class="mgl">
             <a
                href="javascript:;"
