@@ -23,7 +23,7 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
           单据编号：
       </td>
       <td style="text-align:right;">
-          {{showData.orderNo}}
+          {{showData.orderCode}}
       </td>
   </tr>
   <tr>
@@ -37,7 +37,7 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
           联系人：
       </td>
       <td style="width:20%;">
-          {{showData.address.name}}
+
       </td>
       <td style="text-align:right;">
           录单日期：
@@ -118,9 +118,8 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
        <td style="text-align:center;max-width:8%;word-wrap:break-word;">
            {{tr.productionBatch}}
        </td>
-       <td style="text-align:center;max-width:8%;word-wrap:break-word;"
-       ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{tr.relId}}&amp;p_and_s={{tr.productionBatch}}" scope-data="guaranteePeriodData">
-           {{guaranteePeriodData.validTill | date:"yyyy-MM-dd"}}
+       <td style="text-align:center;max-width:8%;word-wrap:break-word;">
+           {{tr.validTill | date:"yyyy-MM-dd"}}
        </td>
        <td style="text-align:center;max-width:6%;word-wrap:break-word;">
            {{tr.manufacturer}}
@@ -143,7 +142,7 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
            {{showData.totalPriceCN}}
        </td>
        <td colspan="2">
-           本页小计
+           合计小写
        </td>
        <td colspan="4" style="word-wrap:break-word;">
            {{showData.totalPrice}}
