@@ -2493,7 +2493,7 @@ function angucompleteSupplier($parse, requestData, $sce, $timeout) {
             $scope.pause = 300;
             $scope.minLength = 1;
             $scope.searchStr = $scope.searchFields;
-            // console.log("$scope.searchFields",$scope.searchFields);
+            // console.log($scope.searchStr);
             //绑定返回对象的某个属性值。
             if($attrs.ngModelId){
               $scope.$watch("ngModel", function(value) {
