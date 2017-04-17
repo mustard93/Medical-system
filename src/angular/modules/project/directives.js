@@ -3162,7 +3162,6 @@ function addressManageComponent (requestData, utils) {
 
       // 设置当前地址为默认地址
       $scope.setThisAddressToDefault = function (contactId) {
-        // console.log($scope.scopeDataPrefix);return;
         // var _moduleAddressId = $scope.scopeDataPrefix + 'AddressId';  // 构建模块id名
         var _moduleAddressId = 'invoicesAddressId';  // 构建模块id名
         var _data = {
