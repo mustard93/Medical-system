@@ -13,8 +13,8 @@ var require_config_project={
 appendOjectProperty(require_config_project.paths,require_config.paths);
 appendOjectProperty(require_config_project.shim,require_config.shim);
 
-  console.log("require_config",require_config);
-  
+  // console.log("require_config",require_config);
+
   require.config(require_config);
 
 require(['bootstrap',

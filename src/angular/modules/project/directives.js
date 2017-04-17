@@ -1219,7 +1219,7 @@ function leftMenuSecondToggle ($location,$rootScope) {
       //LeftMenuObj.doRoute();
       //根据优先级路由定位菜单
       doRoute:function(newUrl){
-        console.log("routeMap=",this.routeMap);
+        // console.log("routeMap=",this.routeMap);
         var url=newUrl;// #/purchaseOrder/query.html?t=123
         url=url.split('#')[1];// /purchaseOrder/query.html?t=123
         if(!url)return;
@@ -3051,8 +3051,11 @@ function addressManageComponent (requestData, utils) {
           if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
           if ($scope.returnAddressObj.defaultContactId === _id) { return true; }
         } else {        // 如果是编辑
-          // if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
-          if ($scope.returnAddressObj.defaultContactId === _id) { return true;}
+          var _moduleName = $scope.scopeDataPrefix + 'Contacts';
+          if ($scope.formData[_moduleName]) {
+            console.log($scope.formData[_moduleName].id);
+            if ($scope.formData[_moduleName].id === _id) { return true; }
+          }
         }
       };
 
