@@ -93,40 +93,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-    //医院采购目录医院添加单条药品信息
-    $scope.addMedicinalDataItem = function (hospitalId) {
-
-      // $scope.responseBody = {};
-
-      // if (id) {
-      //   $scope.responseBody.hospitalPurchaseContentsId = id;
-      // }
-
-          if (!$scope.medical||!$scope.medical.id) {
-              alertWarn("请选择药械");
-              return;
-
-          }
-
-        var formData = $.extend(true,{},$scope.medical);
-
-        //处理药品内信息id和copyId，以区分新建和编辑
-        formData.deliveryPlus='常温';
-
-      requestData('rest/authen/medicalStock/save', formData, 'POST', 'parameterBody')
-      .then(function (results) {
-        if (results[1].code === 200) {
-          // utils.goTo('#/hospitalPurchaseContents/get.html?id='+hospitalId);
-          $scope.$broadcast('reloadList');
-        } else {
-          alertError('出错!');
-        }
-      })
-      .catch(function (error) {
-         alertError('此药械已添加');
-      });
-    };
-
     // 首营品种新建页面用户输入零售价大于牌价的提示
     $scope.chkQuoteAndRetail = function () {
       if ($scope.formData.firstMedical.quoteprice) {

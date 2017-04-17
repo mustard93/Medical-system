@@ -38,6 +38,7 @@
                        name="genericName"
                        ng-model="formData.code"
                        ng-disabled="formData.id"/>
+                <span ng-if="!formData.code" class="color-red">（必填）</span>
               </div>
             </div>
             <div class="flex-column mgt">
@@ -47,6 +48,7 @@
                        class="ipt-new"
                        name="name"
                        ng-model="formData.name" />
+                <span ng-if="!formData.name" class="color-red">（必填）</span>
               </div>
             </div>
             <div class="flex-column mgt">
@@ -58,6 +60,7 @@
                         ng-model="formData.type"
                         select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StoreRoomType">
                 </select>
+                  <span ng-if="!formData.type" class="color-red">（必填）</span>
               </div>
             </div>
             <div class="flex-column mgt">
@@ -105,7 +108,7 @@
             </span>
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
-                      ng-disabled="!changeFlag"
+                      ng-disabled="!changeFlag ||!formData.code ||!formData.name ||!formData.type"
                       ng-click="submitForm('storeRoom-editForm','save')">保存</button>
             </span>
           </div>
