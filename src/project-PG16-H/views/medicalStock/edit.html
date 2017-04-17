@@ -160,6 +160,7 @@
                     <option value="常温">常温</option>
                     <option value="冷链">冷链</option>
                   </select>
+                    <span ng-if="!formData.deliveryPlus" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -322,6 +323,7 @@
                              "goUrl":""
                             }'
                 tpl-url="tpl/pr-dialog-content-reason.html"
+                  ng-disabled="!formData.code|| !formData.name|| !formData.specification|| !formData.unit ||!formData.name_py ||!formData.deliveryPlus"
                  >保存</button>
 
               <button
@@ -330,7 +332,7 @@
               class="pr-btn-save-glodbg mgt"
               type="button"
               ng-click="submitForm('editForm','save')"
-              ng-disabled="!formData.code|| !formData.name|| !formData.specification|| !formData.unit ||!formData.name_py">保存</button>
+              ng-disabled="!formData.code|| !formData.name|| !formData.specification|| !formData.unit ||!formData.name_py ||!formData.deliveryPlus">保存</button>
           </span>
 
           </div>
