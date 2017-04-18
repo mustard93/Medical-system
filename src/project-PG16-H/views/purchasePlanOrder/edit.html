@@ -135,10 +135,11 @@
               <span ng-if="!formData.storeRoomId" class="color-red">（必填）</span>
              </span>
              <span class="mgr">跟台：
-               <select class="ipt pr-short-ipt pr-ipt-60 color-6" ng-disabled="!formData.supplierId">
-                 <option  value="是" ng-selected="tr.genTai=='是'">是</option>
-                 <option  value="否" ng-selected="tr.genTai=='否'">否</option>
+               <select class="ipt pr-short-ipt pr-ipt-60 color-6" ng-model="formData.genTai" ng-disabled="!formData.supplierId">
+                 <option  value="是" ng-selected="formData.genTai=='是'">是</option>
+                 <option  value="否" ng-selected="formData.genTai=='否'">否</option>
                </select>
+              <span ng-if="!formData.genTai" class="color-red">（必选）</span>
              </span>
            </div>
            <div class="outside-table-d">
@@ -288,7 +289,8 @@
                   ng-disabled="purchasePlanForm.$invalid || !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                !formData.orderCode ||
-                               !formData.storeRoomId" >提交
+                               !formData.storeRoomId ||
+                               !formData.genTai" >提交
           </button>
         </span>
       </div>

@@ -335,6 +335,26 @@ define('project/services', ['project/init'], function() {
 
                 return arr;
             },
+            get_purchaseContent: function(showData) {
+
+                    var arr = [];
+                    //aclass ：样式，ahref：连接，showName：显示名
+                    var bottomButton = {
+                        "type": "modalRight",
+                        "modalWidth": "800",
+                        "aclass": "color-orange add-return-order mgl-s",
+                        "requestUrl": "rest/authen/versionFlow/query?businessKey=" + showData.id,
+                        "httpMethod": "GET",
+                        "ahref": "views/versionFlow/get-right-side.html?businessKey=" + showData.id,
+                        "showName": "查看操作记录"
+                    };
+
+                    if (tmpUtils.canShowButton(bottomButton)) {
+                        arr.push(bottomButton);
+                    }
+
+                    return arr;
+            },
 
             // 客户管理模块
             get_customerAddress: function(showData) {

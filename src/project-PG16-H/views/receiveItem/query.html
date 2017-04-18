@@ -9,8 +9,8 @@
   <div class="medical-stock child-project-management receive-item" ng-controller="receiveItemController">
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
-                                crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"收货单","link":"","style":"color-custom-orange"}]'
-                                component-title="收货单"
+                                crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"收货任务","link":"","style":"color-custom-orange"}]'
+                                component-title="收货任务"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
     <!-- 主内容区域 -->
@@ -32,7 +32,7 @@
     </div>
     <div class="content-wrapper">
       <div class="content-wrapper-main pr-fuzzy-boundary">
-        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white bb-dashed-line">
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white ">
           <div class="flex-item-8">
             <div class="inline-block mgr-s">
               <p class="mgb-s">采购计划编号：</p>
@@ -110,8 +110,9 @@
           </div>
         </div>
         <!-- 批量收货按钮 -->
-        <div class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m">
-          <a href="javascript:void(0)"
+        <div ng-if="!listParams.receiveItemStatus" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
+          <a
+             href="javascript:void(0)"
              class="batch-receive-btn"
              ng-disabled="!choisedMedicalList.length"
              handle-this-click
@@ -132,7 +133,7 @@
                 </th>
                 <th class="w-80">状态</th>
                 <th class="w-80">序号</th>
-                <th class="w-140">采购计划编号</th>
+                <th class="w-140">采购计划编码</th>
                 <th class="w-80">商品编号</th>
                 <th class="w-220">商品名称</th>
                 <th>规格</th>
@@ -266,8 +267,9 @@
         <div class="flex-column bg-white">
           <div class="flex-item-6">
             <!-- 批量收货按钮 -->
-            <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
-              <a href="javascript:void(0)"
+            <div  ng-if="!listParams.receiveItemStatus" class="flex-column color-9 pd-c-l pdt-m pdb-m">
+              <a
+                 href="javascript:void(0)"
                  class="batch-receive-btn"
                  ng-disabled="!choisedMedicalList.length"
                  handle-this-click

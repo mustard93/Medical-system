@@ -5,10 +5,11 @@
   <div class="create-new-order purchaseOrder-edit purchase-plan-order"
        ng-controller="purchaseContentController"
        ajax-url="rest/authen/purchasecontent/get.json?id={{mainStatus.pageParams.id}}"
-       scope-data="scopeData">
+       scope-data="scopeData"
+       callback="bottomButtonList= $root.bottomButtonList.get_purchaseContent(scopeData);">
     <!-- 头部信息 -->
     <page-main-header-component list-params="listParams"
-                                crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"采购目录详情","link":"","style":"color-custom-orange"},{"name":"采购计划详情","link":"","style":""}]'
+                                crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"采购目录","link":"","style":"color-custom-orange"},{"name":"采购目录详情","link":"","style":""}]'
                                 component-title="采购目录详情">
     </page-main-header-component>
     <!-- 药械列表 -->
@@ -60,8 +61,6 @@
                <th class="text-center">供应商商品规格</th>
                <th class="text-center">基本单位</th>
                <th class="text-center">供应商基本单位</th>
-               <th class="text-center">包装大小</th>
-               <th class="text-center">供应商包装大小</th>
                <th class="text-center">商品名称拼音</th>
                <th class="text-center">商品通用名</th>
                <th class="text-center">商品通用名拼音</th>
@@ -102,16 +101,14 @@
                 <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 商品编码 -->
                 <td class="text-center" style="line-height:2.4">{{tr.distributorMedicalCode}}</td><!-- 供应商商品编码 -->
                 <td class="text-left" style="line-height:2.4">{{tr.medical.name}}</td><!-- 商品名称 -->
-                <td class="text-left" style="line-height:2.4">{{tr.medical.approvedName}}</td><!-- 供应商商品名称 -->
+                <td class="text-left" style="line-height:2.4"></td><!-- 供应商商品名称 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.specificationAndModelType}}</td><!-- 规格型号 -->
                 <td class="text-center" style="line-height:2.4"></td><!-- 供应商规格型号 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.unit}}</td><!-- 基本单位 -->
                 <td class="text-center" style="line-height:2.4"></td><!-- 供应商基本单位 -->
-                <td class="text-center" style="line-height:2.4"></td><!-- 包装大小 -->
-                <td class="text-center" style="line-height:2.4"></td><!-- 供应商包装大小 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.name_py}}</td><!-- 商品名称拼音 -->
-                <td class="text-center" style="line-height:2.4"></td><!-- 商品通用名 -->
-                <td class="text-center" style="line-height:2.4"></td><!-- 商品通用名拼音 -->
+                <td class="text-center" style="line-height:2.4">{{tr.medical.approvedName}}</td><!-- 商品通用名 -->
+                <td class="text-center" style="line-height:2.4">{{tr.medical.approvedName_py}}</td><!-- 商品通用名拼音 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.varietyName}}</td><!-- 商品化学名 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.englishName}}</td><!-- 商品英文名 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.deliveryPlus}}</td><!-- 储存条件 -->
@@ -120,14 +117,14 @@
                 <td class="text-center" style="line-height:2.4">{{tr.medical.productionPlace}}</td><!-- 产地 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.approvalNo}}</td><!-- 批准文号 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.approvalNoCreateAt | date:'yyyy-MM-dd'}}</td><!-- 批准文号认证日期 -->
-                <td class="text-center" style="line-height:2.4"></td><!-- 批准文号有效期至 -->
+                <td class="text-center" style="line-height:2.4">{{tr.medical.approvalNoGuaranteePeriod | date:'yyyy-MM-dd'}}</td><!-- 批准文号有效期至 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.drugAdministrationCode}}</td><!-- 注册证号 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.drugAdministrationCode_createAt | date:'yyyy-MM-dd'}}</td><!-- 注册证号认证日期 -->
-                <td class="text-center" style="line-height:2.4"></td><!-- 注册证号有效期至 -->
+                <td class="text-center" style="line-height:2.4">{{tr.medical.drugAdministrationCodeGuaranteePeriod | date:'yyyy-MM-dd'}}</td><!-- 注册证号有效期至 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.guaranteePeriod}}</td><!-- 有效期 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.guaranteePeriod_unit}}</td><!-- 有效期单位 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.guaranteePeriodAlarmDay}}</td><!-- 效期预警天数 -->
-                <td class="text-center" style="line-height:2.4"></td><!-- 平台商品编码 -->
+                <td class="text-center" style="line-height:2.4">{{tr.medical.id}}</td><!-- 平台商品编码 -->
                 <td class="text-center" style="line-height:2.4">{{tr.medical.note}}</td><!-- 备注 -->
               </tr>
             </tbody>
@@ -158,9 +155,12 @@
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
         <a class="mgr-l" ng-href="#/purchasecontent/query.html" >返回采购目录列表</a>
-        <a class="mgr-l" ng-href="#/purchasecontent/query.html" >查看操作记录</a>
+        <span bottom-button-list="bottomButtonList">  </span>
         <span class="mgl">
-          <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo('#/purchasecontent/edit.html?id='+mainStatus.pageParams.id+'&distributorId='+mainStatus.pageParams.distributorId)">编辑</button>
+          <!-- <button class="pr-btn-save-glodbg mgt"
+           ng-click="$root.goTo('#/purchasecontent/edit.html?id='+mainStatus.pageParams.id+'&distributorId='+mainStatus.pageParams.distributorId)">编辑</button> -->
+           <button class="pr-btn-save-glodbg mgt"
+            ng-click="$root.goTo('#/purchasecontent/edit.html?supplierId='+mainStatus.pageParams.supplierId)">编辑</button>
         </span>
       </div>
     </div>
