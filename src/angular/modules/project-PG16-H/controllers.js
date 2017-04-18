@@ -53,7 +53,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.watchFormChange = function(watchName){
       watchFormChange(watchName,$scope);
     };
+    // 点击新增商品单位信息，新增一条商品单位
+    $scope.addMedicalUnit = function(){
+      // var otherP=[];
 
+      console.log($scope.formData);
+    }
     $scope.submitForm = function(fromId, type) {
        $scope.submitForm_type = type;
 
