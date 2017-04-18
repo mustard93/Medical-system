@@ -32,7 +32,7 @@
     </div>
     <div class="content-wrapper">
       <div class="content-wrapper-main pr-fuzzy-boundary">
-        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white bb-dashed-line">
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white ">
           <div class="flex-item-8">
             <div class="inline-block mgr-s">
               <p class="mgb-s">采购计划编号：</p>
@@ -110,8 +110,9 @@
           </div>
         </div>
         <!-- 批量收货按钮 -->
-        <div class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m">
-          <a href="javascript:void(0)"
+        <div ng-if="!listParams.receiveItemStatus" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
+          <a
+             href="javascript:void(0)"
              class="batch-receive-btn"
              ng-disabled="!choisedMedicalList.length"
              handle-this-click
@@ -266,8 +267,9 @@
         <div class="flex-column bg-white">
           <div class="flex-item-6">
             <!-- 批量收货按钮 -->
-            <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
-              <a href="javascript:void(0)"
+            <div  ng-if="!listParams.receiveItemStatus" class="flex-column color-9 pd-c-l pdt-m pdb-m">
+              <a
+                 href="javascript:void(0)"
                  class="batch-receive-btn"
                  ng-disabled="!choisedMedicalList.length"
                  handle-this-click
