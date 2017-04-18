@@ -33,8 +33,10 @@
          <!-- 状态筛选 -->
          <div class="pd-v-m pdl-l bb-line">
            <span>状态筛选：</span>
-           <select class="ipt pr-short-ipt color-6">
-             <option value="">全部</option>
+           <select class="ipt pr-short-ipt color-6" ng-model="listParams.status">
+             <option value="" ng-selected="listParams.status==''">全部</option>
+             <option value="未匹配" ng-selected="listParams.status=='未匹配'">未匹配</option>
+             <option value="已匹配" ng-selected="listParams.status=='已匹配'">已匹配</option>
            </select>
          </div>
          <div class="flex-column pd-v-m">
@@ -112,8 +114,8 @@
                    <td class="text-center" style="line-height:2.4">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
                    <td class="text-center" style="line-height:2.4">
                      <span class="circle-status relative"
-                           ng-class="{'bg-pass-green':tr.distributorMedicalCode,
-                                      'bg-end-red':!tr.distributorMedicalCode}">
+                           ng-class="{'bg-pass-green':tr.distributorMedicalCode&&tr.medical.code,
+                                      'bg-end-red':!tr.distributorMedicalCode||!tr.medical.code}">
 
                        <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
                          <i class="block pd-c-s text-normal" style="line-height:1.8">

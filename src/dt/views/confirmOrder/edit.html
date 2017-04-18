@@ -327,11 +327,11 @@
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="item.discountPrice=(item.strike_price*(1-item.discountRate/100)).toFixed(2)"/> %
                     </td><!-- 折扣率 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td><!-- 含税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td><!-- 无税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item) | number:2}}</td><!-- 无税金额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item) | number:2}}</td><!-- 税额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item.strike_price,item.discountRate) | number:2}}</td><!-- 含税单价 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item.strike_price,item.discountRate,item.tax) | number:2}}</td><!-- 无税单价 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item.strike_price,item.discountRate,item.tax,$root.saleOrderUtils.getAllBatchTotal(item.stockBatchs,'quantity')) | number:2}}</td><!-- 无税金额 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item.strike_price,item.discountRate,item.tax,$root.saleOrderUtils.getAllBatchTotal(item.stockBatchs,'quantity')) | number:2}}</td><!-- 税额 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item.strike_price,item.discountRate,$root.saleOrderUtils.getAllBatchTotal(item.stockBatchs,'quantity')) | number:2}}</td><!-- 价税合计 -->
                   </tr>
                 </tbody>
                 <tbody ng-if="formData.orderBusinessType=='直运销售'">
@@ -429,11 +429,11 @@
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="item.discountPrice=(item.strike_price*(1-item.discountRate/100)).toFixed(2)"/> %
                     </td><!-- 折扣率 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item) | number:2}}</td><!-- 含税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item) | number:2}}</td><!-- 无税单价 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item,'直运销售') | number:2}}</td><!-- 无税金额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item,'直运销售') | number:2}}</td><!-- 税额 -->
-                    <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item,'直运销售') | number:2}}</td><!-- 价税合计 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item.strike_price,item.discountRate) | number:2}}</td><!-- 含税单价 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item.strike_price,item.discountRate,item.tax) | number:2}}</td><!-- 无税单价 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiJinE(item.strike_price,item.discountRate,item.tax,item.planQuantity) | number:2}}</td><!-- 无税金额 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getSuiE(item.strike_price,item.discountRate,item.tax,item.planQuantity) | number:2}}</td><!-- 税额 -->
+                    <td class="text-center">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item.strike_price,item.discountRate,item.planQuantity) | number:2}}</td><!-- 价税合计 -->
                   </tr>
                 </tbody>
               </table>

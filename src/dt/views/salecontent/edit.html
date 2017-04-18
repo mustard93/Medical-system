@@ -32,8 +32,10 @@
          <!-- 状态筛选 -->
          <div class="pd-v-m pdl-l bb-line">
            <span>状态筛选：</span>
-           <select class="ipt pr-short-ipt color-6">
-             <option value="">全部</option>
+           <select class="ipt pr-short-ipt color-6" ng-model="listParams.status">
+             <option value="" ng-selected="listParams.status==''">全部</option>
+             <option value="未匹配" ng-selected="listParams.status=='未匹配'">未匹配</option>
+             <option value="已匹配" ng-selected="listParams.status=='已匹配'">已匹配</option>
            </select>
          </div>
          <div class="flex-column pd-v-m">
@@ -62,7 +64,7 @@
                   <th class="text-center">商品编码</th>
                   <th class="text-center">医疗机构商品编码</th>
                   <th class="text-left">商品名称</th>
-                  <th class="text-left">供应商商品名称</th>
+                  <th class="text-left">医疗机构商品名称</th>
                   <th class="text-center">商品规格</th>
                   <th class="text-center">医疗机构商品规格</th>
                   <th class="text-center">基本单位</th>
@@ -87,7 +89,6 @@
                   <th class="text-center">有效期</th>
                   <th class="text-center">有效期单位</th>
                   <th class="text-center">效期预警天数</th>
-                  <th class="text-center">平台商品编码</th>
                   <th class="text-center">备注</th>
                 </tr>
                </thead>
@@ -123,7 +124,7 @@
                      </div>
                    </td><!-- 供应商商品编码 -->
                    <td class="text-left" style="line-height:2.4">{{tr.medical.name}}</td><!-- 商品名称 -->
-                   <td class="text-left" style="line-height:2.4">{{tr.medical.approvedName}}</td><!-- 供应商商品名称 -->
+                   <td class="text-left" style="line-height:2.4">{{tr.medical.approvedName}}</td><!-- 医疗机构商品名称 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.specificationAndModelType}}</td><!-- 规格型号 -->
                    <td class="text-center" style="line-height:2.4"></td><!-- 供应商规格型号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.measurement}}</td><!-- 基本单位 -->
@@ -145,10 +146,9 @@
                    <td class="text-center" style="line-height:2.4">{{tr.medical.drugAdministrationCode}}</td><!-- 注册证号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.drugAdministrationCode_createAt | date:'yyyy-MM-dd'}}</td><!-- 注册证号认证日期 -->
                    <td class="text-center" style="line-height:2.4"></td><!-- 注册证号有效期至 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.medical.guaranteePeriod}}</td><!-- 有效期 -->
+                   <td class="text-center" style="line-height:2.4">{{}}</td><!-- 有效期 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.guaranteePeriod_measurement}}</td><!-- 有效期单位 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.guaranteePeriodAlarmDay}}</td><!-- 效期预警天数 -->
-                   <td class="text-center" style="line-height:2.4"></td><!-- 平台商品编码 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.note}}</td><!-- 备注 -->
                  </tr>
                </tbody>
