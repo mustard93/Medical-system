@@ -243,7 +243,7 @@ function alertOk($rootScope, modal) {
          if(!pidKey)pidKey="pid";
 
           //组装map
-         for(var i=0;i<data.length;i++){
+         for(i=0;i<data.length;i++){
            var obj=data[i];
             obj.nodes = [];
             pos[obj.id]=obj;
@@ -420,245 +420,240 @@ function alertOk($rootScope, modal) {
 
       //工具类
       function utils ($timeout) {
-        //递归 获取：data.data.data 获取子属性值
 
-          function getObjectValByKeyArr(obj,keyArr,index){
-            if(!keyArr)return null;
+        // 递归获取：data.data.data 获取子属性值
+        function getObjectValByKeyArr(obj,keyArr,index){
+          if (!keyArr) { return null; }
 
-              if(keyArr.length-index==1){//直到取最后一个节点
-                var key=keyArr[index];
-                  if(!key)return null;
-                  return obj[key];
+          var key = null;
+          if (keyArr.length - index == 1) {   //直到取最后一个节点
+            key = keyArr[index];
+            if (!key) { return null; }
+            return obj[key];
+          }
+
+          key = keyArr[index];
+          if (!key) { return null; }
+          if (!obj[key]) { return null; }
+          return getObjectValByKeyArr(obj[key],keyArr,(1+index));
+        }
+
+        var utilsObj = {
+          // 获取一个月的最大天数
+          getNumberArrayByMaxNum : function(startNumber,endNumber){
+            var returnArr=[];
+              if( typeof startNumber === 'number'&& typeof endNumber === 'number') {
+                for(var i=startNumber;i<=endNumber;i++){
+                  returnArr.push(i);
+                }
               }
-              var key=keyArr[index];
-                if(!key)return null;
-              if(!obj[key])return null;
-              return getObjectValByKeyArr(obj[key],keyArr,(1+index));
 
-          };
+            return returnArr;
+          },
 
-          var  utilsObj = {
-            //
-            //获取一个月的最大天数
-            getNumberArrayByMaxNum:function(startNumber,endNumber){
+          // URL参数转换对象
+          parseQueryString : function (url) {
+            var reg_url = /^[^\?]+\?([\w\W]+)$/,
+                reg_para = /([^&=]+)=([\w\W]*?)(&|$)/g, //g is very important
+                arr_url = reg_url.exec(url),
+                ret = {};
 
-                var returnArr=[];
-                    if( typeof startNumber === 'number'&& typeof endNumber === 'number')
-                    {
-                      for(var i=startNumber;i<=endNumber;i++){
+            if (arr_url && arr_url[1]) {
+              var str_para = arr_url[1], result;
+              while ((result = reg_para.exec(str_para)) !== null) {
+                  ret[result[1]] = result[2];
+              }
+            }
 
-                        returnArr.push(i);
-                      }
-                    }
-                console.log("getNumberArrayByMaxNum",arguments,returnArr);
-               return returnArr;
-            },
-            /**
+            return ret;
+          },
+          /**
+          *
+          * @Description: 切换数组中2个条目顺序
+          * @method switchArrayOrder
+          * @param sourceIndex  切换顺序的位置1
+          * @param sourceIndex  切换顺序的位置2
+          * @return 输出html格式
+          * @author liumingquan
+          */
+          switchArrayOrder:function(arr,sourceIndex,destIndex){
+            var tmp=arr[sourceIndex];
+            arr[sourceIndex]=arr[destIndex];
+            arr[destIndex]=tmp;
+          },
 
-            URL参数转换对象
+          // 获取当前服务器的路径，用于异步请求当前数据的
+          getCurServerPath:function(){
+            //例：http://localhost:8086/topic/index?topicId=361
+            // alert(window.location.pathname); 则输出：/topic/index
 
-            */
-            parseQueryString :function (url) {
-                  var reg_url = /^[^\?]+\?([\w\W]+)$/,
-                          reg_para = /([^&=]+)=([\w\W]*?)(&|$)/g, //g is very important
-                          arr_url = reg_url.exec(url),
-                          ret = {};
-                  if (arr_url && arr_url[1]) {
-                      var str_para = arr_url[1], result;
-                      while ((result = reg_para.exec(str_para)) != null) {
-                          ret[result[1]] = result[2];
-                      }
+              // 例：http://localhost:8086/topic/index?topicId=361
+              // alert(window.location.host); 则输出：http:localhost:8086
+                var context=  window.location.pathname.split("/")[1];
+                var path=window.location.protocol+"//"+window.location.host+"/"+context+"/";
+              // console.log(path);
+
+              return path;
+          },
+
+          // 获取当前时间
+          getNowTime: function (inputId) {
+            return new Date().getTime();
+          },
+
+          // 设置输入框获取焦点
+          focusByInputId: function (inputId) {
+            //  $timeout 保障不受其他干扰，最后一个执行。
+            $timeout(function(){
+                $('#'+inputId).trigger('focus');
+            },0);
+
+          },
+
+          // 获取window窗口的高度
+          getwindowHeight:function(){
+              var t=$(window).height();
+              return t;
+          },
+
+          // 获取window窗口的宽度
+          getwindowWidth:function(){
+            var t=$(window).width();
+            return t;
+          },
+
+          // 获取内容区的宽度。
+          getMainBodyWidth:function(){
+            var t=$("#main_body").width();
+            return t;
+          },
+
+          // json字符串=>为js 对象。
+          fromJson  : function (jsonString) {
+            var firstLetter = jsonString.replace(/^\s*/, '')[0];
+            return (firstLetter === '{' || firstLetter === '[') ? angular.fromJson(jsonString) : new String(jsonString);
+          },
+
+          // json字符串<=为js 对象。
+          toJson  : function (obj) {
+            return angular.toJson(obj);
+          },
+
+          // 获取有指定key的scope作用域。
+          getAppointScope  : function ($scope,scopeKey) {
+            if($scope[scopeKey]){
+              return $scope;
+            }
+            if(!$scope.$parent)return null;
+            return utilsObj.getAppointScope($scope.$parent,scopeKey);
+          },
+
+          // 在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
+          getScopeExtend  : function ($scope,scopeExtendName) {
+            if(  angular.isObject($scope[scopeExtendName])){
+              return $scope[scopeExtendName];
+            }
+            if(!$scope.$parent)return null;
+            return utilsObj.getScopeExtend($scope.$parent,scopeExtendName);
+          },
+
+          // url存在则跳转，否则刷新。
+          goOrRefreshHref : function (url,confirmMsg) {
+            if(url){
+               utilsObj.goTo(url,confirmMsg);
+               return;
+            }
+            utilsObj.refreshHref(confirmMsg);
+          },
+
+          // 跳转到对应页面 utils.goTo(url,confirmMsg);
+          refreshHref : function (confirmMsg) {
+              var url=window.location.href;
+              //避免参数越来越多
+              if (url.indexOf('refreshTime=') > -1) {
+                url = url.split('refreshTime=')[0];
+              }
+
+              url+=(url.indexOf("?")>-1?"&":"?")+"refreshTime="+new Date().getTime();
+
+              if(confirmMsg){
+                dialogConfirm(confirmMsg, function () {
+                  window.location.assign(url);
+                }, null);
+              }else{
+                  window.location.assign(url);
+              }
+          },
+
+          // 跳转到对应页面 utils.goTo(url,confirmMsg);
+          goTo : function (url,confirmMsg) {
+            url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
+            if(confirmMsg){
+              dialogConfirm(confirmMsg, function () {
+                window.location.assign(url);
+              }, null);
+            }else{
+                window.location.assign(url);
+            }
+          },
+
+          //递归 获取：data.data.data 获取子属性值
+          getObjectVal:function (obj,key){
+            if(!key)return null;
+            var arr=key.split(".");
+            return getObjectValByKeyArr(obj,arr,0);
+          },
+
+          // 对象的所有属性转换为数组。 data={ "拒收数量": "0.0000",  "收货数量": "1.0000"}==>["拒收数量","收货数量"]
+          getPropertysArrayOfObject:function (obj){
+            var arr=[];
+            if(!obj)return arr;
+            for (var key in obj) {
+              arr.push(key);
+            }
+           return arr;
+          },
+
+
+          /**
+          * @Description: 遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
+          * @method sumTotalByArray
+          * @param arr ：数组
+          * @param keyArr：累加的属性名的数组。
+          * @param conditionEqualPropertyKey 条件属性名，不为空，表示需要判断满足条件的值（conditionEqualVal）才生效
+          * @return
+          * @author liumingquan
+          * @date 2016年12月28日 下午5:16:02
+          */
+          sumTotalByArray : function (arr,keyArr,conditionEqualPropertyKey, conditionEqualVal) {
+            var total={};
+            if(!angular.isArray(arr))return -1;
+            for(var i=0;i<arr.length;i++){
+                var tmp=arr[i];
+                if(!tmp)continue;
+
+                //属性值满足条件的，才允许相加。
+                if(conditionEqualPropertyKey){
+                  var tmpval=utilsObj.getObjectVal(tmp,conditionEqualPropertyKey);
+                  if(tmpval!=conditionEqualVal){
+                    continue;
                   }
-                  // console.dir(ret);
-                  return ret;
-              },
-            /**
-                 *
-                * @Description: 切换数组中2个条目顺序
-                * @method switchArrayOrder
-                * @param sourceIndex  切换顺序的位置1
-                * @param sourceIndex  切换顺序的位置2
-                * @return 输出html格式
-                * @author liumingquan
-                */
-            switchArrayOrder:function(arr,sourceIndex,destIndex){
-              var tmp=arr[sourceIndex];
-              arr[sourceIndex]=arr[destIndex];
-              arr[destIndex]=tmp;
-            },
-            //获取当前服务器的路径，用于异步请求当前数据的
-            getCurServerPath:function(){
-              //例：http://localhost:8086/topic/index?topicId=361
-              // alert(window.location.pathname); 则输出：/topic/index
-
-                // 例：http://localhost:8086/topic/index?topicId=361
-                // alert(window.location.host); 则输出：http:localhost:8086
-                  var context=  window.location.pathname.split("/")[1];
-                  var path=window.location.protocol+"//"+window.location.host+"/"+context+"/";
-                // console.log(path);
-
-                return path;
-            },
-            //获取当前时间
-            getNowTime: function (inputId) {
-              return new Date().getTime();
-
-            },
-            //设置输入框获取焦点
-            focusByInputId: function (inputId) {
-              //  $timeout 保障不受其他干扰，最后一个执行。
-              $timeout(function(){
-                  $('#'+inputId).trigger('focus');
-
-              },0);
-
-            },
-            //获取window窗口的高度
-            getwindowHeight:function(){
-                var t=$(window).height();
-                // console.log("main_body="+t);
-                return t;
-            },
-            //获取window窗口的高度
-            getwindowWidth:function(){
-                var t=$(window).width();
-                // console.log("main_body="+t);
-                return t;
-            },
-            //获取内容区的宽度。
-            getMainBodyWidth:function(){
-                var t=$("#main_body").width();
-                // console.log("main_body="+t);
-                return t;
-            },
-            //json字符串=>为js 对象。
-            fromJson  : function (jsonString) {
-              var firstLetter = jsonString.replace(/^\s*/, '')[0];
-              return (firstLetter === '{' || firstLetter === '[') ? angular.fromJson(jsonString) : new String(jsonString);
-            },
-            //json字符串<=为js 对象。
-            toJson  : function (obj) {
-              return angular.toJson(obj);
-            },
-
-            //获取有指定key的scope作用域。
-            getAppointScope  : function ($scope,scopeKey) {
-                if($scope[scopeKey]){
-                  return $scope;
                 }
-                if(!$scope.$parent)return null;
-                return utilsObj.getAppointScope($scope.$parent,scopeKey);
-            },
-            //在scope的父亲链上，获取最靠近的扩展作用域的。utils.getScopeExtend($scope,scopeExtendName);
-            getScopeExtend  : function ($scope,scopeExtendName) {
-                if(  angular.isObject($scope[scopeExtendName])){
-                  return $scope[scopeExtendName];
-                }
-                if(!$scope.$parent)return null;
-                return utilsObj.getScopeExtend($scope.$parent,scopeExtendName);
-            },
-            //  url 存在则跳转，否则刷新。
-            goOrRefreshHref  : function (url,confirmMsg) {
-                if(url){
-                   utilsObj.goTo(url,confirmMsg);
-                   return;
-                }
-                utilsObj.refreshHref(confirmMsg);
-            },
-            //  跳转到对应页面 utils.goTo(url,confirmMsg);
-            refreshHref  : function (confirmMsg) {
-                var url=window.location.href;
-                //避免参数越来越多
-                if (url.indexOf('refreshTime=') > -1) {
-                  url = url.split('refreshTime=')[0];
-                }
+              for(var j=0;j<keyArr.length;j++){
+                  var keyName=keyArr[j];
+                  if(!total[keyName])total[keyName]=0;
+                  var val=utilsObj.getObjectVal(tmp,keyName);
+                  if(!val)continue;
 
-                url+=(url.indexOf("?")>-1?"&":"?")+"refreshTime="+new Date().getTime();
-
-                if(confirmMsg){
-                  dialogConfirm(confirmMsg, function () {
-                    window.location.assign(url);
-                  }, null);
-                }else{
-                    window.location.assign(url);
-                }
-            },
-            //  跳转到对应页面 utils.goTo(url,confirmMsg);
-            goTo  : function (url,confirmMsg) {
-
-                  url+=(url.indexOf("?")>-1?"&":"?")+"t="+new Date().getTime();
-                if(confirmMsg){
-                  dialogConfirm(confirmMsg, function () {
-                    window.location.assign(url);
-                  }, null);
-                }else{
-                    window.location.assign(url);
-                }
-            },
-            //递归 获取：data.data.data 获取子属性值
-            getObjectVal:function (obj,key){
-                if(!key)return null;
-               var arr=key.split(".");
-               return getObjectValByKeyArr(obj,arr,0);
-            },
-
-            //对象的所有属性转换为数组。
-            //data={ "拒收数量": "0.0000",  "收货数量": "1.0000"}==>["拒收数量","收货数量"]
-            getPropertysArrayOfObject:function (obj){
-                   var arr=[];
-                if(!obj)return arr;
-                for (var key in obj) {
-                  arr.push(key);
-                }
-               return arr;
-            },
-
-
-            /**
-
-            *
-            * @Description: 遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
-            * @method sumTotalByArray
-            * @param arr ：数组
-            * @param keyArr：累加的属性名的数组。
-            * @param conditionEqualPropertyKey 条件属性名，不为空，表示需要判断满足条件的值（conditionEqualVal）才生效
-            * @return
-            * @author liumingquan
-            * @date 2016年12月28日 下午5:16:02
-            */
-            sumTotalByArray : function (arr,keyArr,conditionEqualPropertyKey, conditionEqualVal) {
-              var total={};
-              if(!angular.isArray(arr))return -1;
-              for(var i=0;i<arr.length;i++){
-                  var tmp=arr[i];
-                  if(!tmp)continue;
-
-                  //属性值满足条件的，才允许相加。
-                  if(conditionEqualPropertyKey){
-                    var tmpval=utilsObj.getObjectVal(tmp,conditionEqualPropertyKey);
-                    if(tmpval!=conditionEqualVal){
-                      continue;
-                    }
-                  }
-                for(var j=0;j<keyArr.length;j++){
-                    var keyName=keyArr[j];
-                    if(!total[keyName])total[keyName]=0;
-                    var val=utilsObj.getObjectVal(tmp,keyName);
-                    if(!val)continue;
-
-                        total[keyName]=utilsObj.numberAdd(total[keyName],val);
-
-                }
+                      total[keyName]=utilsObj.numberAdd(total[keyName],val);
 
               }
-              return total;
-            },
-            //sumTotalByArray(tbodyList,['quantity','price','quantity_actualQuantity'])
-            //
+
+            }
+            return total;
+          },
 
             /**
-
-            *
             * @Description: 遍历数组，返回满足属性值等于val的。进行相乘法后在相加。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
           	* @method sumTotalByArrayMul
           	* @param arr ：数组
@@ -700,6 +695,7 @@ function alertOk($rootScope, modal) {
             getcustomMenuByKeyOfArr : function (arr,val) {
               return utilsObj.getObjectByKeyOfArr(arr,"type",val) ;
             },
+
             //遍历数组，返回满足属性值等于val的。数据位置。 utils.getObjectIndexByKeyOfArr(arr,key,val) ;
             getObjectIndexByKeyOfArr : function (arr,key,val) {
               if(!angular.isArray(arr))return -1;
@@ -709,6 +705,7 @@ function alertOk($rootScope, modal) {
               }
               return -1;
             },
+
             //遍历数组，返回满足属性值等于val的。 utils.getObjectByKeyOfArr(arr,key,val) ;
             getObjectByKeyOfArr : function (arr,key,val) {
               var index=utilsObj.getObjectIndexByKeyOfArr(arr,key,val);
@@ -719,17 +716,17 @@ function alertOk($rootScope, modal) {
 
             /**
               遍历数组，满足属性值等于val，分组返回。 utils.getGroupArrayByKeyOfArr(arr,key) ;
-            参数：
-            arr=[{"id","1","pid":"0"},{"id","2","pid":"0"}],]
-            key="id"
-            执行结果输出=>：
-            retrun  groupMap={
-                  keyArr:["0","1"],//分组的key数组
-                  map:{"0",[{"id","1","pid":"0"},{"id","2","pid":"0"}],"11":[{"id","2","pid":"11"}]}//分组map<key（分组key）,dataArray（分组key相同的数据集合）>
-              };
+              参数：
+              arr=[{"id","1","pid":"0"},{"id","2","pid":"0"}],]
+              key="id"
+              执行结果输出=>：
+              retrun  groupMap={
+                    keyArr:["0","1"],//分组的key数组
+                    map:{"0",[{"id","1","pid":"0"},{"id","2","pid":"0"}],"11":[{"id","2","pid":"11"}]}//分组map<key（分组key）,dataArray（分组key相同的数据集合）>
+                };
             */
             getGroupArrayByKeyOfArr : function (arr,key) {
-              console.log("getGroupArrayByKeyOfArr",arr,key);
+              // console.log("getGroupArrayByKeyOfArr",arr,key);
               var groupMap={
                   keyArr:[],//分组的key数组
                   map:{}//分组map<key（分组key）,dataArray（分组key相同的数据集合）>
@@ -761,6 +758,7 @@ function alertOk($rootScope, modal) {
                 }
               return groupMap;
             },
+
             //遍历数组，删除满足属性值等于val的。utils.removeObjectByKeyOfArr(arr,key,val)
             removeObjectByKeyOfArr : function (arr,key,val) {
               var index=utilsObj.getObjectIndexByKeyOfArr(arr,key,val);
@@ -769,124 +767,163 @@ function alertOk($rootScope, modal) {
               }
               return index;
             },
-            //除法.javascript解决小数的加减乘除精度丢失的方案
-            numberDiv:function (arg1,arg2){
-              if(!arg1||!arg2)return 0;
-               var t1=0,t2=0,r1,r2;
-                 try{t1=arg1.toString().split(".")[1].length}catch(e){};
-                 try{t2=arg2.toString().split(".")[1].length}catch(e){};
-               with(Math){
-                 r1=Number(arg1.toString().replace(".",""));
-                 r2=Number(arg2.toString().replace(".",""));
-                 var tmp= utilsObj.numberMul((r1/r2),pow(10,t2-t1));
 
-                 return tmp;
-               }
-           },
-           //乘法
-           numberMul:function (arg1,arg2) {
-              if(!arg1)arg1=0;
-                if(!arg2)arg2=0;
-               var m=0,s1=arg1.toString(),s2=arg2.toString();
-               try{m+=s1.split(".")[1].length}catch(e){};
-               try{m+=s2.split(".")[1].length}catch(e){};
+            //加法
+            numberAdd: function (arg1, arg2) {
+              if (!arg1) { arg1 = 0; }
+              if (!arg2) { arg2 = 0; }
+              var r1, r2, m;
 
-                var tmp= Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+              try {
+                r1 = arg1.toString().split(".")[1].length;
+              } catch (e) {
+                r1=0;
+              }
+              try {
+                r2 = arg2.toString().split(".")[1].length;
+              } catch (e) {
+                r2=0;
+              }
 
-                return tmp;
-           },
-          //加法
-          numberAdd:function(arg1,arg2){
-            if(!arg1)arg1=0;
-              if(!arg2)arg2=0;
-              var r1,r2,m;
-              try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0};
-              try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0};
-              m=Math.pow(10,Math.max(r1,r2));
+              m = Math.pow(10, Math.max(r1,r2));
 
-              var arg1Mul=utilsObj.numberMul(arg1,m);
-              var arg2Mul=utilsObj.numberMul(arg2,m);
+              var arg1Mul = utilsObj.numberMul(arg1, m);
+              var arg2Mul = utilsObj.numberMul(arg2, m);
 
-              return (arg1Mul+arg2Mul)/m ;
+              return (arg1Mul + arg2Mul) / m ;
+            },
 
-                //不精确bug
-              //  return (arg1*m+arg2*m)/m;
-          },
-          //减法
-          numberSub:function(arg1,arg2){
-            if(!arg1)arg1=0;
-              if(!arg2)arg2=0;
-               try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0};
-               try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0};
-               m=Math.pow(10,Math.max(r1,r2));
-               n=(r1>=r2)?r1:r2;
+            //减法
+            numberSub: function (arg1,arg2) {
+              if (!arg1) { arg1 = 0; }
+              if (!arg2) { arg2 = 0; }
 
+              try {
+                r1 = arg1.toString().split(".")[1].length;
+              } catch (e) {
+                r1=0;
+              }
+              try {
+                r2 = arg2.toString().split(".")[1].length;
+              } catch (e) {
+                r2=0;
+              }
 
-               var arg1Mul=utilsObj.numberMul(arg1,m);
-               var arg2Mul=utilsObj.numberMul(arg2,m);
+              m = Math.pow(10, Math.max(r1,r2));
+              n = (r1 >= r2) ? r1 : r2;
 
-               return ((arg1Mul-arg2Mul)/m).toFixed(n) ;
-                   //不精确bug
-              //  return ((arg1*m-arg2*m)/m).toFixed(n);
-          },
-          // 对文件名后缀进行判断以区分用户上传的文件类型
-          isPicture : function (fileName) {
-            if(!fileName)return false;
-            //http://pangu16.aliyuncs.com/d0a2dcabd56e418ebb001ff137e3ea00.PNG@108w
-            var re = new RegExp("(\.png)|(\.jpg)|(\.jpeg)|(\.gif)",["i"]);
-            if (!re.exec(fileName)) return false;
+              var arg1Mul = utilsObj.numberMul(arg1, m);
+              var arg2Mul = utilsObj.numberMul(arg2, m);
 
-            return true;
+              return ((arg1Mul - arg2Mul) / m).toFixed(n);
+            },
 
-            if (angular.isString(fileName) && fileName.indexOf('.') !== -1) {
-              //img.png@100h
-              var _suffix = fileName.split('.')[1];
-                 _suffix = fileName.split('@')[0];//解决缩略图情况
-                return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
-              // if (_suffix !== 'png' || _suffix !== 'jpg' || _suffix !== 'jpeg' || _suffix !== 'gif') {
-              //   return false;
-              // } else {
-              //   return true;
+            //乘法
+            numberMul: function (arg1, arg2) {
+              if (!arg1) { arg1 = 0; }
+              if (!arg2) { arg2 = 0; }
+
+              var m = 0,
+                  s1 = arg1.toString(),
+                  s2=arg2.toString();
+
+              try{
+                m += s1.split(".")[1].length;
+              } catch (e) {}
+              try{
+                m += s2.split(".")[1].length;
+              } catch (e) {}
+
+              var tmp = Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
+
+              return tmp;
+             },
+
+            //除法
+            numberDiv: function (arg1, arg2){
+              if(!arg1 || !arg2) { return 0; }
+
+              var t1 = 0, t2 = 0, r1, r2;
+
+              try{
+                t1 = arg1.toString().split(".")[1].length;
+              } catch(e){}
+              try{
+                t2=arg2.toString().split(".")[1].length;
+              }catch(e){}
+
+              r1 = Number(arg1.toString().replace(".",""));
+              r2 = Number(arg2.toString().replace(".",""));
+
+              return utilsObj.numberMul((r1/r2), Math.pow(10,t2-t1));
+
+              // with(Math){
+              //   r1=Number(arg1.toString().replace(".",""));
+              //   r2=Number(arg2.toString().replace(".",""));
+              //   var tmp= utilsObj.numberMul((r1/r2),pow(10,t2-t1));
+              //
+              //   return tmp;
               // }
-            } else {
-              throw new Error('params fileName is must type of String');
-            }
-          },
+            },
 
-          // 将对象数据清空。
-          clearObject : function (object) {
-             for (var variable in object) {
-               delete object[variable];
-             }
-          },
+            // 对文件名后缀进行判断以区分用户上传的文件类型
+            isPicture : function (fileName) {
+              if(!fileName)return false;
+              //http://pangu16.aliyuncs.com/d0a2dcabd56e418ebb001ff137e3ea00.PNG@108w
+              var re = new RegExp("(\.png)|(\.jpg)|(\.jpeg)|(\.gif)",["i"]);
+              if (!re.exec(fileName)) return false;
 
-          // 将对象数据清空。
-          replaceObject : function (dest,source) {
+              return true;
+
+              if (angular.isString(fileName) && fileName.indexOf('.') !== -1) {
+                //img.png@100h
+                var _suffix = fileName.split('.')[1];
+                   _suffix = fileName.split('@')[0];//解决缩略图情况
+                  return (_suffix === 'png' || _suffix === 'jpg' || _suffix === 'jpeg' || _suffix === 'gif') ? true : false;
+                // if (_suffix !== 'png' || _suffix !== 'jpg' || _suffix !== 'jpeg' || _suffix !== 'gif') {
+                //   return false;
+                // } else {
+                //   return true;
+                // }
+              } else {
+                throw new Error('params fileName is must type of String');
+              }
+            },
+
+            // 将对象数据清空。
+            clearObject : function (object) {
+               for (var variable in object) {
+                 delete object[variable];
+               }
+            },
+
+            // 将对象数据清空。
+            replaceObject : function (dest,source) {
 
 
-            if(angular.isArray(source)){
+              if(angular.isArray(source)){
 
-              if(!angular.isArray(dest))dest=[];
-              //清空
-              dest.splice(0,dest.length);
+                if(!angular.isArray(dest))dest=[];
+                //清空
+                dest.splice(0,dest.length);
 
-                for(var i=0;i<source.length;i++){
-                  dest.push(source[i]);
-                }
-                return dest;
-            }
+                  for(var i=0;i<source.length;i++){
+                    dest.push(source[i]);
+                  }
+                  return dest;
+              }
 
 
-              if(!dest)dest={};
-              utilsObj.clearObject(dest);
-              if(!source)return;
+                if(!dest)dest={};
+                utilsObj.clearObject(dest);
+                if(!source)return;
 
-               $.extend( true,dest,  source);//解决监听fromdata失败bug。
+                 $.extend( true,dest,  source);//解决监听fromdata失败bug。
 
-            return dest;
-          },
+              return dest;
+            },
 
-          /**
+            /**
                *
               * @Description: 将模版变量字符串转化为具体数据。模版变量定义为：{{id}}
               * @method to_trusted
@@ -902,7 +939,7 @@ function alertOk($rootScope, modal) {
               #/uICustomMenu/edit.html?id=1234
               * @date 2017年2月8日
                */
-          parseVariableString : function (variableString,obj) {
+            parseVariableString : function (variableString,obj) {
               var returnString="";
               if(!variableString)return returnString;
                 returnString=variableString;
@@ -922,10 +959,11 @@ function alertOk($rootScope, modal) {
              return returnString;
           },
 
-          // 将字符串类型数字转换为number类型
-          transformToNumber : function (str) {
-            return angular.isString(str) ? Number(str) : str;
-          }
+            // 将字符串类型数字转换为number类型
+            transformToNumber : function (str) {
+              return angular.isString(str) ? Number(str) : str;
+            }
+
         };
 
         return utilsObj;
@@ -973,8 +1011,7 @@ function alertOk($rootScope, modal) {
               2.调用打印，预览等功能。
 
            */
-          function OPrinter () {
-
+          function OPrinter() {
               var LodopFuncs=null;
                 var LODOP=null;
 
@@ -1284,9 +1321,8 @@ e
 
 
     angular.module('manageApp.main')
-
-        .factory('OPrinter', OPrinter)
-        .service('watchFormChange', ["$timeout",watchFormChange])
+      .factory('OPrinter', OPrinter)
+      .service('watchFormChange', ["$timeout",watchFormChange])
       .factory('redirectInterceptor', redirectInterceptor)
       .service('alertOk', ['$rootScope', 'modal',alertOk])
       .service('alertError', ['$rootScope', 'modal',alertError])
@@ -1297,10 +1333,10 @@ e
       .service('dialog', dialog)
       .service('dialogChart', dialogChart)
       .service('buildTree', buildTree)
-        .factory('store', store)
-          .factory('utils', ["$timeout",utils])
-            .factory('AjaxUtils', ["requestData","alertOk","alertError",AjaxUtils])
-            .factory('UICustomTable', ["$filter","utils",UICustomTable])
+      .factory('store', store)
+      .factory('utils', ["$timeout",utils])
+      .factory('AjaxUtils', ["requestData","alertOk","alertError",AjaxUtils])
+      .factory('UICustomTable', ["$filter","utils",UICustomTable])
       .factory('proLoading', proLoading)
       .config(['$httpProvider', function ($httpProvider) {
           $httpProvider.interceptors.push('redirectInterceptor');
