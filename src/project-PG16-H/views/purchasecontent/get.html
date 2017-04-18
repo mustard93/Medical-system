@@ -5,7 +5,8 @@
   <div class="create-new-order purchaseOrder-edit purchase-plan-order"
        ng-controller="purchaseContentController"
        ajax-url="rest/authen/purchasecontent/get.json?id={{mainStatus.pageParams.id}}"
-       scope-data="scopeData">
+       scope-data="scopeData"
+       callback="bottomButtonList= $root.bottomButtonList.get_purchaseContent(scopeData);">
     <!-- 头部信息 -->
     <page-main-header-component list-params="listParams"
                                 crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"采购目录","link":"","style":"color-custom-orange"},{"name":"采购目录详情","link":"","style":""}]'
@@ -154,7 +155,7 @@
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
         <a class="mgr-l" ng-href="#/purchasecontent/query.html" >返回采购目录列表</a>
-        <a class="mgr-l" ng-href="#/purchasecontent/query.html" >查看操作记录</a>
+        <span bottom-button-list="bottomButtonList">  </span>
         <span class="mgl">
           <!-- <button class="pr-btn-save-glodbg mgt"
            ng-click="$root.goTo('#/purchasecontent/edit.html?id='+mainStatus.pageParams.id+'&distributorId='+mainStatus.pageParams.distributorId)">编辑</button> -->
