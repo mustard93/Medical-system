@@ -138,15 +138,14 @@
                 <th>规格</th>
                 <th>单位</th>
                 <th>配送总数/已收总数</th>
-                <!-- batchInfo-start -->
                 <th>生产批号</th>
-                <th>实收数量</th>
+                <th>配送数量/已收数量</th>
                 <th>生产日期</th>
                 <th>收货人</th>
                 <th>收货时间</th>
-                <!-- batchInfo-end -->
                 <th>有效期至</th>
                 <th>发票号</th>
+                <th>发票日期</th>
                 <th>生产厂商</th>
                 <th>产地</th>
                 <th>供应商名称</th>
@@ -207,53 +206,52 @@
                          callback="endReceipt(tr.id)">结束收货
                     </div>
                   </div>
-                </td>
-                <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
-                <td>{{tr.purchasePlanOrderCode}}</td>
-                <td>{{tr.code}}</td>
-                <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td>
-                <td>{{tr.specification}}</td>
-                <td>{{tr.unit}}</td>
-                <td>{{tr.totalDeliveryQuantity || '0'}}/{{tr.totalReceiveQuantity || '0'}}</td>
-                <!-- batchInfo-start -->
+                </td><!-- 状态 -->
+                <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
+                <td>{{tr.purchasePlanOrderCode}}</td><!-- 采购计划编号 -->
+                <td>{{tr.code}}</td><!-- 商品编号 -->
+                <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品名称 -->
+                <td>{{tr.specification}}</td><!-- 规格 -->
+                <td>{{tr.unit}}</td><!-- 单位 -->
+                <td>{{tr.totalDeliveryQuantity || '0'}}/{{tr.totalReceiveQuantity || '0'}}</td><!-- 配送总数/已收总数 -->
                 <td style="padding:0px;">
                   <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="pro in tr.batchInfos">
                     {{pro.productionBatch}}
                   </div>
-                </td>
+                </td><!-- 生产批号 -->
                 <td style="padding:0px;">
                   <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="rec in tr.batchInfos">
-                    {{rec.hasReceiveQuantity}}
+                    {{rec.deliveryQuantity}}/{{rec.hasReceiveQuantity}}
                   </div>
-                </td>
+                </td><!-- 配送数量/已收数量 -->
                 <td style="padding:0px;">
                   <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="proD in tr.batchInfos">
                     {{proD.productionDate | date : 'yyyy-MM-dd'}}
                   </div>
-                </td>
+                </td><!-- 生产日期 -->
                 <td style="padding:0px;">
                   <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="recN in tr.batchInfos">
                     {{recN.receiverName}}
                   </div>
-                </td>
+                </td><!-- 收货人 -->
                 <td style="padding:0px;">
                   <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="recD in tr.batchInfos">
                     {{recD.receiveDate | date : 'yyyy-MM-dd'}}
                   </div>
-                </td>
-                <!-- <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td> -->
+                </td><!-- 收货时间 -->
                 <td style="padding:0px;">
                   <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="til in tr.batchInfos">
                     {{til.validTill | date : 'yyyy-MM-dd'}}
                   </div>
-                </td><!-- batchInfo-end -->
+                </td><!-- 有效期至 -->
                 <td>{{}}</td><!-- 发票号 -->
-                <td>{{tr.manufacturer}}</td>
-                <td>{{tr.productionPlace}}</td>
-                <td>{{tr.distributorName}}</td>
-                <td>{{tr.dtOrderCode}}</td>
-                <td>{{tr.dtOrderCreateAt | date : 'yyyy-MM-dd'}}</td>
-                <td>{{tr.distributorMedicalCode}}</td>
+                <td>{{}}</td><!-- 发票日期 -->
+                <td>{{tr.manufacturer}}</td><!-- 生产厂商 -->
+                <td>{{tr.productionPlace}}</td><!-- 产地 -->
+                <td>{{tr.distributorName}}</td><!-- 供应商名称 -->
+                <td>{{tr.dtOrderCode}}</td><!-- 供应商订单编号 -->
+                <td>{{tr.dtOrderCreateAt | date : 'yyyy-MM-dd'}}</td><!-- 供应商销售日期 -->
+                <td>{{tr.distributorMedicalCode}}</td><!-- 供应商商品编号 -->
               </tr>
             </tbody>
           </table>
@@ -271,8 +269,13 @@
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
               <a href="javascript:void(0)"
                  class="batch-receive-btn"
-                 ng-click="handleBatchReceive()"
-                 ng-disabled="!choisedMedicalList.length">批量收货
+                 ng-disabled="!choisedMedicalList.length"
+                 handle-this-click
+                 dialog-title="确认提示?"
+                 dialog-content="批量收货的条目实收数量都为配送数量。确认批量收货?"
+                 dialog-content-color="#FF3939"
+                 dialog-template="pr-dialog-confirm.html"
+                 callback="handleBatchReceive()">批量收货
                 <em class="fa fa-trash-o"></em>
               </a>
             </div>
