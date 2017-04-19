@@ -37,7 +37,7 @@
             watchFormChange('formData');formData.firstMedical.isBasicMedicine='是';">
 
         <!-- 基本信息 -->
-        <div class="panel pr-panel pr-panel-height mgb">
+        <div class="panel pr-panel pr-panel-height" style="margin-bottom:0px;-webkit-box-shadow:none;">
             <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>
             <h3 class="crumbs-circle color-black pr-indent-10 pd-v">库房信息</h3>
             <div class=" pd-v-m">
@@ -184,7 +184,7 @@
                   </select>
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <!-- <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">效期预警天数：</label>
                 <div class="flex-item-10   text-left">
                   <input type="number"
@@ -193,7 +193,7 @@
                          ng-model="formData.guaranteePeriodAlarmDay"
                           />
                 </div>
-              </div>
+              </div> -->
               <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">生产厂商：</label>
                 <div class="flex-item-10   text-left">
@@ -287,8 +287,9 @@
               </div>
             </div>
             <h3 class="mgt-m crumbs-circle color-black pr-indent-10 pd-v">商品单位信息</h3>
-            <div class="">
-              <div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l pdb-m pdt-m">
+            </div>
+            <div class="pr-bg-white mgb-m">
+              <div class="pos-rel-tl order-create-btn inline-block fl-l z-index-l pdb-m pdt-m mgl-l">
                 <a href="javascript:;" ng-click="addMedicalUnit();" title="新建商品单位"><i style="top:17px;"></i><span class="text-s">新增商品单位</span></a>
               </div>
               <table class="table pr-table pr-new-table">
@@ -351,20 +352,16 @@
                   </tr>
                   <tr class="relative"
                       ng-repeat="tr in formData.othersPackingAttribute"
-                      table-item-multiple-btn>
+                      table-item-handlebtn-component>
                     <td class="text-center">辅助单位
-                      <div class="table-item-multiple-btn">
-                        <div class="inline-block handle-btn del-details-btn relative" href="javascript:;">
-                          <div class="del-confirm-area text-center">
-                            <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
-                            <p class="pd-v-s">
-                              <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
-                              <a href="javascript:;"
-                                 class="pr-btn-best-small pr-btn-bg-gold"
-                                 ng-click="handleDelDetails(tr.id, 'rest/authen/storeRoom/delete', '#/storeRoom/query.html')">确认
-                              </a>
-                            </p>
-                          </div>
+                      <div  class="table-item-handle-btn">
+                        <div class="table-item-confirm-del-area bg-white">
+                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                          <p class="pdt-s">
+                            <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
+                            <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl"
+                            ng-click="formData.othersPackingAttribute.splice($index,1);">确认</a>
+                          </p>
                         </div>
                       </div>
                     </td>
@@ -412,7 +409,7 @@
                 </tbody>
               </table>
             </div>
-            </div>
+
           </div>
        <!-- 备注-->
        <div class="panel pr-panel pr-panel-height mgb">
