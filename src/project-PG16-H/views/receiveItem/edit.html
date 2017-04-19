@@ -36,9 +36,10 @@
             <td class="text-center color-white">{{batch.productionBatch}}</td><!-- 生产批号 -->
             <td class="text-center color-white">{{batch.deliveryQuantity}}/{{batch.hasReceiveQuantity}}</td><!-- 配送数量/已收数量 -->
             <td class="text-center color-white">
-              <input type="text"
+              <input type="number"
                      class="inline ipt pr-ipt-60 text-center mgt"
                      style="width:100px;"
+                     onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                      ng-model="batch.receiveQuantity" />
             </td><!-- 本次收货数量 -->
             <td class="text-center color-white">
@@ -100,6 +101,10 @@
           <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">基本单位：</div>
             <div class="inline-block flex-item-9 text-left color-white">{{formData.unit}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">计划采购数量：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.totalDeliveryQuantity}}</div>
           </div>
           <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">生产厂商：</div>
