@@ -30,13 +30,25 @@
               hide-import>
          </div>
          <!-- 状态筛选 -->
-         <div class="pd-v-m pdl-l bb-line">
-           <span>状态筛选：</span>
-           <select class="ipt pr-short-ipt color-6" ng-model="listParams.status">
-             <option value="" ng-selected="listParams.status==''">全部</option>
-             <option value="未匹配" ng-selected="listParams.status=='未匹配'">未匹配</option>
-             <option value="已匹配" ng-selected="listParams.status=='已匹配'">已匹配</option>
-           </select>
+         <div class="pd-v-m pdl-l bb-dashed-line flex-column">
+           <div class="flex-item-6">
+             <span>状态筛选：</span>
+             <select class="ipt pr-short-ipt color-6" ng-model="listParams.status">
+               <option value="" ng-selected="listParams.status==''">全部</option>
+               <option value="未匹配" ng-selected="listParams.status=='未匹配'">未匹配</option>
+               <option value="已匹配" ng-selected="listParams.status=='已匹配'">已匹配</option>
+             </select>
+           </div>
+           <div class="flex-item-6 text-right pdr-l">
+             <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+               <input type="text" class="ipt pdr-xxl" placeholder="输入商品名相关信息/证号关键字段进行搜索" ng-model="listParams.q">
+               <i class=""></i>
+             </div>
+             <div class="inline-block mgl-m" ng-click="listParams.q=''">
+               <i class="fa fa-refresh mgr-s color-light-brown"></i>
+               <a href="" class="color-light-brown" >重置搜索条件</a>
+             </div>
+           </div>
          </div>
          <div class="flex-column pd-v-m">
            <div class="flex-item-6">
@@ -61,6 +73,8 @@
                   <th class="w-60 text-center">
                     <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
                   </th>
+                  <th class="text-center">序号</th>
+                  <th class="text-center">状态</th>
                   <th class="text-center">商品编码</th>
                   <th class="text-center">医疗机构商品编码</th>
                   <th class="text-left">商品名称</th>
@@ -106,6 +120,18 @@
                        </div>
                      </div>
                    </td>
+                   <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
+                   <td class="text-center relative" style="line-height:2.4">
+                     <span class="circle-status relative"
+                           ng-class="{'bg-pass-green':tr.hospitalMedicalCode,
+                                      'bg-end-red':!tr.hospitalMedicalCode}">
+                       <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
+                         <i class="block pd-c-s text-normal" style="line-height:1.8">
+                           <em class="inline-block">{{tr.hospitalMedicalCode?'已匹配':'未匹配'}}</em>
+                         </i>
+                       </span>
+                     </span>
+                   </td><!-- 状态 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 商品编码 -->
                    <td class="text-center" style="line-height:2.4">
                      <div class="ipt-div relative text-left pr-indent-5" style="width:100%;">{{tr.hospitalMedicalCode}}
