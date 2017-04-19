@@ -119,7 +119,7 @@
                        </div>
                      </div>
                    </td>
-                   <td class="text-center" style="line-height:2.4">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
+                   <td class="text-center" style="line-height:2.4">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
                    <td class="text-center" style="line-height:2.4">
                      <span class="circle-status relative"
                            ng-class="{'bg-pass-green':tr.distributorMedicalCode&&tr.medical.code,
@@ -131,10 +131,16 @@
                          </i>
                        </span>
                      </span>
-                   </td>
+                   </td><!-- 状态 -->
                    <td class="text-center" style="line-height:2.4;min-width:220px;">
                      <div class="ipt-div relative text-left pr-indent-5" style="width:100%;">{{tr.medical.code}}
-                       <i class="addImg" style="right:0px;left:inherit;"
+                       <i ng-if="tr.medical.code" class="addImg" style="right:0px;left:inherit;"
+                          modal-right="50%"
+                          modal-scope="this"
+                          modal-data='{"medicalName":"{{tr.medical.name}}","medicalId":"{{tr.id}}","supplierId":"{{formData.hospitalSupplierId}}"}'
+                          modal-url="views/versionFlow/create-correspond-relation2.html">
+                       </i>
+                       <i ng-if="!tr.medical.code" class="editImg" style="right:0px;left:inherit;"
                           modal-right="50%"
                           modal-scope="this"
                           modal-data='{"medicalName":"{{tr.medical.name}}","medicalId":"{{tr.id}}","supplierId":"{{formData.hospitalSupplierId}}"}'
