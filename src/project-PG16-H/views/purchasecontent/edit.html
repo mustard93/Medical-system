@@ -63,10 +63,6 @@
                </a>
              </div>
            </div>
-           <!-- <div class="flex-item-6 text-right pdr-l">
-             <span class="mgr-l">制单人：<em class="color-6">刘丽</em></span>
-             <span>录单日期：<em class="color-6">暂无</em></span>
-           </div> -->
          </div>
          <!-- 列表 -->
          <div class="bt-line">
@@ -118,7 +114,7 @@
                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                          <p class="pdt-s">
                            <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="handleDelThisItem(tr.id,formData.hospitalSupplierId)">确认</a>
+                           <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="handleDelThisItem(tr.id,formData.distributorId,formData.hospitalSupplierId)">确认</a>
                          </p>
                        </div>
                      </div>
@@ -186,20 +182,26 @@
                </tbody>
              </table>
            </div>
-           <!-- 批量删除按钮 -->
-           <div ng-if="tbodyList.length" class="flex-column color-9 pd-v-m pdl-l">
-             <a href="javascript:void(0)"
-                class="batch-delete-btn"
-                ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
-                ng-disabled="!choisedMedicalIdList.length">批量删除
-               <em class="fa fa-trash-o"></em>
-             </a>
-           </div>
-           <!-- 导航 -->
-           <div class="clearfix" ng-if="tbodyList.length">
-               <div class="fr">
-                   <pagination status="status"></pagination>
+           <div class="flex-column">
+             <div class="flex-item-6">
+               <!-- 批量删除按钮 -->
+               <div ng-if="tbodyList.length" class="flex-column color-9 pd-v-m pdl-l">
+                 <a href="javascript:void(0)"
+                    class="batch-delete-btn"
+                    ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
+                    ng-disabled="!choisedMedicalIdList.length">批量删除
+                   <em class="fa fa-trash-o"></em>
+                 </a>
                </div>
+             </div>
+             <div class="flex-item-6 pdr-l">
+               <!-- 导航 -->
+               <div class="clearfix" ng-if="tbodyList.length">
+                 <div class="fr">
+                    <pagination status="status"></pagination>
+                 </div>
+               </div>
+             </div>
            </div>
            <div class="pr-bg-white" ng-if="!tbodyList.length">
              <div class="empty-table clearfix">
