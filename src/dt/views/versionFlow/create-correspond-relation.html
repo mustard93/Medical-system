@@ -1,6 +1,6 @@
 <div class="modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="createCorrespondController"
-     ajax-url="rest/authen/salecontentmedical/queryHospitalMedical?hospitalId={{dialogData.hospitalId}}&supplierId={{dialogData.supplierId}}"
+     ajax-url="rest/authen/salecontentmedical/queryHospitalMedical?hospitalId={{dialogData.hospitalId}}&supplierId={{dialogData.supplierId}}&pageSize=999"
      scope-data="codesList"
      alert-error>
   <!-- 标题 -->
@@ -14,10 +14,10 @@
       <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
         <input type="text"
                class="ipt pdr-xxl relative"
-               placeholder="供应商商品编码／商品名称"
+               placeholder="医疗机构商品编码／医疗机构商品名称"
                ng-model="searchKey"
                style="top:3px;"
-               ng-change="handleSearchFilter(searchKey,dialogData.hospitalId)">
+               ng-change="handleSearchFilter(searchKey,dialogData.hospitalId,dialogData.supplierId)">
         <i class="" style="top:7px;"></i>
       </div>
     </div>
@@ -28,8 +28,8 @@
       <thead>
         <tr class="bb-line-gold">
           <th></th>
-          <th>供应商编码</th>
-          <th>供应商商品名称</th>
+          <th>医疗机构编码</th>
+          <th>医疗机构商品名称</th>
           <th>规格</th>
         </tr>
       </thead>

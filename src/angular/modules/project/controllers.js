@@ -5699,8 +5699,8 @@ define('project/controllers', ['project/init'], function() {
   function createCorrespondController ($scope, requestData, modal, alertWarn) {
 
     // 侧边栏搜索过滤
-    $scope.handleSearchFilter = function (key,hospitalId) {
-      var _url = 'rest/authen/salecontentmedical/queryHospitalMedical?hospitalId='+hospitalId+'&q='+key;
+    $scope.handleSearchFilter = function (key,hospitalId,supplierId) {
+      var _url = 'rest/authen/salecontentmedical/queryHospitalMedical?hospitalId='+hospitalId+'&supplierId='+supplierId+'&q='+key;
       requestData(_url)
       .then(function (results) {
         $scope.codesList = results[1].data;
