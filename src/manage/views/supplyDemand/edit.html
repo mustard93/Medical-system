@@ -41,7 +41,7 @@
                 <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">医疗机构编码</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input ng-disabled="hospitalQuery.id" type="text" class="form-control" placeholder="" ng-model="formData.hospitalCode" />
+                    <input ng-disabled="hospitalQuery.id ||formData.id" type="text" class="form-control" placeholder="" ng-model="formData.hospitalCode" />
                   </div>
                 </div>
                 <div class="form-group mgt">
@@ -52,6 +52,7 @@
                     style="width:250px;"
                     ajax-url="rest/authen/supplier/getSupplierByHospitalId?hospitalId={{formData.hospitalId}}"
                     ng-model="formData.hospitalSupplierId"
+                    ng-disabled="formData.id"
                     scope-data="opsData">
                     <option ng-selected="formData.hospitalSupplierId" ng-repeat="op in opsData" value="{{op.id}}">{{op.name}}</option>
                     </select>
@@ -99,7 +100,7 @@
                 <div class="form-group mgt">
                   <label class="col-lg-2 col-sm-2 control-label">经销商编码</label>
                   <div class="col-lg-10 col-sm-10">
-                    <input ng-disabled="disdata.id" type="text" class="form-control" placeholder="" ng-model="formData.distributorCode" />
+                    <input ng-disabled="disdata.id ||formData.id" type="text" class="form-control" placeholder="" ng-model="formData.distributorCode" />
                   </div>
                 </div>
               </div>
@@ -110,11 +111,11 @@
 
                     <select
                     ng-if="formData.distributorId"
-                  
                       class="select select-w"
                       chosen
-                         ng-model="formData.customerAddressId"
-                         params='{"organizationId":"{{formData.distributorId}}"}'
+                     ng-disabled="formData.id"
+                     ng-model="formData.customerAddressId"
+                     params='{"organizationId":"{{formData.distributorId}}"}'
                      select-source="rest/authen/customerAddress/queryForSelectOption">
                    </select>
 
