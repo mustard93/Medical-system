@@ -36,9 +36,10 @@
             <td class="text-center color-white">{{batch.productionBatch}}</td><!-- 生产批号 -->
             <td class="text-center color-white">{{batch.deliveryQuantity}}/{{batch.hasReceiveQuantity}}</td><!-- 配送数量/已收数量 -->
             <td class="text-center color-white">
-              <input type="text"
+              <input type="number"
                      class="inline ipt pr-ipt-60 text-center mgt"
                      style="width:100px;"
+                     onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                      ng-model="batch.receiveQuantity" />
             </td><!-- 本次收货数量 -->
             <td class="text-center color-white">
