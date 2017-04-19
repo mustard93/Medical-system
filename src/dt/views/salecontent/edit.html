@@ -30,13 +30,25 @@
               hide-import>
          </div>
          <!-- 状态筛选 -->
-         <div class="pd-v-m pdl-l bb-line">
-           <span>状态筛选：</span>
-           <select class="ipt pr-short-ipt color-6" ng-model="listParams.status">
-             <option value="" ng-selected="listParams.status==''">全部</option>
-             <option value="未匹配" ng-selected="listParams.status=='未匹配'">未匹配</option>
-             <option value="已匹配" ng-selected="listParams.status=='已匹配'">已匹配</option>
-           </select>
+         <div class="pd-v-m pdl-l bb-dashed-line flex-column">
+           <div class="flex-item-6">
+             <span>状态筛选：</span>
+             <select class="ipt pr-short-ipt color-6" ng-model="listParams.status">
+               <option value="" ng-selected="listParams.status==''">全部</option>
+               <option value="未匹配" ng-selected="listParams.status=='未匹配'">未匹配</option>
+               <option value="已匹配" ng-selected="listParams.status=='已匹配'">已匹配</option>
+             </select>
+           </div>
+           <div class="flex-item-6 text-right pdr-l">
+             <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+               <input type="text" class="ipt pdr-xxl" placeholder="输入商品名相关信息/证号关键字段进行搜索" ng-model="listParams.q">
+               <i class=""></i>
+             </div>
+             <div class="inline-block mgl-m" ng-click="listParams.q=''">
+               <i class="fa fa-refresh mgr-s color-light-brown"></i>
+               <a href="" class="color-light-brown" >重置搜索条件</a>
+             </div>
+           </div>
          </div>
          <div class="flex-column pd-v-m">
            <div class="flex-item-6">
