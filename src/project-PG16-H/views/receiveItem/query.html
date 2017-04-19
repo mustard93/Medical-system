@@ -127,7 +127,7 @@
           <table class="table pr-table pr-new-table pr-table-content table-wid-l">
             <thead class="pr-bg-side">
               <tr>
-                <th class="w-60 text-center">
+                <th class="w-60 text-center" ng-if="!listParams.receiveItemStatus"> 
                   <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
                 </th>
                 <th class="w-80">状态</th>
@@ -159,7 +159,7 @@
                   ng-repeat="tr in tbodyList track by $index"
                   class="relative"
                   table-item-multiple-btn>
-                <td class="select-td text-center">
+                <td ng-if="!listParams.receiveItemStatus" class="select-td text-center">
                   <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                 </td>
                 <td class="relative">
