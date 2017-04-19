@@ -3252,7 +3252,7 @@ define('project/controllers', ['project/init'], function() {
         }
 
 
-        var url='rest/authen/distributor/batchAuditUserApplyOrganization';
+        var url='rest/authen/hospital/batchAuditUserApplyOrganization';
 
 
         var  maskObj=proLoading();
