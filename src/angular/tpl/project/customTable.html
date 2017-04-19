@@ -41,12 +41,13 @@
               ng-click="selectThis()"
               class="td-bordered "
               table-tr-mouse-over-menu="_menuList"
+              ng-init="trIndex = $index"
               business-data="tr">
             <!-- <th ng-if="theadLastTh"  ng-compile2="theadLastTh"></th> -->
             <td ng-show="_checkboxShow" class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
             <td class='{{item.tdCss}}' style='{{item.tdStyle}}' ng-repeat="item in uICustomTable.items">
                 <div ng-if="item.tdHtml" ng-compile2="item.tdHtml"></div>
-                <div ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,$index)}}</div>
+                <div ng-if="!item.tdHtml">{{$root.UICustomTable.getShowValue(tr,item,trIndex)}}</div>
             </td>
           </tr>
         </tbody>
