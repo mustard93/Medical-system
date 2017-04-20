@@ -1,22 +1,36 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-controller="medicalStockCtrl"
-     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-  <table-list list-data="rest/authen/medicalStock/query.json"
-              list-params="listParams"
-              search-mode="noCaseSensitive"
-              search-param="q">
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.type='商品'">
+
 
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
                                 crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"商品管理","link":"","style":"color-custom-orange"}]'
                                 component-title="商品管理"
-                                is-show-create-btn="新增商品"
-                                create-new-url="#/medicalStock/edit.html"
+                                style="min-height:150px;"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
 
+    <div class="mgl-xl status-num-list-new">
+    <span status-style-toggle-new class="rect-status-new rect-status-active-new mgl-s" ng-click="listParams.type='商品'">商品基础信息管理</span>
+    <span status-style-toggle-new class="rect-status-new  mgl-s" ng-click="listParams.type='库存'">库存策略管理</span>
+    </div>
+    <!-- 新建商品 -->
+    <div ng-show="listParams.type=='商品'" class="pos-rel-tl order-create-btn fl-l z-index-l" style="top:-35px;margin-left:42px;">
+      <a href="#/medicalStock/edit.html"  title="新建商品"><i style="top:3px;"></i><span class="text-s">新建商品</span></a>
+    </div>
+    <!-- 新建库存  -->
+    <div ng-show="listParams.type=='库存'" class="pos-rel-tl order-create-btn fl-l z-index-l" style="top:-35px;margin-left:42px;">
+      <a href="javascript:void(0)" modal-right="450" modal-scope="this" modal-url="views/medicalStock/edit-stock.html"  title="新建库存策略"><i style="top:3px;"></i><span class="text-s">新建库存策略</span></a>
+    </div>
+  <table-list ng-if="listParams.type=='商品'"
+              list-data="rest/authen/medicalStock/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
     <!-- 主内容区域 -->
-    <div class="content-wrapper">
+     <!-- 商品相关操作 -->
+    <div ng-show="listParams.type=='商品'" class="content-wrapper" style="margin-top:30px;padding:0px 10px;">
       <div class="content-wrapper-main ">
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
           <div class="flex-item-12 text-right">
@@ -31,6 +45,143 @@
           </div>
         </div>
         <div custom-table="com.pangu.mss.spd.domain.mongo.medical.MedicalStock" custom-tr-menus="spd_MedicalStock_query" style="width:100%;"></div>
+      </div>
+    </div>
+  </table-list>
+
+  <table-list list-data="rest/authen/medicalStockStrategy/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+    <!-- 库存策略相关操作 -->
+    <div ng-show="listParams.type=='库存'" class="content-wrapper" style="margin-top:30px;padding:0px 10px;">
+      <div class="content-wrapper-main ">
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
+
+          <div class="flex-item-6 text-left">
+            <!-- 批量删除按钮 -->
+            <div ng-if="tbodyList.length" class="flex-column color-9">
+              <a href="javascript:void(0)"
+                 class="batch-delete-btn"
+                 ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
+                 ng-disabled="!choisedMedicalIdList.length">批量删除
+                <em class="fa fa-trash-o"></em>
+              </a>
+            </div>
+          </div>
+
+          <div class="flex-item-6 text-right">
+              <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                <input type="text" class="ipt pdr-xxl" placeholder="输入商品名相关信息/证号关键字段进行搜索" ng-model="listParams.q">
+                <i class=""></i>
+              </div>
+              <div class="inline-block mgl-m" ng-click="listParams.q=''">
+                <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                <a href="" class="color-light-brown" >重置搜索条件</a>
+              </div>
+          </div>
+        </div>
+        <!-- 表格 -->
+        <div class="bt-line">
+          <div class="outside-table-d">
+            <table class="table pr-table pr-new-table mgb-n table-wid">
+              <thead>
+                <tr>
+                 <th class="w-60 text-center">
+                   <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                 </th>
+                 <th class="text-center">序号</th>
+                 <th class="text-center">状态</th>
+                 <th class="text-center">商品编码</th>
+                 <th class="text-left">商品名称</th>
+                 <th class="text-center">商品规格</th>
+                 <th class="text-center">基本单位</th>
+                 <th class="text-center">生产厂商</th>
+                 <th class="text-center">库房名称</th>
+                 <th class="text-center">区域名称</th>
+                 <th class="text-center">推荐上架货位</th>
+                 <th class="text-center">库存上限</th>
+                 <th class="text-center">库存下限</th>
+                 <th class="text-center">效期预警天数</th>
+                 <th class="text-center">推荐采购量</th>
+               </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="tr in tbodyList" table-item-handlebtn-component>
+                  <td class="select-td text-center">
+                    <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                    <div class="table-item-handle-btn">
+                      <div class="table-item-confirm-del-area bg-white">
+                        <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                        <p class="pdt-s">
+                          <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                          <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="handleDelThisItem(tr.id,formData.distributorId,formData.hospitalSupplierId)">确认</a>
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
+                  <td class="text-center" style="line-height:2.4">
+                    <span class="circle-status relative"
+                          ng-class="{'bg-pass-green':tr.distributorMedicalCode&&tr.medical.code,
+                                     'bg-end-red':!tr.distributorMedicalCode||!tr.medical.code}">
+
+                      <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
+                        <i class="block pd-c-s text-normal" style="line-height:1.8">
+                          <em class="inline-block">{{tr.distributorMedicalCode?'已匹配':'未匹配'}}</em>
+                        </i>
+                      </span>
+                    </span>
+                  </td><!-- 状态 -->
+                  <td class="text-center" style="line-height:2.4;min-width:220px;">
+                    {{tr.medical.code}}
+                  </td><!-- 商品编码 -->
+                  <td class="text-left" style="line-height:2.4">{{tr.medical.name}}</td><!-- 商品名称 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.medical.specificationAndModelType}}</td><!-- 规格型号 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.medical.unit}}</td><!-- 基本单位 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.medical.manufacturer}}</td><!-- 生产厂商 -->
+                  <td class="text-center" style="line-height:2.4"></td><!-- 库房名称 -->
+                  <td class="text-center" style="line-height:2.4"></td><!-- 区域名称 -->
+                  <td class="text-center" style="line-height:2.4"></td><!-- 推荐上架货位 -->
+                  <td class="text-center" style="line-height:2.4"></td><!-- 库存上限 -->
+                  <td class="text-center" style="line-height:2.4"></td><!-- 库存下限 -->
+                  <td class="text-center" style="line-height:2.4"></td><!-- 效期预警天数 -->
+                  <td class="text-center" style="line-height:2.4"></td><!-- 推荐采购量 -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flex-column pr-bg-white">
+            <div class="flex-item-12">
+              <!-- 批量删除按钮 -->
+              <div ng-if="tbodyList.length" class="flex-column color-9 pd-v-m pdl-l">
+                <a href="javascript:void(0)"
+                   class="batch-delete-btn"
+                   ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
+                   ng-disabled="!choisedMedicalIdList.length">批量删除
+                  <em class="fa fa-trash-o"></em>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column">
+            <div class="flex-item-12 pdr-l">
+              <!-- 导航 -->
+              <div class="clearfix" ng-if="tbodyList.length">
+                <div class="fr">
+                   <pagination status="status"></pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pr-bg-white" ng-if="!tbodyList.length">
+            <div class="empty-table clearfix">
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+              <div>&nbsp;</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </table-list>
