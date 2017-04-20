@@ -838,8 +838,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
    }//end salesOrderEditCtrl
 
-  // 采购目录
-
   // 主控（业务模块级别）
   function mainCtrlProjectPG16H($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList,saleOrderUtils,purchaseOrderUtils,requestPurchaseOrderUtils,queryItemCardButtonList2,customMenuUtils) {
 
@@ -1036,7 +1034,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               distributorMedicalCode: code,
               distributorMedicalId: distributorMedicalId,
               // saleContentMedicalId: ,
-              medical: $scope.tbodyList[index].medical
+              medical: $scope.tbodyList[index].medical,
+              flag: true
             };
 
             requestData('rest/authen/purchasecontentmedical/save', _data, 'POST', 'parameter-body')
@@ -1057,25 +1056,29 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     $scope.spdChoiseCode2 = function (code,medicalId,distributorMedicalId) {
+
       // 将当前选择的医院编码赋值到数据对象中
       if ($scope.tbodyList) {
         angular.forEach($scope.tbodyList, function (data, index) {
           if (data.id === medicalId) {
-            $scope.tbodyList[index].medical.code = code;
+
             // 添加到后台
             var _data = {
               id: $scope.tbodyList[index].id,
               relId: $scope.mainStatus.pageParams.id,
-              distributorId: $scope.mainStatus.pageParams.distributorId,
-              distributorMedicalId: distributorMedicalId,
+              supplierId: $scope.mainStatus.pageParams.supplierId,
+              distributorId: $scope.formData.distributorId,
+              distributorMedicalCode: $scope.tbodyList[index].distributorMedicalCode,
+              distributorMedicalId: $scope.tbodyList[index].distributorMedicalId,
               // saleContentMedicalId: ,
-              medical: $scope.tbodyList[index].medical
+              medical: {id:distributorMedicalId},
+              flag: false
             };
 
             requestData('rest/authen/purchasecontentmedical/save', _data, 'POST', 'parameter-body')
             .then(function (results) {
               if (results[1].code === 200) {
-
+                $scope.tbodyList[index].distributorMedicalCode = code;
                 // _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
               }
             })

@@ -88,8 +88,22 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
       }
     };
   }
+  function statusStyleToggleNew () {
+    'use strict';
+    return {
+      restrict: 'EA',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          $(this).addClass('rect-status-active-new').siblings().each(function () {
+            $(this).removeClass('rect-status-active-new');
+          });
+        });
+      }
+    };
+  }
 
   angular.module('manageApp.project-PG16-H')
     .directive("statusStyleToggle", [statusStyleToggle])
+    .directive("statusStyleToggleNew", [statusStyleToggleNew])
     .directive("tableItemMultipleBtn", ['utils', 'requestData', tableItemMultipleBtn]);
 });
