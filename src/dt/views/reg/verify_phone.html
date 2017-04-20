@@ -19,14 +19,16 @@
   <!-- 提交表单 -->
 
   <div class="reg-wrap" >
-    <form name="editForm" class="row form-signin"    onsubmit="return false;" novalidate autocomplete="off"
-    action="rest/sms/verifySmsCodey.json"
-    form-validator
-    scope-error-msg="errorMsg"
-    alert-ok
-    callback="$root.store.set('remeberNumber',formData.tel);$root.store.set('sendVerificationCode',formData.code);$root.goTo('#/reg/send_info.html')"
-
-    >
+    <form name="editForm"
+          class="row form-signin"
+          onsubmit="return false;"
+          novalidate
+          autocomplete="off"
+          action="rest/sms/verifySmsCodey.json"
+          form-validator
+          scope-error-msg="errorMsg"
+          alert-ok
+          callback="$root.store.set('remeberNumber',formData.tel);$root.store.set('sendVerificationCode',formData.code);$root.goTo('#/reg/send_info.html')">
       <div class="pr-form-control col-lg-12 mgl-l"
            ajax-if-eval="formData.tel.length==11"
            ajax-url="rest/index/user/isExist.json"
@@ -38,7 +40,7 @@
                ng-pattern="/^1(3|4|5|7|8)\d{9}$/"
                data-content="请输入11位手机号码"
                maxlength="11"
-               invalid-popover="{{editForm.tel.$invalid}}">
+               invalid-popover="{{editForm.tel.$invalid}}" ng-change="canRegPhone=false">
       </div>
 
       <div class="pr-form-control col-lg-12">
@@ -55,7 +57,7 @@
                                       scope-error-msg="errorMsg"
                                       callback="countdown('sendVerifyCodeCountdown',60);"
                                           error-callback="countdown('sendVerifyCodeCountdown',60);"
-                   ng-disabled="!canRegPhone">{{sendVerifyCodeCountdown<0?"获取验证码":"重发验证码"}}
+                   ng-disabled="isExist_errorMsg||!formData.tel">{{sendVerifyCodeCountdown<0?"获取验证码":"重发验证码"}}
           </button>
           <button  ng-show="sendVerifyCodeCountdown>0"  type="button" class="btn btn-primary btn-sm pr-btn"
                   disabled="disabled">{{sendVerifyCodeCountdown}} 秒后重发
