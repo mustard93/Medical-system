@@ -1,0 +1,100 @@
+<div class="hospital-application store-room">
+  <page-main-header-component list-params="listParams"
+                              crumbs-nav='[{"name":"库房管理","link":"","style":""},{"name":"库房列表","link":"","style":"color-custom-orange"}]'
+                              component-title="库房列表"
+                              is-show-create-btn="新增库房"
+                              create-new-url="#/storeRoom/edit.html">
+  </page-main-header-component>
+
+  <div class="content-wrapper">
+    <table-list list-data="rest/authen/storeRoom/query.json"
+                list-params="listParams"
+                search-mode="noCaseSensitive"
+                search-param="q">
+      <!-- 主内容区域 -->
+      <div class="content-wrapper-main pr-bg-white  pr-fuzzy-boundary">
+        <div class="flex-column pd-c-m pdb-s">
+          <div class="flex-item-4">
+            <p class="mgb-s">库房类型</p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    ng-model="listParams.type"
+                    default-empty="全部"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StoreRoomType">
+            </select>
+          </div>
+          <div class="flex-item-8">
+            <!-- 筛选 -->
+            <div class="text-right pd-m">
+                <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                  <input type="text" class="ipt pdr-xxl" placeholder="库房名称/库房地址" ng-model="listParams.q">
+                  <i class=""></i>
+                </div>
+                <div class="inline-block mgl-m">
+                  <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                  <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- 列表 -->
+        <div ng-if="!status.isLoading">
+          <div ng-if="!tbodyList.length">
+            <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+            <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
+          </div>
+          <div custom-table="com.pangu.mss.spd.domain.mongo.storeRoom.StoreRoom" custom-tr-menus="spd_StoreRoom_query" style="width:100%;"></div>
+          <!-- <div ng-if="tbodyList.length" class="pr-bg-white pr-fuzzy-boundary">
+            <table class="table pr-table pr-new-table">
+              <thead class="pr-bg-side">
+                <tr>
+                  <th class="text-center">序号</th>
+                  <th class="text-center">库房编码</th>
+                  <th class="text-left">库房名称</th>
+                  <th class="text-center">库房类型</th>
+                  <th class="text-center">库房地址</th>
+                  <th class="text-left">备注</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="tbodyList.length"
+                    ng-repeat="tr in tbodyList track by $index"
+                    class="relative"
+                    table-item-multiple-btn>
+                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}
+                    <div class="table-item-multiple-btn">
+                      <div class="inline-block handle-btn del-details-btn relative" href="javascript:;">
+                        <div class="del-confirm-area text-center">
+                          <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
+                          <p class="pd-v-s">
+                            <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
+                            <a href="javascript:;"
+                               class="pr-btn-best-small pr-btn-bg-gold"
+                               ng-click="handleDelDetails(tr.id, 'rest/authen/storeRoom/delete', '#/storeRoom/query.html')">确认
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="inline-block handle-btn" ng-click="$root.goTo('#/storeRoom/edit.html?id='+tr.id)"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">{{tr.code}}</td>
+                  <td class="text-left">{{tr.name}}</td>
+                  <td class="text-center">{{tr.type}}</td>
+                  <td class="text-center">{{tr.address}}</td>
+                  <td class="text-left">{{tr.note}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> -->
+        </div>
+        <!-- 导航 -->
+        <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+          <div class="fr"><pagination status="status"></pagination></div>
+        </div>
+      </div>
+    </table-list>
+  </div>
+</div>
