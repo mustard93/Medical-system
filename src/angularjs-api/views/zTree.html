@@ -20,7 +20,18 @@
             </div>
 
             <div class="panel-body" style="display:;">
-              <div z-tree="rest/authen/medicalAttribute/query.json" id-key="id" p-id-key="parentId"></div>
+              <div>
+                <ul
+                 class="ztree pg-ztree"
+                 ng-model="ztreeData"
+                 z-tree="rest/authen/medicalAttribute/query.json" id-key="id" p-id-key="parentId">
+
+                </ul>
+                ztreeData={{ztreeData}}
+              </div>
+
+
+
               <textarea class="form-control" style="min-height:200px;" readonly="true">
                 <div z-tree="rest/authen/medicalAttribute/query.json"
                 id-key="id"
@@ -49,6 +60,7 @@
             </div>
 
             <div class="panel-body" style="display:;">
+              selectId={{selectId}}
               <button z-tree-select="rest/authen/medicalAttribute/query.json"
               ng-model="selectId"
               id-key="id"

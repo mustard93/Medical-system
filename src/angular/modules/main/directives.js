@@ -3407,10 +3407,17 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               			pIdKey: $scope.pIdKey||"pId",
               			rootPId: 0,
               		}
-              	}
+              	},
+                callback: {
+                  onClick: function(event, treeId, treeNode) {
+                      console.log(treeNode);
+                      $scope.ngModel=treeNode.id;
+                        $scope.$apply();
+                  }
+                }
               };
               require(['ztree'], function(store) {
-                var zNodes=null;
+
                   $.fn.zTree.init($element, setting, zNodes);
 
               });//require
@@ -3418,6 +3425,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           return {
             restrict: 'EA',
             scope: {
+              "ngModel":"=?",
               "idKey":"@?",
               "pIdKey":"@?"
             },
@@ -3502,9 +3510,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
               });
 
-
-
-
             }//end link
           };
         }
@@ -3516,6 +3521,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         function zTreeSelect(requestData, alertOk, alertError, proLoading,utils) {
 
           function zTree_init($element,zNodes,$scope){
+
             var setting = {
                 data: {
               		simpleData: {
@@ -3524,6 +3530,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               			pIdKey: $scope.pIdKey||"pId",
               			rootPId: 0,
               		}
+              	},
+                callback: {
+              		onClick: function(event, treeId, treeNode) {
+                      console.log(treeNode);
+                      $scope.ngModel=treeNode.id;
+                          $scope.$apply();
+                  }
               	}
               };
               require(['ztree'], function(store) {
@@ -3531,8 +3544,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
               });//require
           }
-
-
 
           function hideMenu() {
                 $("#menuContent").fadeOut("fast");
@@ -3554,14 +3565,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             },
             link: function ($scope, $element, $attrs) {
                 var urlKey="zTreeSelect";
-
-
                 //插下tree div
               var zTreeSelectDivId="zTreeSelectDiv";
-              var tmp_template='<div id="menuContent" class="menuContent" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree" style="margin-top:0; width:160px;"></ul></div>';
+              var tmp_template='<div id="menuContent" class="menuContent" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
              $element.append(tmp_template);
-
-
              //组件的显示，隐藏，及触发事件
              function showZTreeSelect($element){
                var cityObj = $element;
