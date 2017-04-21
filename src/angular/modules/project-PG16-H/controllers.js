@@ -6,53 +6,24 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   //  SPD系统—商品信息管理模块controller
   function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-    $scope.$watch('initFlag', function (newVal) {
-      var operationFlowSetMessage=[];
-      var operationFlowSetKey=[];
-      if ($scope.showData) {
-        // 选择出当前状态相同的驳回理由，并放入一个数组中
-        if ($scope.showData.operationFlowSet) {
-          for (var i=0; i<$scope.showData.operationFlowSet.length; i++) {
-            if ($scope.showData.operationFlowSet[i].status==$scope.showData.businessApplication.businessStatus ) {
-              operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
-              operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
-            }
-          }
-        }
-      //  选择当前状态最近的一个驳回理由用于显示
-       $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-       $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-       return;
-      }
-       if (newVal && $scope.formData.orderMedicalNos) {
-        for (j=0; j<$scope.formData.orderMedicalNos.length; j++) {
-          if ($scope.formData.orderMedicalNos[j].handleFlag) {
-            $scope.choisedMedicals = true;
-          }
-          if (!$scope.formData.orderMedicalNos[j].handleFlag) {
-            $scope.isChoiseAll = false;
-          }
-        }
-        // $scope.isChoiseAll = true;
-       }
-       // 编辑页面，如果证书编号是有值得情况下，不允许被修改
-       if ($scope.formData) {
-         for(var tr in $scope.formData.attachments){
-           // 首先把Jason对象转化成数组，然后再把每条的证书编号字段取出来，如果有值，则把idAdmin字段设为false，相反设为true。该字段控制是否可以对证书编号进行编辑
-           var attachments=[];
-           attachments.push($scope.formData.attachments[tr]);
-           if(attachments[0].certificateNumber){
-             console.log(attachments[0].certificateNumber);
-             attachments[0].isAdmin=false;
-           }else{
-               attachments[0].isAdmin=true;
-           }
-         }
-       }
-     });
     $scope.watchFormChange = function(watchName){
       watchFormChange(watchName,$scope);
     };
+
+    $scope.reloadQuery =function (){
+      var _data={};
+      requestData('rest/authen/medicalStockStrategy/query', _data, 'GET')
+      .then(function (results) {
+        if (results[1].code === 200) {
+          $scope.tbodyList = results[1].data;
+          $scope.goTo('#/medicalStock/query.html?type=库存');
+          // utils.refreshHref();
+        }
+      })
+      .catch(function (error) {
+        alertWarn(error || '出错');
+      });
+    }
 
     // 点击新增商品单位信息，新增一条商品辅助单位
     $scope.addMedicalUnit = function(){
@@ -77,7 +48,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.formData.othersPackingAttribute.push(otherPobject);
       }
     }
-
 
     $scope.submitForm = function(fromId, type) {
        $scope.submitForm_type = type;
@@ -244,6 +214,86 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       return true;
     };
   }
+
+  function medicalStockStrategyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+    // 定义存放用户选择药品的列表
+  $scope.choisedMedicalIdList = [];
+  // 每个药品单选操作
+  $scope.handleItemClickEvent = function (item) {
+    if (item.handleFlag) {    // 选中
+      if (item.id) {
+        $scope.choisedMedicalIdList.push(item.id);
+      }
+    } else {
+      for (var i=0; i<$scope.choisedMedicalIdList.length; i++) {
+        if (item.id === $scope.choisedMedicalIdList[i]) {
+          $scope.choisedMedicalIdList.splice(i,1);
+        }
+      }
+    }
+  };
+  // 全选全不选
+  $scope.handleChoiseAllEvent = function () {
+    if ($scope.isChoiseAll) {
+      if ($scope.tbodyList) {
+        $scope.choisedMedicalIdList = [];
+        angular.forEach($scope.tbodyList, function (data, index) {
+          $scope.choisedMedicalIdList.push(data.id);
+        });
+      }
+      console.log($scope.choisedMedicalIdList);
+    } else {
+      $scope.choisedMedicalIdList = [];
+    }
+  };
+
+  // 批量删除
+  $scope.handleBatchDelete = function (id) {
+    if ($scope.choisedMedicalIdList.length) {
+      var _data = {
+        id: id,
+        ids: $scope.choisedMedicalIdList
+      };
+
+      requestData('rest/authen/medicalStockStrategy/delete', _data, 'GET')
+      .then(function (results) {
+        if (results[1].code === 200) {
+          // _reloadListData('rest/authen/medicalStockStrategy/query?id=' + $scope.mainStatus.pageParams.supplierId);
+          $scope.isChoiseAll = false;
+        }
+      })
+      .catch(function (error) {
+        alertWarn(error || '出错');
+      });
+    }
+  };
+
+
+    $scope.watchFormChange = function(watchName){
+      watchFormChange(watchName,$scope);
+    };
+    $scope.submitFormAfter = function (_url) {
+      if ($scope.submitForm_type === 'submit') {
+        $scope.goTo(_url + '?id=' + $scope.formData.id);
+      }
+    };
+
+    //判断当前审核意见是否可见
+    $scope.showAuditOpinion = function (returnArr, pipeKey) {
+      if (angular.isArray(returnArr)) {
+        var i, len;
+        len = returnArr.length;
+        for (i = 0; i < len; i++) {
+          if (returnArr[i].event.status !== pipeKey) {
+            return true;
+          }
+        }
+        return false;
+      }
+    };
+  }
+
 
   // 收货单模块controller
   function receiveItemController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {
@@ -1206,6 +1256,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   angular.module('manageApp.project-PG16-H')
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
+  .controller('medicalStockStrategyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockStrategyCtrl])
   .controller('receiveItemController', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', 'alertOk', receiveItemController])
   .controller('purchasePlanOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchasePlanOrderController])
   .controller('purchaseContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'utils', purchaseContentController])

@@ -1,5 +1,5 @@
 <div class="modal-content pr-modal-content color-yellow1 right-side-new pr-bg-black4"
-    ng-controller="editCtrl"
+    ng-controller="medicalStockCtrl"
     ajax-url="rest/authen/medicalStockStrategy/getOfEdit.json?id={{tr.id}}"
     scope-data="formData"
     alert-error
@@ -7,6 +7,7 @@
           <form class="add-medical-form form-horizontal"
           name="editForm"
           action="rest/authen/medicalStockStrategy/save"
+          callback="reloadQuery();"
           alert-error
           parameter-body
           form-validator>
@@ -30,12 +31,14 @@
                   url="rest/authen/medicalStock/query"
                   class="pr-ipt-250 hei-28 inline-block"
                   ng-model="medical"></span>
+                  <i class="receive-item-icon" style="right:30px;top:40px;"></i>
                 </div>
               </div>
               <div class="flex-column mgt-l">
                 <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品编码：</div>
                 <div class="flex-item-8 text-left">
                     <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="medicalData.code" />
+                    <i class="receive-item-icon" style="right:120px;top:88px;"></i>
                 </div>
               </div>
               <div class="flex-column mgt-l">
