@@ -26,6 +26,7 @@ var require_config={
       waitSeconds: 0,
       baseUrl: require_dir + 'modules',
       paths: {
+            'ztree': '../libs/ztree/jquery.ztree.all',     //zTree_v3-3.5.28
             'resizableColumns': '../libs/resizableColumns/jquery.resizableColumns.min',     //jQuery拖动调整表格列宽度
             'store': '../libs/store.min',     //本地存储
             'ZeroClipboard': '../libs/ueditor1_4_3_3-utf8-jsp/third-party/zeroclipboard/ZeroClipboard',//html编辑器
@@ -83,6 +84,9 @@ var require_config={
           },
           'resizableColumns': {
               deps: ['jQuery','css!../libs/resizableColumns/jquery.resizableColumns.css']
+          },
+          'ztree': {
+              deps: ['jQuery','css!../libs/ztree/zTreeStyle.css']
           },
 
 
