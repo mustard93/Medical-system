@@ -1,11 +1,15 @@
-<div class="modal-content pr-modal-content color-yellow1 right-side-new pr-bg-black4" ng-controller="editCtrl"
-   ajax-url="rest/authen/medicalStockStrategy/getOfEdit.json?id={{tr.id}}"  scope-data="formData"  alert-error
-   callback="initFlag=true"
-   >
+<div class="modal-content pr-modal-content color-yellow1 right-side-new pr-bg-black4"
+    ng-controller="editCtrl"
+    ajax-url="rest/authen/medicalStockStrategy/getOfEdit.json?id={{tr.id}}"
+    scope-data="formData"
+    alert-error
+    callback="initFlag=true">
           <form class="add-medical-form form-horizontal"
-                action="rest/authen/medicalStockStrategy/save"
-               alert-error parameter-body
-                form-validator>
+          name="editForm"
+          action="rest/authen/medicalStockStrategy/save"
+          alert-error
+          parameter-body
+          form-validator>
             <div class="modal-header">
                 <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
                 <h4 class=" color-yellow1">{{formData&&formData.id?"编辑":"添加"}}库存策略</h4>
@@ -122,13 +126,16 @@
                 <div class="flex-column">
                   <div class="flex-item-4 text-right text-n" style="line-height:28px;">仓库名称：</div>
                   <div class="flex-item-8 text-left">
-                      <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.storeRoomName" />
+                      <input type="text" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.storeRoomName" />
                   </div>
                 </div>
 
             </div>
             <div class="btn-confirm-area">
-                <button type="submit" class="btn pr-btn-create-glodbg " style="width:160px;height:32px;	margin-top: 8px;margin-left:155px;" value="确定">确定</button>
+                <button type="submit"
+                ng-click="modal.closeAll();"
+                class="btn pr-btn-create-glodbg "
+                style="width:160px;height:32px;	margin-top: 8px;margin-left:155px;" value="确定">确定</button>
             </div>
 
             </form>

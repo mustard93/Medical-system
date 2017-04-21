@@ -1,6 +1,6 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-controller="medicalStockCtrl"
-     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.type='商品'">
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.type=mainStatus.pageParams.type ||'商品'">
 
 
     <!-- 主内容头部 -->
@@ -12,8 +12,8 @@
     </page-main-header-component>
 
     <div class="mgl-xl status-num-list-new">
-    <span status-style-toggle-new class="rect-status-new rect-status-active-new mgl-s" ng-click="listParams.type='商品'">商品基础信息管理</span>
-    <span status-style-toggle-new class="rect-status-new  mgl-s" ng-click="listParams.type='库存'">库存策略管理</span>
+    <span status-style-toggle-new class="rect-status-new  mgl-s" ng-class="{'rect-status-active-new':(listParams.type=='商品')}" ng-click="listParams.type='商品'">商品基础信息管理</span>
+    <span status-style-toggle-new class="rect-status-new  mgl-s" ng-class="{'rect-status-active-new':(listParams.type=='库存')}" ng-click="listParams.type='库存'">库存策略管理</span>
     </div>
     <!-- 新建商品 -->
     <div ng-show="listParams.type=='商品'" class="pos-rel-tl order-create-btn fl-l z-index-l" style="top:-35px;margin-left:42px;">
@@ -49,7 +49,7 @@
     </div>
   </table-list>
 
-  <table-list list-data="rest/authen/medicalStockStrategy/query.json"
+  <table-list list-data="rest/authen/medicalStockStrategy/query.json?t={{$root.reloadTime}}"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -107,19 +107,73 @@
                </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="tr in tbodyList" table-item-handlebtn-component>
+                <tr ng-repeat="tr in tbodyList" table-item-multiple-btn table-item-handlebtn-component>
                   <td class="select-td text-center">
                     <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
-                    <div class="table-item-handle-btn">
+                    <div class="table-item-multiple-btn">
+                      <div class="inline-block handle-btn del-details-btn relative" href="javascript:;">
+                        <div class="del-confirm-area text-center">
+                          <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
+                          <p class="pd-v-s">
+                            <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
+                            <a href="javascript:;"
+                               class="pr-btn-best-small pr-btn-bg-gold"
+                               ng-click="handleDelDetails(tr.id, 'rest/authen/medicalStockStrategy/delete', '#/medicalStock/query.html?type=库存')">确认
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="inline-block handle-btn" modal-right="450" modal-scope="this" modal-url="views/medicalStock/edit-stock.html?id={{tr.id}}">
+                      </div>
+                      <div class="inline-block handle-btn other-handle-btn relative" href="javascript:;">
+                        <div class="handle-area-show handle-area text-center">
+                          <a ng-if="tr.status=='正常'" href="javascript:;"
+                             handle-this-click
+                             dialog-title="确认禁用?"
+                             dialog-content="禁用后，该信息将被禁用，确定禁用?"
+                             dialog-template="pr-dialog-submit.html"
+                             request-url="rest/authen/medicalStockStrategy/updateStatus"
+                             params='{"id":tr.id,"status":"禁用"}'
+                             alert-error
+                             callback="$root.utils.refreshHref()">禁用
+                          </a>
+                          <a ng-if="tr.status=='禁用'" href="javascript:;"
+                             handle-this-click
+                             dialog-title="确认解禁?"
+                             dialog-content="解禁后，该信息将被解禁，确定解禁?"
+                             dialog-template="pr-dialog-submit.html"
+                             request-url="rest/authen/medicalStockStrategy/updateStatus"
+                             params='{"id":tr.id,"status":"正常"}'
+                             alert-error
+                             callback="$root.utils.refreshHref()">解禁
+                          </a>
+                          <a href="javascript:;"
+                             modal-right="800"
+                             modal-scope="this"
+                             modal-data='{"type":"modalRight",
+                                          "modalWidth":"800",
+                                          "aclass":"color-orange add-return-order mgl-s",
+                                          "requestUrl":"rest/authen/versionFlow/query?businessKey={{tr.id}}",
+                                          "httpMethod":"GET",
+                                          "ahref":"views/versionFlow/get-right-side.html?businessKey={{tr.id}}",
+                                          "showName":"查看操作记录"}'
+                             modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">操作记录
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- <div class="table-item-handle-btn">
                       <div class="table-item-confirm-del-area bg-white">
                         <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                         <p class="pdt-s">
                           <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                          <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="handleDelThisItem(tr.id,formData.distributorId,formData.hospitalSupplierId)">确认</a>
+                          <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl"
+                          ng-click="handleDelThisItem(tr.id)">确认</a>
                         </p>
-                      
+
                       </div>
-                    </div>
+                    </div> -->
                   </td>
                   <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
                   <td class="text-center" style="line-height:2.4">
