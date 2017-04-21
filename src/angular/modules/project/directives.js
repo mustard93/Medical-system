@@ -3422,7 +3422,7 @@ function requestExpressInfoTab (requestData, alertError) {
  * @param  {[type]} utils [description]
  * @return {[type]}       [description]
  */
-function tableItemMultipleBtn (utils, requestData) {
+function tableItemMultipleBtn (utils, requestData, alertError) {
   'use strict';
   return {
     restrict: 'A',
@@ -3488,7 +3488,7 @@ function tableItemMultipleBtn (utils, requestData) {
             }
           })
           .catch(function (error) {
-            if (error) { throw new Error(error); }
+            if (error) { alertError(error); }
           });
         }
       };
@@ -3500,7 +3500,7 @@ function tableItemMultipleBtn (utils, requestData) {
 
 angular.module('manageApp.project')
 
-  .directive("tableItemMultipleBtn", ['utils', 'requestData', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
+  .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
   .directive("pageMainHeaderComponent", pageMainHeaderComponent)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])

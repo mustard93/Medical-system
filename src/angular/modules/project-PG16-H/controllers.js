@@ -1167,13 +1167,106 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
   // 库房管理模块控制器
   function storeRoomController ($scope, requestData, alertError, alertOk) {
+    // 定义存放用户选择的列表
+    $scope.choisedList = [];
 
     // 请求列表数据
-    $scope.queryStoreRoomAndOthersList = function (type) {
-      if (type) {
+    $scope.queryStoreRoomAndOthersList = function (type,requestUrl) {
+      if (type && requestUrl) {
         $scope.type = type;
+        var _url = requestUrl;
+        // 请求数据
+        requestData(_url)
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.tbodyList = results[1].data;
+          }
+        })
+        .catch(function (error) {
+          throw new Error(error);
+        });
       } else {
         throw new Errow('Params type is Reqired');
+      }
+    };
+
+    // 仓库单选操作
+    $scope.handleItemClickEvent = function (item) {
+      if (item.handleFlag) {    // 选中
+        if (item) {
+          $scope.choisedList.push(item.id);
+        }
+      } else {
+        for (var i=0; i<$scope.choisedList.length; i++) {
+          if (item.id === $scope.choisedList[i]) {
+            $scope.choisedList.splice(i,1);
+          }
+        }
+      }
+    };
+
+    // 全选全不选
+    $scope.handleChoiseAllEvent = function (isChoiseAll) {
+      if (isChoiseAll) {      // 全部选中
+        if ($scope.tbodyList) {
+          $scope.choisedList = [];
+          angular.forEach($scope.tbodyList, function (data, index) {
+            $scope.choisedList.push(data.id);
+          });
+        }
+      } else {        // 取消全部选中
+        $scope.choisedList = [];
+      }
+    };
+
+    // 处理单个删除与批量删除操作
+    $scope.handleDelEvent = function () {
+
+      var _data = { ids: null };
+      _data.ids = arguments[0] ? [arguments[0]] : $scope.choisedList;
+
+      requestData('rest/authen/storeRoom/delete', _data, 'POST')
+      .then(function (results) {
+        if (results[1].code === 200) {
+          _reloadListData('rest/authen/storeRoom/query.json');
+          $scope.isChoiseAll = false;
+        }
+      })
+      .catch(function (error) {
+        alertError(error || '出错');
+      });
+
+
+
+
+        // if ($scope.choisedList && $scope.choisedList.length) {
+        //   var _data = {
+        //     ids: $scope.choisedList
+        //   };
+        //
+        //   requestData('rest/authen/storeRoom/delete', _data, 'POST')
+        //   .then(function (results) {
+        //     if (results[1].code === 200) {
+        //       _reloadListData('rest/authen/storeRoom/query.json');
+        //       $scope.isChoiseAll = false;
+        //     }
+        //   })
+        //   .catch(function (error) {
+        //     alertError(error || '出错');
+        //   });
+        // }
+
+    };
+
+    // 重新请求数据
+    var _reloadListData = function (_url) {
+      if (_url) {
+        requestData(_url)
+        .then(function (results) {
+          if (results[1].data) {
+            $scope.tbodyList = results[1].data;
+          }
+        });
       }
     };
   }
