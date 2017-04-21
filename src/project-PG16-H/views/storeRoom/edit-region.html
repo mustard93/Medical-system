@@ -1,0 +1,75 @@
+<div class="modal-content pr-modal-content color-yellow1 right-side-new pr-bg-black4"
+     ajax-url="rest/authen/region/getOfEdit.json?id={{dialogData.id}}"
+     scope-data="formData"
+     alert-error
+     callback="initFlag=true">
+  <form class="add-medical-form form-horizontal"
+        name="editForm"
+        action="rest/authen/region/save.json"
+        alert-error
+        parameter-body
+        form-validator>
+    <div class="modal-header">
+      <h4 class=" color-yellow1">{{formData&&formData.id?"编辑":"添加"}}区域</h4>
+    </div>
+    <div class="modal-body modal-body-new" style="margin-top:0px;">
+      <div>
+        <div class="flex-column mgb-m">
+          <div class="flex-item-4 text-right text-n" style="line-height:28px;">库房名称：</div>
+          <div class="flex-item-8 text-left">
+            <select ng-if="initFlag"
+                    class="inline pr-ipt-160 hei-28"
+                    ajax-url="rest/authen/storeRoom/queryForSelectOption"
+                    ng-model="formData.storeRoomId"
+                    scope-data="storeRoomData"
+                    ng-options="item.value as item.text for item in storeRoomData">
+            </select>
+          </div>
+        </div>
+        <div class="flex-column mgb-m">
+          <div class="flex-item-4 text-right text-n" style="line-height:28px;">区域编号：</div>
+          <div class="flex-item-8 text-left relative">
+              <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.code" />
+              <i class="receive-item-icon" style="top:5px;left:140px;"></i>
+          </div>
+        </div>
+        <div class="flex-column mgb-m">
+          <div class="flex-item-4 text-right text-n" style="line-height:28px;">区域名称：</div>
+          <div class="flex-item-8 text-left relative">
+            <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.name" />
+          </div>
+        </div>
+        <div class="flex-column mgb-m">
+          <div class="flex-item-4 text-right text-n" style="line-height:28px;">区域类型：</div>
+          <div class="flex-item-8 text-left">
+            <select ng-if="initFlag"
+                    class="inline pr-ipt-160 hei-28"
+                    ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_RegionType"
+                    ng-model="formData.type"
+                    scope-data="regionTypeData"
+                    ng-options="item.value as item.text for item in regionTypeData">
+            </select>
+          </div>
+        </div>
+        <div class="flex-column mgb-m">
+          <div class="flex-item-4 text-right text-n" style="line-height:28px;">储存条件：</div>
+          <div class="flex-item-8 text-left">
+            <select ng-if="initFlag"
+                    class="inline pr-ipt-160 hei-28"
+                    ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StorageConditionEnum"
+                    ng-model="formData.storageCondition"
+                    scope-data="storageConditionData"
+                    ng-options="item.value as item.text for item in storageConditionData">
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="btn-confirm-area" style="margin-left:-67px;">
+        <button type="submit"
+                class="btn pr-btn-create-glodbg "
+                style="width:160px;height:32px;	margin-top: 8px;margin-left:155px;" value="确定">确定
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1201,16 +1201,29 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-    // 处理单个删除与批量删除操作
-    $scope.handleDelEvent = function () {
+    /**
+     * [handleDelEvent 处理单个删除与批量删除操作]
+     * @param  {[type]} ids        [需要删除的项目id列表]
+     * @param  {[type]} requestUrl [删除请求的API]
+     * @param  {[type]} returnUrl  [删除成功后需要跳转的地址]
+     * @return {[type]}            [description]
+     */
+    $scope.handleDelEvent = function (ids, requestUrl, returnUrl) {
 
-      var _data = { ids: null };
-      _data.ids = arguments[0] ? [arguments[0]] : $scope.choisedList;
+      var _data = null;
 
-      requestData('rest/authen/storeRoom/delete', _data, 'POST')
+      if (ids) {      // 如果传入了id列表
+        _data = angular.isArray(ids) ? {ids:ids} : {ids: [ids]};
+      } else {        // 如果没有传入id列表
+        if ($scope.choisedList && $scope.choisedList.length) {
+          _data = { ids:$scope.choisedList };
+        }
+      }
+
+      requestData(requestUrl, _data, 'POST')
       .then(function (results) {
         if (results[1].code === 200) {
-          _reloadListData('rest/authen/storeRoom/query.json');
+          _reloadListData(returnUrl);
           $scope.isChoiseAll = false;
         }
       })
@@ -1218,30 +1231,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         alertError(error || '出错');
       });
 
-
-
-
-        // if ($scope.choisedList && $scope.choisedList.length) {
-        //   var _data = {
-        //     ids: $scope.choisedList
-        //   };
-        //
-        //   requestData('rest/authen/storeRoom/delete', _data, 'POST')
-        //   .then(function (results) {
-        //     if (results[1].code === 200) {
-        //       _reloadListData('rest/authen/storeRoom/query.json');
-        //       $scope.isChoiseAll = false;
-        //     }
-        //   })
-        //   .catch(function (error) {
-        //     alertError(error || '出错');
-        //   });
-        // }
-
     };
 
     // 重新请求数据
     var _reloadListData = function (_url) {
+      console.log(_url);
       if (_url) {
         requestData(_url)
         .then(function (results) {
