@@ -16,8 +16,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       .then(function (results) {
         if (results[1].code === 200) {
           $scope.tbodyList = results[1].data;
-          $scope.goTo('#/medicalStock/query.html?type=库存');
-          // utils.refreshHref();
+          utils.goTo('#/medicalStock/query.html?type=库存');
         }
       })
       .catch(function (error) {
@@ -216,7 +215,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   }
 
   function medicalStockStrategyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
-
     // 定义存放用户选择药品的列表
   $scope.choisedMedicalIdList = [];
   // 每个药品单选操作
@@ -232,6 +230,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
       }
     }
+
   };
   // 全选全不选
   $scope.handleChoiseAllEvent = function () {
@@ -255,20 +254,39 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         id: id,
         ids: $scope.choisedMedicalIdList
       };
-
-      requestData('rest/authen/medicalStockStrategy/delete', _data, 'GET')
+      requestData('rest/authen/medicalStockStrategy/delete', _data, 'POST')
       .then(function (results) {
+        console.log('_data'+_data);
         if (results[1].code === 200) {
-          // _reloadListData('rest/authen/medicalStockStrategy/query?id=' + $scope.mainStatus.pageParams.supplierId);
+          utils.goTo('#/medicalStock/query.html?type=库存');
           $scope.isChoiseAll = false;
         }
       })
       .catch(function (error) {
         alertWarn(error || '出错');
       });
+    console.log($scope.choisedMedicalIdList);
     }
   };
 
+  $scope.deleteOne = function (id) {
+    var medicalId=[];
+    medicalId.push(id);
+    console.log(medicalId);
+    var _data ={
+      ids:medicalId
+    };
+      requestData('rest/authen/medicalStockStrategy/delete', _data, 'POST')
+      .then(function (results) {
+        console.log('_data'+_data);
+        if (results[1].code === 200) {
+        utils.goTo('#/medicalStock/query.html?type=库存');
+        }
+      })
+      .catch(function (error) {
+        alertWarn(error || '出错');
+      });
+  };
 
     $scope.watchFormChange = function(watchName){
       watchFormChange(watchName,$scope);

@@ -12,8 +12,13 @@
     </page-main-header-component>
 
     <div class="mgl-xl status-num-list-new">
-    <span status-style-toggle-new class="rect-status-new  mgl-s" ng-class="{'rect-status-active-new':(listParams.type=='商品')}" ng-click="listParams.type='商品'">商品基础信息管理</span>
-    <span status-style-toggle-new class="rect-status-new  mgl-s" ng-class="{'rect-status-active-new':(listParams.type=='库存')}" ng-click="listParams.type='库存'">库存策略管理</span>
+    <span status-style-toggle-new class="rect-status-new  mgl-s"
+    ng-class="{'rect-status-active-new':(listParams.type=='商品')}"
+    ng-click="$root.goTo('#/medicalStock/query.html?type=商品')">商品基础信息管理</span>
+
+    <span status-style-toggle-new class="rect-status-new  mgl-s"
+    ng-class="{'rect-status-active-new':(listParams.type=='库存')}"
+     ng-click="$root.goTo('#/medicalStock/query.html?type=库存')">库存策略管理</span>
     </div>
     <!-- 新建商品 -->
     <div ng-show="listParams.type=='商品'" class="pos-rel-tl order-create-btn fl-l z-index-l" style="top:-35px;margin-left:42px;">
@@ -118,7 +123,7 @@
                             <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
                             <a href="javascript:;"
                                class="pr-btn-best-small pr-btn-bg-gold"
-                               ng-click="handleDelDetails(tr.id, 'rest/authen/medicalStockStrategy/delete', '#/medicalStock/query.html?type=库存')">确认
+                               ng-click="deleteOne(tr.id);">确认
                             </a>
                           </p>
                         </div>
@@ -127,25 +132,25 @@
                       </div>
                       <div class="inline-block handle-btn other-handle-btn relative" href="javascript:;">
                         <div class="handle-area-show handle-area text-center">
-                          <a ng-if="tr.status=='正常'" href="javascript:;"
+                          <a ng-if="tr.status=='ACTIVE'" href="javascript:;"
                              handle-this-click
                              dialog-title="确认禁用?"
                              dialog-content="禁用后，该信息将被禁用，确定禁用?"
                              dialog-template="pr-dialog-submit.html"
                              request-url="rest/authen/medicalStockStrategy/updateStatus"
-                             params='{"id":tr.id,"status":"禁用"}'
+                             params='{"id":tr.id,"status":"DISABLE"}'
                              alert-error
-                             callback="$root.utils.refreshHref()">禁用
+                             callback="$root.goTo('#/medicalStock/query.html?type=库存')">禁用
                           </a>
-                          <a ng-if="tr.status=='禁用'" href="javascript:;"
+                          <a ng-if="tr.status!='ACTIVE'" href="javascript:;"
                              handle-this-click
                              dialog-title="确认解禁?"
                              dialog-content="解禁后，该信息将被解禁，确定解禁?"
                              dialog-template="pr-dialog-submit.html"
                              request-url="rest/authen/medicalStockStrategy/updateStatus"
-                             params='{"id":tr.id,"status":"正常"}'
+                             params='{"id":tr.id,"status":"ACTIVE"}'
                              alert-error
-                             callback="$root.utils.refreshHref()">解禁
+                             callback="$root.goTo('#/medicalStock/query.html?type=库存')">解禁
                           </a>
                           <a href="javascript:;"
                              modal-right="800"
@@ -166,22 +171,23 @@
                   <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
                   <td class="text-center" style="line-height:2.4">
                     <span class="circle-status relative"
-                          ng-class="{'bg-pass-green':tr.status=='正常',
-                                     'bg-end-red':tr.status=='禁用'}">
+                          ng-class="{'bg-pass-green':tr.status=='ACTIVE',
+                                     'bg-end-red':tr.status!='ACTIVE'}">
                       <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
                         <i class="block pd-c-s text-normal" style="line-height:1.8">
-                          <em class="inline-block">{{tr.status}}</em>
+                          <em ng-if="tr.status=='ACTIVE'" class="inline-block">正常</em>
+                          <em ng-if="tr.status!='ACTIVE'" class="inline-block">禁用</em>
                         </i>
                       </span>
                     </span>
                   </td><!-- 状态 -->
                   <td class="text-center" style="line-height:2.4;min-width:220px;">
-                    {{tr.code}}
+                    {{tr.medical.code}}
                   </td><!-- 商品编码 -->
-                  <td class="text-left" style="line-height:2.4">{{tr.name}}</td><!-- 商品名称 -->
-                  <td class="text-center" style="line-height:2.4">{{tr.specification}}</td><!-- 规格型号 -->
-                  <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
-                  <td class="text-center" style="line-height:2.4">{{tr.manufacturer}}</td><!-- 生产厂商 -->
+                  <td class="text-left" style="line-height:2.4">{{tr.medical.name}}</td><!-- 商品名称 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.medical.specification}}</td><!-- 规格型号 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.medical.unit}}</td><!-- 基本单位 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.medical.manufacturer}}</td><!-- 生产厂商 -->
                   <td class="text-center" style="line-height:2.4">{{tr.storeRoomName}}</td><!-- 库房名称 -->
                   <td class="text-center" style="line-height:2.4">{{tr.regionName}}</td><!-- 区域名称 -->
                   <td class="text-center" style="line-height:2.4">{{tr.goodsLocationName}}</td><!-- 推荐上架货位 -->

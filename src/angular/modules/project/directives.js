@@ -3492,6 +3492,7 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
           });
         }
       };
+
     }
   };
 }
