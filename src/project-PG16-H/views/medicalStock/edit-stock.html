@@ -19,7 +19,13 @@
 
               <div ajax-if-eval="medical.id"
               ajax-url="rest/authen/medicalStock/get.json?id={{medical.id}}"  scope-data="medicalData"  alert-error
-              callback="formData.relId=medicalData.id;">
+              callback="formData.relId=medicalData.id;
+              formData.medical.name=medicalData.name;
+              formData.medical.code=medicalData.code;
+              formData.medical.specification=medicalData.specification;
+              formData.medical.unit=medicalData.unit;
+              formData.medical.manufacturer=medicalData.manufacturer;
+              ">
 
               <div class="flex-column mgt-l">
                 <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品名称：</div>
@@ -29,34 +35,39 @@
                   placeholder="输入"
                   title-field="name"
                   url="rest/authen/medicalStock/query"
-                  class="pr-ipt-250 hei-28 inline-block"
+                  class="pr-ipt-240 hei-28 inline-block"
                   ng-model="medical"></span>
-                  <i class="receive-item-icon" style="right:30px;top:40px;"></i>
+                  <!-- <span
+                  ng-if="formData.id"
+                  class="pr-ipt-250 hei-28 inline-block color-white"
+                  style="background: #595450;border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;">{{formData.medical.name}}</span> -->
+                  <i class="receive-item-icon" style="right:65px;top:5px;"></i>
+                  <span ng-if="!formData.medical.name" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt-l">
                 <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品编码：</div>
                 <div class="flex-item-8 text-left">
-                    <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="medicalData.code" />
-                    <i class="receive-item-icon" style="right:120px;top:88px;"></i>
+                    <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.medical.code" />
+                    <i class="receive-item-icon" style="right:145px;top:52px;"></i>
                 </div>
               </div>
               <div class="flex-column mgt-l">
                 <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品规格：</div>
                 <div class="flex-item-8 text-left">
-                    <input type="text" class="pr-ipt-80 hei-28" placeholder="" ng-model="medicalData.specification" />
+                    <input type="text" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.medical.specification" />
                 </div>
               </div>
               <div class="flex-column mgt-l">
                 <div class="flex-item-4 text-right text-n" style="line-height:28px;">基本单位：</div>
                 <div class="flex-item-8 text-left">
-                    <input type="text" class="pr-ipt-80 hei-28" placeholder="" ng-model="medicalData.unit" />
+                    <input type="text" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.medical.unit" />
                 </div>
               </div>
               <div class="flex-column mgt-l">
                 <div class="flex-item-4 text-right text-n" style="line-height:28px;">生产厂商：</div>
                 <div class="flex-item-8 text-left">
-                    <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="medicalData.manufacturer" />
+                    <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.medical.manufacturer" />
                 </div>
               </div>
               </div>
@@ -72,6 +83,7 @@
                     scope-data="opsData">
                     <option  ng-selected="formData.storeRoomId" ng-repeat="op in opsData" value="{{op.value}}">{{op.text}}</option>
                     </select>
+                    <span ng-if="!formData.storeRoomId" class="color-red">（必选）</span>
                   </div>
                 </div>
                 <div class="flex-column">
@@ -126,17 +138,11 @@
                       <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.purchaseQuantity" />
                   </div>
                 </div>
-                <div class="flex-column">
-                  <div class="flex-item-4 text-right text-n" style="line-height:28px;">仓库名称：</div>
-                  <div class="flex-item-8 text-left">
-                      <input type="text" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.storeRoomName" />
-                  </div>
-                </div>
-
             </div>
             <div class="btn-confirm-area">
                 <button type="submit"
                 ng-click="modal.closeAll();"
+                ng-disabled="!formData.medical.name || !formData.storeRoomId"
                 class="btn pr-btn-create-glodbg "
                 style="width:160px;height:32px;	margin-top: 8px;margin-left:155px;" value="确定">确定</button>
             </div>
