@@ -1128,8 +1128,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             requestData('rest/authen/purchasecontentmedical/save', _data, 'POST', 'parameter-body')
             .then(function (results) {
               if (results[1].code === 200) {
-                $scope.tbodyList[index].distributorMedicalCode = code;
-                // _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
+                // $scope.tbodyList[index].medical.code = code;
+                requestData('rest/authen/purchasecontentmedical/query?supplierId='+$scope.mainStatus.pageParams.supplierId)
+                .then(function (results) {
+                  if (results) { $scope.tbodyList = results[1].data; }
+                });
               }
             })
             .catch(function (error) {
@@ -1144,6 +1147,19 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
   }
 
+  // 库房管理模块控制器
+  function storeRoomController ($scope, requestData, alertError, alertOk) {
+
+    // 请求列表数据
+    $scope.queryStoreRoomAndOthersList = function (type) {
+      if (type) {
+        $scope.type = type;
+      } else {
+        throw new Errow('Params type is Reqired');
+      }
+    };
+  }
+
   angular.module('manageApp.project-PG16-H')
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
@@ -1151,5 +1167,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('receiveItemController', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', 'alertOk', receiveItemController])
   .controller('purchasePlanOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchasePlanOrderController])
   .controller('purchaseContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'utils', purchaseContentController])
-  .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', createCorrespondController]);
+  .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', createCorrespondController])
+  .controller('storeRoomController', ['$scope', 'requestData', 'alertError', 'alertOk', storeRoomController]);
 });
