@@ -3496,7 +3496,18 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
     }
   };
 }
-
+  // ul模拟select
+// function ulSelect () {
+//   'use strict';
+//   return {
+//     restrict: 'A',
+//     link: function ($scope, element, $attrs) {
+//       element.off("click").on('click',function(){
+//         element.children('li').css('display','block');
+//       });
+//     }
+//   };
+// }
 
 angular.module('manageApp.project')
 
@@ -3543,6 +3554,8 @@ angular.module('manageApp.project')
   .directive("orderMedicalsPurchase", orderMedicalsPurchase)//药械订单列表-采购
   .directive("orderMedicals", orderMedicals)//药械订单列表
   .directive("niceScroll", niceScroll) //滚动条美化
+  // .directive("ulSelect", ulSelect)
+   //ul模拟select
   .directive("leftMenuChange", ['$location', leftMenuChange]) //左边栏子菜单点击事件
   .directive("leftMenuToggle", ['$location', leftMenuToggle])  //左边栏一级菜单伸缩
   .directive("orderStatusChoise", orderStatusChoise) //订单列表首页订单状态按钮切换样式
