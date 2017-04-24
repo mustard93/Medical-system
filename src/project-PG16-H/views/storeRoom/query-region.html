@@ -1,11 +1,9 @@
-<table-list list-data="rest/authen/storeRoom/query.json"
+<table-list list-data="rest/authen/region/query.json"
             list-params="listParams"
             search-mode="noCaseSensitive"
             search-param="q">
 
-  <div class="medical-stock supplier-management child-project-management"
-       ng-controller="storeRoomController"
-       ng-init="type='库房'">
+  <div class="medical-stock supplier-management child-project-management" ng-controller="storeRoomController">
 
     <page-main-header-component list-params="listParams"
                                 crumbs-nav='[{"name":"库房管理","link":"","style":""},{"name":"库房列表","link":"","style":"color-custom-orange"}]'
@@ -14,17 +12,13 @@
     </page-main-header-component>
 
     <div class="mgl-xl status-num-list-new">
-      <span status-style-toggle-new class="rect-status-new rect-status-active-new mgl-s" ng-click="queryStoreRoomAndOthersList('库房','rest/authen/storeRoom/query.json')">基础信息管理</span>
-      <span status-style-toggle-new class="rect-status-new  mgl-s" ng-click="queryStoreRoomAndOthersList('区域','rest/authen/region/query.json')">区域管理</span>
-      <span status-style-toggle-new class="rect-status-new  mgl-s" ng-click="queryStoreRoomAndOthersList('货位','rest/authen/goodsLocation/query.json')">货位管理</span>
+      <span status-style-toggle-new class="rect-status-new mgl-s" ng-click="$root.goTo('#/storeRoom/query-storeRoom.html')">基础信息管理</span>
+      <span status-style-toggle-new class="rect-status-new rect-status-active-new mgl-s" ng-click="$root.goTo('#/storeRoom/query-region.html')">区域管理</span>
+      <span status-style-toggle-new class="rect-status-new mgl-s" ng-click="$root.goTo('#/storeRoom/query-goodsLocation.html')">货位管理</span>
     </div>
-    <!-- 新建库房 -->
-    <div ng-show="type=='库房'" class="pos-rel-tl order-create-btn fl-l z-index-l" style="top:-35px;margin-left:42px;">
-      <a href="#/storeRoom/edit.html"  title="新建库房"><i style="top:3px;"></i><span class="text-s">新建库房</span></a>
-    </div>
+
     <!-- 新建区域 -->
-    <div ng-show="type=='区域'" class="pos-rel-tl order-create-btn fl-l z-index-l" style="top:-35px;margin-left:42px;">
-      <!-- <a href="#/medicalStock/edit.html"  title="新建货位"><i style="top:3px;"></i><span class="text-s">新建区域</span></a> -->
+    <div class="pos-rel-tl order-create-btn fl-l z-index-l" style="top:-35px;margin-left:42px;">
       <a href="javascript:void(0)"
          modal-right="450"
          modal-scope="this"
@@ -32,33 +26,16 @@
          title="新建区域"><i style="top:3px;"></i><span class="text-s">新建区域</span>
       </a>
     </div>
-    <!-- 新建货位 -->
-    <div ng-show="type=='货位'" class="pos-rel-tl order-create-btn fl-l z-index-l" style="top:-35px;margin-left:42px;">
-      <a href="#/medicalStock/edit.html"  title="新建货位"><i style="top:3px;"></i><span class="text-s">新建货位</span></a>
-    </div>
-    <!-- 库房列表 -->
-    <div ng-if="type=='库房'" class="content-wrapper pd-c-m pdt-m">
+    <!-- 区域列表 -->
+    <div class="content-wrapper pd-c-m pdt-m">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="margin-bottom:-1px;">
-        <div ng-if="type=='库房'" class="bb-dashed-line pd-c-l pdb-m" style="margin-left:-20px;margin-right:-20px;">
-          <span>库房类型：</span>
-          <span>
-            <select class="inline ipt-new-s pdt"
-                    chosen
-                    style="width:120px;"
-                    data-placeholder=" "
-                    ng-model="listParams.type"
-                    default-empty="全部"
-                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StoreRoomType">
-            </select>
-          </span>
-        </div>
         <div class="flex-column mgt-m">
           <!-- 批量删除按钮 -->
           <div class="flex-item-6">
             <div class="flex-column color-9">
-              <a href=""
+              <a href="javascript:void(0)"
                  class="batch-delete-btn"
-                 ng-click="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json')"
+                 ng-click="!choisedList.length || handleDelEvent(null,'rest/authen/region/delete','rest/authen/region/query.json')"
                  ng-disabled="!choisedList.length">批量删除
                 <em class="fa fa-trash-o"></em>
               </a>
@@ -92,123 +69,6 @@
                     <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll)">
                   </th>
                   <th class="text-center">序号</th>
-                  <th class="text-center">库房编码</th>
-                  <th class="text-left">库房名称</th>
-                  <th class="text-center">库房类型</th>
-                  <th class="text-center">库房地址</th>
-                  <th class="text-left">备注</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-if="tbodyList.length"
-                    ng-repeat="tr in tbodyList track by $index"
-                    class="relative"
-                    table-item-multiple-btn>
-                  <td class="select-td text-center">
-                    <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
-                    <div class="table-item-multiple-btn">
-                      <div class="inline-block handle-btn del-details-btn relative" href="javascript:;">
-                        <div class="del-confirm-area text-center">
-                          <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
-                          <p class="pd-v-s">
-                            <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
-                            <a href="javascript:;"
-                               class="pr-btn-best-small pr-btn-bg-gold"
-                               ng-click="handleDelEvent(tr.id,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json')">确认
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="inline-block handle-btn" ng-click="$root.goTo('#/storeRoom/edit.html?id='+tr.id)"></div>
-                      <div class="inline-block show-operation-record"
-                           modal-right="800"
-                           modal-scope="this"
-                           modal-data='{"type":"modalRight",
-                                        "modalWidth":"800",
-                                        "aclass":"color-orange add-return-order mgl-s",
-                                        "requestUrl":"rest/authen/versionFlow/query?businessKey={{tr.id}}",
-                                        "httpMethod":"GET",
-                                        "ahref":"views/versionFlow/get-right-side.html?businessKey={{tr.id}}",
-                                        "showName":"查看操作记录"}'
-                           modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">
-                      </div>
-                    </div>
-                  </td>
-                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
-                  <td class="text-center">{{tr.code}}</td>
-                  <td class="text-left">{{tr.name}}</td>
-                  <td class="text-center">{{tr.type}}</td>
-                  <td class="text-center">{{tr.address}}</td>
-                  <td class="text-left">{{tr.note}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="flex-column pd-v-l">
-          <div class="flex-item-6 pdl-l">
-            <!-- 批量删除按钮 -->
-            <div class="flex-column color-9">
-              <a href="javascript:void(0)"
-                 class="batch-delete-btn"
-                 ng-click="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json')"
-                 ng-disabled="!choisedList.length">批量删除
-                <em class="fa fa-trash-o"></em>
-              </a>
-            </div>
-          </div>
-          <div class="flex-item-6 text-right pdr-l">
-            <!-- 导航 -->
-            <div class="clearfix pd-c-m" ng-if="tbodyList.length">
-              <div class="fr"><pagination status="status"></pagination></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 区域列表 -->
-    <div ng-if="type=='区域'" class="content-wrapper pd-c-m pdt-m">
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="margin-bottom:-1px;">
-        <div class="flex-column mgt-m">
-          <!-- 批量删除按钮 -->
-          <div class="flex-item-6">
-            <div class="flex-column color-9">
-              <a href="javascript:void(0)"
-                 class="batch-delete-btn"
-                 ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
-                 ng-disabled="!choisedMedicalIdList.length">批量删除
-                <em class="fa fa-trash-o"></em>
-              </a>
-            </div>
-          </div>
-          <!-- 搜索 -->
-          <div class="flex-item-6 text-right pdr-l">
-            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-              <input type="text" class="ipt pdr-xxl" placeholder="库房名称/库房地址" ng-model="listParams.q">
-              <i class=""></i>
-            </div>
-            <div class="inline-block mgl-m" ng-click="listParams.q=''">
-              <i class="fa fa-refresh mgr-s color-light-brown"></i>
-              <a href="" class="color-light-brown" >重置搜索条件</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="content-wrapper-main pr-bg-white  pr-fuzzy-boundary">
-        <div ng-if="!status.isLoading">
-          <div ng-if="!tbodyList.length">
-            <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-            <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
-          </div>
-          <!-- <div custom-table="com.pangu.mss.spd.domain.mongo.storeRoom.StoreRoom" custom-tr-menus="spd_StoreRoom_query" style="width:100%;"></div> -->
-          <div ng-if="tbodyList.length" class="pr-bg-white pr-fuzzy-boundary">
-            <table class="table pr-table pr-new-table">
-              <thead class="pr-bg-side">
-                <tr>
-                  <th class="w-60 text-center">
-                    <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
-                  </th>
-                  <th class="text-center">序号</th>
                   <th class="text-center">库房名称</th>
                   <th class="text-center">区域编号</th>
                   <th class="text-center">区域名称</th>
@@ -231,7 +91,7 @@
                             <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
                             <a href="javascript:;"
                                class="pr-btn-best-small pr-btn-bg-gold"
-                               ng-click="handleDelDetails(tr.id, 'rest/authen/storeRoom/delete', '#/storeRoom/query.html')">确认
+                               ng-click="handleDelEvent(tr.id, 'rest/authen/region/delete', 'rest/authen/region/query')">确认
                             </a>
                           </p>
                         </div>
@@ -241,7 +101,18 @@
                            modal-scope="this"
                            modal-url="views/storeRoom/edit-region.html">
                       </div>
-                      <div class="inline-block show-operation-record"></div>
+                      <div class="inline-block show-operation-record"
+                           modal-right="800"
+                           modal-scope="this"
+                           modal-data='{"type":"modalRight",
+                                        "modalWidth":"800",
+                                        "aclass":"color-orange add-return-order mgl-s",
+                                        "requestUrl":"rest/authen/versionFlow/query?businessKey={{tr.id}}",
+                                        "httpMethod":"GET",
+                                        "ahref":"views/versionFlow/get-right-side.html?businessKey={{tr.id}}",
+                                        "showName":"查看操作记录"}'
+                           modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">
+                      </div>
                     </div>
                   </td>
                   <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
@@ -261,8 +132,8 @@
             <div class="flex-column color-9">
               <a href="javascript:void(0)"
                  class="batch-delete-btn"
-                 ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
-                 ng-disabled="!choisedMedicalIdList.length">批量删除
+                 ng-click="!choisedList.length || handleDelEvent(null,'rest/authen/region/delete','rest/authen/region/query.json')"
+                 ng-disabled="!choisedList.length">批量删除
                 <em class="fa fa-trash-o"></em>
               </a>
             </div>
@@ -276,121 +147,6 @@
         </div>
       </div>
     </div>
-    <!-- 货位列表 -->
-    <div ng-if="type=='货位'" class="content-wrapper pd-c-m pdt-m">
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="margin-bottom:-1px;">
-        <div class="flex-column mgt-m">
-          <!-- 批量删除按钮 -->
-          <div class="flex-item-6">
-            <div class="flex-column color-9">
-              <a href="javascript:void(0)"
-                 class="batch-delete-btn"
-                 ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
-                 ng-disabled="!choisedMedicalIdList.length">批量删除
-                <em class="fa fa-trash-o"></em>
-              </a>
-            </div>
-          </div>
-          <!-- 搜索 -->
-          <div class="flex-item-6 text-right pdr-l">
-            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-              <input type="text" class="ipt pdr-xxl" placeholder="库房名称/库房地址" ng-model="listParams.q">
-              <i class=""></i>
-            </div>
-            <div class="inline-block mgl-m" ng-click="listParams.q=''">
-              <i class="fa fa-refresh mgr-s color-light-brown"></i>
-              <a href="" class="color-light-brown" >重置搜索条件</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="content-wrapper-main pr-bg-white  pr-fuzzy-boundary">
-        <div ng-if="!status.isLoading">
-          <div ng-if="!tbodyList.length">
-            <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-            <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
-          </div>
-          <!-- <div custom-table="com.pangu.mss.spd.domain.mongo.storeRoom.StoreRoom" custom-tr-menus="spd_StoreRoom_query" style="width:100%;"></div> -->
-          <div ng-if="tbodyList.length" class="pr-bg-white pr-fuzzy-boundary">
-            <table class="table pr-table pr-new-table">
-              <thead class="pr-bg-side">
-                <tr>
-                  <th class="w-60 text-center">
-                    <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
-                  </th>
-                  <th class="text-center">序号</th>
-                  <th class="text-center">库房名称</th>
-                  <th class="text-center">区域名称</th>
-                  <th class="text-center">货位编号</th>
-                  <th class="text-center">货位名称</th>
-                  <th class="text-center">条码</th>
-                  <th class="text-center">承重量(kg)</th>
-                  <th class="text-center">长(m)</th>
-                  <th class="text-center">宽(m)</th>
-                  <th class="text-center">高(m)</th>
-                  <th class="text-center">容积(m3)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-if="tbodyList.length"
-                    ng-repeat="tr in tbodyList track by $index"
-                    class="relative"
-                    table-item-multiple-btn>
-                  <td class="select-td text-center">
-                    <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
-                    <div class="table-item-multiple-btn">
-                      <div class="inline-block handle-btn del-details-btn relative" href="javascript:;">
-                        <div class="del-confirm-area text-center">
-                          <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
-                          <p class="pd-v-s">
-                            <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
-                            <a href="javascript:;"
-                               class="pr-btn-best-small pr-btn-bg-gold"
-                               ng-click="handleDelDetails(tr.id, 'rest/authen/storeRoom/delete', '#/storeRoom/query.html')">确认
-                            </a>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="inline-block handle-btn" ng-click="$root.goTo('#/storeRoom/edit.html?id='+tr.id)"></div>
-                      <div class="inline-block show-operation-record" ng-click=""></div>
-                    </div>
-                  </td>
-                  <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!--序号-->
-                  <td class="text-center">{{tr.storeRoomName}}</td><!--库房名称-->
-                  <td class="text-center">{{tr.regionName}}</td><!--区域名称-->
-                  <td class="text-center">{{tr.code}}</td><!--货位编号-->
-                  <td class="text-center">{{tr.name}}</td><!--货位名称-->
-                  <td class="text-center">{{tr.barcode}}</td><!--条码-->
-                  <td class="text-center">{{tr.bearingWeight}}</td><!--承重量-->
-                  <td class="text-center">{{tr.length}}</td><!--长-->
-                  <td class="text-center">{{tr.width}}</td><!--宽-->
-                  <td class="text-center">{{tr.height}}</td><!--高-->
-                  <td class="text-center">{{tr.volume}}</td><!--容积-->
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="flex-column pd-v-l">
-          <div class="flex-item-6 pdl-l">
-            <!-- 批量删除按钮 -->
-            <div class="flex-column color-9">
-              <a href="javascript:void(0)"
-                 class="batch-delete-btn"
-                 ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
-                 ng-disabled="!choisedMedicalIdList.length">批量删除
-                <em class="fa fa-trash-o"></em>
-              </a>
-            </div>
-          </div>
-          <div class="flex-item-6 text-right pdr-l">
-            <!-- 导航 -->
-            <div class="clearfix pd-c-m" ng-if="tbodyList.length">
-              <div class="fr"><pagination status="status"></pagination></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
 </table-list>
