@@ -1694,6 +1694,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
    }//end salesOrderEditCtrl
 
 
+  // SPD采购退货控制器
+  function purchaseReturnController ($scope, modal, alertWarn, watchFormChange, requestData, $rootScope, alertOk, utils) {
+
+  }
+
   angular.module('manageApp.project-PG16-H')
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
@@ -1703,5 +1708,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('collarApplicationOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', collarApplicationOrderController])
   .controller('purchaseContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'utils', purchaseContentController])
   .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', createCorrespondController])
-  .controller('storeRoomController', ['$scope', 'requestData', 'alertError', 'alertOk', storeRoomController]);
+  .controller('storeRoomController', ['$scope', 'requestData', 'alertError', 'alertOk', storeRoomController])
+  .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController]);
 });
