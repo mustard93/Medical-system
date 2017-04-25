@@ -1267,25 +1267,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 // 领用申请单controller
   function collarApplicationOrderController($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
-    // 定义商品总价变量
-    $scope.totalPrice = null;
 
-    // 数量和价格变化时调用计算总价
-    $scope.calcTotalPrice = function (orderMedicalNos,obj) {
-      var _total = 0;
-      if (orderMedicalNos.length) {
-        angular.forEach(orderMedicalNos, function (data, index) {
-          _total += data.strike_price * data.quantity;
-        });
-      }
-      $scope.totalPrice = _total;
-    };
-
-    // 根据实际采购数量的变化与计划采购数量做对比的标识变量
-    $scope.isShowPurchaseInfo = false;
-
-    // 如果实际采购数量大于计划采购数量，则屏蔽下一步操作
-    $scope.isDisabledNextStep = false;
 
     $scope.$watch('initFlag', function (newVal) {
 
@@ -1466,7 +1448,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
      var medical=flashAddData.data.data;
      var addDataItem = $.extend(true,{},medical);
 
-         addDataItem.quantity=flashAddData.quantity;
+         addDataItem.applicationCount=flashAddData.quantity;
          addDataItem.discountPrice='0';
          addDataItem.discountRate='100';
          addDataItem.relId=medical.id;
@@ -1477,10 +1459,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
            alertWarn('请选择药品。');
            return false;
        }
-       if (!addDataItem.quantity||addDataItem.quantity<1) {
-           alertWarn('请输入大于0的数量。');
-           return false;
-       }
+      //  if (!addDataItem.quantity||addDataItem.quantity<1) {
+      //      alertWarn('请输入大于0的数量。');
+      //      return false;
+      //  }
        // if (!addDataItem.strike_price) {
        //     alertWarn('请输入成交价格。');
        //     return false;
@@ -1509,43 +1491,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        return true;
    };
 
-    $scope.selectRelIdCallBack = function(data) {
-      $scope.addDataItem.relId = data.id;
-      $scope.addDataItem.name = data.name;
-      $scope.addDataItem.brand = data.brand;
-      $scope.addDataItem.unit = data.unit;
-      $scope.addDataItem.price = data.price;
-      // $scope.addDataItem.isSameBatch = '否';
-      $scope.addDataItem.strike_price = data.price;
-      $scope.addDataItem.headUrl = data.headUrl;
-      $scope.addDataItem.specification = data.specification;
-      $scope.addDataItem.manufacturer = data.manufacturer;
-      $scope.addDataItem.handleFlag =true;//默认添加到订单
-      $scope.addDataItem.productionBatch = '无';
-      $scope.addDataItem.dosageForms = data.dosageForms;
-      $scope.addDataItem.code = data.code;
-      $scope.addDataItem.productionBatch = data.productionBatch;
-      $scope.addDataItem.productionDate = data.productionDate;
-      $scope.addDataItem.guaranteePeriod = data.guaranteePeriod;
-      $scope.addDataItem.licenseNumber = data.licenseNumber;
-      $scope.addDataItem.deliveryPlus = data.deliveryPlus;
-      $scope.addDataItem.drugAdministrationCode = data.drugAdministrationCode;
-
-      // alert($('#addDataItem_quantity').length);
-      // $('#addDataItem_quantity').trigger('focus');
-      $('#addDataItem_quantity').trigger('focus');
-    };
-
 
     $scope.addDataItemClick = function(addDataItem,medical) {
        if (!(addDataItem.relId && addDataItem.name)) {
            alertWarn('请选择药品。');
            return;
        }
-       if (!addDataItem.quantity||addDataItem.quantity<1) {
-           alertWarn('请输入大于0的数量。');
-           return;
-       }
+      //  if (!addDataItem.quantity||addDataItem.quantity<1) {
+      //      alertWarn('请输入大于0的数量。');
+      //      return;
+      //  }
 
        if(addDataItem.quantity>medical.quantity){//库存不足情况
            addDataItem.handleFlag =false;//默认添加到订单
@@ -1583,14 +1538,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         if ($scope.submitForm_type == 'exit') {
           $scope.goTo('#/collarApplicationOrder/query.html');
-          return;
-        }else if ($scope.submitForm_type == 'print') {
-          var url="indexOfPrint.html#/print/index.html?key=purchaseVoucher&id="+$scope.formData.id;
-          win1=window.open(url);
-
-          if(!win1||!win1.location){
-            alertError("被浏览器拦截了，请设置浏览器允许弹出窗口！");
-          }
           return;
         }
 
