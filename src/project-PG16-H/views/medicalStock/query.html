@@ -92,8 +92,9 @@
             <table class="table pr-table pr-new-table mgb-n table-wid">
               <thead>
                 <tr>
-                 <th class="w-60 text-center">
-                   <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                 <th class="w-60 text-center mycheck">
+                   <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                   <label for="1"></label>
                  </th>
                  <th class="text-center">序号</th>
                  <th class="text-center">状态</th>
@@ -113,8 +114,9 @@
               </thead>
               <tbody>
                 <tr ng-repeat="tr in tbodyList" table-item-multiple-btn table-item-handlebtn-component>
-                  <td class="select-td text-center">
-                    <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                  <td class="select-td text-center mycheck" style="width:60px;">
+                    <input type="checkbox" class="selectOne cur-pot" id="{{$index + 2}}" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                    <label for="{{$index + 2}}"></label>
                     <div class="table-item-multiple-btn">
                       <div class="inline-block handle-btn del-details-btn relative" href="javascript:;">
                         <div class="del-confirm-area text-center">
