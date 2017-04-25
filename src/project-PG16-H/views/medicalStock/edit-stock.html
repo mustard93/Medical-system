@@ -13,7 +13,7 @@
           form-validator>
             <div class="modal-header">
                 <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
-                <h4 class=" color-yellow1">{{formData&&formData.id?"编辑":"添加"}}库存策略</h4>
+                <h4 class=" color-yellow1">{{formData&&formData.id?"编辑":"新建"}}库存策略</h4>
             </div>
             <div class="modal-body modal-body-new" style="margin-top:0px;">
 
@@ -26,7 +26,7 @@
               formData.medical.unit=medicalData.unit;
               formData.medical.manufacturer=medicalData.manufacturer;
               ">
-
+              <h3 class="crumbs-circle-new color-white pr-indent-10 ">商品信息</h3>
               <div class="flex-column mgt-l">
                 <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品名称：</div>
                 <div class="flex-item-8 text-left">
@@ -41,7 +41,7 @@
                   ng-if="formData.id"
                   class="pr-ipt-250 hei-28 inline-block color-white"
                   style="background: #595450;border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;">{{formData.medical.name}}</span> -->
-                  <i class="receive-item-icon" style="right:65px;top:5px;"></i>
+                  <i class="receive-item-icon" style="right:65px;top:52px;"></i>
                   <span ng-if="!formData.medical.name" class="color-red">（必填）</span>
                 </div>
               </div>
@@ -49,7 +49,7 @@
                 <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品编码：</div>
                 <div class="flex-item-8 text-left">
                     <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.medical.code" />
-                    <i class="receive-item-icon" style="right:145px;top:52px;"></i>
+                    <i class="receive-item-icon" style="right:145px;top:100px;"></i>
                 </div>
               </div>
               <div class="flex-column mgt-l">
@@ -70,8 +70,20 @@
                     <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.medical.manufacturer" />
                 </div>
               </div>
+              <div class="flex-column mgt-l">
+                <div class="flex-item-4 text-right text-n" style="line-height:28px;">效期预警天数：</div>
+                <div class="flex-item-8 text-left">
+                    <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.guaranteePeriodAlarmDay" />
+                </div>
               </div>
-
+              <div class="flex-column mgt-l">
+                <div class="flex-item-4 text-right text-n" style="line-height:28px;">推荐采购量：</div>
+                <div class="flex-item-8 text-left">
+                    <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.purchaseQuantity" />
+                </div>
+              </div>
+              </div>
+                <h3 class="crumbs-circle-new color-white mgt-l pr-indent-10 ">库房信息</h3>
                 <div class="flex-column">
                   <div class="flex-item-4 text-right text-n" style="line-height:28px;">库房名称：</div>
                   <div class="flex-item-8 text-left">
@@ -99,18 +111,6 @@
                   </div>
                 </div>
                 <div class="flex-column">
-                  <div class="flex-item-4 text-right text-n" style="line-height:28px;">推荐上架货位：</div>
-                  <div class="flex-item-8 text-left">
-                    <select ajax-if-eval="formData.regionId"
-                            class="select-new inline pr-ipt-160 hei-28"
-                            ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
-                            ng-model="formData.regionId"
-                            scope-data="goodData"
-                            ng-options="item.value as item.text for item in goodData">
-                    </select>                  
-                  </div>
-                </div>
-                <div class="flex-column">
                   <div class="flex-item-4 text-right text-n" style="line-height:28px;">库存上限：</div>
                   <div class="flex-item-8 text-left">
                       <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.inventoryCap" />
@@ -122,16 +122,17 @@
                       <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.inventoryLimit" />
                   </div>
                 </div>
+                <h3 class="crumbs-circle-new color-white mgt-l  pr-indent-10 ">库存信息</h3>
                 <div class="flex-column">
-                  <div class="flex-item-4 text-right text-n" style="line-height:28px;">效期预警天数：</div>
+                  <div class="flex-item-4 text-right text-n" style="line-height:28px;">推荐上架货位：</div>
                   <div class="flex-item-8 text-left">
-                      <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.guaranteePeriodAlarmDay" />
-                  </div>
-                </div>
-                <div class="flex-column">
-                  <div class="flex-item-4 text-right text-n" style="line-height:28px;">推荐采购量：</div>
-                  <div class="flex-item-8 text-left">
-                      <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.purchaseQuantity" />
+                    <select ajax-if-eval="formData.regionId"
+                            class="select-new inline pr-ipt-160 hei-28"
+                            ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
+                            ng-model="formData.regionId"
+                            scope-data="goodData"
+                            ng-options="item.value as item.text for item in goodData">
+                    </select>
                   </div>
                 </div>
             </div>
