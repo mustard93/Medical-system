@@ -41,11 +41,29 @@
                  <input type="text"
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
-                      ng-model="formData.ordernNo" />
-                <span ng-if="!formData.ordernNo" class="color-red">（必填）</span>
+                      ng-model="formData.orderCode" />
+                <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
                </span>
                <span class="mgr">审批人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
-               <span class="mgr">制单人：<em class="color-custom-orange">{{formData.inputUser.n || '暂无'}}</em></span>
+               <span class="mgr">制单人：
+                 <span class="purchaseorder-buyer-info-outside">
+                   <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+                   style="position:relative;height:25px;">{{formData.inputUser.n}}</strong>
+                   <span class="purchaseorder-buyer-info" style="top:158px;right:1255px">
+                     <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{formData.inputUser.p}}</em></i>
+                     <i class="block pdb-s text-normal">
+                       <em class="fa fa-comment-o mgl"></em>
+                       <em class="inline-block pdl pdr pdt">
+                         <a href="javascript:;"
+                            modal-center="340"
+                            modal-data='{"toUser":{"n":"{{formData.inputUser.n}}"},"userIds":["{{formData.inputUser.id}}}"]}'
+                            modal-url="views/notice/sendToUser.html">发送消息
+                         </a>
+                       </em>
+                     </i>
+                   </span>
+                 </span>
+               </span>
              </div>
              <div class="flex-item-6 text-right">
                <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
@@ -53,24 +71,24 @@
              </div>
            </div>
            <div class="pd-c-l pdt-m pdb-m color-9">
-             <span class="mgr mgl" >申请部门：
+             <span class="mgr" >申请部门：
                <select class="ipt pr-short-ipt color-3" style="width:100px;"
                        data-placeholder=" "
                        chosen
                        ng-model="formData.departmentId"
                        select-source="rest/authen/department/queryForSelectOption">
                </select>
-             <span class="mgr">申请人：</span>
+             <span class="mgr">申请人:</span>
              <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                      data-placeholder=" "
                      chosen
-                     ng-model="formData.saleUserId"
+                     ng-model="formData.applicant.id"
                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
              </select>
 
                 <!-- <span ng-if="!formData.storeRoomId" class="color-red">（必填）</span> -->
                </span>
-             <span class="mgr">申请日期：</span>
+             <span class="mgr">申请日期:</span>
              <div class="date-icon-outside">
                <input type="text"
                       style="top:0px;"
@@ -78,13 +96,13 @@
                       class="ipt-date ipt color-3"
                       ng-readonly="true"
                       placeholder=""
-                      ng-model="formData.expectDate">
+                      ng-model="formData.createAt">
                      <span class="date-icon"></span>
              </div>
 
              <!-- <span ng-if="!formData.expectDate" class="color-red">（必填）</span> -->
 
-             <span class="mgr">期望领用日期：
+             <span class="mgr">期望领用日期:
                <div class="date-icon-outside">
                  <input type="text"
                         style="top:0px;"
@@ -136,7 +154,7 @@
 
                    <td class="text-center" style="white-space: nowrap;">
                      <div class="order-goods-num">
-                       <button type="button" class="inline-block left" ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)-1;calcTotalPrice(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
+                       <button type="button" class="inline-block left" ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)-1;calcTotalPrice(formData.orderMedicalNos)" ng-disabled="tr.applicationCount<=1">-</button>
                        <span class="inline-block">
                          <input type="text"
                                 class="inline ipt pr-ipt-60 text-center item-applicationCount"
@@ -152,7 +170,7 @@
                                 popover-options='{"content":"数量不正确", "placement":"right", "trigger":"manual"}'
                                 >
                        </span>
-                       <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.applicationCount)+1;calcTotalPrice(formData.orderMedicalNos)">+</button>
+                       <button type="button" class="inline-block right" ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)+1;calcTotalPrice(formData.orderMedicalNos)">+</button>
                      </div>
                      <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                        待采购数量：{{tr.planQuantity-tr.quantity}}
@@ -228,7 +246,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('purchasePlanForm','submit')"
-                  ng-disabled="purchasePlanForm.$invalid " >提交
+                  ng-disabled="purchasePlanForm.$invalid ||!formData.orderCode" >提交
           </button>
         </span>
       </div>
