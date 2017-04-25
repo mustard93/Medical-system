@@ -54,6 +54,18 @@
            </div>
         </div>
       </div>
+      <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
+        <a ng-if="initFlag"
+           modal-right="1000"
+           modal-open-auto="{{!formData.orderMedicalNos.length}}"
+           modal-scope="this"
+           modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
+           modal-url="views/purchaseReturn/edit-right-side.html">
+          <i></i>
+          <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
+          <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
+        </a>
+      </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <div class="empty-panel" ng-if="!formData.orderMedicalNos.length">
           <span></span>
@@ -183,7 +195,7 @@
              save-callback="submitForm('saleReturnEditForm','save')">返回采购退货单列表
           </a>
 
-          <a class="mgr-l" ng-if="!changeFlag" href="#/purchaseReturn/query.html" >返回采购退货单列表</a>
+          <a class="" ng-if="!changeFlag" href="#/purchaseReturn/query.html" >返回采购退货单列表</a>
           <a ng-if="formData.orderNo && formData.inputUserId==mainStatus.id"
              href="javascript:;"
              class="pr-color-red mgr-l"
@@ -195,13 +207,13 @@
              callback="$root.goTo('#/purchaseReturn/query.html')">删除
           </a>
           <button type="submit"
-                  class="pr-btn-save-glodbg mgr-l"
+                  class="pr-btn-save-glodbg mgl-m"
                   ng-click="submitForm_type='save';formData.validFlag=false;"
                   ng-disabled="">保存
           </button>
 
 
-          <button class="mgl pr-btn-create-glodbg"
+          <button class="mgl-s pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交退货单"
