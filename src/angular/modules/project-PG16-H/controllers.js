@@ -1263,7 +1263,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
-  };
+  }
 // 领用申请单controller
   function collarApplicationOrderController($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
