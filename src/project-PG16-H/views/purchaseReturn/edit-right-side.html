@@ -89,11 +89,11 @@
                   <td class="text-left" style="line-height:2.4">{{item.name}}</td><!-- 商品全名 -->
                   <td class="text-center" style="line-height:2.4">{{item.specificationAndModelType}}</td><!-- 商品规格 -->
                   <td class="text-center" style="line-height:2.4">{{item.unit}}</td><!-- 商品单位 -->
-                  <td class="text-center" style="white-space: nowrap;">{{item.planQuantity}}</td><!-- 计划采购数量 -->
-                  <td class="text-center" style="white-space:nowrap;line-height:2.4"></td><!-- 采购单价 -->
-                  <td class="text-right" style="white-space:nowrap;line-height:2.4">￥{{tr.quantity*tr.strike_price  | number:2}}</td><!-- 计划采购金额 -->
-                  <td class="text-center" >{{item.manufacturer}}</td><!-- 产地 -->
-                  <td class="text-center" >{{item.productionPlace}}</td><!-- 生产厂商 -->
+                  <td class="text-center" style="white-space: nowrap;">{{item.quantity}}</td><!-- 计划采购数量 -->
+                  <td class="text-center" style="white-space:nowrap;line-height:2.4">￥{{item.strike_price | number:2}}</td><!-- 采购单价 -->
+                  <td class="text-center" style="white-space:nowrap;line-height:2.4">￥{{item.quantity*item.strike_price  | number:2}}</td><!-- 计划采购金额 -->
+                  <td class="text-center">{{item.manufacturer}}</td><!-- 产地 -->
+                  <td class="text-center">{{item.productionPlace}}</td><!-- 生产厂商 -->
                 </tr>
               </tbody>
             </table>
@@ -107,9 +107,8 @@
       <!-- 功能按钮 -->
       <div class="handle-btn-area-2nd relative">
         <div class="btn-area full-width text-center">
-            <!-- <a class="mgr-l" ng-click="modal.closeAll();">取消</a> -->
             <button ng-disabled="!choisedMedicalList.length>0"
-                    ng-click="handleAddData(addDataObj.id, addDataObj.orderNo, choisedMedicalList,addDataObj)"
+                    ng-click="formData.orderMedicalNos=choisedMedicalList;modal.closeAll();"
                     type="button"
                     class="pr-btn-save-glodbg mgr-l">确定
             </button>

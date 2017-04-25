@@ -17,7 +17,25 @@
         <div class="flex-item-6">
           <span class="mgr">领用申请单编号：<em class="color-3">{{scopeData.orderCode ||  '暂无'}}</em></span>
           <span class="mgr">审核人：<em class="color-3">{{scopeData.approver.approverUser.n || '暂无'}}</em></span>
-          <span class="mgr">制单人：<em class="color-custom-orange">{{scopeData.inputUser.n || '暂无'}}</em></span>
+          <span class="mgr">制单人：
+            <span class="purchaseorder-buyer-info-outside">
+              <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+              style="position:relative;height:25px;">{{scopeData.inputUser.n}}</strong>
+              <span class="purchaseorder-buyer-info" style="top:35px;right:1335px">
+                <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{scopeData.inputUser.p}}</em></i>
+                <i class="block pdb-s text-normal">
+                  <em class="fa fa-comment-o mgl"></em>
+                  <em class="inline-block pdl pdr pdt">
+                    <a href="javascript:;"
+                       modal-center="340"
+                       modal-data='{"toUser":{"n":"{{scopeData.inputUser.n}}"},"userIds":["{{scopeData.inputUser.id}}}"]}'
+                       modal-url="views/notice/sendToUser.html">发送消息
+                    </a>
+                  </em>
+                </i>
+              </span>
+            </span>
+          </span>
           <span class="mgr">审核日期：<em class="color-3">{{scopeData.approver.approverDate|| '暂无' | date:'yyyy-MM-dd'}}</em></span>
         </div>
         <div class="flex-item-6 text-right">
@@ -33,8 +51,8 @@
       </div>
       <!-- 类别选择 -->
       <div class="pd-c-l pdt-m pdb-m color-9">
-        <span class="mgr-l">申请人：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
         <span class="mgr-l">申请部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
+        <span class="mgr-l">申请人：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
         <span class="mgr-l">申请日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
         <span class="mgr-l">期望领用日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
       </div>
