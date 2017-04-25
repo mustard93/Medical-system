@@ -45,7 +45,25 @@
                 <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
                </span>
                <span class="mgr">审批人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
-               <span class="mgr">制单人：<em class="color-custom-orange">{{formData.inputUser.n || '暂无'}}</em></span>
+               <span class="mgr">制单人：
+                 <span class="purchaseorder-buyer-info-outside">
+                   <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+                   style="position:relative;height:25px;">{{formData.inputUser.n}}</strong>
+                   <span class="purchaseorder-buyer-info" style="top:158px;right:1255px">
+                     <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{formData.inputUser.p}}</em></i>
+                     <i class="block pdb-s text-normal">
+                       <em class="fa fa-comment-o mgl"></em>
+                       <em class="inline-block pdl pdr pdt">
+                         <a href="javascript:;"
+                            modal-center="340"
+                            modal-data='{"toUser":{"n":"{{formData.inputUser.n}}"},"userIds":["{{formData.inputUser.id}}}"]}'
+                            modal-url="views/notice/sendToUser.html">发送消息
+                         </a>
+                       </em>
+                     </i>
+                   </span>
+                 </span>
+               </span>
              </div>
              <div class="flex-item-6 text-right">
                <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
