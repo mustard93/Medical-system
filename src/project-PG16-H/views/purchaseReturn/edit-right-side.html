@@ -1,0 +1,120 @@
+<div class="purchase-return-order sale-return-order right-side pr-bg-black3"
+     ng-controller="returnOrderAddController"
+     ajax-If-eval="selectedData.id||formData.relId"
+     ajax-url="rest/authen/purchasePlanOrder/get?id={{selectedData.id||formData.relId}}"
+     scope-data="addDataObj"
+     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,dialogData.medicalList);"
+     alert-error>
+
+    <!-- 头部信息 -->
+    <div class="relative">
+      <div class="pd-m">
+        <div class="mgb"><span class="pdb-m">参照采购计划</span></div>
+        <span angucomplete placeholder="采购计划单号"
+              title-field="orderNo"
+              description-field="supplier.name"
+              search-fields=""
+              search-str-class="ipt"
+              url="rest/authen/purchasePlanOrder/query"
+              class="inline-block"
+              ng-model="selectedData">
+        </span>
+      </div>
+    </div>
+    <!-- 药械列表 -->
+    <div class=" pr-bg-black4">
+      <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
+        <div class="empty-panel empty-panel-new clearfix pr-bg-black4" ng-if="!addDataObj.orderMedicalNos.length">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+        </div>
+        <div class="pr-bg-black4" ng-if="addDataObj.orderMedicalNos.length">
+          <div class="pr-panel pr-panel-height pd-n pr-bg-white-black mgb  ">
+            <div class="inline-block br-line supplier-name relative" style="width:500px;">
+              <p class="mgb-s color-placeholder">供应商</p>
+              <p class="text-n color-white">
+                {{addDataObj.supplierName}}
+              </p>
+            </div>
+            <div class="inline-block logistics-center relative">
+              <p class="mgb-s color-placeholder">医院</p>
+              <p class="text-n color-white" style="padding-right:182px;">
+                {{addDataObj.organizationName}}
+              </p>
+            </div>
+          </div>
+          <div class="flex-column pd pr-bg-white-black bb-dashed-line-new">
+            <div class="flex-item-8 color-placeholder">
+              <span class="mgr-m">采购计划编号：<em class="color-white">{{addDataObj.orderNo || '暂无'}}</em></span>
+              <span class="mgr-m">审核人：<em class="color-white">{{addDataObj.inputUser.n || '暂无'}}</em></span>
+              <span class="mgr-m">制单人：<em class="color-white">{{addDataObj.inputUser.n || '暂无'}}</em></span>
+              <span>制单时间：<em class="color-white">{{addDataObj.createAt | date:'yyyy-MM-dd'}}</em></span>
+            </div>
+            <div class="flex-item-4 text-right color-placeholder">
+              <span class="mgr-m">录单日期：<em class="mgr-l color-white">{{addDataObj.createAt | date : 'yyyy-MM-dd' }}</em></span>
+              <span>状态：<em class="mgr-l color-white" ng-class="{'color-green':addDataObj.orderStatus=='已通过'}">{{addDataObj.orderStatus}}</em></span>
+            </div>
+          </div>
+          <div class="flex-column pd pr-bg-white-black">
+            <span class="color-placeholder mgr-m">计划到货时间：<em class="color-white">{{addDataObj.expectDate | date:'yyyy-MM-dd'}}</em></span>
+            <span class="color-placeholder mgr-m">预入库房：<em class="color-white">{{addDataObj.storeRoomName}}</em></span>
+            <span class="color-placeholder">跟台：<em class="color-white">{{addDataObj.genTai}}</em></span>
+          </div>
+        </div>
+        <div class="outside-table-d">
+          <table class="table pr-table pr-new-table table-wid" >
+              <thead>
+                <tr>
+                  <th class="text-center w-60">
+                    <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                  </th>
+                  <th class="text-center w-160">商品编码</th>
+                  <th class="text-left w-300">商品名称</th>
+                  <th class="text-center w-120">商品规格</th>
+                  <th class="text-center w-80">商品单位</th>
+                  <th class="text-center w-120">计划采购数量</th>
+                  <th class="text-center w-120">采购单价</th>
+                  <th class="text-center w-120">计划采购金额</th>
+                  <th class="text-center">生产厂商</th>
+                  <th class="text-center">产地</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white">
+                <tr ng-repeat="item in addDataObj.orderMedicalNos" >
+                  <td class="select-td text-center">
+                    <input type="checkbox" class="selectOne" ng-model="item.itemSelected" ng-click="handleItemClickEvent(item);">
+                  </td>
+                  <td class="text-center" style="line-height:2.4">{{item.code}}</td><!-- 商品编码 -->
+                  <td class="text-left" style="line-height:2.4">{{item.name}}</td><!-- 商品全名 -->
+                  <td class="text-center" style="line-height:2.4">{{item.specificationAndModelType}}</td><!-- 商品规格 -->
+                  <td class="text-center" style="line-height:2.4">{{item.unit}}</td><!-- 商品单位 -->
+                  <td class="text-center" style="white-space: nowrap;">{{item.planQuantity}}</td><!-- 计划采购数量 -->
+                  <td class="text-center" style="white-space:nowrap;line-height:2.4"></td><!-- 采购单价 -->
+                  <td class="text-right" style="white-space:nowrap;line-height:2.4">￥{{tr.quantity*tr.strike_price  | number:2}}</td><!-- 计划采购金额 -->
+                  <td class="text-center" >{{item.manufacturer}}</td><!-- 产地 -->
+                  <td class="text-center" >{{item.productionPlace}}</td><!-- 生产厂商 -->
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <div class="empty-table empty-table-new clearfix pr-bg-black4" ng-if="!addDataObj.orderMedicalNos.length">
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+        </div>
+      </div>
+      <!-- 功能按钮 -->
+      <div class="handle-btn-area-2nd relative">
+        <div class="btn-area full-width text-center">
+            <!-- <a class="mgr-l" ng-click="modal.closeAll();">取消</a> -->
+            <button ng-disabled="!choisedMedicalList.length>0"
+                    ng-click="handleAddData(addDataObj.id, addDataObj.orderNo, choisedMedicalList,addDataObj)"
+                    type="button"
+                    class="pr-btn-save-glodbg mgr-l">确定
+            </button>
+        </div>
+      </div>
+    </div>
+
+</div>
