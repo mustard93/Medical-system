@@ -34,21 +34,24 @@
           <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
         </a>
       </div>
-      <div ng-if="formData.orderMedicalNos.length"  class="pr-panel pr-panel-height mgb pd-n">
-        <!-- 客户搜索 -->
-        <div class="inline-block br-line supplier-name relative">
-          <p class="mgb-s">供应商</p>
-          <p class="text-n color-black" style="padding-right:182px;">
-            {{formData.supplier.name || '暂无'}}
-          </p>
+      <div ng-if="formData.orderMedicalNos.length"  class="">
+        <div class="inline-block mgr-l">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+            <div class="inline-block supplier-icon"></div>
+            <div class="inline-block">
+              <p class="mgb-s">供应商</p>
+              <p class="text-m color-3">{{scopeData.supplierName || '暂无'}}</p>
+            </div>
+          </div>
         </div>
-        <!-- 物流中心搜索 -->
-        <div class="inline-block logistics-center relative">
-          <p class="mgb-s">物流中心</p>
-          <p class="text-n color-black" style="padding-right:182px;">
-            <!-- 昆明物流中心 -->
-            {{formData.logisticsCenterName ||'暂无'}}
-          </p>
+        <div class="inline-block">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+             <div class="inline-block hospital-icon"></div>
+             <div class="inline-block">
+               <p class="mgb-s">医院</p>
+               <p class="text-m color-3">{{scopeData.organizationName || '暂无'}}</p>
+             </div>
+           </div>
         </div>
       </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
@@ -77,7 +80,7 @@
                      class="ipt color-6"
                      style="width:120px;"
                      ng-readonly="true"
-                     ng-model="listParams.createAtBeg"
+                     ng-model="formData.expectDate"
                      placeholder="">
               <span class="date-icon"></span>
             </div>
@@ -110,8 +113,19 @@
             </thead>
             <tbody class="bg-white">
               <tr ng-repeat="item in formData.orderMedicalNos"
-                  ng-controller="saleReturnMedicalItemController">
-                <td class="text-center">{{item.code}}</td><!-- 商品编码 -->
+                  ng-controller="saleReturnMedicalItemController"
+                  table-item-handlebtn-component>
+                <td class="text-center">{{item.code}}
+                  <div class="table-item-handle-btn">
+                    <div class="table-item-confirm-del-area bg-white">
+                      <p class="bb-line color-red pd-v">确认删除本条数据?</p>
+                      <p class="pdt">
+                        <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                        <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                      </p>
+                    </div>
+                  </div>
+                </td><!-- 商品编码 -->
                 <td class="text-left">{{item.name}}</td><!-- 商品名称 -->
                 <td class="text-center">{{item.specificationAndModelType}}</td><!-- 商品规格-->
                 <td class="text-center">{{item.measurement}}</td><!-- 基本单位 -->

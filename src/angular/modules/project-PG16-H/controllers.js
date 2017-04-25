@@ -22,7 +22,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       .catch(function (error) {
         alertWarn(error || '出错');
       });
-    }
+    };
 
     // 点击新增商品单位信息，新增一条商品辅助单位
     $scope.addMedicalUnit = function(){
@@ -40,13 +40,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         width:"",
         height:"",
         unitWeightKg:""
-      }
+      };
       if($scope.formData.othersPackingAttribute){
       $scope.formData.othersPackingAttribute.push(otherPobject);
       }else{
         $scope.formData.othersPackingAttribute.push(otherPobject);
       }
-    }
+    };
 
     $scope.submitForm = function(fromId, type) {
        $scope.submitForm_type = type;
@@ -216,77 +216,77 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
   function medicalStockStrategyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
     // 定义存放用户选择药品的列表
-  $scope.choisedMedicalIdList = [];
-  // 每个药品单选操作
-  $scope.handleItemClickEvent = function (item) {
-    if (item.handleFlag) {    // 选中
-      if (item.id) {
-        $scope.choisedMedicalIdList.push(item.id);
-      }
-    } else {
-      for (var i=0; i<$scope.choisedMedicalIdList.length; i++) {
-        if (item.id === $scope.choisedMedicalIdList[i]) {
-          $scope.choisedMedicalIdList.splice(i,1);
+    $scope.choisedMedicalIdList = [];
+    // 每个药品单选操作
+    $scope.handleItemClickEvent = function (item) {
+      if (item.handleFlag) {    // 选中
+        if (item.id) {
+          $scope.choisedMedicalIdList.push(item.id);
+        }
+      } else {
+        for (var i=0; i<$scope.choisedMedicalIdList.length; i++) {
+          if (item.id === $scope.choisedMedicalIdList[i]) {
+            $scope.choisedMedicalIdList.splice(i,1);
+          }
         }
       }
-    }
 
-  };
-  // 全选全不选
-  $scope.handleChoiseAllEvent = function () {
-    if ($scope.isChoiseAll) {
-      if ($scope.tbodyList) {
-        $scope.choisedMedicalIdList = [];
-        angular.forEach($scope.tbodyList, function (data, index) {
-          $scope.choisedMedicalIdList.push(data.id);
-        });
-      }
-      console.log($scope.choisedMedicalIdList);
-    } else {
-      $scope.choisedMedicalIdList = [];
-    }
-  };
-
-  // 批量删除
-  $scope.handleBatchDelete = function (id) {
-    if ($scope.choisedMedicalIdList.length) {
-      var _data = {
-        id: id,
-        ids: $scope.choisedMedicalIdList
-      };
-      requestData('rest/authen/medicalStockStrategy/delete', _data, 'POST')
-      .then(function (results) {
-        console.log('_data'+_data);
-        if (results[1].code === 200) {
-          utils.goTo('#/medicalStock/query.html?type=库存');
-          $scope.isChoiseAll = false;
-        }
-      })
-      .catch(function (error) {
-        alertWarn(error || '出错');
-      });
-    console.log($scope.choisedMedicalIdList);
-    }
-  };
-
-  $scope.deleteOne = function (id) {
-    var medicalId=[];
-    medicalId.push(id);
-    console.log(medicalId);
-    var _data ={
-      ids:medicalId
     };
-      requestData('rest/authen/medicalStockStrategy/delete', _data, 'POST')
-      .then(function (results) {
-        console.log('_data'+_data);
-        if (results[1].code === 200) {
-        utils.goTo('#/medicalStock/query.html?type=库存');
+    // 全选全不选
+    $scope.handleChoiseAllEvent = function () {
+      if ($scope.isChoiseAll) {
+        if ($scope.tbodyList) {
+          $scope.choisedMedicalIdList = [];
+          angular.forEach($scope.tbodyList, function (data, index) {
+            $scope.choisedMedicalIdList.push(data.id);
+          });
         }
-      })
-      .catch(function (error) {
-        alertWarn(error || '出错');
-      });
-  };
+        console.log($scope.choisedMedicalIdList);
+      } else {
+        $scope.choisedMedicalIdList = [];
+      }
+    };
+
+    // 批量删除
+    $scope.handleBatchDelete = function (id) {
+      if ($scope.choisedMedicalIdList.length) {
+        var _data = {
+          id: id,
+          ids: $scope.choisedMedicalIdList
+        };
+        requestData('rest/authen/medicalStockStrategy/delete', _data, 'POST')
+        .then(function (results) {
+          console.log('_data'+_data);
+          if (results[1].code === 200) {
+            utils.goTo('#/medicalStock/query.html?type=库存');
+            $scope.isChoiseAll = false;
+          }
+        })
+        .catch(function (error) {
+          alertWarn(error || '出错');
+        });
+      console.log($scope.choisedMedicalIdList);
+      }
+    };
+
+    $scope.deleteOne = function (id) {
+      var medicalId=[];
+      medicalId.push(id);
+      console.log(medicalId);
+      var _data ={
+        ids:medicalId
+      };
+        requestData('rest/authen/medicalStockStrategy/delete', _data, 'POST')
+        .then(function (results) {
+          console.log('_data'+_data);
+          if (results[1].code === 200) {
+          utils.goTo('#/medicalStock/query.html?type=库存');
+          }
+        })
+        .catch(function (error) {
+          alertWarn(error || '出错');
+        });
+    };
 
     $scope.watchFormChange = function(watchName){
       watchFormChange(watchName,$scope);
@@ -311,7 +311,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
   }
-
 
   // 收货单模块controller
   function receiveItemController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {
@@ -1264,7 +1263,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
   }
-// 领用申请单controller
+
+  // 领用申请单controller
   function collarApplicationOrderController($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
 
@@ -1692,7 +1692,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
    }//end salesOrderEditCtrl
-
 
   // SPD采购退货控制器
   function purchaseReturnController ($scope, modal, alertWarn, watchFormChange, requestData, $rootScope, alertOk, utils) {

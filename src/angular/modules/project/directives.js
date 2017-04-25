@@ -3271,7 +3271,8 @@ function pageMainHeaderComponent () {
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
       isShowSelectItem: '@',
       searchPlaceholderInfo: '@',
-      getWarehouseListUrl: '@'
+      getWarehouseListUrl: '@',
+      getDepartmentListUrl: '@'
     },
     replace: true,
     transclude: true,
@@ -3315,6 +3316,9 @@ function pageMainHeaderComponent () {
 
       //是否显示新建按钮
       scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
+
+      // 是否显示部门过滤
+      scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
 
       //是否显示类型过滤
       scope.isShowTypeFilter = angular.isDefined(attrs.isShowTypeFilter) ? attrs.isShowTypeFilter : false;
