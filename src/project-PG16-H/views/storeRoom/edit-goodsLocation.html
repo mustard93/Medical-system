@@ -31,7 +31,8 @@
           <div class="flex-item-8 text-left">
             <select ng-if="initFlag"
                     class="inline pr-ipt-160 hei-28"
-                    ajax-url="rest/authen/region/queryForSelectOption"
+                    ajax-if-eval="formData.storeRoomId"
+                    ajax-url="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}"
                     ng-model="formData.regionId"
                     scope-data="regionData"
                     ng-options="item.value as item.text for item in regionData">
