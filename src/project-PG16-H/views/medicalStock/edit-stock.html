@@ -75,51 +75,39 @@
                 <div class="flex-column">
                   <div class="flex-item-4 text-right text-n" style="line-height:28px;">库房名称：</div>
                   <div class="flex-item-8 text-left">
-                    <select
-                    ng-if="initFlag"
-                    class="select-new inline pr-ipt-160 hei-28"
-                    ajax-url="rest/authen/storeRoom/queryForSelectOption"
-                    ng-model="formData.storeRoomId"
-                    scope-data="opsData">
-                    <option  ng-selected="formData.storeRoomId" ng-repeat="op in opsData" value="{{op.value}}">{{op.text}}</option>
+                    <select ng-if="initFlag"
+                            class="select-new inline pr-ipt-160 hei-28"
+                            ajax-url="rest/authen/storeRoom/queryForSelectOption"
+                            ng-model="formData.storeRoomId"
+                            scope-data="storeRoomData"
+                            ng-options="item.value as item.text for item in storeRoomData">
                     </select>
-                    <!-- <ul
-                      ul-select
-                      ng-if="initFlag"
-                      class="select-new inline pr-ipt-160 hei-28"
-                      ajax-url="rest/authen/storeRoom/queryForSelectOption"
-                      scope-data="opsData">
-                      <li ng-model="formData.storeRoomId" ng-repeat="op in opsData">{{op.text}}</li>
-                    </ul> -->
                     <span ng-if="!formData.storeRoomId" class="color-red">（必选）</span>
                   </div>
                 </div>
                 <div class="flex-column">
                   <div class="flex-item-4 text-right text-n" style="line-height:28px;">区域名称：</div>
                   <div class="flex-item-8 text-left">
-                    <select
-                    ng-disbled="!formData.storeRoomId"
-                    ajax-if-eval="formData.storeRoomId"
-                    class="inline pr-ipt-160 hei-28"
-                    ajax-url="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}"
-                    ng-model="formData.regionId"
-                    scope-data="regData">
-                    <option ng-selected="formData.regionId" ng-repeat="re in regData" value="{{re.value}}">{{re.text}}</option>
+
+                    <select ajax-if-eval="formData.storeRoomId"
+                            class="select-new inline pr-ipt-160 hei-28"
+                            ajax-url="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}"
+                            ng-model="formData.regionId"
+                            scope-data="regionData"
+                            ng-options="item.value as item.text for item in regionData">
                     </select>
                   </div>
                 </div>
                 <div class="flex-column">
                   <div class="flex-item-4 text-right text-n" style="line-height:28px;">推荐上架货位：</div>
                   <div class="flex-item-8 text-left">
-                    <select
-                    ng-disbled="!formData.regionId"
-                      ajax-if-eval="formData.regionId"
-                    class="inline pr-ipt-160 hei-28"
-                    ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
-                    ng-model="formData.goodsLocationId"
-                    scope-data="goodData">
-                    <option ng-selected="formData.goodsLocationId" ng-repeat="good in goodData" value="{{good.value}}">{{good.text}}</option>
-                    </select>
+                    <select ajax-if-eval="formData.regionId"
+                            class="select-new inline pr-ipt-160 hei-28"
+                            ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
+                            ng-model="formData.regionId"
+                            scope-data="goodData"
+                            ng-options="item.value as item.text for item in goodData">
+                    </select>                  
                   </div>
                 </div>
                 <div class="flex-column">
