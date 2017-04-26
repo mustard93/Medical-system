@@ -348,20 +348,37 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
       }
     };
+    $scope.handleChoiseAllEvent = function (isChoiseAll) {
+      if (isChoiseAll) {      // 全部选中
 
-    // 全选全不选
-    $scope.handleChoiseAllEvent = function () {
-      if ($scope.isChoiseAll) {
         if ($scope.tbodyList) {
           $scope.choisedMedicalList = [];
           angular.forEach($scope.tbodyList, function (data, index) {
             $scope.choisedMedicalList.push(data.id);
           });
         }
-      } else {
+      } else {        // 取消全部选中
         $scope.choisedMedicalList = [];
       }
     };
+
+
+    // 全选全不选
+    // $scope.handleChoiseAllEvent = function () {
+    //   console.log($scope.isChoiseAll);
+    //   if ($scope.isChoiseAll) {
+    //     console.log(2);
+    //     if ($scope.tbodyList) {
+    //       $scope.choisedMedicalList = [];
+    //       angular.forEach($scope.tbodyList, function (data, index) {
+    //         $scope.choisedMedicalList.push(data.id);
+    //       });
+    //       console.log($scope.choisedMedicalList);
+    //     }
+    //   } else {
+    //     $scope.choisedMedicalList = [];
+    //   }
+    // };
 
     // 批量收货
     $scope.handleBatchReceive = function () {
@@ -1207,6 +1224,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 全选全不选
     $scope.handleChoiseAllEvent = function (isChoiseAll) {
       if (isChoiseAll) {      // 全部选中
+
         if ($scope.tbodyList) {
           $scope.choisedList = [];
           angular.forEach($scope.tbodyList, function (data, index) {
