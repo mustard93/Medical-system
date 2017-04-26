@@ -60,21 +60,22 @@
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
+
+                      <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'" href="#/collarApplicationOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                      </a>
                       <a ng-if="tr.orderStatus=='待领取'"
                          ng-disabled="!reviewFlag"
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
-                         title="确认领取"
+                         title="领取"
                          handle-this-click
                          dialog-title="确认领取 ?"
                          dialog-content="您确认领取这条领用申请单吗?"
                          dialog-template="dialog-confirm.html"
-                         request-url="rest/authen/collarApplicationOrder/delete?id={{tr.id}}"
+                         request-url="rest/authen/collarApplicationOrder/updateStatus?id={{tr.id}}&&orderStatus=已完成"
                          emitted="reloadList">
                       <span class="delete-link-icon">&nbsp;</span>
-                      </a>
-                      <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'&&tr.orderStatus!='待领取'" href="#/collarApplicationOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
-                      <span class="watch-detail-icon">&nbsp;</span>
                       </a>
                       <a ng-if="tr.orderStatus=='待审核'"
                          ng-href="#/collarApplicationOrder/get.html?id={{tr.id}}"
