@@ -216,35 +216,25 @@
                 <td>{{tr.specification}}</td><!-- 规格 -->
                 <td>{{tr.unit}}</td><!-- 单位 -->
                 <td>{{tr.totalDeliveryQuantity || '0'}}/{{tr.totalReceiveQuantity || '0'}}</td><!-- 配送总数/已收总数 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="pro in tr.batchInfos">
-                    {{pro.productionBatch}}
-                  </div>
+                <td>
+                  <!-- <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="pro in tr.batchInfos"> -->
+                    {{tr.productionBatch}}
+                  <!-- </div> -->
                 </td><!-- 生产批号 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="rec in tr.batchInfos">
-                    {{rec.deliveryQuantity}}/{{rec.hasReceiveQuantity}}
-                  </div>
+                <td >
+                    {{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}
                 </td><!-- 配送数量/已收数量 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="proD in tr.batchInfos">
-                    {{proD.productionDate | date : 'yyyy-MM-dd'}}
-                  </div>
+                <td >
+                    {{tr.productionDate | date : 'yyyy-MM-dd'}}
                 </td><!-- 生产日期 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="recN in tr.batchInfos">
-                    {{recN.receiverName}}
-                  </div>
+                <td >
+                    {{tr.receiverName}}
                 </td><!-- 收货人 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="recD in tr.batchInfos">
-                    {{recD.receiveDate | date : 'yyyy-MM-dd'}}
-                  </div>
+                <td >
+                    {{tr.receiveDate | date : 'yyyy-MM-dd'}}
                 </td><!-- 收货时间 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="til in tr.batchInfos">
-                    {{til.validTill | date : 'yyyy-MM-dd'}}
-                  </div>
+                <td>
+                    {{tr.validTill | date : 'yyyy-MM-dd'}}
                 </td><!-- 有效期至 -->
                 <td>{{tr.invoiceNo}}</td><!-- 发票号 -->
                 <td>{{tr.invoiceDate | date:'yyyy-MM-dd'}}</td><!-- 发票日期 -->
