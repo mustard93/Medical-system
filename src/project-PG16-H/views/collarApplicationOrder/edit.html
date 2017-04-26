@@ -4,8 +4,8 @@
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos)"
      alert-error>
-  <form id="purchasePlanForm"
-         name="purchasePlanForm"
+  <form id="editForm"
+         name="editForm"
          form-validator
          parameter-body
          action="rest/authen/collarApplicationOrder/save.json"
@@ -78,6 +78,7 @@
                        ng-model="formData.departmentId"
                        select-source="rest/authen/department/queryForSelectOption">
                </select>
+               <!-- {{formData.departmentId}} -->
              <span class="mgr">申请人:</span>
              <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                      data-placeholder=" "
@@ -166,7 +167,7 @@
                                 required
                                 ng-pattern="/^\d+$/"
                                 invalid-popover
-                                popover-show="!purchasePlanForm['applicationCount'+$index].$valid "
+                                popover-show="!editForm['applicationCount'+$index].$valid "
                                 popover-options='{"content":"数量不正确", "placement":"right", "trigger":"manual"}'
                                 >
                        </span>
@@ -234,7 +235,7 @@
         <span class="mgl mgt">
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
-                  ng-click="submitForm('purchasePlanForm','save')"
+                  ng-click="submitForm('editForm','save')"
                   ng-disabled="!changeFlag">保存
           </button>
         </span>
@@ -245,8 +246,8 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('purchasePlanForm','submit')"
-                  ng-disabled="purchasePlanForm.$invalid ||!formData.orderCode" >提交
+                  callback="submitForm('editForm','submit')"
+                  ng-disabled="editForm.$invalid ||!formData.orderCode" >提交
           </button>
         </span>
       </div>
