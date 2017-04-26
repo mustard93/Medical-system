@@ -2,15 +2,15 @@
                             crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"领用申请单","link":"","style":"color-custom-orange"}]'
                             component-title="领用申请单"
                             get-status-num-url="rest/authen/collarApplicationOrder/countByOrderStatus.json"
-                            is-show-create-btn="新增领用申请单"
+                            is-show-create-btn="新建领用申请单"
                             create-new-url="#/collarApplicationOrder/edit.html"
-                            status-group-data='[["未提交","待审核","待领取","已完成"],["未通过"]]'
+                            status-group-data='[["未提交","待审核","待领取","已完成"],["未通过","已作废"]]'
                             is-show-key-filter=true
                             is-show-date-filter=true
                             search-placeholder-info="单据编号"
                             is-show-business-btn-group=true
                             is-show-department-filter=true
-                            get-department-list-url=""
+                            get-department-list-url="rest/authen/department/queryForSelectOption"
                             get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
 </page-main-header-component>
 
@@ -25,22 +25,12 @@
       <div ng-if="!status.isLoading">
         <div ng-if="tbodyList.length==0">
           <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
-          <p class="text-center">什么也没有</p>
+          <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
         </div>
         <ul ng-if="tbodyList.length" class="li-min-h">
           <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
-            <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative">
+            <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
               <div class="relative">
-                <!-- <div class="flex-column">
-                  <span class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
-                  <span class="flex-item-6 text-right">
-                    <span query-item-card-button-list="bottomButtonList"></span>
-                    <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
-                       workflow-button-query-card
-                       custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
-                    </a>
-                  </span>
-                </div> -->
                 <div class="flex-column">
                   <span ng-if="tr.orderStatus!='未通过'" class="flex-item-6 title-states text-bold color-3 pd-m">
                     <em>
@@ -54,17 +44,15 @@
                   </span>
                   <span class="flex-item-6 text-right">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
-
                       <a href="#/collarApplicationOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
-
-                      <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
+                      <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' "
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
                          title="删除"
                          handle-this-click
                          dialog-title="确认删除 ?"
-                         dialog-content="您确认删除这条采购单吗?"
+                         dialog-content="您确认删除这条领用申请单吗?"
                          dialog-template="dialog-confirm.html"
                          request-url="rest/authen/collarApplicationOrder/delete?id={{tr.id}}"
                          emitted="reloadList">
@@ -72,8 +60,22 @@
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
-                      <a ng-if="tr.orderStatus!='待审核'" href="#/collarApplicationOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+
+                      <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'" href="#/collarApplicationOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
+                      </a>
+                      <a ng-if="tr.orderStatus=='待领取'"
+                         ng-disabled="!tr.reviewFlag"
+                         href="javascript:;"
+                         class="btn-link pd-m rect-s"
+                         title="领取"
+                         handle-this-click
+                         dialog-title="确认领取 ?"
+                         dialog-content="您确认领取这条领用申请单吗?"
+                         dialog-template="dialog-confirm.html"
+                         request-url="rest/authen/collarApplicationOrder/updateStatus?id={{tr.id}}&&orderStatus=已完成"
+                         emitted="reloadList">
+                      <span class="outStork-icon">&nbsp;</span>
                       </a>
                       <a ng-if="tr.orderStatus=='待审核'"
                          ng-href="#/collarApplicationOrder/get.html?id={{tr.id}}"
@@ -82,14 +84,10 @@
                          >
                         <span class="examine-approve">&nbsp;</span>
                        </a>
-                      <!-- <a ng-if="tr.arrivalNoticeOrderId" href="#/arrivalNoticeOrder/get.html?relId={{tr.id}}" class="mgl">查看来货通知</a> -->
-
-
                       <!--工作流控制菜单 -->
                         <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
                         workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}" >
                       </button>
-
                   </span>
 
                 </div>

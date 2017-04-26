@@ -12,51 +12,69 @@
                                 component-title="配送数据管理"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
+    <!-- 导入按钮 -->
+    <div class="text-left inline-block fl">
+      <button type="button"
+              class="pr-btn-save-glodbg relative pr-indent-20"
+              style="height:30px;margin-left:30px;width:100px;"
+              ng-init="upFile={}"
+              response-list="responseList"
+              uploader-one="rest/authen/excelImport/upload"
+              params="listParams"
+              callback="formData.fileName=upFile.data.originalFileName;$root.utils.refreshHref()"
+              usege="Excel导入"
+              up-file="upFile"
+              ng-model="formData.loadUrl">
+              <i class="add-i-icon"></i>
+              Excel导入{{upFile.progress<100?"("+upFile.progress+"%)":""}}
+      </button>
 
+    </div>
       <!-- 主内容区域 -->
-      <div class="content-wrapper">
+      <div class="content-wrapper" style="margin-top:70px;">
         <div class="content-wrapper-main ">
-          <div class="color-9 pd-c-l pdt-m pdb-m bg-white bb-dashed-line">
-            <span class="inline-block" style="width:180px;">
-              <p class="mgb-s">订单创建日期：</p>
-              <p>
-                <input type="text"
-                       datepicker
-                       class="ipt pr-short-ipt color-3"
-                       placeholder=""
-                       ng-readonly="true"
-                       ng-model="listParams.orderCreateAtBeg" />
-              </p>
-            </span>
-            <span class="inline-block" style="width:180px;">
-              <p class="mgb-s">配送日期：</p>
-              <p>
-                <input type="text"
-                       datepicker
-                       class="ipt pr-short-ipt color-3"
-                       placeholder=""
-                       ng-readonly="true"
-                       ng-model="listParams.deliveryDateBeg" />
-              </p>
-            </span>
-          </div>
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
             <div class="flex-item-8">
-              <!-- 导入按钮 -->
-              <div class="text-left inline-block fl">
-                <button type="button"
-                        class="pr-btn-save-glodbg mgt"
-                        style="height:24px;"
-                        ng-init="upFile={}"
-                        response-list="responseList"
-                        uploader-one="rest/authen/excelImport/upload"
-                        params="listParams"
-                        callback="formData.fileName=upFile.data.originalFileName;$root.utils.refreshHref()"
-                        usege="Excel导入"
-                        up-file="upFile"
-                        ng-model="formData.loadUrl">Excel导入{{upFile.progress<100?"("+upFile.progress+"%)":""}}
-                </button>
+              <span class="mgr color-999 fl-l">订单创建日期：</span>
+              <div class="date-icon-outside fl-l">
+                <input type="text"
+                       datepicker
+                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                       ng-readonly="true"
+                       ng-model="listParams.orderCreateAtBeg"
+                       placeholder="">
+                <span class="date-icon"></span>
               </div>
+               <span class="mg-s-x color-999 fl-l">至</span>
+            <div class="date-icon-outside fl-l">
+               <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                     ng-readonly="true"
+                     ng-model="listParams.orderCreateAtEnd"
+                     placeholder="">
+              <span class="date-icon"></span>
+            </div>
+            <span class="mgl-l color-999 fl-l">配送日期：</span>
+            <div class="date-icon-outside fl-l">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     ng-model="listParams.deliveryDateBeg"
+                     placeholder="">
+              <span class="date-icon"></span>
+            </div>
+             <span class="mg-s-x color-999 fl-l">至</span>
+          <div class="date-icon-outside fl-l">
+             <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                   ng-readonly="true"
+                   ng-model="listParams.deliveryDateEnd"
+                   placeholder="">
+            <span class="date-icon"></span>
+          </div>
             </div>
             <div class="flex-item-4 text-right">
               <!-- 搜索 -->

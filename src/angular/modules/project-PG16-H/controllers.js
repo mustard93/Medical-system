@@ -1454,7 +1454,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          addDataItem.relId=medical.id;
 
          addDataItem.strike_price=addDataItem.price;
-         addDataItem.id=null;
+
        if (!(addDataItem.relId && addDataItem.name)) {
            alertWarn('请选择药品。');
            return false;
