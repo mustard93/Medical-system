@@ -58,15 +58,15 @@
         <span class="mgr-l">期望领用日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
       </div>
       <!-- 商品列表 -->
-      <div class="outside-table-d">
-          <table class="table pr-table pr-new-table mgb-n table-s-wid">
+      <div class="">
+          <table class="table pr-table pr-new-table mgb-n">
             <thead>
             <tr>
               <th class="text-center">序号</th>
               <th class="text-center">商品编码</th>
               <th class="text-left">商品名称</th>
               <th class="text-center">申请数量</th>
-              <th class="text-center">可用数量</th>
+              <th class="text-center">实际领用数量</th>
               <th class="text-center">商品规格</th>
               <th class="text-center">基本单位</th>
               <th class="text-center">产地</th>
@@ -77,9 +77,13 @@
               <tr ng-repeat="tr in scopeData.orderMedicalNos">
                 <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
                 <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
-                <td class="text-left" style="line-height:2.4">{{tr.name}}</td><!-- 商品全名 -->
+                <td class="text-left" style="line-height:2.4">
+                  <div class="autocut" title="{{tr.name}}">
+                     {{tr.name}}
+                  </div>
+                </td><!-- 商品全名 -->
                 <td class="text-right" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请数量 -->
-                <td class="text-right" style="line-height:2.4">{{tr.availableCount}}</td><!-- 可用数量 -->
+                <td class="text-right" style="line-height:2.4">{{tr.availableCount}}</td><!-- 实际领用数量 -->
                 <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                 <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
                 <td class="text-center" >{{tr.productionPlace}}</td>

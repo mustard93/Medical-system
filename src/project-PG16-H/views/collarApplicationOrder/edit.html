@@ -117,8 +117,8 @@
               <!-- <span ng-if="!formData.genTai" class="color-red">（必选）</span> -->
              </span>
            </div>
-           <div class="outside-table-d">
-             <table class="table pr-table pr-new-table table-ss-wid" >
+           <div class="">
+             <table class="table pr-table pr-new-table" >
                <thead>
                 <tr>
                   <th class="text-center">序号</th>
@@ -150,12 +150,19 @@
                    </td><!-- 序号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
-                     {{tr.name}}
+                     <div class="autocut" title="{{tr.name}}">
+                        {{tr.name}}
+                      </div>
                    </td><!-- 商品全名 -->
 
                    <td class="text-center" style="white-space: nowrap;">
                      <div class="order-goods-num">
-                       <button type="button" class="inline-block left" ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)-1;calcTotalPrice(formData.orderMedicalNos)" ng-disabled="tr.applicationCount<=1">-</button>
+                       <button
+                       type="button"
+                       class="inline-block left"
+                       ng-class="{'disabled':(tr.applicationCount<=1)}"
+                       ng-disabled="tr.applicationCount<=1"
+                       ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)-1;calcTotalPrice(formData.orderMedicalNos)" ng-disabled="tr.applicationCount<=1">-</button>
                        <span class="inline-block">
                          <input type="text"
                                 class="inline ipt pr-ipt-60 text-center item-applicationCount"
@@ -165,19 +172,26 @@
                                 ng-change="calcTotalPrice(formData.orderMedicalNos)"
                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].applicationCount<tr.applicationCount}"
                                 required
-                                ng-pattern="/^\d+$/"
-                                invalid-popover
-                                popover-show="!editForm['applicationCount'+$index].$valid "
-                                popover-options='{"content":"数量不正确", "placement":"right", "trigger":"manual"}'
-                                >
+                                ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                                invalid-popover="{{!editForm['applicationCount'+$index].$valid || tr.applicationCount>tr.stockModel.salesQuantity}}"
+                                popover-show
+                                is-focus="true"
+                                popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
+                                <!-- popover-show="!editForm['applicationCount'+$index].$valid || tr.applicationCount>tr.availableCount"
+                                popover-options='{"content":"数量不正确或数量过大", "placement":"right", "trigger":"manual"}' -->
                        </span>
-                       <button type="button" class="inline-block right" ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)+1;calcTotalPrice(formData.orderMedicalNos)">+</button>
+                       <button
+                        type="button"
+                        class="inline-block right"
+                        ng-class="{'disabled':(tr.applicationCount>=tr.stockModel.salesQuantity)}"
+                        ng-disabled="tr.applicationCount>=tr.stockModel.salesQuantity"
+                        ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)+1;calcTotalPrice(formData.orderMedicalNos)">+</button>
                      </div>
                      <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                        待采购数量：{{tr.planQuantity-tr.quantity}}
                      </p> -->
                    </td><!-- 申请数量 -->
-                   <td class="text-right" >{{tr.availableCount}}</td>
+                   <td class="text-right" >{{tr.stockModel.salesQuantity}}</td>
                    <!-- 可用数量 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
@@ -247,7 +261,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="editForm.$invalid ||!formData.orderCode" >提交
+                  ng-disabled="editForm.$invalid  ||!formData.orderCode" >提交
           </button>
         </span>
       </div>
