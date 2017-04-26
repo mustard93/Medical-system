@@ -32,42 +32,42 @@
           </tr>
         </thead>
         <tbody class="bg-white">
-          <tr ng-repeat="batch in formData.batchInfos" class="pr-bg-black3">
-            <td class="text-center color-white">{{batch.productionBatch}}</td><!-- 生产批号 -->
-            <td class="text-center color-white">{{batch.deliveryQuantity}}/{{batch.hasReceiveQuantity}}</td><!-- 配送数量/已收数量 -->
+          <tr class="pr-bg-black3">
+            <td class="text-center color-white">{{formData.productionBatch}}</td><!-- 生产批号 -->
+            <td class="text-center color-white">{{formData.deliveryQuantity}}/{{formData.hasReceiveQuantity}}</td><!-- 配送数量/已收数量 -->
             <td class="text-center color-white">
               <input type="number"
-                     class="inline ipt pr-ipt-60 text-center mgt"
-                     style="width:100px;"
+                     class="inline ipt pr-ipt-60 text-center select-right-side"
+                     style="width:100px;background:rgba(89,84,80,1);"
                      onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                     ng-model="batch.receiveQuantity" />
+                     ng-model="formData.receiveQuantity" />
             </td><!-- 本次收货数量 -->
             <td class="text-center color-white">
               <select
                       pg-select
-                      style="width:120px;"
+                      class="select-right-side"
                       data-placeholder=" "
-                      ng-model="batch.receiverId;"
+                      ng-model="formData.receiver.id;"
                       select-source="rest/authen/user/queryForSelectOption">
               </select>
             </td><!-- 收货人 -->
             <td class="color-white text-center">
-              <div class="date-icon-outside" >
+              <div class="date-icon-outside mgt" >
                 <input type="text"
                        datepicker
                        class="ipt-date ipt color-3"
                        ng-readonly="true"
                        placeholder=""
-                       ng-model="batch.receiveDate">
+                       ng-model="formData.receiveDate">
                       <span class="date-icon"></span>
               </div>
             </td><!-- 收货日期 -->
             <td  class="text-center color-white">
               <select
                       pg-select
-                      style="width:120px;"
+                      class="select-right-side"
                       data-placeholder=" "
-                      ng-model="batch.storeRoomId"
+                      ng-model="formData.storeRoomId"
                       select-source="rest/authen/storeRoom/queryForSelectOption">
               </select>
             </td><!-- 库房 -->
@@ -117,7 +117,8 @@
 
         </div>
         <p class=" pd-v-c-l">供应商反馈回来的相关信息：</p>
-        <div ng-repeat="item in formData.batchInfos" class="bb-line-gold">
+        <div class="bb-line-gold">
+           <!-- ng-repeat="item in formData.batchInfos" -->
           <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">供应商订单编码：</div>
             <div class="inline-block flex-item-9 text-left color-white">{{formData.dtOrderCode}}</div>
@@ -128,19 +129,19 @@
           </div>
           <div class="inline-block flex-column  pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">配送数量：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{item.deliveryQuantity}}</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.deliveryQuantity}}</div>
           </div>
           <div class="inline-block flex-column  pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">批号：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{item.productionBatch}}</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionBatch}}</div>
           </div>
           <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">生产日期：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{item.productionDate | date:'yyyy-MM-dd'}}</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionDate | date:'yyyy-MM-dd'}}</div>
           </div>
           <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">有效期至：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{item.validTill | date:'yyyy-MM-dd'}}</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.validTill | date:'yyyy-MM-dd'}}</div>
           </div>
           <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">发票号：</div>
@@ -168,8 +169,8 @@
           </div>
         </div>
       </div>
-    <div class="footer-button-area">
-      <button type="submit" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
     </div>
   </form>
 </div>
