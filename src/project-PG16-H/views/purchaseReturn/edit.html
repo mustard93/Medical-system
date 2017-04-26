@@ -2,7 +2,7 @@
      ng-controller="purchaseReturnController"
      ajax-url="rest/authen/purchaseReturn/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");quantityError=false;'
+     callback='initFlag=true;watchFormChange("formData")'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -28,7 +28,7 @@
             <div class="inline-block supplier-icon"></div>
             <div class="inline-block">
               <p class="mgb-s">供应商</p>
-              <p class="text-m color-3">{{scopeData.supplierName || '暂无'}}</p>
+              <p class="text-m color-3">{{formData.supplierName || '暂无'}}</p>
             </div>
           </div>
         </div>
@@ -37,22 +37,10 @@
              <div class="inline-block hospital-icon"></div>
              <div class="inline-block">
                <p class="mgb-s">医院</p>
-               <p class="text-m color-3">{{scopeData.organizationName || '暂无'}}</p>
+               <p class="text-m color-3">{{formData.organizationName || '暂无'}}</p>
              </div>
            </div>
         </div>
-      </div>
-      <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
-        <a ng-if="initFlag"
-           modal-right="1000"
-           modal-open-auto="{{!formData.orderMedicalNos.length}}"
-           modal-scope="this"
-           modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
-           modal-url="views/purchaseReturn/edit-right-side.html">
-          <i></i>
-          <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
-          <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
-        </a>
       </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <div class="empty-panel" ng-if="!formData.orderMedicalNos.length">
@@ -68,7 +56,7 @@
               <span class="mgr-l">审核时间：<em class="color-3">{{'暂无'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
-              <span class="mgr-l">制单人：<em class="color-3">{{'暂无'}}</em></span>
+              <span>制单人：<em class="color-custom-orange">{{formData.saleUser.n || '暂无'}}</em></span>
               <span class="mgl-l">创建日期：<em class="color-3">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
               <span class="mgl-l">状态：<em class="color-3">{{formData.orderStatus || '暂无'}}</span>
             </div>
@@ -92,29 +80,30 @@
             <div>&nbsp;</div>
         </div>
         <div class="outside-table-d">
-          <table class="table pr-table pr-new-table table-wid" >
+          <table class="table pr-table pr-new-table table-wid" style="min-width:2000px;">
             <thead>
               <tr>
                 <th class="text-center w-220">商品编码</th>
-                <th class="text-left">商品名称</th>
-                <th class="text-center">商品规格</th>
-                <th class="text-center">基本单位</th>
-                <th class="text-center">可退数量</th>
-                <th class="text-center">实退数量</th>
-                <th class="text-center">生产批号</th>
-                <th class="text-center">灭菌批号</th>
-                <th class="text-center">仓库</th>
-                <th class="text-center">采购单价</th>
-                <th class="text-center">计划退货金额</th>
-                <th class="text-center">实际退货金额</th>
-                <th class="text-center">生产厂商</th>
-                <th class="text-center">产地</th>
+                <th class="text-left w-220">商品名称</th>
+                <th class="text-center w-160">商品规格</th>
+                <th class="text-center w-160">基本单位</th>
+                <th class="text-center w-120">可退数量</th>
+                <!-- <th class="text-center">实退数量</th> -->
+                <th class="text-center w-220">生产批号</th>
+                <th class="text-center w-160">灭菌批号</th>
+                <th class="text-center w-160">仓库</th>
+                <th class="text-center w-120">采购单价</th>
+                <th class="text-center w-120">计划退货金额</th>
+                <th class="text-center w-120">实际退货金额</th>
+                <th class="text-center w-220">生产厂商</th>
+                <th class="text-center w-220">产地</th>
               </tr>
             </thead>
             <tbody class="bg-white">
               <tr ng-repeat="item in formData.orderMedicalNos"
                   ng-controller="saleReturnMedicalItemController"
-                  table-item-handlebtn-component>
+                  table-item-handlebtn-component
+                  ng-init="item.planReturnCount=item.quantity;item.productionBatch=item.productionBatch?item.productionBatch:[]">
                 <td class="text-center">{{item.code}}
                   <div class="table-item-handle-btn">
                     <div class="table-item-confirm-del-area bg-white">
@@ -128,16 +117,54 @@
                 </td><!-- 商品编码 -->
                 <td class="text-left">{{item.name}}</td><!-- 商品名称 -->
                 <td class="text-center">{{item.specificationAndModelType}}</td><!-- 商品规格-->
-                <td class="text-center">{{item.measurement}}</td><!-- 基本单位 -->
-                <td class="text-center">{{item.returnQuantity}}</td><!-- 可退数量 -->
-                <td class="text-center"></td><!-- 实退数量 -->
-                <td class="text-center">{{item.productionBatch}}</td><!-- 生产批号 -->
+                <td class="text-center">{{item.unit}}</td><!-- 基本单位 -->
+                <td class="text-center">{{item.planReturnCount}}</td><!-- 可退数量 -->
+                <!-- <td class="text-center">{{item.actualReturnCount}}</td>--><!-- 实退数量 -->
+                <td class="text-center">
+                  <!-- 已选批号列表 -->
+                  <div ng-repeat="batch in item.productionBatch" ng-init="showDelIcon=false"
+                       ng-if="batch.batchNumber"
+                       class="ipt-div relative"
+                       style="width:180px;margin-top:10px;margin-left:10px;"
+                       ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
+                    <div class="inline-block text-ellips-s"
+                         style="width:118px;height:100%;"
+                         ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
+                    </div>
+                    <input type="number"
+                           class="in_ipt"
+                           name="batchNum{{$index}}"
+                           ng-model="batch.quantity"
+                           onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                           ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
+                    <input type="hidden" ng-model="batch.id">
+                    <span ng-if="showDelIcon" class="circle-s" ng-click="item.productionBatch.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                  </div>
+                  <!-- 批号选择 -->
+                  <div class="ipt-div relative" style="width:100%;">
+                    <i class="addImg"
+                       style="left:85%"
+                       modal-right="50%"
+                       modal-scope="this"
+                       modal-data='{
+                                    "medicalName":"{{item.name}}",
+                                    "id":"{{item.relId}}",
+                                    "logisticsCenterId":"{{formData.logisticsCenterId}}",
+                                    "planQuantity":{{item.planQuantity}},
+                                    "choisedBatchList":{{item.productionBatch}}
+                                  }'
+                       modal-url="views/versionFlow/choice-stockbatch-dialog.html">
+                    </i>
+                  </div>
+                  <!-- 待选择数 -->
+                  <!-- <p ng-if="getAllBatchTotal(item.productionBatch)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p> -->
+                </td><!-- 生产批号 -->
                 <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
                 <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
-                <td class="text-center">{{}}</td><!-- 采购单价 -->
-                <td class="text-center">{{}}</td><!-- 计划退货金额 -->
-                <td class="text-center">{{}}</td><!-- 实际退货金额 -->
-                <td class="text-center">{{}}</td><!-- 生产厂商 -->
+                <td class="text-center">{{item.price}}</td><!-- 采购单价 -->
+                <td class="text-center">{{item.planReturnPrice}}</td><!-- 计划退货金额 -->
+                <td class="text-center">{{item.actualReturnPrice}}</td><!-- 实际退货金额 -->
+                <td class="text-center">{{item.manufacturer}}</td><!-- 生产厂商 -->
                 <td class="text-center">{{item.productionPlace}}</td><!-- 产地 -->
               </tr>
             </tbody>
@@ -157,24 +184,14 @@
           </div>
       </div>
       <!-- 流程图 -->
-      <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
+      <!-- <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show> -->
     </div>
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area relative">
       <div class="btn-area">
-          <!-- <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
-             handle-this-click
-             dialog-title="确认返回?"
-             dialog-content="该申请单存在未保存数据，是否保存?"
-             dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/purchaseReturn/query.html')"
-             save-callback="submitForm('editForm','exit');
-             $root.goTo('#/purchaseReturn/query.html')">返回采购退货单列表
-          </a> -->
-          <a
-           ng-if="changeFlag"
-          href="javascript:;"
+          <a ng-if="changeFlag"
+             href="javascript:;"
              handle-this-click
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
@@ -197,7 +214,7 @@
           <button type="submit"
                   class="pr-btn-save-glodbg mgl-m"
                   ng-click="submitForm_type='save';formData.validFlag=false;"
-                  ng-disabled="">保存
+                  ng-disabled="!changeFlag">保存
           </button>
 
 

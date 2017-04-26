@@ -1696,6 +1696,83 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   // SPD采购退货控制器
   function purchaseReturnController ($scope, modal, alertWarn, watchFormChange, requestData, $rootScope, alertOk, utils) {
 
+    $scope.watchFormChange=function(watchName){
+      watchFormChange(watchName,$scope);
+
+    };
+
+    modal.closeAll();
+    $scope.addDataItem = {};
+
+    // 保存  type:save-草稿,submit-提交订单。
+    $scope.submitFormAfter = function(scopeResponse) {
+
+      $scope.formData.validFlag = false;
+
+      if ($scope.submitForm_type == 'exit') {
+        $scope.goTo('#/purchaseReturnOrder/query.html');
+        alertOk(scopeResponse.msg);
+        return;
+      }
+
+      if ($scope.submitForm_type == 'submit') {
+
+        var url='rest/authen/purchaseReturnOrder/startProcessInstance';
+        var data= {businessKey:$scope.formData.id};
+          console.log($scope.formData);
+
+        requestData(url, data, 'POST')
+          .then(function (results) {
+            if (results[1].code !== 200) {
+              alertWarn(results[1].msg || '未知错误!');
+            } else {
+              $scope.goTo('#/purchaseReturnOrder/get.html?id='+$scope.formData.id);
+            }
+          })
+          .catch(function (error) {
+            if (error) {
+              alertWarn(error || '未知错误!');
+              return;
+            }
+          });
+
+        return;
+      }
+
+      if ($scope.submitForm_type == 'save') {
+        if (scopeResponse) {
+          alertOk(scopeResponse.msg);
+        }
+      }
+    };
+
+    // 能否提交验证 type:save-草稿,submit-提交订单。
+    $scope.canSubmitForm = function() {
+      //必须有1条是勾选加入订单的。
+      var arr=$scope.formData.orderMedicalNos;
+      for(var i=0;i<arr.length;i++){
+         if(arr[i].handleFlag){
+           return true;
+         }
+      }
+
+      return false;
+
+    };
+
+    // 保存 type:save-草稿,submit-提交订单。
+    $scope.submitForm = function(fromId, type) {
+      $scope.submitForm_type = type;
+      if ($scope.submitForm_type == 'submit') {
+        $scope.formData.validFlag = true;
+      }
+      $('#' + fromId).trigger('submit');
+    };
+
+    // 取消订单
+    $scope.cancelForm = function(fromId, url) {
+      alertWarn('cancelForm');
+    };
   }
 
   angular.module('manageApp.project-PG16-H')
