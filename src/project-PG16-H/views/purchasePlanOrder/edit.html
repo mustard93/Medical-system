@@ -23,6 +23,13 @@
      </page-main-header-component>
 
      <div class="content-wrapper">
+       <div ng-if="formData.operationFlowSet.message||formData.operationFlowSet.key" class="pr-panel pr-panel-height mgb pr-bg-pink">
+         <em class="color-red">原因:</em>
+         <p class="inline-block color-red">
+           <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+           <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+         </p>
+       </div>
        <div>
          <div class="inline-block mgr-l">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
@@ -175,7 +182,7 @@
                    </td><!-- 序号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
-                     <div class="autocut z-tree-div inline-block" title="{{tr.name}}">
+                     <div class="autocut inline-block" title="{{tr.name}}">
                        {{tr.name}}
                      </div>
                      <!-- {{tr.name}} -->
