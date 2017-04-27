@@ -122,15 +122,16 @@
              dialog-content-color="#FF3939"
              dialog-template="pr-dialog-confirm.html"
              callback="handleBatchReceive()">批量收货
-            <em class="fa fa-trash-o"></em>
+            <!-- <em class="fa fa-trash-o"></em> -->
           </a>
         </div>
         <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
           <table class="table pr-table pr-new-table pr-table-content table-wid-l">
             <thead class="pr-bg-side">
               <tr>
-                <th class="w-60 text-center" ng-if="!listParams.receiveItemStatus">
-                  <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                <th class="w-60 text-center mycheck" ng-if="!listParams.receiveItemStatus">
+                  <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                  <label for="1"></label>
                 </th>
                 <th class="w-80">状态</th>
                 <th class="w-80">序号</th>
@@ -139,9 +140,8 @@
                 <th class="w-220">商品名称</th>
                 <th>规格</th>
                 <th>单位</th>
-                <th>配送总数/已收总数</th>
                 <th>生产批号</th>
-                <th>配送数量/已收数量</th>
+                <th>配送总数/实收总数</th>
                 <th>生产日期</th>
                 <th>收货人</th>
                 <th>收货时间</th>
@@ -161,8 +161,9 @@
                   ng-repeat="tr in tbodyList track by $index"
                   class="relative"
                   table-item-multiple-btn>
-                <td ng-if="!listParams.receiveItemStatus" class="select-td text-center">
-                  <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                <td ng-if="!listParams.receiveItemStatus" class="select-td text-center mycheck">
+                  <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                  <label for="{{$index+2}}"></label>
                 </td>
                 <td class="relative">
                   <span class="circle-status"
@@ -215,36 +216,25 @@
                 <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品名称 -->
                 <td>{{tr.specification}}</td><!-- 规格 -->
                 <td>{{tr.unit}}</td><!-- 单位 -->
-                <td>{{tr.totalDeliveryQuantity || '0'}}/{{tr.totalReceiveQuantity || '0'}}</td><!-- 配送总数/已收总数 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="pro in tr.batchInfos">
-                    {{pro.productionBatch}}
-                  </div>
+                <td>
+                  <!-- <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="pro in tr.batchInfos"> -->
+                    {{tr.productionBatch}}
+                  <!-- </div> -->
                 </td><!-- 生产批号 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="rec in tr.batchInfos">
-                    {{rec.deliveryQuantity}}/{{rec.hasReceiveQuantity}}
-                  </div>
+                <td >
+                    {{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}
                 </td><!-- 配送数量/已收数量 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="proD in tr.batchInfos">
-                    {{proD.productionDate | date : 'yyyy-MM-dd'}}
-                  </div>
+                <td >
+                    {{tr.productionDate | date : 'yyyy-MM-dd'}}
                 </td><!-- 生产日期 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="recN in tr.batchInfos">
-                    {{recN.receiverName}}
-                  </div>
+                <td >
+                    {{tr.receiverName}}
                 </td><!-- 收货人 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="recD in tr.batchInfos">
-                    {{recD.receiveDate | date : 'yyyy-MM-dd'}}
-                  </div>
+                <td >
+                    {{tr.receiveDate | date : 'yyyy-MM-dd'}}
                 </td><!-- 收货时间 -->
-                <td style="padding:0px;">
-                  <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="til in tr.batchInfos">
-                    {{til.validTill | date : 'yyyy-MM-dd'}}
-                  </div>
+                <td>
+                    {{tr.validTill | date : 'yyyy-MM-dd'}}
                 </td><!-- 有效期至 -->
                 <td>{{tr.invoiceNo}}</td><!-- 发票号 -->
                 <td>{{tr.invoiceDate | date:'yyyy-MM-dd'}}</td><!-- 发票日期 -->
@@ -279,7 +269,7 @@
                  dialog-content-color="#FF3939"
                  dialog-template="pr-dialog-confirm.html"
                  callback="handleBatchReceive()">批量收货
-                <em class="fa fa-trash-o"></em>
+                <!-- <em class="fa fa-trash-o"></em> -->
               </a>
             </div>
           </div>
