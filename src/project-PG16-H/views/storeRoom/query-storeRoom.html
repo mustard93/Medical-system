@@ -40,10 +40,21 @@
           <!-- 批量删除按钮 -->
           <div class="flex-item-6">
             <div class="flex-column color-9">
-              <a href=""
+              <a ng-if="!choisedList.length"
+                 href=""
                  class="batch-delete-btn"
                  ng-click="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json')"
                  ng-disabled="!choisedList.length">批量删除
+                <em class="fa fa-trash-o"></em>
+              </a>
+              <a ng-if="choisedList.length"
+                 href=""
+                 class="batch-delete-btn"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="确认批量删除?"
+                 dialog-template="pr-dialog-confirm.html"
+                 callback="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json')">批量删除
                 <em class="fa fa-trash-o"></em>
               </a>
             </div>
@@ -135,10 +146,21 @@
           <div class="flex-item-6 pdl-l">
             <!-- 批量删除按钮 -->
             <div class="flex-column color-9">
-              <a href="javascript:void(0)"
+              <a ng-if="!choisedList.length"
+                 href=""
                  class="batch-delete-btn"
                  ng-click="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json')"
                  ng-disabled="!choisedList.length">批量删除
+                <em class="fa fa-trash-o"></em>
+              </a>
+              <a ng-if="choisedList.length"
+                 href=""
+                 class="batch-delete-btn"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="确认批量删除?"
+                 dialog-template="pr-dialog-confirm.html"
+                 callback="!choisedList.length || handleDelEvent(null,'rest/authen/storeRoom/delete','rest/authen/storeRoom/query.json')">批量删除
                 <em class="fa fa-trash-o"></em>
               </a>
             </div>

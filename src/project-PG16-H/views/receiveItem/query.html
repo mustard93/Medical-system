@@ -113,9 +113,15 @@
         </div>
         <!-- 批量收货按钮 -->
         <div ng-if="!listParams.receiveItemStatus" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
-          <a href="javascript:void(0)"
+          <a ng-if="!choisedMedicalList.length"
+             href="javascript:void(0)"
              class="batch-receive-btn"
-             ng-disabled="!choisedMedicalList.length"
+             ng-disabled="!choisedMedicalList.length">批量收货
+            <!-- <em class="fa fa-trash-o"></em> -->
+          </a>
+          <a ng-if="choisedMedicalList.length"
+             href="javascript:void(0)"
+             class="batch-receive-btn"
              handle-this-click
              dialog-title="确认提示?"
              dialog-content="批量收货的条目实收数量都为配送数量。确认批量收货?"
@@ -259,10 +265,15 @@
           <div class="flex-item-6">
             <!-- 批量收货按钮 -->
             <div  ng-if="!listParams.receiveItemStatus" class="flex-column color-9 pd-c-l pdt-m pdb-m">
-              <a
+              <a ng-if="!choisedMedicalList.length"
                  href="javascript:void(0)"
                  class="batch-receive-btn"
-                 ng-disabled="!choisedMedicalList.length"
+                 ng-disabled="!choisedMedicalList.length">批量收货
+                <!-- <em class="fa fa-trash-o"></em> -->
+              </a>
+              <a ng-if="choisedMedicalList.length"
+                 href="javascript:void(0)"
+                 class="batch-receive-btn"
                  handle-this-click
                  dialog-title="确认提示?"
                  dialog-content="批量收货的条目实收数量都为配送数量。确认批量收货?"

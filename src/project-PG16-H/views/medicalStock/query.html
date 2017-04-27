@@ -66,12 +66,28 @@
           <div class="flex-item-6 text-left">
             <!-- 批量删除按钮 -->
             <div ng-if="tbodyList.length" class="flex-column color-9">
-              <a href="javascript:void(0)"
+              <a ng-if="!choisedMedicalIdList.length"
+                 href="javascript:void(0)"
+                 class="batch-delete-btn"
+                 ng-disabled="!choisedMedicalIdList.length">批量删除
+                <em class="fa fa-trash-o"></em>
+              </a>
+              <a ng-if="choisedMedicalIdList.length"
+                 href="javascript:void(0)"
+                 class="batch-delete-btn"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="确认批量删除?"
+                 dialog-template="pr-dialog-confirm.html"
+                 callback="!choisedMedicalIdList.length || handleBatchDelete(formData.id)">批量删除
+                <em class="fa fa-trash-o"></em>
+              </a>
+              <!-- <a href="javascript:void(0)"
                  class="batch-delete-btn"
                  ng-click="handleBatchDelete(formData.id)"
                  ng-disabled="!choisedMedicalIdList.length">批量删除
                 <em class="fa fa-trash-o"></em>
-              </a>
+              </a> -->
             </div>
           </div>
 
@@ -205,12 +221,28 @@
             <div class="flex-item-12">
               <!-- 批量删除按钮 -->
               <div ng-if="tbodyList.length" class="flex-column color-9 pd-v-m pdl-l">
-                <a href="javascript:void(0)"
+                <a ng-if="!choisedMedicalIdList.length"
+                   href="javascript:void(0)"
+                   class="batch-delete-btn"
+                   ng-disabled="!choisedMedicalIdList.length">批量删除
+                  <em class="fa fa-trash-o"></em>
+                </a>
+                <a ng-if="choisedMedicalIdList.length"
+                   href="javascript:void(0)"
+                   class="batch-delete-btn"
+                   handle-this-click
+                   dialog-title="确认删除?"
+                   dialog-content="确认批量删除?"
+                   dialog-template="pr-dialog-confirm.html"
+                   callback="!choisedMedicalIdList.length || handleBatchDelete(formData.id)">批量删除
+                  <em class="fa fa-trash-o"></em>
+                </a>
+                <!-- <a href="javascript:void(0)"
                    class="batch-delete-btn"
                    ng-click="handleBatchDelete(formData.id)"
                    ng-disabled="!choisedMedicalIdList.length">批量删除
                   <em class="fa fa-trash-o"></em>
-                </a>
+                </a> -->
               </div>
             </div>
           </div>
