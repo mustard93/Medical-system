@@ -1791,6 +1791,63 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.cancelForm = function(fromId, url) {
       alertWarn('cancelForm');
     };
+
+    // 侧边栏选择生产批号
+    $scope.spdChoiseBatchs = function (obj,choisedList,id) {
+
+      // 构建临时对象存储批号id、批号名和数量
+      var _tmp = {
+        stockBatchId: obj.id,                     // 批次号id
+        batchNumber: obj.productionBatch,
+        quantity: obj.stockModel.salesQuantity,    // 可选数量
+        productionBatch: obj.productionBatch,     // 批号名
+        validTill:obj.validTill,
+        productionDate:obj.productionDate,
+        sterilizationBatchNumber: obj.sterilizationBatchNumber    // 灭菌批号
+      };
+
+      // 初始化已添加的批次数量和
+      var _total = 0;
+
+      // 计算当前药品的批次数量和
+      if (choisedList) {
+        angular.forEach(choisedList, function (data, index) {
+          if (data.batchNumber) {
+            _total += parseInt(data.quantity, 10);
+          }
+        });
+      }
+
+      // 如果当前批次数量大于或等于计划采购数量
+      if ((obj.stockModel.salesQuantity + _total) > $scope.dialogData.planQuantity) {
+        // 将计划采购数量赋值给临时对象
+        _tmp.quantity = $scope.dialogData.planQuantity - _total;
+      }
+
+      // 根据药品id将批次存入当前药品formData数据中
+      if ($scope.formData.orderMedicalNos) {
+        angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+          if (data.relId == id) {
+            $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
+            // $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
+
+            $scope.formData.orderMedicalNos[index].storeRoomName = obj.storeRoomName;       // 仓库名
+            $scope.formData.orderMedicalNos[index].storeRoomId = obj.storeRoomId;       // 仓库名
+            $scope.formData.orderMedicalNos[index].regionName = obj.regionName;       // 仓库名
+            $scope.formData.orderMedicalNos[index].regionId = obj.regionId;       // 仓库名
+            $scope.formData.orderMedicalNos[index].goodsLocationName = obj.goodsLocationName;       // 仓库名
+            $scope.formData.orderMedicalNos[index].goodsLocationId = obj.goodsLocationId;       // 仓库名
+
+          }
+        });
+      }
+
+    };
+
+    // 统计批次数量总和
+    $scope.calculaBatchsTotal = function (orderMedicalNos) {
+
+    };
   }
 
   angular.module('manageApp.project-PG16-H')

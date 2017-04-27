@@ -42,6 +42,18 @@
            </div>
         </div>
       </div>
+      <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
+        <a ng-if="initFlag"
+           modal-right="1000"
+           modal-open-auto="{{!formData.orderMedicalNos.length}}"
+           modal-scope="this"
+           modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
+           modal-url="views/purchaseReturn/edit-right-side.html">
+          <i></i>
+          <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
+          <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
+        </a>
+      </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
         <div class="empty-panel" ng-if="!formData.orderMedicalNos.length">
           <span></span>
@@ -80,7 +92,7 @@
             <div>&nbsp;</div>
         </div>
         <div class="outside-table-d">
-          <table class="table pr-table pr-new-table table-wid" style="min-width:2000px;">
+          <table class="table pr-table pr-new-table table-wid" style="min-width:2200px;">
             <thead>
               <tr>
                 <th class="text-center w-220">商品编码</th>
@@ -88,10 +100,12 @@
                 <th class="text-center w-160">商品规格</th>
                 <th class="text-center w-160">基本单位</th>
                 <th class="text-center w-120">可退数量</th>
-                <!-- <th class="text-center">实退数量</th> -->
+                <th class="text-center w-120">实退数量</th>
                 <th class="text-center w-220">生产批号</th>
-                <th class="text-center w-160">灭菌批号</th>
-                <th class="text-center w-160">仓库</th>
+                <th class="text-center w-220">仓库</th>
+                <th class="text-center w-220">区域</th>
+                <!-- <th class="text-center w-160">灭菌批号</th> -->
+                <th class="text-center w-160">货位</th>
                 <th class="text-center w-120">采购单价</th>
                 <th class="text-center w-120">计划退货金额</th>
                 <th class="text-center w-120">实际退货金额</th>
@@ -103,7 +117,7 @@
               <tr ng-repeat="item in formData.orderMedicalNos"
                   ng-controller="saleReturnMedicalItemController"
                   table-item-handlebtn-component
-                  ng-init="item.planReturnCount=item.quantity;item.productionBatch=item.productionBatch?item.productionBatch:[]">
+                  ng-init="item.planReturnCount=item.quantity;item.stockBatchs=item.stockBatchs?item.stockBatchs:[]">
                 <td class="text-center">{{item.code}}
                   <div class="table-item-handle-btn">
                     <div class="table-item-confirm-del-area bg-white">
@@ -119,13 +133,13 @@
                 <td class="text-center">{{item.specificationAndModelType}}</td><!-- 商品规格-->
                 <td class="text-center">{{item.unit}}</td><!-- 基本单位 -->
                 <td class="text-center">{{item.planReturnCount}}</td><!-- 可退数量 -->
-                <!-- <td class="text-center">{{item.actualReturnCount}}</td>--><!-- 实退数量 -->
+                <td class="text-center">{{item.actualReturnCount}}</td><!-- 实退数量 -->
                 <td class="text-center">
                   <!-- 已选批号列表 -->
-                  <div ng-repeat="batch in item.productionBatch" ng-init="showDelIcon=false"
+                  <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                        ng-if="batch.batchNumber"
-                       class="ipt-div relative"
-                       style="width:180px;margin-top:10px;margin-left:10px;"
+                       class="ipt-div relative mgb"
+                       style="width:100%"
                        ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
                     <div class="inline-block text-ellips-s"
                          style="width:118px;height:100%;"
@@ -138,7 +152,7 @@
                            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                            ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
                     <input type="hidden" ng-model="batch.id">
-                    <span ng-if="showDelIcon" class="circle-s" ng-click="item.productionBatch.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                    <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
                   <!-- 批号选择 -->
                   <div class="ipt-div relative" style="width:100%;">
@@ -148,19 +162,21 @@
                        modal-scope="this"
                        modal-data='{
                                     "medicalName":"{{item.name}}",
-                                    "id":"{{item.relId}}",
+                                    "id":"{{item.id}}",
                                     "logisticsCenterId":"{{formData.logisticsCenterId}}",
-                                    "planQuantity":{{item.planQuantity}},
-                                    "choisedBatchList":{{item.productionBatch}}
+                                    "planQuantity":{{item.planReturnCount}},
+                                    "choisedBatchList":{{item.stockBatchs}}
                                   }'
                        modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                     </i>
                   </div>
                   <!-- 待选择数 -->
-                  <!-- <p ng-if="getAllBatchTotal(item.productionBatch)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p> -->
+                  <!-- <p ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p> -->
                 </td><!-- 生产批号 -->
-                <td class="text-center">{{item.sterilizationBatchNumber}}</td><!-- 灭菌批号 -->
-                <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
+                <!-- <td class="text-center">{{item.sterilizationBatchNumber}}</td>--><!-- 灭菌批号 -->
+                <td class="text-center">{{item.storeRoomName}}</td><!-- 仓库 -->
+                <td class="text-center">{{item.regionName}}</td><!-- 区域 -->
+                <td class="text-center">{{item.goodsLocationName}}</td><!-- 货位 -->
                 <td class="text-center">{{item.price}}</td><!-- 采购单价 -->
                 <td class="text-center">{{item.planReturnPrice}}</td><!-- 计划退货金额 -->
                 <td class="text-center">{{item.actualReturnPrice}}</td><!-- 实际退货金额 -->
