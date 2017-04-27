@@ -1731,6 +1731,10 @@ function hospitalPurchaseComeinEdit () {
   };
 }
 // 销售出库单物流信息过长处理
+// leftShift,modalLength   一次向左移动的长度
+// lilength   LI的总个数
+// liWidth   一个LI占宽度
+
 function saleOutStockKuaDi () {
   return {
     restrict: 'A',
@@ -1750,15 +1754,16 @@ function saleOutStockKuaDi () {
           $(this).children('span').css("display", "block");
           // 点击左移按钮后
           $('.button-left').off("click").on('click',function(){
-            $('.button-right').removeAttr('disabled','disabled');
-            if(leftShift<modalLength*Math.ceil(lilength/parseInt(modalLength/liWidth)))
+            // $('.button-right').removeAttr('disabled','disabled');
+            // modalLength*Math.ceil(lilength/parseInt(modalLength/liWidth))
+            if(leftShift<Math.ceil(lilength*liWidth))
             {
               $('.kuaidiul').animate({'margin-left':'-'+leftShift+'px'});
               leftShift+=modalLength;
             }
           })
           $('.button-right').off("click").on('click',function(){
-            $('.button-left').removeAttr('disabled','disabled');
+            // $('.button-left').removeAttr('disabled','disabled');
             if(leftShift>=modalLength)
             {
               leftShift-=modalLength;
@@ -1767,14 +1772,14 @@ function saleOutStockKuaDi () {
           })
         }
         // 判断是否左右按钮是否可点击
-        if(leftShift<modalLength){
-          $('.button-right').attr('disabled','disabled');
-          $('.button-right:before').css('color','#e5e5e5');
-        }
-        if(leftShift>=modalLength*Math.ceil(lilength/parseInt(modalLength/liWidth))){
-          $('.button-left').attr('disabled','disabled');
-          $('.button-left:before').css('color','#e5e5e5');
-        }
+        // if(leftShift<modalLength){
+        //   $('.button-right').attr('disabled','disabled');
+        //   $('.triggle-right').css('border-left','10px solid #e5e5e5');
+        // }
+        // if(leftShift>=modalLength*Math.ceil(lilength/parseInt(modalLength/liWidth))){
+        //   $('.button-left').attr('disabled','disabled');
+        //   $('.triggle-left').css('border-right','10px solid #e5e5e5');
+        // }
       });
       $($element).mouseleave(function (e) {
         $(this).children('span').css({
