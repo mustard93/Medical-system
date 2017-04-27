@@ -2583,14 +2583,14 @@ define('project/controllers', ['project/init'], function() {
      * [handleMessageShow 将通过后的补充说明显示到备注里]
      * @return {[type]} [description]
      */
-    $scope.handleMessageShow = function (obj) {
-      if (obj.operationFlowSet) {
-        // console.log(obj.operationFlowSet);
-        angular.forEach(obj.operationFlowSet, function (item, index) {
-          if (item.status === obj.orderStatus) { obj.note = item.key; }
-        });
-      }
-    };
+    // $scope.handleMessageShow = function (obj) {
+    //   if (obj.operationFlowSet) {
+    //     // console.log(obj.operationFlowSet);
+    //     angular.forEach(obj.operationFlowSet, function (item, index) {
+    //       if (item.status === obj.orderStatus) { obj.note = item.key; }
+    //     });
+    //   }
+    // };
 
     // 监控计划采购数量与实际采购数量的方法
     $scope.diffPurchaseNumber = function (orderMedicalList) {
