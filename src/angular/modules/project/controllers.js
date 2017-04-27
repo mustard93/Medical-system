@@ -5096,7 +5096,7 @@ define('project/controllers', ['project/init'], function() {
       });
     };
 
-    // // 销售退货单模块点击添加要退货的药品列表功能
+    // 销售退货单模块点击添加要退货的药品列表功能
     $scope.handleAddDataArray = function (addDataObj_id, choisedMedicalList,addDataObj) {
 
       // 发货单id不能为空,至少选择1条数据
