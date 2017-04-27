@@ -2121,9 +2121,9 @@ function tableItemHandlebtnComponent (utils) {
         // 计算当前页面宽度
         var _pageWidth = null;
         if (window.innerWidth) {
-          _pageWidth = window.innerWidth - 65;
+          _pageWidth = window.innerWidth - 80;
         } else if ((document.body) && (document.body.clientWidth)) {
-          _pageWidth = document.body.clientWidth - 65;
+          _pageWidth = document.body.clientWidth - 80;
         }
 
         // console.log(_pageWidth);
@@ -2134,12 +2134,12 @@ function tableItemHandlebtnComponent (utils) {
         _delBtn.css({'position':'absolute','top':0,'left':0}).hide();
         _delArea.hide();
       });
-
-      //取消操作
-      scope.cancelHandle = function () {
+        //取消操作
+      $('.cancelHandle').on('click',function(e){
+        e.stopPropagation();
         _delBtn.hide();
         _delArea.hide();
-      };
+      });
     }
   };
 }
