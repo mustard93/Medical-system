@@ -1821,7 +1821,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       // 如果当前批次数量大于或等于计划采购数量
       if ((obj.stockModel.salesQuantity + _total) > planReturnCount) {
         // 将计划采购数量赋值给临时对象
-        _tmp.quantity = $scope.dialogData.planQuantity - _total;
+        _tmp.quantity = planReturnCount - _total;
       }
 
       // 根据药品id将批次存入当前药品formData数据中
@@ -1845,8 +1845,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 统计批次数量总和
-    $scope.calculaBatchsTotal = function (orderMedicalNos) {
+    $scope.calculaBatchsTotal = function (item,planReturnCount) {
 
+      if (item) {
+        if (item.stockBatchs.length === 0) {
+          return 0;
+        }
+
+        var _total = 0;
+        angular.forEach(item.stockBatchs, function (data, index) {
+          _total += parseInt(data.quantity,10);
+        });
+
+        return _total;
+      }
     };
   }
 
