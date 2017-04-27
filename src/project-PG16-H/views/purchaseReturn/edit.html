@@ -155,7 +155,7 @@
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
                   <!-- 批号选择 -->
-                  <div class="ipt-div relative" style="width:100%;">
+                  <div ng-if="calculaBatchsTotal(item,item.planReturnCount)<item.planReturnCount" class="ipt-div relative" style="width:100%;">
                     <i class="addImg"
                        style="left:85%"
                        modal-right="50%"
@@ -164,7 +164,7 @@
                                     "medicalName":"{{item.name}}",
                                     "id":"{{item.id}}",
                                     "logisticsCenterId":"{{formData.logisticsCenterId}}",
-                                    "planQuantity":{{item.planReturnCount}},
+                                    "planReturnCount":{{item.planReturnCount}},
                                     "choisedBatchList":{{item.stockBatchs}}
                                   }'
                        modal-url="views/versionFlow/choice-stockbatch-dialog.html">

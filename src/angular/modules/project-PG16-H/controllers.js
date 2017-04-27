@@ -384,7 +384,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.handleBatchReceive = function () {
       if ($scope.choisedMedicalList.length) {
         var _data = {
-          receiveItemIds: $scope.choisedMedicalList
+          ids: $scope.choisedMedicalList
         };
         requestData('rest/authen/receiveItem/batchReceipt', _data, 'POST', 'parameter-body')
         .then(function (results) {
@@ -1728,14 +1728,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       $scope.formData.validFlag = false;
 
       if ($scope.submitForm_type == 'exit') {
-        $scope.goTo('#/purchaseReturnOrder/query.html');
+        $scope.goTo('#/purchaseReturn/query.html');
         alertOk(scopeResponse.msg);
         return;
       }
 
       if ($scope.submitForm_type == 'submit') {
 
-        var url='rest/authen/purchaseReturnOrder/startProcessInstance';
+        var url='rest/authen/purchaseReturn/startProcessInstance';
         var data= {businessKey:$scope.formData.id};
           console.log($scope.formData);
 
@@ -1744,7 +1744,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if (results[1].code !== 200) {
               alertWarn(results[1].msg || '未知错误!');
             } else {
-              $scope.goTo('#/purchaseReturnOrder/get.html?id='+$scope.formData.id);
+              $scope.goTo('#/purchaseReturn/get.html?id='+$scope.formData.id);
             }
           })
           .catch(function (error) {
@@ -1793,7 +1793,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 侧边栏选择生产批号
-    $scope.spdChoiseBatchs = function (obj,choisedList,id) {
+    $scope.spdChoiseBatchs = function (obj,choisedList,id,planReturnCount) {
 
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {
@@ -1819,9 +1819,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
 
       // 如果当前批次数量大于或等于计划采购数量
-      if ((obj.stockModel.salesQuantity + _total) > $scope.dialogData.planQuantity) {
+      if ((obj.stockModel.salesQuantity + _total) > planReturnCount) {
         // 将计划采购数量赋值给临时对象
-        _tmp.quantity = $scope.dialogData.planQuantity - _total;
+        _tmp.quantity = planReturnCount - _total;
       }
 
       // 根据药品id将批次存入当前药品formData数据中
@@ -1845,8 +1845,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 统计批次数量总和
-    $scope.calculaBatchsTotal = function (orderMedicalNos) {
+    $scope.calculaBatchsTotal = function (item,planReturnCount) {
 
+      if (item) {
+        if (item.stockBatchs.length === 0) {
+          return 0;
+        }
+
+        var _total = 0;
+        angular.forEach(item.stockBatchs, function (data, index) {
+          _total += parseInt(data.quantity,10);
+        });
+
+        return _total;
+      }
     };
   }
 
