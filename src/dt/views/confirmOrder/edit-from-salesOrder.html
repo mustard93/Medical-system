@@ -2,13 +2,13 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;
-               $root.watchFormChange('formData',this);
+     callback="$root.watchFormChange('formData',this);
                choiseStatus=false;
                orderMedicalNos=formData.orderMedicalNos;
                formData.exchangeRate='1.00';
                formData.thisPageTotal=0;
-               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);"
+               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
+               initFlag=true;"
      alert-error>
   <form id="editForm"
         name="editForm"
