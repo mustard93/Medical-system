@@ -26,51 +26,47 @@
           <p class="text-center">什么也没有</p>
         </div>
         <ul ng-if="tbodyList.length" class="li-min-h">
-          <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+          <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList track by $index">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
               <div class="relative">
                 <div class="flex-column">
-                  <span ng-if="tr.orderStatus=='未提交'" class="flex-item-5 title-states text-bold pd-m">
-                    <em class="color-black">{{tr.orderStatus}}</em>
-                  </span>
-                  <span ng-if="tr.orderStatus=='处理中' || tr.orderStatus=='已处理'" class="flex-item-5 title-states text-bold pd-m">
+                  <span class="flex-item-5 title-states text-bold pd-m">
                     <em class="color-black">{{tr.orderStatus}}</em>
                   </span>
                   <span class="flex-item-7 text-right">
-
-                      <a ng-if="tr.orderStatus=='未提交'"
-                         class="btn-link pd-m rect-s "
-                         title="编辑"
-                         ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
-                         <span class="edit-link-icon">&nbsp;</span>
+                    <a ng-if="tr.orderStatus=='未提交'"
+                       class="btn-link pd-m rect-s "
+                       title="编辑"
+                       ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
+                       <span class="edit-link-icon">&nbsp;</span>
+                    </a>
+                    <a ng-if="tr.orderStatus!='未提交'"
+                       title="查看详情"
+                       class="btn-link pd-m rect-s "
+                       ng-href="#/purchaseReturn/get.html?id={{tr.id}}" >
+                      <span class="watch-detail-icon">&nbsp;</span>
+                    </a>
+                    <a ng-if="tr.orderStatus=='未提交'"
+                       href="javascript:;"
+                       class="mr--4 btn-link pd-m rect-s "
+                       title="删除"
+                       handle-this-click
+                       dialog-title="确认删除?"
+                       dialog-content="删除后将无法恢复,确认删除?"
+                       dialog-template="pr-dialog-submit.html"
+                       callback="$root.goTo('#/purchaseReturn/query.html')"
+                       params='{"id":tr.id}'
+                       request-url="rest/authen/purchaseReturn/delete">
+                       <span class="delete-link-icon">&nbsp;</span>
                      </a>
-                      <a ng-if="tr.orderStatus!='未提交'"
-                         title="查看详情"
-                         class="btn-link pd-m rect-s "
-                         ng-href="#/purchaseReturn/get.html?id={{tr.id}}" >
-                        <span class="watch-detail-icon">&nbsp;</span>
-                      </a>
-                      <a ng-if="tr.orderStatus=='未提交'"
-                         href="javascript:;"
-                         class="mr--4 btn-link pd-m rect-s "
-                         title="删除"
-                         handle-this-click
-                         dialog-title="确认删除?"
-                         dialog-content="删除后将无法恢复,确认删除?"
-                         dialog-template="pr-dialog-submit.html"
-                         callback="$root.goTo('#/purchaseReturn/query.html')"
-                         params='{"id":tr.id}'
-                         request-url="rest/authen/purchaseReturn/delete">
-                         <span class="delete-link-icon">&nbsp;</span>
-                       </a>
 
-                       <!--工作流控制菜单 -->
-                       <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
-                          workflow-button-query-card
-                          custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
-                       </a>
-                    </span>
-                  </div>
+                     <!--工作流控制菜单 -->
+                     <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
+                        workflow-button-query-card
+                        custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
+                     </a>
+                  </span>
+                </div>
                 <div class="card-new">
                     <div class="bt-line">
                       <h1 class="text-center text-m color-black text-ellips-s">{{tr.supplierName || '暂无'}}</h1>
