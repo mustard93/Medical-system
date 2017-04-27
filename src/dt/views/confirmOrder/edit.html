@@ -205,7 +205,7 @@
                     <td class="text-center">{{item.measurement}}</td><!-- 单位 -->
                     <td class="text-center" style="white-space: nowrap;">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.planQuantity==1">-</button>
                         <span class="inline-block">
                           <input type="number"
                                  name="planQuantity{{$index}}"
@@ -218,9 +218,10 @@
                                  valid-value="{{!editForm['planQuantity'+$index].$valid}}"
                                  popover-show
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
-                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>
+                        <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
                       </div>
                     </td><!-- 订购数量 -->
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
@@ -304,14 +305,13 @@
                              class="ipt pr-ipt-60 text-right"
                              name="discountPrice{{$index}}"
                              ng-model="item.discountPrice"
-                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
+                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);item.discountRate=((item.strike_price-item.discountPrice)/item.strike_price*100).toFixed(2)"
                              ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountPrice'+$index].$valid}}"
                              popover-show
-                             popover-options='{"content":"必须为数字", "placement":"left", "trigger":"manual"}'
-                             ng-keyup="item.discountRate=((item.strike_price-item.discountPrice)/item.strike_price*100).toFixed(2)"/>
+                             popover-options='{"content":"必须为数字", "placement":"left", "trigger":"manual"}'/>
                     </td><!-- 折扣额 -->
                     <td class="text-center" style="white-space: nowrap;">
                       <input type="text"
@@ -354,7 +354,7 @@
                     <td class="text-center">{{item.measurement}}</td><!-- 单位 -->
                     <td class="text-center" style="white-space: nowrap;">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1" ng-disabled="item.planQuantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)-1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)" ng-disabled="item.planQuantity==1">-</button>
                         <span class="inline-block">
                           <input type="number"
                                  name="planQuantity{{$index}}"
@@ -367,9 +367,10 @@
                                  valid-value="{{!editForm['planQuantity'+$index].$valid}}"
                                  popover-show
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
-                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                                 ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1">+</button>
+                        <button type="button" class="inline-block right" ng-click="item.planQuantity=$root.utils.transformToNumber(item.planQuantity)+1;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">+</button>
                       </div>
                     </td><!-- 订购数量 -->
                     <td class="text-center" style="white-space: nowrap;">￥
@@ -406,21 +407,20 @@
                              class="ipt pr-ipt-60 text-right"
                              name="discountPrice{{$index}}"
                              ng-model="item.discountPrice"
-                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
+                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);item.discountRate=((item.strike_price-item.discountPrice)/item.strike_price*100).toFixed(2)"
                              ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountPrice'+$index].$valid}}"
                              popover-show
-                             popover-options='{"content":"必须为数字", "placement":"left", "trigger":"manual"}'
-                             ng-keyup="item.discountRate=((item.price-item.discountPrice)/item.strike_price*100).toFixed(2)"/>
+                             popover-options='{"content":"必须为数字", "placement":"left", "trigger":"manual"}'/>
                     </td><!-- 折扣额 -->
                     <td class="text-center" style="white-space: nowrap;">
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="discountRate{{$index}}"
                              ng-model="item.discountRate"
-                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
+                             ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);"
                              ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
                              required
                              invalid-popover
