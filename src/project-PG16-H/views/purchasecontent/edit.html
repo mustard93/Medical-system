@@ -55,10 +55,20 @@
            <div class="flex-item-6">
              <!-- 批量删除按钮 -->
              <div ng-if="tbodyList.length" class="flex-column color-9 pd-c-l">
-               <a href="javascript:void(0)"
+               <a ng-if="!choisedMedicalIdList.length"
+                  href="javascript:void(0)"
                   class="batch-delete-btn"
-                  ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
                   ng-disabled="!choisedMedicalIdList.length">批量删除
+                 <em class="fa fa-trash-o"></em>
+               </a>
+               <a ng-if="choisedMedicalIdList.length"
+                  href="javascript:void(0)"
+                  class="batch-delete-btn"
+                  handle-this-click
+                  dialog-title="确认删除?"
+                  dialog-content="确认批量删除?"
+                  dialog-template="pr-dialog-confirm.html"
+                  callback="!choisedMedicalIdList.length || handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)">批量删除
                  <em class="fa fa-trash-o"></em>
                </a>
              </div>
@@ -70,8 +80,9 @@
              <table class="table pr-table pr-new-table mgb-n table-wid-l">
                <thead>
                  <tr>
-                  <th class="w-60 text-center">
-                    <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                  <th class="w-60 text-center mycheck">
+                    <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                    <label for="1"></label>
                   </th>
                   <th class="text-center">序号</th>
                   <th class="text-center">状态</th>
@@ -107,8 +118,9 @@
                </thead>
                <tbody>
                  <tr ng-repeat="tr in tbodyList" table-item-handlebtn-component>
-                   <td class="select-td text-center">
-                     <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                   <td class="select-td text-center mycheck">
+                     <input type="checkbox" class="selectOne cur-pot" id="{{$index + 2}}" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                     <label for="{{$index+2}}"></label>
                      <div class="table-item-handle-btn">
                        <div class="table-item-confirm-del-area bg-white">
                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
@@ -193,10 +205,20 @@
              <div class="flex-item-6">
                <!-- 批量删除按钮 -->
                <div ng-if="tbodyList.length" class="flex-column color-9 pd-v-m pdl-l">
-                 <a href="javascript:void(0)"
+                 <a ng-if="!choisedMedicalIdList.length"
+                    href="javascript:void(0)"
                     class="batch-delete-btn"
-                    ng-click="handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)"
                     ng-disabled="!choisedMedicalIdList.length">批量删除
+                   <em class="fa fa-trash-o"></em>
+                 </a>
+                 <a ng-if="choisedMedicalIdList.length"
+                    href="javascript:void(0)"
+                    class="batch-delete-btn"
+                    handle-this-click
+                    dialog-title="确认删除?"
+                    dialog-content="确认批量删除?"
+                    dialog-template="pr-dialog-confirm.html"
+                    callback="!choisedMedicalIdList.length || handleBatchDelete(mainStatus.pageParams.supplierId,formData.distributorId)">批量删除
                    <em class="fa fa-trash-o"></em>
                  </a>
                </div>
