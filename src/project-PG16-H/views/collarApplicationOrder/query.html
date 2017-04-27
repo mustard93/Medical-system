@@ -64,8 +64,7 @@
                       <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未通过'" href="#/collarApplicationOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
-                      <a ng-if="tr.orderStatus=='待领取'"
-                         ng-disabled="!tr.reviewFlag"
+                      <a ng-if="tr.orderStatus=='待领取'&&tr.reviewFlag"
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
                          title="领取"
@@ -75,6 +74,13 @@
                          dialog-template="dialog-confirm.html"
                          request-url="rest/authen/collarApplicationOrder/updateStatus?id={{tr.id}}&&orderStatus=已完成"
                          emitted="reloadList">
+                      <span class="outStork-icon">&nbsp;</span>
+                      </a>
+                      <a ng-if="tr.orderStatus=='待领取'&&!tr.reviewFlag"
+                         ng-disabled="true"
+                         href="javascript:;"
+                         class="btn-link pd-m rect-s"
+                         title="待该申请单复核完成后才可领取">
                       <span class="outStork-icon">&nbsp;</span>
                       </a>
                       <a ng-if="tr.orderStatus=='待审核'"
