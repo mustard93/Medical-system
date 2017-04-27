@@ -1728,14 +1728,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       $scope.formData.validFlag = false;
 
       if ($scope.submitForm_type == 'exit') {
-        $scope.goTo('#/purchaseReturnOrder/query.html');
+        $scope.goTo('#/purchaseReturn/query.html');
         alertOk(scopeResponse.msg);
         return;
       }
 
       if ($scope.submitForm_type == 'submit') {
 
-        var url='rest/authen/purchaseReturnOrder/startProcessInstance';
+        var url='rest/authen/purchaseReturn/startProcessInstance';
         var data= {businessKey:$scope.formData.id};
           console.log($scope.formData);
 
@@ -1744,7 +1744,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if (results[1].code !== 200) {
               alertWarn(results[1].msg || '未知错误!');
             } else {
-              $scope.goTo('#/purchaseReturnOrder/get.html?id='+$scope.formData.id);
+              $scope.goTo('#/purchaseReturn/get.html?id='+$scope.formData.id);
             }
           })
           .catch(function (error) {
