@@ -2207,11 +2207,11 @@ define('project/controllers', ['project/init'], function() {
      });
 
     // 监控用户变化，清空之前选择药械列表
-    $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
-      if (newVal && oldVal && oldVal !== newVal) {
-        if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
-      }
-    });
+    // $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
+    //   if (newVal && oldVal && oldVal !== newVal) {
+    //     if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
+    //   }
+    // });
 
     $scope.canSubmitForm = function() {
        //必须有1条是勾选加入订单的。
