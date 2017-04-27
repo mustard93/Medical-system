@@ -384,7 +384,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.handleBatchReceive = function () {
       if ($scope.choisedMedicalList.length) {
         var _data = {
-          receiveItemIds: $scope.choisedMedicalList
+          ids: $scope.choisedMedicalList
         };
         requestData('rest/authen/receiveItem/batchReceipt', _data, 'POST', 'parameter-body')
         .then(function (results) {
@@ -1793,7 +1793,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 侧边栏选择生产批号
-    $scope.spdChoiseBatchs = function (obj,choisedList,id) {
+    $scope.spdChoiseBatchs = function (obj,choisedList,id,planReturnCount) {
 
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {
@@ -1819,7 +1819,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
 
       // 如果当前批次数量大于或等于计划采购数量
-      if ((obj.stockModel.salesQuantity + _total) > $scope.dialogData.planQuantity) {
+      if ((obj.stockModel.salesQuantity + _total) > planReturnCount) {
         // 将计划采购数量赋值给临时对象
         _tmp.quantity = $scope.dialogData.planQuantity - _total;
       }
