@@ -17,20 +17,24 @@
         <div class="flex-column mgb-m">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">库房名称：</div>
           <div class="flex-item-8 text-left">
-            <select ng-if="initFlag"
+            <select ng-if="initFlag && !formData.id"
                     class="inline pr-ipt-160 hei-28"
                     ajax-url="rest/authen/storeRoom/queryForSelectOption"
                     ng-model="formData.storeRoomId"
                     scope-data="storeRoomData"
                     ng-options="item.value as item.text for item in storeRoomData">
             </select>
+            <span ng-if="formData.id">{{formData.storeRoomName}}</span>
           </div>
         </div>
         <div class="flex-column mgb-m">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">区域编号：</div>
           <div class="flex-item-8 text-left relative">
+            <div ng-if="!formData.id">
               <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.code" />
               <i class="receive-item-icon" style="top:5px;left:140px;"></i>
+            </div>
+            <div ng-if="formData.id" style="position:relative;top:3px;">{{formData.code}}</div>
           </div>
         </div>
         <div class="flex-column mgb-m">
@@ -42,25 +46,33 @@
         <div class="flex-column mgb-m">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">区域类型：</div>
           <div class="flex-item-8 text-left">
-            <select ng-if="initFlag"
+            <select ng-if="initFlag && !formData.id"
                     class="inline pr-ipt-160 hei-28"
                     ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_RegionType"
                     ng-model="formData.type"
                     scope-data="regionTypeData"
                     ng-options="item.value as item.text for item in regionTypeData">
             </select>
+            <span ng-if="formData.id" style="position:relative;top:3px;">{{formData.type}}</span>
           </div>
         </div>
         <div class="flex-column mgb-m">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">储存条件：</div>
           <div class="flex-item-8 text-left">
-            <select ng-if="initFlag"
+            <select ng-if="initFlag && !formData.id"
                     class="inline pr-ipt-160 hei-28"
                     ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StorageConditionEnum"
                     ng-model="formData.storageCondition"
                     scope-data="storageConditionData"
                     ng-options="item.value as item.text for item in storageConditionData">
             </select>
+            <span ng-if="formData.id" style="position:relative;top:3px;">{{formData.storageCondition}}</span>
+          </div>
+        </div>
+        <div class="flex-column mgb-m">
+          <div class="flex-item-4 text-right text-n" style="line-height:28px;">备注：</div>
+          <div class="flex-item-8 text-left">
+            <textarea class="pr-textarea" maxlength="200" style="height:92px;width:275px;" placeholder="" ng-model="formData.note"></textarea>
           </div>
         </div>
       </div>

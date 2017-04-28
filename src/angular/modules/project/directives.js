@@ -2516,7 +2516,8 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             //"localData": "=?",
             "searchFields": "@",
             "matchClass": "@",
-            "ngDisabled": "=?"
+            "ngDisabled": "=?",
+            "searchStr": "@"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
@@ -2529,9 +2530,7 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             $scope.searching = false;
             $scope.pause = 300;
             $scope.minLength = 1;
-            $scope.searchStr = null;
-
-
+            // $scope.searchStr = null;
 
             require(['project/angucomplete'], function(angucomplete) {
               //是否验证合法，允许输入
@@ -2543,7 +2542,7 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
                     }
                   }catch(e){  }
                 return true;
-              }
+              };
 
               $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel,canSelectResult);
 
@@ -2755,7 +2754,7 @@ function tableTrMouseOverMenu(utils,$compile,customMenuUtils){
 
           $scope._tableTrMouseOverMenus=customMenuUtils.parseVariableMenuList(bottomButtonList,dataObj);
           //创建菜单按钮。
-          var tmp_template='<span query-item-table-button-list="_tableTrMouseOverMenus"></span>';
+          var tmp_template='<span query-item-table-button-list="_tableTrMouseOverMenus" tr-id="'+$attrs.trId+'"></span>';
           moveBtnDiv.html(tmp_template);
           $compile(moveBtnDiv.contents())($scope);
 
@@ -2929,11 +2928,14 @@ function queryItemTableButtonList() {
     // replace: true,// true时 导致$scope作用域下，属性添加失效。
     templateUrl:  Config.tplPath +'tpl/project/queryItemTableButtonList.html',
     link: function ($scope, $element, $attrs) {
+      if ($attrs.trId) {
+        $scope.trId = $attrs.trId;
+      }
 
-          //添加scope 的公共事件，是否显示，点击事件，等
-         addCommonsEventFnToSope($scope);
-          if(!$scope.spanClass)$scope.spanClass="mgl";
-          $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
+      //添加scope 的公共事件，是否显示，点击事件，等
+      addCommonsEventFnToSope($scope);
+      if(!$scope.spanClass)$scope.spanClass="mgl";
+      $scope.defalutItemClass="btn btn-primary pr-btn-bg-gold pr-btn-save-glodbg";
     }
   };
 }
