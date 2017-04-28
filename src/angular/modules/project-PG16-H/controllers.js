@@ -1860,6 +1860,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         return _total;
       }
     };
+
+    // 获取用户已选择的药品批次，并将批次id存入数组
+    $scope.getChoisedBatchsId = function (choisedBatchList) {
+      if (choisedBatchList) {
+        $scope.choisedBatchsIdList = [];
+        angular.forEach(choisedBatchList, function (data, index) {
+          if (data.stockBatchId) {
+            $scope.choisedBatchsIdList.push(data.stockBatchId);
+          }
+        });
+      }
+    };
   }
 
   angular.module('manageApp.project-PG16-H')
