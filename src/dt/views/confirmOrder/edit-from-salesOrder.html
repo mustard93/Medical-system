@@ -2,13 +2,13 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;
-               $root.watchFormChange('formData',this);
+     callback="$root.watchFormChange('formData',this);
                choiseStatus=false;
                orderMedicalNos=formData.orderMedicalNos;
                formData.exchangeRate='1.00';
                formData.thisPageTotal=0;
-               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);"
+               confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);
+               initFlag=true;"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -137,8 +137,9 @@
           <table class="table pr-table pr-new-table mgb-n table-s-wid">
               <thead>
                 <tr>
-                  <th class="text-center w-50">
-                    <label for=""><input type="checkbox" ng-model="choiseStatus" ng-click="isChoiseAll(choiseStatus)"></label>
+                  <th class="text-center w-50 mycheck">
+                  <input type="checkbox" ng-model="choiseStatus" id='1' ng-click="isChoiseAll(choiseStatus)">
+                  <label for="1"></label>
                   </th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left w-300">商品全名</th>
@@ -161,8 +162,9 @@
               </thead>
               <tbody ng-if="formData.orderBusinessType=='普通销售'">
                 <tr ng-repeat="item in orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
-                  <td class="text-center w-50">
-                    <label for=""><input type="checkbox" ng-model="item.handleFlag" ng-change="handleThischoise(item)"></label>
+                  <td class="text-center w-50 mycheck">
+                    <input type="checkbox" ng-model="item.handleFlag" id="{{$index+2}}" ng-change="handleThischoise(item)">
+                  <label for="{{$index+2}}"></label>
                   </td>
                   <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
                   <td>{{item.name}}</td><!-- 商品全名 -->

@@ -987,6 +987,7 @@ define('project/controllers', ['project/init'], function() {
     $scope.isShowConfirmInfo = false;
 
     $scope.$watch('initFlag', function () {
+    
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
       if ($scope.formData.operationFlowSet) {
@@ -1138,7 +1139,22 @@ define('project/controllers', ['project/init'], function() {
         });
       }
     };
+    $scope.handleThischoise = function (item) {
+      //检查药品列表是否被全部选中
+      var _choiseCount = 0;
+      if (item.handleFlag) {      // 点击选中
 
+        angular.forEach($scope.orderMedicalNos, function (data, index) {
+          if (data.handleFlag === true) { _choiseCount++; }
+        });
+        if ($scope.orderMedicalNos.length == _choiseCount) {
+          $scope.choiseStatus = true;
+
+        }
+      } else {      // 取消选中
+        $scope.choiseStatus = false;
+      }
+    };
     $scope.handleChoiseAllEvent = function () {
       var _dataSource = $scope.formData.orderMedicalNos;
 
@@ -1452,14 +1468,20 @@ define('project/controllers', ['project/init'], function() {
 
     // 处理单选条目时是否自动选中全选复选框
     $scope.handleThischoise = function (item) {
+      console.log(1);
       //检查药品列表是否被全部选中
       var _choiseCount = 0;
       if (item.handleFlag) {      // 点击选中
+        console.log($scope.choiseStatus);
         angular.forEach($scope.orderMedicalNos, function (data, index) {
           if (data.handleFlag === true) { _choiseCount++; }
         });
+        if ($scope.orderMedicalNos.length == _choiseCount) {
+          $scope.choiseStatus = true;
 
-        $scope.choiseStatus = ($scope.orderMedicalNos.length === _choiseCount) ? true : false;
+        }
+
+        // $scope.choiseStatus = ($scope.orderMedicalNos.length === _choiseCount) ? true : false;
 
       } else {      // 取消选中
         $scope.choiseStatus = false;
