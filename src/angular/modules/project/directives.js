@@ -1945,28 +1945,12 @@ function stepFlowArrowShow(utils){
         var maxLen=$attrs.maxlength;
 
         // 最开始加载后，显示字数限制提示
-          $scope.$watch($scope.initFlag, function() {
             strResult = '<span class="strResult">(<em class="remainWords">0</em>/'+maxLen+')</span>';
             $($element).after(strResult);
             // 字数限制显示样式定义
             if($attrs.top){
-              $('.strResult').css({
-                'position':'absolute',
-                'top':$attrs.top+'px',
-                'right':'35px',
-                'z-index':'100',
-                'color':'#999'
-              });
-            }else{
-              $('.strResult').css({
-                'position':'absolute',
-                'top':'63px',
-                'right':'35px',
-                'z-index':'100',
-                'color':'#999'
-              });
+              $('.strResult').css({'top':$attrs.top+'px'});
             }
-          });
           // 输入框发生改变触发事件
           $($element).bind("input propertychange change",function(event){
             // 显示当前输入的字数的个数
@@ -1975,10 +1959,6 @@ function stepFlowArrowShow(utils){
         }//link
     };
   }
-
-
-
-
 
 
 /**
@@ -3277,7 +3257,8 @@ function pageMainHeaderComponent () {
       isShowSelectItem: '@',
       searchPlaceholderInfo: '@',
       getWarehouseListUrl: '@',
-      getDepartmentListUrl: '@'
+      getDepartmentListUrl: '@',
+      getUserListUrl: '@'
     },
     replace: true,
     transclude: true,
@@ -3324,6 +3305,8 @@ function pageMainHeaderComponent () {
 
       // 是否显示部门过滤
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
+      // 是否显示制单人过滤  
+      scope.isShowUserFilter = angular.isDefined(attrs.isShowUserFilter) ? attrs.isShowUserFilter : false;
 
       //是否显示类型过滤
       scope.isShowTypeFilter = angular.isDefined(attrs.isShowTypeFilter) ? attrs.isShowTypeFilter : false;
