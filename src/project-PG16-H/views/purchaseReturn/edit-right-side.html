@@ -81,7 +81,7 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="item in addDataObj.orderMedicalNos" >
+                <tr ng-repeat="item in addDataObj.orderMedicalNos" ng-init="item.planReturnCount=item.quantity">
                   <td class="select-td text-center">
                     <input type="checkbox" class="selectOne" ng-model="item.itemSelected" ng-click="handleItemClickEvent(item);">
                   </td>
@@ -115,6 +115,11 @@
                     type="button"
                     class="pr-btn-save-glodbg mgr-l">确定
             </button>
+            <!-- <button type="button"
+                    class="pr-btn-save-glodbg mgr-l"
+                    ng-click="spdPuraseReturnAddMedical();modal.closeAll();"
+                    ng-disabled="!choisedMedicalList.length>0">确定
+            </button> -->
         </div>
       </div>
     </div>

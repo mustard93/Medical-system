@@ -1,22 +1,21 @@
-
 <div class="modal-content right-side-new pr-bg-black4"
      ng-controller="medicalStockCtrl"
      ajax-url="rest/authen/medicalStock/get?id={{dialogData.id}}"
      scope-data="formData"
      alert-error
-     callback="initFlag=true;watchFormChange('formData')">
+     callback="initFlag=true">
   <form class="add-medical-form form-horizontal"
         action="rest/authen/medicalStock/incStockBatch"
         scope-data="formData"
         alert-error
         alert-ok
         form-validator
-        callback="modal.closeAll()">
+        callback="">
     <div class="modal-header">
       <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
       <h4 class="modal-title">添加库存</h4>
     </div>
-    <div class="modal-body modal-body-new" ng-init="formData={id:tr.id, stockChangeType:'真实库存量'}">
+    <div class="modal-body modal-body-new">
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">仓库：</label>
         <div class="col-lg-10 col-sm-10">
@@ -106,6 +105,7 @@
     </div>
     <div class="btn-confirm-area">
       <button type="submit"
+              ng-click="modal.closeAll()"
               class="btn pr-btn-create-glodbg "
               style="width:160px;height:32px;	margin-top: 8px;margin-left:185px;">提交
       </button>
