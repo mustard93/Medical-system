@@ -1747,14 +1747,12 @@ function saleOutStockKuaDi () {
       $($element).mouseenter(function (e) {
       lilength=$(this).children('ul').children('li').length;
       liWidth=$(this).children('ul').children('li').width()+42;
-      console.log(liWidth);
-      console.log();
+
         // 大于一行显示的个数，才出现按钮
         if(lilength>parseInt(modalLength/liWidth)){
           $(this).children('span').css("display", "block");
           // 点击左移按钮后
           $('.button-left').off("click").on('click',function(){
-            // $('.button-right').removeAttr('disabled','disabled');
             // modalLength*Math.ceil(lilength/parseInt(modalLength/liWidth))
             if(leftShift<Math.ceil(lilength*liWidth))
             {
@@ -1943,14 +1941,18 @@ function stepFlowArrowShow(utils){
       link: function ($scope, $element, $attrs) {
         var strResult;
         var maxLen=$attrs.maxlength;
+        var toT=$attrs.top;
 
-        // 最开始加载后，显示字数限制提示
+        $scope.$watch('initFlag',function(){
+          // 最开始加载后，显示字数限制提示
+          if (toT) {
+              strResult = '<span class="strResult" style="top:'+toT+'px;">(<em class="remainWords">0</em>/'+maxLen+')</span>';
+          }else {
             strResult = '<span class="strResult">(<em class="remainWords">0</em>/'+maxLen+')</span>';
-            $($element).after(strResult);
-            // 字数限制显示样式定义
-            if($attrs.top){
-              $('.strResult').css({'top':$attrs.top+'px'});
-            }
+          }
+              // $('.strResult').css('top',toT);
+              $($element).after(strResult);
+        });
           // 输入框发生改变触发事件
           $($element).bind("input propertychange change",function(event){
             // 显示当前输入的字数的个数
@@ -3307,7 +3309,7 @@ function pageMainHeaderComponent () {
 
       // 是否显示部门过滤
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
-      // 是否显示制单人过滤  
+      // 是否显示制单人过滤
       scope.isShowUserFilter = angular.isDefined(attrs.isShowUserFilter) ? attrs.isShowUserFilter : false;
 
       //是否显示类型过滤

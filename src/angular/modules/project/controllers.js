@@ -987,7 +987,7 @@ define('project/controllers', ['project/init'], function() {
     $scope.isShowConfirmInfo = false;
 
     $scope.$watch('initFlag', function () {
-    
+      tr
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
       if ($scope.formData.operationFlowSet) {
