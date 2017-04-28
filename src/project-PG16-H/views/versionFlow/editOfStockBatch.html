@@ -1,91 +1,112 @@
-
-        <div class="modal-content right-side-new pr-bg-black4" ng-controller="editCtrl" alert-error callback="initFlag=true">
-
-          <form class="add-medical-form form-horizontal"
-                action="rest/authen/medicalStock/incStockBatch"
-                  scope-data="formData" alert-error alert-ok
-                form-validator>
-            <div class="modal-header">
-                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                <h4 class="modal-title">添加库存</h4>
-            </div>
-            <div class="modal-body modal-body-new" ng-init="formData={id:tr.id, stockChangeType:'真实库存量'}">
-
-              <div class="form-group">
-                <label class="col-lg-2 col-sm-2 control-label">仓库编码：</label>
-                <div class="col-lg-10 col-sm-10">
-                  <select  class="ipt pr-short-ipt" data-placeholder="选择仓库" chosen default-empty="无" ng-model="formData.warehouseId" select-source="rest/authen/warehouse/queryForSelectOption">
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-lg-2 col-sm-2 control-label">单据类型：</label>
-                <div class="col-lg-10 col-sm-10">
-                  <select  class="ipt pr-short-ipt" data-placeholder="选择单据类型" chosen default-empty="无" ng-model="formData.inoutstockDetailType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-lg-2 col-sm-2 control-label">库存类型：</label>
-                <div class="col-lg-10 col-sm-10">
-                  <select  class="ipt pr-short-ipt" data-placeholder="选择库存类型" chosen default-empty="无" ng-model="formData.stockChangeType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Warehouse_StockChangeType">
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-lg-2 col-sm-2 control-label">生产批号：</label>
-                <div class="col-lg-10 col-sm-10">
-                  <input type="text" class="pr-ipt-240 hei-28" placeholder="" ng-model="formData.productionBatch" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-lg-2 col-sm-2 control-label">灭菌批号：</label>
-                <div class="col-lg-10 col-sm-10">
-                  <input type="text" class="pr-ipt-240 hei-28" placeholder="" ng-model="formData.sterilizationBatchNumber" />
-                </div>
-              </div>
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">数量：</label>
-                  <div class="col-lg-2 col-sm-2">
-                    <input type="number" class="pr-ipt-240 hei-28" placeholder="" ng-model="formData.quantity" />
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">生产日期：</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="生产日期"  ng-model="formData.productionDate">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">有效期至：</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="有效期至"  ng-model="formData.validTill">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">备注：</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <textarea class="pr-ipt-300" placeholder="" ng-model="formData.note"></textarea
-                  </div>
-                </div>
-
-                <!-- <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label"></label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="submit" class="btn btn-success" value="提交">
-                  </div>
-                </div> -->
-
-            </div>
-            <div class="btn-confirm-area">
-                <button type="submit"
-                ng-click="modal.closeAll();"
-                class="btn pr-btn-create-glodbg "
-                style="width:160px;height:32px;	margin-top: 8px;margin-left:185px;" value="提交">提交</button>
-            </div>
-            </form>
+<div class="modal-content right-side-new pr-bg-black4"
+     ng-controller="medicalStockCtrl"
+     ajax-url="rest/authen/medicalStock/get?id={{dialogData.id}}"
+     scope-data="formData"
+     alert-error
+     callback="initFlag=true;watchFormChange('formData')">
+  <form class="add-medical-form form-horizontal"
+        action="rest/authen/medicalStock/incStockBatch"
+        scope-data="formData"
+        alert-error
+        alert-ok
+        form-validator
+        callback="modal.closeAll()">
+    <div class="modal-header">
+      <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+      <h4 class="modal-title">添加库存</h4>
+    </div>
+    <div class="modal-body modal-body-new" ng-init="formData={id:tr.id, stockChangeType:'真实库存量'}">
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">仓库：</label>
+        <div class="col-lg-10 col-sm-10">
+          <select class="inline pr-ipt-160 hei-28"
+                  ajax-url="rest/authen/storeRoom/queryForSelectOption"
+                  ng-model="formData.storeRoomId"
+                  scope-data="storeRoomData"
+                  ng-options="item.value as item.text for item in storeRoomData">
+          </select>
         </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">区域：</label>
+        <div class="col-lg-10 col-sm-10">
+          <select class="inline pr-ipt-160 hei-28"
+                  ajax-if-eval="formData.storeRoomId"
+                  ajax-url="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}"
+                  ng-model="formData.regionId"
+                  scope-data="regionData"
+                  ng-options="item.value as item.text for item in regionData">
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">货位：</label>
+        <div class="col-lg-10 col-sm-10">
+          <select class="inline pr-ipt-160 hei-28"
+                  ajax-if-eval="formData.regionId"
+                  ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
+                  ng-model="formData.goodsLocationId"
+                  scope-data="goodsLocationData"
+                  ng-options="item.value as item.text for item in goodsLocationData">
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">单据类型：</label>
+        <div class="col-lg-10 col-sm-10">
+          <select  class="ipt pr-short-ipt" data-placeholder="选择单据类型" chosen default-empty="无" ng-model="formData.inoutstockDetailType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">库存类型：</label>
+        <div class="col-lg-10 col-sm-10">
+          <select  class="ipt pr-short-ipt" data-placeholder="选择库存类型" chosen default-empty="无" ng-model="formData.stockChangeType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Warehouse_StockChangeType">
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">生产批号：</label>
+        <div class="col-lg-10 col-sm-10">
+          <input type="text" class="pr-ipt-240 hei-28" placeholder="" ng-model="formData.productionBatch" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">灭菌批号：</label>
+        <div class="col-lg-10 col-sm-10">
+          <input type="text" class="pr-ipt-240 hei-28" placeholder="" ng-model="formData.sterilizationBatchNumber" />
+        </div>
+      </div>
+      <div class="form-group">
+          <label class="col-lg-2 col-sm-2 control-label">数量：</label>
+          <div class="col-lg-2 col-sm-2">
+            <input type="number" class="pr-ipt-240 hei-28" placeholder="" ng-model="formData.quantity" />
+          </div>
+        </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">生产日期：</label>
+        <div class="col-lg-10 col-sm-10">
+          <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="生产日期"  ng-model="formData.productionDate">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">有效期至：</label>
+        <div class="col-lg-10 col-sm-10">
+          <input type="text" readonly="true" datepicker   class="ipt pr-short-ipt" placeholder="有效期至"  ng-model="formData.validTill">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">备注：</label>
+        <div class="col-lg-10 col-sm-10">
+          <textarea class="pr-ipt-300" placeholder="" ng-model="formData.note"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="btn-confirm-area">
+      <button type="submit"
+              class="btn pr-btn-create-glodbg "
+              style="width:160px;height:32px;	margin-top: 8px;margin-left:185px;">提交
+      </button>
+    </div>
+  </form>
+</div>

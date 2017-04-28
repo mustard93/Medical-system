@@ -29,7 +29,7 @@
         <div class="flex-column mgb-m">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">区域名称：</div>
           <div class="flex-item-8 text-left">
-            <select ng-if="initFlag"
+            <select ng-if="initFlag && !formData.id"
                     class="inline pr-ipt-160 hei-28"
                     ajax-if-eval="formData.storeRoomId"
                     ajax-url="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}"
@@ -37,13 +37,19 @@
                     scope-data="regionData"
                     ng-options="item.value as item.text for item in regionData">
             </select>
+            <span ng-if="formData.id" style="position:relative;top:3px;">{{formData.regionName}}</span>
           </div>
         </div>
         <div class="flex-column mgb-m">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">货位编号：</div>
           <div class="flex-item-8 text-left relative">
+            <div ng-if="!formData.id">
               <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.code" />
               <i class="receive-item-icon" style="top:5px;left:140px;"></i>
+            </div>
+            <div ng-if="formData.id" style="position:relative;top:3px;">
+              {{formData.code}}
+            </div>
           </div>
         </div>
         <div class="flex-column mgb-m">
