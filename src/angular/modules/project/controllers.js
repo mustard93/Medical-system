@@ -987,7 +987,6 @@ define('project/controllers', ['project/init'], function() {
     $scope.isShowConfirmInfo = false;
 
     $scope.$watch('initFlag', function () {
-      tr
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
       if ($scope.formData.operationFlowSet) {
@@ -1034,7 +1033,7 @@ define('project/controllers', ['project/init'], function() {
           }
 
           // 如果所有批次数量的和小于计划数量，则弹出提示
-          $scope.isShowConfirmInfo = (_total < $scope.formData.orderMedicalNos[index].planQuantity && _total !== 0) ? true : false;
+          $scope.isShowConfirmInfo = (_total < $scope.formData.orderMedicalNos[index].quantity && _total !== 0) ? true : false;
 
         });
 
@@ -1139,6 +1138,7 @@ define('project/controllers', ['project/init'], function() {
         });
       }
     };
+
     $scope.handleThischoise = function (item) {
       //检查药品列表是否被全部选中
       var _choiseCount = 0;
@@ -1155,6 +1155,7 @@ define('project/controllers', ['project/init'], function() {
         $scope.choiseStatus = false;
       }
     };
+
     $scope.handleChoiseAllEvent = function () {
       var _dataSource = $scope.formData.orderMedicalNos;
 
@@ -1193,7 +1194,7 @@ define('project/controllers', ['project/init'], function() {
 
       if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
         alertWarn("请选择药品");
-        return ;
+        return;
       }
 
       var medical=flashAddData.data.data;
@@ -1205,9 +1206,10 @@ define('project/controllers', ['project/init'], function() {
       addDataItem.strike_price=addDataItem.price;
       addDataItem.id=null;
       addDataItem.logistics=true;
+      addDataItem.quantity = flashAddData.quantity;
 
-      if (!addDataItem.planQuantity) {
-        addDataItem.planQuantity = flashAddData.quantity;
+      if (!addDataItem.quantity) {
+        addDataItem.quantity = flashAddData.quantity;
       }
 
       if (!(addDataItem.relId && addDataItem.name)) {
@@ -1218,9 +1220,9 @@ define('project/controllers', ['project/init'], function() {
           alertWarn('请输入大于0的数量。');
           return false;
       }
-      if(addDataItem.planQuantity>medical.quantity){//库存不足情况
-          addDataItem.handleFlag =false;//默认添加到订单
-      }
+      // if(addDataItem.quantity>medical.quantity){//库存不足情况
+      //     addDataItem.handleFlag =false;//默认添加到订单
+      // }
       if (!$scope.formData.orderMedicalNos) {
         $scope.formData.orderMedicalNos = [];
       }
@@ -1236,6 +1238,7 @@ define('project/controllers', ['project/init'], function() {
         }
       }
       addDataItem.stockBatchs=[];
+
 
       // 添加药品后请求当前药品的最新价格
       if (addDataItem) {
@@ -1265,7 +1268,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.formData.orderMedicalNos.push(addDataItem);
 
       //计算价格
-      $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.planQuantity;
+      $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
       return true;
     };
 
@@ -1340,7 +1343,7 @@ define('project/controllers', ['project/init'], function() {
           }
           //如果订单类型是直运销售
           if (orderBusinessType === '直运销售') {
-            _total += item.planQuantity * item.strike_price * (item.discountRate / 100);
+            _total += item.quantity * item.strike_price * (item.discountRate / 100);
           }
         });
         $scope.formData.totalPrice = _total;
