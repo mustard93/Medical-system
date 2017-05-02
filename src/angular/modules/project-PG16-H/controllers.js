@@ -1805,6 +1805,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         stockBatchId: obj.id,                     // 批次号id
         batchNumber: obj.productionBatch,
         quantity: obj.stockModel.salesQuantity,    // 可选数量
+        goodsCount: obj.stockModel.salesQuantity,
         productionBatch: obj.productionBatch,     // 批号名
         validTill:obj.validTill,
         productionDate:obj.productionDate,

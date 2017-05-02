@@ -1220,6 +1220,10 @@ define('project/controllers', ['project/init'], function() {
           alertWarn('请输入大于0的数量。');
           return false;
       }
+      if (!flashAddData.quantity||flashAddData.quantity>100000) {
+          alertWarn('最大数量不能超过100000');
+          return false;
+      }
       // if(addDataItem.quantity>medical.quantity){//库存不足情况
       //     addDataItem.handleFlag =false;//默认添加到订单
       // }
