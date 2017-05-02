@@ -1565,6 +1565,7 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 监听批次销售数量变化。
+    /*
     $scope.$watch('item.stockBatchs', function (newVal,oldVal) {
       if (newVal && newVal !== oldVal) {
         var item=$scope.item;
@@ -1601,6 +1602,7 @@ define('project/controllers', ['project/init'], function() {
 
       }
     },true);
+    */
 
     // 获取所有批次药品数量的合计
     $scope.getAllBatchTotal = function (batchsList) {
@@ -5416,14 +5418,6 @@ define('project/controllers', ['project/init'], function() {
 
     // 用户选择生产批号
     $scope.choseBatch = function (obj,choisedList,id) {
-
-
-
-        for(var i=0;i<$scope.$$watchers.length;i++){
-
-            console.log(i,$scope.$$watchers[i].exp);
-
-        }
 
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {
