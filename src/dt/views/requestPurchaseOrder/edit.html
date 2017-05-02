@@ -68,13 +68,15 @@
                </thead>
                <tbody class="bg-white">
                  <tr ng-repeat="tr in formData.orderMedicalNos" ng-init="tr.handleFlag=false;tr.strike_price=tr.purchasePrice">
-                   <td class="select-td">
+                   <td class="select-td mycheck">
                      <input type="checkbox"
+                            id="{{$index + 1}}"
                             class="selectOne"
                             name="choise-this"
                             ng-model="tr.handleFlag"
                             ng-click="chkChoiseMedicals(tr,formData.orderMedicalNos);"
                             ng-disabled="formData.orderStatus=='已处理'">
+                    <label for="{{$index + 1}}"></label>
                    </td><!-- 选择checkbox -->
                    <td class="text-center" style="line-height:2.4;">{{tr.code}}</td><!-- 商品编号 -->
                    <td class="text-left" style="line-height:2.4;"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->

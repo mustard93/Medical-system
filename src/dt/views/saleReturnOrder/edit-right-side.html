@@ -73,13 +73,15 @@
           <table class="table pr-table pr-new-table table-wid" >
               <thead>
                 <tr>
-                  <th>
+                  <th class="mycheck">
                     <input type="checkbox"
+                           id="1"
                            class="selectAll"
                            ng-init="isChoiseAll=false"
                            ng-model="isChoiseAll"
                            ng-click="handleChoiseAllEvent()"
                            ng-disabled="!hasReturnList">
+                        <label for="1"></label>
                   </th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left">商品全名</th>
@@ -111,12 +113,14 @@
               </thead>
               <tbody class="bg-white">
                 <tr ng-repeat="item in addDataObj.orderMedicalNos | repeatFilter:'addDataObj.orderMedicalNos'">
-                  <td class="select-td">
+                  <td class="select-td mycheck">
                     <input type="checkbox"
+                           id="{{$index+2}}"
                            class="selectOne"
                            ng-model="item.itemSelected"
                            ng-click="handleItemClickEvent(item)"
                            ng-disabled="!item.quantity">
+                   <label for="{{$index + 2}}"></label>
                   </td>
                   <td class="text-center">{{item.code}}</td>
                   <td class="tetx-left">{{item.name}}</td>
