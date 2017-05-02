@@ -972,7 +972,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           requestData('rest/authen/purchasecontentmedical/save', _data, 'POST', 'parameter-body')
           .then(function (results) {
             if (results[1].code === 200) {
-              _reloadListData('rest/authen/purchasecontentmedical/query?supplierId=' + $scope.mainStatus.pageParams.supplierId);
+              utils.refreshHref();
+              // _reloadListData('rest/authen/purchasecontentmedical/query?supplierId=' + $scope.mainStatus.pageParams.supplierId);
             }
           })
           .catch(function (error) {
@@ -997,7 +998,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData(_url)
         .then(function (results) {
           if (results[1].code === 200) {
-            _reloadListData('rest/authen/purchasecontentmedical/query?supplierId=' + $scope.mainStatus.pageParams.supplierId);
+            utils.refreshHref();
+            // _reloadListData('rest/authen/purchasecontentmedical/query?supplierId=' + $scope.mainStatus.pageParams.supplierId);
           }
         })
         .catch(function (error) {
