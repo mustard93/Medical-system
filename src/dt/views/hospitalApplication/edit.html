@@ -101,8 +101,8 @@
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">级别：</label>
-                <div class="flex-item-10   text-left">
+                <label class="flex-item-2 text-right control-label">级别：</label>
+                <div class="flex-item-10 text-left">
                   <select ng-if="initFlag" class="ipt-new"
                           ng-model="formData.hospital.level"
                           name="level"
@@ -112,21 +112,18 @@
                 </div>
               </div>
               <div class="flex-column mgt">
-                <label class="flex-item-2   text-right control-label">等级：</label>
-                <div class="flex-item-10   text-left">
-
-
-                  <select class="select select-w"
+                <label class="flex-item-2 text-right control-label">等级：</label>
+                <div class="flex-item-10 text-left">
+                  <select ng-if="formData.hospital.level"
+                          class="select select-w"
                           chosen
                           name="grade"
                           ng-model="formData.hospital.grade"
-                         ajax-if-eval="formData.hospital.level"
+                          ajax-if-eval="formData.hospital.level"
                           alert-error
                           params='{"level":"{{formData.hospital.level}}"}'
-                        select-source="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption">
+                          select-source="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption">
                   </select>
-
-                  <!-- {{formData.hospital.grade}} -->
                 </div>
               </div>
               <div class="flex-column mgt">
