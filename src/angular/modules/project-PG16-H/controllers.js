@@ -947,10 +947,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 向列表添加数据的回调函数
     $scope.flashAddDataCallbackFn = function(flashAddData) {
 
-      if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
-        alertWarn("请选择药品");
-        return ;
-      }
+      // if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+      //   alertWarn("请选择药品");
+      //   return ;
+      // }
       var medical=flashAddData.data.data;
       var addDataItem = $.extend(true,{},medical);
 
