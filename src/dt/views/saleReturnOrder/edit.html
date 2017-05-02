@@ -43,15 +43,13 @@
           <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
         </a>
       </div>
-      <div ng-if="formData.orderMedicalNos.length" class="pr-panel pr-panel-height pd-n mgb">
-        <!-- 客户搜索 -->
+      <!-- <div ng-if="formData.orderMedicalNos.length" class="pr-panel pr-panel-height pd-n mgb">
         <div class="inline-block br-line customer-name relative">
           <p class="mgb-s">客户名</p>
           <p class="text-n color-black" style="padding-right:182px;">
             {{formData.customerName || '暂无'}}
           </p>
         </div>
-        <!-- 物流中心搜索 -->
         <div class="inline-block logistics-center relative">
           <p class="mgb-s">物流中心</p>
           <p class="text-n color-black" style="padding-right:182px;">
@@ -63,6 +61,34 @@
                     select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
             </select>
           </p>
+        </div>
+      </div> -->
+      <div ng-if="formData.orderMedicalNos.length"  class="">
+        <div class="inline-block mgr-l">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+            <div class="inline-block customer-name"></div>
+            <div class="inline-block">
+              <p class="mgb-s">客户名</p>
+              <p class="text-m color-3 autocut-default" title="{{formData.customerName}}" style="width:300px;">{{formData.customerName || '暂无'}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="inline-block">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+             <div class="inline-block logistics-center"></div>
+             <div class="inline-block">
+               <p class="mgb-s">物流中心</p>
+               <p class="text-m color-3">
+                 <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
+                         data-placeholder=" "
+                         chosen
+                         ng-model="formData.logisticsCenterId"
+                         if-disabled="{{formData.customerId}}"
+                         select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+                 </select>
+               </p>
+             </div>
+           </div>
         </div>
       </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">

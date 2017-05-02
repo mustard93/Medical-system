@@ -41,8 +41,7 @@
            </p>
          </div>
        <!-- 供应商选择及物流中心选择 -->
-       <div class="pr-panel pr-panel-height mgb pd-n">
-         <!-- 客户搜索 -->
+       <!-- <div class="pr-panel pr-panel-height mgb pd-n">
          <div class="inline-block supplier-name relative">
            <p class="mgb-s">供应商</p>
            <div class="inline-block"
@@ -68,7 +67,6 @@
              </div>
            </div>
          </div>
-         <!-- 物流中心搜索 -->
          <div class="inline-block logistics-center relative">
            <p class="mgb-s">物流中心</p>
            <p>
@@ -81,7 +79,57 @@
              </select>
            </p>
          </div>
+       </div> -->
+       <div class="">
+         <div class="inline-block mgr-l">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+             <div class="inline-block  supplier-name "></div>
+             <div class="inline-block">
+               <p class="mgb-s">供应商</p>
+               <div class="inline-block"
+                    ajax-if-eval="formData.supplier.id"
+                    ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
+                    scope-data="supplier"
+                    callback="formData.supplier=supplier;chkSupplierInfo(supplier)"
+                    alert-error>
+                 <div>
+                   <span ng-if="initFlag"
+                         angucomplete-supplier
+                         placeholder="供应商"
+                         title-field="name"
+                         search-fields="{{formData.supplier.name}}"
+                         url="rest/authen/supplier/query.json"
+                         ng-model="tmp_supplier"
+                         ng-model-id="formData.supplier.id"
+                         class="inline-block mgr-s" style="width:280px;height:28px;">
+                   </span>
+                   <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
+                     {{formData.supplier.businessApplication.businessStatus}}
+                   </em>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div class="inline-block">
+            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+              <div class="inline-block logistics-center"></div>
+              <div class="inline-block">
+                <p class="mgb-s">物流中心</p>
+                <p class="text-m color-3">
+                  <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
+                          data-placeholder=" "
+                          chosen
+                          ng-model="formData.logisticsCenterId"
+                          is-disabled-this="{{formData.customerId}}"
+                          select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
+                  </select>
+                </p>
+              </div>
+            </div>
+         </div>
        </div>
+
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
            <!-- 信息 -->
