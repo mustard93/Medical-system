@@ -1267,6 +1267,8 @@ define('project/controllers', ['project/init'], function() {
       //添加到列表
       $scope.formData.orderMedicalNos.push(addDataItem);
 
+      console.log(addDataItem);
+
       //计算价格
       $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
       return true;
@@ -1555,7 +1557,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 监听批次销售数量变化。
     $scope.$watch('item.stockBatchs', function (newVal,oldVal) {
-      if (newVal !== undefined) {
+      if (newVal && newVal !== oldval) {
         var item=$scope.item;
         item.quantity=0;//根据批次的销售数量，计算销售的总数量。
         //记录批次中是否有空的数量没填写，没有则根据，批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择

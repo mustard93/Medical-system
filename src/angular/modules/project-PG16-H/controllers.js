@@ -67,6 +67,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        }
       $('#' + fromId).trigger('submit');
     };
+
     $scope.submitFormAfter = function (_url) {
       if ($scope.submitForm_type === 'submit') {
         $scope.goTo(_url + '?id=' + $scope.formData.id);
@@ -140,6 +141,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+
     $scope.handleChoiseAllEvent = function () {
          var _dataSource = $scope.formData.orderMedicalNos;
 
@@ -159,6 +161,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
            });
          }
        };
+
     $scope.flashAddDataCallbackFn = function(flashAddData) {
 
       if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
