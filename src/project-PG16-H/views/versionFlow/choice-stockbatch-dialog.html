@@ -67,22 +67,22 @@
           <th>可用量</th>
         </tr>
       </thead>
-      <tbody class="bg-white">
-        <tr ng-repeat="item in stockBatchList" class="pr-bg-black3 trHover-bg" ng-class="{'pr-bg-grey3':choisedBatchsIdList.indexOf(item.id)!=-1}" >
+      <tbody>
+        <tr ng-repeat="item in stockBatchList" class="trHover-bg" ng-class="{ 'pr-bg-grey3':choisedBatchsIdList.indexOf(item.id)!==-1 }" >
           <td class="text-center">
             <label class="radio radio-new">
               <input type="radio"
                      name="medicals"
                      class="default-radio"
                      ng-click="spdChoiseBatchs(item,dialogData.choisedBatchList,dialogData.id,dialogData.planReturnCount);modal.closeAll()"
-                     ng-disabled=""><i></i>
+                     ng-disabled="choisedBatchsIdList.indexOf(item.id)!==-1"><i></i>
             </label>
           </td>
-          <td class="text-left color-white" style="height:50px;"> {{item.productionBatch}}</td>
-          <td class="text-left color-white" style="height:50px;"> {{item.sterilizationBatchNumber}}</td>
-          <td class="color-white" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td>
-          <td class="text-left color-white" style="height:50px;">{{item.goodsLocationName}}</td>
-          <td class="text-left color-white" style="height:50px;">{{item.stockModel.salesQuantity}}</td>
+          <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td>
+          <td class="text-left" style="height:50px;"> {{item.sterilizationBatchNumber}}</td>
+          <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td>
+          <td class="text-left" style="height:50px;">{{item.goodsLocationName}}</td>
+          <td class="text-left" style="height:50px;">{{item.stockModel.salesQuantity}}</td>
         </tr>
       </tbody>
     </table>

@@ -3524,11 +3524,14 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
             var setting = {
                 data: {
+                  async:{
+                      enable:false
+                  },
               		simpleData: {
               			enable: true,
               			idKey: $scope.idKey||"id",
               			pIdKey: $scope.pIdKey||"pId",
-              			rootPId: 0,
+              			rootPId: null,
               		}
               	},
                 callback: {
@@ -3571,13 +3574,19 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
              $element.append(tmp_template);
              //组件的显示，隐藏，及触发事件
              function showZTreeSelect($element){
+
+
+               var display =$element.css('display');
+               if(display == 'none'){
+                 //加载数据
+                 getData();
+               }
                var cityObj = $element;
                var cityOffset = $element.offset();
                //显示div
                $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
                $("body").bind("mousedown", onBodyDown);
-               //加载数据
-               getData();
+
              }
 
               $($element)
