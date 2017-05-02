@@ -36,7 +36,7 @@
 
     <div class="content-wrapper">
       <!-- 客户列表 -->
-      <div class="pr-panel pr-panel-height mgb pd-n" style="background-color:rgba(248,248,248,1);">
+      <!-- <div class="pr-panel pr-panel-height mgb pd-n" style="background-color:rgba(248,248,248,1);">
         <div class="inline-block customer-name relative pr-bg-white">
           <p class="mgb-s">客户名
             <span class="color-red mgl" ng-if="!formData.customerId">请先选择客户名</span>
@@ -53,6 +53,29 @@
                     select-source="rest/authen/customerAddress/queryForSelectOption.json">
             </select>
           </p>
+        </div>
+      </div> -->
+      <div  class="">
+        <div class="inline-block mgr-l">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+            <div class="inline-block customer-name "></div>
+            <div class="inline-block">
+              <p class="mgb-s">客户名
+                <span class="color-red mgl" ng-if="!formData.customerId">请先选择客户名</span>
+                <span class="color-red mgl" ng-if="formData.contactsNull">当前客户没有收货地址，请先添加收货方信息!</span>
+              </p>
+              <p class="text-m color-3">
+                <select ng-if="initFlag"
+                        class="ipt pr-long-ipt color-6"
+                        data-placeholder=" "
+                        chosen
+                        chosen-ajax
+                        ng-model="formData.customerId"
+                        select-source="rest/authen/customerAddress/queryForSelectOption.json">
+                </select>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
