@@ -132,7 +132,7 @@
                 <td class="text-left">{{item.name}}</td><!-- 商品名称 -->
                 <td class="text-center">{{item.specificationAndModelType}}</td><!-- 商品规格-->
                 <td class="text-center">{{item.unit}}</td><!-- 基本单位 -->
-                <td class="text-center">{{item.planReturnCount}}</td><!-- 可退数量 -->
+                <td class="text-center">{{item.goodsCount}}</td><!-- 可退数量 -->
                 <td class="text-center">{{item.actualReturnCount}}</td><!-- 实退数量 -->
                 <td class="text-center">
                   <!-- 已选批号列表 -->
@@ -154,7 +154,7 @@
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
                   <!-- 批号选择 -->
-                  <div ng-if="calculaBatchsTotal(item,item.planReturnCount)<item.planReturnCount" class="ipt-div relative" style="width:100%;">
+                  <div ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount" class="ipt-div relative" style="width:100%;">
                     <i class="addImg"
                        style="left:85%"
                        modal-right="50%"
@@ -163,7 +163,7 @@
                                     "medicalName":"{{item.name}}",
                                     "id":"{{item.id}}",
                                     "logisticsCenterId":"{{formData.logisticsCenterId}}",
-                                    "planReturnCount":{{item.planReturnCount}},
+                                    "goodsCount":{{item.goodsCount}},
                                     "choisedBatchList":{{item.stockBatchs}}
                                   }'
                        modal-url="views/versionFlow/choice-stockbatch-dialog.html">
