@@ -61,8 +61,10 @@
         <tr class="bb-line-gold">
           <th></th>
           <th>生产批号</th>
-          <th>灭菌批号</th>
+          <!-- <th>灭菌批号</th> -->
           <th>有效期至</th>
+          <th>仓库</th>
+          <th>区域</th>
           <th>货位</th>
           <th>可用量</th>
         </tr>
@@ -78,11 +80,13 @@
                      ng-disabled="choisedBatchsIdList.indexOf(item.id)!==-1"><i></i>
             </label>
           </td>
-          <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td>
-          <td class="text-left" style="height:50px;"> {{item.sterilizationBatchNumber}}</td>
-          <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td>
-          <td class="text-left" style="height:50px;">{{item.goodsLocationName}}</td>
-          <td class="text-left" style="height:50px;">{{item.stockModel.salesQuantity}}</td>
+          <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
+          <!-- <td class="text-left" style="height:50px;"> {{item.sterilizationBatchNumber}}</td> -->
+          <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->
+          <td class="" style="height:50px;">{{item.storeRoomName}}</td><!--仓库-->
+          <td class="" style="height:50px;">{{item.regionName}}</td><!--区域-->
+          <td class="text-left" style="height:50px;">{{item.goodsLocationName}}</td><!--货位-->
+          <td class="text-left" style="height:50px;">{{item.stockModel.salesQuantity}}</td><!--可用量-->
         </tr>
       </tbody>
     </table>
