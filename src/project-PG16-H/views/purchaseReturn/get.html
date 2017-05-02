@@ -34,28 +34,19 @@
         <div>
           <div class="flex-column pdt-m pdb-m pd-c-l bb-dashed-line color-9">
             <div class="flex-item-6">
-              <span class="mgr-l">系统编号：<em class="color-3">{{showData.orderNo || '暂无'}}</em></span>
-              <span class="mgr-l">制单人：<em class="color-3">{{showData.inputUser.n || '暂无'}}</em></span>
-              <span class="mgr-l">审核人：<em class="color-3">{{showData.approverUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">采购退货编码：<em class="color-3">{{showData.orderNo || '暂无'}}</em></span>
+              <span class="mgr-l">审核人：<em class="color-3">{{showData.approver.approverUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">审核时间：<em class="color-3">{{showData.approver.approverDate | date:'yyyy-MM-dd'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
-              <span class="mgl-l">录单日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
-              <a
-              modal-center="1000px"
-              modal-data='{"businessKey":"{{showData.id}}"}'
-              modal-scope="this"
-              modal-url="views/workflowTask/getOfDialog.html"
-              >
-            <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-              </a>
+              <span class="mgl-l">制单人：<em class="color-custom-orange">{{showData.saleUser.n }}</em></span>
+              <span class="mgl-l">录单日期：<em class="color-3">{{showData.createAt | date:'yyyy-MM-dd' }}</em></span>
+              <span class="mgl-l">状态：<em class="color-3">{{showData.orderStatus }}</em></span>
             </div>
           </div>
 
           <div class="flex-column pdt-m pdb-m pd-c-l">
-            <span class="mgr-l">采购部门：<em class="color-3">{{showData.salesDepartmentName || '暂无'}}</em></span>
-            <span class="mgr-l">业务人员：<em class="color-orange">{{showData.inputUser.n || '暂无'}}</em></span>
-            <span class="mgr-l">业务类型：<em class="color-3">{{showData.orderBusinessType || '暂无'}}</em></span>
-            <span class="mgr-l">采购类型：<em class="color-3">{{showData.salesType || '暂无'}}</em></span>
+            <div class="mgr-l relative">预计退货时间：{{showData.expectDate | date:'yyyy-MM-dd'}}</div>
           </div>
         </div>
         <div class="outside-table-d">
