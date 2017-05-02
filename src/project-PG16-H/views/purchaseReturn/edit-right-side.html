@@ -66,8 +66,9 @@
           <table class="table pr-table pr-new-table table-wid" style="min-width:1500px;" >
               <thead>
                 <tr>
-                  <th class="text-center w-60">
-                    <input type="checkbox" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                  <th class="text-center w-60 mycheck">
+                    <input type="checkbox" id="1" class="selectAll" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                    <label for="1"></label>
                   </th>
                   <th class="text-center w-160">商品编码</th>
                   <th class="text-left w-300">商品名称</th>
@@ -82,8 +83,9 @@
               </thead>
               <tbody class="bg-white">
                 <tr ng-repeat="item in addDataObj.orderMedicalNos" ng-init="item.goodsCount=item.quantity">
-                  <td class="select-td text-center">
-                    <input type="checkbox" class="selectOne" ng-model="item.itemSelected" ng-click="handleItemClickEvent(item);">
+                  <td class="select-td text-center mycheck">
+                    <input type="checkbox" class="selectOne" id="{{$index+2}}" ng-model="item.itemSelected" ng-click="handleItemClickEvent(item);">
+                    <label for="{{$index+2}}"></label>
                   </td>
                   <td class="text-center" style="line-height:2.4">{{item.code}}</td><!-- 商品编码 -->
                   <td class="text-left" style="line-height:2.4">{{item.name}}</td><!-- 商品全名 -->
