@@ -3551,6 +3551,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           function hideMenu() {
                 $("#menuContent").fadeOut("fast");
                 $("body").unbind("mousedown", onBodyDown);
+                $('.z-tree-div').removeClass('z-tree-div-active');
               }
 
           function onBodyDown(event) {
@@ -3571,22 +3572,24 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 //插下tree div
               var zTreeSelectDivId="zTreeSelectDiv";
               var tmp_template='<div id="menuContent" class="menuContent" style="display:none; position: absolute;"><ul id="'+zTreeSelectDivId+'" class="ztree  pg-ztree-select"></ul></div>';
+
              $element.append(tmp_template);
              //组件的显示，隐藏，及触发事件
              function showZTreeSelect($element){
 
-
-               var display =$element.css('display');
-               if(display == 'none'){
-                 //加载数据
-                 getData();
+              //  隐藏才会进行数据加载
+               var display = $("#menuContent").css('display');
+               if(display != 'none'){
+                 return;
                }
+               //加载数据
+               getData();
                var cityObj = $element;
                var cityOffset = $element.offset();
                //显示div
                $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
                $("body").bind("mousedown", onBodyDown);
-
+               $('.z-tree-div').addClass('z-tree-div-active');
              }
 
               $($element)

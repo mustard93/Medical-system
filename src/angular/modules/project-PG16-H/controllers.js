@@ -1923,7 +1923,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         // };
         requestData('rest/authen/shelvesUp/batchShelvesUp', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
-          if (results[1].code === 200) { utils.refreshHref(); }
+          if (results[1].code === 200) {
+
+            utils.refreshHref();
+            if(results[1].msg ){
+                alertWarn(results[1].msg || '未知错误!');
+            }
+          }
+
         })
         .catch(function (error) {
           throw new Error(error || '出错');
