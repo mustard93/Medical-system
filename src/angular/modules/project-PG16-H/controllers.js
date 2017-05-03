@@ -1926,7 +1926,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             utils.refreshHref();
             if(results[1].msg ){
                 alertWarn(results[1].msg || '未知错误!');
-            }            
+            }
           }
 
         })
