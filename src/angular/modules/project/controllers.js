@@ -1023,6 +1023,11 @@ define('project/controllers', ['project/init'], function() {
 
     // 监控用户选择的批次数量，如果不符合数量要求则弹出提示信息
     $scope.$watch('formData.orderMedicalNos', function (newVal) {
+
+
+
+
+
       var _total = 0;
       if ($scope.formData.orderMedicalNos) {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
@@ -1560,8 +1565,9 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 监听批次销售数量变化。
+    /*
     $scope.$watch('item.stockBatchs', function (newVal,oldVal) {
-      if (newVal && newVal !== oldval) {
+      if (newVal && newVal !== oldVal) {
         var item=$scope.item;
         item.quantity=0;//根据批次的销售数量，计算销售的总数量。
         //记录批次中是否有空的数量没填写，没有则根据，批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
@@ -1596,6 +1602,7 @@ define('project/controllers', ['project/init'], function() {
 
       }
     },true);
+    */
 
     // 获取所有批次药品数量的合计
     $scope.getAllBatchTotal = function (batchsList) {
@@ -5451,9 +5458,9 @@ define('project/controllers', ['project/init'], function() {
       // }
 
       // 如果当前批次数量大于或等于计划采购数量
-      if ((obj.stockModel.salesQuantity + _total) > $scope.dialogData.planQuantity) {
+      if ((obj.stockModel.salesQuantity + _total) > $scope.dialogData.quantity) {
         // 将计划采购数量赋值给临时对象
-        _tmp.quantity = $scope.dialogData.planQuantity - _total;
+        _tmp.quantity = $scope.dialogData.quantity - _total;
       }
 
       // 根据药品id将批次存入当前药品formData数据中
@@ -5461,7 +5468,7 @@ define('project/controllers', ['project/init'], function() {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
           if (data.relId == id) {
             $scope.formData.orderMedicalNos[index].stockBatchs.push(_tmp);
-            $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
+             $scope.confirmOrderCalculaTotal($scope.formData.orderMedicalNos, '普通销售');
           }
         });
       }

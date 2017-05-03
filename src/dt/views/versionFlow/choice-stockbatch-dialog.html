@@ -1,6 +1,6 @@
 <div class="modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="editStockbatchNumberCtrl"
-     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
+     ajax-url="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
      scope-data="stockBatchList"
      callback="getChoisedBatchsId(dialogData.choisedBatchList)"
      alert-error>
@@ -70,21 +70,21 @@
         </tr>
       </thead>
       <tbody class="bg-white">
-        <tr ng-repeat="item in stockBatchList" class="pr-bg-black3 trHover-bg" ng-class="{'pr-bg-grey3':choisedBatchsIdList.indexOf(item.id)!=-1}" >
+        <tr ng-repeat="item1 in stockBatchList" class="pr-bg-black3 trHover-bg" ng-class="{'pr-bg-grey3':choisedBatchsIdList.indexOf(item1.id)!=-1}" >
           <td class="text-center">
             <label class="radio radio-new">
               <input type="radio"
                      name="medicals"
                      class="default-radio"
-                     ng-click="choseBatch(item,dialogData.choisedBatchList,dialogData.id);modal.closeAll()"
-                     ng-disabled="choisedBatchsIdList.indexOf(item.id)!=-1"><i></i>
+                     ng-click="choseBatch(item1,dialogData.choisedBatchList,dialogData.id);modal.closeAll()"
+                     ng-disabled="choisedBatchsIdList.indexOf(item1.id)!=-1"><i></i>
             </label>
           </td>
-          <td class="text-left color-white" style="height:50px;"> {{item.productionBatch}}</td>
-          <td class="text-left color-white" style="height:50px;"> {{item.sterilizationBatchNumber}}</td>
-          <td class="color-white" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td>
-          <td class="text-left color-white" style="height:50px;">{{item.warehouseName}}</td>
-          <td class="text-left color-white" style="height:50px;">{{item.stockModel.salesQuantity}}</td>
+          <td class="text-left color-white" style="height:50px;"> {{item1.productionBatch}}</td>
+          <td class="text-left color-white" style="height:50px;"> {{item1.sterilizationBatchNumber}}</td>
+          <td class="color-white" style="height:50px;">{{item1.validTill | date:'yyyy-MM-dd'}}</td>
+          <td class="text-left color-white" style="height:50px;">{{item1.warehouseName}}</td>
+          <td class="text-left color-white" style="height:50px;">{{item1.stockModel.salesQuantity}}</td>
         </tr>
       </tbody>
     </table>
