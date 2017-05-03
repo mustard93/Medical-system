@@ -1024,10 +1024,6 @@ define('project/controllers', ['project/init'], function() {
     // 监控用户选择的批次数量，如果不符合数量要求则弹出提示信息
     $scope.$watch('formData.orderMedicalNos', function (newVal) {
 
-
-
-
-
       var _total = 0;
       if ($scope.formData.orderMedicalNos) {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
@@ -2163,6 +2159,17 @@ define('project/controllers', ['project/init'], function() {
 
    }//end salesOrderEditCtrl
 
+  /**
+   * [purchaseOrderEditCtrl 采购单模块主控制器]
+   * @param  {[type]} $scope          [description]
+   * @param  {[type]} modal           [description]
+   * @param  {[type]} alertWarn       [description]
+   * @param  {[type]} alertError      [description]
+   * @param  {[type]} requestData     [description]
+   * @param  {[type]} watchFormChange [description]
+   * @param  {[type]} dialogConfirm   [description]
+   * @return {[type]}                 [description]
+   */
   function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
@@ -2244,13 +2251,6 @@ define('project/controllers', ['project/init'], function() {
 
      });
 
-    // 监控用户变化，清空之前选择药械列表
-    // $scope.$watch('formData.supplier.id', function (newVal, oldVal) {
-    //   if (newVal && oldVal && oldVal !== newVal) {
-    //     if ($scope.formData.orderMedicalNos.length !== 0) { $scope.formData.orderMedicalNos = []; }
-    //   }
-    // });
-
     $scope.canSubmitForm = function() {
        //必须有1条是勾选加入订单的。
        var arr=$scope.formData.orderMedicalNos;
@@ -2319,9 +2319,6 @@ define('project/controllers', ['project/init'], function() {
       modal.closeAll();
     };
 
-    /**
-    * 医院地址加载后，回调方法
-    */
     $scope.customerAddressGetCallBack = function(formData,customerAddress) {
      formData.customerName=customerAddress.name;
      if(!formData.contactsId){
@@ -2339,7 +2336,7 @@ define('project/controllers', ['project/init'], function() {
      if(!hasContactsId){
          formData.contactsId=customerAddress.defaultContactId;
      }
-   };
+    };
 
     $scope.flashAddDataCallbackFn = function(flashAddData) {
 
@@ -2413,10 +2410,12 @@ define('project/controllers', ['project/init'], function() {
 
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
-       //计算价格
-       $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+
+       // 计算总价
+      //  $scope.formData.totalPrice = $scope.purchaseOrderCalculaTotal($scope.formData.orderMedicalNos);
+
        return true;
-   };
+    };
 
     $scope.selectRelIdCallBack = function(data) {
       $scope.addDataItem.relId = data.id;
@@ -2444,7 +2443,6 @@ define('project/controllers', ['project/init'], function() {
       // $('#addDataItem_quantity').trigger('focus');
       $('#addDataItem_quantity').trigger('focus');
     };
-
 
     $scope.addDataItemClick = function(addDataItem,medical) {
        if (!(addDataItem.relId && addDataItem.name)) {
@@ -2482,11 +2480,8 @@ define('project/controllers', ['project/init'], function() {
 
        $('input', '#addDataItem_relId_chosen').trigger('focus');
        // $('#addDataItem_relId_chosen').trigger('click');
-   };
+    };
 
-    /**
-    *保存 type:save-草稿,submit-提交订单。
-    */
     $scope.submitFormAfter = function() {
 
       $scope.formData.validFlag = false;
@@ -2517,9 +2512,7 @@ define('project/controllers', ['project/init'], function() {
             });
           }
         };
-    /**
-    * 保 存 type:save-草稿,submit-提交订单。
-    */
+
     $scope.submitForm = function(fromId, type) {
       $scope.submitForm_type = type;
       if ($scope.submitForm_type == 'submit') {
@@ -2530,25 +2523,17 @@ define('project/controllers', ['project/init'], function() {
      // addDataItem_opt.submitUrl='';
      // $scope.formData.orderMedicalNos.push($scope.addDataItem);
      // $scope.addDataItem={};
-   };
+    };
 
-    /**
-     *取消订单
-     */
     $scope.cancelForm = function(fromId, url) {
-           alertWarn('cancelForm');
-       };
-
+      alertWarn('cancelForm');
+    };
 
     $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
         };
 
-    /**
-     * [chkChoiseMedicals 请购单中检查用户是否已选择部分药品]
-     * @param  {[type]} item [description]
-     * @return {[type]}      [description]
-     */
+    // 请购单中检查用户是否已选择部分药品
     $scope.chkChoiseMedicals = function (item,medicalsObj) {
       if (item.handleFlag) {
 
@@ -2577,11 +2562,7 @@ define('project/controllers', ['project/init'], function() {
       }
     };
 
-    /**
-     * [handleChoiseAllEvent 处理全选与全不选]
-     * @param  {[type]} medicalsObj [description]
-     * @return {[type]}             [description]
-     */
+    // 处理全选与全不选
     $scope.handleChoiseAllEvent = function (medicalsObj) {
       if (medicalsObj && angular.isArray(medicalsObj)) {
         if ($scope.isChoiseAll) {   // 全选被选中
@@ -2598,11 +2579,7 @@ define('project/controllers', ['project/init'], function() {
       }
     };
 
-    /**
-     * [createPurVoBtnClick 点击生成采购凭证事件]
-     * @param  {[type]} _id [当前采购单id]
-     * @return {[type]}             [description]
-     */
+    // 点击生成采购凭证事件
     $scope.createPurVoBtnClick = function (_id) {
       var url = 'rest/authen/purchaseVoucher/save';
       var data= {purchaseOrderId:_id};
@@ -2616,19 +2593,6 @@ define('project/controllers', ['project/init'], function() {
           alertError(error || '出错');
         });
     };
-
-    /**
-     * [handleMessageShow 将通过后的补充说明显示到备注里]
-     * @return {[type]} [description]
-     */
-    // $scope.handleMessageShow = function (obj) {
-    //   if (obj.operationFlowSet) {
-    //     // console.log(obj.operationFlowSet);
-    //     angular.forEach(obj.operationFlowSet, function (item, index) {
-    //       if (item.status === obj.orderStatus) { obj.note = item.key; }
-    //     });
-    //   }
-    // };
 
     // 监控计划采购数量与实际采购数量的方法
     $scope.diffPurchaseNumber = function (orderMedicalList) {
@@ -2652,6 +2616,19 @@ define('project/controllers', ['project/init'], function() {
           window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
         });
       }
+    };
+
+    // 总价金额计算方法
+    $scope.purchaseOrderCalculaTotal = function (orderMedicalList) {
+      var _total = 0;
+
+      if (orderMedicalList) {
+        angular.forEach(orderMedicalList, function (data, index) {
+          _total += parseInt(data.quantity * data.strike_price, 10);
+        });
+      }
+
+      return _total;
     };
 
    }//end salesOrderEditCtrl
