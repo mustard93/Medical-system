@@ -1,7 +1,6 @@
 <div class="medical-stock supplier-management child-project-management"
-     ng-controller="shelvesUpController"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-     <table-list list-data="rest/authen/shelvesUp/query?shelvesUpStatus=待上架"
+     <table-list list-data="rest/authen/shelvesUp/query?shelvesUpStatus={{listParams.shelvesUpStatus}}"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
                  search-param="q">
@@ -19,7 +18,7 @@
       <span status-style-toggle class="rect-status rect-status-active mgl-s" ng-click="listParams.shelvesUpStatus=null">上架列表
           <span ng-if="(statusNumList['待上架']+statusNumList['部分上架'])!=0">({{statusNumList['待上架']+statusNumList['部分上架']}})</span>
       </span>
-      <span status-style-toggle class="rect-status" ng-click="listParams.shelvesUpStatus='已完成'">上架记录
+      <span status-style-toggle class="rect-status" ng-click="listParams.shelvesUpStatus='上架记录'">上架记录
       </span>
     </div>
     <div class="content-wrapper">
@@ -141,12 +140,12 @@
                 <th>生产批号</th>
                 <th>上架数量</th>
                 <th>库房名称</th>
-                <th>推荐区域</th>
-                <!-- <th>区域名称</th> -->
-                <th>推荐货位编号</th>
-                <th>推荐货位名称</th>
-                <!-- <th>货位编号</th> -->
-                <!-- <th>货位名称</th> -->
+                <th ng-show="listParams.shelvesUpStatus!='上架记录'">推荐区域</th>
+                <th ng-show="listParams.shelvesUpStatus=='上架记录'">区域名称</th>
+                <th ng-show="listParams.shelvesUpStatus!='上架记录'">推荐货位编号</th>
+                <th ng-show="listParams.shelvesUpStatus!='上架记录'">推荐货位名称</th>
+                <th ng-show="listParams.shelvesUpStatus=='上架记录'">货位编号</th>
+                <th ng-show="listParams.shelvesUpStatus=='上架记录'">货位名称</th>
                 <th>上架人</th>
                 <th>上架日期</th>
                 <th>生产日期</th>
@@ -166,7 +165,8 @@
                 </td>
                 <td class="relative">
                   <span class="circle-status"
-                        ng-class="{'pr-bg-grey4':tr.shelvesUpStatus=='待上架','bg-pass-green':tr.shelvesUpStatus =='已完成'}">
+                        ng-class="{'pr-bg-grey4':tr.shelvesUpStatus=='待上架','bg-pass-green':tr.shelvesUpStatus =='已完成',
+                        'bg-freeze-orange':tr.shelvesUpStatus =='部分上架'}">
                     <span class="purchaseorder-buyer-info" style="right:16px;top:-10px;">
                       <i class="block pd-c-s text-normal" style="line-height:1.8">
                         <em class="inline-block">{{tr.shelvesUpStatus}}</em>
@@ -184,7 +184,6 @@
                     </div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.shelvesUpStatus=='部分上架'"
-                         style="right:80px;"
                          modal-right="543"
                          modal-scope="this"
                          modal-data={"id":"{{tr.id}}"}
@@ -204,7 +203,7 @@
                   <!-- </div> -->
                 </td><!-- 生产批号 -->
                 <td >
-                    {{tr.qualifiedQuantity+tr.unQualifiedQuantity}}
+                    {{tr.planShelvesUpQuantity}}
                 </td><!-- 上架数量 -->
                 <td >
                     {{tr.storeRoomName}}
@@ -221,7 +220,7 @@
                     {{tr.goodsLocationName}}
                 </td><!-- 货位名称-->
                 <td >
-                    {{tr.shelfer}}
+                    {{tr.shelfer.n}}
                 </td><!-- 上架人 -->
                 <td >
                     {{tr.shelvesUpDate | date : 'yyyy-MM-dd'}}
