@@ -1,0 +1,284 @@
+<div class="medical-stock supplier-management child-project-management"
+     ng-controller="shelvesUpController"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+     <table-list list-data="rest/authen/shelvesUp/query?shelvesUpStatus=待上架"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q">
+  <div class="medical-stock child-project-management receive-item" ng-controller="shelvesUpController">
+    <!-- 主内容头部 -->
+    <page-main-header-component list-params="listParams"
+                                crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"上架计划","link":"","style":"color-custom-orange"}]'
+                                component-title="上架计划"
+                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+    </page-main-header-component>
+    <!-- 主内容区域 -->
+    <div class="mgl-xl status-num-list"
+         ajax-url="rest/authen/shelvesUp/countByStatus"
+         scope-data="statusNumList">
+      <span status-style-toggle class="rect-status rect-status-active mgl-s" ng-click="listParams.shelvesUpStatus=null">上架列表
+          <span ng-if="(statusNumList['待上架']+statusNumList['部分上架'])!=0">({{statusNumList['待上架']+statusNumList['部分上架']}})</span>
+      </span>
+      <span status-style-toggle class="rect-status" ng-click="listParams.shelvesUpStatus='已完成'">上架记录
+      </span>
+    </div>
+    <div class="content-wrapper">
+      <div class="content-wrapper-main pr-fuzzy-boundary">
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white ">
+          <div class="flex-item-8">
+            <!-- <div class="inline-block mgr-s relative">
+              <p class="mgb-s">采购计划编号：</p>
+              <input type="text"
+                     class="inline ipt pr-ipt-60"
+                     style="width:160px;"
+                     placeholder=""
+                     ng-model="listParams.purchasePlanOrderCode"
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=purchasePlanOrderCode"/>
+              <i class="receive-item-icon"></i>
+              </select>
+            </div>
+            <div class="inline-block mgr-s relative">
+              <p class="mgb-s">物流编号：</p>
+              <input type="text"
+                     class="inline ipt pr-ipt-60"
+                     style="width:160px;"
+                     placeholder=""
+                     ng-model="listParams.logisticCode"
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=logisticCode"/>
+              <i class="receive-item-icon"></i>
+            </div>
+            <div class="inline-block mgr-s relative">
+              <p class="mgb-s">销售单编号：</p>
+              <input type="text"
+                     class="inline ipt pr-ipt-60"
+                     style="width:160px;"
+                     placeholder=""
+                     ng-model="listParams.dtOrderCode"
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=dtOrderCode"/>
+              <i class="receive-item-icon"></i>
+            </div>-->
+            <div class="inline-block mgr-s">
+              <p class="mgb-s">库房：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.storeRoomId"
+                      select-source="rest/authen/storeRoom/queryForSelectOption">
+              </select>
+            </div>
+            <div class="inline-block mgr-s">
+              <p class="mgb-s">区域：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.regionId"
+                      select-source="rest/authen/region/queryForSelectOption">
+              </select>
+            </div>
+            <div class="inline-block mgr-s">
+              <p class="mgb-s">货位：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.goodsLocationId"
+                      select-source="rest/authen/goodsLocation/queryForSelectOption">
+              </select>
+            </div>
+
+          </div>
+          <div class="flex-item-4 text-right mgt-xl">
+              <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                <input type="text" class="ipt pdr-xxl" placeholder="商品名称/商品编码" ng-model="listParams.q">
+                <i class=""></i>
+              </div>
+              <div class="inline-block mgl-m" ng-click="listParams.q=''">
+                <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                <a href="" class="color-light-brown" >重置搜索条件</a>
+              </div>
+          </div>
+        </div>
+        <!-- 批量上架按钮 -->
+        <div ng-if="!listParams.shelvesUpStatus" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
+          <a ng-if="!choisedMedicalList.length"
+             href="javascript:void(0)"
+             class="batch-receive-btn"
+             ng-disabled="!choisedMedicalList.length">批量上架
+            <em class="bulk-receipt-btn-disabled-icon"></em>
+          </a>
+          <a ng-if="choisedMedicalList.length"
+             href="javascript:void(0)"
+             class="batch-receive-btn"
+             handle-this-click
+             dialog-title="确认提示?"
+             dialog-content="批量上架的条目实收数量都为配送数量。确认批量上架?"
+             dialog-content-color="#FF3939"
+             dialog-template="pr-dialog-confirm.html"
+             callback="handleBatchReceive()">批量上架
+            <em class="bulk-receipt-btn-icon"></em>
+          </a>
+        </div>
+        <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
+          <table class="table pr-table pr-new-table pr-table-content table-wid-l">
+            <thead class="pr-bg-side">
+              <tr>
+                <th class="w-60 text-center mycheck" ng-if="!listParams.shelvesUpStatus">
+                  <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                  <label for="1"></label>
+                </th>
+                <th class="w-80">状态</th>
+                <th class="w-80">序号</th>
+                <th >是否合格品</th>
+                <th class="w-80">商品编号</th>
+                <th class="w-220">商品名称</th>
+                <th>规格</th>
+                <th>基本单位</th>
+                <th>生产批号</th>
+                <th>上架数量</th>
+                <th>库房名称</th>
+                <th>推荐区域</th>
+                <!-- <th>区域名称</th> -->
+                <th>推荐货位编号</th>
+                <th>推荐货位名称</th>
+                <!-- <th>货位编号</th> -->
+                <!-- <th>货位名称</th> -->
+                <th>上架人</th>
+                <th>上架日期</th>
+                <th>生产日期</th>
+                <th>有效期至</th>
+                <th>生产厂商</th>
+                <th>产地</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-if="tbodyList.length"
+                  ng-repeat="tr in tbodyList track by $index"
+                  class="relative"
+                  table-item-multiple-btn>
+                <td ng-if="!listParams.shelvesUpStatus" class="select-td text-center mycheck">
+                  <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                  <label for="{{$index+2}}"></label>
+                </td>
+                <td class="relative">
+                  <span class="circle-status"
+                        ng-class="{'pr-bg-grey4':tr.shelvesUpStatus=='待上架','bg-pass-green':tr.shelvesUpStatus =='已完成'}">
+                    <span class="purchaseorder-buyer-info" style="right:16px;top:-10px;">
+                      <i class="block pd-c-s text-normal" style="line-height:1.8">
+                        <em class="inline-block">{{tr.shelvesUpStatus}}</em>
+                      </i>
+                    </span>
+
+                  </span>
+                  <div class="table-item-multiple-btn">
+                    <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                         ng-if="tr.shelvesUpStatus=='待上架'"
+                         modal-right="543"
+                         modal-scope="this"
+                         modal-data='{"id":"{{tr.id}}"}'
+                         modal-url="views/shelvesUp/edit.html">开始上架...
+                    </div>
+                    <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                         ng-if="tr.shelvesUpStatus=='部分上架'"
+                         style="right:80px;"
+                         modal-right="543"
+                         modal-scope="this"
+                         modal-data={"id":"{{tr.id}}"}
+                         modal-url="views/shelvesUp/edit.html">继续上架...
+                    </div>
+                  </div>
+                </td><!-- 状态 -->
+                <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
+                <td ng-class="{'color-red':(tr.isQualified=='否')}" class="text-center" >{{tr.isQualified}}</td><!-- 序号 -->
+                <td>{{tr.code}}</td><!-- 商品编号 -->
+                <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品名称 -->
+                <td>{{tr.specification}}</td><!-- 规格 -->
+                <td>{{tr.unit}}</td><!-- 单位 -->
+                <td>
+                  <!-- <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="pro in tr.batchInfos"> -->
+                    {{tr.productionBatch}}
+                  <!-- </div> -->
+                </td><!-- 生产批号 -->
+                <td >
+                    {{tr.qualifiedQuantity+tr.unQualifiedQuantity}}
+                </td><!-- 上架数量 -->
+                <td >
+                    {{tr.storeRoomName}}
+                </td><!-- 库房名称 -->
+                <td >
+                    {{tr.regionName}}
+                </td><!-- 区域名称 -->
+
+                <td >
+                    {{tr.goodsLocationCode}}
+                </td><!-- 货位编号 -->
+
+                <td >
+                    {{tr.goodsLocationName}}
+                </td><!-- 货位名称-->
+                <td >
+                    {{tr.shelfer}}
+                </td><!-- 上架人 -->
+                <td >
+                    {{tr.shelvesUpDate | date : 'yyyy-MM-dd'}}
+                </td><!-- 上架日期-->
+                <td >
+                    {{tr.productionDate | date : 'yyyy-MM-dd'}}
+                </td><!-- 生产日期 -->
+                <td>
+                    {{tr.validTill | date : 'yyyy-MM-dd'}}
+                </td><!-- 有效期至 -->
+                <td>{{tr.manufacturer}}</td><!-- 生产厂商 -->
+                <td>{{tr.productionPlace}}</td><!-- 产地 -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pr-bg-white" ng-if="!tbodyList.length">
+          <div class="empty-table clearfix">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+          </div>
+        </div>
+        <div class="flex-column bg-white">
+          <div class="flex-item-6">
+            <!-- 批量上架按钮 -->
+            <div  ng-if="!listParams.shelvesUpStatus" class="flex-column color-9 pd-c-l pdt-m pdb-m">
+              <a ng-if="!choisedMedicalList.length"
+                 href="javascript:void(0)"
+                 class="batch-receive-btn"
+                 ng-disabled="!choisedMedicalList.length">批量上架
+                <em class="bulk-receipt-btn-disabled-icon"></em>
+              </a>
+              <a ng-if="choisedMedicalList.length"
+                 href="javascript:void(0)"
+                 class="batch-receive-btn"
+                 handle-this-click
+                 dialog-title="确认提示?"
+                 dialog-content="批量上架的条目实收数量都为配送数量。确认批量上架?"
+                 dialog-content-color="#FF3939"
+                 dialog-template="pr-dialog-confirm.html"
+                 callback="handleBatchReceive()">批量上架
+                <em class="bulk-receipt-btn-icon"></em>
+              </a>
+            </div>
+          </div>
+          <div class="flex-item-6">
+            <!-- 导航 -->
+            <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
+                <div class="fr">
+                    <pagination status="status"></pagination>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</table-list>

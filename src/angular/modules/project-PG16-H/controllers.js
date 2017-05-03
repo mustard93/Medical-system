@@ -1880,11 +1880,63 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
   }
 
+  function shelvesUpController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {
+
+    // 定义存放用户选择药品的列表
+    $scope.choisedMedicalList = [];
+
+    // 每个药品单选操作
+    $scope.handleItemClickEvent = function (item) {
+      if (item.handleFlag) {    // 选中
+        if (item) {
+          $scope.choisedMedicalList.push(item.id);
+        }
+      } else {
+        for (var i=0; i<$scope.choisedMedicalList.length; i++) {
+          if (item.id === $scope.choisedMedicalList[i]) {
+            $scope.choisedMedicalList.splice(i,1);
+          }
+        }
+      }
+    };
+    $scope.handleChoiseAllEvent = function (isChoiseAll) {
+      if (isChoiseAll) {      // 全部选中
+
+        if ($scope.tbodyList) {
+          $scope.choisedMedicalList = [];
+          angular.forEach($scope.tbodyList, function (data, index) {
+            $scope.choisedMedicalList.push(data.id);
+          });
+        }
+      } else {        // 取消全部选中
+        $scope.choisedMedicalList = [];
+      }
+    };
+
+    // 批量上架
+    $scope.handleBatchReceive = function () {
+      if ($scope.choisedMedicalList.length) {
+        // var _data = {
+        //   ids: $scope.choisedMedicalList
+        // };
+        requestData('rest/authen/shelvesUp/batchShelvesUp', $scope.choisedMedicalList, 'POST', 'parameter-body')
+        .then(function (results) {
+          if (results[1].code === 200) { utils.refreshHref(); }
+        })
+        .catch(function (error) {
+          throw new Error(error || '出错');
+        });
+      }
+    };
+
+  }
+
   angular.module('manageApp.project-PG16-H')
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
   .controller('medicalStockStrategyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockStrategyCtrl])
   .controller('receiveItemController', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', 'alertOk', receiveItemController])
+  .controller('shelvesUpController', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', 'alertOk', shelvesUpController])
   .controller('purchasePlanOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchasePlanOrderController])
   .controller('collarApplicationOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', collarApplicationOrderController])
   .controller('purchaseContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'utils', purchaseContentController])

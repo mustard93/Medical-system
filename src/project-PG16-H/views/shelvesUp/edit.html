@@ -1,0 +1,111 @@
+<div class="modal-content right-side-new pr-bg-black4"
+     ng-controller="editCtrl"
+     ajax-url="rest/authen/shelvesUp/getOfEdit.json?id={{dialogData.id}}"
+     scope-data="formData"
+     alert-error>
+  <form class="add-customerAddress-form form-horizontal"
+        id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/shelvesUp/confirmShelvesUp.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        onkeydown="if(window.event.keyCode==13) return false;"
+        callback="$root.watchFormChange('formData',this)"
+        novalidate="true">
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{formData.name}}-上架</h1>
+    </div>
+    <div class="bb-line-gold ">
+      <table class="full-width another-table mgb" >
+        <thead>
+          <tr class="bb-line-gold">
+            <th class="text-center">生产批号</th>
+            <th class="text-center">区域名称</th>
+            <th class="text-center">货位名称</th>
+            <th class="text-center">实际上架数量（瓶）</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          <tr class="pr-bg-black3">
+            <td class="text-center color-white">{{formData.productionBatch}}</td><!-- 生产批号 -->
+
+            <td  class="text-center color-white">
+              <select class="inline ipt-new-s"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      ng-model="formData.regionId"
+                      select-source="rest/authen/region/queryForSelectOption">
+              </select>
+            </td>
+            <td  class="text-center color-white">
+              <select class="inline ipt-new-s"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      ng-model="formData.goodsLocationId"
+                      select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}">
+              </select>
+            </td>
+
+          <td class="text-center color-white">
+            <input type="number"
+                   class="inline ipt pr-ipt-60 text-center select-right-side"
+                   style="width:100px;background:rgba(89,84,80,1);"
+                   onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                   ng-model="formData.receiveQuantity" />
+          </td><!-- 本次收货数量 -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="outside-div ">
+        <p class=" pd-v-c-l">医疗机构采购计划相关信息：</p>
+        <div class="bb-line-gold">
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">采购计划编码：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.purchasePlanOrderCode}}</div>
+          </div>
+          <div class="inline-block flex-column  pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">供应商名称：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.supplierName}}</div>
+          </div>
+          <div class="inline-block flex-column  pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">商品编码：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.code}}</div>
+          </div>
+          <div class="inline-block flex-column  pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">商品名称：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.name}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">商品规格：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.specification}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">基本单位：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.unit}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">计划采购数量：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.totalDeliveryQuantity}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">生产厂商：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.manufacturer}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">产地：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionPlace}}</div>
+          </div>
+        </div>
+      </div>
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+    </div>
+  </form>
+</div>
