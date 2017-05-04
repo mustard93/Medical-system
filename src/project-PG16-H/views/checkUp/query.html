@@ -62,7 +62,7 @@
             </div>
             <div class="flex-item-4 text-right mgt-xl">
                 <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                  <input type="text" class="ipt pdr-xxl" placeholder="商品名称/商品编码" ng-model="listParams.q">
+                  <input type="text" class="ipt pdr-xxl" placeholder=" " ng-model="listParams.q">
                   <i class=""></i>
                 </div>
                 <div class="inline-block mgl-m" ng-click="listParams.q=''">
@@ -87,7 +87,7 @@
                dialog-content="确认批量验收吗?"
                dialog-content-color="#FF3939"
                dialog-template="pr-dialog-confirm.html"
-               callback="handlebatchCheckUp()">批量验收
+               callback="handlebatchCheckUp();$root.utils.goTo('#/checkUp/query.html')">批量验收
               <em class="bulk-receipt-btn-icon"></em>
             </a>
           </div>
@@ -128,9 +128,9 @@
                   <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}
                     <div class="table-item-multiple-btn">
                       <div ng-if="listParams.checkUpStatus=='待验收'" class="inline-block btn-receiveItem pr-bg-edit color-white"
-                           modal-right="543"
+                           modal-right="650"
                            modal-scope="this"
-                           modal-data='{"id":"{{tr.id}}"}'
+                           modal-data='{"id":"{{tr.id}}","receiveQuantity":"{{tr.receiveQuantity}}"}'
                            modal-url="views/checkUp/edit.html">开始验收...
                       </div>
                     </div>
@@ -163,7 +163,7 @@
           <div class="flex-column bg-white">
             <div class="flex-item-6">
               <!-- 批量上架按钮 -->
-              <div  ng-if="!listParams.shelvesUpStatus" class="flex-column color-9 pd-c-l pdt-m pdb-m">
+              <div ng-if="listParams.checkUpStatus=='待验收'" class="flex-column color-9 pd-c-l pdt-m pdb-m">
                 <a ng-if="!choisedMedicalList.length"
                    href="javascript:void(0)"
                    class="batch-receive-btn"
@@ -178,7 +178,7 @@
                    dialog-content="确认批量验收吗?"
                    dialog-content-color="#FF3939"
                    dialog-template="pr-dialog-confirm.html"
-                   callback="handlebatchCheckUp()">批量验收
+                   callback="handlebatchCheckUp();$root.utils.goTo('#/checkUp/query.html')">批量验收
                   <em class="bulk-receipt-btn-icon"></em>
                 </a>
               </div>

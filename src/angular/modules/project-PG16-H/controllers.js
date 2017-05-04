@@ -1941,7 +1941,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   }
 
   // 验收计划控制器
-  function checkUpController ($scope, requestData, utils) {
+  function checkUpController ($scope, requestData, utils, modal) {
     // 定义存放用户选择药品的列表
     $scope.choisedMedicalList = [];
 
@@ -2003,6 +2003,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+
   }
 
   angular.module('manageApp.project-PG16-H')
@@ -2017,5 +2018,5 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', createCorrespondController])
   .controller('storeRoomController', ['$scope', 'requestData', 'alertError', 'alertOk', storeRoomController])
   .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
-  .controller('checkUpController', ['$scope', 'requestData', 'utils', checkUpController]);
+  .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController]);
 });
