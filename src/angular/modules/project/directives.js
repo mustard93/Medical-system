@@ -3262,7 +3262,8 @@ function pageMainHeaderComponent () {
       searchPlaceholderInfo: '@',
       getWarehouseListUrl: '@',
       getDepartmentListUrl: '@',
-      getUserListUrl: '@'
+      getUserListUrl: '@',
+      getApplyUserListUrl: '@'
     },
     replace: true,
     transclude: true,
@@ -3311,6 +3312,8 @@ function pageMainHeaderComponent () {
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
       // 是否显示制单人过滤
       scope.isShowUserFilter = angular.isDefined(attrs.isShowUserFilter) ? attrs.isShowUserFilter : false;
+      // 是否显示申请人过滤
+      scope.isShowApplyUserFilter = angular.isDefined(attrs.isShowApplyUserFilter) ? attrs.isShowApplyUserFilter : false;
 
       //是否显示类型过滤
       scope.isShowTypeFilter = angular.isDefined(attrs.isShowTypeFilter) ? attrs.isShowTypeFilter : false;
