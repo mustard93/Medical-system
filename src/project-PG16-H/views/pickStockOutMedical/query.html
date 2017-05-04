@@ -15,7 +15,7 @@
     <!-- 主内容区域 -->
     <div class="mgl-xl status-num-list-new"
           style="top:-56px;"
-         ajax-url="rest/authen/pickStockOutMedical/countByOrderStatus"
+         ajax-url="rest/authen/pickStockOutMedical/countByStatus"
          scope-data="statusNumList">
       <span status-style-toggle-new
       class="rect-status mgl-s"
@@ -51,8 +51,8 @@
                       style="width:120px;"
                       data-placeholder=" "
                       default-empty="全部"
-                      ng-model="listParams.regionId"
-                      select-source="rest/authen/region/queryForSelectOption">
+                      ng-model="listParams.type"
+                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PickSource">
               </select>
             </div>
 
@@ -177,7 +177,7 @@
                     {{tr.applicationCount}}
                 </td><!-- 计划拣选数量 -->
                 <td >
-                    {{tr.applicationCount}}
+                    {{tr.quantity}}
                 </td><!-- 可拣选数量 -->
                 <td >
                     {{tr.pickNo}}
