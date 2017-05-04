@@ -1926,7 +1926,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         // var _data = {
         //   ids: $scope.choisedMedicalList
         // };
-        requestData('rest/authen/shelvesUp/batchShelvesUp', $scope.choisedMedicalList, 'POST', 'parameter-body')
+        requestData('rest/authen/shelvesUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
 
@@ -1978,7 +1978,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-    // 批量上架
+    // 批量拣选
     $scope.handleBatchReceive = function () {
       if ($scope.choisedMedicalList.length) {
         // var _data = {
