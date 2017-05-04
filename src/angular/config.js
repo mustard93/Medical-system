@@ -86,7 +86,7 @@ var require_config={
               deps: ['jQuery','css!../libs/resizableColumns/jquery.resizableColumns.css']
           },
           'ztree': {
-              deps: ['jQuery','css!../libs/ztree/zTreeStyle.css']
+              deps: ['jQuery','css!../libs/ztree/zTreeStyle_pg.css']
           },
 
 

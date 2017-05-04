@@ -42,9 +42,20 @@
         </div>
       </div>
       <div class="flex-item-8 text-right">
+        <!-- 按制单人过滤 -->
+        <div class="inline-block" ng-if="isShowApplyUserFilter">
+          <span class="color-9">申请人：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.inputUserId"
+                  select-source="{{getApplyUserListUrl}}">
+          </select>
+        </div>
         <!-- 按部门过滤 -->
         <div class="inline-block" ng-if="isShowDepartmentFilter">
-          <span class="color-9">部门：</span>
+          <span class="color-9">申请部门：</span>
           <select class="ipt pr-short-ipt color-3" style="width:90px;"
                   data-placeholder=""
                   default-empty="全部"
@@ -90,7 +101,7 @@
         </div>
         <!-- 日期过滤 -->
         <div class="inline-block" ng-if="isShowDateFilter" style="position:relative;top:3px;">
-          <span class="color-9 mgl-m">录单日期：</span>
+          <span class="color-9 mgl-m">申请日期：</span>
           <div class="date-icon-outside">
             <input type="text"
                    datepicker

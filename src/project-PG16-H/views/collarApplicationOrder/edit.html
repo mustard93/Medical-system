@@ -44,7 +44,7 @@
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6">
-               <span class="mgr">领用申请单编号：
+               <span class="mgr">单据编号：
                  <input type="text"
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
@@ -183,7 +183,7 @@
                                 invalid-popover="{{!editForm['applicationCount'+$index].$valid || tr.applicationCount>tr.stockModel.salesQuantity}}"
                                 popover-show
                                 is-focus="true"
-                                popover-options='{"content":"不能大于计划数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
+                                popover-options='{"content":"不能大于可用数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
                                 <!-- popover-show="!editForm['applicationCount'+$index].$valid || tr.applicationCount>tr.availableCount"
                                 popover-options='{"content":"数量不正确或数量过大", "placement":"right", "trigger":"manual"}' -->
                        </span>
@@ -202,8 +202,8 @@
                    <!-- 可用数量 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
-                   <td class="text-center" >{{tr.manufacturer}}</td><!-- 产地 -->
-                   <td class="text-center" >{{tr.productionPlace}}</td><!-- 生产厂商 -->
+                   <td class="text-center" >{{tr.productionPlace}}</td><!-- 产地 -->
+                   <td class="text-center" >{{tr.manufacturer}}</td><!-- 生产厂商 -->
                  </tr>
                </tbody>
              </table>
@@ -268,7 +268,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="editForm.$invalid  ||!formData.orderCode" >提交
+                  ng-disabled="editForm.$invalid  ||!formData.orderCode ||!formData.orderMedicalNos.length" >提交
           </button>
         </span>
       </div>
