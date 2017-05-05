@@ -1,0 +1,164 @@
+<!-- 主内容头部 -->
+<page-main-header-component list-params="listParams"
+                            crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"调拨单","link":"","style":"color-custom-orange"}]'
+                            component-title="调拨单"
+                            is-show-create-btn="新建调拨单"
+                            create-new-url="#/allocateOrder/edit.html"
+                            get-status-num-url="http://localhost:3000/src/project-PG16-H/rest/authen/allocateOrder/countByOrderStatus.json"
+                            status-group-data='[["未提交-true","待审核-true","调拨中-true","已完成-true"], ["未通过-true"], ["已作废-true"]]'
+                            is-show-date-filter=true
+                            is-show-key-filter=true
+                            is-show-business-btn-group=true
+                            is-show-department-filter=true
+                            get-department-list-url="rest/authen/department/queryForSelectOption"
+                            is-show-apply-user-filter=true
+                            get-apply-user-list-url="rest/authen/user/queryForSelectOption"
+                            search-placeholder-info="单据编号">
+</page-main-header-component>
+
+<div class="content-wrapper allocate-order"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
+  <table-list
+    list-data="http://localhost:3000/src/project-PG16-H/rest/authen/allocateOrder/query.json"
+    list-params="listParams"
+    search-mode="noCaseSensitive"
+    search-param="q">
+    <!-- 主内容区域 -->
+    <div class="content-wrapper-main">
+      <div ng-if="!status.isLoading">
+        <div ng-if="!tbodyList.length">
+          <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+          <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
+        </div>
+        <ul ng-if="tbodyList.length!='0'" class="li-min-h">
+          <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
+            <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+              <div class="relative">
+                <div class="flex-column">
+                  <span ng-if="tr.orderStatus!='未通过'" class="flex-item-6 title-states text-bold color-3 pd-m">
+                    <em>
+                        {{tr.orderStatus}}
+                    </em>
+                  </span>
+                  <span ng-if="tr.orderStatus=='未通过'" class="flex-item-6 title-states text-bold color-red pd-m">
+                    <em>
+                        {{tr.orderStatus}}
+                    </em>
+                  </span>
+                  <span class="flex-item-6 text-right">
+                    <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
+
+                      <a href="#/allocateOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                      <span class="edit-link-icon">&nbsp;</span></a>
+
+                      <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
+                         href="javascript:;"
+                         class="btn-link pd-m rect-s"
+                         title="删除"
+                         handle-this-click
+                         dialog-title="确认删除 ?"
+                         dialog-content="您确认删除这条采购单吗?"
+                         dialog-template="dialog-confirm.html"
+                         request-url="rest/authen/allocateOrder/delete?id={{tr.id}}"
+                         emitted="reloadList">
+                      <span class="delete-link-icon">&nbsp;</span>
+                      </a>
+                    </span>
+                    <span ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'" class=" text-right">
+                      <a ng-if="tr.orderStatus!='待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')" href="#/allocateOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                      <span class="watch-detail-icon">&nbsp;</span>
+                      </a>
+                      <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                         ng-href="#/allocateOrder/get.html?id={{tr.id}}"
+                         title="立即审核"
+                         class="btn-link pd-m rect-s "
+                         >
+                        <span class="examine-approve">&nbsp;</span>
+                       </a>
+
+                      <!--工作流控制菜单 -->
+                        <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
+                        workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}" >
+                      </button>
+
+                  </span>
+
+                </div>
+                <div class="card-new">
+                    <div class="bt-line flex-column">
+                      <div class="text-center flex-item-12">
+                        <p class="text-m color-black ">{{tr.sourceName || '暂无'}}</p>
+                        <!-- <p>{{tr.sourceLogisticsCenterName || '暂无'}}</p> -->
+                      </div>
+                      <div class="text-center relative arrow-y text-m color-black flex-item-12 min-h-l"></div>
+                      <div class="text-center flex-item-12">
+                        <p class="text-m color-black">{{tr.targetName || '暂无'}}</p>
+                        <!-- <p>{{tr.targetLogisticsCenterName || '暂无'}}</p> -->
+                      </div>
+
+                    </div>
+                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                      <span class="flex-item-6">单据编号</span>
+                      <span class="flex-item-6 text-right color-3">{{tr.orderCode || '暂无'}}</span>
+                    </div>
+                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                      <span class="flex-item-6 text-left">申请部门</span>
+                      <span class="flex-item-6 text-right color-3">{{tr.departmentName}}</span>
+                    </div>
+                    <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                      <span class="flex-item-6 text-left">申请人</span>
+                      <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
+                        <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+                        style="position:relative;height:25px;">{{tr.applicant.n}}</strong>
+                        <span class="purchaseorder-buyer-info" style="top:242px;right:-62px">
+                          <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.applicant.p}}</em></i>
+                          <i class="block pdb-s text-normal">
+                            <em class="fa fa-comment-o mgl"></em>
+                            <em class="inline-block pdl pdr pdt">
+                              <a href="javascript:;"
+                                 modal-center="340"
+                                 modal-data='{"toUser":{"n":"{{tr.applicant.n}}"},"userIds":["{{tr.applicant.id}}}"]}'
+                                 modal-url="views/notice/sendToUser.html">发送消息
+                              </a>
+                            </em>
+                          </i>
+                        </span>
+                      </span>
+                    </div>
+                    <div ng-if="tr.orderStatus!='未通过'&&tr.orderStatus!='已作废'" class="flex-column qurey text-s color-9 bt-line"
+                      >
+                      <p
+                      title="{{tr.note}}"
+                      class="text-ellips-s">
+                        <span >备注：</span><span class="color-6">{{tr.note}}</span>
+                      </p>
+                    </div>
+                    <div ng-if="tr.orderStatus=='未通过'||tr.orderStatus=='已作废'" class="flex-column qurey text-s color-9 bt-line"
+                    ng-controller="allocateOrderEditCtrl"
+                    ng-init="initFlag=true;"
+                      >
+                      <p
+                        title="{{tr.operationFlowSet.key}}{{tr.operationFlowSet.message}}"
+                      class="text-ellips-s">
+                        <span class="color-red">原因：</span>
+                        <span>
+                          <em ng-model="tr.operationFlowSet.key">{{tr.operationFlowSet.key}}</em>
+                          <em ng-model="tr.operationFlowSet.message">{{tr.operationFlowSet.message}}</em>
+                        </span>
+                      </p>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 导航 -->
+    <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+        <div class="fr">
+            <pagination status="status"></pagination>
+        </div>
+    </div>
+  </table-list>
+</div>
