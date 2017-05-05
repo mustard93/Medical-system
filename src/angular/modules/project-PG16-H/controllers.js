@@ -1987,11 +1987,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/pickStockOutMedical/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-
+            alertOk(results[1].msg);
             utils.refreshHref();
-            if(results[1].msg ){
-                alertWarn(results[1].msg || '未知错误!');
-            }
           }
 
         })
