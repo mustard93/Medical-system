@@ -104,7 +104,7 @@
             <table class="table pr-table pr-new-table pr-table-content table-wid-l" style="min-width:2500px;">
               <thead class="pr-bg-side">
                 <tr>
-                  <th class="w-60 text-center mycheck" ng-if="!listParams.shelvesUpStatus">
+                  <th class="w-60 text-center mycheck">
                     <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                     <label for="1"></label>
                   </th>
@@ -113,7 +113,10 @@
                   <th class="w-220" style="text-align:left;">商品名称</th>
                   <th class="w-120">规格</th>
                   <th class="w-60">基本单位</th>
-                  <th class="w-60">待验收数量</th>
+                  <th class="w-60" ng-if="listParams.checkUpStatus=='待验收'">待验收数量</th>
+                  <th class="w-60" ng-if="listParams.checkUpStatus=='已完成'">验收数量</th>
+                  <th class="w-60" ng-if="listParams.checkUpStatus=='已完成'">合格数量</th>
+                  <th class="w-60" ng-if="listParams.checkUpStatus=='已完成'">不合适数量</th>
                   <th class="w-160">生产批号</th>
                   <th class="w-160">生产日期</th>
                   <th class="w-160">有效期至</th>
@@ -148,7 +151,10 @@
                   <td class="text-left color-custom-orange">{{tr.name}}</td><!-- 商品名称 -->
                   <td>{{tr.specification}}</td><!-- 规格 -->
                   <td>{{tr.unit}}</td><!-- 基本单位 -->
-                  <td>{{tr.receiveQuantity}}</td><!-- 待验收数量 -->
+                  <td ng-if="listParams.checkUpStatus=='待验收'">{{tr.receiveQuantity}}</td><!-- 待验收数量 -->
+                  <td ng-if="listParams.checkUpStatus=='已完成'">{{tr.receiveQuantity}}</td><!-- 验收数量 -->
+                  <td ng-if="listParams.checkUpStatus=='已完成'">{{tr.qualifiedQuantity}}</td><!-- 合格数量 -->
+                  <td ng-if="listParams.checkUpStatus=='已完成'">{{tr.unQualifiedQuantity}}</td><!-- 不合适数量 -->
                   <td>{{tr.productionBatch}}</td><!-- 生产批号 -->
                   <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
                   <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
