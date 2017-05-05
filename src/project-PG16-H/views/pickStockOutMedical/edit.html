@@ -20,8 +20,8 @@
       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{formData.name}}-拣选</h1>
     </div>
     <div class="bb-dashed-gold pd-c-v-l color-white text-n">
-      计划拣选数量：{{formData.planShelvesUpQuantity}}({{formData.unit}})
-      <span ng-repeat="item in formData.othersPackingAttribute_shelvesUp">
+      计划拣选数量：{{formData.applicationCount}}({{formData.unit}})
+      <span ng-repeat="item in formData.othersPackingAttribute">
           = {{item.quantity}}({{item.name}})
       </span>
     </div>
@@ -48,14 +48,14 @@
           <td class="text-center color-white pd">{{formData.productionBatch}}</td><!-- 生产批号 -->
 
           <td class="text-center color-white pd">
-          100
+          {{formData.quantity}}
           </td><!-- 可数量 -->
           <td class="text-center color-white pd">
             <input type="number"
                    class="inline ipt pr-ipt-60 text-center"
                    style="width:100px;"
                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                   ng-model="formData.shelvesUpQuantity" />
+                   ng-model="formData.pickNo" />
           </td><!--实数量 -->
           </tr>
         </tbody>
@@ -85,26 +85,6 @@
         <p class="text-n pd-c-v-s bb-line-gold">商品详细信息：</p>
         <div class="">
           <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">是否合格品：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.isQualified}}</div>
-          </div>
-          <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">库房名称：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.storeRoomName}}</div>
-          </div>
-          <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">推荐区域名称：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.regionName}}</div>
-          </div>
-          <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">推荐货位编号：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.goodsLocationCode}}</div>
-          </div>
-          <div class="inline-block flex-column  pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">推荐货位名称：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.goodsLocationName}}</div>
-          </div>
-          <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">商品编号：</div>
             <div class="inline-block flex-item-9 text-left color-white">{{formData.code}}</div>
           </div>
@@ -119,30 +99,6 @@
           <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">基本单位：</div>
             <div class="inline-block flex-item-9 text-left color-white">{{formData.unit}}</div>
-          </div>
-          <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">配送总数/实收总数：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.deliveryQuantity}}/{{formData.hasReceiveQuantity}}</div>
-          </div>
-          <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">生产批号：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionBatch}}</div>
-          </div>
-          <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">生产日期：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionDate | date : 'yyyy-MM-dd'}}</div>
-          </div>
-          <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">有效期至：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.validTill | date : 'yyyy-MM-dd'}}</div>
-          </div>
-          <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">生产厂商：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.manufacturer}}</div>
-          </div>
-          <div class="inline-block flex-column pd-c-v-s">
-            <div class="inline-block flex-item-3 text-right">产地：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionPlace}}</div>
           </div>
         </div>
       </div>

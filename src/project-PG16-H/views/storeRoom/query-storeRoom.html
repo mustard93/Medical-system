@@ -74,12 +74,12 @@
       </div>
       <div class="content-wrapper-main pr-bg-white  pr-fuzzy-boundary">
         <div ng-if="!status.isLoading">
-          <div ng-if="!tbodyList.length">
-            <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
+          <!-- <div ng-if="!tbodyList.length">
+            <p class="empty-data text-center" style="margin-top:0"><span class="empty-data-icon"></span></p>
             <p class="text-center">嘿，这里暂时什么内容都没有哦...</p>
-          </div>
+          </div> -->
           <!-- <div custom-table="com.pangu.mss.spd.domain.mongo.storeRoom.StoreRoom" custom-tr-menus="spd_StoreRoom_query" style="width:100%;"></div> -->
-          <div ng-if="tbodyList.length" class="pr-bg-white pr-fuzzy-boundary">
+          <div class="pr-bg-white pr-fuzzy-boundary">
             <table class="table pr-table pr-new-table">
               <thead class="pr-bg-side">
                 <tr>
@@ -98,7 +98,7 @@
               <tbody>
                 <tr ng-if="tbodyList.length"
                     ng-repeat="tr in tbodyList track by $index"
-                    class="relative"
+                    class="relative color-3"
                     table-item-multiple-btn>
                   <td class="select-td text-center mycheck" style="width:60px;">
                     <input type="checkbox" class="selectOne cur-pot" id="{{$index + 2}}" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
@@ -140,6 +140,13 @@
                 </tr>
               </tbody>
             </table>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+              <div class="empty-table clearfix">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="flex-column pd-v-l">

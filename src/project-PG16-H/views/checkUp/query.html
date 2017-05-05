@@ -9,19 +9,28 @@
     <div class="medical-stock child-project-management receive-item">
       <!-- 主内容头部 -->
       <page-main-header-component list-params="listParams"
+                                  style="min-height:130px;"
                                   crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"验收计划","link":"","style":"color-custom-orange"}]'
                                   component-title="验收计划">
       </page-main-header-component>
       <!-- 主内容区域 -->
-      <div class="mgl-xl status-num-list"
+      <div class="mgl-xl status-num-list-new relative"
+           style="top:-56px;"
            ajax-url="rest/authen/checkUp/countByStatus"
            scope-data="statusNumList">
-        <span status-style-toggle class="rect-status rect-status-active mgl-s" ng-click="chgRequestStatus('待验收');listParams.checkUpStatus='待验收'">验收列表
+        <span status-style-toggle
+              class="rect-status mgl-s"
+              ng-class="{'rect-status-active-new':listParams.checkUpStatus=='待验收'}"
+              ng-click="chgRequestStatus('待验收');listParams.checkUpStatus='待验收'">验收列表
             <span ng-if="statusNumList['待验收']!=0">({{statusNumList['待验收']}})</span>
         </span>
-        <span status-style-toggle class="rect-status" ng-click="chgRequestStatus('已完成');listParams.checkUpStatus='已完成'">验收记录</span>
+        <span status-style-toggle
+              class="rect-status"
+              ng-class="{'rect-status-active-new':(listParams.checkUpStatus=='已完成')}"
+              ng-click="chgRequestStatus('已完成');listParams.checkUpStatus='已完成'">验收记录
+        </span>
       </div>
-      <div class="content-wrapper">
+      <div class="content-wrapper" style="margin:0px 45px;">
         <div class="content-wrapper-main pr-fuzzy-boundary">
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white ">
             <div class="flex-item-8">
@@ -71,8 +80,8 @@
                 </div>
             </div>
           </div>
-          <!-- 批量上架按钮 -->
-          <div ng-if="listParams.checkUpStatus=='待验收'" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
+          <!-- 批量验收按钮 -->
+          <div ng-if="listParams.checkUpStatus!='已完成'" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
             <a ng-if="!choisedMedicalList.length"
                href="javascript:void(0)"
                class="batch-receive-btn"
@@ -95,7 +104,7 @@
             <table class="table pr-table pr-new-table pr-table-content table-wid-l" style="min-width:2500px;">
               <thead class="pr-bg-side">
                 <tr>
-                  <th class="w-60 text-center mycheck" ng-if="!listParams.shelvesUpStatus">
+                  <th class="w-60 text-center mycheck">
                     <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                     <label for="1"></label>
                   </th>
@@ -104,7 +113,10 @@
                   <th class="w-220" style="text-align:left;">商品名称</th>
                   <th class="w-120">规格</th>
                   <th class="w-60">基本单位</th>
-                  <th class="w-60">待验收数量</th>
+                  <th class="w-60" ng-if="listParams.checkUpStatus=='待验收'">待验收数量</th>
+                  <th class="w-60" ng-if="listParams.checkUpStatus=='已完成'">验收数量</th>
+                  <th class="w-60" ng-if="listParams.checkUpStatus=='已完成'">合格数量</th>
+                  <th class="w-60" ng-if="listParams.checkUpStatus=='已完成'">不合适数量</th>
                   <th class="w-160">生产批号</th>
                   <th class="w-160">生产日期</th>
                   <th class="w-160">有效期至</th>
@@ -139,7 +151,10 @@
                   <td class="text-left color-custom-orange">{{tr.name}}</td><!-- 商品名称 -->
                   <td>{{tr.specification}}</td><!-- 规格 -->
                   <td>{{tr.unit}}</td><!-- 基本单位 -->
-                  <td>{{tr.receiveQuantity}}</td><!-- 待验收数量 -->
+                  <td ng-if="listParams.checkUpStatus=='待验收'">{{tr.receiveQuantity}}</td><!-- 待验收数量 -->
+                  <td ng-if="listParams.checkUpStatus=='已完成'">{{tr.receiveQuantity}}</td><!-- 验收数量 -->
+                  <td ng-if="listParams.checkUpStatus=='已完成'">{{tr.qualifiedQuantity}}</td><!-- 合格数量 -->
+                  <td ng-if="listParams.checkUpStatus=='已完成'">{{tr.unQualifiedQuantity}}</td><!-- 不合适数量 -->
                   <td>{{tr.productionBatch}}</td><!-- 生产批号 -->
                   <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
                   <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->

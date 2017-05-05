@@ -390,9 +390,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         // var _data = {
         //   ids: $scope.choisedMedicalList
         // };
-        requestData('rest/authen/receiveItem/batchReceipt', $scope.choisedMedicalList, 'POST', 'parameter-body')
+        requestData('rest/authen/receiveItem/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
-          if (results[1].code === 200) { utils.refreshHref(); }
+          if (results[1].code === 200) {
+            utils.refreshHref();
+            if (results[1].msg) {
+              alertWarn(msg);
+            }
+          }
         })
         .catch(function (error) {
           throw new Error(error || '出错');
@@ -1286,6 +1291,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+    
   }
 
   // 领用申请单controller
@@ -1921,7 +1927,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         // var _data = {
         //   ids: $scope.choisedMedicalList
         // };
-        requestData('rest/authen/shelvesUp/batchShelvesUp', $scope.choisedMedicalList, 'POST', 'parameter-body')
+        requestData('rest/authen/shelvesUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
 
@@ -1973,7 +1979,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-    // 批量上架
+    // 批量拣选
     $scope.handleBatchReceive = function () {
       if ($scope.choisedMedicalList.length) {
         // var _data = {
@@ -1982,11 +1988,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/pickStockOutMedical/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-
+            alertOk(results[1].msg);
             utils.refreshHref();
-            if(results[1].msg ){
-                alertWarn(results[1].msg || '未知错误!');
-            }
           }
 
         })
@@ -2052,7 +2055,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 批量验收
     $scope.handlebatchCheckUp = function () {
       if ($scope.choisedMedicalList.length) {
-        requestData('rest/authen/checkUp/batchCheckUp', $scope.choisedMedicalList, 'POST', 'parameter-body')
+        requestData('rest/authen/checkUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) { utils.refreshHref(); }
         })
