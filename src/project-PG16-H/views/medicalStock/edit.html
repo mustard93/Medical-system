@@ -315,8 +315,14 @@
                   <tr>
                     <th class="text-center">序号</th>
                     <th class="text-center">单位类型</th>
-                    <th class="text-center">单位名称</th>
-                    <th class="text-center">换算比率</th>
+                    <th class="text-center">
+                      单位名称
+                      <em class="color-red">(必填)</em>
+                    </th>
+                    <th class="text-center">
+                      换算比率
+                      <em class="color-red">(必填)</em>
+                    </th>
                     <th class="text-center">条形码</th>
                     <th class="text-center">中标价</th>
                     <th class="text-center">长(mm)</th>
@@ -388,11 +394,13 @@
                     <td class="text-center">
                       <input type="text"
                              class="ipt pr-ipt-60 text-center"
+                             required
                              ng-model="tr.name"/>
                     </td>
                     <td class="text-center">
                       <input type="text"
                              class="ipt pr-ipt-60 text-center"
+                             required
                              ng-model="tr.ratio"/>
                     </td>
                     <td class="text-center">
@@ -480,7 +488,14 @@
                              "goUrl":""
                             }'
                 tpl-url="tpl/pr-dialog-content-reason.html"
-                  ng-disabled="!formData.code|| !formData.name|| !formData.specification|| !formData.unit ||!formData.name_py ||!formData.storageCondition"
+                  ng-disabled="editForm.$invalid ||
+                    !formData.code||
+                    !formData.name||
+                    !formData.specification||
+                    !formData.unit ||
+                    !formData.name_py ||
+                    !formData.storageCondition ||
+                    !formData.packingAttribute.name"
                  >保存</button>
 
               <button
@@ -489,7 +504,14 @@
               class="pr-btn-save-glodbg mgt"
               type="button"
               ng-click="submitForm('editForm','save')"
-              ng-disabled="!formData.code|| !formData.name|| !formData.specification|| !formData.unit ||!formData.name_py ||!formData.storageCondition">保存</button>
+              ng-disabled="editForm.$invalid ||
+               !formData.code||
+               !formData.name||
+               !formData.specification||
+               !formData.unit ||
+               !formData.name_py ||
+               !formData.storageCondition ||
+               !formData.packingAttribute.name">保存</button>
           </span>
 
           </div>
