@@ -2,7 +2,7 @@
      ng-controller="collarApplicationOrderController"
      ajax-url="rest/authen/collarApplicationOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos)"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);"
      alert-error>
   <form id="editForm"
          name="editForm"
@@ -198,7 +198,8 @@
                        待采购数量：{{tr.planQuantity-tr.quantity}}
                      </p> -->
                    </td><!-- 申请数量 -->
-                   <td class="text-right" >{{tr.stockModel.salesQuantity}}</td>
+                   <!-- <td class="text-right" ng-if="salesQuantity" ></td> -->
+                   <td class="text-right">{{tr.salesQuantity}}</td>
                    <!-- 可用数量 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
@@ -220,7 +221,7 @@
        <!-- 备注 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
          <h1 class="text-bold color-3 inline-block">备注</h1>
-         <textarea  class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+         <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
        </div>
      </div>
      <!-- 流程图 -->

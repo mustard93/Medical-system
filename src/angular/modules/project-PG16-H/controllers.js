@@ -1298,8 +1298,22 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   function collarApplicationOrderController($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
 
-
     $scope.$watch('initFlag', function (newVal) {
+      console.log(1);
+      // var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + tr.id,
+      //     _data = {};
+      // requestData(_url, _data, 'GET')
+      // .then(function (results) {
+      //   var _resObj = results[1].data;
+      //   for (var item in _resObj) {
+      //     if (item === addDataItem.relId && _resObj[item]) {
+      //     }
+      //   }
+      // })
+      // .catch(function (error) {
+      //   if (error) { console.log(error || '出错!'); }
+      // });
+
 
        var operationFlowSetMessage=[];
        var operationFlowSetKey=[];
@@ -1338,6 +1352,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        }
        if (newVal && $scope.tr) {
          // 选择出当前状态相同的驳回理由，并放入一个数组中
+
          if ($scope.tr.operationFlowSet) {
            for (i=0; i<$scope.tr.operationFlowSet.length; i++) {
              if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
@@ -1471,6 +1486,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
    $scope.flashAddDataCallbackFn = function(flashAddData) {
 
+
      if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
        alertWarn("请选择药品");
        return ;
@@ -1516,6 +1532,21 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
+            if (addDataItem) {
+              var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId,
+                  _data = {};
+              requestData(_url, _data, 'GET')
+              .then(function (results) {
+                var _resObj = results[1].data;
+                for (var item in _resObj) {
+                  if (item === addDataItem.relId && _resObj[item]) {
+                  }
+                }
+              })
+              .catch(function (error) {
+                if (error) { console.log(error || '出错!'); }
+              });
+            }
        //计算价格
        $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
        return true;

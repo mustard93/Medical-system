@@ -305,10 +305,11 @@ define('project/controllers', ['project/init'], function() {
    */
   function salesOrderEditCtrl2($scope, modal, alertWarn, watchFormChange, requestData, utils) {
 
+
       modal.closeAll();
       // $scope.formData={};
       $scope.addDataItem = {};
-
+      
       // 是否显示关闭按钮
       $scope.isShowCancelBtn = false;
 
