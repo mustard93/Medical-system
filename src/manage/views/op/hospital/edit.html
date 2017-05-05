@@ -1,0 +1,45 @@
+
+        <div class="modal-content pr-modal-content" ng-controller="editCtrl"
+   ajax-url="rest/authen/op/hospital/getOfEdit.json?id={{tr.id}}"  scope-data="formData"  alert-error
+   callback="initFlag=true"
+         >
+
+          <form class="add-medical-form form-horizontal"
+                action="rest/authen/op/hospital/save"
+               alert-error parameter-body
+                form-validator>
+            <div class="modal-header">
+                <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
+                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}经销商</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">机构名称</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.name" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">机构编码</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="text" class="form-control" placeholder="" ng-model="formData.code" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">密钥</label>
+                  <div class="col-lg-10 col-sm-10">
+                    {{formData.secretKey}}
+                  </div>
+                </div>                
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label"></label>
+                  <div class="col-lg-10 col-sm-10">
+                    <input type="submit" class="btn pr-btn-create-glodbg" value="提交">
+                  </div>
+                </div>
+
+            </div>
+
+            </form>
+        </div>
