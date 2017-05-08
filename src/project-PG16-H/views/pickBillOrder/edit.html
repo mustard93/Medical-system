@@ -77,7 +77,12 @@
              <tbody class="bg-white">
                <tr ng-repeat="tr in tbodyList track by $index" class="relative" table-item-multiple-btn>
                  <td class="select-td text-center mycheck">
-                   <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                   <input type="checkbox"
+                          class="selectOne cur-pot"
+                          id='{{$index+2}}'
+                          ng-model="tr.handleFlag"
+                          ng-click="handleItemClickEvent(tr);"
+                          ng-disabled="tr.type!='待复核'">
                    <label for="{{$index+2}}"></label>
                  </td>
                  <td class="relative text-center">
@@ -96,7 +101,7 @@
                           ng-if="tr.orderStatus!='已拣选'"
                           modal-right="543"
                           modal-scope="this"
-                          modal-data='{"id":"{{tr.id}}"}'
+                          modal-data='{"id":"{{mainStatus.pageParams.id}}","medicalId":"{{tr.relMedicalStockId}}"}'
                           modal-url="views/pickBillOrder/watch-info-modal.html">查看拣选信息...
                      </div>
                    </div>

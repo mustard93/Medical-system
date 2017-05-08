@@ -2095,11 +2095,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           angular.forEach(item.pickStockOutMedicalIds, function (data) {
             $scope.choisedMedicalList.push(data);
           });
-
         }
       } else {
         for (var i=0; i<$scope.choisedMedicalList.length; i++) {
-          for (var j=0; j<item.pickStockOutMedicalIds.lenth; j++) {
+          for (var j=0; j<item.pickStockOutMedicalIds.length; j++) {
             if ($scope.choisedMedicalList[i] == item.pickStockOutMedicalIds[j]) {
               $scope.choisedMedicalList.splice(i,1);
             }
@@ -2117,7 +2116,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         if ($scope.tbodyList) {
           $scope.choisedMedicalList = [];
           angular.forEach($scope.tbodyList, function (data, index) {
-            $scope.choisedMedicalList.push(data.id);
+            angular.forEach(data.pickStockOutMedicalIds, function (data2, index) {
+              $scope.choisedMedicalList.push(data2);
+            });
+            // $scope.choisedMedicalList.push(data.id);
           });
         }
       } else {        // 取消全部选中
