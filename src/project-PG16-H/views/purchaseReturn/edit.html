@@ -2,7 +2,7 @@
      ng-controller="purchaseReturnController"
      ajax-url="rest/authen/purchaseReturn/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData")'
+     callback='initFlag=true;watchFormChange("formData");'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -74,7 +74,7 @@
             </div>
           </div>
           <div class="flex-column pdt pdb pd-c-l color-9">
-            <div class="mgr-l relative">预计退货时间：
+            <div class="mgr-s relative">预计退货时间：
               <input type="text"
                      datepicker
                      class="ipt color-6"
@@ -84,6 +84,7 @@
                      placeholder="">
               <span class="date-icon"></span>
             </div>
+            <em ng-if="!formData.expectDate" class="color-red">(必填)</em>
           </div>
         </div>
         <div class="empty-panel clearfix" ng-if="!formData.orderMedicalNos.length">
@@ -101,7 +102,9 @@
                 <th class="text-center w-160">基本单位</th>
                 <th class="text-center w-120">可退数量</th>
                 <th class="text-center w-120">实退数量</th>
-                <th class="text-center w-220">生产批号</th>
+                <th class="text-center w-220">生产批号
+                <em class="color-red">(必选)</em>
+                </th>
                 <th class="text-center w-220">仓库</th>
                 <th class="text-center w-220">区域</th>
                 <!-- <th class="text-center w-160">灭菌批号</th> -->
@@ -150,11 +153,11 @@
                            ng-model="batch.quantity"
                            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                            ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
-                    <input type="hidden" ng-model="batch.id">
+                    <input type="hidden" required ng-model="batch.id">
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
                   <!-- 批号选择 -->
-                  <div ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount" class="ipt-div relative" style="width:100%;">
+                  <div ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount"  class="ipt-div relative" style="width:100%;">
                     <i class="addImg"
                        style="left:85%"
                        modal-right="50%"
@@ -241,7 +244,8 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!saleReturnEditForm.$valid || quantityError ||!formData.orderMedicalNos.length">提交
+                  ng-disabled="!saleReturnEditForm.$invalid || quantityError ||!formData.orderMedicalNos.length
+                  ||!formData.expectDate">提交
           </button>
 
       </div>
