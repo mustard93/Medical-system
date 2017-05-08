@@ -1,6 +1,6 @@
 <div class="allocate-order salesOrder-edit confirm-edit"
-     ng-controller="confirmOrderEditCtrl"
-     ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     ng-controller="allocateOrderEditCtrl"
+     ajax-url="http://localhost:3000/src/project-PG16-H/rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;$root.watchFormChange('formData',this)"
      alert-error>
@@ -40,67 +40,47 @@
         </p>
       </div>
 
-      <div class="pr-panel pr-panel-height mgb pd-n">
+      <div class="mgb pd-n">
         <!-- 物流中心搜索 -->
-        <div class="inline-block relative full-height br-line-strong" style="width:50%;">
+        <div class="inline-block pr-bg-white relative full-height mgr" style="width:464px;">
           <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
             <span class="color-black text-m">调出</span>
           </div>
           <div class="inline-block logistics-center-out relative">
-            <p class="mgb-s">物流中心</p>
-            <p>
-              <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
-                      data-placeholder=" "
-                      chosen
-                      ng-model="formData.sourceLogisticsCenterId"
-                      select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
-              </select>
-
-            </p>
-          </div>
-          <div class="inline-block relative">
             <p class="mgb-s">
-              仓库
+              库房
             </p>
             <select ng-if="initFlag" class="pr-select pdt"
             style="width:250px;"
             chosen
+            required
+            default-empty="无"
             ng-model="formData.sourceId"
-            select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.sourceLogisticsCenterId}}">
+            select-source="rest/authen/warehouse/queryForSelectOption">
             </select>
+            <em class="color-red">(必选)</em>
           </div>
         </div>
-        <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
-          <span class="color-black text-m">调入</span>
-        </div>
-        <div class="inline-block logistics-center-in relative">
-          <p class="mgb-s">物流中心</p>
-          <p>
-            <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
-                    data-placeholder=" "
-                    chosen
-                    ng-model="formData.targetLogisticsCenterId"
-                    select-source="rest/authen/logisticsCenter/queryForSelectOption.json">
-            </select>
-          </p>
-        </div>
-        <div class="inline-block relative">
-          <p class="mgb-s">
-            仓库
-          </p>
-          <select ng-if="initFlag" class="pr-select pdt"
-          style="width:250px;"
-          chosen
-          default-empty="无"
-          ng-model="formData.targetId"
-          select-source="rest/authen/warehouse/queryForSelectOption?logisticsCenterId={{formData.targetLogisticsCenterId}}">
-          </select>
-        </div>
-        <div ng-if="formData.sourceId==formData.targetId&&formData.targetLogisticsCenterId==formData.sourceLogisticsCenterId"
-         class="inline-block relative">
-          <em class="pr-indent-10 color-red relative">
-            调入仓库与调出仓库不能一样，请重新选择。
-          </em>
+          <div class="inline-block pr-bg-white relative full-height " style="width:464px;">
+            <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
+              <span class="color-black text-m">调入</span>
+            </div>
+            <div class="inline-block logistics-center-in relative">
+              <p class="mgb-s">
+                库房
+                <em ng-if="formData.sourceId==formData.targetId"
+                 class="pr-indent-10 color-red">不支持同一仓库调拨，请重新选择。</em>
+              </p>
+              <select ng-if="initFlag" class="pr-select pdt"
+              style="width:250px;"
+              chosen
+              required
+              default-empty="无"
+              ng-model="formData.targetId"
+              select-source="rest/authen/warehouse/queryForSelectOption">
+              </select>
+              <em class="color-red">(必选)</em>
+            </div>
         </div>
       </div>
       <!-- 药械列表 -->
@@ -119,64 +99,73 @@
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
               <div class="flex-item-6">
                 <span class="mgr">单据编号：
-                  <input type="text" name="orderNo" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
-                  <span class="color-red">(必填)</span>
+                  <!-- ng-disabled="formData.id" -->
+                  <input type="text" name="orderNo" required class="ipt pr-new-short-ipt text-right"  ng-model="formData.orderCode" />
+                  <span class="color-red">（必填）</span>
                   <span class="mg-l">审核人：<em class="color-3">暂无</em></span>
+                  <span class="mgr">审核日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
                 </span>
               </div>
               <div class="flex-item-6 text-right">
-                <span class="mgr">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-                <span class="mgr">录单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                <span class="mgr">制单人：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+                <span class="mgr">制单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
                 <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
               </div>
             </div>
             <div class="pd-c-l pdt-m pdb-m color-9">
-              <span class="mgr">部门：
+              <span class="mgr">申请部门：
                 <select class="ipt pr-short-ipt color-3" style="width:100px;"
                         data-placeholder=" "
                         chosen
+                        required
                         ng-model="formData.salesDepartmentId"
                         select-source="rest/authen/department/queryForSelectOption">
                 </select>
+                <em class="color-red">(必填)</em>
               </span>
-              <span class="mgr">业务人员：
+              <span class="mgr">申请人：
                 <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                         data-placeholder=" "
                         chosen
+                        required
                         ng-model="formData.saleUserId"
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
                 </select>
+                <em class="color-red">(必填)</em>
               </span>
-              <span class="mgr">计划到货时间：
+              <span class="mgr">申请日期：
                 <input type="text"
                        datepicker
                        class="ipt pr-short-ipt color-3"
                        style="width:90px;"
                        placeholder=""
                        ng-readonly="true"
-                       ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
+                       ng-model="formData.expectDate" />
+              <em class="color-red">(必填)</em>
+              </span>
+              <span class="mgr">期望调拨日期：
+                <input type="text"
+                       datepicker
+                       class="ipt pr-short-ipt color-3"
+                       style="width:90px;"
+                       placeholder=""
+                       ng-readonly="true"
+                       ng-model="formData.expectDate" />
+               <em class="color-red">(必填)</em>
               </span>
             </div>
             <div class="outside-table-d">
-              <table class="table pr-table pr-new-table mgb-n table-s-wid">
+              <table class="table pr-table pr-new-table mgb-n table-ss-wid">
                 <thead>
                   <tr>
                     <th class="text-center">商品编号</th>
-                    <th class="text-center">商品代码</th>
-                    <th class="text-left">商品全名</th>
-                    <th class="text-center">规格/型号</th>
-                    <th class="text-center">单位</th>
-                    <th class="text-center">可调拨量</th>
-                    <th class="text-center">计划调拨总数</th>
-                    <th class="text-center">生产批号/数量</th>
-                    <th class="text-center">灭菌批号</th>
-                    <!-- <th class="text-center">仓库</th> -->
-                    <th class="text-center">有效期至</th>
-                    <th class="text-center">产地执行标准</th>
-                    <th class="text-center">保存温度</th>
-                    <th class="text-center">产地品牌</th>
-                    <th class="text-center">产品注册证号</th>
-                    <th class="text-center">注册证号有效期</th>
+                    <th class="text-left">商品名称</th>
+                    <th class="text-center">规格</th>
+                    <th class="text-center">基本单位</th>
+                    <th class="text-center">可调拨数量</th>
+                    <th class="text-center">申请数量</th>
+                    <th class="text-center">生产厂商</th>
+                    <th class="text-center">产地</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -194,16 +183,10 @@
                         </div>
                       </div>
                     </td><!-- 商品编号 -->
-                    <td class="text-center">{{item.goodsCode}}</td>
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.measurement}}</td><!-- 单位 -->
-                    <td class="text-center"
-                    ajax-url="rest/authen/medicalStock/getStockModelByWarehouseId?id={{item.relId}}&warehouseId={{formData.sourceId}}"
-                    scope-data="scopeData"
-                    >
-                    {{scopeData.salesQuantity}}
-                    </td>
+                    <td class="text-center">{{item.measurement}}</td><!-- 可调拨数量 -->
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1" ng-disabled="item.quantity==1">-</button>
@@ -224,53 +207,9 @@
                         <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1">+</button>
                       </div>
                     </td><!-- 计划调拨数量 -->
-                    <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
-                      <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
-                           ng-if="batch.batchNumber"
-                           class="ipt-div relative"
-                           style="width:180px;margin-top:10px;margin-left:10px;"
-                           ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
-                        <div class="inline-block text-ellips-s"
-                             style="width:118px;height:100%;"
-                             ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
-                        </div>
-                        <input type="number" class="in_ipt" name="batchNum{{$index}}" ng-model="batch.quantity" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
-                        <input type="hidden" ng-model="batch.id">
-                        <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
-                      </div>
-                      <div ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="ipt-div relative" style="width:180px;margin-top:10px;margin-left:10px;">
-                        <i class="addImg"
-                           modal-right="50%"
-                           modal-scope="this"
-                           modal-data='{
-                                        "medicalName":"{{item.name}}",
-                                        "id":"{{item.relId}}",
-                                        "logisticsCenterId":"{{formData.logisticsCenterId}}",
-                                        "quantity":{{item.quantity}},
-                                        "sourceId":"{{formData.sourceId}}",
-                                        "sourceLogisticsCenterId":"{{formData.sourceLogisticsCenterId}}",
-                                        "choisedBatchList":{{item.stockBatchs}}
-                                      }'
-                           modal-url="views/versionFlow/choice-stockbatch-dialog-allocateOrder.html">
-                        </i>
-                      </div>
-                      <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
-                    </td><!-- 生产批号/数量 -->
-                    <td class="text-center pd-n">
-                      <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
-                    </td><!-- 灭菌批号 -->
-                    <td class="text-center pd-n" style="display:none;">
-                      <div ng-repeat="pro in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{pro.productionDate | date : 'yyyy-MM-dd'}}</div>
-                    </td>
-                    <td class="text-center pd-n">
-                      <div ng-repeat="valid in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{valid.validTill | date : 'yyyy-MM-dd'}}</div>
-                    </td>
                     <!-- 仓库 -->
-                    <td class="text-center">{{item.productStandard}}</td>
-                    <td class="text-center">{{item.storedTemperature}}</td>
-                    <td class="text-center">{{item.brand}}</td>
-                    <td class="text-center">{{item.drugAdministrationCode}}</td>
-                    <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod}}</td>
+                    <td class="text-center" >{{item.manufacturer}}</td>
+                    <td class="text-center" >{{item.productionPlace}}</td>
                     </td><!-- 价税合计 -->
                   </tr>
                 </tbody>
@@ -317,7 +256,7 @@
            class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
-           dialog-content="您确认删除这条购调拨单吗?"
+           dialog-content="您确认删除这条调拨单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"
            callback="$root.goTo('#/allocateOrder/query.html')">删除
@@ -331,7 +270,7 @@
 
         <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
                 type="button"
-                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId || !formData.expectDate"
+                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
