@@ -1,0 +1,176 @@
+<div class="allocate-order confirm-order-edit "
+     ng-controller="allocateOrderEditCtrl"
+     ajax-url="http://localhost:3000/src/project-PG16-H/rest/authen/allocateOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
+     scope-data="formData"
+     callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_allocateOrder(formData);'
+     alert-error>
+
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/allocateOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter();watchFormChange('formData')">
+
+    <!-- 头部信息 -->
+    <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">库存管理 > <em class="color-custom-orange">调拨单</em></p>
+      <!-- 标题 -->
+      <div class="pd-c-xxl">
+        <div class="pos-rel-tl inline-block fl-l">
+          <h1 class="pr-font-20 color-black">调拨单</h1>
+
+        </div>
+      </div>
+    </div>
+    <!-- 药械列表 -->
+    <div class="content-wrapper">
+      <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message"  class="pr-panel pr-panel-height mgb"
+        ng-class="{'pr-bg-pink1':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'pr-bg-pass':(formData.orderStatus=='已完成')}">
+        <em ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">原因:</em>
+        <p class="inline-block " ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">
+        <em>{{formData.operationFlowSet.key}}</em>
+        <em>{{formData.operationFlowSet.message}}</em>
+       </p>
+     </div>
+      <div class="mgb pd-n">
+        <div class="inline-block pr-bg-white relative full-height mgr" style="width:464px;">
+          <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
+            <span class="color-black text-m">调出</span>
+          </div>
+          <div class="inline-block logistics-center-out relative">
+            <p class="mgb-s">
+              库房
+            </p>
+            <p class="text-m color-black autocut-default text-left" title="{{formData.sourceName}}" style="width:200px;">
+              {{formData.sourceName || '暂无'}}
+            </p>
+          </div>
+        </div>
+          <div class="inline-block pr-bg-white relative full-height " style="width:464px;">
+            <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
+              <span class="color-black text-m">调入</span>
+            </div>
+            <div class="inline-block logistics-center-in relative">
+              <p class="mgb-s">
+                库房
+              </p>
+              <p class="text-m text-left color-black autocut-default" title="{{formData.targetName}}" style="width:200px;">
+                  {{formData.targetName || '暂无'}}
+              </p>
+            </div>
+        </div>
+      </div>
+
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+        <!-- 单据信息 -->
+        <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+          <div class="flex-item-6">
+            <span class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+            <span class="mgr">审核人：<em class="color-3">{{formData.approverUser.n||'暂无'}}</em></span>
+            <span class="mgr">审核日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+          </div>
+          <div class="flex-item-6 text-right">
+            <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n}}</em></span>
+            <span class="mgr">制单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+            <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+            <!-- <a ng-if="initFlag"
+               modal-center="1000px"
+               modal-data='{"businessKey":"{{formData.id}}"}'
+               modal-scope="this"
+               modal-url="views/workflowTask/getOfDialog.html">
+            </a> -->
+          </div>
+        </div>
+        <!-- 类别选择 -->
+        <div class="pd-c-l pdt-m pdb-m color-9">
+          <span class="mgr-l">申请部门：<em class="color-3">{{formData.salesDepartmentName}}</em></span>
+          <span class="mgr-l">申请人：<em class="color-3">{{formData.saleUser.n}}</em></span>
+            <span class="mgr-l">申请日期：<em class="color-3">{{formData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+            <span class="mgr-l">期望调拨日期：<em class="color-3">{{formData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+        </div>
+        <!-- 商品列表 -->
+        <div class="">
+          <div class="outside-table-d">
+            <table class="table pr-table pr-new-table mgb-n table-s-wid">
+              <thead>
+                <tr>
+                  <th class="text-center">商品编号</th>
+                  <th class="text-left">商品名称</th>
+                  <th class="text-center">规格</th>
+                  <th class="text-center">基本单位</th>
+                  <th class="text-center" ng-if="formData.orderStatus=='待审核'">可调拨数量</th>
+                  <th class="text-center">申请数量</th>
+                  <th class="text-center" ng-if="formData.orderStatus!='待审核'">实际调拨数量</th>
+                  <th class="text-center">生产厂商</th>
+                  <th class="text-center">产地</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in formData.orderMedicalNos">
+                  <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
+                  <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
+                  <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{item.measurement}}</td><!-- 单位 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 计划调拨数量 -->
+                  <td class="text-center">{{item.quantity}}</td><!-- 实际调拨数量 -->
+                  <td class="text-center" >{{item.manufacturer}}</td>
+                  <td class="text-center" >{{item.productionPlace}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <!-- 其他信息 -->
+      <div class="relative">
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <h1 class="text-bold color-3 mgb">备注</h1>
+          <p>{{formData.note}}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+
+        <a ng-if="changeFlag" href="javascript:;" class="mgr"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该调拨单存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/allocateOrder/query.html')"
+           save-callback="submitForm('editForm','exit')">返回调拨单列表
+        </a>
+
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回调拨单列表</a>
+
+<!--
+
+        <a ng-if="formData.orderStatus=='待处理' && formData.inputUserId==mainStatus.id"
+           href="javascript:;"
+           class="pr-color-red mgr"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条调拨单吗?"
+           dialog-template="dialog-confirm.html"
+           request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
+           call-back="$root.goTo('#/salesOrder/query.html')">删除
+        </a> -->
+
+        <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
+        <span ng-if="formData.didateFilter.buttons.length>0"
+              custom-menu-list
+              custom-menu-arr="{{formData.didateFilter.buttons}}">
+        </span>
+      </div>
+    </div>
+  </form>
+</div>

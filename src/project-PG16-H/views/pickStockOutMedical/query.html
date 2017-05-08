@@ -69,7 +69,7 @@
           </div>
         </div>
         <!-- 批量拣选按钮 -->
-        <div class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
+        <div ng-if="listParams.orderStatus!='已拣选'" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
           <a ng-if="!choisedMedicalList.length"
              href="javascript:void(0)"
              class="batch-receive-btn"
@@ -92,7 +92,7 @@
           <table class="table pr-table pr-new-table pr-table-content table-wid-l">
             <thead class="pr-bg-side">
               <tr>
-                <th class="w-60 text-center mycheck">
+                <th class="w-60 text-center mycheck" ng-if="listParams.orderStatus!='已拣选'" >
                   <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                   <label for="1"></label>
                 </th>
@@ -122,7 +122,7 @@
                   ng-repeat="tr in tbodyList track by $index"
                   class="relative"
                   table-item-multiple-btn>
-                <td class="select-td text-center mycheck">
+                <td class="select-td text-center mycheck" ng-if="listParams.orderStatus!='已拣选'" >
                   <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                   <label for="{{$index+2}}"></label>
                 </td>
@@ -198,7 +198,7 @@
         <div class="flex-column bg-white">
           <div class="flex-item-6">
             <!-- 批量拣选按钮 -->
-            <div class="flex-column color-9 pd-c-l pdt-m pdb-m">
+            <div ng-if="listParams.orderStatus!='已拣选'"  class="flex-column color-9 pd-c-l pdt-m pdb-m">
               <a ng-if="!choisedMedicalList.length"
                  href="javascript:void(0)"
                  class="batch-receive-btn"

@@ -1,0 +1,283 @@
+<div class="allocate-order salesOrder-edit confirm-edit"
+     ng-controller="allocateOrderEditCtrl"
+     ajax-url="http://localhost:3000/src/project-PG16-H/rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="formData"
+     callback="initFlag=true;$root.watchFormChange('formData',this)"
+     alert-error>
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/allocateOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        onkeydown="if(window.event.keyCode==13) return false;"
+        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        novalidate="true">
+    <!-- 头部信息 -->
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">库存管理 >
+        <a href="#/allocateOrder/query.html"><em class="color-custom-orange">调拨单</em></a>
+        <em> > 新建调拨单</em>
+      </p>
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb">
+          <h1 class="pr-font-20 color-black">新建调拨单</h1>
+        </div>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper">
+
+      <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        </p>
+      </div>
+
+      <div class="mgb pd-n">
+        <!-- 物流中心搜索 -->
+        <div class="inline-block pr-bg-white relative full-height mgr" style="width:464px;">
+          <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
+            <span class="color-black text-m">调出</span>
+          </div>
+          <div class="inline-block logistics-center-out relative">
+            <p class="mgb-s">
+              库房
+            </p>
+            <select ng-if="initFlag" class="pr-select pdt"
+            style="width:250px;"
+            chosen
+            required
+            default-empty="无"
+            ng-model="formData.storeRoomId"
+            select-source="rest/authen/warehouse/queryForSelectOption">
+            </select>
+            <em class="color-red">(必选)</em>
+          </div>
+        </div>
+          <div class="inline-block pr-bg-white relative full-height " style="width:464px;">
+            <div class="inline-block relative br-line-strong pd-c-v-s" style="top:-7px;">
+              <span class="color-black text-m">调入</span>
+            </div>
+            <div class="inline-block logistics-center-in relative">
+              <p class="mgb-s">
+                库房
+                <em ng-if="formData.storeRoomId==formData.inStoreRoomId"
+                 class="pr-indent-10 color-red">不支持同一仓库调拨，请重新选择。</em>
+              </p>
+              <select ng-if="initFlag" class="pr-select pdt"
+              style="width:250px;"
+              chosen
+              required
+              default-empty="无"
+              ng-model="formData.inStoreRoomId"
+              select-source="rest/authen/warehouse/queryForSelectOption">
+              </select>
+              <em class="color-red">(必选)</em>
+            </div>
+        </div>
+      </div>
+      <!-- 药械列表 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+          <!-- 信息 -->
+          <div ng-if="!formData.relId"
+               flash-add-medical
+               ng-model="data1"
+               class="pd-c-l pdt-m"
+               ajax-url="rest/authen/medicalStock/query"
+               add-data-callback-fn="flashAddDataCallbackFn(data1)"
+               is-disabled-this="{{formData.targetId}}">
+          </div>
+          <!-- 列表 -->
+          <div class="">
+            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
+              <div class="flex-item-6">
+                <span class="mgr">单据编号：
+                  <!-- ng-disabled="formData.id" -->
+                  <input type="text" name="orderNo" required class="ipt pr-new-short-ipt text-right"  ng-model="formData.orderCode" />
+                  <span class="color-red">（必填）</span>
+                  <span class="mg-l">审核人：<em class="color-3">暂无</em></span>
+                  <span class="mgr">审核日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                </span>
+              </div>
+              <div class="flex-item-6 text-right">
+                <span class="mgr">制单人：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+                <span class="mgr">制单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+              </div>
+            </div>
+            <div class="pd-c-l pdt-m pdb-m color-9">
+              <span class="mgr">申请部门：
+                <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                        data-placeholder=" "
+                        chosen
+                        ng-model="formData.departmentId"
+                        select-source="rest/authen/department/queryForSelectOption">
+                </select>
+                <em class="color-red">(必填)</em>
+              </span>
+              <span class="mgr">申请人：
+                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
+                        data-placeholder=" "
+                        chosen
+                        ng-model="formData.applicant.id"
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
+                </select>
+                <em class="color-red">(必填)</em>
+              </span>
+              <span class="mgr">申请日期：
+                <div class="date-icon-outside">
+                  <input type="text"
+                         style="top:0px;"
+                         datepicker
+                         class="ipt-date ipt color-3"
+                         ng-readonly="true"
+                         placeholder=""
+                         ng-model="formData.createAt">
+                        <span class="date-icon"></span>
+                </div>
+              <em class="color-red">(必填)</em>
+              </span>
+              <span class="mgr">期望调拨日期：
+                <div class="date-icon-outside">
+                  <input type="text"
+                         style="top:0px;"
+                         datepicker
+                         class="ipt-date ipt color-3"
+                         ng-readonly="true"
+                         placeholder=""
+                         ng-model="formData.expectDate">
+                        <span class="date-icon"></span>
+                </div>
+               <em class="color-red">(必填)</em>
+              </span>
+            </div>
+            <div class="outside-table-d">
+              <table class="table pr-table pr-new-table mgb-n table-ss-wid">
+                <thead>
+                  <tr>
+                    <th class="text-center">商品编号</th>
+                    <th class="text-left">商品名称</th>
+                    <th class="text-center">规格</th>
+                    <th class="text-center">基本单位</th>
+                    <th class="text-center">可调拨数量</th>
+                    <th class="text-center">申请数量</th>
+                    <th class="text-center">生产厂商</th>
+                    <th class="text-center">产地</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="item in formData.orderMedicalNos"
+                      ng-controller="ConfirmOrderMedicalController"
+                      table-item-handlebtn-component>
+                    <td class="text-center">{{item.code}}
+                      <div  class="table-item-handle-btn">
+                        <div class="table-item-confirm-del-area bg-white">
+                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                          <p class="pdt-s">
+                            <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
+                            <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                          </p>
+                        </div>
+                      </div>
+                    </td><!-- 商品编号 -->
+                    <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
+                    <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                    <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                    <td class="text-center">{{item.measurement}}</td><!-- 可调拨数量 -->
+                    <td class="text-center">
+                      <div class="order-goods-num">
+                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1" ng-disabled="item.quantity==1">-</button>
+                        <span class="inline-block">
+                          <input type="number"
+                                 name="quantity{{$index}}"
+                                 class="inline ipt pr-ipt-60 text-center item-planQuantity"
+                                 style="width:60px;"
+                                 ng-model="item.quantity"
+                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
+                                 ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
+                                 invalid-popover
+                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
+                                 popover-show
+                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
+                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                        </span>
+                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1">+</button>
+                      </div>
+                    </td><!-- 计划调拨数量 -->
+                    <!-- 仓库 -->
+                    <td class="text-center" >{{item.manufacturer}}</td>
+                    <td class="text-center" >{{item.productionPlace}}</td>
+                    </td><!-- 价税合计 -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+              <div class="empty-table clearfix">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- 其他信息 -->
+      <div class="relative">
+
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <h1 class="text-bold color-3">备注</h1>
+          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该调拨单存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/allocateOrder/query.html')"
+           save-callback="submitForm('editForm','exit-allocate')">返回调拨单
+        </a>
+
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回调拨单</a>
+
+        <a ng-if="formData.inputUserId==mainStatus.id"
+           href="javascript:;"
+           class="pr-color-red mgr"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条调拨单吗?"
+           dialog-template="dialog-confirm.html"
+           request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"
+           callback="$root.goTo('#/allocateOrder/query.html')">删除
+        </a>
+
+        <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="!changeFlag"
+                ng-click="submitForm('editForm','save')">保存
+        </button>
+
+        <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
+                type="button"
+                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
+        </button>
+
+      </div>
+    </div>
+  </form>
+</div>
