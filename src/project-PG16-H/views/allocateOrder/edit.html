@@ -1,6 +1,6 @@
 <div class="allocate-order salesOrder-edit confirm-edit"
      ng-controller="allocateOrderEditCtrl"
-     ajax-url="http://localhost:3000/src/project-PG16-H/rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;$root.watchFormChange('formData',this)"
      alert-error>
@@ -56,9 +56,9 @@
             required
             default-empty="无"
             ng-model="formData.storeRoomId"
-            select-source="rest/authen/warehouse/queryForSelectOption">
+            select-source="rest/authen/storeRoom/queryForSelectOption">
             </select>
-            <em class="color-red">(必选)</em>
+            <em ng-if="!formData.storeRoomId" class="color-red">(必选)</em>
           </div>
         </div>
           <div class="inline-block pr-bg-white relative full-height " style="width:464px;">
@@ -68,8 +68,8 @@
             <div class="inline-block logistics-center-in relative">
               <p class="mgb-s">
                 库房
-                <em ng-if="formData.storeRoomId==formData.inStoreRoomId"
-                 class="pr-indent-10 color-red">不支持同一仓库调拨，请重新选择。</em>
+                <em ng-if="formData.storeRoomId!=null&&formData.storeRoomId==formData.inStoreRoomId"
+                 class="pr-indent-10 color-red">不支持同一库房调拨，请重新选择。</em>
               </p>
               <select ng-if="initFlag" class="pr-select pdt"
               style="width:250px;"
@@ -77,9 +77,9 @@
               required
               default-empty="无"
               ng-model="formData.inStoreRoomId"
-              select-source="rest/authen/warehouse/queryForSelectOption">
+              select-source="rest/authen/storeRoom/queryForSelectOption">
               </select>
-              <em class="color-red">(必选)</em>
+              <em ng-if="!formData.inStoreRoomId" class="color-red">(必选)</em>
             </div>
         </div>
       </div>
@@ -91,8 +91,7 @@
                ng-model="data1"
                class="pd-c-l pdt-m"
                ajax-url="rest/authen/medicalStock/query"
-               add-data-callback-fn="flashAddDataCallbackFn(data1)"
-               is-disabled-this="{{formData.targetId}}">
+               add-data-callback-fn="flashAddDataCallbackFn(data1)">
           </div>
           <!-- 列表 -->
           <div class="">
@@ -100,14 +99,14 @@
               <div class="flex-item-6">
                 <span class="mgr">单据编号：
                   <!-- ng-disabled="formData.id" -->
-                  <input type="text" name="orderNo" required class="ipt pr-new-short-ipt text-right"  ng-model="formData.orderCode" />
-                  <span class="color-red">（必填）</span>
-                  <span class="mg-l">审核人：<em class="color-3">暂无</em></span>
-                  <span class="mgr">审核日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
+                  <input type="text" name="orderCode" required class="ipt pr-new-short-ipt text-right"  ng-model="formData.orderCode" />
+                  <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
+                  <span class="mg-l">审核人：<em class="color-3">{{formData.approver.approverUser.n||'暂无'}}</em></span>
+                  <span class="mgr">审核日期：<em class="color-3">{{formData.approver.approverDate ||'暂无'| date:'yyyy-MM-dd'}}</em></span>
                 </span>
               </div>
               <div class="flex-item-6 text-right">
-                <span class="mgr">制单人：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+                <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
                 <span class="mgr">制单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
                 <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
               </div>
@@ -120,7 +119,7 @@
                         ng-model="formData.departmentId"
                         select-source="rest/authen/department/queryForSelectOption">
                 </select>
-                <em class="color-red">(必填)</em>
+                <em ng-if="!formData.departmentId" class="color-red">(必填)</em>
               </span>
               <span class="mgr">申请人：
                 <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
@@ -129,7 +128,7 @@
                         ng-model="formData.applicant.id"
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
                 </select>
-                <em class="color-red">(必填)</em>
+                <em ng-if="!formData.applicant.id" class="color-red">(必填)</em>
               </span>
               <span class="mgr">申请日期：
                 <div class="date-icon-outside">
@@ -139,10 +138,10 @@
                          class="ipt-date ipt color-3"
                          ng-readonly="true"
                          placeholder=""
-                         ng-model="formData.createAt">
+                         ng-model="formData.applicationDate">
                         <span class="date-icon"></span>
                 </div>
-              <em class="color-red">(必填)</em>
+              <em ng-if="!formData.createAt" class="color-red">(必填)</em>
               </span>
               <span class="mgr">期望调拨日期：
                 <div class="date-icon-outside">
@@ -155,7 +154,7 @@
                          ng-model="formData.expectDate">
                         <span class="date-icon"></span>
                 </div>
-               <em class="color-red">(必填)</em>
+               <em ng-if="!formData.expectDate" class="color-red">(必填)</em>
               </span>
             </div>
             <div class="outside-table-d">
@@ -270,9 +269,9 @@
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
-        <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
+        <button
                 type="button"
-                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId"
+                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
