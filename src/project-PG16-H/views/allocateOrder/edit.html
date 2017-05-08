@@ -55,7 +55,7 @@
             chosen
             required
             default-empty="无"
-            ng-model="formData.sourceId"
+            ng-model="formData.storeRoomId"
             select-source="rest/authen/warehouse/queryForSelectOption">
             </select>
             <em class="color-red">(必选)</em>
@@ -68,7 +68,7 @@
             <div class="inline-block logistics-center-in relative">
               <p class="mgb-s">
                 库房
-                <em ng-if="formData.sourceId==formData.targetId"
+                <em ng-if="formData.storeRoomId==formData.inStoreRoomId"
                  class="pr-indent-10 color-red">不支持同一仓库调拨，请重新选择。</em>
               </p>
               <select ng-if="initFlag" class="pr-select pdt"
@@ -76,7 +76,7 @@
               chosen
               required
               default-empty="无"
-              ng-model="formData.targetId"
+              ng-model="formData.inStoreRoomId"
               select-source="rest/authen/warehouse/queryForSelectOption">
               </select>
               <em class="color-red">(必选)</em>
@@ -117,8 +117,7 @@
                 <select class="ipt pr-short-ipt color-3" style="width:100px;"
                         data-placeholder=" "
                         chosen
-                        required
-                        ng-model="formData.salesDepartmentId"
+                        ng-model="formData.departmentId"
                         select-source="rest/authen/department/queryForSelectOption">
                 </select>
                 <em class="color-red">(必填)</em>
@@ -127,30 +126,35 @@
                 <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                         data-placeholder=" "
                         chosen
-                        required
-                        ng-model="formData.saleUserId"
-                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.salesDepartmentId}}">
+                        ng-model="formData.applicant.id"
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
                 </select>
                 <em class="color-red">(必填)</em>
               </span>
               <span class="mgr">申请日期：
-                <input type="text"
-                       datepicker
-                       class="ipt pr-short-ipt color-3"
-                       style="width:90px;"
-                       placeholder=""
-                       ng-readonly="true"
-                       ng-model="formData.expectDate" />
+                <div class="date-icon-outside">
+                  <input type="text"
+                         style="top:0px;"
+                         datepicker
+                         class="ipt-date ipt color-3"
+                         ng-readonly="true"
+                         placeholder=""
+                         ng-model="formData.createAt">
+                        <span class="date-icon"></span>
+                </div>
               <em class="color-red">(必填)</em>
               </span>
               <span class="mgr">期望调拨日期：
-                <input type="text"
-                       datepicker
-                       class="ipt pr-short-ipt color-3"
-                       style="width:90px;"
-                       placeholder=""
-                       ng-readonly="true"
-                       ng-model="formData.expectDate" />
+                <div class="date-icon-outside">
+                  <input type="text"
+                         style="top:0px;"
+                         datepicker
+                         class="ipt-date ipt color-3"
+                         ng-readonly="true"
+                         placeholder=""
+                         ng-model="formData.expectDate">
+                        <span class="date-icon"></span>
+                </div>
                <em class="color-red">(必填)</em>
               </span>
             </div>
@@ -185,7 +189,7 @@
                     </td><!-- 商品编号 -->
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                    <td class="text-center">{{item.measurement}}</td><!-- 单位 -->
+                    <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                     <td class="text-center">{{item.measurement}}</td><!-- 可调拨数量 -->
                     <td class="text-center">
                       <div class="order-goods-num">

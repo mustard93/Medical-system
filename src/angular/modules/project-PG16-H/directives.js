@@ -30,7 +30,24 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
     };
   }
 
+  // 点击切换图标。新建图标变为编辑图标
+
+  function changeImg () {
+    'use strict';
+    return {
+      restrict: 'EA',
+      link: function (scope, element, attrs) {
+        element.on('click', function () {
+          $(this).removeClass('addImg');
+          $(this).addClass('editImg').siblings().each(function () {
+          });
+        });
+      }
+    };
+  }
+
   angular.module('manageApp.project-PG16-H')
     .directive("statusStyleToggle", [statusStyleToggle])
+    .directive("changeImg", [changeImg])
     .directive("statusStyleToggleNew", [statusStyleToggleNew]);
 });
