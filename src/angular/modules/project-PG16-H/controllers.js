@@ -1299,22 +1299,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
     $scope.$watch('initFlag', function (newVal) {
-      console.log(1);
-      // var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + tr.id,
-      //     _data = {};
-      // requestData(_url, _data, 'GET')
-      // .then(function (results) {
-      //   var _resObj = results[1].data;
-      //   for (var item in _resObj) {
-      //     if (item === addDataItem.relId && _resObj[item]) {
-      //     }
-      //   }
-      // })
-      // .catch(function (error) {
-      //   if (error) { console.log(error || '出错!'); }
-      // });
-
-
        var operationFlowSetMessage=[];
        var operationFlowSetKey=[];
        var i;
@@ -1540,6 +1524,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 var _resObj = results[1].data;
                 for (var item in _resObj) {
                   if (item === addDataItem.relId && _resObj[item]) {
+                  addDataItem.salesQuantity=_resObj[item].salesQuantity;
                   }
                 }
               })
