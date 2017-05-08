@@ -1,0 +1,104 @@
+<div class="create-new-order purchasePlanOrder-edit purchase-plan-order"
+     ng-controller="pickBillOrderController"
+     ajax-url="rest/authen/pickBillOrder/get.json?id={{mainStatus.pageParams.id}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData')"
+     alert-error>
+
+  <page-main-header-component list-params="listParams"
+                             crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"复核任务单","link":"","style":"color-custom-orange"},{"name":"复核详情","link":"","style":""}]'
+                             component-title="复核任务单-详情">
+  </page-main-header-component>
+
+  <div class="content-wrapper">
+    <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+     <!-- 列表 -->
+     <div class="bt-line">
+       <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+         <div class="flex-item-6">
+           <span class="mgr-l">来源单据编号：<em class="color-3">{{formData.relOrderCode || 'CDA321000100'}}</em></span>
+           <span class="mgr-l">来源单据类型：<em class="color-3">{{formData.source || '领用申请'}}</em></span>
+           <!-- <span class="mgr-l">申请人：<em class="color-custom-orange">{{formData.inputUser.n || '葫芦娃1号'}}</em></span> -->
+           <span>期望日期：<em class="color-3">{{formData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+         </div>
+         <div class="flex-item-6 text-right">
+           <span>状态：<em class="color-3">{{formData.orderStatus || '待审核'}}</em></span>
+         </div>
+       </div>
+       <div class="flex-column pd-c-l pdt-m pdb-m color-9">
+         <div class="flex-item-4">
+           <span class="color-or">任务条目数：{{formData.pickStockOutMedicals.length}}</span>
+         </div>
+         <div class="flex-item-8 text-right">
+           <!-- <div class="inline-block">
+             <span>拣选状态：</span>
+             <select
+                     class="inline ipt-new-s pdt"
+                     chosen
+                     style="width:120px;"
+                     data-placeholder=" "
+                     ng-model="formData.storeRoomId"
+                     select-source="rest/authen/storeRoom/queryForSelectOption">
+             </select>
+           </div> -->
+           <div class="inline-block">
+             <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+               <input type="text" class="ipt pdr-xxl" placeholder="输入商品名相关信息、关键字段进行搜索" ng-model="listParams.q">
+               <i class=""></i>
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="outside-table-d">
+         <table class="table pr-table pr-new-table table-ss-wid" >
+           <thead>
+            <tr>
+              <th class="text-center w-80">序号</th>
+              <th class="text-center w-160">商品编码</th>
+              <th class="text-left w-300">商品名称</th>
+              <th class="text-center">申请数量</th>
+              <th class="text-center">已拣数量</th>
+              <th class="text-center">规格</th>
+              <th class="text-center">基本单位</th>
+              <th class="text-center">复核人</th>
+              <th class="text-center">复核时间</th>
+              <th class="text-center">生产厂商</th>
+              <th class="text-center">产地</th>
+           </tr>
+           </thead>
+           <tbody class="bg-white">
+             <tr ng-repeat="tr in formData.pickStockOutMedicals"
+                 table-item-handlebtn-component
+                 class="relative">
+               <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
+               <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
+               <td class="text-left color-custom-orange" style="line-height:2.4">{{tr.name}}</td><!-- 商品全名 -->
+               <td class="text-center" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请数量 -->
+               <td class="text-center" style="line-height:2.4">{{tr.pickNo}}</td><!-- 已拣数量 -->
+               <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
+               <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
+               <td class="text-center" style="line-height:2.4">{{tr.reviewUser.user.n}}</td><!-- 复核人 -->
+               <td class="text-center" style="line-height:2.4">{{tr.reviewUser.date | date:'yyyy-MM-dd'}}</td><!-- 复核时间 -->
+               <td class="text-center" >{{tr.manufacturer}}</td><!-- 生产厂商 -->
+               <td class="text-center" >{{tr.productionPlace}}</td><!-- 产地 -->
+             </tr>
+           </tbody>
+         </table>
+       </div>
+       <div class="pr-bg-white" ng-if="!formData.pickStockOutMedicals.length">
+         <div class="empty-table clearfix">
+           <div>&nbsp;</div>
+           <div>&nbsp;</div>
+           <div>&nbsp;</div>
+         </div>
+       </div>
+     </div>
+    </div>
+  </div>
+  <!-- 功能按钮 -->
+  <div class="handle-btn-area">
+    <div class="btn-area" style="background:rgba(54,48,44,0.30);padding-top:15px;">
+      <span class="mgr-l"><a ng-if="!changeFlag" href="#/pickBillOrder/query.html">返回复核列表</a></span>
+    </div>
+  </div>
+</div>

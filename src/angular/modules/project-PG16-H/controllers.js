@@ -2083,6 +2083,63 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
   }
 
+  // 复核任务模块控制器
+  function pickBillOrderController ($scope, requestData, utils, modal) {
+    // 定义存放用户选择药品的列表
+    $scope.choisedMedicalList = [];
+
+    // 每个药品单选操作
+    $scope.handleItemClickEvent = function (item) {
+      if (item.handleFlag) {    // 选中
+        if (item) {
+          angular.forEach(item.pickStockOutMedicalIds, function (data) {
+            $scope.choisedMedicalList.push(data);
+          });
+
+        }
+      } else {
+        for (var i=0; i<$scope.choisedMedicalList.length; i++) {
+          for (var j=0; j<item.pickStockOutMedicalIds.lenth; j++) {
+            if ($scope.choisedMedicalList[i] == item.pickStockOutMedicalIds[j]) {
+              $scope.choisedMedicalList.splice(i,1);
+            }
+          }
+          // if (item.id === $scope.choisedMedicalList[i]) {
+          //   $scope.choisedMedicalList.splice(i,1);
+          // }
+        }
+      }
+    };
+
+    // 全选全不选
+    $scope.handleChoiseAllEvent = function (isChoiseAll) {
+      if (isChoiseAll) {      // 全部选中
+        if ($scope.tbodyList) {
+          $scope.choisedMedicalList = [];
+          angular.forEach($scope.tbodyList, function (data, index) {
+            $scope.choisedMedicalList.push(data.id);
+          });
+        }
+      } else {        // 取消全部选中
+        $scope.choisedMedicalList = [];
+      }
+    };
+
+    // 提交复核任务
+    $scope.submitPickBillOrder = function () {
+      if (!$scope.choisedMedicalList.length) throw new Error('Submit Data is Empty!');
+
+      var _url = 'rest/authen/pickBillOrder/batchConfirm';
+      requestData(_url, $scope.choisedMedicalList, 'POST', 'parameterBody')
+      .then(function (results) {
+        if (results[1].code === 200) { utils.refreshHref(); }
+      })
+      .catch(function (error) {
+        if (error) throw new Error(error || '出错');
+      });
+    };
+  }
+
   function allocateOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm) {
 
     $scope.logistics=true;
@@ -2402,7 +2459,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     });
   }
 
-
   angular.module('manageApp.project-PG16-H')
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
@@ -2417,5 +2473,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', createCorrespondController])
   .controller('storeRoomController', ['$scope', 'requestData', 'alertError', 'alertOk', storeRoomController])
   .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
-  .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController]);
+  .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController])
+  .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController]);
 });
