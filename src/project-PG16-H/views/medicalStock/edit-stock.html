@@ -31,12 +31,14 @@
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品名称：</div>
         <div class="flex-item-8 text-left">
           <span angucomplete-medical
+                ng-disabled="formData.id"
                 placeholder="输入"
                 title-field="name"
                 search-str="{{formData.medical.name}}"
                 url="rest/authen/medicalStock/query"
-                class="pr-ipt-240 hei-28 inline-block"
-                ng-model="formData.medical">
+                class="pr-ipt-240 inline-block"
+                ng-model="formData.medical"
+                style="height:26px;border-radius:4px;"\>
           </span>
           <!-- <span
           ng-if="formData.id"
@@ -93,6 +95,7 @@
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">库房名称：</div>
           <div class="flex-item-8 text-left">
             <select ng-if="initFlag"
+                    ng-disabled="formData.id"
                     class="select-new inline pr-ipt-160 hei-28"
                     ajax-url="rest/authen/storeRoom/queryForSelectOption"
                     ng-model="formData.storeRoomId"
@@ -107,6 +110,7 @@
           <div class="flex-item-8 text-left">
 
             <select ajax-if-eval="formData.storeRoomId"
+                    ng-disabled="formData.id"
                     class="select-new inline pr-ipt-160 hei-28"
                     ajax-url="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}"
                     ng-model="formData.regionId"
