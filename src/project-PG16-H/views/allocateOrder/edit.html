@@ -189,7 +189,12 @@
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                    <td class="text-center">{{item.applicationCount}}</td><!-- 可调拨数量 -->
+                    <td ng-if="!formData.id" class="text-right">{{item.salesQuantity}}</td>
+                    <td ng-if="formData.id&&initFlag" class="text-right"
+                    ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}"
+                    scope-data="scopeData"
+                    ><em ng-repeat="tr in scopeData">{{tr.salesQuantity}}</em>
+                  </td><!-- 可调拨数量 -->
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1" ng-disabled="item.applicationCount<=1">-</button>
