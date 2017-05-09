@@ -56,8 +56,14 @@
            <table class="table pr-table pr-new-table table-ss-wid" >
              <thead>
               <tr>
-                <th class="w-60 text-center mycheck" ng-if="!listParams.receiveItemStatus">
-                  <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                <th class="w-60 text-center mycheck">
+                  <input type="checkbox"
+                         class="selectAll cur-pot"
+                         id='1'
+                         ng-init="isChoiseAll=false"
+                         ng-model="isChoiseAll"
+                         ng-click="handleChoiseAllEvent(isChoiseAll);"
+                         ng-disabled="chkHasReviewTasks(tbodyList)">
                   <label for="1"></label>
                 </th>
                 <th class="text-center w-80">状态</th>
@@ -108,7 +114,7 @@
                  </td><!--状态显示 -->
                  <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
                  <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
-                 <td class="text-left color-custom-orange" style="line-height:2.4">{{tr.name}}</td><!-- 商品全名 -->
+                 <td class="text-left color-custom-orange" style="line-height:2.4;color:#ff8c00">{{tr.name}}</td><!-- 商品全名 -->
                  <td class="text-center" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请数量 -->
                  <td class="text-center" style="line-height:2.4">{{tr.pickNo}}</td><!-- 已拣数量 -->
                  <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
