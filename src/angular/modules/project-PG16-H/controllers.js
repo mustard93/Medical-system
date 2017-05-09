@@ -2066,6 +2066,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   function pickBillOrderController ($scope, requestData, utils, modal) {
     // 定义存放用户选择药品的列表
     $scope.choisedMedicalList = [];
+    // 标识是否可以进行全选
+    $scope.isCanChoiseAll = false;
 
     // 每个药品单选操作
     $scope.handleItemClickEvent = function (item) {
@@ -2095,13 +2097,21 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         if ($scope.tbodyList) {
           $scope.choisedMedicalList = [];
           angular.forEach($scope.tbodyList, function (data, index) {
-            angular.forEach(data.pickStockOutMedicalIds, function (data2, index) {
-              $scope.choisedMedicalList.push(data2);
-            });
+            if (data.type === '待复核') {
+              data.handleFlag = true;     // 当状态为待复核时才选中
+              angular.forEach(data.pickStockOutMedicalIds, function (data2, index) {
+                $scope.choisedMedicalList.push(data2);
+              });
+            } else {
+              data.handleFlag = false;
+            }
             // $scope.choisedMedicalList.push(data.id);
           });
         }
       } else {        // 取消全部选中
+        angular.forEach($scope.tbodyList, function (data) {
+          data.handleFlag = false;
+        });
         $scope.choisedMedicalList = [];
       }
     };
@@ -2118,6 +2128,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       .catch(function (error) {
         if (error) throw new Error(error || '出错');
       });
+    };
+
+    // 检查任务列表是否含有可进行复核的任务
+    $scope.chkHasReviewTasks = function (tbodyList) {
+      if (tbodyList) {
+        angular.forEach(tbodyList, function (data, index) {
+          if (data.type === '待复核') {
+            return true;
+          }
+        });
+        return false;
+      }
     };
   }
 
