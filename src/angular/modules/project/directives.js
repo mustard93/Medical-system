@@ -2715,6 +2715,7 @@ function customTable() {
             }
             if ($attrs.customTable) {
                 $scope._customTableName=$attrs.customTable;
+                $scope._customKey=$attrs.customKey;
             }
             if ($attrs.customTrMenus) {
                 $scope._customTrMenus=$attrs.customTrMenus;
