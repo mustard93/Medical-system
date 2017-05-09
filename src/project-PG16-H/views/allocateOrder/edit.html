@@ -99,7 +99,7 @@
               <div class="flex-item-6">
                 <span class="mgr">单据编号：
                   <!-- ng-disabled="formData.id" -->
-                  <input type="text" name="orderCode" required class="ipt pr-new-short-ipt text-right"  ng-model="formData.orderCode" />
+                  <input type="text" name="orderCode" required class="ipt pr-new-short-ipt text-right" ng-disabled="formData.id"  ng-model="formData.orderCode" />
                   <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
                   <span class="mg-l">审核人：<em class="color-3">{{formData.approver.approverUser.n||'暂无'}}</em></span>
                   <span class="mgr">审核日期：<em class="color-3">{{formData.approver.approverDate ||'暂无'| date:'yyyy-MM-dd'}}</em></span>
@@ -141,7 +141,7 @@
                          ng-model="formData.applicationDate">
                         <span class="date-icon"></span>
                 </div>
-              <em ng-if="!formData.createAt" class="color-red">(必填)</em>
+              <em ng-if="!formData.applicationDate" class="color-red">(必填)</em>
               </span>
               <span class="mgr">期望调拨日期：
                 <div class="date-icon-outside">
@@ -189,25 +189,25 @@
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                    <td class="text-center">{{item.measurement}}</td><!-- 可调拨数量 -->
+                    <td class="text-center">{{item.applicationCount}}</td><!-- 可调拨数量 -->
                     <td class="text-center">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1" ng-disabled="item.quantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1" ng-disabled="item.applicationCount<=1">-</button>
                         <span class="inline-block">
                           <input type="number"
-                                 name="quantity{{$index}}"
+                                 name="applicationCount{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
-                                 ng-model="item.quantity"
-                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
+                                 ng-model="item.applicationCount"
+                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].applicationCount<item.applicationCount}"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
+                                 valid-value="{{!editForm['applicationCount'+$index].$valid}}"
                                  popover-show
                                  popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1">+</button>
+                        <button type="button" class="inline-block right" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1">+</button>
                       </div>
                     </td><!-- 计划调拨数量 -->
                     <!-- 仓库 -->
