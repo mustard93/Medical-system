@@ -36,12 +36,9 @@
            <div class="flex-item-8 text-right">
              <div class="inline-block">
                <span>拣选状态：</span>
-               <select class="inline ipt-new-s pdt"
-                       chosen
-                       style="width:120px;"
-                       data-placeholder=" "
-                       ng-model="formData.storeRoomId"
-                       select-source="rest/authen/storeRoom/queryForSelectOption">
+               <select class="ipt pr-short-ipt pr-ipt-80" ng-model="listParams.type">
+                 <option value="待拣选" ng-selected="listParams.type=='待拣选'">待拣选</option>
+                 <option value="已拣选" ng-selected="listParams.type=='已拣选'">已拣选</option>
                </select>
              </div>
              <div class="inline-block">
@@ -95,8 +92,14 @@
                    <span class="circle-status"
                          ng-class="{'pr-bg-grey4':tr.type=='待拣选',
                                     'pr-bg-orange2':tr.type=='拣选中',
-                                    'pr-border-green':tr.type=='待复核'}">
-                     <span class="pickBillOrder-info" style="right:16px;top:-10px;">
+                                    'pr-border-green':tr.type=='待复核',
+                                    'pr-border-green-ok':tr.type=='已复核'}">
+                     <span ng-if="tr.type!='已复核'" class="pickBillOrder-info" style="right:16px;top:-10px;">
+                       <i class="block pd-c-s text-normal" style="line-height:1.8">
+                         <em class="inline-block">{{tr.type}}</em>
+                       </i>
+                     </span>
+                     <span ng-if="tr.type=='已复核'" class="pickBillOrder-info" style="right:-19px;top:-28px;width:50px;">
                        <i class="block pd-c-s text-normal" style="line-height:1.8">
                          <em class="inline-block">{{tr.type}}</em>
                        </i>
@@ -105,7 +108,7 @@
                    <div class="table-item-multiple-btn">
                      <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                           ng-if="tr.orderStatus!='已拣选'"
-                          modal-right="543"
+                          modal-right="650"
                           modal-scope="this"
                           modal-data='{"id":"{{mainStatus.pageParams.id}}","medicalId":"{{tr.relMedicalStockId}}"}'
                           modal-url="views/pickBillOrder/watch-info-modal.html">查看拣选信息...
@@ -148,7 +151,7 @@
                   dialog-title="确认提示?"
                   dialog-content="确认复核已选条目?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitPickBillOrder()"
+                  callback="submitPickBillOrder(mainStatus.pageParams.id)"
                   ng-disabled="!choisedMedicalList.length">复核
           </button>
         </span>

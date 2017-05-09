@@ -2117,13 +2117,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 提交复核任务
-    $scope.submitPickBillOrder = function () {
+    $scope.submitPickBillOrder = function (id) {
       if (!$scope.choisedMedicalList.length) throw new Error('Submit Data is Empty!');
 
       var _url = 'rest/authen/pickBillOrder/batchConfirm';
       requestData(_url, $scope.choisedMedicalList, 'POST', 'parameterBody')
       .then(function (results) {
-        if (results[1].code === 200) { utils.refreshHref(); }
+        if (results[1].code === 200) { utils.goTo('#/pickBillOrder/get.html?id='+id); }
       })
       .catch(function (error) {
         if (error) throw new Error(error || '出错');
