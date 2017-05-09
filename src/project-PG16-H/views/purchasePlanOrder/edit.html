@@ -44,6 +44,7 @@
                     alert-error>
                  <div>
                    <span ng-if="initFlag"
+                          ng-disabled="formData.id"
                          angucomplete-supplier
                          placeholder="输入关键字或供应商名首字母快速搜索"
                          title-field="name"
@@ -88,7 +89,7 @@
              <div class="flex-item-6">
                <span class="mgr">采购计划编号：
                  <input type="text"
-                      ng-disabled="!formData.supplierId"
+                      ng-disabled="!formData.supplierId||formData.id"
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
                       ng-model="formData.orderCode" />
@@ -137,6 +138,7 @@
               style="width:120px;"
               data-placeholder=" "
               ng-model="formData.storeRoomId"
+              ng-disabled="formData.id"
               select-source="rest/authen/storeRoom/queryForSelectOption">
               </select>
               <span ng-if="!formData.storeRoomId" class="color-red">（必填）</span>

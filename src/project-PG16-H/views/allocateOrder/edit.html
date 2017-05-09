@@ -101,8 +101,8 @@
                   <!-- ng-disabled="formData.id" -->
                   <input type="text" name="orderCode" required class="ipt pr-new-short-ipt text-right" ng-disabled="formData.id"  ng-model="formData.orderCode" />
                   <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
-                  <span class="mg-l">审核人：<em class="color-3">{{formData.approver.approverUser.n||'暂无'}}</em></span>
-                  <span class="mgr">审核日期：<em class="color-3">{{formData.approver.approverDate ||'暂无'| date:'yyyy-MM-dd'}}</em></span>
+                  <span class="mgl">审核人：<em class="color-3">{{formData.approver.approverUser.n||'暂无'}}</em></span>
+                  <span class="mgl">审核日期：<em class="color-3">{{formData.approver.approverDate ||'暂无'| date:'yyyy-MM-dd'}}</em></span>
                 </span>
               </div>
               <div class="flex-item-6 text-right">
@@ -189,7 +189,12 @@
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
-                    <td class="text-center">{{item.applicationCount}}</td><!-- 可调拨数量 -->
+                    <td ng-if="!formData.id" class="text-right">{{item.salesQuantity}}</td>
+                    <td ng-if="formData.id&&initFlag" class="text-right"
+                    ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}"
+                    scope-data="scopeData"
+                    ><em ng-repeat="tr in scopeData">{{tr.salesQuantity}}</em>
+                  </td><!-- 可调拨数量 -->
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1" ng-disabled="item.applicationCount<=1">-</button>

@@ -12,7 +12,7 @@
                             is-show-department-filter=true
                             get-department-list-url="rest/authen/department/queryForSelectOption"
                             is-show-apply-user-filter=true
-                            get-apply-user-list-url="rest/authen/user/queryForSelectOption"
+                            get-apply-user-list-url="rest/authen/organizationAndUser/queryForSelectOption"
                             get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
 </page-main-header-component>
 
@@ -48,7 +48,7 @@
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
                       <a href="#/collarApplicationOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
-                      <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' "
+                      <a ng-if="tr.orderStatus=='未提交' &&tr.orderStatus!='未通过' "
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
                          title="删除"
