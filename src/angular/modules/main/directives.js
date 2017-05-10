@@ -3541,6 +3541,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 callback: {
               		onClick: function(event, treeId, treeNode) {
                       console.log(treeNode);
+                      hideMenu();
                       $scope.ngModel=treeNode;
                           $scope.$apply();
                   }
