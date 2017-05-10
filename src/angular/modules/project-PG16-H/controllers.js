@@ -1723,7 +1723,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
-
     };
 
     modal.closeAll();
@@ -1800,7 +1799,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 侧边栏选择生产批号
-    $scope.spdChoiseBatchs = function (obj,choisedList,id,planReturnCount) {
+    $scope.spdChoiseBatchs = function (obj,choisedList,id,goodsCount,strikePrice) {
+
+      // 异常处理
+      if (!obj || !choisedList || !goodsCount || !strikePrice) {
+        throw new Error('Parameters are required');
+      }
 
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {
@@ -1827,9 +1831,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
 
       // 如果当前批次数量大于或等于计划采购数量
-      if ((obj.stockModel.salesQuantity + _total) > planReturnCount) {
+      if ((obj.stockModel.salesQuantity + _total) > goodsCount) {
         // 将计划采购数量赋值给临时对象
-        _tmp.quantity = planReturnCount - _total;
+        _tmp.quantity = goodsCount - _total;
+      }
+
+      // 计算计划退货金额
+      if (_tmp.quantity) {
+
       }
 
       // 根据药品id将批次存入当前药品formData数据中
@@ -1845,7 +1854,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.formData.orderMedicalNos[index].regionId = obj.regionId;       // 仓库名
             $scope.formData.orderMedicalNos[index].goodsLocationName = obj.goodsLocationName;       // 仓库名
             $scope.formData.orderMedicalNos[index].goodsLocationId = obj.goodsLocationId;       // 仓库名
-
+            $scope.formData.orderMedicalNos[index].planReturnPrice = _tmp.quantity * strikePrice; 
           }
         });
       }

@@ -103,13 +103,12 @@
                 <th class="text-center w-160">商品规格</th>
                 <th class="text-center w-160">基本单位</th>
                 <th class="text-center w-120">可退数量</th>
-                <th class="text-center w-120">实退数量</th>
-                <th class="text-center w-220">生产批号
+                <!-- <th class="text-center w-120">实退数量</th> -->
+                <th class="text-center w-220">生产批号/数量
                 <em class="color-red">(必选)</em>
                 </th>
                 <th class="text-center w-220">仓库</th>
                 <th class="text-center w-220">区域</th>
-                <!-- <th class="text-center w-160">灭菌批号</th> -->
                 <th class="text-center w-160">货位</th>
                 <th class="text-center w-120">采购单价</th>
                 <th class="text-center w-120">计划退货金额</th>
@@ -138,7 +137,7 @@
                 <td class="text-center">{{item.specificationAndModelType}}</td><!-- 商品规格-->
                 <td class="text-center">{{item.unit}}</td><!-- 基本单位 -->
                 <td class="text-center">{{item.goodsCount}}</td><!-- 可退数量 -->
-                <td class="text-center">{{item.actualReturnCount}}</td><!-- 实退数量 -->
+                <!-- <td class="text-center">{{item.actualReturnCount}}</td>--> <!-- 实退数量 -->
                 <td class="text-center">
                   <!-- 已选批号列表 -->
                   <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
@@ -169,7 +168,8 @@
                                     "id":"{{item.id}}",
                                     "logisticsCenterId":"{{formData.logisticsCenterId}}",
                                     "goodsCount":{{item.goodsCount}},
-                                    "choisedBatchList":{{item.stockBatchs}}
+                                    "choisedBatchList":{{item.stockBatchs}},
+                                    "strike_price":{{item.strike_price}}
                                   }'
                        modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                     </i>
@@ -177,12 +177,11 @@
                   <!-- 待选择数 -->
                   <!-- <p ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p> -->
                 </td><!-- 生产批号 -->
-                <!-- <td class="text-center">{{item.sterilizationBatchNumber}}</td>--><!-- 灭菌批号 -->
                 <td class="text-center">{{item.storeRoomName}}</td><!-- 仓库 -->
                 <td class="text-center">{{item.regionName}}</td><!-- 区域 -->
                 <td class="text-center">{{item.goodsLocationName}}</td><!-- 货位 -->
                 <td class="text-center">{{item.strike_price | currency:'￥'}}</td><!-- 采购单价 -->
-                <td class="text-center">{{item.planReturnPrice}}</td><!-- 计划退货金额 -->
+                <td class="text-center">{{item.planReturnPrice | currency:'￥'}}</td><!-- 计划退货金额 -->
                 <td class="text-center">{{item.actualReturnPrice}}</td><!-- 实际退货金额 -->
                 <td class="text-center">{{item.manufacturer}}</td><!-- 生产厂商 -->
                 <td class="text-center">{{item.productionPlace}}</td><!-- 产地 -->

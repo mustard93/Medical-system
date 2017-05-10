@@ -30,8 +30,8 @@
         <thead>
           <tr class="bb-line-gold">
             <th class="text-center">生产批号</th>
-            <th class="text-center">合格数量(瓶)</th>
-            <th class="text-center color-red">不合格数量(瓶)</th>
+            <th class="text-center">合格数量({{formData.unit}})</th>
+            <th class="text-center color-red">不合格数量({{formData.unit}})</th>
             <th class="text-center">不合格处理策略</th>
           </tr>
         </thead>
@@ -48,11 +48,21 @@
             </td><!--合格数量-->
             <td class="text-center color-red" style="position:relative;top:5px;">{{formData.unQualifiedQuantity}}</td><!--不合格数量-->
             <td class="text-center color-white pdt">
-              <select class="inline ipt-new-s"
+              <select ng-if="formData.unQualifiedQuantity>0"
+                      class="inline ipt-new-s"
                       chosen
                       style="width:120px;"
                       data-placeholder=" "
                       ng-model="formData.handlingStrategy"
+                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HandlingStrategyEnum">
+              </select>
+              <select ng-if="formData.unQualifiedQuantity<=0"
+                      class="inline ipt-new-s"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      ng-model="formData.handlingStrategy"
+                      ng-disabled="true"
                       select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HandlingStrategyEnum">
               </select>
             </td><!--不合格处理策略-->
