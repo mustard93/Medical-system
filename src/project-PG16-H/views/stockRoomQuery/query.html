@@ -9,40 +9,39 @@
                                 component-title="库存查询"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
+    <div class="flex-column" style="margin-left:40px;margin-right:40px;">
+      <ul class="select-ul flex-column">
+        <li class="flex-item-3" >
+          <div ng-class="{'active':(listParams.type=='商品')}" ng-click="$root.goTo('#/stockRoomQuery/query.html?type=商品');">
+            <em ></em>
+          </div>
+        </li>
+        <li class="flex-item-3" >
+          <div ng-class="{'active':(listParams.type=='库房')}" ng-click="$root.goTo('#/stockRoomQuery/query.html?type=库房');">
+              <em ></em>
+          </div>
+        </li>
+        <li class="flex-item-3" >
+          <div ng-class="{'active':(listParams.type=='批号')}" ng-click="$root.goTo('#/stockRoomQuery/query.html?type=批号');">
+              <em></em>
+          </div>
+        </li>
+        <li class="flex-item-3" >
+          <div ng-class="{'active':(listParams.type=='货位')}" ng-click="$root.goTo('#/stockRoomQuery/query.html?type=货位');">
+              <em ></em>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-  <table-list
+  <!-- 按商品条件查询 -->
+  <table-list ng-if="listParams.type=='商品'"
               list-data="rest/authen/receiveItem/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
-    <!-- 主内容区域 -->
-     <!-- 商品相关操作 -->
-    <div class="content-wrapper" style="margin-top:60px;padding:0px 10px;">
+    <div class="content-wrapper" style="padding:0px 10px;">
       <div class="content-wrapper-main pr-fuzzy-boundary">
-        <div class="flex-column">
-          <ul class="select-ul flex-column" click-li-select>
-            <li class="flex-item-3">
-              <div class="active">
-                <em></em>
-              </div>
-            </li>
-            <li class="flex-item-3">
-              <div class="">
-                  <em></em>
-              </div>
-            </li>
-            <li class="flex-item-3">
-              <div class="">
-                  <em></em>
-              </div>
-            </li>
-            <li class="flex-item-3">
-              <div class="">
-                  <em></em>
-              </div>
-            </li>
-          </ul>
-        </div>
         <div class="flex-column color-9 pd-c-v-l pdt-xxl pdb-xxl bg-white" style="box-shadow: 0 0 4px 0 rgba(0,0,0,0.10);">
           <div class="flex-item-12 text-right">
               <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
@@ -57,8 +56,8 @@
         </div>
         <div custom-table="com.pangu.mss.spd.domain.mongo.medical.MedicalStock" custom-key="stockRoomQuery_MedicalStock" custom-tr-menus="1" style="width:100%;"></div>
         </div>
-
       </div>
     </div>
   </table-list>
+
 </div>
