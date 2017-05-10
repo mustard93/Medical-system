@@ -1836,11 +1836,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         _tmp.quantity = goodsCount - _total;
       }
 
-      // 计算计划退货金额
-      if (_tmp.quantity) {
-
-      }
-
       // 根据药品id将批次存入当前药品formData数据中
       if ($scope.formData.orderMedicalNos) {
         angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
@@ -1854,10 +1849,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.formData.orderMedicalNos[index].regionId = obj.regionId;       // 仓库名
             $scope.formData.orderMedicalNos[index].goodsLocationName = obj.goodsLocationName;       // 仓库名
             $scope.formData.orderMedicalNos[index].goodsLocationId = obj.goodsLocationId;       // 仓库名
-            $scope.formData.orderMedicalNos[index].planReturnPrice = _tmp.quantity * strikePrice; 
+            $scope.formData.orderMedicalNos[index].planReturnPrice = _tmp.quantity * strikePrice;
           }
         });
       }
+
+      // 计算当前药品所有批次总价
+
+      // 计算总价：
+      $scope.formData.totalPrice = $scope.calculaTotalPrice($scope.formData.orderMedicalNos);
 
     };
 
@@ -1887,6 +1887,33 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.choisedBatchsIdList.push(data.stockBatchId);
           }
         });
+      }
+    };
+
+    // 计算当前当前药品所有批次的总金额
+    $scope.calculaCurrentMedicalPrice = function (item) {
+      if (item && item.stockBatchs) {
+        var _total = 0;
+        angular.forEach(item.stockBatchs, function (data, index) {
+          _total += data.quantity * item.strike_price;
+        });
+        return _total;
+      }
+    };
+
+    // 计算总价金额
+    $scope.calculaTotalPrice = function (orderMedicalNos) {
+      if (orderMedicalNos) {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (data, index) {
+          // var _batchTotal = 0;
+          if (data.stockBatchs.length) {
+            for (var i = 0, len = data.stockBatchs.length; i < len; i++) {
+              _total += data.stockBatchs[i].quantity * data.strike_price;
+            }
+          }
+        });
+        return _total;
       }
     };
   }

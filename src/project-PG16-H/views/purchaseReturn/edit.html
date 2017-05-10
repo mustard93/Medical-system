@@ -2,7 +2,7 @@
      ng-controller="purchaseReturnController"
      ajax-url="rest/authen/purchaseReturn/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");'
+     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos)'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -153,7 +153,7 @@
                            name="batchNum{{$index}}"
                            ng-model="batch.quantity"
                            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                           ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
+                           ng-change="calculaTotalPrice(formData.orderMedicalNos)">
                     <input type="hidden" required ng-model="batch.id">
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
@@ -181,7 +181,7 @@
                 <td class="text-center">{{item.regionName}}</td><!-- 区域 -->
                 <td class="text-center">{{item.goodsLocationName}}</td><!-- 货位 -->
                 <td class="text-center">{{item.strike_price | currency:'￥'}}</td><!-- 采购单价 -->
-                <td class="text-center">{{item.planReturnPrice | currency:'￥'}}</td><!-- 计划退货金额 -->
+                <td class="text-center">{{calculaCurrentMedicalPrice(item) | currency:'￥'}}</td><!-- 计划退货金额 -->
                 <td class="text-center">{{item.actualReturnPrice}}</td><!-- 实际退货金额 -->
                 <td class="text-center">{{item.manufacturer}}</td><!-- 生产厂商 -->
                 <td class="text-center">{{item.productionPlace}}</td><!-- 产地 -->
@@ -247,6 +247,10 @@
                   ||!formData.expectDate">提交
           </button>
 
+      </div>
+      <div class="price-area relative fl-r mgr-l"
+           style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white">￥{{calculaTotalPrice(formData.orderMedicalNos) || '0.00' | number:2}}</em>
       </div>
     </div>
   </form>
