@@ -23,6 +23,14 @@
      <!-- 商品相关操作 -->
     <div ng-show="listParams.type=='商品'" class="content-wrapper" style="margin-top:30px;padding:0px 10px;">
       <div class="content-wrapper-main pr-fuzzy-boundary">
+        <div class="flex-column pd-c-v-s">
+          <ul class="select-ul">
+            <li class="select-li"></li>
+            <li class="select-li"></li>
+            <li class="select-li"></li>
+            <li class="select-li"></li>
+          </ul>
+        </div>
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
           <div class="flex-item-12 text-right">
               <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
@@ -36,52 +44,6 @@
           </div>
         </div>
         <div custom-table="com.pangu.mss.spd.domain.mongo.medical.MedicalStock" custom-tr-menus="spd_MedicalStock_query" style="width:100%;"></div>
-        <div class="bt-line">
-          <div>
-            <table class="table pr-table pr-new-table mgb-n color-3">
-              <thead>
-                <tr>
-                 <th class="text-center">序号</th>
-                 <th class="text-center">商品编号</th>
-                 <th class="text-left">商品名称</th>
-                 <th class="text-center">规格</th>
-                 <th class="text-center">基本单位</th>
-                 <th class="text-center">可用数量</th>
-                 <th class="text-center">锁定数量</th>
-                 <th class="text-center">待处理数量</th>
-                 <th class="text-center">冻结量</th>
-                 <th class="text-center">生产厂商</th>
-                 <th class="text-center">注册号</th>
-                 <th class="text-center">批准文号</th>
-               </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="tr in tbodyList">
-                  <td class="text-center" style="line-height:2.4">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
-                  <td class="text-center" style="line-height:2.4;min-width:220px;">{{tr.code}}</td><!-- 商品编码 -->
-                  <td class="text-left" style="line-height:2.4">{{tr.name}}</td><!-- 商品名称 -->
-                  <td class="text-center" style="line-height:2.4">{{tr.specification}}</td><!-- 规格型号 -->
-                  <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 基本单位 -->
-                  <td class="text-center" style="line-height:2.4">{{tr.manufacturer}}</td><!-- 生产厂商 -->
-                  <td class="text-center" style="line-height:2.4">{{tr.storeRoomName}}</td><!-- 库房名称 -->
-                  <td class="text-center" style="line-height:2.4">{{tr.regionName}}</td><!-- 区域名称 -->
-                  <td class="text-center" style="line-height:2.4">{{tr.goodsLocationName}}</td><!-- 推荐上架货位 -->
-                  <td class="text-right" style="line-height:2.4">{{tr.inventoryCap}}</td><!-- 库存上限 -->
-                  <td class="text-right" style="line-height:2.4">{{tr.inventoryLimit}}</td><!-- 库存下限 -->
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="flex-column">
-            <div class="flex-item-12 pdr-l">
-              <!-- 导航 -->
-              <div class="clearfix" ng-if="tbodyList.length">
-                <div class="fr">
-                   <pagination status="status"></pagination>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="pr-bg-white" ng-if="!tbodyList.length">
             <div class="empty-table clearfix">
               <div>&nbsp;</div>
