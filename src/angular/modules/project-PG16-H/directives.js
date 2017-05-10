@@ -46,7 +46,23 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
     };
   }
 
+  // 库存查询模块点击切换选择条件
+
+  function clickLiSelect () {
+    'use strict';
+    return {
+      restrict: 'EA',
+      link: function (scope, element, attrs) {
+        element.children('li').children('div').on('click', function () {
+          element.children('li').children('div').removeClass('active');
+          $(this).addClass('active');
+        });
+      }
+    };
+  }
+
   angular.module('manageApp.project-PG16-H')
+    .directive("clickLiSelect", [clickLiSelect])
     .directive("statusStyleToggle", [statusStyleToggle])
     .directive("changeImg", [changeImg])
     .directive("statusStyleToggleNew", [statusStyleToggleNew]);
