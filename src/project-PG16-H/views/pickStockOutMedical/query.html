@@ -97,6 +97,7 @@
                   <label for="1"></label>
                 </th>
                 <th class="w-80">状态</th>
+                <th class="w-80">状态</th>
                 <th class="w-80">序号</th>
                 <th class="w-80">来源单据</th>
                 <th class="w-80">来源单据编号</th>
@@ -126,6 +127,9 @@
                   <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                   <label for="{{$index+2}}"></label>
                 </td>
+                <td class="text-center" show-status show-order-status="{{tr.orderStatus}}" style="right:16px;top:-13px;">
+
+                </td>
                 <td class="relative">
                   <span class="circle-status"
                         ng-class="{'pr-bg-grey4':tr.orderStatus=='待拣选','bg-pass-green':tr.orderStatus =='已拣选'}">
@@ -134,7 +138,6 @@
                         <em class="inline-block">{{tr.orderStatus}}</em>
                       </i>
                     </span>
-
                   </span>
                   <div class="table-item-multiple-btn">
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
