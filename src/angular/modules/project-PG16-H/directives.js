@@ -56,7 +56,7 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
      */
 
      	   //  关键步骤：
-     	    //1.传入参数:showOrderStatus(后台返回的状态值)，style(控制样式)。
+     	    //1.传入参数:showOrderStatus(后台返回的状态值)showOrderStyle(控制移入出现气泡的样式，一般用于控制显示位置)。
 
   function showStatus(utils){
     return{
