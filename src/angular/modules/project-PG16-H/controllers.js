@@ -1694,6 +1694,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     //     });
     //   }
     // };
+    // 数量超过可用数量，组织不能提交
+    $scope.changeQuantity= function(availbleQuantity,quantity){
+      // 错误状态标识
+      $scope.quantityError = false;
+      if (availbleQuantity >= 0) {
+        if (quantity >availbleQuantity) {
+          $scope.quantityError = true;
+          $scope.$parent.$parent.quantityError = true;
+        } else {
+          $scope.quantityError = false;
+          $scope.$parent.$parent.quantityError = false;
+        }
+      }
+    }
 
     // 监控计划采购数量与实际采购数量的方法
     $scope.diffPurchaseNumber = function (orderMedicalList) {
@@ -2381,11 +2395,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $('input', '#addDataItem_relId_chosen').trigger('focus');
         // $('#addDataItem_relId_chosen').trigger('click');
     };
-    $scope.changeQuantity= function(salesQuantity,applicationCount){
+    $scope.changeQuantity= function(availbleQuantity,quantity){
       // 错误状态标识
       $scope.quantityError = false;
-      if (salesQuantity >= 0) {
-        if (applicationCount >salesQuantity) {
+      if (availbleQuantity >= 0) {
+        if (quantity >availbleQuantity) {
           $scope.quantityError = true;
           $scope.$parent.$parent.quantityError = true;
         } else {
