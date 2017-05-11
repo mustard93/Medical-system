@@ -1,7 +1,7 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-controller="receiveItemController"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-     <table-list list-data="/rest/authen/receiveItem/query"
+     <table-list list-data="rest/authen/receiveItem/query"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
                  search-param="q">
@@ -238,26 +238,12 @@
                 <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品名称 -->
                 <td>{{tr.specification}}</td><!-- 规格 -->
                 <td>{{tr.unit}}</td><!-- 单位 -->
-                <td>
-                  <!-- <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="pro in tr.batchInfos"> -->
-                    {{tr.productionBatch}}
-                  <!-- </div> -->
-                </td><!-- 生产批号 -->
-                <td >
-                    {{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}
-                </td><!-- 配送数量/已收数量 -->
-                <td >
-                    {{tr.productionDate | date : 'yyyy-MM-dd'}}
-                </td><!-- 生产日期 -->
-                <td >
-                    {{tr.receiverName}}
-                </td><!-- 收货人 -->
-                <td >
-                    {{tr.receiveDate | date : 'yyyy-MM-dd'}}
-                </td><!-- 收货时间 -->
-                <td>
-                    {{tr.validTill | date : 'yyyy-MM-dd'}}
-                </td><!-- 有效期至 -->
+                <td>{{tr.productionBatch}}</td><!-- 生产批号 -->
+                <td>{{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}</td><!-- 配送数量/已收数量 -->
+                <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
+                <td>{{tr.receiverName}}</td><!-- 收货人 -->
+                <td>{{tr.receiveDate | date : 'yyyy-MM-dd'}}</td><!-- 收货时间 -->
+                <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
                 <td>{{tr.invoiceNo}}</td><!-- 发票号 -->
                 <td>{{tr.invoiceDate | date:'yyyy-MM-dd'}}</td><!-- 发票日期 -->
                 <td>{{tr.manufacturer}}</td><!-- 生产厂商 -->
