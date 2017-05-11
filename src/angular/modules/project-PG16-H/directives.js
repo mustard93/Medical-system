@@ -37,11 +37,16 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
     return {
       restrict: 'EA',
       link: function (scope, element, attrs) {
-        element.on('click', function () {
-          $(this).removeClass('addImg');
-          $(this).addClass('editImg').siblings().each(function () {
-          });
-        });
+
+        var value=attrs.changeValue;
+
+          if(value){
+            element.removeClass('addImg');
+            element.addClass('editImg');
+          }else{
+            element.removeClass('editImg');
+            element.addClass('addImg');
+          }
       }
     };
   }
