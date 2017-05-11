@@ -2379,8 +2379,19 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $('input', '#addDataItem_relId_chosen').trigger('focus');
         // $('#addDataItem_relId_chosen').trigger('click');
     };
-
-
+    $scope.changeQuantity= function(salesQuantity,applicationCount){
+      // 错误状态标识
+      $scope.quantityError = false;
+      if (salesQuantity >= 0) {
+        if (applicationCount >salesQuantity) {
+          $scope.quantityError = true;
+          $scope.$parent.$parent.quantityError = true;
+        } else {
+          $scope.quantityError = false;
+          $scope.$parent.$parent.quantityError = false;
+        }
+      }
+    }
   }
 
   angular.module('manageApp.project-PG16-H')
