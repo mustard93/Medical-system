@@ -1721,6 +1721,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   // SPD采购退货控制器
   function purchaseReturnController ($scope, modal, alertWarn, watchFormChange, requestData, $rootScope, alertOk, utils) {
 
+    $scope.batchsNumOverloadFlag = false;
+
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
     };
@@ -1916,6 +1918,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         return _total;
       }
     };
+
+    // 判断当前退货药品列表里批次数量总和是否有
+    $scope.batchsNumOverload = function (orderMedicalNos) {
+      if (orderMedicalNos) {
+        angular.forEach(orderMedicalNos, function (data, index) {
+          $scope.batchsNumOverloadFlag = $scope.calculaBatchsTotal(data) > data.goodsCount ? true : false;
+          return $scope.batchsNumOverloadFlag;
+        });
+      }
+    };
+
   }
 
   // 上架计划控制器

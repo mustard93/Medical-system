@@ -103,10 +103,7 @@
                 <th class="text-center w-160">商品规格</th>
                 <th class="text-center w-160">基本单位</th>
                 <th class="text-center w-120">可退数量</th>
-                <!-- <th class="text-center w-120">实退数量</th> -->
-                <th class="text-center w-220">生产批号/数量
-                <em class="color-red">(必选)</em>
-                </th>
+                <th class="text-center w-220">生产批号/数量<em class="color-red">(必选)</em></th>
                 <th class="text-center w-220">仓库</th>
                 <th class="text-center w-220">区域</th>
                 <th class="text-center w-160">货位</th>
@@ -119,7 +116,6 @@
             </thead>
             <tbody class="bg-white">
               <tr ng-repeat="item in formData.orderMedicalNos"
-                  ng-controller="saleReturnMedicalItemController"
                   table-item-handlebtn-component
                   ng-init="item.stockBatchs=item.stockBatchs?item.stockBatchs:[]">
                 <td class="text-center">{{item.code}}
@@ -137,8 +133,10 @@
                 <td class="text-center">{{item.specificationAndModelType}}</td><!-- 商品规格-->
                 <td class="text-center">{{item.unit}}</td><!-- 基本单位 -->
                 <td class="text-center">{{item.goodsCount}}</td><!-- 可退数量 -->
-                <!-- <td class="text-center">{{item.actualReturnCount}}</td>--> <!-- 实退数量 -->
-                <td class="text-center">
+                <td class="text-center"
+                    invalid-popover
+                    popover-show="batchsNumOverloadFlag"
+                    popover-options='{"content":"批次数量不能大于可退货数量", "placement":"top", "trigger":"manual"}'>
                   <!-- 已选批号列表 -->
                   <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                        ng-if="batch.batchNumber"
@@ -153,7 +151,7 @@
                            name="batchNum{{$index}}"
                            ng-model="batch.quantity"
                            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                           ng-change="calculaTotalPrice(formData.orderMedicalNos)">
+                           ng-change="batchsNumOverload(formData.orderMedicalNos)">
                     <input type="hidden" required ng-model="batch.id">
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
@@ -235,7 +233,7 @@
                   ng-click="submitForm('saleReturnEditForm','save');formData.validFlag=false;"
                   ng-disabled="!changeFlag">保存
           </button>
-          <button class="mgl-s pr-btn-create-glodbg"
+          <button class="mgl-s pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交退货单"
@@ -243,8 +241,10 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!saleReturnEditForm.$invalid || quantityError ||!formData.orderMedicalNos.length
-                  ||!formData.expectDate">提交
+                  ng-disabled="!saleReturnEditForm.$invalid ||
+                               !formData.orderMedicalNos.length ||
+                               !formData.expectDate ||
+                               batchsNumOverloadFlag">提交
           </button>
 
       </div>
