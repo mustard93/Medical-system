@@ -1174,10 +1174,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             .then(function (results) {
               if (results[1].code === 200) {
                 // $scope.tbodyList[index].medical.code = code;
-                requestData('rest/authen/purchasecontentmedical/query?supplierId='+$scope.mainStatus.pageParams.supplierId)
-                .then(function (results) {
-                  if (results) { $scope.tbodyList = results[1].data; }
-                });
+                // requestData('rest/authen/purchasecontentmedical/query?supplierId='+$scope.mainStatus.pageParams.supplierId)
+                // .then(function (results) {
+                //   if (results) { $scope.tbodyList = results[1].data; }
+                // });
+                $scope.tbodyList[index].medical.code = code;
               }
             })
             .catch(function (error) {
@@ -1721,6 +1722,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   // SPD采购退货控制器
   function purchaseReturnController ($scope, modal, alertWarn, watchFormChange, requestData, $rootScope, alertOk, utils) {
 
+    $scope.batchsNumOverloadFlag = false;
+
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
     };
@@ -1916,6 +1919,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         return _total;
       }
     };
+
+    // 判断当前退货药品列表里批次数量总和是否有
+    $scope.batchsNumOverload = function (orderMedicalNos) {
+      if (orderMedicalNos) {
+        angular.forEach(orderMedicalNos, function (data, index) {
+          $scope.batchsNumOverloadFlag = $scope.calculaBatchsTotal(data) > data.goodsCount ? true : false;
+          return $scope.batchsNumOverloadFlag;
+        });
+      }
+    };
+
   }
 
   // 上架计划控制器
