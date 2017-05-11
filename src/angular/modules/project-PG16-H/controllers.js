@@ -1091,7 +1091,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   }
 
   // 创建医院药品与经销商药品关联关系dialog控制器
-  function createCorrespondController ($scope, requestData, modal, alertWarn) {
+  function createCorrespondController ($scope, requestData, modal, alertWarn, utils) {
 
     // 侧边栏搜索过滤
     $scope.handleSearchFilter = function (key,distributorId,customerAddressId) {
@@ -1136,8 +1136,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             requestData('rest/authen/purchasecontentmedical/save', _data, 'POST', 'parameter-body')
             .then(function (results) {
               if (results[1].code === 200) {
-                $scope.tbodyList[index].distributorMedicalCode = code;
+                // $scope.tbodyList[index].distributorMedicalCode = code;
                 // _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
+                utils.refreshHref();
               }
             })
             .catch(function (error) {
@@ -1178,7 +1179,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 // .then(function (results) {
                 //   if (results) { $scope.tbodyList = results[1].data; }
                 // });
-                $scope.tbodyList[index].medical.code = code;
+                // $scope.tbodyList[index].medical.code = code;
+                utils.refreshHref();
               }
             })
             .catch(function (error) {
@@ -2419,7 +2421,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('purchasePlanOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchasePlanOrderController])
   .controller('collarApplicationOrderController', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', collarApplicationOrderController])
   .controller('purchaseContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'utils', purchaseContentController])
-  .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', createCorrespondController])
+  .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', 'utils', createCorrespondController])
   .controller('storeRoomController', ['$scope', 'requestData', 'alertError', 'alertOk', storeRoomController])
   .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
   .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController])
