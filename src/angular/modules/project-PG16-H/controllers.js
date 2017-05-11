@@ -1174,10 +1174,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             .then(function (results) {
               if (results[1].code === 200) {
                 // $scope.tbodyList[index].medical.code = code;
-                requestData('rest/authen/purchasecontentmedical/query?supplierId='+$scope.mainStatus.pageParams.supplierId)
-                .then(function (results) {
-                  if (results) { $scope.tbodyList = results[1].data; }
-                });
+                // requestData('rest/authen/purchasecontentmedical/query?supplierId='+$scope.mainStatus.pageParams.supplierId)
+                // .then(function (results) {
+                //   if (results) { $scope.tbodyList = results[1].data; }
+                // });
+                $scope.tbodyList[index].medical.code = code;
               }
             })
             .catch(function (error) {
