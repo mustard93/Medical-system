@@ -2517,7 +2517,8 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             "searchFields": "@",
             "matchClass": "@",
             "ngDisabled": "=?",
-            "searchStr": "@"
+            "searchStr": "@",
+            "customStyle": "@"   // 自定义样式
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
@@ -2585,6 +2586,17 @@ function flashAddMedical(utils,$timeout) {
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
+
+          // 隐藏标题
+          if (angular.isDefined($attrs.hideTitle)) {
+            $scope.hideTitle = true;
+          }
+
+          // 隐藏添加按钮
+          if (angular.isDefined($attrs.hideAddButton)) {
+            $scope.hideAddButton = true;
+          }
+
           //隐藏输入数量控件
           if (angular.isDefined($attrs.hideQuantity)){
             $scope.hideQuantity=true;

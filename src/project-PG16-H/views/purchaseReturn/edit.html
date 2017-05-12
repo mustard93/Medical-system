@@ -13,7 +13,7 @@
         scope-response="scopeResponse"
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="submitFormAfter(scopeResponse);$root.watchFormChange('formData',this);$root.goTo('#/purchaseReturn/query.html')"
+        callback="submitFormAfter(scopeResponse);$root.watchFormChange('formData',this)"
         novalidate="novalidate">
     <!-- 头部信息 -->
     <page-main-header-component list-params="listParams"
@@ -214,7 +214,7 @@
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/purchaseReturn/query.html')"
-             save-callback="submitForm('saleReturnEditForm','save')">返回采购退货单列表
+             save-callback="submitForm('saleReturnEditForm','save');$root.goTo('#/purchaseReturn/query.html')">返回采购退货单列表
           </a>
 
           <a class="" ng-if="!changeFlag" href="#/purchaseReturn/query.html" >返回采购退货单列表</a>
