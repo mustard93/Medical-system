@@ -84,11 +84,58 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
     };
   }
 
+  /**
+   * [Description GS1条码打印组件]
+   * @param  {[type]} requestData [注入项]
+   * @param  {[type]} utils       [注入项]
+   * @return {[type]} [description]
+   * @author liuzhen
+	 * @date 2017年5月12日
+   */
+  function gs1BarcodeComponent (requestData, utils) {
+    'use strict';
+    return {
+      restrict: 'EA',
+      scope: {
+
+      },
+      replace: true,
+      transclude: true,
+      templateUrl: Config.tplPath + 'tpl/project/gs1BarcodeComponent.html',
+      link: function (scope, element, attrs) {
+        scope.$watch('medical.data.barcode', function (newVal, oldVal) {
+          if (newVal && newVal !== oldVal) {
+            var _url = 'rest/authen/gs1Barcode/get',
+                _data = {
+                  "barcode": newVal,
+                  "quantity": 0,
+                  "productionBatch": "",
+                  "validTill": 0,
+                  "barcodeType": "一段式"
+                };
+            requestData(_url, _data, 'POST', 'parameter-body')
+            .then(function (results) {
+              console.log(results);
+            })
+            .catch(function (error) {
+              if (error) { throw new Errow(error || '出错'); }
+            });
+          }
+        });
+      },
+      controller: ['$scope', '$element', function ($scope, $element) {
+        // ...
+
+      }]
+    };
+  }
+
 
   angular.module('manageApp.project-PG16-H')
   .directive("showStatus",["utils",showStatus])
-    .directive("statusStyleToggle", [statusStyleToggle])
-    .directive("statusStyleToggle", [statusStyleToggle])
-    .directive("changeImg", [changeImg])
-    .directive("statusStyleToggleNew", [statusStyleToggleNew]);
+  .directive("statusStyleToggle", [statusStyleToggle])
+  .directive("statusStyleToggle", [statusStyleToggle])
+  .directive("changeImg", [changeImg])
+  .directive("statusStyleToggleNew", [statusStyleToggleNew])
+  .directive("gs1BarcodeComponent", ["requestData", "utils", gs1BarcodeComponent]);
 });
