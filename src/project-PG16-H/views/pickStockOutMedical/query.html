@@ -96,7 +96,8 @@
                   <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                   <label for="1"></label>
                 </th>
-                <th class="w-80">状态</th>
+
+                <!-- <th class="w-80">状态</th> -->
                 <th class="w-80">状态</th>
                 <th class="w-80">序号</th>
                 <th class="w-80">来源单据</th>
@@ -123,6 +124,7 @@
                   ng-repeat="tr in tbodyList track by $index"
                   class="relative"
                   table-item-multiple-btn>
+
                 <td class="select-td text-center mycheck" ng-if="listParams.orderStatus!='已拣选'" >
                   <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                   <label for="{{$index+2}}"></label>
@@ -185,6 +187,7 @@
                     {{tr.pickNo}}
                 </td><!-- 实际拣选数量-->
                 <td>{{tr.manufacturer}}</td><!-- 生产厂商 -->
+
                 <td>{{tr.productionPlace}}</td><!-- 产地 -->
               </tr>
             </tbody>

@@ -1828,9 +1828,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.spdChoiseBatchs = function (obj,choisedList,id,goodsCount,strikePrice) {
 
       // 异常处理
-      if (!obj || !choisedList || !goodsCount || !strikePrice) {
-        throw new Error('Parameters are required');
-      }
+      // if (!obj || !choisedList || !goodsCount || !strikePrice) {
+      //   throw new Error('Parameters are required');
+      // }
 
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {

@@ -1715,12 +1715,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 "descriptionField": "@",
                 "classDescription": "@",
                 //"localData": "=?",
-                  "ngModelId": "=?",//绑定返回对象id
-                    "ngModel": "=",
+                "ngModelId": "=?",//绑定返回对象id
+                "ngModel": "=",
                 "searchFields": "@",
                 "matchClass": "@",
                 "searchStrClass": "@",
-                "ngDisabled": "=?"
+                "ngDisabled": "=?",
+                "inputStyle": '@'  // 自定义input样式
             },
             require: "?^ngModel",
             templateUrl: Config.tplPath + 'tpl/autocomplete.html',
