@@ -1112,6 +1112,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.codesList = results[1].data;
       });
     };
+    $scope.handleSearchFilter3 = function (key) {
+      var _url = 'rest/authen/medicalStock/queryStockBatch?q=' + key+'&&relMedicalStockId='+$scope.dialogData.id;
+      requestData(_url)
+      .then(function (results) {
+        $scope.codesList = results[1].data;
+      });
+    };
 
     // 选择供应商编码与医院药品编码建立对应关系
     $scope.spdChoiseCode = function (code,medicalId,distributorMedicalId) {
@@ -2408,11 +2415,44 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
       }
     }
+
+  }
+  function transferRecordCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+    $scope.watchFormChange = function(watchName){
+      watchFormChange(watchName,$scope);
+    };
+
+
+    $scope.submitForm = function(fromId, type) {
+       $scope.submitForm_type = type;
+      $scope.formData.validFlag = false;
+       if ($scope.submitForm_type == 'submit') {
+
+         requestData('rest/authen/transferRecord/save', $scope.formData, 'POST', 'parameterBody')
+         .then(function (results) {
+           if (results[1].code === 200) {
+           }
+         })
+         .catch(function (error) {
+
+         });
+       }
+      $('#' + fromId).trigger('submit');
+    };
+
+    $scope.submitFormAfter = function (_url) {
+      if ($scope.submitForm_type === 'submit') {
+        $scope.goTo(_url + '?id=' + $scope.formData.id);
+      }
+    };
+
   }
 
   angular.module('manageApp.project-PG16-H')
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
+  .controller('transferRecordCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', transferRecordCtrl])
   .controller('medicalStockStrategyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockStrategyCtrl])
   .controller('allocateOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'dialogConfirm', allocateOrderEditCtrl])
   .controller('receiveItemController', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', 'alertOk', receiveItemController])
