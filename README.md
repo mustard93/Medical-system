@@ -21,7 +21,19 @@ salesOrder（客户购需单）-》confirmOrder（订单）-》invoicesOrder（�
 
 PurchaseOrder（采购单）-
 
+开发规范：
 
+1.web js 必须加必要的注释。
+
+2.html 注释使用的复杂逻辑也要加注释。注释格式：
+web的注释要加强哈，格式：  <!-- 注释内容 -->
+比如：
+  <label for="{{$index + 2}}"></label>
+  <!--为什么$index + 2 -->
+
+3.关于 数字型字段的取值范围需求 。web 统一处理方式：
+  1.如果正整数，则设置type="number" 解决。
+  2.小数，或负数，则用 正则表达式验证指令解决。
 
 
 注释模版
