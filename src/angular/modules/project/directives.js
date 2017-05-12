@@ -3508,6 +3508,24 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
     }
   };
 }
+function changeImg () {
+  'use strict';
+  return {
+    restrict: 'EA',
+    link: function (scope, element, attrs) {
+
+      var value=attrs.changeValue;
+
+        if(value){
+          element.removeClass('addImg');
+          element.addClass('editImg');
+        }else{
+          element.removeClass('editImg');
+          element.addClass('addImg');
+        }
+    }
+  };
+}
   // ul模拟select
 // function ulSelect () {
 //   'use strict';
@@ -3525,6 +3543,7 @@ angular.module('manageApp.project')
 
   .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
   .directive("pageMainHeaderComponent", pageMainHeaderComponent)
+  .directive("changeImg", changeImg)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])
