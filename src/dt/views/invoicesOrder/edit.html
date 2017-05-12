@@ -32,21 +32,24 @@
     </div>
     <!-- 药械列表 -->
     <div class="content-wrapper">
-      <div class="pr-panel pr-panel-height mgb pd-n">
-        <!-- 客户搜索 -->
-        <div class="inline-block br-line customer-name relative">
-          <p class="mgb-s">客户名</p>
-          <p class="text-n color-black" style="padding-right:182px;">
-            {{scopeData.customerName}}
-          </p>
+      <div class="">
+        <div class="inline-block mgr-l">
+          <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+            <div class="inline-block customer-name"></div>
+            <div class="inline-block">
+              <p class="mgb-s">客户名</p>
+              <p class="text-m color-3 autocut-default" title="{{scopeData.customerName}}" style="width:300px;">{{scopeData.customerName || '暂无'}}</p>
+            </div>
+          </div>
         </div>
-        <!-- 物流中心搜索 -->
-        <div class="inline-block logistics-center relative">
-          <p class="mgb-s">物流中心</p>
-          <p class="text-n color-black" style="padding-right:182px;">
-            <!-- 昆明物流中心 -->
-            {{scopeData.logisticsCenterName ||'暂无'}}
-          </p>
+        <div class="inline-block">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+             <div class="inline-block logistics-center"></div>
+             <div class="inline-block">
+               <p class="mgb-s">物流中心</p>
+               <p class="text-m color-3 autocut-default" title="{{scopeData.logisticsCenterName}}" style="width:300px;">{{scopeData.logisticsCenterName ||'暂无'}}</p>
+             </div>
+           </div>
         </div>
       </div>
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
@@ -161,16 +164,15 @@
       <!-- 其他信息 -->
       <div class="relative">
       <!-- 收货方信息 -->
-      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb mgt">
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
         <header class="text-n color-3 text-bold">收货方信息
           <span class="tools pull-right">
             <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
           </span>
         </header>
         <div class="panel-body" style="display:none;padding:15px 0;">
-          <h1 class="mgb">收货方：{{scopeData.customerName}}</h1>
-          <p class="">收货人信息：
-            {{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}&nbsp;&nbsp;{{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}
+          <p class="">
+          {{scopeData.customerContacts.name}}&nbsp;&nbsp;{{scopeData.customerContacts.tel}}  &nbsp;&nbsp;{{scopeData.customerContacts.prov}}&nbsp;&nbsp;{{scopeData.customerContacts.city}}&nbsp;&nbsp;{{scopeData.customerContacts.area}}&nbsp;&nbsp;{{scopeData.customerContacts.address}}
           </p>
         </div>
       </div>
