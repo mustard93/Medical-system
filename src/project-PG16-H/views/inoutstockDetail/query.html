@@ -1,0 +1,108 @@
+<!--出入库记录-->
+
+<div class="inoutstockDetail clearfix"><!-- pageCtrl-->
+
+  <!-- 主内容头部 -->
+  <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
+    <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxxl">库房管理 > <em class="">库存移位</em></p>
+    <div class="pd-c-xxxl">
+      <div class="pos-rel-tl inline-block fl-l">
+        <h1 class="pr-font-20 color-black">出入库记录</h1>
+      </div>
+    </div>
+  </div>
+
+<div class="content-wrapper">
+    <!--body wrapper start-->
+    <table-list list-data="rest/authen/inoutstockDetail/query" class="table pr-table pr-new-table" list-params="listParams">
+
+
+        <div class="panel pr-fuzzy-boundary clearfix">
+
+                <div class="pd-c-xxxl mgb-l "  style=" display: inline-block;">
+                    <label style="display: block;font-weight: normal;">    库房:</label>
+                    <select class="pr-select select-wd"
+                            chosen
+                            ng-model="listParams.storeRoomId"
+                            default-empty="全部"
+                            select-source="rest/authen/storeRoom/queryForSelectOption">
+                    </select>
+                </div>
+
+                <div class="pd-c-xxxl mgb-l" style=" display: inline-block;">
+                    <label style="display: block;font-weight: normal;">    区域:</label>
+                    <select class="pr-select select-wd"
+                            chosen
+                            ng-model="listParams.regionId"
+                            default-empty="全部"
+                            select-source="rest/authen/region/queryForSelectOption">
+                    </select>
+                </div>
+
+                <div class="pd-c-xxxl mgb-l" style=" display: inline-block;">
+                    <label style="display: block;font-weight: normal;">    货位:</label>
+                    <select class="pr-select select-wd"
+                            chosen
+                            ng-model="listParams.goodsLocationId"
+                            default-empty="全部"
+                            select-source="rest/authen/goodsLocation/queryForSelectOption">
+                    </select>
+                </div>
+
+                <div class="pd-c-xxxl mgb-l" style=" display: inline-block;">
+                    <label style="display: block;font-weight: normal;">    出入库类型:</label>
+                    <select class="pr-select select-wd"
+                            chosen
+                            ng-model="listParams.inoutstockType"
+                            default-empty="全部"
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SPD_InoutstockType">
+                    </select>
+                </div>
+
+            <div class="text-left relative order-list-i pdt-m pdb-m pd-c-xxxl" ng-init="queryDatePeriod='最近7天'" style=" display: inline-block;">
+
+
+                <label style="display: block;font-weight: normal;">    出入库日期:</label>
+                <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
+                           placeholder="日期"
+                           ng-model="listParams.createAtBeg">
+                    <span class="date-icon"></span>
+                </div>
+                <span class="mgr">至</span>
+                <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
+                           placeholder="日期"
+                           ng-model="listParams.createAtEnd"
+                           invalid-popover
+                           popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                           popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+                    <span class="date-icon"></span>
+                </div>
+
+            </div>
+
+              <div class="order-list-search text-left  pos-rel-tr inline-block pdl-l" style="float: right; margin-top: 45px; margin-right: 20px;">
+
+
+                  <input type="text" class="ipt pdr-xxl" placeholder="商品名称/单据编号" ng-model="listParams.q">
+                  <i class=""></i>
+               </div>
+
+          </div>
+
+        <!--relMedicalStockId  商品ID    -->
+
+        <div custom-table="com.pangu.mss.spd.domain.mongo.storeRoom.InoutstockDetail" custom-key="InoutstockDetail_region_web" custom-tr-menus="1" style="width:100%;"></div>
+
+    </table-list>
+    <!--body wrapper end-->
+</div>
+</div>
+</div>

@@ -1,0 +1,30 @@
+<div class="modal-content pr-modal-content right-side-new pr-bg-black4" ng-controller="editCtrl">
+
+    <form class="add-customerAddress-form form-horizontal"
+          ajax-url="rest/authen/medicalStock/get?id={{dialogData.id}}"
+          scope-data="goods"
+          alert-error>
+        <!-- ajax-url="{{dialogData.requestUrl}}" -->
+        <div class="bb-line-gold pr-bg-black2 min-h-l">
+            <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px; font-weight: bold; font-size: 14px;">{{goods.name}}</h1>
+        </div>
+
+        <div class="goods-detail-info">
+
+            <p class="goods-attr"> <span class="goods-key">商品名称:</span> <span class="goods-val">{{goods.name}}</span></p>
+            <p class="goods-attr"> <span class="goods-key">商品编号:</span> <span class="goods-val">{{goods.code}}</span></p>
+
+            <p class="goods-attr"> <span class="goods-key">商品规格:</span> <span class="goods-val">{{goods.specification}}</span></p>
+            <p class="goods-attr"> <span class="goods-key">基本单位:</span> <span class="goods-val">{{goods.unit}}</span></p>
+
+            <p class="goods-attr"> <span class="goods-key">生产日期:</span> <span class="goods-val">{{goods.productionDate || dialogData.productionDate}}</span></p>
+            <p class="goods-attr"> <span class="goods-key">有效期至:</span> <span class="goods-val">{{goods.guaranteePeriod}}</span></p>
+
+            <p class="goods-attr"> <span class="goods-key">生产厂家:</span> <span class="goods-val">{{goods.manufacturer}}</span></p>
+            <p class="goods-attr"> <span class="goods-key">产地:</span> <span class="goods-val">{{goods.productionPlace}}</span></p>
+
+            <p class="goods-attr"> <span class="goods-key">批准文号:</span> <span class="goods-val">{{goods.approvalNo}}</span></p>
+            <p class="goods-attr"> <span class="goods-key">注册证号:</span> <span class="goods-val">{{goods.drugAdministrationCode}}</span></p>
+        </div>
+    </form>
+</div>
