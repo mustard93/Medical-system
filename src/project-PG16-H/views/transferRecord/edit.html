@@ -2,7 +2,7 @@
      ng-controller="transferRecordCtrl"
      ajax-url="rest/authen/transferRecord/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');"
+     callback="initFlag=true;watchFormChange('formData');showFlag=true;"
      alert-error>
 
      <div class="header-info relative mgb-l">
@@ -41,28 +41,29 @@
              ajax-url="rest/authen/medicalStock/get.json?id={{formData.medical.id}}"
              scope-data="medicalData"
              alert-error
-             callback="formData.relId=medicalData.id;
-                       formData.medical.name=medicalData.name;
-                       formData.medical.specification=medicalData.specification;
-                       formData.medical.manufacturer=medicalData.manufacturer;">
+             callback="formData.relMedicalStockId=medicalData.id;
+                       formData.name=medicalData.name;
+                       formData.specification=medicalData.specification;
+                       formData.manufacturer=medicalData.manufacturer;">
+
 
           <div class="flex-column mgt">
             <div class="flex-item-12 text-left ">
               <em>商品名称：</em>
               <span angucomplete-medical
-                    ng-disabled="formData.id"
                     placeholder="输入"
                     title-field="name"
-                    search-str="{{formData.medical.name}}"
+                    search-str="{{medicalData.name}}"
                     url="rest/authen/medicalStock/query"
                     class="pr-ipt-240 inline-block"
                     ng-model="formData.medical"
-                    style="height:28px;width:372px;border-radius:2px;"\>
+                    style="height:28px;width:372px;border-radius:2px;"/>
               </span>
               <i class="receive-item-icon" style="left:430px;top:30px;"></i>
+              <span ng-if="!formData.relMedicalStockId" class="color-red">(必填)</span>
               <p class="mgt-s" style="margin-left:65px;">
-                <em class="mgr-xl">生产厂商：{{formData.medical.manufacturer}}</em>
-                <em>规格：{{formData.medical.specification}}</em>
+                <em class="mgr-xl">生产厂商：{{formData.manufacturer}}</em>
+                <em>规格：{{formData.specification}}</em>
               </p>
             </div>
           </div>
@@ -75,36 +76,40 @@
                      style="right:0px;left:inherit;"
                      modal-right="50%"
                      modal-scope="this"
-                     modal-data='{"medicalName":"{{formData.medical.name}}","medicalId":"{{formData.relId}}"}'
-                     modal-url="views/versionFlow/create-correspond-relation2.html">
+                     modal-data='{"medicalName":"{{formData.name}}","medicalId":"{{formData.relMedicalStockId}}"}'
+                     modal-url="views/versionFlow/create-correspond-relation-default.html">
                   </i>
                 </div>
               </div>
             </div>
             <div class="flex-item-4 br-dashed-line " >
-              <div class="flex-column" style="padding:73px 135px;">
+              <div class="flex-column" style="padding:79px 135px;">
                 <div class="flex-item-5">
                   <div class="inline-block">
-                    <p class="mgb-s">当前区域：</p>
+                    <p class="mgb-s">当前区域：<span class="mgl-s color-red" ng-if="!formData.sourceRegionId">(必选){{formData.storeRoomId}}</span></p>
                     <select class="inline ipt-new-s pdt"
                             chosen
+                            required
+                            ng-model="formData.sourceRegionId"
+                            ng-disabled="formData.sourceRegionId"
                             style="width:120px;"
                             data-placeholder=" "
                             default-empty="全部"
-                            ng-model="formData.sourceRegionId"
                             select-source="rest/authen/region/queryForSelectOption">
                     </select>
+
                   </div>
 
                   <div class="inline-block mgt-xxl">
-                    <p class="mgb-s">目标区域：</p>
+                    <p class="mgb-s">目标区域：<span class="mgl-s color-red" ng-if="!formData.targetRegionId">(必选)</span></p>
                     <select class="inline ipt-new-s pdt"
                             chosen
+                            required
                             style="width:120px;"
                             data-placeholder=" "
                             default-empty="全部"
                             ng-model="formData.targetRegionId"
-                            select-source="rest/authen/region/queryForSelectOption">
+                            select-source="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}">
                     </select>
                   </div>
                 </div>
@@ -113,28 +118,33 @@
 
               <div class="flex-item-5">
                 <div class="inline-block" style="margin-left:40px;">
-                  <p class="mgb-s">当前货位：</p>
+                  <p class="mgb-s">当前货位：<span class="mgl-s color-red" ng-if="!formData.sourceGoodsLocationId">(必选)</span></p>
                   <select class="inline ipt-new-s pdt mgt-s"
                           chosen
+                          required
+                          ng-model="formData.sourceGoodsLocationId"
+                          ng-disabled="formData.sourceGoodsLocationId"
                           style="width:120px;"
                           data-placeholder=" "
                           default-empty="全部"
-                          ng-model="listParams.sourceGoodsLocationId"
                           select-source="rest/authen/goodsLocation/queryForSelectOption">
                   </select>
                 </div>
 
                 <div class="inline-block mgt-xxl" style="margin-left:40px;">
-                  <p class="mgb-s">目标货位：</p>
+                  <p class="mgb-s">目标货位：<span class="mgl-s color-red" ng-if="!formData.targetGoodsLocationId">(必选)</span></p>
                   <select class="inline ipt-new-s pdt mgt-s"
                           chosen
+                          required
                           style="width:120px;"
                           data-placeholder=" "
                           default-empty="全部"
-                          ng-model="listParams.targetGoodsLocationId"
-                          select-source="rest/authen/goodsLocation/queryForSelectOption">
+                          ng-model="formData.targetGoodsLocationId"
+                          select-source="rest/authen/goodsLocation/queryForSelectOption?storeRoomId={{formData.storeRoomId}}">
                   </select>
                 </div>
+                <p class="color-red" style="position:absolute;" ng-if="formData.targetGoodsLocationId&&formData.sourceGoodsLocationId&&formData.sourceGoodsLocationId===formData.targetGoodsLocationId">不允许同一货位移动，请重选！
+                </p>
               </div>
               </div>
 
@@ -150,14 +160,15 @@
                             chosen
                             style="width:70px;height:28px;"
                             data-placeholder=" "
-                            default-empty="全部"
-                            ng-model="listParams.targetGoodsLocationId"
-                            select-source="rest/authen/goodsLocation/queryForSelectOption">
+                            ng-model="formData.medical_unit"
+                            select-source="rest/authen/medicalStock/getPackingAttributeById?id={{formData.relMedicalStockId}}">
                     </select>
                   </div>
-                  <p>
-                    1 大箱 = 10 小箱 = 50 盒
-                  </p>
+                  <p ng-if="formData.productionBatch||formData.transferQuantity">
+                    <span ng-repeat="tr in scopeData" ng-init="formData.transferQuantity=scopeData[0].quantity">    
+                      <em>{{tr.quantity}}{{tr.name}}</em><em ng-if="$index!=scopeData.length-1">=</em>
+                    </span>
+                 </p>
               </div>
             </div>
           </div>
@@ -176,12 +187,14 @@
             </div>
             <em>操作员：</em>
             <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
-                    ng-disabled="formData.id"
                     data-placeholder=" "
                     chosen
-                    ng-model="formData.medicalAttribute.latelyOperationFlow.inputUser"
-                    select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
+                    ng-model="formData.inputUser.n"
+                    select-source="rest/authen/organizationAndUser/queryForSelectOption">
             </select>
+          </div>
+          <div style="display:none;" ng-model="formData.sterilizationBatchNumber">
+
           </div>
         </div>
        <!-- 备注-->
@@ -214,7 +227,10 @@
               class="pr-btn-save-glodbg mgt"
               type="button"
               ng-click="submitForm('editForm','save')"
-              ng-disabled="editForm.$invalid ||!changeFlag">确定</button>
+              ng-disabled="editForm.$invalid
+              ||formData.sourceGoodsLocationId==formData.targetGoodsLocationId
+              ||!formData.relMedicalStockId
+              ||!changeFlag">确定</button>
           </span>
 
           </div>

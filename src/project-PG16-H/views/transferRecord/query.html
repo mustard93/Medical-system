@@ -21,6 +21,43 @@
       <!-- 主内容区域 -->
     <div class="content-wrapper-main pr-bg-white  pr-fuzzy-boundary" style="margin-top:30px;">
         <div class="text-right pd-m">
+          <div class="inline-block mgr-l mgt-s">
+            <p>
+              库房：
+            </p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.storeRoomId"
+                    select-source="rest/authen/storeRoom/queryForSelectOption">
+            </select>
+          </div>
+          <div class="inline-block mgr-l mgt-s">
+            <p>
+              区域：
+            </p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.regionId"
+                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}">
+            </select>
+          </div>
+          <div class="inline-block mgr-xxxxxl mgt-s">
+            货位：
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.goodsLocationId"
+                    select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}">
+            </select>
+          </div>
             <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
               <input type="text" class="ipt pdr-xxl" placeholder="商品编号/商品名称" ng-model="listParams.q">
               <i class=""></i>
@@ -30,7 +67,7 @@
               <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
             </div>
         </div>
-          <div custom-table="com.pangu.mss.spd.domain.mongo.storeRoom.TransferRecord" custom-tr-menus="spd_transferRecord_query" style="width:100%;"></div>
+          <div custom-table="com.pangu.mss.spd.domain.mongo.storeRoom.TransferRecord" custom-tr-menus="1" style="width:100%;"></div>
   </div>
 </table-list>
 </div>
