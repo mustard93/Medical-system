@@ -2,7 +2,7 @@
      ng-controller="purchaseReturnController"
      ajax-url="rest/authen/purchaseReturn/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData")'
+     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos)'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -14,7 +14,7 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         callback="submitFormAfter(scopeResponse);$root.watchFormChange('formData',this)"
-        novalidate="true">
+        novalidate="novalidate">
     <!-- 头部信息 -->
     <page-main-header-component list-params="listParams"
                                 crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"采购退货申请","link":"","style":"color-custom-orange"},{"name":"新建采购退货申请","link":"","style":""}]'
@@ -74,16 +74,19 @@
             </div>
           </div>
           <div class="flex-column pdt pdb pd-c-l color-9">
-            <div class="mgr-l relative">预计退货时间：
-              <input type="text"
-                     datepicker
-                     class="ipt color-6"
-                     style="width:120px;"
-                     ng-readonly="true"
-                     ng-model="formData.expectDate"
-                     placeholder="">
-              <span class="date-icon"></span>
+            <div class="mgr-s relative">预计退货时间：
+              <div class="date-icon-outside">
+                <input type="text"
+                       style="top:0px;"
+                       datepicker
+                       class="ipt-date ipt color-3"
+                       ng-readonly="true"
+                       placeholder=""
+                       ng-model="formData.expectDate">
+                      <span class="date-icon"></span>
+              </div>
             </div>
+            <em ng-if="!formData.expectDate" class="color-red">(必填)</em>
           </div>
         </div>
         <div class="empty-panel clearfix" ng-if="!formData.orderMedicalNos.length">
@@ -100,11 +103,9 @@
                 <th class="text-center w-160">商品规格</th>
                 <th class="text-center w-160">基本单位</th>
                 <th class="text-center w-120">可退数量</th>
-                <th class="text-center w-120">实退数量</th>
-                <th class="text-center w-220">生产批号</th>
+                <th class="text-center w-220">生产批号/数量<em class="color-red">(必选)</em></th>
                 <th class="text-center w-220">仓库</th>
                 <th class="text-center w-220">区域</th>
-                <!-- <th class="text-center w-160">灭菌批号</th> -->
                 <th class="text-center w-160">货位</th>
                 <th class="text-center w-120">采购单价</th>
                 <th class="text-center w-120">计划退货金额</th>
@@ -115,13 +116,12 @@
             </thead>
             <tbody class="bg-white">
               <tr ng-repeat="item in formData.orderMedicalNos"
-                  ng-controller="saleReturnMedicalItemController"
                   table-item-handlebtn-component
                   ng-init="item.stockBatchs=item.stockBatchs?item.stockBatchs:[]">
                 <td class="text-center">{{item.code}}
                   <div class="table-item-handle-btn">
                     <div class="table-item-confirm-del-area bg-white">
-                      <p class="bb-line color-red pd-v">确认删除本条数据?</p>
+                      <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                       <p class="pdt">
                         <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
                         <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
@@ -133,8 +133,10 @@
                 <td class="text-center">{{item.specificationAndModelType}}</td><!-- 商品规格-->
                 <td class="text-center">{{item.unit}}</td><!-- 基本单位 -->
                 <td class="text-center">{{item.goodsCount}}</td><!-- 可退数量 -->
-                <td class="text-center">{{item.actualReturnCount}}</td><!-- 实退数量 -->
-                <td class="text-center">
+                <td class="text-center"
+                    invalid-popover
+                    popover-show="batchsNumOverloadFlag"
+                    popover-options='{"content":"批次数量不能大于可退货数量", "placement":"top", "trigger":"manual"}'>
                   <!-- 已选批号列表 -->
                   <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                        ng-if="batch.batchNumber"
@@ -149,12 +151,12 @@
                            name="batchNum{{$index}}"
                            ng-model="batch.quantity"
                            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                           ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)">
-                    <input type="hidden" ng-model="batch.id">
+                           ng-change="batchsNumOverload(formData.orderMedicalNos)">
+                    <input type="hidden" required ng-model="batch.id">
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
                   <!-- 批号选择 -->
-                  <div ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount" class="ipt-div relative" style="width:100%;">
+                  <div ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount"  class="ipt-div relative" style="width:100%;">
                     <i class="addImg"
                        style="left:85%"
                        modal-right="50%"
@@ -164,7 +166,8 @@
                                     "id":"{{item.id}}",
                                     "logisticsCenterId":"{{formData.logisticsCenterId}}",
                                     "goodsCount":{{item.goodsCount}},
-                                    "choisedBatchList":{{item.stockBatchs}}
+                                    "choisedBatchList":{{item.stockBatchs}},
+                                    "strike_price":{{item.strike_price}}
                                   }'
                        modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                     </i>
@@ -172,12 +175,11 @@
                   <!-- 待选择数 -->
                   <!-- <p ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p> -->
                 </td><!-- 生产批号 -->
-                <!-- <td class="text-center">{{item.sterilizationBatchNumber}}</td>--><!-- 灭菌批号 -->
                 <td class="text-center">{{item.storeRoomName}}</td><!-- 仓库 -->
                 <td class="text-center">{{item.regionName}}</td><!-- 区域 -->
                 <td class="text-center">{{item.goodsLocationName}}</td><!-- 货位 -->
                 <td class="text-center">{{item.strike_price | currency:'￥'}}</td><!-- 采购单价 -->
-                <td class="text-center">{{item.planReturnPrice}}</td><!-- 计划退货金额 -->
+                <td class="text-center">{{calculaCurrentMedicalPrice(item) | currency:'￥'}}</td><!-- 计划退货金额 -->
                 <td class="text-center">{{item.actualReturnPrice}}</td><!-- 实际退货金额 -->
                 <td class="text-center">{{item.manufacturer}}</td><!-- 生产厂商 -->
                 <td class="text-center">{{item.productionPlace}}</td><!-- 产地 -->
@@ -212,7 +214,7 @@
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/purchaseReturn/query.html')"
-             save-callback="submitForm('saleReturnEditForm','save')">返回采购退货单列表
+             save-callback="submitForm('saleReturnEditForm','save');$root.goTo('#/purchaseReturn/query.html')">返回采购退货单列表
           </a>
 
           <a class="" ng-if="!changeFlag" href="#/purchaseReturn/query.html" >返回采购退货单列表</a>
@@ -228,12 +230,10 @@
           </a>
           <button type="submit"
                   class="pr-btn-save-glodbg mgl-m"
-                  ng-click="submitForm_type='save';formData.validFlag=false;"
+                  ng-click="submitForm('saleReturnEditForm','save');formData.validFlag=false;"
                   ng-disabled="!changeFlag">保存
           </button>
-
-
-          <button class="mgl-s pr-btn-create-glodbg"
+          <button class="mgl-s pr-btn-save-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认提交退货单"
@@ -241,9 +241,16 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!saleReturnEditForm.$valid || quantityError ||!formData.orderMedicalNos.length">提交
+                  ng-disabled="!saleReturnEditForm.$invalid ||
+                               !formData.orderMedicalNos.length ||
+                               !formData.expectDate ||
+                               batchsNumOverloadFlag">提交
           </button>
 
+      </div>
+      <div class="price-area relative fl-r mgr-l"
+           style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+        <em class="color-white">￥{{calculaTotalPrice(formData.orderMedicalNos) || '0.00' | number:2}}</em>
       </div>
     </div>
   </form>

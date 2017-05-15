@@ -41,10 +41,11 @@
             </div>
             <textarea ng-if="_checkStatus!='驳回'" limit-word-show maxlength="120" class="pr-textarea"  ng-model="formData.key" placeholder="补充说明"></textarea>
             <textarea ng-if="_checkStatus=='驳回'" limit-word-show maxlength="120" top="100" class="pr-textarea mgt"  ng-model="formData.key" placeholder="补充说明"></textarea>
+            <em ng-if="!formData.key&&_checkStatus=='驳回'" class="color-red">(必填)</em>
           </div>
   </div>
   <div class="pr-page-dialog-footer text-center mg-m">
-    <button type="submit"  class="pr-btn-confirm-glodbg">确定</button>
+    <button type="submit" ng-class="{'disabled':(!formData.key&&_checkStatus=='驳回')}"  class="pr-btn-confirm-glodbg">确定</button>
 
   </div>
   </form>

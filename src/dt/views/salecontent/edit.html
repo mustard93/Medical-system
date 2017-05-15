@@ -81,8 +81,9 @@
              <table class="table pr-table pr-new-table mgb-n table-wid-l">
                <thead>
                  <tr>
-                  <th class="w-60 text-center">
-                    <input type="checkbox" class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                  <th class="w-60 text-center mycheck">
+                    <input type="checkbox" id='1' class="selectAll cur-pot" ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent()">
+                    <label for="1"></label>
                   </th>
                   <th class="text-center">序号</th>
                   <th class="text-center">状态</th>
@@ -119,8 +120,9 @@
                </thead>
                <tbody>
                  <tr ng-repeat="tr in tbodyList" table-item-handlebtn-component>
-                   <td class="select-td text-center">
-                     <input type="checkbox" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                   <td class="select-td text-center mycheck">
+                     <input type="checkbox" id="{{$index+2}}" class="selectOne cur-pot" ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                     <label for="{{$index+2}}"></label>
                      <div class="table-item-handle-btn">
                        <div class="table-item-confirm-del-area bg-white">
                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
@@ -146,7 +148,8 @@
                    <td class="text-center" style="line-height:2.4">{{tr.medical.code}}</td><!-- 商品编码 -->
                    <td class="text-center" style="line-height:2.4">
                      <div class="ipt-div relative text-left pr-indent-5" style="width:100%;">{{tr.hospitalMedicalCode}}
-                       <i class="addImg" style="right:0px;left:inherit;"
+                       <i change-img change-value="{{tr.hospitalMedicalCode}}"
+                          style="right:0px;left:inherit;"
                           modal-right="50%"
                           modal-scope="this"
                           modal-data='{
@@ -161,7 +164,7 @@
                      </div>
                    </td><!-- 供应商商品编码 -->
                    <td class="text-left" style="line-height:2.4">{{tr.medical.name}}</td><!-- 商品名称 -->
-                   <td class="text-left" style="line-height:2.4">{{tr.medical.approvedName}}</td><!-- 医疗机构商品名称 -->
+                   <td class="text-left" style="line-height:2.4">{{tr.spdMedicalName}}</td><!-- 医疗机构商品名称 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.specificationAndModelType}}</td><!-- 规格型号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.spdMedicalSpecificationAndModelType}}</td><!-- 医疗机构规格型号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.medical.measurement}}</td><!-- 基本单位 -->
@@ -222,7 +225,7 @@
      <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
         <span class="mgl">
-          <a href="#/salecontent/query.html">返回采购目录列表</a>
+          <a href="#/salecontent/query.html">返回销售目录列表</a>
         </span>
         <span class="mgl">
           <a href="javascript:;">查看操作记录</a>

@@ -1302,7 +1302,7 @@ body.ngdialog-open {
   bottom: 0;
   position: fixed;
   width: 900px;
-  box-shadow: -1px 0 10px rgba(0, 0, 0, 0.15);
+  box-shadow: -1px 0 10px rgba(0, 0, 0, 0.6);
 	border: none;
   overflow: auto;
 }
@@ -1593,6 +1593,27 @@ color: #C7A77B!important;
 }
 .pr-bg-grey3{
 background-color: #e5e5e5!important;
+}
+.pr-border-green {
+	background-color: transparent;
+	border: 1px solid #57C600;
+}
+.pr-border-green-ok {
+	background-color: transparent;
+	border: 1px solid #57C600;
+	position: relative;
+  top: 10px;
+}
+.pr-border-green-ok:before {
+	content: '√';
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+  position: relative;
+  top: -8px;
+  left: 2px;
+  transform: rotate(25deg);
+  color: #57C600;
 }
 /*采购计划待收货状态*/
 .pr-bg-grey4{
@@ -2015,6 +2036,13 @@ input[disabled],textarea[disabled],select[disabled],div[disabled],span[disabled]
 	cursor: not-allowed!important;
 	background-color: #eee!important;
 }
+.pr-modal-content span[disabled],
+.pr-modal-content input[disabled],
+.pr-modal-content select[disabled]
+{
+	cursor: not-allowed!important;
+	background-color: #666!important;
+}
 /* 白色按钮 */
 .pr-btn-bg-white {
   background-color: #fff;
@@ -2421,7 +2449,7 @@ border-left: 1px dashed #e2e2e2;
 
 
 .pr-table > tbody > tr > td {
-  position: relative;
+  /*position: relative;*/
 }
 .pr-table > tbody > tr > td.has-border {
   border: 1px solid #e2e2e2;
@@ -2633,6 +2661,7 @@ div.order-goods-num > button.right {
 	cursor: not-allowed!important;
 	color:white!important;
 	background-color:#e5e5e5!important;
+	box-shadow: none;
 }
 .content-wrapper .content-wrapper-main span.order-goods-num > input {
   width: 75px;
@@ -3427,6 +3456,32 @@ label.checkbox_label > div {
   background-color:#fff;
 }
 .purchaseorder-buyer-info {
+  position:absolute;
+  /*top: 22px;*/
+  right: -15%;
+  display: none;
+  background-color: rgba(255, 255, 255, .85);
+  z-index: 13;
+  -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+}
+
+.pickBillOrder-info:before {
+  content: ' ';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  transform: translate(-50%) rotate(-45deg);
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  z-index: 13;
+  background-color: #fff;
+}
+.pickBillOrder-info {
   position:absolute;
   /*top: 22px;*/
   right: -15%;
@@ -5214,17 +5269,23 @@ background-color:rgba(54,48,44,0.9);
 	border-top: none;
 	border-right: none;
 }
+.showStatus>.circle-status>.purchaseorder-buyer-info:before{
+	top:25px;
+}
+
 /*品种管理状态显示圆图形*/
 .circle-status{
-display: inline-block;
-width: 12px;
-height: 12px;
-border-radius: 50%;
+	/*position: relative;*/
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
 }
 .circle-status{
 	cursor: pointer;
 }
-.circle-status:hover .purchaseorder-buyer-info{
+.circle-status:hover .purchaseorder-buyer-info,
+.circle-status:hover .pickBillOrder-info{
 	display: block;
 }
 .bg-pass-green{
@@ -5577,7 +5638,7 @@ border-radius: 50%;
 	background-repeat: no-repeat;
   background-position: -363px -733px;
 }
-.allocate-order div.arrow-y:before{
+div.arrow-down:before{
 	content: ' ';
 	position: absolute;
 	top: 21%;
@@ -6022,6 +6083,7 @@ border-radius: 50%;
   display: inline-block;
 }
 
+/*根据订单编号查询，自动补全输入订单编号下拉框的样式*/
 .ac_results>ul{
 background-color: white;
 border: 1px solid rgba(209,143,0,0.2);
@@ -6032,4 +6094,70 @@ border: 1px solid rgba(209,143,0,0.2);
 .ac_results>ul>li:hover{
 	cursor: pointer;
 	background-color:rgba(209,143,0,0.2);
+}
+
+/*库存查询模块，条件查询块样式定义*/
+.select-ul{
+	width: 100%;
+	min-height: 145px;
+	padding: 10px 0px;
+	background: rgba(255,255,255,0.50);
+	box-shadow: 0 0 4px 0 rgba(0,0,0,0.10);
+}
+.select-ul>li{
+	margin-top: 45px;
+	height: 40px;
+}
+.select-ul>li:not(:last-child){
+	border-right: 2px solid #E7E3D8;
+}
+
+.select-ul li>div:hover{
+	cursor: pointer;
+}
+.select-ul li>div.active{
+	background: #FFFFFF;
+	box-shadow: 0 0 4px 0 rgba(199,167,123,0.50);
+	border-radius: 6px;
+
+}
+.select-ul li>div{
+	margin-top: -45px;
+	margin-left: 100px;
+	width: 50%;
+	min-height: 127px;
+	border-radius: 6px;
+	padding:7px 80px;
+}
+.select-ul li:first-child>div>em{
+	margin: 25px 0px 0px 5px;
+	display: inline-block;
+	width: 50px;
+	height: 80px;
+	background-image: url(../../images/icon_stockRoomQuery/icon-pg16-商品@1x.png);
+	background-repeat: no-repeat;
+}
+.select-ul li:nth-child(2)>div>em{
+	margin: 25px 0px 0px -20px;
+	display: inline-block;
+	width: 115px;
+	height: 80px;
+	background-image: url(../../images/icon_stockRoomQuery/icon-pg16-商品+库房@1x.png);
+	background-repeat: no-repeat;
+}
+.select-ul li:nth-child(3)>div>em{
+	margin: 0px 0px 0px -25px;
+	display: inline-block;
+	width: 115px;
+	height: 105px;
+	background-image: url(../../images/icon_stockRoomQuery/icon-pg16-商品+库房+批号@1x.png);
+	background-repeat: no-repeat;
+}
+.select-ul li:last-child>div>em{
+	margin: 0px 0px 0px -45px;
+	display: inline-block;
+	width: 150px;
+	height: 105px;
+	background-image: url(../../images/icon_stockRoomQuery/icon-pg16-商品+库房+批号+货位@1x.png);
+	background-repeat: no-repeat;
 }

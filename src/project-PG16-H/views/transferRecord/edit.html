@@ -1,0 +1,223 @@
+<div class="first-medical-application"
+     ng-controller="transferRecordCtrl"
+     ajax-url="rest/authen/transferRecord/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData');"
+     alert-error>
+
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
+         <a href="#/transferRecord/query.html">
+            <em class="color-custom-orange">库存移位</em>
+         </a>
+        <em>>库存移位编辑</em>
+       </p>
+       <div class="pd-c-xxl pdt-l pdb-l">
+         <!-- 标题 -->
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20">库存移位</h1>
+         </div>
+       </div>
+     </div>
+  <!-- 主体内容 -->
+  <div class="content-wrapper ">
+      <form class="form-horizontal"
+            id="editForm"
+            name="editForm"
+            form-validator
+            parameter-body
+            action="rest/authen/transferRecord/save"
+            alert-error
+            alert-ok
+            scope-error-msg="errorMsg"
+            scope-data="formData"
+            novalidate="true"
+            callback="submitFormAfter('#/transferRecord/query.html');
+            watchFormChange('formData');formData.firstMedical.isBasicMedicine='是';">
+
+        <!-- 基本信息 -->
+        <div class="panel pr-fuzzy-boundary pr-panel pr-fuzzy-boundary-height color-9 " style="margin-bottom:0px;-webkit-box-shadow:none;"
+             ajax-if-eval="formData.medical.id"
+             ajax-url="rest/authen/medicalStock/get.json?id={{formData.medical.id}}"
+             scope-data="medicalData"
+             alert-error
+             callback="formData.relId=medicalData.id;
+                       formData.medical.name=medicalData.name;
+                       formData.medical.specification=medicalData.specification;
+                       formData.medical.manufacturer=medicalData.manufacturer;">
+
+          <div class="flex-column mgt">
+            <div class="flex-item-12 text-left ">
+              <em>商品名称：</em>
+              <span angucomplete-medical
+                    ng-disabled="formData.id"
+                    placeholder="输入"
+                    title-field="name"
+                    search-str="{{formData.medical.name}}"
+                    url="rest/authen/medicalStock/query"
+                    class="pr-ipt-240 inline-block"
+                    ng-model="formData.medical"
+                    style="height:28px;width:372px;border-radius:2px;"\>
+              </span>
+              <i class="receive-item-icon" style="left:430px;top:30px;"></i>
+              <p class="mgt-s" style="margin-left:65px;">
+                <em class="mgr-xl">生产厂商：{{formData.medical.manufacturer}}</em>
+                <em>规格：{{formData.medical.specification}}</em>
+              </p>
+            </div>
+          </div>
+          <div class="flex-column mgt-xl bt-dashed-line" style="min-height:300px;">
+            <div class="flex-item-4 br-dashed-line" style="height:100%;">
+              <div style="padding:120px 185px;">
+                <p>生产批号：</p>
+                <div class="ipt-div relative text-left pr-indent-5 mgt-s" style="width:172px;">{{formData.productionBatch}}
+                  <i change-img change-value="{{formData.productionBatch}}"
+                     style="right:0px;left:inherit;"
+                     modal-right="50%"
+                     modal-scope="this"
+                     modal-data='{"medicalName":"{{formData.medical.name}}","medicalId":"{{formData.relId}}"}'
+                     modal-url="views/versionFlow/create-correspond-relation2.html">
+                  </i>
+                </div>
+              </div>
+            </div>
+            <div class="flex-item-4 br-dashed-line " >
+              <div class="flex-column" style="padding:73px 135px;">
+                <div class="flex-item-5">
+                  <div class="inline-block">
+                    <p class="mgb-s">当前区域：</p>
+                    <select class="inline ipt-new-s pdt"
+                            chosen
+                            style="width:120px;"
+                            data-placeholder=" "
+                            default-empty="全部"
+                            ng-model="formData.sourceRegionId"
+                            select-source="rest/authen/region/queryForSelectOption">
+                    </select>
+                  </div>
+
+                  <div class="inline-block mgt-xxl">
+                    <p class="mgb-s">目标区域：</p>
+                    <select class="inline ipt-new-s pdt"
+                            chosen
+                            style="width:120px;"
+                            data-placeholder=" "
+                            default-empty="全部"
+                            ng-model="formData.targetRegionId"
+                            select-source="rest/authen/region/queryForSelectOption">
+                    </select>
+                  </div>
+                </div>
+
+              <div class="text-center flex-iten-2 relative arrow-down text-m color-black min-h-l " style="min-width:30px;margin-top:60px;"></div>
+
+              <div class="flex-item-5">
+                <div class="inline-block" style="margin-left:40px;">
+                  <p class="mgb-s">当前货位：</p>
+                  <select class="inline ipt-new-s pdt mgt-s"
+                          chosen
+                          style="width:120px;"
+                          data-placeholder=" "
+                          default-empty="全部"
+                          ng-model="listParams.sourceGoodsLocationId"
+                          select-source="rest/authen/goodsLocation/queryForSelectOption">
+                  </select>
+                </div>
+
+                <div class="inline-block mgt-xxl" style="margin-left:40px;">
+                  <p class="mgb-s">目标货位：</p>
+                  <select class="inline ipt-new-s pdt mgt-s"
+                          chosen
+                          style="width:120px;"
+                          data-placeholder=" "
+                          default-empty="全部"
+                          ng-model="listParams.targetGoodsLocationId"
+                          select-source="rest/authen/goodsLocation/queryForSelectOption">
+                  </select>
+                </div>
+              </div>
+              </div>
+
+            </div>
+            <div class="flex-item-4 full-height">
+              <div style="padding:110px 105px;">
+                <p>数量</p>
+                  <div class="inline-block mgr-s">
+                    <input type="number" class="inline-block ipt-new-s hei-28 pr-indent-10" style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;" placeholder="" ng-model="formData.transferQuantity" />
+                  </div>
+                  <div class="inline-block">
+                    <select class="inline-block pdt mgl-s"
+                            chosen
+                            style="width:70px;height:28px;"
+                            data-placeholder=" "
+                            default-empty="全部"
+                            ng-model="listParams.targetGoodsLocationId"
+                            select-source="rest/authen/goodsLocation/queryForSelectOption">
+                    </select>
+                  </div>
+                  <p>
+                    1 大箱 = 10 小箱 = 50 盒
+                  </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-column bt-dashed-line pdt-l">
+            <em>移位日期：</em>
+            <div class="date-icon-outside mgr-l">
+              <input type="text"
+                     style="top:0px;"
+                     datepicker
+                     class="ipt-date ipt color-3"
+                     ng-readonly="true"
+                     placeholder=""
+                     ng-model="formData.transferDate">
+                    <span class="date-icon"></span>
+            </div>
+            <em>操作员：</em>
+            <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
+                    ng-disabled="formData.id"
+                    data-placeholder=" "
+                    chosen
+                    ng-model="formData.medicalAttribute.latelyOperationFlow.inputUser"
+                    select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
+            </select>
+          </div>
+        </div>
+       <!-- 备注-->
+
+       <div class="panel pr-panel pr-panel-height mgt-l pr-fuzzy-boundary">
+         <h1 class="pr-font-14 color-3 mgb">移位原因</h1>
+         <div class="">
+           <textarea class="pr-textarea" name="note" rows="8" cols="40" ng-model="formData.transferReason"></textarea>
+         </div>
+       </div>
+        <!-- 功能按钮 -->
+        <div class="handle-btn-area relative">
+          <div class="mgb text-right btn-area">
+
+            <span class="mgl">
+              <a ng-if="changeFlag"
+                 href="javascript:;"
+                 handle-this-click
+                 dialog-title="确认返回?"
+                 dialog-content="该库存移位存在未保存数据，是否保存?"
+                 dialog-template="pr-dialog-return.html"
+                 nosave-callback="$root.goTo('#/transferRecord/query.html')"
+                 save-callback="submitForm('editForm','save');$root.goTo('#/transferRecord/query.html')">返回库存移位列表
+              </a>
+              <a ng-if="!changeFlag" href="#/transferRecord/query.html">返回库存移位列表</a>
+            </span>
+            <span class="mgl" >
+              <button
+              href="javascript:;"
+              class="pr-btn-save-glodbg mgt"
+              type="button"
+              ng-click="submitForm('editForm','save')"
+              ng-disabled="editForm.$invalid ||!changeFlag">确定</button>
+          </span>
+
+          </div>
+        </div>
+      </form>
+</div>

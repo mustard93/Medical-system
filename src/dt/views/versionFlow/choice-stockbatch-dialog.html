@@ -1,9 +1,11 @@
+
 <div class="modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="editStockbatchNumberCtrl"
      ajax-url="rest/authen/medicalStock/queryStockBatch.json?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
      scope-data="stockBatchList"
      callback="getChoisedBatchsId(dialogData.choisedBatchList)"
      alert-error>
+
   <!-- 标题 -->
   <div class="bb-line-gold pr-bg-black2 min-h-l">
     <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{dialogData.medicalName}}</h1>
@@ -54,11 +56,14 @@
       </div>
     </div>
   </div>
+
   <!-- 无数据 -->
   <div ng-if="!stockBatchList.length" class="color-red text-n pdl-l pdt-m">此商品在该物流中心暂无库存。</div>
   <!-- 数据遍历 -->
-  <div ng-if="stockBatchList.length">
-    <table class="full-width another-table">
+
+  <!--  -->
+  <div ng-if="stockBatchList.length" style="height: 85%; overflow-y: scroll;">
+    <table class="full-width another-table" >
       <thead>
         <tr class="bb-line-gold">
           <th></th>
@@ -86,6 +91,7 @@
           <td class="text-left color-white" style="height:50px;">{{item1.warehouseName}}</td>
           <td class="text-left color-white" style="height:50px;">{{item1.stockModel.salesQuantity}}</td>
         </tr>
+
       </tbody>
     </table>
   </div>

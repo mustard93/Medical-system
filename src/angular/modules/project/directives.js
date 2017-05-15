@@ -2517,7 +2517,8 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             "searchFields": "@",
             "matchClass": "@",
             "ngDisabled": "=?",
-            "searchStr": "@"
+            "searchStr": "@",
+            "customStyle": "@"   // 自定义样式
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
@@ -2585,6 +2586,17 @@ function flashAddMedical(utils,$timeout) {
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/flashAddMedical.html',
         link: function($scope, elem, $attrs, ngModel) {
+
+          // 隐藏标题
+          if (angular.isDefined($attrs.hideTitle)) {
+            $scope.hideTitle = true;
+          }
+
+          // 隐藏添加按钮
+          if (angular.isDefined($attrs.hideAddButton)) {
+            $scope.hideAddButton = true;
+          }
+
           //隐藏输入数量控件
           if (angular.isDefined($attrs.hideQuantity)){
             $scope.hideQuantity=true;
@@ -2715,6 +2727,7 @@ function customTable() {
             }
             if ($attrs.customTable) {
                 $scope._customTableName=$attrs.customTable;
+                $scope._customKey=$attrs.customKey;
             }
             if ($attrs.customTrMenus) {
                 $scope._customTrMenus=$attrs.customTrMenus;
@@ -3495,6 +3508,24 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
     }
   };
 }
+function changeImg () {
+  'use strict';
+  return {
+    restrict: 'EA',
+    link: function (scope, element, attrs) {
+
+      var value=attrs.changeValue;
+
+        if(value){
+          element.removeClass('addImg');
+          element.addClass('editImg');
+        }else{
+          element.removeClass('editImg');
+          element.addClass('addImg');
+        }
+    }
+  };
+}
   // ul模拟select
 // function ulSelect () {
 //   'use strict';
@@ -3512,6 +3543,7 @@ angular.module('manageApp.project')
 
   .directive("tableItemMultipleBtn", ['utils', 'requestData', 'alertError', tableItemMultipleBtn])   // 医院信息管理表格多个操作按钮菜单
   .directive("pageMainHeaderComponent", pageMainHeaderComponent)
+  .directive("changeImg", changeImg)
   .directive("expressManageComponent", ['requestData', 'utils', expressManageComponent])
   .directive("tableItemHandlebtnComponent", ['utils', tableItemHandlebtnComponent])
   .directive("requestExpressInfoTab", ['requestData', 'alertError', requestExpressInfoTab])

@@ -1,0 +1,150 @@
+<div class="modal-content right-side-new pr-bg-black4"
+     ajax-url="rest/authen/pickBillOrder/queryReviewMedicalList?id={{dialogData.id}}&medicalId={{dialogData.medicalId}}"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData');formData.oldQualifiedQuantity=formData.qualifiedQuantity"
+     alert-error>
+  <form class="add-customerAddress-form form-horizontal"
+        id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/checkUp/confirm.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        onkeydown="if(window.event.keyCode==13) return false;"
+        callback="$root.watchFormChange('formData',this);$root.utils.goTo('#/checkUp/query.html')"
+        novalidate="true">
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">{{formData.name}}</h1>
+    </div>
+    <div class="bb-dashed-gold pd-c-v-l color-white text-n">
+      计划拣选数量：{{formData.applicationCount}}({{formData.unit}})
+      <span ng-repeat="item in formData.othersPackingAttribute">
+          = {{item.quantity}}({{item.name}})
+      </span>
+    </div>
+    <div class="bb-line-gold ">
+      <table class="full-width another-table" >
+        <thead>
+          <tr class="bb-line-gold">
+            <th class="text-center" style="height:45px;background-color:#4D443B;">状态</th>
+            <th class="text-center" style="height:45px;background-color:#4D443B;">区域名称</th>
+            <th class="text-center" style="height:45px;background-color:#4D443B;">货位</th>
+            <th class="text-center" style="height:45px;background-color:#4D443B;">生产批号</th>
+            <th class="text-center" style="height:45px;background-color:#4D443B;">计划拣选数量({{formData.unit}})</th>
+            <th class="text-center" style="height:45px;background-color:#4D443B;">实拣数量({{formData.unit}})</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pr-bg-black3" ng-repeat="item in formData.list" style="background-color:#4D443B;">
+            <td class="text-center color-white" style="height:45px;">
+              <span class="circle-status"
+                    ng-class="{'pr-bg-grey4':item.orderStatus=='待拣选',
+                               'pr-bg-green':item.orderStatus=='已拣选'}">
+              </span>
+            </td><!--状态-->
+            <td class="text-center color-white">{{item.regionName}}</td><!--区域名称-->
+            <td class="text-center color-white">{{item.goodsLocationName}}</td><!--货位-->
+            <td class="text-center color-white">{{item.productionBatch}}</td><!--生产批号-->
+            <td class="text-center color-white">{{item.applicationCount}}</td><!--计划拣选数量-->
+            <td class="text-center color-white">{{item.pickNo}}</td><!--实拣数量-->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <div class="pdt-xl pdl-m">
+      <div class="inline-block mgr-l">
+        <span>验收人：</span>
+        <select class="inline ipt-new-s"
+                chosen
+                style="width:120px;"
+                data-placeholder=" "
+                ng-model="formData.checker"
+                select-source="rest/authen/user/queryForSelectOption">
+        </select>
+      </div>
+      <div class="inline-block relative">
+        <span>验收日期：</span>
+        <input type="text"
+               datepicker
+               class="ipt color-3"
+               style="width:120px;"
+               ng-readonly="true"
+               placeholder=""
+               ng-model="formData.checkUpDate" />
+              <span class="date-icon"></span>
+      </div>
+    </div> -->
+    <div class="outside-div ">
+        <p class="pd-v-c-l bb-line-gold">商品详细信息：</p>
+        <div class="">
+          <div class="inline-block flex-column  pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">商品编号：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.code}}</div>
+          </div>
+          <div class="inline-block flex-column  pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">商品名称：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.name}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">规格：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.specification}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">基本单位：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.unit}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">配送总数/实收总数：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.applicationCount}}/{{formData.pickNo}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">批号：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionBatch}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">生产日期：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionDate | date : 'yyyy-MM-dd'}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">有效期至：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.validTill | date : 'yyyy-MM-dd'}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">生产厂商：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.manufacturer}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">产地：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.productionPlace}}</div>
+          </div>
+          <!-- <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">库房名称：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.storeRoomName}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">供应商名称：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.supplierName}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">供应商编码：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{}}</div>
+          </div>
+          <div class="inline-block flex-column pd-c-v-s">
+            <div class="inline-block flex-item-3 text-right">供应商销售日期：</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.dtOrderCreateAt | date:'yyyy-MM-dd'}}</div>
+          </div> -->
+        </div>
+      </div>
+    <!-- <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <button type="submit"
+              style="margin-left:300px;"
+              class="pr-btn-create-glodbg new-left-side-button"
+              ng-click="modal.closeAll()"
+              ng-disabled="formData.unQualifiedQuantity<0">确定
+      </button>
+    </div> -->
+  </form>
+</div>

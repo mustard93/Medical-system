@@ -27,26 +27,24 @@
                      formData.medical.unit=medicalData.unit;
                      formData.medical.manufacturer=medicalData.manufacturer;">
       <h3 class="crumbs-circle-new color-white pr-indent-10 ">商品信息</h3>
-      <div class="flex-column mgt-l">
+      <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品名称：</div>
         <div class="flex-item-8 text-left">
           <span angucomplete-medical
+                ng-disabled="formData.id"
                 placeholder="输入"
                 title-field="name"
                 search-str="{{formData.medical.name}}"
                 url="rest/authen/medicalStock/query"
-                class="pr-ipt-240 hei-28 inline-block"
-                ng-model="formData.medical">
+                class="pr-ipt-240 inline-block"
+                ng-model="formData.medical"
+                style="height:26px;border-radius:4px;"\>
           </span>
-          <!-- <span
-          ng-if="formData.id"
-          class="pr-ipt-250 hei-28 inline-block color-white"
-          style="background: #595450;border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;">{{formData.medical.name}}</span> -->
-          <i class="receive-item-icon" style="right:65px;top:50px;"></i>
+          <i class="receive-item-icon" style="right:65px;top:40px;"></i>
           <span ng-if="!formData.medical.name" class="color-red">（必填）</span>
         </div>
       </div>
-      <div class="flex-column mgt-l">
+      <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品编码：</div>
         <div class="flex-item-8 text-left">
           <span class="color-white" style="display: inline-block;line-height: 28px;">{{formData.medical.code}}</span>
@@ -54,45 +52,46 @@
             <i class="receive-item-icon" style="right:145px;top:100px;"></i> -->
         </div>
       </div>
-      <div class="flex-column mgt-l">
+      <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品规格：</div>
         <div class="flex-item-8 text-left">
           <span class="color-white" style="display: inline-block;line-height: 28px;">{{formData.medical.specification}}</span>
             <!-- <input type="text" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.medical.specification" /> -->
         </div>
       </div>
-      <div class="flex-column mgt-l">
+      <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">基本单位：</div>
         <div class="flex-item-8 text-left">
           <span class="color-white" style="display: inline-block;line-height: 28px;">{{formData.medical.unit}}</span>
             <!-- <input type="text" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.medical.unit" /> -->
         </div>
       </div>
-      <div class="flex-column mgt-l">
+      <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">生产厂商：</div>
         <div class="flex-item-8 text-left">
               <span class="color-white" style="display: inline-block;line-height: 28px;">{{formData.medical.manufacturer}}</span>
             <!-- <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.medical.manufacturer" /> -->
         </div>
       </div>
-      <div class="flex-column mgt-l">
+      <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">效期预警天数：</div>
         <div class="flex-item-8 text-left">
             <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.guaranteePeriodAlarmDay" />
         </div>
       </div>
-      <div class="flex-column mgt-l">
+      <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">推荐采购量：</div>
         <div class="flex-item-8 text-left">
             <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.purchaseQuantity" />
         </div>
       </div>
       </div>
-        <h3 class="crumbs-circle-new color-white mgt-l pr-indent-10 ">库房信息</h3>
+        <h3 class="crumbs-circle-new color-white mgt pr-indent-10 ">库房信息</h3>
         <div class="flex-column">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">库房名称：</div>
           <div class="flex-item-8 text-left">
             <select ng-if="initFlag"
+                    ng-disabled="formData.id"
                     class="select-new inline pr-ipt-160 hei-28"
                     ajax-url="rest/authen/storeRoom/queryForSelectOption"
                     ng-model="formData.storeRoomId"
@@ -107,11 +106,21 @@
           <div class="flex-item-8 text-left">
 
             <select ajax-if-eval="formData.storeRoomId"
+                    ng-disabled="formData.id"
                     class="select-new inline pr-ipt-160 hei-28"
                     ajax-url="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}"
                     ng-model="formData.regionId"
                     scope-data="regionData"
                     ng-options="item.value as item.text for item in regionData">
+            </select>
+          </div>
+        </div>
+        <div class="flex-column">
+          <div class="flex-item-4 text-right text-n" style="line-height:28px;">状态：</div>
+          <div class="flex-item-8 text-left">
+            <select class="select-new inline pr-ipt-160 hei-28" ng-model="formData.status">
+              <option  value="ACTIVE" ng-selected="formData.status=='ACTIVE'">正常</option>
+              <option  value="DISABLE" ng-selected="formData.status=='DISABLE'">禁用</option>
             </select>
           </div>
         </div>
@@ -127,7 +136,7 @@
               <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.inventoryLimit" />
           </div>
         </div>
-        <h3 class="crumbs-circle-new color-white mgt-l  pr-indent-10 ">货位信息</h3>
+        <h3 class="crumbs-circle-new color-white mgt  pr-indent-10 ">货位信息</h3>
         <div class="flex-column">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">推荐上架货位：</div>
           <div class="flex-item-8 text-left">
@@ -138,6 +147,13 @@
                     scope-data="goodData"
                     ng-options="item.value as item.text for item in goodData">
             </select>
+          </div>
+        </div>
+        <h3 class="crumbs-circle-new color-white mgt  pr-indent-10 ">备注</h3>
+        <div class="flex-column">
+          <div class="flex-item-4 text-right text-n" style="line-height:28px;">备注：</div>
+          <div class="flex-item-8 text-left">
+              <textarea class="pr-textarea" maxlength="240" style="height:64px;width:257px;" placeholder="" ng-model="formData.note"></textarea>
           </div>
         </div>
     </div>

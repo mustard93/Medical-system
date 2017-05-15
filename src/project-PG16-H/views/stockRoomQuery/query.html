@@ -1,0 +1,193 @@
+<div class="medical-stock supplier-management child-project-management"
+     ng-controller="medicalStockCtrl"
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.type=mainStatus.pageParams.type ||'商品'">
+
+    <!-- 主内容头部 -->
+    <page-main-header-component list-params="listParams"
+                                crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"库存查询","link":"","style":"color-custom-orange"}]'
+                                component-title="库存查询"
+                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+    </page-main-header-component>
+    <div class="flex-column" style="margin-left:40px;margin-right:40px;">
+      <ul class="select-ul flex-column">
+        <li class="flex-item-3" >
+          <div ng-class="{'active':(listParams.type=='商品')}" ng-click="$root.goTo('#/stockRoomQuery/query.html?type=商品');">
+            <em ></em>
+          </div>
+        </li>
+        <li class="flex-item-3" >
+          <div ng-class="{'active':(listParams.type=='库房')}" ng-click="$root.goTo('#/stockRoomQuery/query.html?type=库房');">
+              <em ></em>
+          </div>
+        </li>
+        <li class="flex-item-3" >
+          <div ng-class="{'active':(listParams.type=='批号')}" ng-click="$root.goTo('#/stockRoomQuery/query.html?type=批号');">
+              <em></em>
+          </div>
+        </li>
+        <li class="flex-item-3" >
+          <div ng-class="{'active':(listParams.type=='货位')}" ng-click="$root.goTo('#/stockRoomQuery/query.html?type=货位');">
+              <em ></em>
+          </div>
+        </li>
+      </ul>
+    </div>
+  <!-- 按商品条件查询 -->
+  <table-list ng-if="listParams.type=='商品'"
+              list-data="rest/authen/medicalStock/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+    <div class="content-wrapper" style="padding:0px 10px;">
+      <div class="content-wrapper-main pr-fuzzy-boundary">
+        <div class="flex-column color-9 pd-c-v-l pdt-xxl pdb-xxl bg-white" style="box-shadow: 0 0 4px 0 rgba(0,0,0,0.10);">
+          <div class="flex-item-12 text-right">
+              <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                <input type="text" class="ipt pdr-xxl" placeholder="输入商品名相关信息/证号关键字段进行搜索" ng-model="listParams.q">
+                <i class=""></i>
+              </div>
+              <div class="inline-block mgl-m" ng-click="listParams.q=''">
+                <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                <a href="" class="color-light-brown" >重置搜索条件</a>
+              </div>
+          </div>
+        </div>
+        <div custom-table="com.pangu.mss.spd.domain.mongo.medical.MedicalStock" custom-key="stockRoomQuery_MedicalStock" custom-tr-menus="1" style="width:100%;"></div>
+        </div>
+      </div>
+  </table-list>
+  <table-list ng-if="listParams.type=='库房'"
+              list-data="rest/authen/medicalStock/queryForStoreRoom.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+
+    <div  class="content-wrapper" style="padding:0px 10px;">
+      <div class="content-wrapper-main pr-fuzzy-boundary">
+        <div class="flex-column color-9 pd-c-v-l  bg-white" style="box-shadow: 0 0 4px 0 rgba(0,0,0,0.10);">
+          <div class="flex-item-8 text-left">
+            <div class="mgr-s">
+              <p class="mgb-s">库房：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.storeRoomId"
+                      select-source="rest/authen/storeRoom/queryForSelectOption">
+              </select>
+            </div>
+          </div>
+          <div class="flex-item-4 text-right">
+              <div class="order-list-search inline-block mgt-l text-left code pos-rel-tr pdl-l relative">
+                <input type="text" class="ipt pdr-xxl" placeholder="输入商品名相关信息/证号关键字段进行搜索" ng-model="listParams.q">
+                <i class=""></i>
+              </div>
+              <div class="inline-block mgl-m mgt-l" ng-click="listParams.q=''">
+                <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                <a href="" class="color-light-brown" >重置搜索条件</a>
+              </div>
+          </div>
+        </div>
+        <div custom-table="com.pangu.mss.spd.domain.mongo.medical.MedicalStock" custom-key="stockRoomQuery_stockRoom" custom-tr-menus="1" style="width:100%;"></div>
+        </div>
+      </div>
+  </table-list>
+  <table-list ng-if="listParams.type=='批号'"
+              list-data="rest/authen/medicalStock/queryForStoreRoomAndProductionBatch.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+
+    <div  class="content-wrapper" style="padding:0px 10px;">
+      <div class="content-wrapper-main pr-fuzzy-boundary">
+        <div class="flex-column color-9 pd-c-v-l  bg-white" style="box-shadow: 0 0 4px 0 rgba(0,0,0,0.10);">
+          <div class="flex-item-8 text-left">
+            <div class="mgr-s">
+              <p class="mgb-s">库房：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.storeRoomId"
+                      select-source="rest/authen/storeRoom/queryForSelectOption">
+              </select>
+            </div>
+          </div>
+          <div class="flex-item-4 text-right">
+              <div class="order-list-search inline-block mgt-l text-left code pos-rel-tr pdl-l relative">
+                <input type="text" class="ipt pdr-xxl" placeholder="输入商品名相关信息/证号关键字段进行搜索" ng-model="listParams.q">
+                <i class=""></i>
+              </div>
+              <div class="inline-block mgl-m mgt-l" ng-click="listParams.q=''">
+                <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                <a href="" class="color-light-brown" >重置搜索条件</a>
+              </div>
+          </div>
+        </div>
+        <div custom-table="com.pangu.mss.spd.domain.mongo.medical.MedicalStock" custom-key="stockRoomQuery_batch" custom-tr-menus="1" style="width:100%;"></div>
+        </div>
+      </div>
+  </table-list>
+  <table-list ng-if="listParams.type=='货位'"
+              list-data="rest/authen/medicalStock/queryForGoodsLocation.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+
+    <div  class="content-wrapper" style="padding:0px 10px;">
+      <div class="content-wrapper-main pr-fuzzy-boundary">
+        <div class="flex-column color-9 pd-c-v-l  bg-white" style="box-shadow: 0 0 4px 0 rgba(0,0,0,0.10);">
+          <div class="flex-item-8 text-left">
+            <div class="inline-block mgr-l">
+              <p class="mgb-s">库房：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.storeRoomId"
+                      select-source="rest/authen/storeRoom/queryForSelectOption">
+              </select>
+            </div>
+            <div class="inline-block mgr-l">
+              <p class="mgb-s">区域：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.regionId"
+                      select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}">
+              </select>
+            </div>
+            <div class="inline-block mgr-l">
+              <p class="mgb-s">货位：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.goodsLocationId"
+                      select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}">
+              </select>
+            </div>
+          </div>
+          <div class="flex-item-4 text-right">
+              <div class="order-list-search inline-block mgt-l text-left code pos-rel-tr pdl-l relative">
+                <input type="text" class="ipt pdr-xxl" placeholder="输入商品名相关信息/证号关键字段进行搜索" ng-model="listParams.q">
+                <i class=""></i>
+              </div>
+              <div class="inline-block mgl-m mgt-l" ng-click="listParams.q=''">
+                <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                <a href="" class="color-light-brown" >重置搜索条件</a>
+              </div>
+          </div>
+        </div>
+        <div custom-table="com.pangu.mss.spd.domain.mongo.medical.MedicalStock" custom-key="stockRoomQuery_region" custom-tr-menus="1" style="width:100%;"></div>
+        </div>
+      </div>
+  </table-list>
+
+</div>

@@ -1,7 +1,7 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-controller="receiveItemController"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-     <table-list list-data="/rest/authen/receiveItem/query"
+     <table-list list-data="rest/authen/receiveItem/query"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
                  search-param="q">
@@ -20,7 +20,7 @@
          ajax-url="rest/authen/receiveItem/countByStatus"
          scope-data="statusNumList">
       <span status-style-toggle-new class="rect-status mgl-s"
-      ng-class="{'rect-status-active-new':(listParams.receiveItemStatus==null)}"
+       ng-class="{'rect-status-active-new':(listParams.receiveItemStatus==null)}"
        ng-click="listParams.receiveItemStatus=null">收货任务
         <span ng-if="(statusNumList['待收货']+statusNumList['收货中'])!=0" >
           (<em class="color-white">{{statusNumList['待收货']+statusNumList['收货中']}}</em>)
@@ -34,12 +34,16 @@
       <span status-style-toggle-new class="rect-status"
       ng-class="{'rect-status-active-new':(listParams.receiveItemStatus=='未匹配商品关系')}"
        ng-click="listParams.receiveItemStatus='未匹配商品关系'">未匹配商品关系
-        <em ng-if="statusNumList['未匹配商品关系']!=0">{{statusNumList['未匹配商品关系']}}</em>
+        <em ng-if="statusNumList['未匹配商品关系']!=0">
+            (<em class="color-white">{{statusNumList['未匹配商品关系']}}</em>)
+        </em>
       </span>
       <span status-style-toggle-new class="rect-status"
         ng-class="{'rect-status-active-new':(listParams.receiveItemStatus=='未加入采购目录商品')}"
        ng-click="listParams.receiveItemStatus='未加入采购目录商品'">未加入采购目录商品
-        <em ng-if="statusNumList['未加入采购目录商品']!=0">{{statusNumList['未加入采购目录商品']}}</em>
+        <em ng-if="statusNumList['未加入采购目录商品']!=0">
+            (<em class="color-white">{{statusNumList['未加入采购目录商品']}}</em>)
+        </em>
       </span>
     </div>
     <div class="content-wrapper" style="margin:0px 45px;">
@@ -49,32 +53,32 @@
             <div class="inline-block mgr-s relative">
               <p class="mgb-s">采购计划编号：</p>
               <input type="text"
-                     class="inline ipt pr-ipt-60"
-                     style="width:160px;"
+                     class="pr-ipt-160 hei-28 inline-block"
+                     style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
                      placeholder=""
                      ng-model="listParams.purchasePlanOrderCode"
-                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=purchasePlanOrderCode"/>
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Mission.ReceiveItem&property=purchasePlanOrderCode"/>
               <i class="receive-item-icon"></i>
               </select>
             </div>
             <div class="inline-block mgr-s relative">
               <p class="mgb-s">物流编号：</p>
               <input type="text"
-                     class="inline ipt pr-ipt-60"
-                     style="width:160px;"
+                     class="pr-ipt-160 hei-28 inline-block"
+                     style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
                      placeholder=""
                      ng-model="listParams.logisticCode"
-                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=logisticCode"/>
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Mission.ReceiveItem&property=logisticCode"/>
               <i class="receive-item-icon"></i>
             </div>
             <div class="inline-block mgr-s relative">
               <p class="mgb-s">销售单编号：</p>
               <input type="text"
-                     class="inline ipt pr-ipt-60"
-                     style="width:160px;"
+                     class="pr-ipt-160 hei-28 inline-block"
+                     style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
                      placeholder=""
                      ng-model="listParams.dtOrderCode"
-                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=dtOrderCode"/>
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Mission.ReceiveItem&property=dtOrderCode"/>
               <i class="receive-item-icon"></i>
             </div>
             <div class="inline-block mgr-s">
@@ -154,7 +158,7 @@
                 <th class="w-80">状态</th>
                 <th class="w-80">序号</th>
                 <th class="w-140">采购计划编码</th>
-                <th class="w-80">商品编号</th>
+                <th class="w-80">商品编码</th>
                 <th class="w-220">商品名称</th>
                 <th>规格</th>
                 <th>单位</th>
@@ -206,7 +210,7 @@
                     </div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='未加入采购目录商品'"
-                         ng-click="$root.goTo('#/purchasecontent/edit.html?id='+tr.purchaseContentId+'&supplierId='+tr.hospitalSupplierId)">加入采购目录...</div>
+                         ng-click="$root.goTo('#/purchasecontent/edit.html?id='+tr.purchaseContentId+'&supplierId='+tr.supplierId)">加入采购目录...</div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white" ng-if="tr.receiveItemStatus=='未匹配商品关系'" ng-click="onceMatch(tr)">立即匹配...</div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='收货中'"
@@ -229,31 +233,17 @@
                   </div>
                 </td><!-- 状态 -->
                 <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
-                <td>{{tr.purchasePlanOrderCode}}</td><!-- 采购计划编号 -->
+                <td>{{tr.relOrderCode}}</td><!-- 采购计划编号 -->
                 <td>{{tr.code}}</td><!-- 商品编号 -->
                 <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品名称 -->
                 <td>{{tr.specification}}</td><!-- 规格 -->
                 <td>{{tr.unit}}</td><!-- 单位 -->
-                <td>
-                  <!-- <div class="full-width hei-50" style="line-height:50px;padding-right:10px;" ng-class="{'bb-line-yellow':(tr.batchInfos.length>1)}" ng-repeat="pro in tr.batchInfos"> -->
-                    {{tr.productionBatch}}
-                  <!-- </div> -->
-                </td><!-- 生产批号 -->
-                <td >
-                    {{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}
-                </td><!-- 配送数量/已收数量 -->
-                <td >
-                    {{tr.productionDate | date : 'yyyy-MM-dd'}}
-                </td><!-- 生产日期 -->
-                <td >
-                    {{tr.receiverName}}
-                </td><!-- 收货人 -->
-                <td >
-                    {{tr.receiveDate | date : 'yyyy-MM-dd'}}
-                </td><!-- 收货时间 -->
-                <td>
-                    {{tr.validTill | date : 'yyyy-MM-dd'}}
-                </td><!-- 有效期至 -->
+                <td>{{tr.productionBatch}}</td><!-- 生产批号 -->
+                <td>{{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}</td><!-- 配送数量/已收数量 -->
+                <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
+                <td>{{tr.receiver.n}}</td><!-- 收货人 -->
+                <td>{{tr.receiveDate | date : 'yyyy-MM-dd'}}</td><!-- 收货时间 -->
+                <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
                 <td>{{tr.invoiceNo}}</td><!-- 发票号 -->
                 <td>{{tr.invoiceDate | date:'yyyy-MM-dd'}}</td><!-- 发票日期 -->
                 <td>{{tr.manufacturer}}</td><!-- 生产厂商 -->

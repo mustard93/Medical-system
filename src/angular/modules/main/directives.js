@@ -853,7 +853,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                             this.checked = false;
                             $(".selectOne", $element).prop("checked", false);
                         } else {
+                          // $(".selectOne", $element).prop("checked", this.checked);
+                          // 屏蔽上面的原代码，增加checkbox是否被禁用判断，被禁用不会被选中
+                          if ($(".selectOne", $element).attr('disabled') != 'disabled') {
                             $(".selectOne", $element).prop("checked", this.checked);
+                          }
                         }
 
                         setSelectedValue();
@@ -1711,12 +1715,13 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 "descriptionField": "@",
                 "classDescription": "@",
                 //"localData": "=?",
-                  "ngModelId": "=?",//绑定返回对象id
-                    "ngModel": "=",
+                "ngModelId": "=?",//绑定返回对象id
+                "ngModel": "=",
                 "searchFields": "@",
                 "matchClass": "@",
                 "searchStrClass": "@",
-                "ngDisabled": "=?"
+                "ngDisabled": "=?",
+                "inputStyle": '@'  // 自定义input样式
             },
             require: "?^ngModel",
             templateUrl: Config.tplPath + 'tpl/autocomplete.html',
@@ -3537,6 +3542,7 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                 callback: {
               		onClick: function(event, treeId, treeNode) {
                       console.log(treeNode);
+                      hideMenu();
                       $scope.ngModel=treeNode;
                           $scope.$apply();
                   }

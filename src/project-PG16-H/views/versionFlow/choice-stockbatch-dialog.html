@@ -1,7 +1,8 @@
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="createCorrespondController"
      ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
      scope-data="stockBatchList"
-     callback="getChoisedBatchsId(dialogData.choisedBatchList)"
+     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
      alert-error>
   <!-- 标题 -->
   <div class="bb-line-gold pr-bg-black2 min-h-l">
@@ -12,7 +13,9 @@
     <!-- 仓库过滤 -->
     <div class="inline-block">
       <span class="color-9">仓库：</span>
-      <select class="ipt pr-short-ipt color-3" style="width:90px;"
+      <select ng-if="initFlag"
+              class="ipt pr-short-ipt color-3"
+              style="width:90px;"
               data-placeholder=""
               default-empty="全部"
               width="120px"
@@ -25,7 +28,7 @@
     <div class="inline-block relative">
       <span class="color-9 mgl-m">有效期：</span>
       <div class="date-icon-outside">
-        <input type="text"
+        <input ng-if="initFlag" type="text"
                datepicker
                class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
                ng-readonly="true"
@@ -35,7 +38,7 @@
       </div>
       <span class="color-9">至</span>
       <div class="date-icon-outside">
-        <input type="text"
+        <input ng-if="initFlag" type="text"
                datepicker
                class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
                ng-readonly="true"
@@ -47,7 +50,7 @@
     <!-- 关键字过滤 -->
     <div class="inline-block">
       <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-        <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号" ng-model="listParams.q" style="top:7px;">
+        <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号"  ng-model="searchKey" style="top:7px;" ng-change="handleSearchFilter3(searchKey)">
         <i class="" style="top:10px;"></i>
       </div>
     </div>
@@ -61,7 +64,6 @@
         <tr class="bb-line-gold">
           <th></th>
           <th>生产批号</th>
-          <!-- <th>灭菌批号</th> -->
           <th>有效期至</th>
           <th>仓库</th>
           <th>区域</th>
@@ -76,12 +78,11 @@
               <input type="radio"
                      name="medicals"
                      class="default-radio"
-                     ng-click="spdChoiseBatchs(item,dialogData.choisedBatchList,dialogData.id,dialogData.planReturnCount);modal.closeAll()"
+                     ng-click="spdChoiseBatchs(item,dialogData.choisedBatchList,dialogData.id,dialogData.goodsCount,dialogData.strike_price);modal.closeAll()"
                      ng-disabled="choisedBatchsIdList.indexOf(item.id)!==-1"><i></i>
             </label>
           </td>
           <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
-          <!-- <td class="text-left" style="height:50px;"> {{item.sterilizationBatchNumber}}</td> -->
           <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->
           <td class="" style="height:50px;">{{item.storeRoomName}}</td><!--仓库-->
           <td class="" style="height:50px;">{{item.regionName}}</td><!--区域-->

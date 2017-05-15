@@ -309,7 +309,7 @@ define('project/controllers', ['project/init'], function() {
       modal.closeAll();
       // $scope.formData={};
       $scope.addDataItem = {};
-      
+
       // 是否显示关闭按钮
       $scope.isShowCancelBtn = false;
 
@@ -5714,7 +5714,7 @@ define('project/controllers', ['project/init'], function() {
   }
 
   // 创建医院药品与经销商药品关联关系dialog控制器
-  function createCorrespondController ($scope, requestData, modal, alertWarn) {
+  function createCorrespondController ($scope, requestData, modal, alertWarn,utils) {
 
     // 侧边栏搜索过滤
     $scope.handleSearchFilter = function (key,hospitalId,supplierId) {
@@ -5755,6 +5755,7 @@ define('project/controllers', ['project/init'], function() {
             .then(function (results) {
               if (results[1].code === 200) {
                 $scope.tbodyList[index].hospitalMedicalCode = code;
+                utils.refreshHref();
                 // _reloadListData('rest/authen/purchasecontentmedical/query?distributorId=' + $scope.mainStatus.pageParams.distributorId);
               }
             })
@@ -5805,7 +5806,7 @@ define('project/controllers', ['project/init'], function() {
 
 
   angular.module('manageApp.project')
-  .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', createCorrespondController])
+  .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn','utils', createCorrespondController])
   .controller('saleContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'utils', saleContentController])
   .controller('infrastructureController', ['$scope', infrastructureController])
   .controller('inoutstockDetailQueryCtr', ['$scope','utils', inoutstockDetailQueryCtr])
