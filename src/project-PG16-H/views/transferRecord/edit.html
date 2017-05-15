@@ -164,11 +164,14 @@
                             select-source="rest/authen/medicalStock/getPackingAttributeById?id={{formData.relMedicalStockId}}">
                     </select>
                   </div>
+                  {{showQuantity}}
+                  <em ng-if="showQuantity" class="color-red">所填数量不能超过基本单位下的可用数量</em>
                   <p ng-if="formData.productionBatch||formData.transferQuantity">
-                    <span ng-repeat="tr in scopeData" ng-init="formData.transferQuantity=scopeData[0].quantity">    
+                    <span ng-repeat="tr in scopeData" ng-init="formData.transferQuantity=scopeData[0].quantity">
                       <em>{{tr.quantity}}{{tr.name}}</em><em ng-if="$index!=scopeData.length-1">=</em>
                     </span>
                  </p>
+
               </div>
             </div>
           </div>

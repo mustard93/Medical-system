@@ -2427,6 +2427,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               $scope.formData.sourceRegionId=regionId;
               $scope.formData.sourceGoodsLocationId=goodsLocationId;
               $scope.formData.transferQuantity=salesQuantity;
+              $scope.formData.quantity=salesQuantity;
               $scope.formData.sterilizationBatchNumber=sterilizationBatchNumber;
       }
       modal.closeAll();
@@ -2447,6 +2448,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData(_url)
         .then(function (results) {
           $scope.scopeData = results[1].data;
+          console.log(results[1].data[0].quantity);
+          console.log(results[1].data[0].newVal);
+          if( results[1].data[0].quantity<newVal){
+            $scope.showQuantity=true;
+          }
         });
       }
     });

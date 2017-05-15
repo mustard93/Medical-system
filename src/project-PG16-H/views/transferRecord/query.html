@@ -21,7 +21,7 @@
   <div class="content-wrapper">
       <!-- 主内容区域 -->
     <div class="content-wrapper-main pr-bg-white  pr-fuzzy-boundary" style="margin-top:30px;">
-        <div class="text-right pd-m">
+        <div class="text-left pd-m">
           <div class="inline-block mgr-l mgt-s">
             <p>
               库房：
@@ -37,29 +37,71 @@
           </div>
           <div class="inline-block mgr-l mgt-s">
             <p>
-              区域：
+              原区域：
             </p>
             <select class="inline ipt-new-s pdt"
                     chosen
                     style="width:120px;"
                     data-placeholder=" "
                     default-empty="全部"
-                    ng-model="listParams.regionId"
+                    ng-model="listParams.sourceRegionId"
                     select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}">
             </select>
           </div>
           <div class="inline-block mgr-xxxxxl mgt-s">
-            货位：
+            <p>
+              原货位：
+            </p>
             <select class="inline ipt-new-s pdt"
                     chosen
                     style="width:120px;"
                     data-placeholder=" "
                     default-empty="全部"
-                    ng-model="listParams.goodsLocationId"
-                    select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}">
+                    ng-model="listParams.sourceGoodsLocationId"
+                    select-source="rest/authen/goodsLocation/queryForSelectOption?sourceRegionId={{listParams.sourceRegionId}}">
             </select>
           </div>
-            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+          <div class="inline-block mgr-l mgt-s">
+            <p>
+              移位后区域：
+            </p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.targetRegionId"
+                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}">
+            </select>
+          </div>
+          <div class="inline-block mgr-xxxxxl mgt-s">
+            <p>
+              移位后货位：
+            </p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.targetGoodsLocationId"
+                    select-source="rest/authen/goodsLocation/queryForSelectOption?targetRegionId={{listParams.targetRegionId}}">
+            </select>
+          </div>
+          <div class="inline-block mgr-xxxxxl mgt-s">
+            <p>
+              移位日期：
+            </p>
+            <div class="date-icon-outside" >
+              <input type="text"
+                     datepicker
+                     class="ipt-date ipt color-3"
+                     ng-readonly="true"
+                     placeholder=""
+                     ng-model="listParams.transferDate">
+                    <span class="date-icon"></span>
+            </div>
+          </div>
+            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative" style="margin-left:330px;">
               <input type="text" class="ipt pdr-xxl" placeholder="商品编号/商品名称" ng-model="listParams.q">
               <i class=""></i>
             </div>
