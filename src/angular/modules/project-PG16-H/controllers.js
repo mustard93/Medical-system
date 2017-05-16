@@ -2301,6 +2301,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //添加到列表
         $scope.formData.orderMedicalNos.push(addDataItem);
              if (addDataItem) {
+               if($scope.formData.storeRoomId==undefined){
+                 $scope.formData.storeRoomId='';
+               }
                var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId+'&&storeRoomId='+$scope.formData.storeRoomId,
                    _data = {};
                requestData(_url, _data, 'GET')
@@ -2328,7 +2331,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             _ids.push(orderMedical[i].id);
           }
         }
-
+        if(storeRoomId==undefined){
+          storeRoomId='';
+        }
         var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + _ids+'&&storeRoomId='+storeRoomId,
         _data = {};
           requestData(_url, _data, 'GET')
