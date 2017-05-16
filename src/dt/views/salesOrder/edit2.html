@@ -91,13 +91,33 @@
           </div>
           <!-- 列表 -->
           <div class="bt-dashed-line">
-            <p class="flex-column pdb-m pdt-m pd-c-l">
+            <p class="flex-column pdb-m pdt-m pd-c-l ">
               <span class="flex-item-6 color-9">单据编号：
                 <em class="color-3">{{formData.orderNo || '暂无'}}</em>
               </span>
               <span class="flex-item-6 text-right color-9">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
             </p>
             <div>
+           <div class="bt-dashed-line">
+                <p class="flex-column pdb-m pdt-m pd-c-l ">
+                  <span class="flex-item-2 color-9">单据来源：
+                    <em class="color-3">{{formData.orderSource}}</em>
+                  </span>
+                  <!--<span class="flex-item-3 color-9">预计到货日期：<em class="color-3"></em></span>-->
+
+
+                   <span class="mgr" style="position:relative;">
+
+                       <span class="mgr">预计到货日期：
+                                <input type="text" class="ipt  pr-short-ipt color-6" placeholder="期望到货时间"
+                                 readonly="true" datepicker   ng-model="formData.expectDate" style="width: 180px; ">
+                                <span class="date-icon" style="right: 15px;  "></span>
+                        </span>
+
+                   </span>
+                </p>
+
+          <div>
               <table class="table pr-table pr-new-table">
                 <thead>
                   <tr>
@@ -285,7 +305,7 @@
       </div>
       <!-- 已生成销售单部分 -->
       <table-list ng-if="formData.id" list-data="rest/authen/confirmOrder/getListByRelId.json?relId={{formData.id}}">
-        <h1 class="mgb pdb text-n text-bold">已生成销售单部分</h1>
+        <h1 class="mgb pdb text-n text-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已生成销售单部分</h1>
         <div ng-if="tbodyList.length>0" ng-repeat="showData in tbodyList" class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
           <header class="text-n color-3 flex-column">
             <span class="flex-item-11">
