@@ -2,7 +2,7 @@
      ng-controller="transferRecordCtrl"
      ajax-url="rest/authen/transferRecord/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');showFlag=true;"
+     callback="initFlag=true;watchFormChange('formData');showFlag=true;_obj={};"
      alert-error>
 
      <div class="header-info relative mgb-l">
@@ -71,8 +71,9 @@
             <div class="flex-item-4 br-dashed-line" style="height:100%;">
               <div style="padding:120px 185px;">
                 <p>生产批号：</p>
-                <div class="ipt-div relative text-left pr-indent-5 mgt-s" style="width:172px;">{{formData.productionBatch}}
+                <div ng-disabled="!formData.relMedicalStockId" class="ipt-div relative text-left pr-indent-5 mgt-s" style="width:172px;">{{formData.productionBatch}}
                   <i change-img change-value="{{formData.productionBatch}}"
+                     ng-class="{'disabled':(!formData.relMedicalStockId)}"
                      style="right:0px;left:inherit;"
                      modal-right="50%"
                      modal-scope="this"
@@ -153,7 +154,20 @@
               <div style="padding:110px 105px;" ng-init="showQuantity=false;">
                 <p>数量</p>
                   <div class="inline-block mgr-s">
-                    <input type="number" class="inline-block ipt-new-s hei-28 pr-indent-10" style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;" placeholder="" ng-model="formData.transferQuantity" />
+                    <input
+                    ng-if="!formData.id"
+                    type="number"
+                    class="inline-block ipt-new-s hei-28 pr-indent-10"
+                    style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;"
+                    placeholder=""
+                    ng-model="formData.localQuantity"/>
+                    <input
+                    ng-if="formData.id"
+                    type="number"
+                    class="inline-block ipt-new-s hei-28 pr-indent-10"
+                    style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;"
+                    placeholder=""
+                    ng-model="formData.transferQuantity"/>
                   </div>
                   <div class="inline-block">
                     <select class="inline-block pdt mgl-s"
@@ -164,11 +178,10 @@
                             select-source="rest/authen/medicalStock/getPackingAttributeById?id={{formData.relMedicalStockId}}">
                     </select>
                   </div>
-                  {{showQuantity}}
-                  <em ng-if="showQuantity" class="color-red">所填数量不能超过基本单位下的可用数量</em>
-                  <p ng-if="formData.productionBatch||formData.transferQuantity">
+                  <p ng-if="showQuantity" class="color-red">所填数量不能超过基本单位下的可用数量</p>
+                  <p ng-if="formData.productionBatch||formData.localQuantity">
                     <span ng-repeat="tr in scopeData" ng-init="formData.transferQuantity=scopeData[0].quantity">
-                      <em>{{tr.quantity}}{{tr.name}}</em><em ng-if="$index!=scopeData.length-1">=</em>
+                      <em>{{tr.quantity}}</em><em>{{tr.name}}</em><em ng-if="$index!=scopeData.length-1">=</em>
                     </span>
                  </p>
 
@@ -192,7 +205,7 @@
             <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                     data-placeholder=" "
                     chosen
-                    ng-model="formData.inputUser.n"
+                    ng-model="formData.operator.id"
                     select-source="rest/authen/organizationAndUser/queryForSelectOption">
             </select>
           </div>
@@ -212,7 +225,7 @@
         <div class="handle-btn-area relative">
           <div class="mgb text-right btn-area">
 
-            <span class="mgl">
+            <span class="mgl mgt">
               <a ng-if="changeFlag"
                  href="javascript:;"
                  handle-this-click
@@ -230,8 +243,10 @@
               class="pr-btn-save-glodbg mgt"
               type="button"
               ng-click="submitForm('editForm','save')"
+              ng-if="!formData.id"
               ng-disabled="editForm.$invalid
               ||formData.sourceGoodsLocationId==formData.targetGoodsLocationId
+              ||showQuantity
               ||!formData.relMedicalStockId
               ||!changeFlag">确定</button>
           </span>
