@@ -2320,24 +2320,30 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
         return true;
     };
-      $scope.changeStoreRoom =function(addDataItem,orderMedical,storeRoomId){
+
+      $scope.changeStoreRoom =function(orderMedical,storeRoomId){
         var _ids=[];
         if(storeRoomId && orderMedical.length!==0){
           for(var i= 0;i<orderMedical.length; i++){
             _ids.push(orderMedical[i].id);
           }
         }
-        console.log(_ids);
+
         var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + _ids+'&&storeRoomId='+storeRoomId,
         _data = {};
           requestData(_url, _data, 'GET')
           .then(function (results) {
             var _resObj = results[1].data;
             for (var item in results[1].data) {
-              console.log(item);
-              if (item === addDataItem.relId && _resObj[item]) {
-              addDataItem.salesQuantity=_resObj[item].salesQuantity;
+
+              for (var i = 0; i < _ids.length; i++) {
+                if(orderMedical[i].id===item && _resObj[item]){
+                  orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
+
+                  console.log(orderMedical[i].name+'='+orderMedical[i].salesQuantity);
+                }
               }
+
             }
           })
           .catch(function (error) {
@@ -2396,6 +2402,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
     $scope.submitForm = function(fromId, type) {
+      console.log(1);
+      _obj={
+        localQuantity:$scope.formData.localQuantity,
+        medical_unit:$scope.formData.medical_unit
+      }
+      console.log(_obj);
        $scope.submitForm_type = type;
        if ($scope.submitForm_type == 'submit') {
 
@@ -2418,27 +2430,27 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
 
-        $scope.handleSearchFilter1 = function (key) {
-            var _url = 'rest/authen/medicalStock/queryStockBatch?storeRoomId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
-            requestData(_url)
-            .then(function (results) {
-              $scope.codesList = results[1].data;
-            });
-        };
-        $scope.handleSearchFilter2 = function (key) {
-            var _url = 'rest/authen/medicalStock/queryStockBatch?regionId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
-            requestData(_url)
-            .then(function (results) {
-              $scope.codesList = results[1].data;
-            });
-        };
-        $scope.handleSearchFilter3 = function (key) {
-            var _url = 'rest/authen/medicalStock/queryStockBatch?goodsLocationId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
-            requestData(_url)
-            .then(function (results) {
-              $scope.codesList = results[1].data;
-            });
-        };
+    $scope.handleSearchFilter1 = function (key) {
+        var _url = 'rest/authen/medicalStock/queryStockBatch?storeRoomId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
+        requestData(_url)
+        .then(function (results) {
+          $scope.codesList = results[1].data;
+        });
+    };
+    $scope.handleSearchFilter2 = function (key) {
+        var _url = 'rest/authen/medicalStock/queryStockBatch?regionId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
+        requestData(_url)
+        .then(function (results) {
+          $scope.codesList = results[1].data;
+        });
+    };
+    $scope.handleSearchFilter3 = function (key) {
+        var _url = 'rest/authen/medicalStock/queryStockBatch?goodsLocationId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
+        requestData(_url)
+        .then(function (results) {
+          $scope.codesList = results[1].data;
+        });
+    };
 
 
     $scope.spdChoiseBatches = function (medicalId,productionBatch,storeRoomId,regionId,goodsLocationId,salesQuantity,sterilizationBatchNumber) {
@@ -2449,7 +2461,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               $scope.formData.storeRoomId=storeRoomId;
               $scope.formData.sourceRegionId=regionId;
               $scope.formData.sourceGoodsLocationId=goodsLocationId;
-              $scope.formData.transferQuantity=salesQuantity;
+              $scope.formData.localQuantity=salesQuantity;
               $scope.formData.sterilizationBatchNumber=sterilizationBatchNumber;
 
       }
@@ -2470,12 +2482,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             for (var i=0; i<_len; i++) {
               if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch) {
                 newQuantity=quantityList[i].stockModel.salesQuantity;
-                var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.transferQuantity+'&&unit='+$scope.formData.medical_unit;
+                var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.localQuantity+'&&unit='+$scope.formData.medical_unit;
                 requestData(_url)
                 .then(function (results) {
                   $scope.scopeData = results[1].data;
-                  console.log('newVal='+newVal);
-                  console.log('newQuantity='+newQuantity);
                   if( results[1].data[0].quantity>newQuantity){
                     $scope.showQuantity=true;
                   }else{
@@ -2488,7 +2498,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     });
-    $scope.$watch('formData.transferQuantity', function (newVal, oldVal) {
+
+    $scope.$watch('formData.localQuantity', function (newVal, oldVal) {
       var newQuantity='';
       if(newVal){
         var quantityList=[];
@@ -2501,12 +2512,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             for (var i=0; i<_len; i++) {
               if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch) {
                 newQuantity=quantityList[i].stockModel.salesQuantity;
-                var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.transferQuantity+'&&unit='+$scope.formData.medical_unit;
+                var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.localQuantity+'&&unit='+$scope.formData.medical_unit;
                 requestData(_url)
                 .then(function (results) {
                   $scope.scopeData = results[1].data;
-                  console.log('newVal='+newVal);
-                  console.log('newQuantity='+newQuantity);
                   if( results[1].data[0].quantity>newQuantity){
                     $scope.showQuantity=true;
                   }else{
