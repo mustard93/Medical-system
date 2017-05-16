@@ -71,8 +71,9 @@
             <div class="flex-item-4 br-dashed-line" style="height:100%;">
               <div style="padding:120px 185px;">
                 <p>生产批号：</p>
-                <div class="ipt-div relative text-left pr-indent-5 mgt-s" style="width:172px;">{{formData.productionBatch}}
+                <div ng-disabled="!formData.relMedicalStockId" class="ipt-div relative text-left pr-indent-5 mgt-s" style="width:172px;">{{formData.productionBatch}}
                   <i change-img change-value="{{formData.productionBatch}}"
+                     ng-class="{'disabled':(!formData.relMedicalStockId)}"
                      style="right:0px;left:inherit;"
                      modal-right="50%"
                      modal-scope="this"
@@ -164,8 +165,7 @@
                             select-source="rest/authen/medicalStock/getPackingAttributeById?id={{formData.relMedicalStockId}}">
                     </select>
                   </div>
-                  {{showQuantity}}
-                  <em ng-if="showQuantity" class="color-red">所填数量不能超过基本单位下的可用数量</em>
+                  <p ng-if="showQuantity" class="color-red">所填数量不能超过基本单位下的可用数量</p>
                   <p ng-if="formData.productionBatch||formData.transferQuantity">
                     <span ng-repeat="tr in scopeData" ng-init="formData.transferQuantity=scopeData[0].quantity">
                       <em>{{tr.quantity}}{{tr.name}}</em><em ng-if="$index!=scopeData.length-1">=</em>
@@ -232,6 +232,7 @@
               ng-click="submitForm('editForm','save')"
               ng-disabled="editForm.$invalid
               ||formData.sourceGoodsLocationId==formData.targetGoodsLocationId
+              ||showQuantity
               ||!formData.relMedicalStockId
               ||!changeFlag">确定</button>
           </span>

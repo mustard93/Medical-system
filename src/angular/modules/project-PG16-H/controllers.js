@@ -2301,7 +2301,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //添加到列表
         $scope.formData.orderMedicalNos.push(addDataItem);
              if (addDataItem) {
-               var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId,
+               var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId+'&&storeRoomId='+$scope.formData.storeRoomId,
                    _data = {};
                requestData(_url, _data, 'GET')
                .then(function (results) {
@@ -2320,6 +2320,30 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
         return true;
     };
+      $scope.changeStoreRoom =function(addDataItem,orderMedical,storeRoomId){
+        var _ids=[];
+        if(storeRoomId && orderMedical.length!==0){
+          for(var i= 0;i<orderMedical.length; i++){
+            _ids.push(orderMedical[i].id);
+          }
+        }
+        console.log(_ids);
+        var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + _ids+'&&storeRoomId='+storeRoomId,
+        _data = {};
+          requestData(_url, _data, 'GET')
+          .then(function (results) {
+            var _resObj = results[1].data;
+            for (var item in results[1].data) {
+              console.log(item);
+              if (item === addDataItem.relId && _resObj[item]) {
+              addDataItem.salesQuantity=_resObj[item].salesQuantity;
+              }
+            }
+          })
+          .catch(function (error) {
+            if (error) { console.log(error || '出错!'); }
+          });
+      }
      $scope.addDataItemClick = function(addDataItem,medical) {
         if (!(addDataItem.relId && addDataItem.name)) {
             alertWarn('请选择药品。');
@@ -2364,6 +2388,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
   }
   function transferRecordCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn,modal) {
+
 
     $scope.watchFormChange = function(watchName){
       watchFormChange(watchName,$scope);
@@ -2417,10 +2442,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
     $scope.spdChoiseBatches = function (medicalId,productionBatch,storeRoomId,regionId,goodsLocationId,salesQuantity,sterilizationBatchNumber) {
-
       // 将当前选择的医院编码赋值到数据对象中
       if ($scope.formData) {
-          console.log('medicalId'+medicalId);
               $scope.formData.relMedicalStockId= medicalId;
               $scope.formData.productionBatch= productionBatch;
               $scope.formData.storeRoomId=storeRoomId;
@@ -2428,30 +2451,70 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               $scope.formData.sourceGoodsLocationId=goodsLocationId;
               $scope.formData.transferQuantity=salesQuantity;
               $scope.formData.sterilizationBatchNumber=sterilizationBatchNumber;
+
       }
       modal.closeAll();
     };
 
+
     $scope.$watch('formData.medical_unit', function (newVal, oldVal) {
+      var newQuantity='';
       if(newVal){
-        var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.transferQuantity+'&&unit='+$scope.formData.medical_unit;
-        requestData(_url)
+        var quantityList=[];
+        var url='rest/authen/medicalStock/queryStockBatch?relMedicalStockId='+$scope.formData.relMedicalStockId;
+        requestData(url)
         .then(function (results) {
-          $scope.scopeData = results[1].data;
+          quantityList=results[1].data;
+          if (quantityList.length !== 0) {
+            var _len = quantityList.length;
+            for (var i=0; i<_len; i++) {
+              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch) {
+                newQuantity=quantityList[i].stockModel.salesQuantity;
+                var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.transferQuantity+'&&unit='+$scope.formData.medical_unit;
+                requestData(_url)
+                .then(function (results) {
+                  $scope.scopeData = results[1].data;
+                  console.log('newVal='+newVal);
+                  console.log('newQuantity='+newQuantity);
+                  if( results[1].data[0].quantity>newQuantity){
+                    $scope.showQuantity=true;
+                  }else{
+                    $scope.showQuantity=false;
+                  }
+                });
+              }
+            }
+          }
         });
       }
     });
     $scope.$watch('formData.transferQuantity', function (newVal, oldVal) {
+      var newQuantity='';
       if(newVal){
-        var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.transferQuantity+'&&unit='+$scope.formData.medical_unit;
-        requestData(_url)
+        var quantityList=[];
+        var url='rest/authen/medicalStock/queryStockBatch?relMedicalStockId='+$scope.formData.relMedicalStockId;
+        requestData(url)
         .then(function (results) {
-          $scope.scopeData = results[1].data;
-          console.log(results[1].data[0].quantity);
-          console.log(newVal);
-          if( results[1].data[0].quantity<newVal){
-            $scope.showQuantity=true;
-            console.log($scope.showQuantity);
+          quantityList=results[1].data;
+          if (quantityList.length !== 0) {
+            var _len = quantityList.length;
+            for (var i=0; i<_len; i++) {
+              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch) {
+                newQuantity=quantityList[i].stockModel.salesQuantity;
+                var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.transferQuantity+'&&unit='+$scope.formData.medical_unit;
+                requestData(_url)
+                .then(function (results) {
+                  $scope.scopeData = results[1].data;
+                  console.log('newVal='+newVal);
+                  console.log('newQuantity='+newQuantity);
+                  if( results[1].data[0].quantity>newQuantity){
+                    $scope.showQuantity=true;
+                  }else{
+                    $scope.showQuantity=false;
+                  }
+                });
+              }
+            }
           }
         });
       }

@@ -56,7 +56,8 @@
             required
             default-empty="无"
             ng-model="formData.storeRoomId"
-            select-source="rest/authen/storeRoom/queryForSelectOption">
+            select-source="rest/authen/storeRoom/queryForSelectOption"
+            ng-change="changeStoreRoom(item,formData.orderMedicalNos,formData.storeRoomId)">
             </select>
             <em ng-if="!formData.storeRoomId" class="color-red">(必选)</em>
           </div>
@@ -191,7 +192,7 @@
                     <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                     <td ng-if="!formData.id" class="text-right">{{item.salesQuantity}}</td>
                     <td ng-if="formData.id&&initFlag" class="text-right"
-                    ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}"
+                    ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}&&storeRoomId={{formData.storeRoomId}}"
                     scope-data="scopeData"
                     ><em ng-repeat="tr in scopeData" ng-init="item.salesQuantity=tr.salesQuantity">{{tr.salesQuantity}}</em>
                   </td><!-- 可调拨数量 -->
