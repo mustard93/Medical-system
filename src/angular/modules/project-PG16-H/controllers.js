@@ -1758,6 +1758,31 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        $('input', '#addDataItem_relId_chosen').trigger('focus');
        // $('#addDataItem_relId_chosen').trigger('click');
    };
+   
+   $scope.changeStoreRoom =function(orderMedical,storeRoomId){
+     var _ids=[];
+     if(orderMedical.length!==0){
+       for(var i= 0;i<orderMedical.length; i++){
+         _ids.push(orderMedical[i].id);
+       }
+     }
+     var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + _ids+'&&storeRoomId='+storeRoomId,
+     _data = {};
+       requestData(_url, _data, 'GET')
+       .then(function (results) {
+         var _resObj = results[1].data;
+         for (var i = 0; i < _ids.length; i++) {
+             for (var item in _resObj) {
+               if(orderMedical[i].id===item){
+                 orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
+               }
+             }
+         }
+       })
+       .catch(function (error) {
+         if (error) { console.log(error || '出错!'); }
+       });
+   }
 
     /**
     *保存 type:save-草稿,submit-提交订单。
@@ -2554,17 +2579,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                requestData(_url, _data, 'GET')
                .then(function (results) {
                  var _resObj = results[1].data;
-                 if(JSON.stringify(_resObj) == "{}"){
-                   addDataItem.salesQuantity=0;
-                 }else{
                     for (var item in _resObj) {
                       if(item === addDataItem.relId){
                          addDataItem.salesQuantity=_resObj[item].salesQuantity;
-                      }else{
-                        addDataItem.salesQuantity=0;
                       }
                     }
-                  }
                })
                .catch(function (error) {
                  if (error) { console.log(error || '出错!'); }
@@ -2574,7 +2593,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
         return true;
     };
-
       $scope.changeStoreRoom =function(orderMedical,storeRoomId){
         var _ids=[];
         if(orderMedical.length!==0){
@@ -2582,27 +2600,19 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             _ids.push(orderMedical[i].id);
           }
         }
-
         var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + _ids+'&&storeRoomId='+storeRoomId,
         _data = {};
           requestData(_url, _data, 'GET')
           .then(function (results) {
             var _resObj = results[1].data;
             for (var i = 0; i < _ids.length; i++) {
-             if(JSON.stringify(_resObj) == "{}"){
-                orderMedical[i].salesQuantity=0;
-              }else {
                 for (var item in _resObj) {
                   if(orderMedical[i].id===item){
                     orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
-                  }else{
-                    orderMedical[i].salesQuantity=0;
                   }
                 }
-              }
             }
           })
-
           .catch(function (error) {
             if (error) { console.log(error || '出错!'); }
           });
@@ -2615,7 +2625,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         if(addDataItem.quantity>medical.quantity){//库存不足情况
             addDataItem.handleFlag =false;//默认添加到订单
         }
-
         // 如果已添加
          if ($scope.formData.orderMedicalNos.length > 0) {
            var _len = $scope.formData.orderMedicalNos.length;
