@@ -1013,40 +1013,37 @@ function alertOk($rootScope, modal) {
            */
           function OPrinter() {
               var LodopFuncs=null;
-                var LODOP=null;
-
+              var LODOP=null;
 
               function getOPrinter(){
-                    if(!LODOP&&LodopFuncs){
-                          LODOP=LodopFuncs.getLodop(document.getElementById("LODOP_OB_Id"),document.getElementById("LODOP_EM_Id"));
-                    }
-                    return LODOP;
+                if(!LODOP&&LodopFuncs){
+                  LODOP=LodopFuncs.getLodop(document.getElementById("LODOP_OB_Id"),document.getElementById("LODOP_EM_Id"));
+                }
+                return LODOP;
               }//_getLODOP
 
+              /**
+               *
+              * @Description: 打印工具 初始化
+              * @method OPrinter
+
+              * @return
+              * @author liumingquan
+
+              * @author ecolouds-01
+              * @date 2016年12月15日 下午5:16:02
+              打印页边距设定为 0mm 时，网页内最大元素的分辨率：794×1123
+              <div style="width:794px;height:1123px;border:1px solid #000000;"> </div>
+
+              打印页边距设定为 5mm 时，网页内最大元素的分辨率：756×1086
+              <div style="width:756px;height:1086px;border:1px solid #000000;"> </div>
+
+              打印页边距设定为 19.05mm 时，网页内最大元素的分辨率：649×978
+              <div style="width:649px;height:978px;border:1px solid #000000;"> </div>
+
+              */
               var  OPrinter={
 
-
-
-                /**
-                 *
-                * @Description: 打印工具 初始化
-                * @method OPrinter
-
-                * @return
-                * @author liumingquan
-
-                * @author ecolouds-01
-                * @date 2016年12月15日 下午5:16:02
-                打印页边距设定为 0mm 时，网页内最大元素的分辨率：794×1123
-                <div style="width:794px;height:1123px;border:1px solid #000000;"> </div>
-
-                打印页边距设定为 5mm 时，网页内最大元素的分辨率：756×1086
-                <div style="width:756px;height:1086px;border:1px solid #000000;"> </div>
-
-                打印页边距设定为 19.05mm 时，网页内最大元素的分辨率：649×978
-                <div style="width:649px;height:978px;border:1px solid #000000;"> </div>
-
-                 */
                  LODOP:null,//返回具体打印的实现累，用于特殊需求打印。
                  print_param_defualt:{
                    print_orient:0,//打印方向及纸张类型，数字型.1---纵(正)向打印，固定纸张；
@@ -1085,17 +1082,16 @@ function alertOk($rootScope, modal) {
                     1.初始化打印组件。
                     2.调用打印，预览等功能。
 
-
-                                      PRINT_INIT(strPrintTaskName)打印初始化
-                                      ●	SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)设定纸张大小
-                                      ●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
-                                      ●	ADD_PRINT_TEXT(intTop,intLeft,intWidth,intHeight,strContent)增加纯文本项
-                                      ●	ADD_PRINT_TABLE(intTop,intLeft,intWidth,intHeight,strHtml)增加表格项
-                                      ●	ADD_PRINT_SHAPE(intShapeType,intTop,intLeft,intWidth,intHeight,intLineStyle,intLineWidth,intColor)画图形
-                                      ●	SET_PRINT_STYLE(strStyleName, varStyleValue)设置对象风格
-                                      ●	PREVIEW打印预览
-                                      ●	PRINT直接打印
-                                      ●	PRINT_SETUP打印维护
+                    PRINT_INIT(strPrintTaskName)打印初始化
+                    ●	SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)设定纸张大小
+                    ●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
+                    ●	ADD_PRINT_TEXT(intTop,intLeft,intWidth,intHeight,strContent)增加纯文本项
+                    ●	ADD_PRINT_TABLE(intTop,intLeft,intWidth,intHeight,strHtml)增加表格项
+                    ●	ADD_PRINT_SHAPE(intShapeType,intTop,intLeft,intWidth,intHeight,intLineStyle,intLineWidth,intColor)画图形
+                    ●	SET_PRINT_STYLE(strStyleName, varStyleValue)设置对象风格
+                    ●	PREVIEW打印预览
+                    ●	PRINT直接打印
+                    ●	PRINT_SETUP打印维护
 
 e
                  */
@@ -1113,28 +1109,31 @@ e
 
                       });//require
                     }
-
-
                 },
+
                 //设置打印参数,根据接口返回html模版数据
                 setPrint_paramByUICustomHtml:function(uICustomHtml){
                   if(!uICustomHtml)return;
-                var p=$.extend({},this.print_param_defualt);
+                  var p=$.extend({},this.print_param_defualt);
                   for(var key in p){
-                      if(uICustomHtml[key])p[key]=uICustomHtml[key];
+                    if (uICustomHtml[key]) {
+                      p[key] = uICustomHtml[key];
+                    }
                   }
 
-                  console.log(p);
+                  // console.log(p);
                   this.print_param=p;
                 },
+
                 //设置打印尺寸
                 setRect:function(intTop,intLeft,intWidth,intHeight){
                   this.print_param.html_top=intTop;
-                    this.print_param.html_left=intLeft;
-                      this.print_param.html_width=intWidth;
-                        this.print_param.html_height=intHeight;
+                  this.print_param.html_left=intLeft;
+                  this.print_param.html_width=intWidth;
+                  this.print_param.html_height=intHeight;
 
                 },
+
                 _PrintDivId:null,
                 //设置打印的内容是htmlid绑定的innerHTML。优先级高于_PrintHtml
                 setPrintDivId:function(divId){
@@ -1161,62 +1160,69 @@ e
                   // 若strTaskName空，控件则不保存本地化信息，打印全部由页面程序控制。
 
                   if(!taskName)taskName="";
-                  // (扩展型)打印初始化
-                  // 格式：PRINT_INITA(Top,Left,Width,Height,strPrintName)
-                  // 功能：打印初始化、设定纸张整体偏移量、设定可视编辑区域大小
-                        var p=this.print_param;
+                    // (扩展型)打印初始化
+                    // 格式：PRINT_INITA(Top,Left,Width,Height,strPrintName)
+                    // 功能：打印初始化、设定纸张整体偏移量、设定可视编辑区域大小
+                    var p=this.print_param;
 
-                      LODOP.PRINT_INITA(p.paper_top,p.paper_left,p.paper_width,p.paper_height,taskName);
-                      //必须在格式：PRINT_INITA 后面才生效。
-                      LODOP.SET_PRINT_PAGESIZE(p.print_orient,p.paper_width,p.paper_height,taskName);
+                    LODOP.PRINT_INITA(p.paper_top,p.paper_left,p.paper_width,p.paper_height,taskName);
+                    //必须在格式：PRINT_INITA 后面才生效。
+                    LODOP.SET_PRINT_PAGESIZE(p.print_orient,p.paper_width,p.paper_height,taskName);
 
-                  if(!content)content=this.getPrintHtmlContent();
+                    if(!content) content = this.getPrintHtmlContent();
 
-                  //设定纸张大小
-                  // LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)
-                  //●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
+                    //设定纸张大小
+                    // LODOP.SET_PRINT_PAGESIZE(intOrient,intPageWidth,intPageHeight,strPageName)
+                    //●	ADD_PRINT_HTM(intTop,intLeft,intWidth,intHeight,strHtml)增加超文本项
 
 
                     LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,content);
-                  // LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
-                  console.log(p);
+                    // LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
+                    // console.log(p);
 
-                      // console.log(content);
-                  return LODOP;
+                    return LODOP;
                 },
                 preview:function(content,taskName) {
                     LODOP=this._printBeforePrint(content,taskName);
-
                     LODOP.PREVIEW();
-                  },//preview
+                },//preview
 
-                  //打印
-                  print:function(content,taskName) {
-                      LODOP=this._printBeforePrint(content,taskName);
-                      LODOP.PRINT();
-                    },//print
+                //打印
+                print:function(num, content, taskName) {
+                  LODOP=this._printBeforePrint(content,taskName);
+                  LODOP.SET_PRINT_COPIES(num);   // 设置打印份数
+                  LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);   // 设置可继续修改打印份数
+                  LODOP.PRINT();
+                },//print
 
-                    //打印设置。整体位置调整。
-                    printSetup:function(content,taskName) {
-                        LODOP=this._printBeforePrint(content,taskName);
-                        LODOP.PRINT_SETUP();
-                      },//print
+                //打印设置。整体位置调整。
+                printSetup:function(content,taskName) {
+                    LODOP=this._printBeforePrint(content,taskName);
+                    LODOP.PRINT_SETUP();
+                },//print
 
-                    //打印设置。详细调整，可以到每个字
-                    printDesign:function(content,taskName) {
-                        LODOP=this._printBeforePrint(content,taskName);
-                        LODOP.PRINT_DESIGN();
-                  },//print
+                //打印设置。详细调整，可以到每个字
+                printDesign:function(content,taskName) {
+                    LODOP=this._printBeforePrint(content,taskName);
+                    LODOP.PRINT_DESIGN();
+                },//print
 
-                  //设置基本打印风格
-                  setPrintStyle:function(key,val) {
-                      LODOP=getOPrinter();
-                      // LODOP.SET_PRINT_STYLE("FontSize",11);
-                      LODOP.SET_PRINT_STYLE(key,val);
+                //设置基本打印风格
+                setPrintStyle:function(key,val) {
+                    LODOP=getOPrinter();
+                    // LODOP.SET_PRINT_STYLE("FontSize",11);
+                    LODOP.SET_PRINT_STYLE(key,val);
 
-                    }//preview
+                },//preview
 
-                };//OPrinter
+                // 设置打印份数
+                setPrintNum: function (num,content,taskName) {
+                  LODOP=this._printBeforePrint(content,taskName);
+                  LODOP.SET_PRINT_COPIES(num);   // 设置打印份数
+                  LODOP.SET_PRINT_MODE("RESELECT_COPIES",true);   // 设置可继续修改打印份数
+                }
+
+              };//OPrinter
 
               return OPrinter;
         }//OPrinter

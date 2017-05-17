@@ -1,5 +1,5 @@
 <div class="content-wrapper-main mgt pr-fuzzy-boundary"
-  ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');uiCustomHtmlId='591abe33e4b00c6de90ec112'">
+  ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1}">
   <form class="form-horizontal" id="editForm">
     <!-- 内容表单 -->
     <div class="panel pr-panel pr-fuzzy-boundary pr-panel pr-fuzzy-boundary-height" style="padding-left:50px;">
@@ -86,6 +86,7 @@
             <input type="number"
                    class="ipt pr-short-ipt"
                    name="code"
+                   ng-model="printer.num"
                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
             <span class="color-9">(选填)</span>
           </div>
@@ -121,17 +122,17 @@
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
         <span>
 
-          <button class="pr-btn-create-glodbg mgt"
-                  type="button"
-                  ng-disabled="!goodsBarcode || !goodsFullBarcode"
-                  ng-click="$root.OPrinter.preview(null)">打印预览
-          </button>
-
           <!-- <button class="pr-btn-create-glodbg mgt"
                   type="button"
                   ng-disabled="!goodsBarcode || !goodsFullBarcode"
-                  ng-click="$root.OPrinter.print(null)">打印
+                  ng-click="$root.OPrinter.setPrintNum(printer.num);$root.OPrinter.preview()">打印预览
           </button> -->
+
+          <button class="pr-btn-create-glodbg mgt"
+                  type="button"
+                  ng-disabled="!goodsBarcode || !goodsFullBarcode"
+                  ng-click="$root.OPrinter.print(printer.num)">打印
+          </button>
         </span>
       </div>
     </div>
