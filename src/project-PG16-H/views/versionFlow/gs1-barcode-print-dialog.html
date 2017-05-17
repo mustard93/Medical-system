@@ -3,7 +3,7 @@
      ajax-url="rest/authen/medicalStock/get?id={{dialogData.id}}"
      scope-data="scopeData"
      alert-error
-     callback="initFlag=true;getGoodsBarcode(scopeData.barcode)">
+     callback="initFlag=true;getGoodsBarcode(scopeData.barcode);$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1}">
   <div class="modal-header">
     <h4 class="modal-title color-or">GS1条码打印</h4>
   </div>
@@ -82,6 +82,7 @@
           <input type="number"
                  class="ipt pr-short-ipt"
                  name="code"
+                 ng-model="printer.num"
                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
           <span class="color-or">(选填)</span>
         </div>
@@ -100,16 +101,26 @@
     </div>
     <div class="pd-c-xxxxl">
       <h1 class="text-bold">打印预览<span class="color-9 text-normal">（右键条码图片另存为可下载到本地）</span></h1>
-      <div class="mgt">
-        <img ng-src="{{goodsFullBarcode}}" alt="">
+
+      <div ajax-url="rest/authen/uiCustomHtml/getByKey.json?key=goodsFullBarcode"
+           scope-data="uiCustomHtml"
+           callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml);htmlString=''">
       </div>
+
+      <div class="mgt" id="Print_Div_id" ng-controller="mainCtrl" >
+        <ng-include id="htmlString_divId" src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtmlByKey?key=goodsFullBarcode'"></ng-include>
+      </div>
+
+      <!-- <div class="mgt">
+        <img ng-src="{{goodsFullBarcode}}" alt="">
+      </div> -->
     </div>
   </div>
   <div class="btn-confirm-area">
-    <button type="submit"
+    <button type="button"
             class="ngdialog-close btn pr-btn-create-glodbg "
             style="width:160px;height:32px;	margin-top: 8px;margin-left:270px;"
-            ng-click="$root.OPrinter.print(null)">打印
+            ng-click="$root.OPrinter.print(printer.num)">打印
     </button>
   </div>
 </div>

@@ -123,7 +123,7 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
             requestData(_url, _data, 'POST', 'parameter-body')
             .then(function (results) {
               if (results[1].code === 200) {
-                scope.goodsBarcode = results[1].data;   // 商品条码
+                scope.goodsBarcode = results[1].data;   // 商品条
                 scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
                 scope.medical.data.medicalType = '一段式';   // 设置默认的条码选择样式
               }

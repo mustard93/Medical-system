@@ -94,7 +94,10 @@
              <th class="text-center">商品规格</th>
              <th class="text-center">基本单位</th>
 
+              <th class="text-center">调整数量</th>
+
               <th class="text-center">生成批号</th>
+
               <th class="text-center">库房名称</th>
               <th class="text-center">区域名称</th>
               <th class="text-center">货位编号</th>
@@ -111,21 +114,45 @@
             </thead>
             <tbody>
               <tr ng-repeat="tr in scopeData.orderMedicalNos">
-                <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
-                <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
-                <td class="text-left" style="line-height:2.4">{{tr.name}}</td><!-- 商品全名 -->
-                <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
-                <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
-                <td class="text-right" style="line-height:2.4">{{tr.quantity}}</td><!-- 计划采购数量 -->
 
-                <td ng-if="scopeData.orderStatus=='配送中'||scopeData.orderStatus=='已完成'" class="text-right" style="line-height:2.4">{{tr.receiveQuantity}}</td><!-- 已配送数量 -->
-                <td ng-if="scopeData.orderStatus=='已完成'" class="text-right" style="line-height:2.4">{{tr.receiveQuantity}}</td><!-- 库房 -->
+                  <td class="text-center" style="line-height:2.4">{{$index+1}}
 
-                <td class="text-right" style="line-height:2.4">￥{{tr.strike_price | number:2}}</td><!-- 采购单价 -->
-                <td class="text-right" style="line-height:2.4">￥{{tr.totalPrice | number:2}}</td><!-- 计划采购金额 -->
-                <td class="text-center" >{{tr.manufacturer}}</td>   <!--生产厂商-->
-                <td class="text-center" >{{tr.productionPlace}}</td>
+                      <div class="table-item-handle-btn">
+                          <div class="table-item-confirm-del-area bg-white">
+                              <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                              <p class="pdt">
+                                  <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                                  <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData2.orderMedicalNos.splice($index,1);">确认</a>
+                              </p>
+                          </div>
+                      </div>
+                  </td><!-- 序号 -->
 
+                  <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
+                  <td class="text-left" style="line-height:2.4">
+                      <div class="autocut inline-block" title="{{tr.name}}">
+                          {{tr.name}}
+                      </div>
+                      <!-- {{tr.name}} -->
+                  </td><!-- 商品全名 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
+                  <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
+
+                  <td class="text-right" >{{tr.stockBatchs[0].quantity}}</td> <!--调整数量-->
+                  <td class="text-right" >{{tr.stockBatchs[0].batchNumber}}</td> <!--生存批号-->
+                  <td class="text-right" >{{tr.storeRoomName}}</td> <!--库房名称-->
+
+
+                  <td class="text-center" style="white-space:nowrap;line-height:2.4">{{tr.regionName}}</td><!-- 区域名称 -->
+
+                  <td class="text-center" >{{tr.goodsLocationCode}}</td><!-- 货位编号 -->
+                  <td class="text-center" >{{tr.goodsLocationName}}</td><!-- 货位名称 -->
+
+                  <td class="text-center" >{{tr.productionDate | date:'yyyy-MM-dd'}}</td><!-- 生产日期 -->
+                  <td class="text-center" >{{tr.validTill|date:'yyyy-MM-dd'}}</td><!-- 有效期至 -->
+
+                  <td class="text-center" >{{tr.manufacturer}}</td><!-- 生产厂商 -->
+                  <td class="text-center" >{{tr.approvalNo||tr.drugAdministrationCode}}</td><!-- 注册证号/批准文号 -->
               </tr>
             </tbody>
           </table>
@@ -143,26 +170,27 @@
 
 
   <!-- 功能按钮 -->
-  <div style="display: none" class="handle-btn-area">
+  <div class="handle-btn-area">
     <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+
       <a ng-if="changeFlag" href="javascript:;" class="mgr"
          handle-this-click
          dialog-title="确认返回?"
-         dialog-content="该采购计划存在未保存数据，是否保存?"
+         dialog-content="库存调整单存在未保存数据，是否保存?"
          dialog-template="pr-dialog-return.html"
-         nosave-callback="goTo('#/purchasePlanOrder/query.html')"
-         save-callback="submitForm('editForm','exit')">返回采购计划列表
+         nosave-callback="goTo('#/InventoryAdjustmentOrder/query.html')"
+         save-callback="submitForm('editForm','exit')">返回采库存调整列表
       </a>
 
-      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/purchasePlanOrder/query.html?id={{scopeData.relId}}" >返回采购计划列表</a>
+      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/InventoryAdjustmentOrder/query.html?id={{scopeData.relId}}" >返回采库存调整列表</a>
 
       <span ng-if="scopeData.didateFilter.buttons.length>0"
             custom-menu-list
             custom-menu-arr="{{scopeData.didateFilter.buttons}}">
       </span>
     </div>
-    <div class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-      <em class="color-white">￥{{scopeData.totalPrice || '0.00' | number:2 }}</em>
-    </div>
+
   </div>
+
+
 </div>

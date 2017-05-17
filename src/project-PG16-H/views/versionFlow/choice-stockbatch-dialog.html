@@ -4,6 +4,9 @@
      scope-data="stockBatchList"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
      alert-error>
+
+  <!--dialogData:{{dialogData}}-->
+
   <!-- 标题 -->
   <div class="bb-line-gold pr-bg-black2 min-h-l">
     <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{dialogData.medicalName}}</h1>
@@ -78,9 +81,12 @@
               <input type="radio"
                      name="medicals"
                      class="default-radio"
-                     ng-click="spdChoiseBatchs(item,dialogData.choisedBatchList,dialogData.id,dialogData.goodsCount,dialogData.strike_price);modal.closeAll()"
-                     ng-disabled="choisedBatchsIdList.indexOf(item.id)!==-1"><i></i>
+                     ng-click="spdChoiseBatchs(item,dialogData.choisedBatchList,dialogData.id,dialogData.goodsCount,dialogData.strike_price,dialogData.index);modal.closeAll()"
+
+                     ><i></i>
             </label>
+
+            <!--ng-disabled="choisedBatchsIdList.indexOf(item.id)!==-1"-->
           </td>
           <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
           <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->

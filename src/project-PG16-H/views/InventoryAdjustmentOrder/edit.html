@@ -1,6 +1,6 @@
 
 <div class="create-new-order purchasePlanOrder-edit purchase-plan-order"
-     ng-controller="purchasePlanOrderController"
+     ng-controller="inventoryAdjustmentOrderCtrl"
      ajax-url="rest/authen/inventoryAdjustmentOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos)"
@@ -11,7 +11,7 @@
          name="purchasePlanForm"
          form-validator
          parameter-body
-         action="rest/authen/purchasePlanOrder/save.json"
+         action="rest/authen/inventoryAdjustmentOrder/save"
          alert-error
          alert-ok
          scope-error-msg="errorMsg"
@@ -87,6 +87,8 @@
               flash-add-medical
               ng-model="data1"
               class="pd-c-l pdt-m"
+              hide-quantity
+              hide-import
               ajax-url="rest/authen/medicalStock/query"
               add-data-callback-fn="flashAddDataCallbackFn(data1)"
 
@@ -102,7 +104,6 @@
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6">
                <span class="mgr">单据编号：
-
                  <!--ng-disabled="!formData.supplierId||formData.id"-->
                  <input type="text"
 
@@ -113,12 +114,10 @@
                </span>
                <span class="mgr">单据类型：<em class="color-3">
                  <select  style="height: 28px; padding: 0; width: 140px;" pg-select=""
-                          ng-model="addDataItem111relId" class=" inline ipt text-center select pr-table-select mgb-s"
+                          ng-model="formData.type" class=" inline ipt text-center select pr-table-select mgb-s"
                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SPD_InventoryAdjustedType">
 
                  </select>
-
-
 
                </em></span>
                <span class="mgr">审批人：<em class="color-custom-orange">{{formData.inputUser.n || '暂无'}}</em></span>
@@ -127,7 +126,7 @@
 
              <div class="flex-item-6 text-right">
                <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
-               <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+               <span class="mgr">状态：<em class="color-3">  {{formData.orderStatus}}  </em></span>
              </div>
            </div>
            <!--<div class="pd-c-l pdt-m pdb-m color-9">-->
@@ -209,11 +208,11 @@
                </thead>
 
 
-
                <tbody class="bg-white">
 
                  <tr ng-repeat="tr in formData.orderMedicalNos"
                      table-item-handlebtn-component
+                     ng-init="tr.stockBatchs=tr.stockBatchs?tr.stockBatchs:[]"
                      class="relative">
 
 
@@ -230,7 +229,7 @@
                      </div>
                    </td><!-- 序号 -->
 
-                   <td class="text-center" style="line-height:2.4">{{tr}}--{{tr.code}}</td><!-- 商品编码 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
                      <div class="autocut inline-block" title="{{tr.name}}">
                        {{tr.name}}
@@ -250,6 +249,7 @@
                               style="width:118px;height:100%;"
                               ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                          </div>
+
                          <input type="number"
                                 class="in_ipt"
                                 name="batchNum{{$index}}"
@@ -261,16 +261,17 @@
                        </div>
 
                        <!-- 批号选择  ng-if="calculaBatchsTotal(tr,tr.goodsCount)<item.goodsCount"  "choisedBatchList":{{tr.stockBatchs || ""}},  "goodsCount":{{tr.goodsCount}},  -->
-                       <div   class="ipt-div relative" style="width:100%;">
+                       <div ng-if="tr.stockBatchs.length<1"   class="ipt-div relative" style="width:100%;">
                          <i class="addImg"
                             style="left:85%"
                             modal-right="50%"
                             modal-scope="this"
                             modal-data='{
+                                      "index":"{{$index}}",
                                       "medicalName":"{{tr.name}}",
-                                      "id":"{{tr.id}}",
+                                      "id":"{{tr.relId}}",
                                       "logisticsCenterId":"{{tr.logisticsCenterId}}",
-                                      "strike_price":{{tr.strike_price}}
+                                      "strike_price":"{{tr.strike_price}}"
                                     }'
                             modal-url="views/versionFlow/choice-stockbatch-dialog.html">
                          </i>
@@ -282,31 +283,21 @@
                      <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                        待采购数量：{{tr.planQuantity-tr.quantity}}
                      </p> -->
-                   </td><!-- 计划采购数量 -->
-                   <!-- <td class="text-right" >{{tr.receiveQuantity}}</td> -->
-                   <!-- 已配送数量 -->
-                   <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
-                     <input type="text"
-                            class="ipt pr-ipt-60 text-right"
-                            name="strike_price{{$index}}"
-                            ng-model="tr.strike_price"
-                            ng-change="calcTotalPrice(formData.orderMedicalNos)"
-                            required
-                            ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
-                            invalid-popover
-                            valid-value="{{!purchasePlanForm['strike_price'+$index].$valid}}"
-                            popover-show
-                            popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
-                   </td><!-- 采购单价 -->
-                   <td class="text-right" style="white-space:nowrap;line-height:2.4">
-                     ￥{{tr.quantity*tr.strike_price  | number:2}}
-                   </td><!-- 计划采购金额 -->
+                   </td><!-- 生产批号 -->
+                   <td class="text-right" >{{tr.storeRoomName}}</td> <!--库房名称-->
 
 
+                   <td class="text-center" style="white-space:nowrap;line-height:2.4">{{tr.regionName}}</td><!-- 区域名称 -->
 
+                   <td class="text-center" >{{tr.goodsLocationCode}}</td><!-- 货位编号 -->
+                   <td class="text-center" >{{tr.goodsLocationName}}</td><!-- 货位名称 -->
 
-                   <td class="text-center" >{{tr.productionPlace}}</td><!-- 产地 -->
+                   <td class="text-center" >{{tr.productionDate | date:'yyyy-MM-dd'}}</td><!-- 生产日期 -->
+                   <td class="text-center" >{{tr.validTill|date:'yyyy-MM-dd'}}</td><!-- 有效期至 -->
+
                    <td class="text-center" >{{tr.manufacturer}}</td><!-- 生产厂商 -->
+                   <td class="text-center" >{{tr.approvalNo||tr.drugAdministrationCode}}</td><!-- 注册证号/批准文号 -->
+
                  </tr>
                </tbody>
              </table>
@@ -345,7 +336,7 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/purchasePlanOrder/query.html')"
+             nosave-callback="goTo('#/InventoryAdjustmentOrder/query.html')"
              save-callback="submitForm('editForm','exit')">返回库存调整单列表
           </a>
 
@@ -361,6 +352,8 @@
         </span>
 
         <span>
+
+
           <button class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
@@ -368,14 +361,19 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('purchasePlanForm','submit')"
-                  ng-disabled="purchasePlanForm.$invalid || !formData.orderMedicalNos.length ||
-                               !formData.expectDate ||
-                               !formData.orderCode ||
-                               !formData.storeRoomId ||
-                               !formData.genTai" >提交
+
+                 >提交
+
+
           </button>
+
         </span>
+
+        ng-disabled="{{ purchasePlanForm.$invalid || !formData.orderMedicalNos.length ||  !formData.orderCode }}"
+
       </div>
     </div>
   </form>
+
 </div>
+
