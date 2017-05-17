@@ -1,4 +1,4 @@
-<div class="create-new-order collarApplicationOrder-edit purchase-plan-order"
+<div class="create-new-order allocate-order  collarApplicationOrder-edit purchase-plan-order"
      ng-controller="collarApplicationOrderController"
      ajax-url="rest/authen/collarApplicationOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
@@ -31,6 +31,24 @@
          </p>
        </div>
        <!-- 药械列表 -->
+       <div class="inline-block pr-bg-white relative full-height mgr mgb" style="width:464px;">
+         <div class="inline-block logistics-center-out relative">
+           <p class="mgb-s">
+             库房
+           </p>
+           <select ng-if="initFlag" class="pr-select pdt"
+           style="width:250px;"
+           chosen
+           required
+           default-empty="无"
+           ng-model="formData.storeRoomId"
+           select-source="rest/authen/storeRoom/queryForSelectOption"
+           ng-change="changeStoreRoom(formData.orderMedicalNos,formData.storeRoomId)">
+           </select>
+           <!-- <em ng-if="!formData.storeRoomId" class="color-red">(必选)</em> -->
+         </div>
+       </div>
+
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
          <!-- 信息 -->
          <div
@@ -204,7 +222,7 @@
                    <!-- <td class="text-right" ng-if="salesQuantity" ></td> -->
                    <td ng-if="!formData.id" class="text-right">{{tr.salesQuantity}}</td>
                    <td ng-if="formData.id&&initFlag" class="text-right"
-                   ajax-url="rest/authen/medicalStock/countStockByIds?ids={{tr.id}}"
+                   ajax-url="rest/authen/medicalStock/countStockByIds?ids={{tr.id}}&&storeRoomId={{formData.storeRoomId}}"
                    scope-data="scopeData"
                    ><em ng-repeat="item in scopeData" ng-init="tr.salesQuantity=item.salesQuantity">{{item.salesQuantity}}</em>
                  </td>

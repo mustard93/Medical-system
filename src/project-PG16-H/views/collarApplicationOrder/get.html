@@ -1,4 +1,4 @@
-<div class="create-new-order collarApplicationOrder-edit purchase-plan-order"
+<div class="create-new-order allocate-order collarApplicationOrder-edit purchase-plan-order"
       ng-controller="collarApplicationOrderController"
       ajax-url="rest/authen/collarApplicationOrder/get.json?id={{mainStatus.pageParams.id}}&relId={{mainStatus.pageParams.relId}}"
       scope-data="scopeData"
@@ -19,6 +19,18 @@
       <em >{{scopeData.operationFlowSet.key}}</em>
       <em >{{scopeData.operationFlowSet.message}}</em>
     </p>
+  </div>
+  <div class="mgb pd-n mgl-xxl">
+    <div class="inline-block pr-bg-white relative full-height mgr" style="width:464px;">
+      <div class="inline-block logistics-center-out relative">
+        <p class="mgb-s">
+          库房
+        </p>
+        <p class="text-m color-black autocut-default text-left" title="{{formData.sourceName}}" style="width:200px;">
+          {{scopeData.storeRoomName || '暂无'}}
+        </p>
+      </div>
+    </div>
   </div>
   <div class="content-wrapper">
     <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
@@ -93,7 +105,12 @@
                   </div>
                 </td><!-- 商品全名 -->
                 <td class="text-right" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请数量 -->
-                <td class="text-right" style="line-height:2.4">{{tr.availableCount}}</td><!-- 实际领用数量 -->
+                <td class="text-right" ng-if="scopeData.orderStatus!='待审核'" style="line-height:2.4">{{tr.availableCount}}</td><!-- 实际领用数量 -->
+                <td ng-if="scopeData.orderStatus=='待审核'" class="text-right"
+                ajax-url="rest/authen/medicalStock/countStockByIds?ids={{tr.id}}&&storeRoomId={{scopeData.storeRoomId}}"
+                scope-data="showData"
+                ><em ng-repeat="item in showData">{{item.salesQuantity}}</em>
+                </td>
                 <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                 <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
                 <td class="text-center" >{{tr.productionPlace}}</td>
