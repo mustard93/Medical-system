@@ -2,7 +2,7 @@
      ng-controller="medicalStockCtrl"
      ajax-url="rest/authen/medicalStock/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);"
+     callback="initFlag=true;watchFormChange('formData');bottomButtonList= $root.bottomButtonList.get_medicalStock(formData);showUnit=false;"
      alert-error>
 
      <div class="header-info relative mgb-l">
@@ -306,6 +306,7 @@
                     <th class="text-center">
                       单位名称
                       <em class="color-red">(必填)</em>
+                      <em ng-if="showUnit" class="color-red">单位重复</em>
                     </th>
                     <th class="text-center">
                       换算比率
@@ -326,7 +327,8 @@
                     <td class="text-center">
                       <input type="text"
                              class="ipt pr-ipt-60 text-center"
-                             ng-model="formData.packingAttribute.name"/>
+                             ng-model="formData.packingAttribute.name"
+                             ng-change="changeUnit(formData.packingAttribute.name,formData.othersPackingAttribute,formData.packingAttribute.name)"/>
                     </td>
                     <td class="text-center" ng-model="formData.packingAttribute.ratio">
                       1
@@ -383,7 +385,9 @@
                       <input type="text"
                              class="ipt pr-ipt-60 text-center"
                              required
-                             ng-model="tr.name"/>
+                             ng-model="tr.name"
+                             ng-change="changeUnit(tr.name,formData.othersPackingAttribute,formData.packingAttribute.name)"/>
+
                     </td>
                     <td class="text-center">
                       <input type="number"
@@ -477,6 +481,7 @@
                             }'
                 tpl-url="tpl/pr-dialog-content-reason.html"
                   ng-disabled="editForm.$invalid ||
+                    showUnit ||
                     !formData.code||
                     !formData.name||
                     !formData.specification||
@@ -492,6 +497,7 @@
               type="button"
               ng-click="submitForm('editForm','save')"
               ng-disabled="editForm.$invalid ||
+               showUnit ||
                !formData.code||
                !formData.name||
                !formData.specification||

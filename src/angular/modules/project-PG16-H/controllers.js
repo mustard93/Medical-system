@@ -48,6 +48,36 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    $scope.changeUnit = function (unit_name,othersPackingAttribute,packingAttribute_name){
+      var packing_unit=[];
+      if(!packingAttribute_name){
+        return;
+      }
+      if(packingAttribute_name){
+        packing_unit.push(packingAttribute_name);
+      }
+
+     if(othersPackingAttribute && othersPackingAttribute.length!==0){
+        for (var i = 0; i < othersPackingAttribute.length; i++) {
+          packing_unit.push(othersPackingAttribute[i].name);
+        }
+      }
+      if(unit_name){
+          packing_unit.push(unit_name);
+      }
+      packing_unit.pop();
+      // 判断是否有重复单位出现
+      for (var i = 0; i < packing_unit.length-1;i++) {
+        for (var j = i+1; j < packing_unit.length; j++) {
+          if(packing_unit[i]===packing_unit[j]){
+            $scope.showUnit=true;
+            return;
+          }
+        }
+      }
+      $scope.showUnit=false;
+    }
+
     $scope.submitForm = function(fromId, type) {
        $scope.submitForm_type = type;
 
@@ -2309,11 +2339,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                requestData(_url, _data, 'GET')
                .then(function (results) {
                  var _resObj = results[1].data;
-                 for (var item in _resObj) {
-                   if (item === addDataItem.relId && _resObj[item]) {
-                   addDataItem.salesQuantity=_resObj[item].salesQuantity;
-                   }
-                 }
+                 if(JSON.stringify(_resObj) == "{}"){
+                   addDataItem.salesQuantity=0;
+                 }else{
+                    for (var item in _resObj) {
+                      if(item === addDataItem.relId){
+                         addDataItem.salesQuantity=_resObj[item].salesQuantity;
+                      }else{
+                        addDataItem.salesQuantity=0;
+                      }
+                    }
+                  }
                })
                .catch(function (error) {
                  if (error) { console.log(error || '出错!'); }
@@ -2326,7 +2362,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
       $scope.changeStoreRoom =function(orderMedical,storeRoomId){
         var _ids=[];
-        if(storeRoomId && orderMedical.length!==0){
+        if(orderMedical.length!==0){
           for(var i= 0;i<orderMedical.length; i++){
             _ids.push(orderMedical[i].id);
           }
@@ -2339,18 +2375,21 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           requestData(_url, _data, 'GET')
           .then(function (results) {
             var _resObj = results[1].data;
-            for (var item in results[1].data) {
-
-              for (var i = 0; i < _ids.length; i++) {
-                if(orderMedical[i].id===item && _resObj[item]){
-                  orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
-
-                  console.log(orderMedical[i].name+'='+orderMedical[i].salesQuantity);
+            for (var i = 0; i < _ids.length; i++) {
+             if(JSON.stringify(_resObj) == "{}"){
+                orderMedical[i].salesQuantity=0;
+              }else {
+                for (var item in _resObj) {
+                  if(orderMedical[i].id===item){
+                    orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
+                  }else{
+                    orderMedical[i].salesQuantity=0;
+                  }
                 }
               }
-
             }
           })
+
           .catch(function (error) {
             if (error) { console.log(error || '出错!'); }
           });
@@ -2407,12 +2446,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
     $scope.submitForm = function(fromId, type) {
-      console.log(1);
-      _obj={
-        localQuantity:$scope.formData.localQuantity,
-        medical_unit:$scope.formData.medical_unit
-      }
-      console.log(_obj);
        $scope.submitForm_type = type;
        if ($scope.submitForm_type == 'submit') {
 
