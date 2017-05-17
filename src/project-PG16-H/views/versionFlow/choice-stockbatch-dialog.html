@@ -1,7 +1,8 @@
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="createCorrespondController"
      ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
      scope-data="stockBatchList"
-     callback="initFlag=true;getChoisedBatchsId(dialogData.choisedBatchList);"
+     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
      alert-error>
   <!-- 标题 -->
   <div class="bb-line-gold pr-bg-black2 min-h-l">
@@ -49,7 +50,7 @@
     <!-- 关键字过滤 -->
     <div class="inline-block">
       <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-        <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号" ng-model="listParams.q" style="top:7px;">
+        <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号"  ng-model="searchKey" style="top:7px;" ng-change="handleSearchFilter3(searchKey)">
         <i class="" style="top:10px;"></i>
       </div>
     </div>

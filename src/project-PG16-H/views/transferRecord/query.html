@@ -1,0 +1,126 @@
+<div class="hospital-application">
+  <!-- 主内容头部 -->
+  <page-main-header-component list-params="listParams"
+                              crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"库存移位","link":"","style":"color-custom-orange"}]'
+                              component-title="库存移位">
+  </page-main-header-component>
+  <table-list list-data="rest/authen/transferRecord/query.json"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+    <!-- <div class="relative" style="left:30px;top:-12px;">
+      <button type="button" class="pr-btn-save-glodbg" modal-right="500" modal-scope="this" modal-url="views/transferRecord/edit.html">
+          <i class="fa fa-plus"></i>新建
+      </button>
+    </div> -->
+    <div class=" order-create-btn relative" style="left:30px;top:5px;">
+      <a href="#/transferRecord/edit.html"  title="新建库存移位记录">
+        <i style="top:3px;"></i><span class="text-s">新建库存移位记录</span></a>
+    </div>
+
+  <div class="content-wrapper">
+      <!-- 主内容区域 -->
+    <div class="content-wrapper-main pr-bg-white  pr-fuzzy-boundary" style="margin-top:30px;">
+        <div class="text-left pd-m">
+          <div class="inline-block mgr-l mgt-s">
+            <p>
+              库房：
+            </p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.storeRoomId"
+                    select-source="rest/authen/storeRoom/queryForSelectOption">
+            </select>
+          </div>
+          <div class="inline-block mgr-l mgt-s">
+            <p>
+              原区域：
+            </p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.sourceRegionId"
+                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}">
+            </select>
+          </div>
+          <div class="inline-block mgr-l mgt-s">
+            <p>
+              原货位：
+            </p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.sourceGoodsLocationId"
+                    select-source="rest/authen/goodsLocation/queryForSelectOption?sourceRegionId={{listParams.sourceRegionId}}">
+            </select>
+          </div>
+          <div class="inline-block mgr-l mgt-s">
+            <p>
+              移位后区域：
+            </p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.targetRegionId"
+                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}">
+            </select>
+          </div>
+          <div class="inline-block mgr-l mgt-s">
+            <p>
+              移位后货位：
+            </p>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.targetGoodsLocationId"
+                    select-source="rest/authen/goodsLocation/queryForSelectOption?targetRegionId={{listParams.targetRegionId}}">
+            </select>
+          </div>
+          <div class="inline-block mgr-xxxxxl mgt-s">
+            <p>
+              移位日期：
+            </p>
+            <div class="date-icon-outside" >
+              <input type="text"
+                     datepicker
+                     class="ipt-date ipt color-3"
+                     ng-readonly="true"
+                     placeholder=""
+                     ng-model="listParams.transferDateBeg">
+                    <span class="date-icon"></span>
+            </div>
+            至
+            <div class="date-icon-outside" >
+              <input type="text"
+                     datepicker
+                     class="ipt-date ipt color-3"
+                     ng-readonly="true"
+                     placeholder=""
+                     ng-model="listParams.transferDateEnd">
+                    <span class="date-icon"></span>
+            </div>
+          </div>
+            <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative" style="margin-left:220px;">
+              <input type="text" class="ipt pdr-xxl" placeholder="商品编号/商品名称" ng-model="listParams.q">
+              <i class=""></i>
+            </div>
+            <div class="inline-block mgl-m">
+              <i class="fa fa-refresh mgr-s color-light-brown"></i>
+              <a href="" class="color-light-brown" ng-click="listParams.q=''">重置搜索条件</a>
+            </div>
+        </div>
+          <div custom-table="com.pangu.mss.spd.domain.mongo.storeRoom.TransferRecord" custom-tr-menus="1" style="width:100%;"></div>
+  </div>
+</table-list>
+</div>

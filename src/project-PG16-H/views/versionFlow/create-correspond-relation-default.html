@@ -1,0 +1,98 @@
+<div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="transferRecordCtrl"
+     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.medicalId}}"
+     scope-data="codesList"
+     callback="$root.reloadTime=$root.utils.getNowTime();"
+     alert-error>
+  <!-- 标题 -->
+  <div class="bb-line-gold pr-bg-black2 min-h-l">
+    <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择编码 - {{dialogData.medicalName}}</h1>
+  </div>
+  <!-- 过滤条件 -->
+  <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+    <!-- 关键字过滤 -->
+    <div class="inline-block">
+      <div class="order-list-search pos-rel-tr inline-block fl-r color-white">
+        <div class="inline-block mgr-l mgt-s">
+          库房：
+          <select class="inline ipt-new-s pdt"
+                  chosen
+                  style="width:120px;"
+                  data-placeholder=" "
+                  default-empty="全部"
+                  ng-model="listParams.storeRoomId"
+                  select-source="rest/authen/storeRoom/queryForSelectOption"
+                  ng-change="handleSearchFilter1(listParams.storeRoomId)">
+          </select>
+          <!-- {{listParams.storeRoomId}} -->
+        </div>
+        <div class="inline-block mgr-l mgt-s">
+          区域：
+          <select class="inline ipt-new-s pdt"
+                  chosen
+                  style="width:120px;"
+                  data-placeholder=" "
+                  default-empty="全部"
+                  ng-model="listParams.regionId"
+                  select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}"
+                  ng-change="handleSearchFilter2(listParams.regionId)">
+          </select>
+        </div>
+        <div class="inline-block mgr-xxxxxl mgt-s">
+          货位：
+          <select class="inline ipt-new-s pdt"
+                  chosen
+                  style="width:120px;"
+                  data-placeholder=" "
+                  default-empty="全部"
+                  ng-model="listParams.goodsLocationId"
+                  select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}"
+                  ng-change="handleSearchFilter3(listParams.goodsLocationId)">
+          </select>
+        </div>
+        <input type="text"
+               class="ipt-side pdr-xxl text-right"
+               placeholder="生产批号"
+               ng-model="searchKey"
+               ng-change="handleSearchFilter('q',searchKey)">
+        <i class="white" style="top:7px;"></i>
+      </div>
+    </div>
+  </div>
+  <!-- 数据遍历 -->
+  <div ng-if="codesList.length">
+    <table class="full-width another-table">
+      <thead>
+        <tr class="bb-line-gold">
+          <th></th>
+          <th>生产批号</th>
+          <th>有效期至</th>
+          <th>仓库</th>
+          <th>区域</th>
+          <th>货位</th>
+          <th>可用量</th>
+          <th>现存量</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr ng-repeat="item in codesList track by $index" class="pr-bg-black3 trHover-bg">
+          <td class="text-center">
+            <label class="radio radio-new">
+              <input type="radio"
+                     name="medicals"
+                     class="default-radio"
+                     ng-click="spdChoiseBatches(dialogData.medicalId,item.productionBatch,item.storeRoomId,item.regionId,item.goodsLocationId,item.stockModel.salesQuantity,item.sterilizationBatchNumber)"><i></i>
+            </label>
+          </td>
+          <td class="text-left color-white" style="height:50px;"> {{item.productionBatch}}</td>
+          <td class="text-left color-white" style="height:50px;"> {{item.validTill | date:'yyyy-MM-dd'}}</td>
+          <td class="text-left color-white" style="height:50px;"> {{item.storeRoomName}}</td>
+          <td class="color-white" style="height:50px;">{{item.regionName}}</td>
+          <td class="color-white" style="height:50px;">{{item.goodsLocationName}}</td>
+          <td class="color-white" style="height:50px;">{{item.stockModel.salesQuantity}}</td>
+          <td class="color-white" style="height:50px;">{{item.stockModel.totalQuantity}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
