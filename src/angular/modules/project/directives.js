@@ -3320,29 +3320,22 @@ function pageMainHeaderComponent () {
 
       //是否显示新建按钮
       scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
-
       // 是否显示部门过滤
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
       // 是否显示制单人过滤
       scope.isShowUserFilter = angular.isDefined(attrs.isShowUserFilter) ? attrs.isShowUserFilter : false;
       // 是否显示申请人过滤
       scope.isShowApplyUserFilter = angular.isDefined(attrs.isShowApplyUserFilter) ? attrs.isShowApplyUserFilter : false;
-
       //是否显示类型过滤
       scope.isShowTypeFilter = angular.isDefined(attrs.isShowTypeFilter) ? attrs.isShowTypeFilter : false;
-
       //是否显示仓库过滤
       scope.isShowWarehouseFilter = angular.isDefined(attrs.isShowWarehouseFilter) ? attrs.isShowWarehouseFilter : false;
-
       //是否显示日期过滤
       scope.isShowDateFilter = angular.isDefined(attrs.isShowDateFilter) ? attrs.isShowDateFilter : false;
-
       // 是否显示关键字过滤
       scope.isShowKeyFilter = angular.isDefined(attrs.isShowKeyFilter) ? attrs.isShowKeyFilter : false;
-
       // 是否显示单据状态筛选按钮组模块
       scope.isShowBusinessBtnGroup = angular.isDefined(attrs.isShowBusinessBtnGroup) ? attrs.isShowBusinessBtnGroup : false;
-
       // 关键字搜索中提示信息定义
       scope.searchPlaceholderInfo = angular.isDefined(attrs.searchPlaceholderInfo) ? attrs.searchPlaceholderInfo : '客户名 / 单据编号';
 
