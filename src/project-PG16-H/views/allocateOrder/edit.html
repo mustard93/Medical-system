@@ -199,7 +199,7 @@
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1"
-                        ng-class="{'disabled':(item.applicationCount<=1)}" >-</button>
+                        ng-disabled="item.applicationCount<=1" ng-class="{'disabled':(item.applicationCount<=1)}">-</button>
                         <span class="inline-block">
                           <input type="number"
                                  name="applicationCount{{$index}}"
@@ -216,7 +216,8 @@
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1"
-                          ng-class="{'disabled':(item.applicationCount>=item.salesQuantity)}">+</button>
+                          ng-class="{'disabled':(item.applicationCount>=item.salesQuantity)}"
+                          ng-disabled="item.applicationCount>=item.salesQuantity">+</button>
                       </div>
                     </td><!-- 计划调拨数量 -->
                     <!-- 仓库 -->
