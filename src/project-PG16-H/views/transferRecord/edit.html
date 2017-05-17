@@ -2,7 +2,7 @@
      ng-controller="transferRecordCtrl"
      ajax-url="rest/authen/transferRecord/getOfEdit.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');showFlag=true;_obj={};"
+     callback="initFlag=true;watchFormChange('formData');showFlag=true;"
      alert-error>
 
      <div class="header-info relative mgb-l">
@@ -87,7 +87,7 @@
               <div class="flex-column" style="padding:79px 135px;">
                 <div class="flex-item-5">
                   <div class="inline-block">
-                    <p class="mgb-s">当前区域：<span class="mgl-s color-red" ng-if="!formData.sourceRegionId">(必选){{formData.storeRoomId}}</span></p>
+                    <p class="mgb-s">当前区域：<span class="mgl-s color-red" ng-if="!formData.sourceRegionId">(必选)</span></p>
                     <select class="inline ipt-new-s pdt"
                             chosen
                             required
@@ -190,6 +190,10 @@
           </div>
 
           <div class="flex-column bt-dashed-line pdt-l">
+            <em>仓库：</em>
+            <div class="ipt-div pr-indent-5 mgr-l" style="width:100px;height:28px;">
+              {{formData.storeRoomName}}
+            </div>
             <em>移位日期：</em>
             <div class="date-icon-outside mgr-l">
               <input type="text"

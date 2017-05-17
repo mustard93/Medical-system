@@ -2546,17 +2546,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
 
-    $scope.spdChoiseBatches = function (medicalId,productionBatch,storeRoomId,regionId,goodsLocationId,salesQuantity,sterilizationBatchNumber) {
+    $scope.spdChoiseBatches = function (medicalId,productionBatch,storeRoomName,storeRoomId,regionId,goodsLocationId,salesQuantity,sterilizationBatchNumber) {
       // 将当前选择的医院编码赋值到数据对象中
       if ($scope.formData) {
               $scope.formData.relMedicalStockId= medicalId;
               $scope.formData.productionBatch= productionBatch;
               $scope.formData.storeRoomId=storeRoomId;
+              $scope.formData.storeRoomName=storeRoomName;
               $scope.formData.sourceRegionId=regionId;
               $scope.formData.sourceGoodsLocationId=goodsLocationId;
               $scope.formData.localQuantity=salesQuantity;
               $scope.formData.sterilizationBatchNumber=sterilizationBatchNumber;
-
       }
       modal.closeAll();
     };
@@ -2573,12 +2573,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           if (quantityList.length !== 0) {
             var _len = quantityList.length;
             for (var i=0; i<_len; i++) {
-              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch) {
+              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch
+              &&$scope.formData.sourceGoodsLocationId===quantityList[i].goodsLocationId) {
                 newQuantity=quantityList[i].stockModel.salesQuantity;
                 var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.localQuantity+'&&unit='+$scope.formData.medical_unit;
                 requestData(_url)
                 .then(function (results) {
                   $scope.scopeData = results[1].data;
+                  console.log(results[1].data[0].quantity);
+                  console.log(newQuantity);
                   if( results[1].data[0].quantity>newQuantity){
                     $scope.showQuantity=true;
                   }else{
@@ -2603,12 +2606,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           if (quantityList.length !== 0) {
             var _len = quantityList.length;
             for (var i=0; i<_len; i++) {
-              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch) {
+              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch
+                &&$scope.formData.sourceGoodsLocationId===quantityList[i].goodsLocationId) {
                 newQuantity=quantityList[i].stockModel.salesQuantity;
                 var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.localQuantity+'&&unit='+$scope.formData.medical_unit;
                 requestData(_url)
                 .then(function (results) {
                   $scope.scopeData = results[1].data;
+                  console.log(results[1].data[0].quantity);
+                  console.log(newQuantity);
                   if( results[1].data[0].quantity>newQuantity){
                     $scope.showQuantity=true;
                   }else{
