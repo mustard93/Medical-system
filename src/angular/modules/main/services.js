@@ -1103,16 +1103,16 @@ e
 
                   this.print_param=$.extend({},this.print_param_defualt);
 
-                    console.log(this.print_param);
+                    // console.log(this.print_param);
 
                     if(!LODOP){
-                        require(['LodopFuncs'], function(LodopFuncs1) {
-                              LodopFuncs=LodopFuncs1;
-                              //异步加载js
-                              LodopFuncs1.loadCLodop();
+                      require(['LodopFuncs'], function(LodopFuncs1) {
+                            LodopFuncs=LodopFuncs1;
+                            //异步加载js
+                            LodopFuncs1.loadCLodop();
 
-                        });//require
-                      }
+                      });//require
+                    }
 
 
                 },
@@ -1188,20 +1188,20 @@ e
                     LODOP=this._printBeforePrint(content,taskName);
 
                     LODOP.PREVIEW();
-                  }//preview
-                  ,
+                  },//preview
+
                   //打印
                   print:function(content,taskName) {
                       LODOP=this._printBeforePrint(content,taskName);
                       LODOP.PRINT();
-                    }//print
-                    ,
+                    },//print
+
                     //打印设置。整体位置调整。
                     printSetup:function(content,taskName) {
                         LODOP=this._printBeforePrint(content,taskName);
                         LODOP.PRINT_SETUP();
-                      }//print
-                      ,
+                      },//print
+
                     //打印设置。详细调整，可以到每个字
                     printDesign:function(content,taskName) {
                         LODOP=this._printBeforePrint(content,taskName);
@@ -1216,10 +1216,10 @@ e
 
                     }//preview
 
-                }//OPrinter
+                };//OPrinter
 
               return OPrinter;
-        };//OPrinter
+        }//OPrinter
 
 
 

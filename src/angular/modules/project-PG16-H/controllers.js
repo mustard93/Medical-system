@@ -191,6 +191,61 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
            });
          }
        };
+
+    $scope.flashAddDataCallbackFn = function(flashAddData) {
+
+      if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+        alertWarn("请选择药品");
+        return ;
+      }
+
+      var medical=flashAddData.data.data;
+      var addDataItem = $.extend(true,{},medical);
+
+      addDataItem.relId=medical.id;
+      addDataItem.discountPrice='0';
+      addDataItem.discountRate='100';
+      // addDataItem.strike_price=addDataItem.price;
+      addDataItem.id=null;
+
+      if (!addDataItem.planQuantity) {
+        addDataItem.planQuantity = flashAddData.quantity;
+      }
+
+      if (!(addDataItem.relId && addDataItem.name)) {
+          alertWarn('请选择药品。');
+          return false;
+      }
+
+      if(addDataItem.planQuantity>medical.quantity){//库存不足情况
+          addDataItem.handleFlag =false;//默认添加到订单
+      }
+
+      if (!$scope.formData.orderMedicalNos) {
+        $scope.formData.orderMedicalNos = [];
+      }
+      // 如果已添加
+      if ($scope.formData.orderMedicalNos.length !== 0) {
+        var _len = $scope.formData.orderMedicalNos.length;
+        // console.log(_len);
+        // 未使用forEach方法，因为IE不兼容
+        for (var i=0; i<_len; i++) {
+          if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+            alertWarn('此药械已添加到列表');
+            return false;
+          }
+        }
+      }
+      addDataItem.stockBatchs=[];
+      //添加到列表
+      $scope.formData.orderMedicalNos.push(addDataItem);
+      //计算价格
+      $scope.formData.totalPrice += addDataItem.strike_price *
+
+      addDataItem.planQuantity;
+      return true;
+    };
+
   }
 
   function medicalStockStrategyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
@@ -2570,6 +2625,57 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   }
 
 
+  // SPD商品管理中GS1条码打印控制器
+  function cfgGoodsBarcodeCtroller ($scope, requestData, utils) {
+
+    var _url = 'rest/authen/gs1Barcode/get';
+
+    // 获取商品条码
+    $scope.getGoodsBarcode = function (barcode) {
+
+      if (barcode) {
+        var _data = {
+              "barcode": barcode,
+              "barcodeType": "一段式"
+            };
+
+        requestData(_url, _data, 'POST', 'parameter-body')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.goodsBarcode = results[1].data;   // 商品条码
+            $scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
+            $scope.scopeData.medicalType = '一段式';   // 设置默认的条码选择样式
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error || '出错'); }
+        });
+      }
+    };
+
+    // 请求包含批号和数量的完整的条码
+    $scope.getFullGoodsBarcode = function (scopeData) {
+      if (scopeData) {
+        var _data = {
+          "barcode": scopeData.barcode,
+          "quantity": scopeData.quantity,
+          "productionBatch": scopeData.productionBatch,
+          "validTill": scopeData.validTill,
+          "barcodeType": scopeData.medicalType
+        };
+        requestData(_url, _data, 'POST', 'parameter-body')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error || '出错'); }
+        });
+      }
+    };
+  }
+
   angular.module('manageApp.project-PG16-H')
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
@@ -2586,5 +2692,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('storeRoomController', ['$scope', 'requestData', 'alertError', 'alertOk', storeRoomController])
   .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
   .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController])
-  .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController]);
+  .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController])
+  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', cfgGoodsBarcodeCtroller]);
 });

@@ -101,37 +101,61 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
     'use strict';
     return {
       restrict: 'EA',
-      scope: {
-
-      },
+      scope: true,
       replace: true,
       transclude: true,
       templateUrl: Config.tplPath + 'tpl/project/gs1BarcodeComponent.html',
       link: function (scope, element, attrs) {
+        // 条码请求地址
+        var _url = 'rest/authen/gs1Barcode/get';
+
+        // 监控medical以返回当前商品的条码
         scope.$watch('medical.data.barcode', function (newVal, oldVal) {
           if (newVal && newVal !== oldVal) {
-            var _url = 'rest/authen/gs1Barcode/get',
-                _data = {
+            // 请求商品条码
+            var _data = {
                   "barcode": newVal,
-                  "quantity": 0,
-                  "productionBatch": "",
-                  "validTill": 0,
+                  "quantity": null,
+                  "productionBatch": null,
+                  "validTill": null,
                   "barcodeType": "一段式"
                 };
             requestData(_url, _data, 'POST', 'parameter-body')
             .then(function (results) {
-              console.log(results);
+              if (results[1].code === 200) {
+                scope.goodsBarcode = results[1].data;   // 商品条码
+                scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
+                scope.medical.data.medicalType = '一段式';   // 设置默认的条码选择样式
+              }
             })
             .catch(function (error) {
-              if (error) { throw new Errow(error || '出错'); }
+              if (error) { throw new Error(error || '出错'); }
             });
           }
         });
-      },
-      controller: ['$scope', '$element', function ($scope, $element) {
-        // ...
 
-      }]
+        // 请求包含批号和数量的完整的条码
+        scope.getFullBarcode = function (medical) {
+          if (medical) {
+            var _data = {
+              "barcode": medical.data.barcode,
+              "quantity": medical.data.quantity,
+              "productionBatch": medical.data.productionBatch,
+              "validTill": medical.data.validTill,
+              "barcodeType": medical.data.medicalType
+            };
+            requestData(_url, _data, 'POST', 'parameter-body')
+            .then(function (results) {
+              if (results[1].code === 200) {
+                scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
+              }
+            })
+            .catch(function (error) {
+              if (error) { throw new Error(error || '出错'); }
+            });
+          }
+        };
+      }
     };
   }
 
