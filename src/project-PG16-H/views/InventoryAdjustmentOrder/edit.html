@@ -1,4 +1,3 @@
-
 <div class="create-new-order purchasePlanOrder-edit purchase-plan-order"
      ng-controller="inventoryAdjustmentOrderCtrl"
      ajax-url="rest/authen/inventoryAdjustmentOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
@@ -83,7 +82,7 @@
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
          <!-- 信息 -->
-         <div
+         <div ng-if="initFlag"
               flash-add-medical
               ng-model="data1"
               class="pd-c-l pdt-m"
@@ -360,11 +359,8 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('purchasePlanForm','submit')"
-
-                 >提交
-
-
+                  ng-disabled="!formData.orderCode"
+                  callback="submitForm('purchasePlanForm','submit')">提交
           </button>
 
         </span>
@@ -376,4 +372,3 @@
   </form>
 
 </div>
-

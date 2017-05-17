@@ -213,11 +213,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             });
 
             return arr;
-        }
+        };
 
 
 
-    };
+    }
 
 
 
