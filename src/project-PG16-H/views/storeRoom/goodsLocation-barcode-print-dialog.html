@@ -1,0 +1,57 @@
+<div class="modal-content right-side-new pr-bg-black4"
+     ng-controller="cfgGoodsBarcodeCtroller"
+     ajax-url="rest/authen/goodsLocation/get?id={{dialogData.id}}"
+     scope-data="scopeData"
+     alert-error
+     callback="initFlag=true;getGoodsBarcode(scopeData.barcode);$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1}">
+  <div class="modal-header">
+    <h4 class="modal-title color-or">货位条码打印</h4>
+  </div>
+  <div class="modal-body modal-body-new">
+    <div class="pd-c-xxxxl bb-dashed-line mgt-l">
+      <div class="flex-column" style="line-height:2.9;">
+        <label class="text-right control-label text-normal">货位编号：</label>
+        <div class="inline-block color-white text-left">{{scopeData.code}}</div>
+      </div>
+      <div class="flex-column" style="line-height:2.9;">
+        <label class="text-right control-label text-normal">货位名称：</label>
+        <div class="inline-block color-white" style="line-height:2.9">{{scopeData.name}}</div>
+      </div>
+      <div class="flex-column mgt" style="line-height:2.9;">
+        <label class="text-right control-label text-normal">打印份数：</label>
+        <div class="inline-block color-3 text-left">
+          <input type="number"
+                 class="ipt pr-short-ipt"
+                 name="code"
+                 ng-model="printer.num"
+                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
+          <span class="color-or">(选填)</span>
+        </div>
+      </div>
+    </div>
+    <div class="pd-c-xxxxl">
+      <h1 class="text-bold">打印预览<span class="color-white text-normal">（右键条码图片另存为可下载到本地）</span></h1>
+
+      <div ajax-url="rest/authen/uiCustomHtml/getByKey.json?key=goodsFullBarcode"
+           scope-data="uiCustomHtml"
+           callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml);htmlString=''">
+      </div>
+
+      <div class="mgt" id="Print_Div_id" ng-controller="mainCtrl" >
+        <ng-include id="htmlString_divId" src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtmlByKey?key=goodsFullBarcode'"></ng-include>
+      </div>
+
+      <!-- <div class="mgt">
+        <img ng-src="{{goodsFullBarcode}}" alt="">
+      </div> -->
+    </div>
+  </div>
+  <div class="btn-confirm-area">
+    <button type="button"
+            class="ngdialog-close btn pr-btn-create-glodbg "
+            style="width:160px;height:32px;	margin-top: 8px;margin-left:270px;"
+            ng-disabled="!scopeData.barcode"
+            ng-click="$root.OPrinter.print(printer.num)">打印
+    </button>
+  </div>
+</div>

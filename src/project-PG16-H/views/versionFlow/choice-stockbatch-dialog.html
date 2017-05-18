@@ -24,7 +24,8 @@
               width="120px"
               chosen
               ng-model="listParams.warehouseId"
-              select-source="rest/authen/storeRoom/queryForSelectOption">
+              select-source="rest/authen/storeRoom/queryForSelectOption"
+              ng-change="handleSearchFilter()">
       </select>
     </div>
     <!-- 日期过滤 -->
@@ -53,7 +54,12 @@
     <!-- 关键字过滤 -->
     <div class="inline-block">
       <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
-        <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号"  ng-model="searchKey" style="top:7px;" ng-change="handleSearchFilter3(searchKey)">
+        <input type="text"
+               class="ipt pdr-xxl relative"
+               placeholder="生产批号 / 灭菌批号"
+               ng-model="searchKey"
+               style="top:7px;"
+               ng-change="handleSearchFilter()">
         <i class="" style="top:10px;"></i>
       </div>
     </div>

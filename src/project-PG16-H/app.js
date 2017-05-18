@@ -8,7 +8,7 @@ var require_config_project={
   shim:{
 
   }
-}
+};
 //追加项目配置
 appendOjectProperty(require_config_project.paths,require_config.paths);
 appendOjectProperty(require_config_project.shim,require_config.shim);
