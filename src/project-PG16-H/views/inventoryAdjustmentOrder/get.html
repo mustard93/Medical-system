@@ -96,7 +96,7 @@
 
               <th class="text-center">调整数量</th>
 
-              <th class="text-center">生成批号</th>
+              <th class="text-center">生产批号</th>
 
               <th class="text-center">库房名称</th>
               <th class="text-center">区域名称</th>
@@ -138,8 +138,10 @@
                   <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                   <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
 
-                  <td class="text-right" >{{tr.stockBatchs[0].quantity}}</td> <!--调整数量-->
-                  <td class="text-right" >{{tr.stockBatchs[0].batchNumber}}</td> <!--生存批号-->
+
+                  <td class="text-right" >{{tr.quantity}}</td> <!--调整数量-->
+                  <td class="text-right" >{{tr.batchNumber}}</td> <!--生存批号-->
+
                   <td class="text-right" >{{tr.storeRoomName}}</td> <!--库房名称-->
 
 
@@ -178,11 +180,11 @@
          dialog-title="确认返回?"
          dialog-content="库存调整单存在未保存数据，是否保存?"
          dialog-template="pr-dialog-return.html"
-         nosave-callback="goTo('#/InventoryAdjustmentOrder/query.html')"
+         nosave-callback="goTo('#/inventoryAdjustmentOrder/query.html')"
          save-callback="submitForm('editForm','exit')">返回采库存调整列表
       </a>
 
-      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/InventoryAdjustmentOrder/query.html?id={{scopeData.relId}}" >返回采库存调整列表</a>
+      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventoryAdjustmentOrder/query.html?id={{scopeData.relId}}" >返回采库存调整列表</a>
 
       <span ng-if="scopeData.didateFilter.buttons.length>0"
             custom-menu-list

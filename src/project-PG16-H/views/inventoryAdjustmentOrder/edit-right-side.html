@@ -1,0 +1,107 @@
+<div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="inventoryAdjustmentOrderDialogCtrl"
+     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
+     scope-data="stockBatchList"
+     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
+     alert-error>
+
+  <!-- 标题 -->
+  <div class="bb-line-gold pr-bg-black2 min-h-l">
+    <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{dialogData.medicalName}}</h1>
+  </div>
+  <!-- 过滤条件 -->
+  <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+    <!-- 仓库过滤 -->
+    <div class="inline-block">
+      <span class="color-9">仓库：</span>
+      <select ng-if="initFlag"
+              class="ipt pr-short-ipt color-3"
+              style="width:90px;"
+              data-placeholder=""
+              default-empty="全部"
+              width="120px"
+              chosen
+              ng-model="listParams.storeRoomId"
+              select-source="rest/authen/storeRoom/queryForSelectOption"
+              ng-change="getGoodsBatchsData(listParams)"
+      >
+      </select>
+    </div>
+    <!-- 日期过滤 -->
+    <div class="inline-block relative">
+      <span class="color-9 mgl-m">有效期：</span>
+      <div class="date-icon-outside">
+        <input ng-if="initFlag" type="text"
+               datepicker
+               class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+               ng-readonly="true"
+               ng-model="listParams.createAtBeg"
+               ng-change="getGoodsBatchsData(listParams)"
+               placeholder="">
+        <span class="date-icon"></span>
+      </div>
+      <span class="color-9">至</span>
+      <div class="date-icon-outside">
+        <input ng-if="initFlag" type="text"
+               datepicker
+               class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+               ng-readonly="true"
+               ng-model="listParams.createAtEnd"
+               ng-change="getGoodsBatchsData(listParams)"
+               placeholder="">
+        <span class="date-icon"></span>
+      </div>
+    </div>
+    <!-- 关键字过滤 -->
+    <div class="inline-block">
+      <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+        <input type="text" class="ipt pdr-xxl relative" placeholder="生产批号 / 灭菌批号"  ng-model="listParams.q"
+
+               ng-change="getGoodsBatchsData(listParams)"
+
+               style="top:7px;">
+        <i class="" style="top:10px;"></i>
+      </div>
+    </div>
+  </div>
+  <!-- 无数据 -->
+  <div ng-if="!stockBatchList.length" class="color-red text-n pdl-l pdt-m">此商品在该物流中心暂无库存。</div>
+  <!-- 数据遍历 -->
+
+  <div ng-if="stockBatchList.length">
+    <table class="full-width another-table">
+      <thead>
+      <tr class="bb-line-gold">
+        <th></th>
+        <th>生产批号</th>
+        <th>有效期至</th>
+        <th>仓库</th>
+        <th>区域</th>
+        <th>货位</th>
+        <th>可用量</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in stockBatchList" class="trHover-bg" ng-class="{ 'pr-bg-grey3':getGoodsBatchs(dialogData.id,item.id) }" >
+        <td class="text-center">
+          <label class="radio radio-new">
+            <input type="radio"
+                   name="medicals"
+                   class="default-radio"
+                   ng-click="spdChoiseBatchs(item,dialogData.choisedBatchList,dialogData.id,dialogData.goodsCount,dialogData.strike_price,dialogData.index);modal.closeAll()"
+                   ng-disabled="getGoodsBatchs(dialogData.id,item.id)"
+            ><i></i>
+          </label>
+
+        </td>
+        <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
+        <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->
+        <td class="" style="height:50px;">{{item.storeRoomName}}</td><!--仓库-->
+        <td class="" style="height:50px;">{{item.regionName}}</td><!--区域-->
+        <td class="text-left" style="height:50px;">{{item.goodsLocationName}}</td><!--货位-->
+        <td class="text-left" style="height:50px;">{{item.stockModel.salesQuantity}}</td><!--可用量-->
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

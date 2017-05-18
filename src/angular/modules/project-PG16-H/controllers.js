@@ -8,10 +8,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
 
+
+
+        //调整
+        $scope.flag=false;
+
         $scope.watchFormChange=function(watchName){
             watchFormChange(watchName,$scope);
         };
         modal.closeAll();
+
 
 
         // 向列表添加数据的回调函数
@@ -23,7 +29,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
 
 
-            console.log("flashAddData",flashAddData);
 
 
             var medical=flashAddData.data.data;
@@ -36,27 +41,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             addDataItem.strike_price=addDataItem.price;
             addDataItem.id=null;
+
             if (!(addDataItem.relId && addDataItem.name)) {
                 alertWarn('请选择药品。');
                 return false;
             }
-
-
-
-
-            // if (!addDataItem.quantity||addDataItem.quantity<1) {
-            //     alertWarn('请输入大于0的数量。');
-            //     return false;
-            // }
-
-            // if (!addDataItem.strike_price) {
-            //     alertWarn('请输入成交价格。');
-            //     return false;
-            // }
-
-            // if(addDataItem.quantity>medical.quantity){//库存不足情况
-            //     addDataItem.handleFlag =false;//默认添加到订单
-            // }
 
             if (!$scope.formData.orderMedicalNos) {
                 $scope.formData.orderMedicalNos = [];
@@ -97,10 +86,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             //添加到列表
             $scope.formData.orderMedicalNos.push(addDataItem);
-
-            //计算价格
-            // $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-
+            $scope.flag=false;
 
             return true;
         };
@@ -123,7 +109,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                         //  alertOk(_data.message || '操作成功');
 
 
-                        $scope.goTo('#/InventoryAdjustmentOrder/get.html?id='+$scope.formData.id+'&businessKey='+$scope.formData.id);
+                        $scope.goTo('#/inventoryAdjustmentOrder/get.html?id='+$scope.formData.id+'&businessKey='+$scope.formData.id);
 
                     })
                     .catch(function (error) {
@@ -131,6 +117,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     });
             }
         };
+
+
+
 
 
 
@@ -148,12 +137,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-
-
-
-
-
-
         // 侧边栏选择生产批号
         $scope.spdChoiseBatchs = function (obj,choisedList,id,goodsCount,strikePrice,index) {
 
@@ -165,7 +148,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             // 构建临时对象存储批号id、批号名和数量
             var _tmp = {
                 stockBatchId: obj.id,                     // 批次号id
+
                 batchNumber: obj.productionBatch,
+
                 quantity: obj.stockModel.salesQuantity,    // 可选数量
                 goodsCount: obj.stockModel.salesQuantity,
                 productionBatch: obj.productionBatch,     // 批号名
@@ -178,8 +163,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 regionId:obj.regionId,//区域ID
                 goodsLocationId:obj.goodsLocationId// 货位ID
 
-
             };
+
+
+            angular.forEach($scope.formData.orderMedicalNos,function (item,index2) {
+                if(item.relId==id){
+                    $scope.formData.orderMedicalNos[index].choisedBatchList2.push(_tmp);
+                }
+            });
 
 
             $scope.formData.orderMedicalNos[index].stockBatchs[0]=_tmp;
@@ -200,25 +191,83 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.formData.orderMedicalNos[index].productionDate=obj.productionDate;//生产日期
             $scope.formData.orderMedicalNos[index].validTill= obj.validTill;//有效期至
 
+
+
+            $scope.flag=true;
         };
 
-        //
-        $scope.getGoodsBatchs=function (goodsRelId) {
+
+
+
+        //获取商品已选择的批次-
+        $scope.getGoodsBatchs=function (goodsRelId,batchId) {
             var arr=[];
             angular.forEach( $scope.formData.orderMedicalNos, function(data,index){
 
                 if(data.relId==goodsRelId){
-                    arr.push(data.stockBatchId);
+
+                    if(data.stockBatchs.length>0){
+                        arr.push( data.stockBatchs[0].stockBatchId);
+                    }
                 }
             });
 
-            return arr;
+
+            var flag=false;
+
+            for(var i=0; i<arr.length; i++){
+
+                if (batchId==arr[i]){
+                    flag=true;
+                    break;
+                }
+            }
+           return flag;
         };
-
-
 
     }
 
+
+    // SPD系统-库存调整-右侧弹出框 controller
+    function inventoryAdjustmentOrderDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+        console.log("$scope.dialogData", $scope.dialogData);
+
+        $scope.getGoodsBatchsData=function (listParams) {
+
+            console.log("listParams",$scope.listParams,listParams);
+
+                var _url = 'rest/authen/medicalStock/queryStockBatch',
+
+                    // relMedicalStockId={{dialogData.id}}&
+                    // logisticsCenterId={{dialogData.logisticsCenterId}}
+                    // warehouseId={{dialogData.sourceId}}&
+                    // isOnlyAvailable=true&warehouseType=正常库"
+
+                    _data = {
+                        relMedicalStockId: $scope.dialogData.id,
+                        logisticsCenterId: $scope.dialogData.logisticsCenterId,
+
+                        storeRoomId: listParams.storeRoomId,
+                        createAtBeg: listParams.createAtBeg,
+                        createAtEnd: listParams.createAtEnd,
+                        q: listParams.q||'',
+
+                        warehouseType: '正常库',
+                        isOnlyAvailable: false
+                    };
+
+
+                console.log(angular.toJson(_data,true));
+
+                requestData(_url, _data, 'GET')
+                    .then(function (results) {
+                        if (results[1].data) { $scope.stockBatchList = results[1].data; }
+                    });
+
+        }
+
+    }
 
 
     //  SPD系统—商品信息管理模块controller
@@ -2870,7 +2919,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', cfgGoodsBarcodeCtroller])
 
 
-   .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl]);
+   .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
+   .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]) ;
+
+
+
 
 
 });
