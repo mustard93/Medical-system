@@ -1766,7 +1766,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
             if (addDataItem) {
-              var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId,
+              var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId+'&storeRoomId='+$scope.formData.storeRoomId,
                   _data = {};
               requestData(_url, _data, 'GET')
               .then(function (results) {
