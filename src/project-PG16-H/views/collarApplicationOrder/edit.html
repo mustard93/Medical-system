@@ -2,7 +2,7 @@
      ng-controller="collarApplicationOrderController"
      ajax-url="rest/authen/collarApplicationOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;"
      alert-error>
   <form id="editForm"
          name="editForm"
@@ -228,7 +228,7 @@
                  </td>
                    <!-- 可用数量 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 商品单位 -->
                    <td class="text-center" >{{tr.productionPlace}}</td><!-- 产地 -->
                    <td class="text-center" >{{tr.manufacturer}}</td><!-- 生产厂商 -->
                  </tr>
@@ -295,7 +295,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="editForm.$invalid||quantityError ||!formData.orderCode ||!formData.orderMedicalNos.length" >提交
+                  ng-disabled="editForm.$invalid||quantityError || canSubmit ||!formData.orderCode ||!formData.orderMedicalNos.length" >提交
           </button>
         </span>
       </div>
