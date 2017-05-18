@@ -2,7 +2,7 @@
      ng-controller="collarApplicationOrderController"
      ajax-url="rest/authen/collarApplicationOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;"
      alert-error>
   <form id="editForm"
          name="editForm"
@@ -295,7 +295,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="editForm.$invalid||quantityError ||!formData.orderCode ||!formData.orderMedicalNos.length" >提交
+                  ng-disabled="editForm.$invalid||quantityError || canSubmit ||!formData.orderCode ||!formData.orderMedicalNos.length" >提交
           </button>
         </span>
       </div>

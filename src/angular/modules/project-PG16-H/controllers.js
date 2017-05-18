@@ -1711,16 +1711,21 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
             if (addDataItem) {
-              var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId,
+              var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId+'&&storeRoomId='+$scope.formData.storeRoomId,
                   _data = {};
               requestData(_url, _data, 'GET')
               .then(function (results) {
                 var _resObj = results[1].data;
                 for (var item in _resObj) {
-                  if (item === addDataItem.relId && _resObj[item]) {
+                  if (item === addDataItem.relId) {
                   addDataItem.salesQuantity=_resObj[item].salesQuantity;
                   }
+                  if(_resObj[item].salesQuantity==0){
+                    $scope.canSubmit=true;
+                    return;
+                  }
                 }
+                    $scope.canSubmit=false;
               })
               .catch(function (error) {
                 if (error) { console.log(error || '出错!'); }
@@ -1758,7 +1763,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        $('input', '#addDataItem_relId_chosen').trigger('focus');
        // $('#addDataItem_relId_chosen').trigger('click');
    };
-   
+
    $scope.changeStoreRoom =function(orderMedical,storeRoomId){
      var _ids=[];
      if(orderMedical.length!==0){
@@ -1776,7 +1781,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                if(orderMedical[i].id===item){
                  orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
                }
+               if(_resObj[item].salesQuantity==0){
+                 $scope.canSubmit=true;
+                 return;
+               }
              }
+              $scope.canSubmit=false;
          }
        })
        .catch(function (error) {
@@ -2583,7 +2593,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                       if(item === addDataItem.relId){
                          addDataItem.salesQuantity=_resObj[item].salesQuantity;
                       }
+                      if(_resObj[item].salesQuantity==0){
+                        $scope.canSubmit=true;
+                        return;
+                      }
                     }
+                      $scope.canSubmit=false;
                })
                .catch(function (error) {
                  if (error) { console.log(error || '出错!'); }
@@ -2610,7 +2625,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                   if(orderMedical[i].id===item){
                     orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
                   }
+                  if(_resObj[item].salesQuantity==0){
+                    $scope.canSubmit=true;
+                    return;
+                  }
                 }
+                $scope.canSubmit=false;
             }
           })
           .catch(function (error) {
