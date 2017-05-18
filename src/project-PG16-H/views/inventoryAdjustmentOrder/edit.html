@@ -2,7 +2,7 @@
      ng-controller="inventoryAdjustmentOrderCtrl"
      ajax-url="rest/authen/inventoryAdjustmentOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos)"
+     callback="initFlag=true;watchFormChange('formData'); choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos)"
      alert-error>
 
 
@@ -26,57 +26,13 @@
 
      <div class="content-wrapper">
 
-       <!--<div ng-if="formData.operationFlowSet.message||formData.operationFlowSet.key" class="pr-panel pr-panel-height mgb pr-bg-pink1">-->
-         <!--<em class="color-red">原因:</em>-->
-         <!--<p class="inline-block color-red">-->
-           <!--<em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>-->
-           <!--<em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>-->
-         <!--</p>-->
-       <!--</div>-->
-
-       <!--<div style="display: none">-->
-         <!--<div class="inline-block mgr-l">-->
-           <!--<div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">-->
-             <!--<div class="inline-block supplier-icon"></div>-->
-             <!--<div class="inline-block">-->
-               <!--<p class="mgb-s">供应商</p>-->
-               <!--<div class="inline-block"-->
-                    <!--ajax-if-eval="formData.supplierId"-->
-                    <!--ajax-url="rest/authen/supplier/get.json"-->
-                    <!--scope-data="supplier"-->
-                    <!--callback="formData.supplier=supplier;chkSupplierInfo(supplier)"-->
-                    <!--alert-error>-->
-                 <!--<div>-->
-                   <!--<span ng-if="initFlag"-->
-                          <!--ng-disabled="formData.id"-->
-                         <!--angucomplete-supplier-->
-                         <!--placeholder="输入关键字或供应商名首字母快速搜索"-->
-                         <!--title-field="name"-->
-                         <!--search-fields="{{formData.supplierName}}"-->
-                         <!--url="rest/authen/supplier/query.json"-->
-                         <!--ng-model="tmp_supplier"-->
-                         <!--ng-model-id="formData.supplierId"-->
-                         <!--class="inline-block mgr-s" style="width:280px;height:28px;">-->
-                   <!--</span>-->
-                   <!--<em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">-->
-                     <!--{{formData.supplier.businessApplication.businessStatus}}-->
-                   <!--</em>-->
-                 <!--</div>-->
-               <!--</div>-->
-             <!--</div>-->
-           <!--</div>-->
-         <!--</div>-->
-         <!--<div class="inline-block">-->
-            <!--<div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">-->
-              <!--<div class="inline-block hospital-icon"></div>-->
-              <!--<div class="inline-block">-->
-                <!--<p class="mgb-s">医院</p>-->
-                <!--<p class="text-m color-3">{{formData.organizationName || '暂无'}}</p>-->
-              <!--</div>-->
-            <!--</div>-->
-         <!--</div>-->
-       <!--</div>-->
-
+       <div ng-if="formData.operationFlowSet.message||formData.operationFlowSet.key" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+         <em class="color-red">原因:</em>
+         <p class="inline-block color-red">
+           <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+           <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+         </p>
+       </div>
 
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
@@ -91,9 +47,6 @@
               add-data-callback-fn="flashAddDataCallbackFn(data1)"
 
          >
-
-           <!--is-disabled-this="{{formData.supplierId}}"-->
-
 
          </div>
 
@@ -210,7 +163,7 @@
 
                  <tr ng-repeat="tr in formData.orderMedicalNos"
                      table-item-handlebtn-component
-                     ng-init="tr.stockBatchs=tr.stockBatchs?tr.stockBatchs:[]"
+                     ng-init="tr.stockBatchs=tr.stockBatchs?tr.stockBatchs:[]; tr.choisedBatchList2=tr.choisedBatchList2?tr.choisedBatchList2:[];"
                      class="relative">
 
 
@@ -241,8 +194,10 @@
                        <!-- 已选批号列表 -->
                        <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
                             ng-if="batch.batchNumber"
+
                             class="ipt-div relative mgb"
                             ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
+
                          <div class="inline-block text-ellips-s"
                               style="width:118px;height:100%;"
                               ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
@@ -252,15 +207,18 @@
                                 class="in_ipt"
                                 name="batchNum{{$index}}"
                                 ng-model="batch.quantity"
-                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"
+                                ng-blur="checkMaxNum(batch,$index)"
                                 ng-change="batchsNumOverload(formData.orderMedicalNos)">
                          <input type="hidden" required ng-model="batch.id">
-                         <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                         <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1); flag=false;"><i class="fa fa-times-circle"></i></span>
                        </div>
 
                        <!-- 批号选择  ng-if="calculaBatchsTotal(tr,tr.goodsCount)<item.goodsCount"  "choisedBatchList":{{tr.stockBatchs || ""}},  "goodsCount":{{tr.goodsCount}},  -->
                        <div ng-if="tr.stockBatchs.length<1"   class="ipt-div relative" style="width:100%;">
                          <i class="addImg"
+                            ng-click=""
+
                             style="left:85%"
                             modal-right="50%"
                             modal-scope="this"
@@ -271,16 +229,32 @@
                                       "logisticsCenterId":"{{tr.logisticsCenterId}}",
                                       "strike_price":"{{tr.strike_price}}"
                                     }'
-                            modal-url="views/versionFlow/choice-stockbatch-dialog.html">
+                            modal-url="views/inventoryAdjustmentOrder/edit-right-side.html"
+
+                         >
                          </i>
                        </div>
                        <!-- 待选择数 -->
 
 
+                     <!--style="left:85%"-->
+                     <!--modal-right="50%"-->
+                     <!--modal-scope="this"-->
+                     <!--modal-data='{-->
+                     <!--"index":"{{$index}}",-->
+                     <!--"medicalName":"{{tr.name}}",-->
+                     <!--"id":"{{tr.relId}}",-->
+                     <!--"logisticsCenterId":"{{tr.logisticsCenterId}}",-->
+                     <!--"strike_price":"{{tr.strike_price}}",-->
+                     <!--"choisedBatchList":"{{choisedBatchList}}"-->
+                     <!--}'-->
+                     <!--modal-url="views/versionFlow/choice-stockbatch-dialog.html"-->
 
                      <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                        待采购数量：{{tr.planQuantity-tr.quantity}}
                      </p> -->
+
+
                    </td><!-- 生产批号 -->
                    <td class="text-right" >{{tr.storeRoomName}}</td> <!--库房名称-->
 
@@ -309,7 +283,6 @@
            </div>
          </div>
        </div>
-
 
        <!-- 备注 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
@@ -358,13 +331,11 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  ng-disabled="!formData.orderCode"
+                  ng-disabled="!formData.orderCode||!flag||!formData.orderMedicalNos.length"
                   callback="submitForm('purchasePlanForm','submit')">提交
           </button>
 
         </span>
-
-        ng-disabled="{{ purchasePlanForm.$invalid || !formData.orderMedicalNos.length ||  !formData.orderCode }}"
 
       </div>
     </div>
