@@ -8,7 +8,7 @@ var require_config_project={
   shim:{
 
   }
-}
+};
 //追加项目配置
 appendOjectProperty(require_config_project.paths,require_config.paths);
 appendOjectProperty(require_config_project.shim,require_config.shim);
@@ -29,7 +29,7 @@ define('manageApp.template', ['angular'], function () {
 });
 //@endif
 
-define('manageApp.main', ['main/init', 'main/services', 'main/controllers', 'main/directives', 'main/filters']);
+define('manageApp.main', ['main/init', 'main/services', 'main/controllers', 'main/directives', 'main/filters', 'main/components']);
 define('manageApp.project', ['project/init', 'project/services', 'project/controllers', 'project/directives', 'project/filters']);
 define('manageApp.modal', ['modal/init', 'modal/services', 'modal/directives']);
 define('manageApp.upload', ['upload/init', 'upload/directives']);
