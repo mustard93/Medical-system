@@ -1288,31 +1288,36 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   function createCorrespondController ($scope, requestData, modal, alertWarn, utils) {
 
     // 侧边栏搜索过滤
-    $scope.handleSearchFilter = function (key,distributorId,customerAddressId) {
-      // var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId=' + $scope.mainStatus.pageParams.distributorId + '&q=' + key;
+    // $scope.handleSearchFilter = function (key,distributorId,customerAddressId) {
+    //   // var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId=' + $scope.mainStatus.pageParams.distributorId + '&q=' + key;
+    //
+    //   var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId='+distributorId+'&customerAddressId='+customerAddressId+'&q='+key;
+    //
+    //   requestData(_url)
+    //   .then(function (results) {
+    //     $scope.codesList = results[1].data;
+    //   });
+    // };
+    //
+    // $scope.handleSearchFilter2 = function (key) {
+    //   var _url = 'rest/authen/medicalStock/query?q=' + key;
+    //   requestData(_url)
+    //   .then(function (results) {
+    //     $scope.codesList = results[1].data;
+    //   });
+    // };
+    // $scope.handleSearchFilter3 = function (key) {
+    //   var _url = 'rest/authen/medicalStock/queryStockBatch?q=' + key+'&&relMedicalStockId='+$scope.dialogData.id;
+    //   requestData(_url)
+    //   .then(function (results) {
+    //     $scope.codesList = results[1].data;
+    //   });
+    // };
 
-      var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId='+distributorId+'&customerAddressId='+customerAddressId+'&q='+key;
-
-      requestData(_url)
-      .then(function (results) {
-        $scope.codesList = results[1].data;
-      });
+    $scope.handleSearchFilter = function () {
+      console.log('aaabbbccc');
     };
 
-    $scope.handleSearchFilter2 = function (key) {
-      var _url = 'rest/authen/medicalStock/query?q=' + key;
-      requestData(_url)
-      .then(function (results) {
-        $scope.codesList = results[1].data;
-      });
-    };
-    $scope.handleSearchFilter3 = function (key) {
-      var _url = 'rest/authen/medicalStock/queryStockBatch?q=' + key+'&&relMedicalStockId='+$scope.dialogData.id;
-      requestData(_url)
-      .then(function (results) {
-        $scope.codesList = results[1].data;
-      });
-    };
 
     // 选择供应商编码与医院药品编码建立对应关系
     $scope.spdChoiseCode = function (code,medicalId,distributorMedicalId) {
@@ -1758,7 +1763,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        $('input', '#addDataItem_relId_chosen').trigger('focus');
        // $('#addDataItem_relId_chosen').trigger('click');
    };
-   
+
    $scope.changeStoreRoom =function(orderMedical,storeRoomId){
      var _ids=[];
      if(orderMedical.length!==0){
