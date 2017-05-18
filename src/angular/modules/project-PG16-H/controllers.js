@@ -1771,7 +1771,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
             if (addDataItem) {
-              var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId,
+              var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId+'&storeRoomId='+$scope.formData.storeRoomId,
                   _data = {};
               requestData(_url, _data, 'GET')
               .then(function (results) {
@@ -2748,28 +2748,32 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.goTo(_url + '?id=' + $scope.formData.id);
       }
     };
+    // 侧边框过滤筛选
+    $scope.handleSearchFilter = function (listParams, relMedicalStockId) {
 
+      // 判断参数是否正确
+      if (!listParams || !angular.isObject(listParams)) { throw new Error('Params is Required'); }
 
-    $scope.handleSearchFilter1 = function (key) {
-        var _url = 'rest/authen/medicalStock/queryStockBatch?storeRoomId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
-        requestData(_url)
-        .then(function (results) {
-          $scope.codesList = results[1].data;
-        });
-    };
-    $scope.handleSearchFilter2 = function (key) {
-        var _url = 'rest/authen/medicalStock/queryStockBatch?regionId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
-        requestData(_url)
-        .then(function (results) {
-          $scope.codesList = results[1].data;
-        });
-    };
-    $scope.handleSearchFilter3 = function (key) {
-        var _url = 'rest/authen/medicalStock/queryStockBatch?goodsLocationId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
-        requestData(_url)
-        .then(function (results) {
-          $scope.codesList = results[1].data;
-        });
+      // 获取参数对象中所有的key
+      var _keys = Object.keys(listParams);
+
+      // 构建查询参数字符串
+      var _hashString = '';
+      for (var i = 0, len = _keys.length; i < len; i++) {
+        _hashString += '&' + _keys[i] + '=' + listParams[_keys[i]];
+      }
+
+      // 构建完整的查询url
+      var _queryUrl = 'rest/authen/medicalStock/queryStockBatch?relMedicalStockId=' + relMedicalStockId + '&isOnlyAvailable=true' + _hashString;
+
+      // 更新数据
+      requestData(_queryUrl)
+      .then(function (results) {
+        $scope.codesList = results[1].data;
+      })
+      .catch(function (error) {
+        throw new Error(error || '出错');
+      });
     };
 
 

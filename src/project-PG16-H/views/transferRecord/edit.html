@@ -72,13 +72,18 @@
               <div style="padding:120px 185px;">
                 <p>生产批号：</p>
                 <div ng-disabled="!formData.relMedicalStockId" class="ipt-div relative text-left pr-indent-5 mgt-s" style="width:172px;">{{formData.productionBatch}}
-                  <i change-img change-value="{{formData.productionBatch}}"
-                     ng-class="{'disabled':(!formData.relMedicalStockId)}"
+                  <i ng-if="formData.relMedicalStockId"
+                     change-img change-value="{{formData.productionBatch}}"
                      style="right:0px;left:inherit;"
                      modal-right="50%"
                      modal-scope="this"
                      modal-data='{"medicalName":"{{formData.name}}","medicalId":"{{formData.relMedicalStockId}}"}'
                      modal-url="views/versionFlow/create-correspond-relation-default.html">
+                  </i>
+                  <i ng-if="!formData.relMedicalStockId"
+                     change-img change-value="{{formData.productionBatch}}"
+                     ng-class="{'disabled':(!formData.relMedicalStockId)}"
+                     style="right:0px;left:inherit;">
                   </i>
                 </div>
               </div>
