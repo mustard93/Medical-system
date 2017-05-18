@@ -15,7 +15,6 @@
          scope-error-msg="errorMsg"
          scope-data="formData"
          callback="submitFormAfter();watchFormChange('formData')"
-         onkeydown="if(window.event.keyCode==13) return false;"
          novalidate="novalidate">
 
      <page-main-header-component list-params="listParams"
@@ -24,6 +23,9 @@
      </page-main-header-component>
 
      <div class="content-wrapper">
+
+       <test-component></test-component>
+
        <div ng-if="formData.operationFlowSet.message||formData.operationFlowSet.key" class="pr-panel pr-panel-height mgb pr-bg-pink1">
          <em class="color-red">原因:</em>
          <p class="inline-block color-red">
@@ -191,7 +193,7 @@
                      <!-- {{tr.name}} -->
                    </td><!-- 商品全名 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
-                   <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 商品单位 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 商品单位 -->
                    <td class="text-center" style="white-space: nowrap;">
                      <div class="order-goods-num">
                        <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;calcTotalPrice(formData.orderMedicalNos)" ng-disabled="tr.quantity<=1">-</button>
@@ -252,7 +254,13 @@
        <!-- 备注 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
          <h1 class="text-bold color-3 inline-block">备注</h1>
-         <textarea ng-disabled="!formData.supplierId" class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+         <textarea ng-disabled="!formData.supplierId"
+                   class="pr-textarea mgt"
+                   maxlength="240"
+                   style="height:92px;"
+                   placeholder=""
+                   ng-model="formData.note">
+         </textarea>
        </div>
      </div>
      <!-- 流程图 -->

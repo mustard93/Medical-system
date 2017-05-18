@@ -222,7 +222,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     break;
                 }
             }
-           return flag;
+            return flag;
         };
 
     }
@@ -237,37 +237,43 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             console.log("listParams",$scope.listParams,listParams);
 
-                var _url = 'rest/authen/medicalStock/queryStockBatch',
+            var _url = 'rest/authen/medicalStock/queryStockBatch',
 
-                    // relMedicalStockId={{dialogData.id}}&
-                    // logisticsCenterId={{dialogData.logisticsCenterId}}
-                    // warehouseId={{dialogData.sourceId}}&
-                    // isOnlyAvailable=true&warehouseType=正常库"
+                // relMedicalStockId={{dialogData.id}}&
+                // logisticsCenterId={{dialogData.logisticsCenterId}}
+                // warehouseId={{dialogData.sourceId}}&
+                // isOnlyAvailable=true&warehouseType=正常库"
 
-                    _data = {
-                        relMedicalStockId: $scope.dialogData.id,
-                        logisticsCenterId: $scope.dialogData.logisticsCenterId,
+                _data = {
+                    relMedicalStockId: $scope.dialogData.id,
+                    logisticsCenterId: $scope.dialogData.logisticsCenterId,
 
-                        storeRoomId: listParams.storeRoomId,
-                        createAtBeg: listParams.createAtBeg,
-                        createAtEnd: listParams.createAtEnd,
-                        q: listParams.q||'',
+                    storeRoomId: listParams.storeRoomId,
+                    createAtBeg: listParams.createAtBeg,
+                    createAtEnd: listParams.createAtEnd,
+                    q: listParams.q||'',
 
-                        warehouseType: '正常库',
-                        isOnlyAvailable: false
-                    };
+                    warehouseType: '正常库',
+                    isOnlyAvailable: false
+                };
 
 
-                console.log(angular.toJson(_data,true));
+            console.log(angular.toJson(_data,true));
 
-                requestData(_url, _data, 'GET')
-                    .then(function (results) {
-                        if (results[1].data) { $scope.stockBatchList = results[1].data; }
-                    });
+            requestData(_url, _data, 'GET')
+                .then(function (results) {
+                    if (results[1].data) { $scope.stockBatchList = results[1].data; }
+                });
 
         }
 
     }
+
+
+
+
+
+
 
 
     //  SPD系统—商品信息管理模块controller
@@ -1807,7 +1813,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        $('input', '#addDataItem_relId_chosen').trigger('focus');
        // $('#addDataItem_relId_chosen').trigger('click');
    };
-   
+
    $scope.changeStoreRoom =function(orderMedical,storeRoomId){
      var _ids=[];
      if(orderMedical.length!==0){
@@ -2920,10 +2926,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
    .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
-   .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]) ;
-
-
-
+   .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]);
 
 
 });

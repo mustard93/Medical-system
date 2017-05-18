@@ -2,7 +2,7 @@
      ng-controller="allocateOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;"
+     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -13,7 +13,6 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
         callback="submitFormAfter();$root.watchFormChange('formData',this)"
         novalidate="true">
     <!-- 头部信息 -->
@@ -189,7 +188,7 @@
                     </td><!-- 商品编号 -->
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                    <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                    <td class="text-center">{{item.packingAttribute.name}}</td><!-- 单位 -->
                     <td ng-if="!formData.id" class="text-right">{{item.salesQuantity}}</td>
                     <td ng-if="formData.id&&initFlag" class="text-right"
                     ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}&&storeRoomId={{formData.storeRoomId}}"
@@ -199,7 +198,7 @@
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1"
-                        ng-class="{'disabled':(item.applicationCount<=1)}" >-</button>
+                        ng-disabled="item.applicationCount<=1" ng-class="{'disabled':(item.applicationCount<=1)}">-</button>
                         <span class="inline-block">
                           <input type="number"
                                  name="applicationCount{{$index}}"
@@ -216,7 +215,8 @@
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1"
-                          ng-class="{'disabled':(item.applicationCount>=item.salesQuantity)}">+</button>
+                          ng-class="{'disabled':(item.applicationCount>=item.salesQuantity)}"
+                          ng-disabled="item.applicationCount>=item.salesQuantity">+</button>
                       </div>
                     </td><!-- 计划调拨数量 -->
                     <!-- 仓库 -->
@@ -280,7 +280,7 @@
 
         <button
                 type="button"
-                ng-disabled="editForm.$invalid ||quantityError ||!formData.orderMedicalNos.length ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate"
+                ng-disabled="editForm.$invalid ||quantityError || canSubmit ||!formData.orderMedicalNos.length ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>

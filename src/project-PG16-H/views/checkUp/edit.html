@@ -20,7 +20,7 @@
       <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">{{formData.name}}-验收</h1>
     </div>
     <div class="bb-dashed-gold pd-c-v-l color-white text-n">
-      计划验收数量：{{formData.receiveQuantity}}({{formData.unit}})
+      计划验收数量：{{formData.receiveQuantity}}({{formData.packingAttribute.name}})
       <span ng-repeat="item in formData.othersPackingAttribute_checkUp">
           = {{item.quantity}}({{item.name}})
       </span>
@@ -30,8 +30,8 @@
         <thead>
           <tr class="bb-line-gold">
             <th class="text-center">生产批号</th>
-            <th class="text-center">合格数量({{formData.unit}})</th>
-            <th class="text-center color-red">不合格数量({{formData.unit}})</th>
+            <th class="text-center">合格数量({{formData.packingAttribute.name}})</th>
+            <th class="text-center color-red">不合格数量({{formData.packingAttribute.name}})</th>
             <th class="text-center">不合格处理策略</th>
           </tr>
         </thead>
@@ -112,7 +112,7 @@
           </div>
           <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">基本单位：</div>
-            <div class="inline-block flex-item-9 text-left color-white">{{formData.unit}}</div>
+            <div class="inline-block flex-item-9 text-left color-white">{{formData.packingAttribute.name}}</div>
           </div>
           <div class="inline-block flex-column pd-c-v-s">
             <div class="inline-block flex-item-3 text-right">配送总数/实收总数：</div>
