@@ -5076,6 +5076,8 @@ define('project/controllers', ['project/init'], function() {
       $scope.formData.purchaseType=addDataObj.purchaseType;
       $scope.formData.orderBusinessType=addDataObj.orderBusinessType;
       $scope.formData.saleUser=addDataObj.saleUser;
+      $scope.formData.supplierName=addDataObj.supplier.name;
+      $scope.formData.logisticsCenterName=addDataObj.logisticsCenterName;
 
       // 清空原有数据
       $scope.formData.relId = addDataObj_id;
@@ -5137,6 +5139,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.formData.salesType=addDataObj.salesType;
       $scope.formData.orderBusinessType=addDataObj.orderBusinessType;
       $scope.formData.saleUser=addDataObj.saleUser;
+      $scope.formData.customerName=addDataObj.customerName;
 
       //切换发货单时，清空原有数据
       if($scope.formData.relId!=addDataObj_id){
