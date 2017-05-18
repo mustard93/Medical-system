@@ -16,6 +16,40 @@
     <div class="modal-body modal-body-new">
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">仓库：</label>
+        <select class="inline ipt-new-s pdt"
+                chosen
+                style="width:160px;"
+                data-placeholder=" "
+                default-empty="全部"
+                ng-model="formData.storeRoomId"
+                select-source="rest/authen/storeRoom/queryForSelectOption">
+        </select>
+        <!-- {{listParams.storeRoomId}} -->
+      </div>
+      <div class="form-group">
+      <label class="col-lg-2 col-sm-2 control-label">区域：</label>
+        <select class="inline ipt-new-s pdt"
+                chosen
+                style="width:160px;"
+                data-placeholder=" "
+                default-empty="全部"
+                ng-model="formData.regionId"
+                select-source="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}">
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">货位：</label>
+        <select class="inline ipt-new-s pdt"
+                chosen
+                style="width:160px;"
+                data-placeholder=" "
+                default-empty="全部"
+                ng-model="formData.goodsLocationId"
+                select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}">
+        </select>
+      </div>
+      <!-- <div class="form-group">
+        <label class="col-lg-2 col-sm-2 control-label">仓库：</label>
         <div class="col-lg-10 col-sm-10">
           <select class="inline pr-ipt-160 hei-28"
                   ajax-url="rest/authen/storeRoom/queryForSelectOption"
@@ -47,7 +81,7 @@
                   ng-options="item.value as item.text for item in goodsLocationData">
           </select>
         </div>
-      </div>
+      </div> -->
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">单据类型：</label>
         <div class="col-lg-10 col-sm-10">
