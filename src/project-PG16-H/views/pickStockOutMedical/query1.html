@@ -90,10 +90,17 @@
         </div>
         <!-- 拣选记录 -->
         <div
+        ng-if="listParams.orderStatus=='已拣选'"
         custom-table="com.pangu.mss.spd.domain.mongo.stock.PickStockOutMedical"
-        custom-key="spd_PickStockOutMedical"
+        custom-key="spd_PickStockOutMedical_over"
         custom-tr-menus="1"
-        checkbox-show="true"
+        style="width:100%;">
+
+        <div
+        ng-if="listParams.orderStatus=='待拣选'"
+        custom-table="com.pangu.mss.spd.domain.mongo.stock.PickStockOutMedical"
+        custom-key="spd_PickStockOutMedical_over"
+        custom-tr-menus="1"
         style="width:100%;">
 
         <div class="pr-bg-white" ng-if="!tbodyList.length">
