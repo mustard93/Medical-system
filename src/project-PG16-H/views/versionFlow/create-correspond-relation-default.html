@@ -22,7 +22,7 @@
                   default-empty="全部"
                   ng-model="listParams.storeRoomId"
                   select-source="rest/authen/storeRoom/queryForSelectOption"
-                  ng-change="handleSearchFilter1(listParams.storeRoomId)">
+                  ng-change="handleSearchFilter(listParams,dialogData.medicalId)">
           </select>
           <!-- {{listParams.storeRoomId}} -->
         </div>
@@ -35,7 +35,7 @@
                   default-empty="全部"
                   ng-model="listParams.regionId"
                   select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}"
-                  ng-change="handleSearchFilter2(listParams.regionId)">
+                  ng-change="handleSearchFilter(listParams,dialogData.medicalId)">
           </select>
         </div>
         <div class="inline-block mgr-xxxxxl mgt-s">
@@ -47,23 +47,23 @@
                   default-empty="全部"
                   ng-model="listParams.goodsLocationId"
                   select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}"
-                  ng-change="handleSearchFilter3(listParams.goodsLocationId)">
+                  ng-change="handleSearchFilter(listParams,dialogData.medicalId)">
           </select>
         </div>
         <input type="text"
                class="ipt-side pdr-xxl text-right"
                placeholder="生产批号"
-               ng-model="searchKey"
-               ng-change="handleSearchFilter(searchKey)">
+               ng-model="listParams.q"
+               ng-change="handleSearchFilter(listParams,dialogData.medicalId)">
         <i class="white" style="top:7px;"></i>
       </div>
     </div>
   </div>
   <!-- 数据遍历 -->
-  <div ng-if="codesList.length">
+  <div ng-if="codesList.length" class="outside-div">
     <table class="full-width another-table">
       <thead>
-        <tr class="bb-line-gold">
+        <tr class="bb-line-gold" >
           <th></th>
           <th>生产批号</th>
           <th>有效期至</th>
