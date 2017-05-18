@@ -1,5 +1,5 @@
 <div class="medical-stock supplier-management child-project-management"
-     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.orderStatus=mainStatus.pageParams.orderStatus||'待拣选';">
+     ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus;listParams.orderStatus=mainStatus.pageParams.orderStatus||'待拣选';isChoiseAll=false;">
      <table-list list-data="rest/authen/pickStockOutMedical/query?orderStatus={{listParams.orderStatus}}"
                  list-params="listParams"
                  search-mode="noCaseSensitive"
@@ -88,28 +88,25 @@
             <em class="bulk-receipt-btn-icon"></em>
           </a>
         </div>
-        <!-- 拣选记录 -->
+
         <div
         ng-if="listParams.orderStatus=='已拣选'"
         custom-table="com.pangu.mss.spd.domain.mongo.stock.PickStockOutMedical"
         custom-key="spd_PickStockOutMedical_over"
         custom-tr-menus="1"
         style="width:100%;">
+       </div>
 
         <div
         ng-if="listParams.orderStatus=='待拣选'"
         custom-table="com.pangu.mss.spd.domain.mongo.stock.PickStockOutMedical"
-        custom-key="spd_PickStockOutMedical_over"
+        custom-key="spd_PickStockOutMedical_waite"
+        checkbox-show='true'
+        checkbox-show-data='[{"ngModel":"isChoiseAll","ngClick":"handleChoiseAllEvent(isChoiseAll)"},{"ngModel":"tr.handleFlag","ngClick":"handleItemClickEvent(tr)"}]'
         custom-tr-menus="1"
         style="width:100%;">
-
-        <div class="pr-bg-white" ng-if="!tbodyList.length">
-          <div class="empty-table clearfix">
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-            <div>&nbsp;</div>
-          </div>
         </div>
+
         <div class="flex-column bg-white">
           <div class="flex-item-6">
             <!-- 批量拣选按钮 -->
