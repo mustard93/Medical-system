@@ -1,0 +1,121 @@
+    <div
+    ng-if="listParams.orderStatus=='已拣选'"
+    custom-table="com.pangu.mss.spd.domain.mongo.stock.PickStockOutMedical"
+    custom-key="spd_PickStockOutMedical_over"
+    custom-tr-menus="1"
+    style="width:100%;">
+  </div>
+
+    <div
+    ng-if="listParams.orderStatus=='待拣选'"
+    custom-table="com.pangu.mss.spd.domain.mongo.stock.PickStockOutMedical"
+    custom-key="spd_PickStockOutMedical_waite"
+    custom-tr-menus="1"
+    style="width:100%;">
+  </div>
+
+<div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
+  <table class="table pr-table pr-new-table pr-table-content table-wid-l">
+    <thead class="pr-bg-side">
+      <tr>
+        <th class="w-60 text-center mycheck" ng-if="listParams.orderStatus!='已拣选'" >
+          <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+          <label for="1"></label>
+        </th>
+
+        <!-- <th class="w-80">状态</th> -->
+        <th class="w-80">状态</th>
+        <th class="w-80">序号</th>
+        <th class="w-80">来源单据</th>
+        <th class="w-80">来源单据编号</th>
+        <th class="w-80">商品编号</th>
+        <th class="w-220">商品名称</th>
+        <th>规格</th>
+        <th>基本单位</th>
+        <th>生产批号</th>
+        <th>申请数量</th>
+        <th>库房名称</th>
+        <th>区域名称</th>
+        <th>货位编码</th>
+        <th>货位名称</th>
+        <th>计划拣选数量</th>
+        <th>可拣选数量</th>
+        <th>实拣数量</th>
+        <th>生产厂商</th>
+        <th>产地</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-if="tbodyList.length"
+          ng-repeat="tr in tbodyList track by $index"
+          class="relative"
+          table-item-multiple-btn>
+
+        <td class="select-td text-center mycheck" ng-if="listParams.orderStatus!='已拣选'" >
+          <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+          <label for="{{$index+2}}"></label>
+        </td>
+        <!-- <span class="text-center" show-status show-order-status="{{tr.orderStatus}}" show-order-style="right:-18px;top:-30px;">
+        </span> -->
+        <td class="relative">
+          <span class="circle-status"
+                ng-class="{'pr-bg-grey4':tr.orderStatus=='待拣选','bg-pass-green':tr.orderStatus =='已拣选'}">
+            <span class="purchaseorder-buyer-info" style="right:16px;top:-10px;">
+              <i class="block pd-c-s text-normal" style="line-height:1.8">
+                <em class="inline-block">{{tr.orderStatus}}</em>
+              </i>
+            </span>
+          </span>
+          <div class="table-item-multiple-btn">
+            <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                 ng-if="tr.orderStatus!='已拣选'"
+                 modal-right="543"
+                 modal-scope="this"
+                 modal-data='{"id":"{{tr.id}}"}'
+                 modal-url="views/pickStockOutMedical/edit.html">开始拣选...
+            </div>
+          </div>
+        </td><!-- 状态 -->
+        <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
+        <td ng-class="{'color-red':(tr.isQualified=='否')}" class="text-center" >{{tr.pickSource}}</td><!-- 来源 -->
+        <td>{{tr.orderCode}}</td><!-- 来源编号 -->
+        <td>{{tr.code}}</td><!-- 商品编号 -->
+        <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品名称 -->
+        <td>{{tr.specification}}</td><!-- 规格 -->
+        <td>{{tr.packingAttribute.name}}</td><!-- 单位 -->
+        <td>
+          {{tr.productionBatch}}
+        </td><!-- 生产批号 -->
+        <td >
+          {{tr.applicationCount}}
+        </td><!-- 申请数量 -->
+        <td >
+            {{tr.storeRoomName}}
+        </td><!-- 库房名称 -->
+        <td >
+            {{tr.regionName}}
+        </td><!-- 区域名称 -->
+
+        <td >
+            {{tr.goodsLocationCode}}
+        </td><!-- 货位编号 -->
+
+        <td >
+            {{tr.goodsLocationName}}
+        </td><!-- 货位名称-->
+        <td >
+            {{tr.applicationCount}}
+        </td><!-- 计划拣选数量 -->
+        <td >
+            {{tr.quantity}}
+        </td><!-- 可拣选数量 -->
+        <td >
+            {{tr.pickNo}}
+        </td><!-- 实际拣选数量-->
+        <td>{{tr.manufacturer}}</td><!-- 生产厂商 -->
+
+        <td>{{tr.productionPlace}}</td><!-- 产地 -->
+      </tr>
+    </tbody>
+  </table>
+</div>

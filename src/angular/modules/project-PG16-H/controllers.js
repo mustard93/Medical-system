@@ -2714,7 +2714,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.goTo(_url + '?id=' + $scope.formData.id);
       }
     };
-
+    $scope.handleSearchFilter = function (key) {
+        var _url = 'rest/authen/medicalStock/queryStockBatch?q='+key+'&relMedicalStockId='+$scope.formData.relMedicalStockId;
+        requestData(_url)
+        .then(function (results) {
+          $scope.codesList = results[1].data;
+        });
+    };
 
     $scope.handleSearchFilter1 = function (key) {
         var _url = 'rest/authen/medicalStock/queryStockBatch?storeRoomId=' + key+'&&relMedicalStockId='+$scope.dialogData.medicalId;
