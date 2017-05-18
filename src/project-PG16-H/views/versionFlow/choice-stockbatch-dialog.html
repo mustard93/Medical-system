@@ -16,7 +16,7 @@
     <!-- 仓库过滤 -->
     <div class="inline-block">
       <span class="color-9">仓库：</span>
-      <select ng-if="initFlag"
+      <select
               class="ipt pr-short-ipt color-3"
               style="width:90px;"
               data-placeholder=""
@@ -25,29 +25,31 @@
               chosen
               ng-model="listParams.warehouseId"
               select-source="rest/authen/storeRoom/queryForSelectOption"
-              ng-change="handleSearchFilter()">
+              ng-change="handleSearchFilter(listParams,dialogData.id)">
       </select>
     </div>
     <!-- 日期过滤 -->
     <div class="inline-block relative">
       <span class="color-9 mgl-m">有效期：</span>
       <div class="date-icon-outside">
-        <input ng-if="initFlag" type="text"
+        <input  type="text"
                datepicker
                class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
                ng-readonly="true"
                ng-model="listParams.createAtBeg"
-               placeholder="">
+               placeholder=""
+               ng-change="handleSearchFilter(listParams,dialogData.id)">
         <span class="date-icon"></span>
       </div>
       <span class="color-9">至</span>
       <div class="date-icon-outside">
-        <input ng-if="initFlag" type="text"
+        <input  type="text"
                datepicker
                class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
                ng-readonly="true"
                ng-model="listParams.createAtEnd"
-               placeholder="">
+               placeholder=""
+               ng-change="handleSearchFilter(listParams,dialogData.id)">
         <span class="date-icon"></span>
       </div>
     </div>
@@ -57,9 +59,9 @@
         <input type="text"
                class="ipt pdr-xxl relative"
                placeholder="生产批号 / 灭菌批号"
-               ng-model="searchKey"
+               ng-model="listParams.q"
                style="top:7px;"
-               ng-change="handleSearchFilter()">
+               ng-change="handleSearchFilter(listParams,dialogData.id)">
         <i class="" style="top:10px;"></i>
       </div>
     </div>
@@ -88,11 +90,8 @@
                      name="medicals"
                      class="default-radio"
                      ng-click="spdChoiseBatchs(item,dialogData.choisedBatchList,dialogData.id,dialogData.goodsCount,dialogData.strike_price,dialogData.index);modal.closeAll()"
-
-                     ><i></i>
+                     ng-disabled="choisedBatchsIdList.indexOf(item.id)!=-1"><i></i>
             </label>
-
-            <!--ng-disabled="choisedBatchsIdList.indexOf(item.id)!==-1"-->
           </td>
           <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
           <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->

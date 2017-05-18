@@ -3,149 +3,149 @@
  */
 define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
-    // SPD系统-库存调整controller
-    function  inventoryAdjustmentOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+  // SPD系统-库存调整controller
+  function  inventoryAdjustmentOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
 
 
-        $scope.watchFormChange=function(watchName){
-            watchFormChange(watchName,$scope);
-        };
-        modal.closeAll();
+      $scope.watchFormChange=function(watchName){
+          watchFormChange(watchName,$scope);
+      };
+      modal.closeAll();
 
 
-        // 向列表添加数据的回调函数
-        $scope.flashAddDataCallbackFn = function(flashAddData) {
+      // 向列表添加数据的回调函数
+      $scope.flashAddDataCallbackFn = function(flashAddData) {
 
-            if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
-                alertWarn("请选择药品");
-                return ;
-            }
+          if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+              alertWarn("请选择药品");
+              return ;
+          }
 
 
-            console.log("flashAddData",flashAddData);
+          console.log("flashAddData",flashAddData);
 
 
-            var medical=flashAddData.data.data;
-            var addDataItem = $.extend(true,{},medical);
+          var medical=flashAddData.data.data;
+          var addDataItem = $.extend(true,{},medical);
 
-            addDataItem.quantity=flashAddData.quantity;
-            addDataItem.discountPrice='0';
-            addDataItem.discountRate='100';
-            addDataItem.relId=medical.id;
+          addDataItem.quantity=flashAddData.quantity;
+          addDataItem.discountPrice='0';
+          addDataItem.discountRate='100';
+          addDataItem.relId=medical.id;
 
-            addDataItem.strike_price=addDataItem.price;
-            addDataItem.id=null;
-            if (!(addDataItem.relId && addDataItem.name)) {
-                alertWarn('请选择药品。');
-                return false;
-            }
+          addDataItem.strike_price=addDataItem.price;
+          addDataItem.id=null;
+          if (!(addDataItem.relId && addDataItem.name)) {
+              alertWarn('请选择药品。');
+              return false;
+          }
 
 
 
 
-            // if (!addDataItem.quantity||addDataItem.quantity<1) {
-            //     alertWarn('请输入大于0的数量。');
-            //     return false;
-            // }
+          // if (!addDataItem.quantity||addDataItem.quantity<1) {
+          //     alertWarn('请输入大于0的数量。');
+          //     return false;
+          // }
 
-            // if (!addDataItem.strike_price) {
-            //     alertWarn('请输入成交价格。');
-            //     return false;
-            // }
+          // if (!addDataItem.strike_price) {
+          //     alertWarn('请输入成交价格。');
+          //     return false;
+          // }
 
-            // if(addDataItem.quantity>medical.quantity){//库存不足情况
-            //     addDataItem.handleFlag =false;//默认添加到订单
-            // }
+          // if(addDataItem.quantity>medical.quantity){//库存不足情况
+          //     addDataItem.handleFlag =false;//默认添加到订单
+          // }
 
-            if (!$scope.formData.orderMedicalNos) {
-                $scope.formData.orderMedicalNos = [];
-            }
+          if (!$scope.formData.orderMedicalNos) {
+              $scope.formData.orderMedicalNos = [];
+          }
 
-            // 如果已添加
-            // if ($scope.formData.orderMedicalNos.length !== 0) {
-            //     var _len = $scope.formData.orderMedicalNos.length;
-            //     for (var i=0; i<_len; i++) {
-            //         if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-            //             alertWarn('此药械已添加到列表');
-            //             return false;
-            //         }
-            //     }
-            // }
+          // 如果已添加
+          // if ($scope.formData.orderMedicalNos.length !== 0) {
+          //     var _len = $scope.formData.orderMedicalNos.length;
+          //     for (var i=0; i<_len; i++) {
+          //         if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+          //             alertWarn('此药械已添加到列表');
+          //             return false;
+          //         }
+          //     }
+          // }
 
-            // 添加药品后请求当前药品的历史价格
-            // if (addDataItem) {
-            //     var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
-            //         _data = {};
-            //
-            //     requestData(_url, _data, 'GET')
-            //         .then(function (results) {
-            //             var _resObj = results[1].data;
-            //             for (var item in _resObj) {
-            //                 if (item === addDataItem.relId && _resObj[item]) {
-            //                     addDataItem.strike_price = _resObj[item].value;
-            //                 } else {
-            //                     addDataItem.strike_price = '';
-            //                 }
-            //             }
-            //         })
-            //         .catch(function (error) {
-            //             if (error) { console.log(error || '出错!'); }
-            //         });
-            // }
-            //
+          // 添加药品后请求当前药品的历史价格
+          // if (addDataItem) {
+          //     var _url = 'rest/authen/historicalPrice/batchGetByrelIds?id=' + addDataItem.relId + '&type=销售',
+          //         _data = {};
+          //
+          //     requestData(_url, _data, 'GET')
+          //         .then(function (results) {
+          //             var _resObj = results[1].data;
+          //             for (var item in _resObj) {
+          //                 if (item === addDataItem.relId && _resObj[item]) {
+          //                     addDataItem.strike_price = _resObj[item].value;
+          //                 } else {
+          //                     addDataItem.strike_price = '';
+          //                 }
+          //             }
+          //         })
+          //         .catch(function (error) {
+          //             if (error) { console.log(error || '出错!'); }
+          //         });
+          // }
+          //
 
-            //添加到列表
-            $scope.formData.orderMedicalNos.push(addDataItem);
+          //添加到列表
+          $scope.formData.orderMedicalNos.push(addDataItem);
 
-            //计算价格
-            // $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+          //计算价格
+          // $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
 
 
-            return true;
-        };
+          return true;
+      };
 
 
-        // 提交后的回启动任务流
-        $scope.submitFormAfter = function() {
+      // 提交后的回启动任务流
+      $scope.submitFormAfter = function() {
 
-            console.log("执行回调任务流程。。。");
+          console.log("执行回调任务流程。。。");
 
-            console.log("$scope.formData:",$scope.formData);
+          console.log("$scope.formData:",$scope.formData);
 
 
-            if ($scope.submitForm_type == 'submit') {
-                var _url='rest/authen/inventoryAdjustmentOrder/startProcessInstance';
-                var data= { businessKey:$scope.formData.id };
-                requestData(_url, data, 'POST')
-                    .then(function (results) {
-                        var _data = results[1];
-                        //  alertOk(_data.message || '操作成功');
+          if ($scope.submitForm_type == 'submit') {
+              var _url='rest/authen/inventoryAdjustmentOrder/startProcessInstance';
+              var data= { businessKey:$scope.formData.id };
+              requestData(_url, data, 'POST')
+                  .then(function (results) {
+                      var _data = results[1];
+                      //  alertOk(_data.message || '操作成功');
 
 
-                        $scope.goTo('#/InventoryAdjustmentOrder/get.html?id='+$scope.formData.id+'&businessKey='+$scope.formData.id);
+                      $scope.goTo('#/InventoryAdjustmentOrder/get.html?id='+$scope.formData.id+'&businessKey='+$scope.formData.id);
 
-                    })
-                    .catch(function (error) {
-                        alertError(error || '出错');
-                    });
-            }
-        };
+                  })
+                  .catch(function (error) {
+                      alertError(error || '出错');
+                  });
+          }
+      };
 
 
 
-        // 保存 type:save-草稿,submit-提交订单。
-        $scope.submitForm = function(fromId, type) {
+      // 保存 type:save-草稿,submit-提交订单。
+      $scope.submitForm = function(fromId, type) {
 
 
 
 
-            $scope.submitForm_type = type;
-            if ($scope.submitForm_type == 'submit') {
-                $scope.formData.validFlag = true;
-            }
-            $('#' + fromId).trigger('submit');
-        };
+          $scope.submitForm_type = type;
+          if ($scope.submitForm_type == 'submit') {
+              $scope.formData.validFlag = true;
+          }
+          $('#' + fromId).trigger('submit');
+      };
 
 
 
@@ -154,72 +154,70 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
 
-        // 侧边栏选择生产批号
-        $scope.spdChoiseBatchs = function (obj,choisedList,id,goodsCount,strikePrice,index) {
+      // 侧边栏选择生产批号
+      $scope.spdChoiseBatchs = function (obj,choisedList,id,goodsCount,strikePrice,index) {
 
-            // 异常处理
-            // if (!obj || !choisedList || !goodsCount || !strikePrice) {
-            //   throw new Error('Parameters are required');
-            // }
+          // 异常处理
+          // if (!obj || !choisedList || !goodsCount || !strikePrice) {
+          //   throw new Error('Parameters are required');
+          // }
 
-            // 构建临时对象存储批号id、批号名和数量
-            var _tmp = {
-                stockBatchId: obj.id,                     // 批次号id
-                batchNumber: obj.productionBatch,
-                quantity: obj.stockModel.salesQuantity,    // 可选数量
-                goodsCount: obj.stockModel.salesQuantity,
-                productionBatch: obj.productionBatch,     // 批号名
-                validTill:obj.validTill,
-                productionDate:obj.productionDate,
-                sterilizationBatchNumber: obj.sterilizationBatchNumber ,   // 灭菌批号
+          // 构建临时对象存储批号id、批号名和数量
+          var _tmp = {
+              stockBatchId: obj.id,                     // 批次号id
+              batchNumber: obj.productionBatch,
+              quantity: obj.stockModel.salesQuantity,    // 可选数量
+              goodsCount: obj.stockModel.salesQuantity,
+              productionBatch: obj.productionBatch,     // 批号名
+              validTill:obj.validTill,
+              productionDate:obj.productionDate,
+              sterilizationBatchNumber: obj.sterilizationBatchNumber ,   // 灭菌批号
 
 
-                storeRoomId:obj.storeRoomId,//仓库ID
-                regionId:obj.regionId,//区域ID
-                goodsLocationId:obj.goodsLocationId// 货位ID
+              storeRoomId:obj.storeRoomId,//仓库ID
+              regionId:obj.regionId,//区域ID
+              goodsLocationId:obj.goodsLocationId// 货位ID
 
 
-            };
+          };
 
 
-            $scope.formData.orderMedicalNos[index].stockBatchs[0]=_tmp;
+          $scope.formData.orderMedicalNos[index].stockBatchs[0]=_tmp;
 
-            // 根据药品id将批次存入当前药品formData数据中
+          // 根据药品id将批次存入当前药品formData数据中
 
-            $scope.formData.orderMedicalNos[index].storeRoomName = obj.storeRoomName;       // 仓库名
+          $scope.formData.orderMedicalNos[index].storeRoomName = obj.storeRoomName;       // 仓库名
 
-            // $scope.formData.orderMedicalNos[index].storeRoomId = obj.storeRoomId;       // 仓库名
-            $scope.formData.orderMedicalNos[index].regionName = obj.regionName;       // 区域名称
+          // $scope.formData.orderMedicalNos[index].storeRoomId = obj.storeRoomId;       // 仓库名
+          $scope.formData.orderMedicalNos[index].regionName = obj.regionName;       // 区域名称
 
-            // $scope.formData.orderMedicalNos[index].regionId = obj.regionId;       // 仓库名
+          // $scope.formData.orderMedicalNos[index].regionId = obj.regionId;       // 仓库名
 
-            $scope.formData.orderMedicalNos[index].goodsLocationCode = obj.goodsLocationCode;       // 货位编号
-            $scope.formData.orderMedicalNos[index].goodsLocationName = obj.goodsLocationName;       // 货位名称
-            $scope.formData.orderMedicalNos[index].goodsLocationId = obj.goodsLocationId;       // 货位ID
+          $scope.formData.orderMedicalNos[index].goodsLocationCode = obj.goodsLocationCode;       // 货位编号
+          $scope.formData.orderMedicalNos[index].goodsLocationName = obj.goodsLocationName;       // 货位名称
+          $scope.formData.orderMedicalNos[index].goodsLocationId = obj.goodsLocationId;       // 货位ID
 
-            $scope.formData.orderMedicalNos[index].productionDate=obj.productionDate;//生产日期
-            $scope.formData.orderMedicalNos[index].validTill= obj.validTill;//有效期至
+          $scope.formData.orderMedicalNos[index].productionDate=obj.productionDate;//生产日期
+          $scope.formData.orderMedicalNos[index].validTill= obj.validTill;//有效期至
 
-        };
+      };
 
-        //
-        $scope.getGoodsBatchs=function (goodsRelId) {
-            var arr=[];
-            angular.forEach( $scope.formData.orderMedicalNos, function(data,index){
+      //
+      $scope.getGoodsBatchs=function (goodsRelId) {
+          var arr=[];
+          angular.forEach( $scope.formData.orderMedicalNos, function(data,index){
 
-                if(data.relId==goodsRelId){
-                    arr.push(data.stockBatchId);
-                }
-            });
+              if(data.relId==goodsRelId){
+                  arr.push(data.stockBatchId);
+              }
+          });
 
-            return arr;
-        };
+          return arr;
+      };
 
 
 
-    }
-
-
+  }
 
     //  SPD系统—商品信息管理模块controller
   function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
@@ -294,7 +292,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
       }
       $scope.showUnit=false;
-    }
+    };
 
     $scope.submitForm = function(fromId, type) {
        $scope.submitForm_type = type;
@@ -1287,35 +1285,38 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   // 创建医院药品与经销商药品关联关系dialog控制器
   function createCorrespondController ($scope, requestData, modal, alertWarn, utils) {
 
-    // 侧边栏搜索过滤
-    // $scope.handleSearchFilter = function (key,distributorId,customerAddressId) {
-    //   // var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId=' + $scope.mainStatus.pageParams.distributorId + '&q=' + key;
-    //
-    //   var _url = 'rest/authen/purchasecontentmedical/queryDistributorMedical?distributorId='+distributorId+'&customerAddressId='+customerAddressId+'&q='+key;
-    //
-    //   requestData(_url)
-    //   .then(function (results) {
-    //     $scope.codesList = results[1].data;
-    //   });
-    // };
-    //
-    // $scope.handleSearchFilter2 = function (key) {
-    //   var _url = 'rest/authen/medicalStock/query?q=' + key;
-    //   requestData(_url)
-    //   .then(function (results) {
-    //     $scope.codesList = results[1].data;
-    //   });
-    // };
-    // $scope.handleSearchFilter3 = function (key) {
-    //   var _url = 'rest/authen/medicalStock/queryStockBatch?q=' + key+'&&relMedicalStockId='+$scope.dialogData.id;
-    //   requestData(_url)
-    //   .then(function (results) {
-    //     $scope.codesList = results[1].data;
-    //   });
-    // };
+    /**
+     * [handleSearchFilter 侧边栏搜索过滤]
+     * @param  {[type]} listParams        [绑定有搜索]
+     * @param  {[type]} relMedicalStockId [药品id]
+     * @return {[type]}                   [将返回的批号列表赋值给作用域中的对象stockBatchList]
+     */
+    $scope.handleSearchFilter = function (listParams, relMedicalStockId) {
 
-    $scope.handleSearchFilter = function () {
-      console.log('aaabbbccc');
+      // 判断参数是否正确
+      if (!listParams || !angular.isObject(listParams)) { throw new Error('Params is Required'); }
+
+      // 获取参数对象中所有的key
+      var _keys = Object.keys(listParams);
+
+      // 构建查询参数字符串
+      var _hashString = '';
+      for (var i = 0, len = _keys.length; i < len; i++) {
+        _hashString += '&' + _keys[i] + '=' + listParams[_keys[i]];
+      }
+
+      // 构建完整的查询url
+      var _queryUrl = 'rest/authen/medicalStock/queryStockBatch?relMedicalStockId=' + relMedicalStockId + '&isOnlyAvailable=true' + _hashString;
+
+      // 更新数据
+      requestData(_queryUrl)
+      .then(function (results) {
+        $scope.stockBatchList = results[1].data;
+      })
+      .catch(function (error) {
+        throw new Error(error || '出错');
+      });
+
     };
 
 
