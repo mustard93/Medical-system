@@ -6,10 +6,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   // SPD系统-库存调整controller
   function  inventoryAdjustmentOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-
-
-
-
       //调整
       $scope.flag=false;
 
@@ -126,9 +122,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       // 保存 type:save-草稿,submit-提交订单。
       $scope.submitForm = function(fromId, type) {
 
-
-
-
           $scope.submitForm_type = type;
           if ($scope.submitForm_type == 'submit') {
               $scope.formData.validFlag = true;
@@ -140,10 +133,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       // 侧边栏选择生产批号
       $scope.spdChoiseBatchs = function (obj,choisedList,id,goodsCount,strikePrice,index) {
 
-          // 异常处理
-          // if (!obj || !choisedList || !goodsCount || !strikePrice) {
-          //   throw new Error('Parameters are required');
-          // }
+            if($scope.formData.type=='报损'){
+                _tmp.quantity=obj.stockModel.salesQuantity;
+            }
 
           // 构建临时对象存储批号id、批号名和数量
           var _tmp = {
@@ -230,8 +222,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   // SPD系统-库存调整-右侧弹出框 controller
   function inventoryAdjustmentOrderDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-      console.log("$scope.dialogData", $scope.dialogData);
-
       $scope.getGoodsBatchsData=function (listParams) {
 
           console.log("listParams",$scope.listParams,listParams);
@@ -245,14 +235,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
               _data = {
                   relMedicalStockId: $scope.dialogData.id,
-                  logisticsCenterId: $scope.dialogData.logisticsCenterId,
 
                   storeRoomId: listParams.storeRoomId,
-                  createAtBeg: listParams.createAtBeg,
-                  createAtEnd: listParams.createAtEnd,
+                  // createAtBeg: listParams.createAtBeg,
+                  // createAtEnd: listParams.createAtEnd,
+
+                  regionId:listParams.regionId,
+                  goodsLocationId:listParams.goodsLocationId,
+
                   q: listParams.q||'',
 
-                  warehouseType: '正常库',
+                  // warehouseType: '正常库',
                   isOnlyAvailable: false
               };
 
@@ -1758,7 +1751,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
             if (addDataItem) {
-              var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId,
+              var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId+'&storeRoomId='+$scope.formData.storeRoomId,
                   _data = {};
               requestData(_url, _data, 'GET')
               .then(function (results) {
