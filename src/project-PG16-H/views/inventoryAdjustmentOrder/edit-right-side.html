@@ -2,7 +2,7 @@
      ng-controller="inventoryAdjustmentOrderDialogCtrl"
      ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true"
      scope-data="stockBatchList"
-     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
+     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);listParams={}"
      alert-error>
 
     <!-- 标题 -->
@@ -23,15 +23,13 @@
                     chosen
                     ng-model="listParams.storeRoomId"
                     select-source="rest/authen/storeRoom/queryForSelectOption"
-                    ng-change="getGoodsBatchsData(listParams)"
-            >
-            </select>
+                    ng-change="getGoodsBatchsData(listParams)">
+          </select>
         </div>
 
         <div class="inline-block">
             <span class="color-9">区域：</span>
             <select ng-if="initFlag"
-            ajax-if="listParams.storeRoomId"
                     class="ipt pr-short-ipt color-3"
                     style="width:90px;"
                     data-placeholder=""

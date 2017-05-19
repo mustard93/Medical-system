@@ -224,7 +224,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
       $scope.getGoodsBatchsData=function (listParams) {
 
-          console.log("listParams",$scope.listParams,listParams);
+          // console.log("listParams",$scope.listParams,listParams);
 
           var _url = 'rest/authen/medicalStock/queryStockBatch',
 
