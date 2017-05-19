@@ -126,16 +126,18 @@
                     <th class="text-center">规格/型号</th>
                     <th class="text-center">单位</th>
                     <th class="text-center">数量</th>
-                    <!-- <th class="text-center">批号要求</th> -->
-                    <!-- <th class="text-center">报价</th>
-                    <th class="text-center">税率</th>
-                    <th class="text-center">折扣额</th>
-                    <th class="text-center">折扣率</th>
-                    <th class="text-center">含税单价</th>
-                    <th class="text-center">无税单价</th>
-                    <th class="text-center">无税金额</th>
-                    <th class="text-center">税额</th>
-                    <th class="text-center">价税合计</th> -->
+
+                    <th ng-if="formData.orderSource=='线上订单'" class="text-center">批号要求</th>
+                    <th  ng-if="formData.orderSource=='线上订单'" class="text-center">报价</th>
+                    <th  ng-if="formData.orderSource=='线上订单'" class="text-center">税率</th>
+                    <th  ng-if="formData.orderSource=='线上订单'" class="text-center">折扣额</th>
+                    <th  ng-if="formData.orderSource=='线上订单'" class="text-center">折扣率</th>
+                    <th  ng-if="formData.orderSource=='线上订单'" class="text-center">含税单价</th>
+                    <th  ng-if="formData.orderSource=='线上订单'" class="text-center">无税单价</th>
+                    <th  ng-if="formData.orderSource=='线上订单'" class="text-center">无税金额</th>
+                    <th  ng-if="formData.orderSource=='线上订单'" class="text-center">税额</th>
+                    <th  ng-if="formData.orderSource=='线上订单'" class="text-center">价税合计</th>
+
                   </tr>
                 </thead>
                 <tbody ng-if="formData.orderMedicalNos.length" class="bg-white">
@@ -178,15 +180,15 @@
                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1">+</button>
                       </div>
                     </td><!-- 数量 -->
-                    <!--<td class="text-center">
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-center">
                       <select class="select pr-select pr-select-sm text-left"
                               chosen
                               width="90px"
                               ng-model="tr.batchRequirement"
                               select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_BatchRequirementStatus">
                       </select>
-                    </td>--><!-- 批号要求 -->
-                    <!-- <td class="text-center">￥
+                    </td><!-- 批号要求 -->
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-center">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="strike_price{{$index}}"
@@ -205,7 +207,8 @@
                         </a>
                       </p>
                     </td>
-                    <td class="text-center" >
+
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-center" >
                       <select class="ipt pr-short-ipt"
                               chosen
                               width="60px"
@@ -213,7 +216,7 @@
                               select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
                       </select> %
                     </td>
-                    <td class="text-center">￥
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-center">￥
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="discountPrice{{$index}}"
@@ -226,7 +229,7 @@
                              popover-options='{"content":"必须为数字", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountRate=((tr.price-tr.discountPrice)/tr.price*100).toFixed(2)"/>
                     </td>
-                    <td class="text-center">
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-center">
                       <input type="text"
                              class="ipt pr-ipt-60 text-right"
                              name="discountRate{{$index}}"
@@ -239,11 +242,11 @@
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
                              ng-keyup="tr.discountPrice=(tr.price*(1-tr.discountRate/100)).toFixed(2)"/> %
                     </td>
-                    <td class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) | number:2}}</td>
-                    <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td>
-                    <td class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td>
-                    <td class="text-right">￥{{$root.saleOrderUtils.getSuiE(tr) | number:2}}</td>
-                    <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) | number:2}}</td> -->
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getHanShuiDanJian(tr) | number:2}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiDanJian(tr) | number:2}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getWuSuiJinE(tr) | number:2}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getSuiE(tr) | number:2}}</td>
+                    <td ng-if="formData.orderSource=='线上订单'"  class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(tr) | number:2}}</td>
                   </tr>
                 </tbody>
               </table>
