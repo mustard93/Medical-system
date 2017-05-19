@@ -257,7 +257,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
                   // warehouseType: '正常库',
 
-                  isOnlyAvailable: ($scope.dialogData.type=="报溢")
+                  isOnlyAvailable:false// ($scope.dialogData.type=="报溢")
               };
 
 
