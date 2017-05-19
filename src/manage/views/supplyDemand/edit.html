@@ -1,5 +1,5 @@
 
-        <div class="modal-content pr-modal-content" ng-controller="editCtrl"
+        <div class="modal-content pr-modal-content color-yellow1 right-side-new pr-bg-black4" ng-controller="editCtrl"
    ajax-url="rest/authen/supplydemand/getOfEdit.json?id={{tr.id}}"  scope-data="formData"  alert-error
    callback="initFlag=true"
          >
@@ -12,14 +12,14 @@
                 <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
                 <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}供求关系</h4>
             </div>
-            <div class="modal-body"  >
+            <div class="modal-body modal-body-new"  >
               <div class=""
                 ajax-if-eval="hospitalQuery.id"
                 ajax-url="rest/authen/hospital/get.json?id={{hospitalQuery.id}}"  scope-data="hospital"  alert-error
                 callback="formData.hospitalCode=hospital.code;formData.hospitalName=hospital.name;formData.hospitalId=hospital.id;">
                 <div class="form-group" >
-                  <label class="col-lg-2 col-sm-2 control-label">医疗机构名称</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <label class="col-lg-4 col-sm-4 text-right">医疗机构名称：</label>
+                  <div class="col-lg-8 col-sm-8">
                     <input ng-if="formData.id"
                     type="text"
                     class="ipt pr-indent-20 inline-block"
@@ -39,14 +39,14 @@
                   </div>
                 </div>
                 <div class="form-group mgt">
-                  <label class="col-lg-2 col-sm-2 control-label">医疗机构编码</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input ng-disabled="hospitalQuery.id ||formData.id" type="text" class="form-control" placeholder="" ng-model="formData.hospitalCode" />
+                  <label class="col-lg-4 col-sm-4 text-right">医疗机构编码：</label>
+                  <div class="col-lg-8 col-sm-8">
+                    <input ng-disabled="hospitalQuery.id ||formData.id"  style="width:250px;" type="text" class="form-control" placeholder="" ng-model="formData.hospitalCode" />
                   </div>
                 </div>
                 <div class="form-group mgt">
-                  <label class="col-lg-2 col-sm-2 control-label">供应商名称</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <label class="col-lg-4 col-sm-4 text-right">供应商名称：</label>
+                  <div class="col-lg-8 col-sm-8">
                     <select
                     class="pr-select pdt"
                     style="width:250px;"
@@ -60,8 +60,8 @@
                 </div>
 
                 <div class="form-group mgt">
-                  <label class="col-lg-2 col-sm-2 control-label">医疗机构类型</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <label class="col-lg-4 col-sm-4 text-right">医疗机构类型：</label>
+                  <div class="col-lg-8 col-sm-8">
                     <select ng-if="initFlag"
                      ng-disabled="formData.id"
                      class="select select-w"
@@ -78,8 +78,8 @@
                 ajax-url="rest/authen/distributor/get.json?id={{disdata.id}}"  scope-data="disdata"  alert-error
                 callback="formData.distributorCode=disdata.code;formData.distributorName=disdata.name;formData.distributorId=disdata.id;">
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">经销商名称</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <label class="col-lg-4 col-sm-4 text-right">经销商名称：</label>
+                  <div class="col-lg-8 col-sm-8">
                     <input ng-if="formData.id"
                     ng-disabled="true"
                     type="text"
@@ -98,16 +98,16 @@
                   </div>
                 </div>
                 <div class="form-group mgt">
-                  <label class="col-lg-2 col-sm-2 control-label">经销商编码</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input ng-disabled="disdata.id ||formData.id" type="text" class="form-control" placeholder="" ng-model="formData.distributorCode" />
+                  <label class="col-lg-4 col-sm-4 text-right">经销商编码：</label>
+                  <div class="col-lg-8 col-sm-8">
+                    <input ng-disabled="disdata.id ||formData.id"  style="width:200px;" type="text" class="form-control" placeholder="" ng-model="formData.distributorCode" />
                   </div>
                 </div>
               </div>
 
                 <div class="form-group mgt">
-                  <label class="col-lg-2 col-sm-2 control-label">客户名称</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <label class="col-lg-4 col-sm-4 text-right">客户名称：</label>
+                  <div class="col-lg-8 col-sm-8">
 
                     <select
                     ng-if="formData.distributorId"
@@ -124,20 +124,20 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">备注</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input type="text" class="form-control" placeholder="" ng-model="formData.note" />
+                  <label class="col-lg-4 col-sm-4 text-right">备注：</label>
+                  <div class="col-lg-8 col-sm-8">
+                    <input type="text" class="form-control" style="width:250px;" placeholder="" ng-model="formData.note" />
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">录入人</label>
-                  <div class="col-lg-10 col-sm-10">
-                    <input ng-disabled="formData.id" type="text" class="form-control" placeholder="" ng-model="formData.inputUser.n" />
+                  <label class="col-lg-4 col-sm-4 text-right">录入人：</label>
+                  <div class="col-lg-8 col-sm-8">
+                    <input ng-disabled="formData.id" type="text" style="width:200px;" class="form-control" placeholder="" ng-model="formData.inputUser.n" />
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">录入时间</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <label class="col-lg-4 col-sm-4 text-right">录入时间：</label>
+                  <div class="col-lg-8 col-sm-8">
                     <input ng-disabled="formData.id"
                            type="text"
                            datepicker
@@ -150,14 +150,14 @@
                   </div>
                 </div>
                 <!-- <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">修改人</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <label class="col-lg-4 col-sm-4 text-right">修改人</label>
+                  <div class="col-lg-8 col-sm-8">
                     <input ng-disabled="true" type="text" class="form-control" placeholder="" ng-model="formData.modify.user.n" />
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">修改时间</label>
-                  <div class="col-lg-10 col-sm-10">
+                  <label class="col-lg-4 col-sm-4 text-right">修改时间</label>
+                  <div class="col-lg-8 col-sm-8">
                     <input type="text"
                           ng-disabled="true"
                            datepicker
@@ -169,8 +169,8 @@
                   </div>
                 </div> -->
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label"></label>
-                  <div class="col-lg-10 col-sm-10">
+                  <label class="col-lg-4 col-sm-4 text-right"></label>
+                  <div class="col-lg-8 col-sm-8">
                     <input ng-disabled="!formData.hospitalCode || !formData.distributorCode" type="submit" class="btn pr-btn-create-glodbg" value="提交">
                   </div>
                 </div>
