@@ -133,9 +133,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       // 侧边栏选择生产批号
       $scope.spdChoiseBatchs = function (obj,choisedList,id,goodsCount,strikePrice,index) {
 
-            if($scope.formData.type=='报损'){
-                _tmp.quantity=obj.stockModel.salesQuantity;
-            }
+
 
           // 构建临时对象存储批号id、批号名和数量
           var _tmp = {
@@ -156,7 +154,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               goodsLocationId:obj.goodsLocationId// 货位ID
 
           };
-
+          if($scope.formData.type=='报损'){
+              _tmp.quantity=obj.stockModel.salesQuantity;
+          }
+          $scope.formData.orderMedicalNos[index].stockBatchs[0]=_tmp;
 
           angular.forEach($scope.formData.orderMedicalNos,function (item,index2) {
               if(item.relId==id){
@@ -165,7 +166,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           });
 
 
-          $scope.formData.orderMedicalNos[index].stockBatchs[0]=_tmp;
+
 
           // 根据药品id将批次存入当前药品formData数据中
 
