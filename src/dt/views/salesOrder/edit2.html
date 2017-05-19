@@ -82,10 +82,8 @@
       <!-- 药械列表 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
           <!-- 信息 -->
-          <div
-                  ng-if="formData.orderSource!='线上订单'"
-
-                  flash-add-medical
+          <div ng-if="formData.orderSource!='线上订单'"
+               flash-add-medical
                ng-model="data1"
                class="pd-c-l pdt-m"
                ajax-url="rest/authen/medicalStock/query?hospitalId={{formData.customerId}}"
@@ -108,20 +106,18 @@
                   </span>
                   <!--<span class="flex-item-3 color-9">预计到货日期：<em class="color-3"></em></span>-->
 
-
                    <span class="mgr" style="position:relative;">
-
-                       <span class="mgr">预计到货日期：
-                                <input type="text" class="ipt  pr-short-ipt color-6" placeholder="期望到货时间"
-                                 readonly="true" datepicker   ng-model="formData.expectDate" style="width: 180px; ">
-                                <span class="date-icon" style="right: 15px;  "></span>
-                        </span>
-
+                     <span class="mgr" ng-if="formData.orderSource!='线上订单'">预计到货日期：
+                        <input type="text" class="ipt  pr-short-ipt color-6" placeholder="期望到货时间"
+                         readonly="true" datepicker   ng-model="formData.expectDate" style="width: 180px; ">
+                        <span class="date-icon" style="right: 15px;  "></span>
+                      </span>
+                      <span ng-if="formData.orderSource=='线上订单'" class="mgr-m color-9">预计到货日期：<span class="color-6">{{showData.expectDate | date:'yyyy-MM-dd'}}</span></span>
                    </span>
                 </p>
 
           <div>
-              <table class="table pr-table pr-new-table">
+              <table ng-if="formData.orderSource!='线上订单'" class="table pr-table pr-new-table">
                 <thead>
                   <tr>
                     <th class="text-center">商品编号</th>
@@ -260,6 +256,36 @@
 
                     -->
 
+                  </tr>
+                </tbody>
+              </table>
+              <table ng-if="formData.orderSource=='线上订单'" class="table pr-table pr-new-table">
+                <thead>
+                  <tr>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">商品编号</th>
+                    <th class="text-left">商品全名</th>
+                    <th class="text-center">商品规格</th>
+                    <th class="text-center">基本单位</th>
+                    <th class="text-center">计划采购数量</th>
+                    <th class="text-center">采购单价</th>
+                    <th class="text-center">计划采购金额</th>
+                    <th class="text-center">生产厂商</th>
+                    <th class="text-center">产地</th>
+                  </tr>
+                </thead>
+                <tbody ng-if="formData.orderMedicalNos.length>0">
+                  <tr ng-repeat="item in formData.orderMedicalNos">
+                    <td class="text-center">{{$index+1}}</td>
+                    <td class="text-center">{{item.code}}</td>
+                    <td class="text-left">{{item.name}}</td>
+                    <td class="text-center">{{item.specificationAndModelType}}</td>
+                    <td class="text-center">{{item.unit}}</td>
+                    <td class="text-center">{{item.quantity | currency:'￥'}}</td>
+                    <td class="text-center">{{item.strike_price | currency:'￥'}}</td>
+                    <td class="text-center">{{item.totalPrice | currency:'￥'}}</td>
+                    <td class="text-center">{{item.manufacturer}}</td>
+                    <td class="text-center">{{item.productionPlace}}</td>
                   </tr>
                 </tbody>
               </table>
