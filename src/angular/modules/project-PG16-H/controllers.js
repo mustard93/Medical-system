@@ -2853,7 +2853,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   }
 
 
-  // SPD商品管理中GS1条码打印控制器
+  /**
+   * [cfgGoodsBarcodeCtroller SPD商品管理中GS1条码打印控制器]
+   * @param  {[type]} $scope      [description]
+   * @param  {[type]} requestData [description]
+   * @param  {[type]} utils       [description]
+   * @return {[type]}             [description]
+   */
   function cfgGoodsBarcodeCtroller ($scope, requestData, utils) {
 
     var _url = 'rest/authen/gs1Barcode/get';
@@ -2902,6 +2908,29 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+
+    // 用户更改商品包装单位时的处理方法
+    $scope.chgCommodityUnitEvent = function (url, unit, medical) {
+
+      // 获取商品单位集合信息
+      if (url && unit) {
+        requestData(url)
+        .then(function (results) {
+          if (results[1].code === 200) {
+            var _unitObj = results[1].data;
+            angular.forEach(_unitObj, function (data, index) {
+              if (data.text === unit) {
+                $scope.medical.data.quantity = parseInt(_unitObj[index].note,10);
+                $scope.getFullBarcode(medical);
+              }
+            });
+          }
+        });
+      }
+
+
+
+    };
   }
 
   angular.module('manageApp.project-PG16-H')
@@ -2921,12 +2950,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
   .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController])
   .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController])
-
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', cfgGoodsBarcodeCtroller])
-
-
-   .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
-   .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]);
-
-
+  .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
+  .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]);
 });

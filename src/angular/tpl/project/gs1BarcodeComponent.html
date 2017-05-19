@@ -1,5 +1,6 @@
 <div class="content-wrapper-main mgt pr-fuzzy-boundary"
-  ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1}">
+     ng-controller="cfgGoodsBarcodeCtroller"
+     ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1}">
   <form class="form-horizontal" id="editForm">
     <!-- 内容表单 -->
     <div class="panel pr-panel pr-fuzzy-boundary pr-panel pr-fuzzy-boundary-height" style="padding-left:50px;">
@@ -36,7 +37,8 @@
                     style="width:160px;"
                     chosen
                     ng-model="medical.data.unit"
-                    select-source="rest/authen/medicalStock/getPackingAttributeById?id={{medical.data.id}}">
+                    select-source="rest/authen/medicalStock/getPackingAttributeById?id={{medical.data.id}}"
+                    ng-change='chgCommodityUnitEvent("rest/authen/medicalStock/getPackingAttributeById?id={{medical.data.id}}",medical.data.unit,medical)'>
             </select>
           </div>
         </div>
