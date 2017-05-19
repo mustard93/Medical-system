@@ -31,8 +31,9 @@
           <select class="pr-select pdt"
                   style="width:160px;"
                   chosen
-                  ng-model="medical.data.unit"
-                  select-source="rest/authen/medicalStock/getPackingAttributeById?id={{scopeData.id}}">
+                  ng-model="scopeData.unit"
+                  select-source="rest/authen/medicalStock/getPackingAttributeById?id={{scopeData.id}}"
+                  ng-change='chgCommodityUnitEvent("rest/authen/medicalStock/getPackingAttributeById?id={{scopeData.id}}",scopeData.unit,scopeData)'>
           </select>
         </div>
       </div>
@@ -45,7 +46,9 @@
                  ng-model="scopeData.quantity"
                  ng-change="getFullGoodsBarcode(scopeData)"
                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
-          <span class="color-white">({{scopeData.unit}}) <em class="color-or">(选填)</em></span>
+          <!-- <span class="color-white">({{medical.data.packingAttribute.name}}) <em class="color-or">(选填)</em></span> -->
+          <span class="color-6 mgr-0">({{scopeData.packingAttribute.name}}) </span>
+          <span class="color-9">(选填)</span>
         </div>
       </div>
       <div class="flex-column mgt" style="line-height:2.9;">
