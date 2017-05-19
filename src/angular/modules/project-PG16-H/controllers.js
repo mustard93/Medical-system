@@ -251,14 +251,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
                 _data = {
                     relMedicalStockId: $scope.dialogData.id,
-                    logisticsCenterId: $scope.dialogData.logisticsCenterId,
 
                     storeRoomId: listParams.storeRoomId,
-                    createAtBeg: listParams.createAtBeg,
-                    createAtEnd: listParams.createAtEnd,
+                    // createAtBeg: listParams.createAtBeg,
+                    // createAtEnd: listParams.createAtEnd,
+
+                    regionId:listParams.regionId,
+                    goodsLocationId:listParams.goodsLocationId,
+
                     q: listParams.q||'',
 
-                    warehouseType: '正常库',
+                    // warehouseType: '正常库',
                     isOnlyAvailable: false
                 };
 

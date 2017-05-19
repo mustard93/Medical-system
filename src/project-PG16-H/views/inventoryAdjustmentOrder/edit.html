@@ -55,9 +55,9 @@
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
              <div class="flex-item-6">
                <span class="mgr">单据编号：
-
+  <!--ng-disabled="!formData.supplierId||formData.id"-->
                  <input type="text"
-                      ng-disabled="!formData.supplierId||formData.id"
+
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
                       ng-model="formData.orderCode" />
@@ -136,7 +136,7 @@
                   <th class="text-center">规格</th>
                   <th class="text-center">基本单位</th>
 
-                  <th class="text-center">生产批号</th>
+                  <th class="text-center">生产批号/数量</th>
                   <th class="text-center">库房名称</th>
                   <th class="text-center">区域名称</th>
                   <th class="text-center">货位编号</th>
@@ -191,9 +191,10 @@
                    <td class="text-center" style="white-space: nowrap; width: 200px;">
 
                        <!-- 已选批号列表 -->
-                       <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
-                            ng-if="batch.batchNumber"
-
+                       <div
+                            ng-if="tr.stockBatchs.length>0"
+                            ng-repeat="batch in tr.stockBatchs"
+                            ng-init="tr.stockBatchs.length=1; showDelIcon=false"
                             class="ipt-div relative mgb"
                             ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
 
@@ -214,6 +215,7 @@
                        </div>
 
                        <!-- 批号选择  ng-if="calculaBatchsTotal(tr,tr.goodsCount)<item.goodsCount"  "choisedBatchList":{{tr.stockBatchs || ""}},  "goodsCount":{{tr.goodsCount}},  -->
+
                        <div ng-if="tr.stockBatchs.length<1"   class="ipt-div relative" style="width:100%;">
                          <i class="addImg"
                             ng-click=""

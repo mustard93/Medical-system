@@ -1,6 +1,6 @@
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="inventoryAdjustmentOrderDialogCtrl"
-     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true&warehouseType=正常库"
+     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true"
      scope-data="stockBatchList"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
      alert-error>
@@ -13,7 +13,7 @@
     <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
         <!-- 仓库过滤 -->
         <div class="inline-block">
-            <span class="color-9">仓库：</span>
+            <span class="color-9">库房：</span>
             <select ng-if="initFlag"
                     class="ipt pr-short-ipt color-3"
                     style="width:90px;"
@@ -27,31 +27,40 @@
             >
             </select>
         </div>
-        <!-- 日期过滤 -->
-        <div class="inline-block relative">
-            <span class="color-9 mgl-m">有效期：</span>
-            <div class="date-icon-outside">
-                <input ng-if="initFlag" type="text"
-                       datepicker
-                       class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
-                       ng-readonly="true"
-                       ng-model="listParams.createAtBeg"
-                       ng-change="getGoodsBatchsData(listParams)"
-                       placeholder="">
-                <span class="date-icon"></span>
-            </div>
-            <span class="color-9">至</span>
-            <div class="date-icon-outside">
-                <input ng-if="initFlag" type="text"
-                       datepicker
-                       class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-                       ng-readonly="true"
-                       ng-model="listParams.createAtEnd"
-                       ng-change="getGoodsBatchsData(listParams)"
-                       placeholder="">
-                <span class="date-icon"></span>
-            </div>
+
+        <div class="inline-block">
+            <span class="color-9">区域：</span>
+            <select ng-if="initFlag"
+                    class="ipt pr-short-ipt color-3"
+                    style="width:90px;"
+                    data-placeholder=""
+                    default-empty="全部"
+                    width="120px"
+                    chosen
+                    ng-model="listParams.regionId"
+                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}"
+                    ng-change="getGoodsBatchsData(listParams)"
+            >
+            </select>
         </div>
+
+        <div class="inline-block">
+            <span class="color-9">货位：</span>
+            <select ng-if="initFlag"
+                    class="ipt pr-short-ipt color-3"
+                    style="width:90px;"
+                    data-placeholder=""
+                    default-empty="全部"
+                    width="120px"
+                    chosen
+                    ng-model="listParams.goodsLocationId"
+                    select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}"
+                    ng-change="getGoodsBatchsData(listParams)"
+            >
+            </select>
+        </div>
+
+
         <!-- 关键字过滤 -->
         <div class="inline-block">
             <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
