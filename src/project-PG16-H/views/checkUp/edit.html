@@ -2,7 +2,7 @@
      ajax-url="rest/authen/checkUp/getOfEdit.json?id={{dialogData.id}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');formData.oldQualifiedQuantity=formData.qualifiedQuantity"
-     alert-error>
+     alert-error>{{formData}}
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
         name="editForm"
@@ -75,17 +75,21 @@
     <div class="pdt-xl pdl-m">
       <div class="inline-block mgr-l">
         <span>验收人：</span>
-        <select class="inline ipt-new-s"
+        <select ng-if="initFlag" class="inline ipt-new-s"
                 chosen
                 style="width:120px;"
+<<<<<<< HEAD
+                data-placeholder=""
+=======
                 data-placeholder=" "
+>>>>>>> 37682187d825e93e5c8dc01370de564ab62e9d2b
                 ng-model="formData.checker.id"
                 select-source="rest/authen/user/queryForSelectOption">
         </select>
       </div>
       <div class="inline-block relative">
         <span>验收日期：</span>
-        <input type="text"
+        <input ng-if="initFlag" type="text"
                datepicker
                class="ipt color-3"
                style="width:120px;"
