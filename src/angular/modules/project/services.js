@@ -660,14 +660,20 @@ define('project/services', ['project/init'], function() {
 
             //获取销售单详细页面菜单定义
             getQuery_confirmOrder: function(showData) {
+
                 var arr = [];
+
+                // 根据返回的relId值判断当前编辑跳转地址
+                var _jumpUrlForEdit = showData.relId ? "#/confirmOrder/edit-from-salesOrder.html?id=" + showData.id : "#/confirmOrder/edit.html?id=" + showData.id;
+
                 var bottomButton = {
                     "iconClass": "edit-link-icon",
                     "showName": "编辑",
                     "ngShow": "tr.orderStatus=='未提交'||tr.orderStatus=='未通过'",
                     "aclass": "btn-link pd-m rect-s",
-                    "ahref": "#/confirmOrder/edit.html?id=" + showData.id
+                    "ahref": _jumpUrlForEdit
                 };
+
                 if (tmpUtils.canShowButton(bottomButton)) {
                     arr.push(bottomButton);
                 }
