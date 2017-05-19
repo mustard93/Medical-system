@@ -16,7 +16,7 @@
     <div class="modal-body modal-body-new">
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">仓库：</label>
-        <select class="inline ipt-new-s pdt"
+        <select ng-if="initFlag" class="inline ipt-new-s pdt"
                 chosen
                 style="width:160px;"
                 data-placeholder=" "
@@ -28,7 +28,7 @@
       </div>
       <div class="form-group">
       <label class="col-lg-2 col-sm-2 control-label">区域：</label>
-        <select class="inline ipt-new-s pdt"
+        <select ng-if="initFlag" class="inline ipt-new-s pdt"
                 chosen
                 style="width:160px;"
                 data-placeholder=" "
@@ -39,7 +39,7 @@
       </div>
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">货位：</label>
-        <select class="inline ipt-new-s pdt"
+        <select ng-if="initFlag" class="inline ipt-new-s pdt"
                 chosen
                 style="width:160px;"
                 data-placeholder=" "
@@ -85,14 +85,19 @@
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">单据类型：</label>
         <div class="col-lg-10 col-sm-10">
-          <select  class="ipt pr-short-ipt" data-placeholder="选择单据类型" chosen default-empty="无" ng-model="formData.inoutstockDetailType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
+          <select ng-if="initFlag" class="ipt pr-short-ipt"
+                  data-placeholder="选择单据类型"
+                  chosen
+                  default-empty="无"
+                  ng-model="formData.inoutstockDetailType"
+                  select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InoutstockDetailType">
           </select>
         </div>
       </div>
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">库存类型：</label>
         <div class="col-lg-10 col-sm-10">
-          <select  class="ipt pr-short-ipt" data-placeholder="选择库存类型" chosen default-empty="无" ng-model="formData.stockChangeType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Warehouse_StockChangeType">
+          <select ng-if="initFlag" class="ipt pr-short-ipt" data-placeholder="选择库存类型" chosen default-empty="无" ng-model="formData.stockChangeType" select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Warehouse_StockChangeType">
           </select>
         </div>
       </div>
