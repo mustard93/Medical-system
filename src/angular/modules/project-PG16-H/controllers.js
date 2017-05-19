@@ -2946,8 +2946,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             var _unitObj = results[1].data;
             angular.forEach(_unitObj, function (data, index) {
               if (data.text === unit) {
-                $scope.medical.data.quantity = parseInt(_unitObj[index].note,10);
-                $scope.getFullBarcode(medical);
+                if ($scope.medical) {
+                  $scope.medical.data.quantity = parseInt(_unitObj[index].note,10);
+                  $scope.getFullBarcode(medical);
+                }
+                if ($scope.scopeData) {
+                  $scope.scopeData.quantity = parseInt(_unitObj[index].note,10);
+                  $scope.getFullGoodsBarcode(medical);
+                }
               }
             });
           }

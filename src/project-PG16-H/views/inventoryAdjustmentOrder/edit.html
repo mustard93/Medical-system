@@ -53,9 +53,9 @@
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
             <div class="flex-item-6">
                <span class="mgr">单据编号：
-                 <!--ng-disabled="!formData.supplierId||formData.id"-->
+                 <!---->
                  <input type="text"
-
+                        ng-disabled="formData.id"
                         class="inline ipt pr-ipt-60 text-center"
                         style="width:100px;"
                         ng-model="formData.orderCode" />
@@ -307,18 +307,18 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/InventoryAdjustmentOrder/query.html')"
-             save-callback="submitForm('editForm','exit')">返回库存调整单列表
+             nosave-callback="goTo('#/inventoryAdjustmentOrder/query.html')"
+             save-callback="submitForm('editForm','exit')">返回存调整单列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/InventoryAdjustmentOrder/query.html" >返回库存调整单列表</a>
+          <a ng-if="!changeFlag" href="#/inventoryAdjustmentOrder/query.html" >返回库存调整单列表</a>
         </span>
 
         <span class="mgl mgt">
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-click="submitForm('purchasePlanForm','save')"
-                  ng-disabled="!changeFlag">保存
+                  ng-disabled="!formData.orderCode||!changeFlag">保存
           </button>
         </span>
 
