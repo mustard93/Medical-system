@@ -370,10 +370,15 @@
 
                     </td>
                     <td class="text-center">
-                      <input type="number"
+                      <input type="text"
                              class="ipt pr-ipt-60 text-center"
                              required
-                             ng-model="tr.ratio"/>
+                             name="otherRatio"
+                             ng-model="tr.ratio"
+                             ng-pattern="/^\d+$/"
+                             invalid-popover
+                             popover-show="!editForm.otherRatio.$valid"
+                             popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}'/>
                     </td>
                     <td class="text-center">
                       <input type="text"

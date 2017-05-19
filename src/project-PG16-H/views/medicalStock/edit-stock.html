@@ -25,7 +25,8 @@
                      formData.medical.code=medicalData.code;
                      formData.medical.specification=medicalData.specification;
                      formData.medical.packingAttribute.name=medicalData.packingAttribute.name;
-                     formData.medical.manufacturer=medicalData.manufacturer;">
+                     formData.medical.manufacturer=medicalData.manufacturer;
+                     clearQuantity();">
       <h3 class="crumbs-circle-new color-white pr-indent-10 ">商品信息</h3>
       <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">商品名称：</div>
@@ -76,13 +77,33 @@
       <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">效期预警天数：</div>
         <div class="flex-item-8 text-left">
-            <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.guaranteePeriodAlarmDay" />
+            <input
+            name="guaranteePeriodAlarmDay"
+            type="text"
+            class="pr-ipt-80 hei-28"
+            placeholder=""
+            ng-model="formData.guaranteePeriodAlarmDay"
+            ng-pattern="/^\d+$/"
+            invalid-popover
+            popover-show="!editForm.guaranteePeriodAlarmDay.$valid"
+            popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}'
+            />
         </div>
       </div>
       <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">推荐采购量：</div>
         <div class="flex-item-8 text-left">
-            <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.purchaseQuantity" />
+            <input
+            name="purchaseQuantity"
+            type="text"
+            class="pr-ipt-80 hei-28"
+            placeholder=""
+            ng-model="formData.purchaseQuantity"
+            ng-pattern="/^\d+$/"
+            invalid-popover
+            popover-show="!editForm.purchaseQuantity.$valid"
+            popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}'
+            />
         </div>
       </div>
       </div>
@@ -127,13 +148,31 @@
         <div class="flex-column">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">库存上限：</div>
           <div class="flex-item-8 text-left">
-              <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.inventoryCap" />
+              <input
+              name="inventoryCap"
+              type="text"
+              class="pr-ipt-80 hei-28"
+              placeholder=""
+              ng-model="formData.inventoryCap"
+              ng-pattern="/^\d+$/"
+              invalid-popover
+              popover-show="!editForm.inventoryCap.$valid"
+              popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}' />
           </div>
         </div>
         <div class="flex-column">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">库存下限：</div>
           <div class="flex-item-8 text-left">
-              <input type="number" class="pr-ipt-80 hei-28" placeholder="" ng-model="formData.inventoryLimit" />
+              <input
+              name="inventoryLimit"
+              type="text"
+              class="pr-ipt-80 hei-28"
+              placeholder=""
+              ng-model="formData.inventoryLimit"
+              ng-pattern="/^\d+$/"
+              invalid-popover
+              popover-show="!editForm.inventoryLimit.$valid"
+              popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}'/>
           </div>
         </div>
         <h3 class="crumbs-circle-new color-white mgt  pr-indent-10 ">货位信息</h3>
@@ -160,7 +199,7 @@
     <div class="btn-confirm-area">
         <button type="submit"
         ng-click="modal.closeAll();"
-        ng-disabled="!formData.medical.name || !formData.storeRoomId"
+        ng-disabled="editForm.$invalid ||!formData.medical.name || !formData.storeRoomId"
         class="btn pr-btn-create-glodbg "
         style="width:160px;height:32px;	margin-top: 8px;margin-left:155px;" value="确定">确定</button>
     </div>

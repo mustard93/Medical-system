@@ -386,6 +386,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+    $scope.clearQuantity =function(){
+      if(!$scope.formData.id){
+        $scope.formData.guaranteePeriodAlarmDay='';
+        $scope.formData.purchaseQuantity='';
+        $scope.formData.inventoryCap='';
+        $scope.formData.inventoryLimit='';
+        return;
+      }
+      return;
+    }
+
 
     //医院采购目录增加采购目录有效期设置
     $scope.$watch('listParams.guaranteePeriod', function (newVal) {
