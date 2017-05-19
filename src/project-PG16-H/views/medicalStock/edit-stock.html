@@ -78,15 +78,11 @@
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">效期预警天数：</div>
         <div class="flex-item-8 text-left">
             <input
-            name="guaranteePeriodAlarmDay"
-            type="text"
+            type="number"
             class="pr-ipt-80 hei-28"
             placeholder=""
             ng-model="formData.guaranteePeriodAlarmDay"
-            ng-pattern="/^\d+$/"
-            invalid-popover
-            popover-show="!editForm.guaranteePeriodAlarmDay.$valid"
-            popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}'
+            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"
             />
         </div>
       </div>
@@ -94,15 +90,11 @@
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">推荐采购量：</div>
         <div class="flex-item-8 text-left">
             <input
-            name="purchaseQuantity"
-            type="text"
+            type="number"
             class="pr-ipt-80 hei-28"
             placeholder=""
             ng-model="formData.purchaseQuantity"
-            ng-pattern="/^\d+$/"
-            invalid-popover
-            popover-show="!editForm.purchaseQuantity.$valid"
-            popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}'
+            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"
             />
         </div>
       </div>
@@ -149,30 +141,22 @@
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">库存上限：</div>
           <div class="flex-item-8 text-left">
               <input
-              name="inventoryCap"
-              type="text"
+              type="number"
               class="pr-ipt-80 hei-28"
               placeholder=""
               ng-model="formData.inventoryCap"
-              ng-pattern="/^\d+$/"
-              invalid-popover
-              popover-show="!editForm.inventoryCap.$valid"
-              popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}' />
+              onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));" />
           </div>
         </div>
         <div class="flex-column">
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">库存下限：</div>
           <div class="flex-item-8 text-left">
               <input
-              name="inventoryLimit"
-              type="text"
+              type="number"
               class="pr-ipt-80 hei-28"
               placeholder=""
               ng-model="formData.inventoryLimit"
-              ng-pattern="/^\d+$/"
-              invalid-popover
-              popover-show="!editForm.inventoryLimit.$valid"
-              popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}'/>
+              onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"/>
           </div>
         </div>
         <h3 class="crumbs-circle-new color-white mgt  pr-indent-10 ">货位信息</h3>
