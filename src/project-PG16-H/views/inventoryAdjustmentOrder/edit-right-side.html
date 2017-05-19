@@ -1,6 +1,6 @@
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="inventoryAdjustmentOrderDialogCtrl"
-     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=true"
+     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable={{dialogData.type=='报溢'}}"
      scope-data="stockBatchList"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);listParams={}"
      alert-error>
@@ -37,7 +37,7 @@
                     width="120px"
                     chosen
                     ng-model="listParams.regionId"
-                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}&type=正常"
+                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}"
                     ng-change="getGoodsBatchsData(listParams)"
             >
             </select>
