@@ -256,7 +256,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                   q: listParams.q||'',
 
                   // warehouseType: '正常库',
-                  isOnlyAvailable: false
+                  isOnlyAvailable: true
               };
 
 
