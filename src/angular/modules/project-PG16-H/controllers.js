@@ -2821,6 +2821,23 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       modal.closeAll();
     };
 
+    // 在确定之前，修改商品后需要清空上一个商品填写的信息
+    $scope.$watch('formData.relMedicalStockId', function (newVal, oldVal) {
+      if (newVal) {
+        if($scope.formData.productionBatch){
+          $scope.formData.productionBatch='';
+          $scope.formData.storeRoomId='';
+          $scope.formData.sourceRegionId='';
+          $scope.formData.targetRegionId='';
+          $scope.formData.targetGoodsLocationId='';
+          $scope.formData.sourceGoodsLocationId='';
+          $scope.formData.localQuantity='';
+          $scope.formData.transferQuantity='';
+          $scope.formData.storeRoomName='';
+          $scope.formData.transferReason='';
+        }
+      }
+    })
 
     $scope.$watch('formData.medical_unit', function (newVal, oldVal) {
       var newQuantity='';
