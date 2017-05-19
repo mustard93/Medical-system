@@ -137,22 +137,24 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
         // 请求包含批号和数量的完整的条码
         scope.getFullBarcode = function (medical) {
           if (medical) {
-            var _data = {
-              "barcode": medical.data.barcode,
-              "quantity": medical.data.quantity,
-              "productionBatch": medical.data.productionBatch,
-              "validTill": medical.data.validTill,
-              "barcodeType": medical.data.medicalType
-            };
-            requestData(_url, _data, 'POST', 'parameter-body')
-            .then(function (results) {
-              if (results[1].code === 200) {
-                scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
-              }
-            })
-            .catch(function (error) {
-              if (error) { throw new Error(error || '出错'); }
-            });
+            if (medical.data.barcode) {
+              var _data = {
+                "barcode": medical.data.barcode,
+                "quantity": medical.data.quantity,
+                "productionBatch": medical.data.productionBatch,
+                "validTill": medical.data.validTill,
+                "barcodeType": medical.data.medicalType
+              };
+              requestData(_url, _data, 'POST', 'parameter-body')
+              .then(function (results) {
+                if (results[1].code === 200) {
+                  scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
+                }
+              })
+              .catch(function (error) {
+                if (error) { throw new Error(error || '出错'); }
+              });
+            }
           }
         };
       }
