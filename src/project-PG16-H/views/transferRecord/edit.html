@@ -161,18 +161,28 @@
                   <div class="inline-block mgr-s">
                     <input
                     ng-if="!formData.id"
-                    type="number"
+                    name="quantity"
+                    type="text"
                     class="inline-block ipt-new-s hei-28 pr-indent-10"
                     style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;"
                     placeholder=""
-                    ng-model="formData.localQuantity"/>
+                    ng-model="formData.localQuantity"
+                    ng-pattern="/^\d+$/"
+                    invalid-popover
+                    popover-show="!editForm.quantity.$valid"
+                    popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}'/>
                     <input
                     ng-if="formData.id"
-                    type="number"
+                    type="text"
+                    name="quantity"
                     class="inline-block ipt-new-s hei-28 pr-indent-10"
                     style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;"
                     placeholder=""
-                    ng-model="formData.transferQuantity"/>
+                    ng-model="formData.transferQuantity"
+                    ng-pattern="/^\d+$/"
+                    invalid-popover
+                    popover-show="!editForm.quantity.$valid"
+                    popover-options='{"content":"只能输入整数", "placement":"right", "trigger":"manual"}'/>
                   </div>
                   <div class="inline-block">
                     <select class="inline-block pdt mgl-s"
