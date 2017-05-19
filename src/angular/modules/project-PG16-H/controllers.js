@@ -151,7 +151,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
                 batchNumber: obj.productionBatch,
 
-                quantity: obj.stockModel.salesQuantity,    // 可选数量
+                quantity: 0,//obj.stockModel.salesQuantity,    // 可选数量
                 goodsCount: obj.stockModel.salesQuantity,
                 productionBatch: obj.productionBatch,     // 批号名
                 validTill:obj.validTill,
@@ -164,6 +164,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 goodsLocationId:obj.goodsLocationId// 货位ID
 
             };
+
+            if($scope.formData.type=='报损'){
+                _tmp.quantity=obj.stockModel.salesQuantity;
+            }
+
 
 
             angular.forEach($scope.formData.orderMedicalNos,function (item,index2) {
