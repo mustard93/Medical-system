@@ -204,12 +204,13 @@
                          <input type="number"
                                 class="in_ipt"
                                 name="batchNum{{$index}}"
+                                required
                                 ng-model="batch.quantity"
                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"
                                 ng-blur="checkMaxNum(batch,$index)"
                                 ng-change="batchsNumOverload(formData.orderMedicalNos)">
                          <input type="hidden" required ng-model="batch.id">
-                         <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1); flag=false;"><i class="fa fa-times-circle"></i></span>
+                         <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
                        </div>
 
                        <!-- 批号选择  ng-if="calculaBatchsTotal(tr,tr.goodsCount)<item.goodsCount"  "choisedBatchList":{{tr.stockBatchs || ""}},  "goodsCount":{{tr.goodsCount}},  -->
@@ -330,7 +331,7 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  ng-disabled="!formData.orderCode||!flag||!formData.orderMedicalNos.length"
+                  ng-disabled="purchasePlanForm.$valid || !formData.orderCode||!formData.orderMedicalNos.length"
                   callback="submitForm('purchasePlanForm','submit')">提交
           </button>
 
