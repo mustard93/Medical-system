@@ -130,12 +130,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       };
 
 
+
       // 侧边栏选择生产批号
       $scope.spdChoiseBatchs = function (obj,choisedList,id,goodsCount,strikePrice,index) {
 
-            if($scope.formData.type=='报损'){
-                _tmp.quantity=obj.stockModel.salesQuantity;
-            }
+          // 异常处理
+          // if (!obj || !choisedList || !goodsCount || !strikePrice) {
+          //   throw new Error('Parameters are required');
+          // }
+
+
+          console.log("obj",obj);
 
           // 构建临时对象存储批号id、批号名和数量
           var _tmp = {
@@ -143,7 +148,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
               batchNumber: obj.productionBatch,
 
-              quantity: obj.stockModel.salesQuantity,    // 可选数量
+              quantity: 0,//obj.stockModel.salesQuantity,    // 可选数量
               goodsCount: obj.stockModel.salesQuantity,
               productionBatch: obj.productionBatch,     // 批号名
               validTill:obj.validTill,
@@ -153,9 +158,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
               storeRoomId:obj.storeRoomId,//仓库ID
               regionId:obj.regionId,//区域ID
-              goodsLocationId:obj.goodsLocationId// 货位ID
+              goodsLocationId:obj.goodsLocationId,// 货位ID
+              goodsLocationCode:obj.goodsLocationCode//货位编号
+
 
           };
+
+          if($scope.formData.type=='报损'){
+              _tmp.quantity=obj.stockModel.salesQuantity;
+          }
+
 
 
           angular.forEach($scope.formData.orderMedicalNos,function (item,index2) {
@@ -187,8 +199,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
           $scope.flag=true;
       };
-
-
 
 
       //获取商品已选择的批次-
