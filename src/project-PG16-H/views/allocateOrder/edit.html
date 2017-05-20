@@ -2,7 +2,7 @@
      ng-controller="allocateOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;"
+     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;changeQuantity(formData.orderMedicalNos)"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -210,7 +210,7 @@
                                  ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
                                  invalid-popover="{{!editForm['applicationCount'+$index].$valid || item.applicationCount>item.salesQuantity}}"
                                  popover-show
-                                 ng-change="changeQuantity(item.salesQuantity,item.applicationCount);"
+                                 ng-change="changeQuantity(formData.orderMedicalNos);"
                                  popover-options='{"content":"数量格式不正确或大于可调拨数量", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                         </span>

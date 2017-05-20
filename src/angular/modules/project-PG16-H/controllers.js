@@ -2610,7 +2610,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       $('#' + fromId).trigger('submit');
     };
 
-
     $scope.caifenQuantity = function(tr, num) {
       tr.quantity_noInvoice_show = true;
       if (!num || tr.quantity < num) return;
@@ -2683,7 +2682,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
         return true;
     };
-      $scope.changeStoreRoom =function(orderMedical,storeRoomId){
+
+    $scope.changeStoreRoom =function(orderMedical,storeRoomId){
         var _ids=[];
         if(orderMedical.length!==0){
           for(var i= 0;i<orderMedical.length; i++){
@@ -2706,8 +2706,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           .catch(function (error) {
             if (error) { console.log(error || '出错!'); }
           });
-      }
-     $scope.addDataItemClick = function(addDataItem,medical) {
+    };
+
+    $scope.addDataItemClick = function(addDataItem,medical) {
         if (!(addDataItem.relId && addDataItem.name)) {
             alertWarn('请选择药品。');
             return;
@@ -2734,21 +2735,54 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $('input', '#addDataItem_relId_chosen').trigger('focus');
         // $('#addDataItem_relId_chosen').trigger('click');
     };
-    $scope.changeQuantity= function(availbleQuantity,quantity){
+
+    // $scope.changeQuantity= function(availbleQuantity,quantity){
+    //   // 错误状态标识
+    //   $scope.quantityError = false;
+    //   if (availbleQuantity >= 0) {
+    //     if (quantity >availbleQuantity) {
+    //       $scope.quantityError = true;
+    //       $scope.$parent.$parent.quantityError = true;
+    //     } else {
+    //       $scope.quantityError = false;
+    //       $scope.$parent.$parent.quantityError = false;
+    //     }
+    //   }
+    // };
+    // 扩展changeQuantity方法，参数指定为当前的药品列表对象，以便能在页面初始化后对数据进行检测
+    $scope.changeQuantity= function(obj){
       // 错误状态标识
       $scope.quantityError = false;
-      if (availbleQuantity >= 0) {
-        if (quantity >availbleQuantity) {
-          $scope.quantityError = true;
-          $scope.$parent.$parent.quantityError = true;
-        } else {
-          $scope.quantityError = false;
-          $scope.$parent.$parent.quantityError = false;
-        }
-      }
-    }
 
+      if (obj && angular.isArray(obj)) {
+        angular.forEach(obj, function (data, index) {
+          if (data.salesQuantity === undefined) {
+            data.salesQuantity = 0;
+          }
+
+          if (data.applicationCount > data.salesQuantity) {
+            $scope.quantityError = true;
+            $scope.$parent.$parent.quantityError = true;
+          } else {
+            $scope.quantityError = false;
+            $scope.$parent.$parent.quantityError = false;
+          }
+        });
+      }
+
+      // if (availbleQuantity >= 0) {
+      //   if (quantity >availbleQuantity) {
+      //     $scope.quantityError = true;
+      //     $scope.$parent.$parent.quantityError = true;
+      //   } else {
+      //     $scope.quantityError = false;
+      //     $scope.$parent.$parent.quantityError = false;
+      //   }
+      // }
+    };
   }
+
+
   function transferRecordCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn,modal) {
 
 
