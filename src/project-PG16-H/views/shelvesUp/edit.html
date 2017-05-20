@@ -58,12 +58,17 @@
               </select>
             </td>
             <td  class="text-center color-white pd">
-              <select class="inline ipt-new-s"
+
+              <!-- <select class="inline ipt-new-s"
                       chosen
                       style="width:120px;"
                       data-placeholder=" "
                       ng-model="formData.goodsLocationId"
                       select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}">
+              </select> -->
+              <select ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
+              scope-data="selectOptions"
+               class="pr-select-sm" ng-model="formData.goodsLocationId" ng-options="item.text as item.text   for item in selectOptions">
               </select>
             </td>
 
