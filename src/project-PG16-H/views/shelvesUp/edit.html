@@ -1,7 +1,7 @@
 <div class="modal-content right-side-new pr-bg-black4"
-     ng-controller="editCtrl"
      ajax-url="rest/authen/shelvesUp/getOfEdit.json?id={{dialogData.id}}"
      scope-data="formData"
+     callback="initFlag=true;"
      alert-error>
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
@@ -38,7 +38,7 @@
         <tbody class="bg-white">
           <tr style="background-color:rgba(77,68,59,1);">
             <td class="text-center color-white pd">{{formData.productionBatch}}</td><!-- 生产批号 -->
-            <td  class="text-center color-white pd">
+            <td class="text-center color-white pd">
               <select ng-if="formData.isQualified=='是'"
                       class="inline ipt-new-s"
                       chosen
@@ -57,19 +57,19 @@
               </select>
             </td>
             <td  class="text-center color-white pd">
-              <select class="inline ipt-new-s"
+              <!-- <select class="inline ipt-new-s"
                       chosen
                       style="width:120px;"
                       data-placeholder=" "
                       ng-model="formData.goodsLocationId"
                       select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}">
-              </select>
-              <!-- <select ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
+              </select> -->
+              <select ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
                       scope-data="selectOptions"
                       class="pr-select-sm"
-                      ng-model="formData.goodsLocationId"
-                      ng-options="item.text as item.text for item in selectOptions">
-              </select> -->
+                      ng-model="formData.goodsLocationId">
+                <option ng-repeat="item in selectOptions" value="{{item.value}}">{{item.text}}</option>
+              </select>
             </td>
 
           <td class="text-center color-white pd">
@@ -85,7 +85,7 @@
     </div>
     <div class="pd-c-v-l color-9">
       <span>上架人：</span>
-      <select class="inline ipt-new-s"
+      <select ng-if="initFlag" class="inline ipt-new-s"
               chosen
               style="width:120px;"
               data-placeholder=" "
