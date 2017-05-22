@@ -2013,14 +2013,19 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.changeQuantity= function(availbleQuantity,quantity){
       // 错误状态标识
       $scope.quantityError = false;
-      if (availbleQuantity >= 0) {
-        if (quantity >availbleQuantity || quantity==0) {
+      console.log('quantity='+quantity);
+      console.log('availbleQuantity='+availbleQuantity);
+      if (availbleQuantity >= 0 && quantity>=0) {
+        if (quantity >availbleQuantity || quantity<=0) {
           $scope.quantityError = true;
           $scope.$parent.$parent.quantityError = true;
         } else {
           $scope.quantityError = false;
           $scope.$parent.$parent.quantityError = false;
         }
+      }else{
+        $scope.quantityError = true;
+        $scope.$parent.$parent.quantityError = true;
       }
     }
 
@@ -2903,7 +2908,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     $scope.$watch('formData.localQuantity', function (newVal, oldVal) {
       var newQuantity='';
-      if(newVal){
+      console.log(newVal);
+
+    if(newVal){
+      if (newVal<=0) {
+          $scope.showQuantity=true;
+          return;
+      }
         var quantityList=[];
         var url='rest/authen/medicalStock/queryStockBatch?relMedicalStockId='+$scope.formData.relMedicalStockId;
         requestData(url)
@@ -2919,8 +2930,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 requestData(_url)
                 .then(function (results) {
                   $scope.scopeData = results[1].data;
-                  console.log(results[1].data[0].quantity);
-                  console.log(newQuantity);
                   if( results[1].data[0].quantity>newQuantity){
                     $scope.showQuantity=true;
                   }else{

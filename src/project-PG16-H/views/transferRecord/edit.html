@@ -166,7 +166,7 @@
                     style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;"
                     placeholder=""
                     ng-model="formData.localQuantity"
-                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"/>
+                    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
                     <input
                     ng-if="formData.id"
                     type="number"
@@ -175,7 +175,7 @@
                     style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;"
                     placeholder=""
                     ng-model="formData.transferQuantity"
-                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"/>
+                    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
                   </div>
                   <div class="inline-block">
                     <select class="inline-block pdt mgl-s"

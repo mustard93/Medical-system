@@ -191,11 +191,12 @@
                        ng-disabled="tr.applicationCount<=1"
                        ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)-1;changeQuantity(tr.salesQuantity,tr.applicationCount);" ng-disabled="tr.applicationCount<=1">-</button>
                        <span class="inline-block">
-                         <input type="text"
+                         <input type="number"
                                 class="inline ipt pr-ipt-60 text-center item-applicationCount"
                                 style="width:60px;"
                                 name="applicationCount{{$index}}"
                                 ng-model="tr.applicationCount"
+                                onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                 ng-change="calcTotalPrice(formData.orderMedicalNos);changeQuantity(tr.salesQuantity,tr.applicationCount);"
                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].applicationCount<tr.applicationCount}"
                                 required
