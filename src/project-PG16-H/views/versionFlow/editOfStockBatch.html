@@ -1,8 +1,8 @@
 <div class="modal-content right-side-new pr-bg-black4"
      ajax-url="rest/authen/medicalStock/get?id={{dialogData.id}}"
-     scope-data="formData"
+     scope-data="scopeData"
      alert-error
-     callback="initFlag=true">
+     callback="initFlag=true;formData={};formData.id=scopeData.id;">
   <form class="add-medical-form form-horizontal"
         action="rest/authen/medicalStock/incStockBatch"
         scope-data="formData"
@@ -24,10 +24,9 @@
                 ng-model="formData.storeRoomId"
                 select-source="rest/authen/storeRoom/queryForSelectOption">
         </select>
-        <!-- {{listParams.storeRoomId}} -->
       </div>
       <div class="form-group">
-      <label class="col-lg-2 col-sm-2 control-label">区域：</label>
+        <label class="col-lg-2 col-sm-2 control-label">区域：</label>
         <select ng-if="initFlag" class="inline ipt-new-s pdt"
                 chosen
                 style="width:160px;"
@@ -48,40 +47,6 @@
                 select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}">
         </select>
       </div>
-      <!-- <div class="form-group">
-        <label class="col-lg-2 col-sm-2 control-label">仓库：</label>
-        <div class="col-lg-10 col-sm-10">
-          <select class="inline pr-ipt-160 hei-28"
-                  ajax-url="rest/authen/storeRoom/queryForSelectOption"
-                  ng-model="formData.storeRoomId"
-                  scope-data="storeRoomData"
-                  ng-options="item.value as item.text for item in storeRoomData">
-          </select>
-
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-lg-2 col-sm-2 control-label">区域：</label>
-        <div class="col-lg-10 col-sm-10">
-          <select class="inline pr-ipt-160 hei-28"
-                  ajax-url="rest/authen/region/queryForSelectOption?storeRoomId={{formData.storeRoomId}}"
-                  ng-model="formData.regionId"
-                  scope-data="regionData"
-                  ng-options="item.value as item.text for item in regionData">
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-lg-2 col-sm-2 control-label">货位：</label>
-        <div class="col-lg-10 col-sm-10">
-          <select class="inline pr-ipt-160 hei-28"
-                  ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
-                  ng-model="formData.goodsLocationId"
-                  scope-data="goodsLocationData"
-                  ng-options="item.value as item.text for item in goodsLocationData">
-          </select>
-        </div>
-      </div> -->
       <div class="form-group">
         <label class="col-lg-2 col-sm-2 control-label">单据类型：</label>
         <div class="col-lg-10 col-sm-10">
@@ -137,6 +102,7 @@
           <textarea class="pr-ipt-300" placeholder="" ng-model="formData.note"></textarea>
         </div>
       </div>
+      
     </div>
     <div class="btn-confirm-area">
       <button type="submit"

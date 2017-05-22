@@ -2,7 +2,7 @@
  *  Components组件模块
  *  create by liuzhen
  */
-define('main/components', ['angular'], function () {
+define('main/components', ['main/init'], function () {
   angular.module('manageApp.main')
   .component('testComponent', {
     template: '<div>Test - Components</div>',

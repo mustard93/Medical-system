@@ -1,7 +1,7 @@
 <div class="modal-content right-side-new pr-bg-black4"
-     ng-controller="editCtrl"
      ajax-url="rest/authen/shelvesUp/getOfEdit.json?id={{dialogData.id}}"
      scope-data="formData"
+     callback="initFlag=true;"
      alert-error>
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
@@ -17,7 +17,7 @@
         callback="$root.watchFormChange('formData',this)"
         novalidate="true">
     <div class="bb-line-gold pr-bg-black2 min-h-l">
-      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{formData.name}}-上架</h1>
+      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{formData.name}} - 上架</h1>
     </div>
     <div class="bb-dashed-gold pd-c-v-l color-white text-n">
       计划上架数量：{{formData.planShelvesUpQuantity}}({{formData.packingAttribute.name}})
@@ -32,14 +32,13 @@
             <th class="text-center">生产批号</th>
             <th class="text-center">区域名称</th>
             <th class="text-center">货位名称</th>
-            <th class="text-center">实际上架数量（瓶）</th>
+            <th class="text-center">实际上架数量（{{formData.unit}}）</th>
           </tr>
         </thead>
         <tbody class="bg-white">
           <tr style="background-color:rgba(77,68,59,1);">
             <td class="text-center color-white pd">{{formData.productionBatch}}</td><!-- 生产批号 -->
-
-            <td  class="text-center color-white pd">
+            <td class="text-center color-white pd">
               <select ng-if="formData.isQualified=='是'"
                       class="inline ipt-new-s"
                       chosen
@@ -58,7 +57,6 @@
               </select>
             </td>
             <td  class="text-center color-white pd">
-
               <!-- <select class="inline ipt-new-s"
                       chosen
                       style="width:120px;"
@@ -67,8 +65,10 @@
                       select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}">
               </select> -->
               <select ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
-              scope-data="selectOptions"
-               class="pr-select-sm" ng-model="formData.goodsLocationId" ng-options="item.text as item.text   for item in selectOptions">
+                      scope-data="selectOptions"
+                      class="pr-select-sm"
+                      ng-model="formData.goodsLocationId">
+                <option ng-repeat="item in selectOptions" value="{{item.value}}">{{item.text}}</option>
               </select>
             </td>
 
@@ -85,7 +85,7 @@
     </div>
     <div class="pd-c-v-l color-9">
       <span>上架人：</span>
-      <select class="inline ipt-new-s"
+      <select ng-if="initFlag" class="inline ipt-new-s"
               chosen
               style="width:120px;"
               data-placeholder=" "
