@@ -163,9 +163,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
           };
+          $scope.quantityError=true;
 
           if($scope.formData.type=='报损'){
               _tmp.quantity=obj.stockModel.salesQuantity;
+              if (obj.stockModel.salesQuantity<=0) {
+                $scope.quantityError=true;
+              }else{
+                $scope.quantityError=false;
+              }
           }
 
 
@@ -227,6 +233,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           return flag;
       };
 
+      $scope.changeQuantity=function(quantity){
+        if(quantity>0){
+          $scope.quantityError=false;
+        }else{
+          $scope.quantityError=true;
+        }
+      }
   }
 
   // SPD系统-库存调整-右侧弹出框 controller
