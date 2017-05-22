@@ -2724,18 +2724,7 @@ function customTable() {
 
             if ($attrs.checkboxShow) {
                 $scope._checkboxShow=$attrs.checkboxShow;
-                // if($attrs.checkboxShowData){
-                //   $scope._checkboxShowData=$attrs.checkboxShowData;
-                //   var _Showdate=$scope.$eval($attrs.checkboxShowData);
-                //   $scope._ngModel_th=_Showdate[0].ngModel;
-                //   $scope._ngClick_th=_Showdate[0].ngClick;
-                //   $scope._ngModel_td=_Showdate[1].ngModel;
-                //   $scope._ngClick_td=_Showdate[1].ngClick;
-                //   console.log($scope._ngClick_td);
-                //   console.log($scope._ngClick_th);
-                // }
             }
-
             if ($attrs.customTable) {
                 $scope._customTableName=$attrs.customTable;
                 $scope._customKey=$attrs.customKey;
