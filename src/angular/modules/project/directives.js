@@ -3328,7 +3328,9 @@ function pageMainHeaderComponent () {
         scope.selectObj = angular.fromJson(scope.isShowSelectItem);
         scope.itemChooise = scope.selectObj[0].link;
       }
-
+      if(attrs.showDateName){
+        scope._showDateName=attrs.showDateName;
+      }
       //是否显示新建按钮
       scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
       // 是否显示部门过滤
