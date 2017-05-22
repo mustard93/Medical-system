@@ -2014,7 +2014,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       // 错误状态标识
       $scope.quantityError = false;
       if (availbleQuantity >= 0) {
-        if (quantity >availbleQuantity) {
+        if (quantity >availbleQuantity || quantity==0) {
           $scope.quantityError = true;
           $scope.$parent.$parent.quantityError = true;
         } else {
@@ -2023,6 +2023,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
       }
     }
+
 
     // 监控计划采购数量与实际采购数量的方法
     $scope.diffPurchaseNumber = function (orderMedicalList) {

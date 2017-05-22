@@ -189,7 +189,7 @@
                        class="inline-block left"
                        ng-class="{'disabled':(tr.applicationCount<=1)}"
                        ng-disabled="tr.applicationCount<=1"
-                       ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)-1;calcTotalPrice(formData.orderMedicalNos)" ng-disabled="tr.applicationCount<=1">-</button>
+                       ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)-1;changeQuantity(tr.salesQuantity,tr.applicationCount);" ng-disabled="tr.applicationCount<=1">-</button>
                        <span class="inline-block">
                          <input type="text"
                                 class="inline ipt pr-ipt-60 text-center item-applicationCount"
@@ -199,8 +199,8 @@
                                 ng-change="calcTotalPrice(formData.orderMedicalNos);changeQuantity(tr.salesQuantity,tr.applicationCount);"
                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].applicationCount<tr.applicationCount}"
                                 required
-                                ng-pattern="/^[1-9]{1,10}(\.[1-9]{1,3})?$/"
-                                invalid-popover="{{!editForm['applicationCount'+$index].$valid || tr.applicationCount>tr.stockModel.salesQuantity}}"
+                                ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                                invalid-popover="{{!editForm['applicationCount'+$index].$valid || tr.applicationCount>tr.salesQuantity}}"
                                 popover-show
                                 is-focus="true"
                                 popover-options='{"content":"不能大于可用数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
@@ -210,9 +210,9 @@
                        <button
                         type="button"
                         class="inline-block right"
-                        ng-class="{'disabled':(tr.applicationCount>=tr.stockModel.salesQuantity)}"
-                        ng-disabled="tr.applicationCount>=tr.stockModel.salesQuantity"
-                        ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)+1;calcTotalPrice(formData.orderMedicalNos)">+</button>
+                        ng-class="{'disabled':(tr.applicationCount>=tr.salesQuantity)}"
+                        ng-disabled="tr.applicationCount>=tr.salesQuantity"
+                        ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)+1;changeQuantity(tr.salesQuantity,tr.applicationCount);">+</button>
                      </div>
                      <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
                        待采购数量：{{tr.planQuantity-tr.quantity}}
@@ -283,7 +283,7 @@
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-click="submitForm('editForm','save')"
-                  ng-disabled="!changeFlag">保存
+                  ng-disabled="!changeFlag||quantityError">保存
           </button>
         </span>
         <span>
@@ -294,7 +294,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="editForm.$invalid||quantityError || canSubmit ||!formData.orderCode ||!formData.storeRoomId ||!formData.orderMedicalNos.length" >提交
+                  ng-disabled="quantityError || canSubmit ||!formData.orderCode ||!formData.storeRoomId ||!formData.orderMedicalNos.length " >提交
           </button>
         </span>
       </div>
