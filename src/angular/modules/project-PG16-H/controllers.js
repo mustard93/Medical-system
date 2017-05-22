@@ -292,7 +292,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         alertWarn(error || '出错');
       });
     };
-
     // 点击新增商品单位信息，新增一条商品辅助单位
     $scope.addMedicalUnit = function(){
       // 判断othersPackingAttribute对象是否是空值，如果是，就新建一个为空的数组，不是则直接就把新的一条辅助单位的数据加入数组
@@ -2015,7 +2014,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       // 错误状态标识
       $scope.quantityError = false;
       if (availbleQuantity >= 0) {
-        if (quantity >availbleQuantity) {
+        if (quantity >availbleQuantity || quantity==0) {
           $scope.quantityError = true;
           $scope.$parent.$parent.quantityError = true;
         } else {
@@ -2024,6 +2023,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
       }
     }
+
 
     // 监控计划采购数量与实际采购数量的方法
     $scope.diffPurchaseNumber = function (orderMedicalList) {
@@ -2750,35 +2750,29 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     //   }
     // };
     // 扩展changeQuantity方法，参数指定为当前的药品列表对象，以便能在页面初始化后对数据进行检测
-    $scope.changeQuantity= function(obj){
+    $scope.changeQuantity = function (obj) {
       // 错误状态标识
       $scope.quantityError = false;
 
       if (obj && angular.isArray(obj)) {
         angular.forEach(obj, function (data, index) {
-          if (data.salesQuantity === undefined) {
-            data.salesQuantity = 0;
-          }
 
-          if (data.applicationCount > data.salesQuantity) {
-            $scope.quantityError = true;
-            $scope.$parent.$parent.quantityError = true;
-          } else {
-            $scope.quantityError = false;
-            $scope.$parent.$parent.quantityError = false;
-          }
+          // 实时请求可调拨数量
+          requestData('rest/authen/medicalStock/countStockByIds?ids='+data.id+'&&storeRoomId='+$scope.formData.storeRoomId)
+          .then(function (results) {
+            if (results[1].code === 200) {
+              var _tmpObj = results[0][data.id];
+              if (data.applicationCount > _tmpObj.salesQuantity) {
+                $scope.quantityError = true;
+                $scope.$parent.$parent.quantityError = true;
+              } else {
+                $scope.quantityError = false;
+                $scope.$parent.$parent.quantityError = false;
+              }
+            }
+          });
         });
       }
-
-      // if (availbleQuantity >= 0) {
-      //   if (quantity >availbleQuantity) {
-      //     $scope.quantityError = true;
-      //     $scope.$parent.$parent.quantityError = true;
-      //   } else {
-      //     $scope.quantityError = false;
-      //     $scope.$parent.$parent.quantityError = false;
-      //   }
-      // }
     };
   }
 
@@ -2937,6 +2931,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
           }
         });
+      }else{
+        $scope.showQuantity=true;
       }
     });
 
