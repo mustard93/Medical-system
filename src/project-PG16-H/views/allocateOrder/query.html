@@ -52,17 +52,29 @@
                       <a href="#/allocateOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
 
+                      <!-- <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
+                         href="javascript:;"
+                         class="btn-link pd-m rect-s"
+                         title="删除"
+                         handle-this-click
+                         dialog-title="确认删除 ?"
+                         dialog-content="您确认删除这条调拨单吗?"
+                         dialog-template="pr-dialog-confirm.html"
+                         request-url="rest/authen/allocateOrder/delete?id={{tr.id}}"
+                         emitted="reloadList">
+                        <span class="delete-link-icon">&nbsp;</span>
+                      </a> -->
                       <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
                          title="删除"
                          handle-this-click
                          dialog-title="确认删除 ?"
-                         dialog-content="您确认删除这条采购单吗?"
+                         dialog-content="您确认删除这条调拨单吗?"
                          dialog-template="pr-dialog-confirm.html"
                          request-url="rest/authen/allocateOrder/delete?id={{tr.id}}"
-                         emitted="reloadList">
-                      <span class="delete-link-icon">&nbsp;</span>
+                         callback="$root.utils.refreshHref()">
+                        <span class="delete-link-icon">&nbsp;</span>
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'" class=" text-right">
