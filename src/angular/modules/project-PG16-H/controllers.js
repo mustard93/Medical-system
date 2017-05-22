@@ -2931,6 +2931,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
           }
         });
+      }else{
+        $scope.showQuantity=true;
       }
     });
 
