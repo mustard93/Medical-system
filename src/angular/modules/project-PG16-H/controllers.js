@@ -641,24 +641,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-
-    // 全选全不选
-    // $scope.handleChoiseAllEvent = function () {
-    //   console.log($scope.isChoiseAll);
-    //   if ($scope.isChoiseAll) {
-    //     console.log(2);
-    //     if ($scope.tbodyList) {
-    //       $scope.choisedMedicalList = [];
-    //       angular.forEach($scope.tbodyList, function (data, index) {
-    //         $scope.choisedMedicalList.push(data.id);
-    //       });
-    //       console.log($scope.choisedMedicalList);
-    //     }
-    //   } else {
-    //     $scope.choisedMedicalList = [];
-    //   }
-    // };
-
     // 批量收货
     $scope.handleBatchReceive = function () {
       if ($scope.choisedMedicalList.length) {
@@ -667,6 +649,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         .then(function (results) {
           if (results[1].code === 200) {
             utils.refreshHref();
+            if (results[1].msg) { alertOk(results[1].msg); }
           }
         })
         .catch(function (error) {
