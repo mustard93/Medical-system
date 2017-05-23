@@ -3045,6 +3045,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
     };
+
+    // 获取货位条码打印图片
+    $scope.getGoodsLocationBarcode = function () {
+
+    };
   }
 
   angular.module('manageApp.project-PG16-H')
