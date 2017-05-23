@@ -655,7 +655,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 批量收货
     $scope.handleBatchReceive = function () {
       if ($scope.choisedMedicalList.length) {
-  
+
         requestData('rest/authen/receiveItem/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
@@ -2320,11 +2320,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/shelvesUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-
             utils.refreshHref();
-            if(results[1].msg ){
-                alertWarn(results[1].msg || '未知错误!');
-            }
           }
 
         })
@@ -2378,7 +2374,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/pickStockOutMedical/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-            alertOk(results[1].msg);
             utils.refreshHref();
           }
 
