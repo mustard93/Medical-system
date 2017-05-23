@@ -57,29 +57,22 @@
               </select>
             </td>
             <td  class="text-center color-white pd">
-              <!-- <select class="inline ipt-new-s"
-                      chosen
-                      style="width:120px;"
-                      data-placeholder=" "
-                      ng-model="formData.goodsLocationId"
-                      select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}">
-              </select> -->
               <select ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
                       scope-data="selectOptions"
                       class="inline ipt-new-s"
                       style="width:110px;height:26px;border-radius:2px;"
-                      ng-model="formData.goodsLocationId">
+                      ng-model="formData.goodsLocationId"
+                      ng-disabled="!formData.regionId">
                 <option ng-repeat="item in selectOptions" value="{{item.value}}">{{item.text}}</option>
               </select>
             </td>
-
-          <td class="text-center color-white pd">
-            <input type="number"
-                   class="inline ipt pr-ipt-60 text-center"
-                   style="width:110px;"
-                   onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                   ng-model="formData.shelvesUpQuantity" />
-          </td><!-- 本次收货数量 -->
+            <td class="text-center color-white pd">
+              <input type="number"
+                     class="inline ipt pr-ipt-60 text-center"
+                     style="width:110px;"
+                     onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                     ng-model="formData.shelvesUpQuantity" />
+            </td><!-- 本次收货数量 -->
           </tr>
         </tbody>
       </table>
