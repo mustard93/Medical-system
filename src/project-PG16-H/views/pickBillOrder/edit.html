@@ -35,10 +35,13 @@
            </div>
            <div class="flex-item-8 text-right">
              <div class="inline-block">
-               <span>拣选状态：</span>
-               <select class="ipt pr-short-ipt pr-ipt-80" ng-model="listParams.type">
-                 <option value="待拣选" ng-selected="listParams.type=='待拣选'">待拣选</option>
-                 <option value="已拣选" ng-selected="listParams.type=='已拣选'">已拣选</option>
+               <span>状态：</span>
+               <select ng-if="initFlag"
+                       class="ipt pr-short-ipt pr-ipt-80"
+                       ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_ReviewType"
+                       ng-model="listParams.type"
+                       scope-data="selectOptions"
+                       ng-options="item.value as item.text for item in selectOptions">
                </select>
              </div>
              <div class="inline-block">

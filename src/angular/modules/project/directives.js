@@ -2533,6 +2533,9 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             $scope.minLength = 1;
             // $scope.searchStr = null;
 
+            
+
+
             require(['project/angucomplete'], function(angucomplete) {
               //是否验证合法，允许输入
               var canSelectResult=function(result){

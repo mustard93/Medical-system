@@ -2521,7 +2521,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.chkHasReviewTasks = function (tbodyList) {
       if (tbodyList) {
         angular.forEach(tbodyList, function (data, index) {
-          if (data.type === '待复核') {
+          if (data.type === '待拣选') {
             return true;
           }
         });
