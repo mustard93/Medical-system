@@ -662,9 +662,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         .then(function (results) {
           if (results[1].code === 200) {
             utils.refreshHref();
-            if (results[1].msg) {
-              alertWarn(msg);
-            }
           }
         })
         .catch(function (error) {
