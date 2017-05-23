@@ -112,6 +112,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                       alertError(error || '出错');
                   });
           }
+
+          if ($scope.submitForm_type == 'exit') {
+              $scope.goTo('#/inventoryAdjustmentOrder/query.html');
+              return;
+          }
+
+
       };
 
 
