@@ -17,7 +17,7 @@
          novalidate="novalidate">
 
      <page-main-header-component list-params="listParams"
-                                 crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"领用申请单","link":"","style":"color-custom-orange"},{"name":"新建领用申请单","link":"","style":""}]'
+                                 crumbs-nav='[{"name":"我要领用","link":"","style":""},{"name":"领用申请单","link":"","style":"color-custom-orange"},{"name":"新建领用申请单","link":"","style":""}]'
                                  component-title="领用申请单-{{formData&&formData.id?'编辑':'新建'}}">
      </page-main-header-component>
 
@@ -196,6 +196,7 @@
                                 style="width:60px;"
                                 name="applicationCount{{$index}}"
                                 ng-model="tr.applicationCount"
+                                onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                 ng-change="calcTotalPrice(formData.orderMedicalNos);changeQuantity(tr.salesQuantity,tr.applicationCount);"
                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].applicationCount<tr.applicationCount}"
                                 required

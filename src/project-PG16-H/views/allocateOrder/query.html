@@ -1,6 +1,6 @@
 <!-- 主内容头部 -->
 <page-main-header-component list-params="listParams"
-                            crumbs-nav='[{"name":"库存管理","link":"","style":""},{"name":"调拨单","link":"","style":"color-custom-orange"}]'
+                            crumbs-nav='[{"name":"库房工作","link":"","style":""},{"name":"调拨单","link":"","style":"color-custom-orange"}]'
                             component-title="调拨单"
                             is-show-create-btn="新建调拨单"
                             create-new-url="#/allocateOrder/edit.html"
@@ -10,6 +10,7 @@
                             is-show-key-filter=true
                             is-show-business-btn-group=true
                             is-show-department-filter=true
+                            show-date-name="期望调拨日期："
                             get-department-list-url="rest/authen/department/queryForSelectOption"
                             is-show-apply-user-filter=true
                             get-apply-user-list-url="rest/authen/organizationAndUser/queryForSelectOption"
@@ -51,17 +52,29 @@
                       <a href="#/allocateOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
 
+                      <!-- <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
+                         href="javascript:;"
+                         class="btn-link pd-m rect-s"
+                         title="删除"
+                         handle-this-click
+                         dialog-title="确认删除 ?"
+                         dialog-content="您确认删除这条调拨单吗?"
+                         dialog-template="pr-dialog-confirm.html"
+                         request-url="rest/authen/allocateOrder/delete?id={{tr.id}}"
+                         emitted="reloadList">
+                        <span class="delete-link-icon">&nbsp;</span>
+                      </a> -->
                       <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
                          title="删除"
                          handle-this-click
                          dialog-title="确认删除 ?"
-                         dialog-content="您确认删除这条采购单吗?"
+                         dialog-content="您确认删除这条调拨单吗?"
                          dialog-template="pr-dialog-confirm.html"
                          request-url="rest/authen/allocateOrder/delete?id={{tr.id}}"
-                         emitted="reloadList">
-                      <span class="delete-link-icon">&nbsp;</span>
+                         callback="$root.utils.refreshHref()">
+                        <span class="delete-link-icon">&nbsp;</span>
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'" class=" text-right">

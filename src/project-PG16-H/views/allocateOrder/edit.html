@@ -17,7 +17,7 @@
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
-      <p class="pdb-s pdt-s crumbs pd-c-xxl">库存管理 >
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
         <a href="#/allocateOrder/query.html"><em class="color-custom-orange">调拨单</em></a>
         <em> > 新建调拨单</em>
       </p>
@@ -113,18 +113,20 @@
             </div>
             <div class="pd-c-l pdt-m pdb-m color-9">
               <span class="mgr">申请部门：
-                <select class="ipt pr-short-ipt color-3" style="width:100px;"
+                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:100px;"
                         data-placeholder=" "
                         chosen
+                        no-first-select-source=true
                         ng-model="formData.departmentId"
                         select-source="rest/authen/department/queryForSelectOption">
                 </select>
                 <em ng-if="!formData.departmentId" class="color-red">(必填)</em>
               </span>
               <span class="mgr">申请人：
-                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
+                <select ng-if="formData.departmentId" class="ipt pr-short-ipt color-3" style="width:90px;"
                         data-placeholder=" "
                         chosen
+                        no-first-select-source="true"
                         ng-model="formData.applicant.id"
                         select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
                 </select>
@@ -200,7 +202,7 @@
                         <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1"
                         ng-disabled="item.applicationCount<=1" ng-class="{'disabled':(item.applicationCount<=1)}">-</button>
                         <span class="inline-block">
-                          <input type="number"
+                          <input type="text"
                                  name="applicationCount{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
@@ -212,7 +214,7 @@
                                  popover-show
                                  ng-change="changeQuantity(formData.orderMedicalNos);"
                                  popover-options='{"content":"数量格式不正确或大于可调拨数量", "placement":"top", "trigger":"manual"}'
-                                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                                 onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1"
                           ng-class="{'disabled':(item.applicationCount>=item.salesQuantity)}"

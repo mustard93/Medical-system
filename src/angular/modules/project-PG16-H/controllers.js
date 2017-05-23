@@ -163,9 +163,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
           };
+          $scope.quantityError=true;
 
           if($scope.formData.type=='报损'){
               _tmp.quantity=obj.stockModel.salesQuantity;
+              if (obj.stockModel.salesQuantity<=0) {
+                $scope.quantityError=true;
+              }else{
+                $scope.quantityError=false;
+              }
           }
 
 
@@ -227,6 +233,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           return flag;
       };
 
+      $scope.changeQuantity=function(quantity){
+        if(quantity>0){
+          $scope.quantityError=false;
+        }else{
+          $scope.quantityError=true;
+        }
+      }
   }
 
   // SPD系统-库存调整-右侧弹出框 controller
@@ -642,16 +655,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 批量收货
     $scope.handleBatchReceive = function () {
       if ($scope.choisedMedicalList.length) {
-        // var _data = {
-        //   ids: $scope.choisedMedicalList
-        // };
+
         requestData('rest/authen/receiveItem/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
             utils.refreshHref();
-            if (results[1].msg) {
-              alertWarn(msg);
-            }
           }
         })
         .catch(function (error) {
@@ -2013,16 +2021,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.changeQuantity= function(availbleQuantity,quantity){
       // 错误状态标识
       $scope.quantityError = false;
-      if (availbleQuantity >= 0) {
-        if (quantity >availbleQuantity || quantity==0) {
+
+      if (availbleQuantity >= 0 && quantity>=0) {
+        if (quantity >availbleQuantity || quantity<=0) {
           $scope.quantityError = true;
           $scope.$parent.$parent.quantityError = true;
         } else {
           $scope.quantityError = false;
           $scope.$parent.$parent.quantityError = false;
         }
+      }else{
+        $scope.quantityError = true;
+        $scope.$parent.$parent.quantityError = true;
       }
-    }
+    };
 
 
     // 监控计划采购数量与实际采购数量的方法
@@ -2307,11 +2319,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/shelvesUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-
             utils.refreshHref();
-            if(results[1].msg ){
-                alertWarn(results[1].msg || '未知错误!');
-            }
           }
 
         })
@@ -2365,7 +2373,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/pickStockOutMedical/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-            alertOk(results[1].msg);
             utils.refreshHref();
           }
 
@@ -2516,7 +2523,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.chkHasReviewTasks = function (tbodyList) {
       if (tbodyList) {
         angular.forEach(tbodyList, function (data, index) {
-          if (data.type === '待复核') {
+          if (data.type === '待拣选') {
             return true;
           }
         });
@@ -2903,7 +2910,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     $scope.$watch('formData.localQuantity', function (newVal, oldVal) {
       var newQuantity='';
-      if(newVal){
+      console.log(newVal);
+
+    if(newVal){
+      if (newVal<=0) {
+          $scope.showQuantity=true;
+          return;
+      }
         var quantityList=[];
         var url='rest/authen/medicalStock/queryStockBatch?relMedicalStockId='+$scope.formData.relMedicalStockId;
         requestData(url)
@@ -2919,8 +2932,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 requestData(_url)
                 .then(function (results) {
                   $scope.scopeData = results[1].data;
-                  console.log(results[1].data[0].quantity);
-                  console.log(newQuantity);
                   if( results[1].data[0].quantity>newQuantity){
                     $scope.showQuantity=true;
                   }else{
@@ -3021,6 +3032,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
 
 
+
+    };
+
+    // 获取货位条码打印图片
+    $scope.getGoodsLocationBarcode = function () {
 
     };
   }

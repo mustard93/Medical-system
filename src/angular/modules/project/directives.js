@@ -2533,6 +2533,9 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             $scope.minLength = 1;
             // $scope.searchStr = null;
 
+            
+
+
             require(['project/angucomplete'], function(angucomplete) {
               //是否验证合法，允许输入
               var canSelectResult=function(result){
@@ -3317,7 +3320,9 @@ function pageMainHeaderComponent () {
         scope.selectObj = angular.fromJson(scope.isShowSelectItem);
         scope.itemChooise = scope.selectObj[0].link;
       }
-
+      if(attrs.showDateName){
+        scope._showDateName=attrs.showDateName;
+      }
       //是否显示新建按钮
       scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
       // 是否显示部门过滤

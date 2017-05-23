@@ -10,7 +10,7 @@
        alert-error>
 
     <page-main-header-component list-params="listParams"
-                               crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"复核任务单","link":"","style":"color-custom-orange"},{"name":"复核详情","link":"","style":""}]'
+                               crumbs-nav='[{"name":"库房工作","link":"","style":""},{"name":"复核任务单","link":"","style":"color-custom-orange"},{"name":"复核详情","link":"","style":""}]'
                                component-title="复核任务单-详情">
     </page-main-header-component>
 
@@ -35,10 +35,13 @@
            </div>
            <div class="flex-item-8 text-right">
              <div class="inline-block">
-               <span>拣选状态：</span>
-               <select class="ipt pr-short-ipt pr-ipt-80" ng-model="listParams.type">
-                 <option value="待拣选" ng-selected="listParams.type=='待拣选'">待拣选</option>
-                 <option value="已拣选" ng-selected="listParams.type=='已拣选'">已拣选</option>
+               <span>状态：</span>
+               <select ng-if="initFlag"
+                       class="ipt pr-short-ipt pr-ipt-80"
+                       ajax-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_ReviewType"
+                       ng-model="listParams.type"
+                       scope-data="selectOptions"
+                       ng-options="item.value as item.text for item in selectOptions">
                </select>
              </div>
              <div class="inline-block">

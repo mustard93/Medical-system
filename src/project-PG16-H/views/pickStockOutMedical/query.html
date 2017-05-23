@@ -8,7 +8,7 @@
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
                                 style="min-height:130px;"
-                                crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"拣选任务","link":"","style":"color-custom-orange"}]'
+                                crumbs-nav='[{"name":"库房工作","link":"","style":""},{"name":"拣选任务","link":"","style":"color-custom-orange"}]'
                                 component-title="拣选任务"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
@@ -113,7 +113,7 @@
                 <th>货位编码</th>
                 <th>货位名称</th>
                 <th>计划拣选数量</th>
-                <th>可拣选数量</th>
+                <th ng-if="listParams.orderStatus=='待拣选'">可拣选数量</th>
                 <th>实拣数量</th>
                 <th>生产厂商</th>
                 <th>产地</th>
@@ -180,7 +180,7 @@
                 <td >
                     {{tr.applicationCount}}
                 </td><!-- 计划拣选数量 -->
-                <td >
+                <td ng-if="listParams.orderStatus=='待拣选'">
                     {{tr.quantity}}
                 </td><!-- 可拣选数量 -->
                 <td >

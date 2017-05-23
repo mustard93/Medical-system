@@ -2,7 +2,7 @@
      ng-controller="inventoryAdjustmentOrderCtrl"
      ajax-url="rest/authen/inventoryAdjustmentOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData'); choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos)"
+     callback="initFlag=true;watchFormChange('formData'); choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;"
      alert-error>
 
 
@@ -19,7 +19,7 @@
         novalidate="novalidate">
 
     <page-main-header-component list-params="listParams"
-                                crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"库存调整","link":"","style":"color-custom-orange"}]'
+                                crumbs-nav='[{"name":"库房工作","link":"","style":""},{"name":"库存调整","link":"","style":"color-custom-orange"}]'
                                 component-title="库存调整">
       <!---{{formData&&formData.id?'编辑':'新建'}}-->
     </page-main-header-component>
@@ -206,9 +206,9 @@
                            name="batchNum{{$index}}"
                            required
                            ng-model="batch.quantity"
-                           onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"
+                           onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                            ng-blur="checkMaxNum(batch,$index)"
-                           ng-change="batchsNumOverload(formData.orderMedicalNos)">
+                           ng-change="changeQuantity(batch.quantity)">
                     <input type="hidden" required ng-model="batch.id">
                     <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
                   </div>
@@ -332,7 +332,7 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  ng-disabled="purchasePlanForm.$valid || !formData.orderCode||!formData.orderMedicalNos.length"
+                  ng-disabled="purchasePlanForm.$valid || !formData.orderCode||!formData.orderMedicalNos.length||quantityError"
                   callback="submitForm('purchasePlanForm','submit')">提交
           </button>
 
