@@ -2148,11 +2148,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         stockBatchId: obj.id,                     // 批次号id
         batchNumber: obj.productionBatch,
         quantity: obj.stockModel.salesQuantity,    // 可选数量
+        salesQuantity: obj.stockModel.salesQuantity,
         goodsCount: obj.stockModel.salesQuantity,
         productionBatch: obj.productionBatch,     // 批号名
-        validTill:obj.validTill,
-        productionDate:obj.productionDate,
-        sterilizationBatchNumber: obj.sterilizationBatchNumber    // 灭菌批号
+        storeRoomName:obj.storeRoomName,
+        regionName:obj.regionName,
+        goodsLocationName: obj.goodsLocationName    // 灭菌批号
       };
 
       // 初始化已添加的批次数量和
@@ -2264,6 +2265,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    $scope.changeQuantity = function(quantity,salesQuantity){
+      $scope.quantityError=false;
+      if(salesQuantity&&quantity){
+        if(quantity>salesQuantity){
+            $scope.quantityError=true;
+        }
+      }else{
+           $scope.quantityError=true;
+      }
+    }
+
   }
 
   // 上架计划控制器
@@ -2319,6 +2331,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+        $scope.changeQuantity = function(quantity,salesQuantity){
+          $scope.quantityError=false;
+          if (quantity && salesQuantity) {
+            if (quantity>salesQuantity || quantity>$scope.formData.applicationCount) {
+            $scope.quantityError=true;
+            }
+          }else {
+            $scope.quantityError=true;
+          }
+        };
+
   }
 
   function pickStockOutMedicalController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {
@@ -2373,6 +2396,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    $scope.changeQuantity = function(quantity,salesQuantity){
+      $scope.quantityError=false;
+      if (quantity && salesQuantity) {
+        if (quantity>salesQuantity || quantity>$scope.formData.applicationCount) {
+        $scope.quantityError=true;
+        }
+      }else {
+        $scope.quantityError=true;
+      }
+    };
   }
 
   // 验收计划控制器
@@ -2513,13 +2546,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.chkHasReviewTasks = function (tbodyList) {
       if (tbodyList) {
         angular.forEach(tbodyList, function (data, index) {
-          if (data.type === '待拣选') {
-            return true;
+          if (data.type === '待复核') {
+            return false;
           }
         });
-        return false;
+        return true;
       }
     };
+
+
   }
 
   function allocateOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm) {

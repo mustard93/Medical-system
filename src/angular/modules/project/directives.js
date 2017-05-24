@@ -2533,7 +2533,7 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             $scope.minLength = 1;
             // $scope.searchStr = null;
 
-            
+
 
 
             require(['project/angucomplete'], function(angucomplete) {
