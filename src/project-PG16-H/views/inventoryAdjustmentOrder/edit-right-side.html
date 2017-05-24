@@ -14,49 +14,45 @@
         <!-- 仓库过滤 -->
         <div class="inline-block">
             <span class="color-9">库房：</span>
-            <select ng-if="initFlag"
-                    class="ipt pr-short-ipt color-3"
-                    style="width:90px;"
-                    data-placeholder=""
-                    default-empty="全部"
-                    width="120px"
+            <select class="inline ipt-new-s pdt"
                     chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    no-first-select-source="true"
+                    default-empty="全部"
                     ng-model="listParams.storeRoomId"
                     select-source="rest/authen/storeRoom/queryForSelectOption"
                     ng-change="getGoodsBatchsData(listParams)">
-          </select>
+            </select>
         </div>
 
         <div class="inline-block">
             <span class="color-9">区域：</span>
-            <select ng-if="initFlag"
-                    class="ipt pr-short-ipt color-3"
-                    style="width:90px;"
-                    data-placeholder=""
-                    default-empty="全部"
-                    width="120px"
+            <select class="inline ipt-new-s pdt"
                     chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    no-first-select-source="true"
+                    default-empty="全部"
                     ng-model="listParams.regionId"
                     select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}"
-                    ng-change="getGoodsBatchsData(listParams)"
-            >
+                    ng-change="getGoodsBatchsData(listParams)">
             </select>
         </div>
 
         <div class="inline-block">
             <span class="color-9">货位：</span>
-            <select ng-if="initFlag"
-                    class="ipt pr-short-ipt color-3"
-                    style="width:90px;"
-                    data-placeholder=""
-                    default-empty="全部"
-                    width="120px"
+            <select class="inline ipt-new-s pdt"
                     chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    no-first-select-source="true"
+                    default-empty="全部"
                     ng-model="listParams.goodsLocationId"
-                    select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}"
-                    ng-change="getGoodsBatchsData(listParams)"
-            >
+                    select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}&&storeRoomId={{listParams.storeRoomId}}"
+                    ng-change="getGoodsBatchsData(listParams)">
             </select>
+
         </div>
 
 
