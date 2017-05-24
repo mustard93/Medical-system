@@ -1579,6 +1579,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         if (results[1].code === 200) {
           _reloadListData(returnUrl);
           $scope.isChoiseAll = false;
+          $scope.choisedList=[];
         }
       })
       .catch(function (error) {
