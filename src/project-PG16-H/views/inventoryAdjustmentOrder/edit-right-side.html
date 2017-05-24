@@ -1,8 +1,9 @@
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="inventoryAdjustmentOrderDialogCtrl"
+     ng-init="listParams={}"
      ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}&logisticsCenterId={{dialogData.logisticsCenterId}}&warehouseId={{dialogData.sourceId}}&isOnlyAvailable=false"
      scope-data="stockBatchList"
-     callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);listParams={}"
+     callback="initFlag=true;getChoisedBatchsId(dialogData.choisedBatchList);"
      alert-error>
 
     <!-- 标题 -->
@@ -14,10 +15,11 @@
         <!-- 仓库过滤 -->
         <div class="inline-block">
             <span class="color-9">库房：</span>
-            <select class="inline ipt-new-s pdt"
+            <select ng-if="initFlag"
+                    class="ipt pr-short-ipt color-3"
+                    default-empty="全部"
+                    width="120px"
                     chosen
-                    style="width:120px;"
-                    data-placeholder=" "
                     no-first-select-source="true"
                     default-empty="全部"
                     ng-model="listParams.storeRoomId"
@@ -28,10 +30,10 @@
 
         <div class="inline-block">
             <span class="color-9">区域：</span>
-            <select class="inline ipt-new-s pdt"
+            <select class="ipt pr-short-ipt color-3"
+                    default-empty="全部"
+                    width="120px"
                     chosen
-                    style="width:120px;"
-                    data-placeholder=" "
                     no-first-select-source="true"
                     default-empty="全部"
                     ng-model="listParams.regionId"
@@ -42,17 +44,17 @@
 
         <div class="inline-block">
             <span class="color-9">货位：</span>
-            <select class="inline ipt-new-s pdt"
+
+            <select class="ipt pr-short-ipt color-3"
+                    default-empty="全部"
+                    width="120px"
                     chosen
-                    style="width:120px;"
-                    data-placeholder=" "
                     no-first-select-source="true"
                     default-empty="全部"
                     ng-model="listParams.goodsLocationId"
                     select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}&&storeRoomId={{listParams.storeRoomId}}"
                     ng-change="getGoodsBatchsData(listParams)">
             </select>
-
         </div>
 
 
