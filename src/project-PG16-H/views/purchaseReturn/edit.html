@@ -2,7 +2,7 @@
      ng-controller="purchaseReturnController"
      ajax-url="rest/authen/purchaseReturn/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos)'
+     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos);quantityError=false;'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -136,7 +136,7 @@
                 <td class="text-center"
                     invalid-popover
                     popover-show="batchsNumOverloadFlag"
-                    popover-options='{"content":"批次数量不能大于可退货数量", "placement":"top", "trigger":"manual"}'>
+                    popover-options='{"content":"批次数量不能大于可退货数量或可用量", "placement":"top", "trigger":"manual"}'>
                   <!-- 已选批号列表 -->
                   <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                        ng-if="batch.batchNumber"
@@ -151,7 +151,7 @@
                            name="batchNum{{$index}}"
                            ng-model="batch.quantity"
                            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                           ng-change="batchsNumOverload(formData.orderMedicalNos)">
+                           ng-change="batchsNumOverload(formData.orderMedicalNos);changeQuantity(batch.quantity,batch.salesQuantity);">
                     <input type="hidden" required ng-model="batch.id">
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
@@ -250,6 +250,7 @@
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
                   ng-disabled="!saleReturnEditForm.$invalid ||
+                               quantityError||
                                !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                batchsNumOverloadFlag">提交

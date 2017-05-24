@@ -2159,6 +2159,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         stockBatchId: obj.id,                     // 批次号id
         batchNumber: obj.productionBatch,
         quantity: obj.stockModel.salesQuantity,    // 可选数量
+        salesQuantity: obj.stockModel.salesQuantity,
         goodsCount: obj.stockModel.salesQuantity,
         productionBatch: obj.productionBatch,     // 批号名
         storeRoomName:obj.storeRoomName,
@@ -2274,6 +2275,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+
+    $scope.changeQuantity = function(quantity,salesQuantity){
+      $scope.quantityError=false;
+      if(salesQuantity&&quantity){
+        if(quantity>salesQuantity){
+            $scope.quantityError=true;
+        }
+      }else{
+           $scope.quantityError=true;
+      }
+    }
 
   }
 
