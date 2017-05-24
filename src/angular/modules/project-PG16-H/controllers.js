@@ -2170,8 +2170,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         goodsCount: obj.stockModel.salesQuantity,
         productionBatch: obj.productionBatch,     // 批号名
         storeRoomName:obj.storeRoomName,
+        storeRoomId:obj.storeRoomId,
         regionName:obj.regionName,
-        goodsLocationName: obj.goodsLocationName    // 灭菌批号
+        regionId:obj.regionId,
+        goodsLocationName: obj.goodsLocationName,    // 灭菌批号
+        goodsLocationId: obj.goodsLocationId    // 灭菌批号
       };
 
       // 初始化已添加的批次数量和
