@@ -1,5 +1,4 @@
 <div class="medical-stock supplier-management child-project-management"
-     ng-controller="checkUpController"
      ng-init="listParams.checkUpStatus=mainStatus.pageParams.checkUpStatus||'待验收';">
      <!-- ng-init="listParams.checkUpStatus='待验收'" -->
   <table-list list-data="rest/authen/checkUp/query.json?checkUpStatus={{listParams.checkUpStatus}}"
@@ -7,32 +6,14 @@
               search-mode="noCaseSensitive"
               search-param="q">
 
-      <div class="medical-stock child-project-management receive-item">
+      <div class="medical-stock child-project-management receive-item" ng-controller="checkUpController">
         <!-- 主内容头部 -->
         <page-main-header-component list-params="listParams"
                                     style="min-height:130px;"
                                     crumbs-nav='[{"name":"我要收货","link":"","style":""},{"name":"验收计划","link":"","style":"color-custom-orange"}]'
                                     component-title="验收计划">
         </page-main-header-component>
-        <!-- 主内容区域 -->
-        <!-- <div class="mgl-xl status-num-list-new relative"
-             style="top:-56px;"
-             ajax-url="rest/authen/checkUp/countByStatus"
-             scope-data="statusNumList">
-          <span status-style-toggle
-                class="rect-status mgl-s"
-                ng-class="{'rect-status-active-new':listParams.checkUpStatus=='待验收'}"
-                ng-click="chgRequestStatus('待验收');listParams.checkUpStatus='待验收'">验收列表
-              <span ng-if="statusNumList['待验收']!=0">
-              (<em class="color-white" >{{statusNumList['待验收']}}</em>)
-            </span>
-          </span>
-          <span status-style-toggle
-                class="rect-status"
-                ng-class="{'rect-status-active-new':(listParams.checkUpStatus=='已完成')}"
-                ng-click="chgRequestStatus('已完成');listParams.checkUpStatus='已完成'">验收记录
-          </span>
-        </div> -->
+
 
         <div class="mgl-xl status-num-list-new"
               style="top:-56px;"

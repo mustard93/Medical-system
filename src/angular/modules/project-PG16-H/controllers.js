@@ -2460,6 +2460,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           }
         }
       }
+        console.log($scope.choisedMedicalList.length);
     };
 
     // 全选全不选
@@ -2474,6 +2475,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       } else {        // 取消全部选中
         $scope.choisedMedicalList = [];
       }
+      console.log($scope.choisedMedicalList.length);
     };
 
     // 切换请求不同状态数据
