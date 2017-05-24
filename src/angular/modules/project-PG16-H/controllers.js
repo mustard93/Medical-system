@@ -2349,6 +2349,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+        $scope.changeQuantity = function(quantity,salesQuantity){
+          $scope.quantityError=false;
+          if (quantity && salesQuantity) {
+            if (quantity>salesQuantity || quantity>$scope.formData.applicationCount) {
+            $scope.quantityError=true;
+            }
+          }else {
+            $scope.quantityError=true;
+          }
+        };
+
   }
 
   function pickStockOutMedicalController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {
@@ -2403,6 +2414,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    $scope.changeQuantity = function(quantity,salesQuantity){
+      $scope.quantityError=false;
+      if (quantity && salesQuantity) {
+        if (quantity>salesQuantity || quantity>$scope.formData.applicationCount) {
+        $scope.quantityError=true;
+        }
+      }else {
+        $scope.quantityError=true;
+      }
+    };
   }
 
   // 验收计划控制器
@@ -2550,6 +2571,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         return true;
       }
     };
+
+
   }
 
   function allocateOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm) {
