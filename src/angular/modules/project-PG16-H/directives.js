@@ -109,54 +109,65 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
         // 条码请求地址
         var _url = 'rest/authen/gs1Barcode/get';
 
-        // 监控medical以返回当前商品的条码
-        scope.$watch('medical.data.barcode', function (newVal, oldVal) {
-          if (newVal && newVal !== oldVal) {
-            // 请求商品条码
-            var _data = {
-                  "barcode": newVal,
-                  "quantity": null,
-                  "productionBatch": null,
-                  "validTill": null,
-                  "barcodeType": "一段式"
-                };
-            requestData(_url, _data, 'POST', 'parameter-body')
-            .then(function (results) {
-              if (results[1].code === 200) {
-                scope.goodsBarcode = results[1].data;   // 商品条
-                scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
-                scope.medical.data.medicalType = '一段式';   // 设置默认的条码选择样式
-              }
-            })
-            .catch(function (error) {
-              if (error) { throw new Error(error || '出错'); }
-            });
+        // 监控条码类型变化
+        scope.$watch('medical.data.medicalType', function (newVal, oldVal) {
+          if (!newVal) {
+            scope.medical.data.medicalType = '一段式';
           }
         });
 
+        // scope.$watch('medical', function (newVal) {
+        //   console.log(newVal);
+        // }, true);
+
+        // 监控medical以返回当前商品的条码
+        // scope.$watch('medical.data.barcode', function (newVal, oldVal) {
+        //   if (newVal && newVal !== oldVal) {
+        //     // 请求商品条码
+        //     var _data = {
+        //           "barcode": newVal,
+        //           "quantity": null,
+        //           "productionBatch": null,
+        //           "validTill": null,
+        //           "barcodeType": "一段式"
+        //         };
+        //     requestData(_url, _data, 'POST', 'parameter-body')
+        //     .then(function (results) {
+        //       if (results[1].code === 200) {
+        //         scope.goodsBarcode = results[1].data;   // 商品条
+        //         scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
+        //         scope.medical.data.medicalType = '一段式';   // 设置默认的条码选择样式
+        //       }
+        //     })
+        //     .catch(function (error) {
+        //       if (error) { throw new Error(error || '出错'); }
+        //     });
+        //   }
+        // });
+
         // 请求包含批号和数量的完整的条码
-        scope.getFullBarcode = function (medical) {
-          if (medical) {
-            if (medical.data.barcode) {
-              var _data = {
-                "barcode": medical.data.barcode,
-                "quantity": medical.data.quantity,
-                "productionBatch": medical.data.productionBatch,
-                "validTill": medical.data.validTill,
-                "barcodeType": medical.data.medicalType
-              };
-              requestData(_url, _data, 'POST', 'parameter-body')
-              .then(function (results) {
-                if (results[1].code === 200) {
-                  scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
-                }
-              })
-              .catch(function (error) {
-                if (error) { throw new Error(error || '出错'); }
-              });
-            }
-          }
-        };
+        // scope.getFullBarcode = function (medical) {
+        //   if (medical) {
+        //     if (medical.data.barcode) {
+        //       var _data = {
+        //         "barcode": medical.data.barcode,
+        //         "quantity": medical.data.quantity,
+        //         "productionBatch": medical.data.productionBatch,
+        //         "validTill": medical.data.validTill,
+        //         "barcodeType": medical.data.medicalType
+        //       };
+        //       requestData(_url, _data, 'POST', 'parameter-body')
+        //       .then(function (results) {
+        //         if (results[1].code === 200) {
+        //           scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
+        //         }
+        //       })
+        //       .catch(function (error) {
+        //         if (error) { throw new Error(error || '出错'); }
+        //       });
+        //     }
+        //   }
+        // };
       }
     };
   }

@@ -3041,7 +3041,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 请求包含批号和数量的完整的条码
     $scope.getFullGoodsBarcode = function (scopeData) {
+
       if (scopeData) {
+        if (!scopeData.medicalType) { scopeData.medicalType = '一段式'; }
+
         var _data = {
           "barcode": scopeData.barcode,
           "quantity": scopeData.quantity,
@@ -3049,10 +3052,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           "validTill": scopeData.validTill,
           "barcodeType": scopeData.medicalType
         };
+
         requestData(_url, _data, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
             $scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
+            $scope.enabledPrintBtn = true;
           }
         })
         .catch(function (error) {
@@ -3063,7 +3068,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 用户更改商品包装单位时的处理方法
     $scope.chgCommodityUnitEvent = function (url, unit, medical) {
-
       // 获取商品单位集合信息
       if (url && unit) {
         requestData(url)
@@ -3074,11 +3078,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               if (data.text === unit) {
                 if ($scope.medical) {
                   $scope.medical.data.quantity = parseInt(_unitObj[index].note,10);
-                  $scope.getFullBarcode(medical);
                 }
                 if ($scope.scopeData) {
                   $scope.scopeData.quantity = parseInt(_unitObj[index].note,10);
-                  $scope.getFullGoodsBarcode(medical);
                 }
               }
             });
