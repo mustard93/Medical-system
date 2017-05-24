@@ -2157,6 +2157,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {
         stockBatchId: obj.id,                     // 批次号id
+        batchNumber: obj.productionBatch,
         quantity: obj.stockModel.salesQuantity,    // 可选数量
         goodsCount: obj.stockModel.salesQuantity,
         productionBatch: obj.productionBatch,     // 批号名

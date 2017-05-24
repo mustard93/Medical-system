@@ -175,16 +175,16 @@
                   <!-- 待选择数 -->
                   <!-- <p ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p> -->
                 </td><!-- 生产批号 -->
-                <td class="text-center">
-                    <div ng-repeat="stor in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{stor.storeRoomName}}</div>
+                <td class="text-center" style="padding:0px;">
+                    <div ng-repeat="stor in item.stockBatchs" ng-class="{'bt-line-yellow':(stor.storeRoomName)}" style="padding:8px 0px;">{{stor.storeRoomName}}</div>
                 </td><!-- 仓库 -->
 
-                <td class="text-center">
-                    <div ng-repeat="reg in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{reg.regionName}}</div>
+                <td class="text-center" style="padding:0px;">
+                    <div ng-repeat="reg in item.stockBatchs" ng-class="{'bt-line-yellow':(reg.regionName)}" style="padding:8px 0px;">{{reg.regionName}}</div>
                 </td><!-- 区域 -->
 
-                <td class="text-center">
-                  <div ng-repeat="good in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{good.goodsLocationName}}</div>
+                <td class="text-center" style="padding:0px;">
+                  <div ng-repeat="good in item.stockBatchs" ng-class="{'bt-line-yellow':(good.goodsLocationName)}" style="padding:8px 0px;">{{good.goodsLocationName}}</div>
                 </td><!-- 货位 -->
                 <td class="text-center">{{item.strike_price | currency:'￥'}}</td><!-- 采购单价 -->
                 <td class="text-center">{{calculaCurrentMedicalPrice(item) | currency:'￥'}}</td><!-- 计划退货金额 -->
