@@ -112,6 +112,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                       alertError(error || '出错');
                   });
           }
+
+          if ($scope.submitForm_type == 'exit') {
+              $scope.goTo('#/inventoryAdjustmentOrder/query.html');
+              return;
+          }
+
+
       };
 
 
@@ -2157,7 +2164,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       // 构建临时对象存储批号id、批号名和数量
       var _tmp = {
         stockBatchId: obj.id,                     // 批次号id
+        batchNumber: obj.productionBatch,
         quantity: obj.stockModel.salesQuantity,    // 可选数量
+        salesQuantity: obj.stockModel.salesQuantity,
         goodsCount: obj.stockModel.salesQuantity,
         productionBatch: obj.productionBatch,     // 批号名
         storeRoomName:obj.storeRoomName,
@@ -2274,6 +2283,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    $scope.changeQuantity = function(quantity,salesQuantity){
+      $scope.quantityError=false;
+      if(salesQuantity&&quantity){
+        if(quantity>salesQuantity){
+            $scope.quantityError=true;
+        }
+      }else{
+           $scope.quantityError=true;
+      }
+    }
+
   }
 
   // 上架计划控制器
@@ -2329,6 +2349,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+        $scope.changeQuantity = function(quantity,salesQuantity){
+          $scope.quantityError=false;
+          if (quantity && salesQuantity) {
+            if (quantity>salesQuantity || quantity>$scope.formData.applicationCount) {
+            $scope.quantityError=true;
+            }
+          }else {
+            $scope.quantityError=true;
+          }
+        };
+
   }
 
   function pickStockOutMedicalController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {
@@ -2383,6 +2414,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    $scope.changeQuantity = function(quantity,salesQuantity){
+      $scope.quantityError=false;
+      if (quantity && salesQuantity) {
+        if (quantity>salesQuantity || quantity>$scope.formData.applicationCount) {
+        $scope.quantityError=true;
+        }
+      }else {
+        $scope.quantityError=true;
+      }
+    };
   }
 
   // 验收计划控制器
@@ -2530,6 +2571,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         return true;
       }
     };
+
+
   }
 
   function allocateOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm) {

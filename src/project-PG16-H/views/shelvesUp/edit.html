@@ -1,7 +1,8 @@
 <div class="modal-content right-side-new pr-bg-black4"
+     ng-controller="shelvesUpController"
      ajax-url="rest/authen/shelvesUp/getOfEdit.json?id={{dialogData.id}}"
      scope-data="formData"
-     callback="initFlag=true;"
+     callback="initFlag=true;quantityError=false;formData.shelvesUpQuantity=formData.planShelvesUpQuantity;"
      alert-error>
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
@@ -32,7 +33,7 @@
             <th class="text-center pd-v">生产批号</th>
             <th class="text-center pd-v">区域名称</th>
             <th class="text-center pd-v">货位名称</th>
-            <th class="text-center pd-v">实际上架数量（{{formData.unit}}）</th>
+            <th class="text-center pd-v">实际上架数量（{{formData.packingAttribute.name}}）</th>
           </tr>
         </thead>
         <tbody class="bg-white">
@@ -66,13 +67,17 @@
                 <option ng-repeat="item in selectOptions" value="{{item.value}}">{{item.text}}</option>
               </select>
             </td>
-            <td class="text-center color-white pd">
-              <input type="number"
+            <td class="text-center pd">
+              <input type="text"
                      class="inline ipt pr-ipt-60 text-center"
+                     invalid-popover
+                     popover-show="quantityError"
+                     popover-options='{"content":"实际上架数量不能大于计划拣上架数量", "placement":"top", "trigger":"manual"}'
                      style="width:110px;"
-                     onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                     ng-model="formData.shelvesUpQuantity" />
-            </td><!-- 本次收货数量 -->
+                     onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                     ng-model="formData.shelvesUpQuantity"
+                     ng-change="changeQuantity(formData.shelvesUpQuantity,formData.planShelvesUpQuantity)"/>
+            </td><!-- 本次上架数量 -->
           </tr>
         </tbody>
       </table>
@@ -163,7 +168,7 @@
         </div>
       </div>
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
-      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+      <button type="submit" ng-disabled="quantityError" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
     </div>
   </form>
 </div>
