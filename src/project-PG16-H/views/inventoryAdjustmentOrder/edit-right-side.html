@@ -20,10 +20,12 @@
                     default-empty="全部"
                     width="120px"
                     chosen
+                    no-first-select-source="true"
+                    default-empty="全部"
                     ng-model="listParams.storeRoomId"
                     select-source="rest/authen/storeRoom/queryForSelectOption"
                     ng-change="getGoodsBatchsData(listParams)">
-          </select>
+            </select>
         </div>
 
         <div class="inline-block">
@@ -32,6 +34,8 @@
                     default-empty="全部"
                     width="120px"
                     chosen
+                    no-first-select-source="true"
+                    default-empty="全部"
                     ng-model="listParams.regionId"
                     select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}"
                     ng-change="getGoodsBatchsData(listParams)">
@@ -40,12 +44,15 @@
 
         <div class="inline-block">
             <span class="color-9">货位：</span>
+
             <select class="ipt pr-short-ipt color-3"
                     default-empty="全部"
                     width="120px"
                     chosen
+                    no-first-select-source="true"
+                    default-empty="全部"
                     ng-model="listParams.goodsLocationId"
-                    select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}"
+                    select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}&&storeRoomId={{listParams.storeRoomId}}"
                     ng-change="getGoodsBatchsData(listParams)">
             </select>
         </div>
