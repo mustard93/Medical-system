@@ -125,7 +125,7 @@
               <table class="table pr-table pr-new-table pr-table-content table-wid-l" style="min-width:2500px;">
                 <thead class="pr-bg-side">
                   <tr>
-                    <th class="w-60 text-center mycheck">
+                    <th ng-if="listParams.checkUpStatus!='已完成'" class="w-60 text-center mycheck">
                       <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                       <label for="1"></label>
                     </th>
@@ -154,7 +154,7 @@
                       ng-repeat="tr in tbodyList track by $index"
                       class="relative"
                       table-item-multiple-btn>
-                    <td class="select-td text-center mycheck">
+                    <td ng-if="listParams.checkUpStatus!='已完成'" class="select-td text-center mycheck">
                       <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                       <label for="{{$index+2}}"></label>
                     </td>
