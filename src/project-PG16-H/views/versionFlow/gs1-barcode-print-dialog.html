@@ -3,12 +3,13 @@
      ajax-url="rest/authen/medicalStock/get?id={{dialogData.id}}"
      scope-data="scopeData"
      alert-error
-     callback="initFlag=true;getGoodsBarcode(scopeData.barcode);$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1}">
+     callback="initFlag=true;$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1};enabledPrintBtn=false;scopeData.medicalType='一段式'">
   <div class="modal-header">
     <h4 class="modal-title color-or">GS1条码打印</h4>
   </div>
   <div class="modal-body modal-body-new">
     <div class="pd-c-xxxxl bb-dashed-line mgt-l">
+      <div id="installNoteDiv" class="mgb-xl"></div>
       <div class="flex-column" style="line-height:2.9;">
         <label class="text-right control-label text-normal">商品名称：</label>
         <div class="inline-block color-white text-left">{{scopeData.name}}</div>
@@ -23,13 +24,13 @@
       </div>
       <div class="flex-column" style="line-height:2.9;">
         <label class="text-right control-label text-normal">商品条码：</label>
-        <div ng-if="goodsBarcode" class="inline-blockcolor-3 text-left" style="line-height:2.9"><img ng-src="{{goodsBarcode}}" alt="商品条码"></div>
+        <div class="inline-block color-white text-left" style="line-height:2.9">{{scopeData.barcode}}</div>
       </div>
       <div class="flex-column mgt" style="line-height:2.9;">
         <label class="text-right control-label text-normal">商品单位：</label>
-        <div class="inline-blockcolor-3 text-left pdt-s">
-          <select class="pr-select pdt"
-                  style="width:160px;"
+        <div class="inline-blockcolor-3 text-left">
+          <select ng-if="initFlag" class="pr-select pdt"
+                  style="width:120px;"
                   chosen
                   ng-model="scopeData.unit"
                   select-source="rest/authen/medicalStock/getPackingAttributeById?id={{scopeData.id}}"
@@ -44,7 +45,6 @@
                  class="ipt pr-short-ipt"
                  name="code"
                  ng-model="scopeData.quantity"
-                 ng-change="getFullGoodsBarcode(scopeData)"
                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
           <!-- <span class="color-white">({{medical.data.packingAttribute.name}}) <em class="color-or">(选填)</em></span> -->
           <span class="color-6 mgr-0">({{scopeData.packingAttribute.name}}) </span>
@@ -54,11 +54,10 @@
       <div class="flex-column mgt" style="line-height:2.9;">
         <label class="text-right control-label text-normal">生产批号：</label>
         <div class="inline-block color-3 text-left">
-          <input type="text"
+          <input ng-if="initFlag" type="text"
                  class="ipt pr-short-ipt"
                  name="code"
-                 ng-model="scopeData.productionBatch"
-                 ng-change="getFullGoodsBarcode(scopeData)" />
+                 ng-model="scopeData.productionBatch" />
           <span class="color-or">(选填)</span>
         </div>
       </div>
@@ -72,8 +71,7 @@
                    style="position:relative;left:-1px;top:-3px;"
                    ng-readonly="true"
                    ng-model="scopeData.validTill"
-                   placeholder=""
-                   ng-change="getFullGoodsBarcode(scopeData)">
+                   placeholder="" />
             <span class="date-icon"></span>
           </div>
           <span class="color-or">(选填)</span>
@@ -92,18 +90,34 @@
       </div>
       <div class="flex-column mgt" style="line-height:2.9;">
         <label class=" text-right control-label text-normal">条码类型：</label>
-        <div class="inline-block color-3 text-left" style="line-height:3.0">
+        <div class="inline-block color-3 text-left" style="line-height:3.0" ng-init="scopeData.medicalType='一段式'">
           <label class="mgr-l text-normal cur-pot color-white">
-            <input type="radio" name="medicalType" style="position:relative;top:2px;" ng-checked="true" ng-model="scopeData.medicalType" value="一段式" ng-click="getFullGoodsBarcode(scopeData)" /> 一段式
+            <input type="radio"
+                   name="medicalType"
+                   style="position:relative;top:2px;"
+                   ng-checked="true"
+                   ng-model="scopeData.medicalType"
+                   value="一段式" /> 一段式
           </label>
           <label class="text-normal cur-pot color-white">
-            <input type="radio" name="medicalType" style="position:relative;top:2px;" ng-model="scopeData.medicalType" value="二段式" ng-click="getFullGoodsBarcode(scopeData)" /> 二段式
+            <input type="radio"
+                   name="medicalType"
+                   style="position:relative;top:2px;"
+                   ng-model="scopeData.medicalType"
+                   value="二段式" /> 二段式
           </label>
         </div>
       </div>
     </div>
     <div class="pd-c-xxxxl">
-      <h1 class="text-bold">打印预览<span class="color-9 text-normal">（右键条码图片另存为可下载到本地）</span></h1>
+      <h1 class="text-bold">
+        <button type="button"
+                class="btn pr-btn-create-glodbg"
+                style="font-size:12px;width:85px;height:32px;line-height:1;"
+                ng-click="getFullGoodsBarcode(scopeData)">打印预览
+        </button>
+        <span class="color-9 text-normal">（右键条码图片另存为可下载到本地）</span>
+      </h1>
 
       <div ajax-url="rest/authen/uiCustomHtml/getByKey.json?key=goodsFullBarcode"
            scope-data="uiCustomHtml"
@@ -123,6 +137,7 @@
     <button type="button"
             class="ngdialog-close btn pr-btn-create-glodbg "
             style="width:160px;height:32px;	margin-top: 8px;margin-left:270px;"
+            ng-disabled="!enabledPrintBtn || $root.OPrinter.chkInstallPluin()"
             ng-click="$root.OPrinter.print(printer.num)">打印
     </button>
   </div>

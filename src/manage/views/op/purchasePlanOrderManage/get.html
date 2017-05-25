@@ -1,0 +1,46 @@
+
+        <div class="modal-content pr-modal-content color-yellow1 right-side-new pr-bg-black4" ng-controller="editCtrl"
+         ajax-url="rest/authen/op/purchasePlanOrder/get.json?id={{tr.id}}"  scope-data="formData"  alert-error
+         callback="initFlag=true">
+
+          <div class="add-medical-form form-horizontal">
+            <div class="modal-header">
+                <h4 class="modal-title">采购订单管理详情</h4>
+            </div>
+            <div class="modal-body modal-body-new outside-div">
+              <div class="flex-column">
+                <div class="flex-item-6 text-right">
+                  医院订单编号：
+                </div>
+                <div class="flex-item-6 text-left">
+                  {{formData.}}
+                </div>
+              </div>
+              <table class="table" style="border-top:1px solid rgba(199,167,123,0.60); ">
+                  <thead>
+                      <tr>
+                          <th>商品名称</th>
+                          <th>商品编号</th>
+                          <th>单价</th>
+                          <th>数量</th>
+                          <th>总价</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr ng-repeat="tr in formData.orderMedicalNos">
+                          <td>{{tr.hospitalMedicalName}}</td>
+                          <td>{{tr.hospitalMedicalCode}}</td>
+                          <td>{{tr.strike_price}}</td>
+                          <td>
+                            {{tr.quantity}}
+                          </td>
+                          <td>
+                            {{tr.totalPrice}}
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+
+            </div>
+            </div>
+        </div>

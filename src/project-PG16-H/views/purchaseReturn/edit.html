@@ -2,7 +2,7 @@
      ng-controller="purchaseReturnController"
      ajax-url="rest/authen/purchaseReturn/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos)'
+     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos);quantityError=false;'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -64,8 +64,8 @@
           <div class="flex-column pdt-m pdb-m pd-c-l bb-dashed-line-new color-9">
             <div class="flex-item-6">
               <span class="mgr-l">采购退货编码：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-              <span class="mgr-l">审核人：<em class="color-3">{{'暂无'}}</em></span>
-              <span class="mgr-l">审核时间：<em class="color-3">{{'暂无'}}</em></span>
+              <span class="mgr-l">审核人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">审核时间：<em class="color-3">{{formData.approver.approverDate | date:'yyyy-MM-dd'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
               <span>制单人：<em class="color-custom-orange">{{formData.saleUser.n || '暂无'}}</em></span>
@@ -136,7 +136,7 @@
                 <td class="text-center"
                     invalid-popover
                     popover-show="batchsNumOverloadFlag"
-                    popover-options='{"content":"批次数量不能大于可退货数量", "placement":"top", "trigger":"manual"}'>
+                    popover-options='{"content":"批次数量不能大于可退货数量或可用量", "placement":"top", "trigger":"manual"}'>
                   <!-- 已选批号列表 -->
                   <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                        ng-if="batch.batchNumber"
@@ -151,7 +151,7 @@
                            name="batchNum{{$index}}"
                            ng-model="batch.quantity"
                            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                           ng-change="batchsNumOverload(formData.orderMedicalNos)">
+                           ng-change="batchsNumOverload(formData.orderMedicalNos);changeQuantity(batch.quantity,batch.salesQuantity);">
                     <input type="hidden" required ng-model="batch.id">
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
@@ -175,9 +175,17 @@
                   <!-- 待选择数 -->
                   <!-- <p ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p> -->
                 </td><!-- 生产批号 -->
-                <td class="text-center">{{item.storeRoomName}}</td><!-- 仓库 -->
-                <td class="text-center">{{item.regionName}}</td><!-- 区域 -->
-                <td class="text-center">{{item.goodsLocationName}}</td><!-- 货位 -->
+                <td class="text-center" style="padding:0px;">
+                    <div ng-repeat="stor in item.stockBatchs" ng-class="{'bt-line-yellow':(stor.storeRoomName)}" style="padding:8px 0px;">{{stor.storeRoomName}}</div>
+                </td><!-- 仓库 -->
+
+                <td class="text-center" style="padding:0px;">
+                    <div ng-repeat="reg in item.stockBatchs" ng-class="{'bt-line-yellow':(reg.regionName)}" style="padding:8px 0px;">{{reg.regionName}}</div>
+                </td><!-- 区域 -->
+
+                <td class="text-center" style="padding:0px;">
+                  <div ng-repeat="good in item.stockBatchs" ng-class="{'bt-line-yellow':(good.goodsLocationName)}" style="padding:8px 0px;">{{good.goodsLocationName}}</div>
+                </td><!-- 货位 -->
                 <td class="text-center">{{item.strike_price | currency:'￥'}}</td><!-- 采购单价 -->
                 <td class="text-center">{{calculaCurrentMedicalPrice(item) | currency:'￥'}}</td><!-- 计划退货金额 -->
                 <td class="text-center">{{item.actualReturnPrice}}</td><!-- 实际退货金额 -->
@@ -242,6 +250,7 @@
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
                   ng-disabled="!saleReturnEditForm.$invalid ||
+                               quantityError||
                                !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                batchsNumOverloadFlag">提交

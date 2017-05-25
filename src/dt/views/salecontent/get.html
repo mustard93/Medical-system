@@ -174,7 +174,20 @@
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
         <a class="mgr-l" ng-href="#/salecontent/query.html" >返回销售目录列表</a>
-        <a class="mgr-l" ng-href="#/salecontent/query.html" >查看操作记录</a>
+
+        <a href="javascript:;"
+           modal-right="800"
+           modal-scope="this"
+           modal-data='{"type":"modalRight",
+                        "modalWidth":"800",
+                        "aclass":"color-orange add-return-order mgl-s",
+                        "requestUrl":"rest/authen/versionFlow/query?businessKey={{formData.id}}",
+                        "httpMethod":"GET",
+                        "ahref":"views/versionFlow/get-right-side.html?businessKey={{formData.id}}",
+                        "showName":"查看操作记录"}'
+           modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">查看操作记录
+        </a>
+
         <span class="mgl">
           <button class="pr-btn-save-glodbg mgt" ng-click="$root.goTo('#/salecontent/edit.html?id='+mainStatus.pageParams.id+'&customerAddressId='+mainStatus.pageParams.customerAddressId)">编辑</button>
         </span>

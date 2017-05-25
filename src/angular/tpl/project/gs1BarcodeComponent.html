@@ -1,17 +1,19 @@
 <div class="content-wrapper-main mgt pr-fuzzy-boundary"
      ng-controller="cfgGoodsBarcodeCtroller"
-     ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1}">
+     ng-init="$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1};enabledPrintBtn=false;">
+
   <form class="form-horizontal" id="editForm">
     <!-- 内容表单 -->
     <div class="panel pr-panel pr-fuzzy-boundary pr-panel pr-fuzzy-boundary-height" style="padding-left:50px;">
       <div class="pd-v-m bb-dashed-line">
+        <div id="installNoteDiv" class="mgb-xl"></div>
         <div class="flex-column mgt">
           <label class="text-right control-label text-normal">商品名称：</label>
           <div class="inline-block color-3 text-left">
             <span angucomplete-medical
                   placeholder=""
                   title-field="name"
-                  url="rest/authen/medicalStock/query"
+                  url="rest/authen/medicalStock/query.json"
                   ng-model="medical"
                   class="inline-block medical-search"
                   custom-style="height:30px;">
@@ -28,7 +30,7 @@
         </div>
         <div class="flex-column mgt">
           <label class="text-right control-label text-normal">商品条码：</label>
-          <div ng-if="goodsBarcode" class="inline-blockcolor-3 text-left" style="line-height:2.9"><img ng-src="{{goodsBarcode}}" alt="商品条码"></div>
+          <div class="inline-blockcolor-3 text-left" style="line-height:2.9">{{medical.data.barcode}}</div>
         </div>
         <div class="flex-column mgt">
           <label class="text-right control-label text-normal">商品单位：</label>
@@ -36,6 +38,7 @@
             <select class="pr-select pdt"
                     style="width:160px;"
                     chosen
+                    data-placeholder=" "
                     ng-model="medical.data.unit"
                     select-source="rest/authen/medicalStock/getPackingAttributeById?id={{medical.data.id}}"
                     ng-change='chgCommodityUnitEvent("rest/authen/medicalStock/getPackingAttributeById?id={{medical.data.id}}",medical.data.unit,medical)'>
@@ -49,7 +52,6 @@
                    class="ipt pr-short-ipt"
                    name="code"
                    ng-model="medical.data.quantity"
-                   ng-change="getFullBarcode(medical)"
                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
             <span class="color-6 mgr-0" ng-if="medical.data.unit">({{medical.data.packingAttribute.name}}) </span>
             <span class="color-9">(选填)</span>
@@ -61,8 +63,7 @@
             <input type="text"
                    class="ipt pr-short-ipt"
                    name="code"
-                   ng-model="medical.data.productionBatch"
-                   ng-change="getFullBarcode(medical)" />
+                   ng-model="medical.data.productionBatch" />
             <span class="color-9">(选填)</span>
           </div>
         </div>
@@ -75,8 +76,7 @@
                      class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
                      ng-readonly="true"
                      ng-model="medical.data.validTill"
-                     placeholder=""
-                     ng-change="getFullBarcode(medical)">
+                     placeholder="">
               <span class="date-icon"></span>
             </div>
             <span class="color-9">(选填)</span>
@@ -95,18 +95,35 @@
         </div>
         <div class="flex-column mgt">
           <label class=" text-right control-label text-normal">条码类型：</label>
-          <div class="inline-block color-3 text-left" style="line-height:3.0">
+          <div class="inline-block color-3 text-left" style="line-height:3.0" ng-init="medical.data.medicalType='一段式'">
             <label class="mgr-l text-normal cur-pot">
-              <input type="radio" name="medicalType" style="position:relative;top:2px;" ng-checked="true" ng-model="medical.data.medicalType" value="一段式" ng-click="getFullBarcode(medical)" /> 一段式
+              <input type="radio"
+                     name="medicalType"
+                     style="position:relative;top:2px;"
+                     ng-checked="true"
+                     ng-model="medical.data.medicalType"
+                     value="一段式" /> 一段式
             </label>
             <label class="text-normal cur-pot">
-              <input type="radio" name="medicalType" style="position:relative;top:2px;" ng-model="medical.data.medicalType" value="二段式" ng-click="getFullBarcode(medical)" /> 二段式
+              <input type="radio"
+                     name="medicalType"
+                     style="position:relative;top:2px;"
+                     ng-model="medical.data.medicalType"
+                     value="二段式" /> 二段式
             </label>
           </div>
         </div>
       </div>
       <div class="pd-v-m">
-        <h1 class="text-bold">打印预览<span class="color-9 text-normal">（右键条码图片另存为可下载到本地）</span></h1>
+        <h1 class="text-bold">
+          <button type="button"
+                  class="btn pr-btn-create-glodbg"
+                  style="font-size:12px;width:85px;height:32px;line-height:1;"
+                  ng-click="getFullGoodsBarcode(medical.data)"
+                  ng-disabled="!medical.data.barcode">打印预览
+          </button>
+          <span class="color-9 text-normal">（右键条码图片另存为可下载到本地）</span>
+        </h1>
 
         <div ajax-url="rest/authen/uiCustomHtml/getByKey.json?key=goodsFullBarcode"
              scope-data="uiCustomHtml"
@@ -132,7 +149,7 @@
 
           <button class="pr-btn-create-glodbg mgt"
                   type="button"
-                  ng-disabled="!goodsBarcode || !goodsFullBarcode"
+                  ng-disabled="!enabledPrintBtn"
                   ng-click="$root.OPrinter.print(printer.num)">打印
           </button>
         </span>

@@ -34,43 +34,13 @@
       <div class="content-wrapper-main pr-fuzzy-boundary">
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white ">
           <div class="flex-item-8">
-            <!-- <div class="inline-block mgr-s relative">
-              <p class="mgb-s">采购计划编号：</p>
-              <input type="text"
-                     class="inline ipt pr-ipt-60"
-                     style="width:160px;"
-                     placeholder=""
-                     ng-model="listParams.purchasePlanOrderCode"
-                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=purchasePlanOrderCode"/>
-              <i class="receive-item-icon"></i>
-              </select>
-            </div>
-            <div class="inline-block mgr-s relative">
-              <p class="mgb-s">物流编号：</p>
-              <input type="text"
-                     class="inline ipt pr-ipt-60"
-                     style="width:160px;"
-                     placeholder=""
-                     ng-model="listParams.logisticCode"
-                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=logisticCode"/>
-              <i class="receive-item-icon"></i>
-            </div>
-            <div class="inline-block mgr-s relative">
-              <p class="mgb-s">销售单编号：</p>
-              <input type="text"
-                     class="inline ipt pr-ipt-60"
-                     style="width:160px;"
-                     placeholder=""
-                     ng-model="listParams.dtOrderCode"
-                     auto-complete="rest/index/autoComplete?tableName=SPD.Order.ReceiveItem&property=dtOrderCode"/>
-              <i class="receive-item-icon"></i>
-            </div>-->
             <div class="inline-block mgr-s">
               <p class="mgb-s">库房：</p>
               <select class="inline ipt-new-s pdt"
                       chosen
                       style="width:120px;"
                       data-placeholder=" "
+                      no-first-select-source="true"
                       default-empty="全部"
                       ng-model="listParams.storeRoomId"
                       select-source="rest/authen/storeRoom/queryForSelectOption">
@@ -82,6 +52,7 @@
                       chosen
                       style="width:120px;"
                       data-placeholder=" "
+                      no-first-select-source="true"
                       default-empty="全部"
                       ng-model="listParams.regionId"
                       select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}">
@@ -93,6 +64,7 @@
                       chosen
                       style="width:120px;"
                       data-placeholder=" "
+                      no-first-select-source="true"
                       default-empty="全部"
                       ng-model="listParams.goodsLocationId"
                       select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}">
@@ -204,13 +176,13 @@
                 <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
                 <td ng-class="{'color-red':(tr.isQualified=='否')}" class="text-center" >{{tr.isQualified}}</td><!-- 序号 -->
                 <td>
-                  <a class="color-orange" href="#/medicalStock/get.html?id={{tr.relId}}">
+                  <a class="color-orange" href="#/medicalStock/get.html?id={{tr.relMedicalStockId}}">
                     {{tr.code}}
                   </a>
                   </td><!-- 商品编号 -->
                 <td class="text-left">
                   <div class="autocut" title="{{tr.name}}">
-                    <a class="color-orange" href="#/medicalStock/get.html?id={{tr.relId}}">
+                    <a class="color-orange" href="#/medicalStock/get.html?id={{tr.relMedicalStockId}}">
                         {{tr.name}}
                     </a>
                   </div>

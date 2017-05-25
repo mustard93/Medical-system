@@ -1,7 +1,8 @@
 <div class="modal-content right-side-new pr-bg-black4"
-     ng-controller="editCtrl"
+     ng-controller="pickStockOutMedicalController"
      ajax-url="rest/authen/pickStockOutMedical/getOfEdit.json?id={{dialogData.id}}"
      scope-data="formData"
+     callback="initFlag=true;quantityError=false;"
      alert-error>
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
@@ -13,9 +14,9 @@
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        onkeydown="if(window.event.keyCode==13) return false;"
-        callback="$root.watchFormChange('formData',this)"
+        callback="$root.watchFormChange('formData',this);"
         novalidate="true">
+
     <div class="bb-line-gold pr-bg-black2 min-h-l">
       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{formData.name}}-拣选</h1>
     </div>
@@ -47,16 +48,25 @@
             </td>
           <td class="text-center color-white pd">{{formData.productionBatch}}</td><!-- 生产批号 -->
 
-          <td class="text-center color-white pd">
-          {{formData.quantity}}
-          </td><!-- 可数量 -->
-          <td class="text-center color-white pd">
-            <input type="number"
-                   class="inline ipt pr-ipt-60 text-center"
-                   style="width:100px;"
-                   onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                   ng-model="formData.pickNo" />
-          </td><!--实数量 -->
+          <div class=""
+          ajax-url="rest/authen/medicalStock/getByStockBatch?relMedicalStockId={{formData.relMedicalStockId}}&productionBatch={{formData.productionBatch}}&goodsLocationId={{formData.goodsLocationId}}"
+          scope-data="scopeData"
+          callback="finalQuantity(formData.applicationCount,scopeData.stockModel.salesQuantity)">
+              <td class="text-center color-white pd">
+              {{scopeData.stockModel.salesQuantity}}
+              </td><!-- 可数量 -->
+              <td class="text-center pd">
+                <input type="text"
+                       class="inline ipt pr-ipt-60 text-center"
+                       invalid-popover
+                       popover-show="quantityError"
+                       popover-options='{"content":"实拣数量不能大于可拣选量或计划拣选数量", "placement":"top", "trigger":"manual"}'
+                       style="width:100px;color:black;"
+                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                       ng-model="formData.pickNo"
+                       ng-change="changeQuantity(formData.pickNo,scopeData.stockModel.salesQuantity)"/>
+              </td><!--实数量 -->
+          </div>
           </tr>
         </tbody>
       </table>
@@ -103,7 +113,7 @@
         </div>
       </div>
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
-      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+      <button type="submit" ng-disabled="quantityError" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
     </div>
   </form>
 </div>

@@ -1,7 +1,8 @@
 <div class="modal-content right-side-new pr-bg-black4"
+     ng-controller="shelvesUpController"
      ajax-url="rest/authen/shelvesUp/getOfEdit.json?id={{dialogData.id}}"
      scope-data="formData"
-     callback="initFlag=true;"
+     callback="initFlag=true;quantityError=false;formData.shelvesUpQuantity=formData.planShelvesUpQuantity;"
      alert-error>
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
@@ -14,7 +15,7 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         onkeydown="if(window.event.keyCode==13) return false;"
-        callback="$root.watchFormChange('formData',this)"
+        callback="$root.watchFormChange('formData',this);$root.utils.goTo('#/shelvesUp/query.html')"
         novalidate="true">
     <div class="bb-line-gold pr-bg-black2 min-h-l">
       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{formData.name}} - 上架</h1>
@@ -29,10 +30,10 @@
       <table class="full-width another-table " style="background-color:rgba(77,68,59,1);">
         <thead>
           <tr class="bb-line-gold">
-            <th class="text-center">生产批号</th>
-            <th class="text-center">区域名称</th>
-            <th class="text-center">货位名称</th>
-            <th class="text-center">实际上架数量（{{formData.unit}}）</th>
+            <th class="text-center pd-v">生产批号</th>
+            <th class="text-center pd-v">区域名称</th>
+            <th class="text-center pd-v">货位名称</th>
+            <th class="text-center pd-v">实际上架数量（{{formData.packingAttribute.name}}）</th>
           </tr>
         </thead>
         <tbody class="bg-white">
@@ -42,7 +43,7 @@
               <select ng-if="formData.isQualified=='是'"
                       class="inline ipt-new-s"
                       chosen
-                      style="width:120px;"
+                      style="width:110px;"
                       data-placeholder=" "
                       ng-model="formData.regionId"
                       select-source="rest/authen/region/queryForSelectOption?type=正常&storeRoomId={{formData.storeRoomId}}">
@@ -50,35 +51,33 @@
               <select ng-if="formData.isQualified=='否'"
                       class="inline ipt-new-s"
                       chosen
-                      style="width:120px;"
+                      style="width:110px;"
                       data-placeholder=" "
                       ng-model="formData.regionId"
                       select-source="rest/authen/region/queryForSelectOption?type=待处理&storeRoomId={{formData.storeRoomId}}">
               </select>
             </td>
             <td  class="text-center color-white pd">
-              <!-- <select class="inline ipt-new-s"
-                      chosen
-                      style="width:120px;"
-                      data-placeholder=" "
-                      ng-model="formData.goodsLocationId"
-                      select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}">
-              </select> -->
               <select ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
                       scope-data="selectOptions"
-                      class="pr-select-sm"
-                      ng-model="formData.goodsLocationId">
+                      class="inline ipt-new-s"
+                      style="width:110px;height:26px;border-radius:2px;"
+                      ng-model="formData.goodsLocationId"
+                      ng-disabled="!formData.regionId">
                 <option ng-repeat="item in selectOptions" value="{{item.value}}">{{item.text}}</option>
               </select>
             </td>
-
-          <td class="text-center color-white pd">
-            <input type="number"
-                   class="inline ipt pr-ipt-60 text-center"
-                   style="width:100px;"
-                   onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                   ng-model="formData.shelvesUpQuantity" />
-          </td><!-- 本次收货数量 -->
+            <td class="text-center pd">
+              <input type="text"
+                     class="inline ipt pr-ipt-60 text-center"
+                     invalid-popover
+                     popover-show="quantityError"
+                     popover-options='{"content":"实际上架数量不能大于计划上架数量", "placement":"top", "trigger":"manual"}'
+                     style="width:110px;"
+                     onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                     ng-model="formData.shelvesUpQuantity"
+                     ng-change="changeQuantity(formData.shelvesUpQuantity,formData.planShelvesUpQuantity)"/>
+            </td><!-- 本次上架数量 -->
           </tr>
         </tbody>
       </table>
@@ -169,7 +168,7 @@
         </div>
       </div>
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
-      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+      <button type="submit" ng-disabled="quantityError" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
     </div>
   </form>
 </div>
