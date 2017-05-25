@@ -2621,12 +2621,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 检查任务列表是否含有可进行复核的任务
     $scope.chkHasReviewTasks = function (tbodyList) {
       if (tbodyList) {
+        var types=[];
         angular.forEach(tbodyList, function (data, index) {
-          if (data.type === '待复核') {
-            return false;
-          }
+          types.push(data.type);
         });
-        return true;
+        if (types.some(function(item){ return item == '待复核';}))
+        {
+          return false;
+        }else{
+          return true;
+        }
       }
     };
 
