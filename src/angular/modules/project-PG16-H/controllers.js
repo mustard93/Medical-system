@@ -2978,8 +2978,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 在确定之前，修改商品后需要清空上一个商品填写的信息
     $scope.$watch('formData.relMedicalStockId', function (newVal, oldVal) {
-      if (newVal) {
-        if($scope.formData.productionBatch){
+      console.log("newVal="+newVal);
+      console.log("oldVal="+oldVal);
+      if (newVal && newVal!==oldVal) {
           $scope.formData.productionBatch='';
           $scope.formData.storeRoomId='';
           $scope.formData.sourceRegionId='';
@@ -2990,7 +2991,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           $scope.formData.transferQuantity='';
           $scope.formData.storeRoomName='';
           $scope.formData.transferReason='';
-        }
       }
     })
 
