@@ -15,7 +15,7 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         onkeydown="if(window.event.keyCode==13) return false;"
-        callback="$root.watchFormChange('formData',this)"
+        callback="$root.watchFormChange('formData',this);$root.utils.goTo('#/shelvesUp/query.html')"
         novalidate="true">
     <div class="bb-line-gold pr-bg-black2 min-h-l">
       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">{{formData.name}} - 上架</h1>
@@ -72,7 +72,7 @@
                      class="inline ipt pr-ipt-60 text-center"
                      invalid-popover
                      popover-show="quantityError"
-                     popover-options='{"content":"实际上架数量不能大于计划拣上架数量", "placement":"top", "trigger":"manual"}'
+                     popover-options='{"content":"实际上架数量不能大于计划上架数量", "placement":"top", "trigger":"manual"}'
                      style="width:110px;"
                      onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                      ng-model="formData.shelvesUpQuantity"

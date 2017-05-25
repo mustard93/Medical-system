@@ -333,7 +333,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      *  主页面控制器
      */
-    function pageCtrl($scope, modal, dialogConfirm, $timeout) {
+    function pageCtrl($scope, modal, dialogConfirm, $timeout,requestData, utils) {
         modal.closeAll();
 
         // 取消返回
@@ -348,6 +348,20 @@ define('main/controllers', ['main/init'], function () {
           dialogConfirm(_text, function () {
             $scope.pageTo(_url);
           }, _mode, _title, _url);
+        };
+
+        // 重新发送操作
+        $scope.resetSend = function (_id) {
+            var _url = 'rest/authen/op/purchasePlanOrder/sendOrder?id='+_id;
+            requestData(_url,  {}, 'POST')
+            .then(function (results) {
+              if (results[1].code === 200) {
+                utils.refreshHref();
+              }
+            })
+            .catch(function (error) {
+              if (error) { throw new Error(error || '出错'); }
+            });
         };
 
         // easypiechart 全局样式定义
@@ -372,10 +386,12 @@ define('main/controllers', ['main/init'], function () {
         modal.closeAll();
     }
 
+
+
     angular.module('manageApp.main')
         .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter",
         "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
-        .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
+        .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils",pageCtrl]);
 });

@@ -9,6 +9,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       //调整
       $scope.flag=false;
 
+      $scope.updateFlag=function (flag) {
+          $scope.flag=flag;
+      }
+
       $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
       };
@@ -600,6 +604,21 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.endReceipt = function (id) {
       if (id) {
         requestData('rest/authen/receiveItem/endReceipt?id=' + id, '', 'POST')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            utils.refreshHref();
+            alertOk('操作成功');
+          }
+        })
+        .catch(function (error) {
+          alertError(error || '出错');
+        });
+      }
+    };
+    // 全部拒收
+    $scope.allReceipt = function (id) {
+      if (id) {
+        requestData('rest/authen/receiveItem/refuse?id=' + id, '', 'POST')
         .then(function (results) {
           if (results[1].code === 200) {
             utils.refreshHref();
@@ -1579,6 +1598,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         if (results[1].code === 200) {
           _reloadListData(returnUrl);
           $scope.isChoiseAll = false;
+          $scope.choisedList=[];
         }
       })
       .catch(function (error) {
@@ -1814,6 +1834,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
        }
        //添加到列表
        $scope.formData.orderMedicalNos.push(addDataItem);
+            var showQuantityError = false;
             if (addDataItem) {
               var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId+'&storeRoomId='+$scope.formData.storeRoomId,
                   _data = {};
@@ -1823,7 +1844,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 for (var item in _resObj) {
                   if (item === addDataItem.relId && _resObj[item]) {
                   addDataItem.salesQuantity=_resObj[item].salesQuantity;
+                  if(addDataItem.applicationCount>addDataItem.salesQuantity){
+                    showQuantityError = true;
                   }
+                  }
+                }
+                if(showQuantityError){
+                  $scope.quantityError=true;
+                }else {
+                  $scope.quantityError=false;
                 }
               })
               .catch(function (error) {
@@ -1865,6 +1894,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
    $scope.changeStoreRoom =function(orderMedical,storeRoomId){
      var _ids=[];
+     var showQuantityError = false;
      if(orderMedical.length!==0){
        for(var i= 0;i<orderMedical.length; i++){
          _ids.push(orderMedical[i].id);
@@ -1879,9 +1909,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
              for (var item in _resObj) {
                if(orderMedical[i].id===item){
                  orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
+                 if (orderMedical[i].applicationCount>orderMedical[i].salesQuantity) {
+                   showQuantityError = true;
+                 }
                }
              }
          }
+         if(showQuantityError){
+          $scope.quantityError=true;
+        }else{
+          $scope.quantityError=false;
+        }
        })
        .catch(function (error) {
          if (error) { console.log(error || '出错!'); }
@@ -2170,8 +2208,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         goodsCount: obj.stockModel.salesQuantity,
         productionBatch: obj.productionBatch,     // 批号名
         storeRoomName:obj.storeRoomName,
+        storeRoomId:obj.storeRoomId,
         regionName:obj.regionName,
-        goodsLocationName: obj.goodsLocationName    // 灭菌批号
+        regionId:obj.regionId,
+        goodsLocationName: obj.goodsLocationName,    // 灭菌批号
+        goodsLocationId: obj.goodsLocationId    // 灭菌批号
       };
 
       // 初始化已添加的批次数量和
@@ -2414,6 +2455,21 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    $scope.finalQuantity = function (applicationCount,salesQuantity){
+      console.log('applicationCount'+applicationCount);
+      console.log('salesQuantity'+salesQuantity);
+      if(applicationCount<=salesQuantity){
+        $scope.formData.pickNo=applicationCount;
+      }else {
+        $scope.formData.pickNo=salesQuantity;
+      }
+      if($scope.formData.pickNo<0){
+        $scope.formData.pickNo=0;
+        $scope.quantityError=false;
+      }
+    }
+
+    // 判断修改后的实际数量是否为正确的数量，不正确阻止提交
     $scope.changeQuantity = function(quantity,salesQuantity){
       $scope.quantityError=false;
       if (quantity && salesQuantity) {
@@ -2444,6 +2500,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           }
         }
       }
+        console.log($scope.choisedMedicalList.length);
     };
 
     // 全选全不选
@@ -2458,6 +2515,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       } else {        // 取消全部选中
         $scope.choisedMedicalList = [];
       }
+      console.log($scope.choisedMedicalList.length);
     };
 
     // 切换请求不同状态数据
@@ -2713,6 +2771,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //添加到列表
         $scope.formData.orderMedicalNos.push(addDataItem);
              if (addDataItem) {
+               var showQuantityError = false;
                var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId+'&&storeRoomId='+$scope.formData.storeRoomId,
                    _data = {};
                requestData(_url, _data, 'GET')
@@ -2721,7 +2780,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     for (var item in _resObj) {
                       if(item === addDataItem.relId){
                          addDataItem.salesQuantity=_resObj[item].salesQuantity;
+                         if (addDataItem.applicationCount>addDataItem.salesQuantity) {
+                           showQuantityError = true;
+                         }
                       }
+                    }
+                    if (showQuantityError) {
+                      $scope.quantityError = true;
+                    }else {
+                      $scope.quantityError = false;
                     }
                })
                .catch(function (error) {
@@ -2735,6 +2802,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     $scope.changeStoreRoom =function(orderMedical,storeRoomId){
         var _ids=[];
+        var showQuantityError = false;
         if(orderMedical.length!==0){
           for(var i= 0;i<orderMedical.length; i++){
             _ids.push(orderMedical[i].id);
@@ -2749,8 +2817,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 for (var item in _resObj) {
                   if(orderMedical[i].id===item){
                     orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
+                    if (orderMedical[i].applicationCount>orderMedical[i].salesQuantity) {
+                      showQuantityError = true;
+                    }
                   }
                 }
+            }
+            if (showQuantityError) {
+              $scope.quantityError = true;
+            }else {
+              $scope.quantityError = false;
             }
           })
           .catch(function (error) {
@@ -2985,8 +3061,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
           }
         });
-      }else{
-        $scope.showQuantity=true;
       }
     });
 

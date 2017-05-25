@@ -1,0 +1,101 @@
+<div  class="pd-c-xxxl" ><!-- pageCtrl-->
+<div class="page-main-content">
+  <!-- page heading start-->
+  <div class="page-heading">
+      <h3>采购订单管理查询</h3>
+      <ul class="breadcrumb">
+          <li><a href="#">主面板</a></li>
+          <li class="active">采购订单管理查询</li>
+      </ul>
+  </div>
+  <!-- page heading end-->
+  <!-- ng-controller="pageCtrl" -->
+  <!--body wrapper start-->
+  <table-list list-data="{{mainStatus.requestPath}}rest/authen/op/purchasePlanOrder/query.json" list-params="listParams">
+      <div class="mg-m col-lg-12 col-sm-12">
+        <div class="form-group col-lg-2">
+          <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
+        </div>
+      </div>
+
+      <div class="wrapper" ng-controller="pageCtrl">
+          <div class="loader" ng-if="status.isLoading">
+              <div class="loader-inner pacman">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+              </div>
+          </div>
+          <div ng-if="!status.isLoading">
+              <div class="empty-wrap" ng-if="tbodyList.length==0">
+                  <span>
+                      <i class="fa fa-inbox">
+                          <em>什么也没有</em>
+                      </i>
+                  </span>
+              </div>
+              <div ng-if="tbodyList.length">
+
+                  <table class="table table-hover table-striped">
+                      <thead>
+                          <tr>
+                              <th><input type="checkbox" class="selectAll"></th>
+                              <th>序号</th>
+                              <th>状态</th>
+                              <th>医院订单编号</th>
+                              <th>医院名称</th>
+                              <th>经销商名称</th>
+                              <th>创建时间</th>
+                              <th>操作</th>
+                              <th></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'color-red':(tr.sendStatus=='失败')}">
+                              <td class="select-td"><input type="checkbox" class="selectOne" value="{{tr.id}}"></td>
+                              <td>{{$index + 1}}</td>
+                              <td>{{tr.orderStatus}}</td>
+                              <td>
+                                {{tr.hospitaOrderCode}}
+                              </td>
+                              <td>
+                                {{tr.hospitalName}}
+                              </td>
+                              <td>
+                                {{tr.distributorName}}
+                              </td>
+                              <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
+                              <td>
+                                <button type="button" class="btn btn-danger mgr-xxl" ng-click="deleteThis('rest/authen/hospital/delete', tr.id)">
+                                    <i class="fa fa-edit"></i>
+                                    变更状态
+                                </button>
+                                <button
+                                  type="button"
+                                  ng-if="tr.sendStatus=='失败'"
+                                  class="btn btn-primary mgr-xxl"
+                                  ng-click="resetSend(tr.id);">
+                                    <i class="fa fa-edit"></i>
+                                    重新发送
+                                </button>
+                                <a href="javascript();" class="color-orange " modal-right="700" modal-scope="this" modal-url="views/op/purchasePlanOrderManage/get.html?id={{tr.id}}">
+                                  查看详情
+                                </a>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <div class="clearfix">
+                      <div class="fr">
+                          <pagination status="status"></pagination>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </table-list>
+  <!--body wrapper end-->
+</div>
+</div><!-- pageCtrl-->

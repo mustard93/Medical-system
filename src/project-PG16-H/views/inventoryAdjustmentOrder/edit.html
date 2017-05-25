@@ -2,7 +2,7 @@
      ng-controller="inventoryAdjustmentOrderCtrl"
      ajax-url="rest/authen/inventoryAdjustmentOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData'); choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;"
+     callback="initFlag=true;watchFormChange('formData'); choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false; flag=false;"
      alert-error>
 
 
@@ -134,17 +134,10 @@
                 <th class="text-center">规格</th>
                 <th class="text-center">基本单位</th>
 
-                <th class="text-center">生产批号/数量</th>
+                <th class="text-center">生产批号/数量 </th>
                 <th class="text-center">库房名称</th>
                 <th class="text-center">区域名称</th>
-                <!--<th class="text-center">货位编号</th>-->
                 <th class="text-center">货位名称</th>
-
-                <!--<th class="text-center">库存数量</th>-->
-                <!--<th class="text-center">可用数量</th>-->
-                <!--<th class="text-center">锁定数量</th>-->
-                <!--<th class="text-center">待处理数量</th>-->
-                <!--<th class="text-center">冻结量</th>-->
 
                 <th class="text-center">生产日期</th>
                 <th class="text-center">有效期至</th>
@@ -171,7 +164,7 @@
                       <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                       <p class="pdt">
                         <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                        <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                        <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="updateFlag(true); formData.orderMedicalNos.splice($index,1);">确认</a>
                       </p>
                     </div>
                   </div>
@@ -210,7 +203,7 @@
                            ng-blur="checkMaxNum(batch,$index)"
                            ng-change="changeQuantity(batch.quantity)">
                     <input type="hidden" required ng-model="batch.id">
-                    <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
+                    <span ng-if="showDelIcon" class="circle-s" ng-click=" updateFlag(false);tr.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
                   </div>
 
                   <!-- 批号选择  ng-if="calculaBatchsTotal(tr,tr.goodsCount)<item.goodsCount"  "choisedBatchList":{{tr.stockBatchs || ""}},  "goodsCount":{{tr.goodsCount}},  -->
@@ -235,41 +228,15 @@
                     >
                     </i>
                   </div>
-                  <!-- 待选择数 -->
-
-
-                  <!--style="left:85%"-->
-                  <!--modal-right="50%"-->
-                  <!--modal-scope="this"-->
-                  <!--modal-data='{-->
-                  <!--"index":"{{$index}}",-->
-                  <!--"medicalName":"{{tr.name}}",-->
-                  <!--"id":"{{tr.relId}}",-->
-                  <!--"logisticsCenterId":"{{tr.logisticsCenterId}}",-->
-                  <!--"strike_price":"{{tr.strike_price}}",-->
-                  <!--"choisedBatchList":"{{choisedBatchList}}"-->
-                  <!--}'-->
-                  <!--modal-url="views/versionFlow/choice-stockbatch-dialog.html"-->
-
-                  <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
-                    待采购数量：{{tr.planQuantity-tr.quantity}}
-                  </p> -->
-
 
                 </td><!-- 生产批号 -->
                 <td class="text-right" >{{tr.storeRoomName}}</td> <!--库房名称-->
-
-
                 <td class="text-center" style="white-space:nowrap;line-height:2.4">{{tr.regionName}}</td><!-- 区域名称 -->
-
-                <!--<td class="text-center" >{{tr.goodsLocationCode}}</td>&lt;!&ndash; 货位编号 &ndash;&gt;-->
                 <td class="text-center" >{{tr.goodsLocationName}}</td><!-- 货位名称 -->
-
                 <td class="text-center" >{{tr.productionDate | date:'yyyy-MM-dd'}}</td><!-- 生产日期 -->
                 <td class="text-center" >{{tr.validTill|date:'yyyy-MM-dd'}}</td><!-- 有效期至 -->
-
                 <td class="text-center" >{{tr.manufacturer}}</td><!-- 生产厂商 -->
-                <td class="text-center" >{{tr.approvalNo||tr.drugAdministrationCode}}</td><!-- 注册证号/批准文号 -->
+                <td class="text-center" >{{tr.drugAdministrationCode || '暂无'}}/{{tr.approvalNo || '暂无'}}</td><!-- 注册证号/批准文号 -->
 
               </tr>
               </tbody>
@@ -332,7 +299,7 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  ng-disabled="purchasePlanForm.$valid || !formData.orderCode||!formData.orderMedicalNos.length||quantityError"
+                  ng-disabled="purchasePlanForm.$valid || !formData.orderCode||!formData.orderMedicalNos.length ||!flag  ||quantityError"
                   callback="submitForm('purchasePlanForm','submit')">提交
           </button>
 
