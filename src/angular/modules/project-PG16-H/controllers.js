@@ -2456,13 +2456,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     $scope.finalQuantity = function (applicationCount,salesQuantity){
+      console.log('applicationCount'+applicationCount);
+      console.log('salesQuantity'+salesQuantity);
       if(applicationCount<=salesQuantity){
         $scope.formData.pickNo=applicationCount;
       }else {
         $scope.formData.pickNo=salesQuantity;
       }
       if($scope.formData.pickNo<0){
-        $scope.quantityError=true;
+        $scope.formData.pickNo=0;
+        $scope.quantityError=false;
       }
     }
 
