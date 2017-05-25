@@ -7,12 +7,14 @@ define('main/controllers', ['main/init'], function () {
      * 主控
      */
     function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils) {
+
       //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
             msgBubble: 0 //消息气泡
         };
+
         //当前用户
         $rootScope.curUser={};
 

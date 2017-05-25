@@ -14,18 +14,18 @@ function needCLodop(){
 	var verOPR=ua.match(/OPR\D?\d+/i);
 	var verFF=ua.match(/Firefox\D?\d+/i);
 	var x64=ua.match(/x64/i);
-	if ((verTrident==null)&&(verIE==null)&&(x64!==null)) 
+	if ((verTrident==null)&&(verIE==null)&&(x64!==null))
 		return true; else
 	if ( verFF !== null) {
 		verFF = verFF[0].match(/\d+/);
 		if ( verFF[0] >= 42 ) return true;
-	} else 
+	} else
 	if ( verOPR !== null) {
 		verOPR = verOPR[0].match(/\d+/);
 		if ( verOPR[0] >= 32 ) return true;
-	} else 
+	} else
 	if ((verTrident==null)&&(verIE==null)) {
-		var verChrome=ua.match(/Chrome\D?\d+/i);		
+		var verChrome=ua.match(/Chrome\D?\d+/i);
 		if ( verChrome !== null ) {
 			verChrome = verChrome[0].match(/\d+/);
 			if (verChrome[0]>=42) return true;
@@ -47,7 +47,7 @@ if (needCLodop()) {
     oscript.src ="http://localhost:8001/CLodopfuncs.js?priority=2";
     var head = document.head || document.getElementsByTagName("head")[0] || document.documentElement;
     head.insertBefore( oscript,head.firstChild );
-};
+}
 
 //====获取LODOP对象的主过程：====
 function getLodop(oOBJECT,oEMBED){
@@ -71,12 +71,12 @@ function getLodop(oOBJECT,oEMBED){
                  return;
             } else {
 
-	         if (CLODOP.CVERSION<"2.0.3.5") { 
+	         if (CLODOP.CVERSION<"2.0.3.5") {
 			if (isIE) document.write(strCLodopUpdate); else
 			document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML;
 		 };
 		 if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
-		 if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);	
+		 if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
 	    };
         } else {
             var is64IE  = isIE && (navigator.userAgent.indexOf('x64')>=0);
@@ -119,4 +119,3 @@ function getLodop(oOBJECT,oEMBED){
         return LODOP;
     } catch(err) {alert("getLodop出错:"+err);};
 };
-

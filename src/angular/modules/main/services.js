@@ -1016,6 +1016,7 @@ function alertOk($rootScope, modal) {
               var LODOP=null;
 
               function getOPrinter(){
+
                 if(!LODOP&&LodopFuncs){
                   LODOP=LodopFuncs.getLodop(document.getElementById("LODOP_OB_Id"),document.getElementById("LODOP_EM_Id"));
                 }
@@ -1044,28 +1045,28 @@ function alertOk($rootScope, modal) {
               */
               var  OPrinter={
 
-                 LODOP:null,//返回具体打印的实现累，用于特殊需求打印。
-                 print_param_defualt:{
-                   print_orient:0,//打印方向及纸张类型，数字型.1---纵(正)向打印，固定纸张；
-                   paper_top: 0,//整页上边距，整数或字符型
-                    paper_left: 0,//整页左边距
-                     paper_width:2100,//可视编辑区域的宽度.A4 21*29.7cm（210mm×297mm）
-                      paper_height:2970,//可视编辑区域的高度
+                LODOP:null,//返回具体打印的实现累，用于特殊需求打印。
 
-                       html_top: 0,//html上边距，整数或字符型
-                      html_left: 0,//html上边距，整数或字符型
-                      html_width: "100%",//html的宽度
-                        html_height: "100%"//html上边距，整数或字符型
+                print_param_defualt:{
+                  print_orient:0,//打印方向及纸张类型，数字型.1---纵(正)向打印，固定纸张；
+                  paper_top: 0,//整页上边距，整数或字符型
+                  paper_left: 0,//整页左边距
+                  paper_width:2100,//可视编辑区域的宽度.A4 21*29.7cm（210mm×297mm）
+                  paper_height:2970,//可视编辑区域的高度
+                  html_top: 0,//html上边距，整数或字符型
+                  html_left: 0,//html上边距，整数或字符型
+                  html_width: "100%",//html的宽度
+                  html_height: "100%"//html上边距，整数或字符型
+                },
 
-                 },
-                 print_param:null,
+                print_param:null,
+
                  //设定纸张大小
-                 _pageSize:{
-                   intOrient:1,
-                   intPageWidth:2160,
-                   intPageHeight:1400
-
-                 },
+                _pageSize:{
+                  intOrient:1,
+                  intPageWidth:2160,
+                  intPageHeight:1400
+                },
 
                 /**
                  *
@@ -1099,16 +1100,15 @@ e
 
                   this.print_param=$.extend({},this.print_param_defualt);
 
-                    // console.log(this.print_param);
+                  if (!LODOP) {
+                    require(['LodopFuncs'], function(LodopFuncs1) {
 
-                    if(!LODOP){
-                      require(['LodopFuncs'], function(LodopFuncs1) {
-                            LodopFuncs=LodopFuncs1;
-                            //异步加载js
-                            LodopFuncs1.loadCLodop();
+                      LodopFuncs=LodopFuncs1;
 
-                      });//require
-                    }
+                      //异步加载js
+                      LodopFuncs1.loadCLodop();
+                    });
+                  }
                 },
 
                 //设置打印参数,根据接口返回html模版数据
@@ -1153,7 +1153,7 @@ e
                 //打印前的准备工作。设置打印参数，及打印内容
                 _printBeforePrint:function(content,taskName){
                   if(!LODOP){
-                    LODOP=getOPrinter();
+                    LODOP = getOPrinter();
                     this.LODOP=LODOP;
                     if(!LODOP)console.log("need exe:$root.OPrinter.init()");
                   }

@@ -3000,7 +3000,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
    * @param  {[type]} utils       [description]
    * @return {[type]}             [description]
    */
-  function cfgGoodsBarcodeCtroller ($scope, requestData, utils) {
+  function cfgGoodsBarcodeCtroller ($scope, requestData, utils, $window) {
 
     var _url = 'rest/authen/gs1Barcode/get';
 
@@ -3081,8 +3081,28 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 获取货位条码打印图片
-    $scope.getGoodsLocationBarcode = function () {
+    $scope.getGoodsLocationBarcode = function (scopeData) {
 
+      if (scopeData) {
+        var _data = {
+          "barcode": scopeData.barcode,
+          "quantity": scopeData.quantity,
+          "productionBatch": scopeData.productionBatch,
+          "validTill": scopeData.validTill,
+          "barcodeType": null
+        };
+
+        requestData(_url, _data, 'POST', 'parameter-body')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            $scope.goodsFullBarcode = results[1].data;   // 完整的商品条码，包含批号、数量
+            $scope.enabledPrintBtn = true;
+          }
+        })
+        .catch(function (error) {
+          if (error) { throw new Error(error || '出错'); }
+        });
+      }
     };
   }
 
@@ -3103,7 +3123,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
   .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController])
   .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController])
-  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', cfgGoodsBarcodeCtroller])
+  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', '$window', cfgGoodsBarcodeCtroller])
   .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
   .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]);
 });
