@@ -163,7 +163,7 @@
                 <th>规格</th>
                 <th>单位</th>
                 <th>生产批号</th>
-                <th>配送总数/实收总数</th>
+                <th>配送总数/实收总数/拒收总数</th>
                 <th>生产日期</th>
                 <th>收货人</th>
                 <th>收货时间</th>
@@ -208,6 +208,16 @@
                          modal-data='{"id":"{{tr.id}}"}'
                          modal-url="views/receiveItem/edit.html">开始收货...
                     </div>
+                    <div class="inline-block btn-receiveItem pr-bg-delete color-white"
+                         ng-if="tr.receiveItemStatus=='待收货'"
+                         style="right:90px;top: -33px;"
+                         handle-this-click
+                         dialog-title="确认提示?"
+                         dialog-content="确认全部拒收？"
+                         dialog-content-color="#FF3939"
+                         dialog-template="pr-dialog-confirm.html"
+                         callback="allReceipt(tr.id)">全部拒收
+                    </div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='未加入采购目录商品'"
                          ng-click="$root.goTo('#/purchasecontent/edit.html?id='+tr.purchaseContentId+'&supplierId='+tr.supplierId)">加入采购目录...</div>
@@ -217,7 +227,7 @@
                          style="right:80px;"
                          modal-right="50%"
                          modal-scope="this"
-                         modal-data={"id":"{{tr.id}}"}
+                         modal-data='{"id":"{{tr.id}}"}'
                          modal-url="views/receiveItem/edit.html">继续收货...
                     </div>
                     <div class="inline-block btn-receiveItem pr-bg-delete color-white"
@@ -239,7 +249,7 @@
                 <td>{{tr.specification}}</td><!-- 规格 -->
                 <td>{{tr.packingAttribute.name}}</td><!-- 单位 -->
                 <td>{{tr.productionBatch}}</td><!-- 生产批号 -->
-                <td>{{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}</td><!-- 配送数量/已收数量 -->
+                <td>{{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}/{{tr.hasRefuseQuantity}}</td><!-- 配送数量/已收数量 -->
                 <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
                 <td>{{tr.receiver.n}}</td><!-- 收货人 -->
                 <td>{{tr.receiveDate | date : 'yyyy-MM-dd'}}</td><!-- 收货时间 -->

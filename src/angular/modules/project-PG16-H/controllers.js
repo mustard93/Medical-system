@@ -615,6 +615,21 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+    // 全部拒收
+    $scope.allReceipt = function (id) {
+      if (id) {
+        requestData('rest/authen/receiveItem/refuse?id=' + id, '', 'POST')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            utils.refreshHref();
+            alertOk('操作成功');
+          }
+        })
+        .catch(function (error) {
+          alertError(error || '出错');
+        });
+      }
+    };
 
     // 每个药品单选操作
     $scope.handleItemClickEvent = function (item) {
