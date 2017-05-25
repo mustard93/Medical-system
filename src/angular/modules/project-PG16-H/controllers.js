@@ -9,6 +9,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       //调整
       $scope.flag=false;
 
+      $scope.updateFlag=function (flag) {
+          $scope.flag=flag;
+      }
+
       $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
       };
