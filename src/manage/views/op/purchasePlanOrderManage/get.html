@@ -1,16 +1,11 @@
 
         <div class="modal-content pr-modal-content color-yellow1 right-side-new pr-bg-black4" ng-controller="editCtrl"
-   ajax-url="rest/authen/supplydemand/getOfEdit.json?id={{tr.id}}"  scope-data="formData"  alert-error
-   callback="initFlag=true"
-         >
+         ajax-url="rest/authen/supplydemand/get.json"  scope-data="formData"  alert-error
+         callback="initFlag=true">
 
-          <form class="add-medical-form form-horizontal"
-                action="rest/authen/supplydemand/save"
-               alert-error parameter-body
-                form-validator>
+          <div class="add-medical-form form-horizontal">
             <div class="modal-header">
-                <!-- <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button> -->
-                <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}供求关系</h4>
+                <h4 class="modal-title">采购订单管理详情</h4>
             </div>
             <div class="modal-body modal-body-new"  >
               <div class=""
@@ -146,17 +141,8 @@
                            placeholder=""
                            ng-readonly="true"
                            ng-model="formData.createAt" />
-
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-lg-4 col-sm-4 text-right"></label>
-                  <div class="col-lg-8 col-sm-8">
-                    <input ng-disabled="!formData.hospitalCode || !formData.distributorCode" type="submit" class="btn pr-btn-create-glodbg" value="提交">
-                  </div>
-                </div>
-
             </div>
-
-            </form>
+            </div>
         </div>

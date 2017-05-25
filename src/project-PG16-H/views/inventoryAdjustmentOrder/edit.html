@@ -134,17 +134,10 @@
                 <th class="text-center">规格</th>
                 <th class="text-center">基本单位</th>
 
-                <th class="text-center">生产批号/数量 -{{flag}}</th>
+                <th class="text-center">生产批号/数量 </th>
                 <th class="text-center">库房名称</th>
                 <th class="text-center">区域名称</th>
-                <!--<th class="text-center">货位编号</th>-->
                 <th class="text-center">货位名称</th>
-
-                <!--<th class="text-center">库存数量</th>-->
-                <!--<th class="text-center">可用数量</th>-->
-                <!--<th class="text-center">锁定数量</th>-->
-                <!--<th class="text-center">待处理数量</th>-->
-                <!--<th class="text-center">冻结量</th>-->
 
                 <th class="text-center">生产日期</th>
                 <th class="text-center">有效期至</th>
@@ -235,41 +228,15 @@
                     >
                     </i>
                   </div>
-                  <!-- 待选择数 -->
-
-
-                  <!--style="left:85%"-->
-                  <!--modal-right="50%"-->
-                  <!--modal-scope="this"-->
-                  <!--modal-data='{-->
-                  <!--"index":"{{$index}}",-->
-                  <!--"medicalName":"{{tr.name}}",-->
-                  <!--"id":"{{tr.relId}}",-->
-                  <!--"logisticsCenterId":"{{tr.logisticsCenterId}}",-->
-                  <!--"strike_price":"{{tr.strike_price}}",-->
-                  <!--"choisedBatchList":"{{choisedBatchList}}"-->
-                  <!--}'-->
-                  <!--modal-url="views/versionFlow/choice-stockbatch-dialog.html"-->
-
-                  <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
-                    待采购数量：{{tr.planQuantity-tr.quantity}}
-                  </p> -->
-
 
                 </td><!-- 生产批号 -->
                 <td class="text-right" >{{tr.storeRoomName}}</td> <!--库房名称-->
-
-
                 <td class="text-center" style="white-space:nowrap;line-height:2.4">{{tr.regionName}}</td><!-- 区域名称 -->
-
-                <!--<td class="text-center" >{{tr.goodsLocationCode}}</td>&lt;!&ndash; 货位编号 &ndash;&gt;-->
                 <td class="text-center" >{{tr.goodsLocationName}}</td><!-- 货位名称 -->
-
                 <td class="text-center" >{{tr.productionDate | date:'yyyy-MM-dd'}}</td><!-- 生产日期 -->
                 <td class="text-center" >{{tr.validTill|date:'yyyy-MM-dd'}}</td><!-- 有效期至 -->
-
                 <td class="text-center" >{{tr.manufacturer}}</td><!-- 生产厂商 -->
-                <td class="text-center" >{{tr.approvalNo||tr.drugAdministrationCode}}</td><!-- 注册证号/批准文号 -->
+                <td class="text-center" >{{tr.drugAdministrationCode || '暂无'}}/{{tr.approvalNo || '暂无'}}</td><!-- 注册证号/批准文号 -->
 
               </tr>
               </tbody>
