@@ -2753,6 +2753,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //添加到列表
         $scope.formData.orderMedicalNos.push(addDataItem);
              if (addDataItem) {
+               var showQuantityError = false;
                var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + addDataItem.relId+'&&storeRoomId='+$scope.formData.storeRoomId,
                    _data = {};
                requestData(_url, _data, 'GET')
@@ -2761,7 +2762,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     for (var item in _resObj) {
                       if(item === addDataItem.relId){
                          addDataItem.salesQuantity=_resObj[item].salesQuantity;
+                         if (addDataItem.applicationCount>addDataItem.salesQuantity) {
+                           showQuantityError = true;
+                         }
                       }
+                    }
+                    if (showQuantityError) {
+                      $scope.quantityError = true;
+                    }else {
+                      $scope.quantityError = false;
                     }
                })
                .catch(function (error) {
@@ -2775,6 +2784,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     $scope.changeStoreRoom =function(orderMedical,storeRoomId){
         var _ids=[];
+        var showQuantityError = false;
         if(orderMedical.length!==0){
           for(var i= 0;i<orderMedical.length; i++){
             _ids.push(orderMedical[i].id);
@@ -2789,8 +2799,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 for (var item in _resObj) {
                   if(orderMedical[i].id===item){
                     orderMedical[i].salesQuantity=_resObj[item].salesQuantity;
+                    if (orderMedical[i].applicationCount>orderMedical[i].salesQuantity) {
+                      showQuantityError = true;
+                    }
                   }
                 }
+            }
+            if (showQuantityError) {
+              $scope.quantityError = true;
+            }else {
+              $scope.quantityError = false;
             }
           })
           .catch(function (error) {
