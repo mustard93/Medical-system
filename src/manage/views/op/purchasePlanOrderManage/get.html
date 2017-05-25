@@ -1,148 +1,46 @@
 
         <div class="modal-content pr-modal-content color-yellow1 right-side-new pr-bg-black4" ng-controller="editCtrl"
-         ajax-url="rest/authen/supplydemand/get.json"  scope-data="formData"  alert-error
+         ajax-url="rest/authen/op/purchasePlanOrder/get.json?id={{tr.id}}"  scope-data="formData"  alert-error
          callback="initFlag=true">
 
           <div class="add-medical-form form-horizontal">
             <div class="modal-header">
                 <h4 class="modal-title">采购订单管理详情</h4>
             </div>
-            <div class="modal-body modal-body-new"  >
-              <div class=""
-                ajax-if-eval="hospitalQuery.id"
-                ajax-url="rest/authen/hospital/get.json?id={{hospitalQuery.id}}"  scope-data="hospital"  alert-error
-                callback="formData.hospitalCode=hospital.code;formData.hospitalName=hospital.name;formData.hospitalId=hospital.id;">
-                <div class="form-group" >
-                  <label class="col-lg-4 col-sm-4 text-right">医疗机构名称：</label>
-                  <div class="col-lg-8 col-sm-8">
-                    <input ng-if="formData.id"
-                    type="text"
-                    class="ipt pr-indent-20 inline-block"
-                    style="width:153px;height:32px;"
-                    placeholder=""
-                    ng-disabled="true"
-                    ng-model="formData.hospitalName" />
-
-                  <span  ng-class="{'pr-dpy-none':(formData.id)}"
-                         ng-disabled="formData.id"
-                         angucomplete placeholder="输入医疗机构名称"
-                         title-field="name"
-                         url="rest/authen/hospital/query.json"
-                         class="inline-block"
-                         ng-model="hospitalQuery">
-                  </span>
-                  </div>
+            <div class="modal-body modal-body-new outside-div">
+              <div class="flex-column">
+                <div class="flex-item-6 text-right">
+                  医院订单编号：
                 </div>
-                <div class="form-group mgt">
-                  <label class="col-lg-4 col-sm-4 text-right">医疗机构编码：</label>
-                  <div class="col-lg-8 col-sm-8">
-                    <input ng-disabled="hospitalQuery.id ||formData.id"  style="width:250px;" type="text" class="form-control" placeholder="" ng-model="formData.hospitalCode" />
-                  </div>
-                </div>
-                <div class="form-group mgt">
-                  <label class="col-lg-4 col-sm-4 text-right">供应商名称：</label>
-                  <div class="col-lg-8 col-sm-8">
-                    <select
-                    class="pr-select pdt"
-                    style="width:250px;"
-                    ajax-url="rest/authen/supplier/getSupplierByHospitalId?hospitalId={{formData.hospitalId}}"
-                    ng-model="formData.hospitalSupplierId"
-                    ng-disabled="formData.id"
-                    scope-data="opsData">
-                    <option ng-selected="formData.hospitalSupplierId" ng-repeat="op in opsData" value="{{op.id}}">{{op.name}}</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-group mgt">
-                  <label class="col-lg-4 col-sm-4 text-right">医疗机构类型：</label>
-                  <div class="col-lg-8 col-sm-8">
-                    <select ng-if="initFlag"
-                     ng-disabled="formData.id"
-                     class="select select-w"
-                     data-placeholder="选择类型"
-                     chosen ng-model="formData.HospitalType.type"
-                     select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalType">
-                   </select>
-                  </div>
+                <div class="flex-item-6 text-left">
+                  {{formData.}}
                 </div>
               </div>
+              <table class="table" style="border-top:1px solid rgba(199,167,123,0.60); ">
+                  <thead>
+                      <tr>
+                          <th>商品名称</th>
+                          <th>商品编号</th>
+                          <th>单价</th>
+                          <th>数量</th>
+                          <th>总价</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr ng-repeat="tr in formData.orderMedicalNos">
+                          <td>{{tr.hospitalMedicalName}}</td>
+                          <td>{{tr.hospitalMedicalCode}}</td>
+                          <td>{{tr.strike_price}}</td>
+                          <td>
+                            {{tr.quantity}}
+                          </td>
+                          <td>
+                            {{tr.totalPrice}}
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
 
-              <div class=""
-                ajax-if-eval="disdata.id"
-                ajax-url="rest/authen/distributor/get.json?id={{disdata.id}}"  scope-data="disdata"  alert-error
-                callback="formData.distributorCode=disdata.code;formData.distributorName=disdata.name;formData.distributorId=disdata.id;">
-                <div class="form-group">
-                  <label class="col-lg-4 col-sm-4 text-right">经销商名称：</label>
-                  <div class="col-lg-8 col-sm-8">
-                    <input ng-if="formData.id"
-                    ng-disabled="true"
-                    type="text"
-                    class="ipt pr-indent-20 inline-block"
-                    style="width:153px;height:32px;"
-                    placeholder=""
-                    ng-model="formData.distributorName" />
-                    <span ng-class="{'pr-dpy-none':(formData.id)}"
-                           ng-disabled="formData.id"
-                           angucomplete placeholder="输入经销商名称"
-                           title-field="name"
-                           url="rest/authen/distributor/query.json"
-                           class="inline-block"
-                           ng-model="disdata">
-                    </span>
-                  </div>
-                </div>
-                <div class="form-group mgt">
-                  <label class="col-lg-4 col-sm-4 text-right">经销商编码：</label>
-                  <div class="col-lg-8 col-sm-8">
-                    <input ng-disabled="disdata.id ||formData.id"  style="width:200px;" type="text" class="form-control" placeholder="" ng-model="formData.distributorCode" />
-                  </div>
-                </div>
-              </div>
-
-                <div class="form-group mgt">
-                  <label class="col-lg-4 col-sm-4 text-right">客户名称：</label>
-                  <div class="col-lg-8 col-sm-8">
-
-                    <select
-                    ng-if="formData.distributorId"
-                      class="select select-w"
-                      chosen
-                     ng-disabled="formData.id"
-                     ng-model="formData.customerAddressId"
-                     params='{"organizationId":"{{formData.distributorId}}"}'
-                     select-source="rest/authen/customerAddress/queryForSelectOption">
-                   </select>
-
-
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-lg-4 col-sm-4 text-right">备注：</label>
-                  <div class="col-lg-8 col-sm-8">
-                    <input type="text" class="form-control" style="width:250px;" placeholder="" ng-model="formData.note" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-4 col-sm-4 text-right">录入人：</label>
-                  <div class="col-lg-8 col-sm-8">
-                    <input ng-disabled="formData.id" type="text" style="width:200px;" class="form-control" placeholder="" ng-model="formData.inputUser.n" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-lg-4 col-sm-4 text-right">录入时间：</label>
-                  <div class="col-lg-8 col-sm-8">
-                    <input ng-disabled="formData.id"
-                           type="text"
-                           datepicker
-                           class="ipt pr-short-ipt color-3"
-                           style="width:90px;"
-                           placeholder=""
-                           ng-readonly="true"
-                           ng-model="formData.createAt" />
-                  </div>
-                </div>
             </div>
             </div>
         </div>

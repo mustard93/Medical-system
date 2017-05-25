@@ -5859,6 +5859,7 @@ define('project/controllers', ['project/init'], function() {
   }
 
 
+
   angular.module('manageApp.project')
   .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn','utils', createCorrespondController])
   .controller('saleContentController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', 'utils', saleContentController])
