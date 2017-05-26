@@ -1,7 +1,8 @@
 <div class="modal-content right-side-new pr-bg-black4"
-     ng-controller="editCtrl"
+     ng-controller="receiveItemController"
      ajax-url="rest/authen/receiveItem/getOfEdit.json?id={{dialogData.id}}"
      scope-data="formData"
+     callback="initFlag=true;quantityFalse=false;quantityError=false;finalQuantity(formData.deliveryQuantity,formData.hasReceiveQuantity,formData.hasRefuseQuantity);"
      alert-error>
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
@@ -36,20 +37,28 @@
           <tr class="pr-bg-black3">
             <td class="text-center color-white">{{formData.productionBatch}}</td><!-- 生产批号 -->
             <td class="text-center color-white">{{formData.deliveryQuantity}}/{{formData.hasReceiveQuantity}}/{{formData.hasRefuseQuantity}}</td><!-- 配送数量/已收数量 -->
-            <td class="text-center color-white">
-              <input type="number"
+            <td class="text-center">
+              <input type="text"
                      class="inline ipt pr-ipt-60 text-center select-right-side"
                      style="width:100px;background:rgba(89,84,80,1);"
-                     onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                     ng-model="formData.receiveQuantity" />
+                     invalid-popover
+                     popover-show="quantityError"
+                     popover-options='{"content":"收货数量超过现有可收数量", "placement":"top", "trigger":"manual"}'
+                     onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                     ng-model="formData.receiveQuantity"
+                     ng-change="changeQuantity(formData.deliveryQuantity,formData.hasReceiveQuantity,formData.hasRefuseQuantity,formData.receiveQuantity,true)"/>
             </td><!-- 本次收货数量 -->
 
             <td class="text-center color-red">
-              <input type="number"
+              <input type="text"
                      class="inline ipt pr-ipt-60 text-center select-right-side color-red"
                      style="width:100px;background:rgba(89,84,80,1);"
-                     onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                     ng-model="formData.refuseQuantity" />
+                     invalid-popover
+                     popover-show="quantityFalse"
+                     popover-options='{"content":"拒收数量超过现有可拒收数量", "placement":"top", "trigger":"manual"}'
+                     onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                     ng-model="formData.refuseQuantity"
+                     ng-change="changeQuantity(formData.deliveryQuantity,formData.hasReceiveQuantity,formData.hasRefuseQuantity,formData.refuseQuantity,false)"/>
             </td><!-- 本次拒收数量 -->
 
             <td class="text-center color-white">
@@ -180,7 +189,7 @@
         </div>
       </div>
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
-      <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+      <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button" ng-disabled="quantityError||quantityFalse" ng-click="modal.closeAll()">确定</button>
     </div>
   </form>
 </div>

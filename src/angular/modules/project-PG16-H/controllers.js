@@ -660,24 +660,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-
-    // 全选全不选
-    // $scope.handleChoiseAllEvent = function () {
-    //   console.log($scope.isChoiseAll);
-    //   if ($scope.isChoiseAll) {
-    //     console.log(2);
-    //     if ($scope.tbodyList) {
-    //       $scope.choisedMedicalList = [];
-    //       angular.forEach($scope.tbodyList, function (data, index) {
-    //         $scope.choisedMedicalList.push(data.id);
-    //       });
-    //       console.log($scope.choisedMedicalList);
-    //     }
-    //   } else {
-    //     $scope.choisedMedicalList = [];
-    //   }
-    // };
-
     // 批量收货
     $scope.handleBatchReceive = function () {
       if ($scope.choisedMedicalList.length) {
@@ -713,6 +695,42 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+
+    // 初始化退货数量
+    // deliveryQuantity :配送数量。
+    // hasReceiveQuantity :已收数量。
+    // hasRefuseQuantity :拒收数量。
+    // 本次收货数量=配送数量-已收数量-拒收数量-本次拒收数量（初始为0）
+    $scope.finalQuantity = function (deliveryQuantity,hasReceiveQuantity,hasRefuseQuantity){
+      if(deliveryQuantity){
+        $scope.formData.receiveQuantity=deliveryQuantity-hasReceiveQuantity-hasRefuseQuantity;
+      }
+    };
+
+    // 修改实收数量或本次拒收数量时对应的本次拒收或实收改变。
+    $scope.changeQuantity = function (deliveryQuantity,hasReceiveQuantity,hasRefuseQuantity,_quantity,bool){
+      if(deliveryQuantity){
+        var endQuantity=deliveryQuantity-hasReceiveQuantity-hasRefuseQuantity-_quantity;
+
+        if(bool){
+          $scope.formData.refuseQuantity=endQuantity;
+          if(endQuantity<0){
+            $scope.quantityError=true;
+          }else {
+            $scope.quantityError=false;
+          }
+        }else{
+          $scope.formData.receiveQuantity=endQuantity;
+          if(endQuantity<0){
+            $scope.quantityFalse=true;
+          }else {
+            $scope.quantityFalse=false;
+          }
+        }
+
+      }
+    };
+
 
   }
 
