@@ -3078,9 +3078,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
    * @param  {[type]} utils       [description]
    * @return {[type]}             [description]
    */
-  function cfgGoodsBarcodeCtroller ($scope, requestData, utils, $window) {
+  function cfgGoodsBarcodeCtroller ($scope, requestData, utils, OPrinter, $timeout) {
 
     var _url = 'rest/authen/gs1Barcode/get';
+
+    $scope.notInstallPlusin = null;
+
+    $scope.$watchCollection('window', function (newVal, oldVal) {
+      if (newVal) { console.log(newVal); }
+    });
 
     // 获取商品条码
     $scope.getGoodsBarcode = function (barcode) {
@@ -3182,6 +3188,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+
+    $scope.loadCLodop = function () {
+
+      $timeout(function () {
+        if (!OPrinter.chkOPrinter()) {
+          $scope.notInstallPlusin = true;
+        }
+      }, 3000);
+    };
   }
 
   angular.module('manageApp.project-PG16-H')
@@ -3201,7 +3216,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
   .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController])
   .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController])
-  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', '$window', cfgGoodsBarcodeCtroller])
+  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
   .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]);
 });

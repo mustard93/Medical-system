@@ -159,25 +159,11 @@ define('LodopFuncs',function(){
 
   // ====检测当前系统是否已安装插件====
   function chkSystemPlugin () {
-    // try {
-    //   if (needCLodop()) {
-    //     try {
-    //       var msg = null;
-    //       if (!getCLodop()) {
-    //     		msg = "<font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='http://113.10.155.131/CLodopPrint_Setup_for_Win32NT.zip' target='_self'>执行安装</a>,安装后请刷新页面。</font>";
-    //       }
-    //       return msg;
-    //     }
-    //     catch(err) {
-    //       // ...
-    //     }
-    //
-    //   }
-    //
-    //
-    // } catch (err) {
-    //   alert(err || '检测插件出错!');
-    // }
+    if (window.getCLodop) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   return {
