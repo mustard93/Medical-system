@@ -116,10 +116,6 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
           }
         });
 
-        // scope.$watch('medical', function (newVal) {
-        //   console.log(newVal);
-        // }, true);
-
         // 监控medical以返回当前商品的条码
         // scope.$watch('medical.data.barcode', function (newVal, oldVal) {
         //   if (newVal && newVal !== oldVal) {

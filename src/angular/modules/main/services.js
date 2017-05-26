@@ -1111,6 +1111,11 @@ e
                   }
                 },
 
+                chkOPrinter: function () {
+                  //console.log(LodopFuncs.chkSystemPlugin());
+                  return window.getCLodop ? true : false;
+                },
+
                 //设置打印参数,根据接口返回html模版数据
                 setPrint_paramByUICustomHtml:function(uICustomHtml){
                   if(!uICustomHtml)return;
