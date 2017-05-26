@@ -63,7 +63,10 @@
         <div ng-if="formData.orderMedicalNos.length">
           <div class="flex-column pdt-m pdb-m pd-c-l bb-dashed-line-new color-9">
             <div class="flex-item-6">
-              <span class="mgr-l">采购退货编码：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+              <span class="mgr-l">单据编号：
+                <input type="text" name="orderCode" required class="ipt pr-new-short-ipt text-right"  ng-model="formData.orderCode" />
+                <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
+              </span>
               <span class="mgr-l">审核人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
               <span class="mgr-l">审核时间：<em class="color-3">{{formData.approver.approverDate | date:'yyyy-MM-dd'}}</em></span>
             </div>
@@ -104,7 +107,7 @@
                 <th class="text-center w-160">基本单位</th>
                 <th class="text-center w-120">可退数量</th>
                 <th class="text-center w-220">生产批号/数量<em class="color-red">(必选)</em></th>
-                <th class="text-center w-220">仓库</th>
+                <th class="text-center w-220">库房</th>
                 <th class="text-center w-220">区域</th>
                 <th class="text-center w-160">货位</th>
                 <th class="text-center w-120">采购单价</th>
@@ -177,7 +180,7 @@
                 </td><!-- 生产批号 -->
                 <td class="text-center" style="padding:0px;">
                     <div ng-repeat="stor in item.stockBatchs" ng-class="{'bt-line-yellow':(stor.storeRoomName)}" style="padding:8px 0px;">{{stor.storeRoomName}}</div>
-                </td><!-- 仓库 -->
+                </td><!-- 库房 -->
 
                 <td class="text-center" style="padding:0px;">
                     <div ng-repeat="reg in item.stockBatchs" ng-class="{'bt-line-yellow':(reg.regionName)}" style="padding:8px 0px;">{{reg.regionName}}</div>
@@ -239,7 +242,7 @@
           <button type="submit"
                   class="pr-btn-save-glodbg mgl-m"
                   ng-click="submitForm('saleReturnEditForm','save');formData.validFlag=false;"
-                  ng-disabled="!changeFlag">保存
+                  ng-disabled="!changeFlag||!formData.orderCode">保存
           </button>
           <button class="mgl-s pr-btn-save-glodbg"
                   type="button"
@@ -250,6 +253,7 @@
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
                   ng-disabled="!saleReturnEditForm.$invalid ||
+                               !formData.orderCode ||
                                quantityError||
                                !formData.orderMedicalNos.length ||
                                !formData.expectDate ||

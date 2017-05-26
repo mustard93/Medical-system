@@ -723,6 +723,42 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
+    // 初始化退货数量
+    // deliveryQuantity :配送数量。
+    // hasReceiveQuantity :已收数量。
+    // hasRefuseQuantity :拒收数量。
+    // 本次收货数量=配送数量-已收数量-拒收数量-本次拒收数量（初始为0）
+    $scope.finalQuantity = function (deliveryQuantity,hasReceiveQuantity,hasRefuseQuantity){
+      if(deliveryQuantity){
+        $scope.formData.receiveQuantity=deliveryQuantity-hasReceiveQuantity-hasRefuseQuantity;
+      }
+    };
+
+    // 修改实收数量或本次拒收数量时对应的本次拒收或实收改变。
+    $scope.changeQuantity = function (deliveryQuantity,hasReceiveQuantity,hasRefuseQuantity,_quantity,bool){
+      if(deliveryQuantity){
+        var endQuantity=deliveryQuantity-hasReceiveQuantity-hasRefuseQuantity-_quantity;
+
+        if(bool){
+          $scope.formData.refuseQuantity=endQuantity;
+          if(endQuantity<0){
+            $scope.quantityError=true;
+          }else {
+            $scope.quantityError=false;
+          }
+        }else{
+          $scope.formData.receiveQuantity=endQuantity;
+          if(endQuantity<0){
+            $scope.quantityFalse=true;
+          }else {
+            $scope.quantityFalse=false;
+          }
+        }
+
+      }
+    };
+
+
   }
 
   // 采购计划controller
@@ -2462,20 +2498,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
-
-    $scope.finalQuantity = function (applicationCount,salesQuantity){
-      console.log('applicationCount'+applicationCount);
-      console.log('salesQuantity'+salesQuantity);
-      if(applicationCount<=salesQuantity){
-        $scope.formData.pickNo=applicationCount;
-      }else {
-        $scope.formData.pickNo=salesQuantity;
-      }
-      if($scope.formData.pickNo<0){
-        $scope.formData.pickNo=0;
-        $scope.quantityError=false;
-      }
-    }
 
     // 判断修改后的实际数量是否为正确的数量，不正确阻止提交
     $scope.changeQuantity = function(quantity,salesQuantity){
