@@ -2455,20 +2455,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-    $scope.finalQuantity = function (applicationCount,salesQuantity){
-      console.log('applicationCount'+applicationCount);
-      console.log('salesQuantity'+salesQuantity);
-      if(applicationCount<=salesQuantity){
-        $scope.formData.pickNo=applicationCount;
-      }else {
-        $scope.formData.pickNo=salesQuantity;
-      }
-      if($scope.formData.pickNo<0){
-        $scope.formData.pickNo=0;
-        $scope.quantityError=false;
-      }
-    }
-
     // 判断修改后的实际数量是否为正确的数量，不正确阻止提交
     $scope.changeQuantity = function(quantity,salesQuantity){
       $scope.quantityError=false;

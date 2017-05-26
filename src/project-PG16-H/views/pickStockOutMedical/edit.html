@@ -2,7 +2,7 @@
      ng-controller="pickStockOutMedicalController"
      ajax-url="rest/authen/pickStockOutMedical/getOfEdit.json?id={{dialogData.id}}"
      scope-data="formData"
-     callback="initFlag=true;quantityError=false;"
+     callback="initFlag=true;quantityError=false;formData.pickNo=formData.applicationCount;"
      alert-error>
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
@@ -33,7 +33,7 @@
             <th class="text-center">区域名称</th>
             <th class="text-center">货位</th>
             <th class="text-center">生产批号</th>
-            <th class="text-center">可拣数量</th>
+            <!-- <th class="text-center">可拣数量</th> -->
             <th class="text-center">实拣数量</th>
           </tr>
         </thead>
@@ -48,25 +48,26 @@
             </td>
           <td class="text-center color-white pd">{{formData.productionBatch}}</td><!-- 生产批号 -->
 
-          <div class=""
+          <!-- <div class=""
           ajax-url="rest/authen/medicalStock/getByStockBatch?relMedicalStockId={{formData.relMedicalStockId}}&productionBatch={{formData.productionBatch}}&goodsLocationId={{formData.goodsLocationId}}"
           scope-data="scopeData"
-          callback="finalQuantity(formData.applicationCount,scopeData.stockModel.salesQuantity)">
-              <td class="text-center color-white pd">
+          callback="finalQuantity(formData.applicationCount,scopeData.stockModel.salesQuantity)"> -->
+              <!-- <td class="text-center color-white pd">
               {{scopeData.stockModel.salesQuantity}}
-              </td><!-- 可数量 -->
+              </td> -->
+              <!-- 可数量 -->
               <td class="text-center pd">
                 <input type="text"
                        class="inline ipt pr-ipt-60 text-center"
                        invalid-popover
                        popover-show="quantityError"
-                       popover-options='{"content":"实拣数量不能大于可拣选量或计划拣选数量", "placement":"top", "trigger":"manual"}'
+                       popover-options='{"content":"实拣数量不能大于计划拣选数量", "placement":"top", "trigger":"manual"}'
                        style="width:100px;color:black;"
                        onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                        ng-model="formData.pickNo"
-                       ng-change="changeQuantity(formData.pickNo,scopeData.stockModel.salesQuantity)"/>
+                       ng-change="changeQuantity(formData.pickNo,formData.applicationCount)"/>
               </td><!--实数量 -->
-          </div>
+          <!-- </div> -->
           </tr>
         </tbody>
       </table>
