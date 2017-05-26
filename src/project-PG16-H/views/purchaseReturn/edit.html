@@ -63,7 +63,10 @@
         <div ng-if="formData.orderMedicalNos.length">
           <div class="flex-column pdt-m pdb-m pd-c-l bb-dashed-line-new color-9">
             <div class="flex-item-6">
-              <span class="mgr-l">采购退货编码：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+              <span class="mgr-l">单据编号：
+                <input type="text" name="orderCode" required class="ipt pr-new-short-ipt text-right"  ng-model="formData.orderCode" />
+                <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
+              </span>
               <span class="mgr-l">审核人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
               <span class="mgr-l">审核时间：<em class="color-3">{{formData.approver.approverDate | date:'yyyy-MM-dd'}}</em></span>
             </div>
@@ -250,6 +253,7 @@
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
                   ng-disabled="!saleReturnEditForm.$invalid ||
+                               !formData.orderCode ||
                                quantityError||
                                !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
