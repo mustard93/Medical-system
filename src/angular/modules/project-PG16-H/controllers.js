@@ -2603,12 +2603,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 检查任务列表是否含有可进行复核的任务
     $scope.chkHasReviewTasks = function (tbodyList) {
       if (tbodyList) {
+        var types=[];
         angular.forEach(tbodyList, function (data, index) {
-          if (data.type === '待复核') {
-            return false;
-          }
+          types.push(data.type);
         });
-        return true;
+        if (types.some(function(item){ return item == '待复核';}))
+        {
+          return false;
+        }else{
+          return true;
+        }
       }
     };
 
@@ -2960,8 +2964,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 在确定之前，修改商品后需要清空上一个商品填写的信息
     $scope.$watch('formData.relMedicalStockId', function (newVal, oldVal) {
-      if (newVal) {
-        if($scope.formData.productionBatch){
+      console.log("newVal="+newVal);
+      console.log("oldVal="+oldVal);
+      if (newVal && newVal!==oldVal) {
           $scope.formData.productionBatch='';
           $scope.formData.storeRoomId='';
           $scope.formData.sourceRegionId='';
@@ -2972,7 +2977,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           $scope.formData.transferQuantity='';
           $scope.formData.storeRoomName='';
           $scope.formData.transferReason='';
-        }
       }
     })
 
@@ -3056,9 +3060,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
    * @param  {[type]} utils       [description]
    * @return {[type]}             [description]
    */
-  function cfgGoodsBarcodeCtroller ($scope, requestData, utils, $window) {
+  function cfgGoodsBarcodeCtroller ($scope, requestData, utils, OPrinter, $timeout) {
 
     var _url = 'rest/authen/gs1Barcode/get';
+
+    $scope.notInstallPlusin = null;
+
+    $scope.$watchCollection('window', function (newVal, oldVal) {
+      if (newVal) { console.log(newVal); }
+    });
 
     // 获取商品条码
     $scope.getGoodsBarcode = function (barcode) {
@@ -3160,6 +3170,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+
+    $scope.loadCLodop = function () {
+
+      $timeout(function () {
+        if (!OPrinter.chkOPrinter()) {
+          $scope.notInstallPlusin = true;
+        }
+      }, 3000);
+    };
   }
 
   angular.module('manageApp.project-PG16-H')
@@ -3179,7 +3198,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
   .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController])
   .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController])
-  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', '$window', cfgGoodsBarcodeCtroller])
+  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
   .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]);
 });
