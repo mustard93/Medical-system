@@ -57,7 +57,8 @@
                     url="rest/authen/medicalStock/query"
                     class="pr-ipt-240 inline-block"
                     ng-model="formData.medical"
-                    style="height:28px;width:372px;border-radius:2px;"/>
+                    style="height:28px;width:372px;border-radius:2px;"
+                    ng-change="changeMedicalStockName();"/>
               </span>
               <i class="receive-item-icon" style="left:430px;top:30px;"></i>
               <span ng-if="!formData.relMedicalStockId" class="color-red">(必填)</span>
@@ -73,7 +74,7 @@
                 <p>生产批号：</p>
                 <div ng-disabled="!formData.relMedicalStockId" class="ipt-div relative text-left pr-indent-5 mgt-s" style="width:172px;">{{formData.productionBatch}}
                   <i ng-if="formData.relMedicalStockId"
-                     change-img change-value="{{formData.productionBatch}}"
+                     class="addImg"
                      style="right:0px;left:inherit;"
                      modal-right="50%"
                      modal-scope="this"
@@ -81,7 +82,7 @@
                      modal-url="views/versionFlow/create-correspond-relation-default.html">
                   </i>
                   <i ng-if="!formData.relMedicalStockId"
-                     change-img change-value="{{formData.productionBatch}}"
+                     class="addImg"
                      ng-class="{'disabled':(!formData.relMedicalStockId)}"
                      style="right:0px;left:inherit;">
                   </i>

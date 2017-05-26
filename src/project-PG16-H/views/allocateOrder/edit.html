@@ -202,7 +202,7 @@
                         <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1"
                         ng-disabled="item.applicationCount<=1" ng-class="{'disabled':(item.applicationCount<=1)}">-</button>
                         <span class="inline-block">
-                          <input type="text"
+                          <!-- <input type="text"
                                  name="applicationCount{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
@@ -214,7 +214,22 @@
                                  popover-show
                                  ng-change="changeQuantity(formData.orderMedicalNos);"
                                  popover-options='{"content":"数量格式不正确或大于可调拨数量", "placement":"top", "trigger":"manual"}'
-                                 onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+                                 onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"> -->
+
+                         <input type="text"
+                                class="inline ipt pr-ipt-60 text-center item-applicationCount"
+                                style="width:60px;"
+                                name="applicationCount{{$index}}"
+                                ng-model="item.applicationCount"
+                                onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                ng-change="calcTotalPrice(formData.orderMedicalNos);changeQuantity(item.salesQuantity,item.applicationCount);"
+                                ng-class="{'pr-bg-pink': medicalStockMap[item.relId].applicationCount<item.applicationCount}"
+                                required
+                                ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                                invalid-popover="{{!editForm['applicationCount'+$index].$valid || item.applicationCount>item.salesQuantity}}"
+                                popover-show
+                                is-focus="true"
+                                popover-options='{"content":"不能大于可用数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1"
                           ng-class="{'disabled':(item.applicationCount>=item.salesQuantity)}"

@@ -2621,12 +2621,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 检查任务列表是否含有可进行复核的任务
     $scope.chkHasReviewTasks = function (tbodyList) {
       if (tbodyList) {
+        var types=[];
         angular.forEach(tbodyList, function (data, index) {
-          if (data.type === '待复核') {
-            return false;
-          }
+          types.push(data.type);
         });
-        return true;
+        if (types.some(function(item){ return item == '待复核';}))
+        {
+          return false;
+        }else{
+          return true;
+        }
       }
     };
 
@@ -2978,8 +2982,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 在确定之前，修改商品后需要清空上一个商品填写的信息
     $scope.$watch('formData.relMedicalStockId', function (newVal, oldVal) {
-      if (newVal) {
-        if($scope.formData.productionBatch){
+      console.log("newVal="+newVal);
+      console.log("oldVal="+oldVal);
+      if (newVal && newVal!==oldVal) {
           $scope.formData.productionBatch='';
           $scope.formData.storeRoomId='';
           $scope.formData.sourceRegionId='';
@@ -2990,7 +2995,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           $scope.formData.transferQuantity='';
           $scope.formData.storeRoomName='';
           $scope.formData.transferReason='';
-        }
       }
     })
 
