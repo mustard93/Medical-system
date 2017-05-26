@@ -41,7 +41,7 @@
              dialog-content="这是一个很谨慎的操作。确认批量发送?"
              dialog-content-color="#FF3939"
              dialog-template="pr-dialog-confirm.html"
-             callback="handleBatchReceive()">批量发送
+             callback="handleSend()">批量发送
             <em class="bulk-receipt-btn-icon"></em>
           </a>
         </div>
@@ -73,23 +73,23 @@
                   <label for="{{$index+2}}"></label>
                 </td>
                 <td class="relative">
+                  {{(status.currentPage-1)*status.pageSize+($index+1)}}
                   <div class="table-item-multiple-btn">
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
-                         style="right:90px;"
-                         modal-right="50%"
+                         modal-right="700px"
                          modal-scope="this"
-                         modal-data='{"showData":"{{tr}}"}'
-                         modal-url="views/deliveryItem/get.html">查看详情
+                         modal-data='{"id":"{{tr.id}}"}'
+                         modal-url="views/op/deliveryItem/get.html">查看详情
                     </div>
                   </div>
                 </td><!-- 状态 -->
-                <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
-                <td>{{tr.relOrderCode}}</td><!-- 采购计划编号 -->
-                <td>{{tr.code}}</td><!-- 商品编号 -->
-                <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品名称 -->
-                <td>{{tr.specification}}</td><!-- 规格 -->
-                <td>{{tr.packingAttribute.name}}</td><!-- 单位 -->
-                <td>{{tr.dtOrderCreateAt | date : 'yyyy-MM-dd'}}</td><!-- 供应商销售日期 -->
+                <td class="text-center">{{tr.hospitalCode}}</td><!-- 序号 -->
+                <td>{{tr.hospitalName}}</td><!-- 采购计划编号 -->
+                <td>{{tr.distributorCode}}</td><!-- 商品编号 -->
+                <td class="text-left"><div class="autocut" title="{{tr.distributorName}}">{{tr.distributorName}}</div></td><!-- 商品名称 -->
+                <td>{{tr.name}}</td><!-- 规格 -->
+                <td>{{tr.deliveryQuantity}}</td><!-- 单位 -->
+                <td>{{tr.deliveryDate | date : 'yyyy-MM-dd'}}</td><!-- 供应商销售日期 -->
               </tr>
             </tbody>
           </table>
@@ -119,7 +119,7 @@
                  dialog-content="这是一个很谨慎的操作。确认批量发送?"
                  dialog-content-color="#FF3939"
                  dialog-template="pr-dialog-confirm.html"
-                 callback="handleBatchReceive()">批量发送
+                 callback="handleSend()">批量发送
                 <em class="bulk-receipt-btn-icon"></em>
               </a>
             </div>

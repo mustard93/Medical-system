@@ -336,6 +336,7 @@ define('main/controllers', ['main/init'], function () {
     function pageCtrl($scope, modal, dialogConfirm, $timeout,requestData, utils) {
         modal.closeAll();
 
+        $scope.choisedMedicalList = [];
         // 取消返回
         $scope.cancelThis = function (_text, _mode, _title) {
           dialogConfirm(_text, function () {
@@ -352,16 +353,40 @@ define('main/controllers', ['main/init'], function () {
 
         // 重新发送操作
         $scope.resetSend = function (_id) {
-            var _url = 'rest/authen/op/purchasePlanOrder/sendOrder?id='+_id;
-            requestData(_url,  {}, 'POST')
+          var _ids=[];
+          if(orderMedical.length!==0){
+            for(var i= 0;i<orderMedical.length; i++){
+              _ids.push(orderMedical[i].id);
+            }
+          }
+          var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + _ids,
+          _data = {};
+            requestData(_url, _data, 'post')
+            .then(function (results) {
+              utils.refreshHref();
+            })
+            .catch(function (error) {
+              if (error) { console.log(error || '出错!'); }
+            });
+        };
+
+        // 配送数据发送操作
+        $scope.handleSend = function (_id) {
+          if ($scope.choisedMedicalList.length) {
+            // var _data = {
+            //   ids: $scope.choisedMedicalList
+            // };
+            requestData('rest/authen/op/purchasePlanOrder/sendOrder', $scope.choisedMedicalList, 'POST', 'parameter-body')
             .then(function (results) {
               if (results[1].code === 200) {
                 utils.refreshHref();
               }
+
             })
             .catch(function (error) {
-              if (error) { throw new Error(error || '出错'); }
+              throw new Error(error || '出错');
             });
+          }
         };
 
         // easypiechart 全局样式定义
@@ -377,6 +402,38 @@ define('main/controllers', ['main/init'], function () {
           lineCap: 'round',
           size: 125
         };
+
+
+        // 每个药品单选操作
+        $scope.handleItemClickEvent = function (item) {
+          if (item.handleFlag) {    // 选中
+            if (item) {
+              $scope.choisedMedicalList.push(item.id);
+            }
+          } else {
+            for (var i=0; i<$scope.choisedMedicalList.length; i++) {
+              if (item.id === $scope.choisedMedicalList[i]) {
+                $scope.choisedMedicalList.splice(i,1);
+              }
+            }
+          }
+        };
+
+        $scope.handleChoiseAllEvent = function (isChoiseAll) {
+          if (isChoiseAll) {      // 全部选中
+
+            if ($scope.tbodyList) {
+              $scope.choisedMedicalList = [];
+              angular.forEach($scope.tbodyList, function (data, index) {
+                $scope.choisedMedicalList.push(data.id);
+              });
+            }
+          } else {        // 取消全部选中
+            $scope.choisedMedicalList = [];
+          }
+        };
+
+
     }
 
     /**
