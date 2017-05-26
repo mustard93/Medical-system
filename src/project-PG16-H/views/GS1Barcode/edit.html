@@ -6,6 +6,170 @@
   </page-main-header-component>
 
   <div class="content-wrapper">
-    <gs1-barcode-component></gs1-barcode-component>
+    <script src="http://localhost:8000/CLodopfuncs.js?priority=1"></script>
+    <script src="http://localhost:8001/CLodopfuncs.js?priority=2"></script>
+
+    <div class="content-wrapper-main mgt pr-fuzzy-boundary"
+             ng-controller="cfgGoodsBarcodeCtroller"
+             ng-init="loadCLodop();$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1};enabledPrintBtn=false;">
+
+      <form class="form-horizontal" id="editForm">
+            <!-- 内容表单 -->
+            <div class="panel pr-panel pr-fuzzy-boundary pr-panel pr-fuzzy-boundary-height" style="padding-left:50px;">
+              <div class="pd-v-m bb-dashed-line">
+                <div id="installNoteDiv" class="mgb-xl" ng-if="notInstallPlusin">
+                  <i class="fa fa-warning color-red mgr text-n"></i>
+                  <font>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='http://113.10.155.131/CLodopPrint_Setup_for_Win32NT.zip' target='_self'>执行安装</a>,安装后请刷新页面。</font>
+                </div>
+                <div class="flex-column mgt">
+                  <label class="text-right control-label text-normal">商品名称：</label>
+                  <div class="inline-block color-3 text-left">
+                    <span angucomplete-medical
+                          placeholder=""
+                          title-field="name"
+                          url="rest/authen/medicalStock/query.json"
+                          ng-model="medical"
+                          class="inline-block medical-search"
+                          custom-style="height:30px;">
+                    </span>
+                  </div>
+                </div>
+                <div class="flex-column mgt">
+                  <label class="text-right control-label text-normal">生产厂家：</label>
+                  <div class="inline-block color-3" style="line-height:2.9">{{medical.data.manufacturer}}</div>
+                </div>
+                <div class="flex-column mgt">
+                  <label class="text-right control-label text-normal">商品规格：</label>
+                  <div class="inline-block color-3 text-left" style="line-height:2.9">{{medical.data.specification}}</div>
+                </div>
+                <div class="flex-column mgt">
+                  <label class="text-right control-label text-normal">商品条码：</label>
+                  <div class="inline-blockcolor-3 text-left" style="line-height:2.9">{{medical.data.barcode}}</div>
+                </div>
+                <div class="flex-column mgt">
+                  <label class="text-right control-label text-normal">商品单位：</label>
+                  <div class="inline-blockcolor-3 text-left pdt-s">
+                    <select class="pr-select pdt"
+                            style="width:160px;"
+                            chosen
+                            data-placeholder=" "
+                            ng-model="medical.data.unit"
+                            select-source="rest/authen/medicalStock/getPackingAttributeById?id={{medical.data.id}}"
+                            ng-change='chgCommodityUnitEvent("rest/authen/medicalStock/getPackingAttributeById?id={{medical.data.id}}",medical.data.unit,medical)'>
+                    </select>
+                  </div>
+                </div>
+                <div class="flex-column mgt">
+                  <label class="text-right control-label text-normal">商品数量：</label>
+                  <div class="inline-block color-3 text-left">
+                    <input type="number"
+                           class="ipt pr-short-ipt"
+                           name="code"
+                           ng-model="medical.data.quantity"
+                           onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
+                    <span class="color-6 mgr-0" ng-if="medical.data.unit">({{medical.data.packingAttribute.name}}) </span>
+                    <span class="color-9">(选填)</span>
+                  </div>
+                </div>
+                <div class="flex-column mgt">
+                  <label class="text-right control-label text-normal">生产批号：</label>
+                  <div class="inline-block color-3 text-left">
+                    <input type="text"
+                           class="ipt pr-short-ipt"
+                           name="code"
+                           ng-model="medical.data.productionBatch" />
+                    <span class="color-9">(选填)</span>
+                  </div>
+                </div>
+                <div class="flex-column mgt">
+                  <label class=" text-right control-label text-normal">有效期至：</label>
+                  <div class="inline-block color-3 text-left">
+                    <div class="date-icon-outside" style="width:160px;height: 30px;">
+                      <input type="text"
+                             datepicker
+                             class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                             ng-readonly="true"
+                             ng-model="medical.data.validTill"
+                             placeholder="">
+                      <span class="date-icon"></span>
+                    </div>
+                    <span class="color-9">(选填)</span>
+                  </div>
+                </div>
+                <div class="flex-column mgt">
+                  <label class="text-right control-label text-normal">打印份数：</label>
+                  <div class="inline-block color-3 text-left">
+                    <input type="number"
+                           class="ipt pr-short-ipt"
+                           name="code"
+                           ng-model="printer.num"
+                           onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
+                    <span class="color-9">(选填)</span>
+                  </div>
+                </div>
+                <div class="flex-column mgt">
+                  <label class=" text-right control-label text-normal">条码类型：</label>
+                  <div class="inline-block color-3 text-left" style="line-height:3.0" ng-init="medical.data.medicalType='一段式'">
+                    <label class="mgr-l text-normal cur-pot">
+                      <input type="radio"
+                             name="medicalType"
+                             style="position:relative;top:2px;"
+                             ng-checked="true"
+                             ng-model="medical.data.medicalType"
+                             value="一段式" /> 一段式
+                    </label>
+                    <label class="text-normal cur-pot">
+                      <input type="radio"
+                             name="medicalType"
+                             style="position:relative;top:2px;"
+                             ng-model="medical.data.medicalType"
+                             value="二段式" /> 二段式
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="pd-v-m">
+                <h1 class="text-bold">
+                  <button type="button"
+                          class="btn pr-btn-create-glodbg"
+                          style="font-size:12px;width:85px;height:32px;line-height:1;"
+                          ng-click="getFullGoodsBarcode(medical.data)"
+                          ng-disabled="!medical.data.barcode || notInstallPlusin">打印预览
+                  </button>
+                  <span class="color-9 text-normal">（右键条码图片另存为可下载到本地）</span>
+                </h1>
+
+                <div ajax-url="rest/authen/uiCustomHtml/getByKey.json?key=goodsFullBarcode"
+                     scope-data="uiCustomHtml"
+                     callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml);htmlString=''">
+                </div>
+
+                <div class="mgt" id="Print_Div_id" >
+                  <ng-include id="htmlString_divId" src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtmlByKey?key=goodsFullBarcode'"></ng-include>
+                </div>
+                <!-- <img ng-src="{{goodsFullBarcode}}" alt=""> -->
+              </div>
+            </div>
+            <!-- 功能按钮 -->
+            <div class="handle-btn-area">
+              <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+                <span>
+
+                  <!-- <button class="pr-btn-create-glodbg mgt"
+                          type="button"
+                          ng-disabled="!goodsBarcode || !goodsFullBarcode"
+                          ng-click="$root.OPrinter.setPrintNum(printer.num);$root.OPrinter.preview()">打印预览
+                  </button> -->
+
+                  <button class="pr-btn-create-glodbg mgt"
+                          type="button"
+                          ng-disabled="!enabledPrintBtn || notInstallPlusin"
+                          ng-click="$root.OPrinter.print(printer.num)">打印
+                  </button>
+                </span>
+              </div>
+            </div>
+          </form>
+    </div>
   </div>
 </div>

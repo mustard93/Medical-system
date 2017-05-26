@@ -3,6 +3,32 @@
  */
 define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
+  /**
+   * [cfgGoodsBarcodeCtroller SPD模块首页控制器]
+   * @param  {[type]} $scope      [description]
+   * @param  {[type]} requestData [description]
+   * @param  {[type]} utils       [description]
+   * @return {[type]}             [description]
+   */
+  function indexPageController ($scope, requestData, utils, OPrinter, $timeout, $rootScope) {
+    // 检测当前用户系统是否安装打印插件Lodop，将检测结果保存至$rootScope中
+    // 供具有打印功能的页面调用并提示用户下载安装插件
+    $scope.loadCLodop = function () {
+      // 初始化是否安装标识为false，标识已安装
+      $rootScope.notInstallPrinterPlusin = false;
+
+
+
+      $timeout(function () {
+        if (window.CLODOP) {
+          $rootScope.notInstallPrinterPlusin = true;
+        }
+      }, 3000);
+
+      console.log($rootScope.notInstallPrinterPlusin);
+    };
+  }
+
   // SPD系统-库存调整controller
   function  inventoryAdjustmentOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
@@ -2888,7 +2914,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
   }
 
-
   function transferRecordCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn,modal) {
 
 
@@ -3052,7 +3077,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
   }
 
-
   /**
    * [cfgGoodsBarcodeCtroller SPD商品管理中GS1条码打印控制器]
    * @param  {[type]} $scope      [description]
@@ -3066,9 +3090,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     $scope.notInstallPlusin = null;
 
-    $scope.$watchCollection('window', function (newVal, oldVal) {
-      if (newVal) { console.log(newVal); }
-    });
+    $scope.$watch('medical', function (newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        $scope.medical.data.medicalType = '一段式';
+      }
+    }, true);
 
     // 获取商品条码
     $scope.getGoodsBarcode = function (barcode) {
@@ -3172,16 +3198,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     $scope.loadCLodop = function () {
-
       $timeout(function () {
         if (!OPrinter.chkOPrinter()) {
           $scope.notInstallPlusin = true;
         }
-      }, 3000);
+      }, 1000);
     };
   }
 
   angular.module('manageApp.project-PG16-H')
+  .controller('indexPageController', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', '$rootScope', indexPageController])
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
   .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
   .controller('transferRecordCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn','modal', transferRecordCtrl])

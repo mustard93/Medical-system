@@ -1,57 +1,74 @@
-<div class="modal-content right-side-new pr-bg-black4"
-     ng-controller="cfgGoodsBarcodeCtroller"
-     ajax-url="rest/authen/goodsLocation/get?id={{dialogData.id}}"
-     scope-data="scopeData"
-     alert-error
-     callback="initFlag=true;scopeData.medicalType=null;getGoodsLocationBarcode(scopeData);$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1}">
-  <div class="modal-header">
-    <h4 class="modal-title color-or">货位条码打印</h4>
-  </div>
-  <div class="modal-body modal-body-new">
-    <div class="pd-c-xxxxl bb-dashed-line mgt-l">
-      <div class="flex-column" style="line-height:2.9;">
-        <label class="text-right control-label text-normal">货位编号：</label>
-        <div class="inline-block color-white text-left">{{scopeData.code}}</div>
-      </div>
-      <div class="flex-column" style="line-height:2.9;">
-        <label class="text-right control-label text-normal">货位名称：</label>
-        <div class="inline-block color-white" style="line-height:2.9">{{scopeData.name}}</div>
-      </div>
-      <div class="flex-column mgt" style="line-height:2.9;">
-        <label class="text-right control-label text-normal">打印份数：</label>
-        <div class="inline-block color-3 text-left">
-          <input type="number"
-                 class="ipt pr-short-ipt"
-                 name="code"
-                 ng-model="printer.num"
-                 onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
-          <span class="color-or">(选填)</span>
+<div class="modal-content right-side-new pr-bg-black4">
+  <script src="http://localhost:8000/CLodopfuncs.js?priority=1"></script>
+  <script src="http://localhost:8001/CLodopfuncs.js?priority=2"></script>
+
+  <div
+       ng-controller="cfgGoodsBarcodeCtroller"
+       ajax-url="rest/authen/goodsLocation/get?id={{dialogData.id}}"
+       scope-data="scopeData"
+       alert-error
+       callback="initFlag=true;loadCLodop();scopeData.medicalType=null;$root.OPrinter.init();$root.OPrinter.setPrintDivId('Print_Div_id');printer={num:1}">
+    <div class="modal-header">
+      <h4 class="modal-title color-or">货位条码打印</h4>
+    </div>
+    <div class="modal-body modal-body-new">
+      <div class="pdb-l pd-c-xxxxl bb-dashed-line mgt-l">
+        <div id="installNoteDiv" class="mgb-xl" ng-if="notInstallPlusin">
+          <i class="fa fa-warning color-red mgr text-n"></i>
+          <font>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='http://113.10.155.131/CLodopPrint_Setup_for_Win32NT.zip' target='_self'>执行安装</a>,安装后请刷新页面。</font>
+        </div>
+        <div class="flex-column" style="line-height:2.9;">
+          <label class="text-right control-label text-normal">货位编号：</label>
+          <div class="inline-block color-white text-left">{{scopeData.code}}</div>
+        </div>
+        <div class="flex-column" style="line-height:2.9;">
+          <label class="text-right control-label text-normal">货位名称：</label>
+          <div class="inline-block color-white" style="line-height:2.9">{{scopeData.name}}</div>
+        </div>
+        <div class="flex-column mgt" style="line-height:2.9;">
+          <label class="text-right control-label text-normal">打印份数：</label>
+          <div class="inline-block color-3 text-left">
+            <input type="number"
+                   class="ipt pr-short-ipt"
+                   name="code"
+                   ng-model="printer.num"
+                   onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" />
+            <span class="color-or">(选填)</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="pd-c-xxxxl">
-      <h1 class="text-bold">打印预览<span class="color-white text-normal">（右键条码图片另存为可下载到本地）</span></h1>
+      <div class="pd-c-xxxxl">
+        <h1 class="text-bold">
+          <button type="button"
+                  class="btn pr-btn-create-glodbg"
+                  style="font-size:12px;width:85px;height:32px;line-height:1;"
+                  ng-click="getGoodsLocationBarcode(scopeData)"
+                  ng-disabled="notInstallPlusin">打印预览
+          </button>
+          <span class="color-white text-normal">（右键条码图片另存为可下载到本地）</span>
+        </h1>
 
-      <div ajax-url="rest/authen/uiCustomHtml/getByKey.json?key=goodsLocationBarcode"
-           scope-data="uiCustomHtml"
-           callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml);htmlString=''">
+        <div ajax-url="rest/authen/uiCustomHtml/getByKey.json?key=goodsLocationBarcode"
+             scope-data="uiCustomHtml"
+             callback="$root.OPrinter.setPrint_paramByUICustomHtml(uiCustomHtml);htmlString=''">
+        </div>
+
+        <div class="mgt" id="Print_Div_id" ng-controller="mainCtrl" >
+          <ng-include id="htmlString_divId" src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtmlByKey?key=goodsLocationBarcode'"></ng-include>
+        </div>
+
+        <!-- <div class="mgt">
+          <img ng-src="{{goodsFullBarcode}}" alt="">
+        </div> -->
       </div>
-
-      <div class="mgt" id="Print_Div_id" ng-controller="mainCtrl" >
-        <ng-include id="htmlString_divId" src="mainConfig.serverPath+'rest/authen/uiCustomHtml/getHtmlByKey?key=goodsLocationBarcode'"></ng-include>
-      </div>
-
-      <!-- <div class="mgt">
-        <img ng-src="{{goodsFullBarcode}}" alt="">
-      </div> -->
     </div>
-  </div>
-  <div class="btn-confirm-area">
-    <button type="button"
-            class="ngdialog-close btn pr-btn-create-glodbg "
-            style="width:160px;height:32px;	margin-top: 8px;margin-left:270px;"
-            ng-disabled="!scopeData.barcode"
-            ng-click="$root.OPrinter.print(printer.num)">打印
-    </button>
+    <div class="btn-confirm-area">
+      <button type="button"
+              class="ngdialog-close btn pr-btn-create-glodbg "
+              style="width:160px;height:32px;	margin-top: 8px;margin-left:270px;"
+              ng-disabled="!scopeData.barcode || notInstallPlusin"
+              ng-click="$root.OPrinter.print(printer.num)">打印
+      </button>
+    </div>
   </div>
 </div>
