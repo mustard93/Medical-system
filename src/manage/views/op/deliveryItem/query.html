@@ -1,0 +1,140 @@
+<div class="medical-stock supplier-management child-project-management">
+     <table-list list-data="rest/authen/deliveryItem/query"
+                 list-params="listParams"
+                 search-mode="noCaseSensitive"
+                 search-param="q">
+
+  <div class="medical-stock child-project-management receive-item" ng-controller="pageCtrl">
+
+    <div class="content-wrapper" style="margin:0px 45px;">
+      <div class="page-heading">
+          <h3>配送数据管理查询</h3>
+          <ul class="breadcrumb">
+              <li><a href="#">主面板</a></li>
+              <li class="active">配送数据管理查询</li>
+          </ul>
+      </div>
+      <div class="content-wrapper-main pr-fuzzy-boundary">
+        <div class="flex-column text-right mgt-xl mgb-xl">
+            <div class="order-list-search inline-block text-left code pos-rel-tr mgt relative">
+              <input type="text" class="ipt pdr-xxl" placeholder="" ng-model="listParams.q">
+              <i class=""></i>
+            </div>
+            <div class="inline-block mgl-m mgt" ng-click="listParams.q=''">
+              <i class="fa fa-refresh mgr-s color-light-brown"></i>
+              <a href="" class="color-light-brown" >重置搜索条件</a>
+            </div>
+        </div>
+        <!-- 批量发送按钮 -->
+        <div ng-if="!listParams.receiveItemStatus" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
+          <a ng-if="!choisedMedicalList.length"
+             href="javascript:void(0)"
+             class="batch-receive-btn"
+             ng-disabled="!choisedMedicalList.length">批量发送
+            <em class="bulk-receipt-btn-disabled-icon"></em>
+          </a>
+          <a ng-if="choisedMedicalList.length"
+             href="javascript:void(0)"
+             class="batch-receive-btn"
+             handle-this-click
+             dialog-title="确认提示?"
+             dialog-content="这是一个很谨慎的操作。确认批量发送?"
+             dialog-content-color="#FF3939"
+             dialog-template="pr-dialog-confirm.html"
+             callback="handleBatchReceive()">批量发送
+            <em class="bulk-receipt-btn-icon"></em>
+          </a>
+        </div>
+        <div class="pr-bg-white pr-fuzzy-boundary">
+          <table class="table pr-table pr-new-table pr-table-content">
+            <thead class="pr-bg-side">
+              <tr>
+                <th class="w-60 text-center mycheck" >
+                  <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                  <label for="1"></label>
+                </th>
+                <th class="w-80">序号</th>
+                <th class="w-140">医疗机构编号</th>
+                <th class="w-80">医疗机构名称</th>
+                <th class="w-220">供应商编号</th>
+                <th>供应商名称</th>
+                <th>供应商商品名称</th>
+                <th>配送数量</th>
+                <th>配送日期</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                  ng-repeat="tr in tbodyList track by $index"
+                  class="relative"
+                  table-item-multiple-btn>
+                <td class="select-td text-center mycheck">
+                  <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                  <label for="{{$index+2}}"></label>
+                </td>
+                <td class="relative">
+                  <div class="table-item-multiple-btn">
+                    <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                         style="right:90px;"
+                         modal-right="50%"
+                         modal-scope="this"
+                         modal-data='{"showData":"{{tr}}"}'
+                         modal-url="views/deliveryItem/get.html">查看详情
+                    </div>
+                  </div>
+                </td><!-- 状态 -->
+                <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
+                <td>{{tr.relOrderCode}}</td><!-- 采购计划编号 -->
+                <td>{{tr.code}}</td><!-- 商品编号 -->
+                <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品名称 -->
+                <td>{{tr.specification}}</td><!-- 规格 -->
+                <td>{{tr.packingAttribute.name}}</td><!-- 单位 -->
+                <td>{{tr.dtOrderCreateAt | date : 'yyyy-MM-dd'}}</td><!-- 供应商销售日期 -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pr-bg-white" ng-if="!tbodyList.length">
+          <div class="empty-table clearfix">
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+          </div>
+        </div>
+        <div class="flex-column bg-white">
+          <div class="flex-item-6">
+            <!-- 批量发送按钮 -->
+            <div  ng-if="!listParams.receiveItemStatus" class="flex-column color-9 pd-c-l pdt-m pdb-m">
+              <a ng-if="!choisedMedicalList.length"
+                 href="javascript:void(0)"
+                 class="batch-receive-btn"
+                 ng-disabled="!choisedMedicalList.length">批量发送
+                <em class="bulk-receipt-btn-disabled-icon"></em>
+              </a>
+              <a ng-if="choisedMedicalList.length"
+                 href="javascript:void(0)"
+                 class="batch-receive-btn"
+                 handle-this-click
+                 dialog-title="确认提示?"
+                 dialog-content="这是一个很谨慎的操作。确认批量发送?"
+                 dialog-content-color="#FF3939"
+                 dialog-template="pr-dialog-confirm.html"
+                 callback="handleBatchReceive()">批量发送
+                <em class="bulk-receipt-btn-icon"></em>
+              </a>
+            </div>
+          </div>
+          <div class="flex-item-6">
+            <!-- 导航 -->
+            <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
+                <div class="fr">
+                    <pagination status="status"></pagination>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</table-list>
