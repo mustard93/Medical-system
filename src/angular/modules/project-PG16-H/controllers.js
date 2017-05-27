@@ -667,7 +667,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/receiveItem/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
+            if(results[1].msg){
+              alertOk(results[1].msg);
+            }
             utils.refreshHref();
+          }else if(results[1].msg){
+            alertWarn(results[1].msg);
           }
         })
         .catch(function (error) {
@@ -2395,7 +2400,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/shelvesUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
+            if(results[1].msg){
+              alertOk(results[1].msg);
+            }
             utils.refreshHref();
+          }else if(results[1].msg){
+            alertWarn(results[1].msg);
           }
 
         })
@@ -2460,7 +2470,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/pickStockOutMedical/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
+            if(results[1].msg){
+              alertOk(results[1].msg);
+            }
             utils.refreshHref();
+          }else if(results[1].msg){
+            alertWarn(results[1].msg);
           }
 
         })
@@ -2484,7 +2499,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   }
 
   // 验收计划控制器
-  function checkUpController ($scope, requestData, utils, modal) {
+  function checkUpController ($scope, requestData, utils, modal,alertOk,alertWarn) {
     // 定义存放用户选择药品的列表
     $scope.choisedMedicalList = [];
 
@@ -2541,7 +2556,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       if ($scope.choisedMedicalList.length) {
         requestData('rest/authen/checkUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
-          if (results[1].code === 200) { utils.refreshHref(); }
+          if (results[1].code === 200) {
+            if(results[1].msg){
+              alertOk(results[1].msg);
+            }
+            utils.refreshHref();
+          }else if(results[1].msg){
+            alertWarn(results[1].msg);
+          }
+
         })
         .catch(function (error) {
           throw new Error(error || '出错');
@@ -2612,7 +2635,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       var _url = 'rest/authen/pickBillOrder/batchConfirm';
       requestData(_url, $scope.choisedMedicalList, 'POST', 'parameterBody')
       .then(function (results) {
-        if (results[1].code === 200) { utils.goTo('#/pickBillOrder/get.html?id='+id); }
+        if (results[1].code === 200)
+        {
+          utils.goTo('#/pickBillOrder/get.html?id='+id);
+        }
       })
       .catch(function (error) {
         if (error) throw new Error(error || '出错');
@@ -3215,7 +3241,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn', 'utils', createCorrespondController])
   .controller('storeRoomController', ['$scope', 'requestData', 'alertError', 'alertOk', storeRoomController])
   .controller('purchaseReturnController', ['$scope', 'modal', 'alertWarn', 'watchFormChange', 'requestData', '$rootScope', 'alertOk', 'utils', purchaseReturnController])
-  .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal', checkUpController])
+  .controller('checkUpController', ['$scope', 'requestData', 'utils', 'modal','alertWarn', 'alertOk', checkUpController])
   .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController])
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
