@@ -1296,8 +1296,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       //   alertWarn("请选择药品");
       //   return ;
       // }
-      var medical=flashAddData.data.data;
-      var addDataItem = $.extend(true,{},medical);
+
+      var medical = null,
+          addDataItem = null;
+
+      if (flashAddData) {
+        medical=flashAddData.data.data;
+        addDataItem = $.extend(true,{},medical);
+      } else {
+        return;
+      }
 
       // 检查数据是否已被添加
       var _supplierId = $scope.mainStatus.pageParams.supplierId,    // 供应商id
