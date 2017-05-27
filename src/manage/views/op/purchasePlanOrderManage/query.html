@@ -68,10 +68,33 @@
                               </td>
                               <td>{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</td>
                               <td>
-                                <button type="button" class="btn btn-danger mgr-xxl" ng-click="deleteThis('rest/authen/hospital/delete', tr.id)">
+                                <!-- <a class="btn btn-primary mgr-xxl"
+                                 modal-center="340px"
+                                 modal-scope="this"
+                                 modal-data='{"id":"{{tr.id}}"}'
+                                 modal-url="views/op/purchasePlanOrderManage/send-dialog.html">
                                     <i class="fa fa-edit"></i>
                                     变更状态
-                                </button>
+                                </a> -->
+                                <button href="javascript:;"
+                                  class="btn btn-primary mgr-xxl"
+                                  type="button"
+                                  modal-center="350"
+                                  modal-scope="this"
+                                  modal-data='{"title":"确认提示",
+                                               "content":"请选择变更状态",
+                                               "btnConfirm":"确定",
+                                               "btnCancel":"取消",
+                                               "id":"{{tr.id}}",
+                                               "url":"",
+                                               "goUrl":"views/op/purchasePlanOrderManage/query.html"
+                                              }'
+                                  tpl-url="tpl/send-dialog.html"
+                                   >
+                                   <i class="fa fa-edit"></i>
+                                   变更状态
+                                 </button>
+
                                 <button
                                   type="button"
                                   ng-if="tr.sendStatus=='失败'"

@@ -2445,6 +2445,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           }
         };
 
+
   }
 
   function pickStockOutMedicalController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {

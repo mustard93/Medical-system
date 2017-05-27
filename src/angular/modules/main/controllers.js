@@ -434,6 +434,20 @@ define('main/controllers', ['main/init'], function () {
         };
 
 
+        $scope.changeStatus = function(_id,_selectSendStatus){
+
+          var _url = 'rest/authen/op/purchasePlanOrder/updateStatus?id=' + _id+'&status='+_selectSendStatus,
+          _data = {};
+            requestData(_url, _data, 'post')
+            .then(function (results) {
+              modal.closeAll();
+              utils.refreshHref();
+            })
+            .catch(function (error) {
+              if (error) { console.log(error || '出错!'); }
+            });
+        };
+
     }
 
     /**

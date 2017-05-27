@@ -1,0 +1,57 @@
+<!-- <div class="pr-page-dialog-wrap" >
+  <div class="pr-page-dialog-title bb-line">
+    <span class="mgl-l">确认改变状态?</span>
+  </div>
+  <div class="pr-page-dialog-content bb-line">
+      <div class="mgb-l">{{rejectObj.msg||"这是一个很谨慎的操作，确认改变状态？"}}</div>
+      <div class="flex-column">
+        <div class="flex-item-2">
+          状态：
+        </div>
+        <div class="flex-item-10">
+          <p class="mgb">
+
+          <select class="ipt pr-long-ipt color-3 "
+                  data-placeholder=" "
+                  style="width:150px;"
+                  chosen
+                  ng-model="formData.storageCondition"
+                  select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OP_PurchasePlanOrderStatus">
+          </select>
+          </p>
+        </div>
+      </div>
+  </div>
+  <div class=" text-center mg-m">
+    <button type="button"  class="pr-btn-save-glodbg btn-new-wid-hei" ng-click="changeStatus();">确定</button>
+  </div>
+</div> -->
+
+
+<div class="pr-page-dialog-wrap">
+  <form class="confirmOrder-reject-form"
+        ng-init="formData.modify=dialogData.modify;"
+        action="{{dialogData.url}}"
+        callback="$root.utils.goOrRefreshHref();"
+        auto-close-dialog
+        form-validator>
+    <div class="pr-page-dialog-title bb-line">
+      <span class="mgl-l">{{dialogData.title}}</span>
+    </div>
+    <div class="pr-page-dialog-content bb-line" style="padding-top:5px;">
+      <p>
+        <select class="ipt pr-long-ipt color-3 "
+                data-placeholder=" "
+                style="width:150px;"
+                chosen
+                ng-model="formData.storageCondition"
+                select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OP_PurchasePlanOrderStatus">
+        </select>
+      </p>
+    </div>
+    <div class="pr-page-dialog-footer text-center mg-m">
+      <button type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
+      ng-click="submitForm('editForm','save');modal.closeAll()">{{dialogData.btnConfirm}}</button>
+    </div>
+  </form>
+</div>
