@@ -711,17 +711,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.changeQuantity = function (deliveryQuantity,hasReceiveQuantity,hasRefuseQuantity,_quantity,bool){
       if(deliveryQuantity){
         var endQuantity=deliveryQuantity-hasReceiveQuantity-hasRefuseQuantity-_quantity;
-
         if(bool){
-          $scope.formData.refuseQuantity=endQuantity;
-          if(endQuantity<0){
+          if(endQuantity<$scope.formData.receiveQuantity){
             $scope.quantityError=true;
           }else {
             $scope.quantityError=false;
           }
         }else{
-          $scope.formData.receiveQuantity=endQuantity;
-          if(endQuantity<0){
+          if(endQuantity<$scope.formData.refuseQuantity){
             $scope.quantityFalse=true;
           }else {
             $scope.quantityFalse=false;
