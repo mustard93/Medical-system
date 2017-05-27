@@ -333,7 +333,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      *  主页面控制器
      */
-    function pageCtrl($scope, modal, dialogConfirm, $timeout,requestData, utils) {
+    function pageCtrl($scope, modal, dialogConfirm, $timeout,requestData, utils,alertWarn,alertOk) {
         modal.closeAll();
 
         $scope.choisedMedicalList = [];
@@ -371,20 +371,18 @@ define('main/controllers', ['main/init'], function () {
         };
 
         // 配送数据发送操作
-        $scope.handleSend = function (_id) {
+        $scope.handleSend = function () {
           if ($scope.choisedMedicalList.length) {
-            // var _data = {
-            //   ids: $scope.choisedMedicalList
-            // };
-            requestData('rest/authen/op/purchasePlanOrder/sendOrder', $scope.choisedMedicalList, 'POST', 'parameter-body')
+            requestData('rest/authen/op/deliveryItem/sendData', $scope.choisedMedicalList, 'POST', 'parameter-body')
             .then(function (results) {
+              console.log(1);
               if (results[1].code === 200) {
                 utils.refreshHref();
               }
-
             })
             .catch(function (error) {
               throw new Error(error || '出错');
+
             });
           }
         };
@@ -407,7 +405,7 @@ define('main/controllers', ['main/init'], function () {
         // 每个药品单选操作
         $scope.handleItemClickEvent = function (item) {
           if (item.handleFlag) {    // 选中
-            if (item) {
+            if (item && item.sendStatus!='正常') {
               $scope.choisedMedicalList.push(item.id);
             }
           } else {
@@ -425,7 +423,12 @@ define('main/controllers', ['main/init'], function () {
             if ($scope.tbodyList) {
               $scope.choisedMedicalList = [];
               angular.forEach($scope.tbodyList, function (data, index) {
-                $scope.choisedMedicalList.push(data.id);
+
+                if(data.sendStatus!='正常'){
+                  $scope.choisedMedicalList.push(data.id);
+                }else{
+                  data.handleFlag=false;
+                }
               });
             }
           } else {        // 取消全部选中
@@ -464,5 +467,5 @@ define('main/controllers', ['main/init'], function () {
         "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
         .controller('sideNav',  ["$scope",sideNav])
         .controller('editCtrl',  ["$scope","modal",editCtrl])
-        .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils",pageCtrl]);
+        .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl]);
 });
