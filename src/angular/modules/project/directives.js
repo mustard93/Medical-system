@@ -2625,20 +2625,22 @@ function flashAddMedical(utils,$timeout) {
             }
           });
 
+          $scope.handleEnterForAdd = function () {
+
+          };
+
           //监听自动补全选中事件。
           $scope.angucompleteMedicalOnChange = function () {
             //隐藏数量输入字段情况下，选择药械，触发添加事件。
             if($scope.hideQuantity){
+              $('#addMedicalList').focus();
               $scope.addDataFn();
             }else{//隐藏字段情况下，选择药械，触发添加事件。
               var inputId='flashAddMedical_input_count';
                 if($scope.id)inputId+=$scope.id;
               //  $timeout 保障不受其他干扰，最后一个执行。
               utils.focusByInputId(inputId);
-
-
             }
-
           };
 
           //添加业务数据
