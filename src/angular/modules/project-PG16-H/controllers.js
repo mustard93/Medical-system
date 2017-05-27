@@ -693,16 +693,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData('rest/authen/receiveItem/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
-            if(results[1].msg){
-              alertOk(results[1].msg);
-            }
+            // if(results[1].msg){
+            //   alertOk(results[1].msg);
+            // }
             utils.refreshHref();
-<<<<<<< HEAD
             if (results[1].msg) { alertOk(results[1].msg); }
-=======
-          }else if(results[1].msg){
-            alertWarn(results[1].msg);
->>>>>>> V1.01.00.3.02_Alpha
           }
         })
         .catch(function (error) {
