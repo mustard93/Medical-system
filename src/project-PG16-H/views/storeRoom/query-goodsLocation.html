@@ -29,6 +29,32 @@
     <!-- 货位列表 -->
     <div class="content-wrapper pd-c-m pdt-m">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="margin-bottom:-1px;">
+        <div class="bb-dashed-line pd-c-l pdb-m" style="margin-left:-20px;margin-right:-20px;">
+          <span>库房：</span>
+          <span>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    no-first-select-source="true"
+                    ng-model="listParams.storeRoomId"
+                    select-source="rest/authen/storeRoom/queryForSelectOption">
+            </select>
+          </span>
+          <span class="mgl-xl">区域：</span>
+          <span>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    no-first-select-source="true"
+                    default-empty="全部"
+                    ng-model="listParams.regionId"
+                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}">
+            </select>
+          </span>
+        </div>
         <div class="flex-column mgt-m">
           <!-- 批量删除按钮 -->
           <div class="flex-item-6">
