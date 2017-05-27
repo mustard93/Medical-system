@@ -775,7 +775,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           _total += data.strike_price * data.quantity;
         });
       }
-      $scope.totalPrice = _total;
+      $scope.formData.totalPrice = _total;
     };
 
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
