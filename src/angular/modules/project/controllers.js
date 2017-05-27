@@ -5609,7 +5609,8 @@ define('project/controllers', ['project/init'], function() {
           requestData('rest/authen/salecontentmedical/save', _data, 'POST', 'parameter-body')
           .then(function (results) {
             if (results[1].code === 200) {
-              _reloadListData('rest/authen/salecontentmedical/query?customerAddressId=' + $scope.mainStatus.pageParams.customerAddressId);
+              utils.refreshHref();
+              // _reloadListData('rest/authen/salecontentmedical/query?customerAddressId=' + $scope.mainStatus.pageParams.customerAddressId);
             }
           })
           .catch(function (error) {
