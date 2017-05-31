@@ -2610,6 +2610,12 @@ function flashAddMedical(utils,$timeout) {
             $scope.hideImport=true;
           }
 
+          //药械输入框提示语
+          if ($attrs.placeholder){
+            $scope.showPlaceholder=$attrs.placeholder;
+          }
+
+
           //监听变化
           $attrs.$observe("ajaxUrl", function(newVal, oldVal) {
             $scope.ajaxUrl = newVal;
