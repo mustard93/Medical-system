@@ -5034,6 +5034,45 @@ define('project/controllers', ['project/init'], function() {
 
     };
 
+    $scope.addToList=function(choisedMedicalList,medicalList){
+        var list = compareArray(medicalList,choisedMedicalList,'id','id');
+        return medicalList.concat(list);
+    };
+     //去重 返回 arrB 与 arrA 中 arrB不重复部分
+    function compareArray(arrA,arrB,arrAAtrr,arrBAtrr){
+          var temp=[];
+
+          for (var i = 0; i<arrA.length; i++) {
+
+              for(var j=0; j<arrB.length; j++){
+
+                  if(arrA[i][arrAAtrr]==arrB[j][arrBAtrr]){
+
+                      // console.log("重复的有：",arrB[j][arrBAtrr]);
+                      temp.push(arrB[j][arrBAtrr]);
+                  }
+              }
+          }
+
+
+          for(var i=0;i<temp.length; i++){
+
+              for(var j=0; j<arrB.length; j++){
+
+                  console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
+
+                  if(arrB[j][arrBAtrr]==temp[i]){
+                      arrB.splice(j,1);
+                  }
+              }
+          }
+
+
+          //  console.log("去重部分剩下部分：",arrB);
+
+          return arrB;
+      }
+
     // 全选与全不选
     $scope.handleChoiseAllEvent = function () {
 
