@@ -2,7 +2,7 @@
      ng-controller="inventoryAdjustmentOrderCtrl"
      ajax-url="rest/authen/inventoryAdjustmentOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData'); choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false; flag=false;"
+     callback="initFlag=true;watchFormChange('formData'); choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;"
      alert-error>
 
 
@@ -55,7 +55,6 @@
                <span class="mgr">单据编号：
                  <!---->
                  <input type="text"
-                        ng-disabled="formData.id"
                         class="inline ipt pr-ipt-60 text-center"
                         style="width:100px;"
                         ng-model="formData.orderCode" />
@@ -73,7 +72,7 @@
             </div>
 
             <div class="flex-item-6 text-right">
-              <span class="mgr">>制单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
+              <span class="mgr">制单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
               <span class="mgr">状态：<em class="color-3">  {{formData.orderStatus}}  </em></span>
             </div>
           </div>
@@ -164,7 +163,7 @@
                       <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                       <p class="pdt">
                         <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
-                        <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="updateFlag(true); formData.orderMedicalNos.splice($index,1);">确认</a>
+                        <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
                       </p>
                     </div>
                   </div>
@@ -203,7 +202,7 @@
                            ng-blur="checkMaxNum(batch,$index)"
                            ng-change="changeQuantity(batch.quantity)">
                     <input type="hidden" required ng-model="batch.id">
-                    <span ng-if="showDelIcon" class="circle-s" ng-click=" updateFlag(false);tr.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
+                    <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1);"><i class="fa fa-times-circle"></i></span>
                   </div>
 
                   <!-- 批号选择  ng-if="calculaBatchsTotal(tr,tr.goodsCount)<item.goodsCount"  "choisedBatchList":{{tr.stockBatchs || ""}},  "goodsCount":{{tr.goodsCount}},  -->
@@ -286,7 +285,7 @@
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-click="submitForm('purchasePlanForm','save')"
-                  ng-disabled="!formData.orderCode||!changeFlag">保存
+                  ng-disabled="!changeFlag">保存
           </button>
         </span>
 
@@ -299,7 +298,7 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  ng-disabled="purchasePlanForm.$valid || !formData.orderCode||!formData.orderMedicalNos.length ||!flag  ||quantityError"
+                  ng-disabled="purchasePlanForm.$valid || !formData.orderCode||!formData.orderMedicalNos.length ||quantityError"
                   callback="submitForm('purchasePlanForm','submit')">提交
           </button>
 

@@ -7,18 +7,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   function  inventoryAdjustmentOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       //调整
-      $scope.flag=false;
-
-      $scope.updateFlag=function (flag) {
-          $scope.flag=flag;
-      }
 
       $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
       };
       modal.closeAll();
-
-
 
       // 向列表添加数据的回调函数
       $scope.flashAddDataCallbackFn = function(flashAddData) {
@@ -127,9 +120,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
 
-
-
-
       // 保存 type:save-草稿,submit-提交订单。
       $scope.submitForm = function(fromId, type) {
 
@@ -231,17 +221,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               }
           });
 
-
-          var flag=false;
-
           for(var i=0; i<arr.length; i++){
 
               if (batchId==arr[i]){
-                  flag=true;
                   break;
               }
           }
-          return flag;
       };
 
       $scope.changeQuantity=function(quantity){
