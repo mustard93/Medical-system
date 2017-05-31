@@ -2166,6 +2166,73 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     $scope.batchsNumOverloadFlag = false;
 
+    $scope.$watch('initFlag', function (newVal) {
+       var operationFlowSetMessage=[];
+       var operationFlowSetKey=[];
+       var i;
+       if (newVal && $scope.showData) {
+         // 选择出当前状态相同的驳回理由，并放入一个数组中
+        for (i=0; i<$scope.showData.operationFlowSet.length; i++) {
+          if ($scope.showData.operationFlowSet[i].status==$scope.showData.orderStatus) {
+            operationFlowSetMessage.push($scope.showData.operationFlowSet[i].message);
+            operationFlowSetKey.push($scope.showData.operationFlowSet[i].key);
+          }
+        }
+       //  选择当前状态最近的一个驳回理由用于显示
+        $scope.showData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+        $scope.showData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+       }
+       if (newVal && $scope.formData) {
+         // 选择出当前状态相同的驳回理由，并放入一个数组中
+         if ($scope.formData.operationFlowSet) {
+           for (i=0; i<$scope.formData.operationFlowSet.length; i++) {
+             if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+               operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
+               operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
+             }
+           }
+           //选择当前状态最近的一个驳回理由用于显示
+           $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+           $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+         }
+       }
+       if (newVal && $scope.tr) {
+         // 选择出当前状态相同的驳回理由，并放入一个数组中
+
+         if ($scope.tr.operationFlowSet) {
+           for (i=0; i<$scope.tr.operationFlowSet.length; i++) {
+             if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
+               operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
+               operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
+             }
+           }
+
+           //选择当前状态最近的一个驳回理由用于显示
+           $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+           $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+         }
+       }
+
+       if (newVal && $scope.formData) {
+         if (newVal && $scope.formData.orderMedicalNos) {
+          //  angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
+          //    if (data.handleFlag)
+          //  })
+          for (i=0; i<$scope.formData.orderMedicalNos.length; i++) {
+            if ($scope.formData.orderMedicalNos[i].handleFlag) {
+              $scope.choisedMedicals = true;
+            }
+            if (!$scope.formData.orderMedicalNos[i].handleFlag) {
+              $scope.isChoiseAll = false;
+            }
+          }
+          // $scope.isChoiseAll = true;
+         }
+       }
+
+
+     });
+
     $scope.watchFormChange=function(watchName){
       watchFormChange(watchName,$scope);
     };
