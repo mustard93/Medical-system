@@ -167,13 +167,13 @@
                     <th class="text-left">商品名称</th>
                     <th class="text-center">规格</th>
                     <th class="text-center">基本单位</th>
-                    <th class="text-center">可调拨数量</th>
                     <th class="text-center">申请数量</th>
+                    <th class="text-center">可调拨数量</th>
                     <th class="text-center">生产厂商</th>
                     <th class="text-center">产地</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="relative">
                   <tr ng-repeat="item in formData.orderMedicalNos"
                       ng-controller="ConfirmOrderMedicalController"
                       table-item-handlebtn-component>
@@ -188,15 +188,10 @@
                         </div>
                       </div>
                     </td><!-- 商品编号 -->
-                    <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
+                    <td class="text-left"><div style="width:120px;" class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.packingAttribute.name}}</td><!-- 单位 -->
                     <td ng-if="!formData.id" class="text-right">{{item.salesQuantity}}</td>
-                    <td ng-if="formData.id&&initFlag" class="text-right"
-                        ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}&&storeRoomId={{formData.storeRoomId}}"
-                        scope-data="scopeData">
-                      <em ng-repeat="tr in scopeData" ng-init="item.salesQuantity=tr.salesQuantity">{{tr.salesQuantity}}</em>
-                    </td><!-- 可调拨数量 -->
                     <td class="text-center">
                       <div class="order-goods-num">
                         <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(item.salesQuantity,item.applicationCount)"
@@ -236,6 +231,11 @@
                           ng-disabled="item.applicationCount>=item.salesQuantity">+</button>
                       </div>
                     </td><!-- 计划调拨数量 -->
+                    <td ng-if="formData.id&&initFlag" class="text-right"
+                        ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}&&storeRoomId={{formData.storeRoomId}}"
+                        scope-data="scopeData">
+                      <em ng-repeat="tr in scopeData" ng-init="item.salesQuantity=tr.salesQuantity">{{tr.salesQuantity}}</em>
+                    </td><!-- 可调拨数量 -->
                     <td class="text-center" >{{item.manufacturer}}</td>
                     <td class="text-center" >{{item.productionPlace}}</td>
                     </td><!-- 价税合计 -->
