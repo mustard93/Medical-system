@@ -2,6 +2,7 @@
      ng-controller="purchaseReturnController"
      ajax-url="rest/authen/purchaseReturn/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="showData"
+     callback="initFlag=true;"
      alert-error>
     <!-- 头部信息 -->
     <!-- 头部信息 -->
@@ -11,6 +12,15 @@
     </page-main-header-component>
     <!-- 单据基本信息 -->
     <div class="pd-loss-l">
+      <div ng-if="showData.operationFlowSet.key||showData.operationFlowSet.message"
+      ng-class="{'pr-bg-pink1':(showData.orderStatus=='已作废'||showData.orderStatus=='未通过')}"
+      class="pr-panel pr-panel-height mgb pr-bg-pass color-pass">
+        <em ng-class="{'color-red':(showData.orderStatus=='已作废'||showData.orderStatus=='未通过')}">原因:</em>
+        <p class="inline-block " ng-class="{'color-red':(showData.orderStatus=='已作废'||showData.orderStatus=='未通过')}">
+          <em >{{showData.operationFlowSet.key}}</em>
+          <em >{{showData.operationFlowSet.message}}</em>
+        </p>
+      </div>
       <div class="inline-block mgr-l">
         <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
           <div class="inline-block supplier-icon"></div>
