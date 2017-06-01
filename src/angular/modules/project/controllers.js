@@ -6056,7 +6056,83 @@ define('project/controllers', ['project/init'], function() {
 
    }//end salesOrderEditCtrl
 
+    //销售单-右侧弹出框-Ctlr
+    function  choiceInvoiceDialogCtlr($scope, requestData,utils, alertWarn,alertOk) {
 
+        //添加发票
+        $scope.addInvoice= function (item,choisedList,orderId) {
+
+            var _data={
+                id:orderId,
+                invoiceId:item.id
+            };
+            requestData('rest/authen/confirmOrder/addInvoice', _data, 'POST')
+                .then(function (results) {
+
+                    if (results[1].code === 200) {
+                        alertOk('添加成功！');
+
+                        $scope.invoiceList.push(item);
+                        // $scope.getInvoiceById(orderId);
+                        //
+                    }
+                }).catch(function (error) {
+                    alertWarn(error || '操作失败！');
+                }
+            );
+
+        };
+
+        //根据订单ID 获取关联发票列表
+        $scope.getInvoiceById=function (orderId) {
+            var _data={
+                id:orderId
+            };
+            requestData('rest/authen/confirmOrder/getInvoicesById', _data, 'GET')
+                .then(function (results) {
+
+                    if (results[1].data) {
+                        $scope.invoiceList=results[1].data;
+                        console.log("$scope.invoiceList",$scope.invoiceList);
+                        $scope.$apply();
+                    }
+                });
+        };
+
+        //判断列表中是否包含了当前对象
+        $scope.itemInList=function(item,list){
+
+            var flag =false;
+            if(list.length>0){
+                angular.forEach(list,function (item2,index) {
+                    if(item2.id == item.id ){
+                        flag =true;
+                    }
+                });
+            }
+            return flag;
+        };
+
+        //获取待选发票列表
+        $scope.getInvoiceList=function (listParams) {
+
+            var _url = 'rest/authen/invoice/query',
+                _data = {
+                    type:listParams.type,
+                    source:listParams.invoiceSource,
+                    createAtBeg:listParams.createAtBeg,
+                    createAtEnd:listParams.createAtEnd,
+                    q:listParams.q||'',
+                    orderStatus:'已完成'
+                };
+
+            requestData(_url, _data, 'GET')
+                .then(function (results) {
+                    if (results[1].data) { $scope.stockBatchList = results[1].data; }
+                });
+
+        };
+    }
 
   angular.module('manageApp.project')
   .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn','utils', createCorrespondController])
@@ -6102,5 +6178,6 @@ define('project/controllers', ['project/init'], function() {
   .controller('returnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', returnOrderEditCtrl])
   .controller('purchasereturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', purchasereturnOrderEditCtrl])
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController])
-  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', cfgGoodsBarcodeCtroller]);
+  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', cfgGoodsBarcodeCtroller])
+      .controller('choiceInvoiceDialogCtlr', ['$scope', 'requestData', 'utils', 'alertWarn','alertOk',choiceInvoiceDialogCtlr]);
 });

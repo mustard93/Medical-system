@@ -240,7 +240,7 @@
                      ng-if="item.source == '采购发票'"
                      class="invoice-item"
                      modal-img-show
-                     ng-src="{{item.attachments[0]}}"
+                     ng-src="{{  item.attachments[0].attachmentUrl ?   'http://pangu1656.oss-cn-shanghai.aliyuncs.com/'+item.attachments[0].attachmentUrl : ''}}"
                   >
                     <div  handle-this-click
                           title="删除"
@@ -282,8 +282,11 @@
                         ng-if="item.source == '销售发票'"
                         class="invoice-item"
                         modal-img-show
-                        ng-src="{{item.attachments[0]}}"
+                        ng-src="{{  item.attachments[0].attachmentUrl ?   'http://pangu1656.oss-cn-shanghai.aliyuncs.com/'+item.attachments[0].attachmentUrl : ''}}"
                 >
+
+                  <!--<img ng-src="{{'http://pangu1656.oss-cn-shanghai.aliyuncs.com/'+item.attachments[0].attachmentUrl}}" alt="">-->
+
                   <div
 
                           handle-this-click
