@@ -1,0 +1,428 @@
+<div class="create-new-order purchaseOrder-edit"
+     ng-controller="noticeEditCtrl"
+     ajax-url="rest/authen/invoice/getOfEdit.json?id={{mainStatus.pageParams.id}}&source=销售发票"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData');formData.source='销售发票';diffPurchaseNumber(formData.orderMedicalNos)"
+     alert-error>
+<form id="purchaseForm"
+     name="purchaseForm"
+     form-validator
+     parameter-body
+     action="rest/authen/invoice/save.json"
+     alert-error
+     alert-ok
+     scope-error-msg="errorMsg"
+     scope-data="formData"
+     callback="submitFormAfter();watchFormChange('formData')"
+     onkeydown="if(window.event.keyCode==13) return false;"
+     novalidate="novalidate">
+
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
+         <a href="#/com_invoice/query.html">
+            <em class="color-custom-orange">销售发票</em>
+         </a>
+        <em>>新建销售发票</em>
+       </p>
+       <div class="pd-c-xxl pdt-l pdb-l">
+         <!-- 标题 -->
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}销售发票</h1>
+         </div>
+       </div>
+     </div>
+
+       <div class="content-wrapper">
+       <div class="">
+         <div class="inline-block">
+            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:168px;">
+              <div class="inline-block logistics-center"></div>
+              <div class="inline-block">
+                <p class="mgb-s">发票类型</p>
+                <p class="text-m color-3">
+                  <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
+                          data-placeholder=" "
+                          chosen
+                          style="width:93px;"
+                          ng-model="formData.type"
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InvoiceType">
+                  </select>
+                </p>
+              </div>
+            </div>
+         </div>
+
+         <div class="inline-block mgl">
+            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:244px;">
+              <div class="inline-block logistics-center"></div>
+              <div class="inline-block">
+                <p class="mgb-s">发票号</p>
+                <p class="text-m color-3">
+                  <input type="text" class="ipt ipt-new-s text-n" ng-model="formData.code" style="width:165px;height:28px;" name="name" value="">
+                </p>
+              </div>
+            </div>
+         </div>
+
+         <!-- <div class="inline-block mgl">
+           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
+             <div class="inline-block  supplier-name "></div>
+             <div class="inline-block">
+               <p class="mgb-s">供应商</p>
+               <div class="inline-block"
+                    ajax-if-eval="formData.supplier.id"
+                    ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
+                    scope-data="supplier"
+                    callback="formData.supplier=supplier;chkSupplierInfo(supplier)"
+                    alert-error>
+                 <div>
+                   <span ng-if="initFlag"
+                         angucomplete-supplier
+                         placeholder="供应商"
+                         title-field="name"
+                         search-fields="{{formData.supplier.name}}"
+                         url="rest/authen/supplier/query.json"
+                         ng-model="tmp_supplier"
+                         ng-model-id="formData.supplier.id"
+                         class="inline-block mgr-s" style="width:280px;height:28px;">
+                   </span>
+                   <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
+                     {{formData.supplier.businessApplication.businessStatus}}
+                   </em>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div> -->
+
+       </div>
+
+        <div class="panel  pr-panel  pr-panel-height mgb color-9 flex-column">
+
+          <div class="flex-item-6 pd-v-c-l" style="border-right:1px dashed rgba(0,0,0,0.1);">
+            <div class="flex-item-1 color-yellow1 text-n mgt-l" style="width:20px;height:100%;">
+              销售方
+            </div>
+            <div class="flex-item-11 flex-column">
+              <div class="flex-item-6 text-right">
+                <span>名称：</span>
+                <input type="text" ng-model="formData.seller.name" class="ipt ipt-new hei-28" value="" >
+              </div>
+              <div class="flex-item-6 text-right">
+                <span>开户银行：</span>
+                <input type="text" class="ipt ipt-new hei-28" ng-model="formData.seller.accountBank" value="" >
+              </div>
+            </div>
+            <div class="flex-item-11 flex-column mgt">
+              <div class="flex-item-6 text-right">
+                <span>纳税人识别号：</span>
+                <input type="text" class="ipt ipt-new hei-28" value="" ng-model="formData.seller.taxpayerId" >
+              </div>
+              <div class="flex-item-6 text-right">
+                <span>开户账号：</span>
+                <input type="text" class="ipt ipt-new hei-28" value="" ng-model="formData.seller.accountNumber" >
+              </div>
+            </div>
+            <div class="flex-item-11 flex-column mgt">
+              <div class="flex-item-6 text-right">
+                <span>地址：</span>
+                <input type="text" class="ipt ipt-new hei-28" value="" ng-model="formData.seller.address" >
+              </div>
+              <div class="flex-item-6 text-right">
+                <span>电话：</span>
+                <input type="text"
+                class="ipt ipt-new hei-28"
+                name="sellerPhone"
+                ng-model="formData.seller.phone"
+                maxlength="11"
+                ng-pattern="/(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}/"
+                invalid-popover
+                popover-show="!purchaseForm.sellerPhone.$valid"
+                popover-options='{"content":"号码格式不正确", "placement":"right", "trigger":"manual"}'>
+              </div>
+            </div>
+          </div>
+          <div class="flex-item-6 pd-v-c-l">
+            <div class="flex-item-1 color-yellow1 text-n mgt-l" style="width:20px;height:100%;">
+              购买方
+            </div>
+            <div class="flex-item-11 flex-column">
+              <div class="flex-item-6 text-right">
+                <span>名称：</span>
+                <input type="text" ng-model="formData.purchaser.name" class="ipt ipt-new hei-28" value="" >
+              </div>
+              <div class="flex-item-6 text-right">
+                <span>开户银行：</span>
+                <input type="text" class="ipt ipt-new hei-28" ng-model="formData.purchaser.accountBank" value="" >
+              </div>
+            </div>
+            <div class="flex-item-11 flex-column mgt">
+              <div class="flex-item-6 text-right">
+                <span>纳税人识别号：</span>
+                <input type="text" class="ipt ipt-new hei-28" value="" ng-model="formData.purchaser.taxpayerId" >
+              </div>
+              <div class="flex-item-6 text-right">
+                <span>开户账号：</span>
+                <input type="text" class="ipt ipt-new hei-28" value="" ng-model="formData.purchaser.accountNumber" >
+              </div>
+            </div>
+            <div class="flex-item-11 flex-column mgt">
+              <div class="flex-item-6 text-right">
+                <span>地址：</span>
+                <input type="text" class="ipt ipt-new hei-28" value="" ng-model="formData.purchaser.address" >
+              </div>
+              <div class="flex-item-6 text-right">
+                <span>电话：</span>
+                <input type="text"
+                class="ipt ipt-new hei-28"
+                name="purchaserPhone"
+                ng-model="formData.purchaser.phone"
+                maxlength="11"
+                ng-pattern="/(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}/"
+                invalid-popover
+                popover-show="!purchaseForm.purchaserPhone.$valid"
+                popover-options='{"content":"号码格式不正确", "placement":"right", "trigger":"manual"}'>
+              </div>
+            </div>
+          </div>
+        </div>
+
+       <!-- 药械列表 -->
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+           <!-- 信息 -->
+           <div
+                flash-add-medical
+                ng-model="data1"
+                class="pd-c-l pdt-m"
+                ajax-url="rest/authen/medicalStock/query?flag=true"
+                add-data-callback-fn="flashAddDataCallbackFn(data1)">
+           </div>
+
+           <!-- 列表 -->
+           <div class="bt-line">
+             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+               <div class="flex-item-6">
+                 <span class="mgr">开票日期:</span>
+                 <div class="date-icon-outside">
+                   <input type="text"
+                          style="top:0px;"
+                          datepicker
+                          class="ipt-date ipt color-3"
+                          ng-readonly="true"
+                          placeholder=""
+                          ng-model="formData.billingDate">
+                         <span class="date-icon"></span>
+                 </div>
+
+                 <span class="mgr">币种：
+                   <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                           data-placeholder=" "
+                           chosen
+                           ng-model="formData.currencyType"
+                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Order_CurrencyType">
+                   </select>
+                 </span>
+                 <span class="mgr">汇率：
+                   <input type="text" class="ipt ipt-new-s" ng-model="formData.exchangeRate" style="height:28px;width:51px;">
+                 </span>
+               </div>
+               <div class="flex-item-6 text-right">
+                 <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+                 <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
+                 <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+               </div>
+             </div>
+             <div class=" mgb">
+               <table class="table pr-table pr-new-table" >
+                 <thead>
+                  <tr>
+                    <th class="text-center">序号</th>
+                    <th class="w-220 text-left">贷物或应税劳务、服务名称</th>
+                    <th class="text-center">规格/型号</th>
+                    <th class="text-center">单位</th>
+                    <th class="text-center w-106">数量</th>
+                    <th class="text-center">单价</th>
+                    <th class="text-center">金额</th>
+                    <th class="text-center">税率</th>
+                    <th class="text-center">税额</th>
+                 </tr>
+                 </thead>
+                 <tbody class="bg-white">
+                   <tr ng-repeat="tr in formData.orderMedicalNos"
+                       table-item-handlebtn-component
+                       ng-init="orderMedicalNoIds.push(tr.relId);tr.handleFlag=true;"
+                       class="relative">
+                     <td class="text-center" style="line-height:2.4">{{$index+1}}
+                       <div class="table-item-handle-btn">
+                         <div class="table-item-confirm-del-area bg-white">
+                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
+                           <p class="pdt">
+                             <a href="javascript:;" class="cancelHandle" ng-click="cancelHandle()">取消</a>
+                             <a href="javascript:;" class="confirm-del-this btn btn-primary pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                           </p>
+                         </div>
+                       </div>
+                     </td><!-- 商品编号 -->
+                     <td class="text-left" style="line-height:2.4">
+                        <div class="autocut" title="{{tr.name}}">
+                           {{tr.name}}
+                         </div></td><!-- 商品全名 -->
+                     <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                     <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
+                     <td class="text-center"  style="white-space: nowrap;">
+                       <div class="order-goods-num">
+                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)"
+                         ng-class="{'disabled':(tr.quantity<=1)}">-</button>
+                         <span class="inline-block">
+                           <input type="text"
+                                  class="inline ipt pr-ipt-60 text-center item-quantity"
+                                  style="width:60px;"
+                                  name="quantity{{$index}}"
+                                  ng-model="tr.quantity"
+                                  ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos);"
+                                  ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
+                                  required
+                                  ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
+                                  invalid-popover="{{!purchaseForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity}}"
+                                  popover-show
+                                  is-focus="true"
+                                  popover-options='{"content":"数量格式不正确", "placement":"right", "trigger":"manual"}'>
+                         </span>
+                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)">+</button>
+                       </div>
+                     </td><!-- 数量 -->
+                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
+                       <input type="text"
+                              class="ipt pr-ipt-60 text-right"
+                              name="price{{$index}}"
+                              ng-model="tr.price"
+                              ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
+                              required
+                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                              invalid-popover
+                              valid-value="{{!purchaseForm['price'+$index].$valid}}"
+                              popover-show
+                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                     </td><!-- 单价 -->
+                     <td class="text-center" style="line-height:2.4">￥
+                       <input type="text"
+                              class="ipt pr-ipt-60 text-right"
+                              name="amountMoney{{$index}}"
+                              ng-model="tr.amountMoney"
+                              ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
+                              required
+                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                              invalid-popover
+                              valid-value="{{!purchaseForm['amountMoney'+$index].$valid}}"
+                              popover-show
+                              popover-options='{"content":"金额不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                     </td>
+                     <!-- 金额 -->
+                     <td class="text-center" style="white-space:nowrap;line-height:2.4">
+                       <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.tax">
+                         <option value="17" ng-selected="tr.tax==17">17</option>
+                         <option value="3" ng-selected="tr.tax==3">3</option>
+                       </select>%
+                     </td><!-- 税率 -->
+                     <td class="text-center" style="line-height:2.4">￥
+                       <input type="text"
+                              class="ipt pr-ipt-60 text-right"
+                              name="taxPrice{{$index}}"
+                              ng-model="tr.taxPrice"
+                              ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
+                              required
+                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                              invalid-popover
+                              valid-value="{{!purchaseForm['taxPrice'+$index].$valid}}"
+                              popover-show
+                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                     </td>
+                     <!-- 税额 -->
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+             <div class="pd-c-v-s text-right text-n color-6 bt-dashed-line pd-c-v-l" ng-if="formData.orderMedicalNos.length" >
+               价税合计：
+               <input type="text" class="ipt" name="name" value="" ng-model="formData.totalPrice" style="width:157px;height:35px;">
+               ￥
+             </div>
+             <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+               <div class="empty-table clearfix">
+                 <div>&nbsp;</div>
+                 <div>&nbsp;</div>
+                 <div>&nbsp;</div>
+               </div>
+             </div>
+           </div>
+         </div>
+         <!-- 上传图片 -->
+      <div class="panel  pr-panel  pr-panel-height mgb color-9 flex-column" >
+        <!-- <span class="color-yellow1 mgb"> -->
+
+        <div class="form-group"  ng-repeat="item in formData.attachments">
+
+            <div class="col-lg-10 col-sm-10 mgb" ng-if="!item.attachmentUrl">
+                <button type="button" style="width:120px;" class="pr-btn-a relative" ng-init="upFile={}"
+                                      uploader-one="rest/authen/fileUpload/upload.json"
+                                      callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
+                                      up-file="upFile" ng-model="item.attachmentUrl">
+                   <i class="add-icon-invoice">
+                   </i>
+                  <em class="color-yellow1" style="position:absolute;top:20px;left:45px;">上传发票图片{{upFile.progress<100?"("+upFile.progress+"%)":""}}</em>
+                </button>
+            </div>
+
+            <div class="pd-c-v-s" ng-if="item.attachmentUrl">
+              <em ng-src="{{item.attachmentUrl}}" class="color-yellow1 cur-pot" modal-img-show >查看发票图片</em>
+            </div>
+
+        </div>
+
+      </div>
+
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+        <h1 class="text-bold color-3">备注</h1>
+        <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+      </div>
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <span>
+          <a
+           ng-if="changeFlag"
+          href="javascript:;"
+             handle-this-click
+             dialog-title="确认返回?"
+             dialog-content="有修改数据还未保存，是否保存?"
+             dialog-template="pr-dialog-return.html"
+             nosave-callback="goTo('#/com_invoice/query.html')"
+             save-callback="submitForm('editForm','exit')">返回销售发票列表
+          </a>
+
+          <a ng-if="!changeFlag" href="#/com_invoice/query.html" >返回销售发票列表</a>
+        </span>
+        <span class="mgr mgl mgt">
+          <button class="pr-btn-save-glodbg mgr-l"
+                  type="button"
+                  ng-click="submitForm('purchaseForm','save')"
+                  ng-disabled="!changeFlag">保存
+          </button>
+        </span>
+        <span>
+          <button class="pr-btn-create-glodbg mgt"
+                  type="button"
+                  handle-this-click
+                  dialog-title="确认提交?"
+                  dialog-content="提交后，将无法修改。确认提交?"
+                  dialog-template="pr-dialog-submit.html"
+                  callback="submitForm('purchaseForm','submit-com');"
+                  ng-disabled="purchaseForm.$invalid ||
+                               !formData.orderMedicalNos.length">提交
+          </button>
+        </span>
+      </div>
+    </div>
+</form>
+</div>

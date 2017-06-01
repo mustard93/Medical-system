@@ -87,6 +87,18 @@
                   ng-change="chgOrderBusinessType(formData.orderBusinessType)">
           </select>
         </div>
+        <!-- 发票类型过滤 -->
+        <div class="inline-block" ng-if="isShowInvoiceTypeFilter">
+          <span class="color-9">发票类型：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.type"
+                  select-source="{{getInvoiceTypeUrl}}">
+          </select>
+        </div>
+
         <!-- 仓库过滤 -->
         <div class="inline-block" ng-if="isShowWarehouseFilter">
           <span class="color-9">仓库：</span>
