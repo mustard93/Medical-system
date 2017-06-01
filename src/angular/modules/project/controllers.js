@@ -5059,7 +5059,7 @@ define('project/controllers', ['project/init'], function() {
 
               for(var j=0; j<arrB.length; j++){
 
-                  console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
+                  // console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
 
                   if(arrB[j][arrBAtrr]==temp[i]){
                       arrB.splice(j,1);
