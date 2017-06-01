@@ -2,7 +2,7 @@
      ng-controller="noticeEditCtrl"
      ajax-url="rest/authen/invoice/getOfEdit.json?id={{mainStatus.pageParams.id}}&source=采购发票"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');formData.source='采购发票';diffPurchaseNumber(formData.orderMedicalNos)"
+     callback="initFlag=true;watchFormChange('formData');formData.source='采购发票';"
      alert-error>
 <form id="purchaseForm"
      name="purchaseForm"
@@ -56,13 +56,14 @@
             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:244px;">
               <div class="inline-block logistics-center"></div>
               <div class="inline-block">
-                <p class="mgb-s">发票号</p>
+                <p class="mgb-s">发票号<em ng-if="!formData.code" class="mgl color-red">(必填)</em></p>
                 <p class="text-m color-3">
                   <input type="text" class="ipt ipt-new-s text-n" ng-model="formData.code" style="width:165px;height:28px;" name="name" value="">
                 </p>
               </div>
             </div>
          </div>
+
 
          <!-- <div class="inline-block mgl">
            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
@@ -181,7 +182,7 @@
                 ng-pattern="/(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}/"
                 invalid-popover
                 popover-show="!purchaseForm.purchaserPhone.$valid"
-                popover-options='{"content":"号码格式不正确", "placement":"right", "trigger":"manual"}'> 
+                popover-options='{"content":"号码格式不正确", "placement":"bottom", "trigger":"manual"}'>
               </div>
             </div>
           </div>
@@ -310,7 +311,6 @@
                               name="amountMoney{{$index}}"
                               ng-model="tr.amountMoney"
                               ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                              required
                               ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                               invalid-popover
                               valid-value="{{!purchaseForm['amountMoney'+$index].$valid}}"
@@ -343,9 +343,9 @@
                </table>
              </div>
              <div class="pd-c-v-s text-right text-n color-6 bt-dashed-line pd-c-v-l" ng-if="formData.orderMedicalNos.length" >
-               价税合计：
+               价税合计：￥
                <input type="text" class="ipt" name="name" value="" ng-model="formData.totalPrice" style="width:157px;height:35px;">
-               ￥
+
              </div>
              <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
                <div class="empty-table clearfix">
@@ -419,7 +419,8 @@
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('purchaseForm','submit');"
                   ng-disabled="purchaseForm.$invalid ||
-                               !formData.orderMedicalNos.length">提交
+                               !formData.orderMedicalNos.length ||
+                               !formData.code">提交
           </button>
         </span>
       </div>

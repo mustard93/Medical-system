@@ -15,7 +15,7 @@
      scope-data="formData"
      callback="submitFormAfter();watchFormChange('formData')"
      onkeydown="if(window.event.keyCode==13) return false;"
-     novalidate="novalidate">
+     novalidate="novalidate">          
 
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
@@ -56,44 +56,13 @@
             <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:244px;">
               <div class="inline-block logistics-center"></div>
               <div class="inline-block">
-                <p class="mgb-s">发票号</p>
+                <p class="mgb-s">发票号<em ng-if="!formData.code" class="mgl color-red">(必填)</em></p>
                 <p class="text-m color-3">
                   <input type="text" class="ipt ipt-new-s text-n" ng-model="formData.code" style="width:165px;height:28px;" name="name" value="">
                 </p>
               </div>
             </div>
          </div>
-
-         <!-- <div class="inline-block mgl">
-           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
-             <div class="inline-block  supplier-name "></div>
-             <div class="inline-block">
-               <p class="mgb-s">供应商</p>
-               <div class="inline-block"
-                    ajax-if-eval="formData.supplier.id"
-                    ajax-url="rest/authen/supplier/get.json?id={{formData.supplier.id}}"
-                    scope-data="supplier"
-                    callback="formData.supplier=supplier;chkSupplierInfo(supplier)"
-                    alert-error>
-                 <div>
-                   <span ng-if="initFlag"
-                         angucomplete-supplier
-                         placeholder="供应商"
-                         title-field="name"
-                         search-fields="{{formData.supplier.name}}"
-                         url="rest/authen/supplier/query.json"
-                         ng-model="tmp_supplier"
-                         ng-model-id="formData.supplier.id"
-                         class="inline-block mgr-s" style="width:280px;height:28px;">
-                   </span>
-                   <em ng-if="formData.supplier.businessApplication.businessStatus=='已冻结'"  class="color-4">
-                     {{formData.supplier.businessApplication.businessStatus}}
-                   </em>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div> -->
 
        </div>
 
@@ -181,7 +150,7 @@
                 ng-pattern="/(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}/"
                 invalid-popover
                 popover-show="!purchaseForm.purchaserPhone.$valid"
-                popover-options='{"content":"号码格式不正确", "placement":"right", "trigger":"manual"}'>
+                popover-options='{"content":"号码格式不正确", "placement":"bottom", "trigger":"manual"}'>
               </div>
             </div>
           </div>
@@ -189,6 +158,7 @@
 
        <!-- 药械列表 -->
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+
            <!-- 信息 -->
            <div
                 flash-add-medical
@@ -310,7 +280,6 @@
                               name="amountMoney{{$index}}"
                               ng-model="tr.amountMoney"
                               ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                              required
                               ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                               invalid-popover
                               valid-value="{{!purchaseForm['amountMoney'+$index].$valid}}"
@@ -343,9 +312,9 @@
                </table>
              </div>
              <div class="pd-c-v-s text-right text-n color-6 bt-dashed-line pd-c-v-l" ng-if="formData.orderMedicalNos.length" >
-               价税合计：
+               价税合计：￥
                <input type="text" class="ipt" name="name" value="" ng-model="formData.totalPrice" style="width:157px;height:35px;">
-               ￥
+
              </div>
              <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
                <div class="empty-table clearfix">
@@ -383,6 +352,7 @@
 
       <!-- 备注 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+
         <h1 class="text-bold color-3">备注</h1>
         <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
       </div>
@@ -419,7 +389,8 @@
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('purchaseForm','submit-com');"
                   ng-disabled="purchaseForm.$invalid ||
-                               !formData.orderMedicalNos.length">提交
+                               !formData.orderMedicalNos.length ||
+                               !formData.code">提交
           </button>
         </span>
       </div>

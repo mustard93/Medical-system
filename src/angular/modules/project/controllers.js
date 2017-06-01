@@ -5861,20 +5861,6 @@ define('project/controllers', ['project/init'], function() {
 
   function noticeEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
-    // 根据实际采购数量的变化与计划采购数量做对比的标识变量
-    $scope.isShowPurchaseInfo = false;
-
-    $scope.canSubmitForm = function() {
-       //必须有1条是勾选加入订单的。
-       var arr=$scope.formData.orderMedicalNos;
-       for(var i=0;i<arr.length;i++){
-          if(arr[i].handleFlag){
-            return true;
-          }
-       }
-       return false;
-     };
-
 
     modal.closeAll();
     $scope.addDataItem = {};
@@ -6012,9 +5998,6 @@ define('project/controllers', ['project/init'], function() {
 
      $('#' + fromId).trigger('submit');
 
-     // addDataItem_opt.submitUrl='';
-     // $scope.formData.orderMedicalNos.push($scope.addDataItem);
-     // $scope.addDataItem={};
     };
 
     $scope.cancelForm = function(fromId, url) {
@@ -6024,35 +6007,6 @@ define('project/controllers', ['project/init'], function() {
     $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
         };
-
-
-    // 监控计划采购数量与实际采购数量的方法
-    $scope.diffPurchaseNumber = function (orderMedicalList) {
-      if (orderMedicalList) {
-        angular.forEach(orderMedicalList, function (data, index) {
-          // 选择的数量小于计划数量，显示提示信息
-          $scope.isShowPurchaseInfo = (data.planQuantity > data.quantity) ? true : false;
-          // ..
-          $scope.isDisabledNextStep = (data.quantity > data.planQuantity) ? true : false;
-
-        });
-
-      }
-    };
-
-
-    // 总价金额计算方法
-    $scope.purchaseOrderCalculaTotal = function (orderMedicalList) {
-      var _total = 0;
-
-      if (orderMedicalList) {
-        angular.forEach(orderMedicalList, function (data, index) {
-          _total += parseInt(data.quantity * data.strike_price, 10);
-        });
-      }
-
-      return _total;
-    };
 
    }//end salesOrderEditCtrl
 
