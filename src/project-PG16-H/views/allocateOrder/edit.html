@@ -199,7 +199,7 @@
                   </td><!-- 可调拨数量 -->
                     <td class="text-center">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(item.salesQuantity,item.applicationCount)"
+                        <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(formData.orderMedicalNos)"
                         ng-disabled="item.applicationCount<=1" ng-class="{'disabled':(item.applicationCount<=1)}">-</button>
                         <span class="inline-block">
 
@@ -228,7 +228,7 @@
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].applicationCount<item.applicationCount}"
                                  invalid-popover="{{item.applicationCount>item.salesQuantity}}"
                                  popover-show
-                                 popover-options='{"content":"不能大于可用数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
+                                 popover-options='{"content":"不能大于可调拨数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
 
                         </span>
                         <button type="button" class="inline-block right" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1;changeQuantity(item.salesQuantity,item.applicationCount);"
