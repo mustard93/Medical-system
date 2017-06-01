@@ -1127,16 +1127,18 @@ define('project/controllers', ['project/init'], function() {
     // 全选与全不选
     $scope.isChoiseAll = function (choiseStatus) {
       if (choiseStatus) {
-        angular.forEach($scope.orderMedicalNos, function (item, index) {
-          if (!item.handleFlag) {
-            item.handleFlag = true;
-          }
+        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+          item.handleFlag = true;
+          // if (!item.handleFlag) {
+          //   item.handleFlag = true;
+          // }
         });
       } else {
-        angular.forEach($scope.orderMedicalNos, function (item, index) {
-          if (item.handleFlag) {
-            item.handleFlag = false;
-          }
+        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+          item.handleFlag = false;
+          // if (item.handleFlag) {
+          //   item.handleFlag = false;
+          // }
         });
       }
     };
