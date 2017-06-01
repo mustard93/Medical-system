@@ -1,9 +1,9 @@
 <!-- 主内容头部 -->
 <page-main-header-component list-params="listParams"
-                            crumbs-nav='[{"name":"发票管理","link":"","style":""},{"name":"采购发票","link":"","style":"color-custom-orange"}]'
-                            component-title="采购发票"
-                            is-show-create-btn="新建采购发票"
-                            create-new-url="#/invoice/edit.html"
+                            crumbs-nav='[{"name":"发票管理","link":"","style":""},{"name":"销售发票","link":"","style":"color-custom-orange"}]'
+                            component-title="销售发票"
+                            is-show-create-btn="新建销售发票"
+                            create-new-url="#/com_invoice/edit.html"
                             get-status-num-url="rest/authen/invoice/countByStatus.json"
                             status-group-data='[["未提交-true","已完成-true"]]'
                             is-show-date-filter=true
@@ -11,15 +11,15 @@
                             search-placeholder-info="发票编号"
                             show-date-name="开票日期："
                             is-show-business-btn-group=true
-                            is-show-user-filter=true
-                            get-user-list-url="rest/authen/user/queryForSelectOption"
                             is-show-invoice-type-filter=true
                             get-invoice-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InvoiceType"
+                            is-show-user-filter=true
+                            get-user-list-url="rest/authen/user/queryForSelectOption"
                             get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
 </page-main-header-component>
 
 <div class="content-wrapper sales-order" ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-  <table-list list-data="rest/authen/invoice/query.json?source=采购发票"
+  <table-list list-data="rest/authen/invoice/query.json?source=销售发票"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -39,7 +39,7 @@
                     <span class="flex-item-6 text-right">
                       <span ng-if="tr.orderStatus=='未提交'" >
 
-                        <a href="#/invoice/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                        <a href="#/com_invoice/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                         <span class="edit-link-icon">&nbsp;</span></a>
                         <a ng-if="tr.orderStatus=='未提交'"
                            href="javascript:;"
@@ -47,7 +47,7 @@
                            title="删除"
                            handle-this-click
                            dialog-title="确认删除 ?"
-                           dialog-content="您确认删除这条采购发票吗?"
+                           dialog-content="您确认删除这条销售发票吗?"
                            dialog-template="pr-dialog-confirm.html"
                            request-url="rest/authen/invoice/delete?id={{tr.id}}"
                            callback="$root.utils.refreshHref()">
@@ -56,16 +56,9 @@
                       </span>
                       <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
                         <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未提交'"
-                         href="#/invoice/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                         href="#/com_invoice/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                         <span class="watch-detail-icon">&nbsp;</span>
                         </a>
-                        <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                           ng-href="#/invoice/get.html?id={{tr.id}}"
-                           title="立即审核"
-                           class="btn-link pd-m rect-s "
-                           >
-                          <span class="examine-approve">&nbsp;</span>
-                         </a>
                       </span>
                 </div>
               <div class="card-new">

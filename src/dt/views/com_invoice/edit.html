@@ -1,8 +1,8 @@
 <div class="create-new-order purchaseOrder-edit"
      ng-controller="noticeEditCtrl"
-     ajax-url="rest/authen/invoice/getOfEdit.json?id={{mainStatus.pageParams.id}}&source=采购发票"
+     ajax-url="rest/authen/invoice/getOfEdit.json?id={{mainStatus.pageParams.id}}&source=销售发票"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');formData.source='采购发票';diffPurchaseNumber(formData.orderMedicalNos)"
+     callback="initFlag=true;watchFormChange('formData');formData.source='销售发票';diffPurchaseNumber(formData.orderMedicalNos)"
      alert-error>
 <form id="purchaseForm"
      name="purchaseForm"
@@ -19,15 +19,15 @@
 
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
-         <a href="#/invoice/query.html">
-            <em class="color-custom-orange">采购发票</em>
+         <a href="#/com_invoice/query.html">
+            <em class="color-custom-orange">销售发票</em>
          </a>
-        <em>>新建采购发票</em>
+        <em>>新建销售发票</em>
        </p>
        <div class="pd-c-xxl pdt-l pdb-l">
          <!-- 标题 -->
          <div class="mgb-l">
-           <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}采购发票</h1>
+           <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}销售发票</h1>
          </div>
        </div>
      </div>
@@ -181,7 +181,7 @@
                 ng-pattern="/(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}/"
                 invalid-popover
                 popover-show="!purchaseForm.purchaserPhone.$valid"
-                popover-options='{"content":"号码格式不正确", "placement":"right", "trigger":"manual"}'> 
+                popover-options='{"content":"号码格式不正确", "placement":"right", "trigger":"manual"}'>
               </div>
             </div>
           </div>
@@ -397,11 +397,11 @@
              dialog-title="确认返回?"
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
-             nosave-callback="goTo('#/invoice/query.html')"
-             save-callback="submitForm('editForm','exit')">返回采购发票列表
+             nosave-callback="goTo('#/com_invoice/query.html')"
+             save-callback="submitForm('editForm','exit')">返回销售发票列表
           </a>
 
-          <a ng-if="!changeFlag" href="#/invoice/query.html" >返回采购发票列表</a>
+          <a ng-if="!changeFlag" href="#/com_invoice/query.html" >返回销售发票列表</a>
         </span>
         <span class="mgr mgl mgt">
           <button class="pr-btn-save-glodbg mgr-l"
@@ -417,7 +417,7 @@
                   dialog-title="确认提交?"
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
-                  callback="submitForm('purchaseForm','submit');"
+                  callback="submitForm('purchaseForm','submit-com');"
                   ng-disabled="purchaseForm.$invalid ||
                                !formData.orderMedicalNos.length">提交
           </button>
