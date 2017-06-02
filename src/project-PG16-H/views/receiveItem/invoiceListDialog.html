@@ -1,0 +1,35 @@
+<div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+     ng-init="invoiceSource='采购发票'"
+     ajax-url="rest/authen/receiveItem/getDtConfirmOrderInvoice?dtConfirmOrderId={{dialogData.dtConfirmOrderId}}"
+     scope-data="orderInvoiceList"
+     alert-error>
+
+
+    <style>
+        h1.on{
+            color: #FF8C00;
+        }
+    </style>
+
+    <!-- 标题 -->
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+        <h1 ng-click="invoiceSource='采购发票'" ng-class="{'on':invoiceSource=='采购发票'}" class="pr-indent-20 pdb-m text-n text-center" style=" line-height:50px;max-height:50px; width:40%; float: left; border-right: 1px solid rgba(199,167,123,0.60); cursor: pointer;"
+        >采购发票</h1>
+        <h1 ng-click="invoiceSource='销售发票'" ng-class="{'on':invoiceSource=='销售发票'}" class="pr-indent-20 pdb-m text-n text-center" style="line-height:50px;max-height:50px;width: 40%; float: left; cursor: pointer;">销售发票</h1>
+    </div>
+
+    <!-- 无数据 -->
+    <div ng-if="!orderInvoiceList.length" class="color-red text-n pdl-l pdt-m text-center">暂无相关发票信息!</div>
+    <!-- 数据遍历 -->
+
+    <div ng-if="orderInvoiceList.length">
+        <ul>
+            <li ng-repeat="item in orderInvoiceList | filter:{source:invoiceSource}  track by $index"    style="width: auto; height:172px; width: auto; border-bottom: 1px dashed rgba(255,255,255,0.15);">
+                <img  modal-img-show  ng-src="{{  item.attachments[0].attachmentUrl ?   'http://pangu1656.oss-cn-shanghai.aliyuncs.com/'+item.attachments[0].attachmentUrl : ''}}"
+                     style="width: 187px; height: 128px; margin-top: 25px; margin-left: 48px; cursor: pointer;"
+                     src="" alt="点击查看发票">
+            </li>
+
+        </ul>
+    </div>
+</div>
