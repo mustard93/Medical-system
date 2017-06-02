@@ -195,22 +195,10 @@
                     <td ng-if="!formData.id" class="text-right">{{item.salesQuantity}}</td>
                     <td class="text-center">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(item.salesQuantity,item.applicationCount)"
+                        <button type="button" class="inline-block left"
+                        ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(item.salesQuantity,item.applicationCount)"
                         ng-disabled="item.applicationCount<=1" ng-class="{'disabled':(item.applicationCount<=1)}">-</button>
                         <span class="inline-block">
-                          <!-- <input type="text"
-                                 name="applicationCount{{$index}}"
-                                 class="inline ipt pr-ipt-60 text-center item-planQuantity"
-                                 style="width:60px;"
-                                 required
-                                 ng-model="item.applicationCount"
-                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].applicationCount<item.applicationCount}"
-                                 ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
-                                 invalid-popover="{{!editForm['applicationCount'+$index].$valid || item.applicationCount>item.salesQuantity}}"
-                                 popover-show
-                                 ng-change="changeQuantity(formData.orderMedicalNos);"
-                                 popover-options='{"content":"数量格式不正确或大于可调拨数量", "placement":"top", "trigger":"manual"}'
-                                 onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"> -->
 
                          <input type="text"
                                 class="inline ipt pr-ipt-60 text-center item-applicationCount"
@@ -227,7 +215,8 @@
                                 is-focus="true"
                                 popover-options='{"content":"不能大于可用数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1;changeQuantity(item.salesQuantity,item.applicationCount);"
+                        <button type="button" class="inline-block right"
+                        ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1;changeQuantity(item.salesQuantity,item.applicationCount);"
                           ng-class="{'disabled':(item.applicationCount>=item.salesQuantity)}"
                           ng-disabled="item.applicationCount>=item.salesQuantity">+</button>
                       </div>
@@ -291,17 +280,17 @@
 
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
-<<<<<<< HEAD
-                ng-disabled="!changeFlag||!formData.orderCode ||quantityError || canSubmit"
-=======
                 ng-disabled="!changeFlag "
->>>>>>> V1.01.00.3.02_Alpha
                 ng-click="submitForm('editForm','save')">保存
         </button>
 
         <button
                 type="button"
-                ng-disabled="editForm.$invalid ||quantityError || canSubmit ||!formData.orderMedicalNos.length ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate"
+                ng-disabled="editForm.$invalid
+                ||quantityError 
+                || canSubmit
+                ||!formData.orderMedicalNos.length
+                ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
