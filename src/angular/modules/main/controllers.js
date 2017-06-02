@@ -449,20 +449,6 @@ define('main/controllers', ['main/init'], function () {
             });
         };
 
-        // 切换用户机构
-        $scope.toggleOrganization = function (id) {
-          if (id) {
-            var _url = 'rest/index/switchByOrganizationId?phone='+$scope.mainStatus.phone+'&organizationId='+id;
-            requestData(_url, {}, 'POST')
-            .then(function (results) {
-              if (results[1].code === 200) {  }
-            })
-            .catch(function (error) {
-              if (error) { alertWarn(error || '切换经销商失败'); }
-            });
-          }
-        }
-
     }
 
     /**
@@ -472,12 +458,35 @@ define('main/controllers', ['main/init'], function () {
         modal.closeAll();
     }
 
+    /**
+     *  个人中心控制器
+     */
+    function personalCenterController ($scope, utils, requestData) {
 
+      // 切换用户机构
+      $scope.toggleOrganization = function (id) {
+        if (id) {
+          var _url = 'rest/index/switchByOrganizationId?phone='+$scope.mainStatus.phone+'&organizationId='+id;
+          requestData(_url, {}, 'POST')
+          .then(function (results) {
+            if (results[1].code === 200) {
+              var _data = results[1].data;
+              $scope.showData.departmentName = _data.additional.DepartmentName;
+              $scope.roleData = _data.additional.RoleNames;
+              $scope.$emit('loadMainInfo');
+            }
+          })
+          .catch(function (error) {
+            if (error) { alertWarn(error || '切换经销商失败'); }
+          });
+        }
+      }
+    }
 
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter",
-        "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
-        .controller('sideNav',  ["$scope",sideNav])
-        .controller('editCtrl',  ["$scope","modal",editCtrl])
-        .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl]);
+    .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
+    .controller('sideNav',  ["$scope",sideNav])
+    .controller('editCtrl',  ["$scope","modal",editCtrl])
+    .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])
+    .controller('personalCenterController', ['$scope', 'utils', 'requestData', personalCenterController]);
 });
