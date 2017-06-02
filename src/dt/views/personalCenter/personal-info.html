@@ -1,10 +1,10 @@
 <div class="content-wrapper personal-center"
-  ng-init="saveAfterExit=false"
-  watch-form-change
-   ajax-url="rest/authen/user/getMineOfEdit.json"  scope-data="formData" alert-error
-   callback="showData=formData;initFlag=true;watchFormChange('formData')"
-
->
+     ng-init="saveAfterExit=false"
+     watch-form-change
+     ajax-url="rest/authen/user/getMineOfEdit.json"
+     scope-data="formData"
+     alert-error
+     callback="initFlag=true;showData=formData;watchFormChange('formData')">
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading mgt-m mgb-m">
     <h1 class="pr-title-color pr-font-24">个人中心</h1>
@@ -75,11 +75,17 @@
                       data-placeholder=""
                       chosen
                       ng-model="formData.organizationId"
-                      select-source="rest/authen/organization/queryForSelectOption?type=经销商">
+                      select-source="rest/index/organizatoin/queryForSelectOption?userId={{formData.id}}"
+                      ng-change="toggleOrganization(formData.id)">
               </select>
             </p>
             <p class="pdb color-9">部门：<span class="color-6">{{showData.departmentName}}</span></p>
-            <p class="pdb color-9" ajax-url="rest/authen/role/getRoleNamesByCurrentUser.json"  scope-data="roleData">角色：<span class="color-6">{{roleData.join(' ')}}</span></p>
+            <p ng-if="initFlag"
+               class="pdb color-9"
+               ajax-url="rest/authen/role/getRoleNamesByCurrentUser.json"
+               scope-data="roleData">角色：
+               <span class="color-6">{{roleData.join(' ')}}</span>
+            </p>{{roleData}}
           </div>
         </div>
         <!-- 功能按钮 -->
