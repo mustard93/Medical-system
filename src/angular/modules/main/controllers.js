@@ -455,7 +455,7 @@ define('main/controllers', ['main/init'], function () {
             var _url = 'rest/index/switchByOrganizationId?phone='+$scope.mainStatus.phone+'&organizationId='+id;
             requestData(_url, {}, 'POST')
             .then(function (results) {
-              //...
+              if (results[1].code === 200) {  }
             })
             .catch(function (error) {
               if (error) { alertWarn(error || '切换经销商失败'); }
