@@ -2115,6 +2115,33 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     //     });
     //   }
     // };
+
+    $scope.comfirmQuantity = function (obj) {
+      // 错误状态标识
+      $scope.quantityError = false;
+
+      if (obj && angular.isArray(obj)) {
+        angular.forEach(obj, function (data, index) {
+
+          // 实时请求可调拨数量
+          requestData('rest/authen/medicalStock/countStockByIds?ids='+data.id+'&&storeRoomId='+$scope.formData.storeRoomId)
+          .then(function (results) {
+            if (results[1].code === 200) {
+              var _tmpObj = results[0][data.id];
+              if (data.applicationCount > _tmpObj.salesQuantity) {
+                $scope.quantityError = true;
+                $scope.$parent.$parent.quantityError = true;
+              } else {
+                $scope.quantityError = false;
+                $scope.$parent.$parent.quantityError = false;
+              }
+            }
+          });
+        });
+      }
+    };
+
+
     // 数量超过可用数量，组织不能提交
     $scope.changeQuantity= function(availbleQuantity,quantity){
       // 错误状态标识
@@ -3007,7 +3034,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     //   }
     // };
     // 扩展changeQuantity方法，参数指定为当前的药品列表对象，以便能在页面初始化后对数据进行检测
-    $scope.changeQuantity = function (obj) {
+    $scope.comfirmQuantity = function (obj) {
       // 错误状态标识
       $scope.quantityError = false;
 
@@ -3031,6 +3058,25 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
       }
     };
+
+    $scope.changeQuantity= function(availbleQuantity,quantity){
+      // 错误状态标识
+      $scope.quantityError = false;
+
+      if (availbleQuantity >= 0 && quantity>=0) {
+        if (quantity >availbleQuantity || quantity<=0) {
+          $scope.quantityError = true;
+          $scope.$parent.$parent.quantityError = true;
+        } else {
+          $scope.quantityError = false;
+          $scope.$parent.$parent.quantityError = false;
+        }
+      }else{
+        $scope.quantityError = true;
+        $scope.$parent.$parent.quantityError = true;
+      }
+    };
+
   }
 
   function transferRecordCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn,modal) {
