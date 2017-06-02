@@ -320,8 +320,6 @@ define('main/controllers', ['main/init'], function () {
         }
 
 
-
-
     }//end mainCtrl
 
     /**
@@ -450,6 +448,20 @@ define('main/controllers', ['main/init'], function () {
               if (error) { console.log(error || '出错!'); }
             });
         };
+
+        // 切换用户机构
+        $scope.toggleOrganization = function (id) {
+          if (id) {
+            var _url = 'rest/index/switchByOrganizationId?phone='+$scope.mainStatus.phone+'&organizationId='+id;
+            requestData(_url, {}, 'POST')
+            .then(function (results) {
+              //...
+            })
+            .catch(function (error) {
+              if (error) { alertWarn(error || '切换经销商失败'); }
+            });
+          }
+        }
 
     }
 
