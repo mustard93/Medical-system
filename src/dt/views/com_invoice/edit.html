@@ -2,7 +2,7 @@
      ng-controller="noticeEditCtrl"
      ajax-url="rest/authen/invoice/getOfEdit.json?id={{mainStatus.pageParams.id}}&source=销售发票"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');formData.source='销售发票';diffPurchaseNumber(formData.orderMedicalNos)"
+     callback="initFlag=true;watchFormChange('formData');formData.source='销售发票';canSubmit=false;"
      alert-error>
 <form id="purchaseForm"
      name="purchaseForm"
@@ -15,7 +15,7 @@
      scope-data="formData"
      callback="submitFormAfter();watchFormChange('formData')"
      onkeydown="if(window.event.keyCode==13) return false;"
-     novalidate="novalidate">          
+     novalidate="novalidate">
 
      <div class="header-info relative mgb-l">
        <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
@@ -334,12 +334,13 @@
             <div class="col-lg-10 col-sm-10 mgb" ng-if="!item.attachmentUrl">
                 <button type="button" style="width:120px;" class="pr-btn-a relative" ng-init="upFile={}"
                                       uploader-one="rest/authen/fileUpload/upload.json"
-                                      callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
+                                      callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}';canSubmitInvoice(item.attachmentUrl);"
                                       up-file="upFile" ng-model="item.attachmentUrl">
                    <i class="add-icon-invoice">
                    </i>
                   <em class="color-yellow1" style="position:absolute;top:20px;left:45px;">上传发票图片{{upFile.progress<100?"("+upFile.progress+"%)":""}}</em>
                 </button>
+                <p  class="mgl-l color-red mgt" >(必填)</p>
             </div>
 
             <div class="pd-c-v-s" ng-if="item.attachmentUrl">
@@ -390,6 +391,7 @@
                   callback="submitForm('purchaseForm','submit-com');"
                   ng-disabled="purchaseForm.$invalid ||
                                !formData.orderMedicalNos.length ||
+                               !canSubmit ||
                                !formData.code">提交
           </button>
         </span>

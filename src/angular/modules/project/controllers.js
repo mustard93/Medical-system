@@ -5879,8 +5879,6 @@ define('project/controllers', ['project/init'], function() {
     modal.closeAll();
     $scope.addDataItem = {};
 
-
-
     $scope.flashAddDataCallbackFn = function(flashAddData) {
 
      if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
@@ -6004,6 +6002,16 @@ define('project/controllers', ['project/init'], function() {
             .catch(function (error) {
               alertError(error || '出错');
             });
+          }
+        };
+        
+        // 判断发票图片必须上传才能提交
+
+        $scope.canSubmitInvoice=function(attachmentUrl){
+          if(attachmentUrl){
+            $scope.canSubmit=true;
+          }else{
+            $scope.canSubmit=false;
           }
         };
 

@@ -2,7 +2,7 @@
      ng-controller="noticeEditCtrl"
      ajax-url="rest/authen/invoice/getOfEdit.json?id={{mainStatus.pageParams.id}}&source=采购发票"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');formData.source='采购发票';"
+     callback="initFlag=true;watchFormChange('formData');formData.source='采购发票';canSubmit=false;"
      alert-error>
 <form id="purchaseForm"
      name="purchaseForm"
@@ -363,17 +363,19 @@
         <div class="form-group"  ng-repeat="item in formData.attachments">
 
             <div class="col-lg-10 col-sm-10 mgb" ng-if="!item.attachmentUrl">
-                <button type="button" style="width:120px;" class="pr-btn-a relative" ng-init="upFile={}"
+                <button type="button" style="width:120px;" class="pr-btn-a relative" ng-init="upFile={};"
                                       uploader-one="rest/authen/fileUpload/upload.json"
-                                      callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}'"
-                                      up-file="upFile" ng-model="item.attachmentUrl">
+                                      callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}';canSubmitInvoice(item.attachmentUrl);"
+                                      up-file="upFile" ng-model="item.attachmentUrl" >
                    <i class="add-icon-invoice">
                    </i>
                   <em class="color-yellow1" style="position:absolute;top:20px;left:45px;">上传发票图片{{upFile.progress<100?"("+upFile.progress+"%)":""}}</em>
+
                 </button>
+                <p  class="mgl-l color-red mgt" >(必填)</p>
             </div>
 
-            <div class="pd-c-v-s" ng-if="item.attachmentUrl">
+            <div class="pd-c-v-s" ng-if="item.attachmentUrl" >
               <em ng-src="{{item.attachmentUrl}}" class="color-yellow1 cur-pot" modal-img-show >查看发票图片</em>
             </div>
 
@@ -420,6 +422,7 @@
                   callback="submitForm('purchaseForm','submit');"
                   ng-disabled="purchaseForm.$invalid ||
                                !formData.orderMedicalNos.length ||
+                               !canSubmit ||
                                !formData.code">提交
           </button>
         </span>
