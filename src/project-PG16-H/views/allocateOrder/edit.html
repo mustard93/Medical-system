@@ -2,7 +2,7 @@
      ng-controller="allocateOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;changeQuantity(formData.orderMedicalNos)"
+     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -286,8 +286,7 @@
 
         <button
                 type="button"
-                ng-disabled="editForm.$invalid
-                ||quantityError 
+                ng-disabled="quantityError
                 || canSubmit
                 ||!formData.orderMedicalNos.length
                 ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate"

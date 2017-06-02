@@ -36,7 +36,7 @@
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white">
             <div class="flex-item-8">
               <span class="mgr color-999 fl-l">订单创建日期：</span>
-              <div class="date-icon-outside fl-l">
+              <div class="date-icon-outside fl-l" ng-if="!listParams.orderCreateAtBeg">
                 <input type="text"
                        datepicker
                        class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -45,18 +45,34 @@
                        placeholder="">
                 <span class="date-icon"></span>
               </div>
+              <div class="date-icon-outside fl-l" ng-if="listParams.orderCreateAtBeg">
+                  <input type="text"
+                         datepicker
+                         class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                         ng-readonly="true"
+                         ng-model="listParams.orderCreateAtBeg">
+                  <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.orderCreateAtBeg='';"></span>
+              </div>
                <span class="mg-s-x color-999 fl-l">至</span>
-            <div class="date-icon-outside fl-l">
+            <div class="date-icon-outside fl-l" ng-if="!listParams.orderCreateAtEnd">
                <input type="text"
                      datepicker
-                     class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
                      ng-model="listParams.orderCreateAtEnd"
                      placeholder="">
               <span class="date-icon"></span>
             </div>
+            <div class="date-icon-outside fl-l" ng-if="listParams.orderCreateAtEnd">
+                <input type="text"
+                       datepicker
+                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                       ng-readonly="true"
+                       ng-model="listParams.orderCreateAtEnd">
+                <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.orderCreateAtEnd='';"></span>
+            </div>
             <span class="mgl-l color-999 fl-l">配送日期：</span>
-            <div class="date-icon-outside fl-l">
+            <div class="date-icon-outside fl-l" ng-if="!listParams.deliveryDateBeg">
               <input type="text"
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
@@ -65,8 +81,16 @@
                      placeholder="">
               <span class="date-icon"></span>
             </div>
+            <div class="date-icon-outside fl-l" ng-if="listParams.deliveryDateBeg">
+                <input type="text"
+                       datepicker
+                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                       ng-readonly="true"
+                       ng-model="listParams.deliveryDateBeg">
+                <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.deliveryDateBeg='';"></span>
+            </div>
              <span class="mg-s-x color-999 fl-l">至</span>
-          <div class="date-icon-outside fl-l">
+          <div class="date-icon-outside fl-l" ng-if="!listParams.deliveryDateEnd">
              <input type="text"
                    datepicker
                    class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
@@ -74,6 +98,14 @@
                    ng-model="listParams.deliveryDateEnd"
                    placeholder="">
             <span class="date-icon"></span>
+          </div>
+          <div class="date-icon-outside fl-l" ng-if="listParams.deliveryDateEnd">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     ng-model="listParams.deliveryDateEnd">
+              <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.deliveryDateEnd='';"></span>
           </div>
             </div>
             <div class="flex-item-4 text-right">
