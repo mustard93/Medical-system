@@ -472,7 +472,7 @@ define('main/controllers', ['main/init'], function () {
             if (results[1].code === 200) {
               var _data = results[1].data;
               $scope.showData.departmentName = _data.additional.DepartmentName;
-              $scope.roleData = _data.additional.RoleNames;
+              $scope.formData.roleNames = _data.additional.RoleNames;
               $scope.$emit('loadMainInfo');
             }
           })

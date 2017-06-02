@@ -68,19 +68,26 @@
             <!-- <p class="pdb color-9">公司名：
               <span class="color-6">{{showData.organizationName}}</span></p> -->
             <p class="pdb color-9">公司名：
-              <select class="ipt pr-short-ipt"
+              <!-- <select class="ipt pr-short-ipt"
                       data-placeholder=""
                       chosen
                       ng-model="formData.organizationId"
                       select-source="rest/index/organizatoin/queryForSelectOption?userId={{formData.id}}"
                       ng-change="toggleOrganization(formData.organizationId)">
+              </select> -->
+              <select ajax-url="rest/index/organizatoin/queryForSelectOption?userId={{formData.id}}"
+                      scope-data="selectOptions"
+                      class="ipt pr-short-ipt"
+                      ng-model="formData.organizationId"
+                      ng-options="item.value as item.text for item in selectOptions"
+                      ng-change="toggleOrganization(formData.organizationId)">
               </select>
             </p>
             <p class="pdb color-9">部门：<span class="color-6">{{showData.departmentName}}</span></p>
-            <p class="pdb color-9"
-               ajax-url="rest/authen/role/getRoleNamesByCurrentUser.json"
-               scope-data="roleData">角色：
-              <span class="color-6">{{roleData.join(' ')}}</span>
+            <p class="pdb color-9">角色：
+               <span class="color-6">
+                 <i ng-repeat="item in formData.roleNames" class="text-normal">{{item}}&nbsp;&nbsp;</i>
+               </span>
             </p>
           </div>
         </div>
