@@ -33,18 +33,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   function  inventoryAdjustmentOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       //调整
-      $scope.flag=false;
-
-      $scope.updateFlag=function (flag) {
-          $scope.flag=flag;
-      }
 
       $scope.watchFormChange=function(watchName){
           watchFormChange(watchName,$scope);
       };
       modal.closeAll();
-
-
 
       // 向列表添加数据的回调函数
       $scope.flashAddDataCallbackFn = function(flashAddData) {
@@ -153,9 +146,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
 
-
-
-
       // 保存 type:save-草稿,submit-提交订单。
       $scope.submitForm = function(fromId, type) {
 
@@ -257,17 +247,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               }
           });
 
-
-          var flag=false;
-
           for(var i=0; i<arr.length; i++){
 
               if (batchId==arr[i]){
-                  flag=true;
                   break;
               }
           }
-          return flag;
       };
 
       $scope.changeQuantity=function(quantity){
@@ -2470,16 +2455,35 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-    $scope.changeQuantity = function(quantity,salesQuantity){
-      $scope.quantityError=false;
-      if(salesQuantity&&quantity){
-        if(quantity>salesQuantity){
-            $scope.quantityError=true;
-        }
-      }else{
-           $scope.quantityError=true;
+    // 检查每个商品的批次数量总和是否大于可退货数量
+    $scope.changeQuantity = function (orderMedicalNos) {
+      if (orderMedicalNos && angular.isArray(orderMedicalNos)) {
+        angular.forEach(orderMedicalNos, function (data, index) {
+          // 定义当前商品批次和
+          var _batchTotal = 0;
+
+          // 获取批次总和
+          for (var i = 0, len = data.stockBatchs.length; i < len; i++) {
+            _batchTotal += data.stockBatchs[i].quantity;
+          }
+
+          // 判断是否大于可退数量
+          $scope.quantityError = _batchTotal > data.goodsCount ? true : false;
+        });
       }
-    }
+    };
+
+
+    // $scope.changeQuantity = function(quantity,salesQuantity){
+    //   $scope.quantityError=false;
+    //   if(salesQuantity&&quantity){
+    //     if(quantity>salesQuantity){
+    //         $scope.quantityError=true;
+    //     }
+    //   }else{
+    //        $scope.quantityError=true;
+    //   }
+    // };
 
   }
 

@@ -2,7 +2,7 @@
      ng-controller="purchaseReturnController"
      ajax-url="rest/authen/purchaseReturn/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos);quantityError=false;'
+     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos);quantityError=false;changeQuantity(formData.orderMedicalNos);'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -161,7 +161,7 @@
                            name="batchNum{{$index}}"
                            ng-model="batch.quantity"
                            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                           ng-change="batchsNumOverload(formData.orderMedicalNos);changeQuantity(batch.quantity,batch.salesQuantity);">
+                           ng-change="batchsNumOverload(formData.orderMedicalNos);changeQuantity(formData.orderMedicalNos);">
                     <input type="hidden" required ng-model="batch.id">
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
