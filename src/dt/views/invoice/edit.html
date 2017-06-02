@@ -282,7 +282,6 @@
                                   ng-model="tr.quantity"
                                   ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos);"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
-                                  required
                                   ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
                                   invalid-popover="{{!purchaseForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity}}"
                                   popover-show
@@ -298,8 +297,7 @@
                               name="price{{$index}}"
                               ng-model="tr.price"
                               ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                              required
-                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                              ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                               invalid-popover
                               valid-value="{{!purchaseForm['price'+$index].$valid}}"
                               popover-show
@@ -311,7 +309,7 @@
                               name="amountMoney{{$index}}"
                               ng-model="tr.amountMoney"
                               ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                              ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                               invalid-popover
                               valid-value="{{!purchaseForm['amountMoney'+$index].$valid}}"
                               popover-show
@@ -330,12 +328,11 @@
                               name="taxPrice{{$index}}"
                               ng-model="tr.taxPrice"
                               ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                              required
-                              ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
+                              ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
                               invalid-popover
                               valid-value="{{!purchaseForm['taxPrice'+$index].$valid}}"
                               popover-show
-                              popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
+                              popover-options='{"content":"税额不能小于0且不能过大或格式不正确", "placement":"bottom", "trigger":"manual"}' />
                      </td>
                      <!-- 税额 -->
                    </tr>
@@ -344,7 +341,15 @@
              </div>
              <div class="pd-c-v-s text-right text-n color-6 bt-dashed-line pd-c-v-l" ng-if="formData.orderMedicalNos.length" >
                价税合计：￥
-               <input type="text" class="ipt" name="name" value="" ng-model="formData.totalPrice" style="width:157px;height:35px;">
+               <input type="text" class="ipt"
+                 name="totalPrice"
+                 ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
+                 ng-pattern="/(^[1-9]([0-9]+)?(\.[0-9]*)?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/"
+                 invalid-popover
+                 popover-show="!purchaseForm.totalPrice.$valid"
+                 popover-options='{"content":"价税合计不能小于0且不能过大或格式不正确", "placement":"bottom", "trigger":"manual"}'
+                 ng-model="formData.totalPrice"
+                style="width:157px;height:35px;">
 
              </div>
              <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
