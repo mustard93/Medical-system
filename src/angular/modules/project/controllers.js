@@ -3343,6 +3343,10 @@ define('project/controllers', ['project/init'], function() {
 
     function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+      $scope.watchFormChange = function(watchName){
+        watchFormChange(watchName,$scope);
+      };
+
       $scope.$watch('initFlag', function (newVal) {
          var operationFlowSetMessage=[];
          var operationFlowSetKey=[];
@@ -3384,10 +3388,6 @@ define('project/controllers', ['project/init'], function() {
            }
          }
        });
-
-      $scope.watchFormChange = function(watchName){
-        watchFormChange(watchName,$scope);
-      };
 
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
