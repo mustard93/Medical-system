@@ -29,7 +29,7 @@
       <table class="full-width another-table" >
         <thead>
           <tr class="bb-line-gold">
-            <th class="text-center" style="height:45px;background-color:#4D443B;">状态</th>
+            <th class="text-center" style="height:45px;background-color:#4D443B;width:80px;">状态</th>
             <th class="text-center" style="height:45px;background-color:#4D443B;">区域名称</th>
             <th class="text-center" style="height:45px;background-color:#4D443B;">货位</th>
             <th class="text-center" style="height:45px;background-color:#4D443B;">生产批号</th>
@@ -38,11 +38,29 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="pr-bg-black3" ng-repeat="item in scopeData.list" style="background-color:#4D443B;">
-            <td class="text-center color-white" style="height:45px;">
+          <tr class="pr-bg-black3 " ng-repeat="item in scopeData.list" style="background-color:#4D443B;">
+            <!-- <td class="text-center color-white" style="height:45px;">
               <span class="circle-status"
                     ng-class="{'pr-bg-grey4':item.orderStatus=='待拣选',
                                'pr-bg-green':item.orderStatus=='已拣选'}">
+              </span>
+            </td> -->
+            <td class=" text-center relative">
+              <span class="circle-status"
+                    ng-class="{'pr-bg-grey4':tr.type=='待拣选',
+                               'pr-bg-orange2':tr.type=='拣选中',
+                               'pr-border-green':tr.type=='待复核',
+                               'pr-border-green-ok':tr.type=='已复核'}">
+                <span ng-if="tr.type!='已复核'" class="pickBillOrder-info" style="right:16px;top:-15px;">
+                  <i class="block pd-c-s text-normal" style="line-height:1.8">
+                    <em class="inline-block">{{tr.type}}</em>
+                  </i>
+                </span>
+                <span ng-if="tr.type=='已复核'" class="pickBillOrder-info" style="right:-19px;top:-28px;width:50px;">
+                  <i class="block pd-c-s text-normal" style="line-height:1.8">
+                    <em class="inline-block">{{tr.type}}</em>
+                  </i>
+                </span>
               </span>
             </td><!--状态-->
             <td class="text-center color-white">{{item.regionName}}</td><!--区域名称-->
