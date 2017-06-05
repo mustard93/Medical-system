@@ -2252,6 +2252,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     modal.closeAll();
     $scope.addDataItem = {};
 
+
     // 保存  type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function(scopeResponse) {
 
@@ -2783,6 +2784,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         angular.forEach(tbodyList, function (data, index) {
           types.push(data.type);
         });
+
         if (types.some(function(item){ return item == '待复核';}))
         {
           return false;

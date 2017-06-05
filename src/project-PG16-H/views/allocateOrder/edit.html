@@ -161,7 +161,7 @@
               </span>
             </div>
             <div class="outside-table-d">
-              <table class="table pr-table pr-new-table mgb-n table-ss-wid">
+              <table class="table pr-table pr-new-table mgb-n">
                 <thead>
                   <tr>
                     <th class="text-center">商品编号</th>
@@ -194,7 +194,7 @@
                     <td class="text-center">{{item.packingAttribute.name}}</td><!-- 单位 -->
                     <td ng-if="!formData.id" class="text-right">{{item.salesQuantity}}</td>
                     <td class="text-center">
-                      <div class="order-goods-num">
+                      <div class="order-goods-num" style="white-space:nowrap;">
                         <button type="button"
                                 class="inline-block left"
                                 ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(formData.orderMedicalNos)"
@@ -237,7 +237,7 @@
                           ng-disabled="item.applicationCount>=item.salesQuantity">+</button>
                       </div>
                     </td><!-- 计划调拨数量 -->
-                    <td ng-if="formData.id&&initFlag" class="text-right"
+                    <td ng-if="formData.id&&initFlag" class="text-right" style="white-space:nowrap;"
                         ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}&&storeRoomId={{formData.storeRoomId}}"
                         scope-data="scopeData">
                       <em ng-repeat="tr in scopeData" ng-init="item.salesQuantity=tr.salesQuantity">{{tr.salesQuantity}}</em>
