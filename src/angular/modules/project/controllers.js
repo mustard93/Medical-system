@@ -5879,7 +5879,7 @@ define('project/controllers', ['project/init'], function() {
               });
 
 
-        }
+        };
 
         $scope.caigounameCB = function(object) {
             console.log(object);
@@ -5898,6 +5898,59 @@ define('project/controllers', ['project/init'], function() {
 
 
         }
+
+        // 初始化采购方的值
+
+          $scope.getPurchaser = function(){
+
+            var _url='rest/baseData/queryIdForSelectOptionByType';
+            var data= {type:'发票默认购买方信息'};
+            requestData(_url,data, 'GET')
+              .then(function (results) {
+
+                var url='rest/baseData/get';
+                var _data= {id:results[0][0].value};
+                requestData(url,_data, 'GET')
+                  .then(function (_results) {
+                    var purchaserJSON=_results[0].note;
+                    var purchaser=angular.fromJson(purchaserJSON);
+                      $scope.formData.purchaser=purchaser;
+                  })
+                  .catch(function (error) {
+                    alertError(error || '出错');
+                  });
+              })
+              .catch(function (error) {
+                alertError(error || '出错');
+              });
+
+          };
+
+          // 初始化销售方的值
+          $scope.getSeller = function(){
+
+            var _url='rest/baseData/queryIdForSelectOptionByType';
+            var data= {type:'销售发票默认销售方'};
+            requestData(_url,data, 'GET')
+              .then(function (results) {
+
+                  var url='rest/baseData/get';
+                  var _data= {id:results[0][0].value};
+                  requestData(url,_data, 'GET')
+                    .then(function (_results) {
+                      var sellerJSON=_results[0].note;
+                      var seller=angular.fromJson(sellerJSON);
+                        $scope.formData.seller=seller;
+                    })
+                    .catch(function (error) {
+                      alertError(error || '出错');
+                    });
+              })
+              .catch(function (error) {
+                alertError(error || '出错');
+              });
+
+          }
 
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
     $scope.isShowPurchaseInfo = false;

@@ -2,7 +2,7 @@
      ng-controller="invoiceEditCtrl"
      ajax-url="rest/authen/invoice/getOfEdit.json?id={{mainStatus.pageParams.id}}&source=销售发票"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');formData.source='销售发票';canSubmit=false;"
+     callback="initFlag=true;watchFormChange('formData');formData.source='销售发票';canSubmit=false;getSeller();"
      alert-error>
 <form id="purchaseForm"
      name="purchaseForm"
@@ -397,7 +397,16 @@
                       style="width:80px;height:80px;position:absolute;"/>
                    <span class="span-mask pos-abs" style="width:80px;height:80px;backgroundColor:rgba(229, 229, 229, .8)">
                      <a href="javascript:void(0); " class="show-big-img color-yellow1"    ng-src="{{item.attachmentUrl}}"    modal-img-show>查看大图</a>
+
+                     <button type="button" class="pr-btn-a" style="width:0px;height:0px;" ng-init="upFile={};"
+                                           uploader-one="rest/authen/fileUpload/upload.json"
+                                           callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}';canSubmitInvoice(item.attachmentUrl);"
+                                           up-file="upFile" ng-model="item.attachmentUrl" >
+                       <p class="color-yellow1" style="position:absolute;top:45px;width:100%;left:0px;">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}</p>
+
+                     </button>
                    </span>
+
                </div>
 
            </div>
