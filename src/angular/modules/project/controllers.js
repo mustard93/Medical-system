@@ -5859,7 +5859,7 @@ define('project/controllers', ['project/init'], function() {
     };
   }
 
-  function noticeEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
+  function invoiceEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
 
         $scope.xiaoshounameCB = function(object) {
@@ -6211,7 +6211,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('intervalCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', intervalCtrl])
   .controller('auditUserApplyOrganizationCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','proLoading', auditUserApplyOrganizationCtrl])
   .controller('purchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchaseOrderEditCtrl])
-  .controller('noticeEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', noticeEditCtrl])
+  .controller('invoiceEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', invoiceEditCtrl])
   .controller('allocateOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', allocateOrderEditCtrl])
   .controller('arrivalNoticeOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', arrivalNoticeOrderEditCtrl])
   .controller('requestPurchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', '$timeout', requestPurchaseOrderEditCtrl])

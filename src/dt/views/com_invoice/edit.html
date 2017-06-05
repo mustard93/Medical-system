@@ -1,5 +1,5 @@
 <div class="create-new-order purchaseOrder-edit"
-     ng-controller="noticeEditCtrl"
+     ng-controller="invoiceEditCtrl"
      ajax-url="rest/authen/invoice/getOfEdit.json?id={{mainStatus.pageParams.id}}&source=销售发票"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');formData.source='销售发票';canSubmit=false;"
@@ -73,23 +73,23 @@
                销售方
              </div>
              <div class="flex-item-11 flex-column">
-               <div class="flex-item-12 flex-column text-right mgt">
-                 <span class="flex-item-3 text-right">名称：</span>
-                 <div class="flex-item-9 text-left">
+               <div class="flex-item-12 flex-column text-center mgt">
+                 <span class=" flex-item-4 text-right">名称：</span>
+                 <div class=" flex-item-8 text-left">
                   <input type="text" ng-model="formData.seller.name"  style="width:100%;" class="ipt ipt-new hei-28" value="" >
                </div>
                </div>
 
-               <div class="flex-item-12 flex-column text-right mgt">
-                 <span class="flex-item-3 text-right">纳税人识别号：</span>
-                 <div class="flex-item-9 text-left">
+               <div class="flex-item-12 flex-column text-center mgt">
+                 <span class=" flex-item-4 text-right">纳税人识别号：</span>
+                 <div class=" flex-item-8 text-left">
                    <input type="text" class="ipt ipt-new hei-28" style="width:100%;" value="" ng-model="formData.seller.taxpayerId" >
                  </div>
                </div>
 
-               <div class="flex-item-12 flex-column text-right mgt">
-                 <span class="flex-item-3 text-right">地址：</span>
-                 <div class="flex-item-9 text-left">
+               <div class="flex-item-12 flex-column text-center mgt">
+                 <span class=" flex-item-4 text-right">地址：</span>
+                 <div class=" flex-item-8 text-left">
                    <input type="text" class=" ipt ipt-new hei-28" style="width:100%;" value="" ng-model="formData.seller.address" >
                  </div>
 
@@ -98,25 +98,25 @@
 
            </div>
 
-           <div class="flex-item-6 flex-column  text-right">
-             <div class="flex-item-12 flex-column mgt text-right">
-               <span class="flex-item-3 text-right">开户银行：</span>
-               <div class="flex-item-9 text-left">
+           <div class="flex-item-6 flex-column  text-center">
+             <div class="flex-item-12 flex-column mgt text-center">
+               <span class=" flex-item-4 text-right">开户银行：</span>
+               <div class=" flex-item-8 text-left">
                  <input type="text" class="ipt ipt-new hei-28" style="width:100%;" ng-model="formData.seller.accountBank" value="" >
                </div>
              </div>
 
-             <div class="flex-item-12 flex-column mgt text-right">
-               <span class="flex-item-3 text-right">开户账号：</span>
-               <div class="flex-item-9 text-left">
+             <div class="flex-item-12 flex-column mgt text-center">
+               <span class=" flex-item-4 text-right">开户账号：</span>
+               <div class=" flex-item-8 text-left">
                  <input type="text" class="ipt ipt-new hei-28" style="width:100%;" value="" ng-model="formData.seller.accountNumber" >
                </div>
 
              </div>
 
-             <div class="flex-item-12 flex-column mgt text-right">
-               <span class="flex-item-3 text-right">电话：</span>
-               <div class="flex-item-9 text-left">
+             <div class="flex-item-12 flex-column mgt text-center">
+               <span class=" flex-item-4 text-right">电话：</span>
+               <div class=" flex-item-8 text-left">
                  <input type="text"
                  class="ipt ipt-new hei-28"
                  name="sellerPhone"
@@ -135,12 +135,13 @@
              </div>
              <div class="flex-item-11 flex-column">
                <div class="flex-item-12 flex-column text-right mgt">
-                 <span class="flex-item-3 text-right">名称：</span>
-                 <div class="flex-item-9 text-left">
+                 <span class="flex-item-4 text-right">名称：</span>
+                 <div class="flex-item-8 text-left">
                    <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
                            data-placeholder=" "
                            chosen
                            default-empty=" "
+                           width="100%;"
                            ng-model="seller_id"
                            select-call-back="caigounameCB"
                            select-source="rest/baseData/queryIdForSelectOptionByType?type=发票默认购买方信息">
@@ -149,16 +150,16 @@
                </div>
 
                <div class="flex-item-12 flex-column text-right mgt">
-                 <span class="flex-item-3 text-right">纳税人识别号：</span>
-                   <div class="flex-item-9 text-left">
+                 <span class="flex-item-4 text-right">纳税人识别号：</span>
+                   <div class="flex-item-8 text-left">
                      <input type="text" class="ipt ipt-new hei-28" style="width:100%;" value="" ng-model="formData.purchaser.taxpayerId" >
                    </div>
 
                </div>
 
                <div class="flex-item-12 flex-column text-right mgt">
-                 <span class="flex-item-3 text-right">地址：</span>
-                 <div class="flex-item-9 text-left">
+                 <span class="flex-item-4 text-right">地址：</span>
+                 <div class="flex-item-8 text-left">
                  <input type="text" class="ipt ipt-new hei-28" style="width:100%;" value="" ng-model="formData.purchaser.address" >
                  </div>
                </div>
@@ -168,22 +169,22 @@
 
            <div class="flex-item-6 flex-column  text-right">
              <div class="flex-item-12 flex-column  mgt text-right">
-               <span class="flex-item-3 text-right">开户银行：</span>
-               <div class="flex-item-9 text-left">
+               <span class=" flex-item-4 text-right">开户银行：</span>
+               <div class=" flex-item-8 text-left">
                  <input type="text" class="ipt ipt-new hei-28" style="width:100%;" ng-model="formData.purchaser.accountBank" value="" >
                </div>
              </div>
 
              <div class="flex-item-12 flex-column  mgt text-right">
-               <span class="flex-item-3 text-right">开户账号：</span>
-               <div class="flex-item-9 text-left">
+               <span class=" flex-item-4 text-right">开户账号：</span>
+               <div class=" flex-item-8 text-left">
              <input type="text" class="ipt ipt-new hei-28" style="width:100%;" value="" ng-model="formData.purchaser.accountNumber" >
                </div>
              </div>
 
              <div class="flex-item-12 flex-column  mgt text-right">
-               <span class="flex-item-3 text-right">电话：</span>
-               <div class="flex-item-9 text-left">
+               <span class=" flex-item-4 text-right">电话：</span>
+               <div class=" flex-item-8 text-left">
                  <input type="text"
                  class="ipt ipt-new hei-28"
                  style="width:100%;"
