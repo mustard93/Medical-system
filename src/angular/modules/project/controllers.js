@@ -1105,6 +1105,13 @@ define('project/controllers', ['project/init'], function() {
          });
       }
 
+
+
+    if($scope.submitForm_type == 'create'){
+        $scope.goTo('#/confirmOrder/edit.html?id='+$scope.formData.id);
+    }
+
+
     };
 
     // 保存type:save-草稿,submit-提交订单。
@@ -1121,7 +1128,12 @@ define('project/controllers', ['project/init'], function() {
         $scope.formData.validFlag = true;
       }
 
-      $('#' + fromId).trigger('submit');
+      //自动生成批号
+      if($scope.submitForm_type == 'create'){
+            $scope.formData.isAutoPlanStockBatch=true
+      }
+
+        $('#' + fromId).trigger('submit');
     };
 
     // 全选与全不选
