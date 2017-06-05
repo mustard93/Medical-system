@@ -5861,6 +5861,44 @@ define('project/controllers', ['project/init'], function() {
 
   function noticeEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
 
+
+        $scope.xiaoshounameCB = function(object) {
+            console.log(object);
+
+            var _url='rest/baseData/get';
+            var data= {id:object.value};
+            requestData(_url,data, 'GET')
+              .then(function (results) {
+                var sellerJSON=results[0].note;
+                var seller=angular.fromJson(sellerJSON);
+                  console.log(seller);
+                  $scope.formData.seller=seller;
+              })
+              .catch(function (error) {
+                alertError(error || '出错');
+              });
+
+
+        }
+
+        $scope.caigounameCB = function(object) {
+            console.log(object);
+
+            var _url='rest/baseData/get';
+            var data= {id:object.value};
+            requestData(_url,data, 'GET')
+              .then(function (results) {
+                var purchaserJSON=results[0].note;
+                var purchaser=angular.fromJson(purchaserJSON);
+                  $scope.formData.purchaser=purchaser;
+              })
+              .catch(function (error) {
+                alertError(error || '出错');
+              });
+
+
+        }
+
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
     $scope.isShowPurchaseInfo = false;
 
@@ -6004,7 +6042,7 @@ define('project/controllers', ['project/init'], function() {
             });
           }
         };
-        
+
         // 判断发票图片必须上传才能提交
 
         $scope.canSubmitInvoice=function(attachmentUrl){

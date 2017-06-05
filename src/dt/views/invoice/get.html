@@ -243,13 +243,19 @@
            </div>
          </div>
          <!-- 上传图片 -->
-      <div class="panel  pr-panel  pr-panel-height mgb color-9 flex-column" >
+      <div class="panel  pr-panel  pr-panel-height mgb color-9 flex-column" style="min-height:150px;">
         <div class="pd-c-v-s"  ng-repeat="item in formData.attachments">
           <div class="" ng-if="!item.attachmentUrl">
             <em class="color-yellow1 cur-pot">暂无上传发票图片</em>
           </div>
-          <div class="" ng-if="item.attachmentUrl">
-            <em ng-src="{{item.attachmentUrl}}" class="color-yellow1 cur-pot" modal-img-show >查看发票图片</em>
+          <div class="pd-c-v-s relative show-mask" ng-if="item.attachmentUrl" style="width:auto;height:auto;">
+            <img title="{{item.fileName}}"
+                 alt="{{item.fileName}}"
+                 ng-src="{{item.attachmentUrl}}"
+                 style="width:80px;height:80px;position:absolute;"/>
+              <span class="span-mask pos-abs" style="width:80px;height:80px;backgroundColor:rgba(229, 229, 229, .8)">
+                <a href="javascript:void(0); " class="show-big-img color-yellow1"    ng-src="{{item.attachmentUrl}}"    modal-img-show>查看大图</a>
+              </span>
           </div>
 
         </div>
