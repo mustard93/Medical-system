@@ -374,7 +374,7 @@
          <div class="panel  pr-panel  pr-panel-height mgb color-9 flex-column" style="min-height:180px;">
 
              <p class="color-black" style="width:100%;">
-               <em class=" text-n text-bold">上传发票图片</em> <em  class="mgl-l color-red" >(必填)</em>
+               <em class=" text-n text-bold">上传发票图片</em> <em ng-if="!canSubmit" class="mgl-l color-red" >(必填)</em>
              </p>
 
            <div class=""  ng-repeat="item in formData.attachments" >
@@ -399,32 +399,20 @@
                  <img title="{{item.fileName}}"
                       alt="{{item.fileName}}"
                       ng-src="{{item.attachmentUrl}}"
-                      style="width:142px;height:96px;position:absolute;top:-30px;"/>
-                      <div
-
-                          handle-this-click
-                          title="删除"
-                          style="right: -130px;top: -40px;z-index:10;"
-                          dialog-title="确认删除?"
-                          dialog-content="删除后将无法恢复,确认删除?"
-                          dialog-template="pr-dialog-submit.html"
-                          params="{'id':'{{mainStatus.pageParams.id}}','invoiceId':'{{item.id}}'}"
-                          request-url="rest/authen/confirmOrder/delInvoice"
-                          callback="invoiceList.splice($index,1)"
-                          ng-click="$event.stopPropagation();" class="del-invoice-icon">
+                      style="width:142px;height:96px;position:absolute;top:-30px;cursor:pointer;"
+                      modal-img-show/>
+                      <div ng-click="item.attachmentUrl='';canSubmitInvoice(item.attachmentUrl);" class="del-invoice-icon" style="right:-133px;top:-42px;">
                      </div>
 
-                   <span class="span-mask pos-abs" style="width:142px;height:96px;top:-30px;backgroundColor:rgba(229, 229, 229, .8)">
+                   <!-- <span class="span-mask pos-abs" style="width:142px;height:96px;top:-30px;backgroundColor:rgba(229, 229, 229, .8)">
                      <a href="javascript:void(0); " class="show-big-img color-yellow1" style="left:47px;"   ng-src="{{item.attachmentUrl}}"    modal-img-show>查看大图</a>
-
                      <button type="button" class="pr-btn-a" style="width:0px;height:0px;" ng-init="upFile={};"
                                            uploader-one="rest/authen/fileUpload/upload.json"
                                            callback="item.uploadUserId='{{$root.curUser.id}}';item.uploadUserName='{{$root.curUser.name}}';canSubmitInvoice(item.attachmentUrl);"
                                            up-file="upFile" ng-model="item.attachmentUrl" >
                        <p class="color-yellow1" style="position:absolute;top:45px;width:100%;left:0px;">重新上传{{upFile.progress<100?"("+upFile.progress+"%)":""}}</p>
-
                      </button>
-                   </span>
+                   </span> -->
 
                </div>
 
