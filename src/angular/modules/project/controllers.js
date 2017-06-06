@@ -1127,16 +1127,18 @@ define('project/controllers', ['project/init'], function() {
     // 全选与全不选
     $scope.isChoiseAll = function (choiseStatus) {
       if (choiseStatus) {
-        angular.forEach($scope.orderMedicalNos, function (item, index) {
-          if (!item.handleFlag) {
-            item.handleFlag = true;
-          }
+        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+          item.handleFlag = true;
+          // if (!item.handleFlag) {
+          //   item.handleFlag = true;
+          // }
         });
       } else {
-        angular.forEach($scope.orderMedicalNos, function (item, index) {
-          if (item.handleFlag) {
-            item.handleFlag = false;
-          }
+        angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
+          item.handleFlag = false;
+          // if (item.handleFlag) {
+          //   item.handleFlag = false;
+          // }
         });
       }
     };
@@ -3341,6 +3343,10 @@ define('project/controllers', ['project/init'], function() {
 
     function QualificationApplyCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+      $scope.watchFormChange = function(watchName){
+        watchFormChange(watchName,$scope);
+      };
+
       $scope.$watch('initFlag', function (newVal) {
          var operationFlowSetMessage=[];
          var operationFlowSetKey=[];
@@ -3382,10 +3388,6 @@ define('project/controllers', ['project/init'], function() {
            }
          }
        });
-
-      $scope.watchFormChange = function(watchName){
-        watchFormChange(watchName,$scope);
-      };
 
       $scope.submitForm = function(fromId, type) {
          $scope.submitForm_type = type;
@@ -5033,6 +5035,69 @@ define('project/controllers', ['project/init'], function() {
       }
 
     };
+    // $scope.initSelectAll=function(medicalList){
+    //
+    // }
+    // 对比是否之前已经选择过，如果选择过，就打上勾。
+     $scope.alreadySelect=function(medicalList,choisedMedicalList){
+      // 把侧边框中的商品对象和编辑页面中已添加的商品对象分别取出来放在medical和choisedMedical两个数组中。
+      var medical=eval(medicalList);
+
+      var choisedMedical=eval(choisedMedicalList);
+
+      // 对比两个数组中的id,是否有相同的。
+      for(var i=0;i<medical.length; i++){
+
+          for(var j=0; j<choisedMedical.length; j++){
+              // 如果id相同，则选中该条
+              if(choisedMedical[j].id==medical[i].id){
+                medical[i].itemSelected=true;
+
+              }
+              // 是否选中全选复选框
+              if(choisedMedical.length==medical.length){
+                $scope.isChoiseAll = true;
+              }else{
+                  $scope.isChoiseAll = false;
+              }
+          }
+      }
+    }
+
+    $scope.addToList=function(choisedMedicalList,medicalList){
+        var list = compareArray(medicalList,choisedMedicalList,'id','id');
+        return medicalList.concat(list);
+    };
+
+     //去重 返回 arrB 与 arrA 中 arrB不重复部分
+    function compareArray(arrA,arrB,arrAAtrr,arrBAtrr){
+          var temp=[];
+
+          for (var i = 0; i<arrA.length; i++) {
+
+              for(var j=0; j<arrB.length; j++){
+
+                  if(arrA[i][arrAAtrr]==arrB[j][arrBAtrr]){
+
+                      // console.log("重复的有：",arrB[j][arrBAtrr]);
+                      temp.push(arrB[j][arrBAtrr]);
+                  }
+              }
+          }
+          for(var i=0;i<temp.length; i++){
+
+              for(var j=0; j<arrB.length; j++){
+
+                  console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
+
+                  if(arrB[j][arrBAtrr]==temp[i]){
+                      arrB.splice(j,1);
+                  }
+              }
+          }
+          //  console.log("去重部分剩下部分：",arrB);
+          return arrB;
+      }
 
     // 全选与全不选
     $scope.handleChoiseAllEvent = function () {
@@ -5609,7 +5674,8 @@ define('project/controllers', ['project/init'], function() {
           requestData('rest/authen/salecontentmedical/save', _data, 'POST', 'parameter-body')
           .then(function (results) {
             if (results[1].code === 200) {
-              _reloadListData('rest/authen/salecontentmedical/query?customerAddressId=' + $scope.mainStatus.pageParams.customerAddressId);
+              utils.refreshHref();
+              // _reloadListData('rest/authen/salecontentmedical/query?customerAddressId=' + $scope.mainStatus.pageParams.customerAddressId);
             }
           })
           .catch(function (error) {
@@ -5857,6 +5923,7 @@ define('project/controllers', ['project/init'], function() {
       }
     };
   }
+
 
 
   angular.module('manageApp.project')

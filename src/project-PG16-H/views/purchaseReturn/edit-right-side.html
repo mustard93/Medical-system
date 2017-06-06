@@ -3,7 +3,7 @@
      ajax-If-eval="selectedData.id||formData.relId"
      ajax-url="rest/authen/purchasePlanOrder/get?id={{selectedData.id||formData.relId}}"
      scope-data="addDataObj"
-     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,dialogData.medicalList);formData.relId=addDataObj.id;"
+     callback="choisedMedicalList=initChoisedMedicalList(addDataObj.orderMedicalNos,dialogData.medicalList);formData.relId=addDataObj.id;alreadySelect(addDataObj.orderMedicalNos,formData.orderMedicalNos);"
      alert-error>
 
     <!-- 头部信息 -->
@@ -11,7 +11,7 @@
       <div class="pd-m">
         <div class="mgb"><span class="pdb-m">参照采购计划</span></div>
         <span angucomplete placeholder="采购计划编号"
-              title-field="orderNo"
+              title-field="orderCode"
               description-field="supplier.name"
               search-fields=""
               search-str-class="ipt"
@@ -109,14 +109,15 @@
         </div>
       </div>
       <!-- 功能按钮 -->
+
       <div class="handle-btn-area-2nd relative">
         <div class="btn-area full-width text-center">
+          <!--  原：formData.orderMedicalNos=choisedMedicalList;-->
             <button ng-disabled="!choisedMedicalList.length>0"
-                    ng-click="formData.orderMedicalNos=choisedMedicalList;
+                    ng-click="formData.orderMedicalNos=addToList(choisedMedicalList,formData.orderMedicalNos);
                               formData.supplierName=addDataObj.supplierName;
                               formData.organizationName=addDataObj.organizationName;
                               formData.purchasePlanOrderCode=addDataObj.orderCode;
-                              formData.orderCode=addDataObj.orderNo;
                               modal.closeAll();"
                     type="button"
                     class="pr-btn-save-glodbg mgr-l">确定

@@ -164,8 +164,8 @@
               <thead>
                 <tr>
                   <th class="text-center w-50 mycheck">
-                  <input type="checkbox" ng-model="choiseStatus" id='1' ng-click="isChoiseAll(choiseStatus)">
-                  <label for="1"></label>
+                    <input type="checkbox" ng-model="choiseStatus" id='1' ng-click="isChoiseAll(choiseStatus)">
+                    <label for="1"></label>
                   </th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left w-300">商品全名</th>
@@ -187,7 +187,7 @@
                 </tr>
               </thead>
               <tbody ng-if="formData.orderBusinessType=='普通销售'">
-                <tr ng-repeat="item in orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
+                <tr ng-repeat="item in formData.orderMedicalNos" ng-controller="ConfirmOrderMedicalController">
                   <td class="text-center w-50 mycheck">
                     <input type="checkbox" ng-model="item.handleFlag" id="{{$index+2}}" ng-change="handleThischoise(item)">
                   <label for="{{$index+2}}"></label>
@@ -517,7 +517,7 @@
         </button>
 
 
-        <button ng-if="formData.orderBusinessType=='普通销售'&&formData.orderStatus=='未提交'"
+        <button ng-if="formData.orderBusinessType=='普通销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
@@ -526,7 +526,7 @@
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
-        <button ng-if="formData.orderBusinessType=='直运销售'&&formData.orderStatus=='未提交'"
+        <button ng-if="formData.orderBusinessType=='直运销售'&&(formData.orderStatus=='未提交'||formData.orderStatus=='未通过')"
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||

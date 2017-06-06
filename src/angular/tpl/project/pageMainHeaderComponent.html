@@ -87,6 +87,29 @@
                   ng-change="chgOrderBusinessType(formData.orderBusinessType)">
           </select>
         </div>
+        <!-- 单据类型过滤 -->
+        <div class="inline-block" ng-if="isShowOrderTypeFilter">
+          <span class="color-9">单据类型：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.type"
+                  select-source="{{getBusinessOrderTypeUrl}}">
+          </select>
+        </div>
+        <!-- 来源单据类型过滤 -->
+        <div class="inline-block" ng-if="isShowSouceOrderTypeFilter">
+          <span class="color-9">来源单据类型：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.source"
+                  select-source="{{getSourceOrderTypeUrl}}">
+          </select>
+        </div>
+
         <!-- 仓库过滤 -->
         <div class="inline-block" ng-if="isShowWarehouseFilter">
           <span class="color-9">仓库：</span>
@@ -101,25 +124,47 @@
         </div>
         <!-- 日期过滤 -->
         <div class="inline-block" ng-if="isShowDateFilter" style="position:relative;top:3px;">
-          <span class="color-9 mgl-m">申请日期：</span>
-          <div class="date-icon-outside">
-            <input type="text"
-                   datepicker
-                   class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
-                   ng-readonly="true"
-                   ng-model="listParams.createAtBeg"
-                   placeholder="">
-            <span class="date-icon"></span>
+          <span class="color-9 mgl-m" ng-if="_showDateName">{{_showDateName}}</span>
+          <span class="color-9 mgl-m" ng-if="!_showDateName">申请日期：</span>
+          <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                      
+                     ng-model="listParams.createAtBeg">
+              <span class="date-icon"></span>
+          </div>
+          <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                      
+                     ng-model="listParams.createAtBeg">
+              <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
           </div>
           <span class="color-9">至</span>
-          <div class="date-icon-outside">
-            <input type="text"
-                   datepicker
-                   class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-                   ng-readonly="true"
-                   ng-model="listParams.createAtEnd"
-                   placeholder="">
-            <span class="date-icon"></span>
+          <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                      
+                     ng-model="listParams.createAtEnd"
+                     invalid-popover
+                     popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                     popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+              <span class="date-icon"></span>
+          </div>
+          <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                      
+                     ng-model="listParams.createAtEnd"/>
+              <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
           </div>
         </div>
         <!-- 关键字过滤 -->

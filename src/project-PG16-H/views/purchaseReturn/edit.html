@@ -2,7 +2,7 @@
      ng-controller="purchaseReturnController"
      ajax-url="rest/authen/purchaseReturn/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos)'
+     callback='initFlag=true;watchFormChange("formData");calculaTotalPrice(formData.orderMedicalNos);quantityError=false;changeQuantity(formData.orderMedicalNos);'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -17,11 +17,18 @@
         novalidate="novalidate">
     <!-- 头部信息 -->
     <page-main-header-component list-params="listParams"
-                                crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"采购退货申请","link":"","style":"color-custom-orange"},{"name":"新建采购退货申请","link":"","style":""}]'
+                                crumbs-nav='[{"name":"我要采购","link":"","style":""},{"name":"采购退货申请","link":"","style":"color-custom-orange"},{"name":"新建采购退货申请","link":"","style":""}]'
                                 component-title="采购退货申请－新建">
     </page-main-header-component>
     <!-- 单据基本信息 -->
     <div class="content-wrapper">
+      <div ng-if="formData.operationFlowSet.message||formData.operationFlowSet.key" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        </p>
+      </div>
       <div ng-if="formData.orderMedicalNos.length"  class="">
         <div class="inline-block mgr-l">
           <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:412px;">
@@ -51,7 +58,7 @@
            modal-url="views/purchaseReturn/edit-right-side.html">
           <i></i>
           <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
-          <span ng-if="formData.orderMedicalNos.length">修改退货条目</span>
+          <span ng-if="formData.orderMedicalNos.length" >修改退货条目</span>
         </a>
       </div>
       <div class="panel pr-panel pd-n pr-fuzzy-boundary pr-panel-height mgb">
@@ -63,9 +70,12 @@
         <div ng-if="formData.orderMedicalNos.length">
           <div class="flex-column pdt-m pdb-m pd-c-l bb-dashed-line-new color-9">
             <div class="flex-item-6">
-              <span class="mgr-l">采购退货编码：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
-              <span class="mgr-l">审核人：<em class="color-3">{{'暂无'}}</em></span>
-              <span class="mgr-l">审核时间：<em class="color-3">{{'暂无'}}</em></span>
+              <span class="mgr-l">单据编号：
+                <input type="text" name="orderCode" required class="ipt pr-new-short-ipt text-right"  ng-model="formData.orderCode" />
+                <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
+              </span>
+              <span class="mgr-l">审核人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">审核时间：<em class="color-3">{{formData.approver.approverDate | date:'yyyy-MM-dd'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
               <span>制单人：<em class="color-custom-orange">{{formData.saleUser.n || '暂无'}}</em></span>
@@ -104,7 +114,7 @@
                 <th class="text-center w-160">基本单位</th>
                 <th class="text-center w-120">可退数量</th>
                 <th class="text-center w-220">生产批号/数量<em class="color-red">(必选)</em></th>
-                <th class="text-center w-220">仓库</th>
+                <th class="text-center w-220">库房</th>
                 <th class="text-center w-220">区域</th>
                 <th class="text-center w-160">货位</th>
                 <th class="text-center w-120">采购单价</th>
@@ -136,7 +146,7 @@
                 <td class="text-center"
                     invalid-popover
                     popover-show="batchsNumOverloadFlag"
-                    popover-options='{"content":"批次数量不能大于可退货数量", "placement":"top", "trigger":"manual"}'>
+                    popover-options='{"content":"批次数量不能大于可退货数量或可用量", "placement":"top", "trigger":"manual"}'>
                   <!-- 已选批号列表 -->
                   <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
                        ng-if="batch.batchNumber"
@@ -151,7 +161,7 @@
                            name="batchNum{{$index}}"
                            ng-model="batch.quantity"
                            onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                           ng-change="batchsNumOverload(formData.orderMedicalNos)">
+                           ng-change="batchsNumOverload(formData.orderMedicalNos);changeQuantity(formData.orderMedicalNos);">
                     <input type="hidden" required ng-model="batch.id">
                     <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                   </div>
@@ -175,9 +185,17 @@
                   <!-- 待选择数 -->
                   <!-- <p ng-if="getAllBatchTotal(item.stockBatchs)<item.planQuantity" class="text-right color-red pdr relative">待选择：{{item.planQuantity-getAllBatchTotal(item.stockBatchs)}}</p> -->
                 </td><!-- 生产批号 -->
-                <td class="text-center">{{item.storeRoomName}}</td><!-- 仓库 -->
-                <td class="text-center">{{item.regionName}}</td><!-- 区域 -->
-                <td class="text-center">{{item.goodsLocationName}}</td><!-- 货位 -->
+                <td class="text-center" style="padding:0px;">
+                    <div ng-repeat="stor in item.stockBatchs" ng-class="{'bt-line-yellow':(stor.storeRoomName)}" style="padding:8px 0px;">{{stor.storeRoomName}}</div>
+                </td><!-- 库房 -->
+
+                <td class="text-center" style="padding:0px;">
+                    <div ng-repeat="reg in item.stockBatchs" ng-class="{'bt-line-yellow':(reg.regionName)}" style="padding:8px 0px;">{{reg.regionName}}</div>
+                </td><!-- 区域 -->
+
+                <td class="text-center" style="padding:0px;">
+                  <div ng-repeat="good in item.stockBatchs" ng-class="{'bt-line-yellow':(good.goodsLocationName)}" style="padding:8px 0px;">{{good.goodsLocationName}}</div>
+                </td><!-- 货位 -->
                 <td class="text-center">{{item.strike_price | currency:'￥'}}</td><!-- 采购单价 -->
                 <td class="text-center">{{calculaCurrentMedicalPrice(item) | currency:'￥'}}</td><!-- 计划退货金额 -->
                 <td class="text-center">{{item.actualReturnPrice}}</td><!-- 实际退货金额 -->
@@ -231,7 +249,7 @@
           <button type="submit"
                   class="pr-btn-save-glodbg mgl-m"
                   ng-click="submitForm('saleReturnEditForm','save');formData.validFlag=false;"
-                  ng-disabled="!changeFlag">保存
+                  ng-disabled="!changeFlag||!formData.orderCode">保存
           </button>
           <button class="mgl-s pr-btn-save-glodbg"
                   type="button"
@@ -242,6 +260,8 @@
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
                   ng-disabled="!saleReturnEditForm.$invalid ||
+                               !formData.orderCode ||
+                               quantityError||
                                !formData.orderMedicalNos.length ||
                                !formData.expectDate ||
                                batchsNumOverloadFlag">提交

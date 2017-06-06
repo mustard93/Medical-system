@@ -14,7 +14,7 @@
   <div class="content-wrapper">
     <div class="content-wrapper-main mgt">
       <form class="form-horizontal"
-            id="storeRoom-editForm"
+            id="editForm"
             name="storeRoomEditForm"
             form-validator
             action="rest/authen/storeRoom/save.json"
@@ -87,7 +87,7 @@
                  dialog-content="该库房列表存在未保存数据，是否保存?"
                  dialog-template="pr-dialog-return.html"
                  nosave-callback="goTo('#/storeRoom/query-storeRoom.html')"
-                 save-callback="submitForm('storeRoom-editForm','save');$root.goTo('#/storeRoom/query-storeRoom.html')">返回库房列表
+                 save-callback="submitForm('editForm','save');$root.goTo('#/storeRoom/query-storeRoom.html')">返回库房列表
               </a>
               <a ng-if="!changeFlag" href="#/storeRoom/query-storeRoom.html">返回库房列表</a>
             </span>
@@ -104,11 +104,37 @@
                  params='{"ids":[formData.id]}'
                  request-url="rest/authen/storeRoom/delete">删除</a>
             </span>
-            <span class="mgl">
+            <!-- <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       ng-disabled="!changeFlag ||!formData.code ||!formData.name ||!formData.type"
-                      ng-click="submitForm('storeRoom-editForm','save')">保存</button>
-            </span>
+                      ng-click="submitForm('editForm','save')">保存</button>
+            </span> -->
+            <span class="mgl" >
+              <button ng-if="changeFlag&&formData.id" href="javascript:;"
+                class="pr-btn-save-glodbg mgt"
+                type="button"
+                modal-center="350"
+                modal-scope="this"
+                modal-data='{"title":"确认提示",
+                             "content1":"请输入修改内容",
+                             "content2":"请输入修改原因",
+                             "btnConfirm":"确定",
+                             "btnCancel":"取消",
+                             "url":"rest/authen/medicalStock/save",
+                             "goUrl":""
+                            }'
+                tpl-url="tpl/pr-dialog-content-reason.html"
+                ng-disabled="!formData.code ||!formData.name ||!formData.type"
+                 >保存</button>
+
+              <button
+              ng-if="!changeFlag ||!formData.id"
+              href="javascript:;"
+              class="pr-btn-save-glodbg mgt"
+              type="button"
+              ng-click="submitForm('editForm','save')"
+              ng-disabled="!changeFlag ||!formData.code ||!formData.name ||!formData.type">保存</button>
+
           </div>
         </div>
       </form>

@@ -6,7 +6,7 @@
   <div class="medical-stock supplier-management child-project-management" ng-controller="storeRoomController">
 
     <page-main-header-component list-params="listParams"
-                                crumbs-nav='[{"name":"库房管理","link":"","style":""},{"name":"库房列表","link":"","style":"color-custom-orange"}]'
+                                crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"区域管理","link":"","style":""},{"name":"库房列表","link":"","style":"color-custom-orange"}]'
                                 style="min-height:150px;"
                                 component-title="库房列表">
     </page-main-header-component>
@@ -29,6 +29,19 @@
     <!-- 区域列表 -->
     <div class="content-wrapper pd-c-m pdt-m">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="margin-bottom:-1px;">
+        <div class="bb-dashed-line pd-c-l pdb-m" style="margin-left:-20px;margin-right:-20px;">
+          <span>库房：</span>
+          <span>
+            <select class="inline ipt-new-s pdt"
+                    chosen
+                    style="width:120px;"
+                    data-placeholder=" "
+                    default-empty="全部"
+                    ng-model="listParams.storeRoomId"
+                    select-source="rest/authen/storeRoom/queryForSelectOption">
+            </select>
+          </span>
+        </div>
         <div class="flex-column mgt-m">
           <!-- 批量删除按钮 -->
           <div class="flex-item-6">

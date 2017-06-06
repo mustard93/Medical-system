@@ -2533,6 +2533,9 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             $scope.minLength = 1;
             // $scope.searchStr = null;
 
+
+
+
             require(['project/angucomplete'], function(angucomplete) {
               //是否验证合法，允许输入
               var canSelectResult=function(result){
@@ -2607,6 +2610,12 @@ function flashAddMedical(utils,$timeout) {
             $scope.hideImport=true;
           }
 
+          //药械输入框提示语
+          if ($attrs.placeholder){
+            $scope.showPlaceholder=$attrs.placeholder;
+          }
+
+
           //监听变化
           $attrs.$observe("ajaxUrl", function(newVal, oldVal) {
             $scope.ajaxUrl = newVal;
@@ -2622,20 +2631,22 @@ function flashAddMedical(utils,$timeout) {
             }
           });
 
+          $scope.handleEnterForAdd = function () {
+
+          };
+
           //监听自动补全选中事件。
           $scope.angucompleteMedicalOnChange = function () {
             //隐藏数量输入字段情况下，选择药械，触发添加事件。
             if($scope.hideQuantity){
+              $('#addMedicalList').focus();
               $scope.addDataFn();
             }else{//隐藏字段情况下，选择药械，触发添加事件。
               var inputId='flashAddMedical_input_count';
                 if($scope.id)inputId+=$scope.id;
               //  $timeout 保障不受其他干扰，最后一个执行。
               utils.focusByInputId(inputId);
-
-
             }
-
           };
 
           //添加业务数据
@@ -3271,6 +3282,8 @@ function pageMainHeaderComponent () {
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
       statusGroupData: '@',         // 状态显示数据对象
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
+      getBusinessOrderTypeUrl: '@',      // 获取单据类型查询字段Url
+      getSourceOrderTypeUrl: '@',      // 获取来源单据类型查询字段Url
       isShowSelectItem: '@',
       searchPlaceholderInfo: '@',
       getWarehouseListUrl: '@',
@@ -3317,7 +3330,9 @@ function pageMainHeaderComponent () {
         scope.selectObj = angular.fromJson(scope.isShowSelectItem);
         scope.itemChooise = scope.selectObj[0].link;
       }
-
+      if(attrs.showDateName){
+        scope._showDateName=attrs.showDateName;
+      }
       //是否显示新建按钮
       scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
       // 是否显示部门过滤
@@ -3328,6 +3343,11 @@ function pageMainHeaderComponent () {
       scope.isShowApplyUserFilter = angular.isDefined(attrs.isShowApplyUserFilter) ? attrs.isShowApplyUserFilter : false;
       //是否显示类型过滤
       scope.isShowTypeFilter = angular.isDefined(attrs.isShowTypeFilter) ? attrs.isShowTypeFilter : false;
+
+      //是否显示单据类型过滤
+      scope.isShowOrderTypeFilter = angular.isDefined(attrs.isShowOrderTypeFilter) ? attrs.isShowOrderTypeFilter : false;
+      scope.isShowSouceOrderTypeFilter = angular.isDefined(attrs.isShowSouceOrderTypeFilter) ? attrs.isShowSouceOrderTypeFilter : false;
+
       //是否显示仓库过滤
       scope.isShowWarehouseFilter = angular.isDefined(attrs.isShowWarehouseFilter) ? attrs.isShowWarehouseFilter : false;
       //是否显示日期过滤

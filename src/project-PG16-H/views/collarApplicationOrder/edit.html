@@ -2,7 +2,7 @@
      ng-controller="collarApplicationOrderController"
      ajax-url="rest/authen/collarApplicationOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&relMedicalStockIdSet={{mainStatus.pageParams.relMedicalStockIdSet}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
      alert-error>
   <form id="editForm"
          name="editForm"
@@ -17,7 +17,7 @@
          novalidate="novalidate">
 
      <page-main-header-component list-params="listParams"
-                                 crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"领用申请单","link":"","style":"color-custom-orange"},{"name":"新建领用申请单","link":"","style":""}]'
+                                 crumbs-nav='[{"name":"我要领用","link":"","style":""},{"name":"领用申请单","link":"","style":"color-custom-orange"},{"name":"新建领用申请单","link":"","style":""}]'
                                  component-title="领用申请单-{{formData&&formData.id?'编辑':'新建'}}">
      </page-main-header-component>
 
@@ -53,6 +53,7 @@
          <div
               flash-add-medical
               ng-model="data1"
+              placeholder="商品编号、商品名、商品名头字母、通用名、通用名头字母、厂家名、厂家名头字母"
               class="pd-c-l pdt-m"
               ajax-url="rest/authen/medicalStock/query"
               add-data-callback-fn="flashAddDataCallbackFn(data1)">
@@ -63,13 +64,12 @@
              <div class="flex-item-6">
                <span class="mgr">单据编号：
                  <input type="text"
-                      ng-disabled="formData.id"
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
                       ng-model="formData.orderCode" />
                 <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
                </span>
-               <span class="mgr">审批人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
+               <span class="mgr">审核人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
                <span class="mgr">制单人：
                  <span class="purchaseorder-buyer-info-outside">
                    <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
@@ -100,6 +100,7 @@
                <select class="ipt pr-short-ipt color-3" style="width:100px;"
                        ng-disabled="formData.id"
                        data-placeholder=" "
+                       no-first-select-source="true"
                        chosen
                        ng-model="formData.departmentId"
                        select-source="rest/authen/department/queryForSelectOption">
@@ -109,6 +110,7 @@
              <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                      ng-disabled="formData.id"
                      data-placeholder=" "
+                     no-first-select-source="true"
                      chosen
                      ng-model="formData.applicant.id"
                      select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
@@ -144,7 +146,7 @@
               <!-- <span ng-if="!formData.genTai" class="color-red">（必选）</span> -->
              </span>
            </div>
-           <div class="">
+           <div class="outside-table-d">
              <table class="table pr-table pr-new-table" >
                <thead>
                 <tr>
@@ -183,7 +185,7 @@
                    </td><!-- 商品全名 -->
 
                    <td class="text-center" style="white-space: nowrap;">
-                     <div class="order-goods-num">
+                     <div class="order-goods-num" style="white-space:nowrap;">
                        <button
                        type="button"
                        class="inline-block left"
@@ -196,6 +198,7 @@
                                 style="width:60px;"
                                 name="applicationCount{{$index}}"
                                 ng-model="tr.applicationCount"
+                                onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                 ng-change="calcTotalPrice(formData.orderMedicalNos);changeQuantity(tr.salesQuantity,tr.applicationCount);"
                                 ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].applicationCount<tr.applicationCount}"
                                 required
@@ -283,7 +286,7 @@
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-click="submitForm('editForm','save')"
-                  ng-disabled="!changeFlag||quantityError">保存
+                  ng-disabled="!changeFlag">保存
           </button>
         </span>
         <span>

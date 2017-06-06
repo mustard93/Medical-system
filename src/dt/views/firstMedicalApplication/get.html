@@ -47,20 +47,15 @@
       <!-- 单号 -->
       <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
         <div class="flex-item-6">
-          <span class="flex-item-2">
-            单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em>
-          </span>
-          <span class="flex-item-10">
-            <span class="flex-item-1 text-right">
-              采购员：
-            </span>
-            <!-- <span class="flex-item-2 color-orange">
-              {{showData.buyerName ||'暂无'}}
-            </span> -->
-            <span class="flex-item-2 purchaseorder-buyer-info-outside">
-              <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
-              style="position:relative;height:25px;">{{showData.buyer.n}}</strong>
-              <span class="purchaseorder-buyer-info" style="top: 34px;right: 1420px;">
+          <div class="inline-block mgr-l">单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em></div>
+          <div class="inline-block relative">
+            <span>采购员：</span>
+            <span class=" purchaseorder-buyer-info-outside">
+              <strong run-popovers
+                      class="color-custom-orange cur-pot text-normal pr-color"
+                      style="height:25px;">{{showData.buyer.n}}
+              </strong>
+              <span class="purchaseorder-buyer-info" style="top:22px;right:-70px;">
                 <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{showData.buyer.p}}</em></i>
                 <i class="block pdb-s text-normal">
                   <em class="fa fa-comment-o mgl"></em>
@@ -74,7 +69,7 @@
                 </i>
               </span>
             </span>
-          </span>
+          </div>
         </div>
         <div class="flex-item-6 text-right">
             录单日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd' ||'暂无'}}</em>
@@ -163,7 +158,7 @@
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">计量单位：</span>
-                <span class="flex-item-10 text-left">{{showData.medical.measurement}}</span>
+                <span class="flex-item-10 text-left">{{showData.medical.unit}}</span>
               </div>
               <div class="flex-column mgt">
                 <span class="flex-item-2 text-right">包装情况：</span>

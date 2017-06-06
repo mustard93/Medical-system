@@ -18,7 +18,7 @@
 
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
-      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">库存管理 > <em class="color-custom-orange">调拨单</em></p>
+      <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">库房工作 > <em class="color-custom-orange">调拨单</em></p>
       <!-- 标题 -->
       <div class="pd-c-xxl">
         <div class="pos-rel-tl inline-block fl-l">
@@ -103,8 +103,8 @@
                   <th class="text-left">商品名称</th>
                   <th class="text-center">规格</th>
                   <th class="text-center">基本单位</th>
-                  <th class="text-center" ng-if="formData.orderStatus=='待审核'">可调拨数量</th>
                   <th class="text-center">申请数量</th>
+                  <th class="text-center" ng-if="formData.orderStatus=='待审核'">可调拨数量</th>
                   <th class="text-center" ng-if="formData.orderStatus!='待审核'">实际调拨数量</th>
                   <th class="text-center">生产厂商</th>
                   <th class="text-center">产地</th>
@@ -116,12 +116,12 @@
                   <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.packingAttribute.name}}</td><!-- 单位 -->
+                  <td class="text-center">{{item.applicationCount}}</td><!-- 申请数量 -->
                   <td ng-if="formData.orderStatus=='待审核'" class="text-right"
                   ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}&&storeRoomId={{formData.storeRoomId}}"
                   scope-data="scopeData"
                   ><em ng-repeat="tr in scopeData">{{tr.salesQuantity}}</em>
                   </td>
-                  <td class="text-center">{{item.applicationCount}}</td><!-- 申请数量 -->
                   <td class="text-center" ng-if="formData.orderStatus!='待审核'">{{item.availableCount}}</td><!-- 实际调拨数量 -->
                   <td class="text-center" >{{item.manufacturer}}</td>
                   <td class="text-center" >{{item.productionPlace}}</td>

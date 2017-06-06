@@ -7,12 +7,14 @@ define('main/controllers', ['main/init'], function () {
      * 主控
      */
     function mainCtrl($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,watchFormChange,AjaxUtils) {
+
       //  $http.defaults.withCredentials=true;
         $scope.mainStatus = {
             navFold: document.body.clientWidth < 1500,
             navigation: "",
             msgBubble: 0 //消息气泡
         };
+
         //当前用户
         $rootScope.curUser={};
 
@@ -318,8 +320,6 @@ define('main/controllers', ['main/init'], function () {
         }
 
 
-
-
     }//end mainCtrl
 
     /**
@@ -331,9 +331,10 @@ define('main/controllers', ['main/init'], function () {
     /**
      *  主页面控制器
      */
-    function pageCtrl($scope, modal, dialogConfirm, $timeout) {
+    function pageCtrl($scope, modal, dialogConfirm, $timeout,requestData, utils,alertWarn,alertOk) {
         modal.closeAll();
 
+        $scope.choisedMedicalList = [];
         // 取消返回
         $scope.cancelThis = function (_text, _mode, _title) {
           dialogConfirm(_text, function () {
@@ -346,6 +347,42 @@ define('main/controllers', ['main/init'], function () {
           dialogConfirm(_text, function () {
             $scope.pageTo(_url);
           }, _mode, _title, _url);
+        };
+
+        // 重新发送操作
+        $scope.resetSend = function (_id) {
+          var _ids=[];
+          if(orderMedical.length!==0){
+            for(var i= 0;i<orderMedical.length; i++){
+              _ids.push(orderMedical[i].id);
+            }
+          }
+          var _url = 'rest/authen/medicalStock/countStockByIds?ids=' + _ids,
+          _data = {};
+            requestData(_url, _data, 'post')
+            .then(function (results) {
+              utils.refreshHref();
+            })
+            .catch(function (error) {
+              if (error) { console.log(error || '出错!'); }
+            });
+        };
+
+        // 配送数据发送操作
+        $scope.handleSend = function () {
+          if ($scope.choisedMedicalList.length) {
+            requestData('rest/authen/op/deliveryItem/sendData', $scope.choisedMedicalList, 'POST', 'parameter-body')
+            .then(function (results) {
+              console.log(1);
+              if (results[1].code === 200) {
+                utils.refreshHref();
+              }
+            })
+            .catch(function (error) {
+              throw new Error(error || '出错');
+
+            });
+          }
         };
 
         // easypiechart 全局样式定义
@@ -361,6 +398,57 @@ define('main/controllers', ['main/init'], function () {
           lineCap: 'round',
           size: 125
         };
+
+
+        // 每个药品单选操作
+        $scope.handleItemClickEvent = function (item) {
+          if (item.handleFlag) {    // 选中
+            if (item && item.sendStatus!='正常') {
+              $scope.choisedMedicalList.push(item.id);
+            }
+          } else {
+            for (var i=0; i<$scope.choisedMedicalList.length; i++) {
+              if (item.id === $scope.choisedMedicalList[i]) {
+                $scope.choisedMedicalList.splice(i,1);
+              }
+            }
+          }
+        };
+
+        $scope.handleChoiseAllEvent = function (isChoiseAll) {
+          if (isChoiseAll) {      // 全部选中
+
+            if ($scope.tbodyList) {
+              $scope.choisedMedicalList = [];
+              angular.forEach($scope.tbodyList, function (data, index) {
+
+                if(data.sendStatus!='正常'){
+                  $scope.choisedMedicalList.push(data.id);
+                }else{
+                  data.handleFlag=false;
+                }
+              });
+            }
+          } else {        // 取消全部选中
+            $scope.choisedMedicalList = [];
+          }
+        };
+
+
+        $scope.changeStatus = function(_id,_selectSendStatus){
+
+          var _url = 'rest/authen/op/purchasePlanOrder/updateStatus?id=' + _id+'&status='+_selectSendStatus,
+          _data = {};
+            requestData(_url, _data, 'post')
+            .then(function (results) {
+              modal.closeAll();
+              utils.refreshHref();
+            })
+            .catch(function (error) {
+              if (error) { console.log(error || '出错!'); }
+            });
+        };
+
     }
 
     /**
@@ -370,10 +458,35 @@ define('main/controllers', ['main/init'], function () {
         modal.closeAll();
     }
 
+    /**
+     *  个人中心控制器
+     */
+    function personalCenterController ($scope, utils, requestData) {
+
+      // 切换用户机构
+      $scope.toggleOrganization = function (id) {
+        if (id) {
+          var _url = 'rest/index/switchByOrganizationId?phone='+$scope.mainStatus.phone+'&organizationId='+id;
+          requestData(_url, {}, 'POST')
+          .then(function (results) {
+            if (results[1].code === 200) {
+              var _data = results[1].data;
+              $scope.showData.departmentName = _data.additional.DepartmentName;
+              $scope.formData.roleNames = _data.additional.RoleNames;
+              $scope.$emit('loadMainInfo');
+            }
+          })
+          .catch(function (error) {
+            if (error) { alertWarn(error || '切换经销商失败'); }
+          });
+        }
+      }
+    }
+
     angular.module('manageApp.main')
-        .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter",
-        "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
-        .controller('sideNav',  ["$scope",sideNav])
-        .controller('editCtrl',  ["$scope","modal",editCtrl])
-        .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout", pageCtrl]);
+    .controller('mainCtrl',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter", "UICustomTable","watchFormChange","AjaxUtils", mainCtrl])
+    .controller('sideNav',  ["$scope",sideNav])
+    .controller('editCtrl',  ["$scope","modal",editCtrl])
+    .controller('pageCtrl',  ["$scope","modal", "dialogConfirm", "$timeout","requestData","utils","alertWarn","alertOk",pageCtrl])
+    .controller('personalCenterController', ['$scope', 'utils', 'requestData', personalCenterController]);
 });

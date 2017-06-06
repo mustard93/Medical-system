@@ -25,6 +25,7 @@
                     scope-data="storeRoomData"
                     ng-options="item.value as item.text for item in storeRoomData">
             </select>
+            <em class="color-red" ng-if="!formData.storeRoomId">(必选)</em>
           </div>
         </div>
         <div class="flex-column mgb-m">
@@ -39,6 +40,7 @@
                     ng-options="item.value as item.text for item in regionData">
             </select>
             <span ng-if="formData.id" style="position:relative;top:3px;">{{formData.regionName}}</span>
+            <em class="color-red" ng-if="!formData.regionId">(必选)</em>
           </div>
         </div>
         <div class="flex-column mgb-m">
@@ -47,6 +49,7 @@
             <div ng-if="!formData.id">
               <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.code" />
               <i class="receive-item-icon" style="top:0px;left:140px;height:100%;width:19px;background-position:-255px -3719px;background-color:#595450;"></i>
+              <em class="color-red" ng-if="!formData.code">(必填)</em>
             </div>
             <div ng-if="formData.id" style="position:relative;top:3px;">
               {{formData.code}}
@@ -57,6 +60,7 @@
           <div class="flex-item-4 text-right text-n" style="line-height:28px;">货位名称：</div>
           <div class="flex-item-8 text-left relative">
             <input type="text" class="pr-ipt-160 hei-28" placeholder="" ng-model="formData.name" />
+            <em class="color-red" ng-if="!formData.name">(必填)</em>
           </div>
         </div>
         <div class="flex-column mgb-m">
@@ -105,7 +109,8 @@
       <div class="btn-confirm-area">
         <button type="submit"
                 class="btn pr-btn-create-glodbg "
-                style="width:160px;height:32px;	margin-top: 8px;margin-left:155px;line-height:1.4" value="确定">确定
+                style="width:160px;height:32px;	margin-top: 8px;margin-left:155px;line-height:1.4"
+                ng-disabled="!formData.code||!formData.name||!formData.storeRoomId||!formData.regionId" value="确定">确定
         </button>
       </div>
     </div>

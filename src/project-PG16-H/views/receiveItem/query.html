@@ -1,5 +1,4 @@
 <div class="medical-stock supplier-management child-project-management"
-     ng-controller="receiveItemController"
      ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
      <table-list list-data="rest/authen/receiveItem/query"
                  list-params="listParams"
@@ -10,7 +9,7 @@
     <!-- 主内容头部 -->
     <page-main-header-component list-params="listParams"
                                 style="min-height:130px;"
-                                crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"收货计划","link":"","style":"color-custom-orange"}]'
+                                crumbs-nav='[{"name":"我要收货","link":"","style":""},{"name":"收货计划","link":"","style":"color-custom-orange"}]'
                                 component-title="收货计划"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
@@ -50,18 +49,29 @@
       <div class="content-wrapper-main pr-fuzzy-boundary">
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white ">
           <div class="flex-item-8">
+            <div class="inline-block mgr-s">
+              <p class="mgb-s">来源单据类型：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.instockType"
+                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SPD_InstockType">
+              </select>
+            </div>
             <div class="inline-block mgr-s relative">
-              <p class="mgb-s">采购计划编号：</p>
+              <p class="mgb-s">来源单据编号：</p>
               <input type="text"
                      class="pr-ipt-160 hei-28 inline-block"
                      style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
                      placeholder=""
-                     ng-model="listParams.purchasePlanOrderCode"
-                     auto-complete="rest/index/autoComplete?tableName=SPD.Mission.ReceiveItem&property=purchasePlanOrderCode"/>
+                     ng-model="listParams.relOrderCode"
+                     auto-complete="rest/index/autoComplete?tableName=SPD.Mission.ReceiveItem&property=relOrderCode"/>
               <i class="receive-item-icon"></i>
               </select>
             </div>
-            <div class="inline-block mgr-s relative">
+            <!-- <div class="inline-block mgr-s relative">
               <p class="mgb-s">物流编号：</p>
               <input type="text"
                      class="pr-ipt-160 hei-28 inline-block"
@@ -70,9 +80,9 @@
                      ng-model="listParams.logisticCode"
                      auto-complete="rest/index/autoComplete?tableName=SPD.Mission.ReceiveItem&property=logisticCode"/>
               <i class="receive-item-icon"></i>
-            </div>
+            </div> -->
             <div class="inline-block mgr-s relative">
-              <p class="mgb-s">销售单编号：</p>
+              <p class="mgb-s">供应商销售单编号：</p>
               <input type="text"
                      class="pr-ipt-160 hei-28 inline-block"
                      style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
@@ -95,23 +105,45 @@
             <div class="inline-block">
               <p class="mgb-s">供应商销售日期：</p>
               <div class="">
-                <div class="date-icon-outside" >
-                  <input type="text"
-                         datepicker
-                         class="ipt-date ipt color-3"
-                         ng-readonly="true"
-                         placeholder=""
-                         ng-model="listParams.createAtBeg">
-                        <span class="date-icon"></span>
-                </div> 至
-                <div class="date-icon-outside" >
-                  <input type="text"
-                         datepicker
-                         class="ipt-date ipt color-3"
-                         ng-readonly="true"
-                         placeholder=""
-                         ng-model="listParams.createAtEnd">
-                        <span class="date-icon"></span>
+                <div class="date-icon-outside" ng-if="!listParams.dtOrderCreateAtBeg">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
+
+                           ng-model="listParams.dtOrderCreateAtBeg">
+                    <span class="date-icon"></span>
+                </div>
+                <div class="date-icon-outside" ng-if="listParams.dtOrderCreateAtBeg">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
+
+                           ng-model="listParams.dtOrderCreateAtBeg">
+                    <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtBeg='';"></span>
+                </div>
+                <span class="mgr">至</span>
+                <div class="date-icon-outside" ng-if="!listParams.dtOrderCreateAtEnd">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
+
+                           ng-model="listParams.dtOrderCreateAtEnd"
+                           invalid-popover
+                           popover-show="listParams.dtOrderCreateAtEnd<listParams.dtOrderCreateAtBeg"
+                           popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+                    <span class="date-icon"></span>
+                </div>
+                <div class="date-icon-outside" ng-if="listParams.dtOrderCreateAtEnd">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
+
+                           ng-model="listParams.dtOrderCreateAtEnd"/>
+                    <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtEnd='';"></span>
                 </div>
               </div>
             </div>
@@ -163,7 +195,7 @@
                 <th>规格</th>
                 <th>单位</th>
                 <th>生产批号</th>
-                <th>配送总数/实收总数</th>
+                <th>配送总数/实收总数/拒收数量</th>
                 <th>生产日期</th>
                 <th>收货人</th>
                 <th>收货时间</th>
@@ -173,7 +205,7 @@
                 <th>生产厂商</th>
                 <th>产地</th>
                 <th>供应商名称</th>
-                <th>供应商订单编号</th>
+                <th>供应商销售单编号</th>
                 <th>供应商销售日期</th>
                 <th>供应商商品编号</th>
               </tr>
@@ -203,10 +235,21 @@
                   <div class="table-item-multiple-btn">
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='待收货'"
+                         style="right:90px;"
                          modal-right="50%"
                          modal-scope="this"
                          modal-data='{"id":"{{tr.id}}"}'
                          modal-url="views/receiveItem/edit.html">开始收货...
+                    </div>
+                    <div class="inline-block btn-receiveItem pr-bg-delete color-white"
+                         ng-if="tr.receiveItemStatus=='待收货'"
+                         style="right:0px;top: -33px;"
+                         handle-this-click
+                         dialog-title="确认提示?"
+                         dialog-content="确认全部拒收？"
+                         dialog-content-color="#FF3939"
+                         dialog-template="pr-dialog-confirm.html"
+                         callback="allReceipt(tr.id)">全部拒收
                     </div>
                     <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                          ng-if="tr.receiveItemStatus=='未加入采购目录商品'"
@@ -217,7 +260,7 @@
                          style="right:80px;"
                          modal-right="50%"
                          modal-scope="this"
-                         modal-data={"id":"{{tr.id}}"}
+                         modal-data='{"id":"{{tr.id}}"}'
                          modal-url="views/receiveItem/edit.html">继续收货...
                     </div>
                     <div class="inline-block btn-receiveItem pr-bg-delete color-white"
@@ -239,7 +282,7 @@
                 <td>{{tr.specification}}</td><!-- 规格 -->
                 <td>{{tr.packingAttribute.name}}</td><!-- 单位 -->
                 <td>{{tr.productionBatch}}</td><!-- 生产批号 -->
-                <td>{{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}</td><!-- 配送数量/已收数量 -->
+                <td>{{tr.deliveryQuantity}}/{{tr.hasReceiveQuantity}}/{{tr.hasRefuseQuantity}}</td><!-- 配送数量/已收数量 -->
                 <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
                 <td>{{tr.receiver.n}}</td><!-- 收货人 -->
                 <td>{{tr.receiveDate | date : 'yyyy-MM-dd'}}</td><!-- 收货时间 -->

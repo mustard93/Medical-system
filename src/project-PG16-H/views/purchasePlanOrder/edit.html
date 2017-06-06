@@ -18,7 +18,7 @@
          novalidate="novalidate">
 
      <page-main-header-component list-params="listParams"
-                                 crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"采购计划","link":"","style":"color-custom-orange"},{"name":"新建采购计划","link":"","style":""}]'
+                                 crumbs-nav='[{"name":"我要采购","link":"","style":""},{"name":"采购计划","link":"","style":"color-custom-orange"},{"name":"新建采购计划","link":"","style":""}]'
                                  component-title="采购计划-{{formData&&formData.id?'编辑':'新建'}}">
      </page-main-header-component>
 
@@ -78,6 +78,7 @@
          <div
               flash-add-medical
               ng-model="data1"
+              placeholder="商品编号、商品名、商品名头字母、通用名、通用名头字母、厂家名、厂家名头字母"
               class="pd-c-l pdt-m"
               ajax-url="rest/authen/medicalStock/query"
               add-data-callback-fn="flashAddDataCallbackFn(data1)"
@@ -89,7 +90,7 @@
              <div class="flex-item-6">
                <span class="mgr">采购计划编号：
                  <input type="text"
-                      ng-disabled="!formData.supplierId||formData.id"
+                      ng-disabled="!formData.supplierId"
                       class="inline ipt pr-ipt-60 text-center"
                       style="width:100px;"
                       ng-model="formData.orderCode" />
@@ -152,7 +153,7 @@
              </span>
            </div>
            <div class="outside-table-d">
-             <table class="table pr-table pr-new-table table-ss-wid" >
+             <table class="table pr-table pr-new-table" >
                <thead>
                 <tr>
                   <th class="text-center">序号</th>
@@ -294,7 +295,7 @@
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-click="submitForm('purchasePlanForm','save')"
-                  ng-disabled="!changeFlag || !formData.orderCode">保存
+                  ng-disabled="!changeFlag ">保存
           </button>
         </span>
         <span>

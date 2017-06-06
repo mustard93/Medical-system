@@ -6,7 +6,7 @@
      alert-error>
 
      <div class="header-info relative mgb-l">
-       <p class="pdb-s pdt-s crumbs pd-c-xxl">管理中心 >
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
          <a href="#/transferRecord/query.html">
             <em class="color-custom-orange">库存移位</em>
          </a>
@@ -57,7 +57,8 @@
                     url="rest/authen/medicalStock/query"
                     class="pr-ipt-240 inline-block"
                     ng-model="formData.medical"
-                    style="height:28px;width:372px;border-radius:2px;"/>
+                    style="height:28px;width:372px;border-radius:2px;"
+                    ng-change="changeMedicalStockName();"/>
               </span>
               <i class="receive-item-icon" style="left:430px;top:30px;"></i>
               <span ng-if="!formData.relMedicalStockId" class="color-red">(必填)</span>
@@ -73,7 +74,7 @@
                 <p>生产批号：</p>
                 <div ng-disabled="!formData.relMedicalStockId" class="ipt-div relative text-left pr-indent-5 mgt-s" style="width:172px;">{{formData.productionBatch}}
                   <i ng-if="formData.relMedicalStockId"
-                     change-img change-value="{{formData.productionBatch}}"
+                     class="addImg"
                      style="right:0px;left:inherit;"
                      modal-right="50%"
                      modal-scope="this"
@@ -81,7 +82,7 @@
                      modal-url="views/versionFlow/create-correspond-relation-default.html">
                   </i>
                   <i ng-if="!formData.relMedicalStockId"
-                     change-img change-value="{{formData.productionBatch}}"
+                     class="addImg"
                      ng-class="{'disabled':(!formData.relMedicalStockId)}"
                      style="right:0px;left:inherit;">
                   </i>
@@ -97,7 +98,7 @@
                             chosen
                             required
                             ng-model="formData.sourceRegionId"
-                            ng-disabled="formData.sourceRegionId"
+                            ng-disabled="formData.sourceRegionId||!formData.productionBatch"
                             style="width:120px;"
                             data-placeholder=" "
                             default-empty="全部"
@@ -111,6 +112,7 @@
                     <select class="inline ipt-new-s pdt"
                             chosen
                             required
+                            ng-disabled="!formData.productionBatch"
                             style="width:120px;"
                             data-placeholder=" "
                             default-empty="全部"
@@ -129,7 +131,7 @@
                           chosen
                           required
                           ng-model="formData.sourceGoodsLocationId"
-                          ng-disabled="formData.sourceGoodsLocationId"
+                          ng-disabled="formData.sourceGoodsLocationId||!formData.productionBatch"
                           style="width:120px;"
                           data-placeholder=" "
                           default-empty="全部"
@@ -142,6 +144,7 @@
                   <select class="inline ipt-new-s pdt mgt-s"
                           chosen
                           required
+                          ng-disabled="!formData.productionBatch"
                           style="width:120px;"
                           data-placeholder=" "
                           default-empty="全部"
@@ -161,12 +164,12 @@
                   <div class="inline-block mgr-s">
                     <input
                     ng-if="!formData.id"
-                    type="number"
+                    type="text"
                     class="inline-block ipt-new-s hei-28 pr-indent-10"
                     style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;"
                     placeholder=""
                     ng-model="formData.localQuantity"
-                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"/>
+                    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
                     <input
                     ng-if="formData.id"
                     type="number"
@@ -175,7 +178,7 @@
                     style="border: 1px solid rgba(0,0,0,0.10);border-radius: 2px;"
                     placeholder=""
                     ng-model="formData.transferQuantity"
-                    onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)));"/>
+                    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
                   </div>
                   <div class="inline-block">
                     <select class="inline-block pdt mgl-s"
@@ -192,7 +195,6 @@
                       <em>{{tr.quantity}}</em><em>{{tr.name}}</em><em ng-if="$index!=scopeData.length-1">=</em>
                     </span>
                  </p>
-
               </div>
             </div>
           </div>
@@ -242,10 +244,9 @@
                  href="javascript:;"
                  handle-this-click
                  dialog-title="确认返回?"
-                 dialog-content="该库存移位存在未保存数据，是否保存?"
-                 dialog-template="pr-dialog-return.html"
-                 nosave-callback="$root.goTo('#/transferRecord/query.html')"
-                 save-callback="submitForm('editForm','save');$root.goTo('#/transferRecord/query.html')">返回库存移位列表
+                 dialog-content="该操作将导致所填数据丢失，是否返回?"
+                 dialog-template="pr-dialog-confirm.html"
+                 callback="$root.goTo('#/transferRecord/query.html')">返回库存移位列表
               </a>
               <a ng-if="!changeFlag" href="#/transferRecord/query.html">返回库存移位列表</a>
             </span>

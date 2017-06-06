@@ -10,7 +10,7 @@
        alert-error>
 
     <page-main-header-component list-params="listParams"
-                               crumbs-nav='[{"name":"采购中心","link":"","style":""},{"name":"复核任务单","link":"","style":"color-custom-orange"},{"name":"复核详情","link":"","style":""}]'
+                               crumbs-nav='[{"name":"库房工作","link":"","style":""},{"name":"复核任务单","link":"","style":"color-custom-orange"},{"name":"复核详情","link":"","style":""}]'
                                component-title="复核任务单-详情">
     </page-main-header-component>
 
@@ -35,10 +35,13 @@
            </div>
            <div class="flex-item-8 text-right">
              <div class="inline-block">
-               <span>拣选状态：</span>
-               <select class="ipt pr-short-ipt pr-ipt-80" ng-model="listParams.type">
-                 <option value="待拣选" ng-selected="listParams.type=='待拣选'">待拣选</option>
-                 <option value="已拣选" ng-selected="listParams.type=='已拣选'">已拣选</option>
+               <span>状态：</span>
+               <select ng-if="initFlag"
+                       class="ipt pr-short-ipt pr-ipt-80"
+                       chosen
+                       default-empty="全部"
+                       ng-model="listParams.type"
+                       select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_ReviewType" >
                </select>
              </div>
              <div class="inline-block">
@@ -50,7 +53,7 @@
            </div>
          </div>
          <div class="outside-table-d">
-           <table class="table pr-table pr-new-table table-ss-wid" >
+           <table class="table pr-table pr-new-table" >
              <thead>
               <tr>
                 <th class="w-60 text-center mycheck">
@@ -117,7 +120,7 @@
                  </td><!--状态显示 -->
                  <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
                  <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
-                 <td class="text-left color-custom-orange" style="line-height:2.4;color:#ff8c00">{{tr.name}}</td><!-- 商品全名 -->
+                 <td class="text-left color-custom-orange" style="line-height:2.4;">{{tr.name}}</td><!-- 商品全名 -->
                  <td class="text-center" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请数量 -->
                  <td class="text-center" style="line-height:2.4">{{tr.pickNo}}</td><!-- 已拣数量 -->
                  <td class="text-center" style="line-height:2.4">{{tr.specification}}</td><!-- 商品规格 -->
@@ -138,6 +141,14 @@
            </div>
          </div>
        </div>
+      </div>
+      <div class="relative">
+
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <h1 class="text-bold color-3">备注</h1>
+          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+        </div>
       </div>
     </div>
     <!-- 功能按钮 -->

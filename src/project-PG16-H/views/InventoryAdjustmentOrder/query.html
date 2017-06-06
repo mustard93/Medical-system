@@ -1,11 +1,14 @@
 <page-main-header-component list-params="listParams"
-                            crumbs-nav='[{"name":"管理中心","link":"","style":""},{"name":"库存调整","link":"","style":"color-custom-orange"}]'
+                            crumbs-nav='[{"name":"库房工作","link":"","style":""},{"name":"库存调整","link":"","style":"color-custom-orange"}]'
                             component-title="库存调整"
                             get-status-num-url="rest/authen/inventoryAdjustmentOrder/countByOrderStatus.json"
                             is-show-create-btn="新建库存调整"
                             create-new-url="#/inventoryAdjustmentOrder/edit.html"
                             status-group-data='[["未提交","待审核","已通过"],["未通过"],["已作废"]]'
                             is-show-key-filter=false
+                            is-show-date-filter=true
+                            is-show-order-type-filter=true
+                            get-business-order-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SPD_InventoryAdjustedType"
                             search-placeholder-info="单据编号"
                             is-show-business-btn-group=false
                             get-user-list-url="rest/authen/user/queryForSelectOption"
@@ -125,27 +128,6 @@
                           <strong class="color-black text-normal">{{tr.orderMedicalNos.length}}</strong>
                       </span>
                     </div>
-
-                    <div ng-if="tr.orderStatus!='未通过'&&tr.orderStatus!='已作废'" class="flex-column qurey text-s color-9 bt-line">
-                      <p title="{{tr.note}}" class="text-ellips-s"><span >备注：</span><span class="color-6">{{tr.note}}</span></p>
-                    </div>
-
-
-                    <div ng-if="tr.orderStatus=='未通过'||tr.orderStatus=='已作废'" class="flex-column qurey text-s color-9 bt-line"
-                    ng-controller="collarApplicationOrderController"
-                    ng-init="initFlag=true;">
-                      <p
-                      title="{{tr.operationFlowSet.key}}{{tr.operationFlowSet.message}}"
-                      class="text-ellips-s">
-                        <span class="color-red">原因：</span>
-                        <span class="color-6">
-                          <em ng-model="tr.operationFlowSet.key">{{tr.operationFlowSet.key}}</em>
-                          <em ng-model="tr.operationFlowSet.message">{{tr.operationFlowSet.message}}</em>
-                        </span>
-                      </p>
-                    </div>
-
-
                 </div>
               </div>
             </div>
