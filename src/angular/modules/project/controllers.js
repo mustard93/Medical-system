@@ -1130,7 +1130,7 @@ define('project/controllers', ['project/init'], function() {
 
       //自动生成批号
       if($scope.submitForm_type == 'create'){
-            $scope.formData.isAutoPlanStockBatch=true
+            $scope.formData.autoPlanStockBatch=true
       }
 
         $('#' + fromId).trigger('submit');
