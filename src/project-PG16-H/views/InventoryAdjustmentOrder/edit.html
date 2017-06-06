@@ -1,4 +1,4 @@
-<div class="create-new-order purchasePlanOrder-edit purchase-plan-order"
+<div class="create-new-order allocate-order purchasePlanOrder-edit purchase-plan-order"
      ng-controller="inventoryAdjustmentOrderCtrl"
      ajax-url="rest/authen/inventoryAdjustmentOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
@@ -34,8 +34,25 @@
         </p>
       </div>
 
+      <div class="inline-block pr-bg-white relative full-height mgr mgb" style="width:365px;">
+        <div class="inline-block logistics-center-out relative">
+          <p class="mgb-s">
+            库房
+          </p>
+          <select ng-if="initFlag" class="pr-select pdt"
+          style="width:250px;"
+          chosen
+          required
+          default-empty="无"
+          ng-model="formData.storeRoomId"
+          select-source="rest/authen/storeRoom/queryForSelectOption">
+          </select>
+        </div>
+      </div>
+
       <!-- 药械列表 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+
         <!-- 信息 -->
         <div class="pd-c-l pdt-m"
              ng-if="initFlag"
@@ -133,15 +150,11 @@
                 <th class="text-left">商品名称</th>
                 <th class="text-center">规格</th>
                 <th class="text-center">基本单位</th>
-
                 <th class="text-center">生产批号/数量 </th>
-                <th class="text-center">库房名称</th>
                 <th class="text-center">区域名称</th>
                 <th class="text-center">货位名称</th>
-
                 <th class="text-center">生产日期</th>
                 <th class="text-center">有效期至</th>
-
                 <th class="text-center">生产厂商</th>
                 <th class="text-center">注册证号/批准文号</th>
 
@@ -219,6 +232,7 @@
                                       "medicalName":"{{tr.name}}",
                                       "id":"{{tr.relId}}",
                                       "logisticsCenterId":"{{tr.logisticsCenterId}}",
+                                      "storeRoomId":"{{formData.storeRoomId}}",
                                       "strike_price":"{{tr.strike_price}}",
                                       "type":"{{formData.type}}"
                                     }'
@@ -228,7 +242,6 @@
                   </div>
 
                 </td><!-- 生产批号 -->
-                <td class="text-right" >{{tr.storeRoomName}}</td> <!--库房名称-->
                 <td class="text-center" style="white-space:nowrap;line-height:2.4">{{tr.regionName}}</td><!-- 区域名称 -->
                 <td class="text-center" >{{tr.goodsLocationName}}</td><!-- 货位名称 -->
                 <td class="text-center" >{{tr.productionDate | date:'yyyy-MM-dd'}}</td><!-- 生产日期 -->

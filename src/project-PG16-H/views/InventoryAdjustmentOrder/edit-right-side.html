@@ -13,20 +13,6 @@
     <!-- 过滤条件 -->
     <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
         <!-- 仓库过滤 -->
-        <div class="inline-block">
-            <span class="color-9">库房：</span>
-            <select ng-if="initFlag"
-                    class="ipt pr-short-ipt color-3"
-                    default-empty="全部"
-                    width="120px"
-                    chosen
-                    no-first-select-source="true"
-                    default-empty="全部"
-                    ng-model="listParams.storeRoomId"
-                    select-source="rest/authen/storeRoom/queryForSelectOption"
-                    ng-change="getGoodsBatchsData(listParams)">
-            </select>
-        </div>
 
         <div class="inline-block">
             <span class="color-9">区域：</span>
@@ -37,7 +23,7 @@
                     no-first-select-source="true"
                     default-empty="全部"
                     ng-model="listParams.regionId"
-                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{listParams.storeRoomId}}"
+                    select-source="rest/authen/region/queryForSelectOption?storeRoomId={{dialogData.storeRoomId}}"
                     ng-change="getGoodsBatchsData(listParams)">
             </select>
         </div>
@@ -52,7 +38,7 @@
                     no-first-select-source="true"
                     default-empty="全部"
                     ng-model="listParams.goodsLocationId"
-                    select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}&&storeRoomId={{listParams.storeRoomId}}"
+                    select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{listParams.regionId}}&&storeRoomId={{dialogData.storeRoomId}}"
                     ng-change="getGoodsBatchsData(listParams)">
             </select>
         </div>
@@ -80,8 +66,6 @@
             <tr class="bb-line-gold">
                 <th></th>
                 <th>生产批号</th>
-                <!--<th>有效期至</th>-->
-                <th>仓库</th>
                 <th>区域</th>
                 <th>货位</th>
                 <th>可用量</th>
@@ -102,8 +86,6 @@
 
                 </td>
                 <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
-                <!--<td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td>   &lt;!&ndash;有效期至&ndash;&gt;-->
-                <td class="" style="height:50px;">{{item.storeRoomName}}</td><!--仓库-->
                 <td class="" style="height:50px;">{{item.regionName}}</td><!--区域-->
                 <td class="text-left" style="height:50px;">{{item.goodsLocationName}}</td><!--货位-->
                 <td class="text-left" style="height:50px;">{{item.stockModel.salesQuantity}}</td><!--可用量-->

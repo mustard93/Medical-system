@@ -172,18 +172,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           // 构建临时对象存储批号id、批号名和数量
           var _tmp = {
               stockBatchId: obj.id,                     // 批次号id
-
               batchNumber: obj.productionBatch,
-
               quantity: 0,//obj.stockModel.salesQuantity,    // 可选数量
               goodsCount: obj.stockModel.salesQuantity,
               productionBatch: obj.productionBatch,     // 批号名
               validTill:obj.validTill,
               productionDate:obj.productionDate,
               sterilizationBatchNumber: obj.sterilizationBatchNumber ,   // 灭菌批号
-
-
-              storeRoomId:obj.storeRoomId,//仓库ID
               regionId:obj.regionId,//区域ID
               goodsLocationId:obj.goodsLocationId,// 货位ID
               goodsLocationCode:obj.goodsLocationCode//货位编号
@@ -201,14 +196,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               }
           }
 
-
-
           angular.forEach($scope.formData.orderMedicalNos,function (item,index2) {
               if(item.relId==id){
                   $scope.formData.orderMedicalNos[index].choisedBatchList2.push(_tmp);
               }
           });
-
 
           $scope.formData.orderMedicalNos[index].stockBatchs[0]=_tmp;
 
