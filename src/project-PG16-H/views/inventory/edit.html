@@ -18,7 +18,7 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
-        <a href="#/allocateOrder/query.html"><em class="color-custom-orange">盘点申请单</em></a>
+        <a href="#/inventory/query.html"><em class="color-custom-orange">盘点申请单</em></a>
         <em> > 新建盘点申请单</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
@@ -147,11 +147,11 @@
            dialog-title="确认返回?"
            dialog-content="该盘点申请单存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/allocateOrder/query.html')"
+           nosave-callback="goTo('#/inventory/query.html')"
            save-callback="submitForm('editForm','exit-allocate')">返回盘点申请单
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回盘点申请单</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory/query.html?id={{formData.relId}}" >返回盘点申请单</a>
 
         <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -161,7 +161,7 @@
            dialog-content="您确认删除这条盘点申请单吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"
-           callback="$root.goTo('#/allocateOrder/query.html')">删除
+           callback="$root.goTo('#/inventory/query.html')">删除
         </a>
 
         <button type="button"
@@ -171,20 +171,15 @@
         </button>
 
         <button
+        type="button"
+        class="pr-btn-create-glodbg mgt"
                 type="button"
-                class="pr-btn-create-glodbg mgt"
-                        type="button"
-                        handle-this-click
-                        dialog-title="确认提交?"
-                        dialog-content="提交后，将无法修改。确认提交?"
-                        dialog-template="pr-dialog-submit.html"
-                        callback="formData.validFlag=true;submitForm('editForm','submit-allocate')"
-                ng-disabled="quantityError
-                || canSubmit
-                ||!formData.orderMedicalNos.length
-                ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate">提交
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
-
       </div>
     </div>
   </form>

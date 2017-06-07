@@ -9,11 +9,8 @@
                             is-show-date-filter=true
                             is-show-key-filter=true
                             is-show-business-btn-group=true
-                            is-show-department-filter=true
                             show-date-name="创建日期："
                             get-department-list-url="rest/authen/department/queryForSelectOption"
-                            is-show-apply-user-filter=true
-                            get-apply-user-list-url="rest/authen/organizationAndUser/queryForSelectOption"
                             search-placeholder-info="单据编号">
 </page-main-header-component>
 
@@ -49,7 +46,7 @@
                   <span class="flex-item-6 text-right">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
 
-                      <a href="#/allocateOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                      <a href="#/inventory/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
                       <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
@@ -65,11 +62,11 @@
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'" class=" text-right">
-                      <a ng-if="tr.orderStatus!='待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')" href="#/allocateOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                      <a ng-if="tr.orderStatus!='待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')" href="#/inventory/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
                       <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                         ng-href="#/allocateOrder/get.html?id={{tr.id}}"
+                         ng-href="#/inventory/get.html?id={{tr.id}}"
                          title="立即审核"
                          class="btn-link pd-m rect-s "
                          >
@@ -127,7 +124,7 @@
                       </p>
                     </div>
                     <div ng-if="tr.orderStatus=='未通过'||tr.orderStatus=='已作废'" class="flex-column qurey text-s color-9 bt-line"
-                    ng-controller="allocateOrderEditCtrl"
+                    ng-controller="inventoryOrderEditCtrl"
                     ng-init="showFlag=true;"
                       >
                       <p
