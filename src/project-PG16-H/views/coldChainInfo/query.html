@@ -93,6 +93,8 @@
 
                 </div>
               </div>
+
+
               <div class="flex-item-4 text-right mgt-xl">
                   <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
                     <input type="text" class="ipt pdr-xxl" placeholder=" " ng-model="listParams.q">
@@ -103,6 +105,8 @@
                     <a href="" class="color-light-brown" >重置搜索条件</a>
                   </div>
               </div>
+
+
             </div>
 
             <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
@@ -114,8 +118,10 @@
                       <!--<label for="1"></label>-->
                     <!--</th>-->
                     <th class="w-60">序号</th>
+                    <th class="w-120">物流编号</th>
                     <th class="w-120">商品编号</th>
                     <th class="w-220" style="text-align:left;">商品名称</th>
+                    <th class="w-60">是否异常</th>
                     <th class="w-120">规格</th>
                     <th class="w-60">基本单位</th>
                     <th class="w-60" ng-if="listParams.checkUpStatus=='待验收'">待验收数量</th>
@@ -148,12 +154,28 @@
                              modal-right="650"
                              modal-scope="this"
                              modal-data='{"id":"{{tr.id}}","receiveQuantity":"{{tr.receiveQuantity}}"}'
-                             modal-url="views/coldChainInfo/input-dialog.html">开始录入...
+                             modal-url="views/coldChainInfo/edit.html">开始录入...
                         </div>
+
+                        <div ng-if="listParams.checkUpStatus=='待验收'" class="inline-block btn-receiveItem pr-bg-edit color-white"
+                             modal-right="650"
+                             modal-scope="this"
+                             modal-data='{"id":"{{tr.id}}","receiveQuantity":"{{tr.receiveQuantity}}"}'
+                             modal-url="views/coldChainInfo/get.html">查看详情...
+                        </div>
+
                       </div>
                     </td><!-- 序号 -->
+
+                    <td>{{tr.code}}物流编号</td><!-- 物流编号 -->
+
                     <td class="color-custom-orange">{{tr.code}}</td><!-- 商品编号 -->
-                    <td class="text-left color-custom-orange">{{tr.name}}</td><!-- 商品名称 -->
+
+                    <td class="text-left color-custom-orange">
+                      <a href="javascript:;" modal-right="450" modal-data='{"id":"{{tr.id}}"}' modal-scope="this" modal-url="views/inoutstockDetail/inoutstockDetailDialog.html">{{tr.name}}</a>
+                    </td><!-- 商品名称 -->
+
+                    <td class="w-60">{{tr.receiveQuantity ? '是': '否' }}</td>  <!--是否异常-->
                     <td>{{tr.specification}}</td><!-- 规格 -->
                     <td>{{tr.packingAttribute.name}}</td><!-- 基本单位 -->
                     <td ng-if="listParams.checkUpStatus=='待验收'">{{tr.receiveQuantity}}</td><!-- 待验收数量 -->
