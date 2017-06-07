@@ -169,11 +169,63 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
   }
 
 
+  //关键字-搜索组件
+  function keySearch($timeout) {
+      'use strict';
+       return {
+              name: 'keySearch',
+              scope: {
+                  ngModel:'=',
+                  placeholder:'@',
+                  method:'&',
+                  clear:'@',
+                  delay:'@'
+              },
+              restrict: 'EA',
+              // require:'placehold',
+              template:'<div><div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">'
+              +'<input type="text" ng-keyup="setVal(keyworld)" ng-keypress="search($event)" class="ipt pdr-xxl" placeholder="{{placeholder}}" ng-model="keyworld" />'
+              + '<i class=""></i>'
+              +'</div>'
+              + '<div ng-if="clear" class="inline-block mgl-m">'
+              +  '<i class="fa fa-refresh mgr-s color-light-brown"></i>'
+              +'<a ng-click="clearVal()" class="color-light-brown" >重置搜索条件</a>'
+              +'</div></div>',
+              replace: true,
+              transclude: true,
+              link: function($scope, iElm, iAttrs, controller) {
+                      var delay = $scope.delay || 300;
+                      var timeoutReference;
+                      $scope.setVal=function (val) {
+                          if (timeoutReference)  $timeout.cancel( timeoutReference );
+                          timeoutReference = $timeout(function(){
+                            $scope.ngModel=val;
+                            // $scope.$apply()
+                          },delay);
+                      };
+
+                      $scope.clearVal=function () {
+                          $scope.ngModel= $scope.keyworld='';
+                      };
+
+                      $scope.search=function(e){
+                          var keycode = window.event?e.keyCode:e.which;
+                          if(keycode==13){
+                              // console.log('回车搜索.....');
+                              $scope.method();
+                          }
+                      };
+              }
+          };
+  }
+
   angular.module('manageApp.project-PG16-H')
   .directive("showStatus",["utils",showStatus])
   .directive("statusStyleToggle", [statusStyleToggle])
   .directive("statusStyleToggle", [statusStyleToggle])
   .directive("changeImg", [changeImg])
   .directive("statusStyleToggleNew", [statusStyleToggleNew])
-  .directive("gs1BarcodeComponent", ["requestData", "utils", gs1BarcodeComponent]);
+  .directive("gs1BarcodeComponent", ["requestData", "utils", gs1BarcodeComponent])
+  .directive('keySearch',['$timeout',keySearch])
+
 });
