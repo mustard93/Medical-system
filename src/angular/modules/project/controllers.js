@@ -5992,14 +5992,9 @@ define('project/controllers', ['project/init'], function() {
      var addDataItem = $.extend(true,{},medical);
 
          addDataItem.quantity=flashAddData.quantity;
-         addDataItem.discountPrice='0';
-         addDataItem.discountRate='100';
-         addDataItem.strick_price=addDataItem.purchasePrice;
-         addDataItem.taxRate='17';
+         addDataItem.tax='17';
          addDataItem.batchRequirement='无';
          addDataItem.relId=medical.id;
-
-         addDataItem.strike_price=addDataItem.price;
          addDataItem.id=null;
        if (!(addDataItem.relId && addDataItem.name)) {
            alertWarn('请选择药品。');
