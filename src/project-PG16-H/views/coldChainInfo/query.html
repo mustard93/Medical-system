@@ -1,5 +1,6 @@
 <div class="medical-stock supplier-management child-project-management"
      ng-init="listParams.checkUpStatus=mainStatus.pageParams.checkUpStatus||'待验收';">
+
      <!-- ng-init="listParams.checkUpStatus='待验收'" -->
   <table-list list-data="rest/authen/checkUp/query.json?checkUpStatus={{listParams.checkUpStatus}}"
               list-params="listParams"
@@ -96,14 +97,18 @@
 
 
               <div class="flex-item-4 text-right mgt-xl">
-                  <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
-                    <input type="text" class="ipt pdr-xxl" placeholder=" " ng-model="listParams.q">
-                    <i class=""></i>
-                  </div>
-                  <div class="inline-block mgl-m" ng-click="listParams.q=''">
-                    <i class="fa fa-refresh mgr-s color-light-brown"></i>
-                    <a href="" class="color-light-brown" >重置搜索条件</a>
-                  </div>
+
+                  <!--<div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">-->
+                    <!--<input type="text" class="ipt pdr-xxl" placeholder=" " ng-model="listParams.q">-->
+                    <!--<i class=""></i>-->
+                  <!--</div>-->
+                  <!--<div class="inline-block mgl-m" ng-click="listParams.q=''">-->
+                    <!--<i class="fa fa-refresh mgr-s color-light-brown"></i>-->
+                    <!--<a href="" class="color-light-brown" >重置搜索条件</a>-->
+                  <!--</div>-->
+
+                  <key-search placeholder="商品编号" ng-model="listParams.q" clear="true"></key-search>
+
               </div>
 
 
