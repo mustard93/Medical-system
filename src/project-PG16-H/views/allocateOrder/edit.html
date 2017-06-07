@@ -197,7 +197,7 @@
                       <div class="order-goods-num" style="white-space:nowrap;">
                         <button type="button"
                                 class="inline-block left"
-                                ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(formData.orderMedicalNos)"
+                                ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(item.salesQuantity,item.applicationCount);"
                                 ng-disabled="item.applicationCount<=1"
                                 ng-class="{'disabled':(item.applicationCount<=1)}">-
                         </button>
@@ -224,7 +224,7 @@
                                  name="applicationCount{{$index}}"
                                  ng-model="item.applicationCount"
                                  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                 ng-change="changeQuantity(formData.orderMedicalNos)"
+                                 ng-change="changeQuantity(item.salesQuantity,item.applicationCount);"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].applicationCount<item.applicationCount}"
                                  invalid-popover="{{item.applicationCount>item.salesQuantity}}"
                                  popover-show
@@ -302,12 +302,17 @@
 
         <button
                 type="button"
+                class="pr-btn-create-glodbg mgt"
+                        type="button"
+                        handle-this-click
+                        dialog-title="确认提交?"
+                        dialog-content="提交后，将无法修改。确认提交?"
+                        dialog-template="pr-dialog-submit.html"
+                        callback="formData.validFlag=true;submitForm('editForm','submit-allocate')"
                 ng-disabled="quantityError
                 || canSubmit
                 ||!formData.orderMedicalNos.length
-                ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate"
-                class="pr-btn-save-glodbg mgr"
-                ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
+                ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate">提交
         </button>
 
       </div>
