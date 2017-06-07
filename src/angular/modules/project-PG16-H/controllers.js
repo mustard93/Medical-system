@@ -3598,6 +3598,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         // $('#addDataItem_relId_chosen').trigger('click');
     };
 
+    // 选择区域后把区域ID和名称带到编辑页面
+    $scope.submitRegion = function (scopeData){
+      if (scopeData) {
+        var scopeList=eval(scopeData);
+        console.log(scopeList);
+      }
+    }
   }
 
 

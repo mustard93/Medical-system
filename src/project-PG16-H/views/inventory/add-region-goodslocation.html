@@ -1,0 +1,83 @@
+<div class="modal-content right-side-new pr-bg-black4"
+     ng-controller="inventoryOrderEditCtrl"
+     ajax-url="http://localhost:3000/src/project-PG16-H/rest/authen/region-goodslocation/queryForSelectOption.json"
+     scope-data="scopeData"
+     callback="initFlag=true;"
+     alert-error>
+
+  <form class="add-customerAddress-form form-horizontal"
+        id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/shelvesUp/confirm.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="$root.watchFormChange('scopeData',this);$root.utils.goTo('#/inwentory/query.html')"
+        novalidate="true">
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择区域</h1>
+    </div>
+
+    <div class="">
+      <table class="full-width another-table ">
+        <thead>
+          <tr class="bb-line-gold">
+            <div class="pd-c-v-s order-list-search relative bb-line-gold">
+              <input type="text"
+                     style="width:100%;"
+                     class="ipt-side pdr-xxl text-right"
+                     placeholder="选择区域/货位"
+                     ng-model="listParams.q"
+                     ng-change="handleSearchFilter(listParams,dialogData.medicalId)">
+              <i class="white" style="top:15px;right:25px;"></i>
+            </div>
+          </tr>
+        </thead>
+        <tbody class="color-white text-n">
+          <tr ng-repeat="tr in scopeData">
+            <td>
+              <div ng-if="!formData.customerId" class="panel pr-fuzzy-boundary pr-panel-height" style="background-color:transparent;margin-bottom:0px;">
+                <div class="pd-c-v-s">
+                  <header class="color-white">{{tr.name}}
+                    <span class="tools pull-right">
+                      <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+                    </span>
+                  </header>
+                </div>
+                <div class="panel-body bt-dashed-line-gold" style="display:none; padding: 0;">
+                  <div class="full-width">
+                    <div class="pd-c-v-s inline-block" ng-repeat="item in tr.goodsLocation" style="width:30%;">
+                      <div class="inline-block select-td text-center mycheck" style="width:30px;">
+                      <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="item.handleFlag" >
+                      <label style="border: 1px solid #84715A;background: #5C5246;top:10px;left:0px;" for="{{$index+1}}"></label>
+                      </div>
+                      <span style="position:absolute;">{{item.name}}</span>
+                    </div>
+                  </div>
+                  <!-- <table class="full-width another-table ">
+                      <tr ng-repeat="item in tr.goodsLocation">
+                        <td class="select-td text-center mycheck" style="width:60px;">
+                        <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="item.handleFlag" >
+                        <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+1}}"></label>
+                        </td>
+                        <td style="padding:9px 0px;">
+                          {{item.name}}
+                        </td>
+                      </tr>
+                  </table> -->
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+    </div>
+  </form>
+</div>
