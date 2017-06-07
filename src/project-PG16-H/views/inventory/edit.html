@@ -18,13 +18,13 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
-        <a href="#/inventory/query.html"><em class="color-custom-orange">盘点申请单</em></a>
-        <em> > 新建盘点申请单</em>
+        <a href="#/inventory/query.html"><em class="color-custom-orange">盘点计划</em></a>
+        <em> > 新建盘点计划</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
         <div class="mgb">
-          <h1 class="pr-font-20 color-black">新建盘点申请单</h1>
+          <h1 class="pr-font-20 color-black">新建盘点计划</h1>
         </div>
       </div>
     </div>
@@ -109,7 +109,8 @@
               <span class="color-black">
                 盘点对象
               </span>
-              <div class="inline-block pr-bg-white relative full-height mgr mgb mgl-x-l" style="width:365px;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);">
+              <!-- 库房选择 -->
+              <div class="block pr-bg-white relative full-height mgr mgb mgl-sxxl" style="width:365px;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);">
                 <div class="inline-block logistics-center-out relative">
                   <p class="mgb-s">
                     库房
@@ -124,6 +125,18 @@
                   </select>
                 </div>
               </div>
+              <!-- 按区域盘点 -->
+              <div class="inline-block pr-bg-white relative full-height mgr mgt mgl-sxxl" style="width:95%;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);">
+                <div class="inline-block logistics-center-out relative">
+                  <a href="#"
+                    >
+                    添加区域
+                  </a>
+                  
+                </div>
+              </div>
+
+
             </div>
 
           </div>
@@ -145,20 +158,20 @@
         <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
            handle-this-click
            dialog-title="确认返回?"
-           dialog-content="该盘点申请单存在未保存数据，是否保存?"
+           dialog-content="该盘点计划存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
            nosave-callback="goTo('#/inventory/query.html')"
-           save-callback="submitForm('editForm','exit-allocate')">返回盘点申请单
+           save-callback="submitForm('editForm','exit-allocate')">返回盘点计划
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory/query.html?id={{formData.relId}}" >返回盘点申请单</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory/query.html?id={{formData.relId}}" >返回盘点计划</a>
 
         <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
-           dialog-content="您确认删除这条盘点申请单吗?"
+           dialog-content="您确认删除这条盘点计划吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"
            callback="$root.goTo('#/inventory/query.html')">删除
