@@ -25,6 +25,9 @@
                   </div>
                 </div> -->
                 <div class="form-group">
+
+				
+
                  <h3>权限集 <label class="">
                    <input type="checkbox" value="authorityItem_name{{keyName}}" onclick=" $('.click-reverse-selection').click();"/>
                    反选</label>
@@ -49,6 +52,74 @@
                   </div>
                   <!--end Authoritys -->
                 </div>
+
+                <div class="form-group">
+
+
+
+                    <h3>部门 <label class="">
+                        <input type="checkbox" value="departments" onclick=" $('.click-reverse-selection2').click();"/>
+                        反选</label>
+                    </h3>
+                    <div class="form-ctrl"
+                         ajax-url="rest/authen/department/query"  scope-data="departments" alert-error
+                         params='{}'
+                         callback=""
+                    >
+                        <fieldset  class="fieldset" >
+                            <legend>
+                                {{item.name}}
+                                <!--<label class="">-->
+                                    <!--<input type="checkbox" value="authorityItem_name{{item.id}}" onclick=" $('[name='+this.value+']').click();"/>-->
+                                <!--反选</label>-->
+                            </legend>
+
+                            <label class=""  ng-repeat=" item in departments" title="{{item.name}}">
+                                <input type="checkbox" name="departments" value="{{item.id}}" class="click-reverse-selection2"
+                                       checkbox-group="formData.departmentAuthoritys" /> {{item.name}}</label>
+                        </fieldset>
+
+                    </div>
+                    <!--end Authoritys -->
+                </div>
+
+
+
+
+                <div class="form-group">
+
+
+
+                    <h3>仓库 <label class="">
+                        <input type="checkbox" value="storeRooms" onclick=" $('.click-reverse-selection3').click();"/>
+                        反选</label>
+                    </h3>
+                    <div class="form-ctrl"
+                         ajax-url="rest/authen/storeRoom/query"  scope-data="storeRooms" alert-error
+                         params='{}'
+                         callback=""
+                    >
+                        <fieldset  class="fieldset" >
+                            <legend>
+                                {{item.name}}
+                                <!--<label class="">-->
+                                <!--<input type="checkbox" value="authorityItem_name{{item.id}}" onclick=" $('[name='+this.value+']').click();"/>-->
+                                <!--反选</label>-->
+                            </legend>
+
+                            <label class=""  ng-repeat=" item in storeRooms" title="{{item.name}}">
+                                <input type="checkbox" name="storeRooms" value="{{item.id}}" class="click-reverse-selection3"
+                                       checkbox-group="formData.storeroomAuthoritys" /> {{item.name}}</label>
+                        </fieldset>
+
+                    </div>
+                    <!--end Authoritys -->
+                </div>
+
+
+
+
+
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label"></label>
                   <div class="col-lg-10 col-sm-10">

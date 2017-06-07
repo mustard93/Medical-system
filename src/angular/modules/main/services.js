@@ -1097,9 +1097,11 @@ function alertOk($rootScope, modal) {
 e
                  */
                 init:function(){
-
-                  this.print_param=$.extend({},this.print_param_defualt);
-
+                       console.log("OPrinter.init");
+                    //如果init和setPrint_paramByUICustomHtml 调用顺序不确定时，修复如果init和setPrint_paramByUICustomHtml 设置失败bug。
+                  if(!this.print_param){//只初始化一次
+                    this.print_param=$.extend({},this.print_param_defualt);
+                  }
                   if (!LODOP) {
                     require(['LodopFuncs'], function(LodopFuncs1) {
 
@@ -1118,11 +1120,14 @@ e
 
                 //设置打印参数,根据接口返回html模版数据
                 setPrint_paramByUICustomHtml:function(uICustomHtml){
+
+                     console.log("setPrint_paramByUICustomHtml",uICustomHtml);
                   if(!uICustomHtml)return;
                   var p=$.extend({},this.print_param_defualt);
                   for(var key in p){
                     if (uICustomHtml[key]) {
                       p[key] = uICustomHtml[key];
+                      console.log("key",key,uICustomHtml[key]);
                     }
                   }
 
@@ -1183,7 +1188,7 @@ e
 
                     LODOP.ADD_PRINT_HTM(p.html_top,p.html_left,p.html_width,p.html_height,content);
                     // LODOP.ADD_PRINT_HTM(this._rect.top,this._rect.left,this._rect.width,this._rect.height,content);
-                    // console.log(p);
+                     console.log("_printBeforePrint",p);
 
                     return LODOP;
                 },

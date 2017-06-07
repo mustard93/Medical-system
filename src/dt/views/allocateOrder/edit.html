@@ -331,9 +331,14 @@
 
         <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
                 type="button"
-                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId || !formData.expectDate"
-                class="pr-btn-save-glodbg mgr"
-                ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
+                class="pr-btn-create-glodbg mgt"
+                        type="button"
+                        handle-this-click
+                        dialog-title="确认提交?"
+                        dialog-content="提交后，将无法修改。确认提交?"
+                        dialog-template="pr-dialog-submit.html"
+                        callback="formData.validFlag=true;submitForm('editForm','submit-allocate')"
+                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId || !formData.expectDate">提交
         </button>
 
       </div>

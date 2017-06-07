@@ -1,0 +1,73 @@
+
+<!--冷链录入详情 edit.html-->
+
+<div class="modal-content right-side-new pr-bg-black4"
+     ng-controller="pickStockOutMedicalController"
+     ajax-url="rest/authen/pickStockOutMedical/getOfEdit.json?id={{dialogData.id}}"
+     scope-data="formData"
+     callback="initFlag=true;quantityError=false;formData.pickNo=formData.applicationCount;"
+     alert-error>
+  <form class="add-customerAddress-form form-horizontal"
+        id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/pickStockOutMedical/confirm.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="$root.watchFormChange('formData',this);$root.utils.goTo('#/pickStockOutMedical/query.html');"
+        novalidate="true">
+
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">冷链信息</h1>
+    </div>
+
+    <div class="inline-block flex-column pd-c-v-s">
+      <div class="inline-block flex-item-3 text-right">录入人：</div>
+      <div class="inline-block flex-item-3 text-left color-white">张三</div>
+
+      <div class="inline-block flex-item-3 text-right">录入时间：</div>
+      <div class="inline-block flex-item-3 text-left color-white">2017-06-07</div>
+    </div>
+
+    <div class="">
+      <p class="text-n pd-c-v-s bb-line-gold">商品详细信息：</p>
+      <div class="">
+
+        <div class="inline-block flex-column pd-c-v-s">
+          <div class="inline-block flex-item-3 text-right">起始温度：</div>
+          <div class="inline-block flex-item-3 text-left color-white">120 ℃</div>
+
+          <div class="inline-block flex-item-3 text-right">起始湿度：</div>
+          <div class="inline-block flex-item-3 text-left color-white">120 ℃</div>
+        </div>
+
+        <div class="inline-block flex-column pd-c-v-s">
+          <div class="inline-block flex-item-3 text-right">商品名称：</div>
+          <div class="inline-block flex-item-9 text-left color-white">{{formData.name}}</div>
+        </div>
+        <div class="inline-block flex-column pd-c-v-s">
+          <div class="inline-block flex-item-3 text-right">规格：</div>
+          <div class="inline-block flex-item-9 text-left color-white">{{formData.specification}}</div>
+        </div>
+        <div class="inline-block flex-column pd-c-v-s">
+          <div class="inline-block flex-item-3 text-right">基本单位：</div>
+          <div class="inline-block flex-item-9 text-left color-white">{{formData.packingAttribute.name}}</div>
+        </div>
+        <div class="inline-block flex-column pd-c-v-s">
+          <div class="inline-block flex-item-3 text-right">生产厂商：</div>
+          <div class="inline-block flex-item-9 text-left color-white">{{formData.manufacturer}}</div>
+        </div>
+        <div class="inline-block flex-column pd-c-v-s">
+          <div class="inline-block flex-item-3 text-right">产地：</div>
+          <div class="inline-block flex-item-9 text-left color-white">{{formData.productionPlace}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <button type="submit" ng-disabled="quantityError" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+    </div>
+  </form>
+</div>

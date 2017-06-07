@@ -37,25 +37,46 @@
         </select>
 
         <span class="mgr color-999">出库日期</span>
-        <div class="date-icon-outside">
-          <input type="text"
-                 datepicker
-                 class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                 ng-readonly="true"
-                 ng-model="listParams.createAtBeg"
-                 placeholder="">
-          <span class="date-icon"></span>
+        <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-readonly="true"
+
+                   ng-model="listParams.createAtBeg">
+            <span class="date-icon"></span>
         </div>
-         <span class="mgr color-999">至</span>
-      <div class="date-icon-outside">
-         <input type="text"
-               datepicker
-               class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-               ng-readonly="true"
-               ng-model="listParams.createAtEnd"
-               placeholder="">
-        <span class="date-icon"></span>
-      </div>
+        <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-readonly="true"
+
+                   ng-model="listParams.createAtBeg">
+            <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
+        </div>
+        <span class="mgr">至</span>
+        <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-readonly="true"
+
+                   ng-model="listParams.createAtEnd"
+                   invalid-popover
+                   popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                   popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+            <span class="date-icon"></span>
+        </div>
+        <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+            <input type="text"
+                   datepicker
+                   class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                   ng-readonly="true"
+
+                   ng-model="listParams.createAtEnd"/>
+            <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
+        </div>
 
       <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
 

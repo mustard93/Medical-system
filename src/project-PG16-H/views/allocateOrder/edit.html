@@ -2,7 +2,7 @@
      ng-controller="allocateOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;changeQuantity(formData.orderMedicalNos)"
+     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -89,6 +89,7 @@
           <div ng-if="!formData.relId"
                flash-add-medical
                ng-model="data1"
+               placeholder="商品编号、商品名、商品名头字母、通用名、通用名头字母、厂家名、厂家名头字母"
                class="pd-c-l pdt-m"
                ajax-url="rest/authen/medicalStock/query"
                add-data-callback-fn="flashAddDataCallbackFn(data1)">
@@ -160,20 +161,20 @@
               </span>
             </div>
             <div class="outside-table-d">
-              <table class="table pr-table pr-new-table mgb-n table-ss-wid">
+              <table class="table pr-table pr-new-table mgb-n">
                 <thead>
                   <tr>
                     <th class="text-center">商品编号</th>
                     <th class="text-left">商品名称</th>
                     <th class="text-center">规格</th>
                     <th class="text-center">基本单位</th>
-                    <th class="text-center">可调拨数量</th>
                     <th class="text-center">申请数量</th>
+                    <th class="text-center">可调拨数量</th>
                     <th class="text-center">生产厂商</th>
                     <th class="text-center">产地</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="relative">
                   <tr ng-repeat="item in formData.orderMedicalNos"
                       ng-controller="ConfirmOrderMedicalController"
                       table-item-handlebtn-component>
@@ -188,35 +189,21 @@
                         </div>
                       </div>
                     </td><!-- 商品编号 -->
-                    <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
+                    <td class="text-left"><div style="width:120px;" class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                     <td class="text-center">{{item.packingAttribute.name}}</td><!-- 单位 -->
                     <td ng-if="!formData.id" class="text-right">{{item.salesQuantity}}</td>
-                    <td ng-if="formData.id&&initFlag" class="text-right"
-                    ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}&&storeRoomId={{formData.storeRoomId}}"
-                    scope-data="scopeData"
-                    ><em ng-repeat="tr in scopeData" ng-init="item.salesQuantity=tr.salesQuantity">{{tr.salesQuantity}}</em>
-                  </td><!-- 可调拨数量 -->
                     <td class="text-center">
-                      <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(item.salesQuantity,item.applicationCount)"
-                        ng-disabled="item.applicationCount<=1" ng-class="{'disabled':(item.applicationCount<=1)}">-</button>
+                      <div class="order-goods-num" style="white-space:nowrap;">
+                        <button type="button"
+                                class="inline-block left"
+                                ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)-1;changeQuantity(item.salesQuantity,item.applicationCount);"
+                                ng-disabled="item.applicationCount<=1"
+                                ng-class="{'disabled':(item.applicationCount<=1)}">-
+                        </button>
                         <span class="inline-block">
-                          <!-- <input type="text"
-                                 name="applicationCount{{$index}}"
-                                 class="inline ipt pr-ipt-60 text-center item-planQuantity"
-                                 style="width:60px;"
-                                 required
-                                 ng-model="item.applicationCount"
-                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].applicationCount<item.applicationCount}"
-                                 ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
-                                 invalid-popover="{{!editForm['applicationCount'+$index].$valid || item.applicationCount>item.salesQuantity}}"
-                                 popover-show
-                                 ng-change="changeQuantity(formData.orderMedicalNos);"
-                                 popover-options='{"content":"数量格式不正确或大于可调拨数量", "placement":"top", "trigger":"manual"}'
-                                 onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"> -->
 
-                         <input type="text"
+                         <!-- <input type="text"
                                 class="inline ipt pr-ipt-60 text-center item-applicationCount"
                                 style="width:60px;"
                                 name="applicationCount{{$index}}"
@@ -229,14 +216,32 @@
                                 invalid-popover="{{!editForm['applicationCount'+$index].$valid || item.applicationCount>item.salesQuantity}}"
                                 popover-show
                                 is-focus="true"
-                                popover-options='{"content":"不能大于可用数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
+                                popover-options='{"content":"不能大于可用数量或数量不正确", "placement":"bottom", "trigger":"manual"}'> -->
+
+                          <input type="number"
+                                 class="inline ipt pr-ipt-60 text-center item-applicationCount"
+                                 style="width:60px;"
+                                 name="applicationCount{{$index}}"
+                                 ng-model="item.applicationCount"
+                                 onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                 ng-change="changeQuantity(item.salesQuantity,item.applicationCount);"
+                                 ng-class="{'pr-bg-pink': medicalStockMap[item.relId].applicationCount<item.applicationCount}"
+                                 invalid-popover="{{item.applicationCount>item.salesQuantity}}"
+                                 popover-show
+                                 popover-options='{"content":"不能大于可调拨数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
+
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1;changeQuantity(item.salesQuantity,item.applicationCount);"
+                        <button type="button" class="inline-block right"
+                        ng-click="item.applicationCount=$root.utils.transformToNumber(item.applicationCount)+1;changeQuantity(item.salesQuantity,item.applicationCount);"
                           ng-class="{'disabled':(item.applicationCount>=item.salesQuantity)}"
                           ng-disabled="item.applicationCount>=item.salesQuantity">+</button>
                       </div>
                     </td><!-- 计划调拨数量 -->
-                    <!-- 仓库 -->
+                    <td ng-if="formData.id&&initFlag" class="text-right" style="white-space:nowrap;"
+                        ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}&&storeRoomId={{formData.storeRoomId}}"
+                        scope-data="scopeData">
+                      <em ng-repeat="tr in scopeData" ng-init="item.salesQuantity=tr.salesQuantity">{{tr.salesQuantity}}</em>
+                    </td><!-- 可调拨数量 -->
                     <td class="text-center" >{{item.manufacturer}}</td>
                     <td class="text-center" >{{item.productionPlace}}</td>
                     </td><!-- 价税合计 -->
@@ -297,9 +302,17 @@
 
         <button
                 type="button"
-                ng-disabled="editForm.$invalid ||quantityError || canSubmit ||!formData.orderMedicalNos.length ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate"
-                class="pr-btn-save-glodbg mgr"
-                ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
+                class="pr-btn-create-glodbg mgt"
+                        type="button"
+                        handle-this-click
+                        dialog-title="确认提交?"
+                        dialog-content="提交后，将无法修改。确认提交?"
+                        dialog-template="pr-dialog-submit.html"
+                        callback="formData.validFlag=true;submitForm('editForm','submit-allocate')"
+                ng-disabled="quantityError
+                || canSubmit
+                ||!formData.orderMedicalNos.length
+                ||!formData.orderCode ||formData.storeRoomId==formData.inStoreRoomId||!formData.expectDate">提交
         </button>
 
       </div>
