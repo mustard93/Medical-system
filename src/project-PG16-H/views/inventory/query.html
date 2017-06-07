@@ -61,6 +61,22 @@
                         <span class="delete-link-icon">&nbsp;</span>
                       </a>
                     </span>
+                    <span ng-if="tr.orderStatus=='待启动'" >
+                      <a href="#/inventory/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="启动盘点表">
+                      <span class="edit-link-icon">&nbsp;</span></a>
+                      <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
+                         href="javascript:;"
+                         class="btn-link pd-m rect-s"
+                         title="发送盘点任务消息"
+                         handle-this-click
+                         dialog-title="确认删除 ?"
+                         dialog-content="您确认删除这条盘点申请单吗?"
+                         dialog-template="pr-dialog-confirm.html"
+                         request-url="rest/authen/allocateOrder/delete?id={{tr.id}}"
+                         callback="$root.utils.refreshHref()">
+                        <span class="delete-link-icon">&nbsp;</span>
+                      </a>
+                    </span>
                     <span ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'" class=" text-right">
                       <a ng-if="tr.orderStatus!='待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')" href="#/inventory/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
@@ -76,12 +92,11 @@
                         <button ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
                         workflow-pass-button custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}" >
                       </button>
-
                   </span>
 
                 </div>
                 <div class="card-new">
-                    <div class="bt-line flex-column" style="background-color:rgba(255,246,228,1);">
+                    <div class="bt-line flex-column" ng-class="{'pr-bg-yellow':(tr.orderStatus!='已作废')}">
                       <div class="text-left flex-item-4">
                         <p class="color-black mgt-l">计划盘点时间</p>
                       </div>
