@@ -6150,7 +6150,6 @@ define('project/controllers', ['project/init'], function() {
     // 计算总价方法
     $scope.changeTotalPrice=function(orderMedicalNos,tr){
     $scope.formData.totalPrice=purchaseOrderCalculaTotal(orderMedicalNos);
-    $scope.tr.taxPrice=$root.invoiceOrderUtils.getSuiE(tr);
     }
 
     // 总价金额计算方法
