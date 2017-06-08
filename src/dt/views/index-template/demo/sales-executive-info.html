@@ -1,0 +1,107 @@
+<!--销售主管报表-->
+<div class="index-order-personal-info flex-column text-center">
+
+
+    <div class="index-order-create-title pr-index-line-title flex-column">
+        <span class="flex-item-5"></span>
+        <span class="flex-item-2">销售主管-报表统计</span>
+        <span class="flex-item-5"></span>
+    </div>
+
+    <!-- 左侧内容 -->
+    <div class="flex-item-5">
+
+        <!-- 销售金额Top10月报-按客户统计 -->
+        <div class="panel pr-panel pr-panel-height mgr-m mgb-m pr-fuzzy-boundary pd-n flex-column salesOrder-module">
+
+            <div class="flex-item-12 salesOrder-module-analysis"
+                 ajax-url="rest/authen/salesOrder/countByOrderStatus4Index.json?dateRangeType=today&isOnlyCurrentUser=true"
+                 scope-response="countByOrderStatus4Index_today"
+                 callback="countByOrderStatus4Index_today_parent=(countByOrderStatus4Index_today.data['已处理']/countByOrderStatus4Index_today.totalCount*100)"
+                style="height: 300px;"
+            >
+
+                <h4 class="bb-line pd-v-m pr-panel-title-color">销售金额Top10月报-按客户统计</h4>
+
+                <div class="flex-column">
+                    <div chart="http://localhost:3000/data/demoData/salesExecutive/purchaseAmount.json" style="height: 245px; width: 100%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 销售金额Top10月报-按品种统计 -->
+        <div class="panel pr-panel pr-panel-height mgr-m pr-fuzzy-boundary pd-n flex-column logistics-module" style=" height: 300px; ">
+
+            <div class="flex-item-12 logistics-module-analysis">
+                <h4 class="bb-line pd-v-m pr-panel-title-color">销售金额Top10月报-按品种统计</h4>
+                <div class="flex-column">
+                    <div chart="http://localhost:3000/data/demoData/salesExecutive/purchaseAmountOfVarieties.json" style="height: 245px; width: 100%"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 订单录入统计月报-按天统计 -->
+    <div class="flex-item-7">
+        <div class="panel pr-panel pr-panel-height pr-fuzzy-boundary pd-n confirmOrder-module" style=" height: 615px">
+
+            <div>
+                <div class="flex-column pd-c-s pdt">
+                    <h4 class=" flex-item-12 bb-line pd-v-m pr-panel-title-color" style=" padding: 10px 0;">订单录入统计月报-按天统计</h4>
+
+                    <!--<h4 class="flex-item-4 mgt text-left pr-indent-15 pr-panel-title-color">订单录入统计月报-按天统计 </h4>-->
+                    <!--<div class="flex-item-8 text-right">-->
+                        <!--&lt;!&ndash; <span class="mgr"><i class="chart-tip-icon pr-icon-bg-green"></i> 今年</span>-->
+                        <!--<span><i class="chart-tip-icon pr-icon-bg-grey"></i> 去年</span> &ndash;&gt;-->
+                        <!--<div class="btn btn-group" style="display: none">-->
+                            <!--<select ng-init="countPriceGroupByCreateAt4Echarts_dateRangeType='recent30day'" ng-model="countPriceGroupByCreateAt4Echarts_dateRangeType" class="select pr-select pr-select-sm" style="width:90px;">-->
+                                <!--&lt;!&ndash; <option value="today">今天</option> &ndash;&gt;-->
+                                <!--&lt;!&ndash;<option value="recent7day">最近7天</option>&ndash;&gt;-->
+                                <!--<option value="recent30day">最近30天</option>-->
+                                <!--&lt;!&ndash;<option value="year">今年</option>&ndash;&gt;-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <div chart="http://localhost:3000/data/demoData/salesExecutive/orderEntryMonth.json" style="height: 580px;"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- HR -->
+
+
+    <!--订单录入统计日报/月报-按客服统计-->
+    <div class="flex-item-6">
+
+        <div class="panel pr-panel pr-panel-height mgr-m mgb-m pr-fuzzy-boundary pd-n flex-column salesOrder-module">
+
+            <div class="flex-item-12 logistics-module-analysis">
+                <h4 class="bb-line pd-v-m pr-panel-title-color">订单录入统计日报/月报-按客服统计 </h4>
+                <div class="flex-column">
+                    <div chart="http://localhost:3000/data/demoData/salesExecutive/orderEntryQuantity.json" style="height: 245px; width: 100%"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--客户欠款金额Top10月报-->
+    <div class="flex-item-6">
+
+        <div class="panel pr-panel pr-panel-height mgr-m mgb-m pr-fuzzy-boundary pd-n flex-column salesOrder-module">
+
+            <div class="flex-item-12 logistics-module-analysis">
+                <h4 class="bb-line pd-v-m pr-panel-title-color">客户欠款金额Top10月报</h4>
+                <div class="flex-column">
+                    <div chart="http://localhost:3000/data/demoData/salesExecutive/customerArrears.json" style="height: 245px; width: 100%"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
