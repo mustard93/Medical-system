@@ -282,7 +282,10 @@
                      <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
                      <td class="text-center"  style="white-space: nowrap;">
                        <div class="order-goods-num">
-                         <button type="button" class="inline-block left" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)"
+                         <button type="button" class="inline-block left"
+                          ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)-1;
+                          changeTotalPrice(formData.orderMedicalNos);
+                          diffPurchaseNumber(formData.orderMedicalNos);"
                          ng-class="{'disabled':(tr.quantity<=1)}">-</button>
                          <span class="inline-block">
                            <input type="text"
@@ -290,15 +293,19 @@
                                   style="width:60px;"
                                   name="quantity{{$index}}"
                                   ng-model="tr.quantity"
-                                  ng-change="diffPurchaseNumber(formData.orderMedicalNos);purchaseOrderCalculaTotal(formData.orderMedicalNos);"
+                                  ng-change="diffPurchaseNumber(formData.orderMedicalNos);
+                                  changeTotalPrice(formData.orderMedicalNos);"
                                   ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].quantity<tr.quantity}"
                                   ng-pattern="/^[1-9]{1}[0-9]{0,10}?$/"
-                                  invalid-popover="{{!purchaseForm['quantity'+$index].$valid || tr.quantity>tr.planQuantity}}"
+                                  invalid-popover="{{!purchaseForm['quantity'+$index].$valid}}"
                                   popover-show
                                   is-focus="true"
                                   popover-options='{"content":"数量格式不正确", "placement":"right", "trigger":"manual"}'>
                          </span>
-                         <button type="button" class="inline-block right" ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;purchaseOrderCalculaTotal(formData.orderMedicalNos);diffPurchaseNumber(formData.orderMedicalNos)">+</button>
+                         <button type="button" class="inline-block right"
+                         ng-click="tr.quantity=$root.utils.transformToNumber(tr.quantity)+1;
+                         changeTotalPrice(formData.orderMedicalNos);
+                         diffPurchaseNumber(formData.orderMedicalNos);">+</button>
                        </div>
                      </td><!-- 数量 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
@@ -306,25 +313,14 @@
                               class="ipt pr-ipt-60 text-right"
                               name="price{{$index}}"
                               ng-model="tr.price"
-                              ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
+                              ng-change="changeTotalPrice(formData.orderMedicalNos,tr);"
                               ng-pattern="/(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/"
                               invalid-popover
                               valid-value="{{!purchaseForm['price'+$index].$valid}}"
                               popover-show
                               popover-options='{"content":"单价不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                      </td><!-- 单价 -->
-                     <td class="text-center" style="line-height:2.4">￥
-                       <input type="text"
-                              class="ipt pr-ipt-60 text-right"
-                              name="amountMoney{{$index}}"
-                              ng-model="tr.amountMoney"
-                              ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                              ng-pattern="/(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/"
-                              invalid-popover
-                              valid-value="{{!purchaseForm['amountMoney'+$index].$valid}}"
-                              popover-show
-                              popover-options='{"content":"金额不能小于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
-                     </td>
+                     <td class="text-right" style="line-height:2.4" >￥{{$root.invoiceOrderUtils.getJiaSuiHeJi(tr) || '0' | number:2}}</td>
                      <!-- 金额 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">
                        <select class="ipt pr-short-ipt" style="width:60px;" ng-disabled="formData.orderStatus=='已处理'" ng-model="tr.tax">
@@ -332,18 +328,8 @@
                          <option value="3" ng-selected="tr.tax==3">3</option>
                        </select>%
                      </td><!-- 税率 -->
-                     <td class="text-center" style="line-height:2.4">￥
-                       <input type="text"
-                              class="ipt pr-ipt-60 text-right"
-                              name="taxPrice{{$index}}"
-                              ng-model="tr.taxPrice"
-                              ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
-                              ng-pattern="/(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/"
-                              invalid-popover
-                              valid-value="{{!purchaseForm['taxPrice'+$index].$valid}}"
-                              popover-show
-                              popover-options='{"content":"税额不能小于0且不能过大或格式不正确", "placement":"bottom", "trigger":"manual"}' />
-                     </td>
+                      <td class="text-right" style="line-height:2.4" >￥{{$root.invoiceOrderUtils.getSuiE(tr) || '0' | number:2}}</td>
+
                      <!-- 税额 -->
                    </tr>
                  </tbody>
@@ -351,9 +337,9 @@
              </div>
              <div class="pd-c-v-s text-right text-n color-6 bt-dashed-line pd-c-v-l" ng-if="formData.orderMedicalNos.length" >
                价税合计：￥
+
                <input type="text" class="ipt"
                  name="totalPrice"
-                 ng-change="purchaseOrderCalculaTotal(formData.orderMedicalNos)"
                  ng-pattern="/(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/"
                  invalid-popover
                  popover-show="!purchaseForm.totalPrice.$valid"
@@ -375,7 +361,7 @@
          <div class="panel  pr-panel  pr-panel-height mgb color-9 flex-column" style="min-height:180px;">
 
              <p class="color-black" style="width:100%;">
-               <em class=" text-n text-bold">上传发票图片</em> <em ng-if="!canSubmit" class="mgl-l color-red" >(必填)</em>
+               <em class=" text-n text-bold">上传发票图片</em>
              </p>
 
            <div class=""  ng-repeat="item in formData.attachments" >
@@ -447,7 +433,6 @@
                   callback="submitForm('purchaseForm','submit-com');"
                   ng-disabled="purchaseForm.$invalid ||
                                !formData.orderMedicalNos.length ||
-                               !canSubmit ||
                                !formData.code">提交
           </button>
         </span>

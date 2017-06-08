@@ -249,14 +249,16 @@
              <em class=" text-n text-bold">上传发票图片</em>
            </p>
            <div class="pd-c-v-s"  ng-repeat="item in formData.attachments">
-             <div class="pd-c-v-s relative show-mask" ng-if="item.attachmentUrl" style="width:auto;height:auto;">
+             <div  ng-if="item.attachmentUrl" class="pd-c-v-s relative show-mask" ng-if="item.attachmentUrl" style="width:auto;height:auto;">
                <img title="{{item.fileName}}"
                     alt="{{item.fileName}}"
                     ng-src="{{item.attachmentUrl}}"
                     style="width:142px;height:96px;position:absolute;top:-30px;cursor:pointer;"
                     modal-img-show/>
              </div>
-
+             <div  ng-if="!item.attachmentUrl" class="color-yellow1">
+               暂无发票图片
+             </div>
            </div>
            <!-- <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div> -->
          </div>
