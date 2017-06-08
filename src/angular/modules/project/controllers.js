@@ -6148,7 +6148,7 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 计算总价方法
-    $scope.changeTotalPrice=function(orderMedicalNos,tr){
+    $scope.changeTotalPrice=function(orderMedicalNos){
     $scope.formData.totalPrice=purchaseOrderCalculaTotal(orderMedicalNos);
     }
 
@@ -6162,6 +6162,7 @@ define('project/controllers', ['project/init'], function() {
       }
       return _total;
     };
+
 
    }//end salesOrderEditCtrl
 
