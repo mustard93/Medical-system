@@ -48,11 +48,12 @@ define('project/controllers', ['project/init'], function() {
   /**
    * 主控（业务模块级别）
    */
-  function mainCtrlProject($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList,saleOrderUtils,purchaseOrderUtils,requestPurchaseOrderUtils,queryItemCardButtonList,customMenuUtils) {
+  function mainCtrlProject($scope, $rootScope, $http, $location, store,utils,modal,OPrinter,UICustomTable,bottomButtonList,saleOrderUtils,invoiceOrderUtils,purchaseOrderUtils,requestPurchaseOrderUtils,queryItemCardButtonList,customMenuUtils) {
 
     //底部菜单（业务相关）
     $rootScope.bottomButtonList=bottomButtonList;
     $rootScope.saleOrderUtils=saleOrderUtils;
+    $rootScope.invoiceOrderUtils=invoiceOrderUtils;
     $rootScope.purchaseOrderUtils=purchaseOrderUtils;
     $rootScope.requestPurchaseOrderUtils=requestPurchaseOrderUtils;
     $rootScope.queryItemCardButtonList=queryItemCardButtonList;
@@ -6146,17 +6147,20 @@ define('project/controllers', ['project/init'], function() {
       }
     };
 
+    // 计算总价方法
+    $scope.changeTotalPrice=function(orderMedicalNos,tr){
+    $scope.formData.totalPrice=purchaseOrderCalculaTotal(orderMedicalNos);
+    $scope.tr.taxPrice=$root.invoiceOrderUtils.getSuiE(tr);
+    }
 
     // 总价金额计算方法
-    $scope.purchaseOrderCalculaTotal = function (orderMedicalList) {
+     function purchaseOrderCalculaTotal(orderMedicalList) {
       var _total = 0;
-
       if (orderMedicalList) {
         angular.forEach(orderMedicalList, function (data, index) {
-          _total += parseInt(data.quantity * data.strike_price, 10);
+          _total += parseInt(data.quantity * data.price, 10);
         });
       }
-
       return _total;
     };
 
@@ -6254,7 +6258,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('imTaobaoCtr', ['$scope',"requestData",'alertError',"$rootScope", imTaobaoCtr])
   .controller('saleReturnMedicalItemController', ['$scope', saleReturnMedicalItemController])
   .controller('returnOrderAddController', ["$scope", "$rootScope", "modal","utils", "requestData", "alertError", returnOrderAddController])
-  .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
+  .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","invoiceOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
   .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
   .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
   .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'dialogConfirm', confirmOrderEditCtrl])
