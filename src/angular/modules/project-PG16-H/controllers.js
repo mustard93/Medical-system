@@ -3540,38 +3540,57 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         // $('#addDataItem_relId_chosen').trigger('click');
     };
 
-    // 选择区域后把区域ID和名称带到编辑页面
-    $scope.submitRegion = function (scopeData){
-      if (scopeData) {
-        var scopeList=eval(scopeData);
-        for (var i = 0; i < scopeList.length; i++) {
-          if (scopeList[i].checked==true) {
-            console.log(scopeList[i].name);
-          }
-        }
-      }
-    };
-    var region={};
-    var goodsLocationSelects=[];
-    // 选择货位后，组装成相应对象
-    $scope.selectGoodslocation= function(tr,item){
-      region=tr;
-      console.log(region);
-      console.log(item.checked);
-      // 判断是否被选中，如果被选中，则放入goodsLocationSelects中
-
-      if (item.checked==true) {
-        goodsLocationSelects.push(item);
-      }
-      
-      region.goodsLocationSelects=goodsLocationSelects;
-
+    $scope.selectRegion = function ( scopeData){
+      console.log(scopeData);
     }
 
-    // 选择区域货位后把区域ID和名称带到编辑页面
-    $scope.submitRegionGoodslocation = function (scopeData){
+    // 选择区域后把区域ID和名称带到编辑页面
+    // $scope.submitRegion = function (scopeData){
+    //   if (scopeData) {
+    //     var scopeList=eval(scopeData);
+    //     for (var i = 0; i < scopeList.length; i++) {
+    //       if (scopeList[i].checked==true) {
+    //         console.log(scopeList[i].name);
+    //       }
+    //     }
+    //   }
+    // };
 
-    };
+    // // regions:区域数组
+    // // region：每个区域对象
+    // // goodsLocations：货位数组
+    //
+    // // 关系：
+    // // regions：[region{goodsLocations[item]}]
+    // //
+    // var regions=[];
+    // var region={};
+    // var goodsLocations=[];
+    //
+    // // 选择货位后，组装成相应对象
+    // $scope.selectGoodslocation= function(tr,item){
+    // region=tr;
+    // if (regions.length==0) {
+    //   regions.push(region);
+    // }else{
+    //   for (var i = 0; i < regions.length; i++) {
+    //     if (regions[i].id!=region.id) {
+    //       regions.push(region);
+    //     }
+    //     if (item.checked==true) {
+    //       goodsLocations.push(item);
+    //     }
+    //   }
+    // }
+    //   region.goodsLocations=goodsLocations;
+    //       console.log(regions);
+    // }
+    //
+    //
+    // // 选择区域货位后把区域ID和名称带到编辑页面
+    // $scope.submitRegionGoodslocation = function (scopeData){
+    //
+    // };
 
   }
 

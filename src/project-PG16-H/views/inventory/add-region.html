@@ -1,6 +1,6 @@
 <div class="modal-content right-side-new pr-bg-black4"
      ng-controller="inventoryOrderEditCtrl"
-     ajax-url="http://localhost:3000/src/project-PG16-H/rest/authen/region/queryForSelectOption.json"
+     ajax-url="rest/authen/region/queryForCheckOption?storeRoomId={{dialogData.storeRoomId}}"
      scope-data="scopeData"
      callback="initFlag=true;"
      alert-error>
@@ -39,7 +39,7 @@
         <tbody class="color-white text-n">
           <tr ng-repeat="tr in scopeData">
             <td class="select-td text-center mycheck" style="width:60px;">
-            <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="tr.checked" >
+            <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="tr.checked" ng-click="selectRegion(scopeData);">
             <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+1}}"></label>
             </td>
             <td style="padding:9px 0px;">
