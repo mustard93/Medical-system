@@ -1,0 +1,30 @@
+
+<div class="pr-page-dialog-wrap">
+  <form class="confirmOrder-reject-form"
+        ng-init="formData.modify=dialogData.modify;"
+        action="{{dialogData.url}}"
+        callback="$root.utils.goOrRefreshHref();"
+        auto-close-dialog
+        form-validator>
+    <div class="pr-page-dialog-title bb-line">
+      <span class="mgl-l">{{dialogData.title}}</span>
+    </div>
+    <div class="pr-page-dialog-content bb-line" style="padding-top:5px;">
+      <p class="mgt mgb"> {{dialogData.content}}:</p>
+      <p style="margin-left:75px;margin-top:20px;">
+
+        <select class="ipt pr-long-ipt color-3 "
+                data-placeholder=" "
+                style="width:150px;"
+                chosen
+                ng-model="formData.selectSendStatus"
+                select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_OP_PurchasePlanOrderStatus">
+        </select>
+      </p>
+    </div>
+    <div class="pr-page-dialog-footer text-center mg-m">
+      <button type="button"  class="pr-btn-save-glodbg btn-new-wid-hei"
+      ng-click="changeStatus(dialogData.id,formData.selectSendStatus);">{{dialogData.btnConfirm}}</button>
+    </div>
+  </form>
+</div>

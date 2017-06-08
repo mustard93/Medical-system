@@ -1,0 +1,199 @@
+<div class="allocate-order salesOrder-edit confirm-edit"
+     ng-controller="inventoryOrderEditCtrl"
+     ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="formData"
+     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
+     alert-error>
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/allocateOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        novalidate="true">
+    <!-- 头部信息 -->
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
+        <a href="#/inventory/query.html"><em class="color-custom-orange">盘点计划</em></a>
+        <em> > 新建盘点计划</em>
+      </p>
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb">
+          <h1 class="pr-font-20 color-black">新建盘点计划</h1>
+        </div>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper">
+
+      <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        </p>
+      </div>
+
+      <!-- 药械列表 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+          <!-- 列表 -->
+          <div class="">
+            <div class="flex-column color-9 pd-c-l pdt-m pdb-m  bb-line">
+              <div class="flex-item-6">
+                <span class="mgr">单据编号：
+                  <!-- ng-disabled="formData.id" -->
+                  <input type="text" name="orderCode" required class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
+                  <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
+                  <span class="mgl">名称：</span>
+                  <input type="text"  name="orderCode" required class="ipt  text-right" ng-model="formData.name" />
+                </span>
+              </div>
+              <div class="flex-item-6 text-right">
+                <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+              </div>
+            </div>
+            <div class="pd-c-l pdt-m pdb-m color-9 bb-dashed-line">
+              <span class="mgr">任务类型：
+                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:100px;"
+                        data-placeholder=" "
+                        chosen
+                        no-first-select-source=true
+                        ng-model="formData.departmentId"
+                        select-source="rest/authen/department/queryForSelectOption">
+                </select>
+                <em ng-if="!formData.departmentId" class="color-red">(必填)</em>
+              </span>
+              <span class="mgr">盘点类型：
+                <select ng-if="formData.departmentId" class="ipt pr-short-ipt color-3" style="width:90px;"
+                        data-placeholder=" "
+                        chosen
+                        no-first-select-source="true"
+                        ng-model="formData.applicant.id"
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
+                </select>
+                <em ng-if="!formData.applicant.id" class="color-red">(必填)</em>
+              </span>
+              <div class="inline-block">
+                <span>计划盘点时间：</span>
+                <div class="date-icon-outside" >
+                    <input type="text"
+                           datepicker
+                           class="ipt-date ipt color-3 mgr pr-indent-10"
+                           ng-readonly="true"
+                           placeholder="日期"
+                           ng-model="listParams.createAtBeg">
+                    <span class="date-icon"></span>
+                </div>
+                <span class="color-9">至</span>
+                <div class="date-icon-outside">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date ipt color-3 mgr pr-indent-10"
+                           ng-readonly="true"
+                           placeholder="日期"
+                           ng-model="listParams.createAtEnd"
+                           invalid-popover
+                           popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                           popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+                    <span class="date-icon"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pd-c-l pdt-m pdb-m color-9">
+              <span class="color-black">
+                盘点对象
+              </span>
+              <!-- 库房选择 -->
+              <div class="block pr-bg-white relative full-height mgr mgb mgl-sxxl" style="width:365px;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);">
+                <div class="inline-block logistics-center-out relative">
+                  <p class="mgb-s">
+                    库房
+                  </p>
+                  <select ng-if="initFlag" class="pr-select pdt"
+                  style="width:250px;"
+                  chosen
+                  required
+                  default-empty="无"
+                  ng-model="formData.storeRoomId"
+                  select-source="rest/authen/storeRoom/queryForSelectOption">
+                  </select>
+                </div>
+              </div>
+              <!-- 按区域盘点 -->
+              <div class="inline-block pr-bg-white relative full-height mgr mgt mgl-sxxl" style="width:95%;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);">
+                <div class="inline-block logistics-center-out relative">
+                  <a href="#"
+                    >
+                    添加区域
+                  </a>
+                  
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+        </div>
+      <!-- 其他信息 -->
+      <div class="relative">
+
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+          <h1 class="text-bold color-3">备注</h1>
+          <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该盘点计划存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/inventory/query.html')"
+           save-callback="submitForm('editForm','exit-allocate')">返回盘点计划
+        </a>
+
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory/query.html?id={{formData.relId}}" >返回盘点计划</a>
+
+        <a ng-if="formData.inputUserId==mainStatus.id"
+           href="javascript:;"
+           class="pr-color-red mgr"
+           handle-this-click
+           dialog-title="确认删除?"
+           dialog-content="您确认删除这条盘点计划吗?"
+           dialog-template="dialog-confirm.html"
+           request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"
+           callback="$root.goTo('#/inventory/query.html')">删除
+        </a>
+
+        <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-disabled="!changeFlag "
+                ng-click="submitForm('editForm','save')">保存
+        </button>
+
+        <button
+        type="button"
+        class="pr-btn-create-glodbg mgt"
+                type="button"
+                handle-this-click
+                dialog-title="确认提交?"
+                dialog-content="提交后，将无法修改。确认提交?"
+                dialog-template="pr-dialog-submit.html"
+                callback="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

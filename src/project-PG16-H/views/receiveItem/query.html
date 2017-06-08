@@ -49,8 +49,19 @@
       <div class="content-wrapper-main pr-fuzzy-boundary">
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white ">
           <div class="flex-item-8">
+            <div class="inline-block mgr-s">
+              <p class="mgb-s">来源单据类型：</p>
+              <select class="inline ipt-new-s pdt"
+                      chosen
+                      style="width:120px;"
+                      data-placeholder=" "
+                      default-empty="全部"
+                      ng-model="listParams.instockType"
+                      select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SPD_InstockType">
+              </select>
+            </div>
             <div class="inline-block mgr-s relative">
-              <p class="mgb-s">采购计划编号：</p>
+              <p class="mgb-s">来源单据编号：</p>
               <input type="text"
                      class="pr-ipt-160 hei-28 inline-block"
                      style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
@@ -99,7 +110,7 @@
                            datepicker
                            class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                            ng-readonly="true"
-                           placeholder="日期"
+
                            ng-model="listParams.dtOrderCreateAtBeg">
                     <span class="date-icon"></span>
                 </div>
@@ -108,7 +119,7 @@
                            datepicker
                            class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                            ng-readonly="true"
-                           placeholder="日期"
+
                            ng-model="listParams.dtOrderCreateAtBeg">
                     <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtBeg='';"></span>
                 </div>
@@ -118,7 +129,7 @@
                            datepicker
                            class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                            ng-readonly="true"
-                           placeholder="日期"
+
                            ng-model="listParams.dtOrderCreateAtEnd"
                            invalid-popover
                            popover-show="listParams.dtOrderCreateAtEnd<listParams.dtOrderCreateAtBeg"
@@ -130,7 +141,7 @@
                            datepicker
                            class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                            ng-readonly="true"
-                           placeholder="日期"
+
                            ng-model="listParams.dtOrderCreateAtEnd"/>
                     <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtEnd='';"></span>
                 </div>
@@ -181,6 +192,8 @@
                 <th class="w-140">采购计划编码</th>
                 <th class="w-80">商品编码</th>
                 <th class="w-220">商品名称</th>
+                <th>物流单元编号</th>
+                <th>冷藏单元编号</th>
                 <th>规格</th>
                 <th>单位</th>
                 <th>生产批号</th>
@@ -293,6 +306,8 @@
                 <td>{{tr.relOrderCode}}</td><!-- 采购计划编号 -->
                 <td>{{tr.code}}</td><!-- 商品编号 -->
                 <td class="text-left"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品名称 -->
+                <td>{{tr.code}}物流单元编号</td>  <!--物流单元编号-->
+                <td>{{tr.code}}冷藏单元编号</td>  <!--冷藏单元编号-->
                 <td>{{tr.specification}}</td><!-- 规格 -->
                 <td>{{tr.packingAttribute.name}}</td><!-- 单位 -->
                 <td>{{tr.productionBatch}}</td><!-- 生产批号 -->

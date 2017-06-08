@@ -1,0 +1,117 @@
+<div class="allocate-order salesOrder-edit confirm-edit"
+     ng-controller="inventoryOrderEditCtrl"
+     ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     scope-data="formData"
+     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
+     alert-error>
+  <form id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/allocateOrder/save.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        novalidate="true">
+    <!-- 头部信息 -->
+    <div class="header-info relative mgb-l">
+      <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
+        <a href="#/inventory/query.html"><em class="color-custom-orange">盘点计划</em></a>
+        <em> > 盘点计划详情</em>
+      </p>
+      <div class="pd-c-xxl pdt-l pdb-l">
+        <!-- 标题 -->
+        <div class="mgb">
+          <h1 class="pr-font-20 color-black">盘点计划详情</h1>
+        </div>
+      </div>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="content-wrapper">
+
+      <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        </p>
+      </div>
+
+
+      <!-- 药械列表 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+          <!-- 列表 -->
+          <div class="">
+            <div class="flex-column color-9 pd-c-l pdt-m pdb-m  bb-line">
+              <div class="flex-item-6">
+                <span class="mgr">单据编号：
+                  <!-- ng-disabled="formData.id" -->
+                  <span class="color-black">00032949343</span>
+                  <span class="mgl">名称：</span>
+                  <span class="color-black">任务0001</span>
+                </span>
+              </div>
+              <div class="flex-item-6 text-right">
+                <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+              </div>
+            </div>
+            <div class="pd-c-l pdt-m pdb-m color-9 bb-dashed-line">
+              <span class="mgr">任务类型：</span>
+              <span class="mgr color-black">日常盘点</span>
+              <span class="mgr">盘点类型：</span>
+              <span class="mgr color-black">按库盘点</span>
+              <span>计划盘点时间：</span>
+              <span class="color-black">2017-05-01  21:20</span>
+              <span class="color-9">至</span>
+              <span class="color-black">2017-05-01  10:00</span>
+            </div>
+
+            <div class="pd-c-l pdt-m pdb-m color-9">
+              <span class="color-black">
+                盘点对象
+              </span>
+            <div class="inline-block pr-bg-white relative full-height mgr mgb mgl-x-l" style="width:365px;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);">
+              <div class="inline-block pr-bg-white relative full-height mgr" style="width:464px;">
+                <div class="inline-block logistics-center-out relative">
+                  <p class="mgb-s">
+                    库房
+                  </p>
+                  <p class="text-m color-black autocut-default text-left" title="{{formData.sourceName}}" style="width:200px;">
+                    {{formData.storeRoomName || '暂无'}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+        </div>
+      <!-- 其他信息 -->
+      <div class="relative">
+        <!-- 备注 -->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb">
+          <h1 class="text-bold color-3 mgb">备注</h1>
+          <p>{{formData.note}}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
+           handle-this-click
+           dialog-title="确认返回?"
+           dialog-content="该盘点计划存在未保存数据，是否保存?"
+           dialog-template="pr-dialog-return.html"
+           nosave-callback="goTo('#/inventory/query.html')"
+           save-callback="submitForm('editForm','exit-allocate')">返回盘点计划
+        </a>
+
+        <a class="mgr-l mgt" ng-if="!changeFlag" ng-href="#/inventory/query.html?id={{formData.relId}}" >返回盘点计划</a>
+      </div>
+    </div>
+  </form>
+</div>
