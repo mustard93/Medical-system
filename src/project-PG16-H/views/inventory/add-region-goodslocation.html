@@ -4,19 +4,6 @@
      scope-data="scopeData"
      callback="initFlag=true;"
      alert-error>
-
-  <form class="add-customerAddress-form form-horizontal"
-        id="editForm"
-        name="editForm"
-        form-validator
-        parameter-body
-        action="rest/authen/shelvesUp/confirm.json"
-        alert-error
-        alert-ok
-        scope-error-msg="errorMsg"
-        scope-data="formData"
-        callback="$root.watchFormChange('scopeData',this);$root.utils.goTo('#/inwentory/query.html')"
-        novalidate="true">
     <div class="bb-line-gold pr-bg-black2 min-h-l">
       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择区域</h1>
     </div>
@@ -51,8 +38,8 @@
                   <div class="full-width">
                     <div class="pd-c-v-s inline-block" ng-repeat="item in tr.goodsLocationSelects" style="width:30%;">
                       <div class="inline-block select-td text-center mycheck" style="width:30px;">
-                      <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="item.checked" >
-                      <label style="border: 1px solid #84715A;background: #5C5246;top:10px;left:0px;" for="{{$index+1}}"></label>
+                      <input type="checkbox" class="selectOne cur-pot" id='{{item.id}}' ng-model="item.checked" ng-click="selectGoodslocation(tr,item);">
+                      <label style="border: 1px solid #84715A;background: #5C5246;top:10px;left:0px;" for="{{item.id}}"></label>
                       </div>
                       <span style="position:absolute;">{{item.name}}</span>
                     </div>
@@ -64,9 +51,7 @@
         </tbody>
       </table>
     </div>
-
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
-      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="submitRegionGoodslocation(scopeData);modal.closeAll()">确定</button>
+      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="submitRegionGoodslocation(scopeData);">确定</button>
     </div>
-  </form>
 </div>
