@@ -1,3 +1,4 @@
+
 /**
  * Created by hao on 15/11/5.
  */
@@ -3598,6 +3599,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         // $('#addDataItem_relId_chosen').trigger('click');
     };
 
+    // 选择区域后把区域ID和名称带到编辑页面
+    $scope.submitRegion = function (scopeData){
+      if (scopeData) {
+        var scopeList=eval(scopeData);
+        for (var i = 0; i < scopeList.length; i++) {
+          if (scopeList[i].handleFlag==true) {
+            console.log(scopeList[i].name);
+          }
+        }
+      }
+    }
   }
 
 

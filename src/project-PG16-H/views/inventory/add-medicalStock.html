@@ -1,0 +1,57 @@
+<div class="modal-content right-side-new pr-bg-black4"
+     ng-controller="inventoryOrderEditCtrl"
+     ajax-url="rest/authen/region/query.json"
+     scope-data="formData"
+     callback="initFlag=true;"
+     alert-error>
+  <form class="add-customerAddress-form form-horizontal"
+        id="editForm"
+        name="editForm"
+        form-validator
+        parameter-body
+        action="rest/authen/shelvesUp/confirm.json"
+        alert-error
+        alert-ok
+        scope-error-msg="errorMsg"
+        scope-data="formData"
+        callback="$root.watchFormChange('formData',this);$root.utils.goTo('#/inwentory/query.html')"
+        novalidate="true">
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择区域</h1>
+    </div>
+
+    <div class="">
+      <table class="full-width another-table ">
+        <thead>
+          <tr class="bb-line-gold">
+
+          </tr>
+        </thead>
+        <tbody class="color-white text-n">
+          <tr>
+            <td class="select-td text-center mycheck" style="width:60px;">
+            <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="tr.handleFlag" >
+            <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+1}}"></label>
+            </td>
+            <td style="padding:9px 0px;">
+              测试区域1
+            </td>
+          </tr>
+          <tr>
+            <td class="select-td text-center mycheck" style="width:60px;">
+            <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" >
+            <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+2}}"></label>
+            </td>
+            <td style="padding:9px 0px;">
+              测试区域2
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer-button-area" style="position:fixed;bottom:0px;">
+      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+    </div>
+  </form>
+</div>
