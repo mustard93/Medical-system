@@ -1,6 +1,6 @@
 <div class="allocate-order salesOrder-edit confirm-edit"
      ng-controller="inventoryOrderEditCtrl"
-     ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     ajax-url="rest/authen/inventoryApplicationOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
      alert-error>
@@ -8,7 +8,7 @@
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/allocateOrder/save.json"
+        action="rest/authen/inventoryApplicationOrder/save.json"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
@@ -101,16 +101,11 @@
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-        <a ng-if="changeFlag" href="javascript:;" class="mgr-l"
-           handle-this-click
-           dialog-title="确认返回?"
-           dialog-content="该盘点计划存在未保存数据，是否保存?"
-           dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/inventory/query.html')"
-           save-callback="submitForm('editForm','exit-allocate')">返回盘点计划
-        </a>
-
-        <a class="mgr-l mgt" ng-if="!changeFlag" ng-href="#/inventory/query.html?id={{formData.relId}}" >返回盘点计划</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory/query.html?id={{formData.relId}}" >返回盘点计划</a>
+        <span ng-if="formData.didateFilter.buttons.length>0"
+              custom-menu-list
+              custom-menu-arr="{{formData.didateFilter.buttons}}">
+        </span>
       </div>
     </div>
   </form>

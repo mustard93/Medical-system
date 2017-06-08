@@ -1,6 +1,6 @@
 <div class="modal-content right-side-new pr-bg-black4"
      ng-controller="inventoryOrderEditCtrl"
-     ajax-url="http://localhost:3000/src/project-PG16-H/rest/authen/region-goodslocation/queryForSelectOption.json"
+     ajax-url="rest/authen/goodsLocation/queryForCheckOption?storeRoomId={{dialogData.storeRoomId}}"
      scope-data="scopeData"
      callback="initFlag=true;"
      alert-error>
@@ -49,25 +49,14 @@
                 </div>
                 <div class="panel-body bt-dashed-line-gold" style="display:none; padding: 0;">
                   <div class="full-width">
-                    <div class="pd-c-v-s inline-block" ng-repeat="item in tr.goodsLocation" style="width:30%;">
+                    <div class="pd-c-v-s inline-block" ng-repeat="item in tr.goodsLocationSelects" style="width:30%;">
                       <div class="inline-block select-td text-center mycheck" style="width:30px;">
-                      <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="item.handleFlag" >
+                      <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="item.checked" >
                       <label style="border: 1px solid #84715A;background: #5C5246;top:10px;left:0px;" for="{{$index+1}}"></label>
                       </div>
                       <span style="position:absolute;">{{item.name}}</span>
                     </div>
                   </div>
-                  <!-- <table class="full-width another-table ">
-                      <tr ng-repeat="item in tr.goodsLocation">
-                        <td class="select-td text-center mycheck" style="width:60px;">
-                        <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="item.handleFlag" >
-                        <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+1}}"></label>
-                        </td>
-                        <td style="padding:9px 0px;">
-                          {{item.name}}
-                        </td>
-                      </tr>
-                  </table> -->
                 </div>
               </div>
             </td>
@@ -77,7 +66,7 @@
     </div>
 
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
-      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="submitRegionGoodslocation(scopeData);modal.closeAll()">确定</button>
     </div>
   </form>
 </div>
