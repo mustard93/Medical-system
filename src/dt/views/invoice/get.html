@@ -1,6 +1,6 @@
 <div class="create-new-order purchaseOrder-edit"
      ng-controller="invoiceEditCtrl"
-     ajax-url="rest/authen/invoice/getOfEdit.json?id={{mainStatus.pageParams.id}}&source=采购发票"
+     ajax-url="rest/authen/invoice/get.json?id={{mainStatus.pageParams.id}}&source=采购发票"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos)"
      alert-error>
@@ -213,11 +213,11 @@
                        {{tr.quantity}}
                      </td><!-- 数量 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
-                       {{tr.price}}
+                       {{tr.strike_price}}
 
                      </td><!-- 单价 -->
                      <td class="text-center" style="line-height:2.4">￥
-                       {{tr.amountMoney}}
+                       {{tr.totalPrice}}
                      </td>
                      <!-- 金额 -->
                      <td class="text-center" style="white-space:nowrap;line-height:2.4">

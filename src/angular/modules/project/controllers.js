@@ -6157,7 +6157,7 @@ define('project/controllers', ['project/init'], function() {
       var _total = 0;
       if (orderMedicalList) {
         angular.forEach(orderMedicalList, function (data, index) {
-          _total += parseInt(data.quantity * data.price, 10);
+          _total += parseInt(data.quantity * data.strike_price, 10);
         });
       }
       return _total;
