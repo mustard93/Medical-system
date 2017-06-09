@@ -940,12 +940,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
      var medical=flashAddData.data.data;
      var addDataItem = $.extend(true,{},medical);
 
+       // console.log("flashAddData",flashAddData.data.data.packingAttribute.bidPrice);
+       //  console.log("addDataItem",addDataItem.packingAttribute.bidPrice);
+
+
          addDataItem.quantity=flashAddData.quantity;
          addDataItem.discountPrice='0';
          addDataItem.discountRate='100';
          addDataItem.relId=medical.id;
 
-         addDataItem.strike_price=addDataItem.price;
+         // addDataItem.strike_price=addDataItem.price;
+
+
+       addDataItem.strike_price=addDataItem.packingAttribute.bidPrice || 0;
+
          addDataItem.id=null;
        if (!(addDataItem.relId && addDataItem.name)) {
            alertWarn('请选择药品。');
