@@ -128,7 +128,7 @@
                 <div class="inline-block logistics-center-out relative">
                   <div class=" color-orange relative cur-pot"
                         style="padding:15px 15px 10px 0px;"
-                        ng-click="getRegionIds(formData.regionSelects);"
+                        ng-click="getRegionIds(formData.regionSelects);reloadRegionIds(formData.storeRoomId,formData.regionIds);"
                        modal-right="500"
                        modal-scope="this"
                        modal-data='{}'
@@ -173,8 +173,10 @@
                     添加商品
                     <i class="add-icon-invoice" style="top:7px;left:50px;"></i>
                   </div>
-                  <div class="region-goodslocation-div">
-                    <em class="color-yellow1">测试商品1：</em><em class="cancle-region">+</em>
+                  <div class=" inline-block mgr" ng-repeat="medical in formData.orderMedicalNos">
+                    <div class="region-goodslocation-div" ng-if="reg.id">
+                      <em class="color-yellow1">{{medical.name}}</em><em class="cancle-region" ng-click="medical.name='';medical.id='';medical.checked=false;">+</em>
+                    </div>
                   </div>
                 </div>
               </div>

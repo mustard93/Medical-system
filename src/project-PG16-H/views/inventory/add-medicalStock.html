@@ -9,41 +9,43 @@
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/shelvesUp/confirm.json"
+        action="rest/authen/inventoryApplicationOrder/save.json"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="$root.watchFormChange('formData',this);$root.utils.goTo('#/inwentory/query.html')"
+        callback="$root.watchFormChange('formData',this);$root.utils.goTo('#/inventory/query.html')"
         novalidate="true">
     <div class="bb-line-gold pr-bg-black2 min-h-l">
-      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择区域</h1>
+      <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择商品</h1>
     </div>
 
     <div class="">
       <table class="full-width another-table ">
         <thead>
           <tr class="bb-line-gold">
-
+            <div class="order-list-search relative bb-line-gold">
+              <div class="pd-c-l medical-add"
+                   ng-if="initFlag"
+                   flash-add-medical
+                   ng-model="data1"
+                   placeholder="请输入需要添加商品名称"
+                   hide-quantity
+                   hide-import
+                   ajax-url="rest/authen/medicalStock/query"
+                   add-data-callback-fn="flashAddDataCallbackFn">
+              </div>
+            </div>
           </tr>
         </thead>
         <tbody class="color-white text-n">
-          <tr>
+          <tr ng-repeat="tr in formData.orderMedicalNos">
             <td class="select-td text-center mycheck" style="width:60px;">
             <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="tr.handleFlag" >
             <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+1}}"></label>
             </td>
             <td style="padding:9px 0px;">
-              测试区域1
-            </td>
-          </tr>
-          <tr>
-            <td class="select-td text-center mycheck" style="width:60px;">
-            <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" >
-            <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+2}}"></label>
-            </td>
-            <td style="padding:9px 0px;">
-              测试区域2
+              {{tr.name}}
             </td>
           </tr>
         </tbody>
@@ -51,7 +53,7 @@
     </div>
 
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
-      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()">确定</button>
+      <button type="button" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="submitMedicalNos(formData);modal.closeAll()">确定</button>
     </div>
   </form>
 </div>
