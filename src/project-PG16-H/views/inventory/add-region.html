@@ -1,9 +1,9 @@
 <div class="modal-content right-side-new pr-bg-black4"
      ng-controller="inventoryOrderEditCtrl"
-     ajax-url="rest/authen/region/queryForCheckOption?storeRoomId={{dialogData.storeRoomId}}"
+     ajax-url="rest/authen/region/queryForCheckOption?storeRoomId={{formData.storeRoomId}}&regionIds={{formData.regionIds}}"
      scope-data="scopeData"
      callback="initFlag=true;"
-     alert-error>
+     alert-error>{{formData.regionIds}}
 
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
@@ -39,7 +39,7 @@
         <tbody class="color-white text-n">
           <tr ng-repeat="tr in scopeData">
             <td class="select-td text-center mycheck" style="width:60px;">
-            <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="tr.checked" ng-click="selectRegion(scopeData);">
+            <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="tr.checked">
             <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+1}}"></label>
             </td>
             <td style="padding:9px 0px;">

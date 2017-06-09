@@ -3539,22 +3539,47 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $('input', '#addDataItem_relId_chosen').trigger('focus');
         // $('#addDataItem_relId_chosen').trigger('click');
     };
+    // 把区域id组成ids，传到后台，侧边框再次打开时默认选中已选的区域
+
+    var arr=[];
+    $scope.getRegionIds=function(regionSelects){
+
+    for (var i = 0; i < regionSelects.length; i++) {
+      arr.push(regionSelects[i].id);
+      console.log(typeof regionSelects[i].id);
+      for (var i = 0; i < arr.length; i++) {
+        arr[i] = replaceQuotes(arr[i]);
+        }
+        console.log(arr);
+      $scope.formData.regionIds=arr;
+    }
+    }
+
+    // 去引号方法
+    function replaceQuotes(str){
+      var reg = new RegExp('"',"g");
+      return str = str.replace(reg,"");
+      console.log(str);
+    }
 
     $scope.selectRegion = function ( scopeData){
       console.log(scopeData);
     }
 
     // 选择区域后把区域ID和名称带到编辑页面
-    // $scope.submitRegion = function (scopeData){
-    //   if (scopeData) {
-    //     var scopeList=eval(scopeData);
-    //     for (var i = 0; i < scopeList.length; i++) {
-    //       if (scopeList[i].checked==true) {
-    //         console.log(scopeList[i].name);
-    //       }
-    //     }
-    //   }
-    // };
+    $scope.submitRegion = function (scopeData){
+      var regionSelects=[];
+      if (scopeData) {
+        console.log(scopeData);
+        for (var i = 0; i < scopeData.length; i++) {
+          if (scopeData[i].checked==true) {
+            regionSelects.push(scopeData[i]);
+            $scope.formData.regionSelects=regionSelects;
+            console.log($scope.regionSelects);
+          }
+        }
+      }
+    };
 
     // // regions:区域数组
     // // region：每个区域对象
