@@ -1057,7 +1057,7 @@ define('project/controllers', ['project/init'], function() {
     };
 
     // 保存type:save-草稿,submit-提交订单。
-    $scope.submitFormAfter = function() {
+    $scope.submitFormAfter = function(flag) {
       if ($scope.submitForm_type == 'exit') {
         $scope.goTo('#/confirmOrder/query.html');
        return;
@@ -1109,6 +1109,13 @@ define('project/controllers', ['project/init'], function() {
 
 
     if($scope.submitForm_type == 'create'){
+
+        if(flag){
+            $scope.goTo('#/confirmOrder/edit-from-salesOrder.html?id='+$scope.formData.id);
+
+            return;
+        }
+
         $scope.goTo('#/confirmOrder/edit.html?id='+$scope.formData.id);
     }
 
