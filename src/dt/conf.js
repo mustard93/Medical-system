@@ -7,7 +7,12 @@ var conf={
   // serverPath:"http://localhost:8080/dt/",    //系统api调用接口地址
   // serverPath:"http://118.113.146.159:33333/dt/",
   // serverPath:"",    //系统api调用接口地址
-  ver:"1.0.0"
+
+
+    // serverPath:"http://127.0.0.1:8080/dt/",
+
+
+    ver:"1.0.0"
 };
 
 var TestAuthor={
