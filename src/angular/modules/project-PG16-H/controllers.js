@@ -3542,20 +3542,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 按区域盘点
     // 把区域id组成ids，传到后台，侧边框再次打开时默认选中已选的区域
-    // $scope.getRegionIds=function(regionSelects){
-    // $scope.formData.regionIds=[];
-    // $scope.formData.goodsLocationIds=[];
-    //   for (var i = 0; i < regionSelects.length; i++) {
-    //     // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
-    //     if (regionSelects[i].goodsLocationSelects.length) {
-    //
-    //       for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
-    //         $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
-    //       }
-    //     }
-    //     $scope.formData.regionIds.push(regionSelects[i].id);
-    //   }
-    // };
 
     function getRegionIds(regionSelects){
     $scope.formData.regionIds=[];
