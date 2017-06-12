@@ -1,21 +1,17 @@
 <div class="modal-content right-side-new pr-bg-black4"
      ng-controller="inventoryOrderEditCtrl"
-     ajax-url="rest/authen/region/queryForCheckOption?storeRoomId={{formData.storeRoomId}}&regionIds={{formData.regionIds}}"
-     scope-data="scopeData"
-     callback="initFlag=true;"
-     alert-error>{{formData.regionIds}}
-
+     alert-error>
   <form class="add-customerAddress-form form-horizontal"
         id="editForm"
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/shelvesUp/confirm.json"
+        action="rest/authen/inventoryApplicationOrder/save.json"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
         scope-data="formData"
-        callback="$root.watchFormChange('scopeData',this);$root.utils.goTo('#/inwentory/query.html')"
+        callback="$root.watchFormChange('scopeData',this);$root.utils.goTo('#/inventory/query.html')"
         novalidate="true">
     <div class="bb-line-gold pr-bg-black2 min-h-l">
       <h1 class="pr-indent-20 pdb-m" style="line-height:50px;max-height:35px;">选择区域</h1>
@@ -37,7 +33,7 @@
           </tr>
         </thead>
         <tbody class="color-white text-n">
-          <tr ng-repeat="tr in scopeData">
+          <tr ng-repeat="tr in formData.regionArr">
             <td class="select-td text-center mycheck" style="width:60px;">
             <input type="checkbox" class="selectOne cur-pot" id='{{$index+1}}' ng-model="tr.checked">
             <label style="border: 1px solid #84715A;background: #5C5246;" for="{{$index+1}}"></label>
@@ -52,7 +48,7 @@
 
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
       <!-- submit -->
-      <button type="button" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="submitRegion(scopeData);modal.closeAll()">确定</button>
+      <button type="button" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="submitRegion(formData.regionArr);modal.closeAll()">确定</button>
       <!-- submit -->
     </div>
   </form>
