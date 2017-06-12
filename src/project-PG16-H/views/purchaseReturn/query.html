@@ -4,6 +4,7 @@
                               crumbs-nav='[{"name":"我要采购","link":"","style":""},{"name":"采购退货申请","link":"","style":"color-custom-orange"}]'
                               component-title="采购退货申请"
                               is-show-create-btn="新建采购退货申请"
+                              create-btn-author="采购退货新增"
                               create-new-url="#/purchaseReturn/edit.html"
                               get-status-num-url="rest/authen/purchaseReturn/countByOrderStatus?type=Basic_PurchaseReturnType"
                               status-group-data='[["未提交","待审核","退货中","已完成"],["未通过"],["已作废"]]'
@@ -27,6 +28,7 @@
           <p class="empty-data text-center"><span class="empty-data-icon"></span></p>
           <p class="text-center">什么也没有</p>
         </div>
+
         <ul ng-if="tbodyList.length" class="li-min-h">
           <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList track by $index">
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" >
@@ -36,18 +38,28 @@
                     <em class="color-black" ng-class="{'color-red':(tr.orderStatus=='未通过'||tr.orderStatus=='已作废')}">{{tr.orderStatus}}</em>
                   </span>
                   <span class="flex-item-7 text-right">
-                    <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                       class="btn-link pd-m rect-s "
-                       title="编辑"
-                       ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
-                       <span class="edit-link-icon">&nbsp;</span>
-                    </a>
-                    <a ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'&&tr.orderStatus!='待审核'"
-                       title="查看详情"
-                       class="btn-link pd-m rect-s "
-                       ng-href="#/purchaseReturn/get.html?id={{tr.id}}" >
-                      <span class="watch-detail-icon">&nbsp;</span>
-                    </a>
+
+                      <span ng-if="$root.hasAuthor('采购退货修改')">
+
+                          <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                           class="btn-link pd-m rect-s "
+                           title="编辑"
+                           ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
+                            <span class="edit-link-icon">&nbsp;</span>
+                           </a>
+                      </span>
+
+
+
+                        <a ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'&&tr.orderStatus!='待审核'"
+                           title="查看详情"
+                           class="btn-link pd-m rect-s "
+                           ng-href="#/purchaseReturn/get.html?id={{tr.id}}" >
+                          <span class="watch-detail-icon">&nbsp;</span>
+                        </a>
+
+
+
                     <a ng-if="tr.orderStatus=='待审核'"
                        ng-href="#/purchaseReturn/get.html?id={{tr.id}}"
                        title="立即审核"
@@ -55,25 +67,29 @@
                        >
                       <span class="examine-approve">&nbsp;</span>
                      </a>
-                    <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
-                       href="javascript:;"
-                       class="mr--4 btn-link pd-m rect-s "
-                       title="删除"
-                       handle-this-click
-                       dialog-title="确认删除?"
-                       dialog-content="删除后将无法恢复,确认删除?"
-                       dialog-template="pr-dialog-submit.html"
-                       callback="$root.goTo('#/purchaseReturn/query.html')"
-                       params='{"id":tr.id}'
-                       request-url="rest/authen/purchaseReturn/delete">
-                       <span class="delete-link-icon">&nbsp;</span>
-                     </a>
+
+                    <span ng-if="$root.hasAuthor('采购退货删除')">
+                        <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                           href="javascript:;"
+                           class="mr--4 btn-link pd-m rect-s "
+                           title="删除"
+                           handle-this-click
+                           dialog-title="确认删除?"
+                           dialog-content="删除后将无法恢复,确认删除?"
+                           dialog-template="pr-dialog-submit.html"
+                           callback="$root.goTo('#/purchaseReturn/query.html')"
+                           params='{"id":tr.id}'
+                           request-url="rest/authen/purchaseReturn/delete">
+                           <span class="delete-link-icon">&nbsp;</span>
+                         </a>
+                    </span>
 
                      <!--工作流控制菜单 -->
                      <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
                         workflow-button-query-card
                         custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
                      </a>
+
                   </span>
                 </div>
                 <div class="card-new">

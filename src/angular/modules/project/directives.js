@@ -3289,7 +3289,8 @@ function pageMainHeaderComponent () {
       getWarehouseListUrl: '@',
       getDepartmentListUrl: '@',
       getUserListUrl: '@',
-      getApplyUserListUrl: '@'
+      getApplyUserListUrl: '@',
+      createBtnAuthor:'@'
     },
     replace: true,
     transclude: true,
@@ -3333,8 +3334,13 @@ function pageMainHeaderComponent () {
       if(attrs.showDateName){
         scope._showDateName=attrs.showDateName;
       }
+
       //是否显示新建按钮
-      scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
+      //   console.log("attrs.createBtnAuthor",attrs.createBtnAuthor);
+        scope.createBtnAuthor= angular.isDefined(attrs.createBtnAuthor)  ?  attrs.createBtnAuthor :  '';
+        // console.log("scope.createBtnAuthor",scope.createBtnAuthor);
+        scope.isShowCreateBtn = angular.isDefined(attrs.isShowCreateBtn) ? attrs.isShowCreateBtn : false;
+
       // 是否显示部门过滤
       scope.isShowDepartmentFilter = angular.isDefined(attrs.isShowDepartmentFilter) ? attrs.isShowDepartmentFilter : false;
       // 是否显示制单人过滤
