@@ -137,7 +137,7 @@
                 <div class="inline-block logistics-center-out relative">
                   <div class=" color-orange relative cur-pot"
                         style="padding:15px 15px 10px 0px;"
-                        ng-click="getRegionIds(formData.regionSelects);reloadRegionIds(formData.storeRoomId,formData.regionIds);"
+                        ng-click="reloadRegionIds(formData.storeRoomId,formData.regionIds);"
                        modal-right="500"
                        modal-scope="this"
                        modal-data='{}'
@@ -147,7 +147,7 @@
                   </div>
                   <div class=" inline-block mgr" ng-repeat="reg in formData.regionSelects">
                     <div class="mgt region-goodslocation-div" ng-if="reg.id">
-                      <em class="color-yellow1">{{reg.name}}</em><em class="cancle-region" ng-click="formData.regionSelects.splice($index,1);">+</em>
+                      <em class="color-yellow1">{{reg.name}}</em><em class="cancle-region" ng-click="formData.regionSelects.splice($index,1);deleteRegionIds(reg.id,formData.regionIds);">+</em>
                     </div>
                   </div>
 
@@ -156,7 +156,8 @@
               <!-- 按区域/货位盘点 -->
               <div ng-if="formData.inventoryType=='按货位盘点'" class="inline-block pr-bg-white relative full-height mgr mgt mgl-sxxl" style="width:95%;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);">
                 <div class="inline-block logistics-center-out relative">
-                  <div class="inline-block color-orange relative cur-pot"
+                  <!-- selectGoodslocation(reg,good); 刚展开侧边框之前要把选中的货位的相应区域也标记为选中-->
+                  <div class="color-orange relative cur-pot"
                        ng-click="reloadgoodslocationIds(formData.storeRoomId,formData.goodsLocationIds);"
                        style="padding:15px 15px 10px 0px;"
                        modal-right="500"
@@ -166,13 +167,14 @@
                     添加区域/货位
                     <i class="add-icon-invoice" style="top:7px;left:80px;"></i>
                   </div>
-                  <div ng-repeat="reg in formData.regionSelects" class="mgt region-goodslocation-div">
+                  <div ng-repeat="reg in formData.regionSelects" class="mgt mgr inline-block region-goodslocation-div">
                     <span class="color-yellow1">{{reg.name}}：
                         <span ng-repeat="good in reg.goodsLocationSelects">
-                          <em class="color-black">{{good.name}}</em>
+                          <em class="mgr color-black">{{good.name}}</em>
                         </span>
+                        <em class="cancle-region" ng-click="formData.regionSelects.splice($index,1);deleteGoodslocationIds(reg.goodsLocationSelects,formData.goodsLocationIds);">+</em>
                     </span>
-                    <em class="cancle-region" ng-click="formData.regionSelects.splice($index,1);">+</em>
+
                   </div>
                 </div>
               </div>
@@ -183,7 +185,7 @@
                         style="padding:15px 15px 10px 0px;"
                        modal-right="500"
                        modal-scope="this"
-                       modal-data='{"storeRoomId":"{{formData.storeRoomId}}"}'
+                       modal-data='{}'
                        modal-url="views/inventory/add-medicalStock.html">
                     添加商品
                     <i class="add-icon-invoice" style="top:7px;left:50px;"></i>

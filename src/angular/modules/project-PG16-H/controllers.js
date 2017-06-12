@@ -3542,9 +3542,32 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 按区域盘点
     // 把区域id组成ids，传到后台，侧边框再次打开时默认选中已选的区域
-    $scope.getRegionIds=function(regionSelects){
+    // $scope.getRegionIds=function(regionSelects){
+    // $scope.formData.regionIds=[];
+    // $scope.formData.goodsLocationIds=[];
+    //   for (var i = 0; i < regionSelects.length; i++) {
+    //     // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
+    //     if (regionSelects[i].goodsLocationSelects.length) {
+    //
+    //       for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
+    //         $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
+    //       }
+    //     }
+    //     $scope.formData.regionIds.push(regionSelects[i].id);
+    //   }
+    // };
+
+    function getRegionIds(regionSelects){
     $scope.formData.regionIds=[];
+    $scope.formData.goodsLocationIds=[];
       for (var i = 0; i < regionSelects.length; i++) {
+        // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
+        if (regionSelects[i].goodsLocationSelects.length) {
+
+          for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
+            $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
+          }
+        }
         $scope.formData.regionIds.push(regionSelects[i].id);
       }
     };
@@ -3560,22 +3583,36 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData("rest/authen/region/queryForCheckOption", _data, 'POST','parameterBody')
           .then(function (results) {
           $scope.formData.regionArr=results[1].data;
-          console.log(results[1]);
           })
           .catch(function (error) {
             alertError(error || '出错');
           });
     }
 
-    // 筛选过滤条件
-    // $scope.handleSearchFilter = function (storeRoomId,ids,key,_url) {
-    //
-    //   _url = 'rest/authen/medicalStock/queryStockBatch?q=' + key+'&&relMedicalStockId='+$scope.dialogData.id;
-    //   requestData(_url)
-    //   .then(function (results) {
-    //     $scope.codesList = results[1].data;
-    //   });
-    // };
+    // 删除区域id
+    $scope.deleteRegionIds = function (id,ids){
+      if (ids.length) {
+        for (var i = 0; i < ids.length; i++) {
+          if (id==ids[i]) {
+            ids.pop(ids[i]);
+          }
+        }
+        $scope.formData.regionIds=ids;
+      }
+    }
+
+    // 删除货位id
+    $scope.deleteGoodslocationIds = function (goodsLocationSelects,_ids){
+
+      for (var i = 0; i < goodsLocationSelects.length; i++) {
+        for (var j = 0; j < _ids.length; j++) {
+          if (goodsLocationSelects[i].id==_ids[j].id) {
+            _ids.pop(_ids[j]);
+          }
+        }
+        $scope.formData.goodsLocationIds=_ids;
+      }
+    }
 
     // query页面点击发送盘点任务消息时请求接口获取信息内容
 
@@ -3611,18 +3648,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 选择区域后把区域ID和名称带到编辑页面
     $scope.submitRegion = function (regionArr){
       var regionSelects=[];
-      var goodsLocationSelects=[];
       if (regionArr) {
-        console.log(regionArr);
+
         for (var i = 0; i < regionArr.length; i++) {
           if (regionArr[i].checked==true) {
             // 如果有货位，则对选中的货位进行组织
             if (regionArr[i].goodsLocationSelects.length) {
+              // 一定要放在这里来声明。不然会出现重复添加的bug。
+              var goodsLocationSelects=[];
 
               for (var j = 0; j < regionArr[i].goodsLocationSelects.length; j++) {
                 // 判断是否是选中的货位
                 if (regionArr[i].goodsLocationSelects[j].checked==true) {
                   goodsLocationSelects.push(regionArr[i].goodsLocationSelects[j]);
+
                 }
               }
               regionArr[i].goodsLocationSelects=goodsLocationSelects;
@@ -3632,6 +3671,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           }
         }
       }
+      // 调用组织ids的方法，把对应的id组织起来，用于传入后台
+      getRegionIds(regionSelects);
     };
 
 
@@ -3643,6 +3684,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     }
 
+    // 区域/货位侧边框请求数据
     $scope.reloadgoodslocationIds = function (storeRoomId,goodsLocationIds){
       if (!goodsLocationIds) {
         goodsLocationIds=[];
@@ -3653,17 +3695,25 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
         requestData("rest/authen/goodsLocation/queryForCheckOption", _data, 'POST','parameterBody')
           .then(function (results) {
-          $scope.formData.regionList=results[1].data;
+          // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
+
+            for (var i = 0; i < results[1].data.length; i++) {
+              if (results[1].data[i].goodsLocationSelects.length) {
+                for (var j = 0; j < results[1].data[i].goodsLocationSelects.length; j++) {
+                  if (results[1].data[i].goodsLocationSelects[j].checked) {
+                    results[1].data[i].checked=true;
+                  }
+                }
+              }
+            }
+          $scope.formData.goodsLocationArr=results[1].data;
+
           })
           .catch(function (error) {
             alertError(error || '出错');
           });
     }
-    //
-    // // 选择区域货位后把区域ID和名称带到编辑页面
-    // $scope.submitRegionGoodslocation = function (scopeData){
-    //
-    // };
+
 
   }
 
