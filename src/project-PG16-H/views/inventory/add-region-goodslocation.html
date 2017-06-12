@@ -1,7 +1,5 @@
 <div class="modal-content right-side-new pr-bg-black4"
      ng-controller="inventoryOrderEditCtrl"
-     ajax-url="rest/authen/goodsLocation/queryForCheckOption?storeRoomId={{dialogData.storeRoomId}}"
-     scope-data="scopeData"
      callback="initFlag=true;"
      alert-error>
     <div class="bb-line-gold pr-bg-black2 min-h-l">
@@ -10,8 +8,7 @@
 
     <div class="">
       <table class="full-width another-table ">
-        <thead>
-          <tr class="bb-line-gold">
+          <!-- <tr class="bb-line-gold">
             <div class="pd-c-v-s order-list-search relative bb-line-gold">
               <input type="text"
                      style="width:100%;"
@@ -21,10 +18,9 @@
                      ng-change="handleSearchFilter(listParams,dialogData.medicalId)">
               <i class="white" style="top:15px;right:25px;"></i>
             </div>
-          </tr>
-        </thead>
+          </tr> -->
         <tbody class="color-white text-n">
-          <tr ng-repeat="tr in scopeData">
+          <tr ng-repeat="tr in formData.goodsLocationArr">
             <td>
               <div ng-if="!formData.customerId" class="panel pr-fuzzy-boundary pr-panel-height" style="background-color:transparent;margin-bottom:0px;">
                 <div class="pd-c-v-s">
@@ -35,13 +31,13 @@
                   </header>
                 </div>
                 <div class="panel-body bt-dashed-line-gold" style="display:none; padding: 0;">
-                  <div class="full-width">
-                    <div class="pd-c-v-s inline-block" ng-repeat="item in tr.goodsLocationSelects" style="width:30%;">
-                      <div class="inline-block select-td text-center mycheck" style="width:30px;">
+                  <div class="full-width " >
+                    <div class="pd-c-v-s inline-block fl-l" ng-repeat="item in tr.goodsLocationSelects" >
+                      <div class="inline-block fl-l select-td text-center mycheck">
                       <input type="checkbox" class="selectOne cur-pot" id='{{item.id}}' ng-model="item.checked" ng-click="selectGoodslocation(tr,item);">
                       <label style="border: 1px solid #84715A;background: #5C5246;top:10px;left:0px;" for="{{item.id}}"></label>
                       </div>
-                      <span style="position:absolute;">{{item.name}}</span>
+                      <span style="float:left;"  title="{{item.name}}">{{item.name}}</span>
                     </div>
                   </div>
                 </div>
@@ -52,6 +48,6 @@
       </table>
     </div>
     <div class="footer-button-area" style="position:fixed;bottom:0px;">
-      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="submitRegionGoodslocation(scopeData);">确定</button>
+      <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="submitRegion(formData.goodsLocationArr);modal.close();">确定</button>
     </div>
 </div>
