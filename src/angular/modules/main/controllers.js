@@ -153,6 +153,9 @@ define('main/controllers', ['main/init'], function () {
             if(!$rootScope.curUser||!$rootScope.curUser.additional||!$rootScope.curUser.additional.Authoritys)return false;
             var arr=$rootScope.curUser.additional.Authoritys;
 
+            // console.log('arr',arr);//
+            // console.log("全局权限控制器:",author,$.inArray(author, arr));
+
             if ($.inArray(author, arr) == -1) {
                 return false;
             } else {

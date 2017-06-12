@@ -3,6 +3,7 @@
                             component-title="领用申请单"
                             get-status-num-url="rest/authen/collarApplicationOrder/countByOrderStatus.json"
                             is-show-create-btn="新建领用申请单"
+                            create-btn-author="领用申请新增"
                             create-new-url="#/collarApplicationOrder/edit.html"
                             status-group-data='[["未提交","待审核","待领取","已完成"],["未通过","已作废"]]'
                             is-show-key-filter=true
@@ -44,11 +45,18 @@
                         {{tr.orderStatus}}
                     </em>
                   </span>
+
                   <span class="flex-item-6 text-right">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
-                      <a href="#/collarApplicationOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
-                      <span class="edit-link-icon">&nbsp;</span></a>
-                      <a ng-if="tr.orderStatus=='未提交' &&tr.orderStatus!='未通过' "
+
+                      <span ng-if="$root.hasAuthor('领用申请修改')">
+                          <a href="#/collarApplicationOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                            <span class="edit-link-icon">&nbsp;</span>
+                          </a>
+                      </span>
+
+                      <span ng-if="$root.hasAuthor('领用申请删除')">
+                        <a ng-if="tr.orderStatus=='未提交' &&tr.orderStatus!='未通过' "
                          href="javascript:;"
                          class="btn-link pd-m rect-s"
                          title="删除"
@@ -60,6 +68,8 @@
                          emitted="reloadList">
                       <span class="delete-link-icon">&nbsp;</span>
                       </a>
+                      </span>
+
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
 
