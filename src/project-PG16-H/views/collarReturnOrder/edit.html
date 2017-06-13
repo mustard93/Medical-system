@@ -29,35 +29,23 @@
            <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
          </p>
        </div>
-       <!-- 药械列表 -->
-       <div class="inline-block pr-bg-white relative full-height mgr mgb" style="width:464px;">
-         <div class="inline-block logistics-center-out relative">
-           <p class="mgb-s">
-             库房
-           </p>
-           <select ng-if="initFlag" class="pr-select pdt"
-           style="width:250px;"
-           chosen
-           required
-           default-empty="无"
-           ng-model="formData.storeRoomId"
-           select-source="rest/authen/storeRoom/queryForSelectOption"
-           ng-change="changeStoreRoom(formData.orderMedicalNos,formData.storeRoomId)">
-           </select>
-           <em ng-if="!formData.storeRoomId" class="color-red">(必选)</em>
-         </div>
+
+       <div class="pos-rel-tl order-create-btn mgb-m">
+         <a ng-if="initFlag"
+            modal-right="1000"
+            modal-open-auto="{{!formData.orderMedicalNos.length}}"
+            modal-scope="this"
+            modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
+            modal-url="views/collarReturnOrder/choice-batchs-dialog.html">
+           <i></i>
+           <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
+           <span ng-if="formData.orderMedicalNos.length" >修改退货条目</span>
+         </a>
        </div>
 
        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
-         <!-- 信息 -->
-         <div
-              flash-add-medical
-              ng-model="data1"
-              placeholder="商品编号、商品名、商品名头字母、通用名、通用名头字母、厂家名、厂家名头字母"
-              class="pd-c-l pdt-m"
-              ajax-url="rest/authen/medicalStock/query"
-              add-data-callback-fn="flashAddDataCallbackFn(data1)">
-         </div>
+
+
          <!-- 列表 -->
          <div class="bt-line">
            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
@@ -69,7 +57,9 @@
                       ng-model="formData.orderCode" />
                 <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
                </span>
+
                <span class="mgr">审核人：<em class="color-3">{{formData.approver.approverUser.n || '暂无'}}</em></span>
+
                <span class="mgr">制单人：
                  <span class="purchaseorder-buyer-info-outside">
                    <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
@@ -89,12 +79,18 @@
                    </span>
                  </span>
                </span>
+
+
              </div>
              <div class="flex-item-6 text-right">
                <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
                <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
              </div>
+
+
            </div>
+
+
            <div class="pd-c-l pdt-m pdb-m color-9">
              <span class="mgr" >申请部门：
                <select class="ipt pr-short-ipt color-3" style="width:100px;"
@@ -106,15 +102,15 @@
                        select-source="rest/authen/department/queryForSelectOption">
                </select>
                <!-- {{formData.departmentId}} -->
-             <span class="mgr">申请人:</span>
-             <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
-                     ng-disabled="formData.id"
-                     data-placeholder=" "
-                     no-first-select-source="true"
-                     chosen
-                     ng-model="formData.applicant.id"
-                     select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
-             </select>
+               <span class="mgr">申请人:</span>
+               <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
+                       ng-disabled="formData.id"
+                       data-placeholder=" "
+                       no-first-select-source="true"
+                       chosen
+                       ng-model="formData.applicant.id"
+                       select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{formData.departmentId}}">
+               </select>
 
                 <!-- <span ng-if="!formData.storeRoomId" class="color-red">（必填）</span> -->
                </span>
@@ -130,35 +126,21 @@
                      <span class="date-icon"></span>
              </div>
 
-             <!-- <span ng-if="!formData.expectDate" class="color-red">（必填）</span> -->
-
-             <span class="mgr">期望领用日期:
-               <div class="date-icon-outside">
-                 <input type="text"
-                        style="top:0px;"
-                        datepicker
-                        class="ipt-date ipt color-3"
-                        ng-readonly="true"
-                        placeholder=""
-                        ng-model="formData.expectDate">
-                       <span class="date-icon"></span>
-               </div>
-              <!-- <span ng-if="!formData.genTai" class="color-red">（必选）</span> -->
-             </span>
            </div>
            <div class="outside-table-d">
              <table class="table pr-table pr-new-table" >
                <thead>
                 <tr>
+
                   <th class="text-center">序号</th>
+                  <th class="text-center">领用单编号</th>
                   <th class="text-center">商品编码</th>
                   <th class="text-left">商品名称</th>
-                  <th class="text-center">申请数量</th>
-                  <th class="text-center">可用数量</th>
+                  <th class="text-center">可退数量</th>
+                  <th class="text-center">生产批号/数量</th>
+                  <th class="text-center">商品规格</th>
                   <th class="text-center">商品规格</th>
                   <th class="text-center">基本单位</th>
-                  <th class="text-center">产地</th>
-                  <th class="text-center">生产厂商</th>
 
                </tr>
                </thead>
@@ -166,6 +148,7 @@
                  <tr ng-repeat="tr in formData.orderMedicalNos"
                      table-item-handlebtn-component
                      class="relative">
+
                    <td class="text-center" style="line-height:2.4">{{$index+1}}
                      <div class="table-item-handle-btn">
                        <div class="table-item-confirm-del-area bg-white">
@@ -177,6 +160,8 @@
                        </div>
                      </div>
                    </td><!-- 序号 -->
+
+                   <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 领用单编号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
                      <div class="autocut" title="{{tr.name}}">
@@ -184,55 +169,54 @@
                       </div>
                    </td><!-- 商品全名 -->
 
-                   <td class="text-center" style="white-space: nowrap;">
-                     <div class="order-goods-num" style="white-space:nowrap;">
-                       <button
-                       type="button"
-                       class="inline-block left"
-                       ng-class="{'disabled':(tr.applicationCount<=1)}"
-                       ng-disabled="tr.applicationCount<=1"
-                       ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)-1;changeQuantity(tr.salesQuantity,tr.applicationCount);" ng-disabled="tr.applicationCount<=1">-</button>
-                       <span class="inline-block">
-                         <input type="text"
-                                class="inline ipt pr-ipt-60 text-center item-applicationCount"
-                                style="width:60px;"
-                                name="applicationCount{{$index}}"
-                                ng-model="tr.applicationCount"
-                                onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                ng-change="calcTotalPrice(formData.orderMedicalNos);changeQuantity(tr.salesQuantity,tr.applicationCount);"
-                                ng-class="{'pr-bg-pink': medicalStockMap[tr.relId].applicationCount<tr.applicationCount}"
-                                required
-                                ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
-                                invalid-popover="{{!editForm['applicationCount'+$index].$valid || tr.applicationCount>tr.salesQuantity}}"
-                                popover-show
-                                is-focus="true"
-                                popover-options='{"content":"不能大于可用数量或数量不正确", "placement":"bottom", "trigger":"manual"}'>
-                                <!-- popover-show="!editForm['applicationCount'+$index].$valid || tr.applicationCount>tr.availableCount"
-                                popover-options='{"content":"数量不正确或数量过大", "placement":"right", "trigger":"manual"}' -->
-                       </span>
-                       <button
-                        type="button"
-                        class="inline-block right"
-                        ng-class="{'disabled':(tr.applicationCount>=tr.salesQuantity)}"
-                        ng-disabled="tr.applicationCount>=tr.salesQuantity"
-                        ng-click="tr.applicationCount=$root.utils.transformToNumber(tr.applicationCount)+1;changeQuantity(tr.salesQuantity,tr.applicationCount);">+</button>
+                   <td class="text-center" style="white-space: nowrap;">{{}}可退数量</td><!-- 可退数量 -->
+
+
+                   <!-- 生产批号/数量 -->
+                   <td class="text-center" >
+
+                     <!-- 已选批号列表 -->
+                     <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
+                          ng-if="batch.batchNumber"
+                          class="ipt-div relative mgb"
+                          ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
+                       <div class="inline-block text-ellips-s"
+                            style="width:118px;height:100%;"
+                            ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
+                       </div>
+                       <input type="number"
+                              class="in_ipt"
+                              name="batchNum{{$index}}"
+                              ng-model="batch.quantity"
+                              onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                              ng-change="batchsNumOverload(formData.orderMedicalNos);changeQuantity(formData.orderMedicalNos);">
+                       <input type="hidden" required ng-model="batch.id">
+                       <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                      </div>
-                     <!-- <p class="text-right color-red pdr-s mgt-s" ng-if="tr.planQuantity>tr.quantity&&formData.relId" >
-                       待采购数量：{{tr.planQuantity-tr.quantity}}
-                     </p> -->
-                   </td><!-- 申请数量 -->
-                   <!-- <td class="text-right" ng-if="salesQuantity" ></td> -->
-                   <td ng-if="!formData.id" class="text-right">{{tr.salesQuantity}}</td>
-                   <td ng-if="formData.id&&initFlag" class="text-right"
-                   ajax-url="rest/authen/medicalStock/countStockByIds?ids={{tr.id}}&&storeRoomId={{formData.storeRoomId}}"
-                   scope-data="scopeData"
-                   ><em ng-repeat="item in scopeData" ng-init="tr.salesQuantity=item.salesQuantity">{{item.salesQuantity}}</em>
-                 </td>
-                   <!-- 可用数量 -->
+
+                     <!-- 批号选择 -->
+                     <div ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount"  class="ipt-div relative" style="width:100%;">
+                       <i class="addImg"
+                          style="left:85%"
+                          modal-right="60%"
+                          modal-scope="this"
+                          modal-data='{
+                                    "medicalName":"{{item.name}}",
+                                    "id":"{{item.id}}",
+                                    "logisticsCenterId":"{{formData.logisticsCenterId}}",
+                                    "goodsCount":{{item.goodsCount}},
+                                    "choisedBatchList":{{item.stockBatchs}},
+                                    "strike_price":{{item.strike_price}}
+                                  }'
+                          modal-url="views/collarReturnOrder/choice-stockbatch-dialog.html">
+                       </i>
+                     </div>
+
+                   </td>
+
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 商品单位 -->
-                   <td class="text-center" >{{tr.productionPlace}}</td><!-- 产地 -->
-                   <td class="text-center" >{{tr.manufacturer}}</td><!-- 生产厂商 -->
+
                  </tr>
                </tbody>
              </table>
