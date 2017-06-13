@@ -46,32 +46,54 @@
             <table class="table pr-table pr-new-table mgb-n table-s-wid">
               <thead>
                 <tr>
+                  <th class="text-center">盈亏</th>
+                  <th class="text-center">序号</th>
+                  <th class="text-center">区域名称</th>
+                  <th class="text-center">货位名城</th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left">商品名称</th>
-                  <th class="text-center">规格</th>
+                  <th class="text-center">规格型号</th>
+                  <th class="text-center">批号</th>
                   <th class="text-center">基本单位</th>
-                  <th class="text-center">申请数量</th>
-                  <th class="text-center" ng-if="formData.orderStatus=='待审核'">可调拨数量</th>
-                  <th class="text-center" ng-if="formData.orderStatus!='待审核'">实际调拨数量</th>
-                  <th class="text-center">生产厂商</th>
-                  <th class="text-center">产地</th>
+                  <th class="text-center">账面数量</th>
+                  <th class="text-center">实盘数量</th>
+                  <th class="text-center">盘点说明</th>
+                  <th class="text-center">盈亏数量</th>
+                  <th class="text-center">盘点人</th>
+                  <th class="text-center">盘点时间</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="item in formData.orderMedicalNos">
-                  <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
-                  <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
-                  <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                  <td class="text-center">{{item.packingAttribute.name}}</td><!-- 单位 -->
-                  <td class="text-center">{{item.applicationCount}}</td><!-- 申请数量 -->
-                  <td ng-if="formData.orderStatus=='待审核'" class="text-right"
-                  ajax-url="rest/authen/medicalStock/countStockByIds?ids={{item.id}}&&storeRoomId={{formData.storeRoomId}}"
-                  scope-data="scopeData"
-                  ><em ng-repeat="tr in scopeData">{{tr.salesQuantity}}</em>
+                  <td class="text-center relative">
+                    <span class="circle-status relative"
+                          ng-class="{'bg-pass-green':tr.distributorMedicalCode,
+                                     'bg-end-red':!tr.distributorMedicalCode}">
+
+                      <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
+                        <i class="block pd-c-s text-normal" style="line-height:1.8">
+                          <em class="inline-block">{{item.gainLossStatus}}</em>
+                        </i>
+                      </span>
+                    </span>
+                  </td><!-- 状态 -->
+                  <td class="text-center">
+                    {{(status.currentPage-1)*status.pageSize+($index+1)}}
                   </td>
-                  <td class="text-center" ng-if="formData.orderStatus!='待审核'">{{item.availableCount}}</td><!-- 实际调拨数量 -->
-                  <td class="text-center" >{{item.manufacturer}}</td>
-                  <td class="text-center" >{{item.productionPlace}}</td>
+                  <!-- 序号 -->
+                  <td class="text-left">{{item.regionName}}</td><!-- 区域名称 -->
+                  <td class="text-left">{{item.goodsLocationName}}</td><!-- 货位名称-->
+                  <td class="text-left">{{item.code}}</td><!-- 商品编码-->
+                  <td class="text-left"><div style="width:120px;" class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
+                  <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
+                  <td class="text-center">{{item.packingAttribute.name}}</td><!-- 单位 -->
+                  <td  class="text-right">{{item.systemQuantity}}</td><!--  账面数量 -->
+                  <td  class="text-right">{{item.actualQuantity}}</td><!--  实盘数量 -->
+                  <td  class="text-right">{{item.note}}</td><!--  盘点说明 -->
+                  <td  class="text-right">{{item.gainLossQuantity}}</td><!--  盈亏数量 -->
+                  <td  class="text-right">{{item.inventoryer.n}}</td><!--  盘点人 -->
+                  <td  class="text-right">{{item.inventoryDate | date : 'yyyy-MM-dd'}}</td><!--  盘点时间 -->
                 </tr>
               </tbody>
             </table>
@@ -80,6 +102,11 @@
         </div>
       </div>
       <!-- 其他信息 -->
+    </div>
+
+    <!-- 业务流程图-->
+    <div class="">
+        <business-flow-show business-key="{{formData.id}}" business-type="SPD盘点单"></business-flow-show>
     </div>
 
     <!-- 功能按钮 -->
