@@ -10,23 +10,22 @@
 
     <style>
 
-        .tab a{
-            width: auto;
+        .tab a {
             display: block;
             width: 150px;
             float: left;
             height: 100%;
-            margin:0;
+            margin: 0;
             padding: 0;
-            border-bottom: #C7A77B  solid 1px;
-            border-right: #C7A77B  solid 1px;
+            border-bottom: #C7A77B solid 1px;
+            border-right: #C7A77B solid 1px;
             margin-top: -1px;
         }
 
         .tab a.cur {
             color: white;
             background: #443F3A;
-            border-bottom: #443F3A  solid 1px;
+            border-bottom: #443F3A solid 1px;
         }
 
         .goods-info {
@@ -58,35 +57,36 @@
         .order-list {
             width: auto;
             margin: 15px;
-            height: 500px;
+            height: 570px;
             overflow: auto;
         }
 
-        .order-list li{
+        .order-list li {
             width: 33%;
             float: left;
             cursor: pointer;
             padding-top: 5px;
         }
 
-        .order-list li .mgb-xxl:hover{
-            -webkit-box-shadow:0 0 10px #ff8c00;
-            -moz-box-shadow:0 0 10px #ff8c00;
-            box-shadow:0 0 10px #ff8c00;
+        .order-list li .mgb-xxl:hover {
+            -webkit-box-shadow: 0 0 10px #ff8c00;
+            -moz-box-shadow: 0 0 10px #ff8c00;
+            box-shadow: 0 0 10px #ff8c00;
         }
 
-        .order-list li .pr-bg-grey2{
+        .order-list li .pr-bg-grey2 {
             background: #ddd;
         }
-
 
         .footer-btn-box {
             height: 56px;
             z-index: 1000;
+            position: absolute;
             right: 0;
             left: 0;
             bottom: 0;
             text-align: center;
+            background: rgba(54, 48, 44, 0.95);
         }
 
         .footer-btn {
@@ -101,8 +101,8 @@
             margin: 10px 30px;
         }
 
-        .choiced{
-            width:25px;
+        .choiced {
+            width: 25px;
             height: 25px;
             line-height: 25px;
             background: #C7A77B;
@@ -111,13 +111,14 @@
             text-align: center;
             font-size: 20px;
             position: absolute;
-            left:10px;
+            left: 10px;
         }
 
     </style>
 
     <!-- 标题 -->
     <div class="bb-line-gold pr-bg-black2 min-h-l">
+
         <h1 ng-init="type='通过商品退货'" class="pr-indent-20 pdb-m text-n tab" style="line-height:50px;max-height:35px;">
 
             <a ng-click="type='通过商品退货'" ng-class="{'cur':type=='通过商品退货'}">通过商品退货</a>
@@ -127,529 +128,605 @@
         </h1>
     </div>
 
+    <div ng-if="type=='通过领用单退货'">
 
-
-    <!---->
-
-    <!-- 过滤条件 -->
-    <div class="pdt-s pdb-s pd-c-xl">
-        <div class="" style="margin: 10px 0">
-            <span class="color-12">选择商品关联的领用单</span>
-        </div>
-
-
-        <!-- 关键字过滤 -->
-        <div class="inline-block">
-            <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
-                <input type="text"
-                       class="ipt pdr-xxl relative"
-                       placeholder="领用单编号"
-                       ng-model="listParams.q"
-                       ng-change="handleSearchFilter(listParams,dialogData.id)">
-                <i class="" style="top:10px;"></i>
-            </div>
-        </div>
-
-    </div>
-    <div class="pdt-s pdb-s pd-c-xl">
-        <div class="inline-block" style="margin: 10px 0">
-            <span class="color-12">选择商品关联的领用单</span>
-        </div>
-    </div>
-
-    <div class="">
-        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
-            <!-- 单据信息 -->
-            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
-                <div class="flex-item-6">
-                    <span class="mgr">单据编号：<em class="color-3 ng-binding">3423fsdgsdah</em></span>
-                    <span class="mgr">审核人：<em class="color-3 ng-binding">小谷</em></span>
-                    <span class="mgr relative">制单人：
-            <span class="purchaseorder-buyer-info-outside">
-              <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding" style="position:relative;height:25px;">小谷</strong>
-              <span class="purchaseorder-buyer-info" style="right:-73px">
-                <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt ng-binding">13600000000</em></i>
-                <i class="block pdb-s text-normal">
-                  <em class="fa fa-comment-o mgl"></em>
-                  <em class="inline-block pdl pdr pdt">
-                    <a href="javascript:;" modal-center="340" modal-data="{&quot;toUser&quot;:{&quot;n&quot;:&quot;小谷&quot;},&quot;userIds&quot;:[&quot;57e5062043f2f3c7f632ffb0}&quot;]}" modal-url="views/notice/sendToUser.html" class="ng-isolate-scope">发送消息
-                    </a>
-                  </em>
-                </i>
-              </span>
-            </span>
-          </span>
-                    <span class="mgr">审核日期：<em class="color-3 ng-binding">2017-06-09</em></span>
-                </div>
-                <div class="flex-item-6 text-right">
-                    <span class="mgr">录单日期：<em class="color-3 ng-binding">2017-06-09</em></span>
-                    <!-- <a
-                       modal-center="1000px"
-                       modal-data='{"businessKey":"{{scopeData.id}}"}'
-                       modal-scope="this"
-                       modal-url="views/workflowTask/getOfDialog.html">
-
-                    </a> -->
-                    <span class="mgr">状态：<em class="color-3 ng-binding">待领取</em></span>
-                </div>
-            </div>
-            <!-- 类别选择 -->
-            <div class="pd-c-l pdt-m pdb-m color-9">
-                <span class="mgr-l">申请部门：<em class="color-3 ng-binding">销售部</em></span>
-                <span class="mgr-l">申请人：<em class="color-3 ng-binding">小谷</em></span>
-                <span class="mgr-l">申请日期：<em class="color-3 ng-binding">2017-06-09</em></span>
-                <span class="mgr-l">期望领用日期：<em class="color-3 ng-binding">2017-06-09</em></span>
-            </div>
-            <!-- 商品列表 -->
-            <div class="outside-table-d">
-                <table class="table pr-table pr-new-table mgb-n" style="min-width: 100%;">
-                    <thead>
-                    <tr>
-                        <th class="text-center">序号</th>
-                        <th class="text-center">商品编码</th>
-                        <th class="text-left">商品名称</th>
-                        <th class="text-center">申请数量</th>
-                        <!-- ngIf: scopeData.orderStatus!='待审核' -->
-                        <th ng-if="scopeData.orderStatus!='待审核'" class="text-center ng-scope">实际领用数量</th><!-- end ngIf: scopeData.orderStatus!='待审核' -->
-                        <!-- ngIf: scopeData.orderStatus=='待审核' -->
-                        <th class="text-center">商品规格</th>
-                        <th class="text-center">基本单位</th>
-                        <th class="text-center">产地</th>
-                        <th class="text-center">生产厂商</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- ngRepeat: tr in scopeData.orderMedicalNos --><tr ng-repeat="tr in scopeData.orderMedicalNos" class="ng-scope">
-                        <td class="text-center ng-binding" style="line-height:2.4">1</td><!-- 序号 -->
-                        <td class="text-center ng-binding" style="line-height:2.4">qzy</td><!-- 商品编码 -->
-                        <td class="text-left" style="line-height:2.4">
-                            <div class="autocut ng-binding" title="qzy的测试商品">
-                                qzy的测试商品
-                            </div>
-                        </td><!-- 商品全名 -->
-                        <td class="text-right ng-binding" style="line-height:2.4">10</td><!-- 申请数量 -->
-                        <!-- ngIf: scopeData.orderStatus!='待审核' --><td class="text-right ng-binding ng-scope" ng-if="scopeData.orderStatus!='待审核'" style="line-height:2.4">0</td><!-- end ngIf: scopeData.orderStatus!='待审核' --><!-- 实际领用数量 -->
-                        <!-- ngIf: scopeData.orderStatus=='待审核' -->
-                        <td class="text-center ng-binding" style="line-height:2.4">不清楚</td><!-- 商品规格 -->
-                        <td class="text-center ng-binding" style="line-height:2.4">箱</td><!-- 商品单位 -->
-                        <td class="text-center ng-binding">测试产地</td>
-                        <td class="text-center ng-binding">测试生产厂商</td>
-                    </tr><!-- end ngRepeat: tr in scopeData.orderMedicalNos -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!---->
-
-    <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
-        <div class="inline-block">
-            <span class="color-12">选择需要退货的商品</span>
-        </div>
-
+        <!-- 过滤条件 -->
         <div class="pdt-s pdb-s pd-c-xl">
-
-            <div class="angucomplete-holder">
-                <!-- 屏蔽失去焦点隐藏下拉框的ng-blur事件，为实现点击已冻结药品时下拉框不消失的功能 -->
-                <span angucomplete-medical placeholder="输入"     title-field="name"
-                      url="data/medicalStockList.json" class="inline-block"
-                      ng-model="angucomplete_data"></span>
-                <!-- ngIf: showDropdown -->
+            <div class="" style="margin: 10px 0">
+                <span class="color-12">选择商品关联的领用单</span>
             </div>
 
 
-            <div class="goods-info">
-                <span class="color-6">生产厂家：<i>北京第一制药厂</i></span>
-                <span class="color-6">商品编号：<i>091111111111</i></span>
+            <!-- 关键字过滤 -->
+            <div class="inline-block">
+                <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
+                    <input type="text"
+                           class="ipt pdr-xxl relative"
+                           placeholder="领用单编号"
+                           ng-model="listParams.q"
+                           ng-change="handleSearchFilter(listParams,dialogData.id)">
+                    <i class=""></i>
+                </div>
             </div>
 
-            <div class="goods-info">
-                <span class="color-6">商品规格：</span>
-                <span class="color-6">商品单位：</span>
+        </div>
+        <div class="pdt-s pdb-s pd-c-xl">
+            <div class="inline-block" style="margin: 10px 0">
+                <span class="color-12">选择商品关联的领用单</span>
             </div>
-
-
-        </div>
-    </div>
-
-    <!-- 过滤条件 -->
-    <div class="pdt-s pdb-s pd-c-xl">
-        <div class="inline-block" style="margin: 10px 0">
-            <span class="color-12">选择商品关联的领用单</span>
-        </div>
-        <br/>
-        <!-- 仓库过滤 -->
-        <div class="inline-block">
-            <span class="color-9">领用部门：</span>
-            <select
-                    class="ipt pr-short-ipt color-3"
-                    style="width:90px;"
-                    data-placeholder=""
-                    default-empty="全部"
-                    width="120px"
-                    chosen
-                    ng-model="listParams.storeRoomId"
-                    select-source="rest/authen/storeRoom/queryForSelectOption"
-                    ng-change="handleSearchFilter(listParams,dialogData.id)">
-            </select>
-        </div>
-        <!-- 仓库过滤 -->
-        <div class="inline-block" style="margin: 0 20px;">
-            <span class="color-9">领用库房：</span>
-            <select
-                    class="ipt pr-short-ipt color-3"
-                    style="width:90px;"
-                    data-placeholder=""
-                    default-empty="全部"
-                    width="120px"
-                    chosen
-                    ng-model="listParams.storeRoomId"
-                    select-source="rest/authen/storeRoom/queryForSelectOption"
-                    ng-change="handleSearchFilter(listParams,dialogData.id)">
-            </select>
         </div>
 
 
-        <!-- 关键字过滤 -->
-        <div class="inline-block">
-            <span class="color-9">领用单编号：</span>
-            <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
-                <input type="text"
-                       class="ipt pdr-xxl relative"
-                       placeholder="领用单编号"
-                       ng-model="listParams.q"
-                       ng-change="handleSearchFilter(listParams,dialogData.id)">
-                <i class="" style="top:10px;"></i>
+        <div class="">
+            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
+                <!-- 单据信息 -->
+                <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+                    <div class="flex-item-6">
+                        <span class="mgr">单据编号：<em class="color-3 ng-binding">3423fsdgsdah</em></span>
+                        <span class="mgr">审核人：<em class="color-3 ng-binding">小谷</em></span>
+                        <span class="mgr relative">制单人：
+                <span class="purchaseorder-buyer-info-outside">
+                  <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding"
+                          style="position:relative;height:25px;">小谷</strong>
+                  <span class="purchaseorder-buyer-info" style="right:-73px">
+                    <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em
+                            class="inline-block pdl pdr pdt ng-binding">13600000000</em></i>
+                    <i class="block pdb-s text-normal">
+                      <em class="fa fa-comment-o mgl"></em>
+                      <em class="inline-block pdl pdr pdt">
+                        <a href="javascript:;" modal-center="340"
+                           modal-data="{&quot;toUser&quot;:{&quot;n&quot;:&quot;小谷&quot;},&quot;userIds&quot;:[&quot;57e5062043f2f3c7f632ffb0}&quot;]}"
+                           modal-url="views/notice/sendToUser.html" class="ng-isolate-scope">发送消息
+                        </a>
+                      </em>
+                    </i>
+                  </span>
+                </span>
+              </span>
+                        <span class="mgr">审核日期：<em class="color-3 ng-binding">2017-06-09</em></span>
+                    </div>
+                    <div class="flex-item-6 text-right">
+                        <span class="mgr">录单日期：<em class="color-3 ng-binding">2017-06-09</em></span>
+                        <!-- <a
+                           modal-center="1000px"
+                           modal-data='{"businessKey":"{{scopeData.id}}"}'
+                           modal-scope="this"
+                           modal-url="views/workflowTask/getOfDialog.html">
+
+                        </a> -->
+                        <span class="mgr">状态：<em class="color-3 ng-binding">待领取</em></span>
+                    </div>
+                </div>
+                <!-- 类别选择 -->
+                <div class="pd-c-l pdt-m pdb-m color-9">
+                    <span class="mgr-l">申请部门：<em class="color-3 ng-binding">销售部</em></span>
+                    <span class="mgr-l">申请人：<em class="color-3 ng-binding">小谷</em></span>
+                    <span class="mgr-l">申请日期：<em class="color-3 ng-binding">2017-06-09</em></span>
+                    <span class="mgr-l">期望领用日期：<em class="color-3 ng-binding">2017-06-09</em></span>
+                </div>
+                <!-- 商品列表 -->
+                <div class="outside-table-d">
+                    <table class="table pr-table pr-new-table mgb-n" style="min-width: 100%;">
+                        <thead>
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">商品编码</th>
+                            <th class="text-left">商品名称</th>
+                            <th class="text-center">申请数量</th>
+                            <!-- ngIf: scopeData.orderStatus!='待审核' -->
+                            <th ng-if="scopeData.orderStatus!='待审核'" class="text-center ng-scope">实际领用数量</th>
+                            <!-- end ngIf: scopeData.orderStatus!='待审核' -->
+                            <!-- ngIf: scopeData.orderStatus=='待审核' -->
+                            <th class="text-center">商品规格</th>
+                            <th class="text-center">基本单位</th>
+                            <th class="text-center">产地</th>
+                            <th class="text-center">生产厂商</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- ngRepeat: tr in scopeData.orderMedicalNos -->
+                        <tr ng-repeat="tr in scopeData.orderMedicalNos" class="ng-scope">
+                            <td class="text-center ng-binding" style="line-height:2.4">1</td><!-- 序号 -->
+                            <td class="text-center ng-binding" style="line-height:2.4">qzy</td><!-- 商品编码 -->
+                            <td class="text-left" style="line-height:2.4">
+                                <div class="autocut ng-binding" title="qzy的测试商品">
+                                    qzy的测试商品
+                                </div>
+                            </td><!-- 商品全名 -->
+                            <td class="text-right ng-binding" style="line-height:2.4">10</td><!-- 申请数量 -->
+                            <!-- ngIf: scopeData.orderStatus!='待审核' -->
+                            <td class="text-right ng-binding ng-scope" ng-if="scopeData.orderStatus!='待审核'"
+                                style="line-height:2.4">0
+                            </td><!-- end ngIf: scopeData.orderStatus!='待审核' --><!-- 实际领用数量 -->
+                            <!-- ngIf: scopeData.orderStatus=='待审核' -->
+                            <td class="text-center ng-binding" style="line-height:2.4">不清楚</td><!-- 商品规格 -->
+                            <td class="text-center ng-binding" style="line-height:2.4">箱</td><!-- 商品单位 -->
+                            <td class="text-center ng-binding">测试产地</td>
+                            <td class="text-center ng-binding">测试生产厂商</td>
+                        </tr><!-- end ngRepeat: tr in scopeData.orderMedicalNos -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="line-dotted"></div>
 
-        <!-- 仓库过滤 -->
-        <div class="inline-block" style="margin-right: 8px;">
-            <span class="color-9">申 请 人 ： </span>
-            <select
-                    class="ipt pr-short-ipt color-3"
-                    style="width:90px;"
-                    data-placeholder=""
-                    default-empty="全部"
-                    width="120px"
-                    chosen
-                    ng-model="listParams.storeRoomId"
-                    select-source="rest/authen/storeRoom/queryForSelectOption"
-                    ng-change="handleSearchFilter(listParams,dialogData.id)">
-            </select>
-        </div>
-
-        <!-- 日期过滤 -->
-        <div class="inline-block relative">
-            <span class="color-9 mgl-m">领用日期：</span>
-            <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
-                <input type="text"
-                       datepicker
-                       class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
-                       ng-readonly="true"
-                       ng-model="listParams.createAtBeg"
-                       placeholder=""
-                       ng-change="handleSearchFilter(listParams,dialogData.id)">
-                <span class="date-icon"></span>
-            </div>
-            <div class="date-icon-outside" ng-if="listParams.createAtBeg">
-                <input type="text"
-                       datepicker
-                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                       ng-readonly="true"
-
-                       ng-model="listParams.createAtBeg">
-                <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
-            </div>
-            <span class="color-9">至</span>
-            <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
-                <input type="text"
-                       datepicker
-                       class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
-                       ng-readonly="true"
-                       ng-model="listParams.createAtEnd"
-                       placeholder=""
-                       ng-change="handleSearchFilter(listParams,dialogData.id)">
-                <span class="date-icon"></span>
-            </div>
-            <div class="date-icon-outside" ng-if="listParams.createAtEnd">
-                <input type="text"
-                       datepicker
-                       class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                       ng-readonly="true"
-
-                       ng-model="listParams.createAtEnd"/>
-                <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
-            </div>
+        <div class="footer-btn-box">
+            <button ng-click="modal.close()" class="footer-btn">确定</button>
         </div>
 
     </div>
 
-    <!-- 无数据 -->
-    <!--<div ng-if="!stockBatchList.length" class="color-red text-n pdl-l pdt-m">此商品在该货位暂无库存。</div>-->
+    <div ng-if="type=='通过商品退货'">
 
-    <!--领用单列表-->
-    <div class="order-list">
-        <ul class="li-min-h">
+        <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+            <div class="inline-block">
+                <span class="color-12">选择需要退货的商品</span>
+            </div>
 
-            <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
-                <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative pr-bg-grey2"
-                     ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+            <div class="pdt-s pdb-s pd-c-xl">
 
-                    <div class="card-new">
-                        <div class="bt-line">
-                            <div class="choiced"><img src="images/icon-checked.png" alt=""></div>
-                            <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
-
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6">单据编号</span>
-                            <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
-                        <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">领用日期</span>
-                            <span class="flex-item-6 text-right">
-                          <strong class="color-black text-normal ng-binding">2017-06-09</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">申请人</span>
-                            <!-- <span class="flex-item-6 text-right"> -->
-                            <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
-                          <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding"
-                                  style="position:relative;height:25px;">小谷</strong>
-                        </span>
-                            <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
-                        </span> -->
-                        </div>
-
-                    </div>
+                <div class="angucomplete-holder">
+                    <!-- 屏蔽失去焦点隐藏下拉框的ng-blur事件，为实现点击已冻结药品时下拉框不消失的功能 -->
+                    <span angucomplete-medical placeholder="输入" title-field="name"
+                          url="data/medicalStockList.json" class="inline-block"
+                          ng-model="angucomplete_data"></span>
+                    <!-- ngIf: showDropdown -->
                 </div>
-            </li>
-            <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
-                <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
-                     ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
 
-                    <div class="card-new">
-                        <div class="bt-line">
-                            <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6">单据编号</span>
-                            <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
-                        <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">领用日期</span>
-                            <span class="flex-item-6 text-right">
-                          <strong class="color-black text-normal ng-binding">2017-06-09</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">申请人</span>
-                            <!-- <span class="flex-item-6 text-right"> -->
-                            <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
-                          <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding"
-                                  style="position:relative;height:25px;">小谷</strong>
-                        </span>
-                            <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
-                        </span> -->
-                        </div>
 
-                    </div>
+                <div class="goods-info">
+                    <span class="color-6">生产厂家：<i>北京第一制药厂</i></span>
+                    <span class="color-6">商品编号：<i>091111111111</i></span>
                 </div>
-            </li>
-            <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
-                <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
-                     ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
 
-                    <div class="card-new">
-                        <div class="bt-line">
-                            <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6">单据编号</span>
-                            <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
-                        <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">领用日期</span>
-                            <span class="flex-item-6 text-right">
-                          <strong class="color-black text-normal ng-binding">2017-06-09</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">申请人</span>
-                            <!-- <span class="flex-item-6 text-right"> -->
-                            <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
-                          <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding"
-                                  style="position:relative;height:25px;">小谷</strong>
-                        </span>
-                            <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
-                        </span> -->
-                        </div>
-
-                    </div>
+                <div class="goods-info">
+                    <span class="color-6">商品规格：</span>
+                    <span class="color-6">商品单位：</span>
                 </div>
-            </li>
-            <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
-                <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
-                     ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
 
-                    <div class="card-new">
-                        <div class="bt-line">
-                            <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6">单据编号</span>
-                            <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
-                        <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">领用日期</span>
-                            <span class="flex-item-6 text-right">
-                          <strong class="color-black text-normal ng-binding">2017-06-09</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">申请人</span>
-                            <!-- <span class="flex-item-6 text-right"> -->
-                            <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
-                          <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding"
-                                  style="position:relative;height:25px;">小谷</strong>
-                        </span>
-                            <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
-                        </span> -->
-                        </div>
 
-                    </div>
+            </div>
+        </div>
+
+        <!-- 过滤条件 -->
+        <div class="pdt-s pdb-s pd-c-xl">
+            <div class="inline-block" style="margin: 10px 0">
+                <span class="color-12">选择商品关联的领用单</span>
+            </div>
+            <br/>
+            <!-- 仓库过滤 -->
+            <div class="inline-block">
+                <span class="color-9">领用部门：</span>
+                <select
+                        class="ipt pr-short-ipt color-3"
+                        style="width:90px;"
+                        data-placeholder=""
+                        default-empty="全部"
+                        width="120px"
+                        chosen
+                        ng-model="listParams.storeRoomId"
+                        select-source="rest/authen/storeRoom/queryForSelectOption"
+                        ng-change="handleSearchFilter(listParams,dialogData.id)">
+                </select>
+            </div>
+            <!-- 仓库过滤 -->
+            <div class="inline-block" style="margin: 0 20px;">
+                <span class="color-9">领用库房：</span>
+                <select
+                        class="ipt pr-short-ipt color-3"
+                        style="width:90px;"
+                        data-placeholder=""
+                        default-empty="全部"
+                        width="120px"
+                        chosen
+                        ng-model="listParams.storeRoomId"
+                        select-source="rest/authen/storeRoom/queryForSelectOption"
+                        ng-change="handleSearchFilter(listParams,dialogData.id)">
+                </select>
+            </div>
+
+
+            <!-- 关键字过滤 -->
+            <div class="inline-block">
+                <span class="color-9">领用单编号：</span>
+                <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
+                    <input type="text"
+                           class="ipt pdr-xxl relative"
+                           placeholder="领用单编号"
+                           ng-model="listParams.q"
+                           ng-change="handleSearchFilter(listParams,dialogData.id)">
+                    <i class="" style=""></i>
                 </div>
-            </li>
-            <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
-                <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
-                     ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+            </div>
 
-                    <div class="card-new">
-                        <div class="bt-line">
-                            <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6">单据编号</span>
-                            <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
-                        <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">领用日期</span>
-                            <span class="flex-item-6 text-right">
-                          <strong class="color-black text-normal ng-binding">2017-06-09</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">申请人</span>
-                            <!-- <span class="flex-item-6 text-right"> -->
-                            <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
-                          <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding"
-                                  style="position:relative;height:25px;">小谷</strong>
-                        </span>
-                            <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
-                        </span> -->
-                        </div>
+            <div class="line-dotted"></div>
 
-                    </div>
+            <!-- 仓库过滤 -->
+            <div class="inline-block" style="margin-right: 8px;">
+                <span class="color-9">申 请 人 ： </span>
+                <select
+                        class="ipt pr-short-ipt color-3"
+                        style="width:90px;"
+                        data-placeholder=""
+                        default-empty="全部"
+                        width="120px"
+                        chosen
+                        ng-model="listParams.storeRoomId"
+                        select-source="rest/authen/storeRoom/queryForSelectOption"
+                        ng-change="handleSearchFilter(listParams,dialogData.id)">
+                </select>
+            </div>
+
+            <!-- 日期过滤 -->
+            <div class="inline-block relative">
+                <span class="color-9 mgl-m">领用日期：</span>
+                <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr-s pr-indent-10"
+                           ng-readonly="true"
+                           ng-model="listParams.createAtBeg"
+                           placeholder=""
+                           ng-change="handleSearchFilter(listParams,dialogData.id)">
+                    <span class="date-icon"></span>
                 </div>
-            </li>
-            <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
-                <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
-                     ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+                <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
 
-                    <div class="card-new">
-                        <div class="bt-line">
-                            <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6">单据编号</span>
-                            <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
-                        <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">领用日期</span>
-                            <span class="flex-item-6 text-right">
-                          <strong class="color-black text-normal ng-binding">2017-06-09</strong>
-                      </span>
-                        </div>
-                        <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                            <span class="flex-item-6 text-left">申请人</span>
-                            <!-- <span class="flex-item-6 text-right"> -->
-                            <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
-                          <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding"
-                                  style="position:relative;height:25px;">小谷</strong>
-                        </span>
-                            <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
-                        </span> -->
-                        </div>
-
-                    </div>
+                           ng-model="listParams.createAtBeg">
+                    <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
                 </div>
-            </li>
+                <span class="color-9">至</span>
+                <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr-l pr-indent-10"
+                           ng-readonly="true"
+                           ng-model="listParams.createAtEnd"
+                           placeholder=""
+                           ng-change="handleSearchFilter(listParams,dialogData.id)">
+                    <span class="date-icon"></span>
+                </div>
+                <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+                    <input type="text"
+                           datepicker
+                           class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                           ng-readonly="true"
 
-        </ul>
-</div>
+                           ng-model="listParams.createAtEnd"/>
+                    <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 领用单列表 -->
+        <!--<div ng-if="!stockBatchList.length" class="color-red text-n pdl-l pdt-m">此商品暂无领用单信息...</div>-->
+
+        <!--领用单列表-->
+        <div ng-show="!showBatchs" class="order-list">
+            <ul class="li-min-h">
+
+                <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
+                    <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative pr-bg-grey2"
+                         ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+
+                        <div class="card-new">
+                            <div class="bt-line">
+                                <div class="choiced"><img src="images/icon-checked.png" alt=""></div>
+                                <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
+
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">单据编号</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                            <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">领用库房</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                                    <strong class="color-black text-normal ng-binding">库房A</strong>
+                                  </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">领用日期</span>
+                                <span class="flex-item-6 text-right">
+                              <strong class="color-black text-normal ng-binding">2017-06-09</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">申请人</span>
+                                <!-- <span class="flex-item-6 text-right"> -->
+                                <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
+                              <strong run-popovers=""
+                                      class="color-custom-orange cur-pot text-normal pr-color ng-binding"
+                                      style="position:relative;height:25px;">小谷</strong>
+                            </span>
+                                <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
+                            </span> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
+                    <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative pr-bg-grey2"
+                         ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+
+                        <div class="card-new">
+                            <div class="bt-line">
+                                <div class="choiced"><img src="images/icon-checked.png" alt=""></div>
+                                <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
+
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">单据编号</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                            <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">领用库房</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                                    <strong class="color-black text-normal ng-binding">库房A</strong>
+                                  </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">领用日期</span>
+                                <span class="flex-item-6 text-right">
+                              <strong class="color-black text-normal ng-binding">2017-06-09</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">申请人</span>
+                                <!-- <span class="flex-item-6 text-right"> -->
+                                <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
+                              <strong run-popovers=""
+                                      class="color-custom-orange cur-pot text-normal pr-color ng-binding"
+                                      style="position:relative;height:25px;">小谷</strong>
+                            </span>
+                                <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
+                            </span> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
+                    <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative pr-bg-grey2"
+                         ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+
+                        <div class="card-new">
+                            <div class="bt-line">
+                                <div class="choiced"><img src="images/icon-checked.png" alt=""></div>
+                                <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
+
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">单据编号</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                            <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">领用库房</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                                    <strong class="color-black text-normal ng-binding">库房A</strong>
+                                  </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">领用日期</span>
+                                <span class="flex-item-6 text-right">
+                              <strong class="color-black text-normal ng-binding">2017-06-09</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">申请人</span>
+                                <!-- <span class="flex-item-6 text-right"> -->
+                                <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
+                              <strong run-popovers=""
+                                      class="color-custom-orange cur-pot text-normal pr-color ng-binding"
+                                      style="position:relative;height:25px;">小谷</strong>
+                            </span>
+                                <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
+                            </span> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
+                    <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative pr-bg-grey2"
+                         ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+
+                        <div class="card-new">
+                            <div class="bt-line">
+                                <div class="choiced"><img src="images/icon-checked.png" alt=""></div>
+                                <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
+
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">单据编号</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                            <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">领用库房</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                                    <strong class="color-black text-normal ng-binding">库房A</strong>
+                                  </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">领用日期</span>
+                                <span class="flex-item-6 text-right">
+                              <strong class="color-black text-normal ng-binding">2017-06-09</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">申请人</span>
+                                <!-- <span class="flex-item-6 text-right"> -->
+                                <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
+                              <strong run-popovers=""
+                                      class="color-custom-orange cur-pot text-normal pr-color ng-binding"
+                                      style="position:relative;height:25px;">小谷</strong>
+                            </span>
+                                <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
+                            </span> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
+                    <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative pr-bg-grey2"
+                         ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+
+                        <div class="card-new">
+                            <div class="bt-line">
+                                <div class="choiced"><img src="images/icon-checked.png" alt=""></div>
+                                <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
+
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">单据编号</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                            <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">领用库房</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                                    <strong class="color-black text-normal ng-binding">库房A</strong>
+                                  </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">领用日期</span>
+                                <span class="flex-item-6 text-right">
+                              <strong class="color-black text-normal ng-binding">2017-06-09</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">申请人</span>
+                                <!-- <span class="flex-item-6 text-right"> -->
+                                <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
+                              <strong run-popovers=""
+                                      class="color-custom-orange cur-pot text-normal pr-color ng-binding"
+                                      style="position:relative;height:25px;">小谷</strong>
+                            </span>
+                                <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
+                            </span> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="pdr-m pdl-m relative confirm-order-list ng-scope">
+                    <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative pr-bg-grey2"
+                         ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
+
+                        <div class="card-new">
+                            <div class="bt-line">
+                                <div class="choiced"><img src="images/icon-checked.png" alt=""></div>
+                                <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
+
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">单据编号</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                            <strong class="color-black text-normal ng-binding">3423fsdgsdah</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6">领用库房</span>
+                                <span class="flex-item-6 text-right pr-indent-10 autocut-default" title="3423fsdgsdah">
+                                    <strong class="color-black text-normal ng-binding">库房A</strong>
+                                  </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">领用日期</span>
+                                <span class="flex-item-6 text-right">
+                              <strong class="color-black text-normal ng-binding">2017-06-09</strong>
+                          </span>
+                            </div>
+                            <div class="flex-column qurey text-s color-9 bt-dashed-line">
+                                <span class="flex-item-6 text-left">申请人</span>
+                                <!-- <span class="flex-item-6 text-right"> -->
+                                <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
+                              <strong run-popovers=""
+                                      class="color-custom-orange cur-pot text-normal pr-color ng-binding"
+                                      style="position:relative;height:25px;">小谷</strong>
+                            </span>
+                                <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
+                            </span> -->
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+            <!-- 导航 -->
+            <div class="clearfix" ng-if="tbodyList.length">
+                <div class="fr">
+                    <pagination status="status"></pagination>
+                </div>
+            </div>
+        </div>
+        <div ng-show="!showBatchs" class="footer-btn-box">
+            <button ng-click="showBatchs=true" class="footer-btn">下一步</button>
+        </div>
+
+        <!-- 批次信息 -->
+        <div ng-show="showBatchs" style="margin: 10px;">
+            <table class="full-width another-table">
+                <thead>
+                <tr class="bb-line-gold">
+                    <th></th>
+                    <th>生产批号</th>
+                    <th>有效期至</th>
+                    <th>可退量</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in stockBatchList" class="trHover-bg"
+                    ng-class="{ 'pr-bg-grey3':choisedBatchsIdList.indexOf(item.id)!==-1 }">
+
+                    <td class="text-center">
+                        <label class="radio radio-new">
+                            <input type="radio"
+                                   name="medicals"
+                                   class="default-radio"
+                                   ng-click="spdChoiseBatchs(item,dialogData.choisedBatchList,dialogData.id,dialogData.goodsCount,dialogData.strike_price,dialogData.index);modal.closeAll()"
+                                   ng-disabled="choisedBatchsIdList.indexOf(item.id)!=-1"><i></i>
+                        </label>
+                    </td>
+
+                    <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
+                    <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->
+                    <td class="" style="height:50px;">{{item.storeRoomName}}</td><!--仓库-->
+                    <td class="" style="height:50px;">{{item.regionName}}</td><!--区域-->
+                    <td class="text-left" style="height:50px;">{{item.goodsLocationName}}</td><!--货位-->
+                    <td class="text-left" style="height:50px;">{{item.stockModel.salesQuantity}}</td><!--可用量-->
+                </tr>
+                </tbody>
+            </table>
+            <div class="footer-btn-box">
+                <button ng-click="showBatchs=!showBatchs" class="footer-btn">上一步</button>
+                <!--<button class="footer-btn">下一步</button>-->
+
+                <button ng-click="showBatchs=!showBatchs" class="footer-btn">确定并继续</button>
+
+                <button ng-click="modal.close()" class="footer-btn">确定</button>
+
+            </div>
+        </div>
 
 
-<!-- 批次信息 -->
-<div style="margin: 10px;">
-    <table class="full-width another-table">
-        <thead>
-        <tr class="bb-line-gold">
-            <th></th>
-            <th>生产批号</th>
-            <th>有效期至</th>
-            <th>可退量</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="item in stockBatchList" class="trHover-bg"
-            ng-class="{ 'pr-bg-grey3':choisedBatchsIdList.indexOf(item.id)!==-1 }">
-
-            <td class="text-center">
-                <label class="radio radio-new">
-                    <input type="radio"
-                           name="medicals"
-                           class="default-radio"
-                           ng-click="spdChoiseBatchs(item,dialogData.choisedBatchList,dialogData.id,dialogData.goodsCount,dialogData.strike_price,dialogData.index);modal.closeAll()"
-                           ng-disabled="choisedBatchsIdList.indexOf(item.id)!=-1"><i></i>
-                </label>
-            </td>
-
-            <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
-            <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->
-            <td class="" style="height:50px;">{{item.storeRoomName}}</td><!--仓库-->
-            <td class="" style="height:50px;">{{item.regionName}}</td><!--区域-->
-            <td class="text-left" style="height:50px;">{{item.goodsLocationName}}</td><!--货位-->
-            <td class="text-left" style="height:50px;">{{item.stockModel.salesQuantity}}</td><!--可用量-->
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-
-<div class="footer-btn-box">
-    <button class="footer-btn">上一步</button>
-    <!--<button class="footer-btn">下一步</button>-->
-
-    <button class="footer-btn">确定并继续</button>
-
-    <button class="footer-btn">确定</button>
-
-</div>
+    </div>
 </div>
