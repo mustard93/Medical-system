@@ -3674,6 +3674,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // // 选择货位后，组装成相应对象
     $scope.selectGoodslocation= function(tr,item){
       // 如果选中货位，就选中相对应的区域
+
       if (item.checked) {
         tr.checked=true;
       }
@@ -3881,7 +3882,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           .then(function (results) {
             console.log(results[1].data);
             // 保存成功之后把该条商品信息放入编辑页面第二张表格中
-          $scope.scopeData.push(results[1].data);
+          $scope.tbodyList.push(results[1].data);
           })
           .catch(function (error) {
             alertError(error || '出错');
@@ -3889,13 +3890,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     }
 
-    $scope.saveData = function (){
-
-      console.log(1);
-
+    $scope.saveData = function (listParams){
+      // $scope.formData=listParams.systemMedicalList;
+      // for (var i = 0; i < listParams.length; i++) {
+      //   array[i]
+      // }
+      console.log(listParams.systemMedicalList);
+      console.log(listParams.customMedicalList);
     }
-
-
 
   }
 
