@@ -1,14 +1,14 @@
 <div class="allocate-order salesOrder-edit confirm-edit"
-     ng-controller="allocateOrderEditCtrl"
-     ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
+     ng-controller="inventoryTaskOrderEditCtrl"
+     ajax-url="rest/authen/inventoryMedicalNo/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
+     callback="initFlag=true;$root.watchFormChange('formData',this);"
      alert-error>
   <form id="editForm"
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/allocateOrder/save.json"
+        action="rest/authen/inventoryMedicalNo/save.json"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
@@ -18,7 +18,7 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
-        <a href="#/allocateOrder/query.html"><em class="color-custom-orange">盘点任务</em></a>
+        <a href="#/inventory_task/query.html"><em class="color-custom-orange">盘点任务</em></a>
         <em> > 新建盘点任务</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
@@ -162,11 +162,11 @@
            dialog-title="确认返回?"
            dialog-content="该盘点任务存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/allocateOrder/query.html')"
+           nosave-callback="goTo('#/inventory_task/query.html')"
            save-callback="submitForm('editForm','exit-allocate')">返回盘点任务
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回盘点任务</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory_task/query.html?id={{formData.relId}}" >返回盘点任务</a>
 
         <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -175,8 +175,8 @@
            dialog-title="确认删除?"
            dialog-content="您确认删除这条盘点任务吗?"
            dialog-template="dialog-confirm.html"
-           request-url="rest/authen/allocateOrder/delete?id={{formData.id}}"
-           callback="$root.goTo('#/allocateOrder/query.html')">删除
+           request-url="rest/authen/inventoryMedicalNo/delete?id={{formData.id}}"
+           callback="$root.goTo('#/inventory_task/query.html')">删除
         </a>
 
         <button type="button"

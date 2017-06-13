@@ -48,9 +48,9 @@
               <div class="flex-item-6">
                 <span class="mgr">单据编号：
                   <!-- ng-disabled="formData.id" -->
-                  <span class="color-black">00032949343</span>
+                  <span class="color-black">{{formData.orderCode}}</span>
                   <span class="mgl">名称：</span>
-                  <span class="color-black">任务0001</span>
+                  <span class="color-black">{{formData.name}}</span>
                 </span>
               </div>
               <div class="flex-item-6 text-right">
@@ -59,13 +59,13 @@
             </div>
             <div class="pd-c-l pdt-m pdb-m color-9 bb-dashed-line">
               <span class="mgr">任务类型：</span>
-              <span class="mgr color-black">日常盘点</span>
+              <span class="mgr color-black">{{formData.type}}</span>
               <span class="mgr">盘点类型：</span>
-              <span class="mgr color-black">按库盘点</span>
+              <span class="mgr color-black">{{formData.inventoryType}}</span>
               <span>计划盘点时间：</span>
-              <span class="color-black">2017-05-01  21:20</span>
+              <span class="color-black">{{formData.planDateBeg | date:'yyyy-MM-dd HH:mm'}}</span>
               <span class="color-9">至</span>
-              <span class="color-black">2017-05-01  10:00</span>
+              <span class="color-black">{{formData.planDateEnd | date:'yyyy-MM-dd HH:mm'}}</span>
             </div>
 
             <div class="pd-c-l pdt-m pdb-m color-9">
@@ -86,7 +86,7 @@
             </div>
 
             <!-- 按区域盘点 -->
-            <div ng-if="formData.regionSelects.length" class="inline-block pr-bg-white relative full-height mgr mgt" style="width:95%;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);margin-left:85px;">
+            <div ng-if="formData.inventoryType=='按区域盘点'" class="inline-block pr-bg-white relative full-height mgr mgt" style="width:95%;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);margin-left:85px;">
               <div class="inline-block logistics-center-out relative">
                 <div class="relative cur-pot"
                       style="padding:15px 15px 10px 0px;">
@@ -101,7 +101,7 @@
             </div>
 
             <!-- 按区域/货位盘点 -->
-            <div  class="inline-block pr-bg-white relative full-height mgr mgt" style="width:95%;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);margin-left:85px;">
+            <div ng-if="formData.inventoryType=='按货位盘点'"  class="inline-block pr-bg-white relative full-height mgr mgt" style="width:95%;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);margin-left:85px;">
               <div class="inline-block logistics-center-out relative">
                 <div class="relative cur-pot"
                       style="padding:15px 15px 10px 0px;">
@@ -109,22 +109,26 @@
                 </div>
                 <div class=" inline-block mgr " ng-repeat="reg in formData.regionSelects">
                   <div class="pd-v-s" ng-if="reg.id">
-                    <em class="color-black">{{reg.name}}</em>
+                    <em>{{reg.name}}:</em>
+                    <span ng-repeat="good in reg.goodsLocationSelects">
+                      <em class="mgr color-black">{{good.name}}</em>
+                    </span>
+
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- 按商品盘点 -->
-            <div  class="inline-block pr-bg-white relative full-height mgr mgt" style="width:95%;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);margin-left:85px;">
+            <div ng-if="formData.inventoryType=='按商品盘点'" class="inline-block pr-bg-white relative full-height mgr mgt" style="width:95%;box-shadow: 0 0 8px 0 rgba(199,167,123,0.17);margin-left:85px;">
               <div class="inline-block logistics-center-out relative">
                 <div class="relative cur-pot"
                       style="padding:15px 15px 10px 0px;">
-                  区域/货位
+                  商品
                 </div>
-                <div class=" inline-block mgr " ng-repeat="reg in formData.regionSelects">
-                  <div class="pd-v-s" ng-if="reg.id">
-                    <em class="color-black">{{reg.name}}</em>
+                <div class=" inline-block mgr " ng-repeat="medical in formData.orderMedicalNos">
+                  <div class="pd-v-s" ng-if="medical.id">
+                    <em class="color-black">{{medical.name}}</em>
                   </div>
                 </div>
               </div>

@@ -607,6 +607,16 @@ function togglePanel () {
   return {
     restrict: 'A',
     link: function ($scope, element, $attrs) {
+
+      if ($attrs.toggleChecked) {
+
+        var toggleChecked=$attrs.toggleChecked;
+        
+        if (toggleChecked=="true") {
+            $(element).parents(".panel").children(".panel-body").slideDown(200);
+        }
+      }
+
       $(element).on('click', function (e) {
         e.stopPropagation();
 
@@ -622,7 +632,9 @@ function togglePanel () {
         } else {                                //关闭
           $(this).parents(".panel").parent().remove();
         }
+
       });
+
     }
   };
 }

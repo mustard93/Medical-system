@@ -1,15 +1,15 @@
 <div class="allocate-order confirm-order-edit "
-     ng-controller="allocateOrderEditCtrl"
-     ajax-url="rest/authen/allocateOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
+     ng-controller="inventoryTaskOrderEditCtrl"
+     ajax-url="rest/authen/inventoryMedicalNo/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
      scope-data="formData"
-     callback='initFlag=true;bottomButtonList= $root.bottomButtonList.get_allocateOrder(formData);'
+     callback='initFlag=true;'
      alert-error>
 
   <form id="editForm"
         name="editForm"
         form-validator
         parameter-body
-        action="rest/authen/allocateOrder/save.json"
+        action="rest/authen/inventoryMedicalNo/save.json"
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
@@ -91,11 +91,11 @@
            dialog-title="确认返回?"
            dialog-content="该盘点任务存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/allocateOrder/query.html')"
+           nosave-callback="goTo('#/inventory_task/query.html')"
            save-callback="submitForm('editForm','exit')">返回盘点任务列表
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/allocateOrder/query.html?id={{formData.relId}}" >返回盘点任务列表</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory_task/query.html?id={{formData.relId}}" >返回盘点任务列表</a>
 
         <button ng-if="formData.orderStatus=='待审批'" type="button" class="pr-btn-save-glodbg mgr" ng-disabled="!changeFlag" ng-click="submitForm('editForm','save')">保存</button>
         <span ng-if="formData.didateFilter.buttons.length>0"
