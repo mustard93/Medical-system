@@ -3547,15 +3547,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.formData.regionIds=[];
     $scope.formData.goodsLocationIds=[];
       for (var i = 0; i < regionSelects.length; i++) {
+        
         // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
         if (regionSelects[i].goodsLocationSelects.length) {
 
           for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
             $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
           }
+        }else {
+          $scope.formData.regionIds.push(regionSelects[i].id);
         }
-        $scope.formData.regionIds.push(regionSelects[i].id);
       }
+
     };
 
     $scope.reloadRegionIds=function(storeRoomId,regionIds){
