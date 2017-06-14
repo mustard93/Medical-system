@@ -69,10 +69,29 @@ Login.prototype = {
         return Sys;
       },
 
-      _getSysInfo: function () {
-        var sys = {};
-        var agent = navigator.userAgent.toLowerCase() ;
-
+      _getOsInfo: function () {
+        var sUserAgent = navigator.userAgent;
+        var isWin = (navigator.platform == "Win32") || (navigator.platform == "Windows");
+        var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC") || (navigator.platform == "Macintosh") || (navigator.platform == "MacIntel");
+        if (isMac) return "Mac";
+        var isUnix = (navigator.platform == "X11") && !isWin && !isMac;
+        if (isUnix) return "Unix";
+        var isLinux = (String(navigator.platform).indexOf("Linux") > -1);
+        var bIsAndroid = sUserAgent.toLowerCase().match(/android/i) == "android";
+        if (isLinux) {
+          if(bIsAndroid) return "Android";
+          else return "Linux";
+        }
+        if (isWin) {
+          if (sUserAgent.indexOf("Windows NT 5.0") > -1 || sUserAgent.indexOf("Windows 2000") > -1) { return "Win2000"; }
+          if (sUserAgent.indexOf("Windows NT 5.1") > -1 || sUserAgent.indexOf("Windows XP") > -1) { return "WinXP"; }
+          if (sUserAgent.indexOf("Windows NT 5.2") > -1 || sUserAgent.indexOf("Windows 2003") > -1) { return "Win2003"; }
+          if (sUserAgent.indexOf("Windows NT 6.0") > -1 || sUserAgent.indexOf("Windows Vista") > -1) { return "WinVista"; }
+          if (sUserAgent.indexOf("Windows NT 6.1") > -1 || sUserAgent.indexOf("Windows 7") > -1) { return "Win7"; }
+          if (sUserAgent.indexOf("windows nt6.2") > -1 || sUserAgent.indexOf("Windows 8") > -1) { return "Win8"; }
+          if (sUserAgent.indexOf("Windows NT 10.0") > -1 || sUserAgent.indexOf("Windows 10") > -1) { return "Win10"; }
+        }
+        return "其他";
       },
 
       // 获取客户端信息
@@ -80,30 +99,30 @@ Login.prototype = {
         return {
           "userId": results.data.id,          // 用户id
           "appName": this.conf.serverPath.split('/')[this.conf.serverPath.split('/').length-2],                      // 应用名
-          "appVersion": this.conf.ver,                   // 应用版本号
-          "appApiVersion": '',                // 服务器接口版本号
-          "clientType": 'pc',                   // 客户端类型
+          "appVersion": this.conf.ver,                                    // 应用版本号
+          "appApiVersion": '',                                            // 服务器接口版本号
+          "clientType": 'pc',                                             // 客户端类型
           "clientSystem": this._getBrowserInfo().browser,                 // 客户端系统版本或浏览器名称
-          "clientSystemVersion": this._getBrowserInfo().ver,          // 客户端系统版本或浏览器名称（版本号）
-          "system": '',                       // 操作系统
-          "systemVersion": '',                // 操作系统版本号
-          "type": '',                         // 机型
-          "channel": ''                       // 渠道
+          "clientSystemVersion": this._getBrowserInfo().ver,              // 客户端系统版本或浏览器名称（版本号）
+          "system": this._getOsInfo(),                                    // 操作系统
+          "systemVersion": '',                                            // 操作系统版本号
+          "type": '',                                                     // 机型
+          "channel": ''                                                   // 渠道
         };
       },
 
       // 发送客户端信息
-      _sendClientInfo: function (data) {
-        console.log(this.conf.serverPath.split('/')[this.conf.serverPath.split('/').length-2]);
+      _sendClientInfo: function (_data) {
         var _url = this.conf.serverPath + this.clientUrl;
         $.ajax({
           url: _url,
           type: 'POST',
-          data: data,
+          data: JSON.stringify(_data),
+          contentType: 'application/json',
           crossDomain: true,
           dataType: 'json',
           success: function (results) {
-            console.log(results);
+            if (results.code === 200) { return true; }
           }
         });
       },
@@ -113,7 +132,7 @@ Login.prototype = {
         if (results.code === 200) {
           this._saveLoginInfo($('#' + this.userId).val());   // 保存用户名
           this._sendClientInfo(this._getClientInfo(results));
-          console.log(results);
+          window.location.href = "index.html";
         } else {
           var _d = this.errMsgClass + ' > div > span';
           $(_d).text(results.msg);
