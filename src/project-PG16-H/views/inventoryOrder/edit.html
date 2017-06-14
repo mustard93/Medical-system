@@ -17,7 +17,7 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
-        <a href="#/inventory_task/query.html"><em class="color-custom-orange">盘点任务</em></a>
+        <a href="#/inventoryOrder/query.html"><em class="color-custom-orange">盘点任务</em></a>
         <em> > 新建盘点任务</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
@@ -173,7 +173,7 @@
          modal-right="500"
          modal-scope="this"
          modal-data='{"relId":"{{mainStatus.pageParams.id}}","storeRoomId":"{{formData.storeRoomId}}"}'
-         modal-url="views/inventory_task/add-medical.html"  title="添加商品">
+         modal-url="views/inventoryOrder/add-medical.html"  title="添加商品">
            <i style="top:3px;"></i><span class="text-s">添加商品</span></a>
        </div>
        <!-- 手动生成 -->
@@ -305,11 +305,11 @@
            dialog-title="确认返回?"
            dialog-content="该盘点任务存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/inventory_task/query.html')"
+           nosave-callback="goTo('#/inventoryOrder/query.html')"
            save-callback="submitForm('editForm','exit-allocate')">返回盘点任务
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory_task/query.html?id={{formData.relId}}" >返回盘点任务</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventoryOrder/query.html?id={{formData.relId}}" >返回盘点任务</a>
 
         <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -319,7 +319,7 @@
            dialog-content="您确认删除这条盘点任务吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/inventoryMedicalNo/delete?id={{formData.id}}"
-           callback="$root.goTo('#/inventory_task/query.html')">删除
+           callback="$root.goTo('#/inventoryOrder/query.html')">删除
         </a>
 
         <button type="button"

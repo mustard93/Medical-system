@@ -18,7 +18,7 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
-        <a href="#/inventory/query.html"><em class="color-custom-orange">盘点计划</em></a>
+        <a href="#/inventoryApplicationOrder/query.html"><em class="color-custom-orange">盘点计划</em></a>
         <em> > 新建盘点计划</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
@@ -141,7 +141,7 @@
                        modal-right="500"
                        modal-scope="this"
                        modal-data='{}'
-                       modal-url="views/inventory/add-region.html">
+                       modal-url="views/inventoryApplicationOrder/add-region.html">
                     添加区域
                     <i class="add-icon-invoice" style="top:7px;left:50px;"></i>
                   </div>
@@ -163,7 +163,7 @@
                        modal-right="500"
                        modal-scope="this"
                        modal-data='{}'
-                       modal-url="views/inventory/add-region-goodslocation.html">
+                       modal-url="views/inventoryApplicationOrder/add-region-goodslocation.html">
                     添加区域/货位
                     <i class="add-icon-invoice" style="top:7px;left:80px;"></i>
                   </div>
@@ -186,7 +186,7 @@
                        modal-right="500"
                        modal-scope="this"
                        modal-data='{}'
-                       modal-url="views/inventory/add-medicalStock.html">
+                       modal-url="views/inventoryApplicationOrder/add-medicalStock.html">
                     添加商品
                     <i class="add-icon-invoice" style="top:7px;left:50px;"></i>
                   </div>
@@ -218,11 +218,11 @@
            dialog-title="确认返回?"
            dialog-content="该盘点计划存在未保存数据，是否保存?"
            dialog-template="pr-dialog-return.html"
-           nosave-callback="goTo('#/inventory/query.html')"
+           nosave-callback="goTo('#/inventoryApplicationOrder/query.html')"
            save-callback="submitForm('editForm','exit-allocate')">返回盘点计划
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory/query.html?id={{formData.relId}}" >返回盘点计划</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventoryApplicationOrder/query.html?id={{formData.relId}}" >返回盘点计划</a>
 
         <a ng-if="formData.inputUserId==mainStatus.id"
            href="javascript:;"
@@ -232,7 +232,7 @@
            dialog-content="您确认删除这条盘点计划吗?"
            dialog-template="dialog-confirm.html"
            request-url="rest/authen/inventoryApplicationOrder/delete?id={{formData.id}}"
-           callback="$root.goTo('#/inventory/query.html')">删除
+           callback="$root.goTo('#/inventoryApplicationOrder/query.html')">删除
         </a>
 
         <button type="button"

@@ -3417,7 +3417,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if($scope.submitForm_type == 'exit-allocate'){
-       $scope.goTo('#/inventory/query.html');
+       $scope.goTo('#/inventoryApplicationOrder/query.html');
       return;
      }
 
@@ -3428,7 +3428,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          .then(function (results) {
            var _data = results[1];
           //  alertOk(_data.message || '操作成功');
-           $scope.goTo('#/inventory/get.html?id='+$scope.formData.id);
+           $scope.goTo('#/inventoryApplicationOrder/get.html?id='+$scope.formData.id);
 
          })
          .catch(function (error) {
@@ -3760,7 +3760,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if($scope.submitForm_type == 'exit-allocate'){
-       $scope.goTo('#/inventory_task/query.html');
+       $scope.goTo('#/inventoryOrder/query.html');
       return;
      }
 
@@ -3771,7 +3771,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          .then(function (results) {
            var _data = results[1];
           //  alertOk(_data.message || '操作成功');
-           $scope.goTo('#/inventory_task/get.html?id='+$scope.formData.id);
+           $scope.goTo('#/inventoryOrder/get.html?id='+$scope.formData.id);
 
          })
          .catch(function (error) {

@@ -3,7 +3,7 @@
                             crumbs-nav='[{"name":"库房工作","link":"","style":""},{"name":"盘点计划","link":"","style":"color-custom-orange"}]'
                             component-title="盘点计划"
                             is-show-create-btn="新建盘点计划"
-                            create-new-url="#/inventory/edit.html"
+                            create-new-url="#/inventoryApplicationOrder/edit.html"
                             get-status-num-url="rest/authen/inventoryApplicationOrder/countByOrderStatus.json"
                             status-group-data='[["未提交-true","待审核-true","待启动-true","盘点中-true","已完成-true"], ["未通过-true"], ["已作废-true"]]'
                             is-show-date-filter=true
@@ -46,7 +46,7 @@
                   <span class="flex-item-6 text-right">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
 
-                      <a href="#/inventory/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                      <a href="#/inventoryApplicationOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
                       <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
                          href="javascript:;"
@@ -62,8 +62,9 @@
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus=='待启动'" >
-                      <a  class="btn-link pd-m rect-s " title="启动盘点表">
-                      <span class="create-arrive-icon">&nbsp;</span>
+                      <!-- <a  class="btn-link pd-m rect-s " title="启动盘点表"> -->
+                      <!-- <span class="create-arrive-icon">&nbsp;</span> -->
+                      <!-- <span class="outStork-icon">&nbsp;</span> -->
                      </a>
                            <div
                               href="javascript:;"
@@ -72,17 +73,17 @@
                                modal-center="340"
                                modal-scope="this"
                                modal-data='{"id":"{{tr.id}}","text":"发送盘点任务消息"}'
-                               modal-url="views/inventory/send-message.html">
+                               modal-url="views/inventoryApplicationOrder/send-message.html">
                              <span class="send-icon">&nbsp;</span>
                            </div>
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'" class=" text-right">
                       <a ng-if="tr.orderStatus!='待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')&&tr.orderStatus!='待启动'"
-                      href="#/inventory/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                      href="#/inventoryApplicationOrder/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
                       <span class="watch-detail-icon">&nbsp;</span>
                       </a>
                       <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
-                         ng-href="#/inventory/get.html?id={{tr.id}}"
+                         ng-href="#/inventoryApplicationOrder/get.html?id={{tr.id}}"
                          title="立即审核"
                          class="btn-link pd-m rect-s "
                          >
