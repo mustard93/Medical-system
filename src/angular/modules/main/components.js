@@ -3,19 +3,12 @@
  *  create by liuzhen
  */
 define('main/components', ['main/init'], function () {
-  function testComponent () {
-    return {
-      template: '<div>Test - Components</div>',
-      bindings: {
-        test: '='
-      },
-      controller: ['$scope', function ($scope) {
-        console.log($scope);
-      }]
-    }
-  }
-
-
   angular.module('manageApp.main')
-  .component('testComponent', [testComponent]);
+  .component('testComponent', {
+    template: '<div>测试Component1</div>',
+    bindings: {},
+    controller: function () {
+      console.log('aaabbb');
+    }
+  });
 });
