@@ -3963,9 +3963,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   //领退模块
    function  collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-
-
-       // 保存type:save-草稿,submit-提交订单。
+       // 回调  保存type:save-草稿,submit-提交订单。
        $scope.submitFormAfter = function() {
 
            if($scope.submitForm_type == 'save'){
@@ -3974,8 +3972,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
            }
 
            if ($scope.submitForm_type == 'submit') {
-
-
                var _url='rest/authen/collarReturnOrder/startProcessInstance';
                var data= {businessKey:$scope.formData.id};
                requestData(_url,data, 'POST')
@@ -4008,7 +4004,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
            $('#' + fromId).trigger('submit');
        };
 
-
    }
 
     //领退模块选择退货商品
@@ -4039,16 +4034,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 });
 
         };
-
-
-
-
-
-
-
-
-
-
 
         $scope.angucomplete_data={
 
@@ -4109,6 +4094,27 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
         $scope.getGoodsBatchs=function(){
+            //step1 判断去重复
+
+            var flag=false;
+
+            for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
+
+
+                console.log($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId)
+
+                if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
+                    flag=true;
+                }
+            }
+
+            if(flag){
+                alertWarn("該商品已存在,请重新选择");
+                return;
+            }
+
+            $scope.showBatchs=true;
+
 
             var _data={
                 id:$scope.curOrder.id,//单据主键ID
@@ -4122,20 +4128,19 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 .catch(function (error) {
                     alertError(error || '出错');
                 });
-        }
+        };
 
 
         $scope.selectedBatchs=[];
-        $scope.handleItemClickEvent=function (item,index) {
 
-            // item.handleFlag = !item.handleFlag;
+        $scope.handleItemClickEvent=function (item,index) {
 
             if(item.handleFlag){
                 $scope.selectedBatchs.push(item);
             }else{
                 $scope.selectedBatchs.splice(index,1);
             }
-        }
+        };
 
 
 
@@ -4171,16 +4176,43 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
+        //添加订单中的商品到列表
+        $scope.addOrderDataToList=function () {
+
+            var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
+
+
+            console.log('$scope.selectedBatchs',$scope.selectedBatchs);
+
+            $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat($scope.selectedBatchs);
+
+        };
+
+
         //选择批次
-        $scope.choiceBaths=function(){
+        $scope.choiceBaths=function(index){
 
-            conosle.log( $scope.selectedBatchs);
+            console.log( $scope.selectedBatchs);
 
+            var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
+
+            $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat($scope.selectedBatchs);
+
+            $scope.selectedBatchs=[];
+        };
+
+
+
+
+
+
+
+
+
+
+        $scope.itemInArray=function (item,list) {
 
         }
-
-
-
 
 
 

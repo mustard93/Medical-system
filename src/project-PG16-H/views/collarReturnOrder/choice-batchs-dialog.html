@@ -69,8 +69,8 @@
 
             <tbody style="color: #fff;">
             <tr ng-repeat="item in stockBatchList" class="trHover-bg" ng-class="{ 'pr-bg-grey3':$index==4}" >
-                <td class="select-td text-center mycheck" style="width: 100px;">
-                    <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr,$index);">
+                <td ng-init="item.handleFlag= item.handleFlag ?  true : false"  class="select-td text-center mycheck" style="width: 100px;">
+                    <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,$index);">
                     <label for="{{$index+2}}"></label>
                 </td>
                 <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
@@ -81,6 +81,6 @@
         </table>
     </div>
     <div class="footer-btn-box">
-        <button ng-click="choiceBaths();modal.close()" class="footer-btn">确定</button>
+        <button ng-click="choiceBaths(dialogData.index);modal.close()" class="footer-btn">确定</button>
     </div>
 </div>
