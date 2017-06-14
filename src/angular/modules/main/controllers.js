@@ -334,7 +334,7 @@ define('main/controllers', ['main/init'], function () {
     /**
      *  主页面控制器
      */
-    function pageCtrl($scope, modal, dialogConfirm, $timeout,requestData, utils,alertWarn,alertOk) {
+    function pageCtrl($scope, modal, dialogConfirm, $timeout, requestData, utils, alertWarn, alertOk) {
         modal.closeAll();
 
         $scope.choisedMedicalList = [];
@@ -402,7 +402,6 @@ define('main/controllers', ['main/init'], function () {
           size: 125
         };
 
-
         // 每个药品单选操作
         $scope.handleItemClickEvent = function (item) {
           if (item.handleFlag) {    // 选中
@@ -437,7 +436,6 @@ define('main/controllers', ['main/init'], function () {
           }
         };
 
-
         $scope.changeStatus = function(_id,_selectSendStatus){
 
           var _url = 'rest/authen/op/purchasePlanOrder/updateStatus?id=' + _id+'&status='+_selectSendStatus,
@@ -452,6 +450,22 @@ define('main/controllers', ['main/init'], function () {
             });
         };
 
+        // 通过接口获取当前用户所在机构配置的对于单据编号的设置
+        // 如果返回的`data`对象中的`value`值为`auto`，则为自动模式，单据编号不可写，显示由后台返回的系统值
+        // 否则显示为用户可自定义配置的
+        $scope.numberingPolicy = null;
+        $scope.getCodeShowMode = function (url) {
+          var _url = url;
+          requestData(_url)
+          .then(function (results) {
+            $scope.numberingPolicy = results[1].data.value;
+          })
+          .catch(function (error) {
+            if (error) { throw new Error(error || '出错'); }
+          });
+        };
+
+        $scope.getCodeShowMode('rest/authen/systemSetting/getByParameter?parameter=订单号生成策略');
     }
 
     /**

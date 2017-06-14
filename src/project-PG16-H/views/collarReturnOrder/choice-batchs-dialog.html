@@ -1,7 +1,7 @@
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
-     ng-controller="inventoryAdjustmentOrderDialogCtrl"
+     ng-controller="collarReturnOrderChoiceDialogCtrl"
      ng-init="listParams={}"
-     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}"
+     ajax-url="rest/authen/collarApplicationOrder/queryMedicalProductionBatch?relMedicalStockId={{dialogData.relMedicalStockId}}&id={{dialogData.orderId}}"
      scope-data="stockBatchList"
      callback="initFlag=true;getChoisedBatchsId(dialogData.choisedBatchList);"
      alert-error>
@@ -67,12 +67,10 @@
             </tr>
             </thead>
 
-
-
             <tbody style="color: #fff;">
             <tr ng-repeat="item in stockBatchList" class="trHover-bg" ng-class="{ 'pr-bg-grey3':$index==4}" >
                 <td class="select-td text-center mycheck" style="width: 100px;">
-                    <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                    <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr,$index);">
                     <label for="{{$index+2}}"></label>
                 </td>
                 <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
@@ -83,6 +81,6 @@
         </table>
     </div>
     <div class="footer-btn-box">
-        <button ng-click="modal.close()" class="footer-btn">确定</button>
+        <button ng-click="choiceBaths();modal.close()" class="footer-btn">确定</button>
     </div>
 </div>
