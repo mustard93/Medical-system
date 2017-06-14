@@ -563,6 +563,8 @@ define('project/controllers', ['project/init'], function() {
           .then(function (results) {
             if (results[1].code === 200) {
               utils.goTo('#/salesOrder/edit2.html?id='+id);
+            } else {
+              alertWarn(results[1].msg);
             }
           });
         }
