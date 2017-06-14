@@ -165,56 +165,56 @@
                         <span class="mgr">单据编号：<em class="color-3 ng-binding">3423fsdgsdah</em></span>
                         <span class="mgr">审核人：<em class="color-3 ng-binding">小谷</em></span>
                         <span class="mgr relative">制单人：
-                <span class="purchaseorder-buyer-info-outside">
-                  <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding"
-                          style="position:relative;height:25px;">小谷</strong>
-                  <span class="purchaseorder-buyer-info" style="right:-73px">
-                    <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em
-                            class="inline-block pdl pdr pdt ng-binding">13600000000</em></i>
-                    <i class="block pdb-s text-normal">
-                      <em class="fa fa-comment-o mgl"></em>
-                      <em class="inline-block pdl pdr pdt">
-                        <a href="javascript:;" modal-center="340"
-                           modal-data="{&quot;toUser&quot;:{&quot;n&quot;:&quot;小谷&quot;},&quot;userIds&quot;:[&quot;57e5062043f2f3c7f632ffb0}&quot;]}"
-                           modal-url="views/notice/sendToUser.html" class="ng-isolate-scope">发送消息
-                        </a>
-                      </em>
-                    </i>
-                  </span>
-                </span>
-              </span>
-                        <span class="mgr">审核日期：<em class="color-3 ng-binding">2017-06-09</em></span>
-                    </div>
-                    <div class="flex-item-6 text-right">
-                        <span class="mgr">录单日期：<em class="color-3 ng-binding">2017-06-09</em></span>
-                        <!-- <a
-                           modal-center="1000px"
-                           modal-data='{"businessKey":"{{scopeData.id}}"}'
-                           modal-scope="this"
-                           modal-url="views/workflowTask/getOfDialog.html">
+                            <span class="purchaseorder-buyer-info-outside">
+                                          <strong run-popovers="" class="color-custom-orange cur-pot text-normal pr-color ng-binding"
+                                                  style="position:relative;height:25px;">
+                                              小谷
+                                          </strong>
+                                          <span class="purchaseorder-buyer-info" style="right:-73px">
+                                            <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em
+                                                    class="inline-block pdl pdr pdt ng-binding">
+                                                13600000000</em>
+                                            </i>
+                                            <i class="block pdb-s text-normal">
+                                              <em class="fa fa-comment-o mgl"></em>
+                                              <em class="inline-block pdl pdr pdt">
+                                                <a href="javascript:;" modal-center="340"
+                                                   modal-data="{&quot;toUser&quot;:{&quot;n&quot;:&quot;小谷&quot;},&quot;userIds&quot;:[&quot;57e5062043f2f3c7f632ffb0}&quot;]}"
+                                                   modal-url="views/notice/sendToUser.html" class="ng-isolate-scope">发送消息
+                                                </a>
+                                              </em>
+                                            </i>
 
-                        </a> -->
-                        <span class="mgr">状态：<em class="color-3 ng-binding">待领取</em></span>
+                                          </span>
+                                    </span>
+                        </span>
+
                     </div>
+                    <div class="flex-item-6 text-right"></div>
                 </div>
                 <!-- 类别选择 -->
                 <div class="pd-c-l pdt-m pdb-m color-9">
-                    <span class="mgr-l">申请部门：<em class="color-3 ng-binding">销售部</em></span>
                     <span class="mgr-l">申请人：<em class="color-3 ng-binding">小谷</em></span>
-                    <span class="mgr-l">申请日期：<em class="color-3 ng-binding">2017-06-09</em></span>
-                    <span class="mgr-l">期望领用日期：<em class="color-3 ng-binding">2017-06-09</em></span>
+                    <span class="mgr-l">申请部门：<em class="color-3 ng-binding">销售部</em></span>
+                    <span class="mgr-l">领用日期：<em class="color-3 ng-binding">2017-06-09</em></span>
+                    <span class="mgr-l">领用库房：<em class="color-3 ng-binding">2017-06-09</em></span>
                 </div>
                 <!-- 商品列表 -->
                 <div class="outside-table-d">
                     <table class="table pr-table pr-new-table mgb-n" style="min-width: 100%;">
                         <thead>
                         <tr>
+                            <th class="w-60 text-center mycheck" ng-if="!listParams.shelvesUpStatus">
+                                <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                                <label for="1" style="top: 10px;"></label>
+                            </th>
                             <th class="text-center">序号</th>
                             <th class="text-center">商品编码</th>
                             <th class="text-left">商品名称</th>
                             <th class="text-center">申请数量</th>
                             <!-- ngIf: scopeData.orderStatus!='待审核' -->
-                            <th ng-if="scopeData.orderStatus!='待审核'" class="text-center ng-scope">实际领用数量</th>
+                            <th class="text-center">领用数量</th>
+                            <th class="text-center">可退数量</th>
                             <!-- end ngIf: scopeData.orderStatus!='待审核' -->
                             <!-- ngIf: scopeData.orderStatus=='待审核' -->
                             <th class="text-center">商品规格</th>
@@ -226,6 +226,10 @@
                         <tbody>
                         <!-- ngRepeat: tr in scopeData.orderMedicalNos -->
                         <tr ng-repeat="tr in scopeData.orderMedicalNos" class="ng-scope">
+                            <td class="select-td text-center mycheck" style="width: 100px;">
+                                <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                                <label for="{{$index+2}}"></label>
+                            </td>
                             <td class="text-center ng-binding" style="line-height:2.4">1</td><!-- 序号 -->
                             <td class="text-center ng-binding" style="line-height:2.4">qzy</td><!-- 商品编码 -->
                             <td class="text-left" style="line-height:2.4">
@@ -234,11 +238,7 @@
                                 </div>
                             </td><!-- 商品全名 -->
                             <td class="text-right ng-binding" style="line-height:2.4">10</td><!-- 申请数量 -->
-                            <!-- ngIf: scopeData.orderStatus!='待审核' -->
-                            <td class="text-right ng-binding ng-scope" ng-if="scopeData.orderStatus!='待审核'"
-                                style="line-height:2.4">0
-                            </td><!-- end ngIf: scopeData.orderStatus!='待审核' --><!-- 实际领用数量 -->
-                            <!-- ngIf: scopeData.orderStatus=='待审核' -->
+                            <td class="text-right ng-binding ng-scope" style="line-height:2.4">0/td><!-- 可退数量-->
                             <td class="text-center ng-binding" style="line-height:2.4">不清楚</td><!-- 商品规格 -->
                             <td class="text-center ng-binding" style="line-height:2.4">箱</td><!-- 商品单位 -->
                             <td class="text-center ng-binding">测试产地</td>
@@ -269,7 +269,7 @@
                 <div class="angucomplete-holder">
                     <!-- 屏蔽失去焦点隐藏下拉框的ng-blur事件，为实现点击已冻结药品时下拉框不消失的功能 -->
                     <span angucomplete-medical placeholder="输入" title-field="name"
-                          url="data/medicalStockList.json" class="inline-block"
+                          url="rest/authen/medicalStock/query" class="inline-block"
                           ng-model="angucomplete_data"></span>
                     <!-- ngIf: showDropdown -->
                 </div>
@@ -306,7 +306,7 @@
                         width="120px"
                         chosen
                         ng-model="listParams.storeRoomId"
-                        select-source="rest/authen/storeRoom/queryForSelectOption"
+                        select-source="rest/authen/department/queryForSelectOption"
                         ng-change="handleSearchFilter(listParams,dialogData.id)">
                 </select>
             </div>
@@ -320,7 +320,7 @@
                         default-empty="全部"
                         width="120px"
                         chosen
-                        ng-model="listParams.storeRoomId"
+                        ng-model="listParams.departmentId"
                         select-source="rest/authen/storeRoom/queryForSelectOption"
                         ng-change="handleSearchFilter(listParams,dialogData.id)">
                 </select>
@@ -353,7 +353,7 @@
                         width="120px"
                         chosen
                         ng-model="listParams.storeRoomId"
-                        select-source="rest/authen/storeRoom/queryForSelectOption"
+                        select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{listParams.departmentId}}"
                         ng-change="handleSearchFilter(listParams,dialogData.id)">
                 </select>
             </div>
@@ -417,7 +417,7 @@
 
                         <div class="card-new">
                             <div class="bt-line">
-                                <div class="choiced"><img src="images/icon-checked.png" alt=""></div>
+                                <div class="choiced"><img src="../images/icon-checked.png" alt=""></div>
                                 <h1 class="text-center text-m color-3 text-ellips-s ng-binding">销售部</h1>
 
                             </div>
