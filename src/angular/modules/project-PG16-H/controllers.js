@@ -4071,6 +4071,23 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             console.log(item.gainLossQuantity);
         }
     };
+
+    $scope.deleteInventory = function(_id){
+
+        var data={};
+        requestData("rest/authen/inventoryMedicalNo/delete?id="+_id, data, 'POST')
+        .then(function (results) {
+          if (results[1].code === 200) {
+              utils.refreshHref();
+              alertOk('操作成功');
+            }
+        })
+        .catch(function (error) {
+          alertError(error || '出错');
+        });
+
+      }
+
   }
 
 
@@ -4210,37 +4227,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.getGoodsBatchs=function(){
             //step1 判断去重复
 
-<<<<<<< HEAD
-      if (!item.actualQuantity) {
-        item.gainLossQuantity='';
-      }else {
-        item.gainLossQuantity=parseInt(item.actualQuantity-item.systemQuantity);
-        console.log(item.gainLossQuantity);
-      }
-    };
-
-    // 删除手动生成添加的盘点商品
-    $scope.deleteInventory= function (_id){
-
-      var data={};
-
-      requestData("rest/authen/inventoryMedicalNo/delete?id="+_id, data, 'POST')
-      .then(function (results) {
-        if (results[1].code === 200) {
-            utils.refreshHref();
-            alertOk('操作成功');
-          }
-      })
-      .catch(function (error) {
-        alertError(error || '出错');
-      });
-
-    }
-
-  }
-=======
             var flag=false;
->>>>>>> cd6fff8e1d0f3476923260e6b6b5bc8fd040ead3
 
             for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
 
@@ -4252,16 +4239,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 }
             }
 
-            // if(flag){
-            //     alertWarn("該商品已存在,请重新选择");
-            //     return;
-            // }
+            if(flag){
+                alertWarn("該商品已存在,请重新选择");
+                return;
+            }
 
             $scope.showBatchs=true;
 
 
             var _data={
-                id:$scope.curOrder.relId,//单据主键ID
+                id:$scope.curOrder.id,//单据主键ID
                 relMedicalStockId:$scope.curOrder.relMedicalStockId
             };
 
@@ -4295,7 +4282,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
             //領用單編號
-            obj.rolOrderCode=$scope.curOrder.relOrderCode;
+            obj.rolOrderCode=$scope.curOrder.orderCode;
 
             //可退數量
             obj.returnTotal=$scope.curOrder.returnTotal || 0;
@@ -4304,8 +4291,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             obj.relMedicalStockId=obj.id;
 
             //领用单ID
-            obj.relCollarApplicationId=$scope.curOrder.relId;
-            obj.relId=$scope.curOrder.relId;
+            obj.relCollarApplicationId=$scope.curOrder.id;
 
 
             //批次信息
@@ -4339,11 +4325,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             console.log( $scope.selectedBatchs);
 
-            console.log("$scope.formData.orderMedicalNos[index].stockBatchs",$scope.formData.orderMedicalNos[index].stockBatchs);
-
-
-
-
             var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
 
             $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat($scope.selectedBatchs);
@@ -4352,22 +4333,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-
-
-
-
-
-
-
-
         $scope.itemInArray=function (item,list) {
 
         }
-
-
-
-
-
 
     }
 
