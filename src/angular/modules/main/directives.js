@@ -536,8 +536,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
                     $scope.listObject = {};
                 }
 
-                console.log($scope.listObject);
-
                 //单个删除
                 $scope.delete1 = function(_url, _param) {
                     var _tr = this.tr;
