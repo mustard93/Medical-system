@@ -55,9 +55,6 @@ Login.prototype = {
         }
       },
 
-      // 获取操作系统
-
-
       // 获取客户端浏览器信息
       _getBrowserInfo: function () {
         var Sys = {};
