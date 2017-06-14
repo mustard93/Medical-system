@@ -1,0 +1,88 @@
+<div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+     ng-controller="inventoryAdjustmentOrderDialogCtrl"
+     ng-init="listParams={}"
+     ajax-url="rest/authen/medicalStock/queryStockBatch?relMedicalStockId={{dialogData.id}}"
+     scope-data="stockBatchList"
+     callback="initFlag=true;getChoisedBatchsId(dialogData.choisedBatchList);"
+     alert-error>
+
+    <!-- 标题 -->
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+        <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{dialogData.medicalName}}</h1>
+    </div>
+
+
+    <!-- 过滤条件 -->
+    <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+
+        <!-- 仓库过滤 -->
+        <div class="inline-block" style="line-height: 40px;">
+            <span class="color-9">选择生产批号: <i style="color: #fff; font-style: normal">4asasdad554888878</i></span>
+        </div>
+
+    </div>
+    <!-- 无数据 -->
+    <div ng-if="!stockBatchList.length" class="color-red text-n pdl-l pdt-m">此商品在该货位暂无库存。</div>
+    <!-- 数据遍历 -->
+
+    <style>
+        .footer-btn-box {
+            height: 56px;
+            z-index: 1000;
+            position: absolute;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            text-align: center;
+            background: rgba(54, 48, 44, 0.95);
+        }
+
+        .footer-btn {
+            border: 0;
+            height: 36px;
+            width: 160px;
+            background: #C7A77B;
+            border-radius: 100px;
+            font-size: 14px;
+            color: #FFFFFF;
+            line-height: 18px;
+            margin: 10px 30px;
+        }
+        .pr-bg-grey3{
+            color: #0A0A0A;
+        }
+    </style>
+
+    <div ng-if="stockBatchList.length">
+        <table class="full-width another-table">
+            <thead>
+            <tr class="bb-line-gold"  style="width: 100px;">
+                <th class="w-60 text-center mycheck" ng-if="!listParams.shelvesUpStatus">
+                    <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                    <label for="1" style="top: 10px;"></label>
+                </th>
+                <th>生产批号</th>
+                <th>有效期至</th>
+                <th>可退量</th>
+            </tr>
+            </thead>
+
+
+
+            <tbody style="color: #fff;">
+            <tr ng-repeat="item in stockBatchList" class="trHover-bg" ng-class="{ 'pr-bg-grey3':$index==4}" >
+                <td class="select-td text-center mycheck" style="width: 100px;">
+                    <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                    <label for="{{$index+2}}"></label>
+                </td>
+                <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
+                <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
+                <td class="text-left" style="height:50px;">{{item.stockModel.totalQuantity}}</td><!--可用量-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer-btn-box">
+        <button ng-click="modal.close()" class="footer-btn">确定</button>
+    </div>
+</div>

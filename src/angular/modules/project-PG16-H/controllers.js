@@ -3417,7 +3417,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if($scope.submitForm_type == 'exit-allocate'){
-       $scope.goTo('#/inventory/query.html');
+       $scope.goTo('#/inventoryApplicationOrder/query.html');
       return;
      }
 
@@ -3428,7 +3428,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          .then(function (results) {
            var _data = results[1];
           //  alertOk(_data.message || '操作成功');
-           $scope.goTo('#/inventory/get.html?id='+$scope.formData.id);
+           $scope.goTo('#/inventoryApplicationOrder/get.html?id='+$scope.formData.id);
 
          })
          .catch(function (error) {
@@ -3542,20 +3542,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 按区域盘点
     // 把区域id组成ids，传到后台，侧边框再次打开时默认选中已选的区域
-    // $scope.getRegionIds=function(regionSelects){
-    // $scope.formData.regionIds=[];
-    // $scope.formData.goodsLocationIds=[];
-    //   for (var i = 0; i < regionSelects.length; i++) {
-    //     // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
-    //     if (regionSelects[i].goodsLocationSelects.length) {
-    //
-    //       for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
-    //         $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
-    //       }
-    //     }
-    //     $scope.formData.regionIds.push(regionSelects[i].id);
-    //   }
-    // };
 
     function getRegionIds(regionSelects){
     $scope.formData.regionIds=[];
@@ -3604,14 +3590,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 删除货位id
     $scope.deleteGoodslocationIds = function (goodsLocationSelects,_ids){
 
-      for (var i = 0; i < goodsLocationSelects.length; i++) {
-        for (var j = 0; j < _ids.length; j++) {
-          if (goodsLocationSelects[i].id==_ids[j].id) {
+
+      for (var j = _ids.length-1; j >=0;  j--) {
+
+        for (var i = 0; i < goodsLocationSelects.length; i++) {
+
+          if (_ids[j]==goodsLocationSelects[i].id) {
             _ids.pop(_ids[j]);
+            console.log(_ids);
           }
         }
-        $scope.formData.goodsLocationIds=_ids;
       }
+      $scope.formData.goodsLocationIds=_ids;
     }
 
     // query页面点击发送盘点任务消息时请求接口获取信息内容
@@ -3664,7 +3654,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
                 }
               }
-              regionArr[i].goodsLocationSelects=goodsLocationSelects;
+              // 如果所有货位都没有被选中，则把对应区域也去掉，不选中。
+              if (regionArr[i].goodsLocationSelects.length) {
+                regionArr[i].goodsLocationSelects=goodsLocationSelects;
+              }else {
+                regionArr[i].checked=false;
+              }
             }
             regionSelects.push(regionArr[i]);
             $scope.formData.regionSelects=regionSelects;
@@ -3679,6 +3674,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // // 选择货位后，组装成相应对象
     $scope.selectGoodslocation= function(tr,item){
       // 如果选中货位，就选中相对应的区域
+
       if (item.checked) {
         tr.checked=true;
       }
@@ -3764,7 +3760,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if($scope.submitForm_type == 'exit-allocate'){
-       $scope.goTo('#/inventory_task/query.html');
+       $scope.goTo('#/inventoryOrder/query.html');
       return;
      }
 
@@ -3775,7 +3771,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          .then(function (results) {
            var _data = results[1];
           //  alertOk(_data.message || '操作成功');
-           $scope.goTo('#/inventory_task/get.html?id='+$scope.formData.id);
+           $scope.goTo('#/inventoryOrder/get.html?id='+$scope.formData.id);
 
          })
          .catch(function (error) {
@@ -3873,6 +3869,35 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $('input', '#addDataItem_relId_chosen').trigger('focus');
         // $('#addDataItem_relId_chosen').trigger('click');
     };
+
+    $scope.submitData = function (formData,regionId,goodsLocationId){
+      // 添加漏盘商品
+
+      if (formData) {
+        // 把区域货位id放到save商品的对象中
+        formData.regionId=regionId;
+        formData.goodsLocationId=goodsLocationId;
+        // 请求save保存添加一条商品信息
+        requestData("rest/authen/inventoryMedicalNo/save", formData, 'POST','parameterBody')
+          .then(function (results) {
+            console.log(results[1].data);
+            // 保存成功之后把该条商品信息放入编辑页面第二张表格中
+          $scope.tbodyList.push(results[1].data);
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+      }
+    }
+
+    $scope.saveData = function (listParams){
+      // $scope.formData=listParams.systemMedicalList;
+      // for (var i = 0; i < listParams.length; i++) {
+      //   array[i]
+      // }
+      console.log(listParams.systemMedicalList);
+      console.log(listParams.customMedicalList);
+    }
 
   }
 

@@ -18,7 +18,7 @@
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
-        <a href="#/inventory/query.html"><em class="color-custom-orange">盘点计划</em></a>
+        <a href="#/inventoryApplicationOrder/query.html"><em class="color-custom-orange">盘点计划</em></a>
         <em> > 盘点计划详情</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
@@ -109,7 +109,11 @@
                 </div>
                 <div class=" inline-block mgr " ng-repeat="reg in formData.regionSelects">
                   <div class="pd-v-s" ng-if="reg.id">
-                    <em class="color-black">{{reg.name}}</em>
+                    <em>{{reg.name}}:</em>
+                    <span ng-repeat="good in reg.goodsLocationSelects">
+                      <em class="mgr color-black">{{good.name}}</em>
+                    </span>
+
                   </div>
                 </div>
               </div>
@@ -143,11 +147,15 @@
         </div>
       </div>
     </div>
+    <!-- 业务流程图-->
+    <div class="">
+        <business-flow-show business-key="{{formData.id}}" business-type="SPD盘点申请单"></business-flow-show>
+    </div>
 
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventory/query.html?id={{formData.relId}}" >返回盘点计划</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventoryApplicationOrder/query.html?id={{formData.relId}}" >返回盘点计划</a>
         <span ng-if="formData.didateFilter.buttons.length>0"
               custom-menu-list
               custom-menu-arr="{{formData.didateFilter.buttons}}">

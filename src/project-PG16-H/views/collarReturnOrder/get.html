@@ -20,18 +20,7 @@
       <em >{{scopeData.operationFlowSet.message}}</em>
     </p>
   </div>
-  <div class="mgb pd-n mgl-xxl">
-    <div class="inline-block pr-bg-white relative full-height mgr" style="width:464px;">
-      <div class="inline-block logistics-center-out relative">
-        <p class="mgb-s">
-          库房
-        </p>
-        <p class="text-m color-black autocut-default text-left" title="{{formData.sourceName}}" style="width:200px;">
-          {{scopeData.storeRoomName || '暂无'}}
-        </p>
-      </div>
-    </div>
-  </div>
+
   <div class="content-wrapper">
     <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l pd-n">
       <!-- 单据信息 -->
@@ -58,64 +47,63 @@
               </span>
             </span>
           </span>
-          <span class="mgr">审核日期：<em class="color-3">{{scopeData.approver.approverDate|| '暂无' | date:'yyyy-MM-dd'}}</em></span>
+          <!--<span class="mgr">审核日期：<em class="color-3">{{scopeData.approver.approverDate|| '暂无' | date:'yyyy-MM-dd'}}</em></span>-->
         </div>
-        <div class="flex-item-6 text-right">
-          <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-            <!-- <a
-               modal-center="1000px"
-               modal-data='{"businessKey":"{{scopeData.id}}"}'
-               modal-scope="this"
-               modal-url="views/workflowTask/getOfDialog.html">
 
-            </a> -->
+        <div class="flex-item-6 text-right">
+              <span class="mgr">录单日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
               <span class="mgr">状态：<em class="color-3">{{scopeData.orderStatus}}</em></span>
         </div>
       </div>
+
       <!-- 类别选择 -->
       <div class="pd-c-l pdt-m pdb-m color-9">
-        <span class="mgr-l">申请部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
         <span class="mgr-l">申请人：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
-        <span class="mgr-l">申请日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-        <span class="mgr-l">期望领用日期：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+        <span class="mgr-l">申请时间：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
+        <span class="mgr-l">申请部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
       </div>
+
       <!-- 商品列表 -->
       <div class="">
           <table class="table pr-table pr-new-table mgb-n">
             <thead>
             <tr>
               <th class="text-center">序号</th>
+              <th class="text-center">领用单编号</th>
               <th class="text-center">商品编码</th>
               <th class="text-left">商品名称</th>
-              <th class="text-center">申请数量</th>
-              <th ng-if="scopeData.orderStatus!='待审核'" class="text-center">实际领用数量</th>
-              <th ng-if="scopeData.orderStatus=='待审核'" class="text-center">可用数量</th>
+              <th class="text-center">申请退货数量</th>
+              <th class="text-center">可退数量</th>
+              <th class="text-center">生产批号</th>
+              <th class="text-center">商品规格</th>
               <th class="text-center">商品规格</th>
               <th class="text-center">基本单位</th>
-              <th class="text-center">产地</th>
-              <th class="text-center">生产厂商</th>
            </tr>
             </thead>
             <tbody>
               <tr ng-repeat="tr in scopeData.orderMedicalNos">
                 <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
+
+                <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 领用单编号 -->
+
                 <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                 <td class="text-left" style="line-height:2.4">
                   <div class="autocut" title="{{tr.name}}">
                      {{tr.name}}
                   </div>
                 </td><!-- 商品全名 -->
-                <td class="text-right" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请数量 -->
-                <td class="text-right" ng-if="scopeData.orderStatus!='待审核'" style="line-height:2.4">{{tr.availableCount}}</td><!-- 实际领用数量 -->
-                <td ng-if="scopeData.orderStatus=='待审核'" class="text-right"
-                ajax-url="rest/authen/medicalStock/countStockByIds?ids={{tr.id}}&&storeRoomId={{scopeData.storeRoomId}}"
-                scope-data="showData"
-                ><em ng-repeat="item in showData">{{item.salesQuantity}}</em>
-                </td>
+
+                <td class="text-right" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请退货数量 -->
+
+                <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 可退数量 -->
+
+                <td class="text-center" >{{tr.productionPlace}}</td>  <!--生产批号-->
+
                 <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
+
                 <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 商品单位 -->
-                <td class="text-center" >{{tr.productionPlace}}</td>
-                <td class="text-center" >{{tr.manufacturer}}</td>
+
+
               </tr>
             </tbody>
           </table>
