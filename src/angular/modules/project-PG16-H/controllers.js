@@ -3547,15 +3547,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     $scope.formData.regionIds=[];
     $scope.formData.goodsLocationIds=[];
       for (var i = 0; i < regionSelects.length; i++) {
+        
         // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
         if (regionSelects[i].goodsLocationSelects.length) {
 
           for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
             $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
           }
+        }else {
+          $scope.formData.regionIds.push(regionSelects[i].id);
         }
-        $scope.formData.regionIds.push(regionSelects[i].id);
       }
+
     };
 
     $scope.reloadRegionIds=function(storeRoomId,regionIds){
@@ -3902,6 +3905,76 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //领退模块
+   function  collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+       
+   }
+
+    //领退模块选择退货商品
+    function  collarReturnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+    }
+
+
+
+
+
   angular.module('manageApp.project-PG16-H')
   .controller('indexPageController', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', '$rootScope', indexPageController])
   .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
@@ -3924,5 +3997,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController])
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
-  .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]);
+  .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl])
+  .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl])
+
+  .controller('collarReturnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl])
+  .controller('collarReturnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl])
+  ;
 });
