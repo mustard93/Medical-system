@@ -3167,7 +3167,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           $scope.formData.storeRoomName='';
           $scope.formData.transferReason='';
       }
-    })
+    });
 
     $scope.$watch('formData.medical_unit', function (newVal, oldVal) {
       var newQuantity='';
