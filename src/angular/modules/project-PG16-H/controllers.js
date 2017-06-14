@@ -3934,9 +3934,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
     }
 
+
     //领退模块
     function  collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
-        // 保存type:save-草稿,submit-提交订单。
+
+        // 回调  保存type:save-草稿,submit-提交订单。
         $scope.submitFormAfter = function() {
 
             if($scope.submitForm_type == 'save'){
@@ -3945,8 +3947,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
 
             if ($scope.submitForm_type == 'submit') {
-
-
                 var _url='rest/authen/collarReturnOrder/startProcessInstance';
                 var data= {businessKey:$scope.formData.id};
                 requestData(_url,data, 'POST')
@@ -3961,6 +3961,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
         };
+
         // 保存type:save-草稿,submit-提交订单。
         $scope.submitForm = function(fromId, type) {
 
@@ -3977,10 +3978,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             $('#' + fromId).trigger('submit');
         };
+
     }
 
     //领退模块选择退货商品
-    function collarReturnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+    function  collarReturnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+
         /**
          * 根据单号查询领用单
          * @param orderCode
@@ -4016,6 +4020,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.id);
         });
 
+
         $scope.$watch('listParams',function () {
 
 
@@ -4026,7 +4031,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         $scope.handleSearchFilter=function(listParams,relMedicalStockId){
 
-            if(relMedicalStockId === undefined || relMedicalStockId===null || relMedicalStockId===''){
+            if(relMedicalStockId == undefined || relMedicalStockId==null || relMedicalStockId==''){
                 return;
             }
 
@@ -4034,17 +4039,24 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 "relMedicalStockId":relMedicalStockId
             });
 
-            // console.log("_data",_data);
+            console.log("_data",_data);
+
 
             requestData("rest/authen/collarApplicationOrder/queryByMedical", _data, 'GET')
                 .then(function (results) {
                     // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
+
+                    console.log('results[1].data',results[1].data);
+
                     $scope.orderList=results[1].data || [];
+
                 })
                 .catch(function (error) {
                     alertError(error || '出错');
                 });
+
         };
+
 
         //选择当前订单
         $scope.curOrder=null;
@@ -4055,7 +4067,29 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.index = index;
         };
 
+
         $scope.getGoodsBatchs=function(){
+            //step1 判断去重复
+
+            var flag=false;
+
+            for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
+
+
+                console.log($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId)
+
+                if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
+                    flag=true;
+                }
+            }
+
+            if(flag){
+                alertWarn("該商品已存在,请重新选择");
+                return;
+            }
+
+            $scope.showBatchs=true;
+
 
             var _data={
                 id:$scope.curOrder.id,//单据主键ID
@@ -4071,11 +4105,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 });
         };
 
+
         $scope.selectedBatchs=[];
 
         $scope.handleItemClickEvent=function (item,index) {
-
-            // item.handleFlag = !item.handleFlag;
 
             if(item.handleFlag){
                 $scope.selectedBatchs.push(item);
@@ -4083,6 +4116,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.selectedBatchs.splice(index,1);
             }
         };
+
+
 
         //添加到数据列表
         $scope.addToList=function(){
@@ -4115,12 +4150,52 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         };
 
-        //选择批次
-        $scope.choiceBaths=function(){
-            conosle.log( $scope.selectedBatchs);
+
+        //添加订单中的商品到列表
+        $scope.addOrderDataToList=function () {
+
+            var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
+
+
+            console.log('$scope.selectedBatchs',$scope.selectedBatchs);
+
+            $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat($scope.selectedBatchs);
+
         };
 
+
+        //选择批次
+        $scope.choiceBaths=function(index){
+
+            console.log( $scope.selectedBatchs);
+
+            var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
+
+            $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat($scope.selectedBatchs);
+
+            $scope.selectedBatchs=[];
+        };
+
+
+
+
+
+
+
+
+
+
+        $scope.itemInArray=function (item,list) {
+
+        }
+
+
+
+
+
+
     }
+
 
     angular.module('manageApp.project-PG16-H')
         .controller('indexPageController', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', '$rootScope', indexPageController])
