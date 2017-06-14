@@ -1,5 +1,5 @@
 <div class="create-new-order allocate-order  collarApplicationOrder-edit purchase-plan-order"
-     ng-controller="collarApplicationOrderController"
+     ng-controller="collarReturnOrderCtrl"
      ajax-url="rest/authen/collarReturnOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
      callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
@@ -139,7 +139,6 @@
                   <th class="text-center">可退数量</th>
                   <th class="text-center">生产批号/数量</th>
                   <th class="text-center">商品规格</th>
-                  <th class="text-center">商品规格</th>
                   <th class="text-center">基本单位</th>
 
                </tr>
@@ -161,7 +160,7 @@
                      </div>
                    </td><!-- 序号 -->
 
-                   <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 领用单编号 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.rolOrderCode}}</td><!-- 领用单编号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
                      <div class="autocut" title="{{tr.name}}">
@@ -169,15 +168,14 @@
                       </div>
                    </td><!-- 商品全名 -->
 
-                   <td class="text-center" style="white-space: nowrap;">{{}}可退数量</td><!-- 可退数量 -->
+                   <td class="text-center" style="white-space: nowrap;">{{tr.returnTotal}}</td><!-- 可退数量 -->
 
 
                    <!-- 生产批号/数量 -->
                    <td class="text-center" >
 
                      <!-- 已选批号列表 -->
-                     <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
-                          ng-if="batch.batchNumber"
+                     <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
                           class="ipt-div relative mgb"
                           ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
                        <div class="inline-block text-ellips-s"
@@ -194,21 +192,20 @@
                        <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                      </div>
 
-                     <!-- 批号选择 -->
-                     <div ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount"  class="ipt-div relative" style="width:100%;">
+                     <!-- 批号选择    ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount" -->
+                     <div class="ipt-div relative" style="width:100%;">
                        <i class="addImg"
                           style="left:85%"
                           modal-right="60%"
                           modal-scope="this"
                           modal-data='{
-                                    "medicalName":"{{item.name}}",
-                                    "id":"{{item.id}}",
-                                    "logisticsCenterId":"{{formData.logisticsCenterId}}",
-                                    "goodsCount":{{item.goodsCount}},
-                                    "choisedBatchList":{{item.stockBatchs}},
-                                    "strike_price":{{item.strike_price}}
+                                    "index":{{$index}},
+                                    "medicalName":"{{tr.name}}",
+                                    "relMedicalStockId":"{{tr.relMedicalStockId}}",
+                                    "orderId":"{{tr.relCollarApplicationId}}",
+                                    "goodsCount":{{tr.goodsCount || 0}}
                                   }'
-                          modal-url="views/collarReturnOrder/choice-stockbatch-dialog.html">
+                          modal-url="views/collarReturnOrder/choice-batchs-dialog.html">
                        </i>
                      </div>
 
@@ -237,6 +234,9 @@
        </div>
      </div>
      <!-- 流程图 -->
+
+
+
      <!-- <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show> -->
     <!-- 功能按钮 -->
     <div class="handle-btn-area">
@@ -266,14 +266,19 @@
              callback="goTo('#/collarReturnOrder/query.html')">删除
           </a>
         </span>
+        <!--ng-disabled="!changeFlag"-->
         <span class="mgl mgt">
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
                   ng-click="submitForm('editForm','save')"
-                  ng-disabled="!changeFlag">保存
+              >保存
           </button>
         </span>
         <span>
+
+
+          <!--ng-disabled="quantityError || canSubmit ||!formData.orderCode ||!formData.storeRoomId ||!formData.orderMedicalNos.length "-->
+
           <button class="pr-btn-create-glodbg mgt"
                   type="button"
                   handle-this-click
@@ -281,7 +286,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="quantityError || canSubmit ||!formData.orderCode ||!formData.storeRoomId ||!formData.orderMedicalNos.length " >提交
+                   >提交
           </button>
         </span>
       </div>

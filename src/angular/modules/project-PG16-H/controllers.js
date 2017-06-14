@@ -3963,10 +3963,92 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   //领退模块
    function  collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+
+
+       // 保存type:save-草稿,submit-提交订单。
+       $scope.submitFormAfter = function() {
+
+           if($scope.submitForm_type == 'save'){
+               $scope.goTo('#/collarReturnOrder/query.html');
+               return;
+           }
+
+           if ($scope.submitForm_type == 'submit') {
+
+
+               var _url='rest/authen/collarReturnOrder/startProcessInstance';
+               var data= {businessKey:$scope.formData.id};
+               requestData(_url,data, 'POST')
+                   .then(function (results) {
+                       var _data = results[1];
+                       $scope.goTo('#/collarReturnOrder/get.html?id='+$scope.formData.id);
+                   })
+                   .catch(function (error) {
+                       alertError(error || '出错');
+                   });
+           }
+
+
+       };
+
+       // 保存type:save-草稿,submit-提交订单。
+       $scope.submitForm = function(fromId, type) {
+
+           $scope.submitForm_type = type;
+
+           // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
+           if ($scope.submitForm_type === 'save') {
+               $scope.formData.validFlag = false;
+           }
+
+           if ($scope.submitForm_type == 'submit') {
+               $scope.formData.validFlag = true;
+           }
+
+           $('#' + fromId).trigger('submit');
+       };
+
+
    }
 
     //领退模块选择退货商品
     function  collarReturnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+
+        /**
+         * 根据单号查询领用单
+         * @param orderCode
+         */
+        $scope.getByOrderCode=function(orderCode){
+
+            var _data={
+                orderCode:orderCode
+            };
+
+            requestData("rest/authen/collarApplicationOrder/getByOrderCode", _data, 'GET')
+                .then(function (results) {
+                    // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
+
+                    console.log('results[1].data',results[1].data);
+
+                    $scope.scopeData=results[1].data || {};
+
+                })
+                .catch(function (error) {
+                    // alertError(error || '出错');
+                });
+
+        };
+
+
+
+
+
+
+
+
+
+
 
         $scope.angucomplete_data={
 
@@ -3988,11 +4070,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         });
 
         $scope.handleSearchFilter=function(listParams,relMedicalStockId){
-
-          // alert("handleSearchFilter");
-
-            console.log("relMedicalStockId",relMedicalStockId);
-
 
             if(relMedicalStockId == undefined || relMedicalStockId==null || relMedicalStockId==''){
                 return;
@@ -4061,6 +4138,46 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
 
 
+
+        //添加到数据列表
+        $scope.addToList=function(){
+
+            var obj = $scope.curOrder.medicalNo;
+
+
+            //領用單編號
+            obj.rolOrderCode=$scope.curOrder.orderCode;
+
+            //可退數量
+            obj.returnTotal=$scope.curOrder.returnTotal || 0;
+
+            //药品ID
+            obj.relMedicalStockId=obj.id;
+
+            //领用单ID
+            obj.relCollarApplicationId=$scope.curOrder.id;
+
+
+            //批次信息
+            obj.stockBatchs=$scope.selectedBatchs;
+
+            console.log("obj",obj);
+
+            $scope.formData.orderMedicalNos.push(obj);
+
+            //清空选择的批次
+            $scope.selectedBatchs=[];
+
+        };
+
+
+        //选择批次
+        $scope.choiceBaths=function(){
+
+            conosle.log( $scope.selectedBatchs);
+
+
+        }
 
 
 
