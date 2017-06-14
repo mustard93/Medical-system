@@ -160,7 +160,7 @@
                      </div>
                    </td><!-- 序号 -->
 
-                   <td class="text-center" style="line-height:2.4">{{tr.rolOrderCode}}</td><!-- 领用单编号 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.relOrderCode}}</td>  <!-- 领用单编号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
                      <div class="autocut" title="{{tr.name}}">
@@ -172,7 +172,7 @@
 
 
                    <!-- 生产批号/数量 -->
-                   <td class="text-center" >
+                   <td ng-init="tr.stockBatchs = tr.stockBatchs ? tr.stockBatchs : []" class="text-center" style="width:180px">
 
                      <!-- 已选批号列表 -->
                      <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
@@ -189,7 +189,7 @@
                               onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
                               ng-change="batchsNumOverload(formData.orderMedicalNos);changeQuantity(formData.orderMedicalNos);">
                        <input type="hidden" required ng-model="batch.id">
-                       <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
+                       <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                      </div>
 
                      <!-- 批号选择    ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount" -->
@@ -202,7 +202,7 @@
                                     "index":{{$index}},
                                     "medicalName":"{{tr.name}}",
                                     "relMedicalStockId":"{{tr.relMedicalStockId}}",
-                                    "orderId":"{{tr.relCollarApplicationId}}",
+                                    "orderId":"{{tr.relId}}",
                                     "goodsCount":{{tr.goodsCount || 0}}
                                   }'
                           modal-url="views/collarReturnOrder/choice-batchs-dialog.html">
