@@ -30,7 +30,7 @@ define('manageApp.template', ['angular'], function () {
 });
 //@endif
 
-define('manageApp.main', ['main/init', 'main/services', 'main/controllers', 'main/directives', 'main/filters']);
+define('manageApp.main', ['main/init', 'main/services', 'main/controllers', 'main/directives', 'main/filters', 'main/components']);
 define('manageApp.project', ['project/init', 'project/services', 'project/controllers', 'project/directives', 'project/filters', 'project/angucomplete']);
 define('manageApp.modal', ['modal/init', 'modal/services', 'modal/directives']);
 define('manageApp.upload', ['upload/init', 'upload/directives']);
