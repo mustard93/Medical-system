@@ -17,6 +17,10 @@
         onkeydown="if(window.event.keyCode==13) return false;"
         callback="submitFormAfter();$root.watchFormChange('formData',this)"
         novalidate="true">
+
+    <!-- 关闭信息 -->
+    <div ng-if="showData.onLineOrderStatus=='已关闭'" class="cancel-info-layer-style">采购计划已关闭，无法生成销售单</div>
+
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">销售中心 >
@@ -441,7 +445,7 @@
 
           <button class="pr-btn-save-glodbg mgr-s"
                   type="button"
-                  ng-disabled="!changeFlag"
+                  ng-disabled="!changeFlag || showData.onLineOrderStatus=='已关闭'"
                   ng-click="submitForm('editForm','save')">保存
           </button>
 
@@ -451,7 +455,8 @@
                   ng-disabled="!formData.orderMedicalNos.length ||
                                !formData.customerId ||
                                !editForm.$valid ||
-                               formData.contactsNull">生成销售单
+                               formData.contactsNull ||
+                               showData.onLineOrderStatus=='已关闭'">生成销售单
           </button>
       </div>
     </div>

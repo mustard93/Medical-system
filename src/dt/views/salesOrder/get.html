@@ -4,6 +4,10 @@
      scope-data="showData"
      callback="initFlag=true;formData={};formData.id=showData.id"
      alert-error>
+
+  <!-- 关闭信息 -->
+  <div ng-if="showData.onLineOrderStatus=='已关闭'" class="cancel-info-layer-style">采购计划已关闭，无法生成销售单</div>
+
   <!-- 头部信息 -->
   <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
     <p class="pdb-s pdt-s mgb-l crumbs pd-c-xxl">销售中心 >
@@ -306,6 +310,7 @@
         <span class="mgl">
           <button class="pr-btn-save-glodbg"
                   ng-if="showData.orderStatus=='待确认'"
+                  ng-disabled="showData.onLineOrderStatus=='已关闭'"
                   ng-click="confirmHospitalOrder(showData.id)">确认</button>
         </span>
     </div>
