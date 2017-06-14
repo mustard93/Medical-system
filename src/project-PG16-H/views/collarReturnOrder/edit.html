@@ -160,7 +160,7 @@
                      </div>
                    </td><!-- 序号 -->
 
-                   <td class="text-center" style="line-height:2.4">{{tr.rolOrderCode}}</td><!-- 领用单编号 -->
+                   <td class="text-center" style="line-height:2.4">{{tr.relOrderCode}}</td>  <!-- 领用单编号 -->
                    <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                    <td class="text-left" style="line-height:2.4">
                      <div class="autocut" title="{{tr.name}}">
@@ -172,7 +172,7 @@
 
 
                    <!-- 生产批号/数量 -->
-                   <td class="text-center" >
+                   <td ng-init="tr.stockBatchs = tr.stockBatchs ? tr.stockBatchs : []" class="text-center" style="width:180px">
 
                      <!-- 已选批号列表 -->
                      <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
@@ -202,7 +202,7 @@
                                     "index":{{$index}},
                                     "medicalName":"{{tr.name}}",
                                     "relMedicalStockId":"{{tr.relMedicalStockId}}",
-                                    "orderId":"{{tr.relCollarApplicationId}}",
+                                    "orderId":"{{tr.relId}}",
                                     "goodsCount":{{tr.goodsCount || 0}}
                                   }'
                           modal-url="views/collarReturnOrder/choice-batchs-dialog.html">
