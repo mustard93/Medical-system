@@ -231,7 +231,7 @@
                         <tbody>
                         <!-- ngRepeat: tr in scopeData.orderMedicalNos -->
                         <tr ng-repeat="tr in scopeData.orderMedicalNos" class="ng-scope">
-                            <td class="select-td text-center mycheck" style="width: 100px;">
+                            <td ng-init="tr.handleFlag = tr.handleFlag ? true : false" class="select-td text-center mycheck" style="width: 100px;">
                                 <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                                 <label for="{{$index+2}}"></label>
                             </td>
@@ -258,7 +258,7 @@
 
 
         <div class="footer-btn-box">
-            <button ng-click="modal.close()" class="footer-btn">确定</button>
+            <button ng-click="addOrderDataToList();modal.close()" class="footer-btn">确定</button>
         </div>
 
     </div>
@@ -476,7 +476,7 @@
             </div>
         </div>
         <div ng-show="!showBatchs" class="footer-btn-box">
-            <button ng-click="showBatchs=true; getGoodsBatchs()" class="footer-btn">下一步</button>
+            <button ng-click=" getGoodsBatchs()" class="footer-btn">下一步</button>
         </div>
 
         <!-- 批次信息 -->
