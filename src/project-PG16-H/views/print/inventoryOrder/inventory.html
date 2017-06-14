@@ -10,34 +10,50 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
    盘点表
 </p>
 </div>
-  <table style="text-align:left;font-size:14px;border-collapse:collapse;" width="100%"
-  ajax-url="rest/authen/inventoryOrder/get.json?id={{mainStatus.pageParams.id}}" style="min-height:600px;"
+  <table style="text-align:left;font-size:14px;border-collapse:collapse;width:100%;"
+  ajax-url="rest/authen/inventoryOrder/get.json?id={{mainStatus.pageParams.id}}"
   scope-data="scopeData">
 <tbody>
    <tr class="firstRow">
        <td style="text-align:right;">
-         计划盘点时间：{{scopeData.planDateBeg | date:'yyyy-MM-dd HH:mm'}}到{{scopeData.planDateEnd | date:'yyyy-MM-dd HH:mm'}}
+         计划盘点时间：
+       </td>
+       <td colspan="3" style="text-align:left;">
+         {{scopeData.planDateBeg | date:'yyyy-MM-dd HH:mm'}}&nbsp;&nbsp;到&nbsp;&nbsp;{{scopeData.planDateEnd | date:'yyyy-MM-dd HH:mm'}}
+       </td>
+       <td style="text-align:left;">
+           盘点方式：
        </td>
        <td style="text-align:right;">
-           盘点方式：{{scopeData.inventoryType}}
+         {{scopeData.inventoryType}}
        </td>
-       <td style="text-align:right;">
-          盘点状态：{{scopeData.inventoryType}}
-       </td>
-       <td style="text-align:right;">
-          审核结果：{{scopeData.orderStatus}}
-       </td>
-       <td style="text-align:right;">
-          创建人：{{scopeData.inventoryType}}
-       </td>
-       <td style="text-align:right;">
-          创建时间：{{scopeData.inventoryType}}
-       </td>
+   </tr>
+
+   <tr class="firstRow">
+     <td style="text-align:right;">
+        审核结果：
+     </td>
+     <td style="text-align:left;">
+       {{scopeData.orderStatus}}
+     </td>
+     <td style="text-align:right;">
+        创建人：
+     </td>
+     <td style="text-align:left;">
+       {{scopeData.inputUser.n}}
+     </td>
+     <td style="text-align:right;">
+        创建时间：
+     </td>
+     <td style="text-align:left;">
+      {{scopeData.createAt | date:'yyyy-MM-dd HH:mm'}}
+     </td>
+
    </tr>
 </tbody>
 </table>
 <table style="text-align:center;font-size:14px;width:100%;border:1px solid #000000;border-collapse:collapse;" border="1"
-  ajax-url="rest/authen/inventoryMedicalNo/query.json?inventoryOrderId={{mainStatus.pageParams.id}}" style="min-height:600px;"
+  ajax-url="rest/authen/inventoryMedicalNo/query.json?inventoryOrderId={{mainStatus.pageParams.id}}"
   scope-data="showData">
 <thead>
    <tr class="firstRow">
@@ -84,7 +100,6 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
 </thead>
 <tbody>
    <tr ng-repeat="tr in showData">
-      <td></td>
        <td style="text-align:center;max-width:7%;word-wrap:break-word;">
            {{tr.regionName}}
        </td>
@@ -122,7 +137,7 @@ http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmO
            {{tr.inventoryer.n}}
        </td>
        <td style="text-align:center;max-width:8%;word-wrap:break-word;">
-           {{tr.inventoryDate | date:"yyyy-MM-dd"}}
+           {{tr.inventoryDate | date:'yyyy-MM-dd HH:mm'}}
        </td>
    </tr>
 </tbody>
