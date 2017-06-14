@@ -3,7 +3,7 @@
      ajax-url="rest/authen/inventoryOrder/get?id={{mainStatus.pageParams.id}}"
      scope-data="orderData"
      callback="initFlag=true;"
-     alert-error>
+     alert-error>{{listObject}}
   <form id="editForm"
         name="editForm"
         form-validator
@@ -39,133 +39,129 @@
       </div>
       <!-- 药械列表 -->
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
-          <!-- 列表 -->
-          <div class="">
-            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
-              <div class="flex-item-6">
-                <span class="mgr">单据编号：
-                  <!-- ng-disabled="formData.id" -->
-                  <span class="mgl">{{orderData.orderCode}}</span>
-                  <span class="mgl">审核人：<em class="color-3">{{orderData.approver.approverUser.n||'暂无'}}</em></span>
-                  <span class="mgl">审核日期：<em class="color-3">{{orderData.approver.approverDate ||'暂无'| date:'yyyy-MM-dd'}}</em></span>
-                </span>
-              </div>
-              <div class="flex-item-6 text-right">
-                <span class="mgr">制单人：<em class="color-3">{{orderData.inputUser.n || '暂无'}}</em></span>
-                <span class="mgr">制单日期：<em class="color-3">{{orderData.createAt | date:'yyyy-MM-dd'}}</em></span>
-                <span class="mgr">状态：<em class="color-3">{{orderData.orderStatus}}</em></span>
-              </div>
+        <!-- 列表 -->
+        <div class="">
+          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
+            <div class="flex-item-6">
+              <span class="mgr">单据编号：
+                <!-- ng-disabled="formData.id" -->
+                <span class="mgl">{{orderData.orderCode}}</span>
+                <span class="mgl">审核人：<em class="color-3">{{orderData.approver.approverUser.n||'暂无'}}</em></span>
+                <span class="mgl">审核日期：<em class="color-3">{{orderData.approver.approverDate ||'暂无'| date:'yyyy-MM-dd'}}</em></span>
+              </span>
             </div>
-            <!-- 系统生成的 -->
-          <div class="outside-table-d">
-              <table-list
-              list-data="rest/authen/inventoryMedicalNo/query.json?inventoryOrderId={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&isManual=false"
-                          list-params="listParams"
-                          search-mode="noCaseSensitive"
-                          search-param="q"
-                          >
-                          <!-- callback="listParams.systemMedicalList=tbodyList;" -->
-            <table
-            class="table pr-table pr-new-table mgb-n">
-                <thead>
-                  <tr>
-                    <th class="text-center">盈亏</th>
-                    <th class="text-center">序号</th>
-                    <th class="text-center">区域名称</th>
-                    <th class="text-center">货位名城</th>
-                    <th class="text-center">商品编号</th>
-                    <th class="text-left">商品名称</th>
-                    <th class="text-center">规格型号</th>
-                    <th class="text-center">批号</th>
-                    <th class="text-center">基本单位</th>
-                    <th class="text-center">账面数量</th>
-                    <th class="text-center">实盘数量</th>
-                    <th class="text-center">盘点说明</th>
-                    <th class="text-center">盈亏数量</th>
-                    <th class="text-center">盘点人</th>
-                    <th class="text-center">盘点时间</th>
-                  </tr>
-                </thead>
-                <tbody class="relative">
-                  <tr ng-repeat="item in tbodyList"
-                      table-item-handlebtn-component>
-                    <td class="text-center">
-                      <span class="circle-status relative"
-                            ng-class="{'bg-pass-green':tr.distributorMedicalCode,
-                                       'bg-end-red':!tr.distributorMedicalCode}">
-
-                        <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
-                          <i class="block pd-c-s text-normal" style="line-height:1.8">
-                            <em class="inline-block">{{item.gainLossStatus}}</em>
-                          </i>
-                        </span>
-                      </span>
-                    </td><!-- 商品编号 -->
-
-                    <td class="text-center">
-                      <!-- {{(status.currentPage-1)*status.pageSize+($index+1)}} -->
-                    </td>
-                    <!-- 序号 -->
-                    <td class="text-left">{{item.regionName}}</td><!-- 区域名称 -->
-                    <td class="text-left">{{item.goodsLocationName}}</td><!-- 货位名称-->
-                    <td class="text-left">{{item.code}}</td><!-- 商品编码-->
-                    <td class="text-left"><div style="width:180px;" class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
-                    <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                    <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
-                    <td class="text-center">{{item.packingAttribute.name}}</td><!-- 单位 -->
-                    <td  class="text-right">{{item.systemQuantity}}</td><!--  账面数量 -->
-                    <td  class="text-right">
-                      <input type="number"
-                             class="inline ipt pr-ipt-60 text-center item-applicationCount"
-                             style="width:60px;"
-                             ng-model="item.actualQuantity"
-                             onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
-                    </td><!--  实盘数量 -->
-                    <td  class="text-right">
-                      <input type="text"
-                             class="inline ipt pr-ipt-60 text-center item-applicationCount"
-                             style="width:100px;"
-                             ng-model="item.note">
-                    </td><!--  盘点说明 -->
-                    <td  class="text-right">{{item.gainLossQuantity}}</td><!--  盈亏数量 -->
-                    <td  class="text-right">
-                      <input type="text"
-                             class="inline ipt pr-ipt-60 text-center item-applicationCount"
-                             style="width:100px;"
-                             ng-model="item.inventoryer.n">
-                    </td><!--  盘点人 -->
-                    <td  class="text-right">
-                      <div class="date-icon-outside" style="margin-right:50px;">
-                          <input type="text"
-                                 datepicker
-                                 class="ipt-date ipt color-3 mgr pr-indent-10"
-                                 ng-readonly="true"
-                                 placeholder="日期"
-                                 ng-model="item.inventoryDate">
-                          <span class="date-icon"></span>
-                      </div>
-                    </td><!--  盘点时间 -->
-
-                  </tr>
-                </tbody>
-              </table>
-              <div class="pr-bg-white" ng-if="!tbodyList.length">
-                <div class="empty-table clearfix">
-                  <div>&nbsp;</div>
-                  <div>&nbsp;</div>
-                  <div>&nbsp;</div>
-                </div>
-              </div>
-              <div class="clearfix" ng-if="tbodyList.length">
-                <div class="fr">
-                   <pagination status="status"></pagination>
-                </div>
-              </div>
-              </table-list >
+            <div class="flex-item-6 text-right">
+              <span class="mgr">制单人：<em class="color-3">{{orderData.inputUser.n || '暂无'}}</em></span>
+              <span class="mgr">制单日期：<em class="color-3">{{orderData.createAt | date:'yyyy-MM-dd'}}</em></span>
+              <span class="mgr">状态：<em class="color-3">{{orderData.orderStatus}}</em></span>
             </div>
-
           </div>
+          <!-- 系统生成的 -->
+          <div class="outside-table-d">
+          <table-list list-data="rest/authen/inventoryMedicalNo/query.json?inventoryOrderId={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&isManual=false"
+                      list-params="listParams"
+                      list-object="listObject"
+                      search-mode="noCaseSensitive"
+                      search-param="q"
+                      callback="listObject.systemMedicalList=tbodyList;">
+                      <!-- callback="listParams.systemMedicalList=tbodyList;" -->
+            <table class="table pr-table pr-new-table mgb-n">
+              <thead>
+                <tr>
+                  <th class="text-center">盈亏</th>
+                  <th class="text-center">序号</th>
+                  <th class="text-center">区域名称</th>
+                  <th class="text-center">货位名城</th>
+                  <th class="text-center">商品编号</th>
+                  <th class="text-left">商品名称</th>
+                  <th class="text-center">规格型号</th>
+                  <th class="text-center">批号</th>
+                  <th class="text-center">基本单位</th>
+                  <th class="text-center">账面数量</th>
+                  <th class="text-center">实盘数量</th>
+                  <th class="text-center">盘点说明</th>
+                  <th class="text-center">盈亏数量</th>
+                  <th class="text-center">盘点人</th>
+                  <th class="text-center">盘点时间</th>
+                </tr>
+              </thead>
+              <tbody class="relative">
+                <tr ng-repeat="item in tbodyList" table-item-handlebtn-component>
+                  <td class="text-center">
+                    <span class="circle-status relative"
+                          ng-class="{'bg-pass-green':tr.distributorMedicalCode,
+                                     'bg-end-red':!tr.distributorMedicalCode}">
+
+                      <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
+                        <i class="block pd-c-s text-normal" style="line-height:1.8">
+                          <em class="inline-block">{{item.gainLossStatus}}</em>
+                        </i>
+                      </span>
+                    </span>
+                  </td><!-- 商品编号 -->
+
+                  <td class="text-center">
+                    <!-- {{(status.currentPage-1)*status.pageSize+($index+1)}} -->
+                  </td>
+                  <!-- 序号 -->
+                  <td class="text-left">{{item.regionName}}</td><!-- 区域名称 -->
+                  <td class="text-left">{{item.goodsLocationName}}</td><!-- 货位名称-->
+                  <td class="text-left">{{item.code}}</td><!-- 商品编码-->
+                  <td class="text-left"><div style="width:180px;" class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
+                  <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
+                  <td class="text-center">{{item.productionBatch}}</td><!-- 批号 -->
+                  <td class="text-center">{{item.packingAttribute.name}}</td><!-- 单位 -->
+                  <td  class="text-right">{{item.systemQuantity}}</td><!--  账面数量 -->
+                  <td  class="text-right">
+                    <input type="number"
+                           class="inline ipt pr-ipt-60 text-center item-applicationCount"
+                           style="width:60px;"
+                           ng-model="item.actualQuantity"
+                           onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
+                  </td><!--  实盘数量 -->
+                  <td  class="text-right">
+                    <input type="text"
+                           class="inline ipt pr-ipt-60 text-center item-applicationCount"
+                           style="width:100px;"
+                           ng-model="item.note">
+                  </td><!--  盘点说明 -->
+                  <td  class="text-right">{{item.gainLossQuantity}}</td><!--  盈亏数量 -->
+                  <td  class="text-right">
+                    <input type="text"
+                           class="inline ipt pr-ipt-60 text-center item-applicationCount"
+                           style="width:100px;"
+                           ng-model="item.inventoryer.n">
+                  </td><!--  盘点人 -->
+                  <td  class="text-right">
+                    <div class="date-icon-outside" style="margin-right:50px;">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date ipt color-3 mgr pr-indent-10"
+                               ng-readonly="true"
+                               placeholder="日期"
+                               ng-model="item.inventoryDate">
+                        <span class="date-icon"></span>
+                    </div>
+                  </td><!--  盘点时间 -->
+                </tr>
+              </tbody>
+            </table>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+              <div class="empty-table clearfix">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+              </div>
+            </div>
+            <div class="clearfix" ng-if="tbodyList.length">
+              <div class="fr">
+                 <pagination status="status"></pagination>
+              </div>
+            </div>
+          </table-list >
         </div>
+        </div>
+      </div>
       <!-- 其他信息 -->
      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n" style="min-height:66px;">
        <div class=" order-create-btn relative" style="left:20px;top:17px;">
@@ -178,16 +174,15 @@
        </div>
        <!-- 手动生成 -->
        <div class="outside-table-d mgt-xl">
-            <table-list
-            list-data="rest/authen/inventoryMedicalNo/query.json?inventoryOrderId={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&isManual=false"
+          <table-list list-data="rest/authen/inventoryMedicalNo/query.json?inventoryOrderId={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}&isManual=false"
                         list-params="listParams"
+                        list-object="listObject"
                         search-mode="noCaseSensitive"
                         search-param="q"
-                        >
+                        callback="listObject.customMedicalList=tbodyList;">
                         <!-- callback="listParams.customMedicalList=tbodyList;" -->
-            <table
-            class="table pr-table pr-new-table mgb-n">
-             <thead>
+            <table class="table pr-table pr-new-table mgb-n">
+              <thead>
                <tr>
                  <th class="text-center">盈亏</th>
                  <th class="text-center">序号</th>
@@ -206,7 +201,7 @@
                  <th class="text-center">盘点时间</th>
                </tr>
              </thead>
-             <tbody class="relative">
+              <tbody class="relative">
                <tr ng-repeat="item in tbodyList"
                    table-item-handlebtn-component>
                  <td class="text-center">
@@ -277,20 +272,20 @@
 
                </tr>
              </tbody>
-           </table>
-           <div class="pr-bg-white" ng-if="!tbodyList.length">
+            </table>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
              <div class="empty-table clearfix">
                <div>&nbsp;</div>
                <div>&nbsp;</div>
                <div>&nbsp;</div>
              </div>
            </div>
-           <div class="clearfix" ng-if="tbodyList.length">
+            <div class="clearfix" ng-if="tbodyList.length">
              <div class="fr">
                 <pagination status="status"></pagination>
              </div>
            </div>
-           </table-list>
+          </table-list>
          </div>
        </div>
 
