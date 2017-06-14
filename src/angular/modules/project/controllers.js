@@ -5874,7 +5874,7 @@ define('project/controllers', ['project/init'], function() {
   }
 
   // DT品种管理中GS1条码打印控制器
-  function cfgGoodsBarcodeCtroller ($scope, requestData, utils) {
+  function cfgGoodsBarcodeCtroller ($scope, requestData, utils, OPrinter, $timeout) {
 
     var _url = 'rest/authen/gs1Barcode/get';
 
@@ -5921,6 +5921,14 @@ define('project/controllers', ['project/init'], function() {
           if (error) { throw new Error(error || '出错'); }
         });
       }
+    };
+
+    $scope.loadCLodop = function () {
+      $timeout(function () {
+        if (!OPrinter.chkOPrinter()) {
+          $scope.notInstallPlusin = true;
+        }
+      }, 1000);
     };
   }
 
@@ -5969,5 +5977,5 @@ define('project/controllers', ['project/init'], function() {
   .controller('returnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', returnOrderEditCtrl])
   .controller('purchasereturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', purchasereturnOrderEditCtrl])
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController])
-  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', cfgGoodsBarcodeCtroller]);
+  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller]);
 });
