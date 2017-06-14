@@ -5,7 +5,7 @@
 define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
   /**
-   * [indexPageController SPD模块首页控制器]
+   * [cfgGoodsBarcodeCtroller SPD模块首页控制器]
    * @param  {[type]} $scope      [description]
    * @param  {[type]} requestData [description]
    * @param  {[type]} utils       [description]
@@ -3262,6 +3262,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 获取商品条码
     $scope.getGoodsBarcode = function (barcode) {
+
       if (barcode) {
         var _data = {
               "barcode": barcode,
@@ -3915,7 +3916,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         "inventoryMedicalNos":inventoryMedicalNos
       };
 
-<<<<<<< HEAD
       requestData("rest/authen/inventoryMedicalNo/inputData", data , 'POST','parameterBody')
         .then(function (results) {
           if (results[1].code === 200) {
@@ -3926,269 +3926,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         .catch(function (error) {
           alertError(error || '出错');
         });
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //领退模块
-   function  collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
-
-
-
-       // 保存type:save-草稿,submit-提交订单。
-       $scope.submitFormAfter = function() {
-
-           if($scope.submitForm_type == 'save'){
-               $scope.goTo('#/collarReturnOrder/query.html');
-               return;
-           }
-
-           if ($scope.submitForm_type == 'submit') {
-
-
-               var _url='rest/authen/collarReturnOrder/startProcessInstance';
-               var data= {businessKey:$scope.formData.id};
-               requestData(_url,data, 'POST')
-                   .then(function (results) {
-                       var _data = results[1];
-                       $scope.goTo('#/collarReturnOrder/get.html?id='+$scope.formData.id);
-                   })
-                   .catch(function (error) {
-                       alertError(error || '出错');
-                   });
-           }
-
-
-       };
-
-       // 保存type:save-草稿,submit-提交订单。
-       $scope.submitForm = function(fromId, type) {
-
-           $scope.submitForm_type = type;
-
-           // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
-           if ($scope.submitForm_type === 'save') {
-               $scope.formData.validFlag = false;
-           }
-
-           if ($scope.submitForm_type == 'submit') {
-               $scope.formData.validFlag = true;
-           }
-
-           $('#' + fromId).trigger('submit');
-       };
-
-
-   }
-
-    //领退模块选择退货商品
-    function  collarReturnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
-
-
-        /**
-         * 根据单号查询领用单
-         * @param orderCode
-         */
-        $scope.getByOrderCode=function(orderCode){
-
-            var _data={
-                orderCode:orderCode
-            };
-
-            requestData("rest/authen/collarApplicationOrder/getByOrderCode", _data, 'GET')
-                .then(function (results) {
-                    // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
-
-                    console.log('results[1].data',results[1].data);
-
-                    $scope.scopeData=results[1].data || {};
-
-                })
-                .catch(function (error) {
-                    // alertError(error || '出错');
-                });
-
-        };
-
-
-
-
-
-
-
-
-
-
-
-        $scope.angucomplete_data={
-
-            id:'59128238e4b085c3fea71e04'
-
-        };
-
-        $scope.$watch('angucomplete_data',function(newValue,oldValue, scope){
-            $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.id);
-        });
-
-
-        $scope.$watch('listParams',function () {
-
-
-            console.log("angucomplete_data:"+$scope.angucomplete_data.id);
-
-            $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.id);
-        });
-
-        $scope.handleSearchFilter=function(listParams,relMedicalStockId){
-
-            if(relMedicalStockId == undefined || relMedicalStockId==null || relMedicalStockId==''){
-                return;
-            }
-
-          var _data=angular.extend(listParams,{
-              "relMedicalStockId":relMedicalStockId
-          });
-
-          console.log("_data",_data);
-
-
-          requestData("rest/authen/collarApplicationOrder/queryByMedical", _data, 'GET')
-              .then(function (results) {
-                  // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
-
-                  console.log('results[1].data',results[1].data);
-
-                  $scope.orderList=results[1].data || [];
-
-              })
-              .catch(function (error) {
-                  alertError(error || '出错');
-              });
-
-      };
-
-
-        //选择当前订单
-        $scope.curOrder=null;
-        $scope.index=-1;
-
-        $scope.choiceThis=function (item,index){
-            $scope.curOrder=item;
-            $scope.index = index;
-        };
-
-
-        $scope.getGoodsBatchs=function(){
-
-            var _data={
-                id:$scope.curOrder.id,//单据主键ID
-                relMedicalStockId:$scope.curOrder.relMedicalStockId
-            };
-
-            requestData("rest/authen/collarApplicationOrder/queryMedicalProductionBatch", _data, 'GET')
-                .then(function (results) {
-                    $scope.stockBatchList=results[1].data || [];
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
-        }
-
-
-        $scope.selectedBatchs=[];
-        $scope.handleItemClickEvent=function (item,index) {
-
-            // item.handleFlag = !item.handleFlag;
-
-            if(item.handleFlag){
-                $scope.selectedBatchs.push(item);
-            }else{
-                $scope.selectedBatchs.splice(index,1);
-            }
-        }
-
-
-
-        //添加到数据列表
-        $scope.addToList=function(){
-
-            var obj = $scope.curOrder.medicalNo;
-
-
-            //領用單編號
-            obj.rolOrderCode=$scope.curOrder.orderCode;
-
-            //可退數量
-            obj.returnTotal=$scope.curOrder.returnTotal || 0;
-
-            //药品ID
-            obj.relMedicalStockId=obj.id;
-
-            //领用单ID
-            obj.relCollarApplicationId=$scope.curOrder.id;
-
-
-            //批次信息
-            obj.stockBatchs=$scope.selectedBatchs;
-
-            console.log("obj",obj);
-
-            $scope.formData.orderMedicalNos.push(obj);
-
-            //清空选择的批次
-            $scope.selectedBatchs=[];
-
-        };
-
-
-        //选择批次
-        $scope.choiceBaths=function(){
-
-            conosle.log( $scope.selectedBatchs);
-
-
-        }
-
-
-
-
-
-
-
-
-
->>>>>>> f58994ce94f58753f23cae6c3132e72f24a5d554
     }
 
     // 数量关联
@@ -4226,14 +3963,5 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   .controller('pickBillOrderController', ['$scope', 'requestData', 'utils', 'modal', pickBillOrderController])
   .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', cfgGoodsBarcodeCtroller])
   .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
-<<<<<<< HEAD
   .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl]);
-=======
-  .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl])
-  .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl])
-
-  .controller('collarReturnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderCtrl])
-  .controller('collarReturnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderChoiceDialogCtrl])
-  ;
->>>>>>> f58994ce94f58753f23cae6c3132e72f24a5d554
 });
