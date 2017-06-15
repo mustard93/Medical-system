@@ -4060,7 +4060,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
   }
 
 
-    //领退模块
+//领退模块
     function  collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
         // 回调  保存type:save-草稿,submit-提交订单。
@@ -4201,23 +4201,23 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
 
 
-                console.log($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId)
+                console.log($scope.formData.orderMedicalNos[i].onlyId , $scope.curOrder.medicalNo.onlyId)
 
                 if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
                     flag=true;
                 }
             }
 
-            if(flag){
-                alertWarn("該商品已存在,请重新选择");
-                return;
-            }
+            // if(flag){
+            //     alertWarn("該商品已存在,请重新选择");
+            //     return;
+            // }
 
             $scope.showBatchs=true;
 
 
             var _data={
-                id:$scope.curOrder.id,//单据主键ID
+                id:$scope.curOrder.relId,//单据主键ID
                 relMedicalStockId:$scope.curOrder.relMedicalStockId
             };
 
@@ -4251,7 +4251,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
             //領用單編號
-            obj.rolOrderCode=$scope.curOrder.orderCode;
+            obj.rolOrderCode=$scope.curOrder.relOrderCode;
 
             //可退數量
             obj.returnTotal=$scope.curOrder.returnTotal || 0;
@@ -4260,7 +4260,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             obj.relMedicalStockId=obj.id;
 
             //领用单ID
-            obj.relCollarApplicationId=$scope.curOrder.id;
+            obj.relCollarApplicationId=$scope.curOrder.relId;
+            obj.relId=$scope.curOrder.relId;
 
 
             //批次信息
@@ -4294,6 +4295,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             console.log( $scope.selectedBatchs);
 
+            console.log("$scope.formData.orderMedicalNos[index].stockBatchs",$scope.formData.orderMedicalNos[index].stockBatchs);
+
+
+
+
             var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
 
             $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat($scope.selectedBatchs);
@@ -4302,11 +4308,25 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
+
+
+
+
+
+
+
+
         $scope.itemInArray=function (item,list) {
 
         }
 
+
+
+
+
+
     }
+
 
 
     angular.module('manageApp.project-PG16-H')
