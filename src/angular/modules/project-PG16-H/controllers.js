@@ -4196,22 +4196,27 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.getGoodsBatchs=function(){
             //step1 判断去重复
 
+
+            alert($scope.curOrder.medicalNo.onlyId);
+
+
             var flag=false;
 
             for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
 
 
-                console.log($scope.formData.orderMedicalNos[i].onlyId , $scope.curOrder.medicalNo.onlyId)
+                console.log(">>>>>>>>>>>>>>>>>>>>>>",$scope.formData.orderMedicalNos[i].onlyId , $scope.curOrder.medicalNo.onlyId)
 
                 if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
                     flag=true;
+                    break;
                 }
             }
 
-            // if(flag){
-            //     alertWarn("該商品已存在,请重新选择");
-            //     return;
-            // }
+            if(flag){
+                alertWarn("該商品已存在,请重新选择");
+                return;
+            }
 
             $scope.showBatchs=true;
 
@@ -4231,8 +4236,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-        $scope.selectedBatchs=[];
 
+
+
+        $scope.selectedBatchs=[];
         $scope.handleItemClickEvent=function (item,index) {
 
             if(item.handleFlag){
@@ -4242,6 +4249,26 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
         };
 
+        // 全选全不选
+
+        $scope.handleChoiseAllEvent = function (flag,list) {
+
+            if (flag) {   // 全选被选中
+                angular.forEach(list, function (data, index) {
+                    data.handleFlag = true;
+                    $scope.selectedBatchs.push(data);
+                });
+
+            } else {    //取消了全部选中
+                angular.forEach(list, function (data, index) {
+                    data.handleFlag = false;
+                });
+                $scope.selectedBatchs=[];
+            }
+
+            console.log(" $scope.selectedBatchs", $scope.selectedBatchs);
+
+        };
 
 
         //添加到数据列表
@@ -4251,7 +4278,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
             //領用單編號
-            obj.rolOrderCode=$scope.curOrder.relOrderCode;
+            obj.relOrderCode=$scope.curOrder.relOrderCode;
 
             //可退數量
             obj.returnTotal=$scope.curOrder.returnTotal || 0;
@@ -4282,10 +4309,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
 
+            var resultArr = compareArray(hasOrderMedicalNos,$scope.selectedBatchs,'onlyId','onlyId');
 
-            console.log('$scope.selectedBatchs',$scope.selectedBatchs);
 
-            $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat($scope.selectedBatchs);
+            console.log('$scope.selectedBatchs',resultArr);
+
+            $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
         };
 
@@ -4307,15 +4336,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.selectedBatchs=[];
         };
 
-
-
-
-
-
-
-
-
-
         $scope.itemInArray=function (item,list) {
 
         }
@@ -4323,8 +4343,35 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
 
+        //去重 返回 arrB 与 arrA 中 arrB不重复部分
+        function compareArray(arrA,arrB,arrAAtrr,arrBAtrr){
+            var temp=[];
+
+            for (var i = 0; i<arrA.length; i++) {
+
+                for(var j=0; j<arrB.length; j++){
+
+                    if(arrA[i][arrAAtrr]==arrB[j][arrBAtrr]){
+                        temp.push(arrB[j][arrBAtrr]);
+                    }
+                }
+            }
 
 
+            for(var i=0;i<temp.length; i++){
+
+                for(var j=0; j<arrB.length; j++){
+
+                    console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
+
+                    if(arrB[j][arrBAtrr]==temp[i]){
+                        arrB.splice(j,1);
+                    }
+                }
+            }
+
+            return arrB;
+        }
     }
 
 
