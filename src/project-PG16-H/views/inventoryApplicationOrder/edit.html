@@ -45,13 +45,14 @@
           <div class="">
             <div class="flex-column color-9 pd-c-l pdt-m pdb-m  bb-line">
               <div class="flex-item-6">
-                <span class="mgr">单据编号：
-                  <!-- ng-disabled="formData.id" -->
+                <span ng-if="!numberingPolicy" class="mgr">单据编号：
                   <input type="text" name="orderCode" required class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
-                  <span ng-if="!formData.orderCode" class="color-red">（必填）</span>
-                  <span class="mgl">名称：</span>
+                  <em ng-if="!formData.orderCode" class="color-red">（必填）</em>
+                </span>
+                <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
+                <span>名称：
                   <input type="text"  name="orderCode" required class="ipt  text-right" ng-model="formData.name" />
-                  <span ng-if="!formData.name" class="color-red">（必填）</span>
+                  <em ng-if="!formData.name" class="color-red">（必填）</em>
                 </span>
               </div>
               <div class="flex-item-6 text-right">

@@ -1,6 +1,6 @@
 <!-- 主内容头部 -->
 <page-main-header-component list-params="listParams"
-                            crumbs-nav='[{"name":"库房工作","link":"","style":""},{"name":"盘点计划","link":"","style":"color-custom-orange"}]'
+                            crumbs-nav='[{"name":"库房工作","link":"","style":""},{"name":"盘点计划管理","link":"","style":"color-custom-orange"}]'
                             component-title="盘点计划"
                             is-show-create-btn="新建盘点计划"
                             create-new-url="#/inventoryApplicationOrder/edit.html"
@@ -11,7 +11,9 @@
                             is-show-business-btn-group=true
                             show-date-name="创建日期："
                             get-department-list-url="rest/authen/department/queryForSelectOption"
-                            search-placeholder-info="单据编号">
+                            search-placeholder-info="任务名称／单据编号"
+                            is-show-inventory-type-filter=true
+                            get-inventory-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SPD_InventoryType">
 </page-main-header-component>
 
 <div class="content-wrapper allocate-order"
@@ -33,19 +35,11 @@
             <div class="mgb-xl pr-bg-white pr-fuzzy-boundary relative" ng-class="{'pr-bg-grey2':(tr.orderStatus=='已作废')}">
               <div class="relative">
                 <div class="flex-column">
-                  <span ng-if="tr.orderStatus!='未通过'" class="flex-item-6 title-states text-bold color-3 pd-m">
-                    <em>
-                        {{tr.orderStatus}}
-                    </em>
-                  </span>
-                  <span ng-if="tr.orderStatus=='未通过'" class="flex-item-6 title-states text-bold color-red pd-m">
-                    <em>
-                        {{tr.orderStatus}}
-                    </em>
+                  <span class="flex-item-6 title-states text-bold color-3 pd-m">
+                    <em ng-class="{'color-green':tr.orderStatus=='已完成','color-red':tr.orderStatus=='已作废'}">{{tr.orderStatus}}</em>
                   </span>
                   <span class="flex-item-6 text-right">
                     <span ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'" >
-
                       <a href="#/inventoryApplicationOrder/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
                       <span class="edit-link-icon">&nbsp;</span></a>
                       <a ng-if="tr.orderStatus=='未提交' ||tr.orderStatus=='未通过' && tr.inputUserId==mainStatus.id"
@@ -88,9 +82,7 @@
                          >
                         <span class="examine-approve">&nbsp;</span>
                        </a>
-
                   </span>
-
                 </div>
                 <div class="card-new">
                     <div class="bt-line flex-column" ng-class="{'pr-bg-yellow':(tr.orderStatus!='已作废')}">
