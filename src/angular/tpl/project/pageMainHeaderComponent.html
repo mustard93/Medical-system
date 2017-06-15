@@ -111,7 +111,6 @@
                   select-source="{{getSourceOrderTypeUrl}}">
           </select>
         </div>
-
         <!-- 仓库过滤 -->
         <div class="inline-block" ng-if="isShowWarehouseFilter">
           <span class="color-9">仓库：</span>
@@ -124,6 +123,18 @@
                   select-source="{{getWarehouseListUrl}}">
           </select>
         </div>
+        <!-- 盘点方式过滤 -->
+        <div class="inline-block" ng-if="isShowInventoryTypeFilter">
+          <span class="color-9">盘点方式：</span>
+          <select class="ipt pr-short-ipt color-3"
+                  data-placeholder=""
+                  default-empty="全部"
+                  width="120px"
+                  chosen
+                  ng-model="listParams.inventoryType"
+                  select-source="{{getInventoryTypeUrl}}">
+          </select>
+        </div>
         <!-- 日期过滤 -->
         <div class="inline-block" ng-if="isShowDateFilter" style="position:relative;top:3px;">
           <span class="color-9 mgl-m" ng-if="_showDateName">{{_showDateName}}</span>
@@ -133,7 +144,6 @@
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
-
                      ng-model="listParams.createAtBeg">
               <span class="date-icon"></span>
           </div>
@@ -142,7 +152,6 @@
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
-
                      ng-model="listParams.createAtBeg">
               <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
           </div>
@@ -152,7 +161,6 @@
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
-
                      ng-model="listParams.createAtEnd"
                      invalid-popover
                      popover-show="listParams.createAtEnd<listParams.createAtBeg"
@@ -164,7 +172,6 @@
                      datepicker
                      class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                      ng-readonly="true"
-
                      ng-model="listParams.createAtEnd"/>
               <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
           </div>

@@ -3303,13 +3303,13 @@ function pageMainHeaderComponent () {
       getDepartmentListUrl: '@',
       getUserListUrl: '@',
       getApplyUserListUrl: '@',
-      createBtnAuthor:'@'
+      createBtnAuthor:'@',
+      getInventoryTypeUrl: '@'
     },
     replace: true,
     transclude: true,
     templateUrl: Config.tplPath + 'tpl/project/pageMainHeaderComponent.html',
     link: function (scope, element, attrs) {
-
       //处理面包屑导航数据
       if (scope.crumbsNav) {
         //将面包屑字符串转换为JSON对象
@@ -3371,6 +3371,8 @@ function pageMainHeaderComponent () {
       scope.isShowWarehouseFilter = angular.isDefined(attrs.isShowWarehouseFilter) ? attrs.isShowWarehouseFilter : false;
       //是否显示日期过滤
       scope.isShowDateFilter = angular.isDefined(attrs.isShowDateFilter) ? attrs.isShowDateFilter : false;
+      //是否显示盘点方式过滤
+      scope.isShowInventoryTypeFilter = angular.isDefined(attrs.isShowInventoryTypeFilter) ? attrs.isShowInventoryTypeFilter : false;
       // 是否显示关键字过滤
       scope.isShowKeyFilter = angular.isDefined(attrs.isShowKeyFilter) ? attrs.isShowKeyFilter : false;
       // 是否显示单据状态筛选按钮组模块
