@@ -17,7 +17,7 @@
 
         <!-- 仓库过滤 -->
         <div class="inline-block" style="line-height: 40px;">
-            <span class="color-9">选择生产批号: <i style="color: #fff; font-style: normal">4asasdad554888878</i></span>
+            <span class="color-9">领用单编号：: <i style="color: #fff; font-style: normal">{{dialogData.relOrderCode}}</i></span>
         </div>
 
     </div>
@@ -68,14 +68,19 @@
             </thead>
 
             <tbody style="color: #fff;">
-            <tr ng-repeat="item in stockBatchList" class="trHover-bg" ng-class="{ 'pr-bg-grey3':$index==4}" >
+
+            <tr ng-repeat="item in stockBatchList" class="trHover-bg" ng-class="{ 'pr-bg-grey3':itemInArray(item.stockBatchId,dialogData.stockBatchs,'stockBatchId')}" >
+
                 <td ng-init="item.handleFlag= item.handleFlag ?  true : false"  class="select-td text-center mycheck" style="width: 100px;">
-                    <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,$index);">
+                    <input type="checkbox"  class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,$index);"
+                    ng-disabled="itemInArray(item.stockBatchId,dialogData.stockBatchs,'stockBatchId');"
+                    >
                     <label for="{{$index+2}}"></label>
                 </td>
+
                 <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
-                <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
-                <td class="text-left" style="height:50px;">{{item.stockModel.totalQuantity}}</td><!--可用量-->
+                <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->
+                <td class="text-left" style="height:50px;">{{item.pickNo}}</td><!--可退量-->
             </tr>
             </tbody>
         </table>

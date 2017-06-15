@@ -115,12 +115,21 @@
             left: 10px;
         }
 
+
+        /* 重写样式- 药械闪加*/
+        p.mgb{
+            display: none;
+        }
+       input.pr-w-100{
+            width: 300px!important;
+        }
+
     </style>
 
     <!-- 标题 -->
     <div class="bb-line-gold pr-bg-black2 min-h-l">
 
-        <h1 ng-init="type='通过领用单退货'" class="pr-indent-20 pdb-m text-n tab" style="line-height:50px;max-height:35px;">
+        <h1 ng-init="type='通过商品退货'" class="pr-indent-20 pdb-m text-n tab" style="line-height:50px;max-height:35px;">
 
             <a ng-click="type='通过商品退货'" ng-class="{'cur':type=='通过商品退货'}">通过商品退货</a>
 
@@ -231,7 +240,9 @@
                         <!-- ngRepeat: tr in scopeData.orderMedicalNos -->
                         <tr ng-repeat="tr in scopeData.orderMedicalNos" class="ng-scope">
                             <td ng-init="tr.handleFlag = tr.handleFlag ? true : false" class="select-td text-center mycheck" style="width: 100px;">
-                                <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                                <input type="checkbox"
+                                       ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId')"
+                                       class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                                 <label for="{{$index+2}}"></label>
                             </td>
                             <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
@@ -282,26 +293,44 @@
                         <!--&gt;</span>-->
                         <!-- ngIf: showDropdown -->
 
-                        <span angucomplete-medical placeholder="商品名称"     title-field="name"
-                              url="rest/authen/medicalStock/query" class="inline-block"
-                              ng-model="angucomplete_data"
-                              add-data-callback-fn="flashAddDataCallbackFn"
-                        ></span>
+                        <!--<span angucomplete-medical placeholder="商品名称"     title-field="name"-->
+                              <!--url="rest/authen/medicalStock/query" class="inline-block"-->
+                              <!--ng-model="angucomplete_data"-->
+                              <!--add-data-callback-fn="flashAddDataCallbackFn"-->
+                        <!--&gt;</span>-->
+
+
+                        <div style="width: 300px;">
+
+
+                            <div class="pd-c-l pdt-m"
+                                 flash-add-medical
+                                 ng-model="data1"
+                                 placeholder="药品名称"
+                                 hide-title
+                                 hide-add-button
+                                 hide-quantity
+                                 hide-import
+                                 ajax-url="rest/authen/medicalStock/query"
+                                 add-data-callback-fn="flashAddDataCallbackFn">
+                            </div>
+                        </div>
+
+
 
 
                     </div>
 
                     <div class="goods-info">
-                        <span class="color-6">生产厂家：<i>{{angucomplete_data.data.manufacturer}}</i></span>
-                        <span class="color-6">商品编号：<i>{{angucomplete_data.data.code}}</i></span>
+                        <span class="color-6">生产厂家：<i>{{angucomplete_data.data.data.manufacturer}}</i></span>
+                        <span class="color-6">商品编号：<i>{{angucomplete_data.data.data.code}}</i></span>
                     </div>
 
                     <div class="goods-info">
-                        <span class="color-6">商品规格：<i>{{angucomplete_data.data.specificationAndModelType}}</i></span>
-                        <span class="color-6">商品单位：<i>{{angucomplete_data.data.packingAttribute.name}}</i></span>
+                        <span class="color-6">商品规格：<i>{{angucomplete_data.data.data.specificationAndModelType}}</i></span>
+                        <span class="color-6">商品单位：<i>{{angucomplete_data.data.data.packingAttribute.name}}</i></span>
                     </div>
 
-                    {{angucomplete_data.data.id}}
                 </div>
             </div>
 
@@ -426,7 +455,9 @@
             </div>
 
             <!-- 领用单列表 -->
-            <div ng-if="!orderList.length" class="color-red text-n pdl-l pdt-m text-center">此商品暂无领用单信息...</div>
+            <div  ng-show="!showBatchs" class="color-red text-n pdl-l pdt-m text-center">
+                <sapn ng-if="!orderList.length">此商品暂无领用单信息...</sapn>
+            </div>
 
 
             <!--领用单列表-->
@@ -524,7 +555,7 @@
 
                         <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
                         <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->
-                        <td class="text-left" style="height:50px;">{{item.stockModel.salesQuantity}}</td><!--可用量-->
+                        <td class="text-left" style="height:50px;">{{item.pickNo}}</td><!--可退量-->
                     </tr>
                     </tbody>
                 </table>

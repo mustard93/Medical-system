@@ -38,8 +38,9 @@
             modal-data='{"pageParamsId":"{{mainStatus.pageParams.id}}"}'
             modal-url="views/collarReturnOrder/choice-dialog.html">
            <i></i>
-           <span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>
-           <span ng-if="formData.orderMedicalNos.length" >修改退货条目</span>
+           <span>增加退货条目</span>
+           <!--<span ng-if="!formData.orderMedicalNos.length">增加退货条目</span>-->
+           <!--<span ng-if="formData.orderMedicalNos.length" >修改退货条目</span>-->
          </a>
        </div>
 
@@ -154,6 +155,8 @@
                      class="relative">
 
                    <td class="text-center" style="line-height:2.4">{{$index+1}}
+
+                     ({{tr.onlyId}})
                      <div class="table-item-handle-btn">
                        <div class="table-item-confirm-del-area bg-white">
                          <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
@@ -179,20 +182,29 @@
                    <!-- 生产批号/数量 -->
                    <td ng-init="tr.stockBatchs = tr.stockBatchs ? tr.stockBatchs : []" class="text-center" style="width:180px">
 
+
                      <!-- 已选批号列表 -->
                      <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
                           class="ipt-div relative mgb"
-                          ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
+                          ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false"
+                          ng-init="batch.falg=changeQuantity(batch.quantity,batch.maxQuantity)"
+                          invalid-popover
+                          popover-show="batch.falg"
+                          popover-options='{"content":"该批次退货数量不能大于可退货数量", "placement":"top", "trigger":"manual"}'
+
+                     >
                        <div class="inline-block text-ellips-s"
                             style="width:118px;height:100%;"
                             ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                        </div>
+
                        <input type="number"
                               class="in_ipt"
                               name="batchNum{{$index}}"
                               ng-model="batch.quantity"
                               onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))"
-                              ng-change="batchsNumOverload(formData.orderMedicalNos);changeQuantity(formData.orderMedicalNos);">
+                              ng-change="batch.falg=changeQuantity(batch.quantity,batch.maxQuantity);">
+
                        <input type="hidden" required ng-model="batch.id">
                        <span ng-if="showDelIcon" class="circle-s" ng-click="tr.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                      </div>
@@ -206,8 +218,10 @@
                           modal-data='{
                                     "index":{{$index}},
                                     "medicalName":"{{tr.name}}",
+                                    "relOrderCode":"{{tr.relOrderCode}}",
                                     "relMedicalStockId":"{{tr.relMedicalStockId}}",
                                     "orderId":"{{tr.relId}}",
+                                    "stockBatchs":{{tr.stockBatchs}},
                                     "goodsCount":{{tr.goodsCount || 0}}
                                   }'
                           modal-url="views/collarReturnOrder/choice-batchs-dialog.html">
