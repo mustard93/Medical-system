@@ -28,7 +28,7 @@
       </div>
     </div>
     <!-- 主内容区域 -->
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="margin-bottom:80px;">
 
       <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
         <em class="color-red">原因:</em>
@@ -226,7 +226,7 @@
                            <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                            <p class="pdt-s">
                              <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
-                             <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="tbodyList.splice($index,1);">确认</a>
+                             <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="deleteInventory(item.id);">确认</a>
                            </p>
                          </div>
                        </div>
@@ -326,12 +326,16 @@
            callback="$root.goTo('#/inventoryOrder/query.html')">删除
         </a>
 
+        <button type="button" ng-show="formData.orderStatus!='未通过'" class="pr-btn-save-glodbg mgr">
+          <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=inventoryOrder&id={{formData.id}}" target="_blank">打印盘点</a>
+        </button>
+
         <button type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="saveData(mainStatus.pageParams.id,listObject.systemMedicalList,listObject.customMedicalList);">保存
         </button>
 
-        <!-- ng-disabled="!changeFlag " -->
+        <!-- ng-disabled="!changeFlag" -->
 
         <button
                 type="button"

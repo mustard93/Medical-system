@@ -3367,7 +3367,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     function inventoryOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm,utils) {
 
-        $scope.logistics=true;
 
         $scope.$watch('initFlag', function (newVal) {
             if(newVal){
@@ -3449,20 +3448,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $('#' + fromId).trigger('submit');
         };
 
-        $scope.caifenQuantity = function(tr, num) {
-            tr.quantity_noInvoice_show = true;
-            if (!num || tr.quantity < num) return;
-            //点击拆分逻辑,不能发货数量为0,并且库存不足时,根据库存自动拆分数量.
-            if (!tr.quantity_noInvoice || tr.quantity_noInvoice === 0) {
-                tr.quantity_noInvoice = tr.quantity - num;
-                tr.quantity = num;
-            }
-            //加入订单按钮状态变化
-            if (tr.quantity <= num) {
-                tr.handleFlag = true;
-            }
-        };
-
         $scope.flashAddDataCallbackFn = function(flashAddData) {
             if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
                 alertWarn("请选择药品");
@@ -3533,187 +3518,186 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $('input', '#addDataItem_relId_chosen').trigger('focus');
             // $('#addDataItem_relId_chosen').trigger('click');
         };
-    }
 
-    // 按区域盘点
-    // 把区域id组成ids，传到后台，侧边框再次打开时默认选中已选的区域
-    function getRegionIds(regionSelects){
-        $scope.formData.regionIds=[];
-        $scope.formData.goodsLocationIds=[];
+      // 按区域盘点
+      // 把区域id组成ids，传到后台，侧边框再次打开时默认选中已选的区域
+      function getRegionIds(regionSelects){
+          $scope.formData.regionIds=[];
+          $scope.formData.goodsLocationIds=[];
 
-        for (var i = 0; i < regionSelects.length; i++) {
-            // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
-            if (regionSelects[i].goodsLocationSelects.length) {
-                for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
-                    $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
-                }
-            }else {
-                $scope.formData.regionIds.push(regionSelects[i].id);
-            }
+          for (var i = 0; i < regionSelects.length; i++) {
+              // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
+              if (regionSelects[i].goodsLocationSelects.length) {
+                  for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
+                      $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
+                  }
+              }else {
+                  $scope.formData.regionIds.push(regionSelects[i].id);
+              }
+          }
+        };
+
+    $scope.reloadRegionIds=function(storeRoomId,regionIds){
+        if (!regionIds) {
+            regionIds=[];
         }
 
-        $scope.reloadRegionIds=function(storeRoomId,regionIds){
-            if (!regionIds) {
-                regionIds=[];
+        var _data={
+            "storeRoomId":storeRoomId,
+            "regionIds":regionIds
+        };
+
+        requestData("rest/authen/region/queryForCheckOption", _data, 'POST','parameterBody')
+            .then(function (results) {
+                $scope.formData.regionArr=results[1].data;
+            })
+            .catch(function (error) {
+                alertError(error || '出错');
+            });
+    };
+
+    // 删除区域id
+    $scope.deleteRegionIds = function (id,ids){
+        if (ids.length) {
+            for (var i = 0; i < ids.length; i++) {
+                if (id==ids[i]) {
+                    ids.pop(ids[i]);
+                }
+            }
+            $scope.formData.regionIds=ids;
+        }
+    };
+
+    // 删除货位id,把要删除的id数组和现有的ids数组对比。从ids中去掉要删除的货位id。
+    $scope.deleteGoodslocationIds = function (goodsLocationSelects,_ids){
+
+        for (var i = 0 ; i < _ids.length ; i ++ ){
+
+            for(var j = 0 ; j < goodsLocationSelects.length ; j ++ ){
+
+                if (_ids[i] === goodsLocationSelects[j].id){
+
+                    _ids.splice(i,1);
+
+                }
+
             }
 
-            var _data={
-                "storeRoomId":storeRoomId,
-                "regionIds":regionIds
-            };
+        }
 
-            requestData("rest/authen/region/queryForCheckOption", _data, 'POST','parameterBody')
+        $scope.formData.goodsLocationIds=_ids;
+    };
+
+    // query页面点击发送盘点任务消息时请求接口获取信息内容
+    $scope.previewMessage=function(_id){
+        if (_id) {
+
+            requestData('rest/authen/inventoryApplicationOrder/previewMessage?id='+$scope.dialogData.id, {}, 'post')
                 .then(function (results) {
-                    $scope.formData.regionArr=results[1].data;
+                    $scope.messageText=results[1].data;
                 })
                 .catch(function (error) {
                     alertError(error || '出错');
                 });
-        };
+        }
+    };
 
-        // 删除区域id
-        $scope.deleteRegionIds = function (id,ids){
-            if (ids.length) {
-                for (var i = 0; i < ids.length; i++) {
-                    if (id==ids[i]) {
-                        ids.pop(ids[i]);
+    // 发送盘点任务信息
+    $scope.sendMessage=function(_id){
+        if (_id) {
+            requestData('rest/authen/inventoryApplicationOrder/sendMessage?id='+_id, {},'post')
+                .then(function (results) {
+                    if (results[1].code === 200) {
+                        utils.refreshHref();
+                        alertOk('发送成功');
                     }
-                }
-                $scope.formData.regionIds=ids;
-            }
-        };
+                })
+                .catch(function (error) {
+                    alertError(error || '出错');
+                });
+        }
+    };
 
-        // 删除货位id,把要删除的id数组和现有的ids数组对比。从ids中去掉要删除的货位id。
-        $scope.deleteGoodslocationIds = function (goodsLocationSelects,_ids){
+    // 选择区域后把区域ID和名称带到编辑页面
+    $scope.submitRegion = function (regionArr){
+        var regionSelects=[];
+        if (regionArr) {
 
-            for (var i = 0 ; i < _ids.length ; i ++ ){
+            for (var i = 0; i < regionArr.length; i++) {
+                if (regionArr[i].checked===true) {
+                    // 如果有货位，则对选中的货位进行组织
+                    if (regionArr[i].goodsLocationSelects.length) {
+                        // 一定要放在这里来声明。不然会出现重复添加的bug。
+                        var goodsLocationSelects=[];
 
-                for(var j = 0 ; j < goodsLocationSelects.length ; j ++ ){
+                        for (var j = 0; j < regionArr[i].goodsLocationSelects.length; j++) {
+                            // 判断是否是选中的货位
+                            if (regionArr[i].goodsLocationSelects[j].checked===true) {
+                                goodsLocationSelects.push(regionArr[i].goodsLocationSelects[j]);
 
-                    if (_ids[i] === goodsLocationSelects[j].id){
-
-                        _ids.splice(i,1);
-
-                    }
-
-                }
-
-            }
-
-            $scope.formData.goodsLocationIds=_ids;
-        };
-
-        // query页面点击发送盘点任务消息时请求接口获取信息内容
-        $scope.previewMessage=function(_id){
-            if (_id) {
-
-                requestData('rest/authen/inventoryApplicationOrder/previewMessage?id='+$scope.dialogData.id, {}, 'post')
-                    .then(function (results) {
-                        $scope.messageText=results[1].data;
-                    })
-                    .catch(function (error) {
-                        alertError(error || '出错');
-                    });
-            }
-        };
-
-        // 发送盘点任务信息
-        $scope.sendMessage=function(_id){
-            if (_id) {
-                requestData('rest/authen/inventoryApplicationOrder/sendMessage?id='+_id, {},'post')
-                    .then(function (results) {
-                        if (results[1].code === 200) {
-                            utils.refreshHref();
-                            alertOk('发送成功');
+                            }
                         }
-                    })
-                    .catch(function (error) {
-                        alertError(error || '出错');
-                    });
-            }
-        };
-
-        // 选择区域后把区域ID和名称带到编辑页面
-        $scope.submitRegion = function (regionArr){
-            var regionSelects=[];
-            if (regionArr) {
-
-                for (var i = 0; i < regionArr.length; i++) {
-                    if (regionArr[i].checked===true) {
-                        // 如果有货位，则对选中的货位进行组织
+                        // 如果所有货位都没有被选中，则把对应区域也去掉，不选中。
                         if (regionArr[i].goodsLocationSelects.length) {
-                            // 一定要放在这里来声明。不然会出现重复添加的bug。
-                            var goodsLocationSelects=[];
-
-                            for (var j = 0; j < regionArr[i].goodsLocationSelects.length; j++) {
-                                // 判断是否是选中的货位
-                                if (regionArr[i].goodsLocationSelects[j].checked===true) {
-                                    goodsLocationSelects.push(regionArr[i].goodsLocationSelects[j]);
-
-                                }
-                            }
-                            // 如果所有货位都没有被选中，则把对应区域也去掉，不选中。
-                            if (regionArr[i].goodsLocationSelects.length) {
-                                regionArr[i].goodsLocationSelects=goodsLocationSelects;
-                            }else {
-                                regionArr[i].checked=false;
-                            }
+                            regionArr[i].goodsLocationSelects=goodsLocationSelects;
+                        }else {
+                            regionArr[i].checked=false;
                         }
-                        regionSelects.push(regionArr[i]);
-                        $scope.formData.regionSelects=regionSelects;
                     }
+                    regionSelects.push(regionArr[i]);
+                    $scope.formData.regionSelects=regionSelects;
                 }
             }
-            // 调用组织ids的方法，把对应的id组织起来，用于传入后台
-            getRegionIds(regionSelects);
+        }
+        // 调用组织ids的方法，把对应的id组织起来，用于传入后台
+        getRegionIds(regionSelects);
+    };
+
+    // 选择货位后，组装成相应对象
+    $scope.selectGoodslocation= function(tr,item){
+        // 如果选中货位，就选中相对应的区域
+
+        if (item.checked) {
+            tr.checked=true;
+        }
+    };
+
+    // 区域/货位侧边框请求数据
+    $scope.reloadgoodslocationIds = function (storeRoomId,goodsLocationIds){
+        if (!goodsLocationIds) {
+            goodsLocationIds=[];
+        }
+
+        var _data={
+            "storeRoomId":storeRoomId,
+            "goodsLocationIds":goodsLocationIds
         };
 
-        // 选择货位后，组装成相应对象
-        $scope.selectGoodslocation= function(tr,item){
-            // 如果选中货位，就选中相对应的区域
+        requestData("rest/authen/goodsLocation/queryForCheckOption", _data, 'POST','parameterBody')
+            .then(function (results) {
+                // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
 
-            if (item.checked) {
-                tr.checked=true;
-            }
-        };
-
-        // 区域/货位侧边框请求数据
-        $scope.reloadgoodslocationIds = function (storeRoomId,goodsLocationIds){
-            if (!goodsLocationIds) {
-                goodsLocationIds=[];
-            }
-
-            var _data={
-                "storeRoomId":storeRoomId,
-                "goodsLocationIds":goodsLocationIds
-            };
-
-            requestData("rest/authen/goodsLocation/queryForCheckOption", _data, 'POST','parameterBody')
-                .then(function (results) {
-                    // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
-
-                    for (var i = 0; i < results[1].data.length; i++) {
-                        if (results[1].data[i].goodsLocationSelects.length) {
-                            for (var j = 0; j < results[1].data[i].goodsLocationSelects.length; j++) {
-                                if (results[1].data[i].goodsLocationSelects[j].checked) {
-                                    results[1].data[i].checked=true;
-                                }
+                for (var i = 0; i < results[1].data.length; i++) {
+                    if (results[1].data[i].goodsLocationSelects.length) {
+                        for (var j = 0; j < results[1].data[i].goodsLocationSelects.length; j++) {
+                            if (results[1].data[i].goodsLocationSelects[j].checked) {
+                                results[1].data[i].checked=true;
                             }
                         }
                     }
-                    $scope.formData.goodsLocationArr=results[1].data;
+                }
+                $scope.formData.goodsLocationArr=results[1].data;
 
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
-        };
+            })
+            .catch(function (error) {
+                alertError(error || '出错');
+            });
+    };
 
     }
 
   function inventoryTaskOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm,utils) {
 
-    $scope.logistics=true;
 
     $scope.$watch('initFlag', function (newVal) {
         if(newVal){
@@ -3763,23 +3747,102 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     };
 
-    $scope.changeQuantity= function(availbleQuantity,quantity){
-    // 错误状态标识
-    $scope.quantityError = false;
+    $scope.submit = function (_id,_businessKey){
+        var key=_id;
+        if (!_id) {
+            key=_businessKey;
 
-    if (availbleQuantity >= 0 && quantity>=0) {
-      if (quantity >availbleQuantity || quantity<=0) {
-        $scope.quantityError = true;
-        $scope.$parent.$parent.quantityError = true;
-      } else {
-        $scope.quantityError = false;
-        $scope.$parent.$parent.quantityError = false;
+        }
+        var _url='rest/authen/inventoryOrder/startProcessInstance';
+        var data= {businessKey:key};
+        requestData(_url, data, 'POST')
+            .then(function (results) {
+                var _data = results[1];
+                //  alertOk(_data.message || '操作成功');
+                utils.goTo('#/inventoryOrder/get.html?id='+key);
+
+            })
+            .catch(function (error) {
+                alertError(error || '出错');
+            });
+    };
+
+
+    $scope.submitData = function (formData,regionId,goodsLocationId){
+        // 添加漏盘商品
+
+        if (formData) {
+            // 把区域货位id放到save商品的对象中
+            formData.regionId=regionId;
+            formData.goodsLocationId=goodsLocationId;
+            // 请求save保存添加一条商品信息
+            requestData("rest/authen/inventoryMedicalNo/save", formData, 'POST','parameterBody')
+                .then(function (results) {
+                    console.log(results[1].data);
+                    // 保存成功之后把该条商品信息放入编辑页面第二张表格中
+                    $scope.listObject.customMedicalList.push(results[1].data);
+                })
+                .catch(function (error) {
+                    alertError(error || '出错');
+                });
+        }
+    };
+
+    // 保存任务
+    $scope.saveData = function (inventoryOrderId,systemMedicalList,customMedicalList){
+        var inventoryMedicalNos=[], i = 0;
+
+        // 组织两个表中的数据到inventoryMedicalNos中，保存后传入后台
+        for (i = 0; i < systemMedicalList.length; i++) {
+            inventoryMedicalNos.push(systemMedicalList[i]);
+        }
+        for (i = 0; i < customMedicalList.length; i++) {
+            inventoryMedicalNos.push(customMedicalList[i]);
+        }
+
+        var data={
+            "inventoryOrderId":inventoryOrderId,
+            "inventoryMedicalNos":inventoryMedicalNos
+        };
+
+        requestData("rest/authen/inventoryMedicalNo/inputData", data , 'POST','parameterBody')
+            .then(function (results) {
+                if (results[1].code === 200) {
+                    utils.refreshHref();
+                    alertOk('操作成功');
+                }
+            })
+            .catch(function (error) {
+                alertError(error || '出错');
+            });
+    };
+
+    // 数量关联
+    $scope.calGainlossQuantity = function (item){
+
+        if (!item.actualQuantity) {
+            item.gainLossQuantity='';
+        }else {
+            item.gainLossQuantity=parseInt(item.actualQuantity-item.systemQuantity);
+            console.log(item.gainLossQuantity);
+        }
+    };
+
+    $scope.deleteInventory = function(_id){
+
+        var data={};
+        requestData("rest/authen/inventoryMedicalNo/delete?id="+_id, data, 'POST')
+        .then(function (results) {
+          if (results[1].code === 200) {
+              utils.refreshHref();
+              alertOk('操作成功');
+            }
+        })
+        .catch(function (error) {
+          alertError(error || '出错');
+        });
+
       }
-    }else{
-      $scope.quantityError = true;
-      $scope.$parent.$parent.quantityError = true;
-    }
-  };
 
   }
 
@@ -3904,25 +3967,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       }
     });
 
-    $scope.submit = function (_id,_businessKey){
-        var key=_id;
-        if (!_id) {
-            key=_businessKey;
-
-        }
-        var _url='rest/authen/inventoryOrder/startProcessInstance';
-        var data= {businessKey:key};
-        requestData(_url, data, 'POST')
-            .then(function (results) {
-                var _data = results[1];
-                //  alertOk(_data.message || '操作成功');
-                utils.goTo('#/inventoryOrder/get.html?id='+key);
-
-            })
-            .catch(function (error) {
-                alertError(error || '出错');
-            });
-    };
 
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitForm = function(fromId, type) {
@@ -4012,65 +4056,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         // $('#addDataItem_relId_chosen').trigger('click');
     };
 
-    $scope.submitData = function (formData,regionId,goodsLocationId){
-        // 添加漏盘商品
 
-        if (formData) {
-            // 把区域货位id放到save商品的对象中
-            formData.regionId=regionId;
-            formData.goodsLocationId=goodsLocationId;
-            // 请求save保存添加一条商品信息
-            requestData("rest/authen/inventoryMedicalNo/save", formData, 'POST','parameterBody')
-                .then(function (results) {
-                    console.log(results[1].data);
-                    // 保存成功之后把该条商品信息放入编辑页面第二张表格中
-                    $scope.listObject.customMedicalList.push(results[1].data);
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
-        }
-    };
-
-    // 保存任务
-    $scope.saveData = function (inventoryOrderId,systemMedicalList,customMedicalList){
-        var inventoryMedicalNos=[], i = 0;
-
-        // 组织两个表中的数据到inventoryMedicalNos中，保存后传入后台
-        for (i = 0; i < systemMedicalList.length; i++) {
-            inventoryMedicalNos.push(systemMedicalList[i]);
-        }
-        for (i = 0; i < customMedicalList.length; i++) {
-            inventoryMedicalNos.push(customMedicalList[i]);
-        }
-
-        var data={
-            "inventoryOrderId":inventoryOrderId,
-            "inventoryMedicalNos":inventoryMedicalNos
-        };
-
-        requestData("rest/authen/inventoryMedicalNo/inputData", data , 'POST','parameterBody')
-            .then(function (results) {
-                if (results[1].code === 200) {
-                    utils.refreshHref();
-                    alertOk('操作成功');
-                }
-            })
-            .catch(function (error) {
-                alertError(error || '出错');
-            });
-    };
-
-    // 数量关联
-    $scope.calGainlossQuantity = function (item){
-
-        if (!item.actualQuantity) {
-            item.gainLossQuantity='';
-        }else {
-            item.gainLossQuantity=parseInt(item.actualQuantity-item.systemQuantity);
-            console.log(item.gainLossQuantity);
-        }
-    };
   }
 
 
@@ -4316,22 +4302,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-
-
-
-
-
-
-
-
         $scope.itemInArray=function (item,list) {
 
         }
-
-
-
-
-
 
     }
 
