@@ -4065,20 +4065,26 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //清空部门信息
 
         $scope.watchFormChange = function(watchName){
+
             watchFormChange(watchName,$scope);
+
         };
 
 
 
         $scope.$watch('formData.orderMedicalNos',function (p1, p2, p3) {
-            console.log("formData.orderMedicalNos_____>",$scope.formData.orderMedicalNos);
+
+
+            if($scope.formData.orderMedicalNos ==undefined){
+                return;
+            }
 
             if($scope.formData.orderMedicalNos.length<1){
                 $scope.formData.departmentId='';
 
                 $scope.formData.departmentName='';
             }
-        });
+        },true);
 
 
         //校验批次输入数量
