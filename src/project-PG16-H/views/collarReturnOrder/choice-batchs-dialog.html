@@ -71,7 +71,7 @@
 
             <tr ng-repeat="item in stockBatchList" class="trHover-bg" ng-class="{ 'pr-bg-grey3':itemInArray(item.stockBatchId,dialogData.stockBatchs,'stockBatchId')}" >
 
-                <td ng-init="item.handleFlag= item.handleFlag ?  true : false"  class="select-td text-center mycheck" style="width: 100px;">
+                <td ng-init="item.quantity=item.maxQuantity;item.handleFlag= item.handleFlag ?  true : false"  class="select-td text-center mycheck" style="width: 100px;">
                     <input type="checkbox"  class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,$index);"
                     ng-disabled="itemInArray(item.stockBatchId,dialogData.stockBatchs,'stockBatchId');"
                     >
@@ -80,7 +80,7 @@
 
                 <td class="text-left" style="height:50px;"> {{item.productionBatch}}</td><!--生产批号-->
                 <td class="" style="height:50px;">{{item.validTill | date:'yyyy-MM-dd'}}</td><!--有效期至-->
-                <td class="text-left" style="height:50px;">{{item.pickNo}}</td><!--可退量-->
+                <td class="text-left" style="height:50px;">{{item.maxQuantity}}</td><!-- pickNo 可退量-->
             </tr>
             </tbody>
         </table>

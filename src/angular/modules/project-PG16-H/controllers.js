@@ -2833,7 +2833,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
         });
 
-
         // 保存type:save-草稿,submit-提交订单。
         $scope.submitFormAfter = function() {
             if($scope.submitForm_type == 'exit-allocate'){
@@ -3079,6 +3078,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     }
 
     function transferRecordCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn,modal) {
+
       $scope.watchFormChange = function(watchName){
           watchFormChange(watchName,$scope);
       };
@@ -3177,8 +3177,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                       if (quantityList.length !== 0) {
                           var _len = quantityList.length;
                           for (var i=0; i<_len; i++) {
-                              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch
-                                  &&$scope.formData.sourceGoodsLocationId===quantityList[i].goodsLocationId) {
+                              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch&&$scope.formData.sourceGoodsLocationId===quantityList[i].goodsLocationId) {
                                   newQuantity=quantityList[i].stockModel.salesQuantity;
                                   var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.localQuantity+'&&unit='+$scope.formData.medical_unit;
                                   requestData(_url)
@@ -3216,8 +3215,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                       if (quantityList.length !== 0) {
                           var _len = quantityList.length;
                           for (var i=0; i<_len; i++) {
-                              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch
-                                  &&$scope.formData.sourceGoodsLocationId===quantityList[i].goodsLocationId) {
+                              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch&&$scope.formData.sourceGoodsLocationId===quantityList[i].goodsLocationId) {
                                   newQuantity=quantityList[i].stockModel.salesQuantity;
                                   var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.localQuantity+'&&unit='+$scope.formData.medical_unit;
                                   requestData(_url)
@@ -3367,88 +3365,88 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     function inventoryOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm,utils) {
 
+      $scope.$watch('initFlag', function (newVal) {
+          if(newVal){
+              var operationFlowSetMessage=[];
+              var operationFlowSetKey=[];
+              if ($scope.formData.operationFlowSet) {
+                  // 选择出当前状态相同的驳回理由，并放入一个数组中
+                  for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+                      if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+                          operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
+                          operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
+                      }
+                  }
+                  //  选择当前状态最近的一个驳回理由用于显示
+                  $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+                  $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+                  return;
+              }
+          }
+      });
 
-        $scope.$watch('initFlag', function (newVal) {
-            if(newVal){
-                var operationFlowSetMessage=[];
-                var operationFlowSetKey=[];
-                if ($scope.formData.operationFlowSet) {
-                    // 选择出当前状态相同的驳回理由，并放入一个数组中
-                    for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
-                        if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
-                            operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
-                            operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
-                        }
-                    }
-                    //  选择当前状态最近的一个驳回理由用于显示
-                    $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-                    $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-                    return;
-                }
-            }
-        });
-        $scope.$watch('showFlag', function (newVal) {
-            if(newVal){
-                var operationFlowSetMessage=[];
-                var operationFlowSetKey=[];
-                if ($scope.tr.operationFlowSet) {
-                    // 选择出当前状态相同的驳回理由，并放入一个数组中
-                    for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
-                        if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
-                            operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
-                            operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
-                        }
-                    }
-                    //  选择当前状态最近的一个驳回理由用于显示
-                    $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-                    $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-                    return;
-                }
-            }
-        });
+      $scope.$watch('showFlag', function (newVal) {
+          if(newVal){
+              var operationFlowSetMessage=[];
+              var operationFlowSetKey=[];
+              if ($scope.tr.operationFlowSet) {
+                  // 选择出当前状态相同的驳回理由，并放入一个数组中
+                  for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+                      if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
+                          operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
+                          operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
+                      }
+                  }
+                  //  选择当前状态最近的一个驳回理由用于显示
+                  $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+                  $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+                  return;
+              }
+          }
+      });
 
-        // 保存type:save-草稿,submit-提交订单。
-        $scope.submitFormAfter = function() {
-            if($scope.submitForm_type == 'exit-allocate'){
-                $scope.goTo('#/inventoryApplicationOrder/query.html');
-                return;
-            }
+      // 保存type:save-草稿,submit-提交订单。
+      $scope.submitFormAfter = function() {
+          if($scope.submitForm_type == 'exit-allocate'){
+              $scope.goTo('#/inventoryApplicationOrder/query.html');
+              return;
+          }
 
-            if ($scope.submitForm_type == 'submit-allocate') {
-                var _url='rest/authen/inventoryApplicationOrder/startProcessInstance';
-                var data= {businessKey:$scope.formData.id};
-                requestData(_url, data, 'POST')
-                    .then(function (results) {
-                        var _data = results[1];
-                        //  alertOk(_data.message || '操作成功');
-                        $scope.goTo('#/inventoryApplicationOrder/get.html?id='+$scope.formData.id);
+          if ($scope.submitForm_type == 'submit-allocate') {
+              var _url='rest/authen/inventoryApplicationOrder/startProcessInstance';
+              var data= {businessKey:$scope.formData.id};
+              requestData(_url, data, 'POST')
+                  .then(function (results) {
+                      var _data = results[1];
+                      //  alertOk(_data.message || '操作成功');
+                      $scope.goTo('#/inventoryApplicationOrder/get.html?id='+$scope.formData.id);
 
-                    })
-                    .catch(function (error) {
-                        alertError(error || '出错');
-                    });
-            }
+                  })
+                  .catch(function (error) {
+                      alertError(error || '出错');
+                  });
+          }
 
-        };
+      };
 
-        // 保存type:save-草稿,submit-提交订单。
-        $scope.submitForm = function(fromId, type) {
+      // 保存type:save-草稿,submit-提交订单。
+      $scope.submitForm = function(fromId, type) {
 
-            $scope.submitForm_type = type;
+          $scope.submitForm_type = type;
 
-            // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
-            if ($scope.submitForm_type === 'save' && $scope.formData.validFlag === true) {
-                $scope.formData.validFlag = false;
-            }
+          // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
+          if ($scope.submitForm_type === 'save' && $scope.formData.validFlag === true) {
+              $scope.formData.validFlag = false;
+          }
 
-            if ($scope.submitForm_type == 'submit') {
-                $scope.formData.validFlag = true;
-            }
+          if ($scope.submitForm_type == 'submit') {
+              $scope.formData.validFlag = true;
+          }
 
-            $('#' + fromId).trigger('submit');
-        };
+          $('#' + fromId).trigger('submit');
+      };
 
-        $scope.flashAddDataCallbackFn = function(flashAddData) {
+      $scope.flashAddDataCallbackFn = function(flashAddData) {
             if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
                 alertWarn("请选择药品");
                 return ;
@@ -3491,7 +3489,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             return true;
         };
 
-        $scope.addDataItemClick = function(addDataItem,medical) {
+      $scope.addDataItemClick = function(addDataItem,medical) {
             if (!(addDataItem.relId && addDataItem.name)) {
                 alertWarn('请选择药品。');
                 return;
@@ -3519,145 +3517,122 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             // $('#addDataItem_relId_chosen').trigger('click');
         };
 
-
       // 按区域盘点
       // 把区域id组成ids，传到后台，侧边框再次打开时默认选中已选的区域
       function getRegionIds(regionSelects){
-          $scope.formData.regionIds=[];
-          $scope.formData.goodsLocationIds=[];
+        $scope.formData.regionIds=[];
+        $scope.formData.goodsLocationIds=[];
 
-          for (var i = 0; i < regionSelects.length; i++) {
-              // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
-              if (regionSelects[i].goodsLocationSelects.length) {
-                  for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
-                      $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
-                  }
-              }else {
-                  $scope.formData.regionIds.push(regionSelects[i].id);
-              }
+        for (var i = 0; i < regionSelects.length; i++) {
+            // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
+            if (regionSelects[i].goodsLocationSelects.length) {
+                for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
+                    $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
+                }
+            }else {
+                $scope.formData.regionIds.push(regionSelects[i].id);
+            }
+        }
+      }
+
+      $scope.reloadRegionIds=function(storeRoomId,regionIds){
+          if (!regionIds) {
+              regionIds=[];
           }
-        }
 
-    $scope.reloadRegionIds=function(storeRoomId,regionIds){
-        if (!regionIds) {
-            regionIds=[];
-        }
+          var _data={
+              "storeRoomId":storeRoomId,
+              "regionIds":regionIds
+          };
 
-        var _data={
-            "storeRoomId":storeRoomId,
-            "regionIds":regionIds
-        };
-
-        requestData("rest/authen/region/queryForCheckOption", _data, 'POST','parameterBody')
-<<<<<<< HEAD
-        .then(function (results) {
-            $scope.formData.regionArr=results[1].data;
-        })
-        .catch(function (error) {
-            alertError(error || '出错');
-        });
+          requestData("rest/authen/region/queryForCheckOption", _data, 'POST','parameterBody')
+              .then(function (results) {
+                  $scope.formData.regionArr=results[1].data;
+              })
+              .catch(function (error) {
+                  alertError(error || '出错');
+              });
       };
 
       // 删除区域id
       $scope.deleteRegionIds = function (id,ids){
-        // if (ids.length) {
-        //     for (var i = 0; i < ids.length; i++) {
-        //         if (id==ids[i]) {
-        //             ids.pop(ids[i]);  // pop()方法可以带参数 ?
-        //         }
-        //     }
-        //     $scope.formData.regionIds=ids;
-        // }
-        if (ids.length) {
-          for (var i = 0; i < ids.length; i++) {
-            if (id === ids[i]) {
-              ids.splice(i, 1);
-            }
+          if (ids.length) {
+              for (var i = 0; i < ids.length; i++) {
+                  if (id==ids[i]) {
+                      ids.pop(ids[i]);
+                  }
+              }
+              $scope.formData.regionIds=ids;
           }
-          $scope.formData.regionIds = ids;
-        }
       };
 
       // 删除货位id,把要删除的id数组和现有的ids数组对比。从ids中去掉要删除的货位id。
       $scope.deleteGoodslocationIds = function (goodsLocationSelects,_ids){
-=======
-            .then(function (results) {
-                $scope.formData.regionArr=results[1].data;
-            })
-            .catch(function (error) {
-                alertError(error || '出错');
-            });
-    };
->>>>>>> c37186f706eb71b0c4a42bcb6cd352b2e2ad0d0a
 
-    // 删除区域id
-    $scope.deleteRegionIds = function (id,ids){
-        if (ids.length) {
-            for (var i = 0; i < ids.length; i++) {
-                if (id==ids[i]) {
-                    ids.pop(ids[i]);
-                }
-            }
-            $scope.formData.regionIds=ids;
-        }
-    };
+          for (var i = 0 ; i < _ids.length ; i ++ ){
 
-    // 删除货位id,把要删除的id数组和现有的ids数组对比。从ids中去掉要删除的货位id。
-    $scope.deleteGoodslocationIds = function (goodsLocationSelects,_ids){
+              for(var j = 0 ; j < goodsLocationSelects.length ; j ++ ){
 
-        for (var i = 0 ; i < _ids.length ; i ++ ){
+                  if (_ids[i] === goodsLocationSelects[j].id){
 
-            for(var j = 0 ; j < goodsLocationSelects.length ; j ++ ){
+                      _ids.splice(i,1);
 
-                if (_ids[i] === goodsLocationSelects[j].id){
+                  }
 
-                    _ids.splice(i,1);
+              }
 
-                }
+          }
 
-            }
+          $scope.formData.goodsLocationIds=_ids;
+      };
 
-        }
+      // query页面点击发送盘点任务消息时请求接口获取信息内容
+      $scope.previewMessage=function(_id){
+          if (_id) {
 
-        $scope.formData.goodsLocationIds=_ids;
-    };
+              requestData('rest/authen/inventoryApplicationOrder/previewMessage?id='+$scope.dialogData.id, {}, 'post')
+                  .then(function (results) {
+                      $scope.messageText=results[1].data;
+                  })
+                  .catch(function (error) {
+                      alertError(error || '出错');
+                  });
+          }
+      };
 
-    // query页面点击发送盘点任务消息时请求接口获取信息内容
-    $scope.previewMessage=function(_id){
-        if (_id) {
+      // 发送盘点任务信息
+      $scope.sendMessage=function(_id){
+          if (_id) {
+              requestData('rest/authen/inventoryApplicationOrder/sendMessage?id='+_id, {},'post')
+                  .then(function (results) {
+                      if (results[1].code === 200) {
+                          utils.refreshHref();
+                          alertOk('发送成功');
+                      }
+                  })
+                  .catch(function (error) {
+                      alertError(error || '出错');
+                  });
+          }
+      };
 
-            requestData('rest/authen/inventoryApplicationOrder/previewMessage?id='+$scope.dialogData.id, {}, 'post')
-                .then(function (results) {
-                    $scope.messageText=results[1].data;
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
-        }
-    };
+      // 选择区域后把区域ID和名称带到编辑页面
+      $scope.submitRegion = function (regionArr){
+          var regionSelects=[];
+          if (regionArr) {
 
-    // 发送盘点任务信息
-    $scope.sendMessage=function(_id){
-        if (_id) {
-            requestData('rest/authen/inventoryApplicationOrder/sendMessage?id='+_id, {},'post')
-                .then(function (results) {
-                    if (results[1].code === 200) {
-                        utils.refreshHref();
-                        alertOk('发送成功');
-                    }
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
-        }
-    };
+              for (var i = 0; i < regionArr.length; i++) {
+                  if (regionArr[i].checked===true) {
+                      // 如果有货位，则对选中的货位进行组织
+                      if (regionArr[i].goodsLocationSelects.length) {
+                          // 一定要放在这里来声明。不然会出现重复添加的bug。
+                          var goodsLocationSelects=[];
 
-    // 选择区域后把区域ID和名称带到编辑页面
-    $scope.submitRegion = function (regionArr){
-        var regionSelects=[];
-        if (regionArr) {
+                          for (var j = 0; j < regionArr[i].goodsLocationSelects.length; j++) {
+                              // 判断是否是选中的货位
+                              if (regionArr[i].goodsLocationSelects[j].checked===true) {
+                                  goodsLocationSelects.push(regionArr[i].goodsLocationSelects[j]);
 
-<<<<<<< HEAD
                               }
                           }
                           // 如果所有货位都没有被选中，则把对应区域也去掉，不选中。
@@ -3673,467 +3648,413 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               }
           }
           // 调用组织ids的方法，把对应的id组织起来，用于传入后台
-          $scope._getRegionIds(regionSelects);
+          getRegionIds(regionSelects);
       };
-=======
-            for (var i = 0; i < regionArr.length; i++) {
-                if (regionArr[i].checked===true) {
-                    // 如果有货位，则对选中的货位进行组织
-                    if (regionArr[i].goodsLocationSelects.length) {
-                        // 一定要放在这里来声明。不然会出现重复添加的bug。
-                        var goodsLocationSelects=[];
->>>>>>> c37186f706eb71b0c4a42bcb6cd352b2e2ad0d0a
 
-                        for (var j = 0; j < regionArr[i].goodsLocationSelects.length; j++) {
-                            // 判断是否是选中的货位
-                            if (regionArr[i].goodsLocationSelects[j].checked===true) {
-                                goodsLocationSelects.push(regionArr[i].goodsLocationSelects[j]);
+      // 选择货位后，组装成相应对象
+      $scope.selectGoodslocation= function(tr,item){
+          // 如果选中货位，就选中相对应的区域
 
-                            }
-                        }
-                        // 如果所有货位都没有被选中，则把对应区域也去掉，不选中。
-                        if (regionArr[i].goodsLocationSelects.length) {
-                            regionArr[i].goodsLocationSelects=goodsLocationSelects;
-                        }else {
-                            regionArr[i].checked=false;
-                        }
-                    }
-                    regionSelects.push(regionArr[i]);
-                    $scope.formData.regionSelects=regionSelects;
-                }
-            }
-        }
-        // 调用组织ids的方法，把对应的id组织起来，用于传入后台
-        getRegionIds(regionSelects);
-    };
-
-    // 选择货位后，组装成相应对象
-    $scope.selectGoodslocation= function(tr,item){
-        // 如果选中货位，就选中相对应的区域
-
-        if (item.checked) {
-            tr.checked=true;
-        }
-    };
-
-    // 区域/货位侧边框请求数据
-    $scope.reloadgoodslocationIds = function (storeRoomId,goodsLocationIds){
-        if (!goodsLocationIds) {
-            goodsLocationIds=[];
-        }
-
-        var _data={
-            "storeRoomId":storeRoomId,
-            "goodsLocationIds":goodsLocationIds
-        };
-
-        requestData("rest/authen/goodsLocation/queryForCheckOption", _data, 'POST','parameterBody')
-            .then(function (results) {
-                // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
-
-<<<<<<< HEAD
-      // 按区域盘点 - 把区域id组成ids，传到后台，侧边框再次打开时默认选中已选的区域
-      // 私有方法，在方法 submitRegion 中调用
-      $scope._getRegionIds = function (regionSelects) {
-
-        $scope.formData.regionIds=[];
-        $scope.formData.goodsLocationIds=[];
-
-        for (var i = 0; i < regionSelects.length; i++) {
-            // 如股区域下还有货位，则把选中的货位的id组织放在goodsLocationIds中传入后台，用于选中已选货位
-            if (regionSelects[i].goodsLocationSelects.length) {
-                for (var j = 0; j < regionSelects[i].goodsLocationSelects.length; j++) {
-                    $scope.formData.goodsLocationIds.push(regionSelects[i].goodsLocationSelects[j].id);
-                }
-            }else {
-                $scope.formData.regionIds.push(regionSelects[i].id);
-            }
-        }
+          if (item.checked) {
+              tr.checked=true;
+          }
       };
-=======
-                for (var i = 0; i < results[1].data.length; i++) {
-                    if (results[1].data[i].goodsLocationSelects.length) {
-                        for (var j = 0; j < results[1].data[i].goodsLocationSelects.length; j++) {
-                            if (results[1].data[i].goodsLocationSelects[j].checked) {
-                                results[1].data[i].checked=true;
-                            }
-                        }
-                    }
-                }
-                $scope.formData.goodsLocationArr=results[1].data;
 
-            })
-            .catch(function (error) {
-                alertError(error || '出错');
-            });
-    };
->>>>>>> c37186f706eb71b0c4a42bcb6cd352b2e2ad0d0a
+      // 区域/货位侧边框请求数据
+      $scope.reloadgoodslocationIds = function (storeRoomId,goodsLocationIds){
+          if (!goodsLocationIds) {
+              goodsLocationIds=[];
+          }
+
+          var _data={
+              "storeRoomId":storeRoomId,
+              "goodsLocationIds":goodsLocationIds
+          };
+
+          requestData("rest/authen/goodsLocation/queryForCheckOption", _data, 'POST','parameterBody')
+              .then(function (results) {
+                  // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
+
+                  for (var i = 0; i < results[1].data.length; i++) {
+                      if (results[1].data[i].goodsLocationSelects.length) {
+                          for (var j = 0; j < results[1].data[i].goodsLocationSelects.length; j++) {
+                              if (results[1].data[i].goodsLocationSelects[j].checked) {
+                                  results[1].data[i].checked=true;
+                              }
+                          }
+                      }
+                  }
+                  $scope.formData.goodsLocationArr=results[1].data;
+
+              })
+              .catch(function (error) {
+                  alertError(error || '出错');
+              });
+      };
 
     }
 
-  function inventoryTaskOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm,utils) {
+    function inventoryTaskOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm,utils) {
 
-
-    $scope.$watch('initFlag', function (newVal) {
-        if(newVal){
-            var operationFlowSetMessage=[];
-            var operationFlowSetKey=[];
-            if ($scope.formData.operationFlowSet) {
-                // 选择出当前状态相同的驳回理由，并放入一个数组中
-                for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
-                    if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
-                        operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
-                        operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
-                    }
-                }
-                //  选择当前状态最近的一个驳回理由用于显示
-                $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-                $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-                return;
-            }
-        }
-    });
-
-    $scope.$watch('showFlag', function (newVal) {
-        if(newVal){
-            var operationFlowSetMessage=[];
-            var operationFlowSetKey=[];
-            if ($scope.tr.operationFlowSet) {
-                // 选择出当前状态相同的驳回理由，并放入一个数组中
-                for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
-                    if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
-                        operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
-                        operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
-                    }
-                }
-                //  选择当前状态最近的一个驳回理由用于显示
-                $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-                $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
-                return;
-            }
-        }
-    });
-
-    // 保存type:save-草稿,submit-提交订单。
-    $scope.submitFormAfter = function() {
-      if($scope.submitForm_type == 'exit'){
-          $scope.goTo('#/inventoryOrder/query.html');
-          return;
-      }
-    };
-
-    $scope.submit = function (_id,_businessKey){
-        var key=_id;
-        if (!_id) {
-            key=_businessKey;
-
-        }
-        var _url='rest/authen/inventoryOrder/startProcessInstance';
-        var data= {businessKey:key};
-        requestData(_url, data, 'POST')
-            .then(function (results) {
-                var _data = results[1];
-                //  alertOk(_data.message || '操作成功');
-                utils.goTo('#/inventoryOrder/get.html?id='+key);
-
-            })
-            .catch(function (error) {
-                alertError(error || '出错');
-            });
-    };
-
-
-    $scope.submitData = function (formData,regionId,goodsLocationId){
-        // 添加漏盘商品
-
-        if (formData) {
-            // 把区域货位id放到save商品的对象中
-            formData.regionId=regionId;
-            formData.goodsLocationId=goodsLocationId;
-            // 请求save保存添加一条商品信息
-            requestData("rest/authen/inventoryMedicalNo/save", formData, 'POST','parameterBody')
-                .then(function (results) {
-                    console.log(results[1].data);
-                    // 保存成功之后把该条商品信息放入编辑页面第二张表格中
-                    $scope.listObject.customMedicalList.push(results[1].data);
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
-        }
-    };
-
-    // 保存任务
-    $scope.saveData = function (inventoryOrderId,systemMedicalList,customMedicalList){
-        var inventoryMedicalNos=[], i = 0;
-
-        // 组织两个表中的数据到inventoryMedicalNos中，保存后传入后台
-        for (i = 0; i < systemMedicalList.length; i++) {
-            inventoryMedicalNos.push(systemMedicalList[i]);
-        }
-        for (i = 0; i < customMedicalList.length; i++) {
-            inventoryMedicalNos.push(customMedicalList[i]);
-        }
-
-        var data={
-            "inventoryOrderId":inventoryOrderId,
-            "inventoryMedicalNos":inventoryMedicalNos
-        };
-
-        requestData("rest/authen/inventoryMedicalNo/inputData", data , 'POST','parameterBody')
-            .then(function (results) {
-                if (results[1].code === 200) {
-                    utils.refreshHref();
-                    alertOk('操作成功');
-                }
-            })
-            .catch(function (error) {
-                alertError(error || '出错');
-            });
-    };
-
-    // 数量关联
-    $scope.calGainlossQuantity = function (item){
-
-        if (!item.actualQuantity) {
-            item.gainLossQuantity='';
-        }else {
-            item.gainLossQuantity=parseInt(item.actualQuantity-item.systemQuantity);
-            console.log(item.gainLossQuantity);
-        }
-    };
-
-    $scope.deleteInventory = function(_id){
-
-        var data={};
-        requestData("rest/authen/inventoryMedicalNo/delete?id="+_id, data, 'POST')
-        .then(function (results) {
-          if (results[1].code === 200) {
-              utils.refreshHref();
-              alertOk('操作成功');
-            }
-        })
-        .catch(function (error) {
-          alertError(error || '出错');
-        });
-
-      }
-
-  }
-
-  function transferRecordCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn,modal) {
-
-    $scope.watchFormChange = function(watchName){
-      watchFormChange(watchName,$scope);
-    };
-
-    $scope.submitForm = function(fromId, type) {
-       $scope.submitForm_type = type;
-       if ($scope.submitForm_type == 'submit') {
-
-         requestData('rest/authen/transferRecord/save', $scope.formData, 'POST', 'parameterBody')
-         .then(function (results) {
-           if (results[1].code === 200) {
-           }
-         })
-         .catch(function (error) {
-
-         });
-       }
-      $('#' + fromId).trigger('submit');
-    };
-
-    $scope.submitFormAfter = function (_url) {
-      if ($scope.submitForm_type === 'submit') {
-        $scope.goTo(_url + '?id=' + $scope.formData.id);
-      }
-    };
-
-    // 侧边框过滤筛选
-    $scope.handleSearchFilter = function (listParams, relMedicalStockId) {
-
-      // 判断参数是否正确
-      if (!listParams || !angular.isObject(listParams)) { throw new Error('Params is Required'); }
-
-      // 获取参数对象中所有的key
-      var _keys = Object.keys(listParams);
-
-      // 构建查询参数字符串
-      var _hashString = '';
-      for (var i = 0, len = _keys.length; i < len; i++) {
-        _hashString += '&' + _keys[i] + '=' + listParams[_keys[i]];
-      }
-
-      // 构建完整的查询url
-      var _queryUrl = 'rest/authen/medicalStock/queryStockBatch?relMedicalStockId=' + relMedicalStockId + '&isOnlyAvailable=true' + _hashString;
-
-      // 更新数据
-      requestData(_queryUrl)
-      .then(function (results) {
-        $scope.codesList = results[1].data;
-      })
-      .catch(function (error) {
-        throw new Error(error || '出错');
-      });
-    };
-
-    $scope.spdChoiseBatches = function (medicalId,productionBatch,storeRoomName,storeRoomId,regionId,goodsLocationId,salesQuantity,sterilizationBatchNumber) {
-      // 将当前选择的医院编码赋值到数据对象中
-      if ($scope.formData) {
-              $scope.formData.relMedicalStockId= medicalId;
-              $scope.formData.productionBatch= productionBatch;
-              $scope.formData.storeRoomId=storeRoomId;
-              $scope.formData.storeRoomName=storeRoomName;
-              $scope.formData.sourceRegionId=regionId;
-              $scope.formData.sourceGoodsLocationId=goodsLocationId;
-              $scope.formData.transferQuantity=salesQuantity;
-              $scope.formData.sterilizationBatchNumber=sterilizationBatchNumber;
-      }
-      modal.closeAll();
-    };
-
-    // 在确定之前，修改商品后需要清空上一个商品填写的信息
-    $scope.$watch('formData.relMedicalStockId', function (newVal, oldVal) {
-      console.log("newVal="+newVal);
-      console.log("oldVal="+oldVal);
-      if (newVal && newVal!==oldVal) {
-          $scope.formData.productionBatch='';
-          $scope.formData.storeRoomId='';
-          $scope.formData.sourceRegionId='';
-          $scope.formData.targetRegionId='';
-          $scope.formData.targetGoodsLocationId='';
-          $scope.formData.sourceGoodsLocationId='';
-          $scope.formData.localQuantity='';
-          $scope.formData.transferQuantity='';
-          $scope.formData.storeRoomName='';
-          $scope.formData.transferReason='';
-      }
-    });
-
-    $scope.$watch('formData.medical_unit', function (newVal, oldVal) {
-      var newQuantity='';
-      if (newVal) {
-        var quantityList=[];
-        var url='rest/authen/medicalStock/queryStockBatch?relMedicalStockId='+$scope.formData.relMedicalStockId;
-        requestData(url)
-        .then(function (results) {
-          quantityList=results[1].data;
-          if (quantityList.length !== 0) {
-            var _len = quantityList.length;
-            for (var i=0; i<_len; i++) {
-              if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch && $scope.formData.sourceGoodsLocationId===quantityList[i].goodsLocationId) {
-                newQuantity=quantityList[i].stockModel.salesQuantity;
-                var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.localQuantity+'&&unit='+$scope.formData.medical_unit;
-                requestData(_url)
-                .then(function (results) {
-                  $scope.scopeData = results[1].data;
-                  console.log(results[1].data[0].quantity);
-                  console.log(newQuantity);
-                  if( results[1].data[0].quantity>newQuantity){
-                    $scope.showQuantity=true;
-                  }else{
-                    $scope.showQuantity=false;
+      $scope.$watch('initFlag', function (newVal) {
+          if(newVal){
+              var operationFlowSetMessage=[];
+              var operationFlowSetKey=[];
+              if ($scope.formData.operationFlowSet) {
+                  // 选择出当前状态相同的驳回理由，并放入一个数组中
+                  for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+                      if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+                          operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
+                          operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
+                      }
                   }
-                });
+                  //  选择当前状态最近的一个驳回理由用于显示
+                  $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+                  $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+                  return;
               }
-            }
           }
-        });
-      }
-    });
+      });
 
-    // 保存type:save-草稿,submit-提交订单。
-    $scope.submitForm = function(fromId, type) {
+      $scope.$watch('showFlag', function (newVal) {
+          if(newVal){
+              var operationFlowSetMessage=[];
+              var operationFlowSetKey=[];
+              if ($scope.tr.operationFlowSet) {
+                  // 选择出当前状态相同的驳回理由，并放入一个数组中
+                  for (var i=0; i<$scope.tr.operationFlowSet.length; i++) {
+                      if ($scope.tr.operationFlowSet[i].status==$scope.tr.orderStatus) {
+                          operationFlowSetMessage.push($scope.tr.operationFlowSet[i].message);
+                          operationFlowSetKey.push($scope.tr.operationFlowSet[i].key);
+                      }
+                  }
+                  //  选择当前状态最近的一个驳回理由用于显示
+                  $scope.tr.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+                  $scope.tr.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+                  return;
+              }
+          }
+      });
 
-        $scope.submitForm_type = type;
-
-        // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
-        if ($scope.submitForm_type === 'save' && $scope.formData.validFlag === true) {
-            $scope.formData.validFlag = false;
-        }
-
-        if ($scope.submitForm_type == 'submit') {
-            $scope.formData.validFlag = true;
-        }
-
-        $('#' + fromId).trigger('submit');
-    };
-
-    $scope.flashAddDataCallbackFn = function(flashAddData) {
-        if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
-            alertWarn("请选择药品");
-            return ;
-        }
-        var medical=flashAddData.data.data;
-        var addDataItem = $.extend(true,{},medical);
-
-        addDataItem.applicationCount=flashAddData.quantity;
-        addDataItem.discountPrice='0';
-        addDataItem.discountRate='100';
-        addDataItem.relId=medical.id;
-
-        addDataItem.strike_price=addDataItem.price;
-
-        if (!(addDataItem.relId && addDataItem.name)) {
-            alertWarn('请选择药品。');
-            return false;
-        }
-
-        if(addDataItem.quantity>medical.quantity){//库存不足情况
-            addDataItem.handleFlag =false;//默认添加到订单
-        }
-        if (!$scope.formData.orderMedicalNos) {
-            $scope.formData.orderMedicalNos = [];
-        }
-        // 如果已添加
-        if ($scope.formData.orderMedicalNos.length !== 0) {
-            var _len = $scope.formData.orderMedicalNos.length;
-            for (var i=0; i<_len; i++) {
-                if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-                    alertWarn('此药械已添加到列表');
-                    return false;
-                }
-            }
-        }
-        //添加到列表
-        $scope.formData.orderMedicalNos.push(addDataItem);
-        //计算价格
-        $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-        return true;
-    };
-
-    $scope.addDataItemClick = function(addDataItem,medical) {
-        if (!(addDataItem.relId && addDataItem.name)) {
-            alertWarn('请选择药品。');
+      // 保存type:save-草稿,submit-提交订单。
+      $scope.submitFormAfter = function() {
+        if($scope.submitForm_type == 'exit'){
+            $scope.goTo('#/inventoryOrder/query.html');
             return;
         }
-        if(addDataItem.quantity>medical.quantity){//库存不足情况
-            addDataItem.handleFlag =false;//默认添加到订单
-        }
-        // 如果已添加
-        if ($scope.formData.orderMedicalNos.length > 0) {
-            var _len = $scope.formData.orderMedicalNos.length;
-            // 未使用forEach方法，因为IE不兼容
-            for (var i=0; i<_len; i++) {
-                if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
-                    alertWarn('此药械已添加到列表');
-                    return;
-                }
-            }
-        }
-        if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
-        $scope.formData.orderMedicalNos.push(addDataItem);
-        //计算价格
-        $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
-        $scope.addDataItem = {};
-        $('input', '#addDataItem_relId_chosen').trigger('focus');
-        // $('#addDataItem_relId_chosen').trigger('click');
-    };
+      };
 
-  }
+      $scope.submit = function (_id,_businessKey){
+          var key=_id;
+          if (!_id) {
+              key=_businessKey;
+
+          }
+          var _url='rest/authen/inventoryOrder/startProcessInstance';
+          var data= {businessKey:key};
+          requestData(_url, data, 'POST')
+              .then(function (results) {
+                  var _data = results[1];
+                  //  alertOk(_data.message || '操作成功');
+                  utils.goTo('#/inventoryOrder/get.html?id='+key);
+
+              })
+              .catch(function (error) {
+                  alertError(error || '出错');
+              });
+      };
+
+      $scope.submitData = function (formData,regionId,goodsLocationId){
+          // 添加漏盘商品
+
+          if (formData) {
+              // 把区域货位id放到save商品的对象中
+              formData.regionId=regionId;
+              formData.goodsLocationId=goodsLocationId;
+              // 请求save保存添加一条商品信息
+              requestData("rest/authen/inventoryMedicalNo/save", formData, 'POST','parameterBody')
+                  .then(function (results) {
+                      console.log(results[1].data);
+                      // 保存成功之后把该条商品信息放入编辑页面第二张表格中
+                      $scope.listObject.customMedicalList.push(results[1].data);
+                  })
+                  .catch(function (error) {
+                      alertError(error || '出错');
+                  });
+          }
+      };
+
+      // 保存任务
+      $scope.saveData = function (inventoryOrderId,systemMedicalList,customMedicalList){
+          var inventoryMedicalNos=[], i = 0;
+
+          // 组织两个表中的数据到inventoryMedicalNos中，保存后传入后台
+          for (i = 0; i < systemMedicalList.length; i++) {
+              inventoryMedicalNos.push(systemMedicalList[i]);
+          }
+          for (i = 0; i < customMedicalList.length; i++) {
+              inventoryMedicalNos.push(customMedicalList[i]);
+          }
+
+          var data={
+              "inventoryOrderId":inventoryOrderId,
+              "inventoryMedicalNos":inventoryMedicalNos
+          };
+
+          requestData("rest/authen/inventoryMedicalNo/inputData", data , 'POST','parameterBody')
+              .then(function (results) {
+                  if (results[1].code === 200) {
+                      utils.refreshHref();
+                      alertOk('操作成功');
+                  }
+              })
+              .catch(function (error) {
+                  alertError(error || '出错');
+              });
+      };
+
+      // 数量关联
+      $scope.calGainlossQuantity = function (item){
+
+          if (!item.actualQuantity) {
+              item.gainLossQuantity='';
+          }else {
+              item.gainLossQuantity=parseInt(item.actualQuantity-item.systemQuantity);
+              console.log(item.gainLossQuantity);
+          }
+      };
+
+      $scope.deleteInventory = function(_id){
+
+          var data={};
+          requestData("rest/authen/inventoryMedicalNo/delete?id="+_id, data, 'POST')
+          .then(function (results) {
+            if (results[1].code === 200) {
+                utils.refreshHref();
+                alertOk('操作成功');
+              }
+          })
+          .catch(function (error) {
+            alertError(error || '出错');
+          });
+
+        };
+
+    }
+
+    function transferRecordCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn,modal) {
+
+      $scope.watchFormChange = function(watchName){
+        watchFormChange(watchName,$scope);
+      };
+
+      $scope.submitForm = function(fromId, type) {
+         $scope.submitForm_type = type;
+         if ($scope.submitForm_type == 'submit') {
+
+           requestData('rest/authen/transferRecord/save', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200) {
+             }
+           })
+           .catch(function (error) {
+
+           });
+         }
+        $('#' + fromId).trigger('submit');
+      };
+
+      $scope.submitFormAfter = function (_url) {
+        if ($scope.submitForm_type === 'submit') {
+          $scope.goTo(_url + '?id=' + $scope.formData.id);
+        }
+      };
+
+      // 侧边框过滤筛选
+      $scope.handleSearchFilter = function (listParams, relMedicalStockId) {
+
+        // 判断参数是否正确
+        if (!listParams || !angular.isObject(listParams)) { throw new Error('Params is Required'); }
+
+        // 获取参数对象中所有的key
+        var _keys = Object.keys(listParams);
+
+        // 构建查询参数字符串
+        var _hashString = '';
+        for (var i = 0, len = _keys.length; i < len; i++) {
+          _hashString += '&' + _keys[i] + '=' + listParams[_keys[i]];
+        }
+
+        // 构建完整的查询url
+        var _queryUrl = 'rest/authen/medicalStock/queryStockBatch?relMedicalStockId=' + relMedicalStockId + '&isOnlyAvailable=true' + _hashString;
+
+        // 更新数据
+        requestData(_queryUrl)
+        .then(function (results) {
+          $scope.codesList = results[1].data;
+        })
+        .catch(function (error) {
+          throw new Error(error || '出错');
+        });
+      };
+
+      $scope.spdChoiseBatches = function (medicalId,productionBatch,storeRoomName,storeRoomId,regionId,goodsLocationId,salesQuantity,sterilizationBatchNumber) {
+        // 将当前选择的医院编码赋值到数据对象中
+        if ($scope.formData) {
+                $scope.formData.relMedicalStockId= medicalId;
+                $scope.formData.productionBatch= productionBatch;
+                $scope.formData.storeRoomId=storeRoomId;
+                $scope.formData.storeRoomName=storeRoomName;
+                $scope.formData.sourceRegionId=regionId;
+                $scope.formData.sourceGoodsLocationId=goodsLocationId;
+                $scope.formData.transferQuantity=salesQuantity;
+                $scope.formData.sterilizationBatchNumber=sterilizationBatchNumber;
+        }
+        modal.closeAll();
+      };
+
+      // 在确定之前，修改商品后需要清空上一个商品填写的信息
+      $scope.$watch('formData.relMedicalStockId', function (newVal, oldVal) {
+        console.log("newVal="+newVal);
+        console.log("oldVal="+oldVal);
+        if (newVal && newVal!==oldVal) {
+            $scope.formData.productionBatch='';
+            $scope.formData.storeRoomId='';
+            $scope.formData.sourceRegionId='';
+            $scope.formData.targetRegionId='';
+            $scope.formData.targetGoodsLocationId='';
+            $scope.formData.sourceGoodsLocationId='';
+            $scope.formData.localQuantity='';
+            $scope.formData.transferQuantity='';
+            $scope.formData.storeRoomName='';
+            $scope.formData.transferReason='';
+        }
+      });
+
+      $scope.$watch('formData.medical_unit', function (newVal, oldVal) {
+        var newQuantity='';
+        if (newVal) {
+          var quantityList=[];
+          var url='rest/authen/medicalStock/queryStockBatch?relMedicalStockId='+$scope.formData.relMedicalStockId;
+          requestData(url)
+          .then(function (results) {
+            quantityList=results[1].data;
+            if (quantityList.length !== 0) {
+              var _len = quantityList.length;
+              for (var i=0; i<_len; i++) {
+                if ($scope.formData.relMedicalStockId === quantityList[i].relMedicalStockId && $scope.formData.productionBatch === quantityList[i].productionBatch && $scope.formData.sourceGoodsLocationId===quantityList[i].goodsLocationId) {
+                  newQuantity=quantityList[i].stockModel.salesQuantity;
+                  var _url = 'rest/authen/medicalStock/getPackingAttributeQuantityById?id=' + $scope.formData.relMedicalStockId+'&&quantity='+$scope.formData.localQuantity+'&&unit='+$scope.formData.medical_unit;
+                  requestData(_url)
+                  .then(function (results) {
+                    $scope.scopeData = results[1].data;
+                    console.log(results[1].data[0].quantity);
+                    console.log(newQuantity);
+                    if( results[1].data[0].quantity>newQuantity){
+                      $scope.showQuantity=true;
+                    }else{
+                      $scope.showQuantity=false;
+                    }
+                  });
+                }
+              }
+            }
+          });
+        }
+      });
+
+      // 保存type:save-草稿,submit-提交订单。
+      $scope.submitForm = function(fromId, type) {
+
+          $scope.submitForm_type = type;
+
+          // 如果点击提交无效，再次修改提交对象中的值，则在保存点击时将后端验证标识设置为false
+          if ($scope.submitForm_type === 'save' && $scope.formData.validFlag === true) {
+              $scope.formData.validFlag = false;
+          }
+
+          if ($scope.submitForm_type == 'submit') {
+              $scope.formData.validFlag = true;
+          }
+
+          $('#' + fromId).trigger('submit');
+      };
+
+      $scope.flashAddDataCallbackFn = function(flashAddData) {
+          if(!flashAddData||!flashAddData.data||!flashAddData.data.data){
+              alertWarn("请选择药品");
+              return ;
+          }
+          var medical=flashAddData.data.data;
+          var addDataItem = $.extend(true,{},medical);
+
+          addDataItem.applicationCount=flashAddData.quantity;
+          addDataItem.discountPrice='0';
+          addDataItem.discountRate='100';
+          addDataItem.relId=medical.id;
+
+          addDataItem.strike_price=addDataItem.price;
+
+          if (!(addDataItem.relId && addDataItem.name)) {
+              alertWarn('请选择药品。');
+              return false;
+          }
+
+          if(addDataItem.quantity>medical.quantity){//库存不足情况
+              addDataItem.handleFlag =false;//默认添加到订单
+          }
+          if (!$scope.formData.orderMedicalNos) {
+              $scope.formData.orderMedicalNos = [];
+          }
+          // 如果已添加
+          if ($scope.formData.orderMedicalNos.length !== 0) {
+              var _len = $scope.formData.orderMedicalNos.length;
+              for (var i=0; i<_len; i++) {
+                  if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+                      alertWarn('此药械已添加到列表');
+                      return false;
+                  }
+              }
+          }
+          //添加到列表
+          $scope.formData.orderMedicalNos.push(addDataItem);
+          //计算价格
+          $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+          return true;
+      };
+
+      $scope.addDataItemClick = function(addDataItem,medical) {
+          if (!(addDataItem.relId && addDataItem.name)) {
+              alertWarn('请选择药品。');
+              return;
+          }
+          if(addDataItem.quantity>medical.quantity){//库存不足情况
+              addDataItem.handleFlag =false;//默认添加到订单
+          }
+          // 如果已添加
+          if ($scope.formData.orderMedicalNos.length > 0) {
+              var _len = $scope.formData.orderMedicalNos.length;
+              // 未使用forEach方法，因为IE不兼容
+              for (var i=0; i<_len; i++) {
+                  if (addDataItem.relId === $scope.formData.orderMedicalNos[i].relId) {
+                      alertWarn('此药械已添加到列表');
+                      return;
+                  }
+              }
+          }
+          if (!$scope.formData.orderMedicalNos) $scope.formData.orderMedicalNos = [];
+          $scope.formData.orderMedicalNos.push(addDataItem);
+          //计算价格
+          $scope.formData.totalPrice += addDataItem.strike_price * addDataItem.quantity;
+          $scope.addDataItem = {};
+          $('input', '#addDataItem_relId_chosen').trigger('focus');
+          // $('#addDataItem_relId_chosen').trigger('click');
+      };
+
+    }
 
     //领退模块
-    function  collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+    function collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
       //清空部门信息
       $scope.watchFormChange = function(watchName){
@@ -4145,7 +4066,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
       $scope.$watch('formData.orderMedicalNos',function (p1, p2, p3) {
 
 
-          if($scope.formData.orderMedicalNos ==undefined){
+          if($scope.formData.orderMedicalNos ===undefined){
               return;
           }
 
@@ -4220,305 +4141,299 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     //领退模块选择退货商品
     function  collarReturnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-        /**
-         * 根据单号查询领用单
-         * @param orderCode
-         */
-        $scope.getByOrderCode=function(orderCode){
+      $scope.showBatchs=false;
 
-            var _data={
-                orderCode:orderCode
-            };
+      /**
+       * 根据单号查询领用单
+       * @param orderCode
+       */
+      $scope.getByOrderCode=function(orderCode){
 
-            requestData("rest/authen/collarApplicationOrder/getByOrderCode", _data, 'GET')
-                .then(function (results) {
-                    // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
+          var _data={
+              orderCode:orderCode
+          };
 
-                    console.log('results[1].data',results[1].data);
+          requestData("rest/authen/collarApplicationOrder/getByOrderCode", _data, 'GET')
+              .then(function (results) {
+                  // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
 
-                    $scope.scopeData=results[1].data || {};
+                  console.log('results[1].data',results[1].data);
 
-                })
-                .catch(function (error) {
-                    // alertError(error || '出错');
-                });
+                  $scope.scopeData=results[1].data || {};
 
-        };
+              })
+              .catch(function (error) {
+                  // alertError(error || '出错');
+              });
 
+      };
 
-        $scope.flashAddDataCallbackFn=function (data1) {
+      $scope.flashAddDataCallbackFn=function (data1) {
 
-            $scope.angucomplete_data=data1;
+          $scope.angucomplete_data=data1;
 
-            console.log("$scope.angucomplete_data",$scope.angucomplete_data);
+          console.log("$scope.angucomplete_data",$scope.angucomplete_data);
 
-            if($scope.angucomplete_data.data == undefined){
-                return;
-            }
-            $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.data.id);
-        };
+          if($scope.angucomplete_data.data === undefined){
+              return;
+          }
+          $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.data.id);
+      };
 
-        $scope.angucomplete_data={};
+      $scope.angucomplete_data={};
 
-        $scope.$watch('angucomplete_data',function(){
-            // console.log("angucomplete_data:$watch"+$scope.angucomplete_data.id);
-            if($scope.angucomplete_data.data == undefined){
-                return;
-            }
-            $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.data.id);
-        },true);
+      $scope.$watch('angucomplete_data',function(){
+          // console.log("angucomplete_data:$watch"+$scope.angucomplete_data.id);
+          if($scope.angucomplete_data.data === undefined){
+              return;
+          }
+          $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.data.id);
+      },true);
 
-        $scope.$watch('listParams',function (newValue,oldValue) {
-            $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.id);
-        },true);
+      $scope.$watch('listParams',function (newValue,oldValue) {
+          $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.id);
+      },true);
 
-        $scope.handleSearchFilter=function(listParams,relMedicalStockId){
+      $scope.handleSearchFilter=function(listParams,relMedicalStockId){
 
-            if(relMedicalStockId === undefined || relMedicalStockId===null || relMedicalStockId===''){
-                return;
-            }
+          if(relMedicalStockId === undefined || relMedicalStockId===null || relMedicalStockId===''){
+              return;
+          }
 
-            var _data=angular.extend(listParams,{
-                "relMedicalStockId":relMedicalStockId
-            });
+          var _data=angular.extend(listParams,{
+              "relMedicalStockId":relMedicalStockId,
+              "pageSize":12
+          });
 
-            console.log("_data",_data);
+          console.log("_data",_data);
 
+          requestData("rest/authen/collarApplicationOrder/queryByMedical", _data, 'GET')
+              .then(function (results) {
+                  // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
 
-            requestData("rest/authen/collarApplicationOrder/queryByMedical", _data, 'GET')
-                .then(function (results) {
-                    // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
+                  console.log('results[1].data',results[1].data);
 
-                    console.log('results[1].data',results[1].data);
+                  $scope.orderList=results[1].data || [];
 
-                    $scope.orderList=results[1].data || [];
+              })
+              .catch(function (error) {
+                  alertError(error || '出错');
+              });
 
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
+      };
 
-        };
+      //选择当前订单
+      $scope.curOrder=null;
+      $scope.index=-1;
 
-        //选择当前订单
-        $scope.curOrder=null;
-        $scope.index=-1;
+      $scope.choiceThis=function (item,index,flag){
 
-        $scope.choiceThis=function (item,index){
-            $scope.curOrder=item;
-            $scope.index = index;
-        };
+          if(!flag){
+              $scope.curOrder=item;
+              $scope.index = index;
+          }
+      };
 
+      $scope.getGoodsBatchs=function(){
 
-        $scope.getGoodsBatchs=function(){
+          if($scope.curOrder === null){
+              alertWarn("请选择！");
+              return;
+          }
 
-            //step0 判断部门
-            if($scope.formData.departmentId == '' || $scope.formData.departmentId == null || $scope.formData.departmentId == undefined ){
-                //设置部门ID 和 name
-                $scope.formData.departmentId=$scope.curOrder.departmentId ;
+          //step0 判断部门
+          if($scope.formData.departmentId === '' || $scope.formData.departmentId === null || $scope.formData.departmentId === undefined ){
+              //设置部门ID 和 name
+              $scope.formData.departmentId=$scope.curOrder.departmentId ;
 
-                $scope.formData.departmentName=  $scope.curOrder.departmentName;
+              $scope.formData.departmentName=  $scope.curOrder.departmentName;
 
+          }else{
 
-            }else{
+              if($scope.curOrder.departmentId != $scope.formData.departmentId){
+                  alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
+                  return;
+              }
+          }
 
-                if($scope.curOrder.departmentId != $scope.formData.departmentId){
-                    alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
-                    return;
-                }
 
-            }
+          //step1 判断去重复
 
+          var flag=false;
+          for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
+              if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
+                  flag=true;
+                  break;
+              }
+          }
 
-            //step1 判断去重复
+          if(flag){
+              alertWarn("該商品已存在,请重新选择");
+              return;
+          }
 
-            var flag=false;
-            for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
-                if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
-                    flag=true;
-                    break;
-                }
-            }
+          $scope.showBatchs=true;
+          //    bug ------------------------------
 
-            if(flag){
-                alertWarn("該商品已存在,请重新选择");
-                return;
-            }
+          var _data={
+              id:$scope.curOrder.relId,//单据主键ID
+              relMedicalStockId:$scope.curOrder.relMedicalStockId
+          };
 
-            $scope.showBatchs=true;
+          requestData("rest/authen/collarApplicationOrder/queryMedicalProductionBatch", _data, 'GET')
+              .then(function (results) {
+                  $scope.stockBatchList=results[1].data || [];
+              })
+              .catch(function (error) {
+                  alertError(error || '出错');
+              });
+      };
 
-            var _data={
-                id:$scope.curOrder.relId,//单据主键ID
-                relMedicalStockId:$scope.curOrder.relMedicalStockId
-            };
+      $scope.selectedBatchs=[];
+      $scope.handleItemClickEvent=function (item,index) {
 
-            requestData("rest/authen/collarApplicationOrder/queryMedicalProductionBatch", _data, 'GET')
-                .then(function (results) {
-                    $scope.stockBatchList=results[1].data || [];
-                })
-                .catch(function (error) {
-                    alertError(error || '出错');
-                });
-        };
+          if(item.handleFlag){
+              $scope.selectedBatchs.push(item);
+          }else{
+              $scope.selectedBatchs.splice(index,1);
+          }
+      };
 
-        $scope.selectedBatchs=[];
-        $scope.handleItemClickEvent=function (item,index) {
+      // 全选全不选
+      $scope.handleChoiseAllEvent = function (flag,list) {
 
-            if(item.handleFlag){
-                $scope.selectedBatchs.push(item);
-            }else{
-                $scope.selectedBatchs.splice(index,1);
-            }
-        };
+          if (flag) {   // 全选被选中
+              angular.forEach(list, function (data, index) {
+                  data.handleFlag = true;
+                  $scope.selectedBatchs.push(data);
+              });
 
-        // 全选全不选
-        $scope.handleChoiseAllEvent = function (flag,list) {
+          } else {    //取消了全部选中
+              angular.forEach(list, function (data, index) {
+                  data.handleFlag = false;
+              });
+              $scope.selectedBatchs=[];
+          }
 
-            if (flag) {   // 全选被选中
-                angular.forEach(list, function (data, index) {
-                    data.handleFlag = true;
-                    $scope.selectedBatchs.push(data);
-                });
+          console.log(" $scope.selectedBatchs", $scope.selectedBatchs);
 
-            } else {    //取消了全部选中
-                angular.forEach(list, function (data, index) {
-                    data.handleFlag = false;
-                });
-                $scope.selectedBatchs=[];
-            }
+      };
 
-            console.log(" $scope.selectedBatchs", $scope.selectedBatchs);
+      //添加到数据列表
+      $scope.addToList=function(){
 
-        };
+          var obj = $scope.curOrder.medicalNo;
 
 
-        //添加到数据列表
-        $scope.addToList=function(){
+          //領用單編號
+          obj.relOrderCode=$scope.curOrder.relOrderCode;
 
-            var obj = $scope.curOrder.medicalNo;
+          //可退數量
+          obj.returnTotal=$scope.curOrder.returnTotal || 0;
 
+          //药品ID
+          obj.relMedicalStockId=obj.id;
 
-            //領用單編號
-            obj.relOrderCode=$scope.curOrder.relOrderCode;
+          //领用单ID
+          obj.relCollarApplicationId=$scope.curOrder.relId;
+          obj.relId=$scope.curOrder.relId;
 
-            //可退數量
-            obj.returnTotal=$scope.curOrder.returnTotal || 0;
 
-            //药品ID
-            obj.relMedicalStockId=obj.id;
+          //批次信息
+          obj.stockBatchs=$scope.selectedBatchs;
 
-            //领用单ID
-            obj.relCollarApplicationId=$scope.curOrder.relId;
-            obj.relId=$scope.curOrder.relId;
+          console.log("obj",obj);
 
 
-            //批次信息
-            obj.stockBatchs=$scope.selectedBatchs;
 
-            console.log("obj",obj);
+          $scope.formData.orderMedicalNos.push(obj);
 
+          $scope.formData.relIds.push(obj.relId);
 
+          //清空选择的批次
+          $scope.selectedBatchs=[];
 
-            $scope.formData.orderMedicalNos.push(obj);
+      };
 
-            $scope.formData.relIds.push(obj.relId);
+      //添加领用单中的商品到列表
+      $scope.addOrderDataToList=function () {
 
-            //清空选择的批次
-            $scope.selectedBatchs=[];
+          //step0 判断部门
+          if($scope.formData.departmentId === '' || $scope.formData.departmentId === null || $scope.formData.departmentId === undefined ){
+              //设置部门ID 和 name
+              $scope.formData.departmentId=$scope.scopeData.departmentId ;
+              $scope.formData.departmentName=  $scope.scopeData.departmentName;
 
-        };
+          }else{
 
+              if($scope.scopeData.departmentId != $scope.formData.departmentId){
+                  alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
+                  return;
+              }
 
-        //添加领用单中的商品到列表
-        $scope.addOrderDataToList=function () {
+          }
 
-            //step0 判断部门
-            if($scope.formData.departmentId == '' || $scope.formData.departmentId == null || $scope.formData.departmentId == undefined ){
-                //设置部门ID 和 name
-                $scope.formData.departmentId=$scope.scopeData.departmentId ;
-                $scope.formData.departmentName=  $scope.scopeData.departmentName;
 
-            }else{
+          //添加商品
+          var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
 
-                if($scope.scopeData.departmentId != $scope.formData.departmentId){
-                    alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
-                    return;
-                }
+          var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs,'onlyId','onlyId');
 
-            }
+          console.log('$scope.selectedBatchs',resultArr);
 
+          $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
-            //添加商品
-            var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
+          for(var i=0; i<resultArr.length; i++){
+              var goods= resultArr[i];
+              console.log("goods.relId:",goods.relId);
+              $scope.formData.relIds.push(goods.relId);
+          }
 
-            var resultArr = compareArray(hasOrderMedicalNos,$scope.selectedBatchs,'onlyId','onlyId');
 
-            console.log('$scope.selectedBatchs',resultArr);
+      };
 
-            $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
+      //选择批次
+      $scope.choiceBaths=function(index){
 
-            for(var i=0; i<resultArr.length; i++){
-                var goods= resultArr[i];
-                console.log("goods.relId:",goods.relId);
-                $scope.formData.relIds.push(goods.relId);
-            }
+          console.log( $scope.selectedBatchs);
 
+          console.log("$scope.formData.orderMedicalNos[index].stockBatchs",$scope.formData.orderMedicalNos[index].stockBatchs);
 
-        };
 
 
-        //选择批次
-        $scope.choiceBaths=function(index){
 
-            console.log( $scope.selectedBatchs);
+          var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
 
-            console.log("$scope.formData.orderMedicalNos[index].stockBatchs",$scope.formData.orderMedicalNos[index].stockBatchs);
+          $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat($scope.selectedBatchs);
 
+          $scope.selectedBatchs=[];
+      };
 
+      $scope.itemInArray=function (id,batchlist,attr) {
 
+          var flag=false;
 
-            var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
 
-            $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat($scope.selectedBatchs);
+          for(var i=0; i<batchlist.length; i++){
 
-            $scope.selectedBatchs=[];
-        };
+              console.log(batchlist[i][attr],id ,batchlist[i][attr] == id);
 
+              if(batchlist[i][attr] == id){
+                  flag=true;
+              }
+          }
 
-    //去重 返回 arrB 与 arrA 中 arrB不重复部分
-    function compareArray(arrA,arrB,arrAAtrr,arrBAtrr){
-        var temp=[];
+          console.log("flag",flag);
+          return flag;
+      };
 
-        for (var i = 0; i<arrA.length; i++) {
+      //去重 返回 arrB 与 arrA 中 arrB不重复部分
+      $scope._compareArray=function(arrA,arrB,arrAAtrr,arrBAtrr){
+        var temp=[], i = 0, j = 0;
 
-<<<<<<< HEAD
-            for(var j=0; j<arrB.length; j++){
-=======
-        $scope.itemInArray=function (id,batchlist,attr) {
+        for (i = 0; i<arrA.length; i++) {
 
-            var flag=false;
-
-
-            for(var i=0; i<batchlist.length; i++){
-
-                console.log(batchlist[i][attr],id ,batchlist[i][attr] == id);
-
-                if(batchlist[i][attr] == id){
-                    flag=true;
-                }
-            }
-
-            console.log("flag",flag);
-            return flag;
-        };
-
-
-        //去重 返回 arrB 与 arrA 中 arrB不重复部分
-        function compareArray(arrA,arrB,arrAAtrr,arrBAtrr){
-            var temp=[];
-
-            for (var i = 0; i<arrA.length; i++) {
->>>>>>> c37186f706eb71b0c4a42bcb6cd352b2e2ad0d0a
+            for(j=0; j<arrB.length; j++){
 
                 if(arrA[i][arrAAtrr]==arrB[j][arrBAtrr]){
                     temp.push(arrB[j][arrBAtrr]);
@@ -4527,9 +4442,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
 
 
-        for(var i=0;i<temp.length; i++){
+        for(i=0;i<temp.length; i++){
 
-            for(var j=0; j<arrB.length; j++){
+            for(j=0; j<arrB.length; j++){
 
                 console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
 
@@ -4538,11 +4453,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 }
             }
         }
-    }
 
         return arrB;
+      };
     }
-
 
     angular.module('manageApp.project-PG16-H')
     .controller('indexPageController', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', '$rootScope', indexPageController])
