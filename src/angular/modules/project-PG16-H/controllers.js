@@ -4378,7 +4378,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           }else{
 
               if($scope.scopeData.departmentId != $scope.formData.departmentId){
-                  alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
+                  alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
                   return;
               }
 
