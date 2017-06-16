@@ -35,7 +35,6 @@ define('manageApp.project', ['project/init', 'project/services', 'project/contro
 define('manageApp.modal', ['modal/init', 'modal/services', 'modal/directives']);
 define('manageApp.upload', ['upload/init', 'upload/directives']);
 define('datePicker', ['datepicker/datepicker']);
-define('manageApp.project-PG16-H', ['project-PG16-H/init', 'project-PG16-H/services', 'project-PG16-H/controllers', 'project-PG16-H/directives', 'project-PG16-H/filters']);
 define('manageApp.WLS', ['WLS/init', 'WLS/services', 'WLS/controllers', 'WLS/directives', 'WLS/filters']);
 
 
@@ -46,7 +45,6 @@ define('manageApp', [
        'manageApp.main',
        'manageApp.project',
        'manageApp.upload',
-       'manageApp.project-PG16-H',
        'manageApp.WLS',
        'datePicker'
 ], function () {
@@ -56,7 +54,6 @@ define('manageApp', [
         'manageApp.modal',
         'manageApp.main',
         'manageApp.project',
-        'manageApp.project-PG16-H',
         'manageApp.WLS',
         'manageApp.upload',
         'datePicker',
