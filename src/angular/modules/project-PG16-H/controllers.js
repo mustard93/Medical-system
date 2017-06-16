@@ -4063,7 +4063,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
       };
 
-      $scope.$watch('formData.orderMedicalNos',function (p1, p2, p3) {
+
+        $scope.goodsCount=function (batchlist) {
+
+            var sum=0;
+
+            for(var i= 0; i<batchlist.length; i++){
+                sum += 1* batchlist[i].quantity;
+            }
+            return sum;
+        };
+
+        $scope.$watch('formData.orderMedicalNos',function (p1, p2, p3) {
 
 
           if($scope.formData.orderMedicalNos ===undefined){

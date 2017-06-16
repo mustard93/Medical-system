@@ -31,6 +31,8 @@
 
         .goods-info {
             margin: 15px 20px;
+            margin-top: -20px;
+            margin-bottom: 20px;
         }
 
         .goods-info .color-6 {
@@ -74,9 +76,8 @@
             -moz-box-shadow: 0 0 10px #ff8c00;
             box-shadow: 0 0 10px #ff8c00;
         }
-
-        .order-list li .pr-bg-grey2 {
-            background: #ddd;
+        .order-list li .mgb-xxl.pr-bg-grey2:hover{
+            box-shadow: none;
         }
 
         .footer-btn-box {
@@ -123,6 +124,15 @@
        input.pr-w-100{
             width: 300px!important;
         }
+
+       .angucomplete-dropdown{
+           width: 300px!important;
+       }
+
+        .pr-bg-grey2{
+            background: #ccc;
+        }
+
 
 
 
@@ -271,7 +281,15 @@
 
 
         <div class="footer-btn-box">
-            <button ng-click="addOrderDataToList();modal.close()" class="footer-btn">确定</button>
+            <!--<button ng-click="addOrderDataToList();modal.close()" class="footer-btn">确定</button>-->
+            <button
+                    ng-disabled="selectedBatchs.length<1"
+                    class="pr-btn-save-glodbg mgr-l"
+                    type="button"
+                    ng-click="submitForm('editForm','save')"
+            >保存
+            </button>
+
         </div>
 
     </div>
@@ -467,12 +485,14 @@
                 <ul ng-if="orderList.length" class="li-min-h">
 
                     <li class="pdr-m pdl-m relative confirm-order-list ng-scope"
-                        ng-class="{'pr-bg-glay':tr.returnFlag}"
-                        ng-repeat="tr in orderList track by $index">
+                        ng-repeat="tr in orderList track by $index"
+
+                    >
 
                         <div   ng-disabled="tr.returnFlag"
                                 ng-click="choiceThis(tr,$index,tr.returnFlag); " class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
-                             ng-class="{'on': index == $index }"
+                             ng-class="{'on': index == $index,'pr-bg-grey2':tr.returnFlag }"
+
                         >
                             <div class="card-new">
                                 <div class="bt-line">
@@ -570,6 +590,8 @@
                     <button ng-click="addToList();showBatchs=!showBatchs;" class="footer-btn">确定并继续</button>
 
                     <button ng-click="addToList();modal.close()" class="footer-btn">确定</button>
+
+
 
                 </div>
             </div>
