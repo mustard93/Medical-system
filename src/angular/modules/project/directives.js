@@ -1911,7 +1911,7 @@ function stepFlowArrowShow(utils){
                   }
               }
               // 箭头创建完成之后，设置宽度
-              $('.first-medical-nav>div').css({"width":divWidth - lossWidht});
+              $('.first-medical-nav>div').css({"width":divWidth-lossWidht});
               // 开始箭头的形状定义
               $($element).children('div').first().append("<div></div><div></div>");
               // 最后一个箭头的形状定义
@@ -1920,7 +1920,7 @@ function stepFlowArrowShow(utils){
 
         $(window).resize(function () {
           //当浏览器大小变化时,触发方法，重新给箭头计算宽度，并重新设置宽度，达到自适应宽度的目的。
-            $('.first-medical-nav>div').css({"width":($($element).width()-((arrowCount-1)*30))/arrowCount - lossWidht });
+            $('.first-medical-nav>div').css({"width":($($element).width()-((arrowCount-1)*30))/arrowCount });
         });
       }//link
   };

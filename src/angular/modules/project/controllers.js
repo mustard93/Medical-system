@@ -6226,6 +6226,37 @@ define('project/controllers', ['project/init'], function() {
    }//end salesOrderEditCtrl
 
 
+   function updateContactCtrl($scope, $timeout, alertOk, alertError, requestData) {
+
+       // 保存  type:save-草稿,submit-提交订单。
+       $scope.submitFormAfter = function() {
+           $scope.formData.validFlag = false;
+
+           if ($scope.submitForm_type == 'submit') {
+
+               $timeout(function () {
+                   $scope.goTo('#/purchaseOrder/edit.html');
+               },2000);
+
+           }
+
+       };
+
+
+       // 保存 type:save-草稿,submit-提交订单。
+       $scope.submitForm = function(fromId, type) {
+           $scope.submitForm_type = type;
+           if ($scope.submitForm_type == 'submit') {
+
+           }
+           $('#' + fromId).trigger('submit');
+
+           // addDataItem_opt.submitUrl='';
+           // $scope.formData.orderMedicalNos.push($scope.addDataItem);
+           // $scope.addDataItem={};
+       };
+   }
+
 
   angular.module('manageApp.project')
   .controller('createCorrespondController', ['$scope', 'requestData', 'modal', 'alertWarn','utils', createCorrespondController])
@@ -6271,5 +6302,9 @@ define('project/controllers', ['project/init'], function() {
   .controller('returnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', returnOrderEditCtrl])
   .controller('purchasereturnOrderEditCtrl', ['$scope', 'modal','alertWarn','watchFormChange', 'requestData', '$rootScope','alertOk','utils', purchasereturnOrderEditCtrl])
   .controller('deleteUploaderController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', deleteUploaderController])
-  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', cfgGoodsBarcodeCtroller]);
+  .controller('cfgGoodsBarcodeCtroller', ['$scope', 'requestData', 'utils', cfgGoodsBarcodeCtroller])
+
+   .controller('updateContactCtrl', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', updateContactCtrl])
+
+  ;
 });
