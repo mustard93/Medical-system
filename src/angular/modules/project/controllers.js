@@ -1563,46 +1563,6 @@ define('project/controllers', ['project/init'], function() {
 
     };
 
-    // 监听批次销售数量变化。
-    /*
-    $scope.$watch('item.stockBatchs', function (newVal,oldVal) {
-      if (newVal && newVal !== oldVal) {
-        var item=$scope.item;
-        item.quantity=0;//根据批次的销售数量，计算销售的总数量。
-        //记录批次中是否有空的数量没填写，没有则根据，批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
-
-        if(!newVal)newVal=[{}];
-
-        //记录添加新的批号选择下拉框的索引号。
-        var noSelectproductionBatchValIndex=-1;
-        for(var i=0;i<newVal.length;i++){
-          if(!newVal[i].batchNumber){
-            newVal[i].quantity=0;
-            noSelectproductionBatchValIndex=i;
-          }
-          if(newVal[i].quantity){
-              item.quantity+=newVal[i].quantity;
-          }
-
-        }
-
-
-        if(item.quantity<item.planQuantity){//批次总数量，不满足销售单计划数量时，自动添加新的库存下拉选择
-          if(noSelectproductionBatchValIndex==-1){
-              item.stockBatchs.push({});
-          }
-        }else{//数量选择够了后，删除未选择批号的数据
-            if(noSelectproductionBatchValIndex>-1){
-                item.stockBatchs.splice(noSelectproductionBatchValIndex,1);
-            }
-        }
-
-        if (item.quantity > 0) { item.handleFlag = true; }
-
-      }
-    },true);
-    */
-
     // 获取所有批次药品数量的合计
     $scope.getAllBatchTotal = function (batchsList) {
 
