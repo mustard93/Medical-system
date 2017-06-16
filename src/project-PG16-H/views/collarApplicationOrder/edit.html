@@ -224,11 +224,12 @@
                    </td><!-- 申请数量 -->
                    <!-- <td class="text-right" ng-if="salesQuantity" ></td> -->
                    <td ng-if="!formData.id" class="text-right">{{tr.salesQuantity}}</td>
-                   <td ng-if="formData.id&&initFlag" class="text-right"
-                   ajax-url="rest/authen/medicalStock/countStockByIds?ids={{tr.id}}&&storeRoomId={{formData.storeRoomId}}"
-                   scope-data="scopeData"
-                   ><em ng-repeat="item in scopeData" ng-init="tr.salesQuantity=item.salesQuantity">{{item.salesQuantity}}</em>
-                 </td>
+                   <td ng-if="formData.id&&initFlag"
+                       class="text-right"
+                       ajax-url="rest/authen/medicalStock/countStockByIds?ids={{tr.id}}&&storeRoomId={{formData.storeRoomId}}"
+                       scope-data="scopeData">
+                    <em ng-repeat="item in scopeData" ng-init="tr.salesQuantity=item.salesQuantity">{{item.salesQuantity}}</em>
+                   </td>
                    <!-- 可用数量 -->
                    <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
                    <td class="text-center" style="line-height:2.4">{{tr.packingAttribute.name}}</td><!-- 商品单位 -->
