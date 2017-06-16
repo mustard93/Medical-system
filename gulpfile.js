@@ -481,14 +481,119 @@ gulp.task('rev-project-PG16-H',['concatMinCss-project-PG16-H','concatMinJs-proje
 });
 // 项目project-PG16-H 配置==========================================================================
 
+
+// 项目WLS 配置==========================================================================
+/* 清理js文件(开发环境 )*/
+gulp.task('concatJs-WLS-clean', function () {
+  var tmpProject_paths = getProjectPaths("WLS");
+  return gulp.src([paths.build_js + tmpProject_paths.dest_js_fileName])
+             .pipe(clean());
+});
+/* 合并、JS(开发环境 ) */
+gulp.task('concatJs-WLS', ['concatJs-WLS-clean','test-concatMinJs-WLS'], function () {
+  var tmpProject_paths = getProjectPaths("WLS");
+  var concatCss_src=Component_paths.src_js.concat(tmpProject_paths.src_js);
+  return gulp.src(concatCss_src)
+  .on('data',function(file){
+            console.log(file.history[0]);
+        })
+             .pipe(concat(tmpProject_paths.dest_js_fileName))
+             .pipe(gulp.dest(paths.build_js));
+});
+/* 合并、JS(开发环境 ) */
+gulp.task('test-concatMinJs-WLS', function () {
+  var project_name="WLS";
+  var tmpProject_paths = getProjectPaths(project_name);
+    var concatJs_src=tmpProject_paths.src_js.concat(Component_paths.src_js);
+
+    return gulp.src(concatJs_src)
+               //.pipe(concat('app.min.js'))
+               .pipe(uglify())
+               .pipe(gulp.dest(paths.buildTmp + 'js'));
+});
+
+/* 清理css文件((开发环境 ) ) */
+gulp.task('concatCss-WLS-clean', function () {
+  var project_name="WLS";
+  var tmpProject_paths = getProjectPaths(project_name);
+    return gulp.src([paths.build_css + tmpProject_paths.dest_css_fileName])
+             .pipe(clean());
+});
+/*合并css(开发环境 ) 方法 */
+gulp.task('concatCss-WLS', ['concatCss-WLS-clean'], function () {
+  var project_name="WLS";
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=getconcatCssPath(project_name);
+  return gulp.src(concatCss_src)
+  .on('data',function(file){
+            console.log(file.history[0]);
+        })
+             .pipe(concat(tmpProject_paths.dest_css_fileName))
+             .pipe(gulp.dest(paths.build_css));
+
+});
+
+
+/* 合并、JS(发布环境 )  concatMinJs concatMinCss */
+gulp.task('concatMinJs-WLS', ['concatJs-WLS-clean'], function () {
+  var tmpProject_paths = getProjectPaths("WLS");
+
+  var concatJs_src=tmpProject_paths.src_js.concat(Component_paths.src_js);
+  console.log('concatJs_src',concatJs_src);
+     return gulp.src(concatJs_src)
+               .pipe(concat(tmpProject_paths.dest_js_fileName))
+               .pipe(uglify())
+               .pipe(rev())
+               .pipe(gulp.dest(paths.build_js))
+               .pipe(rev.manifest())
+              .pipe(gulp.dest(tmpProject_paths.build_js_min_rev));
+
+});
+
+/*合并css(开发环境 ) 方法 */
+gulp.task('concatMinCss-WLS', ['concatCss-WLS-clean'], function () {
+  var project_name="WLS";
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(concatCss_src)
+             .pipe(concat(tmpProject_paths.dest_css_fileName))
+             .pipe(mincss())
+             .pipe(rev())
+            //  .pipe(gulp.dest(paths.build + 'css'))
+               .pipe(gulp.dest(paths.build_css))
+             .pipe(rev.manifest())
+             .pipe(gulp.dest(tmpProject_paths.build_css_min_rev));
+});
+
+/*改版本号js,css(发布环境 ) 方法 */
+gulp.task('rev-WLS',['concatMinCss-WLS','concatMinJs-WLS'], function () {
+  var project_name="WLS";
+  var tmpProject_paths = getProjectPaths(project_name);
+  var concatCss_src=Component_paths.src_css.concat(tmpProject_paths.src_css);
+  return gulp.src(['./src/build/'+project_name+'/**/*.json', './src/'+project_name+'/*.html']).on('data',function(file){
+                 console.log(file.history[0]);
+               })
+            .pipe(revCollector())
+            .pipe(gulp.dest('./src/'+project_name));
+
+});
+// 项目WLS 配置==========================================================================
+
+
 /* 默认启动任务 */
 gulp.task('default',  function (done) {
   condition = false;
     runSequence(
-      ['concatJs-dt'],['concatCss-dt'],
-      ['concatJs-manage'],['concatCss-manage'],
-      ['concatJs-project-PG16-H'],['concatCss-project-PG16-H'],
-    ['browser'], ['bro'], done);
+      ['concatJs-dt'],
+      ['concatCss-dt'],
+      ['concatJs-manage'],
+      ['concatCss-manage'],
+      ['concatJs-project-PG16-H'],
+      ['concatCss-project-PG16-H'],
+      ['concatJs-WLS'],
+      ['concatCss-WLS'],
+      ['browser'],
+      ['bro'], done);
 
 
     var concatCss_src_all=[];
