@@ -144,7 +144,8 @@
                             <!-- <td class="text-right">
                             {{tr.storageQuantity?tr.storageQuantity:"—"}}
                             </td> -->
-                            <td class="text-right">{{tr.storageQuantity+tr.otherQuantity}}</td>
+                            <td class="text-right" ng-if="tr.inoutType=='入库' && tr.warehouseType != '待处理库'">{{tr.storageQuantity}}</td><!-- 实收数量 -->
+                            <td class="text-right" ng-if="tr.inoutType=='入库' && tr.warehouseType == '待处理库'">{{tr.otherQuantity}}</td><!-- 实收数量 -->
                             <td class="text-right">
                             {{tr.refuseQuantity?tr.refuseQuantity:"—"}}
                             </td>
