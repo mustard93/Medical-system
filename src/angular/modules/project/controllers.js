@@ -3459,6 +3459,20 @@ define('project/controllers', ['project/init'], function() {
            .catch(function (error) {
            });
          }
+         if ($scope.submitForm_type == 'submit-firstMedical') {
+           $scope.formData.validFlag = true;
+           requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
+           .then(function (results) {
+             if (results[1].code === 200 && results[1].msg) {
+               alertError(results[1].msg);
+             } else {
+               $scope.submitFormAfter('#/firstMedicalApplication/edit-step-2.html');
+             }
+           })
+           .catch(function (error) {
+            //  if (error) {throw new Error(error || '错误');}
+           });
+         }
 
          if ($scope.submitForm_type == 'submit') {
            $scope.formData.validFlag = true;
