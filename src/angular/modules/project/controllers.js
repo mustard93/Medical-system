@@ -3463,10 +3463,10 @@ define('project/controllers', ['project/init'], function() {
            $scope.formData.validFlag = true;
            requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
-             if (results[1].code === 200 && results[1].msg) {
-               alertError(results[1].msg);
+             if (results[1].code === 200) {
+               $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+$scope.formData.id);
              } else {
-               $scope.submitFormAfter('#/firstMedicalApplication/edit-step-2.html');
+               alertError(results[1].msg);
              }
            })
            .catch(function (error) {
