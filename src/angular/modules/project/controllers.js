@@ -1407,6 +1407,19 @@ define('project/controllers', ['project/init'], function() {
     // };
     //
 
+    $scope.checkQuantity = function (quantity,batches){
+      var totalQuantity=0;
+      for (var i = 0; i < batches.length; i++) {
+        console.log(batches[i].quantity);
+        totalQuantity+=batches[i].quantity;
+      }
+      if (totalQuantity>quantity) {
+        $scope.quantityError=true;
+      }else {
+        $scope.quantityError=false;
+      }
+    }
+
     $scope.allocateNumOverloadFalg=[];
     $scope.checkItemAllocateNumOverload= function (item,index) {
 
