@@ -2,7 +2,7 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);chkAllocateNumOverload(formData)"
+     callback="initFlag=true;$root.watchFormChange('formData',this);"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -157,6 +157,7 @@
                        ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
               </span>
             </div>
+
             <div class="outside-table-d">
               <table class="table pr-table pr-new-table mgb-n table-s-wid">
                 <thead>
@@ -182,6 +183,7 @@
                 <tbody>
                   <tr ng-repeat="item in formData.orderMedicalNos"
                       ng-controller="ConfirmOrderMedicalController"
+                      ng-init="checkItemAllocateNumOverload(item,$index)"
                       table-item-handlebtn-component>
                     <td class="text-center">{{item.code}}
                       <div  class="table-item-handle-btn">
@@ -189,7 +191,7 @@
                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                           <p class="pdt-s">
                             <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
-                            <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                            <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);allocateNumOverloadFalg.splice($index,1);">确认</a>
                           </p>
                         </div>
                       </div>
@@ -204,24 +206,27 @@
                     </td><!--可调拨量-->
                     <td class="text-center">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;chkAllocateNumOverload(formData)" ng-disabled="item.quantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;checkItemAllocateNumOverload(item,$index)" ng-disabled="item.quantity==1">-</button>
                         <span class="inline-block">
+
+                                  <!--invalid-popover-->
+                                  <!--valid-value="{{allocateNumOverloadFalg[$index] == 'true' ?  true : false}}"-->
+                                  <!--popover-show-->
+                                  <!--popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'-->
+
                           <input type="number"
                                  name="quantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
                                  ng-model="item.quantity"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
-                                 ng-change="chkAllocateNumOverload(formData)"
+                                 ng-change="checkItemAllocateNumOverload(item,$index)"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
-                                 invalid-popover
-                                 valid-value="{{quantityOverloadFlag}}"
-                                 popover-show
-                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;chkAllocateNumOverload(formData)">+</button>
+                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;checkItemAllocateNumOverload(item,$index)">+</button>
                       </div>
+                      <p class="mgt-s color-red ng-binding ng-scope" ng-if="allocateNumOverloadFalg[$index] == 'true'">计划调拨总数不正确或数额过大</p>
                     </td><!-- 计划调拨数量 -->
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
@@ -333,7 +338,7 @@
                 ng-disabled="!formData.orderMedicalNos.length ||
                              !formData.orderCode ||
                              formData.sourceId==formData.targetId ||
-                             !formData.expectDate || quantityOverloadFlag.indexOf('true')!=-1"
+                             !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1"
                 class="pr-btn-save-glodbg mgr"
                 ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
