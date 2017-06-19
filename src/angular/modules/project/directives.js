@@ -2629,9 +2629,14 @@ function flashAddMedical(utils,$timeout) {
 
           // 监控用户是否已选择客户或供应商
           $attrs.$observe('isDisabledThis', function (newVal, oldVal) {
+
+            // console.log("isDisabledThis",newVal);
             if (newVal) {
               $scope.isCustomerId = true;
+            }else{
+                $scope.isCustomerId = false;
             }
+            // console.log("isCustomerId>>>>>>>>>>>>>>>>>>>>",!$scope.isCustomerId);
           });
 
           $scope.handleEnterForAdd = function () {
