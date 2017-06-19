@@ -18,6 +18,7 @@
         <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)">没有结果</div>
         <div class="angucomplete-row"
              ng-repeat="result in results"
+             ng-mousedown="angucomplete1.selectResult(result)"
              ng-mouseover="angucomplete1.hoverRow()"
              ng-class="{'angucomplete-selected-row': $index == currentIndex}">
             <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
@@ -29,6 +30,7 @@
             </div>
             <div class="angucomplete-description color-9">
               <span class="mgr">生产商：<em class="color-6">{{ result.data.manufacturer }}</em></span>
+              <!-- <span>供应商：<em class="color-6">{{ result.data.supplier.name }}</em></span> -->
             </div>
             <div class="angucomplete-description"></div>
         </div>
