@@ -2342,20 +2342,20 @@ function datePeriodSelect () {
       function  setStartAndEndTime (val){
         // 运用第三方插件moment
             var moment = require('moment');
-            var startTime=moment().format("x");
-            var endTime=moment().format("x");
-            switch (val) {
+          var startTime=moment().format("x");
+          var endTime=moment().format("x");
+          switch (val) {
               case "最近7天":
-              startTime= moment().subtract(1, "weeks").format("x");
-                break;
+                  startTime= moment().subtract(1, "weeks").format("x");
+                  break;
               case "最近10天":
-              startTime= moment().subtract(10, "days").format("x");
+                  startTime= moment().subtract(10, "days").format("x");
                   break;
               case "最近一个月":
-              startTime= moment().subtract(1, "months").format("x");
-              break;
+                  startTime= moment().subtract(1, "months").format("x");
+                  break;
               default:
-            }
+          }
           $scope.startTime=startTime;
           $scope.endTime=endTime;
         }

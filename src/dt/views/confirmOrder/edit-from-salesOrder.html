@@ -522,7 +522,8 @@
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
-                             !formData.orderCode"
+                             !formData.orderCode ||
+                             formData.totalPrice>100000"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
@@ -530,7 +531,8 @@
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
-                            !formData.orderCode"
+                            !formData.orderCode ||
+                            formData.totalPrice>100000"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
@@ -538,7 +540,7 @@
       <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white"
             invalid-popover
-            popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+            popover-show="formData.totalPrice>100000"
             popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
             <!-- ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}} -->
         </em>
@@ -547,9 +549,14 @@
       <div ng-if="formData.orderBusinessType=='直运销售'"
            class="price-area relative fl-r mgr-l"
            style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}
-          <!-- ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity']) | number:2}} -->
+        <em class="color-white"
+            invalid-popover
+            popover-show="formData.totalPrice>100000"
+            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
         </em>
+        <!-- <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}
+          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity']) | number:2}}
+        </em> -->
       </div>
     </div>
   </form>

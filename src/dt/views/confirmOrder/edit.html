@@ -56,7 +56,7 @@
                         placeholder="客户名"
                         title-field="name"
                         search-fields="{{formData.customerName}}"
-                        url="rest/authen/customerAddress/query.json"
+                        url="rest/authen/customerAddress/query.json?isFilterDefault=true"
                         ng-model="tmp_customer"
                         ng-model-id="formData.customerId"
                         class="inline-block mgr-s" style="width:280px;height:28px;">
@@ -370,6 +370,7 @@
                              ng-model="item.discountPrice"
                              ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);item.discountRate=((item.strike_price-item.discountPrice)/item.strike_price*100).toFixed(2)"
                              ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
+                             ng-disabled="item.strike_price==0"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountPrice'+$index].$valid}}"
@@ -383,6 +384,7 @@
                              ng-model="item.discountRate"
                              ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
                              ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
+                             ng-disabled="item.strike_price==0"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountRate'+$index].$valid}}"
@@ -625,6 +627,7 @@
                 ng-click="submitForm('editForm','submit')">提交
         </button>
       </div>
+
       <div ng-if="formData.orderBusinessType=='普通销售'"
            class="price-area relative fl-r mgr-l"
            style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
