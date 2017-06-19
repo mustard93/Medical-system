@@ -2543,11 +2543,11 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
               //是否验证合法，允许输入
               var canSelectResult=function(result){
 
-                  try{
-                    if (result.data.businessApplication.businessStatus == '已冻结') {
-                      return false;
-                    }
-                  }catch(e){  }
+                  // try{
+                  //   if (result.data.businessApplication.businessStatus == '已冻结') {
+                  //     return false;
+                  //   }
+                  // }catch(e){  }
                 return true;
               };
 
