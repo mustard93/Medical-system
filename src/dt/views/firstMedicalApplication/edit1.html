@@ -76,7 +76,7 @@
                       <input type="radio" class="default-radio" name="type" value="其他药品" ng-model="formData.medical.medicalType"> <i style="top:12px;"></i>
                       <em class="inline-block" style="margin-left:-5px; color:#666;">其他药品</em>
                     </label>
-
+                      <span ng-if="!formData.medical.medicalType" class="color-red" style="margin-top: 8px; margin-left: 20px;">*必选</span>
                 </div>
             </div>
             <div class=" pd-v-m">
@@ -86,7 +86,9 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
+                         required
                          ng-model="formData.medical.approvedName" />
+                         <span ng-if="!formData.medical.approvedName" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -95,7 +97,9 @@
                   <input type="text"
                          class="ipt-new"
                          name="name"
+                         required
                          ng-model="formData.medical.name" />
+                         <span ng-if="!formData.medical.name" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -104,6 +108,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="code"
+                         required
                          ng-model="formData.medical.code"/>
                          <span ng-if="!formData.medical.code" class="color-red">（必填）</span>
                 </div>
