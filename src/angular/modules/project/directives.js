@@ -3068,16 +3068,17 @@ function addressManageComponent (requestData, utils) {
       $scope.choisedItemId = '';
 
       // 判断默认选中
-      $scope.chkDefaultChoise = function (_id) {
+      $scope.chkDefaultChoise = function (tr) {
         if (!$scope.formData.id) {      // 如果是新建，将该参数id与默认返回地址做比较
           // if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
-          if ($scope.returnAddressObj.defaultContactId === _id) { return true; }
+          if ($scope.returnAddressObj.defaultContactId === tr.id) { return true; }
         } else {        // 如果是编辑
           var _moduleName = $scope.scopeDataPrefix + 'Contacts';
           if ($scope.formData[_moduleName]) {
-            if ($scope.formData[_moduleName].id === _id) { return true; }
+            if ($scope.formData[_moduleName].id === tr.id) { return true; }
           } else {
-            if ($scope.returnAddressObj.defaultContactId === _id) {     // 选中默认地址
+            if ($scope.returnAddressObj.defaultContactId === tr.id) {     // 选中默认地址
+              $scope.formData[$scope.scopeDataContacts] = tr;
               return true;
             }
           }
