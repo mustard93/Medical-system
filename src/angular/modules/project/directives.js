@@ -3074,9 +3074,12 @@ function addressManageComponent (requestData, utils) {
           if ($scope.returnAddressObj.defaultContactId === _id) { return true; }
         } else {        // 如果是编辑
           var _moduleName = $scope.scopeDataPrefix + 'Contacts';
-          console.log(_moduleName);
           if ($scope.formData[_moduleName]) {
             if ($scope.formData[_moduleName].id === _id) { return true; }
+          } else {
+            if ($scope.returnAddressObj.defaultContactId === _id) {     // 选中默认地址
+              return true;
+            }
           }
         }
       };
