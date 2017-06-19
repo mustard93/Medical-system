@@ -5613,17 +5613,17 @@ define('project/controllers', ['project/init'], function() {
   function inoutstockDetailQueryCtr ($scope,utils) {
 
 
-      // var moment = require('moment');
-      // var startTime=moment().format("x");
-      // var endTime=moment().format("x");
-      //
-      // // "最近7天":
-      // startTime= moment().subtract(1, "weeks").format("x");
+      var moment = require('moment');
+      var startTime=moment().format("x");
+      var endTime=moment().format("x");
 
-      // $scope.listParams={
-      //     createAtBeg:startTime,
-      //     createAtEnd:endTime
-      // };
+      // "最近7天":
+      startTime= moment().subtract(1, "weeks").format("x");
+
+      $scope.listParams={
+          createAtBeg:startTime,
+          createAtEnd:endTime
+      };
 
 
     //表格条目点击跳转方法，根据类型不同跳转页面不同
