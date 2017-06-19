@@ -5163,7 +5163,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.formData.purchaseType=addDataObj.purchaseType;
       $scope.formData.orderBusinessType=addDataObj.orderBusinessType;
       $scope.formData.saleUser=addDataObj.saleUser;
-      $scope.formData.supplierName=addDataObj.supplier.name;
+      $scope.formData.supplier.name=addDataObj.supplier.name;
       $scope.formData.logisticsCenterName=addDataObj.logisticsCenterName;
 
       // 清空原有数据
