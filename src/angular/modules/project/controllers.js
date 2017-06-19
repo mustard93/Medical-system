@@ -2205,7 +2205,7 @@ define('project/controllers', ['project/init'], function() {
    * @param  {[type]} dialogConfirm   [description]
    * @return {[type]}                 [description]
    */
-  function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogConfirm) {
+  function purchaseOrderEditCtrl($scope, modal,alertWarn,alertError,requestData,watchFormChange, dialogAlert) {
 
     // 根据实际采购数量的变化与计划采购数量做对比的标识变量
     $scope.isShowPurchaseInfo = false;
@@ -2647,8 +2647,8 @@ define('project/controllers', ['project/init'], function() {
     $scope.chkSupplierInfo = function (supplier) {
       // console.log(supplier);
       if (!supplier.contact) {
-        dialogConfirm('供应商地址信息不完整，请完善', function () {
-          window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
+          dialogAlert('供应商信息不完整,请到供应商中心\供应商管理中补充发货人信息后再新建采购单!', function () {
+            // window.location.assign('#/supplier/edit-contact.html?id='+supplier.id);
         });
       }
     };
@@ -5594,6 +5594,21 @@ define('project/controllers', ['project/init'], function() {
    * @return {[type]}        [description]
    */
   function inoutstockDetailQueryCtr ($scope,utils) {
+
+
+      // var moment = require('moment');
+      // var startTime=moment().format("x");
+      // var endTime=moment().format("x");
+      //
+      // // "最近7天":
+      // startTime= moment().subtract(1, "weeks").format("x");
+
+      // $scope.listParams={
+      //     createAtBeg:startTime,
+      //     createAtEnd:endTime
+      // };
+
+
     //表格条目点击跳转方法，根据类型不同跳转页面不同
     $scope.queryItemClick=function(tr){
       var    url="#/otherOutstockOrder/get.html?orderNo=";
@@ -6322,9 +6337,9 @@ define('project/controllers', ['project/init'], function() {
 
            if ($scope.submitForm_type == 'submit') {
 
-               $timeout(function () {
-                   $scope.goTo('#/purchaseOrder/edit.html');
-               },2000);
+               // $timeout(function () {
+               //     $scope.goTo('#/purchaseOrder/edit.html');
+               // },2000);
 
            }
 
@@ -6376,7 +6391,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('watchFormCtrl', ['$scope','watchFormChange', watchFormCtrl])
   .controller('intervalCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','$interval', intervalCtrl])
   .controller('auditUserApplyOrganizationCtrl', ['$scope', 'modal','alertWarn','requestData','alertOk','alertError','$rootScope','proLoading', auditUserApplyOrganizationCtrl])
-  .controller('purchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', purchaseOrderEditCtrl])
+  .controller('purchaseOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogAlert', purchaseOrderEditCtrl])
   .controller('noticeEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', 'dialogConfirm', noticeEditCtrl])
   .controller('allocateOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', allocateOrderEditCtrl])
   .controller('arrivalNoticeOrderEditCtrl', ['$scope', 'modal','alertWarn','alertError','requestData','watchFormChange', arrivalNoticeOrderEditCtrl])

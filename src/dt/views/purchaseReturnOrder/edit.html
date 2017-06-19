@@ -2,7 +2,7 @@
      ng-controller="purchasereturnOrderEditCtrl"
      ajax-url="rest/authen/purchaseReturnOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback='initFlag=true;watchFormChange("formData");quantityError=false;formData.supplier={}'
+     callback='initFlag=true;watchFormChange("formData");quantityError=false; formData.supplier =  formData.supplier ? formData.supplier : {} ;'
      alert-error>
   <form id="saleReturnEditForm"
         name="saleReturnEditForm"
@@ -63,6 +63,7 @@
             <div class="inline-block">
               <p class="mgb-s">供应商</p>
               <p class="text-m color-3 autocut-default" title="{{formData.supplier.name}}" style="width:300px;">{{formData.supplier.name || '暂无'}}</p>
+
             </div>
           </div>
         </div>
