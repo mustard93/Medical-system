@@ -1407,6 +1407,19 @@ define('project/controllers', ['project/init'], function() {
     // };
     //
 
+    $scope.checkQuantity = function (quantity,batches){
+      var totalQuantity=0;
+      for (var i = 0; i < batches.length; i++) {
+        console.log(batches[i].quantity);
+        totalQuantity+=batches[i].quantity;
+      }
+      if (totalQuantity>quantity) {
+        $scope.quantityError=true;
+      }else {
+        $scope.quantityError=false;
+      }
+    }
+
     $scope.allocateNumOverloadFalg=[];
     $scope.checkItemAllocateNumOverload= function (item,index) {
 
@@ -3428,11 +3441,11 @@ define('project/controllers', ['project/init'], function() {
            .then(function (results) {
              if (results[1].code === 200) {
                var url='rest/authen/firstEnterpriseApplication/startProcessInstance';
-               var data= {businessKey:$scope.formData.id};
+               var data= {businessKey:results[1].data.id};
                requestData(url,data, 'POST')
                 .then(function (results) {
                   var _data = results[1];
-                  $scope.goTo('#/firstEnterpriseApplication/get.html?id='+$scope.formData.id);
+                  $scope.goTo('#/firstEnterpriseApplication/get.html?id='+results[1].data.id);
                 })
                 .catch(function (error) {
                   alertError(error || '出错');
@@ -3447,11 +3460,12 @@ define('project/controllers', ['project/init'], function() {
            .then(function (results) {
              if (results[1].code === 200) {
                var url='rest/authen/firstMedicalApplication/startProcessInstance';
-               var data= {businessKey:$scope.formData.id};
+               var data= {businessKey:results[1].data.id};
                requestData(url,data, 'POST')
                 .then(function (results) {
-                  var _data = results[1];
-                  $scope.goTo('#/firstMedicalApplication/get.html?id='+$scope.formData.id);
+                  if (results[1].code === 200) {
+                  $scope.goTo('#/firstMedicalApplication/get.html?id='+results[1].data.id);
+                  }
                 })
                 .catch(function (error) {
                   alertError(error || '出错');
@@ -3466,11 +3480,12 @@ define('project/controllers', ['project/init'], function() {
            .then(function (results) {
              if (results[1].code === 200) {
                var url='rest/authen/hospitalApplication/startProcessInstance';
-               var data= {businessKey:$scope.formData.id};
+               var data= {businessKey:results[1].data.id};
                requestData(url,data, 'POST')
                 .then(function (results) {
-                  var _data = results[1];
-                  $scope.goTo('#/hospitalApplication/get.html?id='+$scope.formData.id);
+                  if (results[1].code === 200) {
+                  $scope.goTo('#/hospitalApplication/get.html?id='+results[1].data.id);
+                 }
                 })
                 .catch(function (error) {
                   alertError(error || '出错');
@@ -3485,11 +3500,12 @@ define('project/controllers', ['project/init'], function() {
            .then(function (results) {
              if (results[1].code === 200) {
                var url='rest/authen/otherCustomerApplication/startProcessInstance';
-               var data= {businessKey:$scope.formData.id};
+               var data= {businessKey:results[1].data.id};
                requestData(url,data, 'POST')
                 .then(function (results) {
-                  var _data = results[1];
-                  $scope.goTo('#/otherCustomerApplication/get.html?id='+$scope.formData.id);
+                  if (results[1].code === 200) {
+                  $scope.goTo('#/otherCustomerApplication/get.html?id='+results[1].data.id);
+                }
                 })
                 .catch(function (error) {
                   alertError(error || '出错');
@@ -3504,7 +3520,8 @@ define('project/controllers', ['project/init'], function() {
            requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {
-               $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+$scope.formData.id);
+               console.log(results[1].data);
+               $scope.goTo('#/firstMedicalApplication/edit-step-2.html?id='+results[1].data.id);
              } else {
                alertError(results[1].msg);
              }

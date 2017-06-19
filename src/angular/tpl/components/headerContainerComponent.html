@@ -1,0 +1,158 @@
+<div class="page-main-header-component content-wrapper-heading pdb-m mgb-l relative clearfix">
+  <!-- 面包屑导航 -->
+  <div id="crumbsNav" class="pdb-s pdt-s mgb-l crumbs pd-c-xxxxxl"></div>
+  <!-- 页头主内容区 -->
+  <div class="pd-c-xxxxxl clearfix">
+    {{test}}
+    <!-- 页头主内容上部 -->
+    <!-- <div class="flex-column mgb-m">
+      <div class="flex-item-4 pos-rel-tl inline-block fl-l">
+        <h1 ng-if="componentTitle" class="pr-font-20 color-black">{{componentTitle}}</h1>
+        <select ng-if="!componentTitle&&isShowSelectItem"
+                class="select pr-select pr-select-sm z-index-l relative"
+                style="width:120px;"
+                ng-model="itemChooise"
+                ng-change="$root.utils.goTo(itemChooise)">
+          <option ng-repeat="opt in selectObj" value="{{opt.link}}" ng-selected="(itemChooise==opt.link)?'selected':false">{{opt.name}}</option>
+        </select>
+      </div>
+      <div class="flex-item-8 text-right">
+        <div ng-if="isShowBusinessBtnGroup" class="order-status-btn pos-rel-tr text-right"
+             ajax-url="{{getStatusNumUrl}}"
+             scope-data="countByOrderStatus"
+             alert-error>
+
+             <div class="btn btn-group" ng-repeat="item in statusGroupList track by $index">
+               <button ng-if="$index==0" query-order-status-button  ng-model="listParams.orderStatus" key="" show-name="全部"  count-map="countByOrderStatus"></button>
+               <button ng-repeat="list in item"
+                       query-order-status-button
+                       ng-model="listParams.orderStatus"
+                       key="{{splitStringData(list)[0]}}"
+                       count-map="countByOrderStatus">
+               </button>
+             </div>
+
+        </div>
+      </div>
+    </div> -->
+    <!-- 页头主内容下部 -->
+    <!-- <div class="flex-column">
+      <div class="flex-item-4">
+        <div ng-if="isShowCreateBtn" class="pos-rel-tl order-create-btn inline-block fl-l">
+          <a href="{{createNewUrl}}"><i></i><span class="text-s">{{isShowCreateBtn}}</span></a>
+        </div>
+      </div>
+      <div class="flex-item-8 text-right">
+
+        <div class="inline-block" ng-if="isShowDepartmentFilter">
+          <span class="color-9">申请部门：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.departmentId"
+                  select-source="{{getDepartmentListUrl}}">
+          </select>
+        </div>
+
+        <div class="inline-block" ng-if="isShowApplyUserFilter">
+          <span class="color-9">申请人：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.applicantId"
+                  select-source="{{getApplyUserListUrl}}?departmentId={{listParams.departmentId}}">
+          </select>
+        </div>
+
+        <div class="inline-block" ng-if="isShowUserFilter">
+          <span class="color-9">制单人：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.inputUserId"
+                  select-source="{{getUserListUrl}}">
+          </select>
+        </div>
+
+        <div class="inline-block" ng-if="isShowTypeFilter">
+          <span class="color-9">业务类型：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  chosen
+                  ng-model="listParams.orderBusinessType"
+                  select-source="{{getBusinessTypeUrl}}"
+                  ng-change="chgOrderBusinessType(formData.orderBusinessType)">
+          </select>
+        </div>
+
+        <div class="inline-block" ng-if="isShowWarehouseFilter">
+          <span class="color-9">仓库：</span>
+          <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                  data-placeholder=""
+                  default-empty="全部"
+                  width="120px"
+                  chosen
+                  ng-model="listParams.warehouseId"
+                  select-source="{{getWarehouseListUrl}}">
+          </select>
+        </div>
+
+        <div class="inline-block" ng-if="isShowDateFilter" style="position:relative;top:3px;">
+          <span class="color-9 mgl-m" ng-if="_showDateName">{{_showDateName}}</span>
+          <span class="color-9 mgl-m" ng-if="!_showDateName">申请日期：</span>
+          <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     placeholder="日期"
+                     ng-model="listParams.createAtBeg">
+              <span class="date-icon"></span>
+          </div>
+          <div class="date-icon-outside" ng-if="listParams.createAtBeg">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     placeholder="日期"
+                     ng-model="listParams.createAtBeg">
+              <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtBeg='';"></span>
+          </div>
+          <span class="color-9">至</span>
+          <div class="date-icon-outside" ng-if="!listParams.createAtEnd">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     placeholder="日期"
+                     ng-model="listParams.createAtEnd"
+                     invalid-popover
+                     popover-show="listParams.createAtEnd<listParams.createAtBeg"
+                     popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+              <span class="date-icon"></span>
+          </div>
+          <div class="date-icon-outside" ng-if="listParams.createAtEnd">
+              <input type="text"
+                     datepicker
+                     class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                     ng-readonly="true"
+                     placeholder="日期"
+                     ng-model="listParams.createAtEnd"/>
+              <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.createAtEnd='';"></span>
+          </div>
+        </div>
+
+        <div ng-if="isShowKeyFilter" class="inline-block" style="height:19px;">
+          <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+            <input type="text" class="ipt pdr-xxl relative" placeholder="{{searchPlaceholderInfo}}" ng-model="listParams.q">
+            <i class=""></i>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+</div>
