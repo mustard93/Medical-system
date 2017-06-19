@@ -3441,7 +3441,7 @@ define('project/controllers', ['project/init'], function() {
            .then(function (results) {
              if (results[1].code === 200) {
                var url='rest/authen/firstEnterpriseApplication/startProcessInstance';
-               var data= {businessKey:results[1].data.id};
+               var data= {businessKey:$scope.formData.id};
                requestData(url,data, 'POST')
                 .then(function (results) {
                   var _data = results[1];
@@ -3460,9 +3460,10 @@ define('project/controllers', ['project/init'], function() {
            .then(function (results) {
              if (results[1].code === 200) {
                var url='rest/authen/firstMedicalApplication/startProcessInstance';
-               var data= {businessKey:results[1].data.id};
+               var data= {businessKey:$scope.formData.id};
                requestData(url,data, 'POST')
                 .then(function (results) {
+                  console.log(results[1].data);
                   if (results[1].code === 200) {
                   $scope.goTo('#/firstMedicalApplication/get.html?id='+results[1].data.id);
                   }
@@ -3480,7 +3481,7 @@ define('project/controllers', ['project/init'], function() {
            .then(function (results) {
              if (results[1].code === 200) {
                var url='rest/authen/hospitalApplication/startProcessInstance';
-               var data= {businessKey:results[1].data.id};
+               var data= {businessKey:$scope.formData.id};
                requestData(url,data, 'POST')
                 .then(function (results) {
                   if (results[1].code === 200) {

@@ -206,7 +206,7 @@
                     </td><!--可调拨量-->
                     <td class="text-center">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;checkItemAllocateNumOverload(item,$index)" ng-disabled="item.quantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;checkItemAllocateNumOverload(item,$index);checkQuantity(item.quantity,item.stockBatchs);" ng-disabled="item.quantity==1">-</button>
                         <span class="inline-block">
 
                                   <!--invalid-popover-->
@@ -224,7 +224,7 @@
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;checkItemAllocateNumOverload(item,$index)">+</button>
+                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;checkItemAllocateNumOverload(item,$index);checkQuantity(item.quantity,item.stockBatchs);">+</button>
                       </div>
                       <p class="mgt-s color-red ng-binding ng-scope" ng-if="allocateNumOverloadFalg[$index] == 'true'">计划调拨总数不正确或数额过大</p>
                     </td><!-- 计划调拨数量 -->
