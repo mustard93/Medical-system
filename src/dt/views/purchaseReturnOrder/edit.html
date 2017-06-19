@@ -154,22 +154,23 @@
                 <td class="text-center">{{item.returnQuantity}}</td><!-- 可退数量 -->
                 <td class="text-center">
                   <div class="order-goods-num">
-                    <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1" ng-disabled="item.quantity==1">-</button>
+                    <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1; item.totalTaxPrice = item.quantity * item.strike_price;" ng-disabled="item.quantity==1">-</button>
                     <span class="inline-block">
                       <input type="number"
                              class="ipt pr-ipt-60 text-right"
                              style="width:60px;"
                              name="quantity{{$index}}"
-                             ng-init="item.quantity=item.returnQuantity"
+                             ng-init="item.quantity=item.returnQuantity; item.totalTaxPrice = item.quantity * item.strike_price;"
                              ng-model="item.quantity"
                              required
                              ng-pattern="/^\+?[1-9]\d*$/"
                              invalid-popover
                              valid-value="{{!saleReturnEditForm['quantity'+$index].$valid}}"
+                             ng-change="item.totalTaxPrice = item.quantity * item.strike_price;"
                              popover-show
                              popover-options='{"content":"数量不能小于等于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                     </span>
-                    <button type="button" class="inline-block right" ng-click="item.quantity=item.quantity+1">+</button>
+                    <button type="button" class="inline-block right" ng-click="item.quantity=item.quantity+1; item.totalTaxPrice = item.quantity * item.strike_price;">+</button>
                   </div>
                   <p class="mgt-s color-red" ng-if="quantityError">实退数量不能大于当前可退数量:{{item.returnQuantity}}</p>
                 </td><!-- 实退数量 -->
@@ -178,7 +179,7 @@
                 <td class="text-center">{{item.warehouseName}}</td><!-- 仓库 -->
                 <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
                 <td class="text-center">{{item.strike_price | currency:'￥'}}</td><!-- 含税单价 -->
-                <td class="text-center">{{}}</td><!-- 价税合计 -->
+                <td class="text-center">￥{{item.totalTaxPrice | number:2}}</td><!-- 价税合计 -->
                 <td class="text-center">{{item.productionPlace}}</td><!-- 产地 -->
                 <td class="text-center">{{item.productionDate | date:'yyyy-MM-dd'}}</td><!-- 生产日期 -->
                 <td class="text-center">{{item.guaranteePeriod | date:'yyyy-MM-dd'}}</td><!-- 保质期 -->
