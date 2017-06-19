@@ -220,10 +220,11 @@
                 <td class="text-right">￥{{$root.saleOrderUtils.getJiaSuiHeJi(item) | number:2}}</td><!-- 价税合计 -->
                 <td class="text-right">￥{{item.strike_price}}</td><!-- 报价 -->
                 <td class="text-center">{{item.productionPlace}}</td><!-- 产地 -->
-                <td class="text-center"
-                    ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}"
+                <!-- <td class="text-center"
+                    ajax-url="rest/authen/medicalStock/getStockBatch?relMedicalStockId={{item.relId}}&p_and_s={{item.productionBatch}}&warehouseId={{item.warehouseId}}"
                     scope-data="validTilldata">{{validTilldata.validTill | date : 'yyyy-MM-dd'}}
-                </td><!-- 有效期至 -->
+                </td> -->
+                <td class="text-center">{{item.validTill | date : 'yyyy-MM-dd'}}</td><!--有效期至-->
                 <td class="text-center">{{item.storedTemperature}}</td><!-- 保存温度 -->
                 <td class="text-center">{{item.brand}}</td><!-- 产地品牌 -->
                 <td class="text-center">{{item.drugAdministrationCode}}</td><!-- 产地注册证号 -->
