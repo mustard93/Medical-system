@@ -5,106 +5,114 @@
      callback="initFlag=true;"
      alert-error>
 
-
-    <style>
-        /*.ipt-opacity{*/
-            /*background: #595450;*/
-            /*color: white;*/
-            /*height: 28px;*/
-            /*border: 1px solid rgba(0,0,0,0.10);*/
-            /*border-radius: 2px;*/
-            /*width: 160px;*/
-            /*text-indent: 5px;*/
-        /*}*/
-    </style>
+    <!--goodsOwner:{{goodsOwner}}-->
 
     <!-- 标题 -->
     <div class="bb-line-gold pr-bg-black2 min-h-l">
         <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">{{dialogData.id ? '修改': '新增'  }}货主</h1>
     </div>
 
-    <div class="pd-v-m">
-        <div class="flex-column mgt">
-            <div class="inline-block flex-item-3 text-right">货主编号：</div>
-            <div class="flex-item-9">
-                <input type="text" name="purchaserIdentityNo" class="ipt-new ipt-opacity" ng-model="formData.object.purchaserIdentityNo" ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" data-content="身份证号码格式有误!" invalid-popover="false" data-original-title="" title="">
+    <form id="editForm"
+          name="editForm"
+          form-validator
+          parameter-body
+          action="rest/authen/goodsOwner/save"
+          alert-error
+          alert-ok
+          scope-data="goodsOwner"
+          scope-error-msg="errorMsg"
+          onkeydown="if(window.event.keyCode==13) return false;"
+          callback="submitFormAfter();$root.watchFormChange('formData',this)"
+          novalidate="true">
+
+
+        <div class="pd-v-m">
+            <div class="flex-column mgt">
+                <div class="inline-block flex-item-3 text-right">货主编号：</div>
+                <div class="flex-item-9">
+                    <input type="text" name="goodsOwnerCode" class="ipt-new ipt-opacity" ng-model="goodsOwner.goodsOwnerCode" ng-pattern="/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/" required >
+                </div>
             </div>
+
+            <div class="flex-column mgt">
+                <div class="inline-block flex-item-3 text-right">货主名称：</div>
+                <div class="flex-item-9  text-left">
+                    <input type="text" class="ipt-new ipt-opacity" name="goodsOwnerName" style="width: 257px;" ng-model="goodsOwner.goodsOwnerName" required>
+                </div>
+            </div>
+
+            <div class="flex-column mgt">
+                <div class="inline-block flex-item-3 text-right">等级：</div>
+                <div class="inline-block flex-item-9  text-left">
+                    <select class=" ipt-opacity"
+                            chosen="" style="width: 160px; display: none;"
+                            data-placeholder=" "
+                            name="goodsOwnerRank"
+                            ng-model="goodsOwner.goodsOwnerRank"
+                            default-empty="全部"
+                            select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StoreRoomType">
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex-column mgt">
+
+                <div class="inline-block flex-item-3 text-right">联系电话：</div>
+                <div class="flex-item-9">
+                    <input type="text" class="ipt-new ipt-opacity" name="phone" ng-model="goodsOwner.phone" ng-pattern="" required>
+                </div>
+            </div>
+
+            <div class="flex-column mgt">
+                <div class="inline-block flex-item-3 text-right">联系人：</div>
+                <div class="flex-item-9  text-left">
+                    <input type="text" class="ipt-new ipt-opacity" name="contactName" ng-model="goodsOwner.contactName" required>
+                </div>
+            </div>
+
+
+            <div class="flex-column mgt">
+                <div class="inline-block flex-item-3 text-right">传真：</div>
+                <div class="flex-item-9  text-left">
+                    <input type="text" class="ipt-new ipt-opacity" name="fax" ng-model="goodsOwner.fax">
+                </div>
+            </div>
+
+            <div class="flex-column mgt">
+                <div class="inline-block flex-item-3 text-right">邮编：</div>
+                <div class="flex-item-9  text-left">
+                    <input type="text" class="ipt-new ipt-opacity" name="postCode" ng-model="goodsOwner.postCode" ng-pattern="/^[1-9]\d{5}(?!\d)$/" >
+                </div>
+            </div>
+
+
+
+
+            <div class="flex-column mgt">
+
+                <div class="inline-block flex-item-3 text-right">地址：</div>
+                <div class="flex-item-9  text-left">
+                    <input type="text" style="width: 257px" class="ipt-new ipt-opacity" name="address" ng-model="goodsOwner.address">
+                </div>
+            </div>
+
+
+            <div class="flex-column mgt">
+                <div class="inline-block flex-item-3 text-right">备注：</div>
+                <div class="flex-item-9  text-left">
+                    <textarea type="text" class="ipt-new ipt-opacity" style="width: 257px ; height: 64px; padding: 5px;" name="note" ng-model="goodsOwner.note" ></textarea>
+                </div>
+            </div>
+
         </div>
 
-        <div class="flex-column mgt">
-            <div class="inline-block flex-item-3 text-right">货主名称：</div>
-            <div class="flex-item-9  text-left">
-                <input type="text" class="ipt-new ipt-opacity" name="purchaserTel" style="width: 257px;" ng-model="formData.object.purchaserTel" ng-pattern="/^([0-9]{3,4}-)?[0-9]{7,12}$/" data-content="座机号格式有误!" invalid-popover="false" data-original-title="" title="">
-            </div>
+
+
+        <div class="footer-button-area" style="position:fixed;bottom:0px;">
+            <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="submitForm('editForm');modal.closeAll()" >确定
+            </button>
         </div>
 
-        <div class="flex-column mgt">
-            <div class="inline-block flex-item-3 text-right">等级：</div>
-            <div class="inline-block flex-item-9  text-left">
-                <select class=" ipt-opacity"
-                        chosen="" style="width: 160px; display: none;"
-                        data-placeholder=" " ng-model="listParams.rank"
-                        default-empty="全部"
-                        select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StoreRoomType">
-                </select>
-            </div>
-        </div>
+    </form>
 
-        <div class="flex-column mgt">
-
-            <div class="inline-block flex-item-3 text-right">联系电话：</div>
-            <div class="flex-item-9">
-                <input type="text" class="ipt-new ipt-opacity" name="purchaserEmail" ng-model="formData.object.purchaserEmail" ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/" data-content="Email格式有误!" invalid-popover="false" data-original-title="" title="">
-            </div>
-        </div>
-
-        <div class="flex-column mgt">
-            <div class="inline-block flex-item-3 text-right">联系人：</div>
-            <div class="flex-item-9  text-left">
-                <input type="text" class="ipt-new ipt-opacity" name="purchaserEmail" ng-model="formData.object.purchaserEmail" ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/" data-content="Email格式有误!" invalid-popover="false" data-original-title="" title="">
-            </div>
-        </div>
-
-
-        <div class="flex-column mgt">
-            <div class="inline-block flex-item-3 text-right">传真：</div>
-            <div class="flex-item-9  text-left">
-                <input type="text" class="ipt-new ipt-opacity" name="purchaserEmail" ng-model="formData.object.purchaserEmail" ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/" data-content="Email格式有误!" invalid-popover="false" data-original-title="" title="">
-            </div>
-        </div>
-
-        <div class="flex-column mgt">
-            <div class="inline-block flex-item-3 text-right">邮编：</div>
-            <div class="flex-item-9  text-left">
-                <input type="text" class="ipt-new ipt-opacity" name="purchaserEmail" ng-model="formData.object.purchaserEmail" ng-pattern="/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/" data-content="Email格式有误!" invalid-popover="false" data-original-title="" title="">
-            </div>
-        </div>
-
-
-
-
-        <div class="flex-column mgt">
-
-            <div class="inline-block flex-item-3 text-right">地址：</div>
-            <div class="flex-item-9  text-left">
-                <input type="text" style="width: 257px" class="ipt-new ipt-opacity" name="purchaserEmail" ng-model="formData.object.purchaserEmail">
-            </div>
-        </div>
-
-
-        <div class="flex-column mgt">
-            <div class="inline-block flex-item-3 text-right">备注：</div>
-            <div class="flex-item-9  text-left">
-                <textarea type="text" class="ipt-new ipt-opacity" style="width: 257px ; height: 64px; padding: 5px;" name="purchaserEmail" ng-model="formData.object.purchaserEmail" ></textarea>
-            </div>
-        </div>
-
-    </div>
-
-
-
-    <div class="footer-button-area" style="position:fixed;bottom:0px;">
-        <button type="submit" style="margin-left:300px;" class="pr-btn-create-glodbg new-left-side-button" ng-click="modal.closeAll()" ng-disabled="">确定
-        </button>
-    </div>
 </div>
