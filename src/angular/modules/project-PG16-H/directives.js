@@ -16,6 +16,7 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
       }
     };
   }
+  
   function statusStyleToggleNew () {
     'use strict';
     return {
