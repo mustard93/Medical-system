@@ -386,7 +386,11 @@ define('main/controllers', ['main/init'], function () {
           var _url = url;
           requestData(_url)
           .then(function (results) {
-            $scope.numberingPolicy = results[1].data.value;
+            if (results && results[1].code === 200) {
+              if (results[1].data) {
+                $scope.numberingPolicy = results[1].data.value;
+              }
+            }
           })
           .catch(function (error) {
             if (error) { throw new Error(error || '出错'); }
