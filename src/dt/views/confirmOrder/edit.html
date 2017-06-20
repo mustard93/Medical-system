@@ -370,7 +370,7 @@
                              ng-model="item.discountPrice"
                              ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);item.discountRate=((item.strike_price-item.discountPrice)/item.strike_price*100).toFixed(2)"
                              ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
-                             ng-disabled="item.strike_price==0"
+                             ng-disabled="!item.strike_price||item.strike_price==0"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountPrice'+$index].$valid}}"
@@ -384,7 +384,7 @@
                              ng-model="item.discountRate"
                              ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
                              ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
-                             ng-disabled="item.strike_price==0"
+                             ng-disabled="!item.strike_price||item.strike_price==0"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountRate'+$index].$valid}}"
@@ -474,6 +474,7 @@
                              ng-model="item.discountPrice"
                              ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);item.discountRate=((item.strike_price-item.discountPrice)/item.strike_price*100).toFixed(2)"
                              ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
+                             ng-disabled="!item.strike_price||item.strike_price==0"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountPrice'+$index].$valid}}"
@@ -487,6 +488,7 @@
                              ng-model="item.discountRate"
                              ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);"
                              ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
+                             ng-disabled="!item.strike_price||item.strike_price==0"
                              required
                              invalid-popover
                              valid-value="{{!editForm['discountRate'+$index].$valid}}"
