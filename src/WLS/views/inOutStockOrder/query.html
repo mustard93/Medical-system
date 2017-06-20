@@ -12,7 +12,7 @@
         <page-main-header-component list-params="listParams"
                                     style="min-height:130px;"
                                     crumbs-nav='[{"name":"出入库任务管理","link":"","style":""},{"name":"出入库任务","link":"","style":"color-custom-orange"}]'
-                                    component-title="出入库任务">
+                                    component-title="出入库任务管理">
         </page-main-header-component>
 
 
@@ -247,29 +247,36 @@
                       </span>
                       <div class="table-item-multiple-btn">
                         <div class="inline-block btn-receiveItem pr-bg-edit color-white"
-                             ng-if="tr.orderStatus=='待确认'"
-                             modal-right="543"
-                             modal-scope="this"
-                             modal-data='{"id":"{{tr.id}}"}'
-                             modal-url="views/pickStockOutMedical/edit.html">确认
+                            style="right:100px;"
+                            style="right:60px;top: -33px;"
+                            handle-this-click
+                            dialog-title="确认提示?"
+                            dialog-content="确认后，该入库任务将进入处理中状态。"
+                            dialog-content-color="#FF3939"
+                            dialog-template="pr-dialog-confirm.html"
+                            callback="">确认
                         </div>
                       </div>
                       <div class="table-item-multiple-btn">
                         <div class="inline-block btn-receiveItem pr-bg-edit color-white"
-                             modal-right="543"
+                             style="right:10px;"
+                             modal-right="932"
                              modal-scope="this"
                              modal-data='{"id":"{{tr.id}}"}'
-                             modal-url="views/pickStockOutMedical/edit.html">查看商品信息
+                             modal-url="views/inOutStockOrder/getMedicalStock.html">查看商品信息
                         </div>
                       </div>
-                      <div class="table-item-multiple-btn">
-                        <div ng-if="tr.orderStatus=='待确认'" class="inline-block btn-receiveItem pr-bg-edit color-white"
-                             modal-right="650"
-                             modal-scope="this"
-                             modal-data='{"id":"{{tr.id}}","receiveQuantity":"{{tr.receiveQuantity}}"}'
-                             modal-url="views/checkUp/edit.html">开始验收...
+                      <!-- <div class="table-item-multiple-btn">
+                        <div class="inline-block btn-receiveItem pr-bg-delete color-white"
+                             style="right:0px;"
+                             handle-this-click
+                             dialog-title="确认提示?"
+                             dialog-content="确认后，该任务将结束。"
+                             dialog-content-color="#FF3939"
+                             dialog-template="pr-dialog-confirm.html"
+                             callback="">确认完成
                         </div>
-                      </div>
+                      </div> -->
                     </td><!-- 状态 -->
                     <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}
 
@@ -277,7 +284,6 @@
                     <td class="color-custom-orange">{{tr.code}}</td><!-- 商品编号 -->
                     <td class="text-left color-custom-orange">{{tr.name}}</td><!-- 商品名称 -->
                     <td>{{tr.specification}}</td><!-- 规格 -->
-                    <td>{{tr.packingAttribute.name}}</td><!-- 基本单位 -->
                     <td>{{tr.productionBatch}}</td><!-- 生产批号 -->
                     <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
                     <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
