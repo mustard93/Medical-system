@@ -127,7 +127,7 @@ define('WLS/controllers', ['WLS/init'], function() {
 
 
 
-  
+
   angular.module('manageApp.WLS')
   .controller('inOutStockController', ['$scope', 'requestData', 'utils', 'modal','alertWarn', 'alertOk', inOutStockController])
   .controller('goodsOwnerCtrl', ['$scope', 'requestData', 'utils', 'modal','alertWarn', 'alertOk', goodsOwnerCtrl])
