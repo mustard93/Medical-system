@@ -1,0 +1,203 @@
+<div ajax-url="rest/authen/confirmOrder/getPrint.json?id={{mainStatus.pageParams.id}}" style="min-height:600px;padding-bottom:10px;" scope-data="showData">
+    <!--
+http://localhost:3000/src/indexOfPrint.html#/print/index_debug.html?key=confirmOrderPrint&id=58c277e6e4b070f25854cdf9
+-->
+    <div>
+        <span style="float:right;position:relative;right:10px;top:0px;font-size:9px;"> 第<span tdata="PageNO" format="0">##</span>页</span>&nbsp; &nbsp; &nbsp; &nbsp;
+        <p style="text-align:center;font-size:16px;padding:10px;font-weight:bold;">
+            {{organizationName.name}}发货记录单
+        </p>
+    </div>
+    <table style="text-align:left;font-size:14px;height:100px;border-collapse:collapse;" width="100%">
+        <tbody>
+            <tr class="firstRow">
+                <td style="text-align:left;">
+                    发货日期：  {{showData.expectDate &nbsp;| date:&quot;yyyy-MM-dd&quot;}}
+                </td>
+                <td style="text-align:right;">
+                    订单号：{{showData.orderCode}}
+                </td>
+                <td style="text-align:right;">
+                    业务员：{{showData.saleUser.n}}
+                </td>
+                <td style="text-align:right;">
+                    发货单号：{{showData.invoicesOrderNo}}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:left;">
+                    客户简称：  {{showData.customerName}}
+                </td>
+                <td colspan="2" style="text-align:right;">
+                    物流信息：
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:left;">
+                    收货地址：{{showData.customerContacts.prov}}{{showData.customerContacts.city}}{{showData.customerContacts.area}}{{showData.customerContacts.address}}
+                </td>
+                <td colspan="2" style="text-algin:right;">
+                    备注：{{showData.note}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="text-align:center;font-size:14px;width:100%;height:200px;border:1px solid #000000;border-collapse:collapse;" border="1">
+        <thead>
+            <tr class="firstRow">
+                <td></td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    存货编码
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    存货名称
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    规格型号
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    主计
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    数量
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    含税单价
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    价税合计
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    批号
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    失效日期
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    生产厂家1
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    注册证号
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    生产许可证号
+                </td>
+                <td style="text-align:center;max-width:2%; white-space: nowrap;">
+                    储存条件
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="tr in showData.orderMedicalNos ">
+                <td></td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.code}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.name}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.specificationAndModelType}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.unit}}
+                </td>
+                <td style="text-align:right;max-width:2%;word-wrap:break-word;">
+                    {{tr.quantity}}
+                </td>
+                <td style="text-align:right;max-width:2%;word-wrap:break-word;">
+                    {{tr.strike_price}}
+                </td>
+                <td style="text-align:right;max-width:2%;word-wrap:break-word;">
+                    {{tr.totalPrice}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.productionBatch}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.validTill | date:&quot;yyyy-MM-dd&quot;}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.manufacturer}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.drugAdministrationCode}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.productionLicenseNo}}
+                </td>
+                <td style="text-align:left;max-width:2%;word-wrap:break-word;">
+                    {{tr.storageCondition}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    小计
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align:right;">
+                    {{showData.totalQuantity}}
+                </td>
+                <td></td>
+                <td style="text-align:right;">
+                    {{showData.totalPrice}}
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    合计
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align:right;">
+                    {{showData.totalQuantity}}
+                </td>
+                <td></td>
+                <td style="text-align:right;">
+                    {{showData.totalPrice}}
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="text-align:left;font-size:14px;width:100%;height:50px;border-collapse:collapse;">
+        <tbody>
+            <tr class="firstRow">
+                <td style="text-align:left;">
+                    制单人：{{showData.inputUser.n}}
+                </td>
+                <td>
+                    发货人：{{showData.invoicesContacts.name}}
+                </td>
+                <td></td>
+                <td style="text-align:left;">
+                    审核人: {{showData.approverUser.n}}
+                </td>
+                <td>
+                    收货人:{{showData.customerContacts.name}}
+                </td>
+                <td></td>
+                <td>
+                    质量验收员:
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
