@@ -1,0 +1,341 @@
+<div class="medical-stock supplier-management child-project-management"
+     ng-init="listParams.checkUpStatus=mainStatus.pageParams.checkUpStatus||'待验收';">
+     <!-- ng-init="listParams.checkUpStatus='待验收'" -->
+  <table-list list-data="rest/authen/checkUp/query.json?checkUpStatus={{listParams.checkUpStatus}}"
+              list-params="listParams"
+              search-mode="noCaseSensitive"
+              search-param="q">
+
+      <div class="medical-stock child-project-management receive-item" ng-controller="inOutStockController">
+
+        <!-- 主内容头部 -->
+        <page-main-header-component list-params="listParams"
+                                    style="min-height:130px;"
+                                    crumbs-nav='[{"name":"出入库任务管理","link":"","style":""},{"name":"出入库任务","link":"","style":"color-custom-orange"}]'
+                                    component-title="出入库任务管理">
+        </page-main-header-component>
+
+
+        <div class="mgl-xl status-num-list-new"
+              style="top:-56px;"
+             ajax-url="rest/authen/checkUp/countByStatus"
+             scope-data="statusNumList">
+          <span status-style-toggle-new
+          class="rect-status mgl-s"
+          ng-class="{'rect-status-active-new':(listParams.checkUpStatus!='已完成')}"
+           ng-click="listParams.checkUpStatus=null;$root.goTo('#/checkUp/query.html?checkUpStatus=待验收')">入库任务
+              <span ng-if="(statusNumList['待验收'])!=0" >
+                (<em class="color-white">{{statusNumList['待验收']}}</em>)
+              </span>
+          </span>
+          <span status-style-toggle-new class="rect-status"
+          ng-class="{'rect-status-active-new':(listParams.checkUpStatus=='已完成')}"
+           ng-click="listParams.checkUpStatus='已完成';$root.goTo('#/checkUp/query.html?checkUpStatus=已完成')">出库任务
+          </span>
+        </div>
+        <div class="content-wrapper" style="margin:0px 45px;">
+          <div class="content-wrapper-main pr-fuzzy-boundary">
+            <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white bb-dashed-line">
+              <div class="flex-item-12">
+                <div class="inline-block mgr-l">
+                  <p class="mgb-s">状态：</p>
+                  <select class="inline ipt-new-s pdt"
+                          chosen
+                          style="width:120px;"
+                          data-placeholder=" "
+                          default-empty="全部"
+                          ng-model="listParams.instockType"
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SPD_InstockType">
+                  </select>
+                </div>
+                <div class="inline-block mgr-l relative">
+                  <p class="mgb-s">货主：</p>
+                  <input type="text"
+                         class="pr-ipt-160 hei-28 inline-block"
+                         style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
+                         placeholder=""
+                         ng-model="listParams.relOrderCode"
+                         auto-complete="rest/index/autoComplete?tableName=SPD.Mission.ReceiveItem&property=relOrderCode"/>
+                  <i class="receive-item-icon"></i>
+                  </select>
+                </div>
+
+                <div class="inline-block mgr-l relative">
+                  <p class="mgb-s">发货方：</p>
+                  <input type="text"
+                         class="pr-ipt-160 hei-28 inline-block"
+                         style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
+                         placeholder=""
+                         ng-model="listParams.dtOrderCode"
+                         auto-complete="rest/index/autoComplete?tableName=SPD.Mission.ReceiveItem&property=dtOrderCode"/>
+                  <i class="receive-item-icon"></i>
+                </div>
+                <div class="inline-block mgr-l">
+                  <p class="mgb-s">运输方式：</p>
+                  <select class="inline ipt-new-s pdt"
+                          chosen
+                          style="width:120px;"
+                          data-placeholder=" "
+                          default-empty="全部"
+                          ng-model="listParams.storeRoomId"
+                          select-source="rest/authen/storeRoom/queryForSelectOption">
+                  </select>
+                </div>
+                <div class="inline-block mgr-l">
+                  <p class="mgb-s">录单日期：</p>
+                  <div class="">
+                    <div class="date-icon-outside" ng-if="!listParams.dtOrderCreateAtBeg">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+
+                               ng-model="listParams.dtOrderCreateAtBeg">
+                        <span class="date-icon"></span>
+                    </div>
+                    <div class="date-icon-outside" ng-if="listParams.dtOrderCreateAtBeg">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+
+                               ng-model="listParams.dtOrderCreateAtBeg">
+                        <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtBeg='';"></span>
+                    </div>
+                    <span >至</span>
+                    <div class="date-icon-outside" ng-if="!listParams.dtOrderCreateAtEnd">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+
+                               ng-model="listParams.dtOrderCreateAtEnd"
+                               invalid-popover
+                               popover-show="listParams.dtOrderCreateAtEnd<listParams.dtOrderCreateAtBeg"
+                               popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+                        <span class="date-icon"></span>
+                    </div>
+                    <div class="date-icon-outside" ng-if="listParams.dtOrderCreateAtEnd">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+
+                               ng-model="listParams.dtOrderCreateAtEnd"/>
+                        <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtEnd='';"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="inline-block">
+                  <p class="mgb-s">计划到货日期</p>
+                  <div class="">
+                    <div class="date-icon-outside" ng-if="!listParams.dtOrderCreateAtBeg">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+
+                               ng-model="listParams.dtOrderCreateAtBeg">
+                        <span class="date-icon"></span>
+                    </div>
+                    <div class="date-icon-outside" ng-if="listParams.dtOrderCreateAtBeg">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+
+                               ng-model="listParams.dtOrderCreateAtBeg">
+                        <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtBeg='';"></span>
+                    </div>
+                    <span >至</span>
+                    <div class="date-icon-outside" ng-if="!listParams.dtOrderCreateAtEnd">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+
+                               ng-model="listParams.dtOrderCreateAtEnd"
+                               invalid-popover
+                               popover-show="listParams.dtOrderCreateAtEnd<listParams.dtOrderCreateAtBeg"
+                               popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
+                        <span class="date-icon"></span>
+                    </div>
+                    <div class="date-icon-outside" ng-if="listParams.dtOrderCreateAtEnd">
+                        <input type="text"
+                               datepicker
+                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
+                               ng-readonly="true"
+
+                               ng-model="listParams.dtOrderCreateAtEnd"/>
+                        <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.dtOrderCreateAtEnd='';"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 批量确认按钮 -->
+            <div ng-if="listParams.checkUpStatus!='已完成'" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
+              <div class="flex-item-6">
+                <a ng-if="!choisedMedicalList.length"
+                   href="javascript:void(0)"
+                   class="batch-receive-btn"
+                   ng-disabled="!choisedMedicalList.length">批量确认
+                  <em class="bulk-receipt-btn-disabled-icon"></em>
+                </a>
+                <a ng-if="choisedMedicalList.length"
+                   href="javascript:void(0)"
+                   class="batch-receive-btn"
+                   handle-this-click
+                   dialog-title="确认提示?"
+                   dialog-content="确认批量确认吗?"
+                   dialog-content-color="#FF3939"
+                   dialog-template="pr-dialog-confirm.html"
+                   callback="handlebatchCheckUp();$root.utils.goTo('#/checkUp/query.html')">批量确认
+                  <em class="bulk-receipt-btn-icon"></em>
+                </a>
+              </div>
+
+
+              <div class="flex-item-6 text-right">
+                排序方式
+                <span class="pr-btn-save-glodbg mgl cur-pot" style="padding:5px 10px;font-size:12px;">货主等级&nbsp;↓</span>
+
+                <span class="pr-btn-save-glodbg mgl cur-pot" style="padding:5px 10px;font-size:12px;background-color:rgba(251,245,237,1);color:#666;">创建时间&nbsp;&nbsp;∨</span>
+
+                <span class="pr-btn-save-glodbg mgl cur-pot" style="padding:5px 10px;font-size:12px;background-color:rgba(251,245,237,1);color:#666;">计划到货时间&nbsp;&nbsp;∨</span>
+              </div>
+            </div>
+            <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
+              <table class="table pr-table pr-new-table pr-table-content">
+                <thead class="pr-bg-side">
+                  <tr>
+                    <th ng-if="listParams.checkUpStatus!='已完成'" class="w-60 text-center mycheck">
+                      <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                      <label for="1"></label>
+                    </th>
+                    <th class="w-60">状态</th>
+                    <th class="w-60">序号</th>
+                    <th class="w-120">入库编号</th>
+                    <th class="w-220" >货主</th>
+                    <th class="w-120">等级</th>
+                    <th class="w-60">创建时间</th>
+                    <th class="w-160">计划到货时间</th>
+                    <th class="w-160">运输方式</th>
+                    <th class="w-160">预入物流中心</th>
+                    <th class="w-160">发货方</th>
+                    <th class="w-160">联系人</th>
+                    <th class="w-160">备注</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-if="tbodyList.length"
+                      ng-repeat="tr in tbodyList track by $index"
+                      class="relative"
+                      table-item-multiple-btn>
+                    <td ng-if="listParams.checkUpStatus!='已完成'" class="select-td text-center mycheck">
+                      <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                      <label for="{{$index+2}}"></label>
+                    </td>
+                    <td class="relative">
+                      <span class="circle-status"
+                            ng-class="{'pr-bg-grey4':tr.orderStatus=='待确认','bg-ing-orang':tr.orderStatus =='处理中','bg-pass-green':tr.orderStatus =='已完成'}">
+                        <span class="purchaseorder-buyer-info" style="right:16px;top:-10px;">
+                          <i class="block pd-c-s text-normal" style="line-height:1.8">
+                            <em class="inline-block">{{tr.orderStatus}}</em>
+                          </i>
+                        </span>
+                      </span>
+                      <div class="table-item-multiple-btn">
+                        <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                            style="right:100px;"
+                            style="right:60px;top: -33px;"
+                            handle-this-click
+                            dialog-title="确认提示?"
+                            dialog-content="确认后，该入库任务将进入处理中状态。"
+                            dialog-content-color="#FF3939"
+                            dialog-template="pr-dialog-confirm.html"
+                            callback="">确认
+                        </div>
+                      </div>
+                      <div class="table-item-multiple-btn">
+                        <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                             style="right:10px;"
+                             modal-right="932"
+                             modal-scope="this"
+                             modal-data='{"id":"{{tr.id}}"}'
+                             modal-url="views/inOutStockOrder/getMedicalStock.html">查看商品信息
+                        </div>
+                      </div>
+                      <!-- <div class="table-item-multiple-btn">
+                        <div class="inline-block btn-receiveItem pr-bg-delete color-white"
+                             style="right:0px;"
+                             handle-this-click
+                             dialog-title="确认提示?"
+                             dialog-content="确认后，该任务将结束。"
+                             dialog-content-color="#FF3939"
+                             dialog-template="pr-dialog-confirm.html"
+                             callback="">确认完成
+                        </div>
+                      </div> -->
+                    </td><!-- 状态 -->
+                    <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}
+
+                    </td><!-- 序号 -->
+                    <td class="color-custom-orange">{{tr.code}}</td><!-- 商品编号 -->
+                    <td class="text-left color-custom-orange">{{tr.name}}</td><!-- 商品名称 -->
+                    <td>{{tr.specification}}</td><!-- 规格 -->
+                    <td>{{tr.productionBatch}}</td><!-- 生产批号 -->
+                    <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
+                    <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
+                    <td>{{tr.storeRoomName}}</td><!-- 库房名称 -->
+                    <td>{{tr.manufacturer}}</td><!-- 生产厂商 -->
+                    <td>{{tr.productionPlace}}</td><!-- 产地 -->
+                    <td>{{tr.dtOrderCreateAt | date : 'yyyy-MM-dd'}}</td><!-- 供应商销售日期 -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+              <div class="empty-table clearfix">
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+                <div>&nbsp;</div>
+              </div>
+            </div>
+            <div class="flex-column bg-white">
+              <div class="flex-item-6">
+                <!-- 批量上架按钮 -->
+                <div ng-if="listParams.checkUpStatus=='待验收'" class="flex-column color-9 pd-c-l pdt-m pdb-m">
+                  <a ng-if="!choisedMedicalList.length"
+                     href="javascript:void(0)"
+                     class="batch-receive-btn"
+                     ng-disabled="!choisedMedicalList.length">批量确认
+                    <em class="bulk-receipt-btn-disabled-icon"></em>
+                  </a>
+                  <a ng-if="choisedMedicalList.length"
+                     href="javascript:void(0)"
+                     class="batch-receive-btn"
+                     handle-this-click
+                     dialog-title="确认提示?"
+                     dialog-content="确认批量确认吗?"
+                     dialog-content-color="#FF3939"
+                     dialog-template="pr-dialog-confirm.html"
+                     callback="handlebatchCheckUp();$root.utils.goTo('#/checkUp/query.html')">批量确认
+                    <em class="bulk-receipt-btn-icon"></em>
+                  </a>
+                </div>
+              </div>
+              <div class="flex-item-6">
+                <!-- 导航 -->
+                <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
+                    <div class="fr">
+                        <pagination status="status"></pagination>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </table-list>
+  </div>
