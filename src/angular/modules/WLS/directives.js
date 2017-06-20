@@ -4,5 +4,4 @@
 define('WLS/directives', ['WLS/init'], function () {
 
   angular.module('manageApp.WLS');
-
 });
