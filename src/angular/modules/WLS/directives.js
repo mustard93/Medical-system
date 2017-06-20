@@ -8,12 +8,13 @@ define('WLS/directives', ['WLS/init'], function () {
     return {
       restrict: 'EA',
       link: function (scope, element, attrs) {
+
         element.on('click', function () {
-          $('.sort-criteria').css('display','block');
-          console.log('HH1');
-          // $(this).addClass('rect-status-active').siblings().each(function () {
-          //   $(this).removeClass('rect-status-active');
-          // });
+          if ($(this).children('span').hasClass('sort-active')) {
+            $(this).children('span').removeClass('sort-active');
+          }else {
+          $(this).children('span').addClass('sort-active');
+          }
         });
       }
     };
