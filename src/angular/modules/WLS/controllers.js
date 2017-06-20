@@ -78,6 +78,40 @@ define('WLS/controllers', ['WLS/init'], function() {
 
   };
 
+
+
+
+
+
+    /**
+     * 货主管理
+     * @param $scope
+     * @param requestData
+     * @param utils
+     * @param modal
+     * @param alertOk
+     * @param alertWarn
+     */
+  function goodsOwnerCtrl($scope, requestData, utils, modal,alertOk,alertWarn) {
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+
+  
   angular.module('manageApp.WLS')
-  .controller('inOutStockController', ['$scope', 'requestData', 'utils', 'modal','alertWarn', 'alertOk', inOutStockController]);
+  .controller('inOutStockController', ['$scope', 'requestData', 'utils', 'modal','alertWarn', 'alertOk', inOutStockController])
+  .controller('goodsOwnerCtrl', ['$scope', 'requestData', 'utils', 'modal','alertWarn', 'alertOk', goodsOwnerCtrl])
+  ;
 });
