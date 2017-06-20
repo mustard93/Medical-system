@@ -1,6 +1,4 @@
-<div class="inoutstockDetail clearfix"
-     ng-controller="inoutstockDetailQueryCtr"
-><!-- pageCtrl-->
+<div class="inoutstockDetail clearfix"><!-- pageCtrl-->
 
   <!-- 主内容头部 -->
   <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
@@ -85,7 +83,7 @@
                 <div></div>
             </div>
         </div>
-        <div ng-if="!status.isLoading">
+        <div ng-if="!status.isLoading" ng-controller="inoutstockDetailQueryCtr">
             <div class="outside-table-d">
                 <table class="table pr-table pr-new-table pr-table-content table-s-wid"
 
@@ -123,7 +121,7 @@
                             <td ng-if="tr.type=='采购入库单_红字'">采购入库单<em class="color-red">(红字)</em></td>
                             <td ng-if="tr.type=='销售出库单_红字'">销售出库单<em class="color-red">(红字)</em></td>
                             <td class="color-orange">
-                              <a  href="javascript:void(0); " ng-click="queryItemClick(tr)">{{tr.orderNo}}</a>
+                              <a  href="javascript:void(0);"  ng-click="queryItemClick(tr)">{{tr.orderNo}}</a>
                               <!--
                               <a ng-if="tr.type=='采购入库单'" href="#/purchaseInstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
                               <a ng-if="tr.type=='销售出库单'" href="#/saleOutstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
