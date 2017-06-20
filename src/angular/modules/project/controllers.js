@@ -6245,7 +6245,7 @@ define('project/controllers', ['project/init'], function() {
 
             requestData(_url, _data, 'GET')
                 .then(function (results) {
-                    if (results[1].data) { $scope.stockBatchList = results[1].data; }
+                    if (results[1].data) { $scope.invoiceList2 = results[1].data; }
                 });
 
         };
