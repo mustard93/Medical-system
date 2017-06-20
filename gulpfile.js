@@ -572,8 +572,9 @@ gulp.task('default',  function (done) {
         runSequence(
           ['concatCss-dt'],
           ['concatCss-manage'],
-        ['concatCss-project-PG16-H'],
-        ['browser'], ['bro'], done);
+          ['concatCss-project-PG16-H'],
+          ['concatCss-WLS'],
+          ['browser'], ['bro'], done);
       });
       //监控所有JS文件
       gulp.watch(concatJs_src_all, function () {
@@ -581,6 +582,7 @@ gulp.task('default',  function (done) {
           ['concatJs-dt'],
           ['concatJs-manage'],
           ['concatJs-project-PG16-H'],
+          ['concatJs-WLS'],
            ['bro'], done);
 
       });
