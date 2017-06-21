@@ -47,11 +47,11 @@
 
                             <span class="mgb-s">状态：</span>
                             <select class="inline ipt-new-s pdt"
-                                    chosen style="width: 120px;"
+                                    chosen style="width: 120px; display: none"
                                     data-placeholder=" "
                                     default-empty="全部"
                                     ng-model="listParams.status"
-                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PickSource">
+                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WLS_GoodsOwnerStatus">
 
                             </select>
 
@@ -60,17 +60,19 @@
                         <div class="inline-block mgr-s">
                             <span class="mgb-s">货主等级：</span>
                             <select class="inline ipt-new-s pdt ng-untouched ng-valid ng-empty ng-dirty ng-valid-parse"
-                                    chosen="" style="width: 120px; display: none;"
+                                    chosen="" style="width: 120px;display: none;"
                                     data-placeholder=" " ng-model="listParams.rank"
                                     default-empty="全部"
-                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StoreRoomType">
+                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WLS_GoodsOwnerRank">
                             </select>
                         </div>
                     </div>
                     <div ng-init="listParams.rankType='顺序'" class="flex-item-4 text-right mgt-xl">
 
-                        <button   ng-if="listParams.rankType=='顺序'"  ng-click="listParams.rankType='逆序'"  type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↑</button>
-                        <button  ng-if="listParams.rankType=='逆序'"   ng-click="listParams.rankType='顺序'"   type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↓</button>
+                        <button  ng-if="listParams.rankType=='顺序'"  ng-click="listParams.rankType='倒序'"  type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↑</button>
+                        <button  ng-if="listParams.rankType=='倒序'"   ng-click="listParams.rankType='顺序'"   type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↓</button>
+
+                        <!--<key-search placeholder="货主名称" ng-model="listParams.q"></key-search>-->
 
                         <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
                             <input type="text" class="ipt pdr-xxl ng-pristine ng-untouched ng-valid ng-empty" placeholder="商品名称/商品编码" ng-model="listParams.q">
@@ -150,10 +152,10 @@
                                           "content":"确认启用该货主吗？",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
-                                          "url":"rest/authen/customerAddress/updateStatus",
+                                          "url":"rest/authen/goodsOwner/updateStatus",
                                           "goUrl":"",
                                           "id":"{{tr.id}}",
-                                          "status":"已冻结"
+                                          "status":"启用"
                                          }'
                                            tpl-url="tpl/pr-dialog-submit-message.html">启用
                                         </a>
@@ -166,10 +168,10 @@
                                           "content":"确认禁用该货主吗?",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
-                                          "url":"rest/authen/customerAddress/updateStatus",
+                                          "url":"rest/authen/goodsOwner/updateStatus",
                                           "goUrl":"",
                                           "id":"{{tr.id}}",
-                                          "status":"正常"
+                                          "status":"禁用"
                                          }'
                                            tpl-url="tpl/pr-dialog-submit-message.html">禁用
                                         </a>
