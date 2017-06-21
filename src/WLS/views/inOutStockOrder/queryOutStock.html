@@ -4,11 +4,11 @@
      <!-- 主内容头部 -->
      <page-main-header-component list-params="listParams"
                                  style="min-height:130px;"
-                                 crumbs-nav='[{"name":"出入库任务管理","link":"","style":""},{"name":"入库任务","link":"","style":"color-custom-orange"}]'
+                                 crumbs-nav='[{"name":"出入库任务管理","link":"","style":""},{"name":"出库任务","link":"","style":"color-custom-orange"}]'
                                  component-title="出入库任务管理">
      </page-main-header-component>
 
-  <table-list list-data="rest/authen/inStockOrder/query.json"
+  <table-list list-data="rest/authen/outStockOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -66,7 +66,7 @@
                          style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
                          placeholder=""
                          ng-model="listParams.goodsOwnerName"
-                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.InStockOrder&property=goodsOwnerName"/>
+                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.OutStockOrder&property=goodsOwnerName"/>
                   <i class="receive-item-icon"></i>
                   </select>
                 </div>
@@ -78,7 +78,7 @@
                          style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
                          placeholder=""
                          ng-model="listParams.consignName"
-                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.InStockOrder&property=consignName"/>
+                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.OutStockOrder&property=consignName"/>
                   <i class="receive-item-icon"></i>
                 </div>
                 <div class="inline-block mgr-l">
@@ -201,7 +201,7 @@
                    dialog-content="确认批量确认吗?"
                    dialog-content-color="#FF3939"
                    dialog-template="pr-dialog-confirm.html"
-                   callback="handlebatchInConfirm();$root.utils.refreshHref();">批量确认
+                   callback="handlebatchOutConfirm();$root.utils.refreshHref();">批量确认
                   <em class="bulk-receipt-btn-icon"></em>
                 </a>
               </div>
@@ -298,7 +298,7 @@
                             dialog-content="确认后，该入库任务将进入处理中状态。"
                             dialog-content-color="#FF3939"
                             dialog-template="pr-dialog-confirm.html"
-                            callback="confirmInStock(tr.id);">确认
+                            callback="confirmOutStock(tr.id);">确认
                         </div>
                       </div>
 
@@ -310,7 +310,7 @@
                              dialog-content="确认后，该任务将结束。"
                              dialog-content-color="#FF3939"
                              dialog-template="pr-dialog-confirm.html"
-                             callback="confirmInStock(tr.id);">确认完成
+                             callback="confirmOutStock(tr.id);">确认完成
                         </div>
                       </div>
 
@@ -366,7 +366,7 @@
                      dialog-content="确认批量确认吗?"
                      dialog-content-color="#FF3939"
                      dialog-template="pr-dialog-confirm.html"
-                     callback="handlebatchInConfirm();$root.utils.refreshHref();">批量确认
+                     callback="handlebatchOutConfirm();$root.utils.refreshHref();">批量确认
                     <em class="bulk-receipt-btn-icon"></em>
                   </a>
                 </div>
