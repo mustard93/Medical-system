@@ -1,5 +1,5 @@
 <div class="medical-stock supplier-management child-project-management"
-     ng-init="listParams.checkUpStatus=mainStatus.pageParams.checkUpStatus||'待验收';">
+     ng-init="">
 
      <!-- 主内容头部 -->
      <page-main-header-component list-params="listParams"
@@ -8,28 +8,27 @@
                                  component-title="出入库任务管理">
      </page-main-header-component>
 
-       <div class="mgl-xl status-num-list-new"
-             style="top:-56px;"
-            ajax-url="rest/authen/inOutStockOrder/countByStatus"
-            scope-data="statusNumList">
-         <span status-style-toggle-new
-         class="rect-status mgl-s"
-         ng-class="{'rect-status-active-new':(listParams.checkUpStatus!='已完成')}"
-          ng-click="listParams.checkUpStatus=null;$root.goTo('#/inOutStockOrder/query.html')">入库任务
-             <span ng-if="(statusNumList['待验收'])!=0" >
-               (<em class="color-white">{{statusNumList['待验收']}}</em>)
-             </span>
-         </span>
-         <span status-style-toggle-new class="rect-status"
-         ng-class="{'rect-status-active-new':(listParams.checkUpStatus=='已完成')}"
-          ng-click="listParams.checkUpStatus='已完成';$root.goTo('#/inOutStockOrder/query.html')">出库任务
-         </span>
-       </div>
-     <!-- ng-init="listParams.checkUpStatus='待验收'" -->
-  <table-list list-data="rest/authen/checkUp/query.json?checkUpStatus={{listParams.checkUpStatus}}"
+  <table-list list-data="rest/authen/inStockOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
+      <div class="mgl-xl status-num-list-new"
+            style="top:-56px;"
+           ajax-url="rest/authen/inStockOrder/countByStatus"
+           scope-data="statusNumList">
+        <span status-style-toggle-new
+        class="rect-status mgl-s"
+        ng-class="{'rect-status-active-new':(listParams.checkUpStatus!='已完成')}"
+         ng-click="listParams.checkUpStatus=null;$root.goTo('#/inOutStockOrder/queryInStock.html')">入库任务
+            <span ng-if="(statusNumList['待验收'])!=0" >
+              (<em class="color-white">{{statusNumList['待验收']}}</em>)
+            </span>
+        </span>
+        <span status-style-toggle-new class="rect-status"
+        ng-class="{'rect-status-active-new':(listParams.checkUpStatus=='已完成')}"
+         ng-click="listParams.checkUpStatus='已完成';$root.goTo('#/inOutStockOrder/queryOutStock.html')">出库任务
+        </span>
+      </div>
       <div class="medical-stock child-project-management receive-item" ng-controller="inOutStockController">
 
         <div class="content-wrapper" style="margin:0px 45px;">
@@ -173,7 +172,7 @@
               </div>
             </div>
             <!-- 批量确认按钮 -->
-            <div ng-if="listParams.checkUpStatus!='已完成'" class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
+            <div class="flex-column color-9 pd-c-l bg-white pdt-m pdb-m bt-dashed-line">
               <div class="flex-item-6">
                 <a ng-if="!choisedMedicalList.length"
                    href="javascript:void(0)"
@@ -189,7 +188,7 @@
                    dialog-content="确认批量确认吗?"
                    dialog-content-color="#FF3939"
                    dialog-template="pr-dialog-confirm.html"
-                   callback="handlebatchCheckUp();$root.utils.goTo('#/checkUp/query.html')">批量确认
+                   callback="handlebatchCheckUp();$root.utils.goTo('#/inOutStockOrder/queryInStock.html')">批量确认
                   <em class="bulk-receipt-btn-icon"></em>
                 </a>
               </div>
@@ -220,7 +219,7 @@
               <table class="table pr-table pr-new-table pr-table-content">
                 <thead class="pr-bg-side">
                   <tr>
-                    <th ng-if="listParams.checkUpStatus!='已完成'" class="w-60 text-center mycheck">
+                    <th  class="w-60 text-center mycheck">
                       <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                       <label for="1"></label>
                     </th>
@@ -243,7 +242,7 @@
                       ng-repeat="tr in tbodyList track by $index"
                       class="relative"
                       table-item-multiple-btn>
-                    <td ng-if="listParams.checkUpStatus!='已完成'" class="select-td text-center mycheck">
+                    <td class="select-td text-center mycheck">
                       <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                       <label for="{{$index+2}}"></label>
                     </td>
@@ -316,7 +315,7 @@
             <div class="flex-column bg-white">
               <div class="flex-item-6">
                 <!-- 批量上架按钮 -->
-                <div ng-if="listParams.checkUpStatus=='待验收'" class="flex-column color-9 pd-c-l pdt-m pdb-m">
+                <div  class="flex-column color-9 pd-c-l pdt-m pdb-m">
                   <a ng-if="!choisedMedicalList.length"
                      href="javascript:void(0)"
                      class="batch-receive-btn"
@@ -331,7 +330,7 @@
                      dialog-content="确认批量确认吗?"
                      dialog-content-color="#FF3939"
                      dialog-template="pr-dialog-confirm.html"
-                     callback="handlebatchCheckUp();$root.utils.goTo('#/checkUp/query.html')">批量确认
+                     callback="handlebatchCheckUp();$root.utils.goTo('#/inoutStockOrder/queryInStock.html')">批量确认
                     <em class="bulk-receipt-btn-icon"></em>
                   </a>
                 </div>

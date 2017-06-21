@@ -9,13 +9,24 @@ define('WLS/directives', ['WLS/init'], function () {
       restrict: 'EA',
       link: function (scope, element, attrs) {
 
-        element.on('click', function () {
+        element.off("click").on('click', function () {
           if ($(this).children('span').hasClass('sort-active')) {
-            $(this).children('span').removeClass('sort-active');
+              $('.sort-criteria').removeClass('sort-active');
           }else {
+          $('.sort-criteria').removeClass('sort-active');
           $(this).children('span').addClass('sort-active');
           }
         });
+
+        $('.sort-criteria').children('em').off("click").on('click',function(e){
+          e.stopPropagation();
+          if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+          }else {
+            $('.sort-criteria').children('em').removeClass('active');
+            $(this).addClass('active');
+          }
+        })
       }
     };
   }
