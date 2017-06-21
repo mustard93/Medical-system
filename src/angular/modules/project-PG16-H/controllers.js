@@ -4175,7 +4175,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
                 })
                 .catch(function (error) {
-                    // alertError(error || '出错');
+                    alertError(error || '出错');
                 });
 
         };
@@ -4184,8 +4184,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.flashAddDataCallbackFn=function (data1) {
 
             $scope.angucomplete_data=data1;
-
-            console.log("$scope.angucomplete_data",$scope.angucomplete_data);
 
             if($scope.angucomplete_data.data == undefined){
                 return;

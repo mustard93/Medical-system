@@ -242,7 +242,7 @@
                         <tbody>
                         <!-- ngRepeat: tr in scopeData.orderMedicalNos -->
                         <tr ng-repeat="tr in scopeData.orderMedicalNos" class="ng-scope">
-                            <td ng-init="tr.handleFlag = tr.handleFlag ? true : false" class="select-td text-center mycheck" style="width: 100px;">
+                            <td ng-init="tr.handleFlag = tr.handleFlag ? true : false" class="select-td text-center mycheck">
                                 <input type="checkbox"
                                        ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId')"
                                        class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
@@ -270,8 +270,12 @@
         </div>
 
 
-        <div class="footer-btn-box">
-            <button ng-click="addOrderDataToList();modal.close()" class="footer-btn">确定</button>
+        <!--<div class="footer-btn-box">-->
+            <!--<button ng-click="addOrderDataToList();modal.close()" class="footer-btn">确定</button>-->
+        <!--</div>-->
+
+        <div class="footer-button-area" style="position:fixed;bottom:0px;">
+            <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button" ng-disabled="selectedBatchs.length<1" ng-click="addOrderDataToList();modal.close()">确定</button>
         </div>
 
     </div>
