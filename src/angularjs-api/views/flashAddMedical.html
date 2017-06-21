@@ -55,11 +55,15 @@
                      hide-quantity
                      hide-import
                      ajax-url="rest/authen/medicalStock/query.json?warehouseStocksCode={{formData.warehouseCode}}"
-                     add-data-callback-fn="flashAddDataCallbackFn">
+                     add-data-callback-fn="flashAddDataCallbackFn"
+                     is-disabled-this="{{formData.supplier.id}}"
+                     frozen-goods-disabled=true>
                 </div>
                 参数说明：
                   hide-quantity ：隐藏输入数量控件
                   hide-import  :隐藏导入按钮
+                  is-disabled-this: 根据传入的条件决定是否暂时屏蔽掉此闪加组件
+                  frozen-goods-disabled： 传入此属性并设置为true，表示加载的商品如果是被冻结则屏蔽选择，否则不设置此属性则被冻结的商品可以被选择
 
                  * 闪加药械
                  ngModel={
