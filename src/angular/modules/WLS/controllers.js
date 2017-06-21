@@ -136,9 +136,27 @@ define('WLS/controllers', ['WLS/init'], function() {
   function goodsOwnerCtrl($scope, requestData, utils, modal,alertOk,alertWarn) {
 
 
+        // 保存  type:save-草稿,submit-提交订单。
+        // $scope.submitFormAfter = function() {
+        //     $scope.formData.validFlag = false;
+        //     if ($scope.submitForm_type == 'exit') {
+        //         $scope.goTo('#/salesOrder/query.html');
+        //         return;
+        //     }
+        //     if ($scope.submitForm_type == 'submit') {
+        //         $scope.goTo('#/salesOrder/confirm-order.html?id='+$scope.formData.id);
+        //     }
+        //     if ($scope.submitForm_type == 'save') {
+        //         // console.log(this);
+        //     }
+        // };
 
 
-
+        // 保存 type:save-草稿,submit-提交订单。
+        $scope.submitForm = function(fromId, type) {
+            console.log(">>>>>>>>>>>>>>",$scope.goodsOwner);
+            $('#' + fromId).trigger('submit');
+        };
 
 
   }

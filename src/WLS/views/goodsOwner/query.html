@@ -47,11 +47,11 @@
 
                             <span class="mgb-s">状态：</span>
                             <select class="inline ipt-new-s pdt"
-                                    chosen style="width: 120px;"
+                                    chosen style="width: 120px; display: none"
                                     data-placeholder=" "
                                     default-empty="全部"
                                     ng-model="listParams.status"
-                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_PickSource">
+                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WLS_GoodsOwnerStatus">
 
                             </select>
 
@@ -60,17 +60,19 @@
                         <div class="inline-block mgr-s">
                             <span class="mgb-s">货主等级：</span>
                             <select class="inline ipt-new-s pdt ng-untouched ng-valid ng-empty ng-dirty ng-valid-parse"
-                                    chosen="" style="width: 120px; display: none;"
+                                    chosen="" style="width: 120px;display: none;"
                                     data-placeholder=" " ng-model="listParams.rank"
                                     default-empty="全部"
-                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_StoreRoomType">
+                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WLS_GoodsOwnerRank">
                             </select>
                         </div>
                     </div>
                     <div ng-init="listParams.rankType='顺序'" class="flex-item-4 text-right mgt-xl">
 
-                        <button   ng-if="listParams.rankType=='顺序'"  ng-click="listParams.rankType='逆序'"  type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↑</button>
-                        <button  ng-if="listParams.rankType=='逆序'"   ng-click="listParams.rankType='顺序'"   type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↓</button>
+                        <button  ng-if="listParams.rankType=='顺序'"  ng-click="listParams.rankType='倒序'"  type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↑</button>
+                        <button  ng-if="listParams.rankType=='倒序'"   ng-click="listParams.rankType='顺序'"   type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↓</button>
+
+                        <!--<key-search placeholder="货主名称" ng-model="listParams.q"></key-search>-->
 
                         <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
                             <input type="text" class="ipt pdr-xxl ng-pristine ng-untouched ng-valid ng-empty" placeholder="商品名称/商品编码" ng-model="listParams.q">
@@ -110,12 +112,12 @@
                         table-item-multiple-btn>
                         <td class="relative">
                     <span class="circle-status"
-                          ng-class="{ 'bg-pass-green':tr.businessApplication.businessStatus =='启用',
-                                     'bg-end-red':tr.businessApplication.businessStatus =='禁用'}">
+                          ng-class="{ 'bg-pass-green':tr.goodsOwnerStatus =='启用',
+                                     'bg-end-red':tr.goodsOwnerStatus =='禁用'}">
 
                       <span class="purchaseorder-buyer-info" style="right: 20px;top: -5px;">
                         <i class="block pd-c-s text-normal" style="line-height:1.8">
-                          <em  class="inline-block">{{tr.businessApplication.businessStatus}}</em>
+                          <em  class="inline-block">{{tr.goodsOwnerStatus}}</em>
                         </i>
                       </span>
                     </span>
@@ -127,15 +129,22 @@
                                             <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
                                             <a href="javascript:;"
                                                class="pr-btn-best-small pr-btn-bg-gold"
-                                               ng-click="handleDelDetails(item.id,'rest/authen/goodsOwner/delete','#/goodsOwner/query.html')">确认
+                                               ng-click="handleDelDetails(tr.id,'rest/authen/goodsOwner/delete','#/goodsOwner/query.html')">确认
                                             </a>
                                         </p>
                                     </div>
                                 </div>
-                                <div class="inline-block handle-btn" ng-if="tr.businessApplication.businessStatus!='已终止'" ng-click=""></div>
+                                <div class="inline-block handle-btn"
+
+                                     modal-right="500"
+                                     modal-scope="this"
+                                     modal-data='{"id":"{{tr.id}}"}'
+                                     modal-url="views/goodsOwner/edit.html"
+
+                                ></div>
                                 <div class="inline-block handle-btn other-handle-btn relative" href="javascript:;">
                                     <div class="handle-area-show handle-area text-center">
-                                        <a ng-if="tr.businessApplication.businessStatus!='已冻结'&&tr.businessApplication.businessStatus!='已终止'"
+                                        <a ng-if="tr.goodsOwnerStatus=='禁用'"
                                            href="javascript:;"
                                            modal-center="350"
                                            modal-scope="this"
@@ -143,14 +152,15 @@
                                           "content":"确认启用该货主吗？",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
-                                          "url":"rest/authen/customerAddress/updateStatus",
+                                          "url":"rest/authen/goodsOwner/updateStatus",
                                           "goUrl":"",
                                           "id":"{{tr.id}}",
-                                          "status":"已冻结"
+                                          "status":"启用"
                                          }'
                                            tpl-url="tpl/pr-dialog-submit-message.html">启用
                                         </a>
                                         <a
+                                           ng-if="tr.goodsOwnerStatus=='启用'"
                                            href="javascript:;"
                                            modal-center="350"
                                            modal-scope="this"
@@ -158,10 +168,10 @@
                                           "content":"确认禁用该货主吗?",
                                           "btnConfirm":"确定",
                                           "btnCancel":"取消",
-                                          "url":"rest/authen/customerAddress/updateStatus",
+                                          "url":"rest/authen/goodsOwner/updateStatus",
                                           "goUrl":"",
                                           "id":"{{tr.id}}",
-                                          "status":"正常"
+                                          "status":"禁用"
                                          }'
                                            tpl-url="tpl/pr-dialog-submit-message.html">禁用
                                         </a>
@@ -182,16 +192,17 @@
                                 </div>
                             </div>
                         </td>
+
                         <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
-                        <td>{{tr.code}}</td>
-                        <td class="text-left color-orange">{{tr.name}}</td>
-                        <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td>
-                        <td>{{tr.object.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-                        <td>{{tr.code}}</td>
-                        <td class="text-left color-orange">{{tr.name}}</td>
-                        <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td>
-                        <td>{{tr.object.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
-                        <td>{{tr.object.guaranteePeriod | date : 'yyyy-MM-dd'}}</td>
+                        <td>{{tr.goodsOwnerName}}</td>
+                        <td>{{tr.goodsOwnerCode}}</td>
+                        <td>{{tr.goodsOwnerRank}}</td>
+                        <td>{{tr.phone}}</td>
+                        <td>{{tr.contactName}}</td>
+                        <td>{{tr.fax}}</td>
+                        <td>{{tr.postCode}}</td>
+                        <td>{{tr.address}}</td>
+                        <td>{{tr.note}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -209,3 +220,6 @@
     </table-list>
 
 </div>
+
+
+
