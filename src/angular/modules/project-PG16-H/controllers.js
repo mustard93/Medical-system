@@ -4153,6 +4153,22 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         $scope.showBatchs=false;
 
+        $scope.changeShowBatchsFlag=function (flag) {
+            $scope.showBatchs =flag;
+        };
+
+
+        //选择当前订单
+        // $scope.curOrder=null;
+        // $scope.index=-1;
+        //
+        // $scope.choiceThis=function (item,index,flag){
+        //     console.log("asdasdas");
+        //     if(!flag){
+        //         $scope.curOrder=item;
+        //         $scope.index = index;
+        //     }
+        // };
 
 
         /**
@@ -4168,9 +4184,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             requestData("rest/authen/collarApplicationOrder/getByOrderCode", _data, 'GET')
                 .then(function (results) {
                     // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
-
-                    console.log('results[1].data',results[1].data);
-
                     $scope.scopeData=results[1].data || {};
 
                 })
@@ -4215,6 +4228,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             var _data=angular.extend(listParams,{
                 "relMedicalStockId":relMedicalStockId,
                 "pageSize":12
+                // "pageNo":1
             });
 
             console.log("_data",_data);
@@ -4225,7 +4239,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
                     console.log('results[1].data',results[1].data);
 
-                    $scope.orderList=results[1].data || [];
+                    $scope.tbodyList=results[1].data || [];
 
                 })
                 .catch(function (error) {
@@ -4235,17 +4249,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-        //选择当前订单
-        $scope.curOrder=null;
-        $scope.index=-1;
 
-        $scope.choiceThis=function (item,index,flag){
-
-            if(!flag){
-                $scope.curOrder=item;
-                $scope.index = index;
-            }
-        };
 
 
         $scope.getGoodsBatchs=function(){
@@ -4286,8 +4290,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 return;
             }
 
-            $scope.showBatchs=true;
-            //    bug ------------------------------
+            $scope.changeShowBatchsFlag(true); //    bug ------------------------------
+
 
             var _data={
                 id:$scope.curOrder.relId,//单据主键ID
@@ -4329,8 +4333,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 });
                 $scope.selectedBatchs=[];
             }
-
-            console.log(" $scope.selectedBatchs", $scope.selectedBatchs);
+            // console.log(" $scope.selectedBatchs", $scope.selectedBatchs);
 
         };
 
@@ -4358,10 +4361,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             //批次信息
             obj.stockBatchs=$scope.selectedBatchs;
 
-            console.log("obj",obj);
-
-
-
+            // console.log("obj",obj);
             $scope.formData.orderMedicalNos.push(obj);
 
             $scope.formData.relIds.push(obj.relId);
@@ -4396,7 +4396,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs,'onlyId','onlyId');
 
-            console.log('$scope.selectedBatchs',resultArr);
+            // console.log('$scope.selectedBatchs',resultArr);
 
             $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
@@ -4409,16 +4409,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         };
 
-
         //选择批次
         $scope.choiceBaths=function(index){
-
-            console.log( $scope.selectedBatchs);
-
-            console.log("$scope.formData.orderMedicalNos[index].stockBatchs",$scope.formData.orderMedicalNos[index].stockBatchs);
-
-
-
+            //
+            // console.log( $scope.selectedBatchs);
+            //
+            // console.log("$scope.formData.orderMedicalNos[index].stockBatchs",$scope.formData.orderMedicalNos[index].stockBatchs);
+            //
+            //
+            //
 
             var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
 
@@ -4426,9 +4425,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             $scope.selectedBatchs=[];
         };
-
-
-
 
 
         $scope.itemInArray=function (id,batchlist,attr) {
@@ -4482,6 +4478,41 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     }
 
 
+
+
+    //领退模块选择退货商品
+    function  testCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+        //选择当前订单
+        $scope.curOrder=null;
+        $scope.index=-1;
+
+
+        console.log("myObj............",$scope.myObj,$scope.$parent.myObj);
+
+
+        $scope.choiceThis=function (item,index,flag){
+            console.log("asdasdas");
+            if(!flag){
+                $scope.myObj=item;
+                $scope.$parent.myObj=item
+
+                // $scope.curOrder=item;
+
+
+                // $scope.index = index;
+            }
+        };
+
+
+    }
+
+
+
+
+
+
+
     angular.module('manageApp.project-PG16-H')
         .controller('indexPageController', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', '$rootScope', indexPageController])
         .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
@@ -4506,5 +4537,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         .controller('inventoryAdjustmentOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderCtrl])
         .controller('inventoryAdjustmentOrderDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inventoryAdjustmentOrderDialogCtrl])
         .controller('collarReturnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderCtrl])
-        .controller('collarReturnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderChoiceDialogCtrl]);
+        .controller('collarReturnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderChoiceDialogCtrl])
+
+        .controller('testCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', testCtrl]);
 });
