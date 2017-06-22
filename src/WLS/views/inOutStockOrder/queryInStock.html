@@ -261,10 +261,15 @@
                       ng-repeat="tr in tbodyList track by $index"
                       class="relative"
                       table-item-multiple-btn>
-                    <td class="select-td text-center mycheck">
+                    <td class="select-td text-center mycheck" ng-if="tr.inOutStockOrderStatus=='待确认'">
                       <input ng-disabled="tr.inOutStockOrderStatus!='待确认'" ng-class="{'disabled':(tr.inOutStockOrderStatus!='待确认')}" type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                       <label for="{{$index+2}}"></label>
                     </td>
+                    <td class="select-td text-center mycheck" ng-if="tr.inOutStockOrderStatus!='待确认'">
+                      <input ng-disabled="true" type="checkbox" class="disabled" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                      <label for="{{$index+2}}"></label>
+                    </td>
+
                     <td class="relative">
                       <span class="circle-status"
                             ng-class="{'pr-bg-grey4':tr.inOutStockOrderStatus=='待确认','bg-ing-orang':tr.inOutStockOrderStatus =='处理中','bg-pass-green':tr.inOutStockOrderStatus =='已完成'}">

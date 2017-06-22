@@ -47,13 +47,14 @@ define('WLS/controllers', ['WLS/init'], function() {
         if ($scope.tbodyList) {
           $scope.choisedMedicalList = [];
           angular.forEach($scope.tbodyList, function (data, index) {
-            $scope.choisedMedicalList.push(data.id);
+            if (data.inOutStockOrderStatus=='待确认') {
+                $scope.choisedMedicalList.push(data.id);
+            }
           });
         }
       } else {        // 取消全部选中
         $scope.choisedMedicalList = [];
       }
-      console.log($scope.choisedMedicalList.length);
     };
 
 
