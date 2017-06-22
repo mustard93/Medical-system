@@ -209,7 +209,6 @@
 
                      <!-- 批号选择    ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount" -->
                      <div class="ipt-div relative" style="width:100%;"
-
                           ng-if=" getGoodsBatchsCount(tr.stockBatchs) <tr.returnTotal"
                      >
                        <i class="addImg"
@@ -297,7 +296,7 @@
         <span>
 
 
-          <!--ng-disabled="quantityError || canSubmit ||!formData.orderCode ||!formData.storeRoomId ||!formData.orderMedicalNos.length "-->
+          <!--ng-disabled="quantityError ||  ||!formData.orderCode ||!formData.storeRoomId ||!formData.orderMedicalNos.length "-->
 
           <button class="pr-btn-create-glodbg mgt"
                   type="button"
@@ -306,8 +305,8 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
-                  ng-disabled="!formData.orderCode ||!formData.departmentId ||!formData.orderMedicalNos.length "
-                   >提交
+                  ng-disabled="!formData.orderCode ||!formData.departmentId ||!formData.orderMedicalNos.length || canSubmit"
+                   >提交{{canSubmit}}
           </button>
         </span>
       </div>
