@@ -32,7 +32,8 @@ define('WLS/directives', ['WLS/init'], function () {
         var _sortCriteria=element.find('.sort-criteria em');
 
         // 点击默认按钮后，把所有筛选条件改成默认样式
-        _defaultSort.off("click").on('click', function () {
+        _defaultSort.on('click', function (e) {
+          e.stopPropagation();
               $(this).addClass('bg-active');
             // 把默认的按钮样式和下拉框样式恢复到初始样式
               $('.sort-criteria').removeClass('sort-active');
@@ -44,7 +45,8 @@ define('WLS/directives', ['WLS/init'], function () {
         });
 
         // 点击单个按钮后，展开或收起下拉条件
-        _sortButton.off("click").on('click', function () {
+        _sortButton.on('click', function (e) {
+          e.stopPropagation();
           // 判断事前是否选过，如果选过，那样式恢复到未选择之前。
           if ($(this).hasClass('bg-active')) {
               $(this).removeClass('bg-active');
@@ -58,7 +60,7 @@ define('WLS/directives', ['WLS/init'], function () {
         });
 
         //选中每一个条件的具体排序方式之后
-        _sortCriteria.off("click").on('click',function(e){
+        _sortCriteria.on('click',function(e){
           e.stopPropagation();
 
           // 先获取每个点击之后的内容。用于之后进行判断是什么筛选类型
