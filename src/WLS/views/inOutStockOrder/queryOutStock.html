@@ -4,11 +4,11 @@
      <!-- 主内容头部 -->
      <page-main-header-component list-params="listParams"
                                  style="min-height:130px;"
-                                 crumbs-nav='[{"name":"出入库任务管理","link":"","style":""},{"name":"入库任务","link":"","style":"color-custom-orange"}]'
-                                 component-title="入库任务管理">
+                                 crumbs-nav='[{"name":"出入库任务管理","link":"","style":""},{"name":"出库任务","link":"","style":"color-custom-orange"}]'
+                                 component-title="出库任务管理">
      </page-main-header-component>
 
-  <table-list list-data="rest/authen/inStockOrder/query.json"
+  <table-list list-data="rest/authen/outStockOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
               callback="initFlag=true;"
@@ -20,10 +20,9 @@
         ajax-url="rest/authen/inStockOrder/countByOrderStatus"
          scope-data="inStatusNumList"
          class="rect-status mgl-s info-number"
-         style="color: #C7A77B;background: #F3F1EC;"
          ng-click="$root.goTo('#/inOutStockOrder/queryInStock.html')">入库任务
             <span ng-if="(inStatusNumList['已完成']+inStatusNumList['待确认']+inStatusNumList['处理中'])!=0" >
-              (<em class="color-or">{{inStatusNumList['已完成']+inStatusNumList['待确认']+inStatusNumList['处理中']}}</em>)
+              (<em class="color-white">{{inStatusNumList['已完成']+inStatusNumList['待确认']+inStatusNumList['处理中']}}</em>)
             </span>
             <span ng-if="inStatusNumList['待确认'] > 0" class="badge">{{inStatusNumList['待确认']}}</span>
         </span>
@@ -33,10 +32,11 @@
         <span class="rect-status info-number"
         ajax-url="rest/authen/outStockOrder/countByOrderStatus"
         scope-data="outStatusNumList"
+        style="color: #C7A77B;background: #F3F1EC;"
         ng-click="$root.goTo('#/inOutStockOrder/queryOutStock.html')">出库任务
 
          <span ng-if="(outStatusNumList['已完成']+outStatusNumList['待确认']+outStatusNumList['处理中'])!=0" >
-           (<em class="color-white">{{outStatusNumList['已完成']+outStatusNumList['待确认']+outStatusNumList['处理中']}}</em>)
+           (<em class="color-or">{{outStatusNumList['已完成']+outStatusNumList['待确认']+outStatusNumList['处理中']}}</em>)
          </span>
          <span ng-if="outStatusNumList['待确认'] > 0" class="badge">{{outStatusNumList['待确认']}}</span>
         </span>
@@ -66,7 +66,7 @@
                          style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
                          placeholder=""
                          ng-model="listParams.goodsOwnerName"
-                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.InStockOrder&property=goodsOwnerName"/>
+                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.OutStockOrder&property=goodsOwnerName"/>
                   <i class="receive-item-icon"></i>
                   </select>
                 </div>
@@ -78,7 +78,7 @@
                          style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
                          placeholder=""
                          ng-model="listParams.consignName"
-                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.InStockOrder&property=consignName"/>
+                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.OutStockOrder&property=consignName"/>
                   <i class="receive-item-icon"></i>
                 </div>
                 <div class="inline-block mgr-l">
@@ -176,6 +176,7 @@
                                datepicker
                                class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                                ng-readonly="true"
+
                                ng-model="listParams.expectDateEnd"/>
                         <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.expectDateEnd='';"></span>
                     </div>
@@ -200,10 +201,11 @@
                    dialog-content="确认批量确认吗?"
                    dialog-content-color="#FF3939"
                    dialog-template="pr-dialog-confirm.html"
-                   callback="handlebatchInConfirm();$root.utils.refreshHref();">批量确认
+                   callback="handlebatchOutConfirm();$root.utils.refreshHref();">批量确认
                   <em class="bulk-receipt-btn-icon"></em>
                 </a>
               </div>
+
               <div sort-criteria class="flex-item-6 text-right">
                 <span class="select-span bg-active" style="padding:5px 15px;font-size:12px;">
                   <em ng-click="listParams.rankSort='';listParams.createAtSort='';listParams.expectDateSort='';" >默认排序</em>
@@ -261,10 +263,10 @@
                       ng-repeat="tr in tbodyList track by $index"
                       class="relative"
                       table-item-multiple-btn>
-                    <td class="select-td text-center mycheck">
-                      <input ng-disabled="tr.inOutStockOrderStatus!='待确认'" ng-class="{'disabled':(tr.inOutStockOrderStatus!='待确认')}" type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
-                      <label for="{{$index+2}}"></label>
-                    </td>
+                      <td class="select-td text-center mycheck">
+                        <input ng-disabled="tr.inOutStockOrderStatus!='待确认'" ng-class="{'disabled':(tr.inOutStockOrderStatus!='待确认')}" type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                        <label for="{{$index+2}}"></label>
+                      </td>
                     <td class="relative">
                       <span class="circle-status"
                             ng-class="{'pr-bg-grey4':tr.inOutStockOrderStatus=='待确认','bg-ing-orang':tr.inOutStockOrderStatus =='处理中','bg-pass-green':tr.inOutStockOrderStatus =='已完成'}">
@@ -283,7 +285,7 @@
                             dialog-content="确认后，该入库任务将进入处理中状态。"
                             dialog-content-color="#FF3939"
                             dialog-template="pr-dialog-confirm.html"
-                            callback="confirmInStock(tr.id);">确认
+                            callback="confirmOutStock(tr.id);">确认
                         </div>
                       </div>
 
@@ -295,7 +297,7 @@
                              dialog-content="确认后，该任务将结束。"
                              dialog-content-color="#FF3939"
                              dialog-template="pr-dialog-confirm.html"
-                             callback="confirmInStock(tr.id);">确认完成
+                             callback="confirmOutStock(tr.id);">确认完成
                         </div>
                       </div>
 
@@ -351,7 +353,7 @@
                      dialog-content="确认批量确认吗?"
                      dialog-content-color="#FF3939"
                      dialog-template="pr-dialog-confirm.html"
-                     callback="handlebatchInConfirm();$root.utils.refreshHref();">批量确认
+                     callback="handlebatchOutConfirm();$root.utils.refreshHref();">批量确认
                     <em class="bulk-receipt-btn-icon"></em>
                   </a>
                 </div>

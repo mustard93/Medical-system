@@ -23,6 +23,24 @@ define('WLS/controllers', ['WLS/init'], function() {
         console.log($scope.choisedMedicalList.length);
     };
 
+    // 判断是否可以全选，如果不能全选，则把全选按钮设置为disabled
+    $scope.$watch('initFlag',function(){
+      if ($scope.tbodyList) {
+        $scope.canSelectAll=false;
+        var selectList=[];
+        angular.forEach($scope.tbodyList, function (data, index) {
+          selectList.push(data.inOutStockOrderStatus);
+        });
+
+        if (selectList.some(function(item){ return item == '待确认';}))
+        {
+          return $scope.canSelectAll=false;
+        }else{
+          return $scope.canSelectAll=true;
+        }
+      }
+    });
+
     // 全选全不选
     $scope.handleChoiseAllEvent = function (isChoiseAll) {
       if (isChoiseAll) {      // 全部选中
@@ -38,27 +56,12 @@ define('WLS/controllers', ['WLS/init'], function() {
       console.log($scope.choisedMedicalList.length);
     };
 
-    // 切换请求不同状态数据
-    $scope.chgRequestStatus = function (status) {
-      // 参数status是必须的
-      if (!status) throw new Error('params status is required!');
 
-      var _url = 'rest/authen/checkUp/query?' + 'checkUpStatus=' + status;
-      requestData(_url)
-      .then(function (results) {
-        if (results[1].data) {
-          $scope.tbodyList = results[1].data;
-        }
-      })
-      .catch(function (error) {
-        throw new Error(error || '获取数据出错');
-      });
-    };
+    // 批量确认
+    $scope.handlebatchInConfirm = function () {
 
-    // 批量验收
-    $scope.handlebatchCheckUp = function () {
       if ($scope.choisedMedicalList.length) {
-        requestData('rest/authen/checkUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
+        requestData('rest/authen/inStockOrder/batchConfirmInStock',$scope.choisedMedicalList, 'post', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
             if(results[1].msg){
@@ -69,6 +72,62 @@ define('WLS/controllers', ['WLS/init'], function() {
             alertWarn(results[1].msg);
           }
 
+        })
+        .catch(function (error) {
+          throw new Error(error || '出错');
+        });
+      }
+    };
+    // 批量确认
+    $scope.handlebatchOutConfirm = function () {
+
+      if ($scope.choisedMedicalList.length) {
+        requestData('rest/authen/outStockOrder/batchConfirmInStock',$scope.choisedMedicalList, 'post', 'parameter-body')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            if(results[1].msg){
+              alertOk(results[1].msg);
+            }
+            utils.refreshHref();
+          }else if(results[1].msg){
+            alertWarn(results[1].msg);
+          }
+
+        })
+        .catch(function (error) {
+          throw new Error(error || '出错');
+        });
+      }
+    };
+
+    $scope.confirmInStock=function(_id){
+      console.log(_id);
+      if (_id) {
+        requestData('rest/authen/inStockOrder/confirmInStock?id='+_id, 'get')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            alertOk('操作成功');
+            utils.refreshHref();
+          }else if(results[1].msg){
+            alertWarn(results[1].msg);
+          }
+        })
+        .catch(function (error) {
+          throw new Error(error || '出错');
+        });
+      }
+    };
+    $scope.confirmOutStock=function(_id){
+      console.log(_id);
+      if (_id) {
+        requestData('rest/authen/outStockOrder/confirmInStock?id='+_id, 'get')
+        .then(function (results) {
+          if (results[1].code === 200) {
+            alertOk('操作成功');
+            utils.refreshHref();
+          }else if(results[1].msg){
+            alertWarn(results[1].msg);
+          }
         })
         .catch(function (error) {
           throw new Error(error || '出错');
