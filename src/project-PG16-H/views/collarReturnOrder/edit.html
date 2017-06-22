@@ -188,7 +188,7 @@
                           ng-init="batch.falg=changeQuantity(batch.quantity,batch.maxQuantity)"
                           invalid-popover
                           popover-show="batch.falg"
-                          popover-options='{"content":"该批次退货数量不能大于可退货数量", "placement":"top", "trigger":"manual"}'
+                          popover-options='{"content":"该批次退货数量不能大于可退货数量或等于0", "placement":"top", "trigger":"manual"}'
 
                      >
                        <div class="inline-block text-ellips-s"
@@ -208,7 +208,10 @@
                      </div>
 
                      <!-- 批号选择    ng-if="calculaBatchsTotal(item,item.goodsCount)<item.goodsCount" -->
-                     <div class="ipt-div relative" style="width:100%;">
+                     <div class="ipt-div relative" style="width:100%;"
+
+                          ng-if=" getGoodsBatchsCount(tr.stockBatchs) <tr.returnTotal"
+                     >
                        <i class="addImg"
                           style="left:85%"
                           modal-right="60%"
@@ -303,6 +306,7 @@
                   dialog-content="提交后，将无法修改。确认提交?"
                   dialog-template="pr-dialog-submit.html"
                   callback="submitForm('editForm','submit')"
+                  ng-disabled="!formData.orderCode ||!formData.departmentId ||!formData.orderMedicalNos.length "
                    >提交
           </button>
         </span>

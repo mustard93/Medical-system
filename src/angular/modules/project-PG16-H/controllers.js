@@ -4062,8 +4062,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     //领退模块
     function  collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-        //清空部门信息
-
         $scope.watchFormChange = function(watchName){
 
             watchFormChange(watchName,$scope);
@@ -4072,6 +4070,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
 
+
+        //设置或重置申请部门
         $scope.$watch('formData.orderMedicalNos',function (p1, p2, p3) {
 
 
@@ -4099,10 +4099,19 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if(nowVal<=0){
                 return true;
             }
-
-
             return false;
         };
+
+        $scope.getGoodsBatchsCount=function (stockBatchs) {
+            var count =0;
+            if(stockBatchs){
+                angular.forEach(stockBatchs,function (item,index) {
+                    count += (item.quantity*1);
+                });
+            }
+            return count;
+        };
+
 
 
         // 回调  保存type:save-草稿,submit-提交订单。
@@ -4333,8 +4342,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 });
                 $scope.selectedBatchs=[];
             }
-            // console.log(" $scope.selectedBatchs", $scope.selectedBatchs);
-
         };
 
 
@@ -4342,7 +4349,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.addToList=function(){
 
             var obj = $scope.curOrder.medicalNo;
-
 
             //領用單編號
             obj.relOrderCode=$scope.curOrder.relOrderCode;
@@ -4387,7 +4393,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
                     return;
                 }
-
             }
 
 
@@ -4395,14 +4400,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
 
             var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs,'onlyId','onlyId');
-
-            // console.log('$scope.selectedBatchs',resultArr);
-
             $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
             for(var i=0; i<resultArr.length; i++){
                 var goods= resultArr[i];
-                console.log("goods.relId:",goods.relId);
                 $scope.formData.relIds.push(goods.relId);
             }
 
@@ -4411,16 +4412,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         //选择批次
         $scope.choiceBaths=function(index){
-            //
-            // console.log( $scope.selectedBatchs);
-            //
-            // console.log("$scope.formData.orderMedicalNos[index].stockBatchs",$scope.formData.orderMedicalNos[index].stockBatchs);
-            //
-            //
-            //
-
             var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
-
             $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat($scope.selectedBatchs);
 
             $scope.selectedBatchs=[];
@@ -4428,23 +4420,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
         $scope.itemInArray=function (id,batchlist,attr) {
-
             var flag=false;
-
-
             for(var i=0; i<batchlist.length; i++){
-
-                console.log(batchlist[i][attr],id ,batchlist[i][attr] == id);
-
                 if(batchlist[i][attr] == id){
                     flag=true;
                 }
             }
-
-            console.log("flag",flag);
             return flag;
         };
 
+        $scope.$on('selected',function (e, data) {
+                $scope.curOrder= data;
+        });
 
         //去重 返回 arrB 与 arrA 中 arrB不重复部分
          $scope._compareArray=function(arrA,arrB,arrAAtrr,arrBAtrr){
@@ -4477,30 +4464,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         }
     }
 
-
-
-
     //领退模块选择退货商品
     function  testCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
-        //选择当前订单
-        $scope.curOrder=null;
-        $scope.index=-1;
-
-
-        console.log("myObj............",$scope.myObj,$scope.$parent.myObj);
-
-
+        //选择当前订单-商品
         $scope.choiceThis=function (item,index,flag){
-            console.log("asdasdas");
             if(!flag){
-                $scope.myObj=item;
-                $scope.$parent.myObj=item
-
-                // $scope.curOrder=item;
-
-
-                // $scope.index = index;
+                $scope.$emit('selected',item);
             }
         };
 
