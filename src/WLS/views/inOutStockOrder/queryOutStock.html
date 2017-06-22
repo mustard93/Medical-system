@@ -5,7 +5,7 @@
      <page-main-header-component list-params="listParams"
                                  style="min-height:130px;"
                                  crumbs-nav='[{"name":"出入库任务管理","link":"","style":""},{"name":"出库任务","link":"","style":"color-custom-orange"}]'
-                                 component-title="出入库任务管理">
+                                 component-title="出库任务管理">
      </page-main-header-component>
 
   <table-list list-data="rest/authen/outStockOrder/query.json"
@@ -241,7 +241,7 @@
                 <thead class="pr-bg-side">
                   <tr>
                     <th  class="w-60 text-center mycheck">
-                      <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                      <input type="checkbox" ng-disabled="canSelectAll" ng-class="{'disabled':(canSelectAll)}" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                       <label for="1"></label>
                     </th>
                     <th class="w-100">状态</th>
