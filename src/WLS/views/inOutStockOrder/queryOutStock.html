@@ -19,8 +19,7 @@
         ajax-url="rest/authen/inStockOrder/countByOrderStatus"
          scope-data="inStatusNumList"
          class="rect-status mgl-s info-number"
-         ng-class="{'rect-status-active-new':(listParams.checkUpStatus!='已完成')}"
-         ng-click="listParams.checkUpStatus=null;$root.goTo('#/inOutStockOrder/queryInStock.html')">入库任务
+         ng-click="$root.goTo('#/inOutStockOrder/queryInStock.html')">入库任务
             <span ng-if="(inStatusNumList['已完成']+inStatusNumList['待确认']+inStatusNumList['处理中'])!=0" >
               (<em class="color-white">{{inStatusNumList['已完成']+inStatusNumList['待确认']+inStatusNumList['处理中']}}</em>)
             </span>
@@ -32,8 +31,7 @@
         <span status-style-toggle-new class="rect-status info-number"
         ajax-url="rest/authen/outStockOrder/countByOrderStatus"
         scope-data="outStatusNumList"
-        ng-class="{'rect-status-active-new':(listParams.checkUpStatus=='已完成')}"
-        ng-click="listParams.checkUpStatus='已完成';$root.goTo('#/inOutStockOrder/queryOutStock.html')">出库任务
+        ng-click="$root.goTo('#/inOutStockOrder/queryOutStock.html')">出库任务
 
          <span ng-if="(outStatusNumList['已完成']+outStatusNumList['待确认']+outStatusNumList['处理中'])!=0" >
            (<em class="color-white">{{outStatusNumList['已完成']+outStatusNumList['待确认']+outStatusNumList['处理中']}}</em>)
@@ -215,36 +213,24 @@
                 <span class="select-span">
                   <em>货主等级</em>&nbsp;&nbsp;∨
                   <span class="sort-criteria">
-                    <em class="active mgt-s text-left" >
-                      <em ng-click="listParams.rankSort='顺序';listParams.createAtSort='';listParams.expectDateSort='';">由低到高</em>
-                    </em>
-                    <em class="mgt-s text-left">
-                      <em  ng-click="listParams.rankSort='倒序';listParams.createAtSort='';listParams.expectDateSort='';">由高到低</em>
-                    </em>
+                    <em class="active mgt-s text-left" >由低到高</em>
+                    <em class="mgt-s text-left">由高到低</em>
                   </span>
                 </span>
 
                 <span class="select-span">
                   <em>创建时间</em>&nbsp;&nbsp;∨
                   <span class="sort-criteria">
-                    <em class="active mgt-s text-left" >
-                      <em ng-click="listParams.rankSort='';listParams.createAtSort='顺序';listParams.expectDateSort='';">由近到远</em>
-                    </em>
-                    <em class="mgt-s text-left" >
-                      <em ng-click="listParams.rankSort='';listParams.createAtSort='倒序';listParams.expectDateSort='';">由远到近</em>
-                    </em>
+                    <em class="active mgt-s text-left" >由近到远</em>
+                    <em class="mgt-s text-left" >由远到近</em>
                   </span>
                 </span>
 
                 <span class="select-span">
                   <em>计划到货时间</em>&nbsp;&nbsp;∨
                   <span class="sort-criteria">
-                    <em class="active mgt-s text-left" >
-                      <em ng-click="listParams.rankSort='';listParams.createAtSort='';listParams.expectDateSort='顺序';">由近到远</em>
-                    </em>
-                    <em class="mgt-s text-left" >
-                      <em ng-click="listParams.rankSort='';listParams.createAtSort='';listParams.expectDateSort='倒序';">由远到近</em>
-                    </em>
+                    <em class="active mgt-s text-left" >由近到远</em>
+                    <em class="mgt-s text-left" >由远到近</em>
                   </span>
                 </span>
               </div>

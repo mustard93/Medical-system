@@ -64,7 +64,7 @@ define('WLS/controllers', ['WLS/init'], function() {
     $scope.handlebatchOutConfirm = function () {
 
       if ($scope.choisedMedicalList.length) {
-        requestData('rest/authen/outStockOrder/batchConfirmOutStock',$scope.choisedMedicalList, 'post', 'parameter-body')
+        requestData('rest/authen/outStockOrder/batchConfirmInStock',$scope.choisedMedicalList, 'post', 'parameter-body')
         .then(function (results) {
           if (results[1].code === 200) {
             if(results[1].msg){
