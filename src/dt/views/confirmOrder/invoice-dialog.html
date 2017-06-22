@@ -25,7 +25,7 @@
                     default-empty="全部"
                     ng-model="listParams.type"
                     select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InvoiceType"
-                    ng-change="getInvoiceList(listParams)">
+                    ng-change="getInvoiceList(listParams,dialogData.invoiceSource)">
             </select>
         </div>
 
@@ -34,13 +34,13 @@
             <span class="color-9 mgl-m">开票日期：</span><!-- end ngIf: !_showDateName -->
             <div class="date-icon-outside">
                 <input type="text" style="padding-left: 5px;" datepicker class="ipt-date pr-short-ipt color-6 mgr pr-indent-10hasDatepicker" ng-readonly="true" placeholder="日期" ng-model="listParams.createAtBeg" id="dp1496287386003" readonly="readonly"
-                       ng-change="getInvoiceList(listParams)"
+                       ng-change="getInvoiceList(listParams,dialogData.invoiceSource)"
                 >
                 <span class="date-icon"></span>
             </div>
             <span class="color-9">至</span>
              <div class="date-icon-outside">
-                <input   ng-change="getInvoiceList(listParams)" type="text" datepicker class="ipt-date pr-short-ipt color-6 mgr pr-indent-10" ng-readonly="true" placeholder="日期" ng-model="listParams.createAtEnd" invalid-popover="" popover-show="listParams.createAtEnd<listParams.createAtBeg" popover-options="{&quot;content&quot;:&quot;结束日期不应小于开始日期&quot;, &quot;placement&quot;:&quot;top&quot;, &quot;trigger&quot;:&quot;manual&quot;}" data-original-title="" title="" id="dp1496287386004" readonly="readonly">
+                <input   ng-change="getInvoiceList(listParams,dialogData.invoiceSource)" type="text" datepicker class="ipt-date pr-short-ipt color-6 mgr pr-indent-10" ng-readonly="true" placeholder="日期" ng-model="listParams.createAtEnd" invalid-popover="" popover-show="listParams.createAtEnd<listParams.createAtBeg" popover-options="{&quot;content&quot;:&quot;结束日期不应小于开始日期&quot;, &quot;placement&quot;:&quot;top&quot;, &quot;trigger&quot;:&quot;manual&quot;}" data-original-title="" title="" id="dp1496287386004" readonly="readonly">
                 <span class="date-icon"></span>
             </div>
         </div>
@@ -49,7 +49,7 @@
         <div class="inline-block">
             <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
                 <input type="text" class="ipt pdr-xxl relative" placeholder="发票编号"  ng-model="listParams.q"
-                       ng-change="getInvoiceList(listParams)"
+                       ng-change="getInvoiceList(listParams,dialogData.invoiceSource)"
                        style="top:7px;">
                 <i class="" style="top:10px;"></i>
             </div>

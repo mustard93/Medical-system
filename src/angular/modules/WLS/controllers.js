@@ -23,19 +23,38 @@ define('WLS/controllers', ['WLS/init'], function() {
         console.log($scope.choisedMedicalList.length);
     };
 
+    // 判断是否可以全选，如果不能全选，则把全选按钮设置为disabled
+    $scope.$watch('initFlag',function(){
+      if ($scope.tbodyList) {
+        $scope.canSelectAll=false;
+        var selectList=[];
+        angular.forEach($scope.tbodyList, function (data, index) {
+          selectList.push(data.inOutStockOrderStatus);
+        });
+
+        if (selectList.some(function(item){ return item == '待确认';}))
+        {
+          return $scope.canSelectAll=false;
+        }else{
+          return $scope.canSelectAll=true;
+        }
+      }
+    });
+
     // 全选全不选
     $scope.handleChoiseAllEvent = function (isChoiseAll) {
       if (isChoiseAll) {      // 全部选中
         if ($scope.tbodyList) {
           $scope.choisedMedicalList = [];
           angular.forEach($scope.tbodyList, function (data, index) {
-            $scope.choisedMedicalList.push(data.id);
+            if (data.inOutStockOrderStatus=='待确认') {
+                $scope.choisedMedicalList.push(data.id);
+            }
           });
         }
       } else {        // 取消全部选中
         $scope.choisedMedicalList = [];
       }
-      console.log($scope.choisedMedicalList.length);
     };
 
 

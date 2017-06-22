@@ -6231,7 +6231,7 @@ define('project/controllers', ['project/init'], function() {
         };
 
         //获取待选发票列表
-        $scope.getInvoiceList=function (listParams) {
+        $scope.getInvoiceList=function (listParams,invoiceSource) {
 
             var _url = 'rest/authen/invoice/query',
                 _data = {
@@ -6240,7 +6240,8 @@ define('project/controllers', ['project/init'], function() {
                     createAtBeg:listParams.createAtBeg,
                     createAtEnd:listParams.createAtEnd,
                     q:listParams.q||'',
-                    orderStatus:'已完成'
+                    orderStatus:'已完成',
+                    source:invoiceSource
                 };
 
             requestData(_url, _data, 'GET')

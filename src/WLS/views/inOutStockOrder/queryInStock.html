@@ -5,30 +5,32 @@
      <page-main-header-component list-params="listParams"
                                  style="min-height:130px;"
                                  crumbs-nav='[{"name":"出入库任务管理","link":"","style":""},{"name":"入库任务","link":"","style":"color-custom-orange"}]'
-                                 component-title="出入库任务管理">
+                                 component-title="入库任务管理">
      </page-main-header-component>
 
   <table-list list-data="rest/authen/inStockOrder/query.json"
               list-params="listParams"
               search-mode="noCaseSensitive"
+              callback="initFlag=true;"
               search-param="q">
       <div class="mgl-xl status-num-list-new"
             style="top:-56px;">
 
-        <span status-style-toggle-new
+        <span
         ajax-url="rest/authen/inStockOrder/countByOrderStatus"
          scope-data="inStatusNumList"
          class="rect-status mgl-s info-number"
+         style="color: #C7A77B;background: #F3F1EC;"
          ng-click="$root.goTo('#/inOutStockOrder/queryInStock.html')">入库任务
             <span ng-if="(inStatusNumList['已完成']+inStatusNumList['待确认']+inStatusNumList['处理中'])!=0" >
-              (<em class="color-white">{{inStatusNumList['已完成']+inStatusNumList['待确认']+inStatusNumList['处理中']}}</em>)
+              (<em class="color-or">{{inStatusNumList['已完成']+inStatusNumList['待确认']+inStatusNumList['处理中']}}</em>)
             </span>
             <span ng-if="inStatusNumList['待确认'] > 0" class="badge">{{inStatusNumList['待确认']}}</span>
         </span>
 
 
 
-        <span status-style-toggle-new class="rect-status info-number"
+        <span class="rect-status info-number"
         ajax-url="rest/authen/outStockOrder/countByOrderStatus"
         scope-data="outStatusNumList"
         ng-click="$root.goTo('#/inOutStockOrder/queryOutStock.html')">出库任务
@@ -36,7 +38,7 @@
          <span ng-if="(outStatusNumList['已完成']+outStatusNumList['待确认']+outStatusNumList['处理中'])!=0" >
            (<em class="color-white">{{outStatusNumList['已完成']+outStatusNumList['待确认']+outStatusNumList['处理中']}}</em>)
          </span>
-         <span ng-if="inStatusNumList['待确认'] > 0" class="badge">{{inStatusNumList['待确认']}}</span>
+         <span ng-if="outStatusNumList['待确认'] > 0" class="badge">{{outStatusNumList['待确认']}}</span>
         </span>
       </div>
 
@@ -86,8 +88,8 @@
                           style="width:120px;"
                           data-placeholder=" "
                           default-empty="全部"
-                          ng-model="listParams.transportationMode"
-                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SPD_COLDCHAININFO_TransportationMode">
+                          ng-model="listParams.transportType"
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_TransportType">
                   </select>
                 </div>
                 <div class="inline-block mgr-l">
@@ -174,7 +176,6 @@
                                datepicker
                                class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
                                ng-readonly="true"
-
                                ng-model="listParams.expectDateEnd"/>
                         <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.expectDateEnd='';"></span>
                     </div>
@@ -252,7 +253,7 @@
                 <thead class="pr-bg-side">
                   <tr>
                     <th  class="w-60 text-center mycheck">
-                      <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                      <input type="checkbox" ng-disabled="canSelectAll" ng-class="{'disabled':(canSelectAll)}" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                       <label for="1"></label>
                     </th>
                     <th class="w-100">状态</th>
@@ -274,10 +275,15 @@
                       ng-repeat="tr in tbodyList track by $index"
                       class="relative"
                       table-item-multiple-btn>
-                    <td class="select-td text-center mycheck">
-                      <input type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                    <td class="select-td text-center mycheck" ng-if="tr.inOutStockOrderStatus=='待确认'">
+                      <input ng-disabled="tr.inOutStockOrderStatus!='待确认'" ng-class="{'disabled':(tr.inOutStockOrderStatus!='待确认')}" type="checkbox" class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                       <label for="{{$index+2}}"></label>
                     </td>
+                    <td class="select-td text-center mycheck" ng-if="tr.inOutStockOrderStatus!='待确认'">
+                      <input ng-disabled="true" type="checkbox" class="disabled" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                      <label for="{{$index+2}}"></label>
+                    </td>
+
                     <td class="relative">
                       <span class="circle-status"
                             ng-class="{'pr-bg-grey4':tr.inOutStockOrderStatus=='待确认','bg-ing-orang':tr.inOutStockOrderStatus =='处理中','bg-pass-green':tr.inOutStockOrderStatus =='已完成'}">
@@ -315,7 +321,7 @@
                       <div class="table-item-multiple-btn">
                         <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                              style="right:10px;"
-                             modal-right="932"
+                             modal-right="1000"
                              modal-scope="this"
                              modal-data='{"id":"{{tr.id}}","orderCode":"{{tr.orderCode}}"}'
                              modal-url="views/inOutStockOrder/getMedicalStock.html">查看商品信息
@@ -330,7 +336,7 @@
                     <td>{{tr.rank}}</td><!-- 等级 -->
                     <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td><!-- 创建时间 -->
                     <td>{{tr.expectDate | date : 'yyyy-MM-dd'}}</td><!-- 计划到货时间 -->
-                    <td>{{tr.transportationMode}}</td><!-- 运输方式 -->
+                    <td>{{tr.transportType}}</td><!-- 运输方式 -->
                     <td>{{tr.logisticsCenterName}}</td><!-- 预入物流中心 -->
                     <td>{{tr.consignName}}</td><!-- 发货方 -->
                     <td>{{tr.goodsOwnerContacts.name}}</td><!-- 联系人 -->
