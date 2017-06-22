@@ -75,6 +75,7 @@
                         chosen
                         no-first-select-source="true"
                         ng-model="formData.inventoryType"
+                        ng-change="formData.goodsLocationIds=[];formData.orderMedicalNos=[];formData.regionSelects=null;formData.regionIds=[];formData.storeRoomId='';modal.closeAll();"
                         select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_SPD_InventoryType">
                 </select>
               </span>
@@ -129,6 +130,7 @@
                   chosen
                   required
                   ng-model="formData.storeRoomId"
+                  ng-change="formData.goodsLocationIds=[];formData.orderMedicalNos=[];formData.regionSelects=null;formData.regionIds=[];"
                   select-source="rest/authen/storeRoom/queryForSelectOption">
                   </select>
                 </div>
@@ -168,14 +170,15 @@
                     添加区域/货位
                     <i class="add-icon-invoice" style="top:7px;left:80px;"></i>
                   </div>
-                  <div ng-repeat="reg in formData.regionSelects" class="mgt mgr inline-block region-goodslocation-div">
-                    <span class="color-yellow1">{{reg.name}}：
-                        <span ng-repeat="good in reg.goodsLocationSelects">
-                          <em class="mgr color-black">{{good.name}}</em>
-                        </span>
-                        <em class="cancle-region" ng-click="formData.regionSelects.splice($index,1);deleteGoodslocationIds(reg.goodsLocationSelects,formData.goodsLocationIds);">+</em>
-                    </span>
-
+                  <div ng-repeat="reg in formData.regionSelects" class="mgt mgr inline-block">
+                    <div class="full-width region-goodslocation-div" ng-if="reg.goodsLocationSelects.length">
+                      <span class="color-yellow1" >{{reg.name}}：
+                          <span ng-repeat="good in reg.goodsLocationSelects">
+                            <em class="mgr color-black">{{good.name}}</em>
+                          </span>
+                          <em class="cancle-region" ng-click="formData.regionSelects.splice($index,1);deleteGoodslocationIds(reg.goodsLocationSelects,formData.goodsLocationIds);">+</em>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
