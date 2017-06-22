@@ -7,8 +7,7 @@ define('WLS/directives', ['WLS/init'], function () {
 
 // 点击各种筛选条件，形成下拉或恢复默认筛选。
 /**
-   *
-  	* @Description: demo演示版本，筛选条件点击样式。
+   ** @Description: demo演示版本，筛选条件点击样式。
   	* @author 宋娟
   	* @date 2017年6月20日 下午4:32:59
    */
@@ -17,7 +16,7 @@ define('WLS/directives', ['WLS/init'], function () {
    	    //1.统一声明要用到的元素。
         // 2.一一书写各个元素点击后触发的事件，以及样式改动。
 
-  function sortCriteria () {
+  function sortCriteria() {
     'use strict';
     return {
       restrict: 'EA',
@@ -135,7 +134,118 @@ define('WLS/directives', ['WLS/init'], function () {
     };
   }
 
-  angular.module('manageApp.WLS')
+  /**
+   *
+   */
+  function createSortCriteria() {
+    'use strict';
+    return {
+      restrict: 'EA',
+      scope: {
+        listParams: '=?'
+      },
+      replace: true,
+      templateUrl: Config.tplPath + 'tpl/project/wlsSortCriteria.html',
+      link: function (scope, element, attrs) {
+        // 创建条件排序btn对象
+        scope.sortConditionList = [];
 
-  .directive("sortCriteria", [sortCriteria]);
+        // 判断配置属性sortList是否定义，否则抛出异常
+        if (!attrs.sortList) { throw new Error('排序组件的配置属性sortList未定义!'); }
+
+        // 获取配置属性列表
+        var sortList = JSON.parse(attrs.sortList);
+
+        // ...
+        if (angular.isArray(sortList)) {
+          angular.forEach(sortList, function (item, index) {
+            if (item.clearFields) {
+              scope.clearFields = item.clearFields;
+            } else {
+              scope.sortConditionList.push(item);
+            }
+          });
+        }
+
+        // 默认排序点击事件
+        scope.handleDefaultSort = function () {
+          // console.log($scope.clearFields);
+          if (scope.clearFields && angular.isArray(scope.clearFields)) {
+            angular.forEach(scope.clearFields, function (data, index) {
+              scope.listParams[data] = '';
+            });
+          }
+        }
+
+        // 点击按钮显示排序规则列表
+        scope.showThisRulesList = function (id) {
+          if (id) {
+            var _btnDOMObj = $('#'+id).find('span.sort-criteria');
+            if ($(_btnDOMObj).is(':visible')) {
+              $(_btnDOMObj).hide();
+            } else {
+              $(_btnDOMObj).show();
+              $('#'+id).siblings().each(function (index,data) {
+                $(data).find('span.sort-criteria').hide();
+              })
+            }
+          }
+        }
+
+        // 点击排序
+        scope.handleSortByThisRule = function (rule,sortName) {
+          /*
+          switch(rule) {
+            case '由低到高' : scope.listParams.rankSort='顺序'; break;
+            case '由高到低' : scope.listParams.rankSort='倒序'; break;
+            case '由近到远' : (sortName=='创建时间') ? scope.listParams.createAtSort='顺序' : scope.listParams.expectDateSort='顺序'; break;
+            case '由远到近' : (sortName=='创建时间') ? scope.listParams.createAtSort='倒序' : scope.listParams.expectDateSort='倒序'; break;
+          }
+          */
+
+          if (sortName == '货主等级') {
+            if (rule == '由低到高') {
+              scope.listParams.rankSort='顺序';
+              scope.listParams.createAtSort='';
+              scope.listParams.expectDateSort='';
+            } else {
+              scope.listParams.rankSort='倒序';
+              scope.listParams.createAtSort='';
+              scope.listParams.expectDateSort='';
+            }
+          }
+
+          if (sortName == '创建时间') {
+            if (rule == '由近到远') {
+              scope.listParams.rankSort='';
+              scope.listParams.expectDateSort='';
+              scope.listParams.createAtSort='顺序';
+            } else {
+              scope.listParams.rankSort='';
+              scope.listParams.expectDateSort='';
+              scope.listParams.createAtSort='倒序';
+            }
+          }
+
+          if (sortName == '计划到货时间') {
+            if (rule == '由近到远') {
+              scope.listParams.rankSort='';
+              scope.listParams.expectDateSort='顺序';
+              scope.listParams.createAtSort='';
+            } else {
+              scope.listParams.rankSort='';
+              scope.listParams.expectDateSort='倒序';
+              scope.listParams.createAtSort='';
+            }
+          }
+
+        }
+
+      }
+    };
+  }
+
+  angular.module('manageApp.WLS')
+  .directive("sortCriteria", [sortCriteria])
+  .directive('createSortCriteria', [createSortCriteria]);
 });

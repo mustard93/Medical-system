@@ -205,7 +205,7 @@
               </div>
 
 
-              <div sort-criteria class="flex-item-6 text-right">
+              <!-- <div sort-criteria class="flex-item-6 text-right">
                 <span class="select-span" style="padding:5px 15px;font-size:12px;">
                   <em ng-click="listParams.rankSort='';listParams.createAtSort='';listParams.expectDateSort='';" >默认排序</em>
                 </span>
@@ -233,7 +233,18 @@
                     <em class="mgt-s text-left" >由远到近</em>
                   </span>
                 </span>
+              </div> -->
+
+              <div class="flex-item-6 text-right">
+                <create-sort-criteria sort-list='[
+                                                  {"sortName":"默认排序","multipleRules":false},
+                                                  {"sortName":"货主等级","multipleRules":true,"rulesList":["由低到高","由高到低"]},
+                                                  {"sortName":"创建时间","multipleRules":true,"rulesList":["由近到远","由远到近"]},
+                                                  {"sortName":"计划到货时间","multipleRules":true,"rulesList":["由近到远","由远到近"]}
+                                                 ]'>
+                </create-sort-criteria>
               </div>
+
             </div>
             <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
               <table class="table pr-table pr-new-table pr-table-content">
