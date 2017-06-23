@@ -1,9 +1,9 @@
 <div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
      ng-controller="collarReturnOrderChoiceDialogCtrl"
-     ng-init="listParams={}"
+     ng-init="listParams={};"
      ajax-url="rest/authen/collarApplicationOrder/queryMedicalProductionBatch?relMedicalStockId={{dialogData.relMedicalStockId}}&id={{dialogData.orderId}}"
      scope-data="stockBatchList"
-     callback="initFlag=true;getChoisedBatchsId(dialogData.choisedBatchList);"
+     callback="initFlag=true;getChoisedBatchsId(dialogData.choisedBatchList);selectedBatchs= initChoisedMedicalList(dialogData.stockBatchs, stockBatchList,'stockBatchId')"
      alert-error>
 
     <!-- 标题 -->
@@ -76,7 +76,6 @@
             <tr ng-repeat="item in stockBatchList" class="trHover-bg"
                 ng-init="selectedBatchs= initChoisedMedicalList(dialogData.stockBatchs, stockBatchList,'stockBatchId')"
             >
-
                 <!--ng-init="item.quantity=item.maxQuantity;item.handleFlag= itemInArray(item.stockBatchId,dialogData.stockBatchs,'stockBatchId');" -->
                 <td  class="select-td text-center mycheck" style="width: 100px;">
                     <input type="checkbox"  class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,$index,stockBatchList);"

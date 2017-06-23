@@ -6,7 +6,7 @@
      ng-controller="collarReturnOrderChoiceDialogCtrl"
      ajax-url=""
      scope-data="stockBatchList"
-     ng-init="showBatchs=false; listParams={};angucomplete_data={};curOrder={}"
+     ng-init="showBatchs=false; listParams={};angucomplete_data={};curOrder=null;"
      style="position: relative"
      callback="initFlag=true;$root.reloadTime=$root.utils.getNowTime();getChoisedBatchsId(dialogData.choisedBatchList);"
 >
@@ -84,28 +84,28 @@
             background: #ddd;
         }
 
-        .footer-btn-box {
-            height: 56px;
-            z-index: 1000;
-            position: absolute;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            text-align: center;
-            background: rgba(54, 48, 44, 0.95);
-        }
+        /*.footer-btn-box {*/
+            /*height: 56px;*/
+            /*z-index: 1000;*/
+            /*position: absolute;*/
+            /*right: 0;*/
+            /*left: 0;*/
+            /*bottom: 0;*/
+            /*text-align: center;*/
+            /*background: rgba(54, 48, 44, 0.95);*/
+        /*}*/
 
-        .footer-btn {
-            border: 0;
-            height: 36px;
-            width: 160px;
-            background: #C7A77B;
-            border-radius: 100px;
-            font-size: 14px;
-            color: #FFFFFF;
-            line-height: 18px;
-            margin: 10px 30px;
-        }
+        /*.footer-btn {*/
+            /*border: 0;*/
+            /*height: 36px;*/
+            /*width: 160px;*/
+            /*background: #C7A77B;*/
+            /*border-radius: 100px;*/
+            /*font-size: 14px;*/
+            /*color: #FFFFFF;*/
+            /*line-height: 18px;*/
+            /*margin: 10px 30px;*/
+        /*}*/
 
         .choiced {
             width: 25px;
@@ -155,27 +155,29 @@
 
             <!-- 关键字过滤 -->
             <div class="inline-block">
-                <div class="order-list-search text-left code pos-rel-tr inline-block fl-r">
-                    <input type="text"
-                           class="ipt pdr-xxl relative"
-                           placeholder="领用单编号"
-                           ng-model="orderCode"
-                           ng-change="getByOrderCode(orderCode)">
-                    <i class=""></i>
+                <!--<div class="order-list-search text-left code pos-rel-tr inline-block fl-r">-->
+                    <!--<input type="text"-->
+                           <!--class="ipt pdr-xxl relative"-->
+                           <!--placeholder="领用单编号"-->
+                           <!--ng-model="orderCode"-->
+                           <!--ng-change="getByOrderCode(orderCode)">-->
+                    <!--<i class=""></i>-->
 
-                </div>
+                <!--</div>-->
 
-                <!--<span angucomplete placeholder="领用单编号"-->
-                      <!--title-field="orderCode"-->
-                      <!--description-field="supplier.name"-->
-                      <!--search-fields=""-->
-                      <!--search-str-class="ipt"-->
-                      <!--url="rest/authen/collarApplicationOrder/getByOrderCode"-->
-                      <!--class="inline-block"-->
-                      <!--ng-model="selectedData">-->
-                <!--</span>-->
+                <span angucomplete placeholder="领用单编号"
+                      title-field="orderCode"
+                      description-field="supplier.name"
+                      search-fields=""
+                      search-str-class="ipt"
+                      url="rest/authen/collarReturnOrder/queryAutoComplete?tableName=SPD.Order.CollarApplicationOrder&property=orderCode"
+                      class="inline-block"
+                      ng-model="selectedData">
+                </span>
 
             </div>
+
+            "selectedData":'{{selectedData}}';
 
         </div>
         <div class="pdt-s pdb-s pd-c-xl">
@@ -297,7 +299,7 @@
 
     </div>
 
-    <div ng-if="type=='通过商品退货'">
+    <div ng-if="type=='通过商品退货'" ng-init=" listParams.departmentId=formData.departmentId;">
 
         <div ng-show="!showBatchs">
 
@@ -374,7 +376,7 @@
                                 default-empty="全部"
                                 width="120px"
                                 chosen
-                                ng-model="listParams.storeRoomId"
+                                ng-model="listParams.departmentId"
                                 select-source="rest/authen/department/queryForSelectOption"
                                 ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
                         </select>
@@ -415,6 +417,7 @@
                     <!-- 仓库过滤 -->
                     <div class="inline-block" style="margin-right: 8px;">
                         <span class="color-9">申 请 人 ： </span>
+                        <!--?departmentId={{listParams.departmentId}}-->
                         <select
                                 class="ipt pr-short-ipt color-3"
                                 style="width:90px;"
@@ -423,7 +426,7 @@
                                 width="120px"
                                 chosen
                                 ng-model="listParams.storeRoomId"
-                                select-source="rest/authen/organizationAndUser/queryForSelectOption?departmentId={{listParams.departmentId}}"
+                                select-source="rest/authen/organizationAndUser/queryForSelectOption"
                                 ng-change="handleSearchFilter(listParams,angucomplete_data.data.id)">
                         </select>
                     </div>
@@ -560,7 +563,7 @@
                 </div>
 
             <div class="footer-button-area" style="position:fixed;bottom:0px; z-index: 1000;">
-                <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button"   ng-click="getGoodsBatchs();">确定</button>
+                <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button"   ng-click="getGoodsBatchs();" ng-disabled="!angucomplete_data.data.id">确定</button>
             </div>
 
         </div>
@@ -602,9 +605,9 @@
                 </table>
 
                 <div class="footer-button-area" style="position:fixed;bottom:0px;">
-                    <button type="submit" style="margin-left:400px;" class="pr-btn-create-glodbg new-left-side-button"  ng-click="changeShowBatchsFlag(false)">上一步</button>
+                    <button type="submit" style="margin-left:400px;" class="pr-btn-create-glodbg new-left-side-button"  ng-click="changeShowBatchsFlag(false);isChoiseAll=false;">上一步</button>
 
-                    <button type="submit" style="margin:0 20px;" class="pr-btn-create-glodbg new-left-side-button"  ng-disabled="selectedBatchs.length<1" ng-click="addToList();changeShowBatchsFlag(false);">确定并继续</button>
+                    <button type="submit" style="margin:0 20px;" class="pr-btn-create-glodbg new-left-side-button"  ng-disabled="selectedBatchs.length<1" ng-click="addToList();changeShowBatchsFlag(false);isChoiseAll=false;">确定并继续</button>
 
                     <button type="submit" style="margin:0;" class="pr-btn-create-glodbg new-left-side-button" ng-disabled="selectedBatchs.length<1" ng-click="addToList();modal.close();">确定</button>
                 </div>

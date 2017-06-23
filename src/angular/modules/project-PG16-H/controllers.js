@@ -3987,6 +3987,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          */
         $scope.getByOrderCode=function(orderCode){
 
+
+
             var _data={
                 orderCode:orderCode
             };
@@ -4060,11 +4062,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
 
-
-
         $scope.getGoodsBatchs=function(){
 
-            if($scope.curOrder == null){
+            if($scope.curOrder== null){
                 alertWarn("请选择！");
                 return;
             }
@@ -4121,12 +4121,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //单击选择
         $scope.handleItemClickEvent=function (item,index,dataSource) {
 
+
+            console.log("$scope.selectedBatchsp---befor",$scope.selectedBatchs.length);
+
             if(item.handleFlag){
                 $scope.selectedBatchs.push(item);
             }else{
                 $scope.selectedBatchs.splice(index,1);
                 // $scope.isChoiseAll=false;
             }
+
+            console.log("$scope.selectedBatchsp---after",$scope.selectedBatchs.length);
 
             if($scope.selectedBatchs.length == dataSource.length){
                 $scope.isChoiseAll=true;
@@ -4193,6 +4198,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if(dataList.length == counter){
                 $scope.isChoiseAll=true;
             }
+
             return choicedList;
         };
 

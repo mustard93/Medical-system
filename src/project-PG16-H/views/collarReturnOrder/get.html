@@ -72,8 +72,11 @@
               <th class="text-center">领用单编号</th>
               <th class="text-center">商品编码</th>
               <th class="text-left">商品名称</th>
-              <th class="text-center">申请退货数量</th>
+              <th ng-if="scopeData.orderStatus !='退货中'  &&  scopeData.orderStatus!='已完成'  " class="text-center">申请退货数量</th>
+              <th ng-if="scopeData.orderStatus=='退货中' || scopeData.orderStatus=='已完成'" class="text-center">实际退货数量</th>
               <th class="text-center">可退数量</th>
+
+
               <th class="text-center">生产批号</th>
               <th class="text-center">商品规格</th>
               <th class="text-center">基本单位</th>
@@ -92,11 +95,12 @@
                   </div>
                 </td><!-- 商品全名 -->
 
-                <td class="text-right" style="line-height:2.4">{{tr.planReturnCount}}</td><!-- 申请退货数量 -->
+                <td ng-if="scopeData.orderStatus !='退货中'  &&  scopeData.orderStatus!='已完成'  " class="text-center">{{tr.planReturnCount}}</td><!-- 申请退货数量 -->
+                <td ng-if="scopeData.orderStatus=='退货中' || scopeData.orderStatus=='已完成'" class="text-center">{{tr.actualReturnCount}}</td><!-- 申请退货数量 -->
 
                 <td class="text-center" style="line-height:2.4">{{tr.returnTotal}}</td><!-- 可退数量 -->
 
-                <td class="text-center" >{{tr.productionPlace}}</td>  <!--生产批号-->
+                <td class="text-center" >{{tr.productionBatch}}</td>  <!--生产批号-->
 
                 <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 商品规格 -->
 
