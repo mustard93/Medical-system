@@ -187,12 +187,12 @@ define('WLS/directives', ['WLS/init'], function () {
                 $('.select-span').eq(index+1).addClass('bg-active');
                 item.sortName=cutText(_sortName)+_rule;
               }
-            });  
+            });
         }
 
 
         // 点击排序
-        scope.handleSortByThisRule = function (rule,sortName) {
+        scope.handleSortByThisRule = function (rulesList,rule,sortName) {
           sortName=cutText(sortName);
           if (sortName == '货主等级') {
             if (rule == '由低到高') {
@@ -227,6 +227,10 @@ define('WLS/directives', ['WLS/init'], function () {
               scope.listParams.createAtSort='';
             }
           }
+          // angular.forEach(rulesList, function (item, index) {
+          //     $('.select-em').removeClass('active');
+          //     $('.select-em').eq(index-1).addClass('active');
+          // });
         };
 
           // 截取按钮主要提示语方法
