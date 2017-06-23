@@ -3696,17 +3696,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         if(newVal){
             var operationFlowSetMessage=[];
             var operationFlowSetKey=[];
-            if ($scope.formData.operationFlowSet) {
+            if ($scope.orderData.operationFlowSet) {
                 // 选择出当前状态相同的驳回理由，并放入一个数组中
-                for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
-                    if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
-                        operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
-                        operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
+                for (var i=0; i<$scope.orderData.operationFlowSet.length; i++) {
+                    if ($scope.orderData.operationFlowSet[i].status==$scope.orderData.orderStatus) {
+                        operationFlowSetMessage.push($scope.orderData.operationFlowSet[i].message);
+                        operationFlowSetKey.push($scope.orderData.operationFlowSet[i].key);
                     }
                 }
                 //  选择当前状态最近的一个驳回理由用于显示
-                $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
-                $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+                $scope.orderData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+                $scope.orderData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
                 return;
             }
         }
@@ -3801,7 +3801,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData("rest/authen/inventoryMedicalNo/inputData", data , 'POST','parameterBody')
             .then(function (results) {
                 if (results[1].code === 200) {
-                    utils.refreshHref();
+                    // utils.refreshHref();
                     alertOk('操作成功');
                 }
             })

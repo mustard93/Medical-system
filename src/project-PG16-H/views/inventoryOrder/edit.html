@@ -30,11 +30,11 @@
     <!-- 主内容区域 -->
     <div class="content-wrapper" style="margin-bottom:80px;">
 
-      <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+      <div ng-if="orderData.operationFlowSet.key||orderData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
         <em class="color-red">原因:</em>
         <p class="inline-block color-red">
-          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
-          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+          <em ng-model="orderData.operationFlowSet.key">{{orderData.operationFlowSet.key}}</em>
+          <em ng-model="orderData.operationFlowSet.message">{{orderData.operationFlowSet.message}}</em>
         </p>
       </div>
       <!-- 药械列表 -->
@@ -90,8 +90,10 @@
                 <tr ng-repeat="item in tbodyList">
                   <td class="text-center">
                     <span class="circle-status relative"
-                          ng-class="{'bg-pass-green':tr.distributorMedicalCode,
-                                     'bg-end-red':!tr.distributorMedicalCode}">
+                    ng-class="{'pr-bg-green':(item.gainLossStatus=='正常'),
+                    'bg-unend-grey':(item.gainLossStatus=='漏盘'),
+                    'inventory_losses':(item.gainLossStatus=='盘亏'),
+                    'inventory_profit':(item.gainLossStatus=='盘盈')}">
 
                       <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
                         <i class="block pd-c-s text-normal" style="line-height:1.8">
@@ -134,7 +136,7 @@
                             class="ipt pr-short-ipt color-3"
                             style="width:100px;"
                             data-placeholder=" "
-                            ng-model="item.inventoryer.id;"
+                            ng-model="item.inventoryer.id"
                             select-source="rest/authen/user/queryForSelectOption">
                     </select>
                   </td><!--  盘点人 -->
@@ -265,7 +267,7 @@
                                class="ipt pr-short-ipt color-3"
                                data-placeholder=" "
                                style="width:100px;"
-                               ng-model="item.inventoryer.id;"
+                               ng-model="item.inventoryer.id"
                                select-source="rest/authen/user/queryForSelectOption">
                        </select>
                      </td><!--  盘点人 -->
