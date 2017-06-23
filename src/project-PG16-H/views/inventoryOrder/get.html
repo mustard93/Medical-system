@@ -96,8 +96,10 @@
                 <tr ng-repeat="item in tbodyList">
                   <td class="text-center">
                     <span class="circle-status relative"
-                          ng-class="{'bg-pass-green':tr.distributorMedicalCode,
-                                     'bg-end-red':!tr.distributorMedicalCode}">
+                    ng-class="{'pr-bg-green':(item.gainLossStatus=='正常'),
+                    'bg-unend-grey':(item.gainLossStatus=='漏盘'),
+                    'inventory_losses':(item.gainLossStatus=='盘亏'),
+                    'inventory_profit':(item.gainLossStatus=='盘盈')}">
 
                       <span class="purchase-content-status-show" style="right:-18px;top:-25px;width:50px;">
                         <i class="block pd-c-s text-normal" style="line-height:1.8">
