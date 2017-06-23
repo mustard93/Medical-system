@@ -113,23 +113,6 @@ define('WLS/directives', ['WLS/init'], function () {
           $(this).parent().parent().addClass('bg-active');
         });
 
-        // 截取按钮主要提示语方法
-        function cutText(str){
-          if (str.length>7&&str.length<=8) {
-            str=str.substring(0,4);
-          }else if(str.length>8){
-            str=str.substring(0,6);
-          }
-          return str;
-        };
-        // 恢复默认样式，所有下拉框为收起，所有按钮提示语为最开始的提示语。
-        function rescoverSet(_default){
-          var emArr=_sortButton.children('em');
-          for (var i = 0; i < emArr.length; i++) {
-            $(_default).parent().children('span:nth-child('+(i+2)+')').children('em').text(cutText(emArr[i].innerText));
-          }
-        };
-
       }
     };
   }
@@ -168,13 +151,16 @@ define('WLS/directives', ['WLS/init'], function () {
         }
 
         // 默认排序点击事件
-        scope.handleDefaultSort = function () {
+        scope.handleDefaultSort = function (conditionList) {
           // console.log($scope.clearFields);
           if (scope.clearFields && angular.isArray(scope.clearFields)) {
             angular.forEach(scope.clearFields, function (data, index) {
               scope.listParams[data] = '';
             });
           }
+          // 调用方法，恢复默认设置
+          rescoverSet(conditionList);
+          $('.select-span').eq(0).addClass('bg-active');
         }
 
         // 点击按钮显示排序规则列表
@@ -185,24 +171,29 @@ define('WLS/directives', ['WLS/init'], function () {
               $(_btnDOMObj).hide();
             } else {
               $(_btnDOMObj).show();
+             $('.select-span').removeClass('bg-active');
               $('#'+id).siblings().each(function (index,data) {
                 $(data).find('span.sort-criteria').hide();
               })
             }
           }
         }
+        // 选择相应筛选条件下的排序后，按钮显示内容相应改变
+        scope.changeSortName=function(_sortConditionList,_sortName,_rule){
+          // 先回复默认设置，再对选择的当前条件做相应的改变
+            rescoverSet(_sortConditionList);
+            angular.forEach(_sortConditionList, function (item, index) {
+              if (cutText(item.sortName)==cutText(_sortName)) {
+                $('.select-span').eq(index+1).addClass('bg-active');
+                item.sortName=cutText(_sortName)+_rule;
+              }
+            });  
+        }
+
 
         // 点击排序
         scope.handleSortByThisRule = function (rule,sortName) {
-          /*
-          switch(rule) {
-            case '由低到高' : scope.listParams.rankSort='顺序'; break;
-            case '由高到低' : scope.listParams.rankSort='倒序'; break;
-            case '由近到远' : (sortName=='创建时间') ? scope.listParams.createAtSort='顺序' : scope.listParams.expectDateSort='顺序'; break;
-            case '由远到近' : (sortName=='创建时间') ? scope.listParams.createAtSort='倒序' : scope.listParams.expectDateSort='倒序'; break;
-          }
-          */
-
+          sortName=cutText(sortName);
           if (sortName == '货主等级') {
             if (rule == '由低到高') {
               scope.listParams.rankSort='顺序';
@@ -214,7 +205,6 @@ define('WLS/directives', ['WLS/init'], function () {
               scope.listParams.expectDateSort='';
             }
           }
-
           if (sortName == '创建时间') {
             if (rule == '由近到远') {
               scope.listParams.rankSort='';
@@ -226,7 +216,6 @@ define('WLS/directives', ['WLS/init'], function () {
               scope.listParams.createAtSort='倒序';
             }
           }
-
           if (sortName == '计划到货时间') {
             if (rule == '由近到远') {
               scope.listParams.rankSort='';
@@ -238,9 +227,26 @@ define('WLS/directives', ['WLS/init'], function () {
               scope.listParams.createAtSort='';
             }
           }
+        };
 
-        }
-
+          // 截取按钮主要提示语方法
+          function cutText(str){
+            if (str.length>7&&str.length<=8) {
+              str=str.substring(0,4);
+            }else if(str.length>8){
+              str=str.substring(0,6);
+            }
+            return str;
+          };
+          // 恢复默认样式，所有按钮提示语为最开始的提示语。
+          function rescoverSet(conditionList){
+            if ($('.select-span').hasClass('bg-active')) {
+              $('.select-span').removeClass('bg-active');
+            }
+            angular.forEach(conditionList, function (item, index) {
+                item.sortName=cutText(item.sortName);
+            });
+          };
       }
     };
   }
