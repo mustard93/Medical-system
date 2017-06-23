@@ -162,7 +162,19 @@
                            ng-model="orderCode"
                            ng-change="getByOrderCode(orderCode)">
                     <i class=""></i>
+
                 </div>
+
+                <!--<span angucomplete placeholder="领用单编号"-->
+                      <!--title-field="orderCode"-->
+                      <!--description-field="supplier.name"-->
+                      <!--search-fields=""-->
+                      <!--search-str-class="ipt"-->
+                      <!--url="rest/authen/collarApplicationOrder/getByOrderCode"-->
+                      <!--class="inline-block"-->
+                      <!--ng-model="selectedData">-->
+                <!--</span>-->
+
             </div>
 
         </div>
@@ -219,17 +231,20 @@
                         <span class="mgr-l">申请人：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
                         <span class="mgr-l">申请部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
                         <span class="mgr-l">领用日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-                        <span class="mgr-l">领用库房：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+                        <span class="mgr-l">领用库房：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em>  {{isChoiseAll}}</span>
                     </div>
                 </div>
                 <!-- 商品列表 -->
-                <div class="outside-table-d">
+                <div class="outside-table-d" ng-init="selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'onlyId')">
                     <table class="table pr-table pr-new-table mgb-n" style="min-width: 100%;">
                         <thead>
                         <tr>
-                            <th class="w-60 text-center mycheck" ng-if="!listParams.shelvesUpStatus">
-                                <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll,scopeData.orderMedicalNos);">
+                            <th class="w-60 text-center mycheck">
+                                <input type="checkbox" class="selectAll cur-pot" id='1' ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll,scopeData.orderMedicalNos);"
+                                       ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"
+                                >
                                 <label for="1" style="top: 10px;"></label>
+
                             </th>
                             <th class="text-center">序号</th>
                             <th class="text-center">商品编码</th>
@@ -246,10 +261,13 @@
                         <tbody>
                         <!-- ngRepeat: tr in scopeData.orderMedicalNos -->
                         <tr ng-repeat="tr in scopeData.orderMedicalNos" class="ng-scope">
-                            <td ng-init="tr.handleFlag = tr.handleFlag ? true : false" class="select-td text-center mycheck">
+                            <td class="select-td text-center mycheck">
+
+                                <!--ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"-->
+
                                 <input type="checkbox"
-                                       ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId')"
-                                       class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
+                                       ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"
+                                       class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr,$index,scopeData.orderMedicalNos);">
                                 <label for="{{$index+2}}"></label>
                             </td>
                             <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
@@ -541,7 +559,7 @@
                     </table-list>
                 </div>
 
-            <div class="footer-button-area" style="position:fixed;bottom:0px;">
+            <div class="footer-button-area" style="position:fixed;bottom:0px; z-index: 1000;">
                 <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button"   ng-click="getGoodsBatchs();">确定</button>
             </div>
 

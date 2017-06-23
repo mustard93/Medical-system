@@ -4075,7 +4075,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.$watch('formData.orderMedicalNos',function (p1, p2, p3) {
 
 
-            if($scope.formData.orderMedicalNos ==undefined){
+            if($scope.formData.orderMedicalNos == undefined){
                 return;
             }
 
@@ -4085,6 +4085,25 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.formData.departmentName='';
             }
         },true);
+
+        //检测商品的选择批次时候存在
+        $scope.checkCanSubmit=function () {
+            var flag=true;
+            angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+
+                if(item.stockBatchs.length<1){
+                    flag=false;
+                    return;
+                }
+            });
+            return flag;
+        };
+
+
+
+
+
+
 
 
         //校验批次输入数量
@@ -4285,7 +4304,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
             //step1 判断去重复
-
             var flag=false;
             for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
                 if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
@@ -4299,8 +4317,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 return;
             }
 
-            $scope.changeShowBatchsFlag(true); //    bug ------------------------------
-
+            $scope.changeShowBatchsFlag(true);
 
             var _data={
                 id:$scope.curOrder.relId,//单据主键ID
@@ -4318,13 +4335,34 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
         $scope.selectedBatchs=[];
-        $scope.handleItemClickEvent=function (item,index) {
+
+        //单击选择
+        $scope.handleItemClickEvent=function (item,index,dataSource) {
 
             if(item.handleFlag){
                 $scope.selectedBatchs.push(item);
             }else{
                 $scope.selectedBatchs.splice(index,1);
+                // $scope.isChoiseAll=false;
             }
+
+            if($scope.selectedBatchs.length == dataSource.length){
+                $scope.isChoiseAll=true;
+            }else{
+                $scope.isChoiseAll=false;
+            }
+
+
+
+
+            // for(var i=0; i<dataSource.length;i++){
+            //     if(!dataSource[i].handleFlag){
+            //         $scope.isChoiseAll=false;
+            //         break;
+            //     }
+            // }
+
+
         };
 
         // 全选全不选
@@ -4342,6 +4380,38 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 });
                 $scope.selectedBatchs=[];
             }
+        };
+
+
+        /**
+         * 初始化是否已选择
+         * @param choiceList
+         * @param dataList
+         * @param attr
+         */
+        $scope.initChoisedMedicalList=function (choiceList,dataList,attr) {
+
+            //判断是否全部选中标识
+            var counter=0;
+            var choicedList=[];
+
+            angular.forEach(choiceList,function (item,index) {
+                for(var i=0; i<dataList.length; i++){
+                    if(item[attr] == dataList[i][attr]){
+                        dataList[i].handleFlag=true;
+                        choicedList.push(item);
+                        counter++;
+                    }
+                    if(!dataList[i].handleFlag){
+                        $scope.isChoiseAll=false;
+                    }
+                }
+            });
+
+            if(dataList.length == counter){
+                $scope.isChoiseAll=true;
+            }
+            return choicedList;
         };
 
 
@@ -4377,7 +4447,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         };
 
-
         //添加领用单中的商品到列表
         $scope.addOrderDataToList=function () {
 
@@ -4412,12 +4481,15 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         //选择批次
         $scope.choiceBaths=function(index){
+
             var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
-            $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat($scope.selectedBatchs);
+
+            var list = $scope._compareArray(hasStockBatchs,$scope.selectedBatchs,'stockBatchId','stockBatchId')
+
+            $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat(list);
 
             $scope.selectedBatchs=[];
         };
-
 
         $scope.itemInArray=function (id,batchlist,attr) {
             var flag=false;
@@ -4451,9 +4523,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             for(var i=0;i<temp.length; i++){
 
                 for(var j=0; j<arrB.length; j++){
-
-                    console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
-
+                    // console.log(arrB[j][arrBAtrr],temp[i],arrB[j][arrBAtrr]==temp[i]);
                     if(arrB[j][arrBAtrr]==temp[i]){
                         arrB.splice(j,1);
                     }
