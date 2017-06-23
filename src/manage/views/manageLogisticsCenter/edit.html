@@ -58,6 +58,32 @@ alert-error
           </div>
 
           <div class="form-group">
+            <label class="col-lg-2 col-sm-2 control-label">是否对接第三方物流</label>
+            <div class="col-lg-10 col-sm-10">
+              <input style="margin-left:20px;margin-top:5px;" type="checkbox"  ng-model="formData.isCheckLogistics">
+              <div class="inline-block mgl-l">
+                <!-- <select ng-if="initFlag"
+                 ng-disabled="!formData.isCheckLogistics"
+                 class="ipt pr-short-ipt"
+                 data-placeholder="第三方物流实例"
+                 chosen default-empty="无"
+                 ng-model="formData.logisticsId" select-source="rest/index/distributor/queryForSelectOption">
+                </select> -->
+                <p class="mgb"
+                ng-if="initFlag"
+                ajax-url="rest/index/distributor/queryForSelectOption"
+                scope-data="selectOptions"
+                callback="formData.key=selectOptions[0].value"
+                >
+                  <select ng-disabled="!formData.isCheckLogistics" placeholder="第三方物流实例" ng-if="selectOptions" class="ipt pr-short-ipt" ng-model="formData.logisticsId" ng-options="item.value as item.text   for item in selectOptions">
+                  </select>
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="form-group">
           <div class="form-group">
               <label class="col-lg-2 col-sm-2 control-label"></label>
               <div class="col-lg-10 col-sm-10">
