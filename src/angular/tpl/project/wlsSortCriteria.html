@@ -1,35 +1,17 @@
 <div class="">
   <span class="select-span bg-active" style="padding:5px 15px;font-size:12px;">
-    <em ng-click="handleDefaultSort()" >默认排序</em>
+    <em ng-click="handleDefaultSort(sortConditionList);" >默认排序</em>
   </span>
 
   <span class="select-span"
-        ng-repeat="item in sortConditionList track by $index"
+        ng-repeat="tr in sortConditionList track by $index"
         id="sortBtn{{$index}}"
         ng-click="showThisRulesList('sortBtn'+$index)">
-    <em>{{item.sortName}}</em>&nbsp;&nbsp;∨
+    <em>{{tr.sortName}}</em>&nbsp;&nbsp;∨
     <span class="sort-criteria">
-      <em class="mgt-s text-left"
-          ng-repeat="rule in item.rulesList track by $index"
-          ng-click="handleSortByThisRule(rule,item.sortName)">{{rule}}</em>
+      <em class="mgt-s text-left select-em"
+          ng-repeat="rule in tr.rulesList track by $index"
+          ng-click="handleSortByThisRule(rule,tr.sortName);changeSortName(sortConditionList,tr.sortName,rule);">{{rule}}</em>
     </span>
   </span>
-
-<!--
-  <span class="select-span">
-    <em>创建时间</em>&nbsp;&nbsp;∨
-    <span class="sort-criteria">
-      <em class="mgt-s text-left" >由近到远</em>
-      <em class="mgt-s text-left" >由远到近</em>
-    </span>
-  </span>
-
-  <span class="select-span">
-    <em>计划到货时间</em>&nbsp;&nbsp;∨
-    <span class="sort-criteria">
-      <em class="mgt-s text-left" >由近到远</em>
-      <em class="mgt-s text-left" >由远到近</em>
-    </span>
-  </span>
--->
 </div>
