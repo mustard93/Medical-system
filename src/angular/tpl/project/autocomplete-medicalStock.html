@@ -13,14 +13,37 @@
            ng-disabled="ngDisabled"
            style="{{customStyle}}"/>
 
-    <div class="angucomplete-dropdown" ng-if="showDropdown">
+    <div class="angucomplete-dropdown" ng-if="showDropdown&&!frozenGoodsDisabled">
+      <div class="angucomplete-searching" ng-show="searching">正在查询...</div>
+      <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)">没有结果</div>
+      <div class="angucomplete-row"
+           ng-repeat="result in results"
+           ng-mousedown="angucomplete1.selectResult(result)"
+           ng-mouseover="angucomplete1.hoverRow()"
+           ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+          <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+          <div class="angucomplete-title" ng-if="!matchClass">{{ result.data.name }}&nbsp;&nbsp;
+            <span ng-if="result.data.specification&&result.data.modelType">{{ result.data.specification }}/{{ result.data.modelType }}</span>
+            <span ng-if="result.data.specification&&(!result.data.modelType)">{{ result.data.specification }}</span>
+            <span ng-if="(!result.data.specification)&&result.data.modelType">{{ result.data.modelType }}</span>
+            <em ng-if="result.data.businessApplication.businessStatus=='已冻结'" class="color-4">{{result.data.businessApplication.businessStatus}}</em>
+          </div>
+          <div class="angucomplete-description color-9">
+            <span class="mgr">生产商：<em class="color-6">{{ result.data.manufacturer }}</em></span>
+          </div>
+          <div class="angucomplete-description"></div>
+      </div>
+    </div>
+
+    <div class="angucomplete-dropdown" ng-if="showDropdown&&frozenGoodsDisabled">
         <div class="angucomplete-searching" ng-show="searching">正在查询...</div>
         <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)">没有结果</div>
         <div class="angucomplete-row"
              ng-repeat="result in results"
-             ng-mousedown="angucomplete1.selectResult(result)"
+             ng-mousedown="(result.data.businessApplication.businessStatus=='已冻结')?return:angucomplete1.selectResult(result)"
              ng-mouseover="angucomplete1.hoverRow()"
-             ng-class="{'angucomplete-selected-row': $index == currentIndex}">
+             ng-class="{'angucomplete-selected-row': $index == currentIndex}"
+             ng-disabled="result.data.businessApplication.businessStatus=='已冻结'">
             <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
             <div class="angucomplete-title" ng-if="!matchClass">{{ result.data.name }}&nbsp;&nbsp;
               <span ng-if="result.data.specification&&result.data.modelType">{{ result.data.specification }}/{{ result.data.modelType }}</span>
@@ -30,9 +53,49 @@
             </div>
             <div class="angucomplete-description color-9">
               <span class="mgr">生产商：<em class="color-6">{{ result.data.manufacturer }}</em></span>
-              <!-- <span>供应商：<em class="color-6">{{ result.data.supplier.name }}</em></span> -->
+
             </div>
             <div class="angucomplete-description"></div>
         </div>
     </div>
 </div>
+
+<!-- <div class="angucomplete-holder">
+
+    <input id="angucompleteMedical_searchInputId{{id}}"
+           ng-model="searchStr"
+           type="text"
+           placeholder="{{placeholder}}"
+           class="ipt pr-w-100"
+           autofocus="true"
+           onmouseup="this.select();"
+           ng-focus="angucomplete1.resetHideResults()"
+           ng-blur="angucomplete1.hideResults()"
+           autocomplete="off"
+           ng-disabled="ngDisabled"
+           style="{{customStyle}}"/>
+
+    <div class="angucomplete-dropdown" ng-if="showDropdown">
+        <div class="angucomplete-searching" ng-show="searching">正在查询...</div>
+        <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)">没有结果</div>
+        <div class="angucomplete-row"
+             ng-repeat="result in results"
+             ng-mousedown="(result.data.businessApplication.businessStatus=='已冻结')?return:angucomplete1.selectResult(result)"
+             ng-mouseover="angucomplete1.hoverRow()"
+             ng-class="{'angucomplete-selected-row': $index == currentIndex}"
+             ng-disabled="result.data.businessApplication.businessStatus=='已冻结'">
+            <div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>
+            <div class="angucomplete-title" ng-if="!matchClass">{{ result.data.name }}&nbsp;&nbsp;
+              <span ng-if="result.data.specification&&result.data.modelType">{{ result.data.specification }}/{{ result.data.modelType }}</span>
+              <span ng-if="result.data.specification&&(!result.data.modelType)">{{ result.data.specification }}</span>
+              <span ng-if="(!result.data.specification)&&result.data.modelType">{{ result.data.modelType }}</span>
+              <em ng-if="result.data.businessApplication.businessStatus=='已冻结'" class="color-4">{{result.data.businessApplication.businessStatus}}</em>
+            </div>
+            <div class="angucomplete-description color-9">
+              <span class="mgr">生产商：<em class="color-6">{{ result.data.manufacturer }}</em></span>
+
+            </div>
+            <div class="angucomplete-description"></div>
+        </div>
+    </div>
+</div> -->

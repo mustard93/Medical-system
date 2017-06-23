@@ -377,6 +377,27 @@ define('main/controllers', ['main/init'], function () {
           lineCap: 'round',
           size: 125
         };
+
+        // 通过接口获取当前用户所在机构配置的对于单据编号的设置
+        // 如果返回的`data`对象中的`value`值为`auto`，则为自动模式，单据编号不可写，显示由后台返回的系统值
+        // 否则显示为用户可自定义配置的
+        $scope.numberingPolicy = null;
+        $scope.getCodeShowMode = function (url) {
+          var _url = url;
+          requestData(_url)
+          .then(function (results) {
+            if (results && results[1].code === 200) {
+              if (results[1].data) {
+                $scope.numberingPolicy = results[1].data.value;
+              }
+            }
+          })
+          .catch(function (error) {
+            if (error) { throw new Error(error || '出错'); }
+          });
+        };
+
+        $scope.getCodeShowMode('rest/authen/systemSetting/getByParameter?parameter=订单号生成策略');
     }
 
     /**

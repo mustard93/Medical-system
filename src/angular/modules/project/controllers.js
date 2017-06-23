@@ -3456,6 +3456,7 @@ define('project/controllers', ['project/init'], function() {
            });
          }
          if ($scope.submitForm_type == 'submit-medical') {
+           $scope.formData.validFlag = true;
            requestData('rest/authen/firstMedicalApplication/saveBaseInfo', $scope.formData, 'POST', 'parameterBody')
            .then(function (results) {
              if (results[1].code === 200) {

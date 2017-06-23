@@ -2521,7 +2521,8 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             "matchClass": "@",
             "ngDisabled": "=?",
             "searchStr": "@",
-            "customStyle": "@"   // 自定义样式
+            "customStyle": "@",   // 自定义样式
+            "frozenGoodsDisabled": "@"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
@@ -2537,21 +2538,21 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             // $scope.searchStr = null;
 
 
-
-
             require(['project/angucomplete'], function(angucomplete) {
               //是否验证合法，允许输入
               var canSelectResult=function(result){
+                // try{
+                //   if (attrs.frozenGoodsDisabled) {
+                //     if (result.data.businessApplication.businessStatus == '已冻结') {
+                //       return false;
+                //     }
+                //   }
+                // }catch(e){  }
 
-                  // try{
-                  //   if (result.data.businessApplication.businessStatus == '已冻结') {
-                  //     return false;
-                  //   }
-                  // }catch(e){  }
                 return true;
               };
 
-              $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel,canSelectResult);
+              $scope.angucomplete1=new angucomplete($scope, elem, $parse, requestData, $sce, $timeout, ngModel, canSelectResult);
 
             });//angucomplete
 
@@ -2618,6 +2619,10 @@ function flashAddMedical(utils,$timeout) {
             $scope.showPlaceholder=$attrs.placeholder;
           }
 
+          // 被冻结商品是否允许选择
+          if ($attrs.frozenGoodsDisabled) {
+            $scope.frozenGoodsDisabled = true;
+          }
 
           //监听变化
           $attrs.$observe("ajaxUrl", function(newVal, oldVal) {
