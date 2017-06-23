@@ -3887,7 +3887,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
 
-
         //校验批次输入数量
         $scope.changeQuantity=function(nowVal,oldVal){
 
@@ -3919,7 +3918,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.submitFormAfter = function() {
 
             if($scope.submitForm_type == 'save'){
-                $scope.goTo('#/collarReturnOrder/query.html');
+                // $scope.goTo('#/collarReturnOrder/edit.html');
                 return;
             }
 
@@ -3986,13 +3985,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
          * @param orderCode
          */
         $scope.getByOrderCode=function(orderCode){
-
-
-
             var _data={
                 orderCode:orderCode
             };
-
             requestData("rest/authen/collarApplicationOrder/getByOrderCode", _data, 'GET')
                 .then(function (results) {
                     // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
@@ -4004,6 +3999,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 });
 
         };
+
+        //监听领用单输入
+        $scope.$watch('selectedData',function (newVal, oldVal, p3) {
+            console.log("newVal");
+            $scope.getByOrderCode(newVal.data);
+        },true);
 
 
         $scope.flashAddDataCallbackFn=function (data1) {
@@ -4236,18 +4237,25 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
         //添加领用单中的商品到列表
-        $scope.addOrderDataToList=function () {
+        $scope.addOrderDataToList=function (departmentId,departmentName) {
 
             //step0 判断部门
             if($scope.formData.departmentId == '' || $scope.formData.departmentId == null || $scope.formData.departmentId == undefined ){
                 //设置部门ID 和 name
-                $scope.formData.departmentId=$scope.scopeData.departmentId ;
-                $scope.formData.departmentName=  $scope.scopeData.departmentName;
+                // $scope.formData.departmentId=$scope.scopeData.departmentId ;
+                // $scope.formData.departmentName=  $scope.scopeData.departmentName;
+
+
+                $scope.formData.departmentId=departmentId ;
+                $scope.formData.departmentName= departmentName;
 
             }else{
 
-                if($scope.scopeData.departmentId != $scope.formData.departmentId){
-                    alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
+                // if($scope.scopeData.departmentId != $scope.formData.departmentId){
+                if($scope.scopeData.departmentId != departmentId){
+
+                    // alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
+                    alertWarn("退货列表已有"+departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
                     return;
                 }
             }

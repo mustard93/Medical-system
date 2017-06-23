@@ -126,10 +126,10 @@
             display: none;
         }
        input.pr-w-100{
-            width: 300px!important;
+            width: 280px!important;
         }
         .angucomplete-dropdown{
-            width: 300px!important;
+            width: 280px!important;
         }
 
     </style>
@@ -139,13 +139,16 @@
 
         <h1 ng-init="type='通过商品退货'" class="pr-indent-20 pdb-m text-n tab" style="line-height:50px;max-height:35px;">
 
-            <a ng-click="type='通过商品退货'" ng-class="{'cur':type=='通过商品退货'}">通过商品退货</a>
+            <a ng-click="type='通过商品退货';" ng-class="{'cur':type=='通过商品退货'}">通过商品退货</a>
 
-            <a ng-click="type='通过领用单退货'" ng-class="{'cur':type=='通过领用单退货'}">通过领用单退货</a>
+            <a ng-click="type='通过领用单退货';" ng-class="{'cur':type=='通过领用单退货'}">通过领用单退货</a>
         </h1>
     </div>
 
-    <div ng-if="type=='通过领用单退货'">
+    <div ng-if="type=='通过领用单退货'"
+         ajax-url="rest/authen/collarApplicationOrder/getByOrderCode?orderCode={{selectedData.data}}"
+         scope-data="scopeData"
+    >
 
         <!-- 过滤条件 -->
         <div class="pdt-s pdb-s pd-c-xl">
@@ -166,19 +169,15 @@
                 <!--</div>-->
 
                 <span angucomplete placeholder="领用单编号"
+                      style="width: 300px"
                       title-field="orderCode"
-                      description-field="supplier.name"
-                      search-fields=""
                       search-str-class="ipt"
-                      url="rest/authen/collarReturnOrder/queryAutoComplete?tableName=SPD.Order.CollarApplicationOrder&property=orderCode"
+                      url="rest/authen/collarApplicationOrder/queryAutoComplete?tableName=SPD.Order.CollarApplicationOrder&property=orderCode"
                       class="inline-block"
                       ng-model="selectedData">
                 </span>
 
             </div>
-
-            "selectedData":'{{selectedData}}';
-
         </div>
         <div class="pdt-s pdb-s pd-c-xl">
             <div class="inline-block" style="margin: 10px 0">
@@ -294,7 +293,7 @@
         </div>
 
         <div class="footer-button-area" style="position:fixed;bottom:0px;">
-            <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button" ng-disabled="selectedBatchs.length<1" ng-click="addOrderDataToList();modal.close()">确定</button>
+            <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button" ng-disabled="selectedBatchs.length<1" ng-click="addOrderDataToList(scopeData.departmentId,scopeData.departmentName);modal.close()">确定</button>
         </div>
 
     </div>
@@ -568,8 +567,9 @@
 
         </div>
 
-        <div ng-show="showBatchs">
 
+
+        <div ng-show="showBatchs">
             <div class="bb-line-gold pr-bg-black2 min-h-l">
                 <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">选择生产批号 - {{curOrder.medicalNo.name}}</h1>
             </div>
@@ -579,7 +579,7 @@
                     <thead>
                     <tr class="bb-line-gold">
                         <th class="w-60 text-center mycheck" style="width: 100px;">
-                            <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll,stockBatchList);">
+                            <input type="checkbox" class="selectAll cur-pot" id='1' ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll,stockBatchList);">
                             <label for="1" style="top: 10px;"></label>
                         </th>
                         <th>生产批号</th>
@@ -593,7 +593,7 @@
                     <tr ng-repeat="item in stockBatchList" class="trHover-bg">
 
                         <td ng-init="item.quantity=item.maxQuantity; item.handleFlag= item.handleFlag ?  true : false" class="select-td text-center mycheck" style="width: 100px;">
-                            <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item);">
+                            <input type="checkbox" ng-disabled="$index==4" class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,$index,stockBatchList);">
                             <label for="{{$index+2}}"></label>
                         </td>
 
