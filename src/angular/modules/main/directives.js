@@ -3711,6 +3711,10 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
             scope.infoObject = JSON.parse(attrs.infoObject);
           }
           // console.log(JSON.parse(attrs.infoObject));
+
+          scope.offsetTop = $(element).offset().top + 'px';
+
+
         }
       };
     }
