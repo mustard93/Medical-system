@@ -3801,7 +3801,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData("rest/authen/inventoryMedicalNo/inputData", data , 'POST','parameterBody')
             .then(function (results) {
                 if (results[1].code === 200) {
-                    // utils.refreshHref();
+                    utils.refreshHref();
                     alertOk('操作成功');
                 }
             })
