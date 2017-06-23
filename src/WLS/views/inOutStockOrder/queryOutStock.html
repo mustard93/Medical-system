@@ -59,41 +59,20 @@
                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WLS_InOutStockOrderStatus">
                   </select>
                 </div>
-                <div class="inline-block mgr-l relative">
-                  <p class="mgb-s">货主：</p>
-                  <input type="text"
-                         class="pr-ipt-160 hei-28 inline-block"
-                         style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
-                         placeholder=""
-                         ng-model="listParams.goodsOwnerName"
-                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.OutStockOrder&property=goodsOwnerName"/>
-                  <i class="receive-item-icon"></i>
-                  </select>
-                </div>
-
-                <div class="inline-block mgr-l relative">
-                  <p class="mgb-s">发货方：</p>
-                  <input type="text"
-                         class="pr-ipt-160 hei-28 inline-block"
-                         style="border: 1px solid rgba(0,0,0,.2);border-radius:4px;"
-                         placeholder=""
-                         ng-model="listParams.consignName"
-                         auto-complete="rest/index/autoComplete?tableName=WLS.Stock.OutStockOrder&property=consignName"/>
-                  <i class="receive-item-icon"></i>
-                </div>
                 <div class="inline-block mgr-l">
-                  <p class="mgb-s">运输方式：</p>
+                  <p class="mgb-s">货主等级：</p>
                   <select class="inline ipt-new-s pdt"
                           chosen
                           style="width:120px;"
                           data-placeholder=" "
                           default-empty="全部"
-                          ng-model="listParams.transportType"
-                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_TransportType">
+                          ng-model="listParams.rank"
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WLS_GoodsOwnerRank">
                   </select>
                 </div>
+
                 <div class="inline-block mgr-l">
-                  <p class="mgb-s">录单日期：</p>
+                  <p class="mgb-s">创建日期：</p>
                   <div class="">
                     <div class="date-icon-outside" ng-if="!listParams.createAtBeg">
                         <input type="text"
@@ -137,51 +116,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="inline-block">
-                  <p class="mgb-s">计划到货日期</p>
-                  <div class="">
-                    <div class="date-icon-outside" ng-if="!listParams.expectDateBeg">
-                        <input type="text"
-                               datepicker
-                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                               ng-readonly="true"
-
-                               ng-model="listParams.expectDateBeg">
-                        <span class="date-icon"></span>
-                    </div>
-                    <div class="date-icon-outside" ng-if="listParams.expectDateBeg">
-                        <input type="text"
-                               datepicker
-                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                               ng-readonly="true"
-
-                               ng-model="listParams.expectDateBeg">
-                        <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.expectDateBeg='';"></span>
-                    </div>
-                    <span >至</span>
-                    <div class="date-icon-outside" ng-if="!listParams.expectDateEnd">
-                        <input type="text"
-                               datepicker
-                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                               ng-readonly="true"
-
-                               ng-model="listParams.expectDateEnd"
-                               invalid-popover
-                               popover-show="listParams.expectDateEnd<listParams.expectDateBeg"
-                               popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
-                        <span class="date-icon"></span>
-                    </div>
-                    <div class="date-icon-outside" ng-if="listParams.expectDateEnd">
-                        <input type="text"
-                               datepicker
-                               class="ipt-date pr-short-ipt color-6 mgr pr-indent-10"
-                               ng-readonly="true"
-
-                               ng-model="listParams.expectDateEnd"/>
-                        <span class="delete-date-icon" style="z-index:11;" ng-click="listParams.expectDateEnd='';"></span>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <!-- 批量确认按钮 -->
@@ -206,40 +140,10 @@
                 </a>
               </div>
 
-
-              <!-- <div sort-criteria class="flex-item-6 text-right">
-                <span class="select-span" style="padding:5px 15px;font-size:12px;">
-                  <em ng-click="listParams.rankSort='';listParams.createAtSort='';listParams.expectDateSort='';" >默认排序</em>
-                </span>
-
-                <span class="select-span">
-                  <em>货主等级</em>&nbsp;&nbsp;∨
-                  <span class="sort-criteria">
-                    <em class="mgt-s text-left">由低到高</em>
-                    <em class="mgt-s text-left">由高到低</em>
-                  </span>
-                </span>
-
-                <span class="select-span">
-                  <em>创建时间</em>&nbsp;&nbsp;∨
-                  <span class="sort-criteria">
-                    <em class="mgt-s text-left" >由近到远</em>
-                    <em class="mgt-s text-left" >由远到近</em>
-                  </span>
-                </span>
-
-                <span class="select-span">
-                  <em>计划到货时间</em>&nbsp;&nbsp;∨
-                  <span class="sort-criteria">
-                    <em class="mgt-s text-left" >由近到远</em>
-                    <em class="mgt-s text-left" >由远到近</em>
-                  </span>
-                </span>
-              </div> -->
-
               <div class="flex-item-6 text-right">
-                <create-sort-criteria sort-list='[
-                                                  {"sortName":"默认排序","multipleRules":false},
+                <create-sort-criteria list-params="listParams"
+                                      sort-list='[
+                                                  {"sortName":"默认排序","clearFields":["rankSort","createAtSort","expectDateSort"]},
                                                   {"sortName":"货主等级","multipleRules":true,"rulesList":["由低到高","由高到低"]},
                                                   {"sortName":"创建时间","multipleRules":true,"rulesList":["由近到远","由远到近"]},
                                                   {"sortName":"计划到货时间","multipleRules":true,"rulesList":["由近到远","由远到近"]}
@@ -258,15 +162,12 @@
                     </th>
                     <th class="w-100">状态</th>
                     <th class="w-60">序号</th>
-                    <th class="w-100">入库编号</th>
-                    <th class="w-100" >货主</th>
-                    <th class="w-60">等级</th>
-                    <th class="w-160">创建时间</th>
-                    <th class="w-160">计划到货时间</th>
-                    <th class="w-160">运输方式</th>
-                    <th class="w-160">预入物流中心</th>
-                    <th class="w-160">发货方</th>
-                    <th class="w-160">联系人</th>
+                    <th class="w-60" >货主</th>
+                    <th class="w-60">货主等级</th>
+                    <th class="w-60">出库编号</th>
+                    <th class="w-160">订单创建时间</th>
+                    <th class="w-160">收货方</th>
+                    <th class="w-160">计划发货时间</th>
                     <th class="w-160">备注</th>
                   </tr>
                 </thead>
@@ -330,15 +231,12 @@
                     <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}
 
                     </td><!-- 序号 -->
-                    <td class="color-custom-orange">{{tr.orderCode}}</td><!-- 入库编号 -->
-                    <td class="text-left color-custom-orange">{{tr.goodsOwnerName}}</td><!-- 货主 -->
-                    <td>{{tr.rank}}</td><!-- 等级 -->
-                    <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td><!-- 创建时间 -->
-                    <td>{{tr.expectDate | date : 'yyyy-MM-dd'}}</td><!-- 计划到货时间 -->
-                    <td>{{tr.transportType}}</td><!-- 运输方式 -->
-                    <td>{{tr.logisticsCenterName}}</td><!-- 预入物流中心 -->
-                    <td>{{tr.consignName}}</td><!-- 发货方 -->
-                    <td>{{tr.goodsOwnerContacts.name}}</td><!-- 联系人 -->
+                    <td class="text-center color-orange">{{tr.goodsOwnerName}}</td><!-- 货主 -->
+                    <td>{{tr.rank}}</td><!-- 货主等级 -->
+                    <td >{{tr.orderCode}}</td><!-- 出库编号 -->
+                    <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td><!-- 订单创建时间 -->
+                    <td class="text-center color-orange">{{tr.consignName}}</td><!-- 收货方 -->
+                    <td>{{tr.expectDate | date : 'yyyy-MM-dd'}}</td><!-- 计划发货时间 -->
                     <td>{{tr.note}}</td><!-- 备注 -->
                   </tr>
                 </tbody>
