@@ -11,19 +11,19 @@
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
-        scope-data="formData"
-        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        scope-data="orderData"
+        callback="submitFormAfter();$root.watchFormChange('orderData',this)"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
         <a href="#/inventoryOrder/query.html"><em class="color-custom-orange">盘点任务</em></a>
-        <em> > 新建盘点任务</em>
+        <em> > 盘点任务详情</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
         <div class="mgb">
-          <h1 class="pr-font-20 color-black">新建盘点任务</h1>
+          <h1 class="pr-font-20 color-black">盘点任务详情</h1>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
             <div class="flex-item-6">
               <span class="mgr">单据编号：
-                <!-- ng-disabled="formData.id" -->
+                <!-- ng-disabled="orderData.id" -->
                 <span class="mgl color-black">{{orderData.orderCode}}</span>
                 <span class="mgl">审核人：<em class="color-3">{{orderData.approver.approverUser.n||'暂无'}}</em></span>
                 <span class="mgl">审核日期：<em class="color-3">{{orderData.approver.approverDate ||'暂无'| date:'yyyy-MM-dd'}}</em></span>
@@ -72,7 +72,7 @@
                   <th class="text-center">盈亏</th>
                   <th class="text-center">序号</th>
                   <th class="text-center">区域名称</th>
-                  <th class="text-center">货位名城</th>
+                  <th class="text-center">货位名称</th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left">商品名称</th>
                   <th class="text-center">规格型号</th>
@@ -134,7 +134,7 @@
                     <!-- <p class="mgb"
                     ajax-url="rest/authen/user/queryForSelectOption"
                     scope-data="selectOptions"
-                    callback="formData.key=selectOptions[0].value"
+                    callback="orderData.key=selectOptions[0].value"
                     >
                       <select ng-if="selectOptions" style="width:100px;" class="ipt pr-short-ipt" ng-model="item.inventoryer.id" ng-options="item.value as item.text   for item in selectOptions">
                       </select>
@@ -185,7 +185,7 @@
            <a href="javascript();"
            modal-right="500"
            modal-scope="this"
-           modal-data='{"relId":"{{mainStatus.pageParams.id}}","storeRoomId":"{{formData.storeRoomId}}"}'
+           modal-data='{"relId":"{{mainStatus.pageParams.id}}","storeRoomId":"{{orderData.storeRoomId}}"}'
            modal-url="views/inventoryOrder/add-medical.html"  title="添加商品">
              <i style="top:3px;"></i><span class="text-s">添加商品</span></a>
          </div>
@@ -204,7 +204,7 @@
                      <th class="text-center">盈亏</th>
                      <th class="text-center">序号</th>
                      <th class="text-center">区域名称</th>
-                     <th class="text-center">货位名城</th>
+                     <th class="text-center">货位名称</th>
                      <th class="text-center">商品编号</th>
                      <th class="text-left">商品名称</th>
                      <th class="text-center">规格型号</th>
@@ -326,21 +326,21 @@
            save-callback="submitForm('editForm','exit-allocate')">返回盘点任务
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventoryOrder/query.html?id={{formData.relId}}" >返回盘点任务</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventoryOrder/query.html?id={{orderData.relId}}" >返回盘点任务</a>
 
-        <a ng-if="formData.inputUserId==mainStatus.id"
+        <a ng-if="orderData.inputUser.id==mainStatus.id"
            href="javascript:;"
            class="pr-color-red mgr"
            handle-this-click
            dialog-title="确认删除?"
            dialog-content="您确认删除这条盘点任务吗?"
            dialog-template="dialog-confirm.html"
-           request-url="rest/authen/inventoryMedicalNo/delete?id={{formData.id}}"
+           request-url="rest/authen/inventoryMedicalNo/delete?id={{orderData.id}}"
            callback="$root.goTo('#/inventoryOrder/query.html')">删除
         </a>
 
-        <button type="button" ng-show="formData.orderStatus!='未通过'" class="pr-btn-save-glodbg mgr">
-          <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=inventoryOrder&id={{formData.id}}" target="_blank">打印盘点</a>
+        <button type="button" ng-show="orderData.orderStatus!='未通过'" class="pr-btn-save-glodbg mgr">
+          <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=inventoryOrder&id={{orderData.id}}" target="_blank">打印盘点</a>
         </button>
 
         <button type="button"

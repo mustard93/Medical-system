@@ -79,7 +79,7 @@
                   <p class="mgb-s">
                     库房
                   </p>
-                  <p class="text-m color-black autocut-default text-left" title="{{formData.sourceName}}" style="width:200px;">
+                  <p class="text-m color-black autocut-default text-left" title="{{formData.sourceName}}" style="width:1200px;">
                     {{formData.storeRoomName || '暂无'}}
                   </p>
                 </div>
@@ -156,6 +156,18 @@
     <div class="handle-btn-area">
       <div class="btn-area" style="background:rgba(54,48,44,0.30);">
         <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventoryApplicationOrder/query.html?id={{formData.relId}}" >返回盘点计划</a>
+        <button type="button" ng-show="formData.orderStatus=='待启动'" class="pr-btn-save-glodbg mgr">
+          <a
+             href="javascript:;"
+             class="color-white"
+             title="发送盘点任务消息"
+              modal-center="340"
+              modal-scope="this"
+              modal-data='{"id":"{{formData.id}}","text":"发送盘点任务消息"}'
+              modal-url="views/inventoryApplicationOrder/send-message.html">
+              发送盘点任务消息
+          </a>
+        </button>
         <span ng-if="formData.didateFilter.buttons.length>0"
               custom-menu-list
               custom-menu-arr="{{formData.didateFilter.buttons}}">
