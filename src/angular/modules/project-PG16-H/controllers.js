@@ -4240,7 +4240,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.addOrderDataToList=function (departmentId,departmentName) {
 
             //step0 判断部门
-            if($scope.formData.departmentId == '' || $scope.formData.departmentId == null || $scope.formData.departmentId == undefined ){
+            if(!$scope.formData.departmentId){
                 //设置部门ID 和 name
                 // $scope.formData.departmentId=$scope.scopeData.departmentId ;
                 // $scope.formData.departmentName=  $scope.scopeData.departmentName;
@@ -4331,7 +4331,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     }
 
     //领退模块选择退货商品
-    function  testCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+    function  collarReturnOrderChoiceDialogSubCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
         //选择当前订单-商品
         $scope.choiceThis=function (item,index,flag){
@@ -4375,5 +4375,5 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         .controller('collarReturnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderCtrl])
         .controller('collarReturnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderChoiceDialogCtrl])
 
-        .controller('testCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', testCtrl]);
+        .controller('collarReturnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderChoiceDialogSubCtrl]);
 });
