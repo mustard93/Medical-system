@@ -1,7 +1,7 @@
 <div class="allocate-order salesOrder-edit confirm-edit"
      ng-controller="inventoryTaskOrderEditCtrl"
      ajax-url="rest/authen/inventoryOrder/get?id={{mainStatus.pageParams.id}}"
-     scope-data="formData"
+     scope-data="orderData"
      callback="initFlag=true;"
      alert-error>
   <form id="editForm"
@@ -11,38 +11,38 @@
         alert-error
         alert-ok
         scope-error-msg="errorMsg"
-        scope-data="formData"
-        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        scope-data="orderData"
+        callback="submitFormAfter();$root.watchFormChange('orderData',this)"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="header-info relative mgb-l">
       <p class="pdb-s pdt-s crumbs pd-c-xxl">库房工作 >
         <a href="#/inventoryOrder/query.html"><em class="color-custom-orange">盘点任务</em></a>
-        <em> > 新建盘点任务</em>
+        <em> > 盘点任务详情</em>
       </p>
       <div class="pd-c-xxl pdt-l pdb-l">
         <!-- 标题 -->
         <div class="mgb">
-          <h1 class="pr-font-20 color-black">新建盘点任务</h1>
+          <h1 class="pr-font-20 color-black">盘点任务详情</h1>
         </div>
       </div>
     </div>
     <!-- 主内容区域 -->
     <div class="content-wrapper">
 
-      <!-- <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+      <!-- <div ng-if="orderData.operationFlowSet.key||orderData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
         <em class="color-red">原因:</em>
         <p class="inline-block color-red">
-          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
-          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+          <em ng-model="orderData.operationFlowSet.key">{{orderData.operationFlowSet.key}}</em>
+          <em ng-model="orderData.operationFlowSet.message">{{orderData.operationFlowSet.message}}</em>
         </p>
       </div> -->
-      <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message"  class="pr-panel pr-panel-height mgb pr-bg-pass color-pass"
-        ng-class="{'pr-bg-pink1':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'pr-bg-pass':(formData.orderStatus=='已完成')}">
-        <em ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">原因:</em>
-        <p class="inline-block " ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已完成')}">
-        <em>{{formData.operationFlowSet.key}}</em>
-        <em>{{formData.operationFlowSet.message}}</em>
+      <div ng-if="orderData.operationFlowSet.key||orderData.operationFlowSet.message"  class="pr-panel pr-panel-height mgb pr-bg-pass color-pass"
+        ng-class="{'pr-bg-pink1':(orderData.orderStatus=='未通过'||orderData.orderStatus=='已作废'),'pr-bg-pass':(orderData.orderStatus=='已完成')}">
+        <em ng-class="{'color-red':(orderData.orderStatus=='未通过'||orderData.orderStatus=='已作废'),'color-pass':(orderData.orderStatus=='已完成')}">原因:</em>
+        <p class="inline-block " ng-class="{'color-red':(orderData.orderStatus=='未通过'||orderData.orderStatus=='已作废'),'color-pass':(orderData.orderStatus=='已完成')}">
+        <em>{{orderData.operationFlowSet.key}}</em>
+        <em>{{orderData.operationFlowSet.message}}</em>
        </p>
      </div>
       <!-- 药械列表 -->
@@ -52,16 +52,16 @@
           <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-line bb-dashed-line">
             <div class="flex-item-6">
               <span class="mgr">单据编号：
-                <!-- ng-disabled="formData.id" -->
-                <span class="mgl color-black">{{formData.orderCode}}</span>
-                <span class="mgl">审核人：<em class="color-3">{{formData.approver.approverUser.n||'暂无'}}</em></span>
-                <span class="mgl">审核日期：<em class="color-3">{{formData.approver.approverDate ||'暂无'| date:'yyyy-MM-dd'}}</em></span>
+                <!-- ng-disabled="orderData.id" -->
+                <span class="mgl color-black">{{orderData.orderCode}}</span>
+                <span class="mgl">审核人：<em class="color-3">{{orderData.approver.approverUser.n||'暂无'}}</em></span>
+                <span class="mgl">审核日期：<em class="color-3">{{orderData.approver.approverDate ||'暂无'| date:'yyyy-MM-dd'}}</em></span>
               </span>
             </div>
             <div class="flex-item-6 text-right">
-              <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
-              <span class="mgr">制单日期：<em class="color-3">{{formData.createAt | date:'yyyy-MM-dd'}}</em></span>
-              <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+              <span class="mgr">制单人：<em class="color-3">{{orderData.inputUser.n || '暂无'}}</em></span>
+              <span class="mgr">制单日期：<em class="color-3">{{orderData.createAt | date:'yyyy-MM-dd'}}</em></span>
+              <span class="mgr">状态：<em class="color-3">{{orderData.orderStatus}}</em></span>
             </div>
           </div>
           <!-- 系统生成的 -->
@@ -78,7 +78,7 @@
                   <th class="text-center">盈亏</th>
                   <th class="text-center">序号</th>
                   <th class="text-center">区域名称</th>
-                  <th class="text-center">货位名城</th>
+                  <th class="text-center">货位名称</th>
                   <th class="text-center">商品编号</th>
                   <th class="text-left">商品名称</th>
                   <th class="text-center">规格型号</th>
@@ -150,7 +150,7 @@
 
     <!-- 业务流程图-->
     <div class="">
-        <business-flow-show business-key="{{formData.id}}" business-type="SPD盘点单"></business-flow-show>
+        <business-flow-show business-key="{{orderData.id}}" business-type="SPD盘点单"></business-flow-show>
     </div>
 
     <!-- 功能按钮 -->
@@ -166,15 +166,15 @@
            save-callback="submitForm('editForm','exit')">返回盘点任务列表
         </a>
 
-        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventoryOrder/query.html?id={{formData.relId}}" >返回盘点任务列表</a>
+        <a class="mgr-l" ng-if="!changeFlag" ng-href="#/inventoryOrder/query.html?id={{orderData.relId}}" >返回盘点任务列表</a>
 
-        <button type="button" ng-show="formData.orderStatus!='已作废'&&formData.orderStatus!='未通过'" class="pr-btn-save-glodbg mgr">
-          <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=inventoryOrder&id={{formData.id}}" target="_blank">打印盘点</a>
+        <button type="button" ng-show="orderData.orderStatus!='已作废'&&orderData.orderStatus!='未通过'" class="pr-btn-save-glodbg mgr">
+          <a class="color-white" ng-href="indexOfPrint.html#/print/index.html?key=inventoryOrder&id={{orderData.id}}" target="_blank">打印盘点</a>
         </button>
 
-        <span ng-if="formData.didateFilter.buttons.length>0"
+        <span ng-if="orderData.didateFilter.buttons.length>0"
               custom-menu-list
-              custom-menu-arr="{{formData.didateFilter.buttons}}">
+              custom-menu-arr="{{orderData.didateFilter.buttons}}">
         </span>
       </div>
     </div>

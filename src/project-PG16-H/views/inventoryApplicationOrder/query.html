@@ -56,19 +56,19 @@
                       </a>
                     </span>
                     <span ng-if="tr.orderStatus=='待启动'" >
+                      <a
+                         href="javascript:;"
+                         class="btn-link pd-m rect-s inline-block"
+                         title="发送盘点任务消息"
+                          modal-center="340"
+                          modal-scope="this"
+                          modal-data='{"id":"{{tr.id}}","text":"发送盘点任务消息"}'
+                          modal-url="views/inventoryApplicationOrder/send-message.html">
+                        <span class="send-inventory-message">&nbsp;</span>
+                      </a>
                       <a href="#/inventoryApplicationOrder/get.html?id={{tr.id}}"  class="btn-link pd-m rect-s " title="启动盘点表">
-                      <span class="create-arrive-icon">&nbsp;</span>
+                      <span class="start-inventory-task">&nbsp;</span>
                      </a>
-                           <div
-                              href="javascript:;"
-                              class="btn-link pd-m rect-s inline-block"
-                              title="发送盘点任务消息"
-                               modal-center="340"
-                               modal-scope="this"
-                               modal-data='{"id":"{{tr.id}}","text":"发送盘点任务消息"}'
-                               modal-url="views/inventoryApplicationOrder/send-message.html">
-                             <span class="send-icon">&nbsp;</span>
-                           </div>
                     </span>
                     <span ng-if="tr.orderStatus!='未提交'&&tr.orderStatus!='未通过'" class=" text-right">
                       <a ng-if="tr.orderStatus!='待审核'&&(tr.orderStatus!='未提交'||tr.orderStatus!='未通过')&&tr.orderStatus!='待启动'"
