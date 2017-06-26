@@ -3708,9 +3708,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         link: function (scope, element, attrs) {
           // 获取数据拉取模式
           if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
+            // 弹出层标题
+            scope.infoTitle = attrs.infoTitle || '暂无';
+            // 其他详细信息
             scope.infoObject = JSON.parse(attrs.infoObject);
           }
-          // console.log(JSON.parse(attrs.infoObject));
 
           scope.offsetTop = $(element).offset().top + 'px';
 
