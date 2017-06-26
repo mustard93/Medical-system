@@ -3,8 +3,8 @@ var conf={
   applyBindUrl:"user1.html#/reg/bind_done.html",
   //stopIntervalNotice:false,//false|true.是否停止监听消息
   // serverPath:"http://192.168.0.102:8080/spd/",    //外部地址，系统api调用接口地址
-  //  serverPath:"http://192.168.0.211:8080/spd/",    //系统api调用接口地址
-    serverPath:"http://192.168.0.249:60456/spd/",    //系统api调用接口地址
+   serverPath:"http://192.168.0.211:8080/spd/",    //系统api调用接口地址
+    // serverPath:"http://192.168.0.249:60456/spd/",    //系统api调用接口地址
 
     // serverPath:"http://192.168.0.249:60456/spd/",
 
