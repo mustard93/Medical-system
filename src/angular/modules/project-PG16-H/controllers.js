@@ -4000,11 +4000,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         };
 
-        //监听领用单输入
-        $scope.$watch('selectedData',function (newVal, oldVal, p3) {
-            console.log("newVal");
-            $scope.getByOrderCode(newVal.data);
-        },true);
+        // //监听领用单输入
+        // $scope.$watch('selectedData',function (newVal, oldVal, p3) {
+        //     console.log("newVal");
+        //     $scope.getByOrderCode(newVal.data);
+        // },true);
 
 
         $scope.flashAddDataCallbackFn=function (data1) {
@@ -4122,7 +4122,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //单击选择
         $scope.handleItemClickEvent=function (item,index,dataSource) {
 
-
             console.log("$scope.selectedBatchsp---befor",$scope.selectedBatchs.length);
 
             if(item.handleFlag){
@@ -4139,18 +4138,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }else{
                 $scope.isChoiseAll=false;
             }
-
-
-
-
-            // for(var i=0; i<dataSource.length;i++){
-            //     if(!dataSource[i].handleFlag){
-            //         $scope.isChoiseAll=false;
-            //         break;
-            //     }
-            // }
-
-
         };
 
         // 全选全不选
