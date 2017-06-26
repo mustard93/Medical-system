@@ -149,7 +149,7 @@
               </div>
 
             </div>
-            <div class="outside-table-d pr-bg-white pr-fuzzy-boundary">
+            <div class="pr-bg-white pr-fuzzy-boundary">
               <table class="table pr-table pr-new-table pr-table-content">
                 <thead class="pr-bg-side">
                   <tr>
@@ -159,12 +159,13 @@
                     </th>
                     <th class="w-100">状态</th>
                     <th class="w-60">序号</th>
-                    <th class="w-60" >货主</th>
+                    <th class="w-100" >货主</th>
                     <th class="w-60">货主等级</th>
                     <th class="w-60">出库编号</th>
                     <th class="w-160">订单创建时间</th>
                     <th class="w-160">收货方</th>
                     <th class="w-160">计划发货时间</th>
+                    <th class="w-160">运输方式</th>
                     <th class="w-160">备注</th>
                   </tr>
                 </thead>
@@ -181,29 +182,28 @@
                         <input ng-disabled="true" type="checkbox" class="disabled" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr);">
                         <label for="{{$index+2}}"></label>
                       </td>
-                    <td class="relative">
-                      <span class="circle-status"
-                            ng-class="{'pr-bg-grey4':tr.inOutStockOrderStatus=='待确认','bg-ing-orang':tr.inOutStockOrderStatus =='处理中','bg-pass-green':tr.inOutStockOrderStatus =='已完成'}">
-                        <span class="purchaseorder-buyer-info" style="right:25px;top:-5px;">
-                          <i class="block pd-c-s text-normal" style="line-height:1.8">
-                            <em class="inline-block">{{tr.inOutStockOrderStatus}}</em>
-                          </i>
+                      <td class="relative">
+                        <span class="circle-status"
+                              ng-class="{'pr-bg-grey4':tr.inOutStockOrderStatus=='待确认','bg-ing-orang':tr.inOutStockOrderStatus =='处理中','bg-pass-green':tr.inOutStockOrderStatus =='已完成'}">
+                          <span class="purchaseorder-buyer-info" style="right:25px;top:-5px;">
+                            <i class="block pd-c-s text-normal" style="line-height:1.8">
+                              <em class="inline-block">{{tr.inOutStockOrderStatus}}</em>
+                            </i>
+                          </span>
                         </span>
-                      </span>
-                      <div class="table-item-multiple-btn">
-                        <div ng-if="tr.inOutStockOrderStatus=='待确认'"  class="inline-block btn-receiveItem pr-bg-edit color-white"
-                            style="right:100px;"
-                            style="right:60px;top: -33px;"
-                            handle-this-click
-                            dialog-title="确认提示?"
-                            dialog-content="确认后，该入库任务将进入处理中状态。"
-                            dialog-content-color="#FF3939"
-                            dialog-template="pr-dialog-confirm.html"
-                            callback="confirmOutStock(tr.id);">确认
+                        <div class="table-item-multiple-btn">
+                          <div ng-if="tr.inOutStockOrderStatus=='待确认'"  class="inline-block btn-receiveItem pr-bg-edit color-white"
+                              style="right:100px;"
+                              style="right:60px;top: -33px;"
+                              handle-this-click
+                              dialog-title="确认提示?"
+                              dialog-content="确认后，该入库任务将进入处理中状态。"
+                              dialog-content-color="#FF3939"
+                              dialog-template="pr-dialog-confirm.html"
+                              callback="confirmOutStock(tr.id);">确认
+                          </div>
                         </div>
-                      </div>
-
-                      <div class="table-item-multiple-btn">
+                        <div class="table-item-multiple-btn">
                         <div ng-if="tr.inOutStockOrderStatus=='处理中'" class="inline-block btn-receiveItem pr-bg-delete color-white"
                              style="right:110px;"
                              handle-this-click
@@ -214,70 +214,86 @@
                              callback="confirmOutStock(tr.id);">确认完成
                         </div>
                       </div>
-
-                      <div class="table-item-multiple-btn">
-                        <div class="inline-block btn-receiveItem pr-bg-edit color-white"
-                             style="right:10px;"
-                             modal-right="1000"
-                             modal-scope="this"
-                             modal-data='{"id":"{{tr.id}}","orderCode":"{{tr.orderCode}}"}'
-                             modal-url="views/inOutStockOrder/getMedicalStock.html">查看商品信息
+                        <div class="table-item-multiple-btn">
+                          <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                               style="right:10px;"
+                               modal-right="1000"
+                               modal-scope="this"
+                               modal-data='{"id":"{{tr.id}}","orderCode":"{{tr.orderCode}}"}'
+                               modal-url="views/inOutStockOrder/getMedicalStock.html">查看商品信息
+                          </div>
                         </div>
+                      </td><!-- 状态 -->
+                      <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td><!-- 序号 -->
+                      <td class="text-center color-orange cur-pot relative"
+                          ng-init="showInfoArea1=false"
+                          ng-mouseenter="showInfoArea1=true"
+                          ng-mouseleave="showInfoArea1=false">{{tr.goodsOwnerName}}
+                        <show-info-modal ng-show="showInfoArea1"
+                                         get-data-type="local"
+                                         info-object="{{tr.goodsOwnerContacts}}"
+                                         info-title="货主信息">
+                        </show-info-modal>
+                      </td><!-- 货主 -->
+                      <td>{{tr.rank}}</td><!-- 货主等级 -->
+                      <td >{{tr.orderCode}}</td><!-- 出库编号 -->
+                      <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td><!-- 订单创建时间 -->
+                      <td class="text-center color-orange cur-pot relative"
+                          ng-init="showInfoArea2=false"
+                          ng-mouseenter="showInfoArea2=true"
+                          ng-mouseleave="showInfoArea2=false">{{tr.receiveName}}
+                        <show-info-modal ng-show="showInfoArea2"
+                                         get-data-type="local"
+                                         info-object="{{tr.receiveContacts}}"
+                                         info-title="收货方信息">
+                        </show-info-modal>
+                      </td><!-- 收货方 -->
+                      <td>{{tr.expectDate | date : 'yyyy-MM-dd'}}</td><!-- 计划发货时间 -->
+                      <td>{{tr.transportType}}</td><!-- 运输方式 -->
+                      <td>{{tr.note}}</td><!-- 备注 -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pr-bg-white" ng-if="!tbodyList.length">
+                <div class="empty-table clearfix">
+                  <div>&nbsp;</div>
+                  <div>&nbsp;</div>
+                  <div>&nbsp;</div>
+                </div>
+              </div>
+              <div class="flex-column bg-white">
+                <div class="flex-item-6">
+                  <!-- 批量上架按钮 -->
+                  <div  class="flex-column color-9 pd-c-l pdt-m pdb-m">
+                    <a ng-if="!choisedMedicalList.length"
+                       href="javascript:void(0)"
+                       class="batch-receive-btn"
+                       ng-disabled="!choisedMedicalList.length">批量确认
+                      <em class="bulk-receipt-btn-disabled-icon"></em>
+                    </a>
+                    <a ng-if="choisedMedicalList.length"
+                       href="javascript:void(0)"
+                       class="batch-receive-btn"
+                       handle-this-click
+                       dialog-title="确认提示?"
+                       dialog-content="确认批量确认吗?"
+                       dialog-content-color="#FF3939"
+                       dialog-template="pr-dialog-confirm.html"
+                       callback="handlebatchOutConfirm();$root.utils.refreshHref();">批量确认
+                      <em class="bulk-receipt-btn-icon"></em>
+                    </a>
+                  </div>
+                </div>
+                <div class="flex-item-6">
+                  <!-- 导航 -->
+                  <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
+                      <div class="fr">
+                          <pagination status="status"></pagination>
                       </div>
-                    </td><!-- 状态 -->
-                    <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}
-
-                    </td><!-- 序号 -->
-                    <td class="text-center color-orange">{{tr.goodsOwnerName}}</td><!-- 货主 -->
-                    <td>{{tr.rank}}</td><!-- 货主等级 -->
-                    <td >{{tr.orderCode}}</td><!-- 出库编号 -->
-                    <td>{{tr.createAt | date : 'yyyy-MM-dd'}}</td><!-- 订单创建时间 -->
-                    <td class="text-center color-orange">{{tr.receiveName}}</td><!-- 收货方 -->
-                    <td>{{tr.expectDate | date : 'yyyy-MM-dd'}}</td><!-- 计划发货时间 -->
-                    <td>{{tr.note}}</td><!-- 备注 -->
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="pr-bg-white" ng-if="!tbodyList.length">
-              <div class="empty-table clearfix">
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-                <div>&nbsp;</div>
-              </div>
-            </div>
-            <div class="flex-column bg-white">
-              <div class="flex-item-6">
-                <!-- 批量上架按钮 -->
-                <div  class="flex-column color-9 pd-c-l pdt-m pdb-m">
-                  <a ng-if="!choisedMedicalList.length"
-                     href="javascript:void(0)"
-                     class="batch-receive-btn"
-                     ng-disabled="!choisedMedicalList.length">批量确认
-                    <em class="bulk-receipt-btn-disabled-icon"></em>
-                  </a>
-                  <a ng-if="choisedMedicalList.length"
-                     href="javascript:void(0)"
-                     class="batch-receive-btn"
-                     handle-this-click
-                     dialog-title="确认提示?"
-                     dialog-content="确认批量确认吗?"
-                     dialog-content-color="#FF3939"
-                     dialog-template="pr-dialog-confirm.html"
-                     callback="handlebatchOutConfirm();$root.utils.refreshHref();">批量确认
-                    <em class="bulk-receipt-btn-icon"></em>
-                  </a>
+                  </div>
                 </div>
               </div>
-              <div class="flex-item-6">
-                <!-- 导航 -->
-                <div class="clearfix pd-c-xl" ng-if="tbodyList.length">
-                    <div class="fr">
-                        <pagination status="status"></pagination>
-                    </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

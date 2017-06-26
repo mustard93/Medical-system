@@ -3695,14 +3695,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
 
     /**
      *  全局弹出层显示信息组件
-     *  支持两种获取信息的模式：1、从本地读取，getDataType: local   2、从远程服务器拉取  getDataType: fetch
+     *  支持两种获取信息的模式：
+     *    1、从本地读取，getDataType: local
+     *    2、从远程服务器拉取  getDataType: fetch
      *  create by liuzhen at 2017/06/23
      */
     function showInfoModal (requestData, utils, alertOk, alertError) {
       'use strict';
       return {
         restrict: 'EA',
-        scope: {},
+        scope: true,
         replace: true,
         templateUrl: Config.tplPath + 'tpl/project/showInfoModal.html',
         link: function (scope, element, attrs) {
@@ -3710,11 +3712,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
           if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
             // 弹出层标题
             scope.infoTitle = attrs.infoTitle || '暂无';
-            // 其他详细信息
+            // 详细信息
             scope.infoObject = JSON.parse(attrs.infoObject);
           }
-
-          scope.offsetTop = $(element).offset().top + 'px';
 
 
         }
