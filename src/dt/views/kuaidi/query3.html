@@ -19,7 +19,7 @@
           <ul class="kuaidiul">
             <li ng-repeat="t in dialogData.kuaidiSet">
               <a request-express-info-tab
-              id="{{$index+1}}" 
+              id="{{$index+1}}"
               express-type="{{t.type}}"
               express-nu="{{t.nu}}"
               href="javascript:;"
@@ -37,7 +37,9 @@
          ng-repeat="con in expressInfoArray"
          ng-class="{'pr-dpy-none':con.nu!=dialogData.nu}">
       <ul>
-        <li ng-repeat="item in con.data">
+        <p ng-if="!(con.data.length>0)">{{con.msg}}</p>
+
+        <li ng-repeat="item in con.data"  title="{{item.context}}">
           <span ng-class="{'first-info':$last,'last-info':$first}"></span>{{item.updateAt | date:'yyyy-MM-dd HH:mm'}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.context}}
         </li>
       </ul>

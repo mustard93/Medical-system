@@ -1899,8 +1899,11 @@ function stepFlowArrowShow(utils){
       //基础数据转化为数组类型
       var stepFlowArrow= $scope.$eval($attrs.stepFlowArrowJson);
       arrowCount=stepFlowArrow.length;
+
+      var lossWidht=4; //丢弃宽度（兼容计算精度造成的折行显示, by venray 2017年6月16日 16:04:10）;
+
       // 当每个箭头创建好之后，定义每个的宽度
-      var divWidth=($($element).width()-((arrowCount-1)*30))/arrowCount
+      var divWidth=($($element).width()-((arrowCount-1)*30))/arrowCount;
 
             if(stepFlowArrow && stepFlowArrow.length>0){
               // 计算得到每个div的宽度
@@ -1921,7 +1924,7 @@ function stepFlowArrowShow(utils){
                   }
               }
               // 箭头创建完成之后，设置宽度
-              $('.first-medical-nav>div').css({"width":divWidth});
+              $('.first-medical-nav>div').css({"width":divWidth-lossWidht});
               // 开始箭头的形状定义
               $($element).children('div').first().append("<div></div><div></div>");
               // 最后一个箭头的形状定义
@@ -1930,7 +1933,7 @@ function stepFlowArrowShow(utils){
 
         $(window).resize(function () {
           //当浏览器大小变化时,触发方法，重新给箭头计算宽度，并重新设置宽度，达到自适应宽度的目的。
-            $('.first-medical-nav>div').css({"width":($($element).width()-((arrowCount-1)*30))/arrowCount});
+            $('.first-medical-nav>div').css({"width":($($element).width()-((arrowCount-1)*30))/arrowCount });
         });
       }//link
   };
@@ -2352,20 +2355,20 @@ function datePeriodSelect () {
       function  setStartAndEndTime (val){
         // 运用第三方插件moment
             var moment = require('moment');
-            var startTime=moment().format("x");
-            var endTime=moment().format("x");
-            switch (val) {
+          var startTime=moment().format("x");
+          var endTime=moment().format("x");
+          switch (val) {
               case "最近7天":
-              startTime= moment().subtract(1, "weeks").format("x");
-                break;
+                  startTime= moment().subtract(1, "weeks").format("x");
+                  break;
               case "最近10天":
-              startTime= moment().subtract(10, "days").format("x");
+                  startTime= moment().subtract(10, "days").format("x");
                   break;
               case "最近一个月":
-              startTime= moment().subtract(1, "months").format("x");
-              break;
+                  startTime= moment().subtract(1, "months").format("x");
+                  break;
               default:
-            }
+          }
           $scope.startTime=startTime;
           $scope.endTime=endTime;
         }
@@ -2531,7 +2534,8 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             "matchClass": "@",
             "ngDisabled": "=?",
             "searchStr": "@",
-            "customStyle": "@"   // 自定义样式
+            "customStyle": "@",   // 自定义样式
+            "frozenGoodsDisabled": "@"
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
@@ -2547,21 +2551,21 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             // $scope.searchStr = null;
 
 
-
-
             require(['project/angucomplete'], function(angucomplete) {
               //是否验证合法，允许输入
               var canSelectResult=function(result){
+                // try{
+                //   if (attrs.frozenGoodsDisabled) {
+                //     if (result.data.businessApplication.businessStatus == '已冻结') {
+                //       return false;
+                //     }
+                //   }
+                // }catch(e){  }
 
-                  try{
-                    if (result.data.businessApplication.businessStatus == '已冻结') {
-                      return false;
-                    }
-                  }catch(e){  }
                 return true;
               };
 
-              $scope.angucomplete1=new angucomplete($scope,elem,$parse, requestData, $sce, $timeout,ngModel,canSelectResult);
+              $scope.angucomplete1=new angucomplete($scope, elem, $parse, requestData, $sce, $timeout, ngModel, canSelectResult);
 
             });//angucomplete
 
@@ -2628,6 +2632,10 @@ function flashAddMedical(utils,$timeout) {
             $scope.showPlaceholder=$attrs.placeholder;
           }
 
+          // 被冻结商品是否允许选择
+          if ($attrs.frozenGoodsDisabled) {
+            $scope.frozenGoodsDisabled = true;
+          }
 
           //监听变化
           $attrs.$observe("ajaxUrl", function(newVal, oldVal) {
@@ -2639,9 +2647,14 @@ function flashAddMedical(utils,$timeout) {
 
           // 监控用户是否已选择客户或供应商
           $attrs.$observe('isDisabledThis', function (newVal, oldVal) {
+
+            // console.log("isDisabledThis",newVal);
             if (newVal) {
               $scope.isCustomerId = true;
+            }else{
+                $scope.isCustomerId = false;
             }
+            // console.log("isCustomerId>>>>>>>>>>>>>>>>>>>>",!$scope.isCustomerId);
           });
 
           $scope.handleEnterForAdd = function () {
@@ -3072,14 +3085,19 @@ function addressManageComponent (requestData, utils) {
       $scope.choisedItemId = '';
 
       // 判断默认选中
-      $scope.chkDefaultChoise = function (_id) {
+      $scope.chkDefaultChoise = function (tr) {
         if (!$scope.formData.id) {      // 如果是新建，将该参数id与默认返回地址做比较
           // if ($scope.returnAddressObj.choisedItemId && $scope.returnAddressObj.choisedItemId === _id) { return true; }
-          if ($scope.returnAddressObj.defaultContactId === _id) { return true; }
+          if ($scope.returnAddressObj.defaultContactId === tr.id) { return true; }
         } else {        // 如果是编辑
           var _moduleName = $scope.scopeDataPrefix + 'Contacts';
           if ($scope.formData[_moduleName]) {
-            if ($scope.formData[_moduleName].id === _id) { return true; }
+            if ($scope.formData[_moduleName].id === tr.id) { return true; }
+          } else {
+            if ($scope.returnAddressObj.defaultContactId === tr.id) {     // 选中默认地址
+              $scope.formData[$scope.scopeDataContacts] = tr;
+              return true;
+            }
           }
         }
       };

@@ -29,84 +29,79 @@
   <!-- 主体内容 -->
   <div class="content-wrapper">
     <div class="content-wrapper-main mgt">
-      <div class=" mgb"
-      ajax-if-eval="initFlag"
-      ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{showData.id}}"
-      scope-data="scopeData">
-      <div
-      ng-repeat="item in scopeData"
-      ng-class="{'pr-bg-blue':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
-      'pr-bg-pink1':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
-      class="pr-panel pr-panel-height mgb"
-      ng-show="item.key">
-      <em class="color-3">{{item.event.extendShowName}}补充说明:</em>
-       <p class="inline-block color-3">
-       <em ng-model="scopeData.operationFlowSet.message">{{item.key}}</em>
-       </p>
-     </div>
-      <!-- 单号 -->
-      <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
-        <div class="flex-item-6">
-          <div class="inline-block mgr-l">单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em></div>
-          <div class="inline-block relative">
-            <span>采购员：</span>
-            <span class=" purchaseorder-buyer-info-outside">
-              <strong run-popovers
-                      class="color-custom-orange cur-pot text-normal pr-color"
-                      style="height:25px;">{{showData.buyer.n}}
-              </strong>
-              <span class="purchaseorder-buyer-info" style="top:22px;right:-70px;">
-                <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{showData.buyer.p}}</em></i>
-                <i class="block pdb-s text-normal">
-                  <em class="fa fa-comment-o mgl"></em>
-                  <em class="inline-block pdl pdr pdt">
-                    <a href="javascript:;"
-                       modal-center="490"
-                       modal-data='{"toUser":{"n":"{{showData.buyer.n}}"},"userIds":["{{showData.buyer.id}}}"]}'
-                       modal-url="views/notice/sendToUser.html">发送消息
-                    </a>
-                  </em>
-                </i>
+      <div class="mgb"
+           ajax-if-eval="initFlag"
+           ajax-url="rest/authen/workflowTask/getExtendShowNameList?businessKey={{showData.id}}"
+           scope-data="scopeData">
+        <div ng-repeat="item in scopeData"
+             ng-class="{'pr-bg-blue':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+                        'pr-bg-pink1':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
+             class="pr-panel pr-panel-height mgb" ng-show="item.key">
+          <em class="color-3">{{item.event.extendShowName}}补充说明:</em>
+          <p class="inline-block color-3"><em ng-model="scopeData.operationFlowSet.message">{{item.key}}</em></p>
+        </div>
+        <!-- 单号 -->
+        <div class="panel pr-panel pr-panel-height mgb color-9 flex-column">
+          <div class="flex-item-6">
+            <div class="inline-block mgr-l">单据编号：<em class="color-6">{{showData.orderNo || '暂无'}}</em></div>
+            <div class="inline-block relative">
+              <span>采购员：</span>
+              <span class=" purchaseorder-buyer-info-outside">
+                <strong run-popovers
+                        class="color-custom-orange cur-pot text-normal pr-color"
+                        style="height:25px;">{{showData.buyer.n}}
+                </strong>
+                <span class="purchaseorder-buyer-info" style="top:22px;right:-70px;">
+                  <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{showData.buyer.p}}</em></i>
+                  <i class="block pdb-s text-normal">
+                    <em class="fa fa-comment-o mgl"></em>
+                    <em class="inline-block pdl pdr pdt">
+                      <a href="javascript:;"
+                         modal-center="490"
+                         modal-data='{"toUser":{"n":"{{showData.buyer.n}}"},"userIds":["{{showData.buyer.id}}}"]}'
+                         modal-url="views/notice/sendToUser.html">发送消息
+                      </a>
+                    </em>
+                  </i>
+                </span>
               </span>
-            </span>
+            </div>
+          </div>
+          <div class="flex-item-6 text-right">
+              录单日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd' ||'暂无'}}</em>
+              状态：<em class="color-black">{{showData.orderStatus ||'暂无'}}</em>
           </div>
         </div>
-        <div class="flex-item-6 text-right">
-            录单日期：<em class="color-black mgr-s">{{showData.createAt | date : 'yyyy-MM-dd' ||'暂无'}}</em>
-            状态：<em class="color-black">{{showData.orderStatus ||'暂无'}}</em>
-        </div>
-      </div>
-      <!-- 审批 -->
-
-        <div ng-if="showData.orderStatus!='未提交'" class=" first-medical-nav-new">
-          <div class=""
-          ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
-          'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
-          ng-repeat="item in scopeData">
-            <div
-            ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货')
-            ,'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"></div>
-            <span class="mgr-xl flex-column" ng-if="item.event.status!='待审核'">
-              <em class="color-9 flex-item-6 text-right">{{item.event.extendShowName || '暂无'}}：</em>
-              <em class="flex-item-6 text-left">{{item.event.conditionType }}</em>
+        <!-- 审批 -->
+        <div ng-if="showData.orderStatus!='未提交'" class="first-medical-nav-new">
+          <div ng-class="{'pr-pass-bg':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+                          'pr-nopass-bg':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}"
+               ng-repeat="item in scopeData">
+            <div ng-class="{'pr-pass-bdbg-tb':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
+                            'pr-nopass-bdbg-tb':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}">
+            </div>
+            <!-- 注意：此处不需要对审核状态进行校验，故去掉了ng-if="item.event.status!='待审核'" -->
+            <span class="mgr-xl flex-column">
+              <em class="color-9 flex-item-4 text-right">{{item.event.extendShowName || '暂无'}}：</em>
+              <em class="flex-item-8 text-left">{{item.event.conditionType }}</em>
             </span>
-            <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
-              <em class="color-9 flex-item-6 text-right">审核人：</em>
-              <em class="flex-item-6 text-left">{{item.inputUser || '暂无'}}</em>
+            <span class="mgr-xl flex-column ">
+              <em class="color-9 flex-item-4 text-right">审核人：</em>
+              <em class="flex-item-8 text-left">{{item.inputUser || '暂无'}}</em>
             </span>
-            <span class="mgr-xl flex-column " ng-if="item.event.status!='待审核'">
-              <em class="color-9 flex-item-6 text-right">审核时间：</em>
-              <em class="flex-item-6 text-left">{{item.createAt || '暂无' | date:'yyyy-MM-dd'}}</em>
+            <span class="mgr-xl flex-column " >
+              <em class="color-9 flex-item-4 text-right">审核时间：</em>
+              <em class="flex-item-8 text-left">{{item.createAt || '暂无' | date:'yyyy-MM-dd'}}</em>
             </span>
             <div
             ng-class="{'pr-pass-bdbg-l':(item.event.conditionType=='建议引进'||item.event.conditionType=='资质审核符合规范要求'||item.event.conditionType=='同意进货'),
             'pr-nopass-bdbg-l':(item.event.conditionType=='暂不引进'||item.event.conditionType=='资质审核不符合规范要求'||item.event.conditionType=='不同意进货')}" ></div>
           </div>
           <div>
-            <!-- <div></div><div></div> -->
+
           </div>
         </div>
-     </div>
+      </div>
         <!-- 基本信息 -->
       <div class="panel pr-panel pr-panel-height mgb">
         <h1 class="mgb-m mgt color-black text-bold text-n">基本信息</h1>

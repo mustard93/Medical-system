@@ -54,9 +54,9 @@
                   <th class="text-center">单位</th>
                   <th class="text-center">实收数量</th>
                   <th class="text-center">拒收数量</th>
-                  <th class="text-center">含税单价</th>
-                  <th class="text-center">含税金额</th>
-                  <th class="text-center">税率</th>
+                  <!-- <th class="text-center">含税单价</th> -->
+                  <!-- <th class="text-center">含税金额</th>
+                  <th class="text-center">税率</th> -->
                   <th class="text-center">批号</th>
                   <th class="text-center">灭菌批号</th>
                   <th class="text-center">生产日期</th>
@@ -86,7 +86,7 @@
                   {{tr.specificationAndModelType}}
                 </td>
                 <td class="text-center">
-                  {{tr.measurement}}
+                  {{tr.unit}}
                 </td>
                 <td class="text-right"
 
@@ -105,16 +105,16 @@
                 <td class="text-right">
                 {{tr.taxRate}}%
                 </td> -->
-                <td class="text-right">
+                <!-- <td class="text-right">
                   ￥{{tr.duty_price}}
                 </td>
                 <td class="text-right" >
-                  <!-- ￥{{(tr.price*tr.storageQuantity).toFixed(2)}} -->
+
                   ￥{{tr.totalPrice}}
                 </td>
                 <td class="text-right">
                 {{tr.tax}}%
-                </td>
+                </td> -->
                 <td class="text-center">
                   <!-- 生产批号 -->
                 {{tr.productionBatch}}
@@ -183,7 +183,7 @@
                 </td>
                 <td class="text-center">{{tr.specificationAndModelType}}</td>
                 <td class="text-center">{{tr.drugAdministrationCode}}</td>
-                <td>{{tr.measurement}}</td>
+                <td>{{tr.unit}}</td>
                 <td class="text-center" ng-if="tr.type!='采购入库单'" class="text-right">
                 {{tr.storageQuantity?tr.storageQuantity:"—"}}
                 </td>

@@ -402,6 +402,7 @@ define('main/controllers', ['main/init'], function () {
           size: 125
         };
 
+
         // 每个药品单选操作
         $scope.handleItemClickEvent = function (item) {
           if (item.handleFlag) {    // 选中
@@ -459,6 +460,12 @@ define('main/controllers', ['main/init'], function () {
           requestData(_url)
           .then(function (results) {
             $scope.numberingPolicy = results[1].data.value;
+
+            if (results && results[1].code === 200) {
+              if (results[1].data) {
+                $scope.numberingPolicy = results[1].data.value;
+              }
+            }
           })
           .catch(function (error) {
             if (error) { throw new Error(error || '出错'); }

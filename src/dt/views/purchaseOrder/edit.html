@@ -31,7 +31,7 @@
          </div>
        </div>
      </div>
-     <div class="content-wrapper">
+     <div class="">
        <div class="content-wrapper">
          <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
            <em class="color-red">原因:</em>
@@ -98,7 +98,7 @@
                          placeholder="供应商"
                          title-field="name"
                          search-fields="{{formData.supplier.name}}"
-                         url="rest/authen/supplier/query.json"
+                         url="rest/authen/supplier/query.json?isFilterDefault=true"
                          ng-model="tmp_supplier"
                          ng-model-id="formData.supplier.id"
                          class="inline-block mgr-s" style="width:280px;height:28px;">
@@ -139,17 +139,19 @@
                 class="pd-c-l pdt-m"
                 ajax-url="rest/authen/medicalStock/query?flag=true"
                 add-data-callback-fn="flashAddDataCallbackFn(data1)"
-                is-disabled-this="{{formData.supplier.id}}">
+                is-disabled-this="{{formData.supplier.id}}"
+                frozen-goods-disabled=true>
            </div>
 
            <!-- 列表 -->
            <div class="bt-line">
              <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
                <div class="flex-item-6">
-                 <span class="mgr">单据编号：
+                 <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
                    <input type="text" name="orderCode" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
-                   <span class="color-red">(必填)</span>
+                   <em class="color-red">(必填)</em>
                  </span>
+                 <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
                  <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
                  <span class="mgr">审核人：<em class="color-3">暂无</em></span>
                </div>
@@ -266,7 +268,7 @@
                            {{tr.name}}
                          </div></td><!-- 商品全名 -->
                      <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
-                     <td class="text-center" style="line-height:2.4">{{tr.measurement}}</td><!-- 单位 -->
+                     <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
                      <td class="text-center" ng-if="formData.relId" style="line-height:2.4">{{tr.planQuantity}}</td><!-- 请购数量 -->
                      <td class="text-center" ng-if="formData.relId" style="white-space: nowrap;">
                        <div class="order-goods-num">
