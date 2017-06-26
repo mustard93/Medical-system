@@ -76,7 +76,7 @@
                       <input type="radio" class="default-radio" name="type" value="其他药品" ng-model="formData.medical.medicalType"> <i style="top:12px;"></i>
                       <em class="inline-block" style="margin-left:-5px; color:#666;">其他药品</em>
                     </label>
-
+                      <span ng-if="!formData.medical.medicalType" class="color-red" style="margin-top: 8px; margin-left: 20px;">*必选</span>
                 </div>
             </div>
             <div class=" pd-v-m">
@@ -86,7 +86,9 @@
                   <input type="text"
                          class="ipt-new"
                          name="genericName"
+                         required
                          ng-model="formData.medical.approvedName" />
+                         <span ng-if="!formData.medical.approvedName" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -95,7 +97,9 @@
                   <input type="text"
                          class="ipt-new"
                          name="name"
+                         required
                          ng-model="formData.medical.name" />
+                         <span ng-if="!formData.medical.name" class="color-red">（必填）</span>
                 </div>
               </div>
               <div class="flex-column mgt">
@@ -104,6 +108,7 @@
                   <input type="text"
                          class="ipt-new"
                          name="code"
+                         required
                          ng-model="formData.medical.code"/>
                          <span ng-if="!formData.medical.code" class="color-red">（必填）</span>
                 </div>
@@ -151,7 +156,7 @@
                 <div class="flex-item-10 text-left">
                   <input type="text"
                          class="ipt-new-s ipt-new"
-                         name="measurement"
+                         name="unit"
                          ng-model="formData.medical.unit" />
                 </div>
               </div>
@@ -210,7 +215,7 @@
                   <select ng-if="initFlag" class="ipt pr-long-ipt color-6"
                           data-placeholder=" "
                           chosen
-                          ng-model="formData.storageCondition"
+                          ng-model="formData.medical.storageCondition"
                           select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_DeliveryPlus">
                   </select>
                 </div>
@@ -508,7 +513,7 @@
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       ng-disabled="!firstMedicalEditForm.$valid ||!formData.medical.code"
-                      ng-click="submitForm('firstMedical-editForm','submit')">下一步
+                      ng-click="submitForm('firstMedical-editForm','submit-firstMedical')">下一步
               </button>
             </span>
           </div>

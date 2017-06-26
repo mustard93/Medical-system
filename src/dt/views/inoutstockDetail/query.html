@@ -10,12 +10,14 @@
     </div>
   </div>
 
-<!--body wrapper start-->
+    <!--listParams:{{listParams}}-->
+
+<!--body wrapper start                ?createAtBeg={{listParams.createAtBeg}}&createAtEnd={{listParams.createAtEnd}} -->
 <table-list list-data="rest/authen/inoutstockDetail/query.json" class="table pr-table pr-new-table" list-params="listParams">
     <div class="pd-c-xxxl mgb-l">
         <select class="pr-select select-wd"
           chosen
-           ng-model="listParams.warehouseCode"
+           ng-model="listParams.warehouseId"
            default-empty="选择仓库"
            select-source="rest/authen/warehouse/queryForSelectOption">
          </select>
@@ -99,16 +101,16 @@
                 <div></div>
             </div>
         </div>
-        <div ng-if="!status.isLoading">
+        <div ng-if="!status.isLoading" ng-controller="inoutstockDetailQueryCtr">
             <div class="outside-table-d">
                 <table class="table pr-table pr-new-table pr-table-content table-s-wid"
-                ng-controller="inoutstockDetailQueryCtr"
+
                 >
                     <thead class="pr-bg-side">
                         <tr>
                             <!-- <th>序号</th> -->
                             <th>单据日期</th>
-                            <th class="w-106">单据类型</th>
+                            <th class="w-106" style="width:180px; ">单据类型</th>
                             <th>单据编号</th>
                             <th class="w-140">仓库名称</th>
                             <th>商品编号</th>
@@ -133,11 +135,11 @@
                         ng-repeat="tr in tbodyList" ng-click="selectThis()" ng-class="{'pr-icon-bg-red':tr.refuseQuantity}">
                             <!-- <td>{{$index + 1}}</td> -->
                             <td>{{tr.orderDate | date : 'yyyy-MM-dd'}}</td>
-                            <td ng-if="tr.type!='采购入库单_红字'&&tr.type!='销售出库单_红字'">{{tr.type}}</td>
+                            <td ng-if="tr.type!='采购入库单_红字'&&tr.type!='销售出库单_红字'" style="width: 180px;">{{tr.type}}</td>
                             <td ng-if="tr.type=='采购入库单_红字'">采购入库单<em class="color-red">(红字)</em></td>
                             <td ng-if="tr.type=='销售出库单_红字'">销售出库单<em class="color-red">(红字)</em></td>
                             <td class="color-orange">
-                              <a  href="javascript:void(0); " ng-click="queryItemClick(tr)">{{tr.orderNo}}</a>
+                              <a  href="javascript:void(0);"  ng-click="queryItemClick(tr)">{{tr.orderNo}}</a>
                               <!--
                               <a ng-if="tr.type=='采购入库单'" href="#/purchaseInstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
                               <a ng-if="tr.type=='销售出库单'" href="#/saleOutstockOrder/get.html?orderNo={{tr.orderNo}}">{{tr.orderNo}}</a>
@@ -158,11 +160,13 @@
                             </td>
                             <td>{{tr.specificationAndModelType}}</td>
                             <td>{{tr.drugAdministrationCode}}</td>
-                            <td>{{tr.measurement}}</td>
+                            <td>{{tr.unit}}</td>
                             <!-- <td class="text-right">
                             {{tr.storageQuantity?tr.storageQuantity:"—"}}
                             </td> -->
-                            <td class="text-right">{{tr.storageQuantity+tr.otherQuantity}}</td>
+                            <td class="text-right" ng-if="tr.inoutType=='入库' && tr.warehouseType != '待处理库'">{{tr.storageQuantity}}</td><!-- 实收数量 -->
+                            <td class="text-right" ng-if="tr.inoutType=='入库' && tr.warehouseType == '待处理库'">{{tr.otherQuantity}}</td><!-- 实收数量 -->
+                            <td class="text-right" ng-if="tr.inoutType=='出库'">—</td><!-- 实收数量 -->
                             <td class="text-right">
                             {{tr.refuseQuantity?tr.refuseQuantity:"—"}}
                             </td>
