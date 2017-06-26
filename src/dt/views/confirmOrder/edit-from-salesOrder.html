@@ -84,10 +84,11 @@
         <!-- 单据信息 -->
         <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
           <div class="flex-item-6">
-            <span class="mgr">单据编号：
+            <span ng-if="numberingPolicy!='auto'" class="mgr">单据编号：
               <input type="text" class="ipt pr-new-short-ipt text-right" ng-model="formData.orderCode" />
               <em class="color-red ">（必填）</em>
             </span>
+            <span ng-if="numberingPolicy=='auto'" class="mgr">单据编号：<em class="color-3">{{formData.orderCode || '暂无'}}</em></span>
             <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n}}</em></span>
             <span class="mgr">审核人：<em class="color-3">暂无</em></span>
           </div>
@@ -195,9 +196,9 @@
                   <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
                   <td>{{item.name}}</td><!-- 商品全名 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                  <td class="text-center">{{item.measurement}}</td><!-- 单位 -->
-                  <td class="text-center">
-                    <div class="order-goods-num">
+                  <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                  <td class="text-center">{{item.quantity}}
+                    <!-- <div class="order-goods-num">
                       <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1" ng-disabled="item.quantity==1">-</button>
                       <span class="inline-block">
                         <input type="number"
@@ -214,7 +215,7 @@
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                       </span>
                       <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1">+</button>
-                    </div>
+                    </div> -->
                   </td><!-- 订购数量 -->
                   <td class="text-center" ng-if="formData.orderBusinessType=='普通销售'">
                     <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
@@ -261,12 +262,12 @@
                       ng-if="initFlag"
                       ajax-url="rest/authen/historicalPrice/batchGetByrelIds?id={{item.relId}}&customerId={{formData.customerId}}&type=销售"
                       scope-data="strikePrice"
-                      callback="item.strike_price=strikePrice[item.relId].value">￥
+                      callback="item.strike_price?item.strike_price=item.strike_price:item.strike_price=strikePrice[item.relId].value">￥
                     <input type="text"
                            class="ipt pr-ipt-60 text-right"
                            name="strike_price{{$index}}"
                            ng-model="item.strike_price"
-                           ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
+                           ng-change="item.discountPrice=0;item.discountRate=100;confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
                            required
                            ng-pattern="/^[0-9]{1,10}(\.[0-9]{1,3})?$/"
                            invalid-popover
@@ -296,6 +297,7 @@
                            ng-model="item.discountPrice"
                            ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
                            ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
+                           ng-disabled="!item.strike_price||item.strike_price==0"
                            required
                            invalid-popover
                            valid-value="{{!editForm['discountPrice'+$index].$valid}}"
@@ -310,6 +312,7 @@
                            ng-model="item.discountRate"
                            ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
                            ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
+                           ng-disabled="!item.strike_price||item.strike_price==0"
                            required
                            invalid-popover
                            valid-value="{{!editForm['discountRate'+$index].$valid}}"
@@ -345,9 +348,9 @@
                   </td><!-- 商品编号 -->
                   <td class="text-left">{{item.name}}</td><!-- 商品全名 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                  <td class="text-center">{{item.measurement}}</td><!-- 单位 -->
-                  <td class="text-center" style="white-space: nowrap;">
-                    <div class="order-goods-num">
+                  <td class="text-center">{{item.unit}}</td><!-- 单位 -->
+                  <td class="text-center" style="white-space: nowrap;">{{item.quantity}}
+                    <!-- <div class="order-goods-num">
                       <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1" ng-disabled="item.quantity==1">-</button>
                       <span class="inline-block">
                         <input type="number"
@@ -364,7 +367,7 @@
                                onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                       </span>
                       <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1">+</button>
-                    </div>
+                    </div> -->
                   </td><!-- 订购数量 -->
                   <td class="text-center" style="white-space: nowrap;">￥
                     <input type="text"
@@ -401,6 +404,7 @@
                            ng-model="item.discountPrice"
                            ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
                            ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
+                           ng-disabled="!item.strike_price||item.strike_price==0"
                            required
                            invalid-popover
                            valid-value="{{!editForm['discountPrice'+$index].$valid}}"
@@ -415,6 +419,7 @@
                            ng-model="item.discountRate"
                            ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
                            ng-pattern="/^(0|100|(\d{1,2})|(\d*\.\d*))$/"
+                           ng-disabled="!item.strike_price||item.strike_price==0"
                            required
                            invalid-popover
                            valid-value="{{!editForm['discountRate'+$index].$valid}}"
@@ -432,7 +437,7 @@
             </table>
         </div>
         <!-- 提示信息 -->
-        <p ng-if="isShowConfirmInfo" class="pd-l color-red">确认商品中，存在数量不足品种。改品种数量不足部分将回退并保留在购需单
+        <p ng-if="isShowConfirmInfo" class="pd-l color-red">确认商品中，存在数量不足品种。该品种数量不足部分将回退并保留在购需单
           <a ng-href="#/salesOrder/edit2.html?id={{formData.relId}}" class="">{{formData.relOrderNo}}</a>
         </p>
       </div>
@@ -522,7 +527,8 @@
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)<0) ||
                              ($root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000) ||
-                             !formData.orderCode"
+                             !formData.orderCode ||
+                             formData.totalPrice>100000"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
@@ -530,7 +536,8 @@
                 type="button"
                 class="pr-btn-save-glodbg mgr"
                 ng-disabled="$root.utils.sumTotalByArrayMul(formData.orderMedicalNos,['price','quantity'],'handleFlag',true)>100000 ||
-                            !formData.orderCode"
+                            !formData.orderCode ||
+                            formData.totalPrice>100000"
                 ng-click="submitForm('editForm','submit')">提交
         </button>
 
@@ -538,7 +545,7 @@
       <div ng-if="formData.orderBusinessType=='普通销售'" class="price-area relative fl-r mgr-l" style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
         <em class="color-white"
             invalid-popover
-            popover-show="$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],'handleFlag',true)>100000"
+            popover-show="formData.totalPrice>100000"
             popover-options='{"content": "每单总计金额不能超过10万", "placement": "top", "trigger": "manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
             <!-- ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity'],"handleFlag",true) | number:2}} -->
         </em>
@@ -547,9 +554,14 @@
       <div ng-if="formData.orderBusinessType=='直运销售'"
            class="price-area relative fl-r mgr-l"
            style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
-        <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}
-          <!-- ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity']) | number:2}} -->
+        <em class="color-white"
+            invalid-popover
+            popover-show="formData.totalPrice>100000"
+            popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
         </em>
+        <!-- <em class="color-white">￥{{formData.totalPrice || '0.00' | number:2}}
+          ￥{{$root.utils.sumTotalByArrayMul(orderMedicalNos,['price','quantity']) | number:2}}
+        </em> -->
       </div>
     </div>
   </form>

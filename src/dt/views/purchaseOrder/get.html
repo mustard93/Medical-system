@@ -147,8 +147,8 @@
                     </div>
                   </td><!-- 商品全名 -->
                   <td class="text-center">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
-                  <td class="text-center">{{tr.measurement}}</td><!-- 单位 -->
-                  <td class="text-right">{{tr.planQuantity || '0'}}</td><!-- 计划数量 -->
+                  <td class="text-center">{{tr.unit}}</td><!-- 单位 -->
+                  <td class="text-right">{{tr.quantity || '0'}}</td><!-- 计划数量 -->
                   <td class="text-right">{{tr.storageQuantity+tr.otherQuantity || '0'}}</td><!-- 实际完成数量 -->
                   <td class="text-center">{{tr.batchRequirement}}</td><!-- 批号要求 -->
                   <td class="text-center" ng-if="scopeData.orderBusinessTypeStr!='直运采购'">{{tr.warehouseName}}</td><!-- 预入仓库 -->
@@ -263,7 +263,7 @@
                 modal-url="views/purchaseOrder/dialog-export-word.html">导出采购合同
         </button>
 
-        <button ng-if="!scopeData.purchaseVoucherId" class="pr-btn-save-glodbg mgr mgl"
+        <button ng-if="!scopeData.purchaseVoucherId && scopeData.orderStatus!='未提交'" class="pr-btn-save-glodbg mgr mgl"
                 type="button"
                 ng-click="createPurVoBtnClick(scopeData.id)">生成采购凭证
         </button>

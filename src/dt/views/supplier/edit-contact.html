@@ -1,12 +1,33 @@
-<div class="modal-content" ng-controller="editCtrl">
-  <form class="add-customerAddress-form form-horizontal"
-        action="rest/authen/supplier/save"
-        ajax-url="rest/authen/supplier/getOfEdit.json?id={{mainStatus.pageParams.id}}"
-        scope-data="formData"
-        name="editForm"
-          parameter-body
-        alert-error
-        form-validator>
+<div class="modal-content" ng-controller="updateContactCtrl"
+     ajax-url="rest/authen/supplier/getOfEdit.json?id={{mainStatus.pageParams.id}}"
+     alert-error
+     scope-data="formData"
+>
+  <!--<form class="add-customerAddress-form form-horizontal"-->
+        <!--action="rest/authen/supplier/save"-->
+        <!--ajax-url="rest/authen/supplier/getOfEdit.json?id={{mainStatus.pageParams.id}}"-->
+        <!--scope-data="formData"-->
+        <!--name="editForm"-->
+          <!--parameter-body-->
+        <!--alert-error-->
+        <!--aleet-ok-->
+        <!--callback="submitFormAfter('#/firstEnterpriseApplication/edit-step-2.html');watchFormChange('formData');">-->
+
+
+      <form class="add-customerAddress-form form-horizontal"
+            id="firstEnterpriseEditForm"
+            form-validator
+            parameter-body
+            action="rest/authen/supplier/save"
+
+            name="editForm"
+            alert-error
+            alert-ok
+            scope-error-msg="errorMsg"
+            scope-data="formData"
+            novalidate="true"
+            callback="submitFormAfter();">
+
     <!-- <div class="modal-header">
         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
         <h4 class="modal-title">{{formData&&formData.id?"编辑":"添加"}}供货商</h4>
@@ -118,7 +139,10 @@
       <div class="form-group">
           <label class="col-lg-2 col-sm-2 control-label"></label>
           <div class="col-lg-10 col-sm-10">
-              <input type="submit" class="btn pr-btn-create-glodbg" value="提交" ng-disabled="!formData.name ">
+             <button class="pr-btn-save-glodbg mgt"
+                      ng-disabled="!formData.name "
+                      ng-click="submitForm('editForm','submit')">提交</button>
+
           </div>
       </div>
     </div>

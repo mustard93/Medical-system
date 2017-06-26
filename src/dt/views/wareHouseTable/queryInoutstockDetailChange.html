@@ -1,7 +1,11 @@
 <div ng-controller="pageCtrl"
      class="pd-c-xxxl left-se-side-par "
-     ng-init="listParams.code=mainStatus.pageParams.code"
-     ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;"><!-- pageCtrl-->
+     ng-init="listParams.medicalStockId=mainStatus.pageParams.medicalStockId;"
+     style="min-height:800px;"><!-- pageCtrl-->
+
+
+    <!--ajax-url="rest/authen/warehouse/getByCodeAndOrganizationId?code={{listParams.warehouseStocksCode}}" style="min-height:800px;">&lt;!&ndash; pageCtrl&ndash;&gt;-->
+
     <div class="page-main-content left-se-side-par">
         <!--body wrapper start-->
         <div class="pd-c-xxl"
@@ -16,7 +20,6 @@
                </a>
                /<em >库存变动明细</em>
              </p>
-
 
            </div>
 
@@ -145,13 +148,19 @@
                                  <a ng-if="tr.type=='报溢入库单' ||tr.type=='批次解冻入库单'||tr.type=='移库入库单'" href="#/otherInstockOrder/get.html?orderNo={{tr.orderNo}}">
                                  {{tr.orderNo}}
                                  </a>
+                                 <a ng-if="tr.type=='调拨入库单'" href="#/otherInstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
+                                 <a ng-if="tr.type=='调拨出库单'" href="#/otherOutstockOrder/get.html?orderNo={{tr.orderNo}}">
+                                 {{tr.orderNo}}
+                                 </a>
                                </td>
                                <td class="text-left">
                                  <div class="autocut" title="{{tr.warehouseName}}">
                                      {{tr.warehouseName}}
                                  </div>
                                </td>
-                               <td>{{tr.measurement}}</td>
+                               <td>{{tr.unit}}</td>
                                <td>{{!tr.inputUser.n?'&nbsp;':tr.inputUser.n}}</td>
                                <td class="text-right">{{tr.storageQuantity?tr.storageQuantity:'0'}}</td>
                                <td class="text-right">{{tr.outgoingQuantity?tr.outgoingQuantity:'0'}}</td>

@@ -2,7 +2,7 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/allocateOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this)"
+     callback="initFlag=true;$root.watchFormChange('formData',this);"
      alert-error>
   <form id="editForm"
         name="editForm"
@@ -112,7 +112,7 @@
                class="pd-c-l pdt-m"
                ajax-url="rest/authen/medicalStock/query"
                add-data-callback-fn="flashAddDataCallbackFn(data1)"
-               is-disabled-this="{{formData.targetId}}">
+               is-disabled-this="{{formData.targetId }}">
           </div>
           <!-- 列表 -->
           <div class="">
@@ -157,6 +157,7 @@
                        ng-model="formData.expectDate" /><span class="color-red">(必填)</span>
               </span>
             </div>
+
             <div class="outside-table-d">
               <table class="table pr-table pr-new-table mgb-n table-s-wid">
                 <thead>
@@ -182,6 +183,7 @@
                 <tbody>
                   <tr ng-repeat="item in formData.orderMedicalNos"
                       ng-controller="ConfirmOrderMedicalController"
+                      ng-init="checkItemAllocateNumOverload(item,$index)"
                       table-item-handlebtn-component>
                     <td class="text-center">{{item.code}}
                       <div  class="table-item-handle-btn">
@@ -189,7 +191,7 @@
                           <p class="bb-line color-red pd-v-s">确认删除本条数据?</p>
                           <p class="pdt-s">
                             <a href="javascript:;" class="cancelHandle" ng-click="cancelDel();">取消</a>
-                            <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);">确认</a>
+                            <a href="javascript:;" class="confirm-del-this pr-btn-best-small pr-btn-bg-gold mgl" ng-click="formData.orderMedicalNos.splice($index,1);allocateNumOverloadFalg.splice($index,1);">确认</a>
                           </p>
                         </div>
                       </div>
@@ -197,32 +199,34 @@
                     <td class="text-center">{{item.goodsCode}}</td>
                     <td class="text-left"><div class="autocut" title="{{item.name}}">{{item.name}}</div></td><!-- 商品全名 -->
                     <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
-                    <td class="text-center">{{item.measurement}}</td><!-- 单位 -->
+                    <td class="text-center">{{item.unit}}</td><!-- 单位 -->
                     <td class="text-center"
-                    ajax-url="rest/authen/medicalStock/getStockModelByWarehouseId?id={{item.relId}}&warehouseId={{formData.sourceId}}"
-                    scope-data="scopeData"
-                    >
-                    {{scopeData.salesQuantity}}
-                    </td>
+                        ajax-url="rest/authen/medicalStock/getStockModelByWarehouseId?id={{item.relId}}&warehouseId={{formData.sourceId}}"
+                        scope-data="scopeData">{{scopeData.salesQuantity}}
+                    </td><!--可调拨量-->
                     <td class="text-center">
                       <div class="order-goods-num">
-                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1" ng-disabled="item.quantity==1">-</button>
+                        <button type="button" class="inline-block left" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)-1;checkItemAllocateNumOverload(item,$index);checkQuantity(item.quantity,item.stockBatchs);" ng-disabled="item.quantity==1">-</button>
                         <span class="inline-block">
+
+                                  <!--invalid-popover-->
+                                  <!--valid-value="{{allocateNumOverloadFalg[$index] == 'true' ?  true : false}}"-->
+                                  <!--popover-show-->
+                                  <!--popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'-->
+
                           <input type="number"
                                  name="quantity{{$index}}"
                                  class="inline ipt pr-ipt-60 text-center item-planQuantity"
                                  style="width:60px;"
                                  ng-model="item.quantity"
                                  ng-class="{'pr-bg-pink': medicalStockMap[item.relId].quantity<item.quantity}"
+                                 ng-change="checkItemAllocateNumOverload(item,$index);checkQuantity(item.quantity,item.stockBatchs);"
                                  ng-pattern="/^\+?[1-9][0-9]{0,5}$/"
-                                 invalid-popover
-                                 valid-value="{{!editForm['quantity'+$index].$valid}}"
-                                 popover-show
-                                 popover-options='{"content":"数量不正确或数额过大", "placement":"top", "trigger":"manual"}'
                                  onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                         </span>
-                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1">+</button>
+                        <button type="button" class="inline-block right" ng-click="item.quantity=$root.utils.transformToNumber(item.quantity)+1;checkItemAllocateNumOverload(item,$index);checkQuantity(item.quantity,item.stockBatchs);">+</button>
                       </div>
+                      <p class="mgt-s color-red ng-binding ng-scope" ng-if="allocateNumOverloadFalg[$index] == 'true'">计划调拨总数不正确或数额过大</p>
                     </td><!-- 计划调拨数量 -->
                     <td class="text-center relative" style="padding:0 0 10px 0;width:200px;" ng-init="item.otherQuantity=0">
                       <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
@@ -234,7 +238,7 @@
                              style="width:118px;height:100%;"
                              ng-class="{'pr-bg-green2 br-line':(batch.batchNumber)}">{{batch.productionBatch}}
                         </div>
-                        <input type="number" class="in_ipt" name="batchNum{{$index}}" ng-model="batch.quantity" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
+                        <input type="number" class="in_ipt" name="batchNum{{$index}}" ng-change="checkQuantity(item.quantity,item.stockBatchs);" ng-model="batch.quantity" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))">
                         <input type="hidden" ng-model="batch.id">
                         <span ng-if="showDelIcon" class="circle-s" ng-click="item.stockBatchs.splice($index,1)"><i class="fa fa-times-circle"></i></span>
                       </div>
@@ -255,6 +259,7 @@
                         </i>
                       </div>
                       <p ng-if="getAllBatchTotal(item.stockBatchs)<item.quantity" class="text-right color-red pdr relative">待选择：{{item.quantity-getAllBatchTotal(item.stockBatchs)}}</p>
+                      <p ng-if="quantityError" class="text-right color-red pdr relative">批号总数不能大于计划调拨数量。</p>
                     </td><!-- 生产批号/数量 -->
                     <td class="text-center pd-n">
                       <div ng-repeat="ster in item.stockBatchs" style="margin-top:12px;margin-bottom:12px;">{{ster.sterilizationBatchNumber}}</div>
@@ -331,14 +336,12 @@
 
         <button ng-if="formData.orderStatus=='未提交'||formData.orderStatus=='未通过'"
                 type="button"
-                class="pr-btn-create-glodbg mgt"
-                        type="button"
-                        handle-this-click
-                        dialog-title="确认提交?"
-                        dialog-content="提交后，将无法修改。确认提交?"
-                        dialog-template="pr-dialog-submit.html"
-                        callback="formData.validFlag=true;submitForm('editForm','submit-allocate')"
-                ng-disabled="!formData.orderMedicalNos.length ||!formData.orderCode ||formData.sourceId==formData.targetId || !formData.expectDate">提交
+                ng-disabled="!formData.orderMedicalNos.length ||
+                             !formData.orderCode ||
+                             formData.sourceId==formData.targetId ||
+                             !formData.expectDate || allocateNumOverloadFalg.indexOf('true')!=-1 || quantityError"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="formData.validFlag=true;submitForm('editForm','submit-allocate')">提交
         </button>
 
       </div>
