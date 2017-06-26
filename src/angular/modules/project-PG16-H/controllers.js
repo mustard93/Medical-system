@@ -4000,11 +4000,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         };
 
-        //监听领用单输入
-        $scope.$watch('selectedData',function (newVal, oldVal, p3) {
-            console.log("newVal");
-            $scope.getByOrderCode(newVal.data);
-        },true);
+        // //监听领用单输入
+        // $scope.$watch('selectedData',function (newVal, oldVal, p3) {
+        //     console.log("newVal");
+        //     $scope.getByOrderCode(newVal.data);
+        // },true);
 
 
         $scope.flashAddDataCallbackFn=function (data1) {
@@ -4122,7 +4122,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //单击选择
         $scope.handleItemClickEvent=function (item,index,dataSource) {
 
-
             console.log("$scope.selectedBatchsp---befor",$scope.selectedBatchs.length);
 
             if(item.handleFlag){
@@ -4139,18 +4138,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }else{
                 $scope.isChoiseAll=false;
             }
-
-
-
-
-            // for(var i=0; i<dataSource.length;i++){
-            //     if(!dataSource[i].handleFlag){
-            //         $scope.isChoiseAll=false;
-            //         break;
-            //     }
-            // }
-
-
         };
 
         // 全选全不选
@@ -4240,7 +4227,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.addOrderDataToList=function (departmentId,departmentName) {
 
             //step0 判断部门
-            if($scope.formData.departmentId == '' || $scope.formData.departmentId == null || $scope.formData.departmentId == undefined ){
+            if(!$scope.formData.departmentId){
                 //设置部门ID 和 name
                 // $scope.formData.departmentId=$scope.scopeData.departmentId ;
                 // $scope.formData.departmentName=  $scope.scopeData.departmentName;
@@ -4331,7 +4318,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     }
 
     //领退模块选择退货商品
-    function  testCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
+    function  collarReturnOrderChoiceDialogSubCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
         //选择当前订单-商品
         $scope.choiceThis=function (item,index,flag){
@@ -4375,5 +4362,5 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         .controller('collarReturnOrderCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderCtrl])
         .controller('collarReturnOrderChoiceDialogCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderChoiceDialogCtrl])
 
-        .controller('testCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', testCtrl]);
+        .controller('collarReturnOrderChoiceDialogSubCtrl', ['$scope','modal', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', collarReturnOrderChoiceDialogSubCtrl]);
 });

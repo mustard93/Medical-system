@@ -79,7 +79,7 @@
                 <!--ng-init="item.quantity=item.maxQuantity;item.handleFlag= itemInArray(item.stockBatchId,dialogData.stockBatchs,'stockBatchId');" -->
                 <td  class="select-td text-center mycheck" style="width: 100px;">
                     <input type="checkbox"  class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,$index,stockBatchList);"
-                    ng-disabled="itemInArray(item.stockBatchId,dialogData.stockBatchs,'stockBatchId');"
+                    ng-disabled="item.maxQuantity < 1 || itemInArray(item.stockBatchId,dialogData.stockBatchs,'stockBatchId');"
                     >
                     <label for="{{$index+2}}"></label>
                 </td>
