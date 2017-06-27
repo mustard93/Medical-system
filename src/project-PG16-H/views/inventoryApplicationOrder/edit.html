@@ -90,10 +90,10 @@
                            ng-model="formData.planDateBeg">
                     <span class="date-icon"></span>
                 </div>
-                <span class="span-border"></span>
-                <div class="inline-block">
+                <!-- <span class="span-border"></span> -->
+                <!-- <div class="inline-block">
                   <input type="text" name="name" value="" placeholder="00:00" class="ipt" style="width:55px;">
-                </div>
+                </div> -->
                 <span class="color-9">至</span>
                 <div class="date-icon-outside">
                     <input type="text"
@@ -107,10 +107,10 @@
                            popover-options='{"content":"结束日期不应小于开始日期", "placement":"top", "trigger":"manual"}' />
                     <span class="date-icon"></span>
                 </div>
-                <span class="span-border"></span>
-                <div class="inline-block">
+                <!-- <span class="span-border"></span> -->
+                <!-- <div class="inline-block">
                   <input type="text" name="name" value="" placeholder="00:00" class="ipt" style="width:55px;">
-                </div>
+                </div> -->
                 <em class="color-red" ng-if="!formData.planDateBeg||!formData.planDateEnd">(必填)</em>
               </div>
             </div>
@@ -125,7 +125,15 @@
                   <p class="mgb-s">
                     库房
                   </p>
-                  <select ng-if="initFlag" class="pr-select pdt"
+                  <select ng-if="initFlag&&formData.inventoryType!='按商品盘点'" class="pr-select pdt"
+                    style="width:250px;"
+                    chosen
+                    required
+                    ng-model="formData.storeRoomId"
+                    ng-change="formData.goodsLocationIds=[];formData.regionSelects=null;formData.regionIds=[];modal.closeAll();"
+                    select-source="rest/authen/storeRoom/queryForSelectOption">
+                  </select>
+                  <select ng-if="initFlag&&formData.inventoryType=='按商品盘点'" class="pr-select pdt"
                     style="width:250px;"
                     chosen
                     required
