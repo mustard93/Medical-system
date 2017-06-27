@@ -3782,9 +3782,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
     };
 
     // 保存任务
-    $scope.saveData = function (inventoryOrderId,systemMedicalList,customMedicalList){
+    $scope.saveData = function (inventoryOrderId,businessKey,systemMedicalList,customMedicalList){
         var inventoryMedicalNos=[], i = 0;
-
+        if (!inventoryOrderId) {
+          inventoryOrderId=businessKey
+        }
         // 组织两个表中的数据到inventoryMedicalNos中，保存后传入后台
         for (i = 0; i < systemMedicalList.length; i++) {
             inventoryMedicalNos.push(systemMedicalList[i]);
