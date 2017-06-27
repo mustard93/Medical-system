@@ -4234,7 +4234,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
             //批次信息
-            obj.stockBatchs=$scope.selectedBatchs;
+            obj.stockBatchs=$scope.selectedBatchs2;
 
             // console.log("obj",obj);
             $scope.formData.orderMedicalNos.push(obj);
@@ -4242,12 +4242,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.formData.relIds.push(obj.relId);
 
             //清空选择的批次
-            $scope.selectedBatchs=[];
+            $scope.selectedBatchs2=[];
 
         };
 
         //添加领用单中的商品到列表
-        $scope.addOrderDataToList=function (departmentId,departmentName) {
+        $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId) {
 
             //step0 判断部门
             if(!$scope.formData.departmentId){
@@ -4267,7 +4267,22 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             //添加商品
             var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
 
+
+
+
+
+
+
+
             var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'onlyId','onlyId');
+
+            //
+            angular.forEach(resultArr,function (item,index) {
+                item.relCollarApplicationId=relCollarApplicationId;
+            });
+
+
+
             $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
             for(var i=0; i<resultArr.length; i++){
