@@ -3966,7 +3966,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.showBatchs =flag;
         };
 
-
         //选择当前订单
         // $scope.curOrder=null;
         // $scope.index=-1;
@@ -4115,43 +4114,48 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 .catch(function (error) {
                     alertError(error || '出错');
                 });
+
         };
 
 
-        $scope.selectedBatchs=[];
+        $scope.selectedBatchs2=[];
 
         //单击选择
-        $scope.handleItemClickEvent=function (item,index,dataSource) {
-
-            console.log("$scope.selectedBatchsp---befor",$scope.selectedBatchs.length);
+        $scope.handleItemClickEvent=function (item,dataSource,attr) {
 
             if(item.handleFlag){
-                $scope.selectedBatchs.push(item);
+
+                $scope.selectedBatchs2.push(item);
+
+                if($scope.selectedBatchs2.length == dataSource.length){
+
+                    $scope.isChoiseAll2=true;
+                }else{
+                    $scope.isChoiseAll2=false;
+                }
+
             }else{
-                $scope.selectedBatchs.splice(index,1);
-                // $scope.isChoiseAll=false;
+                angular.forEach($scope.selectedBatchs2,function (item2,index2) {
+                    if(item[attr] == item2[attr]){
+                        $scope.selectedBatchs2.splice(index2,1); // index. bug
+                        $scope.isChoiseAll2=false;
+                    }
+                });
             }
 
-            console.log("$scope.selectedBatchsp---after",$scope.selectedBatchs.length);
-
-            if($scope.selectedBatchs.length == dataSource.length){
-                $scope.isChoiseAll=true;
-            }else{
-                $scope.isChoiseAll=false;
-            }
         };
 
         // 全选全不选
         $scope.handleChoiseAllEvent = function (flag,list) {
 
             if (flag) {   // 全选被选中
-                angular.forEach(list, function (data, index) {
 
+                $scope.selectedBatchs2=[];
+                angular.forEach(list, function (data, index) {
                     if(!data.disabled){
                         data.handleFlag = true;
-                        $scope.selectedBatchs.push(data);
+                        $scope.selectedBatchs2.push(data);
                     }
-
                 });
 
             } else {    //取消了全部选中
@@ -4160,9 +4164,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     if(!data.disabled){
                         data.handleFlag = false;
                     }
+                    // $scope.selectedBatchs2.splice(index,1);
                 });
-                $scope.selectedBatchs=[];
+                $scope.selectedBatchs2=[];
             }
+
+            console.log("$scope.selectedBatchs",$scope.selectedBatchs2.length);
+
         };
 
 
@@ -4196,6 +4204,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     $scope.isChoiseAll=true;
                 }
             }
+
+
+            $scope.selectedBatchs=choicedList;
 
             return choicedList;
         };
@@ -4239,19 +4250,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             //step0 判断部门
             if(!$scope.formData.departmentId){
                 //设置部门ID 和 name
-                // $scope.formData.departmentId=$scope.scopeData.departmentId ;
-                // $scope.formData.departmentName=  $scope.scopeData.departmentName;
-
-
                 $scope.formData.departmentId=departmentId ;
                 $scope.formData.departmentName= departmentName;
 
             }else{
 
-                // if($scope.scopeData.departmentId != $scope.formData.departmentId){
-                if($scope.scopeData.departmentId != departmentId){
-
-                    // alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
+                if($scope.formData.departmentId != departmentId){
                     alertWarn("退货列表已有"+departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
                     return;
                 }
@@ -4261,15 +4265,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             //添加商品
             var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
 
-            var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs,'onlyId','onlyId');
+            var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'onlyId','onlyId');
             $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
             for(var i=0; i<resultArr.length; i++){
                 var goods= resultArr[i];
                 $scope.formData.relIds.push(goods.relId);
             }
-
-
         };
 
         //选择批次
@@ -4277,12 +4279,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             var hasStockBatchs= $scope.formData.orderMedicalNos[index].stockBatchs;
 
-            var list = $scope._compareArray(hasStockBatchs,$scope.selectedBatchs,'stockBatchId','stockBatchId')
+            var list = $scope._compareArray(hasStockBatchs,$scope.selectedBatchs2,'stockBatchId','stockBatchId')
 
             $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat(list);
 
-            $scope.selectedBatchs=[];
+            $scope.selectedBatchs2=[];
         };
+
+
 
         $scope.itemInArray=function (id,batchlist,attr) {
             var flag=false;
