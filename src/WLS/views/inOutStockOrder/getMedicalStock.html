@@ -1,0 +1,45 @@
+<div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+     ajax-url="rest/authen/inStockOrder/get?id={{dialogData.id}}"
+     scope-data="scopeData"
+     callback=""
+     alert-error>
+  <!-- 标题 -->
+  <div class="bb-line-gold pr-bg-black2 min-h-l">
+    <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">入库任务商品信息 - {{dialogData.orderCode}}</h1>
+  </div>
+  <!-- 数据遍历 -->
+  <div ng-if="scopeData.length" class="outside-table-d pr-bg-white pr-fuzzy-boundary">
+    <table class="full-width table pr-table pr-new-table pr-table-content">
+      <thead>
+        <tr>
+          <th class="w-60 text-center">商品编号</th>
+          <th class="w-100">商品名称</th>
+          <th class="w-100  text-center">规格型号</th>
+          <th class="w-60 text-center">单位</th>
+          <th class="w-100 text-center">计划数量</th>
+          <th class="w-100 text-center">批号要求</th>
+          <th class="w-100 text-center">预入仓库</th>
+          <th class="w-100 text-center">保存温度</th>
+          <th class="w-100 text-center">产地品牌</th>
+          <th class="w-100 text-center">注册证号</th>
+          <th class="w-100 text-center">注册证有效期</th>
+        </tr>
+      </thead>
+      <tbody class="">
+        <tr ng-repeat="item in scopeData">
+          <td class="text-center">{{item.code}}</td>
+          <td class="text-left">{{item.name}}</td>
+          <td class="text-center">{{item.specificationAndModelType}}</td>
+          <td class="text-center">{{item.packingAttribute.name}}</td>
+          <td class="text-center">{{item.quantity}}</td>
+          <td class="text-center">{{item.batchRequirement}}</td>
+          <td class="text-center"> {{item.warehouseName}}</td>
+          <td class="text-center">{{item.storedTemperature}}</td>
+          <td class="text-center">{{item.brand}}</td>
+          <td class="text-center">{{item.drugAdministrationCode}}</td>
+          <td class="text-center">{{item.drugAdministrationCodeGuaranteePeriod | date:'yyyy-MM-dd'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

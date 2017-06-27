@@ -20,7 +20,7 @@
         scope-error-msg="errorMsg"
         scope-data="formData"
         onkeydown="if(window.event.keyCode==13) return false;"
-        callback="submitFormAfter();$root.watchFormChange('formData',this)"
+        callback="submitFormAfter(true);$root.watchFormChange('formData',this)"
         novalidate="true">
     <!-- 头部信息 -->
     <div class="content-wrapper-heading pdb-m mgb-l relative clearfix">
@@ -219,7 +219,7 @@
                   </td><!-- 订购数量 -->
                   <td class="text-center" ng-if="formData.orderBusinessType=='普通销售'">
                     <div ng-repeat="batch in item.stockBatchs" ng-init="showDelIcon=false"
-                         ng-if="batch.batchNumber"
+
                          class="ipt-div relative"
                          style="width:180px;margin-bottom:10px;"
                          ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false">
@@ -284,9 +284,10 @@
                   </td><!-- 报价 -->
                   <td class="text-center" style="white-space: nowrap;">
                     <select class="ipt pr-short-ipt"
-                            chosen
+                            pg-select
                             width="60px"
                             ng-model="item.tax"
+                            style="width: 60px;"
                             select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
                     </select> %
                   </td><!-- 税率 -->
@@ -391,7 +392,7 @@
                   </td><!-- 报价 -->
                   <td class="text-center" style="white-space: nowrap;">
                     <select class="ipt pr-short-ipt"
-                            chosen
+                            pg-select
                             width="60px"
                             ng-model="item.tax"
                             select-source="rest/baseData/queryForSelectOptionByType?type=税率可选项">
@@ -479,6 +480,125 @@
           <h1 class="text-bold color-3">备注</h1>
           <textarea class="pr-textarea mgt" maxlength="240" style="height:92px;" placeholder="" ng-model="formData.note"></textarea>
         </div>
+
+
+        <!-- 发票信息 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l"
+             ng-init="invoiceList=[]"
+             ajax-url="rest/authen/confirmOrder/getInvoicesById?id={{mainStatus.pageParams.id}}"
+             scope-data="invoiceList"
+        >
+
+
+          <header class="text-n color-3 text-bold">发票信息
+            <span class="tools pull-right">
+              <a href="javascript:;" class="fa fa-chevron-down" toggle-panel></a>
+            </span>
+          </header>
+
+
+
+          <!--<h1 class="text-bold color-3 mgb">发票信息</h1>-->
+          <!--<span class="tools pull-right">-->
+          <!--<a href="javascript:;" class="fa fa-chevron-up" toggle-panel=""></a>-->
+          <!--</span>-->
+          <!---->
+          <!--invoiceList:{{invoiceList}}-->
+          <div class="panel-body invoice-list"  style="display:none; margin-top: 10px; padding:15px 0 0 0;">
+            <div class="sales-invoice">
+              <h1 class="text-bold color-3 mgb text-center">采购发票</h1>
+
+              <div
+                      ng-repeat="item in invoiceList"
+                      ng-if="item.source == '采购发票'"
+                      class="invoice-item"
+                      modal-img-show
+                      ng-src="{{  item.attachments[0].attachmentUrl ?   'http://pangu1656.oss-cn-shanghai.aliyuncs.com/'+item.attachments[0].attachmentUrl : ''}}"
+              >
+                <div  handle-this-click
+                      title="删除"
+                      dialog-title="确认删除?"
+                      dialog-content="删除后将无法恢复,确认删除?"
+                      dialog-template="pr-dialog-submit.html"
+                      params="{'id':'{{mainStatus.pageParams.id}}','invoiceId':'{{item.id}}'}"
+                      request-url="rest/authen/confirmOrder/delInvoice"
+                      callback="invoiceList.splice($index,1)"
+                      ng-click="$event.stopPropagation();" class="del-invoice-icon"></div>
+                <div class="invoice-item-title">{{item.billingDate  || '暂无' | date :'yyyy-MM-dd' }}</div>
+                <p class="invoice-supplier-name" title="{{item.seller.name || '暂无'}}">{{item.seller.name || '暂无'}}</p>
+                <p class="invoice-num">{{item.code  || '暂无'}}</p>
+              </div>
+
+              <!--采购发票-->
+              <div class="add-invoice"
+                   modal-right="50%"
+                   modal-scope="this"
+                   modal-data='{
+                              "orderId":"{{mainStatus.pageParams.id}}",
+                              "choiceInvoiceList":{{invoiceList}},
+                              "invoiceSource":"采购发票"
+                            }'
+                   modal-url="views/confirmOrder/invoice-dialog.html"
+              >
+                <div class="add-invoice-border">
+                  <div class="add-invoice-icon">+</div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="sales-invoice" style="border: none">
+              <h1 class="text-bold color-3 mgb text-center">销售发票</h1>
+
+              <div
+                      ng-repeat="item in invoiceList"
+                      ng-if="item.source == '销售发票'"
+                      class="invoice-item"
+                      modal-img-show
+                      ng-src="{{  item.attachments[0].attachmentUrl ?   'http://pangu1656.oss-cn-shanghai.aliyuncs.com/'+item.attachments[0].attachmentUrl : ''}}"
+              >
+                <div
+
+                        handle-this-click
+                        title="删除"
+                        dialog-title="确认删除?"
+                        dialog-content="删除后将无法恢复,确认删除?"
+                        dialog-template="pr-dialog-submit.html"
+                        params="{'id':'{{mainStatus.pageParams.id}}','invoiceId':'{{item.id}}'}"
+                        request-url="rest/authen/confirmOrder/delInvoice"
+                        callback="invoiceList.splice($index,1)"
+                        ng-click="$event.stopPropagation();" class="del-invoice-icon"></div>
+                <div class="invoice-item-title">{{item.billingDate | date :'yyyy-MM-dd'  || '暂无'}}</div>
+                <p class="invoice-supplier-name" title="{{item.purchaser.name || '暂无'}}">{{item.purchaser.name || '暂无'}}</p>
+                <p class="invoice-num">{{item.code  || '暂无' }}</p>
+              </div>
+
+              <!--添加销售发票-->
+              <div class="add-invoice"
+                   modal-right="50%"
+                   modal-scope="this"
+                   modal-data='{
+                                      "orderId":"{{mainStatus.pageParams.id}}",
+                                      "choiceInvoiceList":{{invoiceList}},
+                                      "invoiceSource":"销售发票"
+                                    }'
+                   modal-url="views/confirmOrder/invoice-dialog.html"
+              >
+                <div class="add-invoice-border">
+                  <div class="add-invoice-icon">+</div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+
       </div>
     </div>
     <!-- 流程图 -->
@@ -507,7 +627,10 @@
            request-url="rest/authen/salesOrder/delete?id={{formData.id}}"
            call-back="$root.goTo('#/salesOrder/query.html')">删除
         </a>
-
+        <button type="button"
+                class="pr-btn-save-glodbg mgr"
+                ng-click="submitForm('editForm','create')">智能匹配
+        </button>
         <button
                 type="button"
                 class="pr-btn-save-glodbg mgr"

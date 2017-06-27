@@ -89,26 +89,15 @@
                   ng-change="chgOrderBusinessType(formData.orderBusinessType)">
           </select>
         </div>
-        <!-- 单据类型过滤 -->
-        <div class="inline-block" ng-if="isShowOrderTypeFilter">
-          <span class="color-9">单据类型：</span>
+        <!-- 发票类型过滤 -->
+        <div class="inline-block" ng-if="isShowInvoiceTypeFilter">
+          <span class="color-9">发票类型：</span>
           <select class="ipt pr-short-ipt color-3" style="width:90px;"
                   data-placeholder=""
                   default-empty="全部"
                   chosen
                   ng-model="listParams.type"
-                  select-source="{{getBusinessOrderTypeUrl}}">
-          </select>
-        </div>
-        <!-- 来源单据类型过滤 -->
-        <div class="inline-block" ng-if="isShowSouceOrderTypeFilter">
-          <span class="color-9">来源单据类型：</span>
-          <select class="ipt pr-short-ipt color-3" style="width:90px;"
-                  data-placeholder=""
-                  default-empty="全部"
-                  chosen
-                  ng-model="listParams.source"
-                  select-source="{{getSourceOrderTypeUrl}}">
+                  select-source="{{getInvoiceTypeUrl}}">
           </select>
         </div>
         <!-- 仓库过滤 -->
@@ -178,14 +167,10 @@
         </div>
         <!-- 关键字过滤 -->
         <div ng-if="isShowKeyFilter" class="inline-block" style="height:19px;">
-
-          <!--<div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">-->
-            <!--<input type="text" class="ipt pdr-xxl relative" placeholder="{{searchPlaceholderInfo}}" ng-model="listParams.q">-->
-            <!--<i class=""></i>-->
-          <!--</div>-->
-
-          <key-search placeholder="{{searchPlaceholderInfo}}" ng-model="listParams.q"></key-search>
-
+          <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+            <input type="text" class="ipt pdr-xxl relative" placeholder="{{searchPlaceholderInfo}}" ng-model="listParams.q">
+            <i class=""></i>
+          </div>
         </div>
       </div>
     </div>

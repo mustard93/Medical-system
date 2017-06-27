@@ -1,20 +1,25 @@
 <!-- 主内容头部 -->
 <page-main-header-component list-params="listParams"
-                            crumbs-nav='[{"name":"销售中心","link":"","style":""},{"name":"采购发票","link":"","style":"color-custom-orange"}]'
+                            crumbs-nav='[{"name":"发票管理","link":"","style":""},{"name":"采购发票","link":"","style":"color-custom-orange"}]'
                             component-title="采购发票"
                             is-show-create-btn="新建采购发票"
                             create-new-url="#/invoice/edit.html"
-                            get-status-num-url="rest/authen/salesOrder/countByOrderStatus.json"
+                            get-status-num-url="rest/authen/invoice/countByStatus.json?source=采购发票"
                             status-group-data='[["未提交-true","已完成-true"]]'
-                            is-show-type-filter=true
                             is-show-date-filter=true
                             is-show-key-filter=true
+                            search-placeholder-info="发票编号"
+                            show-date-name="开票日期："
                             is-show-business-btn-group=true
+                            is-show-user-filter=true
+                            get-user-list-url="rest/authen/user/queryForSelectOption"
+                            is-show-invoice-type-filter=true
+                            get-invoice-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InvoiceType"
                             get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
 </page-main-header-component>
 
 <div class="content-wrapper sales-order" ng-init="listParams.orderStatus=mainStatus.pageParams.orderStatus">
-  <table-list list-data="rest/authen/salesOrder/query.json"
+  <table-list list-data="rest/authen/invoice/query.json?source=采购发票"
               list-params="listParams"
               search-mode="noCaseSensitive"
               search-param="q">
@@ -27,177 +32,85 @@
         </div>
         <ul ng-if="tbodyList.length">
           <li class="pdr-m pdl-m relative confirm-order-list" ng-repeat="tr in tbodyList">
-            <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative"
-                 ng-init="bottomButtonList= $root.queryItemCardButtonList.getQuery_salesOrder(tr);">
+            <div class="mgb-xxl pr-bg-white pr-fuzzy-boundary relative">
               <div class="relative">
                 <div class="flex-column">
                   <span class="flex-item-6 title-states text-bold color-3 pd-m">{{tr.orderStatus}}</span>
-                  <span class="flex-item-6 text-right">
+                    <span class="flex-item-6 text-right">
+                      <span ng-if="tr.orderStatus=='未提交'" >
 
-                    <a ng-if="$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')"
-                       workflow-button-query-card
-                       custom-menu="{{$root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'列表显示')}}">
-                    </a>
-
-                    <span query-item-card-button-list="bottomButtonList"></span>
-
-                    <!-- <a class="btn-link pd-m rect-s" title="查看详情" ng-if="tr.orderStatus=='已处理' || !$root.hasAuthor('采购发票编辑')"
-                    href="#/salesOrder/get.html?id={{tr.id}}">
-                      <span class="watch-detail-icon">&nbsp;</span>
-                    </a>
-
-                    <a ng-if="tr.progress>0 && tr.orderStatus!='已处理' && $root.hasAuthor('采购发票编辑')" href="#/salesOrder/edit-notinvoices.html?id={{tr.id}}" class="btn btn-primary pr-btn-xsm pr-btn-bg-gold mgl-s">立即处理</a>-->
-                  </span>
-                </div>
-
-                <!-- <div class="flex-column qurey text-s color-9">
-                  <span class="flex-item-6 mgb-s">
-                    系统编号：<strong class="color-6 text-normal">{{tr.orderNo}}
-                      <a href="#/salesOrder/get.html?id={{tr.id}}" class="">  {{tr.orderNo}}</a> -->
-                    <!-- </strong>
-                  </span>
-                  <span class="flex-item-6 pdl mgb-s">
-                    创建时间：<strong class="color-6 text-normal">{{tr.createAt | date : 'yyyy-MM-dd HH:mm'}}</strong>
-                  </span>
-                </div>  -->
-                <!-- <div class="flex-column qurey text-s color-9">
-                  <span class="flex-item-6 relative">销售人员：
-                    <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color" style="position:absolute;height:25px;">{{tr.saleUser.n}}</strong>
-                    <span class="purchaseorder-buyer-info">
-                      <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.saleUser.p}}</em></i>
-                      <i class="block pdb-s text-normal"><em class="fa fa-comment-o mgl"></em><em class="inline-block pdl pdr pdt">
-                        <a href="javascript:;"
-                           modal-center="490"
-                           modal-data='{"toUser":{{tr.saleUser}},"userIds":["{{tr.saleUserId}}"]}'
-                           modal-url="views/notice/sendToUser.html">发送消息
+                        <a href="#/invoice/edit.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="编辑">
+                        <span class="edit-link-icon">&nbsp;</span></a>
+                        <a ng-if="tr.orderStatus=='未提交'"
+                           href="javascript:;"
+                           class="btn-link pd-m rect-s"
+                           title="删除"
+                           handle-this-click
+                           dialog-title="确认删除 ?"
+                           dialog-content="您确认删除这条采购发票吗?"
+                           dialog-template="pr-dialog-confirm.html"
+                           request-url="rest/authen/invoice/delete?id={{tr.id}}"
+                           callback="$root.utils.refreshHref()">
+                          <span class="delete-link-icon">&nbsp;</span>
                         </a>
-                      </em></i>
-                    </span>
-                  </span>
-                  <span class="flex-item-6 pdl">
-                    期望到货时间：<strong class="text-normal color-6">{{(tr.expectDate | date : 'yyyy-MM-dd')||'无'}}</strong>
-                  </span>
-                </div> -->
-              <!-- </div> -->
-              <!-- <div class="relative">
-                <div class="bb-line">
-                  <h1 class="mg-m text-center text-m color-6 text-ellips-s">{{tr.customerName || '未知单位'}}</h1>
-                </div>
-                <div class="flex-column mgb-n query text-s color-9">
-                  <div class="flex-item-6 br-line text-center" style="height:131px;">
-                    <div class="">
-                      <p class="pdt-m pdb-s">购需药械品类数</p>
-                      <p class="text-xxxl pdb-xl pdt-s">{{tr.itemCount}}</p>
-                    </div>
-                    <div class="flex-column">
-                      <span class="flex-item-6">
-                        冷链药械： <strong class="text-normal color-6">{{tr.isNeedColdChain}}</strong>
                       </span>
-                      <span class="flex-item-6">
-                        库存： <strong class="text-normal color-6">{{tr.stockStatus}}</strong>
+                      <span ng-if="tr.orderStatus!='未提交'" class=" text-right">
+                        <a ng-if="tr.orderStatus!='待审核'&&tr.orderStatus!='未提交'"
+                         href="#/invoice/get.html?id={{tr.id}}" class="btn-link pd-m rect-s " title="查看详情">
+                        <span class="watch-detail-icon">&nbsp;</span>
+                        </a>
+                        <a ng-if="tr.orderStatus=='待审核' && $root.utils.getcustomMenuByKeyOfArr(tr.didateFilter.buttons,'通过')"
+                           ng-href="#/invoice/get.html?id={{tr.id}}"
+                           title="立即审核"
+                           class="btn-link pd-m rect-s "
+                           >
+                          <span class="examine-approve">&nbsp;</span>
+                         </a>
                       </span>
-                    </div>
-                  </div>-
-                  <div class="flex-item-6 text-center">
-                    <p class="pd-v-m">购需转销售单进度</p>
-                    <p class="text-m color-6">{{tr.progress}}%</p>
-                    <div class="pd-c-xl">
-                      <div class="progress pr-progress"
-                           data-toggle="tooltip"
-                           data-placement="top"
-                           title="{{tr.progress}}%">
-                        <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
-                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                             aria-valuemax="100"
-                             ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'
-                             >
-                        </div>
-                        <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
-                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                              ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
-                             aria-valuemax="100" >
-                        </div>
-                      </div>
-                    </div>
-                    < <p><strong class="text-normal color-6">{{tr.progress}}%</strong></p>
-                  </div>
                 </div>
-              </div>-->
-
               <div class="card-new">
                   <div class="bt-line">
-                    <h1 class="text-center text-m color-3 text-ellips-s">{{tr.customerName || '暂无'}}</h1>
+                    <h1 class="text-center text-m color-3 text-ellips-s">{{tr.seller.name || '暂无'}}</h1>
                   </div>
                   <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                    <span class="flex-item-6">系统编号</span>
-                    <span class="flex-item-6 text-right pr-indent-10"><strong class="color-black text-normal">{{tr.orderNo}}</strong></span>
+                    <span class="flex-item-6">发票编号</span>
+                    <span class="flex-item-6 text-right pr-indent-10"><strong class="color-black text-normal">{{tr.code}}</strong></span>
                   </div>
                   <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                    <span class="flex-item-6 text-left">录单日期</span>
+                    <span class="flex-item-6 text-left">开票日期</span>
                     <span class="flex-item-6 text-right">
-                        <strong class="color-black text-normal">{{tr.createAt | date : 'yyyy-MM-dd'}}</strong>
+                        <strong class="color-black text-normal">{{tr.billingDate || '暂无' | date : 'yyyy-MM-dd'}}</strong>
                     </span>
                   </div>
-
                   <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                    <span class="flex-item-6 text-left">条目数</span>
-                    <span class="flex-item-6 text-right">
-                        <strong class="color-black text-normal">{{tr.itemCount}}</strong>
-                    </span>
+                    <span class="flex-item-6 text-left">制单人</span>
+                    <!-- <span class="flex-item-6 text-right"> -->
+                      <span class="flex-item-6 text-right purchaseorder-buyer-info-outside">
+                        <strong run-popovers class="color-custom-orange cur-pot text-normal pr-color"
+                        style="position:relative;height:25px;">{{tr.inputUser.n}}</strong>
+                        <span class="purchaseorder-buyer-info" style="top:242px;right:-62px">
+                          <i class="block bb-line pdb-s text-normal"><em class="fa fa-mobile-phone mgl text-m"></em><em class="inline-block pdl pdr pdt">{{tr.inputUser.p}}</em></i>
+                          <i class="block pdb-s text-normal">
+                            <em class="fa fa-comment-o mgl"></em>
+                            <em class="inline-block pdl pdr pdt">
+                              <a href="javascript:;"
+                                 modal-center="340"
+                                 modal-data='{"toUser":{"n":"{{tr.inputUser.n}}"},"userIds":["{{tr.inputUser.id}}}"]}'
+                                 modal-url="views/notice/sendToUser.html">发送消息
+                              </a>
+                            </em>
+                          </i>
+                        </span>
+                      </span>
+                        <!-- <strong class="color-black text-normal">{{tr.applicant.n || '暂无'}}</strong>
+                    </span> -->
                   </div>
-
                   <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                    <span class="flex-item-8 text-left">转销售单进度</span>
-                    <div class="flex-item-4  color-3">
-                      <div class="progress pr-progress"
-                           data-toggle="tooltip"
-                           data-placement="top">
-                        <div ng-if="tr.progress=='100'" class="progress-bar pr-progress-bar-green" role="progressbar"
-                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                             aria-valuemax="100"
-                             ng-style='{"width":tr.progress+"%","background-color":"#2ec600 !important"}'>
-                             <span class="purchaseorder-buyer-info">
-                               <i class="block text-normal pd-c-s">
-                                 <em class="inline-block pd-v-s">
-                                   {{tr.progress}}%
-                                </em>
-                              </i>
-                            </span>
-                        </div>
-                        <div ng-if="tr.progress!='100'" class="progress-bar pr-progress-bar" role="progressbar"
-                             aria-valuenow="{{tr.progress}}" aria-valuemin="0"
-                              ng-style='{"width":tr.progress+"%","background-color":"#ff8c00 !important"}'
-                             aria-valuemax="100" >
-                             <span class="purchaseorder-buyer-info"
-                             ng-style='{"right":78-tr.progress+"%"}'
-                             >
-                               <i class="block text-normal pd-c-s">
-                                 <em class="inline-block pd-v-s">
-                                   {{tr.progress}}%
-                                </em>
-                              </i>
-                            </span>
-                        </div>
-                      </div>
-                      <!-- <span class="pr-indent-15 flex-item-2 text-m color-6">{{tr.progress}}%</span> -->
-                    </div>
-                  </div>
-
-                  <!-- <div ng-if="tr.orderStatus=='已处理'" class="flex-column qurey text-s color-9 bt-dashed-line">
-                    <span class="flex-item-6 pdl mgb-s text-left">销售单数</span>
-                    <span class="flex-item-6 text-right">
-                        <strong class="color-black text-normal">{{tr.createAt | date : 'yyyy-MM-dd'}}</strong>
-                    </span>
-                  </div> -->
-
-
-                  <div class="flex-column qurey text-s color-9 bt-dashed-line">
-                      <span class="flex-item-6 text-left">单据来源</span>
-                      <span class="flex-item-6 text-right">
-                        <strong class="color-black text-normal">{{tr.orderSource}}</strong>
+                    <span class="flex-item-12 text-right text-m ">
+                      <em>合计：</em>
+                        <em class="color-3">￥{{tr.totalPrice|number : 2}}</em>
                     </span>
                   </div>
-
                   <div class="flex-column qurey text-s color-9 bt-line">
                     <p
                     title="{{tr.note}}"
@@ -206,8 +119,6 @@
                     </p>
                   </div>
               </div>
-
-
             </div>
           </li>
         </ul>

@@ -2762,6 +2762,7 @@ function customTable() {
             if ($attrs.checkboxShow) {
                 $scope._checkboxShow=$attrs.checkboxShow;
             }
+
             if ($attrs.customTable) {
                 $scope._customTableName=$attrs.customTable;
                 $scope._customKey=$attrs.customKey;
@@ -3313,8 +3314,7 @@ function pageMainHeaderComponent () {
       getStatusNumUrl: '@',         // 获取所有单据状态数量URL
       statusGroupData: '@',         // 状态显示数据对象
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
-      getBusinessOrderTypeUrl: '@',      // 获取单据类型查询字段Url
-      getSourceOrderTypeUrl: '@',      // 获取来源单据类型查询字段Url
+      getInvoiceTypeUrl: '@',      // 获取发票类型查询字段Url
       isShowSelectItem: '@',
       searchPlaceholderInfo: '@',
       getWarehouseListUrl: '@',
@@ -3380,11 +3380,8 @@ function pageMainHeaderComponent () {
       scope.isShowApplyUserFilter = angular.isDefined(attrs.isShowApplyUserFilter) ? attrs.isShowApplyUserFilter : false;
       //是否显示类型过滤
       scope.isShowTypeFilter = angular.isDefined(attrs.isShowTypeFilter) ? attrs.isShowTypeFilter : false;
-
-      //是否显示单据类型过滤
-      scope.isShowOrderTypeFilter = angular.isDefined(attrs.isShowOrderTypeFilter) ? attrs.isShowOrderTypeFilter : false;
-      scope.isShowSouceOrderTypeFilter = angular.isDefined(attrs.isShowSouceOrderTypeFilter) ? attrs.isShowSouceOrderTypeFilter : false;
-
+      //是否显示发票类型过滤
+      scope.isShowInvoiceTypeFilter = angular.isDefined(attrs.isShowInvoiceTypeFilter) ? attrs.isShowInvoiceTypeFilter : false;
       //是否显示仓库过滤
       scope.isShowWarehouseFilter = angular.isDefined(attrs.isShowWarehouseFilter) ? attrs.isShowWarehouseFilter : false;
       //是否显示日期过滤
@@ -3526,9 +3523,9 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
         // 计算当前页面宽度
         var _pageWidth = null;
         if (window.innerWidth) {
-          _pageWidth = window.innerWidth - 160;
+          _pageWidth = window.innerWidth - 180;
         } else if ((document.body) && (document.body.clientWidth)) {
-          _pageWidth = document.body.clientWidth - 160;
+          _pageWidth = document.body.clientWidth - 180;
         }
 
         // var _pageWidth = $("#main_body").width() - 23;

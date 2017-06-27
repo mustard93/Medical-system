@@ -1,0 +1,233 @@
+<div class="medical-stock supplier-management child-project-management"
+     ng-controller="goodsOwnerCtrl"
+     ng-init="">
+
+    <!-- 主内容头部 -->
+    <page-main-header-component list-params="listParams"
+                                crumbs-nav='[{"name":"货主管理","link":"","style":""}]'
+                                component-title="货主管理"
+                                style="min-height:150px;"
+                                get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
+    </page-main-header-component>
+
+
+
+    <table-list
+                list-data="rest/authen/goodsOwner/query"
+                list-params="listParams"
+                search-mode="noCaseSensitive"
+                search-param="q">
+        <!-- 主内容区域 -->
+
+        <!-- 新建商品 -->
+        <div class="pos-rel-tl order-create-btn fl-l" style="top:-80px;margin-left:40px;">
+            <a
+                    modal-right="500"
+                    modal-scope="this"
+                    modal-data='{}'
+                    modal-url="views/goodsOwner/edit.html"
+                    title="新建货主"><i style="top:3px;"></i><span class="text-s">新建货主</span></a>
+        </div>
+
+
+        <!-- 商品相关操作 -->
+        <div class="content-wrapper" style="margin-top:30px;padding:0px 10px; ">
+
+            <p class="pd-v-m">
+                <em class="circle-xs bg-pass-green"  style="    margin-left: -90px;"></em> <em class="mgr-l">启用</em>
+                <em class="circle-xs bg-end-red"></em> <em class="mgr-l">禁用</em>
+            </p>
+
+            <div class="content-wrapper-main pr-fuzzy-boundary">
+
+                <div class="flex-column color-9 pd-c-l pdt-m pdb-m bg-white ">
+                    <div class="flex-item-8">
+
+                        <div class="inline-block mgr-s">
+
+                            <span class="mgb-s">状态：</span>
+                            <select class="inline ipt-new-s pdt"
+                                    chosen style="width: 120px; display: none"
+                                    data-placeholder=" "
+                                    default-empty="全部"
+                                    ng-model="listParams.status"
+                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WLS_GoodsOwnerStatus">
+
+                            </select>
+
+                        </div>
+
+                        <div class="inline-block mgr-s">
+                            <span class="mgb-s">货主等级：</span>
+                            <select class="inline ipt-new-s pdt ng-untouched ng-valid ng-empty ng-dirty ng-valid-parse"
+                                    chosen="" style="width: 120px;display: none;"
+                                    data-placeholder=" " ng-model="listParams.rank"
+                                    default-empty="全部"
+                                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_WLS_GoodsOwnerRank">
+                            </select>
+                        </div>
+                    </div>
+                    <div ng-init="listParams.rankType='顺序'" class="flex-item-4 text-right ">
+
+                        <button  ng-if="listParams.rankType=='顺序'"  ng-click="listParams.rankType='倒序'"  type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↑</button>
+                        <button  ng-if="listParams.rankType=='倒序'"   ng-click="listParams.rankType='顺序'"   type="button" class="btn pr-btn-transparentbg pr-btn-bg-gold">等级 ↓</button>
+
+                        <!--<key-search placeholder="货主名称" ng-model="listParams.q"></key-search>-->
+
+                        <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
+                            <input type="text" class="ipt pdr-xxl ng-pristine ng-untouched ng-valid ng-empty" placeholder="货主名称／货主编号" ng-model="listParams.q">
+                            <i class=""></i>
+                        </div>
+                        <div class="inline-block mgl-m" ng-click="listParams.q=''">
+                            <i class="fa fa-refresh mgr-s color-light-brown"></i>
+                            <a href="" class="color-light-brown">重置搜索条件</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="pr-bg-white pr-fuzzy-boundary">
+                <table class="table pr-table pr-new-table pr-table-content">
+                    <thead class="pr-bg-side">
+                    <tr>
+                        <th class="w-80">状态</th>
+                        <th class="w-100">序号</th>
+                        <th class="w-300">货主名称</th>
+                        <th class="w-100">货主编号</th>
+                        <th class="w-100">货主等级</th>
+                        <th class="w-100">联系电话</th>
+                        <th class="w-100">联系人</th>
+                        <th class="w-100">传真</th>
+                        <th class="w-100">邮箱</th>
+                        <th class="w-300">地址</th>
+                        <th class="w-300">备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="tbodyList.length"
+                        ng-repeat="tr in tbodyList track by $index"
+                        class="relative"
+                        table-item-multiple-btn>
+                        <td class="relative">
+                    <span class="circle-status"
+                          ng-class="{ 'bg-pass-green':tr.goodsOwnerStatus =='启用',
+                                     'bg-end-red':tr.goodsOwnerStatus =='禁用'}">
+
+                      <span class="purchaseorder-buyer-info" style="right: 20px;top: -5px;">
+                        <i class="block pd-c-s text-normal" style="line-height:1.8">
+                          <em  class="inline-block">{{tr.goodsOwnerStatus}}</em>
+                        </i>
+                      </span>
+                    </span>
+                            <div class="table-item-multiple-btn">
+                                <div class="inline-block handle-btn del-details-btn relative" href="javascript:;">
+                                    <div class="del-confirm-area text-center">
+                                        <p class="pd-v-s bb-dashed-line">确认删除本条数据?</p>
+                                        <p class="pd-v-s">
+                                            <a href="javascript:;" class="mgr-s hide-this-area">取消</a>
+                                            <a href="javascript:;"
+                                               class="pr-btn-best-small pr-btn-bg-gold"
+                                               ng-click="handleDelDetails(tr.id,'rest/authen/goodsOwner/delete','#/goodsOwner/query.html')">确认
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="inline-block handle-btn"
+
+                                     modal-right="500"
+                                     modal-scope="this"
+                                     modal-data='{"id":"{{tr.id}}"}'
+                                     modal-url="views/goodsOwner/edit.html"
+
+                                ></div>
+                                <div class="inline-block handle-btn other-handle-btn relative" href="javascript:;">
+                                    <div class="handle-area-show handle-area text-center">
+                                        <a ng-if="tr.goodsOwnerStatus=='禁用'"
+                                           href="javascript:;"
+                                           modal-center="350"
+                                           modal-scope="this"
+                                           modal-data='{"title":"确认",
+                                          "content":"确认启用该货主吗？",
+                                          "btnConfirm":"确定",
+                                          "btnCancel":"取消",
+                                          "url":"rest/authen/goodsOwner/updateStatus",
+                                          "goUrl":"",
+                                          "id":"{{tr.id}}",
+                                          "status":"启用"
+                                         }'
+                                           tpl-url="tpl/pr-dialog-submit-message.html">启用
+                                        </a>
+                                        <a
+                                           ng-if="tr.goodsOwnerStatus=='启用'"
+                                           href="javascript:;"
+                                           modal-center="350"
+                                           modal-scope="this"
+                                           modal-data='{"title":"确认",
+                                          "content":"确认禁用该货主吗?",
+                                          "btnConfirm":"确定",
+                                          "btnCancel":"取消",
+                                          "url":"rest/authen/goodsOwner/updateStatus",
+                                          "goUrl":"",
+                                          "id":"{{tr.id}}",
+                                          "status":"禁用"
+                                         }'
+                                           tpl-url="tpl/pr-dialog-submit-message.html">禁用
+                                        </a>
+
+                                        <a href="javascript:;"
+                                           modal-right="800"
+                                           modal-scope="this"
+                                           modal-data='{"type":"modalRight",
+                                          "modalWidth":"800",
+                                          "aclass":"color-orange add-return-order mgl-s",
+                                          "requestUrl":"rest/authen/versionFlow/query?businessKey={{tr.id}}",
+                                          "httpMethod":"GET",
+                                          "ahref":"views/versionFlow/get-right-side.html?businessKey={{tr.id}}",
+                                          "showName":"查看操作记录"}'
+                                           modal-url="views/versionFlow/get-right-side.html?businessKey={{tr.id}}">操作记录
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="text-center">{{(status.currentPage-1)*status.pageSize+($index+1)}}</td>
+                        <td>{{tr.goodsOwnerName}}</td>
+                        <td>{{tr.goodsOwnerCode}}</td>
+                        <td>{{tr.goodsOwnerRank}}</td>
+                        <td>{{tr.phone}}</td>
+                        <td>{{tr.contactName}}</td>
+                        <td>{{tr.fax}}</td>
+                        <td>{{tr.postCode}}</td>
+                        <td>{{tr.address}}</td>
+                        <td>{{tr.note}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pr-bg-white" ng-if="!tbodyList.length">
+                <div class="empty-table clearfix">
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                    <div>&nbsp;</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 导航 -->
+        <div class="clearfix pd-c-m" ng-if="tbodyList.length">
+            <div class="fr">
+                <pagination status="status"></pagination>
+            </div>
+        </div>
+
+    </table-list>
+
+</div>
+
+
+

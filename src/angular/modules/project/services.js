@@ -1009,6 +1009,46 @@ define('project/services', ['project/init'], function() {
         return tmpObj;
     }
 
+    function invoiceOrderUtils(utils) {
+        var tmpObj = {
+            //原币单价(无税单价)  //tr.price*tr.quantity/(100+tr.taxRate)/100/tr.quantity
+            getWuSuiDanJian: function(item) {
+                var tmp;
+                tmp = utils.numberDiv(item.tax, 100);
+                tmp = 1 + tmp;
+                tmp = utils.numberDiv(item.strike_price, tmp);
+                return tmp;
+            },
+            //原币金额（无税金额） item.price*(1-item.taxRate)*item.quantity
+            getWuSuiJinE: function(item) {
+                //item.price*(100-item.taxRate)/100*item.quantity
+                //100-item.taxRate
+                var tmp;
+                tmp = tmpObj.getWuSuiDanJian(item);
+                tmp = utils.numberMul(tmp, item.quantity);
+                return tmp;
+            },
+            //价税合计 item.price*item.quantity
+            getJiaSuiHeJi: function(item) {
+                //item.purchasePrice*item.quantity
+                // var tmp=utils.numberMul(item.taxPrice,item.quantity);
+                var tmp;
+                tmp = utils.numberMul(item.strike_price, item.quantity);
+                return tmp;
+            },
+            getSuiE: function(item, orderBusinessType) {
+                //100-item.taxRate
+                var tmp = tmpObj.getWuSuiDanJian(item),
+                    total;
+                    tmp = utils.numberMul(tmp, item.quantity);
+                    total = tmpObj.getJiaSuiHeJi(item);
+                    tmp = utils.numberSub(total, tmp);
+                    return tmp;
+            },
+        }; //tmpObj
+        return tmpObj;
+    }
+
     // 请购单相关计算
     function requestPurchaseOrderUtils(utils) {
         var tmpObj = {
@@ -1109,6 +1149,7 @@ define('project/services', ['project/init'], function() {
         .factory('customMenuUtils', ["utils", customMenuUtils])
         .factory('saleOrderUtils', ["utils", saleOrderUtils])
         .factory('purchaseOrderUtils', ["utils", purchaseOrderUtils])
+        .factory('invoiceOrderUtils', ["utils", invoiceOrderUtils])
         .factory('requestPurchaseOrderUtils', ["utils", requestPurchaseOrderUtils])
         .factory('bottomButtonList', ["$rootScope", bottomButtonList])
         .factory('queryItemCardButtonList', ["$rootScope", queryItemCardButtonList])

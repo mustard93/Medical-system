@@ -1585,10 +1585,6 @@ color: #C7A77B!important;
 .pr-bg-orange {
   background-color: #ffb82f;
 }
-.pr-bg-yellow {
-  background-color:rgba(255,246,228,1);
-}
-
 .pr-bg-pink {
   background-color: #fee7e7!important;
 }
@@ -3273,21 +3269,6 @@ span.re-send-icon{
    background-position: -251px -3475px;
 }
 
-/*开始拣选的图标*/
-span.pick-medical-icon-white {
-	position: relative;
-	right: 50px;
-	background: rgba(54,48,44,0.8);
-	box-shadow: 0 0 6px 0 rgba(54,48,44,0.9);
-	display: inline-block;
-	 width: 86px;
-	 height: 32px;
-	 border-radius: 20px;
-	 background-image: url(../../images/star_pickMedical.png);
-	 background-repeat: no-repeat;
-	 background-position: 1px 1px;
-}
-
 /*移入样式改变*/
 /*特殊处理*/
 .rect-s[disabled]{
@@ -3466,9 +3447,9 @@ label.checkbox_label > div {
 .date-icon-outside{
   display: inline-block;
   position: relative;
-	/*top: 3px;*/
   width: 125px;
-  height: 28px;
+  height: 26px;
+	top: 3px;
   background-color: rgba(255, 255, 255, .8);
   border: 1px solid rgba(0,0,0,0.2);
   border-radius: 4px
@@ -3561,7 +3542,7 @@ label.checkbox_label > div {
   /*top: 22px;*/
   right: -15%;
   display: none;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, .85);
   z-index: 13;
   -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
   -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
@@ -3907,7 +3888,6 @@ label.checkbox_label > div {
   color: #333;
   line-height: 16px;
   height: 48px;
-	min-width: 65px;
 	line-height: 2.4;
 }
 .pr-new-table thead tr th:first-child,
@@ -4368,12 +4348,12 @@ span.popovers:hover, span.popovers > .purchaseorder-buyer-info:hover {
 	position: relative;
 	border: 1px solid rgba(0,0,0,0.10);
 	color: #fff;
-	padding: 3px 15px;
+	padding: 5px 15px 5px 30px;
 	text-align: center;
 	-webkit-border-radius: 20px;
 	-moz-border-radius: 20px;
 	border-radius: 20px;
-	text-indent: 20px;
+	/*text-indent: 20px;*/
 	background-color: #c7a77b;
 }
 .hospital-application a.batch-delete-btn[disabled],
@@ -4762,7 +4742,7 @@ border: 1px solid #ddd;
 }
 .show-mask:hover span
 {
-	z-index: 100;
+	z-index: 8;
 }
 .show-big-img{
 	position: absolute;
@@ -6183,7 +6163,7 @@ div.arrow-down:before{
 .bulk-receipt-btn-disabled-icon {
   position: absolute;
   top: 4px;
-  left: 12px;
+  left: 10px;
   background-image: url(../../images/pr-sprites.png);
   background-repeat: no-repeat;
   background-position: -252px -3227px;
@@ -6270,28 +6250,106 @@ border: 1px solid rgba(209,143,0,0.2);
 	background-image: url(../../images/icon_stockRoomQuery/icon-pg16-goodslocaltion.png);
 	background-repeat: no-repeat;
 }
-.star-end-icon{
-	text-align: center;
-	position: relative;
+
+/*发票管理模块上传发票图片样式定义*/
+.add-icon-invoice{
+ display: inline-block;
+ position: absolute;
+ top: 13px;
+ left: 10px;
+ border-radius: 50%;
+ width: 30px;
+ height: 36px;
+ /*background-color: #c7a77b;*/
+ background-image: url(../../images/pr-sprites.png);
+ background-repeat: no-repeat;
+ background-position: -120px 5px;
 }
-.star-end-icon>span:first-child,.star-end-icon>span:last-child{
-	position: relative;
-	display:block;
-	width: 20px;
-	height: 20px;
-	border: 1px solid #333333;
-	border-radius: 50%;
-}
-.star-end-icon>span:last-child{
-	top: 20px;
-}
-.star-end-icon>span:nth-child(2){
-	display: block;
+/*demo演示版本，排序筛选.*/
+.sort-criteria{
+	/*display: inline-block;*/
+	display: none;
 	position: absolute;
-	left: 10px;
-	height: 20px;
-	width: 1px;
-	background-color:#333333;
+	left: 2px;
+	top: 22px;
+	width: 97%;
+	padding: 5px 10px;
+	background-color:rgba(251,245,237,1);
+	z-index: 9;
+}
+span.sort-active{
+	display: block;
+}
+span.bg-active{
+	background-color:#c7a77b;
+	color:white;
+}
+.sort-criteria em{
+	display: block;
+}
+.sort-criteria em.active{
+	color: rgba(199,167,123,1);
+}
+.select-span{
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	margin-left: 10px;
+	border-radius:20px;
+	padding:5px 10px;
+	font-size:12px;
+	background-color:rgba(251,245,237,1);
+	color:#666;
+}
+.ipt-opacity{
+  background: #595450;
+  color: white;
+  height: 28px;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 2px;
+  width: 160px;
+  text-indent: 5px;
+}
+
+/* 演示版本中弹出层显示用户信息 */
+.show-info-modal {
+	position: absolute;
+	top: 8px;
+	left: 100%;
+	z-index: 99999;
+	width: 350px;
+  /*height: 300px;*/
+	background: rgba(255,255,255,0.90);
+	box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);
+	min-width: 282px;
+  text-align: left;
+	color: #999;
+	/*overflow-y: hidden;*/
+	/*display: none;*/
+}
+.show-info-modal:before {
+	content: '';
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background-color: #c7a77b;
+	transform: rotate(-45deg);
+	position: absolute;
+	top: 10px;
+	left: -6px;
+	box-shadow: 0 2px 4px 0 rgba(199,167,123,0.50);
+}
+.show-info-modal > h1 {
+	width: 100%;
+	height: 37px;
+	line-height: 37px;
+	text-indent: 15px;
+	color: #fff;
+	background-color: #c7a77b;
+}
+.show-info-modal > div.show-info-modal-content {
+	width: 100%;
+	padding: 10px 15px;
 }
 
 .add-icon-invoice{
