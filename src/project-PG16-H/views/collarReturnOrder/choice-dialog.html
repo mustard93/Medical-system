@@ -152,6 +152,7 @@
     <div ng-if="type=='通过领用单退货'"
          ajax-url="rest/authen/collarApplicationOrder/getByOrderCode?orderCode={{selectedData.data.orderCode}}"
          scope-data="scopeData"
+         callback="isChoiseAll=false; selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'onlyId');"
     >
 
         <!-- 过滤条件 -->
@@ -240,17 +241,23 @@
                         <span class="mgr-l">申请人：<em class="color-3">{{scopeData.applicant.n || '暂无'}}</em></span>
                         <span class="mgr-l">申请部门：<em class="color-3">{{scopeData.departmentName || '暂无'}}</em></span>
                         <span class="mgr-l">领用日期：<em class="color-3">{{scopeData.createAt | date:'yyyy-MM-dd'}}</em></span>
-                        <span class="mgr-l">领用库房：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>
+                        <span class="mgr-l">领用库房：<em class="color-3">{{scopeData.expectDate | date:'yyyy-MM-dd'}}</em></span>   isChoiseAll:{{isChoiseAll}}
                     </div>
                 </div>
                 <!-- 商品列表 -->
-                <div class="outside-table-d" ng-init="selectedBatchs= initChoisedMedicalList(formData.orderMedicalNos, scopeData.orderMedicalNos,'onlyId')">
+                <div class="outside-table-d">
                     <table class="table pr-table pr-new-table mgb-n" style="min-width: 100%;">
                         <thead>
                         <tr>
+
+                            <!--ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"     ng-checked="isChoiseAll2" -->
+
                             <th class="w-60 text-center mycheck">
-                                <input type="checkbox" class="selectAll cur-pot" id='1' ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll,scopeData.orderMedicalNos);"
+                                <input type="checkbox" class="selectAll cur-pot" id='1'
                                        ng-disabled="selectedBatchs.length == scopeData.orderMedicalNos.length"
+                                       ng-model="isChoiseAll2"
+                                       ng-click="handleChoiseAllEvent(isChoiseAll2,scopeData.orderMedicalNos);"
+
                                 >
                                 <label for="1" style="top: 10px;"></label>
 
@@ -275,9 +282,11 @@
                                 <!--ng-disabled="itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1"-->
 
                                 <input type="checkbox"
-                                       ng-init="item.disabled=(itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1)"
-                                       ng-disabled="item.disabled"
-                                       class="selectOne cur-pot" id='{{$index+2}}' ng-model="tr.handleFlag" ng-click="handleItemClickEvent(tr,$index,scopeData.orderMedicalNos);">
+                                       ng-init="tr.disabled=(itemInArray(tr.onlyId,formData.orderMedicalNos,'onlyId') || tr.returnTotal<1)"
+                                       ng-disabled="tr.disabled"
+                                       class="selectOne cur-pot" id='{{$index+2}}'
+                                       ng-model="tr.handleFlag"
+                                       ng-click="handleItemClickEvent(tr,scopeData.orderMedicalNos,'onlyId');">
                                 <label for="{{$index+2}}"></label>
                             </td>
                             <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
@@ -306,9 +315,12 @@
                 </div>
             </div>
         </div>
+        selectedBatchs.length:{{selectedBatchs2}}
+
+        <!---->
 
         <div class="footer-button-area" style="position:fixed;bottom:0px;">
-            <button type="submit" style="margin-left:500px;" class="pr-btn-create-glodbg new-left-side-button" ng-disabled="selectedBatchs.length<1" ng-click="addOrderDataToList(scopeData.departmentId,scopeData.departmentName);modal.close()">确定</button>
+            <button type="submit" style="margin-left:500px;" ng-disabled="selectedBatchs2.length<1"  class="pr-btn-create-glodbg new-left-side-button"  ng-click="addOrderDataToList(scopeData.departmentId,scopeData.departmentName);modal.close()">确定</button>
         </div>
 
     </div>
@@ -612,7 +624,7 @@
                     <thead>
                     <tr class="bb-line-gold">
                         <th class="w-60 text-center mycheck" style="width: 100px;">
-                            <input type="checkbox" class="selectAll cur-pot" id='1' ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll,stockBatchList);">
+                            <input type="checkbox" class="selectAll cur-pot" id='1' ng-model="isChoiseAll2" ng-click="handleChoiseAllEvent(isChoiseAll2,stockBatchList);">
                             <label for="1" style="top: 10px;"></label>
                         </th>
                         <th>生产批号</th>
@@ -626,7 +638,7 @@
                     <tr ng-repeat="item in stockBatchList" class="trHover-bg">
 
                         <td ng-init="item.quantity=item.maxQuantity; item.handleFlag= item.handleFlag ?  true : false; item.disabled = (item.maxQuantity<1) " class="select-td text-center mycheck" style="width: 100px;">
-                            <input type="checkbox" ng-disabled="item.disabled" class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,$index,stockBatchList);">
+                            <input type="checkbox" ng-disabled="item.disabled" class="selectOne cur-pot" id='{{$index+2}}' ng-model="item.handleFlag" ng-click="handleItemClickEvent(item,stockBatchList,'stockBatchId');">
                             <label for="{{$index+2}}"></label>
                         </td>
 
@@ -638,11 +650,11 @@
                 </table>
 
                 <div class="footer-button-area" style="position:fixed;bottom:0px;">
-                    <button type="submit" style="margin-left:400px;" class="pr-btn-create-glodbg new-left-side-button"  ng-click="changeShowBatchsFlag(false);isChoiseAll=false;">上一步</button>
+                    <button type="submit" style="margin-left:400px;" class="pr-btn-create-glodbg new-left-side-button"  ng-click="changeShowBatchsFlag(false);isChoiseAll2=false;">上一步</button>
 
-                    <button type="submit" style="margin:0 20px;" class="pr-btn-create-glodbg new-left-side-button"  ng-disabled="selectedBatchs.length<1" ng-click="addToList();changeShowBatchsFlag(false);isChoiseAll=false;">确定并继续</button>
+                    <button type="submit" style="margin:0 20px;" class="pr-btn-create-glodbg new-left-side-button"  ng-disabled="selectedBatchs2.length<1" ng-click="addToList();changeShowBatchsFlag(false);isChoiseAll=false;">确定并继续</button>
 
-                    <button type="submit" style="margin:0;" class="pr-btn-create-glodbg new-left-side-button" ng-disabled="selectedBatchs.length<1" ng-click="addToList();modal.close();">确定</button>
+                    <button type="submit" style="margin:0;" class="pr-btn-create-glodbg new-left-side-button" ng-disabled="selectedBatchs2.length<1" ng-click="addToList();modal.close();">确定</button>
                 </div>
 
 
