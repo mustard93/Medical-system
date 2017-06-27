@@ -3,7 +3,7 @@
             search-mode="noCaseSensitive"
             search-param="q">
 
-<div class="create-new-order purchasePlanOrder-edit purchase-plan-order"
+<div class="create-new-order purchasePlanOrder-edit purchase-plan-order child-project-management"
      ng-controller="pickBillOrderController"
      ajax-url="rest/authen/pickBillOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
@@ -43,7 +43,7 @@
          </div>
        </div>
        <div class="outside-table-d">
-         <table class="table pr-table pr-new-table table-ss-wid" >
+         <table class="table pr-table pr-new-table">
            <thead>
             <tr>
               <th class="text-center w-80">序号</th>
@@ -61,9 +61,19 @@
            </thead>
            <tbody class="bg-white">
              <tr ng-repeat="tr in tbodyList track by $index"
-                 table-item-handlebtn-component
+                 table-item-multiple-btn
                  class="relative">
-               <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
+               <td class="text-center" style="line-height:2.4">{{$index+1}}
+                 <div class="table-item-multiple-btn">
+                   <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                        ng-if="tr.orderStatus!='已拣选'"
+                        modal-right="650"
+                        modal-scope="this"
+                        modal-data='{"id":"{{mainStatus.pageParams.id}}","medicalId":"{{tr.relMedicalStockId}}"}'
+                        modal-url="views/pickBillOrder/watch-info-modal.html">查看拣选信息...
+                   </div>
+                 </div>
+               </td><!-- 序号 -->
                <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                <td class="text-left" style="line-height:2.4">{{tr.name}}</td><!-- 商品全名 -->
                <td class="text-center" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请数量 -->
