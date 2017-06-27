@@ -4022,6 +4022,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.angucomplete_data={};
 
         $scope.$watch('angucomplete_data',function(){
+            $scope.curOrder=null;
             // console.log("angucomplete_data:$watch"+$scope.angucomplete_data.id);
             if($scope.angucomplete_data.data == undefined){
                 return;
@@ -4147,13 +4148,20 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             if (flag) {   // 全选被选中
                 angular.forEach(list, function (data, index) {
-                    data.handleFlag = true;
-                    $scope.selectedBatchs.push(data);
+
+                    if(!data.disabled){
+                        data.handleFlag = true;
+                        $scope.selectedBatchs.push(data);
+                    }
+
                 });
 
             } else {    //取消了全部选中
                 angular.forEach(list, function (data, index) {
-                    data.handleFlag = false;
+
+                    if(!data.disabled){
+                        data.handleFlag = false;
+                    }
                 });
                 $scope.selectedBatchs=[];
             }
@@ -4185,8 +4193,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 }
             });
 
-            if(dataList.length == counter){
-                $scope.isChoiseAll=true;
+            if(dataList){
+                if(dataList.length == counter){
+                    $scope.isChoiseAll=true;
+                }
             }
 
             return choicedList;
