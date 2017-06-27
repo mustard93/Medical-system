@@ -3706,8 +3706,24 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         restrict: 'EA',
         scope: true,
         replace: true,
-        templateUrl: Config.tplPath + 'tpl/project/showInfoModal.html',
+        templateUrl: function (element, attrs) {
+          // return Config.tplPath + scope.templateUrl;
+          if (($(document).height() - $(element).offset().top) > 200) {
+            return Config.tplPath + attrs.templateUrl + '.html';
+          } else {
+            return Config.tplPath + attrs.templateUrl + '2.html';
+          }
+        },
         link: function (scope, element, attrs) {
+
+          var _test = $(document).height() - $(element).offset().top;
+
+
+
+          if (_test < 500) {
+            console.log(_test);
+          }
+
           // 获取数据拉取模式
           if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
             // 弹出层标题

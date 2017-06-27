@@ -3484,9 +3484,9 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
         // 计算当前页面宽度
         var _pageWidth = null;
         if (window.innerWidth) {
-          _pageWidth = window.innerWidth - 160;
+          _pageWidth = window.innerWidth - 180;
         } else if ((document.body) && (document.body.clientWidth)) {
-          _pageWidth = document.body.clientWidth - 160;
+          _pageWidth = document.body.clientWidth - 180;
         }
 
         // var _pageWidth = $("#main_body").width() - 23;

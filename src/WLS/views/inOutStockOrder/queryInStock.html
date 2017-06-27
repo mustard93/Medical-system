@@ -303,7 +303,6 @@
                             callback="confirmInStock(tr.id);">确认
                         </div>
                       </div>
-
                       <div class="table-item-multiple-btn">
                         <div ng-if="tr.inOutStockOrderStatus=='处理中'" class="inline-block btn-receiveItem pr-bg-delete color-white"
                              style="right:110px;"
@@ -315,7 +314,6 @@
                              callback="confirmInStock(tr.id);">确认完成
                         </div>
                       </div>
-
                       <div class="table-item-multiple-btn">
                         <div class="inline-block btn-receiveItem pr-bg-edit color-white"
                              style="right:10px;"
@@ -330,10 +328,11 @@
                     <td class="color-custom-orange">{{tr.orderCode}}</td><!-- 入库编号 -->
                     <td class="text-center color-orange cur-pot relative"
                         ng-init="showInfoArea=false"
-                        ng-mouseenter="showInfoArea=true" 
+                        ng-mouseenter="showInfoArea=true"
                         ng-mouseleave="showInfoArea=false">{{tr.goodsOwnerName}}
                       <show-info-modal ng-show="showInfoArea"
                                        get-data-type="local"
+                                       template-url="tpl/project/showInfoModal"
                                        info-object="{{tr.consignerContacts}}"
                                        info-title="货主信息">
                       </show-info-modal>

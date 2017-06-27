@@ -1,0 +1,47 @@
+<div class="page-main-content text-n">
+  <div class="page-heading">
+      <h3>主面板</h3>
+      <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">浮层信息显示组件</li>
+      </ul>
+  </div>
+  <h1 class="pd-c-l pdt-m pdb-m">浮层信息显示组件</h1>
+  <div class="pd-c-l">
+    <div class="mgb-l">
+      <div class="text-center color-orange cur-pot relative" style="width:120px;"
+           ng-init="showInfoArea=false"
+           ng-mouseenter="showInfoArea=true"
+           ng-mouseleave="showInfoArea=false">演示文字信息
+        <show-info-modal ng-show="showInfoArea"
+                         get-data-type="local"
+                         template-url="tpl/project/showInfoModal"
+                         info-object="{{tr.consignerContacts}}"
+                         info-title="演示信息标题">
+        </show-info-modal>
+      </div>
+    </div>
+
+    <div class="">
+      <h1 class="mgb">Code:</h1>
+      <textarea class="pr-textarea" style="width:100%;min-height:300px;">
+        /**
+         *  浮层信息显示组件，组件名：show-info-modal
+         *  目前支持从该组件的父元素中定义显示方式，使用`ng-mouseenter`、`ng-mouseleave`、`ng-init`来定义`flag`控制信息层如何显示
+         *  属性：
+         *  ng-show ： 定义flag来控制信息层是否显示
+         *  get-data-type ： 获取显示数据的方式，`local`表示从本地数据中获取，另外可使用`fetch`表示从远程单独获取，目前不支持
+         *  template-url : 指定模板
+         *  info-object : 指定数据源对象
+         *  info-title : 指定标题
+         */
+        <show-info-modal ng-show="showInfoArea"
+                         get-data-type="local"
+                         template-url="tpl/project/showInfoModal"
+                         info-object="{{tr.consignerContacts}}"
+                         info-title="演示信息标题">
+        </show-info-modal>
+      </textarea>
+    </div>
+  </div>
+</div>
