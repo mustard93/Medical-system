@@ -3315,6 +3315,7 @@ function pageMainHeaderComponent () {
       statusGroupData: '@',         // 状态显示数据对象
       getBusinessTypeUrl: '@',      // 获取业务类型查询字段Url
       getInvoiceTypeUrl: '@',      // 获取发票类型查询字段Url
+      getSourceOrderTypeUrl: '@',      // 获取来源单据类型查询字段Url
       isShowSelectItem: '@',
       searchPlaceholderInfo: '@',
       getWarehouseListUrl: '@',
@@ -3382,6 +3383,8 @@ function pageMainHeaderComponent () {
       scope.isShowTypeFilter = angular.isDefined(attrs.isShowTypeFilter) ? attrs.isShowTypeFilter : false;
       //是否显示发票类型过滤
       scope.isShowInvoiceTypeFilter = angular.isDefined(attrs.isShowInvoiceTypeFilter) ? attrs.isShowInvoiceTypeFilter : false;
+      //是否显示来源单据类型过滤
+      scope.isShowSourceOrderTypeFilter = angular.isDefined(attrs.isShowSourceOrderTypeFilter) ? attrs.isShowSourceOrderTypeFilter : false;
       //是否显示仓库过滤
       scope.isShowWarehouseFilter = angular.isDefined(attrs.isShowWarehouseFilter) ? attrs.isShowWarehouseFilter : false;
       //是否显示日期过滤
