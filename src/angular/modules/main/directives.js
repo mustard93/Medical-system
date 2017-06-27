@@ -3694,10 +3694,53 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }//zTreeSelect
 
     /**
+     *  全局弹出层显示信息组件
+     *  支持两种获取信息的模式：
+     *    1、从本地读取，getDataType: local
+     *    2、从远程服务器拉取  getDataType: fetch
+     *  create by liuzhen at 2017/06/23
+     */
+    function showInfoModal (requestData, utils, alertOk, alertError) {
+      'use strict';
+      return {
+        restrict: 'EA',
+        scope: true,
+        replace: true,
+        templateUrl: function (element, attrs) {
+          // return Config.tplPath + scope.templateUrl;
+          if (($(document).height() - $(element).offset().top) > 200) {
+            return Config.tplPath + attrs.templateUrl + '.html';
+          } else {
+            return Config.tplPath + attrs.templateUrl + '2.html';
+          }
+        },
+        link: function (scope, element, attrs) {
+
+          var _test = $(document).height() - $(element).offset().top;
+
+
+
+          if (_test < 500) {
+            console.log(_test);
+          }
+
+          // 获取数据拉取模式
+          if (attrs.getDataType && attrs.getDataType === 'local') {     // 从已获取的数据对象里获取
+            // 弹出层标题
+            scope.infoTitle = attrs.infoTitle || '暂无';
+            // 详细信息
+            scope.infoObject = JSON.parse(attrs.infoObject);
+          }
+
+
+        }
+      };
+    }
+
+    /**
      * 加入项目
      */
     angular.module('manageApp.main')
-
       .directive("zTreeSelect", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTreeSelect])
       .directive("zTree", [ "requestData", "alertOk", "alertError", "proLoading","utils", zTree])
       .directive("textInterception", textInterception)
@@ -3727,10 +3770,9 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
       .directive("checkboxGroup", checkboxGroup)
       .directive("chosen", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",chosen])
       .directive("pgSelect", ["requestData", "$timeout", "$rootScope", "alertError", "proLoading","utils",pgSelect])
-
-
       .directive("formItem", formItem)
       .directive("autoComplete", autoComplete)
       .directive("selectAddress", ["$http", "$q", "$compile",selectAddress])
       .directive("customConfig", customConfig)
+      .directive("showInfoModal", ['requestData', 'utils', 'alertOk', 'alertError', showInfoModal])
 });

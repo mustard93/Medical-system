@@ -45,25 +45,43 @@
       <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">区域名称：</div>
         <div class="flex-item-8 text-left">
-          <select ng-if="initFlag" class="inline ipt-new-s pdt"
+          <select ng-if="initFlag"
+                  class="inline pr-ipt-160 hei-28"
+                  ajax-if-eval="dialogData.storeRoomId"
+                  ajax-url="rest/authen/region/queryForSelectOption?storeRoomId={{dialogData.storeRoomId}}"
+                  ng-model="formData.regionId"
+                  scope-data="regionData"
+                  ng-options="item.value as item.text for item in regionData">
+          </select>
+            <em class="color-red" ng-if="!formData.regionId">(必填)</em>
+          <!-- <select ng-if="initFlag" class="inline ipt-new-s pdt"
                   chosen
                   style="width:160px;"
                   data-placeholder=" "
                   ng-model="formData.regionId"
                   select-source="rest/authen/region/queryForSelectOption?storeRoomId={{dialogData.storeRoomId}}">
-          </select>
+          </select> -->
         </div>
       </div>
       <div class="flex-column mgt">
         <div class="flex-item-4 text-right text-n" style="line-height:28px;">货位名称：</div>
         <div class="flex-item-8 text-left">
-          <select ng-if="initFlag" class="inline ipt-new-s pdt"
+          <select ng-if="initFlag"
+                  class="inline pr-ipt-160 hei-28"
+                  ajax-if-eval="formData.regionId"
+                  ajax-url="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}"
+                  ng-model="formData.goodsLocationId"
+                  scope-data="goodsLocationData"
+                  ng-options="item.value as item.text for item in goodsLocationData">
+          </select>
+            <em class="color-red" ng-if="!formData.goodsLocationId">(必填)</em>
+          <!-- <select ng-if="initFlag" class="inline ipt-new-s pdt"
                   chosen
                   style="width:160px;"
                   data-placeholder=" "
                   ng-model="formData.goodsLocationId"
                   select-source="rest/authen/goodsLocation/queryForSelectOption?regionId={{formData.regionId}}">
-          </select>
+          </select> -->
         </div>
       </div>
       <div class="flex-column mgt">
@@ -105,7 +123,7 @@
     </div>
     <div class="btn-confirm-area">
         <button type="submit"
-        ng-disabled="!medicalStockData.name || !medicalStockData.relId || !medicalStockData.relMedicalStockId || !medicalStockData.productionBatch"
+        ng-disabled="!medicalStockData.name || !medicalStockData.relId || !medicalStockData.relMedicalStockId || !medicalStockData.productionBatch ||!formData.regionId||!formData.goodsLocationId"
         ng-click="submitData(medicalStockData,formData.regionId,formData.goodsLocationId);modal.closeAll();"
         class="btn pr-btn-create-glodbg "
         style="width:160px;height:32px;	margin-top: 8px;margin-left:155px;" value="确定">确定</button>

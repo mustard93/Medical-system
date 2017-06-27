@@ -16,6 +16,7 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
       }
     };
   }
+  
   function statusStyleToggleNew () {
     'use strict';
     return {
@@ -217,13 +218,13 @@ define('project-PG16-H/directives', ['project-PG16-H/init'], function () {
                       };
               }
           };
+
   }
 
   angular.module('manageApp.project-PG16-H')
   .directive("showStatus",["utils",showStatus])
   .directive("statusStyleToggle", [statusStyleToggle])
-  .directive("statusStyleToggle", [statusStyleToggle])
-  .directive("changeImg", [changeImg])
+  .directive("changeImg",["utils",changeImg])
   .directive("statusStyleToggleNew", [statusStyleToggleNew])
   .directive("gs1BarcodeComponent", ["requestData", "utils", gs1BarcodeComponent])
   .directive('keySearch',['$timeout',keySearch])

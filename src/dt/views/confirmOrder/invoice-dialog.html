@@ -1,0 +1,95 @@
+<div class="modal-content pr-modal-content right-side-new pr-bg-black4 more-stock"
+     ng-init="listParams={}"
+     ng-controller="choiceInvoiceDialogCtlr"
+     ajax-url="rest/authen/invoice/query?source={{dialogData.invoiceSource}}&orderStatus=已完成"
+     scope-data="invoiceList2"
+     callback="initFlag=true;getChoisedBatchsId(dialogData.choisedBatchList);"
+     alert-error>
+
+    <!-- 标题 -->
+    <div class="bb-line-gold pr-bg-black2 min-h-l">
+        <h1 class="pr-indent-20 pdb-m text-n" style="line-height:50px;max-height:35px;">添加{{dialogData.invoiceSource}}</h1>
+    </div>
+
+    <!-- 过滤条件 -->
+    <div class="bb-line-gold pdt-s pdb-s pd-c-xl">
+        <!-- 发票类型 -->
+        <div class="inline-block">
+            <span class="color-9">发票类型：</span>
+            <select
+                    class="ipt pr-short-ipt color-3"
+                    default-empty="全部"
+                    width="120px"
+                    chosen
+                    no-first-select-source="true"
+                    default-empty="全部"
+                    ng-model="listParams.type"
+                    select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_InvoiceType"
+                    ng-change="getInvoiceList(listParams,dialogData.invoiceSource)">
+            </select>
+        </div>
+
+        <!--开票日期-->
+        <div class="inline-block">
+            <span class="color-9 mgl-m">开票日期：</span><!-- end ngIf: !_showDateName -->
+            <div class="date-icon-outside">
+                <input type="text" style="padding-left: 5px;" datepicker class="ipt-date pr-short-ipt color-6 mgr pr-indent-10hasDatepicker" ng-readonly="true" placeholder="日期" ng-model="listParams.createAtBeg" id="dp1496287386003" readonly="readonly"
+                       ng-change="getInvoiceList(listParams,dialogData.invoiceSource)"
+                >
+                <span class="date-icon"></span>
+            </div>
+            <span class="color-9">至</span>
+             <div class="date-icon-outside">
+                <input   ng-change="getInvoiceList(listParams,dialogData.invoiceSource)" type="text" datepicker class="ipt-date pr-short-ipt color-6 mgr pr-indent-10" ng-readonly="true" placeholder="日期" ng-model="listParams.createAtEnd" invalid-popover="" popover-show="listParams.createAtEnd<listParams.createAtBeg" popover-options="{&quot;content&quot;:&quot;结束日期不应小于开始日期&quot;, &quot;placement&quot;:&quot;top&quot;, &quot;trigger&quot;:&quot;manual&quot;}" data-original-title="" title="" id="dp1496287386004" readonly="readonly">
+                <span class="date-icon"></span>
+            </div>
+        </div>
+
+        <!-- 关键字过滤 -->
+        <div class="inline-block">
+            <div class="order-list-search text-left code pos-rel-tr inline-block pdl-l fl-r">
+                <input type="text" class="ipt pdr-xxl relative" placeholder="发票编号"  ng-model="listParams.q"
+                       ng-change="getInvoiceList(listParams,dialogData.invoiceSource)"
+                       style="top:7px;">
+                <i class="" style="top:10px;"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 无数据 -->
+    <div ng-if="!invoiceList2.length" class="color-red text-n pdl-l pdt-m">暂无发票信息...</div>
+
+    <!-- 数据遍历 -->
+    <div ng-if="invoiceList2.length">
+        <table class="full-width another-table">
+            <thead>
+            <tr class="bb-line-gold">
+                <th></th>
+                <th>发票编号</th>
+                <th>发票类型</th>
+                <th>购买方</th>
+                <th>开票日期</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in invoiceList2" class="trHover-bg" ng-class="{ 'pr-bg-grey3':itemInList(item,dialogData.choiceInvoiceList) }" >
+                <td class="text-center">
+                    <label class="radio radio-new">
+                        <input type="radio"
+                               name="medicals"
+                               class="default-radio"
+                               ng-click="addInvoice(item,dialogData.choiceInvoiceList,dialogData.orderId);modal.closeAll()"
+                               ng-disabled="itemInList(item,dialogData.choiceInvoiceList)"
+                        ><i></i>
+                    </label>
+                </td>
+
+                <td class="text-left" style="height:50px;"> {{item.code}}</td><!--发票编号-->
+                <td class="text-left" style="height:50px;">{{item.type}}</td><!--发票类型-->
+                <td class="text-left" style="height:50px;">{{item.organizationName}}</td><!--购买方-->
+                <td class="text-left" style="height:50px;">{{item.billingDate | date : 'yyyy-MM-dd'}}</td><!--开票日期-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

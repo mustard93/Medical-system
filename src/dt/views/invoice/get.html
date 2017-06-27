@@ -1,0 +1,280 @@
+<div class="create-new-order purchaseOrder-edit"
+     ng-controller="invoiceEditCtrl"
+     ajax-url="rest/authen/invoice/get.json?id={{mainStatus.pageParams.id}}&source=采购发票"
+     scope-data="formData"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;diffPurchaseNumber(formData.orderMedicalNos)"
+     alert-error>
+<form id="purchaseForm"
+     name="purchaseForm"
+     form-validator
+     parameter-body
+     action="rest/authen/invoice/save.json"
+     alert-error
+     alert-ok
+     scope-error-msg="errorMsg"
+     scope-data="formData"
+     callback="submitFormAfter();watchFormChange('formData')"
+     onkeydown="if(window.event.keyCode==13) return false;"
+     novalidate="novalidate">
+
+     <div class="header-info relative mgb-l">
+       <p class="pdb-s pdt-s crumbs pd-c-xxl">采购中心 >
+         <a href="#/invoice/query.html">
+            <em class="color-custom-orange">采购发票</em>
+         </a>
+        <em>>新建采购发票</em>
+       </p>
+       <div class="pd-c-xxl pdt-l pdb-l">
+         <!-- 标题 -->
+         <div class="mgb-l">
+           <h1 class="color-black pr-font-20">{{!formData.id?'新建':'编辑'}}采购发票</h1>
+         </div>
+       </div>
+     </div>
+
+       <div class="content-wrapper">
+       <div class="">
+         <div class="inline-block">
+            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:168px;">
+              <div class="inline-block logistics-center"></div>
+              <div class="inline-block">
+                <p class="mgb-s">发票类型</p>
+                <p class="text-n color-3">
+                  {{formData.type}}
+                </p>
+              </div>
+            </div>
+         </div>
+
+         <div class="inline-block mgl">
+            <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height" style="padding:15px;min-height:88px;min-width:244px;">
+              <div class="inline-block logistics-center"></div>
+              <div class="inline-block">
+                <p class="mgb-s">发票号</p>
+                <p class="text-n color-3">
+                  {{formData.code}}
+                </p>
+              </div>
+            </div>
+         </div>
+       </div>
+
+        <div class="panel  pr-panel  pr-panel-height mgb color-9 flex-column">
+
+          <div class="flex-item-6 pd-v-c-l" style="border-right:1px dashed rgba(0,0,0,0.1);">
+            <div class="flex-item-1 color-yellow1 text-n mgt-l" style="width:20px;height:100%;">
+              销售方
+            </div>
+            <div class="flex-column">
+              <div class="flex-item-6 text-left">
+                <span class="mgl-x-l">名称：</span>
+                <span class="">
+                  {{formData.seller.name}}
+                </span>
+              </div>
+              <div class="flex-item-6 text-left">
+                <span>开户银行：</span>
+                <span class="">
+                  {{formData.seller.accountBank}}
+                </span>
+              </div>
+            </div>
+            <div class="flex-column mgt">
+              <div class="flex-item-6 text-left">
+                <span class=" mgl-x-l">纳税人识别号：</span>
+                <span class="">
+                  {{formData.seller.taxpayerId}}
+                </span>
+              </div>
+
+              <div class="flex-item-6 text-left">
+                <span>开户账号：</span>
+                <span class="">
+                  {{formData.seller.accountNumber}}
+                </span>
+              </div>
+            </div>
+            <div class="flex-column mgt">
+              <div class="flex-item-6 text-left">
+                <span class="mgl-x-l">地址：</span>
+                <span class="">
+                  {{formData.seller.address}}
+                </span>
+              </div>
+
+              <div class="flex-item-6 text-left">
+                <span class="mgl-xl">电话：</span>
+                <span class="">
+                  {{formData.seller.phone}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-item-6 pd-v-c-l">
+            <div class="flex-item-1 color-yellow1 text-n mgt-l" style="width:20px;height:100%;">
+              购买方
+            </div>
+            <div class="flex-column">
+              <div class="flex-item-6 text-left">
+                <span class="mgl-x-l">名称：</span>
+                <span class="">
+                  {{formData.purchaser.name}}
+                </span>
+              </div>
+              <div class="flex-item-6 text-left">
+                <span>开户银行：</span>
+                <span class="">
+                  {{formData.purchaser.accountBank}}
+                </span>
+              </div>
+            </div>
+            <div class="flex-column mgt">
+              <div class="flex-item-6 text-left">
+                <span class=" mgl-x-l">纳税人识别号：</span>
+                <span class="">
+                  {{formData.purchaser.taxpayerId}}
+                </span>
+              </div>
+
+              <div class="flex-item-6 text-left">
+                <span>开户账号：</span>
+                <span class="">
+                  {{formData.purchaser.accountNumber}}
+                </span>
+              </div>
+            </div>
+            <div class="flex-column mgt">
+              <div class="flex-item-6 text-left">
+                <span class="mgl-x-l">地址：</span>
+                <span class="">
+                  {{formData.purchaser.address}}
+                </span>
+              </div>
+
+              <div class="flex-item-6 text-left">
+                <span class="mgl-xl">电话：</span>
+                <span class="">
+                  {{formData.purchaser.phone}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+       <!-- 药械列表 -->
+       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height pd-n">
+           <!-- 列表 -->
+           <div class="bt-line">
+             <div class="flex-column color-9 pd-c-l pdt-m pdb-m bb-dashed-line">
+               <div class="flex-item-6">
+                 <span class="mgr">开票日期:</span>
+                 <em>{{formData.billingDate | date:'yyyy-MM-dd'}}</em>
+
+                 <span class="mgr mgl">币种：
+                   {{formData.currencyType}}
+                 </span>
+                 <span class="mgr">汇率：
+                   <em>{{formData.exchangeRate}}</em>
+
+                 </span>
+               </div>
+               <div class="flex-item-6 text-right">
+                 <span class="mgr">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+                 <span class="mgr">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date:'yyyy-MM-dd'}}</em></span>
+                 <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
+               </div>
+             </div>
+             <div class=" mgb">
+               <table class="table pr-table pr-new-table" >
+                 <thead>
+                  <tr>
+                    <th class="text-center">序号</th>
+                    <th class="w-220 text-left">贷物或应税劳务、服务名称</th>
+                    <th class="text-center">规格/型号</th>
+                    <th class="text-center">单位</th>
+                    <th class="text-center w-106">数量</th>
+                    <th class="text-center">单价</th>
+                    <th class="text-center">金额</th>
+                    <th class="text-center">税率</th>
+                    <th class="text-center">税额</th>
+                 </tr>
+                 </thead>
+                 <tbody class="bg-white">
+                   <tr ng-repeat="tr in formData.orderMedicalNos">
+                     <td class="text-center" style="line-height:2.4">{{$index+1}}
+                     </td><!-- 商品编号 -->
+                     <td class="text-left" style="line-height:2.4">
+                        <div class="autocut" title="{{tr.name}}">
+                           {{tr.name}}
+                         </div></td><!-- 商品全名 -->
+                     <td class="text-center" style="line-height:2.4">{{tr.specificationAndModelType}}</td><!-- 规格/型号 -->
+                     <td class="text-center" style="line-height:2.4">{{tr.unit}}</td><!-- 单位 -->
+                     <td class="text-center">
+                       {{tr.quantity}}
+                     </td><!-- 数量 -->
+                     <td class="text-center" style="white-space:nowrap;line-height:2.4">￥
+                       {{tr.strike_price}}
+
+                     </td><!-- 单价 -->
+                     <td class="text-center" style="line-height:2.4">￥
+                       {{tr.totalPrice}}
+                     </td>
+                     <!-- 金额 -->
+                     <td class="text-center" style="white-space:nowrap;line-height:2.4">
+                       {{tr.tax}}%
+                     </td><!-- 税率 -->
+                     <td class="text-center" style="line-height:2.4">￥{{tr.taxPrice}}</td>
+                     <!-- 税额 -->
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+             <div class="pd-c-v-s text-right text-n color-6 bt-dashed-line pd-c-v-l" ng-if="formData.orderMedicalNos.length" >
+               价税合计：￥
+               <span>{{formData.totalPrice}}</span>
+             </div>
+             <div class="pr-bg-white" ng-if="!formData.orderMedicalNos.length">
+               <div class="empty-table clearfix">
+                 <div>&nbsp;</div>
+                 <div>&nbsp;</div>
+                 <div>&nbsp;</div>
+               </div>
+             </div>
+           </div>
+         </div>
+         <!-- 上传图片 -->
+      <div class="panel  pr-panel  pr-panel-height mgb color-9 flex-column" style="min-height:180px;">
+        <p class="color-black" style="width:100%;">
+          <em class=" text-n text-bold">上传发票图片</em>
+        </p>
+        <div class="pd-c-v-s"  ng-repeat="item in formData.attachments">
+          <div ng-if="item.attachmentUrl" class="pd-c-v-s relative show-mask" ng-if="item.attachmentUrl" style="width:auto;height:auto;">
+            <img title="{{item.fileName}}"
+                 alt="{{item.fileName}}"
+                 ng-src="{{item.attachmentUrl}}"
+                 style="width:142px;height:96px;position:absolute;top:-30px;cursor:pointer;"
+                 modal-img-show/>
+          </div>
+          <div  ng-if="!item.attachmentUrl" class="color-yellow1">
+            暂无发票图片
+          </div>
+        </div>
+        <!-- <div ng-init='attachmentsItemExtend={"edit":false}' attachments-item-show attachments-item-extend="attachmentsItemExtend" ng-model="item"></div> -->
+      </div>
+
+      <!-- 备注 -->
+      <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
+        <h1 class="text-bold color-3 mgb">备注</h1>
+        <p>{{formData.note}}</p>
+      </div>
+    <!-- 功能按钮 -->
+    <div class="handle-btn-area">
+      <div class="btn-area" style="background:rgba(54,48,44,0.30);">
+        <span class="mgt">
+          <a href="#/invoice/query.html" >返回采购发票列表</a>
+        </span>
+
+      </div>
+    </div>
+</form>
+</div>
