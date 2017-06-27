@@ -131,24 +131,26 @@
                       <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
                       <label for="1"></label>
                     </th>
-                    <th class="w-60">序号</th>
-                    <th class="w-120">商品编号</th>
-                    <th class="w-220" style="text-align:left;">商品名称</th>
-                    <th class="w-120">规格</th>
-                    <th class="w-60">基本单位</th>
-                    <th class="w-60" ng-if="listParams.checkUpStatus=='待验收'">待验收数量</th>
-                    <th class="w-60" ng-if="listParams.checkUpStatus=='已完成'">验收数量</th>
-                    <th class="w-60" ng-if="listParams.checkUpStatus=='已完成'">合格数量</th>
-                    <th class="w-60" ng-if="listParams.checkUpStatus=='已完成'">不合适数量</th>
-                    <th class="w-160">生产批号</th>
-                    <th class="w-160">生产日期</th>
-                    <th class="w-160">有效期至</th>
-                    <th class="w-160">库房名称</th>
-                    <th class="w-160">生产厂商</th>
-                    <th class="w-160">产地</th>
-                    <th class="w-160">供应商名称</th>
-                    <th class="w-160">供应商订单编号</th>
-                    <th class="w-160">供应商销售日期</th>
+                    <th >序号</th>
+                    <th>商品编号</th>
+                    <th style="text-align:left;">商品名称</th>
+                    <th>规格</th>
+                    <th>基本单位</th>
+                    <th ng-if="listParams.checkUpStatus=='待验收'">待验收数量</th>
+                    <th ng-if="listParams.checkUpStatus=='已完成'">验收数量</th>
+                    <th ng-if="listParams.checkUpStatus=='已完成'">合格数量</th>
+                    <th ng-if="listParams.checkUpStatus=='已完成'">不合适数量</th>
+                    <th>生产批号</th>
+                    <th >生产日期</th>
+                    <th >有效期至</th>
+                    <th >库房名称</th>
+                    <th ng-if="listParams.checkUpStatus=='已完成'">验收人</th>
+                    <th ng-if="listParams.checkUpStatus=='已完成'">验收时间</th>
+                    <th >生产厂商</th>
+                    <th>产地</th>
+                    <th>供应商名称</th>
+                    <th>供应商订单编号</th>
+                    <th>供应商销售日期</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -182,6 +184,8 @@
                     <td>{{tr.productionDate | date : 'yyyy-MM-dd'}}</td><!-- 生产日期 -->
                     <td>{{tr.validTill | date : 'yyyy-MM-dd'}}</td><!-- 有效期至 -->
                     <td>{{tr.storeRoomName}}</td><!-- 库房名称 -->
+                    <td ng-if="listParams.checkUpStatus=='已完成'">{{tr.checker.n}}</td><!-- 验收人 -->
+                    <td ng-if="listParams.checkUpStatus=='已完成'">{{tr.checkUpDate| date : 'yyyy-MM-dd'}}</td><!-- 验收时间 -->
                     <td>{{tr.manufacturer}}</td><!-- 生产厂商 -->
                     <td>{{tr.productionPlace}}</td><!-- 产地 -->
                     <td>{{tr.supplierName}}</td><!-- 供应商名称 -->
