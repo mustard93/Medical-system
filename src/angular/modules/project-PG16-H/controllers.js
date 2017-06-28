@@ -4079,20 +4079,28 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
 
             //step0 判断部门
-            if($scope.formData.departmentId == '' || $scope.formData.departmentId == null || $scope.formData.departmentId == undefined ){
-                //设置部门ID 和 name
-                $scope.formData.departmentId=$scope.curOrder.departmentId ;
+            // if(!$scope.formData.departmentId ){
+            //     // //设置部门ID 和 name
+            //     // $scope.formData.departmentId=$scope.curOrder.departmentId ;
+            //     //
+            //     // $scope.formData.departmentName=  $scope.curOrder.departmentName;
+            //
+            // }else{
+            //
+            //     if($scope.curOrder.departmentId != $scope.formData.departmentId){
+            //         alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
+            //         return;
+            //     }
+            // }
 
-                $scope.formData.departmentName=  $scope.curOrder.departmentName;
 
-            }else{
-
+            //step0 判断部门
+            if($scope.formData.departmentId){
                 if($scope.curOrder.departmentId != $scope.formData.departmentId){
                     alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
                     return;
                 }
             }
-
 
             //step1 判断去重复
             var flag=false;
@@ -4247,6 +4255,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             $scope.formData.relIds.push(obj.relId);
 
+
+            //设置部门ID 和 name
+            $scope.formData.departmentId=$scope.curOrder.departmentId ;
+            $scope.formData.departmentName=  $scope.curOrder.departmentName;
+
             //清空选择的批次
             $scope.selectedBatchs2=[];
 
@@ -4305,6 +4318,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             var list = $scope._compareArray(hasStockBatchs,$scope.selectedBatchs2,'stockBatchId','stockBatchId')
 
             $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat(list);
+
 
             $scope.selectedBatchs2=[];
         };
