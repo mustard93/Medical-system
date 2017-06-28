@@ -22,7 +22,8 @@ require(['bootstrap',
          'jquery-ui',
          'nicescroll',
          'easypiechart',
-         'icheck'], function() {});
+         'icheck',
+         'jquery-ui-timepicker'], function() {});
 
 //@ifdef !production
 define('manageApp.template', ['angular'], function () {
