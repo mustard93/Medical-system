@@ -982,7 +982,7 @@ define('project/controllers', ['project/init'], function() {
   /**
    *  销售单编辑页
    */
-  function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm) {
+  function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError,utils, dialogConfirm) {
 
     $scope.logistics=true;
     $scope.isShowConfirmInfo = false;
@@ -990,6 +990,7 @@ define('project/controllers', ['project/init'], function() {
     $scope.quantityOverloadFlag = [];
 
     $scope.$watch('initFlag', function () {
+
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
       if ($scope.formData.operationFlowSet) {
@@ -1045,6 +1046,7 @@ define('project/controllers', ['project/init'], function() {
       }
     }, true);
 
+
     $scope.deleteQuantity=function(item){
       angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
         if (item.quantityAndbatchNumber) {
@@ -1056,7 +1058,6 @@ define('project/controllers', ['project/init'], function() {
         }
       });
     };
-
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
@@ -6428,7 +6429,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
   .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
   .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
-  .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'dialogConfirm', confirmOrderEditCtrl])
+  .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'dialogConfirm','utils', confirmOrderEditCtrl])
   .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'watchFormChange', 'saleOrderUtils', confirmOrderEditCtrl2])
   .controller('SalesOrderDetailsController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', SalesOrderDetailsController])
   .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])

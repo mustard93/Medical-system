@@ -2,8 +2,9 @@
      ng-controller="confirmOrderEditCtrl"
      ajax-url="rest/authen/confirmOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;$root.watchFormChange('formData',this);confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType)"
-     alert-error>
+     callback="initFlag=true;$root.watchFormChange('formData',this);confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);getSaleUserId(mainStatus.pageParams.saleUserId);"
+     alert-error
+     >
   <form id="editForm"
         name="editForm"
         form-validator
@@ -169,7 +170,8 @@
                 </select>
               </span>
               <span class="mgr">业务人员：
-                <select class="ipt pr-short-ipt color-3" style="width:90px;"
+                <select ng-if="initFlag"
+                        class="ipt pr-short-ipt color-3" style="width:90px;"
                         data-placeholder=" "
                         chosen
                         ng-model="formData.saleUserId"
