@@ -2483,73 +2483,78 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 上架计划控制器
     function shelvesUpController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {
+      // 定义存放用户选择药品的列表
+      $scope.choisedMedicalList = [];
 
-        // 定义存放用户选择药品的列表
-        $scope.choisedMedicalList = [];
+      // 每个药品单选操作
+      $scope.handleItemClickEvent = function (item) {
+          if (item.handleFlag) {    // 选中
+              if (item) {
+                  $scope.choisedMedicalList.push(item.id);
+              }
+          } else {
+              for (var i=0; i<$scope.choisedMedicalList.length; i++) {
+                  if (item.id === $scope.choisedMedicalList[i]) {
+                      $scope.choisedMedicalList.splice(i,1);
+                  }
+              }
+          }
+      };
 
-        // 每个药品单选操作
-        $scope.handleItemClickEvent = function (item) {
-            if (item.handleFlag) {    // 选中
-                if (item) {
-                    $scope.choisedMedicalList.push(item.id);
-                }
-            } else {
-                for (var i=0; i<$scope.choisedMedicalList.length; i++) {
-                    if (item.id === $scope.choisedMedicalList[i]) {
-                        $scope.choisedMedicalList.splice(i,1);
-                    }
-                }
-            }
-        };
-        $scope.handleChoiseAllEvent = function (isChoiseAll) {
-            if (isChoiseAll) {      // 全部选中
+      $scope.handleChoiseAllEvent = function (isChoiseAll) {
+          if (isChoiseAll) {      // 全部选中
 
-                if ($scope.tbodyList) {
-                    $scope.choisedMedicalList = [];
-                    angular.forEach($scope.tbodyList, function (data, index) {
-                        $scope.choisedMedicalList.push(data.id);
-                    });
-                }
-            } else {        // 取消全部选中
-                $scope.choisedMedicalList = [];
-            }
-        };
+              if ($scope.tbodyList) {
+                  $scope.choisedMedicalList = [];
+                  angular.forEach($scope.tbodyList, function (data, index) {
+                      $scope.choisedMedicalList.push(data.id);
+                  });
+              }
+          } else {        // 取消全部选中
+              $scope.choisedMedicalList = [];
+          }
+      };
 
-        // 批量上架
-        $scope.handleBatchReceive = function () {
-            if ($scope.choisedMedicalList.length) {
-                // var _data = {
-                //   ids: $scope.choisedMedicalList
-                // };
-                requestData('rest/authen/shelvesUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
-                    .then(function (results) {
-                        if (results[1].code === 200) {
-                            if(results[1].msg){
-                                alertOk(results[1].msg);
-                            }
-                            utils.refreshHref();
-                        }
+      // 批量上架
+      $scope.handleBatchReceive = function () {
+          if ($scope.choisedMedicalList.length) {
+              // var _data = {
+              //   ids: $scope.choisedMedicalList
+              // };
+              requestData('rest/authen/shelvesUp/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
+                  .then(function (results) {
+                      if (results[1].code === 200) {
+                          if(results[1].msg){
+                              alertOk(results[1].msg);
+                          }
+                          utils.refreshHref();
+                      }
 
-                    })
-                    .catch(function (error) {
-                      alertWarn(error);
-                        throw new Error(error || '出错');
-                    });
-            }
-        };
+                  })
+                  .catch(function (error) {
+                    alertWarn(error);
+                      throw new Error(error || '出错');
+                  });
+          }
+      };
 
-        $scope.changeQuantity = function(quantity,salesQuantity){
-            $scope.quantityError=false;
-            if (quantity && salesQuantity) {
-                if (quantity>salesQuantity || quantity>$scope.formData.applicationCount) {
-                    $scope.quantityError=true;
-                }
-            }else {
-                $scope.quantityError=true;
-            }
-        };
+      $scope.changeQuantity = function(quantity,salesQuantity){
+          $scope.quantityError=false;
+          if (quantity && salesQuantity) {
+              if (quantity>salesQuantity || quantity>$scope.formData.applicationCount) {
+                  $scope.quantityError=true;
+              }
+          }else {
+              $scope.quantityError=true;
+          }
+      };
 
-
+      // 监控listParams.storeRoomId值的变化，当用户选择全部时，刷新重新获取所有数据
+      $scope.$watch('listParams.storeRoomId', function (newVal, oldVal) {
+        if (oldVal && !newVal) {
+          utils.refreshHref();
+        }
+      });
     }
 
     function pickStockOutMedicalController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {
