@@ -2762,7 +2762,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 .then(function (results) {
                     if (results[1].code === 200)
                     {
-                        utils.goTo('#/pickBillOrder/get.html?id='+id);
+                        // console.log("results[1]",results[1]);
+
+                        //    待复核   0002638: web端，复核操作，当目前有2个需复核的任务，如果当前仅复核了一个，另一个扔处于需复核的状态，此时页面应该停留在待复核页面，现在跳转到详情页面
+
+                        //
+                         utils.goTo('#/pickBillOrder/get.html?id='+id);
                     }
                 })
                 .catch(function (error) {
