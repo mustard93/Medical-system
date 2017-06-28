@@ -3268,75 +3268,69 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         }
     };
 
-        /**
-         * 日期控件
-         formData.expectDate：136000000单位 毫秒
-         <input type="text" class="ipt pr-short-ipt color-6" placeholder="期望到货时间"
-         readonly="true"
-         datepicker   ng-model="formData.expectDate">
+    /**
+     * 日期控件
+     formData.expectDate：136000000单位 毫秒
+     <input type="text" class="ipt pr-short-ipt color-6" placeholder="期望到货时间"
+     readonly="true"
+     datepicker   ng-model="formData.expectDate">
 
-         formData.expectDate：2017-01-01 格式
-         <input type="text" class="ipt pr-short-ipt color-6" placeholder="期望到货时间"
-         readonly="true" no-parser="true"
-         datepicker   ng-model="formData.expectDate">
-         */
-        function datepicker($filter) {
+     formData.expectDate：2017-01-01 格式
+     <input type="text" class="ipt pr-short-ipt color-6" placeholder="期望到货时间"
+     readonly="true" no-parser="true"
+     datepicker   ng-model="formData.expectDate">
+     */
+    function datepicker($filter) {
+      var config={
+          format:'YYYY-MM-DD', //''yy-mm-dd',
+      };
 
-            var config={
-                format:'YYYY-MM-DD', //''yy-mm-dd',
+      return {
+        restrict:'EA',
+        require: 'ngModel',
+        link: function($scope, $element, $attrs, ngModel) {
 
-            };
+          //默认日期绑定数据单位都是 milliseconds。如果yy-mm-dd 需要设置noParser="true"
+          if($attrs.noParser!="true"){
+            var moment = require('moment');
+            var _format=$attrs.format||config.format;
 
-            return {
-              restrict:'EA',
-              require: 'ngModel',
+            ngModel.$parsers.push(function(val) {
+              if (!val) return;
+              // var tt=moment(val, _format).millisecond();
+                var tt=moment(val, _format).format('x');
 
-                link: function($scope, $element, $attrs, ngModel) {
+              return tt;
+            });
 
-                  //默认日期绑定数据单位都是 milliseconds。如果yy-mm-dd 需要设置noParser="true"
-                  if($attrs.noParser!="true"){
-                    var moment = require('moment');
-
-                      var _format=$attrs.format||config.format;
-                      ngModel.$parsers.push(function(val) {
-                        if (!val) return;
-                        // var tt=moment(val, _format).millisecond();
-                          var tt=moment(val, _format).format('x');
-
-                        return tt;
-
-                    });
-                    //
-                    ngModel.$formatters.push(function() {
-                        if (!ngModel.$modelValue) return null;
-                        var tmp=ngModel.$modelValue;
-                        var time=moment(parseInt(tmp,10)).format(_format);
-
-                        return time;
-                    });
+            //
+            ngModel.$formatters.push(function() {
+              if (!ngModel.$modelValue) return null;
+              var tmp=ngModel.$modelValue;
+              var time=moment(parseInt(tmp,10)).format(_format);
+              return time;
+            });
 
 
-                  }//$attrs.noParser!="true"
+          }//$attrs.noParser!="true"
 
-
-                  $element.datepicker({
-                     changeYear : true ,
-                      changeMonth  : true ,
-            					dateFormat:'yy-mm-dd',
-                      monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-                  			dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
-                  			dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
-                  			dayNamesMin: ['日','一','二','三','四','五','六'],
-            					onSelect:function(val){
-            						$scope.$apply(function(){
-                          	ngModel.$setViewValue(val);
-            						});
-            					}
-            			});
-                }
+          $element.datepicker({
+            changeYear : true ,
+            changeMonth  : true ,
+            dateFormat:'yy-mm-dd',
+            monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+            dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+            dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+            dayNamesMin: ['日','一','二','三','四','五','六'],
+            onSelect:function(val){
+              $scope.$apply(function(){
+              	ngModel.$setViewValue(val);
+              });
             }
-        };
-
+    			});
+        }
+      }
+    };
 
     /**
      * [textInterception 自定义指令为过长内容进行截取，解决CSS3里ellipsis属性会将下划线隐藏掉的问题]
