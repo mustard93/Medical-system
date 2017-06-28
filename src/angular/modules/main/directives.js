@@ -3281,14 +3281,16 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
      datepicker   ng-model="formData.expectDate">
      */
     function datepicker($filter) {
-      var config={
-          format:'YYYY-MM-DD', //''yy-mm-dd',
-      };
-
+      'use strict';
       return {
         restrict:'EA',
         require: 'ngModel',
         link: function($scope, $element, $attrs, ngModel) {
+
+          // 初始化配置
+          var config = null;
+          // 根据配置是否需要选择时分
+          config = angular.isDefined($attrs.timePicker) ? { format:'YYYY-MM-DD HH:mm' } : { format:'YYYY-MM-DD' }
 
           //默认日期绑定数据单位都是 milliseconds。如果yy-mm-dd 需要设置noParser="true"
           if($attrs.noParser!="true"){
@@ -3308,26 +3310,49 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               if (!ngModel.$modelValue) return null;
               var tmp=ngModel.$modelValue;
               var time=moment(parseInt(tmp,10)).format(_format);
+
               return time;
             });
 
 
           }//$attrs.noParser!="true"
 
-          $element.datepicker({
-            changeYear : true ,
-            changeMonth  : true ,
-            dateFormat:'yy-mm-dd',
-            monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-            dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
-            dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
-            dayNamesMin: ['日','一','二','三','四','五','六'],
-            onSelect:function(val){
-              $scope.$apply(function(){
-              	ngModel.$setViewValue(val);
-              });
-            }
-    			});
+          if (angular.isDefined($attrs.timePicker)) {
+            $element.prop("readonly", true).datetimepicker({
+                changeYear : true ,
+                changeMonth  : true ,
+                dateFormat:'yy-mm-dd',
+                monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+                dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+                dayNamesMin: ['日','一','二','三','四','五','六'],
+                timeText: '时间',
+                hourText: '小时',
+                minuteText: '分钟',
+                secondText: '秒',
+                currentText: '现在',
+                closeText: '完成',
+                showSecond: false, //显示秒
+                timeFormat: 'HH:mm' //格式化时间
+            });
+          } else {
+            $element.datepicker({
+              changeYear : true ,
+              changeMonth  : true ,
+              dateFormat:'yy-mm-dd',
+              monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+              dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+              dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+              dayNamesMin: ['日','一','二','三','四','五','六'],
+              prevText: 'Earlier',
+              onSelect:function(val){
+                $scope.$apply(function(){
+                	ngModel.$setViewValue(val);
+                });
+              }
+      			});
+          }
+
         }
       }
     };
