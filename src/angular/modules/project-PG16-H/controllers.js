@@ -2528,12 +2528,11 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                                 alertOk(results[1].msg);
                             }
                             utils.refreshHref();
-                        }else if(results[1].msg){
-                            alertWarn(results[1].msg);
                         }
 
                     })
                     .catch(function (error) {
+                      alertWarn(error);
                         throw new Error(error || '出错');
                     });
             }
@@ -2593,20 +2592,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 //   ids: $scope.choisedMedicalList
                 // };
                 requestData('rest/authen/pickStockOutMedical/batchConfirm', $scope.choisedMedicalList, 'POST', 'parameter-body')
-                    .then(function (results) {
-                        if (results[1].code === 200) {
-                            if(results[1].msg){
-                                alertOk(results[1].msg);
-                            }
-                            utils.refreshHref();
-                        }else if(results[1].msg){
-                            alertWarn(results[1].msg);
-                        }
 
-                    })
-                    .catch(function (error) {
-                        throw new Error(error || '出错');
-                    });
+                      .then(function (results) {
+                          if (results[1].code === 200) {
+                              utils.refreshHref();
+                              if (results[1].msg) { alertOk(results[1].msg); }
+                          }
+                      })
+                      .catch(function (error) {
+                        alertWarn(error);
+                          throw new Error(error || '出错');
+                      });
             }
         };
 

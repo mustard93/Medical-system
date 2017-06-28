@@ -1,4 +1,9 @@
-<div class="create-new-order purchasePlanOrder-edit purchase-plan-order"
+<table-list list-data="rest/authen/pickBillOrder/queryReviewStock?id={{mainStatus.pageParams.id}}"
+            list-params="listParams"
+            search-mode="noCaseSensitive"
+            search-param="q">
+
+<div class="create-new-order purchasePlanOrder-edit purchase-plan-order child-project-management"
      ng-controller="pickBillOrderController"
      ajax-url="rest/authen/pickBillOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="formData"
@@ -26,7 +31,7 @@
        </div>
        <div class="flex-column pd-c-l pdt-m pdb-m color-9">
          <div class="flex-item-4">
-           <span class="color-or">任务条目数：{{formData.pickStockOutMedicals.length}}</span>
+           <span class="color-or">任务条目数：{{tbodyList.length}}</span>
          </div>
          <div class="flex-item-8 text-right">
            <div class="inline-block">
@@ -38,7 +43,7 @@
          </div>
        </div>
        <div class="outside-table-d">
-         <table class="table pr-table pr-new-table table-ss-wid" >
+         <table class="table pr-table pr-new-table">
            <thead>
             <tr>
               <th class="text-center w-80">序号</th>
@@ -55,10 +60,20 @@
            </tr>
            </thead>
            <tbody class="bg-white">
-             <tr ng-repeat="tr in formData.pickStockOutMedicals"
-                 table-item-handlebtn-component
+             <tr ng-repeat="tr in tbodyList track by $index"
+                 table-item-multiple-btn
                  class="relative">
-               <td class="text-center" style="line-height:2.4">{{$index+1}}</td><!-- 序号 -->
+               <td class="text-center" style="line-height:2.4">{{$index+1}}
+                 <div class="table-item-multiple-btn">
+                   <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                        ng-if="tr.orderStatus!='已拣选'"
+                        modal-right="650"
+                        modal-scope="this"
+                        modal-data='{"id":"{{mainStatus.pageParams.id}}","medicalId":"{{tr.relMedicalStockId}}"}'
+                        modal-url="views/pickBillOrder/watch-info-modal.html">查看拣选信息...
+                   </div>
+                 </div>
+               </td><!-- 序号 -->
                <td class="text-center" style="line-height:2.4">{{tr.code}}</td><!-- 商品编码 -->
                <td class="text-left" style="line-height:2.4">{{tr.name}}</td><!-- 商品全名 -->
                <td class="text-center" style="line-height:2.4">{{tr.applicationCount}}</td><!-- 申请数量 -->
@@ -82,13 +97,12 @@
        </div>
      </div>
     </div>
-    <div class="relative">
-      <!-- 备注 -->
+    <!-- <div class="relative">
       <div class="panel pr-panel pr-fuzzy-boundary pr-panel-height mgb-l">
         <h1 class="text-bold color-3 mgb">备注</h1>
         <p>{{formData.note}}</p>
       </div>
-    </div>
+    </div> -->
   </div>
   <!-- 功能按钮 -->
   <div class="handle-btn-area">
@@ -97,3 +111,5 @@
     </div>
   </div>
 </div>
+
+</table-list>
