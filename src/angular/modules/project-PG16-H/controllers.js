@@ -3891,14 +3891,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
 
-
-
-
-
         //校验批次输入数量
         $scope.changeQuantity=function(nowVal,oldVal){
 
-            console.log("nowVal,oldVal",nowVal,oldVal);
+            // console.log("nowVal,oldVal",nowVal,oldVal);
 
             if(nowVal>oldVal){
                 return true;
@@ -4185,7 +4181,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.selectedBatchs2=[];
             }
 
-            console.log("$scope.selectedBatchs",$scope.selectedBatchs2.length);
+            // console.log("$scope.selectedBatchs",$scope.selectedBatchs2.length);
 
         };
 
