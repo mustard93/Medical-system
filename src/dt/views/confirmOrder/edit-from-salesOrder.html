@@ -335,8 +335,12 @@
                 <tr ng-repeat="item in formData.orderMedicalNos"
                     ng-controller="ConfirmOrderMedicalController"
                     table-item-handlebtn-component>
-                  <td class="text-center w-50">
+                  <!-- <td class="text-center w-50">
                     <label for=""><input type="checkbox" ng-model="item.handleFlag" ng-change="handleThischoise(item)"></label>
+                  </td> -->
+                  <td class="text-center w-50 mycheck">
+                    <input type="checkbox" ng-model="item.handleFlag" id="{{$index+2}}" ng-change="handleThischoise(item)">
+                  <label for="{{$index+2}}"></label>
                   </td>
                   <td class="text-center">{{item.code}}
                     <div  class="table-item-handle-btn">
