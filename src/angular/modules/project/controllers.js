@@ -5321,6 +5321,7 @@ define('project/controllers', ['project/init'], function() {
     // 错误状态标识
     $scope.quantityError = false;
 
+
     // 监视值变化
     $scope.$watch('item.quantity', function (newVal) {
         if ($scope.item.returnQuantity >= 0) {
