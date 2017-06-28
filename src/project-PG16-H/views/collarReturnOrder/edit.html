@@ -2,7 +2,7 @@
      ng-controller="collarReturnOrderCtrl"
      ajax-url="rest/authen/collarReturnOrder/getOfEdit?id={{mainStatus.pageParams.id}}&copyId={{mainStatus.pageParams.copyId}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="formData.relIds = formData.relIds ? formData.relIds : [];   ;initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
+     callback="formData.relIds = formData.relIds ? formData.relIds : [];  initFlag=true;watchFormChange('formData');choisedMedicals=false;calcTotalPrice(formData.orderMedicalNos);quantityError=false;canSubmit=false;comfirmQuantity(formData.orderMedicalNos);"
      alert-error>
   <form id="editForm"
          name="editForm"
@@ -118,7 +118,7 @@
                 申请部门：{{formData.departmentName || '暂无'}}
 
                <!-- {{formData.departmentId}} -->
-               <span class="mgr">申请人:</span>
+               <span class="mgr" style="margin-left: 10px;">申请人:</span>
                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
                        ng-disabled="formData.id"
                        data-placeholder=" "
@@ -130,7 +130,7 @@
 
                </span>
              <span class="mgr">申请日期:</span>
-             <div class="date-icon-outside">
+             <div class="date-icon-outside" style="top: 0; margin-right: 15px;">
                <input type="text"
                       style="top:0px;"
                       datepicker
@@ -305,10 +305,11 @@
              callback="goTo('#/collarReturnOrder/query.html')">删除
           </a>
         </span>
-        <!--ng-disabled="!changeFlag"-->
+        <!---->
         <span class="mgl mgt">
           <button class="pr-btn-save-glodbg mgr-l"
                   type="button"
+                  ng-disabled="!changeFlag"
                   ng-click="submitForm('editForm','save')"
               >保存
           </button>
