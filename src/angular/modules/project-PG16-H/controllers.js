@@ -4185,7 +4185,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 $scope.selectedBatchs2=[];
             }
 
-            console.log("$scope.selectedBatchs",$scope.selectedBatchs2.length);
+            // console.log("$scope.selectedBatchs",$scope.selectedBatchs2.length);
 
         };
 
