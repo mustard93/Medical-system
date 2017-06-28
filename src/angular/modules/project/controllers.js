@@ -5279,6 +5279,7 @@ define('project/controllers', ['project/init'], function() {
       $scope.formData.saleUser=addDataObj.saleUser;
       $scope.formData.customerName=addDataObj.customerName;
 
+
       //切换发货单时，清空原有数据
       if($scope.formData.relId!=addDataObj_id){
         $scope.formData.orderMedicalNos=[];
