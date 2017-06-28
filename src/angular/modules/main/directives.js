@@ -3289,12 +3289,11 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
         restrict:'EA',
         require: 'ngModel',
         link: function($scope, $element, $attrs, ngModel) {
+
           //默认日期绑定数据单位都是 milliseconds。如果yy-mm-dd 需要设置noParser="true"
           if($attrs.noParser!="true"){
             var moment = require('moment');
             var _format=$attrs.format||config.format;
-
-            console.log(moment);
 
             ngModel.$parsers.push(function(val) {
               if (!val) return;
@@ -3309,7 +3308,6 @@ $attrs.callback:异步加载 成功后，回调执行代码行。作用域$scope
               if (!ngModel.$modelValue) return null;
               var tmp=ngModel.$modelValue;
               var time=moment(parseInt(tmp,10)).format(_format);
-
               return time;
             });
 
