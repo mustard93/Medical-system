@@ -1,7 +1,8 @@
 <div class=" purchase-return-order sale-return-order"
      ng-controller="purchasereturnOrderEditCtrl"
      ajax-url="rest/authen/purchaseReturnOrder/get.json?id={{mainStatus.pageParams.id}}&orderNo={{mainStatus.pageParams.orderNo}}"
-     scope-data="showData"
+     scope-data="formData"
+     callback="initFlag=true;"
      alert-error>
     <!-- 头部信息 -->
     <div class="relative">
@@ -17,17 +18,24 @@
     </div>
     <!-- 单据基本信息 -->
     <div class="pd-loss-l">
+      <div  ng-if="formData.operationFlowSet.key" class="pr-panel pr-panel-height mgb"
+        ng-class="{'pr-bg-pink1':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'pr-bg-pass':(formData.orderStatus=='已处理')}">
+      <em ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已处理')}">原因:</em>
+       <p class="inline-block " ng-class="{'color-red':(formData.orderStatus=='未通过'||formData.orderStatus=='已作废'),'color-pass':(formData.orderStatus=='已处理')}">
+      <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+       </p>
+      </div>
       <!-- <div class="pr-panel pr-panel-height mgb pd-n">
         <div class="inline-block br-line supplier-name relative">
           <p class="mgb-s">供应商</p>
           <p class="text-n color-black" style="padding-right:182px;">
-            {{showData.supplier.name || '暂无'}}
+            {{formData.supplier.name || '暂无'}}
           </p>
         </div>
         <div class="inline-block logistics-center relative">
           <p class="mgb-s">物流中心</p>
-          <p class="text-n color-black autocut-default" title="{{showData.logisticsCenterName}}" style="padding-right:182px;width:1200px;">
-            {{showData.logisticsCenterName ||'暂无'}}
+          <p class="text-n color-black autocut-default" title="{{formData.logisticsCenterName}}" style="padding-right:182px;width:1200px;">
+            {{formData.logisticsCenterName ||'暂无'}}
           </p>
         </div>
       </div> -->
@@ -37,7 +45,7 @@
             <div class="inline-block supplier-name"></div>
             <div class="inline-block">
               <p class="mgb-s">供应商</p>
-              <p class="text-m color-3 autocut-default" title="{{showData.supplier.name}}" style="width:300px;">{{showData.supplier.name || '暂无'}}</p>
+              <p class="text-m color-3 autocut-default" title="{{formData.supplier.name}}" style="width:300px;">{{formData.supplier.name || '暂无'}}</p>
             </div>
           </div>
         </div>
@@ -46,7 +54,7 @@
              <div class="inline-block logistics-center "></div>
              <div class="inline-block">
                <p class="mgb-s">物流中心</p>
-               <p class="text-m color-3 autocut-default" title="{{showData.logisticsCenterName}}" style="width:300px;">{{showData.logisticsCenterName ||'暂无'}}</p>
+               <p class="text-m color-3 autocut-default" title="{{formData.logisticsCenterName}}" style="width:300px;">{{formData.logisticsCenterName ||'暂无'}}</p>
              </div>
            </div>
         </div>
@@ -55,28 +63,28 @@
         <div>
           <div class="flex-column pdt-m pdb-m pd-c-l bb-dashed-line color-9">
             <div class="flex-item-6">
-              <span class="mgr-l">系统编号：<em class="color-3">{{showData.orderNo || '暂无'}}</em></span>
-              <span class="mgr-l">制单人：<em class="color-3">{{showData.inputUser.n || '暂无'}}</em></span>
-              <span class="mgr-l">审核人：<em class="color-3">{{showData.approverUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">系统编号：<em class="color-3">{{formData.orderNo || '暂无'}}</em></span>
+              <span class="mgr-l">制单人：<em class="color-3">{{formData.inputUser.n || '暂无'}}</em></span>
+              <span class="mgr-l">审核人：<em class="color-3">{{formData.approverUser.n || '暂无'}}</em></span>
             </div>
             <div class="flex-item-6 text-right">
-              <span class="mgl-l">录单日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
+              <span class="mgl-l">录单日期：<em class="color-3">{{formData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
               <a
               modal-center="1000px"
-              modal-data='{"businessKey":"{{showData.id}}"}'
+              modal-data='{"businessKey":"{{formData.id}}"}'
               modal-scope="this"
               modal-url="views/workflowTask/getOfDialog.html"
               >
-            <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
+            <span class="mgr">状态：<em class="color-3">{{formData.orderStatus}}</em></span>
               </a>
             </div>
           </div>
 
           <div class="flex-column pdt-m pdb-m pd-c-l">
-            <span class="mgr-l">采购部门：<em class="color-3">{{showData.salesDepartmentName || '暂无'}}</em></span>
-            <span class="mgr-l">业务人员：<em class="color-orange">{{showData.inputUser.n || '暂无'}}</em></span>
-            <span class="mgr-l">业务类型：<em class="color-3">{{showData.orderBusinessType || '暂无'}}</em></span>
-            <span class="mgr-l">采购类型：<em class="color-3">{{showData.purchaseType || '暂无'}}</em></span>
+            <span class="mgr-l">采购部门：<em class="color-3">{{formData.salesDepartmentName || '暂无'}}</em></span>
+            <span class="mgr-l">业务人员：<em class="color-orange">{{formData.inputUser.n || '暂无'}}</em></span>
+            <span class="mgr-l">业务类型：<em class="color-3">{{formData.orderBusinessType || '暂无'}}</em></span>
+            <span class="mgr-l">采购类型：<em class="color-3">{{formData.purchaseType || '暂无'}}</em></span>
           </div>
         </div>
         <div class="outside-table-d">
@@ -115,7 +123,7 @@
                 </tr>
               </thead>
               <tbody class="bg-white">
-                <tr ng-repeat="item in showData.orderMedicalNos | orderBy :'relId'">
+                <tr ng-repeat="item in formData.orderMedicalNos | orderBy :'relId'">
                   <td class="text-center relative">
                     <span class="circle-status"
                           ng-class="{'bg-pass-green':item.finishStatus,'bg-ing-orang':!item.finishStatus}">
@@ -164,12 +172,12 @@
           <!-- 备注 -->
           <div class='mgb'>
             <h1>备注</h1>
-            <p class="mgt-m">{{showData.note}}</p>
+            <p class="mgt-m">{{formData.note}}</p>
           </div>
       </div>
 
         <!-- 流程图 -->
-      <business-flow-show business-key="{{showData.id}}" business-type="采购单"></business-flow-show>
+      <business-flow-show business-key="{{formData.id}}" business-type="采购单"></business-flow-show>
 
     </div>
     <!-- 功能按钮 -->
@@ -177,20 +185,20 @@
       <div class="btn-area">
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/purchaseReturnOrder/query.html" >返回采购退货单列表</a>
-          <span ng-if="showData.didateFilter.buttons.length>0"
+          <span ng-if="formData.didateFilter.buttons.length>0"
                 custom-menu-list
-                custom-menu-arr="{{showData.didateFilter.buttons}}">
+                custom-menu-arr="{{formData.didateFilter.buttons}}">
           </span>
 
-          <!-- <button ng-if="showData.orderStatus=='待入库'"
+          <!-- <button ng-if="formData.orderStatus=='待入库'"
                   class="mgl pr-btn-create-glodbg"
                   type="button"
                   handle-this-click
                   dialog-title="确认生成入库单?"
                   dialog-content="生成入库单(红字)后,将完成采购退货入库"
                   dialog-template="pr-dialog-submit.html"
-                  callback="$root.utils.goTo('#/purchaseReturnOrder/get.html?id={{showData.id}}')"
-                  params='{"id":showData.id, "status":"已入库"}'
+                  callback="$root.utils.goTo('#/purchaseReturnOrder/get.html?id={{formData.id}}')"
+                  params='{"id":formData.id, "status":"已入库"}'
                   request-url="rest/authen/purchaseReturnOrder/updateStatus">生成入库单
           </button> -->
 

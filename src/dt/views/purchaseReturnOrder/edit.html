@@ -28,8 +28,15 @@
       </div>
     </div>
     <!-- 单据基本信息 -->
-    <div class="content-wrapper">
 
+    <div class="content-wrapper">
+      <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        </p>
+      </div>
       <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
         <a ng-if="initFlag"
            modal-right="1000"
