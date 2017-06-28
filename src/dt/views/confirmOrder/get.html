@@ -1,4 +1,4 @@
-<div class="confirm-order-edit "
+<div class="confirm-order-edit child-project-management"
      ng-controller="confirmOrderEditCtrl2"
      ajax-url="rest/authen/confirmOrder/get.json?id={{mainStatus.pageParams.id}}"
      scope-data="scopeData"
@@ -143,8 +143,17 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="item in scopeData.orderMedicalNos">
-                  <td class="text-center">{{item.code}}</td><!-- 商品编号 -->
+                <tr ng-repeat="item in scopeData.orderMedicalNos" table-item-multiple-btn>
+                  <td class="text-center">{{item.code}}
+                    <div class="table-item-multiple-btn">
+                      <div class="inline-block btn-receiveItem pr-bg-edit color-white"
+                           modal-right="650"
+                           modal-scope="this"
+                           modal-data='{"id":"{{item.id}}"}'
+                           modal-url="views/versionFlow/gs1-barcode-print-dialog.html">打印GS1条码
+                      </div>
+                    </div>
+                  </td><!-- 商品编号 -->
                   <td>{{item.name}}</td><!-- 商品全名 -->
                   <td class="text-center">{{item.specificationAndModelType}}</td><!-- 规格/型号 -->
                   <td class="text-center">{{item.unit}}</td><!-- 单位 -->
