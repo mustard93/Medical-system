@@ -31,6 +31,13 @@
 
     <!-- 单据基本信息 -->
     <div class="content-wrapper">
+      <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        </p>
+      </div>
       <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
         <a ng-if="initFlag"
            modal-right="1000"
@@ -128,7 +135,7 @@
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
                 <th class="text-center">可退数量</th>
-                <th class="text-center">实退数量</th>
+                <th class="text-center">退货数量</th>
                 <th class="text-center">预入仓库</th>
                 <th class="text-center ">生产批号</th>
                 <th class="text-center ">灭菌批号</th>
@@ -153,7 +160,7 @@
               <tr ng-repeat="item in formData.orderMedicalNos | repeatFilter:'formData.orderMedicalNos'"
                   ng-controller="saleReturnMedicalItemController"
                   table-item-handlebtn-component
-                  ng-init="item.quantity=item.returnQuantity">
+                  >
                 <td class="text-center">{{item.code}}
                   <div class="table-item-handle-btn">
                     <div class="table-item-confirm-del-area">
@@ -172,7 +179,7 @@
                 <td class="text-center">
                   <div class="order-goods-num">
                     <button type="button" class="inline-block left" ng-click="item.quantity=item.quantity-1" ng-disabled="item.quantity==1">-</button>
-                    <span class="inline-block">
+                    <span class="inline-block" >
                       <input type="number"
                              style="width:60px;"
                              class="ipt pr-ipt-60 text-right"
@@ -262,7 +269,7 @@
              dialog-content="该申请单存在未保存数据，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/saleReturnOrder/query.html')"
-             save-callback="submitForm('saleReturnEditForm','save')">返回销售退货单列表
+             save-callback="submitForm('saleReturnEditForm','exit')">返回销售退货单列表
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/saleReturnOrder/query.html" >返回销售退货单列表</a>

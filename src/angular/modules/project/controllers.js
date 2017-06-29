@@ -982,7 +982,7 @@ define('project/controllers', ['project/init'], function() {
   /**
    *  销售单编辑页
    */
-  function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError, dialogConfirm) {
+  function confirmOrderEditCtrl($scope, modal,alertWarn,requestData,alertOk,alertError,utils, dialogConfirm) {
 
     $scope.logistics=true;
     $scope.isShowConfirmInfo = false;
@@ -990,6 +990,7 @@ define('project/controllers', ['project/init'], function() {
     $scope.quantityOverloadFlag = [];
 
     $scope.$watch('initFlag', function () {
+
       var operationFlowSetMessage=[];
       var operationFlowSetKey=[];
       if ($scope.formData.operationFlowSet) {
@@ -1045,6 +1046,7 @@ define('project/controllers', ['project/init'], function() {
       }
     }, true);
 
+
     $scope.deleteQuantity=function(item){
       angular.forEach($scope.formData.orderMedicalNos, function (item, index) {
         if (item.quantityAndbatchNumber) {
@@ -1056,7 +1058,6 @@ define('project/controllers', ['project/init'], function() {
         }
       });
     };
-
     // 保存type:save-草稿,submit-提交订单。
     $scope.submitFormAfter = function() {
       if ($scope.submitForm_type == 'exit') {
@@ -2645,14 +2646,23 @@ define('project/controllers', ['project/init'], function() {
     // 监控计划采购数量与实际采购数量的方法
     $scope.diffPurchaseNumber = function (orderMedicalList) {
       if (orderMedicalList) {
+        // 用于放每一条判断数量后的结果
+        isDisabledNextStepList=[];
         angular.forEach(orderMedicalList, function (data, index) {
           // 选择的数量小于计划数量，显示提示信息
           $scope.isShowPurchaseInfo = (data.planQuantity > data.quantity) ? true : false;
           // ..
           $scope.isDisabledNextStep = (data.quantity > data.planQuantity) ? true : false;
-
+          // 把每一条判断后的true或者是false放入数组中
+          isDisabledNextStepList.push($scope.isDisabledNextStep);
         });
-
+        // 用some方法判断只要有一条为true，就阻止提交。相反，若全为false。就允许提交
+        if (isDisabledNextStepList.some(function(item){ return item == true;}))
+        {
+          return $scope.isDisabledNextStep=true;
+        }else{
+          return $scope.isDisabledNextStep=false;
+        }
       }
     };
 
@@ -4742,7 +4752,23 @@ define('project/controllers', ['project/init'], function() {
       watchFormChange(watchName,$scope);
 
     };
-
+    $scope.$watch('initFlag', function () {
+      var operationFlowSetMessage=[];
+      var operationFlowSetKey=[];
+      if ($scope.formData.operationFlowSet) {
+        // 选择出当前状态相同的驳回理由，并放入一个数组中
+       for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+         if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+           operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
+           operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
+         }
+       }
+      //  选择当前状态最近的一个驳回理由用于显示
+       $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+       $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+       return;
+      }
+    });
     modal.closeAll();
     // $scope.formData={};
     $scope.addDataItem = {};
@@ -4754,7 +4780,6 @@ define('project/controllers', ['project/init'], function() {
 
       if ($scope.submitForm_type == 'exit') {
         $scope.goTo('#/saleReturnOrder/query.html');
-        alertOk(scopeResponse.msg);
         return;
       }
 
@@ -4889,6 +4914,23 @@ define('project/controllers', ['project/init'], function() {
       watchFormChange(watchName,$scope);
 
     };
+    $scope.$watch('initFlag', function () {
+      var operationFlowSetMessage=[];
+      var operationFlowSetKey=[];
+      if ($scope.formData.operationFlowSet) {
+        // 选择出当前状态相同的驳回理由，并放入一个数组中
+       for (var i=0; i<$scope.formData.operationFlowSet.length; i++) {
+         if ($scope.formData.operationFlowSet[i].status==$scope.formData.orderStatus) {
+           operationFlowSetMessage.push($scope.formData.operationFlowSet[i].message);
+           operationFlowSetKey.push($scope.formData.operationFlowSet[i].key);
+         }
+       }
+      //  选择当前状态最近的一个驳回理由用于显示
+       $scope.formData.operationFlowSet.message=operationFlowSetMessage[operationFlowSetMessage.length-1];
+       $scope.formData.operationFlowSet.key=operationFlowSetKey[operationFlowSetKey.length-1];
+       return;
+      }
+    });
 
     modal.closeAll();
     $scope.addDataItem = {};
@@ -5210,6 +5252,7 @@ define('project/controllers', ['project/init'], function() {
         var _resultData = results[1].data;
 
         angular.forEach(_resultData, function (data, index) {
+          data.quantity=data.returnQuantity;
           $scope.formData.orderMedicalNos.push(data);
         });
 
@@ -5231,16 +5274,21 @@ define('project/controllers', ['project/init'], function() {
         return ;
       }
 
+      if (choisedMedicalList.length) {
+        for (var i = 0; i < choisedMedicalList.length; i++) {
+          choisedMedicalList[i].quantity=choisedMedicalList[i].returnQuantity;
+        }
+      }
       // 首次添加数据
       if (!$scope.formData.orderMedicalNos.length) {
         $scope.formData.relId = addDataObj_id;
         $scope.formData.orderMedicalNos = choisedMedicalList;
       } else {    // 修改数据
+
         $scope.formData.orderMedicalNos = [];     // 清空原有数据
         $scope.formData.orderMedicalNos = choisedMedicalList;
         // $scope.formData.orderMedicalNos = angular.copy(choisedMedicalList);   // 重新添加数据
       }
-
 
       //销退单、采退单：销售部门、业务人员、业务类型、 销售类型 应该选择发货单和来货通知单后就带出来
       $scope.formData.salesDepartmentId=addDataObj.salesDepartmentId;
@@ -5250,12 +5298,10 @@ define('project/controllers', ['project/init'], function() {
       $scope.formData.saleUser=addDataObj.saleUser;
       $scope.formData.customerName=addDataObj.customerName;
 
+
       //切换发货单时，清空原有数据
       if($scope.formData.relId!=addDataObj_id){
         $scope.formData.orderMedicalNos=[];
-
-
-
       }else{
         //否则删除没选中,再添加选中的
         for(var i=$scope.formData.orderMedicalNos.length-1;i>=0;i--){
@@ -5290,6 +5336,7 @@ define('project/controllers', ['project/init'], function() {
 
     // 错误状态标识
     $scope.quantityError = false;
+
 
     // 监视值变化
     $scope.$watch('item.quantity', function (newVal) {
@@ -6400,7 +6447,7 @@ define('project/controllers', ['project/init'], function() {
   .controller('mainCtrlProject',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProject])
   .controller('ScreenFinanceApprovalController', ['$scope', ScreenFinanceApprovalController])
   .controller('ConfirmOrderMedicalController', ['$scope', ConfirmOrderMedicalController])
-  .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'dialogConfirm', confirmOrderEditCtrl])
+  .controller('confirmOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'dialogConfirm','utils', confirmOrderEditCtrl])
   .controller('confirmOrderEditCtrl2', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'watchFormChange', 'saleOrderUtils', confirmOrderEditCtrl2])
   .controller('SalesOrderDetailsController', ['$scope', '$timeout', 'alertOk', 'alertError', 'requestData', SalesOrderDetailsController])
   .controller('editWorkFlowProcessCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', '$rootScope', editWorkFlowProcessCtrl])

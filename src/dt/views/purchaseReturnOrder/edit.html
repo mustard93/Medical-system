@@ -28,8 +28,15 @@
       </div>
     </div>
     <!-- 单据基本信息 -->
-    <div class="content-wrapper">
 
+    <div class="content-wrapper">
+      <div ng-if="formData.operationFlowSet.key||formData.operationFlowSet.message" class="pr-panel pr-panel-height mgb pr-bg-pink1">
+        <em class="color-red">原因:</em>
+        <p class="inline-block color-red">
+          <em ng-model="formData.operationFlowSet.key">{{formData.operationFlowSet.key}}</em>
+          <em ng-model="formData.operationFlowSet.message">{{formData.operationFlowSet.message}}</em>
+        </p>
+      </div>
       <div class="pos-rel-tl order-create-btn z-index-l mgb-m">
         <a ng-if="initFlag"
            modal-right="1000"
@@ -117,7 +124,7 @@
                 <th class="text-center">规格/型号</th>
                 <th class="text-center">单位</th>
                 <th class="text-center">可退数量</th>
-                <th class="text-center">实退数量</th>
+                <th class="text-center">退货数量</th>
                 <th class="text-center w-110">生产批号</th>
                 <th class="text-center w-110">灭菌批号</th>
                 <th class="text-center w-110">仓库</th>
@@ -231,7 +238,7 @@
              dialog-content="有修改数据还未保存，是否保存?"
              dialog-template="pr-dialog-return.html"
              nosave-callback="goTo('#/purchaseReturnOrder/query.html')"
-             save-callback="submitForm('saleReturnEditForm','save')">返回采购退货单列表
+             save-callback="submitForm('saleReturnEditForm','exit')">返回采购退货单列表
           </a>
 
           <a class="mgr-l" ng-if="!changeFlag" href="#/purchaseReturnOrder/query.html" >返回采购退货单列表</a>
