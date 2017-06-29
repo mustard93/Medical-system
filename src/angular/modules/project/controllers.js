@@ -3475,15 +3475,20 @@ define('project/controllers', ['project/init'], function() {
                requestData(url,data, 'POST')
                 .then(function (results) {
                   if (results[1].code === 200) {
-                  $scope.goTo('#/firstMedicalApplication/get.html?id='+$scope.formData.id);
+                    $scope.goTo('#/firstMedicalApplication/get.html?id='+$scope.formData.id);
                   }
+
                 })
                 .catch(function (error) {
                   alertError(error || '出错');
                 });
+
+             }else{
+                     alertError(results[1].msg);
              }
            })
            .catch(function (error) {
+               alertError(error || '出错');
            });
          }
          if ($scope.submitForm_type == 'submit-hospital') {
