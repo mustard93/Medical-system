@@ -1455,7 +1455,6 @@ function canvasWorkflow (modal,utils) {
   'use strict';
   return {
       restrict: 'AE',
-      // scope: false,
       scope: {
           workflowTaskData:"=?",
           ngModel:"=?"
@@ -1471,10 +1470,11 @@ function canvasWorkflow (modal,utils) {
         if(workflow)workflow.reload(value);
       }, true);
 
-          var data= $scope.ngModel;
-          console.log(data);
-          require(['WorkflowProcess'], function(WorkflowProcess) {
-            function clickCallback(event,that){
+      var data= $scope.ngModel;
+
+      require(['WorkflowProcess'], function(WorkflowProcess) {
+
+        function clickCallback(event,that){
 
                 if(!angular.isDefined($attrs.modalUrl)){
                     return;
@@ -1498,51 +1498,44 @@ function canvasWorkflow (modal,utils) {
                 });
             }//end clickCallback
 
+        var option={
+          showStatus:$attrs.showStatus=="true",
+          node:{
+            clickCallback:clickCallback
+          }
+        };
 
-            var option={
-                showStatus:$attrs.showStatus=="true",
-                node:{
-                  clickCallback:clickCallback
-                }
-            };
+        workflow=new WorkflowProcess($attrs.id,option);
 
-             workflow=new WorkflowProcess($attrs.id,option);
+        if ($attrs.scopeExtend){
+          var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
+          if(scopeExtend){
+            if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
+          }
+        }
 
+        workflow.addWorkflowProcess(data);
 
+        if($scope.workflowTaskData){
+          workflow.addWorkflowTaskData($scope.workflowTaskData);
+        }
+          //编辑节点回掉函数 新建保存，作用域调用不到该函数
+          // $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
+          //   modal.closeAll();
+          //   workflow.reload();
+          //
+          // }
+          //编辑节点回掉函数 新建保存，作用域调用不到该函数,采用监听标志位
 
-            if ($attrs.scopeExtend){
-                var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
-                if(scopeExtend){
-                  if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
-                }
-
-            }
-
-            workflow.addWorkflowProcess(data);
-
-
-            if($scope.workflowTaskData){
-              workflow.addWorkflowTaskData($scope.workflowTaskData);
-
-            }
-              //编辑节点回掉函数 新建保存，作用域调用不到该函数
-              // $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
-              //   modal.closeAll();
-              //   workflow.reload();
-              //
-              // }
-              //编辑节点回掉函数 新建保存，作用域调用不到该函数,采用监听标志位
-
-              // if(angular.isDefined($attrs.updateWorkflowFlag)){
-              //   $scope.$parent.$watch($attrs.updateWorkflowFlag, function(value) {
-              //     modal.closeAll();
-              //     workflow.reload();
-              //   }, true);
-              // }
+          // if(angular.isDefined($attrs.updateWorkflowFlag)){
+          //   $scope.$parent.$watch($attrs.updateWorkflowFlag, function(value) {
+          //     modal.closeAll();
+          //     workflow.reload();
+          //   }, true);
+          // }
 
 
-          });//WorkflowProcess
-
+      });//WorkflowProcess
     }//end link
   };
 }//canvasWorkflow
