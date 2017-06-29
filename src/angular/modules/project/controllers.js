@@ -4842,6 +4842,19 @@ define('project/controllers', ['project/init'], function() {
       alertWarn('cancelForm');
     };
 
+
+    $scope.confirmOrderCalculaTotal = function (orderMedicalNos) {
+      if (orderMedicalNos) {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (item, index) {
+            var _tmp = 0;
+            _tmp += item.quantity * item.duty_price;
+            _total += _tmp;
+        });
+        $scope.formData.totalPrice = _total;
+      }
+    };
+
     // 添加选择项到编辑页
     // $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList,addDataObj) {
     //
@@ -5008,7 +5021,18 @@ define('project/controllers', ['project/init'], function() {
     $scope.cancelForm = function(fromId, url) {
       alertWarn('cancelForm');
     };
-
+    // 计算总计
+    $scope.confirmOrderCalculaTotal = function (orderMedicalNos) {
+      if (orderMedicalNos) {
+        var _total = 0;
+        angular.forEach(orderMedicalNos, function (item, index) {
+            var _tmp = 0;
+            _tmp += item.quantity * item.duty_price;
+            _total += _tmp;
+        });
+        $scope.formData.totalPrice = _total;
+      }
+    };
     // 添加选择项到编辑页
     // $scope.handleAddDataArray = function (addDataObj_id,choisedMedicalList,addDataObj) {
     //   if(!addDataObj_id){//发货单id不能为空
