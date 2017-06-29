@@ -3961,27 +3961,14 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     }
 
-    //领退模块选择退货商品
+    //领退模块选择退货商品弹窗
     function  collarReturnOrderChoiceDialogCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
+        //显示批次界面
         $scope.showBatchs=false;
-
         $scope.changeShowBatchsFlag=function (flag) {
             $scope.showBatchs =flag;
         };
-
-        //选择当前订单
-        // $scope.curOrder=null;
-        // $scope.index=-1;
-        //
-        // $scope.choiceThis=function (item,index,flag){
-        //     console.log("asdasdas");
-        //     if(!flag){
-        //         $scope.curOrder=item;
-        //         $scope.index = index;
-        //     }
-        // };
-
 
         /**
          * 根据单号查询领用单
@@ -4003,13 +3990,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         };
 
-        // //监听领用单输入
-        // $scope.$watch('selectedData',function (newVal, oldVal, p3) {
-        //     console.log("newVal");
-        //     $scope.getByOrderCode(newVal.data);
-        // },true);
-
-
         $scope.flashAddDataCallbackFn=function (data1) {
 
             $scope.angucomplete_data=data1;
@@ -4021,7 +4001,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
         $scope.angucomplete_data={};
-
         $scope.$watch('angucomplete_data',function(){
             $scope.curOrder=null;
             // console.log("angucomplete_data:$watch"+$scope.angucomplete_data.id);
@@ -4032,10 +4011,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         },true);
 
 
+
+        //监听筛选条件并获取商品列表
         $scope.$watch('listParams',function (newValue,oldValue) {
             $scope.handleSearchFilter($scope.listParams,$scope.angucomplete_data.id);
         },true);
-
+        //获取商品列表
         $scope.handleSearchFilter=function(listParams,relMedicalStockId){
 
             if(relMedicalStockId == undefined || relMedicalStockId==null || relMedicalStockId==''){
@@ -4066,31 +4047,22 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-
+        /**
+         * 获取商品的批号列表
+         * 1.判断是否选择商品
+         * 2.判断部门存在
+         * 3.判断当前选择商品是否存在已选商品列表
+         * 4.跳转到批次选择界面-请求批次列表信息
+         */
         $scope.getGoodsBatchs=function(){
 
+            //1.判断是否选择商品
             if($scope.curOrder== null){
                 alertWarn("请选择！");
                 return;
             }
 
-            //step0 判断部门
-            // if(!$scope.formData.departmentId ){
-            //     // //设置部门ID 和 name
-            //     // $scope.formData.departmentId=$scope.curOrder.departmentId ;
-            //     //
-            //     // $scope.formData.departmentName=  $scope.curOrder.departmentName;
-            //
-            // }else{
-            //
-            //     if($scope.curOrder.departmentId != $scope.formData.departmentId){
-            //         alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
-            //         return;
-            //     }
-            // }
-
-
-            //step0 判断部门
+            //2.判断部门存在
             if($scope.formData.departmentId){
                 if($scope.curOrder.departmentId != $scope.formData.departmentId){
                     alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
@@ -4098,7 +4070,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 }
             }
 
-            //step1 判断去重复
+            // 3.判断当前选择商品是否存在已选商品列表
             var flag=false;
             for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
                 if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
@@ -4106,19 +4078,17 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                     break;
                 }
             }
-
             if(flag){
                 alertWarn("該商品已存在,请重新选择");
                 return;
             }
 
+            // 4.跳转到批次选择界面-请求批次列表信息
             $scope.changeShowBatchsFlag(true);
-
             var _data={
                 id:$scope.curOrder.relId,//单据主键ID
                 relMedicalStockId:$scope.curOrder.relMedicalStockId
             };
-
             requestData("rest/authen/collarApplicationOrder/queryMedicalProductionBatch", _data, 'GET')
                 .then(function (results) {
                     $scope.stockBatchList=results[1].data || [];
@@ -4130,9 +4100,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-        $scope.selectedBatchs2=[];
-
         //单击选择
+        $scope.selectedBatchs2=[];
         $scope.handleItemClickEvent=function (item,dataSource,attr) {
 
             if(item.handleFlag){
@@ -4224,7 +4193,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-        //添加到数据列表
+        //添加到商品数据列表
         $scope.addToList=function(){
 
             var obj = $scope.curOrder.medicalNo;
@@ -4283,12 +4252,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
 
 
-
-
-
-
-
-
             var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'onlyId','onlyId');
 
             //
@@ -4320,7 +4283,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-
+        /**
+         * 判断item 是否存在
+         * @param id item 唯一标识
+         * @param batchlist 比较列表
+         * @param attr 列表单个元素比对属性
+         * @returns {boolean}
+         */
         $scope.itemInArray=function (id,batchlist,attr) {
             var flag=false;
             for(var i=0; i<batchlist.length; i++){
@@ -4331,6 +4300,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             return flag;
         };
 
+        //接受选择事件
         $scope.$on('selected',function (e, data) {
                 $scope.curOrder= data;
         });
