@@ -2516,6 +2516,7 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             "searchStr": "@",
             "customStyle": "@",   // 自定义样式
             "frozenGoodsDisabled": "@"
+
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
@@ -2531,16 +2532,18 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             // $scope.searchStr = null;
 
 
+
             require(['project/angucomplete'], function(angucomplete) {
               //是否验证合法，允许输入
               var canSelectResult=function(result){
-                // try{
-                //   if (attrs.frozenGoodsDisabled) {
-                //     if (result.data.businessApplication.businessStatus == '已冻结') {
-                //       return false;
-                //     }
-                //   }
-                // }catch(e){  }
+                try{
+                  if (attrs.frozenGoodsDisabled) {
+
+                    if (result.data.businessApplication.businessStatus == '已冻结') {
+                      return false;
+                    }
+                  }
+                }catch(e){  }
 
                 return true;
               };
@@ -2693,8 +2696,12 @@ function flashAddMedical(utils,$timeout) {
 
           //input输入框回车事件。
           $scope.handleAddThisItem = function (e) {
+              console.log("enter key  ...........");
             var keycode = window.event ? e.keyCode : e.which;
             if (keycode == 13) {
+
+
+
               $scope.addDataFn();
             }
               return false;
