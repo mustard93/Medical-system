@@ -53,7 +53,10 @@
              <table class="table pr-table pr-new-table table-ss-wid" >
                <thead>
                 <tr>
-                 <th>&nbsp;</th>
+                  <th  class="w-60 text-center mycheck">
+                    <input type="checkbox" class="selectAll cur-pot" id='1' ng-init="isChoiseAll=false" ng-model="isChoiseAll" ng-click="handleChoiseAllEvent(isChoiseAll);">
+                    <label for="1"></label>
+                  </th>
                  <th class="text-center">商品编号</th>
                  <th class="text-left">商品全名</th>
                  <th class="text-center">规格/型号</th>
@@ -68,14 +71,20 @@
                <tbody class="bg-white">
                  <tr ng-repeat="tr in formData.orderMedicalNos" ng-init="tr.handleFlag=false;tr.strike_price=tr.purchasePrice">
                    <td class="select-td mycheck">
-                     <input type="checkbox"
-                            id="{{$index + 1}}"
+                     <input ng-if="formData.orderStatus!='已处理'"
+                            type="checkbox"
+                            id="{{$index + 2}}"
                             class="selectOne"
                             name="choise-this"
                             ng-model="tr.handleFlag"
-                            ng-click="chkChoiseMedicals(tr,formData.orderMedicalNos);"
-                            ng-disabled="formData.orderStatus=='已处理'">
-                    <label for="{{$index + 1}}"></label>
+                            ng-click="chkChoiseMedicals(tr,formData.orderMedicalNos);handleItemClickEvent(tr);"
+                          >
+                     <input ng-if="formData.orderStatus=='已处理'"
+                            type="checkbox"
+                            class="selectOne disabled"
+                            name="choise-this"
+                            disabled="disabled">
+                    <label for="{{$index + 2}}"></label>
                    </td><!-- 选择checkbox -->
                    <td class="text-center" style="line-height:2.4;">{{tr.code}}</td><!-- 商品编号 -->
                    <td class="text-left" style="line-height:2.4;"><div class="autocut" title="{{tr.name}}">{{tr.name}}</div></td><!-- 商品全名 -->
@@ -212,7 +221,7 @@
                   ng-click="submitForm('purchaseForm','submit')"
                   invalid-popover
                   valid-value=""
-                  popover-show="_supplierArray&&!isGoNextStep"
+                  popover-show="_supplierArray"
                   popover-options='{"content":"不同生产厂家的药械不能合并生成采购单", "placement":"top", "trigger":"manual"}'>生成采购单
           </button>
         </span>

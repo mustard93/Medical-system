@@ -174,7 +174,7 @@
                              ng-pattern="/^\+?[1-9]\d*$/"
                              invalid-popover
                              valid-value="{{!saleReturnEditForm['quantity'+$index].$valid}}"
-                             ng-change="item.totalTaxPrice = item.quantity * item.strike_price;"
+                             ng-change="item.totalTaxPrice = item.quantity * item.strike_price;confirmOrderCalculaTotal(formData.orderMedicalNos);"
                              popover-show
                              popover-options='{"content":"数量不能小于等于0且不能过大或格式不正确", "placement":"right", "trigger":"manual"}' />
                     </span>
@@ -230,6 +230,16 @@
              save-callback="submitForm('editForm','exit');
              $root.goTo('#/purchaseReturnOrder/query.html')">返回采购退货单列表
           </a> -->
+          <div
+               class="price-area relative fl-l mgr-l"
+               style="height:100%;line-height:3.3;font-size:18px;color:#c7a77b;">总计：
+            <em class="color-white"
+                invalid-popover
+                popover-show="formData.totalPrice>100000"
+                popover-options='{"content":"每单总计金额不能超过10万", "placement":"top", "trigger":"manual"}'>￥{{formData.totalPrice || '0.00' | number:2}}
+            </em>
+
+          </div>
           <a
            ng-if="changeFlag"
           href="javascript:;"
@@ -268,7 +278,7 @@
                   dialog-template="pr-dialog-submit.html"
                   confirm-btn-txt="确定"
                   callback="submitForm_type='submit';formData.validFlag=true;submitForm1();"
-                  ng-disabled="!saleReturnEditForm.$valid || quantityError ||!formData.orderMedicalNos.length">提交
+                  ng-disabled="!saleReturnEditForm.$valid || quantityError ||!formData.orderMedicalNos.length || formData.totalPrice>100000">提交
           </button>
 
       </div>
