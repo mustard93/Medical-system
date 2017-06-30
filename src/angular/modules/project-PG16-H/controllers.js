@@ -3830,7 +3830,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         requestData("rest/authen/inventoryMedicalNo/delete?id="+_id, data, 'POST')
         .then(function (results) {
           if (results[1].code === 200) {
-              utils.refreshHref();
               alertOk('操作成功');
             }
         })
