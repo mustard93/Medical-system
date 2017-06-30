@@ -2511,6 +2511,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     // 上架计划控制器
     function shelvesUpController ($scope, watchFormChange, requestData, utils, alertError, alertWarn, alertOk) {
+
+        $scope.$watch('listParams.storeRoomId',function(newVal,oldVal){
+          if (!newVal&&oldVal) {
+             $scope.listParams.regionId=null;
+             $scope.listParams.goodsLocationId=null;
+          }
+        });
+        $scope.$watch('listParams.regionId',function(newVal,oldVal){
+          if (!newVal&&oldVal) {
+             $scope.listParams.goodsLocationId=null;
+          }
+        });
       // 定义存放用户选择药品的列表
       $scope.choisedMedicalList = [];
 
