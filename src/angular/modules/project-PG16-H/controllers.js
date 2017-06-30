@@ -300,12 +300,45 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
     }
 
+    // 出入记录查询
+    function inoutstockDetailController ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
+
+        $scope.watchFormChange = function(watchName){
+            watchFormChange(watchName,$scope);
+        };
+
+        $scope.$watch('listParams.storeRoomId',function(newVal,oldVal){
+          if (!newVal&&oldVal) {
+             $scope.listParams.regionId=null;
+             $scope.listParams.goodsLocationId=null;
+          }
+        });
+        $scope.$watch('listParams.regionId',function(newVal,oldVal){
+          if (!newVal&&oldVal) {
+             $scope.listParams.goodsLocationId=null;
+          }
+        });
+    }
+
+
     //  SPD系统—商品信息管理模块controller
     function medicalStockCtrl ($scope, watchFormChange, requestData, utils, alertError, alertWarn) {
 
         $scope.watchFormChange = function(watchName){
             watchFormChange(watchName,$scope);
         };
+
+        $scope.$watch('listParams.storeRoomId',function(newVal,oldVal){
+          if (!newVal&&oldVal) {
+             $scope.listParams.regionId=null;
+             $scope.listParams.goodsLocationId=null;
+          }
+        });
+        $scope.$watch('listParams.regionId',function(newVal,oldVal){
+          if (!newVal&&oldVal) {
+             $scope.listParams.goodsLocationId=null;
+          }
+        });
 
         $scope.reloadQuery =function (){
             var _data={};
@@ -3084,6 +3117,25 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
           watchFormChange(watchName,$scope);
       };
 
+      $scope.$watch('listParams.storeRoomId',function(newVal,oldVal){
+        if (!newVal&&oldVal) {
+           $scope.listParams.sourceRegionId=null;
+           $scope.listParams.sourceGoodsLocationId=null;
+           $scope.listParams.targetRegionId=null;
+           $scope.listParams.targetGoodsLocationId=null;
+        }
+      });
+      $scope.$watch('listParams.sourceRegionId',function(newVal,oldVal){
+        if (!newVal&&oldVal) {
+           $scope.listParams.sourceGoodsLocationId=null;
+        }
+      });
+      $scope.$watch('listParams.targetRegionId',function(newVal,oldVal){
+        if (!newVal&&oldVal) {
+           $scope.listParams.targetGoodsLocationId=null;
+        }
+      });
+
       $scope.submitForm = function(fromId, type) {
           $scope.submitForm_type = type;
           if ($scope.submitForm_type == 'submit') {
@@ -4398,6 +4450,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         .controller('indexPageController', ['$scope', 'requestData', 'utils', 'OPrinter', '$timeout', '$rootScope', indexPageController])
         .controller('mainCtrlProjectPG16H',  ["$scope","$rootScope","$http", "$location", "store","utils","modal","OPrinter","UICustomTable","bottomButtonList","saleOrderUtils","purchaseOrderUtils","requestPurchaseOrderUtils","queryItemCardButtonList","customMenuUtils", mainCtrlProjectPG16H])
         .controller('medicalStockCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockCtrl])
+        .controller('inoutstockDetailController', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', inoutstockDetailController])
         .controller('transferRecordCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn','modal', transferRecordCtrl])
         .controller('medicalStockStrategyCtrl', ['$scope', 'watchFormChange', 'requestData', 'utils','alertError','alertWarn', medicalStockStrategyCtrl])
         .controller('allocateOrderEditCtrl', ['$scope', 'modal', 'alertWarn', 'requestData', 'alertOk', 'alertError', 'dialogConfirm', allocateOrderEditCtrl])
