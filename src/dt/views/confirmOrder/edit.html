@@ -136,6 +136,7 @@
           <!-- 信息 -->
           <div ng-if="!formData.relId"
                flash-add-medical
+               frozen-goods-disabled="true"
                ng-model="data1"
                class="pd-c-l pdt-m"
                ajax-url="rest/authen/medicalStock/query?hospitalId={{formData.customerId}}"
@@ -162,9 +163,10 @@
             </div>
             <div class="pd-c-l pdt-m pdb-m color-9">
               <span class="mgr">销售部门：
-                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:100px;"
+                <select ng-if="initFlag" class="ipt pr-short-ipt color-3"
                         data-placeholder=" "
                         chosen
+                        width="150px"
                         ng-model="formData.salesDepartmentId"
                         select-source="rest/authen/department/queryForSelectOption">
                 </select>
@@ -371,7 +373,7 @@
                              name="discountPrice{{$index}}"
                              ng-model="item.discountPrice"
                              ng-change="confirmOrderCalculaTotal(formData.orderMedicalNos, formData.orderBusinessType);item.discountRate=((item.strike_price-item.discountPrice)/item.strike_price*100).toFixed(2)"
-                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0))$/"
+                             ng-pattern="/^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)|(0)|(0.0)|(0.00))$/"
                              ng-disabled="!item.strike_price||item.strike_price==0"
                              required
                              invalid-popover
@@ -392,7 +394,7 @@
                              valid-value="{{!editForm['discountRate'+$index].$valid}}"
                              popover-show
                              popover-options='{"content":"百分比格式不正确", "placement":"top", "trigger":"manual"}'
-                             ng-keyup="item.discountPrice=(item.strike_price*(1-item.discountRate/100)).toFixed(2)"/> %
+                             ng-keyup="item.discountPrice= (item.strike_price*(1-item.discountRate/100)).toFixed(2)"/> %
                     </td><!-- 折扣率 -->
                     <td class="text-center">￥{{$root.saleOrderUtils.getHanShuiDanJian(item.strike_price,item.discountRate) | number:2}}</td><!-- 含税单价 -->
                     <td class="text-center">￥{{$root.saleOrderUtils.getWuSuiDanJian(item.strike_price,item.discountRate,item.tax) | number:2}}</td><!-- 无税单价 -->

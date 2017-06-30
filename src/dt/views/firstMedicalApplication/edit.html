@@ -509,6 +509,20 @@
                    $root.goTo('#/firstMedicalApplication/query.html')">返回申请单列表</a>
                 <a ng-if="!changeFlag" href="#/firstMedicalApplication/query.html">返回申请单列表</a>
               </span>
+
+            <span class="mgl">
+              <a ng-if="formData.id && formData.proposerName==mainStatus.name"
+                 href="javascript:;"
+                 class="color-red mgt"
+                 handle-this-click
+                 dialog-title="确认删除?"
+                 dialog-content="删除后将无法恢复,确认删除?"
+                 dialog-template="pr-dialog-submit.html"
+                 callback="$root.goTo('#/firstMedicalApplication/query.html')"
+                 params='{"id":formData.id}'
+                 request-url="rest/authen/firstMedicalApplication/delete">删除</a>
+            </span>
+
             <span class="mgl">
               <button class="pr-btn-save-glodbg mgt"
                       ng-disabled="!changeFlag || firstMedicalEditForm.$invalid "

@@ -1468,7 +1468,6 @@ function canvasWorkflow (modal,utils) {
   'use strict';
   return {
       restrict: 'AE',
-      // scope: false,
       scope: {
           workflowTaskData:"=?",
           ngModel:"=?"
@@ -1484,10 +1483,11 @@ function canvasWorkflow (modal,utils) {
         if(workflow)workflow.reload(value);
       }, true);
 
-          var data= $scope.ngModel;
-          console.log(data);
-          require(['WorkflowProcess'], function(WorkflowProcess) {
-            function clickCallback(event,that){
+      var data= $scope.ngModel;
+
+      require(['WorkflowProcess'], function(WorkflowProcess) {
+
+        function clickCallback(event,that){
 
                 if(!angular.isDefined($attrs.modalUrl)){
                     return;
@@ -1511,51 +1511,44 @@ function canvasWorkflow (modal,utils) {
                 });
             }//end clickCallback
 
+        var option={
+          showStatus:$attrs.showStatus=="true",
+          node:{
+            clickCallback:clickCallback
+          }
+        };
 
-            var option={
-                showStatus:$attrs.showStatus=="true",
-                node:{
-                  clickCallback:clickCallback
-                }
-            };
+        workflow=new WorkflowProcess($attrs.id,option);
 
-             workflow=new WorkflowProcess($attrs.id,option);
+        if ($attrs.scopeExtend){
+          var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
+          if(scopeExtend){
+            if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
+          }
+        }
 
+        workflow.addWorkflowProcess(data);
 
+        if($scope.workflowTaskData){
+          workflow.addWorkflowTaskData($scope.workflowTaskData);
+        }
+          //编辑节点回掉函数 新建保存，作用域调用不到该函数
+          // $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
+          //   modal.closeAll();
+          //   workflow.reload();
+          //
+          // }
+          //编辑节点回掉函数 新建保存，作用域调用不到该函数,采用监听标志位
 
-            if ($attrs.scopeExtend){
-                var scopeExtend=utils.getScopeExtend($scope,$attrs.scopeExtend);
-                if(scopeExtend){
-                  if ($attrs.scopeExtendAttr)scopeExtend[$attrs.scopeExtendAttr]=workflow;
-                }
-
-            }
-
-            workflow.addWorkflowProcess(data);
-
-
-            if($scope.workflowTaskData){
-              workflow.addWorkflowTaskData($scope.workflowTaskData);
-
-            }
-              //编辑节点回掉函数 新建保存，作用域调用不到该函数
-              // $scope.workflowCallback=$scope.$parent.workflowCallback=function(){
-              //   modal.closeAll();
-              //   workflow.reload();
-              //
-              // }
-              //编辑节点回掉函数 新建保存，作用域调用不到该函数,采用监听标志位
-
-              // if(angular.isDefined($attrs.updateWorkflowFlag)){
-              //   $scope.$parent.$watch($attrs.updateWorkflowFlag, function(value) {
-              //     modal.closeAll();
-              //     workflow.reload();
-              //   }, true);
-              // }
+          // if(angular.isDefined($attrs.updateWorkflowFlag)){
+          //   $scope.$parent.$watch($attrs.updateWorkflowFlag, function(value) {
+          //     modal.closeAll();
+          //     workflow.reload();
+          //   }, true);
+          // }
 
 
-          });//WorkflowProcess
-
+      });//WorkflowProcess
     }//end link
   };
 }//canvasWorkflow
@@ -2536,6 +2529,7 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             "searchStr": "@",
             "customStyle": "@",   // 自定义样式
             "frozenGoodsDisabled": "@"
+
         },
         require: "?^ngModel",
         templateUrl: Config.tplPath + 'tpl/project/autocomplete-medicalStock.html',
@@ -2551,16 +2545,18 @@ function angucompleteMedical($parse, requestData, $sce, $timeout) {
             // $scope.searchStr = null;
 
 
+
             require(['project/angucomplete'], function(angucomplete) {
               //是否验证合法，允许输入
               var canSelectResult=function(result){
-                // try{
-                //   if (attrs.frozenGoodsDisabled) {
-                //     if (result.data.businessApplication.businessStatus == '已冻结') {
-                //       return false;
-                //     }
-                //   }
-                // }catch(e){  }
+                try{
+                  if (attrs.frozenGoodsDisabled) {
+
+                    if (result.data.businessApplication.businessStatus == '已冻结') {
+                      return false;
+                    }
+                  }
+                }catch(e){  }
 
                 return true;
               };
@@ -2713,8 +2709,12 @@ function flashAddMedical(utils,$timeout) {
 
           //input输入框回车事件。
           $scope.handleAddThisItem = function (e) {
+              console.log("enter key  ...........");
             var keycode = window.event ? e.keyCode : e.which;
             if (keycode == 13) {
+
+
+
               $scope.addDataFn();
             }
               return false;
