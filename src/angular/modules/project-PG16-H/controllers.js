@@ -3841,8 +3841,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
   }
 
-
-
     //领退模块
     function  collarReturnOrderCtrl($scope,modal, watchFormChange, requestData, utils, alertError, alertWarn) {
 
