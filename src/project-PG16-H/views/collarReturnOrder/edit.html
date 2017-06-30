@@ -117,10 +117,10 @@
 
                 申请部门：{{formData.departmentName || '暂无'}}
 
-               <!-- {{formData.departmentId}} -->
+               <!-- {{formData.departmentId}}  ng-disabled="formData.id"  ng-disabled="formData.id"-->
                <span class="mgr" style="margin-left: 10px;">申请人:</span>
                <select ng-if="initFlag" class="ipt pr-short-ipt color-3" style="width:90px;"
-                       ng-disabled="formData.id"
+
                        data-placeholder=" "
                        no-first-select-source="true"
                        chosen
@@ -144,7 +144,7 @@
 
              <span class="mgr">退货到库房:</span>
              <select class="ipt pr-short-ipt color-3" style="width:100px;"
-                     ng-disabled="formData.id"
+
                      data-placeholder=" "
                      no-first-select-source="true"
                      chosen
@@ -198,18 +198,19 @@
 
 
                    <!-- 生产批号/数量 -->
-                   <td ng-init="tr.stockBatchs = tr.stockBatchs ? tr.stockBatchs : []" class="text-center" style="width:180px">
+                   <td ng-init="tr.stockBatchs = tr.stockBatchs ? tr.stockBatchs : []" class="text-center" style="width:180px; position: relative;">
 
 
                      <!-- 已选批号列表 -->
+                     <!--(batch.quantity > batch.maxQuantity || batch.quantity < 1 ) ? true : false-->
                      <div ng-repeat="batch in tr.stockBatchs" ng-init="showDelIcon=false"
                           class="ipt-div relative mgb"
-                          ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false"
-                          ng-init="batch.falg=changeQuantity(batch.quantity,batch.maxQuantity)"
-                          invalid-popover
-                          popover-show="batch.falg"
-                          popover-options='{"content":"该批次退货数量不能大于可退货数量或等于0", "placement":"top", "trigger":"manual"}'
 
+                          ng-mouseenter="showDelIcon=true" ng-mouseleave="showDelIcon=false"
+                          ng-init="batch.falg = (batch.quantity > batch.maxQuantity || batch.quantity < 1 ) ? true : false;"
+                          invalid-popover
+                          popover-show=" batch.quantity > batch.maxQuantity || batch.quantity < 1  || tr.returnTotal<1 "
+                          popover-options='{"content":"该批次退货数量不能大于可退货数量或等于0", "placement":"right", "trigger":"manual"}'
                      >
                        <div class="inline-block text-ellips-s pr-bg-green2 br-line"
                             style="width:118px;height:100%;"
