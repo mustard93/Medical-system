@@ -716,23 +716,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
         // 修改实收数量或本次拒收数量时对应的本次拒收或实收改变。
-        $scope.changeQuantity = function (deliveryQuantity,hasReceiveQuantity,hasRefuseQuantity,_quantity,bool){
+        $scope.changeQuantity = function (deliveryQuantity,hasReceiveQuantity,hasRefuseQuantity,_hasReceiveQuantity,_hasRefuseQuantity){
             if(deliveryQuantity){
-                var endQuantity=deliveryQuantity-hasReceiveQuantity-hasRefuseQuantity-_quantity;
-                if(bool){
-                    if(endQuantity<$scope.formData.receiveQuantity){
-                        $scope.quantityError=true;
-                    }else {
-                        $scope.quantityError=false;
-                    }
-                }else{
-                    if(endQuantity<$scope.formData.refuseQuantity){
-                        $scope.quantityFalse=true;
-                    }else {
-                        $scope.quantityFalse=false;
-                    }
-                }
+                var endQuantity=deliveryQuantity-hasReceiveQuantity-hasRefuseQuantity;
+                var _endQuantity=parseInt(_hasReceiveQuantity)+parseInt(_hasRefuseQuantity);
 
+                if(endQuantity<_endQuantity){
+                  $scope.quantityError=true;
+                  $scope.quantityFalse=true;
+                }else {
+                    $scope.quantityError=false;
+                    $scope.quantityFalse=false;
+                }
             }
         };
 
