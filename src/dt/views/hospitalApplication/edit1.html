@@ -99,7 +99,7 @@
                   <input type="text" class="ipt-new" ng-model="formData.hospital.address">
                 </div>
               </div>
-              <div class="flex-column mgt">
+              <!-- <div class="flex-column mgt">
                 <label class="flex-item-2   text-right control-label">级别：</label>
                 <div class="flex-item-10   text-left">
                   <select ng-if="initFlag" class="ipt-new"
@@ -121,7 +121,32 @@
                           relative-select="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption" select-first>
                   </select>
                 </div>
+              </div> -->
+
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">级别：</label>
+                <div class="flex-item-10 text-left">
+                  <select ng-if="initFlag"
+                          class="ipt-new"
+                          ng-model="formData.hospital.level"
+                          name="level"
+                          chosen
+                          select-source="rest/index/queryBasicdataForSelectOption?basicDataType=Basic_HospitalLevel">
+                  </select>
+                </div>
               </div>
+              <div class="flex-column mgt">
+                <label class="flex-item-2 text-right control-label">等级：</label>
+                <div class="flex-item-10 text-left">
+                  <select class="ipt-new"
+                          ng-model="formData.hospital.grade"
+                          name="grade"
+                          chosen
+                          select-source="rest/authen/hospitalApplication/queryHospitalGradeForSelectOption?level={{formData.hospital.level}}">
+                  </select>
+                </div>
+              </div>
+
               <div class="flex-column mgt">
                 <label class="flex-item-2 text-right control-label">座机：</label>
                 <div class="flex-item-10 text-left">
