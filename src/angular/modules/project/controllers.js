@@ -1367,14 +1367,28 @@ define('project/controllers', ['project/init'], function() {
     // 切换物流中心时提示用户，在用户选择确定后将已选择品种的批次清空
     $scope.$watch('formData.logisticsCenterId', function (newVal, oldVal) {
       if (newVal && oldVal && newVal !== oldVal) {
+
+        // 如果最新值等于初始值 不做更新；
+        if($scope.defaultLogisticsCenterId==newVal){
+            return;
+        }
+
+        //
         dialogConfirm('切换物流中心后,所有批号信息需要重新选择.确认切换?', function () {
-          // 将已选药品的批次选择清空
+
+            // 将已选药品的批次选择清空
           if ($scope.formData.orderMedicalNos) {
             angular.forEach($scope.formData.orderMedicalNos, function (data, index) {
               data.stockBatchs = [];
             });
+
+            $scope.defaultLogisticsCenterId=newVal;
           }
-        },'pr-dialog-confirm.html','确认提示','确定');
+
+        },'pr-dialog-confirm.html','确认提示','确定',"", "",{},function () {
+            //如果取消- 把之前的旧值赋给当前对象属性
+            $scope.formData.logisticsCenterId=$scope.defaultLogisticsCenterId;
+        });
       }
     });
 
