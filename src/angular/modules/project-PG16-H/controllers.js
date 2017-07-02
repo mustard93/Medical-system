@@ -4325,12 +4325,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.checkDepartment=function(departmentId,departmentName){
             if(departmentId){
                 var flag=false;
-                if(!$scope.formData.applicationDepartmentId){
-                    //设置部门ID 和 name
-                    $scope.formData.applicationDepartmentId=departmentId ;
-                    $scope.formData.applicationDepartmentName= departmentName;
-                }else{
-                    if($scope.formData.applicationDepartmentId != departmentId){
+                if($scope.formData.applicationDepartmentId){
+                    if($scope.formData.applicationDepartmentId == departmentId){
                         alertWarn("退货列表已有"+$scope.formData.applicationDepartmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
                         flag=true;
                     }
@@ -4344,33 +4340,21 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //添加领用单中的商品到列表
         $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId) {
 
-            //step0 判断部门
+            //step0 设置部门
             if(!$scope.formData.applicationDepartmentId){
                 //设置部门ID 和 name
                 $scope.formData.applicationDepartmentId=departmentId ;
                 $scope.formData.applicationDepartmentName= departmentName;
             }
 
-            // else{
-            //
-            //     if($scope.formData.departmentId != departmentId){
-            //         alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
-            //         return;
-            //     }
-            // }
-
-
             //添加商品
             var hasOrderMedicalNos = $scope.formData.orderMedicalNos;
 
             var resultArr = $scope._compareArray(hasOrderMedicalNos,$scope.selectedBatchs2,'onlyId','onlyId');
 
-            //
             angular.forEach(resultArr,function (item,index) {
                 item.relCollarApplicationId=relCollarApplicationId;
             });
-
-
 
             $scope.formData.orderMedicalNos = hasOrderMedicalNos.concat(resultArr);
 
@@ -4393,6 +4377,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.selectedBatchs2=[];
         };
 
+        //选择商品
+        $scope.$on('selected',function (e, data) {
+                $scope.curOrder= data;
+        });
 
 
         $scope.itemInArray=function (id,batchlist,attr) {
@@ -4404,10 +4392,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
             return flag;
         };
-
-        $scope.$on('selected',function (e, data) {
-                $scope.curOrder= data;
-        });
 
         //去重 返回 arrB 与 arrA 中 arrB不重复部分
          $scope._compareArray=function(arrA,arrB,arrAAtrr,arrBAtrr){
