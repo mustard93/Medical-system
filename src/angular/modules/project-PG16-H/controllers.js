@@ -4076,9 +4076,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             };
             requestData("rest/authen/collarApplicationOrder/getByOrderCode", _data, 'GET')
                 .then(function (results) {
-                    // 请求成功之后，被选中货位的对应区域的选中标识符被置为了false，所以这里需要重新把选中的区域标识符置为true
                     $scope.scopeData=results[1].data || {};
-
                 })
                 .catch(function (error) {
                     alertError(error || '出错');
@@ -4142,7 +4140,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
-
+        //获取商品批次信息
         $scope.getGoodsBatchs=function(){
 
             if($scope.curOrder== null){
@@ -4316,6 +4314,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.formData.applicationDepartmentId=$scope.curOrder.applicationDepartmentId ;
             $scope.formData.applicationDepartmentName=  $scope.curOrder.applicationDepartmentName;
 
+            //设置申请人
+            $scope.formData.applicant.id=$scope.curOrder.applicant.id;
+
+
             //清空选择的批次
             $scope.selectedBatchs2=[];
 
@@ -4338,13 +4340,16 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
         //添加领用单中的商品到列表
-        $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId) {
+        $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId,applicantId) {
 
             //step0 设置部门
             if(!$scope.formData.applicationDepartmentId){
                 //设置部门ID 和 name
                 $scope.formData.applicationDepartmentId=departmentId ;
                 $scope.formData.applicationDepartmentName= departmentName;
+
+                //设置申请人
+                $scope.formData.applicant.id=applicantId;
             }
 
             //添加商品
@@ -4379,7 +4384,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         //选择商品
         $scope.$on('selected',function (e, data) {
-                $scope.curOrder= data;
+           $scope.curOrder= data;
         });
 
 
