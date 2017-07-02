@@ -1378,7 +1378,7 @@ define('project/controllers', ['project/init'], function() {
             return;
         }
 
-        //
+        //如果最新值不等于初始值, 清空商品批次信息-并把新值赋给 "defaultLogisticsCenterId";
         dialogConfirm('切换物流中心后,所有批号信息需要重新选择.确认切换?', function () {
 
             // 将已选药品的批次选择清空
