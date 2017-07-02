@@ -4345,7 +4345,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId) {
 
             //step0 判断部门
-            if(!scope.formData.applicationDepartmentId){
+            if(!$scope.formData.applicationDepartmentId){
                 //设置部门ID 和 name
                 $scope.formData.applicationDepartmentId=departmentId ;
                 $scope.formData.applicationDepartmentName= departmentName;
