@@ -125,12 +125,12 @@
          save-callback="submitForm('editForm','exit')">返回采购计划列表
       </a>
 
-      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/purchasePlanOrder/query.html?id={{scopeData.relId}}" >返回采购计划列表</a>
+      <a class="mgr-l" ng-if="!changeFlag" ng-href="#/purchasePlanOrder/query.html?id={{scopeData.relId}}" >返回采购计划列表</a>{{$root.hasAuthor('采购计划关闭')}}
 
       <!-- <a class="mgr-l color-red"
          ng-if="scopeData.orderStatus=='待接单'||scopeData.orderStatus=='配送中'">关闭
       </a> -->
-      <a ng-if="scopeData.orderStatus=='待接单'||scopeData.orderStatus=='配送中'"
+      <a ng-if="scopeData.orderStatus=='待接单'||scopeData.orderStatus=='配送中'||$root.hasAuthor('采购计划关闭')==false"
          class="color-red mgr-l"
          modal-center="340"
          modal-scope="this"
