@@ -3926,9 +3926,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
 
             if($scope.formData.orderMedicalNos.length<1){
-                $scope.formData.departmentId='';
+                // $scope.formData.departmentId='';
+                // $scope.formData.departmentName='';
+                //
+                $scope.formData.applicationDepartmentId='';
+                $scope.formData.applicationDepartmentName='';
 
-                $scope.formData.departmentName='';
             }
         },true);
 
@@ -4102,7 +4105,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                 // "pageNo":1
             });
 
-            console.log("_data",_data);
+            // console.log("_data",_data);
 
             requestData("rest/authen/collarApplicationOrder/queryByMedical", _data, 'GET')
                 .then(function (results) {
@@ -4129,25 +4132,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
 
             //step0 判断部门
-            // if(!$scope.formData.departmentId ){
-            //     // //设置部门ID 和 name
-            //     // $scope.formData.departmentId=$scope.curOrder.departmentId ;
-            //     //
-            //     // $scope.formData.departmentName=  $scope.curOrder.departmentName;
-            //
-            // }else{
-            //
-            //     if($scope.curOrder.departmentId != $scope.formData.departmentId){
-            //         alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
-            //         return;
-            //     }
-            // }
-
-
-            //step0 判断部门
-            if($scope.formData.departmentId){
-                if($scope.curOrder.departmentId != $scope.formData.departmentId){
-                    alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
+            if($scope.formData.applicationDepartmentId){
+                if($scope.curOrder.departmentId != $scope.formData.applicationDepartmentId){
+                    alertWarn("退货列表已有"+$scope.formData.applicationDepartmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
                     return;
                 }
             }
@@ -4307,8 +4294,8 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
             //设置部门ID 和 name
-            $scope.formData.departmentId=$scope.curOrder.departmentId ;
-            $scope.formData.departmentName=  $scope.curOrder.departmentName;
+            $scope.formData.applicationDepartmentId=$scope.curOrder.departmentId ;
+            $scope.formData.applicationDepartmentName=  $scope.curOrder.departmentName;
 
             //清空选择的批次
             $scope.selectedBatchs2=[];
@@ -4323,13 +4310,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
                 var flag=false;
 
-                if(!$scope.formData.departmentId){
+                if(!$scope.formData.applicationDepartmentId){
                     //设置部门ID 和 name
-                    $scope.formData.departmentId=departmentId ;
-                    $scope.formData.departmentName= departmentName;
+                    $scope.formData.applicationDepartmentId=departmentId ;
+                    $scope.formData.applicationDepartmentName= departmentName;
                 }else{
-                    if($scope.formData.departmentId != departmentId){
-                        alertWarn("退货列表已有"+$scope.formData.departmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
+                    if($scope.formData.applicationDepartmentId != departmentId){
+                        alertWarn("退货列表已有"+$scope.formData.applicationDepartmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
                         flag=true;
                     }
                 }
@@ -4346,10 +4333,10 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId) {
 
             //step0 判断部门
-            if(!$scope.formData.departmentId){
+            if(!scope.formData.applicationDepartmentId){
                 //设置部门ID 和 name
-                $scope.formData.departmentId=departmentId ;
-                $scope.formData.departmentName= departmentName;
+                $scope.formData.applicationDepartmentId=departmentId ;
+                $scope.formData.applicationDepartmentName= departmentName;
             }
 
             // else{
