@@ -3218,7 +3218,6 @@ define('project/controllers', ['project/init'], function() {
 
     //请购单中检查用户是否已选择部分药品
     $scope.chkChoiseMedicals = function (item,medicalsObj) {
-      console.log(medicalsObj);
 
       //定义存放厂家id数组
       if (!$scope._supplierArray) {
@@ -3230,7 +3229,9 @@ define('project/controllers', ['project/init'], function() {
         // 数据对象中加入该项药品
         // $scope.formData.orderMedicalNos.push(item);
         // 将厂家id作为标识放入数组
+        console.log(item.supplierId);
         $scope._supplierArray.push(item.supplierId);
+        console.log($scope._supplierArray);
         // 设置标识为true，表示选中此项
         item.handleFlag = true;
         //判断是否可进行下一步
@@ -3282,7 +3283,16 @@ define('project/controllers', ['project/init'], function() {
           }
         }
       }
-
+      if ($scope.choisedMedicalIdList.length) {
+        $scope.isGoNextStep=true;
+      }else {
+        $scope.isGoNextStep=false;
+      }
+      if ($scope.choisedMedicalIdList.length==$scope.formData.orderMedicalNos.length) {
+        $scope.isChoiseAll=true;
+      }else {
+        $scope.isChoiseAll=false;
+      }
     };
     // 全选全不选
     $scope.handleChoiseAllEvent = function () {
@@ -3302,26 +3312,9 @@ define('project/controllers', ['project/init'], function() {
           });
         }
         $scope.choisedMedicalIdList = [];
+        $scope.isGoNextStep=false;
       }
     };
-
-
-    // //处理全选与全不选
-    // $scope.handleChoiseAllEvent = function (medicalsObj) {
-    // if (medicalsObj && angular.isArray(medicalsObj)) {
-    //   if ($scope.isChoiseAll) {   // 全选被选中
-    //     angular.forEach(medicalsObj, function (data, index) {
-    //       data.handleFlag = true;
-    //       $scope.choisedMedicals = true;    // 生成按钮可用
-    //     });
-    //   } else {    //取消了全部选中
-    //     angular.forEach(medicalsObj, function (data, index) {
-    //       data.handleFlag = false;
-    //       $scope.choisedMedicals = false;   // 生成按钮不可用
-    //     });
-    //   }
-    // }
-    // };
   }
 
    /**

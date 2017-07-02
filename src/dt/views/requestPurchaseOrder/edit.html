@@ -2,7 +2,7 @@
      ng-controller="requestPurchaseOrderEditCtrl"
      ajax-url="rest/authen/requestPurchaseOrder/getOfEdit.json?id={{mainStatus.pageParams.id}}&businessKey={{mainStatus.pageParams.businessKey}}"
      scope-data="formData"
-     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false"
+     callback="initFlag=true;watchFormChange('formData');choisedMedicals=false;handleChoiseAllEvent(isChoiseAll);"
      alert-error>
   <form id="purchaseForm"
         name="purchaseForm"
@@ -69,7 +69,7 @@
                 </tr>
                </thead>
                <tbody class="bg-white">
-                 <tr ng-repeat="tr in formData.orderMedicalNos" ng-init="tr.handleFlag=false;tr.strike_price=tr.purchasePrice">
+                 <tr ng-repeat="tr in formData.orderMedicalNos" ng-init="tr.strike_price=tr.purchasePrice">
                    <td class="select-td mycheck">
                      <input ng-if="formData.orderStatus!='已处理'"
                             type="checkbox"
@@ -77,12 +77,14 @@
                             class="selectOne"
                             name="choise-this"
                             ng-model="tr.handleFlag"
-                            ng-click="chkChoiseMedicals(tr,formData.orderMedicalNos);handleItemClickEvent(tr);"
+                            ng-click="handleItemClickEvent(tr);"
                           >
+                          <!-- chkChoiseMedicals(tr,formData.orderMedicalNos); -->
                      <input ng-if="formData.orderStatus=='已处理'"
                             type="checkbox"
                             class="selectOne disabled"
                             name="choise-this"
+                            ng-model="tr.handleFlag"
                             disabled="disabled">
                     <label for="{{$index + 2}}"></label>
                    </td><!-- 选择checkbox -->
@@ -219,11 +221,12 @@
           <button class="pr-btn-create-glodbg"
                   ng-disabled="!isGoNextStep || !purchaseForm.$valid"
                   ng-click="submitForm('purchaseForm','submit')"
-                  invalid-popover
-                  valid-value=""
-                  popover-show="_supplierArray"
-                  popover-options='{"content":"不同生产厂家的药械不能合并生成采购单", "placement":"top", "trigger":"manual"}'>生成采购单
+                  >生成采购单
           </button>
+          <!-- invalid-popover
+          valid-value=""
+          popover-show="_supplierArray.length>1"
+          popover-options='{"content":"不同生产厂家的药械不能合并生成采购单", "placement":"top", "trigger":"manual"}' -->
         </span>
 
       </div>
