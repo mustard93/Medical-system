@@ -36,21 +36,19 @@
            <div class="flex-item-6 text-right">
              <span class="mgr">录单日期：<em class="color-3">{{showData.createAt || '暂无' | date : 'yyyy-MM-dd' }}</em></span>
              <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-             <!-- <a ng-if="initFlag"
-                modal-center="1000px"
-                modal-data='{"businessKey":"{{showData.id}}"}'
-                modal-scope="this"
-                modal-url="views/workflowTask/getOfDialog.html">
-                <span class="mgr">状态：<em class="color-3">{{showData.orderStatus}}</em></span>
-             </a> -->
            </div>
          </div>
          <div class="flex-column color-9 pd-c-l pdt-m pdb-m bt-dashed-line">
            <div class="flex-item-12">
              <span class="mgr">销售部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span>
-             <span class="mgr">业务人员：<em class="color-3">{{showData.saleUser.n|| '暂无'}}</em></span>
+             <span class="mgr">部门：<em class="color-3">{{showData.departmentName|| '暂无'}}</em></span>
+             <span class="mgr">出库类型：
+               <em ng-if="showData.type!='销售出库单_红字'" class="color-black">{{showData.type|| '暂无'}}</em>
+               <em ng-if="showData.type=='销售出库单_红字'" class="color-black">销售出库单<em class="color-red">(红字)</em></em>
+             </span>
+             <!-- <span class="mgr">业务人员：<em class="color-3">{{showData.saleUser.n|| '暂无'}}</em></span>
              <span class="mgr">业务类型：<em class="color-3">{{showData.orderBusinessType|| '暂无'}}</em></span>
-             <span class="mgr">销售类型：<em class="color-black">{{showData.salesType || '暂无'}}</em></span>
+             <span class="mgr">销售类型：<em class="color-black">{{showData.salesType || '暂无'}}</em></span> -->
            </div>
          </div>
 
