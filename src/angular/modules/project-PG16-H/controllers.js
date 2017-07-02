@@ -2894,6 +2894,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
         // 保存type:save-草稿,submit-提交订单。
         $scope.submitFormAfter = function() {
+
+            if($scope.submitForm_type == 'save'){
+                $scope.goTo('#/allocateOrder/edit.html?id='+$scope.formData.id);
+                return;
+            }
+
+
             if($scope.submitForm_type == 'exit-allocate'){
                 $scope.goTo('#/allocateOrder/query.html');
                 return;
@@ -4145,7 +4152,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
             //step0 判断部门
             if($scope.formData.applicationDepartmentId){
-                if($scope.curOrder.departmentId != $scope.formData.applicationDepartmentId){
+                if($scope.curOrder.applicationDepartmentId != $scope.formData.applicationDepartmentId){
                     alertWarn("退货列表已有"+$scope.formData.applicationDepartmentName+"的退货任务，不同部门的退货需要创建不同的退货单！");
                     return;
                 }
@@ -4306,22 +4313,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
             //设置部门ID 和 name
-            $scope.formData.applicationDepartmentId=$scope.curOrder.departmentId ;
-            $scope.formData.applicationDepartmentName=  $scope.curOrder.departmentName;
+            $scope.formData.applicationDepartmentId=$scope.curOrder.applicationDepartmentId ;
+            $scope.formData.applicationDepartmentName=  $scope.curOrder.applicationDepartmentName;
 
             //清空选择的批次
             $scope.selectedBatchs2=[];
 
         };
 
-
         //检查部门是否存在
-        $scope.checkDepartment=function(departmentId){
-
+        $scope.checkDepartment=function(departmentId,departmentName){
             if(departmentId){
-
                 var flag=false;
-
                 if(!$scope.formData.applicationDepartmentId){
                     //设置部门ID 和 name
                     $scope.formData.applicationDepartmentId=departmentId ;
@@ -4332,12 +4335,9 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
                         flag=true;
                     }
                 }
-
                 return flag;
             }
-
             return false;
-
         };
 
 
