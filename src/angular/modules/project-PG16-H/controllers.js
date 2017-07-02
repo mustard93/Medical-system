@@ -255,6 +255,18 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
               $scope.quantityError=true;
           }
       }
+
+
+      //检查Quantity是否存在
+      $scope.checkQuantityError=function(){
+          var flag=false;
+          angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+              if(item.stockBatchs.length<1){
+                  flag=true;
+              }
+          });
+          return flag;
+      }
   }
 
     // SPD系统-库存调整-右侧弹出框 controller
