@@ -4141,7 +4141,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
 
 
         //获取商品批次信息
-        $scope.getGoodsBatchs=function(){
+        $scope.getGoodsBatchs=function(onlyId){
 
             if($scope.curOrder== null){
                 alertWarn("请选择领用单！");
@@ -4157,18 +4157,25 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
 
             //step1 判断去重复
-            var flag=false;
-            for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
-                if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
-                    flag=true;
-                    break;
-                }
-            }
+            // var flag=false;
+            // for(var i=0; i<$scope.formData.orderMedicalNos.length; i++){
+            //     if($scope.formData.orderMedicalNos[i].onlyId ==  $scope.curOrder.medicalNo.onlyId){
+            //         flag=true;
+            //         break;
+            //     }
+            // }
 
-            if(flag){
-                alertWarn("該商品已存在,请重新选择");
-                return;
-            }
+            // if(flag){
+            //     alertWarn("該商品已存在,请重新选择");
+            //     return;
+            // }
+
+
+
+
+
+
+
 
             $scope.changeShowBatchsFlag(true);
 
@@ -4180,11 +4187,46 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             requestData("rest/authen/collarApplicationOrder/queryMedicalProductionBatch", _data, 'GET')
                 .then(function (results) {
                     $scope.stockBatchList=results[1].data || [];
+
+
+                    //查找已选择的该对象; 如果存在就获取已选择的批次信息;
+                    var goods= $scope.findGoodsByOnlyId($scope.curOrder.medicalNo.onlyId);
+                    if(goods.object){
+                        $scope.dialogData.stockBatchs=goods.object.stockBatchs;
+                    }else{
+                        $scope.dialogData.stockBatchs=[];
+                    }
+
                 })
                 .catch(function (error) {
                     alertError(error || '出错');
-                });
+            });
 
+
+
+        };
+
+
+        /**
+         * 根据 onlyId 查找已经添加的药械;
+         * @param onlyId
+         * @returns {{object: number, index: *}}
+         */
+        $scope.findGoodsByOnlyId=function (onlyId) {
+            var _index=-1;
+            var _object=null;
+
+            angular.forEach($scope.formData.orderMedicalNos,function (item,index) {
+                if(onlyId === item.onlyId){
+                    _index=index;
+                    _object=item;
+                }
+            });
+
+            return{
+                object:_object,
+                index:_index
+            }
         };
 
 
@@ -4285,41 +4327,33 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         //添加到数据列表
         $scope.addToList=function(){
 
-            var obj = $scope.curOrder.medicalNo;
+           var goods= $scope.findGoodsByOnlyId($scope.curOrder.medicalNo.onlyId);
 
-            //領用單編號
-            obj.relOrderCode=$scope.curOrder.relOrderCode;
+           if(goods.object == null){
 
-            //可退數量
-            obj.returnTotal=$scope.curOrder.returnTotal || 0;
+                var obj = $scope.curOrder.medicalNo;
+                    obj.relOrderCode=$scope.curOrder.relOrderCode; //領用單編號
+                    obj.returnTotal=$scope.curOrder.returnTotal || 0;//可退數量
+                    obj.relMedicalStockId=obj.id; //药品ID
+                    obj.relCollarApplicationId=$scope.curOrder.relId;//领用单ID
+                    obj.relId=$scope.curOrder.relId;
+                    obj.stockBatchs=$scope.selectedBatchs2; //批次信息
 
-            //药品ID
-            obj.relMedicalStockId=obj.id;
+                // console.log("obj",obj);
+                $scope.formData.orderMedicalNos.push(obj);
+                $scope.formData.relIds.push(obj.relId);
 
-            //领用单ID
-            obj.relCollarApplicationId=$scope.curOrder.relId;
-            obj.relId=$scope.curOrder.relId;
+                $scope.formData.applicationDepartmentId=$scope.curOrder.applicationDepartmentId ;//设置部门ID
+                $scope.formData.applicationDepartmentName=  $scope.curOrder.applicationDepartmentName; //设置部门 name
+                $scope.formData.applicant.id=$scope.curOrder.applicant.id;//设置申请人
 
+                $scope.selectedBatchs2=[]; //清空选择的批次
 
-            //批次信息
-            obj.stockBatchs=$scope.selectedBatchs2;
-
-            // console.log("obj",obj);
-            $scope.formData.orderMedicalNos.push(obj);
-
-            $scope.formData.relIds.push(obj.relId);
-
-
-            //设置部门ID 和 name
-            $scope.formData.applicationDepartmentId=$scope.curOrder.applicationDepartmentId ;
-            $scope.formData.applicationDepartmentName=  $scope.curOrder.applicationDepartmentName;
-
-            //设置申请人
-            $scope.formData.applicant.id=$scope.curOrder.applicant.id;
+           }else{
+               $scope.choiceBaths(goods.index);
+           }
 
 
-            //清空选择的批次
-            $scope.selectedBatchs2=[];
 
         };
 
@@ -4337,7 +4371,6 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             }
             return false;
         };
-
 
         //添加领用单中的商品到列表
         $scope.addOrderDataToList=function (departmentId,departmentName,relCollarApplicationId,applicantId) {
@@ -4379,14 +4412,13 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             $scope.formData.orderMedicalNos[index].stockBatchs = hasStockBatchs.concat(list);
 
 
-            $scope.selectedBatchs2=[];
+            // $scope.selectedBatchs2=[];
         };
 
         //选择商品
         $scope.$on('selected',function (e, data) {
            $scope.curOrder= data;
         });
-
 
         $scope.itemInArray=function (id,batchlist,attr) {
             var flag=false;
