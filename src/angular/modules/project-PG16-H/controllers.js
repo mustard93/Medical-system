@@ -777,6 +777,12 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
         };
 
 
+        // $scope.beforeGoto=function(){
+        //     console.log('--------------beforeGoto--------------');
+        // };
+        // $scope.aftereGoto=function(){
+        //     console.log('--------------aftereGoto--------------');
+        // };
     }
 
     // 采购计划controller
@@ -4362,7 +4368,7 @@ define('project-PG16-H/controllers', ['project-PG16-H/init'], function() {
             if(departmentId){
                 var flag=false;
                 if($scope.formData.applicationDepartmentId){
-                    if($scope.formData.applicationDepartmentId == departmentId){
+                    if($scope.formData.applicationDepartmentId != departmentId){
                         alertWarn("退货列表已有"+$scope.formData.applicationDepartmentName+"的退货任务，不同部门的退货需要创建新的领退单！");
                         flag=true;
                     }
