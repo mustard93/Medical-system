@@ -1,0 +1,82 @@
+<div   ng-controller="pageCtrl" class="pd-c-xxxl"
+  ng-init="listParams.type=mainStatus.pageParams.type||'经销商'"><!-- pageCtrl-->
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>WMS出入库返回数据</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">主面板</a></li>
+        <li class="active">WMS出入库返回数据</li>
+    </ul>
+</div>
+<!-- page heading end-->
+
+<!--body wrapper start-->
+<table-list list-data="rest/authen/manageWmsInoutstockRecord/query.json" list-params="listParams"  ajax-if-eval="listParams.organizationId">
+    <div class="mg-m col-lg-12 col-sm-12">
+
+      <div class="form-group col-lg-2">
+        <label class="col-lg-2 col-sm-2 control-label">机构</label>
+        <div class="col-lg-10 col-sm-10">
+          <select class="ipt pr-short-ipt"
+                  data-placeholder="选择机构"
+                  chosen
+                  chosen-ajax
+                  ng-model="listParams.organizationId"
+                  select-source="rest/authen/organization/queryForSelectOption?type={{listParams.type}}">
+          </select>
+        </div>
+      </div>
+      <div class="form-group col-lg-2">
+        <input type="text" class="form-control" placeholder="输入查询..." ng-model="listParams.q">
+      </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="loader" ng-if="status.isLoading">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div ng-if="!status.isLoading">
+            <div class="empty-wrap" ng-if="tbodyList.length==0">
+                <span>
+                    <i class="fa fa-inbox">
+                        <em>什么也没有</em>
+                    </i>
+                </span>
+            </div>
+            <div ng-if="tbodyList.length">
+
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>状态</th>
+                            <th style="width:150px">名称</th>
+                            <th>出入库类型</th>
+                            <th>库类型</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="tr in tbodyList">
+                            <td>{{tr.finishStatus}}</td>
+                            <td>{{tr.inoutstockDetail.name}}</td>
+                            <td>{{tr.inoutstockDetail.type}}</td>
+                            <td>{{tr.inoutstockDetail.warehouseType}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="fr">
+                        <pagination status="status"></pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</table-list>
+<!--body wrapper end-->
+</div><!-- pageCtrl-->
