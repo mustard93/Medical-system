@@ -3511,7 +3511,18 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
 
       // 绑定点击显示其他操作层
       _handleBtn.on('click', function () {
-        $('.handle-area-show').show();
+
+        var _offsetTop = $(element).offset().top - document.body.scrollTop + 23;
+        $(this).find('.handle-area-show').show(0,function () {
+            var handleAreaHeight=$(this).height();
+            //如果显示不下 就向上显示菜单
+            if((_offsetTop+handleAreaHeight) > $(document).height()){
+                $('.handle-area-show').removeClass('handle-area-down').addClass('handle-area-up');
+            }else{
+                $('.handle-area-show').removeClass('handle-area-up').addClass('handle-area-down');
+            }
+        });
+
       });
 
       // 绑定取消按钮事件
@@ -3537,8 +3548,9 @@ function tableItemMultipleBtn (utils, requestData, alertError) {
 
       }, function () {
         _handleBtnGroup.css({'position':'absolute','top':0,'left':0}).hide();
+
         $('.del-confirm-area').hide();
-        $('.handle-area-show').hide();
+        $('.handle-area-show').removeClass('handle-area-up').removeClass('handle-area-down').hide();
       });
 
       // 执行删除操作
