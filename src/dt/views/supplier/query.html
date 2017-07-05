@@ -11,6 +11,7 @@
                                 crumbs-nav='[{"name":"供应商中心","link":"","style":""},{"name":"供应商管理","link":"","style":"color-custom-orange"}]'
                                 component-title="供应商管理"
                                 is-show-create-btn="首营企业申请"
+                                create-btn-author="供应商管理新增"
                                 create-new-url="#/firstEnterpriseApplication/edit1.html"
                                 get-business-type-url="rest/index/queryBasicdataForSelectOption?basicDataType=Order_OrderBusinessType">
     </page-main-header-component>
@@ -77,6 +78,33 @@
               </div>
             </div>
             <div class="flex-item-6 text-right">
+
+              <span ng-if="$root.hasAuthor('供应商管理修改')">
+
+                <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                  class="btn-link pd-m rect-s "
+                  title="编辑"
+                  ng-href="#/purchaseReturn/edit.html?id={{tr.id}}" >
+                  <span class="edit-link-icon">&nbsp;</span>
+                  </a>
+              </span>
+
+              <span ng-if="$root.hasAuthor('供应商管理删除')">
+                  <a ng-if="tr.orderStatus=='未提交'||tr.orderStatus=='未通过'"
+                      href="javascript:;"
+                      class="mr--4 btn-link pd-m rect-s "
+                      title="删除"
+                      handle-this-click
+                      dialog-title="确认删除?"
+                      dialog-content="删除后将无法恢复,确认删除?"
+                      dialog-template="pr-dialog-submit.html"
+                      callback="$root.goTo('#/purchaseReturn/query.html')"
+                      params='{"id":tr.id}'
+                      request-url="rest/authen/purchaseReturn/delete">
+                      <span class="delete-link-icon">&nbsp;</span>
+                    </a>
+              </span>
+
                 <div class="order-list-search inline-block text-left code pos-rel-tr pdl-l relative">
                   <input type="text" class="ipt pdr-xxl" placeholder="供应商编号/供应商名称" ng-model="listParams.q">
                   <i class=""></i>
