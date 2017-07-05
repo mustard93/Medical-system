@@ -3482,7 +3482,9 @@ define('project/controllers', ['project/init'], function() {
            }
          }
         //  默认选择生产企业
-          $scope.formData.type='生产企业';
+        // if (initType) {
+        //   $scope.formData.type='生产企业';
+        // }
        });
 
       //  如果第一步的时候选择的是生产企业，那第二步就默认选中生产，如果选的经营企业，就默认选中批发
